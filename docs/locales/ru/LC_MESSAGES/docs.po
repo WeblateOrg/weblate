@@ -52,8 +52,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-21 22:59+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-05-23 09:13+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -937,13 +937,6 @@ msgstr ""
 "<component-restricted>`."
 
 #: admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has an access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has access to perform certain "
@@ -967,6 +960,15 @@ msgid ""
 "of those languages. Project-wide, component-wide and global permissions from "
 "that team are not granted for that member."
 msgstr ""
+"Индивидуальные членства в командах могут дополнительно ограничивать эти "
+"разрешения выбранными языками. Если оставить ограничение по языку для "
+"участника пустым, дополнительные ограничения сверх выбранных языков команды "
+"не применяются. То же ограничение по языку можно установить при приглашении "
+"новых пользователей в проектную команду. Когда установлено ограничение по "
+"языку для участника, членство предоставляет только те разрешения, которые "
+"могут быть оценены для одного из этих языков. Общепроектные, "
+"общекомпонентные и глобальные разрешения от этой команды такому участнику не "
+"предоставляются."
 
 #: admin/access.rst:442
 msgid ""
@@ -2320,21 +2322,15 @@ msgid "Overriding authentication method names and icons"
 msgstr "Переопределение имён и значков методов авторизации"
 
 #: admin/auth.rst:423
-#, fuzzy
-#| msgid ""
-#| "You can override the authentication method display name and icon using "
-#| "using settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and "
-#| "``SOCIAL_AUTH_<NAME>_TITLE``. For example overriding naming for Auth0 "
-#| "would look like:"
 msgid ""
 "You can override the authentication method display name and icon using "
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
 "Вы можете переопределить отображаемое имя метода авторизации и иконку, "
-"используя параметры ``SOCIAL_AUTH_<NAME>_IMAGE`` и "
-"``SOCIAL_AUTH_<NAME>_TITLE``. Например, переопределение именования для Auth0 "
-"будет выглядеть следующим образом:"
+"используя параметры ``SOCIAL_AUTH_<NAME>_IMAGE`` и ``SOCIAL_AUTH_<NAME>"
+"_TITLE``. Например, переопределение именования для Auth0 будет выглядеть "
+"следующим образом:"
 
 #: admin/auth.rst:435
 msgid "Turning off password authentication"
@@ -2859,11 +2855,6 @@ msgstr ""
 "и данные журнала."
 
 #: admin/backup.rst:23
-#, fuzzy
-#| msgid ""
-#| "The comments and suggestions are backed up with an username of user who "
-#| "did create them. Upon import it is assigned to a matching user. If there "
-#| "is no user with such username, it is assigned to anonymous user."
 msgid ""
 "The comments and suggestions are backed up with the username of the user who "
 "did create them. Upon import it is assigned to a matching user. If there is "
@@ -2886,19 +2877,17 @@ msgstr ""
 "резервных копий в течение 30 дней)."
 
 #: admin/backup.rst:31
-#, fuzzy
-#| msgid ""
-#| "Import validation of uploaded project backups can be tuned "
-#| "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-#| "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgid ""
 "Import validation of uploaded project backups can be tuned "
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
 "Проверку импорта загруженных резервных копий проектов можно настроить с "
-"помощью :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` "
-"и :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
+"помощью :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` и "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:38
 msgid ""
@@ -3127,16 +3116,13 @@ msgstr ""
 "копий и использовать, например, путь :file:`/borgbackup`:"
 
 #: admin/backup.rst:154
-#, fuzzy
-#| msgid ""
-#| "The directory where backups will be stored have to be owned by UID 1000, "
-#| "otherwise Weblate won’t be able to write the backups there."
 msgid ""
 "The directory where backups will be stored has to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
-"Владельцем каталога, в котором будут хранится резервные копии, должен быть "
-"пользователь с UID 1000, Иначе Weblate не сможет сохранять в него оные."
+"Владельцем каталога, в котором будут храниться резервные копии, должен быть "
+"пользователь с UID 1000, иначе Weblate не сможет записывать в него резервные "
+"копии."
 
 #: admin/backup.rst:158
 msgid "Remote backups"
@@ -4035,9 +4021,6 @@ msgstr ""
 "проверки:"
 
 #: admin/checks.rst:162
-#, fuzzy
-#| msgid ""
-#| "Font-family and style is automatically recognized after uploading them:"
 msgid ""
 "Font-family and style are automatically recognized after uploading them:"
 msgstr ""
@@ -5172,12 +5155,6 @@ msgstr ""
 "репозиторий."
 
 #: admin/code-hosting.rst:615
-#, fuzzy
-#| msgid ""
-#| "The optional :ref:`component-push_branch` setting selects the target "
-#| "branch for the Gerrit review. Leave it empty to use :ref:`component-"
-#| "branch`. Use the short branch name, such as ``main``; Weblate and ``git-"
-#| "review`` push the review to ``refs/for/<branch>`` automatically."
 msgid ""
 "The optional :ref:`component-push_branch` setting selects the target branch "
 "for the Gerrit review. Leave it empty to use :ref:`component-branch`. Use "
@@ -5188,7 +5165,9 @@ msgstr ""
 "Необязательный параметр :ref:`component-push_branch` выбирает целевую ветку "
 "для рецензии Gerrit. Оставьте его пустым, чтобы использовать :ref:`component-"
 "branch`. Используйте короткое имя ветки, например ``main``; Weblate и ``git-"
-"review`` автоматически отправляют рецензию в ``refs/for/<branch>``."
+"review`` автоматически отправляют рецензию в ``refs/for/<branch>``. Не "
+"включайте в имя ветки параметры отправки Gerrit, такие как ``%submit`` или "
+"``%l=Code-Review+2``."
 
 #: admin/code-hosting.rst:621
 msgid ""
@@ -5967,21 +5946,13 @@ msgstr ""
 "конфигурацию, соответствующую конфигурации вашего почтового сервера."
 
 #: admin/config.rst:571
-#, fuzzy
-#| msgid ""
-#| "The sender is used in as :mailheader:`Reply-To`, this is the default "
-#| "behaviour."
 msgid ""
 "The sender is used as :mailheader:`Reply-To`, this is the default behaviour."
 msgstr ""
-"Отправитель используется в качестве :mailheader:`Reply-To` (ответить), это "
+"Отправитель используется в качестве :mailheader:`Reply-To` (ответить) — это "
 "поведение по умолчанию."
 
 #: admin/config.rst:573
-#, fuzzy
-#| msgid ""
-#| "The sender is used in as :mailheader:`From`. Your mail server needs to "
-#| "allow sending such e-mails."
 msgid ""
 "The sender is used as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
@@ -6367,12 +6338,10 @@ msgstr ""
 "репозиторий не является публичным."
 
 #: admin/config.rst:1052
-#, fuzzy
-#| msgid "Use ``api.github.com`` as a API host for https://github.com/."
 msgid "Use ``api.github.com`` as an API host for https://github.com/."
 msgstr ""
-"Используйте ``api.github.com`` в качестве сервера API для https://"
-"github.com/."
+"Используйте ``api.github.com`` в качестве сервера API для https://github.com/"
+"."
 
 #: admin/config.rst:1059
 msgid "`Creating a GitHub personal access token`_"
@@ -6687,17 +6656,13 @@ msgid "Additional licenses to include in the license choices."
 msgstr "Дополнительные лицензии для включения в список вариантов лицензий."
 
 #: admin/config.rst:1369
-#, fuzzy
-#| msgid ""
-#| "Each license definition should be tuple of its short name, a long name, a "
-#| "URL and a boolean, indication with it is a libre license."
 msgid ""
 "Each license definition should be a tuple of its short name, a long name, a "
 "URL and a boolean, indicating whether it is a libre license."
 msgstr ""
 "Каждое определение лицензии должно быть кортежем, содержащим её краткое "
-"название, полное название, URL-адрес и логическое значение, указывающее, "
-"является ли лицензия свободной."
+"название, полное название, URL-адрес и логическое значение (булево), "
+"указывающее, является ли лицензия свободной."
 
 #: admin/config.rst:1371 admin/config.rst:1400 admin/config.rst:1495
 #: admin/projects.rst:534 formats/xliff.rst:79
@@ -6760,13 +6725,6 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL и LOCALIZE_CDN_PATH"
 
 #: admin/config.rst:1449
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-"
-#| "on. :setting:`LOCALIZE_CDN_URL` defines root URL where the localization "
-#| "CDN is available and :setting:`LOCALIZE_CDN_PATH` defines path where "
-#| "Weblate should store generated files which will be served at "
-#| "the :setting:`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
 "weblate.cdn.cdnjs` and :ref:`addon-"
@@ -6777,11 +6735,14 @@ msgid ""
 "CDN, not by Weblate; see :ref:`cdn-server-security` for secure serving "
 "guidance."
 msgstr ""
-"Эти параметры конфигурируют надстройку :ref:`addon-weblate.cdn.cdnjs`. "
-"Параметр :setting:`LOCALIZE_CDN_URL` определяет корневой URL-адрес, по "
-"которому доступен CDN локализации, а параметр :setting:`LOCALIZE_CDN_PATH` "
-"определяет путь, по которому Weblate должен сохранять сгенерированные файлы, "
-"которые затем будут раздаваться с :setting:`LOCALIZE_CDN_URL`."
+"Эти параметры конфигурируют надстройки CDN, включая :ref:`addon-"
+"weblate.cdn.cdnjs` и :ref:`addon-weblate.cdn.files`. "
+":setting:`LOCALIZE_CDN_URL` определяет корневой URL-адрес, по которому "
+"доступен CDN локализации, а :setting:`LOCALIZE_CDN_PATH` определяет путь, по "
+"которому Weblate должен сохранять сгенерированные файлы, которые затем будут "
+"обслуживаться с :setting:`LOCALIZE_CDN_URL`. Файлы обслуживаются вашим веб-"
+"сервером или CDN, а не Weblate; см. :ref:`cdn-server-security` для получения "
+"рекомендаций по безопасной раздаче."
 
 #: admin/config.rst:1459
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -6978,16 +6939,12 @@ msgstr ""
 "умолчанию 30 дней."
 
 #: admin/config.rst:1709
-#, fuzzy
-#| msgid ""
-#| "Configures the maximum size, in bytes, for uploaded project backup ZIP "
-#| "files. Defaults to 262144000 bytes (250 MiB)."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded project backup ZIP "
 "files. Defaults to 536870912 bytes (512 MiB)."
 msgstr ""
 "Настраивает максимальный размер (в байтах) для загружаемых ZIP-файлов "
-"резервных копий проектов. По умолчанию — 262144000 байт (250 МиБ)."
+"резервных копий проектов. По умолчанию — 536870912 байт (512 МиБ)."
 
 #: admin/config.rst:1712
 msgid ""
@@ -7019,28 +6976,20 @@ msgstr ""
 "умолчанию — 100000 записей."
 
 #: admin/config.rst:1734
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS`` environment variable."
 msgstr ""
 "В Docker настройте это с помощью переменной окружения "
-"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS``."
 
 #: admin/config.rst:1748
-#, fuzzy
-#| msgid ""
-#| "Defines the maximum total uncompressed size, in bytes, for ZIP entries in "
-#| "an imported project backup. Defaults to 262144000 bytes (250 MiB)."
 msgid ""
 "Defines the maximum total uncompressed size, in bytes, for ZIP entries in an "
 "imported project backup. Defaults to 536870912 bytes (512 MiB)."
 msgstr ""
 "Определяет максимальный общий несжатый размер (в байтах) для записей ZIP в "
-"импортируемой резервной копии проекта. По умолчанию — 262144000 байт (250 "
+"импортируемой резервной копии проекта. По умолчанию — 536870912 байт (512 "
 "МиБ)."
 
 #: admin/config.rst:1751
@@ -7052,17 +7001,13 @@ msgstr ""
 "гораздо больше данных во время проверки или восстановления."
 
 #: admin/config.rst:1754
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`` environment "
 "variable."
 msgstr ""
 "В Docker настройте это с помощью переменной окружения "
-"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE``."
 
 #: admin/config.rst:1769
 msgid ""
@@ -7085,17 +7030,13 @@ msgstr ""
 "лимитом загрузки HTTP. По умолчанию — 262144000 байт (250 МиБ)."
 
 #: admin/config.rst:1777
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`` environment "
 "variable."
 msgstr ""
 "В Docker настройте это с помощью переменной окружения "
-"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE``."
 
 #: admin/config.rst:1792
 msgid ""
@@ -7116,16 +7057,12 @@ msgstr ""
 "сжимаются. По умолчанию — 1048576 байт (1 МиБ)."
 
 #: admin/config.rst:1799
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable."
 msgstr ""
 "В Docker настройте это с помощью переменной окружения "
-"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE``."
 
 #: admin/config.rst:1813
 msgid ""
@@ -7151,17 +7088,13 @@ msgstr ""
 "умолчанию — 250."
 
 #: admin/config.rst:1822
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`` environment "
 "variable."
 msgstr ""
 "В Docker настройте это с помощью переменной окружения "
-"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO``."
 
 #: admin/config.rst:1837
 msgid ""
@@ -7347,16 +7280,12 @@ msgstr ""
 "умолчанию значение включено."
 
 #: admin/config.rst:2114
-#, fuzzy
-#| msgid ""
-#| "If turned on, a CAPTCHA is added to all pages where a users enters their "
-#| "e-mail address:"
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a user enters their e-"
 "mail address:"
 msgstr ""
-"Если он включён, ко всем страницам, на которых пользователь вводит свой "
-"адрес электронной почты, добавляется капча:"
+"Если включено, ко всем страницам, на которых пользователь вводит свой адрес "
+"электронной почты, добавляется капча:"
 
 #: admin/config.rst:2116
 msgid "New account registration."
@@ -7526,17 +7455,13 @@ msgstr ""
 "умолчанию ``True``."
 
 #: admin/config.rst:2261
-#, fuzzy
-#| msgid ""
-#| "Configure sampling rate for performance monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to profile all "
 "traced events (the default), 0 disables profiling."
 msgstr ""
 "Настройте частоту выборки для мониторинга производительности. Установите "
-"значение 1 для отслеживания всех событий, значение 0 (по умолчанию) "
-"отключает отслеживание."
+"значение 1 для профилирования всех отслеживаемых событий (по умолчанию), "
+"значение 0 отключает профилирование."
 
 #: admin/config.rst:2265 admin/install.rst:1746
 msgid ""
@@ -10981,6 +10906,12 @@ msgid ""
 "runtime files. When installing Weblate from PyPI, get the matching source "
 "distribution or source checkout before copying these examples."
 msgstr ""
+"Примеры файлов конфигурации, показанные ниже, поддерживаются в исходном "
+"дереве Weblate в каталоге :file:`weblate/examples/`. Они включены в исходные "
+"дистрибутивы и в эту документацию, но колеса Python устанавливают только "
+"файлы времени выполнения. При установке Weblate из PyPI получите "
+"соответствующий исходный дистрибутив или извлеките исходный код перед "
+"копированием этих примеров."
 
 #: admin/install.rst:1295
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -11092,19 +11023,14 @@ msgid "Sample configuration for NGINX and Gunicorn"
 msgstr "Пример файла настроек NGINX и Gunicorn"
 
 #: admin/install.rst:1394
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate using Gunicorn under the NGINX "
-#| "webserver (also available as :file:`weblate/examples/"
-#| "weblate.nginx.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (:file:`weblate/examples/weblate.nginx.gunicorn.conf` in the "
 "source tree):"
 msgstr ""
 "Следующая конфигурация запускает Weblate с использованием Gunicorn под веб-"
-"сервером NGINX (также доступна в виде :file:`weblate/examples/"
-"weblate.nginx.gunicorn.conf`):"
+"сервером NGINX (файл :file:`weblate/examples/weblate.nginx.gunicorn.conf` в "
+"исходном дереве):"
 
 #: admin/install.rst:1409
 msgid "Sample configuration for NGINX and uWSGI"
@@ -11132,28 +11058,20 @@ msgstr ""
 "приложение под веб-сервером NGINX."
 
 #: admin/install.rst:1420
-#, fuzzy
-#| msgid ""
-#| "Configuration for NGINX (also available as :file:`weblate/examples/"
-#| "weblate.nginx.conf`):"
 msgid ""
 "Configuration for NGINX (:file:`weblate/examples/weblate.nginx.conf` in the "
 "source tree):"
 msgstr ""
-"Файл настроек NGINX (этот же пример есть в :file:`weblate/examples/"
-"weblate.nginx.conf`):"
+"Конфигурация для NGINX (файл :file:`weblate/examples/weblate.nginx.conf` в "
+"исходном дереве):"
 
 #: admin/install.rst:1425
-#, fuzzy
-#| msgid ""
-#| "Configuration for uWSGI (also available as :file:`weblate/examples/"
-#| "weblate.uwsgi.ini`):"
 msgid ""
 "Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the "
 "source tree):"
 msgstr ""
-"Файл настроек uWSGI (этот же пример есть в :file:`weblate/examples/"
-"weblate.uwsgi.ini`):"
+"Конфигурация для uWSGI (файл :file:`weblate/examples/weblate.uwsgi.ini` в "
+"исходном дереве):"
 
 #: admin/install.rst:1437
 msgid "Sample configuration for Apache"
@@ -11166,17 +11084,12 @@ msgstr ""
 "мультипроцессовой обработки (MPM) prefork."
 
 #: admin/install.rst:1441
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as WSGI, you need to have "
-#| "enabled ``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (:file:`weblate/examples/apache.conf` in the source tree):"
 msgstr ""
-"Со следующим файлом настроек Weblate будет запускаться как WSGI-приложение, "
-"вам нужно включить модуль ``mod_wsgi`` (этот же пример есть в :file:`weblate/"
-"examples/apache.conf`):"
+"Следующая конфигурация запускает Weblate как WSGI; необходимо включить "
+"``mod_wsgi`` (файл :file:`weblate/examples/apache.conf` в исходном дереве):"
 
 #: admin/install.rst:1449
 msgid ""
@@ -11197,16 +11110,12 @@ msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Пример файла настроек Apache и Gunicorn"
 
 #: admin/install.rst:1465
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(:file:`weblate/examples/apache.gunicorn.conf` in the source tree):"
 msgstr ""
-"Со следующим файлом настроек Weblate будет запускаться в Gunicorn и Apache "
-"2.4 (этот же пример есть в :file:`weblate/examples/apache.gunicorn.conf`):"
+"Следующая конфигурация запускает Weblate в Gunicorn и Apache 2.4 (файл "
+":file:`weblate/examples/apache.gunicorn.conf` в исходном дереве):"
 
 #: admin/install.rst:1480
 msgid "Sample configuration to start Granian"
@@ -11251,19 +11160,14 @@ msgid "Running Weblate under path"
 msgstr "Запуск Weblate по определённому пути в URL"
 
 #: admin/install.rst:1534
-#, fuzzy
-#| msgid ""
-#| "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
-#| "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-"
-#| "path.conf`):"
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (:file:`weblate/examples/apache-path.conf` in the source "
 "tree):"
 msgstr ""
-"Пример файла настроек Apache для предоставления доступу к Weblate по пути ``/"
-"weblate``. Снова используя модуль ``mod_wsgi`` (этот же пример есть "
-"в :file:`weblate/examples/apache-path.conf`):"
+"Пример конфигурации Apache для обслуживания Weblate по пути ``/weblate``. "
+"Снова с использованием ``mod_wsgi`` (файл :file:`weblate/examples/apache-"
+"path.conf` в исходном дереве):"
 
 #: admin/install.rst:1540
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -11327,19 +11231,14 @@ msgstr ""
 ":ref:`Настройка брокера Redis в Celery <celery:broker-redis-configuration>`"
 
 #: admin/install.rst:1575
-#, fuzzy
-#| msgid ""
-#| "You should also start the Celery worker to process the tasks and start "
-#| "scheduled tasks, this can be done directly on the command-line (which is "
-#| "mostly useful when debugging or developing):"
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks. For debugging or development, this can be done directly on "
 "the command-line:"
 msgstr ""
-"Также вы должны запустить рабочего Celery для обработки задач и запуска "
-"запланированных задач, это можно сделать непосредственно в командной строке "
-"(что в основном полезно при отладке или разработке):"
+"Также следует запустить обработчик Celery для обработки задач и запуска "
+"запланированных задач. Для отладки или разработки это можно сделать "
+"непосредственно в командной строке:"
 
 #: admin/install.rst:1585
 msgid ""
@@ -11384,12 +11283,6 @@ msgid "Running Celery as system service"
 msgstr "Запуск Celery в качестве системного сервиса"
 
 #: admin/install.rst:1612
-#, fuzzy
-#| msgid ""
-#| "Most likely you will want to run Celery as a daemon and that is covered "
-#| "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
-#| "using systemd, you can use the example files shipped in "
-#| "the :file:`examples` folder listed below."
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered "
 "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
@@ -11397,10 +11290,12 @@ msgid ""
 "maintained in the Weblate source tree under :file:`weblate/examples/`; "
 "Python wheels do not install these deployment samples."
 msgstr ""
-"Скорее всего, вы захотите запустить Celery как демона, и это описано "
-"в :doc:`celery:userguide/daemonizing`. Для наиболее распространённой "
-"настройки Linux с использованием systemd вы можете использовать примеры "
-"файлов, поставляемых в папке :file:`examples`, перечисленных ниже."
+"Скорее всего, вы захотите запустить Celery как демона; это описано в "
+":doc:`celery:userguide/daemonizing`. Для наиболее распространённой настройки "
+"Linux с использованием systemd адаптируйте примеры файлов, перечисленные "
+"ниже. Эти примеры поддерживаются в исходном дереве Weblate в каталоге "
+":file:`weblate/examples/`; колеса Python не устанавливают эти образцы для "
+"развёртывания."
 
 #: admin/install.rst:1618
 msgid ""
@@ -12559,14 +12454,12 @@ msgid "Defaults to enabled."
 msgstr "По умолчанию включено."
 
 #: admin/install/docker.rst:719
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
-msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
 
 #: admin/install/docker.rst:721
 msgid "Expects a comma-separated list of trusted project slugs."
-msgstr ""
+msgstr "Ожидает список доверенных плашек проектов, разделённых запятыми."
 
 #: admin/install/docker.rst:727
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
@@ -12579,6 +12472,7 @@ msgstr "Настраивает :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 #: admin/install/docker.rst:737 admin/install/docker.rst:753
 msgid "Expects a comma-separated list of trusted hostnames or domains."
 msgstr ""
+"Ожидает список доверенных имён хостов или доменов, разделённых запятыми."
 
 #: admin/install/docker.rst:743
 msgid "Configures :setting:`ASSET_RESTRICT_PRIVATE`."
@@ -12713,21 +12607,15 @@ msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr "Это логическая настройка (используйте ``\"true\"`` или ``\"false\"``)."
 
 #: admin/install/docker.rst:866
-#, fuzzy
-#| msgid ""
-#| "A tuple representing a HTTP header/value combination that signifies a "
-#| "request is secure. This is needed when Weblate is running behind a "
-#| "reverse proxy doing SSL termination which does not pass standard HTTPS "
-#| "headers."
 msgid ""
 "A tuple representing an HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
-"Кортеж, представляющий собой комбинацию HTTP-заголовков/значений, "
-"указывающую, что запрос является безопасным. Он необходим, когда Weblate "
-"работает за обратным прокси, выполняющим SSL-терминацию, которая не передает "
-"стандартные HTTPS-заголовки."
+"Кортеж, представляющий собой комбинацию HTTP-заголовка и значения, "
+"указывающую, что запрос является безопасным. Это необходимо, когда Weblate "
+"работает за обратным прокси, выполняющим SSL-терминацию, который не передаёт "
+"стандартные заголовки HTTPS."
 
 #: admin/install/docker.rst:884
 msgid ""
@@ -13059,66 +12947,52 @@ msgstr ""
 "https-portal`."
 
 #: admin/install/docker.rst:1269
-#, fuzzy
-#| msgid "Configures :setting:`VERSION_DISPLAY`."
 msgid "Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
-msgstr "Настраивает :setting:`VERSION_DISPLAY`."
+msgstr "Настраивает :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1271 admin/install/docker.rst:1277
 #: admin/install/docker.rst:1298 admin/install/docker.rst:1306
 #: admin/install/docker.rst:1314
-#, fuzzy
-#| msgid "The attribute value is not quoted."
 msgid "The value is in bytes."
-msgstr "Значение атрибута не заключено в кавычки."
+msgstr "Значение указывается в байтах."
 
 #: admin/install/docker.rst:1275
-#, fuzzy
-#| msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgid "Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
-msgstr "Настраивает :setting:`IP_PROXY_OFFSET`."
+msgstr "Настраивает :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1281
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
-msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Настраивает :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1283
 msgid ""
 "The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also "
 "large enough for uploaded backup files."
 msgstr ""
+"Значение указывается в байтах. Убедитесь, что :envvar:`CLIENT_MAX_BODY_SIZE` "
+"также достаточно велик для загружаемых файлов резервных копий."
 
 #: admin/install/docker.rst:1290
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
-msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Настраивает :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
 
 #: admin/install/docker.rst:1296
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
-msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
+"Настраивает :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
 
 #: admin/install/docker.rst:1304
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
-msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Настраивает :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
 
 #: admin/install/docker.rst:1312
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
-msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Настраивает :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
 
 #: admin/install/docker.rst:1320
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
-msgstr "Настраивает :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
+"Настраивает :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/install/docker.rst:1326
 msgid "Code hosting sites credentials"
@@ -13558,11 +13432,6 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: admin/install/docker.rst:1861
-#, fuzzy
-#| msgid ""
-#| "Set to false to disables environment based configuration of the database "
-#| "connection. Use :ref:`docker-settings-override` to configure the database "
-#| "connection manually."
 msgid ""
 "Set to false to disable environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
@@ -13570,7 +13439,7 @@ msgid ""
 msgstr ""
 "Установите значение false, чтобы отключить настройку подключения к базе "
 "данных на основе окружения. Используйте :ref:`docker-settings-override` для "
-"настройки соединения с базой данных вручную."
+"ручной настройки подключения к базе данных."
 
 #: admin/install/docker.rst:1866
 msgid "Database backup settings"
@@ -13797,12 +13666,12 @@ msgid "Localization CDN"
 msgstr "CDN локализации"
 
 #: admin/install/docker.rst:2132
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid ""
 "Configuration for CDN add-ons, including :ref:`addon-weblate.cdn.cdnjs` "
 "and :ref:`addon-weblate.cdn.files`."
-msgstr "Настройки для :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Конфигурация для надстроек CDN, включая :ref:`addon-weblate.cdn.cdnjs` и "
+":ref:`addon-weblate.cdn.files`."
 
 #: admin/install/docker.rst:2135
 msgid ""
@@ -13820,39 +13689,30 @@ msgstr ""
 "Weblate:"
 
 #: admin/install/docker.rst:2148
-#, fuzzy
-#| msgid ""
-#| "You are responsible for setting up serving of the files generated by "
-#| "Weblate, it only does stores the files in configured location."
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only stores the files in configured location. See :ref:`cdn-"
 "server-security` for secure serving guidance."
 msgstr ""
-"За раздачу файлов, генерируемых Weblate, отвечаете вы, эта переменная только "
-"указывает местоположение, куда их надо сохранять."
+"Вы несёте ответственность за настройку обслуживания файлов, генерируемых "
+"Weblate; он только сохраняет файлы в настроенном расположении. См. :ref:`cdn-"
+"server-security` для получения рекомендаций по безопасной раздаче."
 
 #: admin/install/docker.rst:2160
-#, fuzzy
-#| msgid ""
-#| "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgid ""
 "Changing enabled apps, checks, formats, add-ons, machinery, or autofixes"
 msgstr ""
-"Изменение включённых приложений, проверок, дополнений, машинного перевода "
-"или автоисправлений"
+"Изменение включённых приложений, проверок, форматов, надстроек, механизмов "
+"машинного перевода или автоисправлений"
 
 #: admin/install/docker.rst:2162
-#, fuzzy
-#| msgid ""
-#| "The built-in configuration of enabled checks, add-ons or autofixes can be "
-#| "adjusted by the following variables:"
 msgid ""
 "The built-in configuration of enabled checks, file formats, add-ons, "
 "machinery, or autofixes can be adjusted by the following variables:"
 msgstr ""
-"Встроенную конфигурация включённых проверок, надстроек или автоматических "
-"исправлений можно изменить с помощью следующих переменных:"
+"Встроенную конфигурацию включённых проверок, форматов файлов, надстроек, "
+"механизмов машинного перевода или автоисправлений можно настроить с помощью "
+"следующих переменных:"
 
 #: admin/install/docker.rst:2202
 msgid "Container settings"
@@ -15367,17 +15227,13 @@ msgid "Language definitions"
 msgstr "Определение языков"
 
 #: admin/languages.rst:6
-#, fuzzy
-#| msgid ""
-#| "To present different translations properly, info about language name, "
-#| "text direction, plural definitions and language code is needed."
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code are needed."
 msgstr ""
-"Для правильного представления различных переводов необходима информация о "
-"названии языка, направлении текста, определения форм множественного числа и "
-"код языка."
+"Для правильного отображения различных переводов необходима информация о "
+"названии языка, направлении текста, определениях множественного числа и коде "
+"языка."
 
 #: admin/languages.rst:12
 msgid "Built-in language definitions"
@@ -15669,6 +15525,11 @@ msgid ""
 "forms the language has, and the formula returns the zero-based index of the "
 "plural form to use for a count ``n``."
 msgstr ""
+"Формула использует тот же синтаксис выражений, что и часть ``plural=`` "
+"заголовка Gettext ``Plural-Forms``. Значение ``nplurals`` задаёт, сколько "
+"форм множественного числа имеет язык, а формула возвращает индекс (с нуля) "
+"формы множественного числа, которую следует использовать для количества "
+"``n``."
 
 #: admin/languages.rst:185
 msgid ""
@@ -15680,26 +15541,26 @@ msgid ""
 "(``condition ? value1 : value2``). The result must be between ``0`` and "
 "``nplurals - 1``."
 msgstr ""
+"Weblate проверяет формулу с помощью синтаксического анализатора Gettext, "
+"предоставляемого Python. Принимаемый синтаксис — это C-подобное "
+"целочисленное выражение с ``n`` в качестве единственной переменной. Оно "
+"может использовать десятичные числа, скобки, арифметические операторы "
+"(``+``, ``-``, ``*``, ``/``, ``%``), операторы сравнения и равенства, "
+"логические операторы (``&&``, ``||``, ``!``) и тернарный оператор "
+"(``condition ? value1 : value2``). Результат должен быть в диапазоне от "
+"``0`` до ``nplurals - 1``."
 
 #: admin/languages.rst:193
-#, fuzzy
-#| msgid "For example, this covers:"
 msgid "For example, English uses:"
-msgstr "Например, это касается:"
+msgstr "Например, в английском используются:"
 
 #: admin/languages.rst:202
-#, fuzzy
-#| msgid "Better naming of plural forms."
 msgid "`GNU gettext manual for plural forms`_"
-msgstr ""
-"Улучшено описания в формах редактирования строк со множественным числом."
+msgstr "`Руководство GNU gettext по формам множественного числа`_"
 
 #: admin/languages.rst:203
-#, fuzzy
-#| msgid "Language plural formula and number"
 msgid "`GNU gettext plural formula parser`_"
-msgstr ""
-"Формула множественного числа языка и количество форм множественных чисел"
+msgstr "`Синтаксический анализатор формул множественного числа GNU gettext`_"
 
 #: admin/languages.rst:204
 msgid "`Language Plural Rules by the Unicode Consortium`_"
@@ -15798,17 +15659,15 @@ msgstr ""
 "interface`) или в настройках проекта:"
 
 #: admin/machine.rst:19
-#, fuzzy
-#| msgid ""
-#| "They come subject to their terms of use, so ensure you are allowed to use "
-#| "them how you want."
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want. Third-party services can receive source strings, "
 "translations, and related context from Weblate."
 msgstr ""
-"На них распространяются условия использования, поэтому убедитесь, что вам "
-"разрешено использовать их так, как вы хотите."
+"Они предоставляются в соответствии с их условиями использования, поэтому "
+"убедитесь, что вам разрешено использовать их так, как вы хотите. Сторонние "
+"сервисы могут получать от Weblate исходные строки, переводы и связанный "
+"контекст."
 
 #: admin/machine.rst:23
 msgid ""
@@ -17464,6 +17323,10 @@ msgid ""
 "them. Configure the web server or CDN serving :setting:`LOCALIZE_CDN_URL` as "
 "a public, read-only static file host."
 msgstr ""
+"Надстройки :ref:`addon-weblate.cdn.cdnjs` и :ref:`addon-weblate.cdn.files` "
+"записывают файлы в :setting:`LOCALIZE_CDN_PATH`; Weblate не обслуживает их. "
+"Настройте веб-сервер или CDN, обслуживающий :setting:`LOCALIZE_CDN_URL`, как "
+"общедоступный, доступный только для чтения хост статических файлов."
 
 #: admin/optionals.rst:229
 msgid ""
@@ -17473,6 +17336,12 @@ msgid ""
 "data, internal URLs, API examples, repository paths, translator comments, or "
 "file-format metadata that should not be exposed."
 msgstr ""
+"Обрабатывайте каждый опубликованный CDN-файл как общедоступный. Специфичный "
+"для надстройки UUID в URL-адресе не является механизмом контроля доступа. Не "
+"включайте CDN-надстройки для компонентов, которые содержат приватные строки, "
+"текст невыпущенного продукта, данные клиентов, внутренние URL-адреса, "
+"примеры API, пути к репозиториям, комментарии переводчиков или метаданные "
+"формата файлов, которые не должны быть раскрыты."
 
 #: admin/optionals.rst:235
 msgid ""
@@ -17483,12 +17352,16 @@ msgid ""
 "Weblate and from the application consuming the translations. Do not share "
 "authentication cookies with the CDN domain."
 msgstr ""
+"Надстройка :ref:`addon-weblate.cdn.files` публикует необработанные файлы "
+"переводов в форматах, поддерживаемых Weblate. Некоторые форматы могут "
+"интерпретироваться браузерами или другими клиентами как HTML, SVG, XML, "
+"JavaScript, YAML или специфичная для приложения конфигурация. Обслуживайте "
+"CDN с выделенного домена, отдельного от Weblate и от приложения, "
+"потребляющего переводы. Не передавайте куки аутентификации домену CDN."
 
 #: admin/optionals.rst:242
-#, fuzzy
-#| msgid "The recommended Weblate configuration verifies:"
 msgid "Recommended server configuration:"
-msgstr "Рекомендуемая конфигурация Weblate проверяет:"
+msgstr "Рекомендуемая конфигурация сервера:"
 
 #: admin/optionals.rst:244
 msgid ""
@@ -17496,20 +17369,23 @@ msgid ""
 "expose Weblate repositories, backups, media, configuration, or the whole "
 "data directory."
 msgstr ""
+"Обслуживайте только каталог, настроенный параметром "
+":setting:`LOCALIZE_CDN_PATH`; не раскрывайте репозитории Weblate, резервные "
+"копии, медиафайлы, конфигурацию или весь каталог данных."
 
 #: admin/optionals.rst:247
-#, fuzzy
-#| msgid "Disaster recovery plan"
 msgid "Disable directory listing."
-msgstr "План восстановления после сбоев"
+msgstr "Отключите листинг каталогов."
 
 #: admin/optionals.rst:248
 msgid "Use HTTPS and make the CDN host read-only from the web server."
 msgstr ""
+"Используйте HTTPS и сделайте хост CDN доступным только для чтения с веб-"
+"сервера."
 
 #: admin/optionals.rst:249
 msgid "Send :http:header:`X-Content-Type-Options` with ``nosniff``."
-msgstr ""
+msgstr "Отправляйте :http:header:`X-Content-Type-Options` с ``nosniff``."
 
 #: admin/optionals.rst:250
 msgid ""
@@ -17517,6 +17393,9 @@ msgid ""
 "as :mimetype:`text/plain` or :mimetype:`application/octet-stream`; only "
 "serve :file:`weblate.js` as JavaScript."
 msgstr ""
+"Настройте консервативные MIME-типы. Обслуживайте неизвестные форматы "
+"переводов как :mimetype:`text/plain` или :mimetype:`application/octet-"
+"stream`; обслуживайте :file:`weblate.js` только как JavaScript."
 
 #: admin/optionals.rst:253
 msgid ""
@@ -17524,24 +17403,34 @@ msgid ""
 "browser, consider adding :http:header:`Content-Disposition` with "
 "``attachment``."
 msgstr ""
+"Для необработанных форматов переводов, не предназначенных для отображения в "
+"браузере, рассмотрите возможность добавления :http:header:`Content-"
+"Disposition` с ``attachment``."
 
 #: admin/optionals.rst:256
 msgid ""
 "Configure ``Access-Control-Allow-Origin`` only for sites that need browser "
 "access to the files."
 msgstr ""
+"Настраивайте ``Access-Control-Allow-Origin`` только для сайтов, которым "
+"требуется доступ браузера к файлам."
 
 #: admin/optionals.rst:258
 msgid ""
 "Set cache lifetimes that match your update expectations, and purge CDN "
 "caches when stale translations must disappear quickly."
 msgstr ""
+"Установите время жизни кэша, соответствующее вашим ожиданиям обновления, и "
+"очищайте кэши CDN, когда устаревшие переводы должны быстро исчезнуть."
 
 #: admin/optionals.rst:261
 msgid ""
 "The following nginx snippet serves only the configured CDN directory and "
 "applies conservative defaults for raw translation files:"
 msgstr ""
+"Следующий фрагмент nginx обслуживает только настроенный CDN-каталог и "
+"применяет консервативные значения по умолчанию для необработанных файлов "
+"переводов:"
 
 #: admin/optionals.rst:277
 msgid "Signing Git commits with GnuPG"
@@ -18496,21 +18385,17 @@ msgid "This setting is ignored for Mercurial and Subversion."
 msgstr "Этот параметр игнорируется для Mercurial и Subversion."
 
 #: admin/projects.rst:489
-#, fuzzy
-#| msgid ""
-#| "For Gerrit, this selects the target branch for the review request. Leave "
-#| "it empty to review against :ref:`component-branch`. Use the short branch "
-#| "name, not ``refs/heads/<branch>`` or ``refs/for/<branch>``."
 msgid ""
 "For Gerrit, this selects the target branch for the review request. Leave it "
 "empty to review against :ref:`component-branch`. Use the short branch name, "
 "not ``refs/heads/<branch>``, ``refs/for/<branch>``, or Gerrit push options "
 "such as ``%submit``."
 msgstr ""
-"Для Gerrit это выбирает целевую ветку для запроса на рецензирование. "
-"Оставьте это поле пустым, чтобы рецензировать относительно :ref:`component-"
-"branch`. Используйте короткое имя ветки, а не ``refs/heads/<branch>`` или "
-"``refs/for/<branch>``."
+"Для Gerrit этот параметр выбирает целевую ветку для запроса на "
+"рецензирование. Оставьте его пустым, чтобы рецензировать относительно "
+":ref:`component-branch`. Используйте короткое имя ветки, а не ``refs/heads/"
+"<branch>``, ``refs/for/<branch>`` или параметры отправки Gerrit, такие как "
+"``%submit``."
 
 #: admin/projects.rst:501 devel/gettext.rst:233 formats/android.rst:78
 #: formats/apple.rst:31 formats/appstore.rst:31 formats/arb.rst:34
@@ -21215,16 +21100,17 @@ msgid ""
 "same filters as the changes page, for example ``action``, ``user``, "
 "``exclude_user``, and ``period``."
 msgstr ""
+"Фильтрованные RSS-ленты доступны из обозревателя изменений. Они принимают те "
+"же фильтры, что и страница изменений, например ``action``, ``user``, "
+"``exclude_user`` и ``period``."
 
 #: api.rst:3390
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.5"
 msgid "Weblate 2026.6"
-msgstr "Weblate 2026.5"
+msgstr "Weblate 2026.6"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -21242,26 +21128,20 @@ msgid "New features"
 msgstr "Новые функции"
 
 #: changes.rst:8
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/announcements` can now also be managed via the :ref:`api` "
-#| "for categories."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "specific project languages."
 msgstr ""
 ":doc:`/admin/announcements` теперь также можно управлять через :ref:`api` "
-"для категорий."
+"для конкретных языков проекта."
 
 #: changes.rst:9
-#, fuzzy
-#| msgid "Group ACLs can now be limited to certain permissions."
 msgid ""
 "Team memberships can now be limited to selected languages for per-user "
 "translation permissions."
 msgstr ""
-"Групповые списки контроля доступа (Group ACL) теперь можгут быть ограничены "
-"рамками конкретного проекта."
+"Членство в командах теперь можно ограничивать выбранными языками для "
+"разрешений на перевод для каждого пользователя."
 
 #: changes.rst:12 changes.rst:56 changes/v5.rst:18 changes/v5.rst:104
 #: changes/v5.rst:208 changes/v5.rst:243 changes/v5.rst:290 changes/v5.rst:334
@@ -21282,32 +21162,29 @@ msgid "Improvements"
 msgstr "Улучшения"
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
 "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"В контейнере Docker это можно настроить "
-"через :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"и :envvar:`WEBLATE_API_RATELIMIT_USER`."
+"Контейнеры Docker теперь могут настраивать :setting:`WEBLATE_FORMATS`. "
+"Используйте :envvar:`WEBLATE_ADD_FORMATS` и :envvar:`WEBLATE_REMOVE_FORMATS`."
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid ""
 "Improved performance of the :ref:`check-inconsistent` check on large "
 "projects."
-msgstr "Улучшена производительность проверок согласованности."
+msgstr ""
+"Улучшена производительность проверки :ref:`check-inconsistent` на больших "
+"проектах."
 
 #: changes.rst:16
 msgid ""
 ":ref:`Contributor stats <stats>` now de-duplicate repeated work on the same "
 "string by default, with an option to count all changes."
 msgstr ""
+":ref:`Статистика участников <stats>` теперь по умолчанию удаляет дубликаты "
+"повторяющейся работы над одной и той же строкой, с возможностью подсчёта "
+"всех изменений."
 
 #: changes.rst:19 changes.rst:73 changes/v5.rst:36 changes/v5.rst:144
 #: changes/v5.rst:213 changes/v5.rst:248 changes/v5.rst:302 changes/v5.rst:341
@@ -21337,12 +21214,17 @@ msgid ""
 "Hardened :http:post:`/api/screenshots/` access checks against private "
 "project enumeration."
 msgstr ""
+"Улучшены проверки доступа :http:post:`/api/screenshots/` против перебора "
+"приватных проектов."
 
 #: changes.rst:21
 msgid ""
 "Registration-attempt account activity e-mails now link to password reset to "
 "help users finish account setup."
 msgstr ""
+"Письма о действиях с учётной записью при попытке регистрации теперь содержат "
+"ссылку на сброс пароля, чтобы помочь пользователям завершить настройку "
+"учётной записи."
 
 #: changes.rst:22
 msgid ""
@@ -21350,24 +21232,34 @@ msgid ""
 "supports ``changed_by:\"\"``, and combined change filters now apply to the "
 "same change event."
 msgstr ""
+"Поиск строк с изменениями содержимого без зарегистрированного автора теперь "
+"поддерживает ``changed_by:\"\"``, а комбинированные фильтры изменений теперь "
+"применяются к одному и тому же событию изменения."
 
 #: changes.rst:23
 msgid ""
 "Gitea and Forgejo pull requests no longer reconfigure existing fork remotes "
 "to point to the source repository."
 msgstr ""
+"Запросы на извлечение Gitea и Forgejo больше не перенастраивают существующие "
+"удалённые ответвления (форки) для указания на исходный репозиторий."
 
 #: changes.rst:24
 msgid ""
 "Project and category language translation sessions now keep strings grouped "
 "by component priority and show component switch warnings reliably."
 msgstr ""
+"Сеансы перевода языков проектов и категорий теперь группируют строки по "
+"приоритету компонента и надёжно показывают предупреждения о переключении "
+"компонента."
 
 #: changes.rst:25
 msgid ""
 "Engage page task links now stay centered and show the target translation "
 "language."
 msgstr ""
+"Ссылки на задачи на странице вовлечения теперь остаются по центру и "
+"показывают целевой язык перевода."
 
 #: changes.rst:28 changes.rst:89 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -21453,26 +21345,20 @@ msgid "Contributors"
 msgstr "Участники"
 
 #: changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "65?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/165?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/65?"
-"closed=1>`__."
+"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/"
+"165?closed=1>`__."
 
 #: changes.rst:40
 msgid "Weblate 2026.5"
 msgstr "Weblate 2026.5"
 
 #: changes.rst:42
-#, fuzzy
-#| msgid "*Released on May 13th 2024.*"
 msgid "*Released on May 15th 2026.*"
-msgstr "*Выпущено 13 мая 2024 года.*"
+msgstr "*Выпущено 15 мая 2026 года.*"
 
 #: changes.rst:46
 msgid ""
@@ -21480,6 +21366,9 @@ msgid ""
 "syntax, with :ref:`file_format_params` shared with :ref:`markdown` for line "
 "wrapping, code blocks, front matter, and placeholder handling."
 msgstr ""
+"Добавлена поддержка :ref:`mdx` для перевода текста Markdown с сохранением "
+"синтаксиса JSX, с :ref:`file_format_params`, общими с :ref:`markdown`, для "
+"переноса строк, блоков кода, фронтматерии и обработки заполнителей."
 
 #: changes.rst:47
 msgid ""
@@ -21487,12 +21376,18 @@ msgid ""
 "automatic suggestions, covering string context, explanations, secondary-"
 "language translations, plurals, failing checks, and placeholders."
 msgstr ""
+"Добавлен расширенный :ref:`контекст перевода LLM <llm-translation-context>` "
+"для автоматических предложений, охватывающий контекст строки, пояснения, "
+"переводы на второстепенные языки, множественные числа, неудачные проверки и "
+"заполнители."
 
 #: changes.rst:48
 msgid ""
 "Added a digest-only translation activity summary notification, "
 "see :ref:`notifications`."
 msgstr ""
+"Добавлено уведомление-сводка о активности переводов (только в виде сводки/"
+"дайджеста), см. :ref:`notifications`."
 
 #: changes.rst:49
 msgid ""
@@ -21504,20 +21399,14 @@ msgstr ""
 "множественного числа, которые можно импортировать обратно."
 
 #: changes.rst:50
-#, fuzzy
-#| msgid ""
-#| "The header of the PO file is automatically maintained by Weblate. It can "
-#| "be configured to include the ``Language-Team``, ``Last-Translator``, ``X-"
-#| "Generator`` and ``Report-Msgid-Bugs-To`` headers using "
-#| "the :ref:`file_format_params`."
 msgid ""
 "Added Gettext PO and POT :ref:`file_format_params` to control whether "
 "Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, "
 "and ``Report-Msgid-Bugs-To`` headers."
 msgstr ""
-"Заголовок PO-файла автоматически поддерживается Weblate. Его можно настроить "
-"на включение заголовков ``Language-Team``, ``Last-Translator``, ``X-"
-"Generator`` и ``Report-Msgid-Bugs-To`` с помощью :ref:`file_format_params`."
+"Добавлены :ref:`file_format_params` для Gettext PO и POT, чтобы управлять "
+"тем, обновляет ли Weblate заголовки ``Language-Team``, ``Last-Translator``, "
+"``X-Generator`` и ``Report-Msgid-Bugs-To``."
 
 #: changes.rst:51
 msgid ""
@@ -21532,18 +21421,16 @@ msgid ""
 "The translation memory lookup API can now skip fuzzy matching with the "
 "``exact`` query parameter."
 msgstr ""
+"API поиска в памяти переводов теперь может пропускать нечёткое сопоставление "
+"с помощью параметра запроса ``exact``."
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 "Added :ref:`addon-weblate.cdn.files` to publish translation files to the "
 "configured CDN."
 msgstr ""
-"Дополнение :ref:`addon-weblate.cdn.cdnjs` предоставляет несколько вариантов "
-"конфигурации."
+"Добавлена надстройка :ref:`addon-weblate.cdn.files` для публикации файлов "
+"переводов в настроенный CDN."
 
 #: changes.rst:57
 msgid ""
@@ -21554,12 +21441,12 @@ msgstr ""
 "``dos_eol`` :ref:`file_format_params`."
 
 #: changes.rst:58
-#, fuzzy
-#| msgid ":ref:`mt-openai` no longer requires the OpenAI Python SDK."
 msgid ""
 ":ref:`mt-openai` and :ref:`mt-alibaba` no longer require their vendor Python "
 "SDKs."
-msgstr ":ref:`mt-openai` больше не требует OpenAI Python SDK."
+msgstr ""
+":ref:`mt-openai` и :ref:`mt-alibaba` больше не требуют своих проприетарных "
+"Python SDK."
 
 #: changes.rst:59
 msgid ""
@@ -21569,16 +21456,12 @@ msgstr ""
 "историю."
 
 #: changes.rst:60
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-gerrit` now uses :ref:`component-push_branch` as the target "
-#| "branch for review pushes."
 msgid ""
 "Gerrit review pushes now use :ref:`component-push_branch` as the target "
 "branch."
 msgstr ""
-":ref:`vcs-gerrit` теперь использует :ref:`component-push_branch` в качестве "
-"целевой ветки для отправок на рецензирование."
+"Отправки на рецензирование Gerrit теперь используют :ref:`component-"
+"push_branch` в качестве целевой ветки."
 
 #: changes.rst:61
 msgid ""
@@ -21619,62 +21502,66 @@ msgid ""
 "Added provider-oriented code hosting documentation and Gettext-"
 "style :ref:`plural-formula` guidance."
 msgstr ""
+"Добавлена ориентированная на поставщиков документация по хостингу кода и "
+"руководство по :ref:`plural-formula` в стиле Gettext."
 
 #: changes.rst:66
 msgid ""
 "The Python wheel no longer ships source translation catalogs, test files, or "
 "deployment example files, reducing the installed package size."
 msgstr ""
+"Колесо Python больше не поставляет исходные каталоги переводов, тестовые "
+"файлы или примеры файлов развёртывания, что уменьшает размер "
+"устанавливаемого пакета."
 
 #: changes.rst:67
 msgid ""
 "The engage page now highlights actionable translation task buckets for "
 "newcomers."
 msgstr ""
+"Страница вовлечения теперь выделяет для новичков группы задач перевода, с "
+"которыми можно работать."
 
 #: changes.rst:68
 msgid ""
 ":ref:`RSS feeds <rss>` can now use the same filters as the changes browsing "
 "page."
 msgstr ""
+":ref:`RSS-ленты <rss>` теперь могут использовать те же фильтры, что и "
+"страница просмотра изменений."
 
 #: changes.rst:69
 msgid ""
 ":ref:`addon-weblate.gettext.django` now supports gettext PO files used as "
 "templates when they are excluded by the language filter."
 msgstr ""
+":ref:`addon-weblate.gettext.django` теперь поддерживает PO-файлы gettext, "
+"используемые как шаблоны, когда они исключены языковым фильтром."
 
 #: changes.rst:70
 msgid "Reworked :doc:`/security/threat-model` into a contract-style document."
-msgstr ""
+msgstr ":doc:`/security/threat-model` переработан в документ в стиле контракта."
 
 #: changes.rst:74
-#, fuzzy
-#| msgid ""
-#| "Hardened search previews and :ref:`machine-translation` suggestion "
-#| "origins against XSS."
 msgid ""
 "Hardened search previews and :ref:`machine-translation` suggestion origins "
 "against XSS, and stopped exposing database error details in upload failures "
 "(:cve:`2026-45106` / :ghsa:`6wxc-8mgq-w26m`)."
 msgstr ""
-"Улучшена защита предварительных просмотров поиска и источников "
-"предложений :ref:`machine-translation` от XSS."
+"Улучшена защита предварительных просмотров поиска и источников предложений "
+":ref:`machine-translation` от XSS, а также прекращено раскрытие деталей "
+"ошибок базы данных при сбоях загрузки (:cve:`2026-45106` / :ghsa:`6wxc-8mgq-"
+"w26m`)."
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ""
-#| "Screenshot URL uploads and remote HTML extraction in :ref:`addon-"
-#| "weblate.cdn.cdnjs` now reject internal or non-public asset URLs by "
-#| "default."
 msgid ""
 "Screenshot URL uploads, remote HTML extraction in :ref:`addon-"
 "weblate.cdn.cdnjs`, and URL health-check redirects now reject internal or "
 "non-public targets by default."
 msgstr ""
-"Загрузка снимков экрана по URL-адресу и удалённое извлечение HTML "
-"в :ref:`addon-weblate.cdn.cdnjs` теперь по умолчанию отклоняют внутренние "
-"или непубличные URL-адреса ресурсов."
+"Загрузка снимков экрана по URL-адресу, удалённое извлечение HTML в "
+":ref:`addon-weblate.cdn.cdnjs` и перенаправления проверки работоспособности "
+"URL-адресов теперь по умолчанию отклоняют внутренние или непубличные цели."
 
 #: changes.rst:76
 msgid ""
@@ -21682,19 +21569,19 @@ msgid ""
 "track the target branch before invoking ``git-review``, and suggest short "
 "branch names when full refs are supplied."
 msgstr ""
+"Отправки на рецензирование Gerrit теперь отклоняют целевые ветки, содержащие "
+"параметры отправки, отслеживают целевую ветку перед вызовом ``git-review`` и "
+"предлагают короткие имена веток, когда указаны полные ссылки (refs)."
 
 #: changes.rst:77
-#, fuzzy
-#| msgid ""
-#| "Category :doc:`/admin/announcements` no longer appear across the whole "
-#| "project."
 msgid ""
 "Category :doc:`/admin/announcements` no longer appear across the whole "
 "project, and translation announcement deletion now honors language-scoped "
 "permissions."
 msgstr ""
 "Объявления категории :doc:`/admin/announcements` больше не отображаются по "
-"всему проекту."
+"всему проекту, а удаление объявлений о переводах теперь учитывает разрешения "
+"в пределах языка."
 
 #: changes.rst:78
 msgid ""
@@ -21710,6 +21597,10 @@ msgid ""
 "plural formulas are rejected when they can evaluate outside the configured "
 "plural form range."
 msgstr ""
+"Количества множественных чисел, извлечённые из заголовков файлов переводов, "
+"теперь ограничены, а формулы множественного числа отклоняются, если они "
+"могут вычислиться за пределы настроенного диапазона форм множественного "
+"числа."
 
 #: changes.rst:80
 msgid ""
@@ -21723,36 +21614,48 @@ msgid ""
 "Malformed ALTCHA CAPTCHA submissions and repository URLs in webhook payloads "
 "no longer cause server errors."
 msgstr ""
+"Неверно сформированные отправки ALTCHA CAPTCHA и URL-адреса репозиториев в "
+"полезных нагрузках веб-обработчиков больше не вызывают серверных ошибок."
 
 #: changes.rst:82
 msgid ""
 ":ref:`check-placeholders` now merges overlapping non-nested spans from "
 "multiple flags."
 msgstr ""
+":ref:`check-placeholders` теперь объединяет перекрывающиеся невложенные "
+"диапазоны из нескольких флагов."
 
 #: changes.rst:83
 msgid ""
 ":ref:`backup` logs no longer include OpenSSH post-quantum key exchange "
 "warnings from remote Borg connections."
 msgstr ""
+"Журналы :ref:`backup` больше не включают предупреждения OpenSSH о пост-"
+"квантовом обмене ключами от удалённых соединений Borg."
 
 #: changes.rst:84
 msgid ""
 "Category repository paths are now handled more safely during cleanup and "
 "moves."
 msgstr ""
+"Пути к репозиториям категорий теперь обрабатываются более безопасно во время "
+"очистки и перемещений."
 
 #: changes.rst:85
 msgid ""
 "Locked component pages now show an unsubscribe action after subscribing to "
 "unlock notifications."
 msgstr ""
+"Страницы заблокированных компонентов теперь показывают действие отписки "
+"после подписки на уведомления о разблокировке."
 
 #: changes.rst:86
 msgid ""
 ":ref:`projectbackup` imports now restore in the background to avoid web "
 "worker memory limits."
 msgstr ""
+"Импорт :ref:`projectbackup` теперь восстанавливает в фоновом режиме, чтобы "
+"избежать ограничений памяти веб-обработчиков."
 
 #: changes.rst:90
 msgid ""
@@ -21820,6 +21723,10 @@ msgid ""
 "and :ref:`addon-weblate.removal.suggestions` add-ons; configure those add-"
 "ons instead."
 msgstr ""
+"Параметры ``COMMENT_CLEANUP_DAYS`` и ``SUGGESTION_CLEANUP_DAYS`` однократно "
+"мигрируются в общесайтовые надстройки :ref:`addon-weblate.removal.comments` "
+"и :ref:`addon-weblate.removal.suggestions`; вместо этого настраивайте эти "
+"надстройки."
 
 #: changes.rst:108
 msgid ""
@@ -21854,10 +21761,8 @@ msgid "Code contributions"
 msgstr "Написание кода"
 
 #: changes/contributors/2026.5.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Gersona"
 msgid "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
-msgstr "Михал Чихарж, Карен Кону, Gersona"
+msgstr "Михал Чигарж, Карен Кону, AliceVisek, Gersona, Weblate CI"
 
 #: changes/contributors/2026.5.rst:7 changes/contributors/5.10.1.rst:7
 #: changes/contributors/5.10.2.rst:7 changes/contributors/5.10.3.rst:7
@@ -21892,6 +21797,17 @@ msgid ""
 "Groskamp, MrZwave, hoanghuy309, Jim Spentzos, Adam Havránek, Ricky Tigg, "
 "Christian Wia, ButterflyOfFire"
 msgstr ""
+"이정희, Андрей Степанов, Milo Ivir, ssantos, 大王叫我来巡山, Kaya Zeren, "
+"reducedradius, Peter Vančo, amano, Михал Чигарж, Anucha Hlownonkor, Yaron "
+"Shahrabani, UDP, Максим Горпиніч, Agnieszka C, VfBFan, Blueberry, ojppe, "
+"Francisco Serrador, Aindriú Mac Giolla Eoin, Fjuro, Любомир Василев, Frank "
+"Paul Silye, Temuri Doghonadze, Юрий Чорноиван, Sergio Granadoz, Sketch6580, "
+"Hyeonjeong Lee, 為什麼不加空格, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), justcontributor, "
+"Kristijan \\\"Fremen\\\" Velkovski, Pierfrancesco Passerini, Besnik Bleta, "
+"Arif Budiman, Andi Chandler, jernejp21, Manuela Silva, Sjur N Moshagen, "
+"Abduqadir Abliz, Laitei, Кирилл Ванин, Matthaiks, Nozomu Matsui, Dick "
+"Groskamp, MrZwave, hoanghuy309, Jim Spentzos, Adam Havránek, Ricky Tigg, "
+"Christian Wia, ButterflyOfFire"
 
 #: changes/contributors/2026.5.rst:12 changes/contributors/5.10.1.rst:12
 #: changes/contributors/5.10.2.rst:12 changes/contributors/5.10.3.rst:12
@@ -21918,10 +21834,8 @@ msgid "Documentation contributions"
 msgstr "Вклад в документацию"
 
 #: changes/contributors/2026.5.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, Gersona, Karen Konou, AliceVisek"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr "Михал Чигарж, Gersona, Карен Кону, AliceVisek"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -31622,10 +31536,8 @@ msgid "Extended download options for platform wide translation memory."
 msgstr "Расширенные параметры скачивания памяти переводов со всей платформы."
 
 #: changes/v5.rst:2
-#, fuzzy
-#| msgid "Weblate 0.x series"
 msgid "Weblate 5.x series"
-msgstr "Серия Weblate 0.x"
+msgstr "Серия Weblate 5.x"
 
 #: changes/v5.rst:5
 msgid "Weblate 5.17.1"
@@ -39857,6 +39769,10 @@ msgid ""
 "`, :file:`weblate.egg-info/`, and generated :file:`weblate/locale/**/*.mo` "
 "files."
 msgstr ""
+"При локальной сборке пакетов дистрибутива начинайте с чистой выгрузки или "
+"удалите игнорируемые артефакты упаковки, такие как каталоги :file:`build/`, "
+":file:`dist/`, :file:`weblate.egg-info/` и сгенерированные файлы "
+":file:`weblate/locale/**/*.mo`."
 
 #: contributing/release.rst:54
 msgid "Perform the release:"
@@ -41792,48 +41708,36 @@ msgid "Translating HTML and JavaScript using Weblate CDN"
 msgstr "Перевод HTML и JavaScript с помощью сети доставки содержимого Weblate"
 
 #: devel/html.rst:6
-#, fuzzy
-#| msgid ""
-#| "Starting with Weblate 4.2 it is possible to export localization to a CDN "
-#| "using :ref:`addon-weblate.cdn.cdnjs` add-on."
 msgid ""
 "Starting with Weblate 4.2 it is possible to export JavaScript and HTML "
 "localization to a CDN using :ref:`addon-weblate.cdn.cdnjs` add-on. To "
 "publish translation files without the JavaScript loader, use :ref:`addon-"
 "weblate.cdn.files`."
 msgstr ""
-"Начиная с Weblate 4.2, можно экспортировать локализацию в CDN с помощью "
-"надстройки :ref:`addon-weblate.cdn.cdnjs`."
+"Начиная с Weblate 4.2, можно экспортировать локализацию JavaScript и HTML в "
+"CDN с помощью надстройки :ref:`addon-weblate.cdn.cdnjs`. Для публикации "
+"файлов переводов без загрузчика JavaScript используйте :ref:`addon-"
+"weblate.cdn.files`."
 
 #: devel/html.rst:13
-#, fuzzy
-#| msgid ""
-#| "This feature is configured on Hosted Weblate. It requires additional "
-#| "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
-#| "and :setting:`LOCALIZE_CDN_PATH`."
 msgid ""
 "This feature is configured on Hosted Weblate. It requires additional "
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
 "and :setting:`LOCALIZE_CDN_PATH`. See also :ref:`cdn-server-security`."
 msgstr ""
-"Эта функциональность уже включена на Hosted Weblate. На вашей установке она "
-"требует дополнительной настройки, смотрите описание "
-"параметров :setting:`LOCALIZE_CDN_URL` и :setting:`LOCALIZE_CDN_PATH`."
+"Эта функция настраивается на Hosted Weblate. В вашей установке она требует "
+"дополнительной настройки; см. :setting:`LOCALIZE_CDN_URL` и "
+":setting:`LOCALIZE_CDN_PATH`. Также см. :ref:`cdn-server-security`."
 
 #: devel/html.rst:17
-#, fuzzy
-#| msgid ""
-#| "Upon installation into your component it will push committed translations "
-#| "(see :ref:`lazy-commit`) to the CDN and these can be used in your web "
-#| "pages to localize them."
 msgid ""
 "Upon installation into your component the JavaScript localization add-on "
 "will push committed translations (see :ref:`lazy-commit`) to the CDN and "
 "these can be used in your web pages to localize them."
 msgstr ""
-"При включении её в вашем компоненте она будет отправлять закоммиченные "
-"переводы (смотреть раздел :ref:`lazy-commit`) в CDN; и их можно будет "
-"использовать для локализации прямо на ваших веб-страницах."
+"После установки в ваш компонент надстройка локализации JavaScript будет "
+"отправлять закоммиченные переводы (см. :ref:`lazy-commit`) в CDN, и их можно "
+"будет использовать для локализации ваших веб-страниц."
 
 #: devel/html.rst:22
 msgid "Creating component"
@@ -41995,15 +41899,11 @@ msgid "HTML localization using Weblate CDN"
 msgstr "Локализация HTML с помощью Weblate CDN"
 
 #: devel/html.rst:106
-#, fuzzy
-#| msgid ""
-#| "To localize a HTML document, you need to load the :file:`weblate.js` "
-#| "script:"
 msgid ""
 "To localize an HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
-"Для локализации HTML-документа вам необходимо загрузить "
-"скрипт :file:`weblate.js`:"
+"Для локализации HTML-документа необходимо загрузить скрипт "
+":file:`weblate.js`:"
 
 #: devel/html.rst:112
 msgid ""
@@ -42051,10 +41951,8 @@ msgid "The actual localization logic needs to be implemented in this case."
 msgstr "В этом случае придётся собственно реализовать саму логику локализации."
 
 #: devel/html.rst:137
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Publishing translation files"
-msgstr "Очистка файлов перевода"
+msgstr "Публикация файлов переводов"
 
 #: devel/html.rst:139
 msgid ""
@@ -42062,6 +41960,9 @@ msgid ""
 "directly to the CDN. It does not generate a JavaScript loader or convert "
 "translations into bilingual JSON."
 msgstr ""
+"Надстройка :ref:`addon-weblate.cdn.files` публикует файлы переводов "
+"непосредственно в CDN. Она не генерирует загрузчик JavaScript и не "
+"преобразует переводы в двуязычный JSON."
 
 #: devel/html.rst:143
 msgid ""
@@ -42072,6 +41973,12 @@ msgid ""
 "bilingual components publish only target-language files. See :ref:`cdn-"
 "server-security` for secure server setup."
 msgstr ""
+"Однофайловые переводы именуются с использованием кода языка и исходного "
+"расширения файла, например ``cs.json`` или ``de.po``. Многофайловые переводы "
+"обслуживаются в подкаталоге кода языка с использованием путей относительно "
+"каталога переводов. Одноязычные компоненты включают файл исходного языка, в "
+"то время как двуязычные компоненты публикуют только файлы целевого языка. "
+"См. :ref:`cdn-server-security` для настройки безопасного сервера."
 
 #: devel/integration.rst:2
 msgid "Integrating with Weblate"
@@ -42663,6 +42570,12 @@ msgid ""
 "including workflows, permissions, and language aliases, still need to be "
 "configured manually in Weblate."
 msgstr ""
+"Если ваш репозиторий содержит файл Transifex :file:`.tx/config`, Weblate "
+"анализирует его с помощью translation-finder и предлагает соответствующие "
+"конфигурации компонентов во время обнаружения. Это охватывает только "
+"конфигурацию, связанную с файлами, такую как маски файлов и исходные файлы. "
+"Другие настройки проекта с предыдущей платформы, включая рабочие процессы, "
+"разрешения и псевдонимы языков, всё ещё требуют ручной настройки в Weblate."
 
 #: devel/migration.rst:126
 msgid ""
@@ -42672,6 +42585,11 @@ msgid ""
 "language_aliases` only if your repository uses codes Weblate cannot map as "
 "intended."
 msgstr ""
+"Псевдонимы языков обычно не требуются, поскольку Weblate уже распознаёт и "
+"нормализует распространённые варианты кодов языков при анализе файлов "
+"переводов. См. :ref:`language-parsing-codes`; настраивайте :ref:`project-"
+"language_aliases`, только если ваш репозиторий использует коды, которые "
+"Weblate не может сопоставить должным образом."
 
 #: devel/migration.rst:136
 msgid ""
@@ -43247,6 +43165,10 @@ msgid ""
 "Choose :guilabel:`All changes` in the counting mode if you need every edit "
 "or approval to be counted separately."
 msgstr ""
+"По умолчанию повторяющиеся изменения одним и тем же переводчиком одной и той "
+"же строки учитываются один раз для каждого варианта статистики за выбранный "
+"отчётный период. Выберите :guilabel:`Все изменения` в режиме подсчёта, если "
+"вам нужно, чтобы каждое изменение или одобрение учитывалось отдельно."
 
 #: devel/reporting.rst:89
 msgid "All stats are available in four variants:"
@@ -43353,6 +43275,9 @@ msgid ""
 "Use source-word metrics when comparing work across target languages, because "
 "the source text is shared while translated word counts differ by language."
 msgstr ""
+"Используйте метрики исходных слов при сравнении работы между целевыми "
+"языками, поскольку исходный текст является общим, а количество переведённых "
+"слов различается в зависимости от языка."
 
 #: devel/reporting-example.rst:2
 msgid "Email"
@@ -50356,22 +50281,21 @@ msgid "Weblate threat model"
 msgstr "Модель угроз Weblate"
 
 #: security/threat-model.rst:4
-#, fuzzy
-#| msgid "Project website"
 msgid "Project: Weblate"
-msgstr "Веб-сайт проекта"
+msgstr "Проект: Weblate"
 
 #: security/threat-model.rst:6
 msgid "Last reviewed for Weblate |release| at commit ``491e79010b2``."
 msgstr ""
+"Последний раз проверено для Weblate |release| в коммите ``491e79010b2``."
 
 #: security/threat-model.rst:8
 msgid "Date: 2026-05-14."
-msgstr ""
+msgstr "Дата: 2026-05-14."
 
 #: security/threat-model.rst:10
 msgid "Status: Accepted, 2026-05-14."
-msgstr ""
+msgstr "Состояние: Принято, 2026-05-14."
 
 #: security/threat-model.rst:12
 msgid ""
@@ -50379,6 +50303,9 @@ msgid ""
 "against Weblate version N is triaged against the model published for version "
 "N, not against the latest development branch. *(maintainer)*"
 msgstr ""
+"Привязка к версии: Эта модель версионируется вместе с выпусками Weblate. "
+"Отчёт против версии Weblate N сортируется по модели, опубликованной для "
+"версии N, а не по последней ветке разработки. *(сопровождающий)*"
 
 #: security/threat-model.rst:16
 msgid ""
@@ -50389,6 +50316,13 @@ msgid ""
 "be closed by citing this document unless this model routes them to ``VALID-"
 "HARDENING``. *(documented)* (source: :doc:`/security/issues`)"
 msgstr ""
+"Перекрёстная ссылка для отчётов: Отчёты, которые нарушают свойство, "
+"заявленное Weblate в разделе `Свойства безопасности, предоставляемые "
+"Weblate`_, направляются через :file:`SECURITY.md` и :doc:`/security/issues`. "
+"Отчёты, подпадающие под `Вне области действия`_ или `Свойства безопасности, "
+"которые Weblate не предоставляет`_, могут быть закрыты со ссылкой на этот "
+"документ, если только эта модель не направляет их в ``VALID-HARDENING``. *"
+"(документировано)* (источник: :doc:`/security/issues`)"
 
 #: security/threat-model.rst:23
 msgid ""
@@ -50397,10 +50331,17 @@ msgid ""
 "this threat-model process; ``*(inferred)*`` means it was reasoned from the "
 "current project shape and needs maintainer confirmation."
 msgstr ""
+"Легенда происхождения: ``*(документировано)*`` означает, что утверждение "
+"содержится в документации Weblate; ``*(сопровождающий)*`` означает, что оно "
+"было высказано сопровождающим в процессе создания этой модели угроз; ``*"
+"(выведено)*`` означает, что оно было выведено из текущей формы проекта и "
+"требует подтверждения сопровождающего."
 
 #: security/threat-model.rst:28
 msgid "Provenance summary: 97 documented / 65 maintainer / 0 inferred claims."
 msgstr ""
+"Сводка происхождения: 97 документированных / 65 от сопровождающего / 0 "
+"выведенных утверждений."
 
 #: security/threat-model.rst:30
 msgid ""
@@ -50412,198 +50353,197 @@ msgid ""
 "hosting systems. *(documented)* (source: :doc:`/index`, :doc:`/api`, :doc:`/"
 "admin/continuous`)"
 msgstr ""
+"Weblate — это веб-платформа локализации на базе Django. Он принимает работу "
+"от пользователей браузера, API-клиентов, токенов с областью действия "
+"проекта, веб-обработчиков репозиториев, репозиториев СКВ, архивов резервных "
+"копий, фоновых обработчиков и настроенных внешних служб, затем сохраняет и "
+"синхронизирует проекты перевода через базу данных, хранилище данных, "
+"локальные репозитории файловой системы и внешние системы хостинга кода. *"
+"(документировано)* (источник: :doc:`/index`, :doc:`/api`, :doc:`/admin/"
+"continuous`)"
 
 #: security/threat-model.rst:38
-#, fuzzy
-#| msgid "Scope and objectives"
 msgid "Scope and intended use"
-msgstr "Область применения и цели"
+msgstr "Область применения и целевое использование"
 
 #: security/threat-model.rst:43
-#, fuzzy
-#| msgid "Component name"
 msgid "Component family"
-msgstr "Название компонента"
+msgstr "Семейство компонентов"
 
 #: security/threat-model.rst:44
 msgid "Representative surface"
-msgstr ""
+msgstr "Представительная поверхность"
 
 #: security/threat-model.rst:45
 msgid "Outside-process effects"
-msgstr ""
+msgstr "Внешние по отношению к процессу эффекты"
 
 #: security/threat-model.rst:46
-#, fuzzy
-#| msgid "Monitoring Celery status"
 msgid "Model status"
-msgstr "Мониторинг состояния Celery"
+msgstr "Состояние модели"
 
 #: security/threat-model.rst:47
-#, fuzzy
-#| msgid "Weblate's REST API"
 msgid "Web UI and REST API"
-msgstr "API REST для Weblate"
+msgstr "Веб-интерфейс и REST API"
 
 #: security/threat-model.rst:48
 msgid "Browser views, forms, session endpoints, :doc:`/api`"
-msgstr ""
+msgstr "Представления браузера, формы, конечные точки сеансов, :doc:`/api`"
 
 #: security/threat-model.rst:49
 msgid "Database, datastore, e-mail, logs, uploaded files"
 msgstr ""
+"База данных, хранилище данных, электронная почта, журналы, загруженные файлы"
 
 #: security/threat-model.rst:50
 msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 msgstr ""
+"В области действия. *(документировано)* (источник: :doc:`/api`, :doc:`/admin/"
+"install`)"
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "**Authentication & authorization:**"
 msgid "Authentication, sessions, and authorization"
-msgstr "**Аутентификация и авторизация:**"
+msgstr "Аутентификация, сеансы и авторизация"
 
 #: security/threat-model.rst:52
 msgid "Login, 2FA, SSO, teams, permissions, project access, API tokens"
-msgstr ""
+msgstr "Вход, 2FA, SSO, команды, разрешения, доступ к проекту, токены API"
 
 #: security/threat-model.rst:53
 msgid "Database, identity providers, browser cookies"
-msgstr ""
+msgstr "База данных, поставщики удостоверений, куки браузера"
 
 #: security/threat-model.rst:54
 msgid ""
 "In scope. *(documented)* (source: :doc:`/admin/auth`, :doc:`/admin/access`)"
 msgstr ""
+"В области действия. *(документировано)* (источник: :doc:`/admin/auth`, "
+":doc:`/admin/access`)"
 
 #: security/threat-model.rst:55
-#, fuzzy
-#| msgid "Per-project access tokens"
 msgid "Project-scoped API tokens"
-msgstr "Токены доступа для каждого проекта"
+msgstr "Токены API с областью действия проекта"
 
 #: security/threat-model.rst:56
 msgid "Tokens created in project :guilabel:`API access`"
-msgstr ""
+msgstr "Токены, созданные в проекте :guilabel:`API доступ`"
 
 #: security/threat-model.rst:57
 msgid "Same application effects as the token permissions allow"
-msgstr ""
+msgstr "Те же эффекты приложения, которые разрешают разрешения токена"
 
 #: security/threat-model.rst:58
 msgid ""
 "In scope as authenticated actors with delegated project scope. "
 "*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
+"В области действия как аутентифицированные действующие лица с делегированной "
+"областью действия проекта. *(документировано)* (источник: :doc:`/api`, "
+":doc:`/admin/access`)"
 
 #: security/threat-model.rst:60
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhooks"
-msgstr "Веб-обработчик"
+msgstr "Веб-обработчики"
 
 #: security/threat-model.rst:61
-#, fuzzy
-#| msgid ":ref:`project` (:ref:`project-check_flags`)."
 msgid ":ref:`hooks`, project :ref:`project-enable_hooks`"
-msgstr ":ref:`project` (:ref:`project-check_flags`)."
+msgstr ":ref:`hooks`, проект :ref:`project-enable_hooks`"
 
 #: security/threat-model.rst:62
-#, fuzzy
-#| msgid "Background tasks using Celery"
 msgid "Background task scheduling and VCS repository updates"
-msgstr "Фоновые задачи с использованием Celery"
+msgstr "Планирование фоновых задач и обновления репозиториев СКВ"
 
 #: security/threat-model.rst:63
-#, fuzzy
-#| msgid ""
-#| "Treat webhook endpoints as deployment-hardened interfaces and enable them "
-#| "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgid ""
 "In scope as a public, deployment-hardened interface. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"Обрабатывайте конечные точки веб-обработчиков как интерфейсы, укреплённые на "
-"уровне развёртывания, и включайте их только там, где необходимо, "
-"см. :ref:`hooks` и :ref:`project-enable_hooks`."
+"Входит в область действия как общедоступный, укреплённый на уровне "
+"развёртывания интерфейс. *(документировано)* (источник: :ref:`hooks`, "
+":ref:`project-enable_hooks`)"
 
 #: security/threat-model.rst:64
-#, fuzzy
-#| msgid "**VCS integration**"
 msgid "VCS integration"
-msgstr "**Интеграция СКВ**"
+msgstr "Интеграция с СКВ"
 
 #: security/threat-model.rst:65
 msgid "Repository URLs, branches, pushes, pulls, merge requests, local clones"
 msgstr ""
+"URL-адреса репозиториев, ветки, отправки, извлечения, запросы на слияние, "
+"локальные клоны"
 
 #: security/threat-model.rst:66
 msgid "Filesystem, child VCS commands, SSH/HTTPS network connections"
-msgstr ""
+msgstr "Файловая система, дочерние команды СКВ, сетевые соединения SSH/HTTPS"
 
 #: security/threat-model.rst:67
 msgid ""
 "In scope when reachable through Weblate configuration or project content. "
 "*(documented)* (source: :doc:`/admin/continuous`, :doc:`/admin/code-hosting`)"
 msgstr ""
+"В области действия, когда достижимо через конфигурацию Weblate или "
+"содержимое проекта. *(документировано)* (источник: :doc:`/admin/continuous`, "
+":doc:`/admin/code-hosting`)"
 
 #: security/threat-model.rst:70
-#, fuzzy
-#| msgid "Background tasks internals"
 msgid "Background tasks"
-msgstr "Внутреннее устройство фоновых задач"
+msgstr "Фоновые задачи"
 
 #: security/threat-model.rst:71
 msgid ""
 "Celery queues for repository updates, notifications, translation memory, "
 "translation, and backups"
 msgstr ""
+"Очереди Celery для обновлений репозиториев, уведомлений, памяти переводов, "
+"перевода и резервных копий"
 
 #: security/threat-model.rst:73
 msgid "Database, datastore, filesystem, outbound network"
-msgstr ""
+msgstr "База данных, хранилище данных, файловая система, исходящая сеть"
 
 #: security/threat-model.rst:74
 msgid ""
 "In scope as Weblate-controlled execution of user or operator actions. "
 "*(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
+"В области действия как управляемое Weblate выполнение действий пользователя "
+"или оператора. *(документировано)* (источник: :doc:`/admin/install`)"
 
 #: security/threat-model.rst:76
-#, fuzzy
-#| msgid "Project backed up"
 msgid "Project backup import/export"
-msgstr "Проект резервно сохранён"
+msgstr "Импорт/экспорт резервных копий проектов"
 
 #: security/threat-model.rst:77
-#, fuzzy
-#| msgid ":ref:`markup`, :wladmin:`import_project`"
 msgid ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
-msgstr ":ref:`markup`, :wladmin:`import_project`"
+msgstr ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
 
 #: security/threat-model.rst:78
 msgid "Uploaded ZIP archives, filesystem restore, repository state"
 msgstr ""
+"Загруженные ZIP-архивы, восстановление файловой системы, состояние "
+"репозитория"
 
 #: security/threat-model.rst:79
 msgid ""
 "In scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/admin/"
 "management`)"
 msgstr ""
+"В области действия. *(документировано)* (источник: :doc:`/admin/backup`, "
+":doc:`/admin/management`)"
 
 #: security/threat-model.rst:81
-#, fuzzy
-#| msgid "Service name"
 msgid "Service backup"
-msgstr "Название службы"
+msgstr "Резервное копирование службы"
 
 #: security/threat-model.rst:82
 msgid "BorgBackup configuration and :wladmin:`backup`"
-msgstr ""
+msgstr "Конфигурация BorgBackup и :wladmin:`backup`"
 
 #: security/threat-model.rst:83
 msgid "Local or remote backup storage over filesystem or SSH"
 msgstr ""
+"Локальное или удалённое хранилище резервных копий через файловую систему или "
+"SSH"
 
 #: security/threat-model.rst:84
 msgid ""
@@ -50611,20 +50551,22 @@ msgid ""
 "out of scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/admin/"
 "management`)"
 msgstr ""
+"В области действия для обработки Weblate настроенных заданий резервного "
+"копирования; сам Borg находится вне области действия. *(документировано)* "
+"(источник: :doc:`/admin/backup`, :doc:`/admin/management`)"
 
 #: security/threat-model.rst:87
-#, fuzzy
-#| msgid "Machine translation engines"
 msgid "Machine translation and outbound integrations"
-msgstr "Механизмы машинного перевода"
+msgstr "Машинный перевод и исходящие интеграции"
 
 #: security/threat-model.rst:88
 msgid "Machine translation, avatars, status reporting, VCS hosts, CDN add-on"
 msgstr ""
+"Машинный перевод, аватары, отчёты о состоянии, хосты СКВ, CDN-надстройка"
 
 #: security/threat-model.rst:89
 msgid "Outbound HTTP(S), provider APIs, logs"
-msgstr ""
+msgstr "Исходящий HTTP(S), API поставщиков, журналы"
 
 #: security/threat-model.rst:90
 msgid ""
@@ -50632,50 +50574,63 @@ msgid ""
 "restrictions. Provider behavior is out of scope. *(documented)* "
 "(source: :doc:`/admin/config`, :doc:`/admin/addons`)"
 msgstr ""
+"В области действия для обеспечения Weblate настроенных ограничений доступа и "
+"сети. Поведение поставщика находится вне области действия. *(документировано)"
+"* (источник: :doc:`/admin/config`, :doc:`/admin/addons`)"
 
 #: security/threat-model.rst:93
 msgid "Built-in add-ons and administrator-configured add-on execution"
 msgstr ""
+"Встроенные надстройки и выполнение надстроек, настроенных администратором"
 
 #: security/threat-model.rst:94
 msgid "Varies by add-on; can mutate repositories or contact services"
 msgstr ""
+"Зависит от надстройки; может изменять репозитории или обращаться к службам"
 
 #: security/threat-model.rst:95
 msgid ""
 "Built-in add-ons are in scope when enabled. Third-party add-ons are out of "
 "scope except for Weblate's permission and installation gates. *(maintainer)*"
 msgstr ""
+"Встроенные надстройки находятся в области действия, когда они включены. "
+"Сторонние надстройки находятся вне области действия, за исключением "
+"разрешений Weblate и шлюзов установки. *(сопровождающий)*"
 
 #: security/threat-model.rst:99
 msgid ":program:`weblate` commands run by an operator"
-msgstr ""
+msgstr "Команды :program:`weblate`, запускаемые оператором"
 
 #: security/threat-model.rst:100
 msgid "Database, filesystem, VCS, backup storage"
-msgstr ""
+msgstr "База данных, файловая система, СКВ, хранилище резервных копий"
 
 #: security/threat-model.rst:101
 msgid ""
 "In scope when processing untrusted Weblate data; the local operator shell is "
 "trusted. *(maintainer)*"
 msgstr ""
+"В области действия при обработке недоверенных данных Weblate; локальная "
+"оболочка оператора является доверенной. *(сопровождающий)*"
 
 #: security/threat-model.rst:103
 msgid "Tests, generated docs, screenshots, development fixtures"
-msgstr ""
+msgstr "Тесты, сгенерированная документация, снимки экрана, фикстуры разработки"
 
 #: security/threat-model.rst:104
 msgid ":file:`docs/_build/`, :file:`docs/screenshots/`, tests, local fixtures"
 msgstr ""
+":file:`docs/_build/`, :file:`docs/screenshots/`, тесты, локальные фикстуры"
 
 #: security/threat-model.rst:105
 msgid "Development-only files and generated artifacts"
-msgstr ""
+msgstr "Файлы только для разработки и сгенерированные артефакты"
 
 #: security/threat-model.rst:106
 msgid "Out of scope for product security claims. *(maintainer)*"
 msgstr ""
+"Вне области действия для заявлений о безопасности продукта. *(сопровождающий)"
+"*"
 
 #: security/threat-model.rst:108
 msgid ""
@@ -50685,6 +50640,12 @@ msgid ""
 "outbound VCS, backup, identity-provider, and machine-translation "
 "integrations. *(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
+"Предполагаемое развёртывание — это серверная установка Weblate за веб-"
+"сервером или обратным прокси, с WSGI-сервером приложений, базой данных "
+"PostgreSQL, хранилищем данных, обработчиками Celery, каталогом данных для "
+"записи и опциональными исходящими интеграциями VCS, резервного копирования, "
+"поставщика удостоверений и машинного перевода. *(документировано)* "
+"(источник: :doc:`/admin/install`)"
 
 #: security/threat-model.rst:113
 msgid ""
@@ -50694,6 +50655,12 @@ msgid ""
 "external services, and local operators. *(documented)* (source: :doc:`/admin/"
 "access`, :doc:`/api`)"
 msgstr ""
+"Соответствующие действующие лица разделены по уровню доверия: "
+"неаутентифицированные клиенты, аутентифицированные пользователи, рецензенты, "
+"управляющие проектами, администраторы, токены API с областью действия "
+"проекта, отправители веб-обработчиков, внешние поставщики СКВ, настроенные "
+"внешние службы и локальные операторы. *(документировано)* (источник: :doc:`/"
+"admin/access`, :doc:`/api`)"
 
 #: security/threat-model.rst:119
 msgid ""
@@ -50701,16 +50668,18 @@ msgid ""
 "used as a sandbox for untrusted code, or exposed without the deployment "
 "controls documented for production use. *(maintainer)*"
 msgstr ""
+"Weblate не предназначен для встраивания как внутрипроцессная библиотека "
+"безопасности, использования как песочница для недоверенного кода или "
+"предоставления доступа без средств контроля развёртывания, "
+"задокументированных для производственного использования. *(сопровождающий)*"
 
 #: security/threat-model.rst:124
-#, fuzzy
-#| msgid "slug of component"
 msgid "Out of scope"
-msgstr "плашка компонента"
+msgstr "Вне области действия"
 
 #: security/threat-model.rst:126
 msgid "The following are explicit non-goals for this model:"
-msgstr ""
+msgstr "Следующее является явными не-целями для этой модели:"
 
 #: security/threat-model.rst:128
 msgid ""
@@ -50719,6 +50688,10 @@ msgid ""
 "boundaries and does not claim to protect itself from an already-compromised "
 "host. *(maintainer)*"
 msgstr ""
+"Скомпрометированная учётная запись операционной системы, среда выполнения "
+"контейнера, сервер базы данных, хранилище данных, обратный прокси или "
+"оболочка администратора. Weblate работает внутри этих границ и не заявляет о "
+"защите от уже скомпрометированного хоста. *(сопровождающий)*"
 
 #: security/threat-model.rst:132
 msgid ""
@@ -50726,6 +50699,9 @@ msgid ""
 "server access. Such an actor can change settings, credentials, data, or "
 "code. *(maintainer)*"
 msgstr ""
+"Злонамеренный администратор сайта Weblate или локальный оператор с "
+"неограниченным доступом к серверу. Такое действующее лицо может изменять "
+"настройки, учётные данные, данные или код. *(сопровождающий)*"
 
 #: security/threat-model.rst:135
 msgid ""
@@ -50735,6 +50711,11 @@ msgid ""
 "issue is in Weblate's use of them. *(documented)* (source: :doc:`/security/"
 "issues`)"
 msgstr ""
+"Уязвимости в сторонних зависимостях как независимых проектах. Общие "
+"уязвимости Django, Django REST framework, Python Social Auth, BorgBackup, "
+"СКВ, базы данных и поставщиков сообщаются вышестоящим проектам, если только "
+"проблема не в том, как Weblate их использует. *(документировано)* (источник: "
+":doc:`/security/issues`)"
 
 #: security/threat-model.rst:139
 msgid ""
@@ -50743,6 +50724,10 @@ msgid ""
 "operations but are not threat-model claims about Weblate runtime behavior. "
 "*(maintainer)*"
 msgstr ""
+"Гигиена сборки и выпуска, включая закрепление действий, подписание "
+"артефактов, свежесть зависимостей и защиту веток репозитория. Это влияет на "
+"операции проекта, но не является утверждениями модели угроз о поведении "
+"Weblate во время выполнения. *(сопровождающий)*"
 
 #: security/threat-model.rst:143
 msgid ""
@@ -50751,6 +50736,10 @@ msgid ""
 "backup storage. Weblate models only its configured interactions with them. "
 "*(maintainer)*"
 msgstr ""
+"Общая безопасность внешних поставщиков СКВ, поставщиков удостоверений, "
+"почтовых серверов, служб машинного перевода, служб аватаров, CDN-хранилищ "
+"или хранилищ резервных копий. Weblate моделирует только свои настроенные "
+"взаимодействия с ними. *(сопровождающий)*"
 
 #: security/threat-model.rst:147
 msgid ""
@@ -50759,6 +50748,10 @@ msgid ""
 "in :doc:`/security/localization-threat`. *(documented)* (source: :doc:`/"
 "security/localization-threat`)"
 msgstr ""
+"Выбор цепочки поставок переводов организациями пользователей вне Weblate. "
+"Риски аутсорсинговых или краудсорсинговых переводчиков описаны отдельно в "
+":doc:`/security/localization-threat`. *(документировано)* (источник: :doc:`/"
+"security/localization-threat`)"
 
 #: security/threat-model.rst:150
 msgid ""
@@ -50766,12 +50759,13 @@ msgid ""
 "generated documentation output, test-only code, and demo or example data. "
 "*(maintainer)*"
 msgstr ""
+"Код сторонних надстроек, код локальной настройки, фикстуры разработки, "
+"сгенерированный вывод документации, код только для тестирования и "
+"демонстрационные или примерные данные. *(сопровождающий)*"
 
 #: security/threat-model.rst:155
-#, fuzzy
-#| msgid "Trust boundaries"
 msgid "Trust boundaries and data flow"
-msgstr "Границы доверия"
+msgstr "Границы доверия и потоки данных"
 
 #: security/threat-model.rst:157
 msgid ""
@@ -50781,34 +50775,37 @@ msgid ""
 "repository state, background tasks, outbound requests, and rendered UI. "
 "*(maintainer)*"
 msgstr ""
+"Основная граница доверия Weblate — это обращённая к сети поверхность "
+"приложения: представления браузера, конечные точки API, конечные точки веб-"
+"обработчиков и конечные точки загрузки принимают данные от менее доверенных "
+"действующих лиц и преобразуют их в строки базы данных, состояние локального "
+"репозитория, фоновые задачи, исходящие запросы и отображаемый "
+"пользовательский интерфейс. *(сопровождающий)*"
 
 #: security/threat-model.rst:166
 msgid "Boundary"
-msgstr ""
+msgstr "Граница"
 
 #: security/threat-model.rst:167
-#, fuzzy
-#| msgid "Target translation"
 msgid "Trust transition"
-msgstr "Целевой перевод"
+msgstr "Переход доверия"
 
 #: security/threat-model.rst:168
-#, fuzzy
-#| msgid "Incident response plan for Weblate"
 msgid "Client browser/API client to Weblate"
-msgstr "План реагирования на инциденты для Weblate"
+msgstr "Браузер клиента / API-клиент к Weblate"
 
 #: security/threat-model.rst:169
 msgid ""
 "Untrusted or authenticated requests become permission-checked application "
 "actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
+"Недоверенные или аутентифицированные запросы становятся действиями "
+"приложения, проверенными на разрешения. *(документировано)* (источник: "
+":doc:`/api`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:171
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender to Weblate"
-msgstr "Секретный токен веб-обработчика"
+msgstr "Отправитель веб-обработчика к Weblate"
 
 #: security/threat-model.rst:172
 msgid ""
@@ -50816,36 +50813,38 @@ msgid ""
 "hooks are enabled. *(documented)* (source: :ref:`hooks`, :ref:`project-"
 "enable_hooks`)"
 msgstr ""
+"Публичные уведомления фабрики могут планировать синхронизацию репозитория, "
+"где включены обработчики. *(документировано)* (источник: :ref:`hooks`, "
+":ref:`project-enable_hooks`)"
 
 #: security/threat-model.rst:175
-#, fuzzy
-#| msgid "**Database/Datastore**"
 msgid "Weblate to database/datastore"
-msgstr "**База данных / хранилище данных**"
+msgstr "Weblate к базе данных / хранилищу данных"
 
 #: security/threat-model.rst:176
 msgid ""
 "Permission-checked application state becomes persistent data and queued "
 "work. *(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
+"Состояние приложения, проверенное на разрешения, становится постоянными "
+"данными и поставленной в очередь работой. *(документировано)* (источник: "
+":doc:`/admin/install`)"
 
 #: security/threat-model.rst:178
-#, fuzzy
-#| msgid "Managing the local VCS repository"
 msgid "Weblate to local VCS repositories"
-msgstr "Управление локальным хранилищем системы контроля версий (VCS)"
+msgstr "Weblate к локальным репозиториям СКВ"
 
 #: security/threat-model.rst:179
 msgid ""
 "Project configuration and repository content drive filesystem and VCS "
 "operations. *(documented)* (source: :doc:`/admin/continuous`)"
 msgstr ""
+"Конфигурация проекта и содержимое репозитория управляют операциями файловой "
+"системы и СКВ. *(документировано)* (источник: :doc:`/admin/continuous`)"
 
 #: security/threat-model.rst:181
-#, fuzzy
-#| msgid "Weblate 0.x series"
 msgid "Weblate to external services"
-msgstr "Серия Weblate 0.x"
+msgstr "Weblate к внешним службам"
 
 #: security/threat-model.rst:182
 msgid ""
@@ -50853,22 +50852,25 @@ msgid ""
 "connections. *(documented)* (source: :doc:`/admin/code-hosting`, :doc:`/"
 "admin/config`)"
 msgstr ""
+"Настроенные URL-адреса, учётные данные и параметры поставщика управляют "
+"исходящими сетевыми соединениями. *(документировано)* (источник: :doc:`/"
+"admin/code-hosting`, :doc:`/admin/config`)"
 
 #: security/threat-model.rst:185
 msgid "Backup archive to Weblate filesystem"
-msgstr ""
+msgstr "Архив резервной копии в файловую систему Weblate"
 
 #: security/threat-model.rst:186
 msgid ""
 "Uploaded ZIP members and metadata become restored project state. "
 "*(documented)* (source: :doc:`/admin/backup`)"
 msgstr ""
+"Загруженные ZIP-элементы и метаданные становятся восстановленным состоянием "
+"проекта. *(документировано)* (источник: :doc:`/admin/backup`)"
 
 #: security/threat-model.rst:189
-#, fuzzy
-#| msgid "Propagation preconditions:"
 msgid "Reachability preconditions:"
-msgstr "Предпосылки распространения:"
+msgstr "Предварительные условия достижимости:"
 
 #: security/threat-model.rst:191
 msgid ""
@@ -50876,6 +50878,10 @@ msgid ""
 "unauthenticated client, authenticated user, or project-scoped token through "
 "documented routes, forms, or API endpoints. *(maintainer)*"
 msgstr ""
+"Находка в веб-интерфейсе или API попадает в модель, только если она "
+"достижима неаутентифицированным клиентом, аутентифицированным пользователем "
+"или токеном с областью действия проекта через документированные маршруты, "
+"формы или конечные точки API. *(сопровождающий)*"
 
 #: security/threat-model.rst:194
 msgid ""
@@ -50883,6 +50889,10 @@ msgid ""
 "permission, team, project, component, language, glossary, token, or site-"
 "wide boundary. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Находка, связанная с авторизацией, попадает в модель, только если она "
+"пересекает документированную границу разрешения, команды, проекта, "
+"компонента, языка, словаря, токена или общесайтовую границу. *"
+"(документировано)* (источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:197
 msgid ""
@@ -50891,6 +50901,11 @@ msgid ""
 "information returned to the caller. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
+"Находка, связанная с веб-обработчиком, попадает в модель, только если запрос "
+"может достичь включённой конечной точки обработчика и повлиять на "
+"планирование обновлений репозитория, объём задач или информацию, "
+"возвращаемую вызывающей стороне. *(документировано)* (источник: "
+":ref:`hooks`, :ref:`project-enable_hooks`)"
 
 #: security/threat-model.rst:201
 msgid ""
@@ -50898,6 +50913,10 @@ msgid ""
 "repository data, branch names, URLs, file names, commit metadata, or project "
 "configuration can influence Weblate's VCS operations. *(maintainer)*"
 msgstr ""
+"Находка, связанная с СКВ, попадает в модель, только если контролируемые "
+"злоумышленником или менее доверенные данные репозитория, имена веток, URL-"
+"адреса, имена файлов, метаданные коммитов или конфигурация проекта могут "
+"повлиять на операции СКВ Weblate. *(сопровождающий)*"
 
 #: security/threat-model.rst:204
 msgid ""
@@ -50906,6 +50925,10 @@ msgid ""
 "to :wladmin:`import_projectbackup`. *(documented)* "
 "(source: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
 msgstr ""
+"Находка, связанная с импортом резервной копии, попадает в модель, только "
+"если она достижима из резервной копии проекта, загруженной через Weblate или "
+"предоставленной в :wladmin:`import_projectbackup`. *(документировано)* "
+"(источник: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
 
 #: security/threat-model.rst:207
 msgid ""
@@ -50913,6 +50936,10 @@ msgid ""
 "an in-scope Weblate surface or scheduled Weblate maintenance path. "
 "*(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
+"Находка, связанная с фоновой задачей, попадает в модель, только если задача "
+"может быть поставлена в очередь из поверхности Weblate, находящейся в "
+"области действия, или из запланированного пути обслуживания Weblate. *"
+"(документировано)* (источник: :doc:`/admin/install`)"
 
 #: security/threat-model.rst:210
 msgid ""
@@ -50920,12 +50947,14 @@ msgid ""
 "processed by the command; arbitrary local shell access is not an attacker "
 "capability. *(maintainer)*"
 msgstr ""
+"Находка, связанная с командой управления, попадает в модель, только если "
+"команда обрабатывает недоверенные данные Weblate; произвольный доступ к "
+"локальной оболочке не является возможностью злоумышленника. *(сопровождающий)"
+"*"
 
 #: security/threat-model.rst:215
-#, fuzzy
-#| msgid "Environment variables"
 msgid "Environment assumptions"
-msgstr "Переменные окружения"
+msgstr "Предположения об окружении"
 
 #: security/threat-model.rst:217
 msgid ""
@@ -50934,6 +50963,10 @@ msgid ""
 "workers for features that require background processing. *(documented)* "
 "(source: :doc:`/admin/install`)"
 msgstr ""
+"Weblate предполагает поддерживаемую среду выполнения Python и Django, "
+"правильно настроенную базу данных, хранилище данных, каталог данных для "
+"записи и запущенные обработчики для функций, требующих фоновой обработки. *"
+"(документировано)* (источник: :doc:`/admin/install`)"
 
 #: security/threat-model.rst:221
 msgid ""
@@ -50942,12 +50975,19 @@ msgid ""
 "proxy-header settings. *(documented)* (source: :doc:`/admin/"
 "install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 msgstr ""
+"Ожидается, что производственные развёртывания будут настраивать внешний веб-"
+"сервер или обратный прокси в соответствии с настройками Weblate для HTTPS, "
+"заголовка хоста, размера тела и заголовков прокси. *(документировано)* "
+"(источник: :doc:`/admin/install`, :setting:`ENABLE_HTTPS`, "
+":setting:`ALLOWED_HOSTS`)"
 
 #: security/threat-model.rst:226
 msgid ""
 "The database, datastore, and internal service ports are assumed not to be "
 "directly exposed to untrusted networks. *(maintainer)*"
 msgstr ""
+"Предполагается, что база данных, хранилище данных и внутренние порты служб "
+"напрямую не доступны недоверенным сетям. *(сопровождающий)*"
 
 #: security/threat-model.rst:229
 msgid ""
@@ -50956,6 +50996,11 @@ msgid ""
 "generated SSH wrappers, backups, and secret material. *(documented)* "
 "(source: :doc:`/admin/backup`, :doc:`/admin/install`)"
 msgstr ""
+"Предполагается, что права доступа к файловой системе предотвращают изменение "
+"не связанными с Weblate локальными пользователями каталога данных Weblate, "
+"конфигурации, репозиториев VCS, сгенерированных SSH-обёрток, резервных копий "
+"и секретных материалов. *(документировано)* (источник: :doc:`/admin/backup`, "
+":doc:`/admin/install`)"
 
 #: security/threat-model.rst:234
 msgid ""
@@ -50963,6 +51008,9 @@ msgid ""
 "malicious or compromised worker is equivalent to a compromised application "
 "process. *(maintainer)*"
 msgstr ""
+"Обработчики Celery являются доверенными компонентами того же экземпляра "
+"Weblate. Злонамеренный или скомпрометированный обработчик эквивалентен "
+"скомпрометированному процессу приложения. *(сопровождающий)*"
 
 #: security/threat-model.rst:238
 msgid ""
@@ -50971,12 +51019,14 @@ msgid ""
 "project or integration. *(documented)* (source: :doc:`/admin/code-"
 "hosting`, :setting:`SSH_EXTRA_ARGS`)"
 msgstr ""
+"Предполагается, что выполнение команд VCS, SSH и HTTPS-клиенты выполняются "
+"от имени пользователя службы Weblate с учётными данными, настроенными для "
+"соответствующего проекта или интеграции. *(документировано)* (источник: "
+":doc:`/admin/code-hosting`, :setting:`SSH_EXTRA_ARGS`)"
 
 #: security/threat-model.rst:243
-#, fuzzy
-#| msgid "Grant Weblate access to the repository."
 msgid "What Weblate does to its host:"
-msgstr "Предоставьте Weblate доступ к репозиторию."
+msgstr "Что Weblate делает со своим хостом:"
 
 #: security/threat-model.rst:245
 msgid ""
@@ -50985,6 +51035,11 @@ msgid ""
 "*(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-"
 "hosting`, :doc:`/admin/backup`)"
 msgstr ""
+"Он открывает исходящие сетевые соединения для настроенных функций СКВ, "
+"поставщика удостоверений, аватаров, машинного перевода, резервного "
+"копирования, отчётности о состоянии и надстроек. *(документировано)* "
+"(источник: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/"
+"backup`)"
 
 #: security/threat-model.rst:249
 msgid ""
@@ -50992,6 +51047,9 @@ msgid ""
 "backup workflows. *(documented)* (source: :doc:`/admin/continuous`, :doc:`/"
 "admin/backup`)"
 msgstr ""
+"Он выполняет вспомогательные команды СКВ и резервного копирования как часть "
+"рабочих процессов репозитория и резервного копирования. *(документировано)* "
+"(источник: :doc:`/admin/continuous`, :doc:`/admin/backup`)"
 
 #: security/threat-model.rst:252
 msgid ""
@@ -50999,12 +51057,17 @@ msgid ""
 "backup dumps, logs, and cache locations. *(documented)* (source: :doc:`/"
 "admin/config`, :doc:`/admin/backup`)"
 msgstr ""
+"Он выполняет запись в настроенный каталог данных, хранилище репозиториев, "
+"media/fonts, дампы резервных копий, журналы и расположения кэша. *"
+"(документировано)* (источник: :doc:`/admin/config`, :doc:`/admin/backup`)"
 
 #: security/threat-model.rst:255
 msgid ""
 "It sends e-mail and notifications when configured to do so. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
+"Он отправляет электронные письма и уведомления, когда это настроено. *"
+"(документировано)* (источник: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:256
 msgid ""
@@ -51012,74 +51075,74 @@ msgid ""
 "cache writes, subprocess execution, or outbound network access. "
 "*(maintainer)*"
 msgstr ""
+"Он не заявляет об отсутствии общепроцессных побочных эффектов, таких как "
+"журналирование, запись в кэш, выполнение подпроцессов или исходящий сетевой "
+"доступ. *(сопровождающий)*"
 
 #: security/threat-model.rst:260
-#, fuzzy
-#| msgid "Custom configuration files"
 msgid "Build-time and configuration variants"
-msgstr "Пользовательские файлы конфигурации"
+msgstr "Варианты сборки и конфигурации"
 
 #: security/threat-model.rst:265
 msgid "Knob"
-msgstr ""
+msgstr "Ручка настройки"
 
 #: security/threat-model.rst:266
-#, fuzzy
-#| msgid "*Default component list*"
 msgid "Default or documented posture"
-msgstr "*Список компонентов по умолчанию*"
+msgstr "Позиция по умолчанию или документированная"
 
 #: security/threat-model.rst:267
-#, fuzzy
-#| msgid "Weblate threat model"
 msgid "Effect on the model"
-msgstr "Модель угроз Weblate"
+msgstr "Влияние на модель"
 
 #: security/threat-model.rst:268
-#, fuzzy
-#| msgid "Container settings"
 msgid "Maintainer stance"
-msgstr "Параметры контейнера"
+msgstr "Позиция сопровождающего"
 
 #: security/threat-model.rst:269
 msgid ":setting:`ENABLE_HOOKS` and :ref:`project-enable_hooks`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS` и :ref:`project-enable_hooks`"
 
 #: security/threat-model.rst:270
 msgid ""
 "Anonymous remote hooks are configurable and must also be enabled for a "
 "project. *(documented)*"
 msgstr ""
+"Анонимные удалённые обработчики настраиваются и также должны быть включены "
+"для проекта. *(документировано)*"
 
 #: security/threat-model.rst:272
-#, fuzzy
-#| msgid ""
-#| "Treat webhook endpoints as deployment-hardened interfaces and enable them "
-#| "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgid ""
 "Exposes webhook endpoints as a public scheduling interface. Abuse resistance "
 "depends on deployment controls. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"Обрабатывайте конечные точки веб-обработчиков как интерфейсы, укреплённые на "
-"уровне развёртывания, и включайте их только там, где необходимо, "
-"см. :ref:`hooks` и :ref:`project-enable_hooks`."
+"Предоставляет конечные точки веб-обработчиков как общедоступный интерфейс "
+"планирования. Устойчивость к злоупотреблениям зависит от средств контроля "
+"развёртывания. *(документировано)* (источник: :ref:`hooks`, :ref:`project-"
+"enable_hooks`)"
 
 #: security/threat-model.rst:274
 msgid ""
 "Production deployments exposing hooks use reverse-proxy rate limits, body-"
 "size limits, monitoring, and minimal public exposure. *(maintainer)*"
 msgstr ""
+"Производственные развёртывания, предоставляющие обработчики, используют "
+"ограничения скорости обратного прокси, ограничения размера тела, мониторинг "
+"и минимальное публичное раскрытие. *(сопровождающий)*"
 
 #: security/threat-model.rst:276
 msgid ":setting:`ENABLE_HTTPS`, proxy SSL headers, and HSTS settings"
-msgstr ""
+msgstr ":setting:`ENABLE_HTTPS`, заголовки SSL прокси и настройки HSTS"
 
 #: security/threat-model.rst:277
 msgid ""
 "HTTPS affects secure cookies, redirects, HSTS, WebAuthn, and generated URLs. "
 "*(documented)* (source: :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"HTTPS влияет на безопасные куки, перенаправления, HSTS, WebAuthn и "
+"сгенерированные URL-адреса. *(документировано)* (источник: "
+":setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:279
 msgid ""
@@ -51087,117 +51150,144 @@ msgid ""
 "that Weblate relies on for browser security. *(documented)* "
 "(source: :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Отключение или неправильная настройка HTTPS удаляет транспортные и куки-"
+"защиты, на которые полагается Weblate для безопасности браузера. *"
+"(документировано)* (источник: :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:281
 msgid ""
 "The documented production posture is HTTPS with correct proxy headers. "
 "*(documented)*"
 msgstr ""
+"Документированная производственная позиция — это HTTPS с правильными "
+"заголовками прокси. *(документировано)*"
 
 #: security/threat-model.rst:284
-#, fuzzy
-#| msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgid ""
 "Configures accepted HTTP hostnames. *(documented)* "
 "(source: :setting:`ALLOWED_HOSTS`)"
 msgstr ""
-"Настраивает разрешённые имена HTTP-хостов с помощью "
-"параметра :setting:`ALLOWED_HOSTS`."
+"Настраивает разрешённые имена хостов HTTP. *(документировано)* (источник: "
+":setting:`ALLOWED_HOSTS`)"
 
 #: security/threat-model.rst:285
 msgid ""
 "Broad host acceptance can weaken host-header based protections and URL "
 "generation assumptions. *(maintainer)*"
 msgstr ""
+"Широкое принятие хостов может ослабить защиты, основанные на заголовке "
+"хоста, и предположения о генерации URL-адресов. *(сопровождающий)*"
 
 #: security/threat-model.rst:287
 msgid ""
 "Production deployments restrict this to instance hostnames. *(maintainer)*"
 msgstr ""
+"Производственные развёртывания ограничивают это именами хостов экземпляра. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:288
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:`django:EMAIL_USE_TLS`"
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
 "and :setting:`RATELIMIT_ATTEMPTS`"
-msgstr ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:`django:EMAIL_USE_TLS`"
+msgstr ""
+":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER` и "
+":setting:`RATELIMIT_ATTEMPTS`"
 
 #: security/threat-model.rst:290
 msgid ""
 "Rate limits are configurable. *(documented)* (source: :doc:`/api`, :doc:`/"
 "admin/config`)"
 msgstr ""
+"Ограничения скорости настраиваются. *(документировано)* (источник: :doc:`/"
+"api`, :doc:`/admin/config`)"
 
 #: security/threat-model.rst:292
 msgid ""
 "Availability claims assume rate limits appropriate to deployment size and "
 "exposure. *(maintainer)*"
 msgstr ""
+"Утверждения о доступности предполагают ограничения скорости, соответствующие "
+"размеру и степени открытости развёртывания. *(сопровождающий)*"
 
 #: security/threat-model.rst:294
 msgid ""
 "Disabling rate limits changes DoS triage from Weblate bug to deployment "
 "posture unless a single request violates a claimed property. *(maintainer)*"
 msgstr ""
+"Отключение ограничений скорости изменяет сортировку DoS с ошибки Weblate на "
+"позицию развёртывания, если только один запрос не нарушает заявленное "
+"свойство. *(сопровождающий)*"
 
 #: security/threat-model.rst:297
-#, fuzzy
-#| msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
 msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
-msgstr ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
+msgstr ""
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, "
+":setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
 
 #: security/threat-model.rst:300
 msgid ""
 "Content Security Policy sources are configurable. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
+"Источники политики безопасности содержимого настраиваются. *(документировано)"
+"* (источник: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:301
 msgid ""
 "Broadening sources can reduce browser-side containment for XSS or third-"
 "party content. *(maintainer)*"
 msgstr ""
+"Расширение источников может снизить изоляцию на стороне браузера для XSS или "
+"стороннего содержимого. *(сопровождающий)*"
 
 #: security/threat-model.rst:303
 msgid ""
 "Deployments adding third-party sources accept that expanded browser trust. "
 "*(maintainer)*"
 msgstr ""
+"Развёртывания, добавляющие сторонние источники, принимают это расширенное "
+"доверие браузера. *(сопровождающий)*"
 
 #: security/threat-model.rst:305
-#, fuzzy
-#| msgid ""
-#| "Import validation of uploaded project backups can be tuned "
-#| "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-#| "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgid ":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
 msgstr ""
-"Проверку импорта загруженных резервных копий проектов можно настроить с "
-"помощью :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` "
-"и :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
 
 #: security/threat-model.rst:311
 msgid ""
 "Defaults bound project backup upload and import size, member count, and "
 "suspicious compression ratios. *(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
+"Значения по умолчанию ограничивают размер загрузки и импорта резервных копий "
+"проекта, количество элементов и подозрительные коэффициенты сжатия. *"
+"(документировано)* (источник: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:313
 msgid ""
 "Raising or disabling these limits expands restore-time resource exposure. "
 "*(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
+"Повышение или отключение этих ограничений расширяет воздействие на ресурсы "
+"во время восстановления. *(документировано)* (источник: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:315
 msgid ""
 "The defaults documented above are part of backup-import resource guarantees. "
 "*(documented)*"
 msgstr ""
+"Значения по умолчанию, задокументированные выше, являются частью гарантий "
+"ресурсов при импорте резервных копий. *(документировано)*"
 
 #: security/threat-model.rst:317
 msgid "Private-target restrictions and allowlists for outbound URLs"
 msgstr ""
+"Ограничения частных целей и списки разрешённых для исходящих URL-адресов"
 
 #: security/threat-model.rst:318
 msgid ""
@@ -51206,6 +51296,11 @@ msgid ""
 "*(documented)* "
 "(source: :setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 msgstr ""
+"Настраиваемые пользователем поверхности исходящих URL-адресов, "
+"задокументированные с параметрами ограничения частных целей, по умолчанию "
+"отклоняют внутренние или непубличные цели. *(документировано)* (источник: "
+":setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
+":setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 
 #: security/threat-model.rst:323
 msgid ""
@@ -51213,88 +51308,101 @@ msgid ""
 "reachability. *(documented)* "
 "(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 msgstr ""
+"Настройки списка разрешённых и привилегированная конфигурация могут "
+"намеренно расширять достижимость. *(документировано)* (источник: "
+":setting:`ASSET_PRIVATE_ALLOWLIST`, "
+":setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 
 #: security/threat-model.rst:327
 msgid ""
 "Default private-target rejection is an application-level security property "
 "for the documented user-configurable URL surfaces. *(maintainer)*"
 msgstr ""
+"Отклонение частных целей по умолчанию является свойством безопасности на "
+"уровне приложения для документированных настраиваемых пользователем "
+"поверхностей URL-адресов. *(сопровождающий)*"
 
 #: security/threat-model.rst:331
-#, fuzzy
-#| msgid ""
-#| "Added support for customizing SSH invocation "
-#| "via :setting:`SSH_EXTRA_ARGS`."
 msgid ""
 "Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)"
 msgstr ""
-"Добавлена поддержка настройки вызова SSH с помощью :setting:`SSH_EXTRA_ARGS`."
+"Разрешает пользовательские параметры SSH. *(документировано)* (источник: "
+":setting:`SSH_EXTRA_ARGS`)"
 
 #: security/threat-model.rst:332
 msgid ""
 "Weakening SSH algorithms or host verification changes VCS transport "
 "assumptions. *(maintainer)*"
 msgstr ""
+"Ослабление алгоритмов SSH или проверки хоста изменяет предположения о "
+"транспорте СКВ. *(сопровождающий)*"
 
 #: security/threat-model.rst:334
 msgid "Operators own the security impact of custom SSH options. *(maintainer)*"
 msgstr ""
+"Операторы несут ответственность за влияние на безопасность пользовательских "
+"параметров SSH. *(сопровождающий)*"
 
 #: security/threat-model.rst:335
 msgid "Third-party add-ons and local customization"
-msgstr ""
+msgstr "Сторонние надстройки и локальная настройка"
 
 #: security/threat-model.rst:336
 msgid ""
 "Administrators can extend behavior. *(documented)* (source: :doc:`/admin/"
 "addons`)"
 msgstr ""
+"Администраторы могут расширять поведение. *(документировано)* (источник: "
+":doc:`/admin/addons`)"
 
 #: security/threat-model.rst:337
 msgid ""
 "Custom code can add new trust boundaries and security properties outside "
 "this model. *(maintainer)*"
 msgstr ""
+"Пользовательский код может добавлять новые границы доверия и свойства "
+"безопасности за пределами этой модели. *(сопровождающий)*"
 
 #: security/threat-model.rst:339
 msgid "Third-party code is modeled separately. *(maintainer)*"
-msgstr ""
+msgstr "Сторонний код моделируется отдельно. *(сопровождающий)*"
 
 #: security/threat-model.rst:342
-#, fuzzy
-#| msgid "Key Assumptions"
 msgid "Input assumptions"
-msgstr "Ключевые предположения"
+msgstr "Входные предположения"
 
 #: security/threat-model.rst:347
 msgid "Surface"
-msgstr ""
+msgstr "Поверхность"
 
 #: security/threat-model.rst:348
 msgid "Input"
-msgstr ""
+msgstr "Входные данные"
 
 #: security/threat-model.rst:349
 msgid "Attacker-controllable?"
-msgstr ""
+msgstr "Контролируемо злоумышленником?"
 
 #: security/threat-model.rst:350
 msgid "Caller or operator must enforce"
-msgstr ""
+msgstr "Вызывающая сторона или оператор должны обеспечивать"
 
 #: security/threat-model.rst:351
 msgid "Browser forms and REST API"
-msgstr ""
+msgstr "Формы браузера и REST API"
 
 #: security/threat-model.rst:352
 msgid "Request bodies, query strings, uploaded files, headers, cookies"
-msgstr ""
+msgstr "Тела запросов, строки запроса, загруженные файлы, заголовки, куки"
 
 #: security/threat-model.rst:353
 msgid ""
 "Yes, within the actor's authentication state. *(documented)* (source: :doc:`/"
 "api`)"
 msgstr ""
+"Да, в пределах состояния аутентификации действующего лица. *(документировано)"
+"* (источник: :doc:`/api`)"
 
 #: security/threat-model.rst:354
 msgid ""
@@ -51302,208 +51410,227 @@ msgid ""
 "assignment. *(documented)* (source: :doc:`/admin/install`, :doc:`/admin/"
 "access`)"
 msgstr ""
+"HTTPS, правильная конфигурация хоста/прокси, ограничения скорости и "
+"назначение разрешений. *(документировано)* (источник: :doc:`/admin/install`, "
+":doc:`/admin/access`)"
 
 #: security/threat-model.rst:357
-#, fuzzy
-#| msgid "Authentication backends"
 msgid "Authentication endpoints"
-msgstr "Способы авторизации"
+msgstr "Конечные точки аутентификации"
 
 #: security/threat-model.rst:358
 msgid "Passwords, WebAuthn data, SSO callbacks, reset tokens"
-msgstr ""
+msgstr "Пароли, данные WebAuthn, обратные вызовы SSO, токены сброса"
 
 #: security/threat-model.rst:359
 msgid "Yes. *(documented)* (source: :doc:`/admin/auth`)"
-msgstr ""
+msgstr "Да. *(документировано)* (источник: :doc:`/admin/auth`)"
 
 #: security/threat-model.rst:360
 msgid ""
 "Correct identity-provider configuration and HTTPS. *(documented)* "
 "(source: :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Правильная конфигурация поставщика удостоверений и HTTPS. *(документировано)"
+"* (источник: :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:361
-#, fuzzy
-#| msgid "Per-project access tokens"
 msgid "Project-scoped tokens"
-msgstr "Токены доступа для каждого проекта"
+msgstr "Токены с областью действия проекта"
 
 #: security/threat-model.rst:362
-#, fuzzy
-#| msgid "Authentication tokens"
 msgid "API requests authenticated by token"
-msgstr "Токены авторизации"
+msgstr "Запросы API, аутентифицированные по токену"
 
 #: security/threat-model.rst:363
 msgid "Yes, by whoever holds the token. *(documented)* (source: :doc:`/api`)"
 msgstr ""
+"Да, тем, кто владеет токеном. *(документировано)* (источник: :doc:`/api`)"
 
 #: security/threat-model.rst:364
 msgid ""
 "Token storage, rotation, and least-privilege team membership. *(maintainer)*"
 msgstr ""
+"Хранение токена, его смена и членство в команде с наименьшими привилегиями. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:366
-#, fuzzy
-#| msgid "Translation context"
 msgid "Translation content"
-msgstr "Контекст перевода"
+msgstr "Содержимое перевода"
 
 #: security/threat-model.rst:367
-#, fuzzy
-#| msgid ""
-#| "Support for starting translation components without existing translations."
 msgid "Source strings, translations, comments, suggestions, glossary entries"
-msgstr ""
-"Добавлена поддержка создания компонентов перевода без существующих переводов."
+msgstr "Исходные строки, переводы, комментарии, предложения, записи словаря"
 
 #: security/threat-model.rst:368
 msgid ""
 "Yes, from users with relevant permissions or imported repositories. "
 "*(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)"
 msgstr ""
+"Да, от пользователей с соответствующими разрешениями или импортированных "
+"репозиториев. *(документировано)* (источник: :doc:`/user/translating`, "
+":doc:`/admin/access`)"
 
 #: security/threat-model.rst:370
 msgid ""
 "Review workflows for project-specific content integrity. *(documented)* "
 "(source: :doc:`/workflows`)"
 msgstr ""
+"Рабочие процессы рецензирования для обеспечения целостности содержимого, "
+"специфичного для проекта. *(документировано)* (источник: :doc:`/workflows`)"
 
 #: security/threat-model.rst:371
-#, fuzzy
-#| msgid "**Webhook handling**"
 msgid "Webhook endpoints"
-msgstr "**Обработка веб-обработчика**"
+msgstr "Конечные точки веб-обработчиков"
 
 #: security/threat-model.rst:372
 msgid "Headers, event type, body, repository and branch metadata"
-msgstr ""
+msgstr "Заголовки, тип события, тело, метаданные репозитория и ветки"
 
 #: security/threat-model.rst:373
 msgid "Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)"
 msgstr ""
+"Да, где конечная точка достижима. *(документировано)* (источник: "
+":ref:`hooks`)"
 
 #: security/threat-model.rst:374
 msgid ""
 "Hook enablement only where needed, request limits, and monitoring. "
 "*(maintainer)*"
 msgstr ""
+"Включение обработчиков только там, где это необходимо, ограничения запросов "
+"и мониторинг. *(сопровождающий)*"
 
 #: security/threat-model.rst:376
-#, fuzzy
-#| msgid "Repository integration"
 msgid "Repository configuration"
-msgstr "Интеграция репозиториев"
+msgstr "Конфигурация репозитория"
 
 #: security/threat-model.rst:377
 msgid "Repository URLs, branches, push URLs, credentials, add-on settings"
 msgstr ""
+"URL-адреса репозиториев, ветки, URL-адреса отправки, учётные данные, "
+"настройки надстроек"
 
 #: security/threat-model.rst:378
 msgid ""
 "Trusted to users with corresponding management permissions. *(documented)* "
 "(source: :doc:`/admin/access`, :doc:`/admin/continuous`)"
 msgstr ""
+"Доверено пользователям с соответствующими разрешениями управления. *"
+"(документировано)* (источник: :doc:`/admin/access`, :doc:`/admin/continuous`)"
 
 #: security/threat-model.rst:380
 msgid ""
 "Assign VCS and project management permissions only to trusted users. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Назначайте разрешения СКВ и управления проектом только доверенным "
+"пользователям. *(документировано)* (источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:382
-#, fuzzy
-#| msgid "Exported repository URL"
 msgid "External repository content"
-msgstr "URL экспортированного репозитория"
+msgstr "Содержимое внешнего репозитория"
 
 #: security/threat-model.rst:383
 msgid "Translation files, paths, branch names, commit metadata"
-msgstr ""
+msgstr "Файлы переводов, пути, имена веток, метаданные коммитов"
 
 #: security/threat-model.rst:384
 msgid ""
 "Yes, if the upstream repository is controlled by another actor. "
 "*(maintainer)*"
 msgstr ""
+"Да, если вышестоящим репозиторием управляет другое действующее лицо. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:386
 msgid ""
 "Trust the configured upstream repository or review imported changes. "
 "*(maintainer)*"
 msgstr ""
+"Доверяйте настроенному вышестоящему репозиторию или рецензируйте "
+"импортированные изменения. *(сопровождающий)*"
 
 #: security/threat-model.rst:388
-#, fuzzy
-#| msgid "Project backed up"
 msgid "Project backup import"
-msgstr "Проект резервно сохранён"
+msgstr "Импорт резервной копии проекта"
 
 #: security/threat-model.rst:389
 msgid "ZIP archive members, metadata, translation files, repository state"
-msgstr ""
+msgstr "ZIP-элементы архива, метаданные, файлы переводов, состояние репозитория"
 
 #: security/threat-model.rst:390
 msgid ""
 "Yes, for whoever can upload or provide the backup. *(documented)* "
 "(source: :ref:`projectbackup`)"
 msgstr ""
+"Да, для того, кто может загрузить или предоставить резервную копию. *"
+"(документировано)* (источник: :ref:`projectbackup`)"
 
 #: security/threat-model.rst:391
 msgid ""
 "Keep import limits at values appropriate for the instance. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
+"Сохраняйте ограничения импорта на значениях, соответствующих экземпляру. *"
+"(документировано)* (источник: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:392
-#, fuzzy
-#| msgid "Machine translation services are now configurable per project."
 msgid "Machine translation and external service configuration"
-msgstr ""
-"Услуги машинного перевода теперь можно настраивать для каждого проекта."
+msgstr "Конфигурация машинного перевода и внешних служб"
 
 #: security/threat-model.rst:393
 msgid "Provider URLs, credentials, model or service settings"
-msgstr ""
+msgstr "URL-адреса поставщика, учётные данные, настройки модели или службы"
 
 #: security/threat-model.rst:394
 msgid ""
 "Trusted to administrators or users granted configuration permissions. "
 "*(documented)* (source: :doc:`/admin/machine`, :doc:`/admin/access`)"
 msgstr ""
+"Доверено администраторам или пользователям, которым предоставлены разрешения "
+"на конфигурацию. *(документировано)* (источник: :doc:`/admin/machine`, "
+":doc:`/admin/access`)"
 
 #: security/threat-model.rst:396
 msgid ""
 "Treat configured providers as recipients of the data sent to them; the "
 "submitted content varies by provider and enabled feature. *(maintainer)*"
 msgstr ""
+"Относитесь к настроенным поставщикам как к получателям отправляемых им "
+"данных; отправляемое содержимое зависит от поставщика и включённой функции. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:399
 msgid "Command-line arguments and files supplied by the local operator"
 msgstr ""
+"Аргументы командной строки и файлы, предоставленные локальным оператором"
 
 #: security/threat-model.rst:400
 msgid ""
 "Trusted local input unless processing Weblate data or project backups. "
 "*(maintainer)*"
 msgstr ""
+"Доверенный локальный ввод, если только не обрабатываются данные Weblate или "
+"резервные копии проектов. *(сопровождающий)*"
 
 #: security/threat-model.rst:402
 msgid "Restrict shell access to trusted operators. *(maintainer)*"
 msgstr ""
+"Ограничьте доступ к оболочке доверенными операторами. *(сопровождающий)*"
 
 #: security/threat-model.rst:404
-#, fuzzy
-#| msgid "Site wide options"
 msgid "Size and rate assumptions:"
-msgstr "Параметры для всего сайта"
+msgstr "Предположения о размере и частоте:"
 
 #: security/threat-model.rst:406
 msgid ""
 "Weblate relies on application and reverse-proxy upload limits for large HTTP "
 "requests. *(documented)* (source: :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)"
 msgstr ""
+"Weblate полагается на ограничения загрузки приложения и обратного прокси для "
+"больших HTTP-запросов. *(документировано)* (источник: "
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)"
 
 #: security/threat-model.rst:408
 msgid ""
@@ -51511,12 +51638,19 @@ msgid ""
 "size, compressed entry size, minimum ratio size, and compression ratio "
 "settings. *(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
+"Импорт резервных копий проектов ограничен количеством элементов, общим "
+"несжатым размером, размером сжатого элемента, минимальным размером отношения "
+"и настройками коэффициента сжатия. *(документировано)* (источник: :doc:`/"
+"admin/config`)"
 
 #: security/threat-model.rst:411
 msgid ""
 "API and selected web actions are expected to be protected by configured rate "
 "limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
 msgstr ""
+"Ожидается, что API и выбранные веб-действия будут защищены настроенными "
+"ограничениями скорости. *(документировано)* (источник: :doc:`/api`, :doc:`/"
+"admin/config`)"
 
 #: security/threat-model.rst:413
 msgid ""
@@ -51524,179 +51658,193 @@ msgid ""
 "capacity are deployment-sizing concerns unless a single in-scope input "
 "bypasses documented limits or permissions. *(maintainer)*"
 msgstr ""
+"Размер репозитория, количество проектов, количество компонентов и ёмкость "
+"обработчиков являются проблемами определения размера развёртывания, если "
+"только один входной параметр, находящийся в области действия, не обходит "
+"задокументированные ограничения или разрешения. *(сопровождающий)*"
 
 #: security/threat-model.rst:418
 msgid "Adversary model"
-msgstr ""
+msgstr "Модель противника"
 
 #: security/threat-model.rst:423
 msgid "Actor"
-msgstr ""
+msgstr "Действующее лицо"
 
 #: security/threat-model.rst:424
-#, fuzzy
-#| msgid "Translation types capabilities"
 msgid "In-scope capabilities"
-msgstr "Возможности типов переводов"
+msgstr "Возможности в рамках области действия"
 
 #: security/threat-model.rst:425
-#, fuzzy
-#| msgid "Translation types capabilities"
 msgid "Out-of-scope capabilities"
-msgstr "Возможности типов переводов"
+msgstr "Возможности вне области действия"
 
 #: security/threat-model.rst:426
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "Unauthenticated internet client"
-msgstr "Любой авторизованный пользователь может внести свой вклад."
+msgstr "Неаутентифицированный интернет-клиент"
 
 #: security/threat-model.rst:427
 msgid ""
 "Send HTTP(S) requests to public pages, registration, login, API, and "
 "reachable webhook endpoints. *(documented)* (source: :doc:`/api`)"
 msgstr ""
+"Отправлять HTTP(S)-запросы на публичные страницы, регистрацию, вход, API и "
+"достижимые конечные точки веб-обработчиков. *(документировано)* (источник: "
+":doc:`/api`)"
 
 #: security/threat-model.rst:429
 msgid ""
 "Read server memory, bypass reverse proxy controls, or access internal "
 "services directly. *(maintainer)*"
 msgstr ""
+"Читать память сервера, обходить средства контроля обратного прокси или "
+"получать прямой доступ к внутренним службам. *(сопровождающий)*"
 
 #: security/threat-model.rst:431
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticated user"
-msgstr "Авторизация"
+msgstr "Аутентифицированный пользователь"
 
 #: security/threat-model.rst:432
 msgid ""
 "Perform actions allowed by assigned teams, permissions, and workflow. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Выполнять действия, разрешённые назначенными командами, разрешениями и "
+"рабочим процессом. *(документировано)* (источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:434
-#, fuzzy
-#| msgid ""
-#| "Lists permissions in reStructuredText as a template for :doc:`/admin/"
-#| "access`."
 msgid ""
 "Act outside assigned permissions without exploiting a Weblate flaw. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Перечисляет разрешения в reStructuredText как шаблон для :doc:`/admin/"
-"access`."
+"Действовать за пределами назначенных разрешений без использования ошибки в "
+"Weblate. *(документировано)* (источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:436
 msgid "Reviewer or project manager"
-msgstr ""
+msgstr "Рецензент или управляющий проектом"
 
 #: security/threat-model.rst:437
-#, fuzzy
-#| msgid ""
-#| "Role-based access control (RBAC) to enforce the least privilege (for "
-#| "example separating translation, review, VCS, translation memory, "
-#| "screenshot, and project access management permissions), see :doc:`/admin/"
-#| "access`."
 msgid ""
 "Exercise delegated project, component, language, review, VCS, translation "
 "memory, screenshot, or access-management permissions. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
-"Управление доступом на основе ролей (RBAC) для обеспечения наименьших "
-"привилегий (например, разделение разрешений на перевод, рецензирование, СКВ, "
-"память переводов, снимки экрана и управление доступом к проекту), см. :doc:`/"
-"admin/access`."
+"Использовать делегированные разрешения на проект, компонент, язык, "
+"рецензирование, систему контроля версий, память переводов, снимки экрана или "
+"управление доступом. *(документировано)* (источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:440
 msgid ""
 "Become a site administrator unless granted that role or exploiting a Weblate "
 "flaw. *(maintainer)*"
 msgstr ""
+"Стать администратором сайта, если только эта роль не предоставлена или не "
+"используется ошибка Weblate. *(сопровождающий)*"
 
 #: security/threat-model.rst:442
 msgid "Project-scoped API token holder"
-msgstr ""
+msgstr "Владелец токена API с областью действия проекта"
 
 #: security/threat-model.rst:443
 msgid ""
 "Use API permissions assigned to the token's team memberships. *(documented)* "
 "(source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
+"Использовать разрешения API, назначенные членству токена в командах. *"
+"(документировано)* (источник: :doc:`/api`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:445
 msgid ""
 "Access projects, components, or site-wide functions outside its scope. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Получать доступ к проектам, компонентам или общесайтовым функциям за "
+"пределами своей области действия. *(документировано)* (источник: :doc:`/"
+"admin/access`)"
 
 #: security/threat-model.rst:447
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender"
-msgstr "Секретный токен веб-обработчика"
+msgstr "Отправитель веб-обработчика"
 
 #: security/threat-model.rst:448
 msgid ""
 "Send forged, replayed, malformed, or high-volume webhook requests to enabled "
 "hook endpoints. *(documented)* (source: :ref:`hooks`)"
 msgstr ""
+"Отправлять поддельные, повторно воспроизведённые, неверно сформированные или "
+"высокообъёмные запросы веб-обработчиков на включённые конечные точки "
+"обработчиков. *(документировано)* (источник: :ref:`hooks`)"
 
 #: security/threat-model.rst:450
 msgid ""
 "Obtain forge-authenticated identity where Weblate does not verify it. "
 "*(maintainer)*"
 msgstr ""
+"Получить аутентифицированную фабрикой личность там, где Weblate её не "
+"проверяет. *(сопровождающий)*"
 
 #: security/threat-model.rst:452
 msgid "External VCS or service provider"
-msgstr ""
+msgstr "Внешний СКВ или поставщик услуг"
 
 #: security/threat-model.rst:453
 msgid ""
 "Return repository data, API responses, redirects, or errors according to the "
 "configured integration. *(documented)* (source: :doc:`/admin/code-hosting`)"
 msgstr ""
+"Возвращать данные репозитория, ответы API, перенаправления или ошибки в "
+"соответствии с настроенной интеграцией. *(документировано)* (источник: "
+":doc:`/admin/code-hosting`)"
 
 #: security/threat-model.rst:455
 msgid ""
 "Compromise the Weblate host except through data or protocol behavior Weblate "
 "processes. *(maintainer)*"
 msgstr ""
+"Скомпрометировать хост Weblate, кроме как через данные или поведение "
+"протокола, которые обрабатывает Weblate. *(сопровождающий)*"
 
 #: security/threat-model.rst:457
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Translator or localization contributor"
-msgstr "Участие в переводах"
+msgstr "Переводчик или участник локализации"
 
 #: security/threat-model.rst:458
 msgid ""
 "Submit translation content that downstream applications might consume. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Предоставлять содержимое перевода, которое могут потреблять нижестоящие "
+"приложения. *(документировано)* (источник: :doc:`/security/localization-"
+"threat`)"
 
 #: security/threat-model.rst:460
 msgid ""
 "Control downstream application escaping, rendering, or review policy outside "
 "Weblate. *(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Управлять экранированием, отрисовкой или политикой рецензирования "
+"нижестоящего приложения за пределами Weblate. *(документировано)* (источник: "
+":doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:462
-#, fuzzy
-#| msgid "Boolean operators"
 msgid "Local operator"
-msgstr "Логические операторы"
+msgstr "Локальный оператор"
 
 #: security/threat-model.rst:463
 msgid ""
 "Run management commands, change configuration, and access backups. "
 "*(documented)* (source: :doc:`/admin/management`, :doc:`/admin/backup`)"
 msgstr ""
+"Запускать команды управления, изменять конфигурацию и получать доступ к "
+"резервным копиям. *(документировано)* (источник: :doc:`/admin/management`, "
+":doc:`/admin/backup`)"
 
 #: security/threat-model.rst:465
 msgid "Local malicious operators are trusted for this model. *(maintainer)*"
 msgstr ""
+"Локальные злонамеренные операторы считаются доверенными для этой модели. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:467
 msgid ""
@@ -51706,261 +51854,349 @@ msgid ""
 "execute commands through Weblate-controlled workflows, or exhaust bounded "
 "application resources. *(maintainer)*"
 msgstr ""
+"Моделируемый злоумышленник пытается обойти авторизацию, изменять данные "
+"перевода или репозитория без разрешения, раскрывать приватные данные проекта "
+"или пользователя, подделывать или злоупотреблять синхронизацией репозитория, "
+"инициировать небезопасные исходящие запросы, выполнять команды через "
+"управляемые Weblate рабочие процессы или исчерпать ограниченные ресурсы "
+"приложения. *(сопровождающий)*"
 
 #: security/threat-model.rst:474
-#, fuzzy
-#| msgid "Supported features"
 msgid "Security properties Weblate provides"
-msgstr "Поддерживающие функции Weblate"
+msgstr "Свойства безопасности, которые предоставляет Weblate"
 
 #: security/threat-model.rst:479
-#, fuzzy
-#| msgid "Java Properties"
 msgid "Property"
-msgstr "Свойства Java"
+msgstr "Свойство"
 
 #: security/threat-model.rst:480
-#, fuzzy
-#| msgid "Configuration"
 msgid "Conditions"
-msgstr "Конфигурация"
+msgstr "Условия"
 
 #: security/threat-model.rst:481
 msgid "Violation symptom"
-msgstr ""
+msgstr "Симптом нарушения"
 
 #: security/threat-model.rst:482
-#, fuzzy
-#| msgid "Severity"
 msgid "Severity tier"
-msgstr "Уровень"
+msgstr "Уровень серьёзности"
 
 #: security/threat-model.rst:483
-#, fuzzy
-#| msgid ""
-#| "Role-based access control (RBAC) to enforce the least privilege (for "
-#| "example separating translation, review, VCS, translation memory, "
-#| "screenshot, and project access management permissions), see :doc:`/admin/"
-#| "access`."
 msgid ""
 "Web authorization separates site, project, component, language, glossary, "
 "VCS, translation memory, screenshot, review, and access management "
 "permissions. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Управление доступом на основе ролей (RBAC) для обеспечения наименьших "
-"привилегий (например, разделение разрешений на перевод, рецензирование, СКВ, "
-"память переводов, снимки экрана и управление доступом к проекту), см. :doc:`/"
-"admin/access`."
+"Веб-авторизация разделяет разрешения на сайт, проект, компонент, язык, "
+"словарь, систему контроля версий, память переводов, снимки экрана, "
+"рецензирование и управление доступом. *(документировано)* (источник: :doc:`/"
+"admin/access`)"
 
 #: security/threat-model.rst:486
 msgid "Permission assignments match the intended trust relationship."
 msgstr ""
+"Назначения разрешений соответствуют предполагаемым доверительным отношениям."
 
 #: security/threat-model.rst:487
 msgid "User or token can read or mutate data outside assigned scope."
 msgstr ""
+"Пользователь или токен могут читать или изменять данные за пределами "
+"назначенной области."
 
 #: security/threat-model.rst:488
 msgid "Security-critical when private data or privileged mutation is exposed."
 msgstr ""
+"Критично для безопасности, когда раскрываются приватные данные или "
+"привилегированное изменение."
 
 #: security/threat-model.rst:489
+#, fuzzy
 msgid ""
 "Project-scoped API tokens are limited by assigned project/team permissions. "
 "*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
+"Токены API с областью действия проекта ограничены назначенными разрешениями "
+"проекта/команды. *(документировано)* (источник: :doc:`/api`, :doc:`/admin/"
+"access`)"
 
 #: security/threat-model.rst:491
+#, fuzzy
 msgid "Token is created and stored by a trusted actor."
-msgstr ""
+msgstr "Токен создаётся и хранится доверенным действующим лицом."
 
 #: security/threat-model.rst:492
+#, fuzzy
 msgid "Token can act outside project or team scope."
-msgstr ""
+msgstr "Токен может действовать за пределами области проекта или команды."
 
 #: security/threat-model.rst:493 security/threat-model.rst:499
 #: security/threat-model.rst:504 security/threat-model.rst:510
 #: security/threat-model.rst:515 security/threat-model.rst:553
-#, fuzzy
-#| msgid "Security"
 msgid "Security-critical."
-msgstr "Безопасность"
+msgstr "Критично для безопасности."
 
 #: security/threat-model.rst:494
+#, fuzzy
 msgid ""
 "Authentication and session controls protect browser sessions when HTTPS and "
 "proxy settings are correct. *(documented)* (source: :doc:`/admin/"
 "auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Средства контроля аутентификации и сеансов защищают сеансы браузера, когда "
+"настройки HTTPS и прокси верны. *(документировано)* (источник: :doc:`/admin/"
+"auth`, :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:497
+#, fuzzy
 msgid "Production HTTPS and secure-cookie settings are enabled."
-msgstr ""
+msgstr "Включены производственные настройки HTTPS и безопасных куки."
 
 #: security/threat-model.rst:498
+#, fuzzy
 msgid "Session fixation, credential bypass, or cross-user session confusion."
 msgstr ""
+"Фиксация сеанса, обход учётных данных или путаница сеансов между "
+"пользователями."
 
 #: security/threat-model.rst:500
+#, fuzzy
 msgid ""
 "User-supplied content rendered by Weblate is expected not to execute script "
 "in other users' browsers. *(maintainer)*"
 msgstr ""
+"Ожидается, что предоставленное пользователем содержимое, отображаемое "
+"Weblate, не будет выполнять скрипт в браузерах других пользователей. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:502
+#, fuzzy
 msgid ""
 "Content is displayed through Weblate UI templates and standard escaping."
 msgstr ""
+"Содержимое отображается через шаблоны пользовательского интерфейса Weblate и "
+"стандартное экранирование."
 
 #: security/threat-model.rst:503
+#, fuzzy
 msgid "Stored or reflected XSS in the Weblate origin."
-msgstr ""
+msgstr "Сохранённый или отражённый XSS в источнике Weblate."
 
 #: security/threat-model.rst:505
+#, fuzzy
 msgid ""
 "Repository, branch, path, and VCS inputs processed by Weblate must not "
 "become shell command execution. *(maintainer)*"
 msgstr ""
+"Входные данные репозитория, ветки, пути и VCS, обрабатываемые Weblate, не "
+"должны приводить к выполнению команд оболочки. *(сопровождающий)*"
 
 #: security/threat-model.rst:507
+#, fuzzy
 msgid ""
 "VCS operations are invoked through Weblate-supported repository workflows "
 "and configured credentials."
 msgstr ""
+"Операции VCS вызываются через поддерживаемые Weblate рабочие процессы "
+"репозитория и настроенные учётные данные."
 
 #: security/threat-model.rst:509
-#, fuzzy
-#| msgid ""
-#| "**Command injection:** Arbitrary code execution due to improper input "
-#| "validation in repository URLs or add-ons."
 msgid "Command injection or arbitrary code execution as the Weblate user."
 msgstr ""
-"**Внедрение команд:** Выполнение произвольного кода из-за неправильной "
-"проверки ввода в URL-адресах репозитория или надстройках."
+"Внедрение команд или выполнение произвольного кода от имени пользователя "
+"Weblate."
 
 #: security/threat-model.rst:511
+#, fuzzy
 msgid ""
 "Private project data, user data, credentials, tokens, SSH keys, and 2FA "
 "secrets are not disclosed to actors lacking permission. *(documented)* "
 "(source: :doc:`/admin/access`, :doc:`/security/privacy-compliance`)"
 msgstr ""
+"Приватные данные проекта, данные пользователя, учётные данные, токены, SSH-"
+"ключи и секреты 2FA не раскрываются действующим лицам, не имеющим "
+"разрешения. *(документировано)* (источник: :doc:`/admin/access`, :doc:`/"
+"security/privacy-compliance`)"
 
 #: security/threat-model.rst:513
+#, fuzzy
 msgid "Host, database, and storage permissions are intact."
-msgstr ""
+msgstr "Права доступа к хосту, базе данных и хранилищу не нарушены."
 
 #: security/threat-model.rst:514
+#, fuzzy
 msgid "Cross-project data leak, credential exposure, or unauthorized export."
 msgstr ""
+"Утечка данных между проектами, раскрытие учётных данных или неавторизованный "
+"экспорт."
 
 #: security/threat-model.rst:516
+#, fuzzy
 msgid ""
 "Backup import rejects archives exceeding documented upload, member, "
 "aggregate size, and suspicious compression thresholds. *(documented)* "
 "(source: :doc:`/admin/config`, :ref:`projectbackup`)"
 msgstr ""
+"Импорт резервных копий отклоняет архивы, превышающие задокументированные "
+"пороги загрузки, количества элементов, общего размера и подозрительного "
+"сжатия. *(документировано)* (источник: :doc:`/admin/config`, "
+":ref:`projectbackup`)"
 
 #: security/threat-model.rst:518
-#, fuzzy
-#| msgid "Default dashboard for unauthenticated users can be configured."
 msgid "Defaults or stricter limits remain configured."
 msgstr ""
-"Теперь можно настроить панель управления по умолчанию для неавторизованных "
-"пользователей."
+"Остаются настроенными значения по умолчанию или более строгие ограничения."
 
 #: security/threat-model.rst:519
+#, fuzzy
 msgid ""
 "Oversized or highly amplified archive is accepted past configured thresholds."
 msgstr ""
+"Архив большого размера или с высоким коэффициентом усиления принимается "
+"сверх настроенных порогов."
 
 #: security/threat-model.rst:521
+#, fuzzy
 msgid "Security-critical for single-request DoS; otherwise availability bug."
 msgstr ""
+"Критично для безопасности при DoS одним запросом; в противном случае — "
+"ошибка доступности."
 
 #: security/threat-model.rst:522
+#, fuzzy
 msgid ""
 "Documented user-configurable outbound URL surfaces reject internal or non-"
 "public targets by default. *(documented)* "
 "(source: :setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 msgstr ""
+"Задокументированные настраиваемые пользователем поверхности исходящих URL-"
+"адресов по умолчанию отклоняют внутренние или непубличные цели. *"
+"(документировано)* (источник: :setting:`ASSET_RESTRICT_PRIVATE`, "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
+":setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 
 #: security/threat-model.rst:527
+#, fuzzy
 msgid ""
 "Default private-target checks are enabled and no trusted allowlist exemption "
 "applies."
 msgstr ""
+"Проверки частных целей по умолчанию включены, и не применяется никакое "
+"исключение из доверенного списка разрешённых."
 
 #: security/threat-model.rst:529
+#, fuzzy
 msgid ""
 "A user-configurable screenshot URL, remote HTML URL, project website or "
 "repository browser URL, outbound webhook URL, or VCS URL reaches an internal "
 "or non-public target despite default controls."
 msgstr ""
+"Настраиваемый пользователем URL-адрес снимка экрана, URL-адрес удалённого "
+"HTML, URL-адрес веб-сайта проекта или обозревателя репозиториев, исходящий "
+"URL-адрес веб-обработчика или URL-адрес VCS достигает внутренней или "
+"непубличной цели, несмотря на средства контроля по умолчанию."
 
 #: security/threat-model.rst:532
+#, fuzzy
 msgid "Security-critical when it exposes internal services or metadata."
 msgstr ""
+"Критично для безопасности, когда раскрываются внутренние службы или "
+"метаданные."
 
 #: security/threat-model.rst:533
+#, fuzzy
 msgid ""
 "Weblate records security-relevant account, permission, and project or "
 "component setting changes in audit logs or history. *(documented)* "
 "(source: :doc:`/security/privacy-compliance`, :doc:`/changes`)"
 msgstr ""
+"Weblate записывает изменения в учётных записях, разрешениях и настройках "
+"проекта или компонента, важные для безопасности, в журналы аудита или "
+"историю. *(документировано)* (источник: :doc:`/security/privacy-compliance`, "
+":doc:`/changes`)"
 
 #: security/threat-model.rst:536
+#, fuzzy
 msgid "Logging is configured and storage is available."
-msgstr ""
+msgstr "Журналирование настроено и хранилище доступно."
 
 #: security/threat-model.rst:537
+#, fuzzy
 msgid "Missing audit trail for an action Weblate claims to log."
 msgstr ""
+"Отсутствует журнал аудита для действия, которое Weblate заявляет, что "
+"регистрирует."
 
 #: security/threat-model.rst:538
+#, fuzzy
 msgid ""
 "Security-critical when it blocks investigation of privileged changes; "
 "correctness-only for minor event gaps."
 msgstr ""
+"Критично для безопасности, когда блокирует расследование привилегированных "
+"изменений; только для корректности при незначительных пробелах в событиях."
 
 #: security/threat-model.rst:540
+#, fuzzy
 msgid ""
 "Rate-limited API and web actions enforce configured rate limits. "
 "*(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
 msgstr ""
+"Действия API и веб-действия с ограничением скорости применяют настроенные "
+"ограничения скорости. *(документировано)* (источник: :doc:`/api`, :doc:`/"
+"admin/config`)"
 
 #: security/threat-model.rst:542
+#, fuzzy
 msgid "Rate limiting is enabled and backed by a working datastore."
 msgstr ""
+"Ограничение скорости включено и поддерживается работающим хранилищем данных."
 
 #: security/threat-model.rst:543
+#, fuzzy
 msgid "Requests exceeding configured thresholds continue to be processed."
-msgstr ""
+msgstr "Запросы, превышающие настроенные пороги, продолжают обрабатываться."
 
 #: security/threat-model.rst:544
+#, fuzzy
 msgid "Availability/security hardening depending on endpoint sensitivity."
 msgstr ""
+"Улучшение доступности/безопасности в зависимости от чувствительности "
+"конечной точки."
 
 #: security/threat-model.rst:545
+#, fuzzy
 msgid ""
 "Weblate does not intentionally expose database, datastore, backup storage, "
 "or raw internal storage directly through the public web interface; exported "
 "VCS repositories are intentionally exposed by :ref:`git-exporter` when that "
 "optional module is enabled. *(maintainer)*"
 msgstr ""
+"Weblate намеренно не раскрывает базу данных, хранилище данных, хранилище "
+"резервных копий или необработанное внутреннее хранилище напрямую через "
+"публичный веб-интерфейс; экспортированные репозитории VCS намеренно "
+"раскрываются :ref:`git-exporter`, когда этот опциональный модуль включён. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:549
+#, fuzzy
 msgid ""
 "Deployment does not serve internal storage paths as static files except for "
 "documented export features."
 msgstr ""
+"Развёртывание не обслуживает пути внутреннего хранилища как статические "
+"файлы, за исключением задокументированных функций экспорта."
 
 #: security/threat-model.rst:551
+#, fuzzy
 msgid ""
 "Public request retrieves raw internal storage, configuration, or non-"
 "exported repository data."
 msgstr ""
+"Публичный запрос извлекает необработанное внутреннее хранилище, конфигурацию "
+"или неэкспортированные данные репозитория."
 
 #: security/threat-model.rst:555
+#, fuzzy
 msgid ""
 "Resource thresholds in this model are the documented configuration defaults "
 "where they exist, especially backup import limits and rate limits. For "
@@ -51968,12 +52204,20 @@ msgid ""
 "Weblate does not claim a fixed universal resource ceiling independent of "
 "deployment capacity. *(maintainer)*"
 msgstr ""
+"Пороги ресурсов в этой модели являются задокументированными значениями "
+"конфигурации по умолчанию, где они существуют, особенно ограничения на "
+"импорт резервных копий и ограничения скорости. В отношении размера "
+"репозитория, количества проектов, количества компонентов и объёма перевода "
+"Weblate не заявляет о фиксированном универсальном потолке ресурсов, "
+"независимом от мощности развёртывания. *(сопровождающий)*"
 
 #: security/threat-model.rst:562
+#, fuzzy
 msgid "Security properties Weblate does not provide"
-msgstr ""
+msgstr "Свойства безопасности, которые Weblate не предоставляет"
 
 #: security/threat-model.rst:564
+#, fuzzy
 msgid ""
 "Weblate does not authenticate every webhook delivery cryptographically for "
 "all supported forge integrations. Hook endpoints are compatibility-oriented "
@@ -51981,23 +52225,40 @@ msgid ""
 "that show only unauthenticated triggering within modeled effects are ``VALID-"
 "HARDENING`` rather than ``BY-DESIGN``. *(maintainer)*"
 msgstr ""
+"Weblate не аутентифицирует криптографически каждую доставку веб-обработчика "
+"для всех поддерживаемых интеграций с фабриками. Конечные точки обработчиков "
+"ориентированы на совместимость и укреплены на уровне развёртывания, а не "
+"единообразно аутентифицированы фабрикой. Отчёты, которые показывают только "
+"неаутентифицированный запуск в пределах смоделированных эффектов, являются "
+"``VALID-HARDENING``, а не ``BY-DESIGN``. *(сопровождающий)*"
 
 #: security/threat-model.rst:570
+#, fuzzy
 msgid ""
 "Weblate does not make an unauthenticated webhook equivalent to a trusted "
 "forge identity. Hook processing can trigger update workflows, but "
 "attribution and authenticity are weaker than for an authenticated user or "
 "token. *(maintainer)*"
 msgstr ""
+"Weblate не приравнивает неаутентифицированный веб-обработчик к доверенному "
+"удостоверению фабрики. Обработка обработчика может запускать рабочие "
+"процессы обновления, но атрибуция и подлинность слабее, чем для "
+"аутентифицированного пользователя или токена. *(сопровождающий)*"
 
 #: security/threat-model.rst:574
+#, fuzzy
 msgid ""
 "Weblate is not a sandbox for malicious administrators, malicious local "
 "operators, third-party add-ons, custom deployment code, VCS clients, or "
 "backup tools. *(maintainer)*"
 msgstr ""
+"Weblate не является песочницей для злонамеренных администраторов, "
+"злонамеренных локальных операторов, сторонних надстроек, пользовательского "
+"кода развёртывания, клиентов VCS или инструментов резервного копирования. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:578
+#, fuzzy
 msgid ""
 "Weblate does not guarantee that translation content is safe when copied into "
 "a downstream product without that product's own escaping, validation, or "
@@ -52006,162 +52267,260 @@ msgid ""
 "boundary. *(documented)* (source: :doc:`/security/localization-"
 "threat`, :doc:`/user/checks`)"
 msgstr ""
+"Weblate не гарантирует, что содержимое перевода безопасно при копировании в "
+"нижестоящий продукт без собственного экранирования, проверки или "
+"рецензирования этого продукта. Проверки перевода и рабочие процессы "
+"рецензирования помогают управлять качеством и рисками локализации; они не "
+"являются полной границей безопасности нижестоящего приложения. *"
+"(документировано)* (источник: :doc:`/security/localization-threat`, :doc:`/"
+"user/checks`)"
 
 #: security/threat-model.rst:584
+#, fuzzy
 msgid "False friends:"
-msgstr ""
+msgstr "Ложные друзья:"
 
 #: security/threat-model.rst:586
+#, fuzzy
 msgid ""
 "Weblate permissions are application authorization, not a host sandbox. A "
 "user granted VCS or project management permissions can intentionally "
 "configure integrations within that role's power. *(maintainer)*"
 msgstr ""
+"Разрешения Weblate — это авторизация приложения, а не песочница хоста. "
+"Пользователь, которому предоставлены разрешения VCS или управления проектом, "
+"может намеренно настраивать интеграции в пределах полномочий этой роли. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:589
+#, fuzzy
 msgid ""
 "Webhook project matching and event parsing are not proof that the sender is "
 "the legitimate forge when the integration does not authenticate the "
 "delivery. *(maintainer)*"
 msgstr ""
+"Сопоставление проекта веб-обработчика и анализ событий не являются "
+"доказательством того, что отправитель является легитимной фабрикой, когда "
+"интеграция не аутентифицирует доставку. *(сопровождающий)*"
 
 #: security/threat-model.rst:592
+#, fuzzy
 msgid ""
 "Translation checks detect common quality and format problems; they are not a "
 "guarantee that translated strings are safe for every downstream renderer. "
 "*(documented)* (source: :doc:`/user/checks`, :doc:`/security/localization-"
 "threat`)"
 msgstr ""
+"Проверки перевода обнаруживают распространённые проблемы качества и формата; "
+"они не гарантируют, что переведённые строки безопасны для любого "
+"нижестоящего средства отрисовки. *(документировано)* (источник: :doc:`/user/"
+"checks`, :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:596
+#, fuzzy
 msgid ""
 "BorgBackup encryption protects backup archives according to Borg's design; "
 "Weblate does not add a separate cryptographic guarantee for Borg internals. "
 "*(documented)* (source: :doc:`/admin/backup`)"
 msgstr ""
+"Шифрование BorgBackup защищает архивы резервных копий в соответствии с "
+"дизайном Borg; Weblate не добавляет отдельной криптографической гарантии для "
+"внутренних компонентов Borg. *(документировано)* (источник: :doc:`/admin/"
+"backup`)"
 
 #: security/threat-model.rst:599
+#, fuzzy
 msgid ""
 "Rate limits reduce abuse of configured endpoints; they are not a guarantee "
 "of availability under volumetric network attacks. *(maintainer)*"
 msgstr ""
+"Ограничения скорости уменьшают злоупотребление настроенными конечными "
+"точками; они не являются гарантией доступности при объёмных сетевых атаках. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:602
+#, fuzzy
 msgid ""
 "Well-known attack classes left partly or wholly to deployment or downstream "
 "systems:"
 msgstr ""
+"Хорошо известные классы атак, частично или полностью оставленные на "
+"усмотрение систем развёртывания или нижестоящих систем:"
 
 #: security/threat-model.rst:605
+#, fuzzy
 msgid ""
 "Phishing and credential reuse are mitigated by authentication policy and "
 "2FA, but Weblate cannot prevent users from disclosing credentials outside "
 "the service. *(maintainer)*"
 msgstr ""
+"Фишинг и повторное использование учётных данных смягчаются политикой "
+"аутентификации и 2FA, но Weblate не может помешать пользователям раскрывать "
+"учётные данные за пределами сервиса. *(сопровождающий)*"
 
 #: security/threat-model.rst:608
+#, fuzzy
 msgid ""
 "Malicious translations can become XSS, format-string, command, or policy "
 "problems in downstream applications that render them unsafely. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Злонамеренные переводы могут стать проблемами XSS, форматной строки, команды "
+"или политики в нижестоящих приложениях, которые отображают их небезопасно. *"
+"(документировано)* (источник: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:610
+#, fuzzy
 msgid ""
 "User-configurable outbound URL surfaces with documented private-target "
 "restrictions reject internal or non-public targets by default; privileged "
 "allowlists, proxies, and administrator-controlled configuration can "
 "intentionally expand reachability. *(maintainer)*"
 msgstr ""
+"Настраиваемые пользователем поверхности исходящих URL-адресов с "
+"задокументированными ограничениями частных целей по умолчанию отклоняют "
+"внутренние или непубличные цели; привилегированные списки разрешённых, "
+"прокси и конфигурация, контролируемая администратором, могут намеренно "
+"расширять достижимость. *(сопровождающий)*"
 
 #: security/threat-model.rst:614
+#, fuzzy
 msgid ""
 "Large repository histories, project scale, and background task volume "
 "require deployment sizing and operational limits beyond Weblate's single-"
 "input validation. *(maintainer)*"
 msgstr ""
+"Большие истории репозиториев, масштаб проектов и объём фоновых задач требуют "
+"определения размера развёртывания и операционных ограничений, выходящих за "
+"рамки проверки одного входного параметра Weblate. *(сопровождающий)*"
 
 #: security/threat-model.rst:619
-#, fuzzy
-#| msgid "Roles and responsibilities"
 msgid "Downstream responsibilities"
-msgstr "Роли и обязанности"
+msgstr "Обязательства нижестоящих сторон"
 
 #: security/threat-model.rst:621
+#, fuzzy
 msgid ""
 "Operators must deploy Weblate behind production-grade HTTPS with correct "
 "proxy headers, hostnames, request-size limits, and secure-cookie behavior. "
 "*(documented)* (source: :doc:`/admin/"
 "install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 msgstr ""
+"Операторы должны развёртывать Weblate за производственным HTTPS с "
+"правильными заголовками прокси, именами хостов, ограничениями размера "
+"запроса и поведением безопасных куки. *(документировано)* (источник: :doc:`/"
+"admin/install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 
 #: security/threat-model.rst:626
+#, fuzzy
 msgid ""
 "Operators must assign teams, roles, project-scoped tokens, VCS credentials, "
 "and project management permissions according to least privilege for their "
 "organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)"
 msgstr ""
+"Операторы должны назначать команды, роли, токены с областью действия "
+"проекта, учётные данные VCS и разрешения управления проектом в соответствии "
+"с наименьшими привилегиями для своей организации. *(документировано)* "
+"(источник: :doc:`/admin/access`, :doc:`/api`)"
 
 #: security/threat-model.rst:630
+#, fuzzy
 msgid ""
 "Operators exposing :ref:`hooks` must enable them only where needed and "
 "provide deployment controls such as reverse-proxy rate limits, body-size "
 "limits, monitoring, and optional source restrictions. *(maintainer)*"
 msgstr ""
+"Операторы, предоставляющие :ref:`hooks`, должны включать их только там, где "
+"это необходимо, и обеспечивать средства контроля развёртывания, такие как "
+"ограничения скорости обратного прокси, ограничения размера тела, мониторинг "
+"и опциональные ограничения источников. *(сопровождающий)*"
 
 #: security/threat-model.rst:634
+#, fuzzy
 msgid ""
 "Operators must treat private-target allowlists, proxies, and privileged "
 "outbound integration settings as intentional expansion of Weblate's default "
 "network reachability limits. *(maintainer)*"
 msgstr ""
+"Операторы должны относиться к спискам разрешённых частных целей, прокси и "
+"привилегированным настройкам исходящих интеграций как к намеренному "
+"расширению ограничений сетевой достижимости Weblate по умолчанию. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:638
+#, fuzzy
 msgid ""
 "Operators must keep backup import limits, API rate limits, and web rate "
 "limits at values that match instance capacity and exposure. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
+"Операторы должны поддерживать ограничения импорта резервных копий, "
+"ограничения скорости API и ограничения скорости веб-интерфейса на значениях, "
+"соответствующих ёмкости и степени открытости экземпляра. *(документировано)* "
+"(источник: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:641
+#, fuzzy
 msgid ""
 "Operators must protect the Weblate data directory, configuration, backup "
 "credentials, generated keys, database, datastore, and local shell access as "
 "trusted infrastructure. *(documented)* (source: :doc:`/admin/backup`, :doc:`/"
 "admin/install`)"
 msgstr ""
+"Операторы должны защищать каталог данных Weblate, конфигурацию, учётные "
+"данные резервного копирования, сгенерированные ключи, базу данных, хранилище "
+"данных и локальный доступ к оболочке как доверенную инфраструктуру. *"
+"(документировано)* (источник: :doc:`/admin/backup`, :doc:`/admin/install`)"
 
 #: security/threat-model.rst:646
+#, fuzzy
 msgid ""
 "Downstream product teams must treat translated strings as untrusted content "
 "in their own applications unless they have separately reviewed, escaped, and "
 "validated them for the target renderer. *(documented)* (source: :doc:`/"
 "security/localization-threat`)"
 msgstr ""
+"Нижестоящие продуктовые команды должны обрабатывать переведённые строки как "
+"недоверенное содержимое в своих собственных приложениях, если только они не "
+"провели отдельное рецензирование, экранирование и проверку для целевого "
+"средства отрисовки. *(документировано)* (источник: :doc:`/security/"
+"localization-threat`)"
 
 #: security/threat-model.rst:651
-#, fuzzy
-#| msgid "Source file patterns"
 msgid "Known misuse patterns"
-msgstr "Шаблоны исходных файлов"
+msgstr "Известные модели неправильного использования"
 
 #: security/threat-model.rst:653
+#, fuzzy
 msgid ""
 "Exposing webhook endpoints broadly, enabling project hooks, and relying on "
 "webhook payloads as authenticated forge identity. This is unsafe because "
 "some supported hooks are compatibility-oriented. Use deployment controls and "
 "prefer authenticated integrations where available. *(maintainer)*"
 msgstr ""
+"Широкое раскрытие конечных точек веб-обработчиков, включение обработчиков "
+"проектов и reliance на полезные нагрузки веб-обработчиков как на "
+"аутентифицированное удостоверение фабрики. Это небезопасно, потому что "
+"некоторые поддерживаемые обработчики ориентированы на совместимость. "
+"Используйте средства контроля развёртывания и предпочитайте "
+"аутентифицированные интеграции, где это возможно. *(сопровождающий)*"
 
 #: security/threat-model.rst:657
+#, fuzzy
 msgid ""
 "Granting project management, VCS, or access-management permissions to users "
 "who are trusted only as translators. This is unsafe because those "
 "permissions can affect repositories, credentials, or other users. Assign "
 "narrower roles. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Предоставление разрешений управления проектом, VCS или управления доступом "
+"пользователям, которым доверяют только как переводчикам. Это небезопасно, "
+"потому что эти разрешения могут влиять на репозитории, учётные данные или "
+"других пользователей. Назначайте более узкие роли. *(документировано)* "
+"(источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:661
+#, fuzzy
 msgid ""
 "Sending sensitive source strings or private customer content to machine "
 "translation providers without treating the provider as a data recipient. "
@@ -52170,8 +52529,15 @@ msgid ""
 "Configure providers according to the data policy for the project. "
 "*(maintainer)*"
 msgstr ""
+"Отправка конфиденциальных исходных строк или приватного содержимого клиента "
+"поставщикам машинного перевода без отношения к поставщику как к получателю "
+"данных. Это небезопасно, потому что Weblate должен передавать содержимое в "
+"настроенную службу, и отправляемое содержимое зависит от поставщика и "
+"включённой функции. Настраивайте поставщиков в соответствии с политикой "
+"обработки данных для проекта. *(сопровождающий)*"
 
 #: security/threat-model.rst:666
+#, fuzzy
 msgid ""
 "Importing project backups from untrusted sources as an administrative "
 "convenience. This is unsafe because backups carry project metadata, "
@@ -52179,8 +52545,15 @@ msgid ""
 "import only backups appropriate for the target instance. *(documented)* "
 "(source: :doc:`/admin/backup`)"
 msgstr ""
+"Импорт резервных копий проектов из недоверенных источников как "
+"административное удобство. Это небезопасно, потому что резервные копии несут "
+"метаданные проекта, содержимое перевода и состояние репозитория. Держите "
+"ограничения импорта включёнными и импортируйте только резервные копии, "
+"подходящие для целевого экземпляра. *(документировано)* (источник: :doc:`/"
+"admin/backup`)"
 
 #: security/threat-model.rst:670
+#, fuzzy
 msgid ""
 "Treating Weblate translation checks as proof that downstream applications "
 "cannot be attacked through translated strings. This is unsafe because the "
@@ -52188,54 +52561,90 @@ msgid ""
 "translations in the consuming application. *(documented)* (source: :doc:`/"
 "security/localization-threat`)"
 msgstr ""
+"Отношение к проверкам перевода Weblate как к доказательству того, что "
+"нижестоящие приложения не могут быть атакованы через переведённые строки. "
+"Это небезопасно, потому что нижестоящее средство отрисовки определяет "
+"конечный контекст выполнения. Рецензируйте и экранируйте переводы в "
+"потребляющем приложении. *(документировано)* (источник: :doc:`/security/"
+"localization-threat`)"
 
 #: security/threat-model.rst:676
+#, fuzzy
 msgid "Known non-findings"
-msgstr ""
+msgstr "Известные ненаходки"
 
 #: security/threat-model.rst:678
+#, fuzzy
 msgid ""
 "A report that a reachable webhook can be called without forge authentication "
 "and only triggers modeled update scheduling is not ``VALID`` by itself. It "
 "is routed to ``VALID-HARDENING`` unless it bypasses documented limits, leaks "
 "data, or causes effects beyond modeled scheduling. *(maintainer)*"
 msgstr ""
+"Отчёт о том, что в достижимый веб-обработчик можно вызвать без "
+"аутентификации фабрики, и он только инициирует смоделированное планирование "
+"обновления, сам по себе не является ``VALID``. Он направляется в ``VALID-"
+"HARDENING``, если только он не обходит задокументированные ограничения, не "
+"допускает утечку данных или не вызывает эффекты, выходящие за рамки "
+"смоделированного планирования. *(сопровождающий)*"
 
 #: security/threat-model.rst:682
+#, fuzzy
 msgid ""
 "A report that a project manager can change repository settings, VCS "
 "credentials, or project configuration is not a vulnerability when the actor "
 "has the documented permission for that action. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
+"Отчёт о том, что управляющий проектом может изменить настройки репозитория, "
+"учётные данные VCS или конфигурацию проекта, не является уязвимостью, когда "
+"действующее лицо имеет задокументированное разрешение на это действие. *"
+"(документировано)* (источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:685
+#, fuzzy
 msgid ""
 "A report against third-party add-on behavior is not a Weblate core "
 "vulnerability unless the report shows Weblate's permission or installation "
 "boundaries are bypassed. *(maintainer)*"
 msgstr ""
+"Отчёт против поведения сторонней надстройки не является уязвимостью ядра "
+"Weblate, если только отчёт не показывает, что границы разрешений или "
+"установки Weblate обойдены. *(сопровождающий)*"
 
 #: security/threat-model.rst:688
+#, fuzzy
 msgid ""
 "A report that a malicious local operator can read configuration, run "
 "management commands, or alter files is out of model because local operators "
 "are trusted infrastructure. *(maintainer)*"
 msgstr ""
+"Отчёт о том, что злонамеренный локальный оператор может читать конфигурацию, "
+"запускать команды управления или изменять файлы, находится вне модели, "
+"потому что локальные операторы являются доверенной инфраструктурой. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:691
+#, fuzzy
 msgid ""
 "A report that a downstream application renders a dangerous translation is "
 "not a Weblate vulnerability unless Weblate itself violates a claimed "
 "property while storing, checking, reviewing, or displaying that translation. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Отчёт о том, что нижестоящее приложение отображает опасный перевод, не "
+"является уязвимостью Weblate, если только сам Weblate не нарушает заявленное "
+"свойство при хранении, проверке, рецензировании или отображении этого "
+"перевода. *(документировано)* (источник: :doc:`/security/localization-"
+"threat`)"
 
 #: security/threat-model.rst:697
+#, fuzzy
 msgid "Conditions that change this model"
-msgstr ""
+msgstr "Условия, которые изменяют эту модель"
 
 #: security/threat-model.rst:699
+#, fuzzy
 msgid ""
 "Revise this model when Weblate adds a new public endpoint family, a new "
 "authentication or token mode, a new default deployment mode, a new backup or "
@@ -52244,128 +52653,157 @@ msgid ""
 "rate limits, CSP, private-network access, or backup import limits. "
 "*(maintainer)*"
 msgstr ""
+"Пересматривайте эту модель, когда Weblate добавляет новое семейство "
+"публичных конечных точек, новый режим аутентификации или токенов, новый "
+"режим развёртывания по умолчанию, новый формат резервного копирования или "
+"импорта, новый путь выполнения VCS, новый класс исходящей интеграции, новую "
+"возможность выполнения надстроек или изменение значений по умолчанию для "
+"обработчиков, HTTPS, ограничений скорости, CSP, доступа к частным сетям или "
+"ограничений импорта резервных копий. *(сопровождающий)*"
 
 #: security/threat-model.rst:705
+#, fuzzy
 msgid ""
 "Revise this model when an unsupported component becomes supported product "
 "surface, when a documented security property is removed or narrowed, or when "
 "maintainers accept a vulnerability report that cannot be routed to a triage "
 "disposition below. *(maintainer)*"
 msgstr ""
+"Пересматривайте эту модель, когда неподдерживаемый компонент становится "
+"поддерживаемой поверхностью продукта, когда задокументированное свойство "
+"безопасности удаляется или сужается, или когда сопровождающие принимают "
+"отчёт об уязвимости, который не может быть направлен к одному из решений "
+"сортировки ниже. *(сопровождающий)*"
 
 #: security/threat-model.rst:711
-#, fuzzy
-#| msgid "Language definitions"
 msgid "Triage dispositions"
-msgstr "Определение языков"
+msgstr "Решения при сортировке"
 
 #: security/threat-model.rst:716
-#, fuzzy
-#| msgid "Definition"
 msgid "Disposition"
-msgstr "Определение"
+msgstr "Решение"
 
 #: security/threat-model.rst:717
-#, fuzzy
-#| msgid "Warning"
 msgid "Meaning"
-msgstr "Предупреждение"
+msgstr "Значение"
 
 #: security/threat-model.rst:718
-#, fuzzy
-#| msgid "License"
 msgid "Licensed by"
-msgstr "Лицензия"
+msgstr "Лицензировано"
 
 #: security/threat-model.rst:720
+#, fuzzy
 msgid ""
 "Violates a property Weblate claims, through an in-scope actor and input."
 msgstr ""
+"Нарушает свойство, заявленное Weblate, через действующее лицо и входные "
+"данные в области действия."
 
 #: security/threat-model.rst:721
+#, fuzzy
 msgid ""
 "`Security properties Weblate provides`_, `Input assumptions`_, `Adversary "
 "model`_"
 msgstr ""
+"`Свойства безопасности, предоставляемые Weblate`_, `Входные предположения`_, "
+"`Модель противника`_"
 
 #: security/threat-model.rst:724
+#, fuzzy
 msgid ""
 "No claimed property is violated, but Weblate chooses to reduce a known "
 "misuse risk, such as compatibility webhook triggering that stays within "
 "modeled effects."
 msgstr ""
+"Ни одно заявленное свойство не нарушено, но Weblate решает снизить известный "
+"риск неправильного использования, например, срабатывание совместимого веб-"
+"обработчика, которое остаётся в рамках смоделированных эффектов."
 
 #: security/threat-model.rst:727
+#, fuzzy
 msgid ""
 "`Known misuse patterns`_, `Security properties Weblate does not provide`_"
 msgstr ""
+"`Известные модели неправильного использования`_, `Свойства безопасности, "
+"которые Weblate не предоставляет`_"
 
 #: security/threat-model.rst:729
+#, fuzzy
 msgid "Requires attacker control of input this model marks trusted."
 msgstr ""
+"Требует контроля злоумышленника над входными данными, которые эта модель "
+"помечает как доверенные."
 
 #: security/threat-model.rst:730
-#, fuzzy
-#| msgid "Key Assumptions"
 msgid "`Input assumptions`_"
-msgstr "Ключевые предположения"
+msgstr "`Входные предположения`_"
 
 #: security/threat-model.rst:732
+#, fuzzy
 msgid "Requires a capability this model excludes."
-msgstr ""
+msgstr "Требует возможности, которую эта модель исключает."
 
 #: security/threat-model.rst:733
+#, fuzzy
 msgid "`Adversary model`_"
-msgstr ""
+msgstr "`Модель противника`_"
 
 #: security/threat-model.rst:735
+#, fuzzy
 msgid ""
 "Lands in third-party add-ons, generated docs, tests, local customization, or "
 "another component marked out of scope."
 msgstr ""
+"Попадает в сторонние надстройки, сгенерированную документацию, тесты, "
+"локальную настройку или другой компонент, помеченный как находящийся вне "
+"области действия."
 
 #: security/threat-model.rst:737
+#, fuzzy
 msgid "`Out of scope`_"
-msgstr ""
+msgstr "`Вне области действия`_"
 
 #: security/threat-model.rst:739
+#, fuzzy
 msgid ""
 "Manifests only after deployment choices that knowingly remove a claimed "
 "property."
 msgstr ""
+"Проявляется только после выбора развёртывания, который намеренно удаляет "
+"заявленное свойство."
 
 #: security/threat-model.rst:741
-#, fuzzy
-#| msgid "Custom configuration files"
 msgid "`Build-time and configuration variants`_"
-msgstr "Пользовательские файлы конфигурации"
+msgstr "`Варианты сборки и конфигурации`_"
 
 #: security/threat-model.rst:743
-#, fuzzy
-#| msgid "Controls how prominently Weblate exposes its own version."
 msgid "Concerns a property Weblate explicitly does not provide."
-msgstr ""
-"Управляет тем, насколько заметно Weblate раскрывает свою собственную версию."
+msgstr "Касается свойства, которое Weblate явным образом не предоставляет."
 
 #: security/threat-model.rst:744
+#, fuzzy
 msgid "`Security properties Weblate does not provide`_"
-msgstr ""
+msgstr "`Свойства безопасности, которые Weblate не предоставляет`_"
 
 #: security/threat-model.rst:746
+#, fuzzy
 msgid "Matches a documented recurring false positive."
-msgstr ""
+msgstr "Совпадает с задокументированным повторяющимся ложным срабатыванием."
 
 #: security/threat-model.rst:747
+#, fuzzy
 msgid "`Known non-findings`_"
-msgstr ""
+msgstr "`Известные ненаходки`_"
 
 #: security/threat-model.rst:749
+#, fuzzy
 msgid "Cannot be cleanly routed to any disposition above."
-msgstr ""
+msgstr "Не может быть чётко направлено ни к одному из вышеуказанных решений."
 
 #: security/threat-model.rst:750
+#, fuzzy
 msgid "`Conditions that change this model`_"
-msgstr ""
+msgstr "`Условия, которые изменяют эту модель`_"
 
 #: security/us-compliance.rst:2
 msgid "US controls compliance"
@@ -53634,19 +54072,14 @@ msgstr ""
 "разобрать для извлечения переводимых строк."
 
 #: snippets/addons-autogenerated.rst:82
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
 "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, "
+":ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-"
+"remove`, :ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:84
 msgid ""
@@ -53713,25 +54146,21 @@ msgid "`This add-on has no configuration.`"
 msgstr "`Эта надстройка не имеет конфигурации.`"
 
 #: snippets/addons-autogenerated.rst:126
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, "
+":ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-"
+"remove`, :ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:128
 msgid "Publishes translation files into a content delivery network."
 msgstr "Публикует файлы переводов в сети доставки контента."
 
 #: snippets/addons-autogenerated.rst:132
+#, fuzzy
 msgid ""
 "Publishes translation files without converting them to another format. Files "
 "are written below the add-on specific CDN directory and served from "
@@ -53742,6 +54171,15 @@ msgid ""
 "the source language file, while bilingual components publish only target-"
 "language files. See :ref:`cdn-server-security` for secure serving guidance."
 msgstr ""
+"Публикует файлы переводов без преобразования в другой формат. Файлы "
+"записываются в CDN-каталог, специфичный для надстройки, и обслуживаются из "
+"``LOCALIZE_CDN_URL/<UUID надстройки>/``. Однофайловые переводы используют "
+"код языка и исходное расширение файла, например ``cs.json`` или ``de.po``. "
+"Многофайловые переводы обслуживаются в подкаталоге кода языка с "
+"использованием путей относительно каталога переводов. Одноязычные компоненты "
+"включают файл исходного языка, в то время как двуязычные компоненты "
+"публикуют только файлы целевого языка. См. :ref:`cdn-server-security` для "
+"получения рекомендаций по безопасной раздаче."
 
 #: snippets/addons-autogenerated.rst:147
 msgid "Remove blank strings"
@@ -58613,11 +59051,6 @@ msgid "The translation does not contain a URL."
 msgstr "Перевод не содержит URL-адреса."
 
 #: snippets/checks-autogenerated.rst:2123
-#, fuzzy
-#| msgid ""
-#| "The translation does not contain an URL. This is triggered only in case "
-#| "the unit is marked as containing URL. In that case the translation has to "
-#| "be a valid URL."
 msgid ""
 "The translation does not contain a URL. This is triggered only in case the "
 "unit is marked as containing URL. In that case the translation has to be a "
@@ -58778,23 +59211,17 @@ msgstr ""
 "пакета Fluent DOM."
 
 #: snippets/checks-autogenerated.rst:2268
-#, fuzzy
-#| msgid ""
-#| "The aim of this check is to predict how the value will be parsed as inner "
-#| "HTML, assuming a HTML5 conforming parser, to catch cases where there "
-#| "would be some \"unintended\" loss of the string, without being too strict "
-#| "about technical parsing errors that do *not* lead to a loss of the string."
 msgid ""
 "The aim of this check is to predict how the value will be parsed as inner "
 "HTML, assuming an HTML5 conforming parser, to catch cases where there would "
 "be some \"unintended\" loss of the string, without being too strict about "
 "technical parsing errors that do *not* lead to a loss of the string."
 msgstr ""
-"Цель этой проверки — предсказать, как значение будет анализироваться как "
-"внутренний HTML, предполагая, что синтаксический анализатор соответствует "
-"HTML5, чтобы выявить случаи «непреднамеренной» потери строки, не слишком "
-"строго относясь к техническим ошибкам синтаксического анализа, которые *не* "
-"приводят к потере строки."
+"Цель этой проверки — предсказать, как значение будет разобрано как "
+"внутренний HTML, предполагая синтаксический анализатор, соответствующий "
+"HTML5, чтобы выявить случаи «непреднамеренной» потери строки, не будучи "
+"слишком строгой к техническим ошибкам разбора, которые *не* приводят к "
+"потере строки."
 
 #: snippets/checks-autogenerated.rst:2273
 msgid ""
@@ -58811,14 +59238,6 @@ msgstr ""
 "можно ссылаться только в селекторах выражений Fluent Select."
 
 #: snippets/checks-autogenerated.rst:2279
-#, fuzzy
-#| msgid ""
-#| "Generally, most Fluent values are not expected to contain any HTML "
-#| "markup. Therefore, this check does not expect or want translators and "
-#| "developers to have to care about strictly avoiding *any* technical HTML5 "
-#| "parsing errors (let alone XHTML parsing errors). Instead, this check will "
-#| "just want to warn them when they may have unintentionally opened a HTML "
-#| "tag or inserted a character reference."
 msgid ""
 "Generally, most Fluent values are not expected to contain any HTML markup. "
 "Therefore, this check does not expect or want translators and developers to "
@@ -58827,12 +59246,12 @@ msgid ""
 "them when they may have unintentionally opened an HTML tag or inserted a "
 "character reference."
 msgstr ""
-"Как правило, большинство значений Fluent не содержат HTML-разметки. Таким "
-"образом, эта проверка не предполагает и не хочет, чтобы переводчики и "
+"Как правило, большинство значений Fluent не должны содержать HTML-разметку. "
+"Поэтому эта проверка не ожидает и не требует, чтобы переводчики и "
 "разработчики строго избегали *любых* технических ошибок синтаксического "
 "анализа HTML5 (не говоря уже об ошибках синтаксического анализа XHTML). "
-"Вместо этого эта проверка просто хочет предупредить их, когда они могли "
-"случайно открыть HTML-тег или вставить ссылку на символ."
+"Вместо этого эта проверка просто предупреждает их, когда они могли случайно "
+"открыть HTML-тег или вставить ссылку на символ."
 
 #: snippets/checks-autogenerated.rst:2285
 msgid ""
@@ -58902,26 +59321,20 @@ msgid "Missing a closing tag."
 msgstr "Не хватает закрывающего тега."
 
 #: snippets/checks-autogenerated.rst:2317
-#, fuzzy
-#| msgid "``four`` is not a HTML void element, so should not self-close."
 msgid "``four`` is not an HTML void element, so should not self-close."
 msgstr ""
-"``four`` не является пустым элементом HTML, поэтому не должен закрываться "
-"самостоятельно."
+"``four`` не является пустым элементом HTML, поэтому не должен "
+"самозакрываться."
 
 #: snippets/checks-autogenerated.rst:2321
 msgid "Custom element tag with a matching closing tag."
 msgstr "Тег пользовательского элемента с соответствующим закрывающим тегом."
 
 #: snippets/checks-autogenerated.rst:2325
-#, fuzzy
-#| msgid "``img`` is a HTML void element. Self-closing is allowed."
 msgid "``img`` is an HTML void element. Self-closing is allowed."
-msgstr "``img`` — это пустой элемент HTML. Допускается самозакрытие."
+msgstr "``img`` — это пустой элемент HTML. Самозакрытие допускается."
 
 #: snippets/checks-autogenerated.rst:2329
-#, fuzzy
-#| msgid "``br`` is a HTML void element."
 msgid "``br`` is an HTML void element."
 msgstr "``br`` — это пустой элемент HTML."
 
@@ -60222,18 +60635,13 @@ msgstr "Как одноязычный, так и двуязычный"
 #: snippets/format-features/resourcedictionary-features.rst:27
 #: snippets/format-features/strings-features.rst:27
 #: snippets/format-features/stringsdict-features.rst:27
-#, fuzzy
-#| msgid "Inherited flags can now be discarded, see :ref:`custom-checks`."
 msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
-msgstr ""
-"Унаследованные флаги теперь можно отбрасывать, см. :ref:`custom-checks`."
+msgstr "Флаги проверки, добавляемые этим форматом :ref:`ⓘ <custom-checks>`"
 
 #: snippets/format-features/asciidoc-features.rst:28
 #: snippets/format-features/html-features.rst:28
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid ":ref:`check-safe-html`, ``strict-same``"
-msgstr "Пропустите проверку качества :ref:`check-safe-html`."
+msgstr ":ref:`check-safe-html`, ``strict-same``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -60259,12 +60667,17 @@ msgid "``csv``, ``csv-multi``, ``csv-simple``"
 msgstr "``csv``, ``csv-multi``, ``csv-simple``"
 
 #: snippets/format-features/fluent-features.rst:28
+#, fuzzy
 msgid ""
 ":ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-"
 "syntax`, :ref:`check-fluent-parts`, :ref:`check-fluent-"
 "references`, :ref:`check-fluent-source-inner-html`, :ref:`check-fluent-"
 "target-inner-html`, ``ignore-xml-tags``, ``ignore-xml-invalid``"
 msgstr ""
+":ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-syntax`, "
+":ref:`check-fluent-parts`, :ref:`check-fluent-references`, :ref:`check-"
+"fluent-source-inner-html`, :ref:`check-fluent-target-inner-html`, ``ignore-"
+"xml-tags``, ``ignore-xml-invalid``"
 
 #: snippets/format-features/go-i18n-json-features.rst:24
 msgid "``go-i18n-json``, ``go-i18n-json-v2``"
@@ -60276,10 +60689,8 @@ msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/markdown-features.rst:28
 #: snippets/format-features/mdx-features.rst:28
-#, fuzzy
-#| msgid "``auto-safe-html``, ``safe-html``"
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
-msgstr "``auto-safe-html``, ``safe-html``"
+msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -63390,17 +63801,12 @@ msgstr ""
 "пункт :guilabel:`Параметры`."
 
 #: user/profile.rst:63
-#, fuzzy
-#| msgid ""
-#| "The user profile contains your preferences. Name and e-mail address is "
-#| "used in VCS commits, so keep this info accurate."
 msgid ""
 "The user profile contains your preferences. Name and e-mail address are used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
-"В профиле пользователя содержатся ваши предпочтения. Имя и адрес электронной "
-"почты будут использоваться в коммитах системы контроля версий, поэтому "
-"укажите в них верную информацию."
+"Профиль пользователя содержит ваши настройки. Имя и адрес электронной почты "
+"используются в коммитах СКВ, поэтому убедитесь, что эта информация верна."
 
 #: user/profile.rst:68
 msgid "All language selections only offer currently translated languages."
@@ -63572,11 +63978,15 @@ msgstr ""
 "слияния). Эти две группы уведомлений в настройках визуально разделены."
 
 #: user/profile.rst:173
+#, fuzzy
 msgid ""
 "The :guilabel:`Translation activity summary` notification is digest-only and "
 "summarizes added, updated, translated, approved, needs editing, and "
 "unfinished strings."
 msgstr ""
+"Уведомление :guilabel:`Сводка активности переводов` предназначено только для "
+"сводок и суммирует добавленные, обновлённые, переведённые, одобренные "
+"строки, строки, требующие правки, и незавершённые строки."
 
 #: user/profile.rst:177
 msgid ""
@@ -63936,11 +64346,15 @@ msgstr ""
 "или перевода."
 
 #: user/search.rst:83
+#, fuzzy
 msgid ""
 "String was changed by author with given username. Use ``changed_by:\"\"`` to "
 "search for strings with at least one content change without a recorded "
 "author."
 msgstr ""
+"Строка была изменена автором с указанным именем пользователя. Используйте "
+"``changed_by:\"\"`` для поиска строк, имеющих по крайней мере одно изменение "
+"содержимого без зарегистрированного автора."
 
 #: user/search.rst:86
 msgid ""
@@ -63980,10 +64394,13 @@ msgstr ""
 "на дефисы. Смотрите примеры в разделе «:ref:`search-changes`»."
 
 #: user/search.rst:98
+#, fuzzy
 msgid ""
 "When combining ``changed_by``, ``changed``, ``change_time``, and "
 "``change_action`` filters, the filters apply to the same change event."
 msgstr ""
+"При комбинировании фильтров ``changed_by``, ``changed``, ``change_time`` и "
+"``change_action`` фильтры применяются к одному и тому же событию изменения."
 
 #: user/search.rst:101
 msgid ""
@@ -65236,16 +65653,12 @@ msgstr ""
 "определённый период, пока не сможете выполнить операцию снова."
 
 #: user/translating.rst:429
-#, fuzzy
-#| msgid ""
-#| "Default limits and fine-tuning is described in the administrative manual, "
-#| "see :ref:`rate-limit`."
 msgid ""
 "Default limits and fine-tuning are described in the administrative manual, "
 "see :ref:`rate-limit`."
 msgstr ""
 "Ограничения по умолчанию и точная настройка описаны в руководстве по "
-"администрированию, смотреть раздел :ref:`rate-limit`."
+"администрированию, см. :ref:`rate-limit`."
 
 #: user/translating.rst:435
 msgid "Search and replace"
@@ -65510,14 +65923,6 @@ msgstr ""
 "к :ref:`hosted-push`."
 
 #: vcs.rst:77
-#, fuzzy
-#| msgid ""
-#| "For self-hosted Weblate, accessing repositories on code hosting sites is "
-#| "typically done by creating a dedicated user who is associated with a "
-#| "Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
-#| "Weblate SSH key with a single user (platforms frequently enforce single "
-#| "use of a SSH key) and grant this user access to the repository. You can "
-#| "then use SSH URL to access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For self-hosted Weblate, accessing repositories on code hosting sites is "
 "typically done by creating a dedicated user who is associated with a Weblate "
@@ -65531,7 +65936,7 @@ msgstr ""
 "который связан с SSH-ключом Weblate (см. :ref:`weblate-ssh-key`). Таким "
 "образом, вы связываете SSH-ключ Weblate с одним пользователем (платформы "
 "часто требуют однократного использования SSH-ключа) и предоставляете этому "
-"пользователю доступ к репозиторию. Затем вы можете использовать SSH URL для "
+"пользователю доступ к репозиторию. Затем вы можете использовать SSH-URL для "
 "доступа к репозиторию (см. :ref:`ssh-repos`)."
 
 #: vcs.rst:87
