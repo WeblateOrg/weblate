@@ -2,32 +2,33 @@
 # yarn lockfile v1
 
 
-"@argos-ci/api-client@0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@argos-ci/api-client/-/api-client-0.20.0.tgz#646a7046017148623a8ba1efc253931b266a153d"
-  integrity sha512-2qCWc/vQGNGofPypX+ow7uGNlvs9iDzrIQcp0DCcXryBwNi8KV68Tq30Te3s/BrY674YG1FflOyHqKZtU0K+5A==
+"@argos-ci/api-client@0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@argos-ci/api-client/-/api-client-0.20.1.tgz#9f04ddba3a65aeaf43ac23f57d3c024e74de0085"
+  integrity sha512-nQRalmeY08eiC+OTQE689F3M2H0ywAq14gYyZvVdRJenHjhpqCqaSn2KSd5oTVaCGQlgjhCafNG9cYH2P68dwg==
   dependencies:
     debug "^4.4.3"
     openapi-fetch "^0.17.0"
+    p-retry "^8.0.0"
 
-"@argos-ci/cli@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@argos-ci/cli/-/cli-5.0.0.tgz#c58082273d18bdfe6747fc4a7595afa9f1c50fd0"
-  integrity sha512-HmOJpwFI6QopqzoZSGcwnfyIGpje+9zDHV5vZnIugIot0dw/T1cp5J9mVr5XFkERcJc+KzI3g6sFNM1PJAeSOg==
+"@argos-ci/cli@5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@argos-ci/cli/-/cli-5.0.1.tgz#3d0a3f2a0ee6e67cd13e8b8297a280a48979e795"
+  integrity sha512-UBnrEdpM5wXdGjo22ANy0Y55u4HZoVd+BbB7zsnWX+NSHAjq30wrGWT4PQSZr8tcioHmaVp5Wj5swfdWQho6Eg==
   dependencies:
-    "@argos-ci/api-client" "0.20.0"
-    "@argos-ci/core" "6.0.0"
+    "@argos-ci/api-client" "0.20.1"
+    "@argos-ci/core" "6.0.1"
     commander "^14.0.3"
     open "^11.0.0"
     ora "^9.4.0"
     update-notifier "^7.3.1"
 
-"@argos-ci/core@6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@argos-ci/core/-/core-6.0.0.tgz#8c01875fc86a3bb543b5a0de52ff25805aa0380f"
-  integrity sha512-UHFPdIUU7ynR3GrEzC7VUgCHY6M04FvA+WG8XaR2Y9rQUbWKvVIu29uZ9TeaJzI1u/uYVWmne1j586nZTl22+A==
+"@argos-ci/core@6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@argos-ci/core/-/core-6.0.1.tgz#e1873c9120ebee393c558793ef93e9c7f7871f17"
+  integrity sha512-AwveEfywZ6iNwHwar5AQl0ZKHSDOSQFPCH7330rSDl9pWJzxo66G0sVZZsF5DA5c8HejXJx11yff+/CiGxrGmg==
   dependencies:
-    "@argos-ci/api-client" "0.20.0"
+    "@argos-ci/api-client" "0.20.1"
     "@argos-ci/util" "4.0.0"
     convict "^6.2.5"
     debug "^4.4.3"
@@ -1055,6 +1056,11 @@ is-interactive@^2.0.0:
   resolved "https://registry.yarnpkg.com/is-interactive/-/is-interactive-2.0.0.tgz#40c57614593826da1100ade6059778d597f16e90"
   integrity sha512-qP1vozQRI+BMOPcjFzrjXuQvdak2pHNUMZoeG2eRbiSqyvbEf/wQtEOTOX1guk6E3t36RkaqiSt8A/6YElNxLQ==
 
+is-network-error@^1.3.0:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/is-network-error/-/is-network-error-1.3.2.tgz#9460bc30f8419a4bca77114f4de88a3ee5e0c519"
+  integrity sha512-PhBY86zaxNZUuWP6h13Vu5oFe0XY6/UlKzQnYFELzGVHygP3MxmvTfYSG7GN3aIab/iWudSMgjSnG9Dq+nHrgA==
+
 is-npm@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/is-npm/-/is-npm-6.1.0.tgz#f70e0b6c132dfc817ac97d3badc0134945b098d3"
@@ -1299,6 +1305,13 @@ p-locate@^4.1.0:
   integrity sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==
   dependencies:
     p-limit "^2.2.0"
+
+p-retry@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/p-retry/-/p-retry-8.0.0.tgz#1505faf14942326e18d4091f5d605bae65634e7b"
+  integrity sha512-kFVqH1HxOHp8LupNsOys7bSV09VYTRLxarH/mokO4Rqhk6wGi70E0jh4VzvVGXfEVNggHoHLAMWsQqHyU1Ey9A==
+  dependencies:
+    is-network-error "^1.3.0"
 
 p-try@^2.0.0:
   version "2.2.0"
