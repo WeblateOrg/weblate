@@ -32,7 +32,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-23 09:15+0000\n"
+"PO-Revision-Date: 2026-05-24 06:32+0000\n"
 "Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -626,12 +626,11 @@ msgstr ""
 "{username}."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"L'utilisateur a été ajouté à l'équipe {team} (à l'échelle du site) par "
-"{username}."
+"L'accès de l'utilisateur à l'équipe {team} à l'échelle du site a été modifié "
+"par {username}."
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -662,10 +661,10 @@ msgid "User was added to the {team} team by {username}."
 msgstr "L’utilisateur a été ajouté dans l’équipe {team} par {username}."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "L’utilisateur a été ajouté dans l’équipe {team} par {username}."
+msgstr ""
+"L'accès de l'utilisateur à l'équipe {team} a été modifié par {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -764,14 +763,10 @@ msgstr ""
 "pas approprié."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"S’il s’agit de vous, veuillez utiliser la réinitialisation de mot de passe "
-"pour retrouver l’accès à votre compte."
+"Si c'est votre cas, réinitialisez votre mot de passe pour retrouver l'accès "
+"à votre compte."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1123,11 +1118,9 @@ msgid "Strings are available for translation"
 msgstr "Des chaînes de caractères sont disponibles pour la traduction"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Résumé des traductions"
+msgstr "Résumé des activités de traduction"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1743,26 +1736,19 @@ msgstr ""
 "utilisation dans la localisation JavaScript ou HTML."
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Fichiers de traduction"
+msgstr "Fichiers de traduction CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
 msgstr ""
-"Publie les traductions dans le réseau de diffusion de contenu (CDN) pour "
-"utilisation dans la localisation JavaScript ou HTML."
+"Publie les fichiers de traduction sur un réseau de diffusion de contenu."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "La traduction dans la langue de base ne peut pas être modifiée."
+msgstr ""
+"L'extension CDN pour les fichiers de traduction ne peut pas publier "
+"weblate.js."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -2178,23 +2164,17 @@ msgstr ""
 "et POTFILES ou POTFILES.in."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
 msgstr ""
-"Le composant doit définir un fichier POT pour les nouvelles traductions."
+"Le composant doit définir un modèle gettext pour les nouvelles traductions."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"L’extension Django s’attend à ce que le modèle pour les nouvelles "
-"traductions soit nommé « django.pot » ou « djangojs.pot »."
+"L'extension Django attend que les fichiers de traduction soient nommés « "
+"django.pot », « djangojs.pot », « django.po » ou « djangojs.po »."
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2300,15 +2280,13 @@ msgid "Voting threshold"
 msgstr "Seuil de votes"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Seuil pour la suppression d’une suggestion. Ce champ est sans effet lorsque "
-"le vote est désactivé."
+"Seuil de suppression. Laissez ce champ vide pour supprimer les suggestions "
+"quel que soit le nombre de votes. Ce champ n'a aucun effet lorsque le vote "
+"est désactivé."
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2801,10 +2779,8 @@ msgstr ""
 "Met à jour le modèle gettext en utilisant les conventions gettext de Meson."
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "Mise à jour du fichier POT (Django)"
+msgstr "Mise à jour du modèle gettext (Django)"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -3116,7 +3092,7 @@ msgstr ""
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "On s'attendait à un objet."
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3898,10 +3874,8 @@ msgstr ""
 "Exige des utilisateurs qu’ils paramètrent l’authentification à deux facteurs."
 
 #: weblate/auth/models.py:277 weblate/auth/models.py:1538
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Limit languages"
-msgstr "Langues Bihari"
+msgstr "Limiter les langues"
 
 #: weblate/auth/models.py:280 weblate/auth/models.py:1541
 msgid ""
@@ -3910,6 +3884,11 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Limitez les autorisations de cette équipe à ces langues. Les autorisations "
+"au niveau du projet, des composants et les autorisations globales de cette "
+"équipe ne sont pas accordées lorsqu'une limite de langue est définie. Si "
+"aucune langue n'est sélectionnée, le système utilise la sélection de langue "
+"de l'équipe sans restriction supplémentaire."
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -4790,67 +4769,51 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Paramètres manquants pour le drapeau de traduction : « %s »"
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"La référence Fluent dans {sequence} pourrait se développer en une balise "
-"HTML. Utilisez peut-être {suggestion}."
+"La référence Fluent dans {sequence} peut se transformer en balise HTML. Vous "
+"pouvez utiliser {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
-"La référence Fluent dans {sequence} pourrait se développer en une référence "
-"de caractère HTML. Utilisez peut-être {suggestion}."
+"La référence Fluent dans {sequence} peut se transformer en une référence de "
+"caractère HTML. Vous pouvez utiliser {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
-"La séquence {sequence} commence par une balise de fermeture HTML mais le nom "
-"ou la syntaxe n’est pas valide. Si vous ne souhaitez pas utiliser une balise "
-"de fermeture, indiquez {suggestion}."
+"La séquence {sequence} commence par une balise de fermeture HTML, mais son "
+"nom ou sa syntaxe n'est pas valide. Si vous ne souhaitez pas utiliser de "
+"balise de fermeture, utilisez {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"La séquence {sequence} commence par une balise HTML mais le nom n’est pas "
-"valide. Si vous ne souhaitez pas commencer par une balise HTML, utilisez "
-"{suggestion}."
+"La séquence {sequence} commence par une balise HTML, mais le nom n'est pas "
+"valide. Si vous ne souhaitez pas créer une balise HTML, utilisez {suggestion}"
+"."
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"La séquence {sequence} commence par une balise HTML mais la balise n’est "
-"jamais fermée par {close}. Si vous ne souhaitez commencer par une balise "
+"La séquence {sequence} commence par une balise HTML, mais celle-ci n'est "
+"jamais fermée par {close}. Si vous ne souhaitez pas commencer une balise "
 "HTML, utilisez {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:212
@@ -4862,19 +4825,15 @@ msgstr ""
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
 "begin an HTML tag, use {suggestion}."
 msgstr ""
 "La séquence {sequence} commence par une balise HTML, mais la séquence "
-"{attribute} n’est pas un attribut valide avec une valeur. Si vous ne voulez "
-"pas commencer par une balise HTML, utilisez {suggestion}."
+"{attribute} n'est pas un attribut valide avec une valeur. Si vous ne "
+"souhaitez pas commencer par une balise HTML, utilisez {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:246
 #, python-brace-format
