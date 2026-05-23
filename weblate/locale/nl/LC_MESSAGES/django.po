@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-13 12:11+0000\n"
+"PO-Revision-Date: 2026-05-23 09:15+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -385,10 +385,8 @@ msgid "Team"
 msgstr "Team"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Gebruiker toevoegen aan een team"
+msgstr "Toevoegen aan een team"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -595,11 +593,11 @@ msgstr ""
 "Gebruiker werd toegevoegd aan het sitebrede team {team} door {username}."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"Gebruiker werd toegevoegd aan het sitebrede team {team} door {username}."
+"Toegang voor gebruiker tot sitebrede team {team} werd gewijzigd door "
+"{username}."
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -629,10 +627,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Gebruiker werd toegevoegd aan team {team} door {username}."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "Gebruiker werd toegevoegd aan team {team} door {username}."
+msgstr "Toegang voor gebruiker tot team {team} werd gewijzigd door {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -726,14 +723,10 @@ msgstr ""
 "klopt."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Als u dit was, kunt u wachtwoordherstel gebruiken om opnieuw toegang te "
-"krijgen tot uw account."
+"Als u dit was, herstel uw wachtwoord om opnieuw toegang te krijgen tot uw "
+"account."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1081,11 +1074,9 @@ msgid "Strings are available for translation"
 msgstr "Tekenreeksen zijn beschikbaar voor vertalen"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary:"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Samenvatting van vertaling:"
+msgstr "Samenvatting activiteiten van vertalen"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1683,25 +1674,16 @@ msgstr ""
 "Publiceert vertalingen als CDN voor gebruik in javascript- en html-vertaling."
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Vertaalbestanden"
+msgstr "Vertaalbestanden CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Publiceert vertalingen als CDN voor gebruik in javascript- en html-vertaling."
+msgstr "Publiceert vertaalbestanden in een Content Delivery Network."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "De basistaal van de vertaling kan niet worden aangepast."
+msgstr "De add-on Vertaalbestanden CDN add-on kan geen weblate.js publiceren."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -2117,22 +2099,17 @@ msgstr ""
 "POTFILES of POTFILES.in."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "Het onderdeel moet een POT-bestand definiëren voor nieuwe vertalingen."
+msgstr ""
+"Het onderdeel moet een gettext-sjabloon definiëren voor nieuwe vertalingen."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
 "De add-on Django verwacht dat het sjabloon voor nieuwe vertalingen is "
-"genaamd \"django.pot\" of \"djangojs.pot\"."
+"genaamd \"django.pot\", \"djangojs.pot\", \"django.po\" of \"djangojs.po\"."
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2238,15 +2215,12 @@ msgid "Voting threshold"
 msgstr "Stemdrempel"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Stemdrempel voor verwijdering. Niet van toepassing als stemmen uitgeschakeld "
-"is."
+"Stemdrempel voor verwijderen. Laat leeg om suggesties te verwijderen, "
+"ongeacht de stemmen. Dit veld heeft geen effect als stemmen uitgeschakeld is."
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2732,10 +2706,8 @@ msgid "Updates the gettext template using Meson gettext conventions."
 msgstr "Werkt het sjabloon voor gettext bij met conventies voor Meson gettext."
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "POT-bestand bijwerken (Django)"
+msgstr "Gettext-sjabloon bijwerken (Django)"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -3044,7 +3016,7 @@ msgstr ""
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "Verwachtte een object."
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3838,6 +3810,10 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Beperk rechten van dit team tot deze talen. Projectbrede, onderdeelbrede en "
+"globale rechten voor dit team worden niet verleend als een beperking op de "
+"talen is ingesteld. Een lege selectie beperkt het selecteren van talen "
+"zonder aanvullende beperking."
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -6305,6 +6281,8 @@ msgstr "Drie"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Laat leeg om selecteren van talen voor het team zonder extra beperkingen te "
+"laten."
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
@@ -9268,11 +9246,12 @@ msgstr "Integratie-instructies"
 
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
-msgstr ""
+msgstr "Gepubliceerde vertaalbestanden zijn beschikbaar vanaf de CDN-basisURL:"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
 msgstr ""
+"Bestanden gebruiken namen met taalcode met de originele bestandsextensie."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9608,6 +9587,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Dit wordt gecontroleerd voor elke gebruiker op de site, ongeacht welk "
+"project ze gebruiken."
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -10825,13 +10806,15 @@ msgstr ""
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "Kies iets om aan te werken"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
 msgstr ""
+"Begin met niet-vertaalde tekenreeksen, ga dan door met controles, "
+"beoordelen, suggesties of bewerken."
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -11476,6 +11459,9 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Deze service kan brontekenreeksen, vertalingen en gerelateerde inhoud naar "
+"een derdepartijprovider sturen. Bekijk de voorwaarden en privacybeleid van "
+"de provider voordat het wordt ingeschakeld."
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -15130,6 +15116,9 @@ msgid ""
 "Leave the language limit empty to grant access to all languages available to "
 "the team. Select languages only to apply an additional filter."
 msgstr ""
+"Laat de beperking voor de taal leeg om toegang toe te staan voor alle "
+"beschikbare talen voor het team. Selecteer alleen talen om een aanvullend "
+"filter toe te passen."
 
 #: weblate/templates/trans/project-access-team-form.html:45
 #, fuzzy
@@ -17230,6 +17219,8 @@ msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Kies of gerepareerde wijzigingen voor dezelfde tekenreeks slechts een keer "
+"worden geteld of als afzonderlijke wijzigingen."
 
 #: weblate/trans/forms.py:1602
 #, fuzzy
@@ -19746,7 +19737,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Importeren van projectback-up wordt uitgevoerd"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -20518,6 +20509,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Formule voor meervoud {result} resultaten voor de telling {count} ligt "
+"buiten het toegestane bereik 0..{max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -20702,6 +20695,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"Het ZIP-bestand bevat %(actual_size)s gegevens na uitpakken, dat "
+"overschrijdt de geconfigureerde grens van %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
@@ -20732,6 +20727,8 @@ msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
 msgstr ""
+"Gerrit-branchnamen mogen geen tekens %(chars)s bevatten, omdat Gerrit ze "
+"interpreteert als opties voor pushen van reviews."
 
 #: weblate/vcs/git.py:968
 msgid "This will commit changes to the Subversion repository."
