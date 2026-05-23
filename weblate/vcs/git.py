@@ -255,16 +255,17 @@ class GitRepository(Repository):
             for section, key, value in updates:
                 try:
                     old = config.get(section, key)
-                    if value is None:
-                        config.remove_option(section, key)
-                        continue
-                    if old == value:
-                        continue
                 except NoSectionError:
                     if value is not None:
                         config.add_section(section)
                 except NoOptionError:
                     pass
+                else:
+                    if value is None:
+                        config.remove_option(section, key)
+                        continue
+                    if old == value:
+                        continue
                 if value is not None:
                     config.set(section, key, value)
 
@@ -1591,6 +1592,57 @@ class GitMergeRequestBase(GitForcePushRepository):
     def set_next_request_time(self, delay: int) -> None:
         cache.set(self.request_time_cache_key, time() + delay)
 
+    def send_api_request(
+        self,
+        method: str,
+        credentials: GitCredentials,
+        url: str,
+        lock: WeblateLock,
+        cache_id: str,
+        vcs_id: str,
+        *,
+        data: dict | None,
+        params: dict | None,
+        json: dict | None,
+    ) -> tuple[bool, dict, requests.Response]:
+        do_retry = False
+        with lock:
+            next_api_time = cache.get(cache_id)
+            now = time()
+            if next_api_time is not None and now < next_api_time:
+                with sentry_sdk.start_span(op="vcs.api_sleep", name=vcs_id):
+                    sleep(next_api_time - now)
+            try:
+                response = requests.request(
+                    method,
+                    url,
+                    headers=self.get_headers(credentials),
+                    data=data,
+                    params=params,
+                    json=json,
+                    auth=self.get_auth(credentials),
+                    timeout=settings.VCS_API_TIMEOUT,
+                )
+            except (OSError, HTTPError) as error:
+                report_error("Git API request")
+                raise RepositoryError(0, str(error)) from error
+
+            # GitHub recommends a delay between 2 requests of at least 1s,
+            # but in reality this hits secondary rate limits.
+            self.set_next_request_time(settings.VCS_API_DELAY)
+
+            self.add_response_breadcrumb(response)
+            try:
+                response_data = {} if response.status_code == 204 else response.json()
+            except JSONDecodeError as error:
+                report_error("GIT API request json decoding")
+                self.raise_for_response(response)
+                raise RepositoryError(0, str(error)) from error
+
+            if self.should_retry_request(response, response_data):
+                do_retry = True
+        return do_retry, response_data, response
+
     def request(
         self,
         method: str,
@@ -1613,44 +1665,17 @@ class GitMergeRequestBase(GitForcePushRepository):
             timeout=3 * max(settings.VCS_API_DELAY, 10),
         )
         try:
-            with lock:
-                next_api_time = cache.get(cache_id)
-                now = time()
-                if next_api_time is not None and now < next_api_time:
-                    with sentry_sdk.start_span(op="vcs.api_sleep", name=vcs_id):
-                        sleep(next_api_time - now)
-                try:
-                    response = requests.request(
-                        method,
-                        url,
-                        headers=self.get_headers(credentials),
-                        data=data,
-                        params=params,
-                        json=json,
-                        auth=self.get_auth(credentials),
-                        timeout=settings.VCS_API_TIMEOUT,
-                    )
-                except (OSError, HTTPError) as error:
-                    report_error("Git API request")
-                    raise RepositoryError(0, str(error)) from error
-
-                # GitHub recommends a delay between 2 requests of at least 1s,
-                # but in reality this hits secondary rate limits.
-                self.set_next_request_time(settings.VCS_API_DELAY)
-
-                self.add_response_breadcrumb(response)
-                try:
-                    if response.status_code == 204:
-                        response_data = {}
-                    else:
-                        response_data = response.json()
-                except JSONDecodeError as error:
-                    report_error("GIT API request json decoding")
-                    self.raise_for_response(response)
-                    raise RepositoryError(0, str(error)) from error
-
-                if self.should_retry_request(response, response_data):
-                    do_retry = True
+            do_retry, response_data, response = self.send_api_request(
+                method,
+                credentials,
+                url,
+                lock,
+                cache_id,
+                vcs_id,
+                data=data,
+                params=params,
+                json=json,
+            )
         except WeblateLockTimeoutError:
             do_retry = True
 
@@ -2317,11 +2342,16 @@ class LocalRepository(GitRepository):
                 remove_tree(target)
             cls._clone("local:", target, cls.default_branch)
             # Populate files
-            yield repo
-            # Add to repository
-            repo.execute(["add", target], remote_op="none")
-            if repo.needs_commit():
-                repo.commit(commit_message)
+            success = False
+            try:
+                yield repo
+                success = True
+            finally:
+                if success:
+                    # Add to repository
+                    repo.execute(["add", target], remote_op="none")
+                    if repo.needs_commit():
+                        repo.commit(commit_message)
 
     @classmethod
     def from_zip(cls, target: str, zipfile: BinaryIO) -> Self:

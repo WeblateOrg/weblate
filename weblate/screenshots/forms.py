@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import io
-from typing import Any, cast
+from typing import Any, NoReturn, cast
 
 import requests
 from django import forms
@@ -22,8 +22,35 @@ from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 
 class ScreenshotImageValidationMixin(BaseForm):
-    def raise_image_url_error(self, message) -> None:
+    def raise_image_url_error(self, message) -> NoReturn:
         raise forms.ValidationError({"image_url": message})
+
+    def get_image_url_content(self, url: str) -> tuple[bytes, str]:
+        with open_restricted_asset_url(
+            "get",
+            url,
+            allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+            allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+        ) as response:
+            content = b""
+            for chunk in response.iter_content(
+                chunk_size=settings.ALLOWED_ASSET_SIZE + 1
+            ):
+                if not content:
+                    content = chunk
+                else:
+                    # This can be slow, but it typically won't happen
+                    content += chunk
+                if len(content) > settings.ALLOWED_ASSET_SIZE:
+                    break
+            if len(content) > settings.ALLOWED_ASSET_SIZE:
+                self.raise_image_url_error(gettext("Image is too big."))
+            content_type = response.headers.get("Content-Type")
+            if not content_type or content_type not in ALLOWED_IMAGES:
+                self.raise_image_url_error(
+                    gettext("Unsupported image type: %s") % content_type
+                )
+            return content, content_type
 
     def clean_images(
         self, cleaned_data: dict[str, Any], edit: bool = False
@@ -50,30 +77,7 @@ class ScreenshotImageValidationMixin(BaseForm):
     def download_image(self, url: str) -> InMemoryUploadedFile:
         """Download image from the provided URL."""
         try:
-            with open_restricted_asset_url(
-                "get",
-                url,
-                allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-                allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
-            ) as response:
-                content = b""
-                for chunk in response.iter_content(
-                    chunk_size=settings.ALLOWED_ASSET_SIZE + 1
-                ):
-                    if not content:
-                        content = chunk
-                    else:
-                        # This can be slow, but it typically won't happen
-                        content += chunk
-                    if len(content) > settings.ALLOWED_ASSET_SIZE:
-                        break
-                if len(content) > settings.ALLOWED_ASSET_SIZE:
-                    self.raise_image_url_error(gettext("Image is too big."))
-                content_type = response.headers.get("Content-Type")
-                if not content_type or content_type not in ALLOWED_IMAGES:
-                    self.raise_image_url_error(
-                        gettext("Unsupported image type: %s") % content_type
-                    )
+            content, content_type = self.get_image_url_content(url)
         except forms.ValidationError as error:
             if hasattr(error, "error_dict"):
                 raise

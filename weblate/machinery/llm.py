@@ -447,6 +447,26 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
         return getattr(getattr(component, "source_language", None), "plural", None)
 
+    @staticmethod
+    def _get_secondary_unit(
+        unit_set,
+        unit: Unit,
+        secondary_language: Language,
+        secondary_language_id: int | None,
+    ) -> Unit | None:
+        if secondary_language_id is None:
+            query = unit_set.filter(translation__language=secondary_language)
+        else:
+            query = unit_set.filter(translation__language_id=secondary_language_id)
+        query = (
+            query.filter(state__gte=STATE_TRANSLATED, state__lt=STATE_READONLY)
+            .exclude(target="")
+            .select_related("translation__language")
+        )
+        if unit_pk := getattr(unit, "pk", None):
+            query = query.exclude(pk=unit_pk)
+        return query.first()
+
     def _get_secondary_context(
         self,
         source_text: str,
@@ -490,20 +510,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
             secondary_unit = secondary_context_cache[cache_key]
         else:
             try:
-                if secondary_language_id is None:
-                    query = unit_set.filter(translation__language=secondary_language)
-                else:
-                    query = unit_set.filter(
-                        translation__language_id=secondary_language_id
-                    )
-                query = (
-                    query.filter(state__gte=STATE_TRANSLATED, state__lt=STATE_READONLY)
-                    .exclude(target="")
-                    .select_related("translation__language")
+                secondary_unit = self._get_secondary_unit(
+                    unit_set, unit, secondary_language, secondary_language_id
                 )
-                if unit_pk := getattr(unit, "pk", None):
-                    query = query.exclude(pk=unit_pk)
-                secondary_unit = query.first()
             except (AttributeError, TypeError, ValueError):
                 return None
             if secondary_context_cache is not None:

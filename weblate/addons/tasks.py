@@ -113,6 +113,47 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         component.delete_alert("CDNAddonError")
 
 
+def enforce_language_consistency(
+    addon: Addon,
+    languages,
+    fake_request: HttpRequest,
+    components,
+    log_result: list[str],
+) -> None:
+    for component in components.iterator():
+        # Keep the standard lock ordering: repository first, then component.
+        # This avoids inverting the order used by create_translations().
+        with component.repository.lock, component.lock:
+            missing = languages.exclude(
+                Q(translation__component=component) | Q(component=component)
+            )
+            if not missing:
+                continue
+            component.commit_pending("language consistency", None)
+            for language in missing:
+                component.refresh_lock()
+                new_lang = component.add_new_language(
+                    language,
+                    fake_request,  # type: ignore[arg-type]
+                    send_signal=False,
+                    create_translations=False,
+                )
+                if new_lang is None:
+                    log_result.append(
+                        f"{component.full_slug}: {addon.addon.verbose}: Could not add {language}: {component.new_lang_error_message}"
+                    )
+                else:
+                    log_result.append(
+                        f"{component.full_slug}: {addon.addon.verbose}: Added {language}"
+                    )
+            try:
+                component.create_translations_immediate()
+            except FileParseError as error:
+                log_result.append(
+                    f"{component.full_slug}: {addon.addon.verbose}: Could not parse translation files: {error}"
+                )
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -160,38 +201,9 @@ def language_consistency(
     log_result: list[str] = []
 
     try:
-        for component in components.iterator():
-            # Keep the standard lock ordering: repository first, then component.
-            # This avoids inverting the order used by create_translations().
-            with component.repository.lock, component.lock:
-                missing = languages.exclude(
-                    Q(translation__component=component) | Q(component=component)
-                )
-                if not missing:
-                    continue
-                component.commit_pending("language consistency", None)
-                for language in missing:
-                    component.refresh_lock()
-                    new_lang = component.add_new_language(
-                        language,
-                        fake_request,  # type: ignore[arg-type]
-                        send_signal=False,
-                        create_translations=False,
-                    )
-                    if new_lang is None:
-                        log_result.append(
-                            f"{component.full_slug}: {addon.addon.verbose}: Could not add {language}: {component.new_lang_error_message}"
-                        )
-                    else:
-                        log_result.append(
-                            f"{component.full_slug}: {addon.addon.verbose}: Added {language}"
-                        )
-                try:
-                    component.create_translations_immediate()
-                except FileParseError as error:
-                    log_result.append(
-                        f"{component.full_slug}: {addon.addon.verbose}: Could not parse translation files: {error}"
-                    )
+        enforce_language_consistency(
+            addon, languages, fake_request, components, log_result
+        )
     except Exception as error:
         log_result.append(f"{addon.addon.verbose}: failed: {error}")
         raise

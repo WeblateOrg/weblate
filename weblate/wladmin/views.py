@@ -362,13 +362,14 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
 def handle_dismiss(request: AuthenticatedHttpRequest) -> HttpResponse:
     try:
         error = ConfigurationError.objects.get(pk=int(request.POST["pk"]))
+    except (ValueError, KeyError, ConfigurationError.DoesNotExist):
+        messages.error(request, gettext("Could not dismiss the configuration error!"))
+    else:
         if "ignore" in request.POST:
             error.ignored = True
             error.save(update_fields=["ignored"])
         else:
             error.delete()
-    except (ValueError, KeyError, ConfigurationError.DoesNotExist):
-        messages.error(request, gettext("Could not dismiss the configuration error!"))
     return redirect("manage-performance")
 
 

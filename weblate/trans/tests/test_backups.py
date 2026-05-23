@@ -8,6 +8,7 @@ import json
 import os
 import tempfile
 import warnings
+from contextlib import contextmanager, suppress
 from shutil import copyfile
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -53,6 +54,15 @@ TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
 TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
 TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
+
+
+@contextmanager
+def remove_file_after(filename: str):
+    try:
+        yield
+    finally:
+        with suppress(OSError):
+            os.unlink(filename)
 
 
 class BackupsTest(ViewTestCase):
@@ -665,7 +675,7 @@ class BackupsTest(ViewTestCase):
             repo="https://private.example/repo.git"
         )
 
-        try:
+        with remove_file_after(temp_name):
             restore = ProjectBackup(temp_name)
             with (
                 patch(
@@ -684,15 +694,13 @@ class BackupsTest(ViewTestCase):
                     ]
                 },
             )
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_rejects_invalid_push_url(self) -> None:
         temp_name = self.write_tampered_component_backup(
             push="https://private.example/push.git"
         )
 
-        try:
+        with remove_file_after(temp_name):
             restore = ProjectBackup(temp_name)
             with (
                 patch(
@@ -711,8 +719,6 @@ class BackupsTest(ViewTestCase):
                     ]
                 },
             )
-        finally:
-            os.unlink(temp_name)
 
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
@@ -825,7 +831,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -839,15 +845,13 @@ class BackupsTest(ViewTestCase):
                 ValueError, "compressed entry that is too large"
             ):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     @override_settings(PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=10)
     def test_restore_low_compression_large_entry_allowed(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -860,15 +864,13 @@ class BackupsTest(ViewTestCase):
 
             restore = ProjectBackup(temp_name)
             restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     @override_settings(PROJECT_BACKUP_IMPORT_MAX_MEMBERS=5)
     def test_restore_zip_bomb_too_many_members(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -881,14 +883,12 @@ class BackupsTest(ViewTestCase):
             restore = ProjectBackup(temp_name)
             with self.assertRaisesRegex(ValueError, "contains too many entries"):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_zip_bomb_too_much_uncompressed_data(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -915,14 +915,12 @@ class BackupsTest(ViewTestCase):
                 ),
             ):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_rejects_unsafe_vcs_path_after_prefix_strip(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -934,8 +932,6 @@ class BackupsTest(ViewTestCase):
             restore = ProjectBackup(temp_name)
             with self.assertRaisesRegex(ValueError, "ZIP file contains invalid path"):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     @override_settings(
         PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
@@ -949,7 +945,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(backup.filename, "r") as source_zip,
                 ZipFile(temp_name, "w") as target_zip,
@@ -969,8 +965,6 @@ class BackupsTest(ViewTestCase):
                 restore.restore(
                     project_name="Restored", project_slug="restored", user=self.user
                 )
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_skips_git_hooks(self) -> None:
         backup = ProjectBackup()
@@ -979,7 +973,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(backup.filename, "r") as source_zip,
                 ZipFile(temp_name, "w") as target_zip,
@@ -1014,8 +1008,6 @@ class BackupsTest(ViewTestCase):
                 f"refs/heads/{component.branch}",
             )
             restored.do_reset()
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_rejects_invalid_screenshot(self) -> None:
         screenshot = Screenshot.objects.create(
@@ -1030,7 +1022,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(backup.filename, "r") as source_zip,
                 ZipFile(temp_name, "w") as target_zip,
@@ -1047,8 +1039,6 @@ class BackupsTest(ViewTestCase):
                 restore.restore(
                     project_name="Restored", project_slug="restored", user=self.user
                 )
-        finally:
-            os.unlink(temp_name)
 
     def test_cleanup(self) -> None:
         cleanup_project_backups()
@@ -1179,12 +1169,9 @@ class BackupsTest(ViewTestCase):
         delay.assert_called_once()
         kwargs = delay.call_args.kwargs
         filename = kwargs["filename"]
-        try:
+        with remove_file_after(filename):
             self.assertEqual(kwargs["project_name"], "Import Test")
             self.assertEqual(kwargs["project_slug"], "import-test")
             self.assertEqual(kwargs["user_id"], self.user.id)
             self.assertIsNone(kwargs["billing_id"])
             self.assertFalse(Project.objects.filter(slug="import-test").exists())
-        finally:
-            if os.path.exists(filename):
-                os.unlink(filename)

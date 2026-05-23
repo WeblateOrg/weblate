@@ -465,17 +465,21 @@ def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> N
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         try:
-            if component.repository.count_missing() > threshold:
-                component.add_alert("RepositoryOutdated")
-            else:
-                component.delete_alert("RepositoryOutdated")
-            if component.repository.count_outgoing() > threshold:
-                component.add_alert("RepositoryChanges")
-            else:
-                component.delete_alert("RepositoryChanges")
+            update_repository_alerts(component, threshold)
         except RepositoryError as error:
             report_error("Could not check repository status", project=component.project)
             component.add_alert("MergeFailure", error=component.error_text(error))
+
+
+def update_repository_alerts(component: Component, threshold: int) -> None:
+    if component.repository.count_missing() > threshold:
+        component.add_alert("RepositoryOutdated")
+    else:
+        component.delete_alert("RepositoryOutdated")
+    if component.repository.count_outgoing() > threshold:
+        component.add_alert("RepositoryChanges")
+    else:
+        component.delete_alert("RepositoryChanges")
 
 
 @app.task(trail=False)
@@ -719,6 +723,39 @@ def store_auto_translate_activity_log(
     return result
 
 
+def get_auto_translate_target(
+    *,
+    translation_id: int | None,
+    component_id: int | None,
+    category_id: int | None,
+    project_id: int | None,
+    language_id: int | None,
+) -> tuple[Translation | Component | Category | ProjectLanguage, dict[str, int]]:
+    if translation_id is not None:
+        translation = Translation.objects.get(pk=translation_id)
+        return translation, {"translation": translation.id}
+    if component_id is not None:
+        component = Component.objects.get(pk=component_id)
+        return component, {"component": component.id}
+    if category_id is not None:
+        category = Category.objects.get(pk=category_id)
+        return category, {"category": category.id}
+    if project_id is not None:
+        if language_id is None:
+            msg = "language_id must be provided when project_id is given"
+            raise ValueError(msg)
+        project_language = ProjectLanguage(
+            project=Project.objects.get(pk=project_id),
+            language=Language.objects.get(pk=language_id),
+        )
+        return project_language, {
+            "project": project_language.project.id,
+            "language": project_language.language.id,
+        }
+    msg = "One of translation_id, component_id, category_id, or project_id must be provided"
+    raise ValueError(msg)
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -748,33 +785,19 @@ def auto_translate(  # noqa: PLR0913
     user = User.objects.get(pk=user_id) if user_id else None
     with override(user.profile.language if user else "en"):
         try:
-            if translation_id is not None:
-                obj = Translation.objects.get(pk=translation_id)
-                result["translation"] = obj.id
-            elif component_id is not None:
-                obj = Component.objects.get(pk=component_id)
-                result["component"] = obj.id
-            elif category_id is not None:
-                obj = Category.objects.get(pk=category_id)
-                result["category"] = obj.id
-            elif project_id is not None:
-                if language_id is None:
-                    msg = "language_id must be provided when project_id is given"
-                    raise ValueError(msg)
-                obj = ProjectLanguage(
-                    project=Project.objects.get(pk=project_id),
-                    language=Language.objects.get(pk=language_id),
-                )
-                result["project"] = obj.project.id
-                result["language"] = obj.language.id
-            else:
-                msg = "One of translation_id, component_id, category_id, or project_id must be provided"
-                raise ValueError(msg)
+            obj, target_result = get_auto_translate_target(
+                translation_id=translation_id,
+                component_id=component_id,
+                category_id=category_id,
+                project_id=project_id,
+                language_id=language_id,
+            )
         except ObjectDoesNotExist:
             result["message"] = gettext(
                 "Automatic translation skipped because the target no longer exists."
             )
             return store_auto_translate_activity_log(activity_log_id, result)
+        result.update(target_result)
         auto = BatchAutoTranslate(
             obj,
             user=user,
@@ -993,6 +1016,37 @@ def report_restore_component_progress(completed: int, total: int) -> None:
         report_task_progress(30 + (60 * completed // total))
 
 
+def restore_project_backup(
+    project_name: str,
+    project_slug: str,
+    user_id: int,
+    filename: str,
+    billing_id: int | None,
+) -> Project:
+    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
+
+    report_task_progress(5)
+    user = User.objects.get(pk=user_id)
+    billing = None
+    if billing_id is not None:
+        from weblate.billing.models import Billing  # noqa: PLC0415
+
+        billing = Billing.objects.get(pk=billing_id)
+    restore = ProjectBackup(filename)
+    report_task_progress(10)
+    restore.validate()
+    report_task_progress(30)
+    project = restore.restore(
+        project_name=project_name,
+        project_slug=project_slug,
+        user=user,
+        billing=billing,
+        progress_callback=report_restore_component_progress,
+    )
+    report_task_progress(95)
+    return project
+
+
 @app.task(trail=False)
 def import_project_backup(
     project_name: str,
@@ -1001,28 +1055,14 @@ def import_project_backup(
     filename: str,
     billing_id: int | None = None,
 ) -> dict[str, str]:
-    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
-
     try:
-        report_task_progress(5)
-        user = User.objects.get(pk=user_id)
-        billing = None
-        if billing_id is not None:
-            from weblate.billing.models import Billing  # noqa: PLC0415
-
-            billing = Billing.objects.get(pk=billing_id)
-        restore = ProjectBackup(filename)
-        report_task_progress(10)
-        restore.validate()
-        report_task_progress(30)
-        project = restore.restore(
-            project_name=project_name,
-            project_slug=project_slug,
-            user=user,
-            billing=billing,
-            progress_callback=report_restore_component_progress,
+        project = restore_project_backup(
+            project_name,
+            project_slug,
+            user_id,
+            filename,
+            billing_id,
         )
-        report_task_progress(95)
     finally:
         with suppress(OSError):
             os.unlink(filename)

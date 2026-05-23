@@ -71,15 +71,16 @@ class Command(BaseCommand):
                 msg = "Main component does not exist!"
                 raise CommandError(msg) from error
         try:
-            with options["json-file"].open("r") as handle:
-                try:
-                    data = json.load(handle)
-                except json.JSONDecodeError as error:
-                    msg = "Could not parse JSON file!"
-                    raise CommandError(msg) from error
+            handle = options["json-file"].open("r")
         except OSError as error:
             msg = f"Could not open file: {error}"
             raise CommandError(msg) from error
+        with handle:
+            try:
+                data = json.load(handle)
+            except json.JSONDecodeError as error:
+                msg = "Could not parse JSON file!"
+                raise CommandError(msg) from error
 
         allfields = {
             field.name

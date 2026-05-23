@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import logging
+from contextlib import closing
 from datetime import timedelta
 from email.message import MIMEPart
 from smtplib import SMTP, SMTPConnectError
@@ -257,7 +258,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
 
     html2text = HTML2Text()
 
-    try:
+    with closing(connection):
         for mail in mails:
             with sentry_sdk.start_span(op="email.text"):
                 text = html2text.handle(mail["body"])
@@ -274,8 +275,6 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             with sentry_sdk.start_span(op="email.send"):
                 LOGGER.debug("sending e-mail to %s", mail["address"])
                 email.send()
-    finally:
-        connection.close()
 
 
 @app.on_after_finalize.connect

@@ -3167,8 +3167,8 @@ class VCSLocalTest(VCSGitTest):
 
     def test_should_retry_popen(self) -> None:
         # This really belongs to the Git class, but we want to test it just once
-        tempdir = Path(tempfile.mkdtemp())
-        try:
+        with tempfile.TemporaryDirectory() as tempdir_name:
+            tempdir = Path(tempdir_name)
             gitdir = tempdir / ".git"
             gitdir.mkdir()
             lockfile = gitdir / "HEAD.lock"
@@ -3192,8 +3192,6 @@ may have crashed in this repository earlier:
 remove the file manually to continue.
 """)
             )
-        finally:
-            shutil.rmtree(tempdir)
 
     def test_from_zip_rejects_symlink_entry(self) -> None:
         archive = BytesIO()
