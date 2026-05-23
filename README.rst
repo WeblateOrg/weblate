@@ -86,3 +86,5 @@ PARTICULAR PURPOSE. See the `GNU General Public License
 <https://www.gnu.org/licenses/gpl-3.0.html>`_ for more details.
 
 .. _weblate.org: https://weblate.org/
+
+.. Practice contribution tracking comment by Mudit Sharma
