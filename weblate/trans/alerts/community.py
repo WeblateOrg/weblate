@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
@@ -356,7 +357,10 @@ class RecommendedGenerateMoAddon(AddonRecommendationAlert):
             translation = translations[0]
         except IndexError:
             return False
-        filename = translation.get_filename()
+        try:
+            filename = translation.get_filename()
+        except ValidationError:
+            return False
         if filename is None or not filename.endswith(".po"):
             return False
         mofilename = f"{filename[:-3]}.mo"
