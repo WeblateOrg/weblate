@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-23 09:11+0000\n"
+"PO-Revision-Date: 2026-05-24 06:32+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -6749,13 +6749,6 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL und LOCALIZE_CDN_PATH"
 
 #: admin/config.rst:1449
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-"
-#| "on. :setting:`LOCALIZE_CDN_URL` defines root URL where the localization "
-#| "CDN is available and :setting:`LOCALIZE_CDN_PATH` defines path where "
-#| "Weblate should store generated files which will be served at "
-#| "the :setting:`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
 "weblate.cdn.cdnjs` and :ref:`addon-"
@@ -6766,11 +6759,14 @@ msgid ""
 "CDN, not by Weblate; see :ref:`cdn-server-security` for secure serving "
 "guidance."
 msgstr ""
-"Diese Einstellungen konfigurieren die :ref:`addon-weblate.cdn.cdnjs`-"
-"Erweiterung. :setting:`LOCALIZE_CDN_URL` definiert die Root-URL, unter der "
-"das Lokalisierungs-CDN verfügbar ist und :setting:`LOCALIZE_CDN_PATH` "
-"definiert den Pfad, unter dem Weblate die erzeugten Dateien speichern soll, "
-"die unter der :setting:`LOCALIZE_CDN_URL` ausgeliefert werden."
+"Diese Einstellungen konfigurieren die CDN-Erweiterungen, einschließlich "
+":ref:`addon-weblate.cdn.cdnjs` und :ref:`addon-weblate.cdn.files`. "
+":setting:`LOCALIZE_CDN_URL` definiert die Root-URL, unter der das "
+"Lokalisierungs-CDN verfügbar ist, und :setting:`LOCALIZE_CDN_PATH` definiert "
+"den Pfad, unter dem Weblate die erzeugten Dateien speichern soll, die unter "
+":setting:`LOCALIZE_CDN_URL` bereitgestellt werden. Die Dateien werden von "
+"Ihrem Webserver oder CDN bereitgestellt, nicht von Weblate; siehe :ref:`cdn-"
+"server-security` für Hinweise zur sicheren Bereitstellung."
 
 #: admin/config.rst:1459
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -9819,6 +9815,9 @@ msgid ""
 "process and has to allow executing generated helper files. Do not "
 "mount :setting:`CACHE_DIR` with the ``noexec`` option."
 msgstr ""
+"Das konfigurierte :setting:`CACHE_DIR` muss auch für den Weblate-Prozess "
+"beschreibbar sein und die Ausführung von generierten Hilfsdateien erlauben. "
+"Hängen Sie :setting:`CACHE_DIR` nicht mit der Option ``noexec`` ein."
 
 #: admin/install.rst:403
 msgid ""
@@ -10968,6 +10967,12 @@ msgid ""
 "runtime files. When installing Weblate from PyPI, get the matching source "
 "distribution or source checkout before copying these examples."
 msgstr ""
+"Die unten gezeigten Beispiel-Konfigurationsdateien werden im Weblate-"
+"Quellcode-Verzeichnis unter :file:`weblate/examples/` verwaltet. Sie sind in "
+"den Quellcode-Distributionen und in dieser Dokumentation enthalten, aber "
+"Python Wheels installieren nur Laufzeitdateien. Wenn Sie Weblate von PyPI "
+"installieren, besorgen Sie sich die passende Quellcode-Distribution oder den "
+"Quellcode-Checkout, bevor Sie diese Beispiele kopieren."
 
 #: admin/install.rst:1295
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -11346,12 +11351,6 @@ msgid "Running Celery as system service"
 msgstr "Celery als Systemdienst ausführen"
 
 #: admin/install.rst:1612
-#, fuzzy
-#| msgid ""
-#| "Most likely you will want to run Celery as a daemon and that is covered "
-#| "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
-#| "using systemd, you can use the example files shipped in "
-#| "the :file:`examples` folder listed below."
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered "
 "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
@@ -11359,11 +11358,12 @@ msgid ""
 "maintained in the Weblate source tree under :file:`weblate/examples/`; "
 "Python wheels do not install these deployment samples."
 msgstr ""
-"Höchstwahrscheinlich werden Sie Celery als Daemon laufen lassen wollen, und "
-"das wird in :doc:`celery:userguide/daemonizing` behandelt. Für die "
-"gebräuchlichste Linux-Konfiguration mit systemd können Sie die "
-"Beispieldateien verwenden, die, wie im Ordner :file:`examples` unten "
-"aufgelistet, geliefert werden."
+"Höchstwahrscheinlich werden Sie Celery als Daemon laufen lassen wollen und "
+"das wird von :doc:`celery:userguide/daemonizing` abgedeckt. Für die "
+"gängigste Linux-Konfiguration mit systemd passen Sie die unten aufgeführten "
+"Beispieldateien an. Diese Beispiele werden im Weblate-Quellcode-Verzeichnis "
+"unter :file:`weblate/examples/` gepflegt; Python Wheels installieren diese "
+"Beispiele für die Bereitstellung nicht."
 
 #: admin/install.rst:1618
 msgid ""
@@ -12062,6 +12062,10 @@ msgid ""
 "calendar year. If you need to upgrade from an older release, upgrade first "
 "to an intermediate version listed in :ref:`version-specific-instructions`."
 msgstr ""
+"Direkte Upgrades werden nur für Versionen aus dem aktuellen oder vorherigen "
+"Kalenderjahr unterstützt. Wenn Sie ein Upgrade von einer älteren Version "
+"benötigen, aktualisieren Sie zunächst auf eine Zwischenversion, die unter "
+":ref:`version-specific-instructions` aufgeführt ist."
 
 #: admin/install/docker.rst:256
 msgid ""
@@ -15621,6 +15625,10 @@ msgid ""
 "forms the language has, and the formula returns the zero-based index of the "
 "plural form to use for a count ``n``."
 msgstr ""
+"Die Formel verwendet die gleiche Ausdruckssyntax wie der ``plural=``-Teil "
+"des Gettext-``Plural-Forms``-Headers. Der Wert ``nplurals`` legt fest, wie "
+"viele Pluralformen die Sprache hat, und die Formel gibt den nullbasierten "
+"Index der Pluralform zurück, der für eine Zählung ``n`` zu verwenden ist."
 
 #: admin/languages.rst:185
 msgid ""
@@ -15632,6 +15640,13 @@ msgid ""
 "(``condition ? value1 : value2``). The result must be between ``0`` and "
 "``nplurals - 1``."
 msgstr ""
+"Weblate validiert die Formel mithilfe des von Python bereitgestellten "
+"Gettext-Parsers. Die zulässige Syntax ist ein C-ähnlicher ganzzahliger "
+"Ausdruck mit ``n`` als einzige Variable. Er kann Dezimalzahlen, Klammern, "
+"arithmetische Operatoren (``+``, ``-``, ``*``, ``/``, ``%``), Vergleichs- "
+"und Gleichheitsoperatoren, logische Operatoren (``&&``, ``||``, ``!``) und "
+"den ternären Operator (``condition ? value1 : value2``) verwenden. Das "
+"Ergebnis muss zwischen ``0`` und ``nplurals - 1`` liegen."
 
 #: admin/languages.rst:193
 msgid "For example, English uses:"
@@ -15876,6 +15891,14 @@ msgid ""
 "the returned translation still has to preserve the source placeholders and "
 "markup."
 msgstr ""
+"LLM-basierte Dienste für automatische Vorschläge erhalten zusätzlichen "
+"Kontext zu jeder übersetzten Zeichenkette, sofern verfügbar. Dazu gehören "
+"der Zeichenkettenkontext oder der einsprachige Schlüssel, zusätzliche "
+"Erklärungen, konfigurierte Übersetzungen in die Zweitsprache, Informationen "
+"zur Pluralform, fehlgeschlagene Qualitätsprüfungen und Platzhalterinhalte. "
+"Die hinzugefügten Metadaten dienen lediglich als Orientierungshilfe für den "
+"generierten Übersetzungsvorschlag; die zurückgegebene Übersetzung muss "
+"weiterhin die Platzhalter und Auszeichnungen der Quelle beibehalten."
 
 #: admin/machine.rst:83
 msgid "Custom machine translation"
@@ -16009,6 +16032,10 @@ msgid ""
 "updates the settings and database backup dumps in :setting:`DATA_DIR`, then "
 "runs the selected Borg backup service or services."
 msgstr ""
+"Führt konfigurierte Sicherungen synchron aus, ohne Celery zu verwenden. Es "
+"werden zunächst die Einstellungen und Auszüge der Datenbanksicherungen in "
+":setting:`DATA_DIR` aktualisiert und dann der oder die ausgewählten Borg-"
+"Sicherungsdienste ausgeführt."
 
 #: admin/management.rst:179
 msgid ""
@@ -16016,6 +16043,9 @@ msgid ""
 "output. Failed backup service output is shown even without increased "
 "verbosity."
 msgstr ""
+"Die Standardoption ``--verbosity 2`` von Django verwenden, um die Ausgabe "
+"des Sicherungsdienstes anzuzeigen. Die Ausgabe bei fehlgeschlagenen "
+"Sicherungen wird auch ohne erhöhte Ausführlichkeit angezeigt."
 
 #: admin/management.rst:182 snippets/checks-autogenerated.rst:2294
 #: user/search.rst:180
@@ -16028,6 +16058,10 @@ msgid ""
 "and run the command in a one-off container using :command:`docker compose "
 "run`. The database and configured backup storage still need to be available."
 msgstr ""
+"Bei Docker-Compose-Bereitstellungen können Sie den regulären Weblate-"
+"Container stoppen und den Befehl in einem einmaligen Container unter "
+":command:`docker compose run` ausführen. Die Datenbank und der konfigurierte "
+"Sicherungsspeicher müssen weiterhin verfügbar sein."
 
 #: admin/management.rst:209
 msgid "Imports given content into Weblate, useful for benchmarking."
@@ -21630,6 +21664,9 @@ msgid ""
 "The Python wheel no longer ships source translation catalogs, test files, or "
 "deployment example files, reducing the installed package size."
 msgstr ""
+"Das Python-Rad liefert keine Quellübersetzungkataloge, Testdateien oder "
+"Beispieldateien für die Bereitstellung mehr aus, wodurch die Größe des "
+"installierten Pakets verringert wird."
 
 #: changes.rst:67
 msgid ""
@@ -24464,7 +24501,8 @@ msgstr ""
 
 #: changes/v2.rst:128
 msgid "Added direct link to edit secondary language translation."
-msgstr "Direkter Link zur Bearbeitung der Zweitsprache hinzugefügt."
+msgstr ""
+"Direkter Link zum Bearbeiten der Übersetzung in der Zweitsprache hinzugefügt."
 
 #: changes/v2.rst:129
 msgid "Added Perl format quality check."
@@ -51001,7 +51039,7 @@ msgstr ""
 
 #: security/threat-model.rst:166
 msgid "Boundary"
-msgstr ""
+msgstr "Abgrenzung"
 
 #: security/threat-model.rst:167
 #, fuzzy
@@ -51010,10 +51048,8 @@ msgid "Trust transition"
 msgstr "Zielübersetzung"
 
 #: security/threat-model.rst:168
-#, fuzzy
-#| msgid "Incident response plan for Weblate"
 msgid "Client browser/API client to Weblate"
-msgstr "Vorfallsreaktionsplan für Weblate"
+msgstr "Client-Browser/API-Client zu Weblate"
 
 #: security/threat-model.rst:169
 msgid ""
@@ -51022,10 +51058,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:171
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender to Weblate"
-msgstr "Webhook-Geheimnis"
+msgstr "Webhook-Sender zu Weblate"
 
 #: security/threat-model.rst:172
 msgid ""
@@ -51035,10 +51069,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:175
-#, fuzzy
-#| msgid "**Database/Datastore**"
 msgid "Weblate to database/datastore"
-msgstr "**Datenbank/Datenspeicher**"
+msgstr "Weblate zu Datenbank/Datenspeicher"
 
 #: security/threat-model.rst:176
 msgid ""
@@ -51047,10 +51079,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:178
-#, fuzzy
-#| msgid "Managing the local VCS repository"
 msgid "Weblate to local VCS repositories"
-msgstr "Das lokale VCS-Repository verwalten"
+msgstr "Weblate zu lokalen VCS-Repositorys"
 
 #: security/threat-model.rst:179
 msgid ""
@@ -51059,10 +51089,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:181
-#, fuzzy
-#| msgid "Weblate 0.x series"
 msgid "Weblate to external services"
-msgstr "Weblate 0.x"
+msgstr "Weblate zu externen Diensten"
 
 #: security/threat-model.rst:182
 msgid ""
@@ -51073,7 +51101,7 @@ msgstr ""
 
 #: security/threat-model.rst:185
 msgid "Backup archive to Weblate filesystem"
-msgstr ""
+msgstr "Sicherungarchiv zu Weblate-Dateisystem"
 
 #: security/threat-model.rst:186
 msgid ""
@@ -51082,10 +51110,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:189
-#, fuzzy
-#| msgid "Propagation preconditions:"
 msgid "Reachability preconditions:"
-msgstr "Voraussetzungen für die Weitergabe:"
+msgstr "Voraussetzungen für die Erreichbarkeit:"
 
 #: security/threat-model.rst:191
 msgid ""
@@ -51139,10 +51165,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:215
-#, fuzzy
-#| msgid "Environment variables"
 msgid "Environment assumptions"
-msgstr "Umgebungsvariablen"
+msgstr "Umgebungsvoraussetzungen"
 
 #: security/threat-model.rst:217
 msgid ""
@@ -51190,10 +51214,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:243
-#, fuzzy
-#| msgid "Grant Weblate access to the repository."
 msgid "What Weblate does to its host:"
-msgstr "Weblate Zugriff auf das Repository gewähren."
+msgstr "Was Weblate mit seinem Host macht:"
 
 #: security/threat-model.rst:245
 msgid ""
@@ -51231,10 +51253,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:260
-#, fuzzy
-#| msgid "Custom configuration files"
 msgid "Build-time and configuration variants"
-msgstr "Benutzerdefinierte Konfigurationsdateien"
+msgstr "Build-Zeit und Konfigurationsvarianten"
 
 #: security/threat-model.rst:265
 msgid "Knob"
@@ -51471,18 +51491,16 @@ msgid "Third-party code is modeled separately. *(maintainer)*"
 msgstr ""
 
 #: security/threat-model.rst:342
-#, fuzzy
-#| msgid "Key Assumptions"
 msgid "Input assumptions"
-msgstr "Wichtige Grundannahmen"
+msgstr "Eingangsvoraussetzungen"
 
 #: security/threat-model.rst:347
 msgid "Surface"
-msgstr ""
+msgstr "Oberfläche"
 
 #: security/threat-model.rst:348
 msgid "Input"
-msgstr ""
+msgstr "Eingang"
 
 #: security/threat-model.rst:349
 msgid "Attacker-controllable?"
@@ -51490,11 +51508,11 @@ msgstr ""
 
 #: security/threat-model.rst:350
 msgid "Caller or operator must enforce"
-msgstr ""
+msgstr "Aufrufender oder Betreiber muss erzwingen"
 
 #: security/threat-model.rst:351
 msgid "Browser forms and REST API"
-msgstr ""
+msgstr "Browser-Formulare und REST-API"
 
 #: security/threat-model.rst:352
 msgid "Request bodies, query strings, uploaded files, headers, cookies"
@@ -51514,10 +51532,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:357
-#, fuzzy
-#| msgid "Authentication backends"
 msgid "Authentication endpoints"
-msgstr "Authentifizierungs-Backends"
+msgstr "Authentifizierungs-Endpunkte"
 
 #: security/threat-model.rst:358
 msgid "Passwords, WebAuthn data, SSO callbacks, reset tokens"
@@ -51615,10 +51631,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:382
-#, fuzzy
-#| msgid "Exported repository URL"
 msgid "External repository content"
-msgstr "Exportierte Repository-URL"
+msgstr "Externer Repository-Inhalt"
 
 #: security/threat-model.rst:383
 msgid "Translation files, paths, branch names, commit metadata"
@@ -51822,10 +51836,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:447
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender"
-msgstr "Webhook-Geheimnis"
+msgstr "Webhook-Sender"
 
 #: security/threat-model.rst:448
 msgid ""
@@ -52524,10 +52536,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:741
-#, fuzzy
-#| msgid "Custom configuration files"
 msgid "`Build-time and configuration variants`_"
-msgstr "Benutzerdefinierte Konfigurationsdateien"
+msgstr "`Build-Zeit und Konfigurationsvarianten`_"
 
 #: security/threat-model.rst:743
 #, fuzzy
