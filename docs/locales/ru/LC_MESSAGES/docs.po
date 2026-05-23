@@ -52,7 +52,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-23 13:41+0000\n"
+"PO-Revision-Date: 2026-05-24 06:32+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -51981,12 +51981,11 @@ msgstr ""
 "должны приводить к выполнению команд оболочки. *(сопровождающий)*"
 
 #: security/threat-model.rst:507
-#, fuzzy
 msgid ""
 "VCS operations are invoked through Weblate-supported repository workflows "
 "and configured credentials."
 msgstr ""
-"Операции VCS вызываются через поддерживаемые Weblate рабочие процессы "
+"Операции CRD вызываются через поддерживаемые Weblate рабочие процессы "
 "репозитория и настроенные учётные данные."
 
 #: security/threat-model.rst:509
@@ -51996,7 +51995,6 @@ msgstr ""
 "Weblate."
 
 #: security/threat-model.rst:511
-#, fuzzy
 msgid ""
 "Private project data, user data, credentials, tokens, SSH keys, and 2FA "
 "secrets are not disclosed to actors lacking permission. *(documented)* "
@@ -52008,19 +52006,16 @@ msgstr ""
 "security/privacy-compliance`)"
 
 #: security/threat-model.rst:513
-#, fuzzy
 msgid "Host, database, and storage permissions are intact."
 msgstr "Права доступа к хосту, базе данных и хранилищу не нарушены."
 
 #: security/threat-model.rst:514
-#, fuzzy
 msgid "Cross-project data leak, credential exposure, or unauthorized export."
 msgstr ""
 "Утечка данных между проектами, раскрытие учётных данных или неавторизованный "
 "экспорт."
 
 #: security/threat-model.rst:516
-#, fuzzy
 msgid ""
 "Backup import rejects archives exceeding documented upload, member, "
 "aggregate size, and suspicious compression thresholds. *(documented)* "
@@ -52037,7 +52032,6 @@ msgstr ""
 "Остаются настроенными значения по умолчанию или более строгие ограничения."
 
 #: security/threat-model.rst:519
-#, fuzzy
 msgid ""
 "Oversized or highly amplified archive is accepted past configured thresholds."
 msgstr ""
@@ -52045,14 +52039,12 @@ msgstr ""
 "сверх настроенных порогов."
 
 #: security/threat-model.rst:521
-#, fuzzy
 msgid "Security-critical for single-request DoS; otherwise availability bug."
 msgstr ""
 "Критично для безопасности при DoS одним запросом; в противном случае — "
 "ошибка доступности."
 
 #: security/threat-model.rst:522
-#, fuzzy
 msgid ""
 "Documented user-configurable outbound URL surfaces reject internal or non-"
 "public targets by default. *(documented)* "
@@ -52065,7 +52057,6 @@ msgstr ""
 ":setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 
 #: security/threat-model.rst:527
-#, fuzzy
 msgid ""
 "Default private-target checks are enabled and no trusted allowlist exemption "
 "applies."
@@ -52074,7 +52065,6 @@ msgstr ""
 "исключение из доверенного списка разрешённых."
 
 #: security/threat-model.rst:529
-#, fuzzy
 msgid ""
 "A user-configurable screenshot URL, remote HTML URL, project website or "
 "repository browser URL, outbound webhook URL, or VCS URL reaches an internal "
@@ -52086,14 +52076,12 @@ msgstr ""
 "непубличной цели, несмотря на средства контроля по умолчанию."
 
 #: security/threat-model.rst:532
-#, fuzzy
 msgid "Security-critical when it exposes internal services or metadata."
 msgstr ""
 "Критично для безопасности, когда раскрываются внутренние службы или "
 "метаданные."
 
 #: security/threat-model.rst:533
-#, fuzzy
 msgid ""
 "Weblate records security-relevant account, permission, and project or "
 "component setting changes in audit logs or history. *(documented)* "
@@ -52105,19 +52093,16 @@ msgstr ""
 ":doc:`/changes`)"
 
 #: security/threat-model.rst:536
-#, fuzzy
 msgid "Logging is configured and storage is available."
 msgstr "Журналирование настроено и хранилище доступно."
 
 #: security/threat-model.rst:537
-#, fuzzy
 msgid "Missing audit trail for an action Weblate claims to log."
 msgstr ""
 "Отсутствует журнал аудита для действия, которое Weblate заявляет, что "
 "регистрирует."
 
 #: security/threat-model.rst:538
-#, fuzzy
 msgid ""
 "Security-critical when it blocks investigation of privileged changes; "
 "correctness-only for minor event gaps."
@@ -52126,7 +52111,6 @@ msgstr ""
 "изменений; только для корректности при незначительных пробелах в событиях."
 
 #: security/threat-model.rst:540
-#, fuzzy
 msgid ""
 "Rate-limited API and web actions enforce configured rate limits. "
 "*(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
@@ -52136,25 +52120,21 @@ msgstr ""
 "admin/config`)"
 
 #: security/threat-model.rst:542
-#, fuzzy
 msgid "Rate limiting is enabled and backed by a working datastore."
 msgstr ""
 "Ограничение скорости включено и поддерживается работающим хранилищем данных."
 
 #: security/threat-model.rst:543
-#, fuzzy
 msgid "Requests exceeding configured thresholds continue to be processed."
 msgstr "Запросы, превышающие настроенные пороги, продолжают обрабатываться."
 
 #: security/threat-model.rst:544
-#, fuzzy
 msgid "Availability/security hardening depending on endpoint sensitivity."
 msgstr ""
 "Улучшение доступности/безопасности в зависимости от чувствительности "
 "конечной точки."
 
 #: security/threat-model.rst:545
-#, fuzzy
 msgid ""
 "Weblate does not intentionally expose database, datastore, backup storage, "
 "or raw internal storage directly through the public web interface; exported "
@@ -52163,12 +52143,11 @@ msgid ""
 msgstr ""
 "Weblate намеренно не раскрывает базу данных, хранилище данных, хранилище "
 "резервных копий или необработанное внутреннее хранилище напрямую через "
-"публичный веб-интерфейс; экспортированные репозитории VCS намеренно "
-"раскрываются :ref:`git-exporter`, когда этот опциональный модуль включён. *"
-"(сопровождающий)*"
+"публичный веб-интерфейс; экспортированные репозитории системы контроля "
+"версий намеренно раскрываются :ref:`git-exporter`, когда этот опциональный "
+"модуль включён. *(сопровождающий)*"
 
 #: security/threat-model.rst:549
-#, fuzzy
 msgid ""
 "Deployment does not serve internal storage paths as static files except for "
 "documented export features."
@@ -52177,7 +52156,6 @@ msgstr ""
 "файлы, за исключением задокументированных функций экспорта."
 
 #: security/threat-model.rst:551
-#, fuzzy
 msgid ""
 "Public request retrieves raw internal storage, configuration, or non-"
 "exported repository data."
@@ -52186,7 +52164,6 @@ msgstr ""
 "или неэкспортированные данные репозитория."
 
 #: security/threat-model.rst:555
-#, fuzzy
 msgid ""
 "Resource thresholds in this model are the documented configuration defaults "
 "where they exist, especially backup import limits and rate limits. For "
@@ -52202,12 +52179,10 @@ msgstr ""
 "независимом от мощности развёртывания. *(сопровождающий)*"
 
 #: security/threat-model.rst:562
-#, fuzzy
 msgid "Security properties Weblate does not provide"
 msgstr "Свойства безопасности, которые Weblate не предоставляет"
 
 #: security/threat-model.rst:564
-#, fuzzy
 msgid ""
 "Weblate does not authenticate every webhook delivery cryptographically for "
 "all supported forge integrations. Hook endpoints are compatibility-oriented "
@@ -52223,7 +52198,6 @@ msgstr ""
 "``VALID-HARDENING``, а не ``BY-DESIGN``. *(сопровождающий)*"
 
 #: security/threat-model.rst:570
-#, fuzzy
 msgid ""
 "Weblate does not make an unauthenticated webhook equivalent to a trusted "
 "forge identity. Hook processing can trigger update workflows, but "
@@ -52236,7 +52210,6 @@ msgstr ""
 "аутентифицированного пользователя или токена. *(сопровождающий)*"
 
 #: security/threat-model.rst:574
-#, fuzzy
 msgid ""
 "Weblate is not a sandbox for malicious administrators, malicious local "
 "operators, third-party add-ons, custom deployment code, VCS clients, or "
@@ -52248,7 +52221,6 @@ msgstr ""
 "(сопровождающий)*"
 
 #: security/threat-model.rst:578
-#, fuzzy
 msgid ""
 "Weblate does not guarantee that translation content is safe when copied into "
 "a downstream product without that product's own escaping, validation, or "
@@ -52266,24 +52238,21 @@ msgstr ""
 "user/checks`)"
 
 #: security/threat-model.rst:584
-#, fuzzy
 msgid "False friends:"
 msgstr "Ложные друзья:"
 
 #: security/threat-model.rst:586
-#, fuzzy
 msgid ""
 "Weblate permissions are application authorization, not a host sandbox. A "
 "user granted VCS or project management permissions can intentionally "
 "configure integrations within that role's power. *(maintainer)*"
 msgstr ""
 "Разрешения Weblate — это авторизация приложения, а не песочница хоста. "
-"Пользователь, которому предоставлены разрешения VCS или управления проектом, "
+"Пользователь, которому предоставлены разрешения СКВ или управления проектом, "
 "может намеренно настраивать интеграции в пределах полномочий этой роли. *"
 "(сопровождающий)*"
 
 #: security/threat-model.rst:589
-#, fuzzy
 msgid ""
 "Webhook project matching and event parsing are not proof that the sender is "
 "the legitimate forge when the integration does not authenticate the "
@@ -52294,7 +52263,6 @@ msgstr ""
 "интеграция не аутентифицирует доставку. *(сопровождающий)*"
 
 #: security/threat-model.rst:592
-#, fuzzy
 msgid ""
 "Translation checks detect common quality and format problems; they are not a "
 "guarantee that translated strings are safe for every downstream renderer. "
@@ -52307,7 +52275,6 @@ msgstr ""
 "checks`, :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:596
-#, fuzzy
 msgid ""
 "BorgBackup encryption protects backup archives according to Borg's design; "
 "Weblate does not add a separate cryptographic guarantee for Borg internals. "
@@ -52319,7 +52286,6 @@ msgstr ""
 "backup`)"
 
 #: security/threat-model.rst:599
-#, fuzzy
 msgid ""
 "Rate limits reduce abuse of configured endpoints; they are not a guarantee "
 "of availability under volumetric network attacks. *(maintainer)*"
@@ -52329,7 +52295,6 @@ msgstr ""
 "(сопровождающий)*"
 
 #: security/threat-model.rst:602
-#, fuzzy
 msgid ""
 "Well-known attack classes left partly or wholly to deployment or downstream "
 "systems:"
@@ -52338,7 +52303,6 @@ msgstr ""
 "усмотрение систем развёртывания или нижестоящих систем:"
 
 #: security/threat-model.rst:605
-#, fuzzy
 msgid ""
 "Phishing and credential reuse are mitigated by authentication policy and "
 "2FA, but Weblate cannot prevent users from disclosing credentials outside "
@@ -52349,7 +52313,6 @@ msgstr ""
 "учётные данные за пределами сервиса. *(сопровождающий)*"
 
 #: security/threat-model.rst:608
-#, fuzzy
 msgid ""
 "Malicious translations can become XSS, format-string, command, or policy "
 "problems in downstream applications that render them unsafely. "
@@ -52360,7 +52323,6 @@ msgstr ""
 "(документировано)* (источник: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:610
-#, fuzzy
 msgid ""
 "User-configurable outbound URL surfaces with documented private-target "
 "restrictions reject internal or non-public targets by default; privileged "
@@ -52374,7 +52336,6 @@ msgstr ""
 "расширять достижимость. *(сопровождающий)*"
 
 #: security/threat-model.rst:614
-#, fuzzy
 msgid ""
 "Large repository histories, project scale, and background task volume "
 "require deployment sizing and operational limits beyond Weblate's single-"
@@ -52389,7 +52350,6 @@ msgid "Downstream responsibilities"
 msgstr "Обязательства нижестоящих сторон"
 
 #: security/threat-model.rst:621
-#, fuzzy
 msgid ""
 "Operators must deploy Weblate behind production-grade HTTPS with correct "
 "proxy headers, hostnames, request-size limits, and secure-cookie behavior. "
@@ -52402,19 +52362,17 @@ msgstr ""
 "admin/install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 
 #: security/threat-model.rst:626
-#, fuzzy
 msgid ""
 "Operators must assign teams, roles, project-scoped tokens, VCS credentials, "
 "and project management permissions according to least privilege for their "
 "organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)"
 msgstr ""
 "Операторы должны назначать команды, роли, токены с областью действия "
-"проекта, учётные данные VCS и разрешения управления проектом в соответствии "
-"с наименьшими привилегиями для своей организации. *(документировано)* "
-"(источник: :doc:`/admin/access`, :doc:`/api`)"
+"проекта, учётные данные системы контроля версий и разрешения управления "
+"проектом в соответствии с наименьшими привилегиями для своей организации. *"
+"(документировано)* (источник: :doc:`/admin/access`, :doc:`/api`)"
 
 #: security/threat-model.rst:630
-#, fuzzy
 msgid ""
 "Operators exposing :ref:`hooks` must enable them only where needed and "
 "provide deployment controls such as reverse-proxy rate limits, body-size "
@@ -52426,7 +52384,6 @@ msgstr ""
 "и опциональные ограничения источников. *(сопровождающий)*"
 
 #: security/threat-model.rst:634
-#, fuzzy
 msgid ""
 "Operators must treat private-target allowlists, proxies, and privileged "
 "outbound integration settings as intentional expansion of Weblate's default "
@@ -52438,7 +52395,6 @@ msgstr ""
 "(сопровождающий)*"
 
 #: security/threat-model.rst:638
-#, fuzzy
 msgid ""
 "Operators must keep backup import limits, API rate limits, and web rate "
 "limits at values that match instance capacity and exposure. *(documented)* "
@@ -52450,7 +52406,6 @@ msgstr ""
 "(источник: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:641
-#, fuzzy
 msgid ""
 "Operators must protect the Weblate data directory, configuration, backup "
 "credentials, generated keys, database, datastore, and local shell access as "
@@ -52463,7 +52418,6 @@ msgstr ""
 "(документировано)* (источник: :doc:`/admin/backup`, :doc:`/admin/install`)"
 
 #: security/threat-model.rst:646
-#, fuzzy
 msgid ""
 "Downstream product teams must treat translated strings as untrusted content "
 "in their own applications unless they have separately reviewed, escaped, and "
@@ -52481,7 +52435,6 @@ msgid "Known misuse patterns"
 msgstr "Известные модели неправильного использования"
 
 #: security/threat-model.rst:653
-#, fuzzy
 msgid ""
 "Exposing webhook endpoints broadly, enabling project hooks, and relying on "
 "webhook payloads as authenticated forge identity. This is unsafe because "
@@ -52496,21 +52449,19 @@ msgstr ""
 "аутентифицированные интеграции, где это возможно. *(сопровождающий)*"
 
 #: security/threat-model.rst:657
-#, fuzzy
 msgid ""
 "Granting project management, VCS, or access-management permissions to users "
 "who are trusted only as translators. This is unsafe because those "
 "permissions can affect repositories, credentials, or other users. Assign "
 "narrower roles. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Предоставление разрешений управления проектом, VCS или управления доступом "
+"Предоставление разрешений управления проектом, СКВ или управления доступом "
 "пользователям, которым доверяют только как переводчикам. Это небезопасно, "
 "потому что эти разрешения могут влиять на репозитории, учётные данные или "
 "других пользователей. Назначайте более узкие роли. *(документировано)* "
 "(источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:661
-#, fuzzy
 msgid ""
 "Sending sensitive source strings or private customer content to machine "
 "translation providers without treating the provider as a data recipient. "
@@ -52527,7 +52478,6 @@ msgstr ""
 "обработки данных для проекта. *(сопровождающий)*"
 
 #: security/threat-model.rst:666
-#, fuzzy
 msgid ""
 "Importing project backups from untrusted sources as an administrative "
 "convenience. This is unsafe because backups carry project metadata, "
@@ -52543,7 +52493,6 @@ msgstr ""
 "admin/backup`)"
 
 #: security/threat-model.rst:670
-#, fuzzy
 msgid ""
 "Treating Weblate translation checks as proof that downstream applications "
 "cannot be attacked through translated strings. This is unsafe because the "
@@ -52559,12 +52508,10 @@ msgstr ""
 "localization-threat`)"
 
 #: security/threat-model.rst:676
-#, fuzzy
 msgid "Known non-findings"
 msgstr "Известные ненаходки"
 
 #: security/threat-model.rst:678
-#, fuzzy
 msgid ""
 "A report that a reachable webhook can be called without forge authentication "
 "and only triggers modeled update scheduling is not ``VALID`` by itself. It "
@@ -52579,7 +52526,6 @@ msgstr ""
 "смоделированного планирования. *(сопровождающий)*"
 
 #: security/threat-model.rst:682
-#, fuzzy
 msgid ""
 "A report that a project manager can change repository settings, VCS "
 "credentials, or project configuration is not a vulnerability when the actor "
@@ -52587,12 +52533,11 @@ msgid ""
 "(source: :doc:`/admin/access`)"
 msgstr ""
 "Отчёт о том, что управляющий проектом может изменить настройки репозитория, "
-"учётные данные VCS или конфигурацию проекта, не является уязвимостью, когда "
-"действующее лицо имеет задокументированное разрешение на это действие. *"
-"(документировано)* (источник: :doc:`/admin/access`)"
+"учётные данные системы контроля версий или конфигурацию проекта, не является "
+"уязвимостью, когда действующее лицо имеет задокументированное разрешение на "
+"это действие. *(документировано)* (источник: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:685
-#, fuzzy
 msgid ""
 "A report against third-party add-on behavior is not a Weblate core "
 "vulnerability unless the report shows Weblate's permission or installation "
@@ -52603,7 +52548,6 @@ msgstr ""
 "установки Weblate обойдены. *(сопровождающий)*"
 
 #: security/threat-model.rst:688
-#, fuzzy
 msgid ""
 "A report that a malicious local operator can read configuration, run "
 "management commands, or alter files is out of model because local operators "
@@ -52615,7 +52559,6 @@ msgstr ""
 "(сопровождающий)*"
 
 #: security/threat-model.rst:691
-#, fuzzy
 msgid ""
 "A report that a downstream application renders a dangerous translation is "
 "not a Weblate vulnerability unless Weblate itself violates a claimed "
@@ -52629,12 +52572,10 @@ msgstr ""
 "threat`)"
 
 #: security/threat-model.rst:697
-#, fuzzy
 msgid "Conditions that change this model"
 msgstr "Условия, которые изменяют эту модель"
 
 #: security/threat-model.rst:699
-#, fuzzy
 msgid ""
 "Revise this model when Weblate adds a new public endpoint family, a new "
 "authentication or token mode, a new default deployment mode, a new backup or "
@@ -52646,13 +52587,13 @@ msgstr ""
 "Пересматривайте эту модель, когда Weblate добавляет новое семейство "
 "публичных конечных точек, новый режим аутентификации или токенов, новый "
 "режим развёртывания по умолчанию, новый формат резервного копирования или "
-"импорта, новый путь выполнения VCS, новый класс исходящей интеграции, новую "
-"возможность выполнения надстроек или изменение значений по умолчанию для "
-"обработчиков, HTTPS, ограничений скорости, CSP, доступа к частным сетям или "
-"ограничений импорта резервных копий. *(сопровождающий)*"
+"импорта, новый путь выполнения системы контроля версий, новый класс "
+"исходящей интеграции, новую возможность выполнения надстроек или изменение "
+"значений по умолчанию для обработчиков, HTTPS, ограничений скорости, CSP, "
+"доступа к частным сетям или ограничений импорта резервных копий. *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:705
-#, fuzzy
 msgid ""
 "Revise this model when an unsupported component becomes supported product "
 "surface, when a documented security property is removed or narrowed, or when "
@@ -52682,7 +52623,6 @@ msgid "Licensed by"
 msgstr "Лицензировано"
 
 #: security/threat-model.rst:720
-#, fuzzy
 msgid ""
 "Violates a property Weblate claims, through an in-scope actor and input."
 msgstr ""
@@ -52690,7 +52630,6 @@ msgstr ""
 "данные в области действия."
 
 #: security/threat-model.rst:721
-#, fuzzy
 msgid ""
 "`Security properties Weblate provides`_, `Input assumptions`_, `Adversary "
 "model`_"
@@ -52699,7 +52638,6 @@ msgstr ""
 "`Модель противника`_"
 
 #: security/threat-model.rst:724
-#, fuzzy
 msgid ""
 "No claimed property is violated, but Weblate chooses to reduce a known "
 "misuse risk, such as compatibility webhook triggering that stays within "
@@ -52710,7 +52648,6 @@ msgstr ""
 "обработчика, которое остаётся в рамках смоделированных эффектов."
 
 #: security/threat-model.rst:727
-#, fuzzy
 msgid ""
 "`Known misuse patterns`_, `Security properties Weblate does not provide`_"
 msgstr ""
@@ -52718,7 +52655,6 @@ msgstr ""
 "которые Weblate не предоставляет`_"
 
 #: security/threat-model.rst:729
-#, fuzzy
 msgid "Requires attacker control of input this model marks trusted."
 msgstr ""
 "Требует контроля злоумышленника над входными данными, которые эта модель "
@@ -52729,17 +52665,14 @@ msgid "`Input assumptions`_"
 msgstr "`Входные предположения`_"
 
 #: security/threat-model.rst:732
-#, fuzzy
 msgid "Requires a capability this model excludes."
 msgstr "Требует возможности, которую эта модель исключает."
 
 #: security/threat-model.rst:733
-#, fuzzy
 msgid "`Adversary model`_"
 msgstr "`Модель противника`_"
 
 #: security/threat-model.rst:735
-#, fuzzy
 msgid ""
 "Lands in third-party add-ons, generated docs, tests, local customization, or "
 "another component marked out of scope."
@@ -52749,12 +52682,10 @@ msgstr ""
 "области действия."
 
 #: security/threat-model.rst:737
-#, fuzzy
 msgid "`Out of scope`_"
 msgstr "`Вне области действия`_"
 
 #: security/threat-model.rst:739
-#, fuzzy
 msgid ""
 "Manifests only after deployment choices that knowingly remove a claimed "
 "property."
@@ -52771,27 +52702,22 @@ msgid "Concerns a property Weblate explicitly does not provide."
 msgstr "Касается свойства, которое Weblate явным образом не предоставляет."
 
 #: security/threat-model.rst:744
-#, fuzzy
 msgid "`Security properties Weblate does not provide`_"
 msgstr "`Свойства безопасности, которые Weblate не предоставляет`_"
 
 #: security/threat-model.rst:746
-#, fuzzy
 msgid "Matches a documented recurring false positive."
 msgstr "Совпадает с задокументированным повторяющимся ложным срабатыванием."
 
 #: security/threat-model.rst:747
-#, fuzzy
 msgid "`Known non-findings`_"
 msgstr "`Известные ненаходки`_"
 
 #: security/threat-model.rst:749
-#, fuzzy
 msgid "Cannot be cleanly routed to any disposition above."
 msgstr "Не может быть чётко направлено ни к одному из вышеуказанных решений."
 
 #: security/threat-model.rst:750
-#, fuzzy
 msgid "`Conditions that change this model`_"
 msgstr "`Условия, которые изменяют эту модель`_"
 
@@ -54150,7 +54076,6 @@ msgid "Publishes translation files into a content delivery network."
 msgstr "Публикует файлы переводов в сети доставки контента."
 
 #: snippets/addons-autogenerated.rst:132
-#, fuzzy
 msgid ""
 "Publishes translation files without converting them to another format. Files "
 "are written below the add-on specific CDN directory and served from "
@@ -60657,7 +60582,6 @@ msgid "``csv``, ``csv-multi``, ``csv-simple``"
 msgstr "``csv``, ``csv-multi``, ``csv-simple``"
 
 #: snippets/format-features/fluent-features.rst:28
-#, fuzzy
 msgid ""
 ":ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-"
 "syntax`, :ref:`check-fluent-parts`, :ref:`check-fluent-"
@@ -63968,7 +63892,6 @@ msgstr ""
 "слияния). Эти две группы уведомлений в настройках визуально разделены."
 
 #: user/profile.rst:173
-#, fuzzy
 msgid ""
 "The :guilabel:`Translation activity summary` notification is digest-only and "
 "summarizes added, updated, translated, approved, needs editing, and "
@@ -63976,7 +63899,7 @@ msgid ""
 msgstr ""
 "Уведомление :guilabel:`Сводка активности переводов` предназначено только для "
 "сводок и суммирует добавленные, обновлённые, переведённые, одобренные "
-"строки, строки, требующие правки, и незавершённые строки."
+"строки, строки для правки, и незавершённые строки."
 
 #: user/profile.rst:177
 msgid ""
@@ -64336,7 +64259,6 @@ msgstr ""
 "или перевода."
 
 #: user/search.rst:83
-#, fuzzy
 msgid ""
 "String was changed by author with given username. Use ``changed_by:\"\"`` to "
 "search for strings with at least one content change without a recorded "
@@ -64384,7 +64306,6 @@ msgstr ""
 "на дефисы. Смотрите примеры в разделе «:ref:`search-changes`»."
 
 #: user/search.rst:98
-#, fuzzy
 msgid ""
 "When combining ``changed_by``, ``changed``, ``change_time``, and "
 "``change_action`` filters, the filters apply to the same change event."
