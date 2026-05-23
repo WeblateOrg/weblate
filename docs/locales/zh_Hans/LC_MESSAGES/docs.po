@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-22 02:41+0000\n"
+"PO-Revision-Date: 2026-05-23 09:11+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -832,13 +832,6 @@ msgstr ""
 "components <component-restricted>`。"
 
 #: admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
-#| "separately, when it’s verified if a user has an access to perform certain "
-#| "actions. Namely, it’s applied only to actions directly related to the "
-#| "translation process itself like reviewing, saving translations, adding "
-#| "suggestions, etc."
 msgid ""
 "The restrictions imposed by a team’s :guilabel:`Languages` are applied "
 "separately, when it’s verified if a user has access to perform certain "
@@ -847,8 +840,8 @@ msgid ""
 "suggestions, etc."
 msgstr ""
 "当验证用户是否有权限执行某些操作时，由团队的 :guilabel:`语言` 施加的限制将单"
-"独应用。也就是说，它仅适用于与翻译流程本身直接相关的操作，例如审核、保存翻"
-"译、添加建议等。"
+"独应用。也就是说，它仅适用于与翻译流程本身直接相关的操作，例如审核、保存翻译"
+"、添加建议等。"
 
 #: admin/access.rst:432
 msgid ""
@@ -2081,12 +2074,6 @@ msgid "Overriding authentication method names and icons"
 msgstr "覆盖身份认证方法名称和图标"
 
 #: admin/auth.rst:423
-#, fuzzy
-#| msgid ""
-#| "You can override the authentication method display name and icon using "
-#| "using settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and "
-#| "``SOCIAL_AUTH_<NAME>_TITLE``. For example overriding naming for Auth0 "
-#| "would look like:"
 msgid ""
 "You can override the authentication method display name and icon using "
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
@@ -2461,7 +2448,7 @@ msgid ""
 "Security keys are WebAuthn credentials that can only be used as a second "
 "factor of authentication, and these only validate user presence."
 msgstr ""
-"Security keys 是只能被用作身份认证第二因素的 WebAuthn 凭据，这些仅验证用户存"
+"Security keys 是只能被用作身份认证第二因素的 WebAuthn 凭证，这些仅验证用户存"
 "在。"
 
 #: admin/auth.rst:830
@@ -2557,17 +2544,12 @@ msgid ""
 msgstr "备份当前不包括访问控制信息和历史记录。"
 
 #: admin/backup.rst:23
-#, fuzzy
-#| msgid ""
-#| "The comments and suggestions are backed up with an username of user who "
-#| "did create them. Upon import it is assigned to a matching user. If there "
-#| "is no user with such username, it is assigned to anonymous user."
 msgid ""
 "The comments and suggestions are backed up with the username of the user who "
 "did create them. Upon import it is assigned to a matching user. If there is "
 "no user with such username, it is assigned to anonymous user."
 msgstr ""
-"评论和建议由创建它们的用户的用户名备份。导入后，它会分配给匹配的用户。如果没"
+"评论和建议备份带创建它们的用户的用户名。导入后，它会分配给匹配的用户。如果没"
 "有具有该用户名的用户，则将其分配给匿名用户。"
 
 #: admin/backup.rst:27
@@ -2582,18 +2564,13 @@ msgstr ""
 "保留 3 个备份 30 天）。"
 
 #: admin/backup.rst:31
-#, fuzzy
-#| msgid ""
-#| "Import validation of uploaded project backups can be tuned "
-#| "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-#| "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgid ""
 "Import validation of uploaded project backups can be tuned "
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
-"可以使"
-"用 :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`、:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`、:setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` "
+"可以使用 "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`、:setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`、:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`、:setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` "
 "和 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO` 来调整上传项目"
 "备份的导入验证。"
 
@@ -2724,7 +2701,7 @@ msgstr "在 :guilabel:`备份` 选项卡下开启新的备份配置。"
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, "
 "see :ref:`borg-keys`."
-msgstr "备份你的 Borg 凭据，以便能够恢复备份，请参见 :ref:`borg-keys`。"
+msgstr "备份你的 Borg 凭证，以便能够恢复备份，请参见 :ref:`borg-keys`。"
 
 #: admin/backup.rst:109
 msgid ""
@@ -2793,14 +2770,10 @@ msgstr ""
 "borgbackup`:"
 
 #: admin/backup.rst:154
-#, fuzzy
-#| msgid ""
-#| "The directory where backups will be stored have to be owned by UID 1000, "
-#| "otherwise Weblate won’t be able to write the backups there."
 msgid ""
 "The directory where backups will be stored has to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
-msgstr "备份所存储的目录由 UID 1000 所有，否则 Weblate 将无法把备份写入那里。"
+msgstr "存储备份的目录必须由 UID 1000 所有，否则 Weblate 将无法把备份写入那里。"
 
 #: admin/backup.rst:158
 msgid "Remote backups"
@@ -3594,9 +3567,6 @@ msgstr ""
 "中："
 
 #: admin/checks.rst:162
-#, fuzzy
-#| msgid ""
-#| "Font-family and style is automatically recognized after uploading them:"
 msgid ""
 "Font-family and style are automatically recognized after uploading them:"
 msgstr "字型族和样式在上传后自动识别："
@@ -4541,13 +4511,6 @@ msgstr ""
 "合并请求推送，而不是直接推送到仓库。"
 
 #: admin/code-hosting.rst:576
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-pagure` creates merge "
-#| "request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4555,8 +4518,8 @@ msgid ""
 "while the :guilabel:`Pagure` backend creates a merge request."
 msgstr ""
 "不需要使用它来访问 Git 仓库，普通的 :ref:`vcs-git` 工作方式相同，唯一的区别是"
-"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 :ref:`vcs-"
-"pagure` 创建合并请求。"
+"如何处理推送到仓库。使用 :ref:`vcs-git` 将更改直接推送到仓库，而 "
+":guilabel:`Pagure` 后端创建合并请求。"
 
 #: admin/code-hosting.rst:581
 msgid ""
@@ -4565,25 +4528,14 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:587
-#, fuzzy
-#| msgid "**Test the workflow**:"
 msgid "Other workflows"
-msgstr "**测试工作流程**："
+msgstr "其他工作流"
 
 #: admin/code-hosting.rst:592
-#, fuzzy
-#| msgid "Notifications"
 msgid "Gitee notifications"
-msgstr "通知"
+msgstr "Gitee 通知"
 
 #: admin/code-hosting.rst:594
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` "
-#| "for :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on "
-#| "your Weblate installation (for example ``https://hosted.weblate.org/hooks/"
-#| "gitee/``). This can be done in :guilabel:`WebHooks` under "
-#| "repository :guilabel:`Management`."
 msgid ""
 "Weblate has support for Gitee webhooks. Add a :guilabel:`WebHook` "
 "for :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your "
@@ -4591,10 +4543,10 @@ msgid ""
 "``. This can be done in :guilabel:`WebHooks` under "
 "repository :guilabel:`Management`."
 msgstr ""
-"Weblate 已经支持 Gitee webhooks，为 :guilabel:`Push` 事件添"
-"加 :guilabel:`Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitee/`` URL"
-"（例如 ``https://hosted.weblate.org/hooks/gitee/``）。这可以"
-"在 :guilabel:`Management` 之下的 :guilabel:`Webhooks` 中完成。"
+"Weblate 已经支持 Gitee webhooks。为 :guilabel:`Push` 事件添加 "
+":guilabel:`Webhook`，目的地为你的 Weblate 安装上的 ``/hooks/gitee/`` URL，例"
+"如 ``https://hosted.weblate.org/hooks/gitee/``。这可以在 "
+":guilabel:`Management` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: admin/code-hosting.rst:602
 msgid "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_"
@@ -4605,24 +4557,17 @@ msgid ":http:post:`/hooks/gitee/`"
 msgstr ":http:post:`/hooks/gitee/`"
 
 #: admin/code-hosting.rst:609
-#, fuzzy
-#| msgid "GitLab merge requests"
 msgid "Gerrit review requests"
-msgstr "GitLab 合并请求"
+msgstr "Gerrit 审核请求"
 
 #: admin/code-hosting.rst:611
-#, fuzzy
-#| msgid ""
-#| "Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to "
-#| "allow pushing translation changes as Gerrit review requests, instead of "
-#| "pushing them directly to the repository."
 msgid ""
 "Gerrit support adds a thin layer atop :ref:`vcs-git` using the `git-review`_ "
 "tool to allow pushing translation changes as Gerrit review requests, instead "
 "of pushing them directly to the repository."
 msgstr ""
-"使用 `git-review`_ 工具在 :ref:`vcs-git` 上添加一个薄层，以允许将翻译更改作"
-"为 Gerrit 审查请求推送，而不是将它们直接推送到仓库。"
+"Gerrit 支持使用 `git-review`_ 工具在 :ref:`vcs-git` 上添加一个薄层，以允许将"
+"翻译更改作为 Gerrit 审查请求推送，而不是将它们直接推送到仓库。"
 
 #: admin/code-hosting.rst:615
 msgid ""
@@ -4634,32 +4579,23 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:621
-#, fuzzy
-#| msgid ""
-#| "The Gerrit documentation has the details on the configuration necessary "
-#| "to set up such repositories."
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories. There is no separate code hosting credential "
 "setting for this backend."
-msgstr "Gerrit 文档详细介绍了设置此类仓库所需的配置。"
+msgstr "Gerrit 文档详细介绍了设置此类仓库所需的配置。这个后端没有独立的代码托管凭证。"
 
 #: admin/code-hosting.rst:628
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Docker credentials"
-msgstr "Subversion 凭据"
+msgstr "Docker 凭证"
 
 #: admin/code-hosting.rst:630
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the credentials can be configured using "
-#| "environment variables, see :ref:`docker-vcs-config`."
 msgid ""
 "For Docker installations, code hosting API credentials can also be provided "
 "through environment variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"在 Docker 容器中，可使用环境变量配置凭据，见 :ref:`docker-vcs-config`。"
+"对 Docker 安装，代码托管 API 凭证也可以通过环境变量提供，见 :ref:`docker-vcs-"
+"config`。"
 
 #: admin/componentlists.rst:4
 msgid "Component Lists"
@@ -4886,21 +4822,15 @@ msgid ""
 msgstr "配置获取 Weblate 资产的大小限制。默认为 10 MB。"
 
 #: admin/config.rst:130
-#, fuzzy
-#| msgid ""
-#| "Defines hostnames or domains exempt "
-#| "from :setting:`WEBHOOK_RESTRICT_PRIVATE` for outbound webhook delivery. "
-#| "Entries follow Django host matching semantics, so values such as "
-#| "``hooks.internal.example`` or ``.internal.example`` can be used."
 msgid ""
 "Defines hostnames or domains exempt from :setting:`ASSET_RESTRICT_PRIVATE` "
 "for remote asset downloads that enforce private-target checks. Entries "
 "follow Django host matching semantics, so values such as "
 "``assets.internal.example`` or ``.internal.example`` can be used."
 msgstr ""
-"定于免于对外 webhook 传送限制 :setting:`WEBHOOK_RESTRICT_PRIVATE` 设置的主机"
-"名或域名。条目遵守 Django 主机匹配语义，因此可以使用 "
-"``hooks.internal.example`` 或 ``.internal.example`` 等值。"
+"定义豁免强制性私人目标检查的远程资产下载 :setting:`ASSET_RESTRICT_PRIVATE` 的"
+"主机名或域名。条目遵照 Django 主机匹配语法，因此可使用 "
+"``assets.internal.example`` 或 ``.internal.example`` 等值。"
 
 #: admin/config.rst:135
 msgid ""
@@ -4914,25 +4844,15 @@ msgid "Default configuration:"
 msgstr "默认配置："
 
 #: admin/config.rst:156
-#, fuzzy
-#| msgid ""
-#| "Reject webhook URLs pointing to internal or non-public addresses unless "
-#| "the target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On "
-#| "by default."
 msgid ""
 "Reject remote asset URLs pointing to internal or non-public addresses unless "
 "the target host is included in :setting:`ASSET_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
-"拒绝指向内部或非公开地址的 webhook URL，除非目标主机包含"
-"在 :setting:`WEBHOOK_PRIVATE_ALLOWLIST` 中。默认开启。"
+"拒绝指向内部或非公开地址的远程资产 URL，除非目标主机包含在 "
+":setting:`ASSET_PRIVATE_ALLOWLIST` 中。默认开启。"
 
 #: admin/config.rst:160
-#, fuzzy
-#| msgid ""
-#| "When enabled, hostnames that cannot be resolved during validation are "
-#| "rejected unless they are explicitly included "
-#| "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included "
@@ -4940,8 +4860,9 @@ msgid ""
 "URL uploads and remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` "
 "add-on."
 msgstr ""
-"启用后将拒绝验证期间无法解析的主机名，除非"
-"在 :setting:`WEBHOOK_PRIVATE_ALLOWLIST` 中明确允许它们。"
+"启用后将拒绝验证期间无法解析的主机名，除非在 "
+":setting:`ASSET_PRIVATE_ALLOWLIST` 中明确允许它们。目前这应用于 :ref:`addon-"
+"weblate.cdn.cdnjs` 附加组件屏幕截图 URL 上传和远程 HTML 下载。"
 
 #: admin/config.rst:179
 msgid ""
@@ -5211,10 +5132,8 @@ msgid "The following subdirectories usually exist:"
 msgstr "后面的子目录通常存在："
 
 #: admin/config.rst:444
-#, fuzzy
-#| msgid "Generated SSH wrapper scripts used for VCS access."
 msgid "Generated helper files used for VCS access."
-msgstr "用于 VCS 访问的生成的 SSH 包装器脚本。"
+msgstr "用于 VCS 访问的生成的助手文件。"
 
 #: admin/config.rst:446
 msgid ":program:`font-config` cache for :ref:`fonts`."
@@ -5335,24 +5254,15 @@ msgstr ""
 "置。"
 
 #: admin/config.rst:571
-#, fuzzy
-#| msgid ""
-#| "The sender is used in as :mailheader:`Reply-To`, this is the default "
-#| "behaviour."
 msgid ""
 "The sender is used as :mailheader:`Reply-To`, this is the default behaviour."
-msgstr "发送者在 :mailheader:`Reply-To` 中使用，这是默认行为。"
+msgstr "发送者被用作 :mailheader:`Reply-To` ，这是默认行为。"
 
 #: admin/config.rst:573
-#, fuzzy
-#| msgid ""
-#| "The sender is used in as :mailheader:`From`. Your mail server needs to "
-#| "allow sending such e-mails."
 msgid ""
 "The sender is used as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
-msgstr ""
-"发件人为 :mailheader:`From`，你的电子邮箱服务器需要允许发送此类电子邮件。"
+msgstr "发件人被用作 :mailheader:`From`，你的电子邮箱服务器需要允许发送此类电子邮件。"
 
 #: admin/config.rst:576
 msgid "Disables the contact form entirely."
@@ -5631,7 +5541,7 @@ msgstr "可以找到你的 Weblate 实例支持的 URL。"
 
 #: admin/config.rst:969
 msgid "List for credentials for Gitea servers."
-msgstr "Gitea 服务器凭据列表。"
+msgstr "Gitea 服务器凭证列表。"
 
 #: admin/config.rst:986
 msgid "`Creating a Gitea personal access token`_"
@@ -5687,8 +5597,6 @@ msgstr ""
 "fork，而原始仓库并不公开。"
 
 #: admin/config.rst:1052
-#, fuzzy
-#| msgid "Use ``api.github.com`` as a API host for https://github.com/."
 msgid "Use ``api.github.com`` as an API host for https://github.com/."
 msgstr "使用 ``api.github.com`` 作为 https://github.com/ 的 API 主机。"
 
@@ -5698,7 +5606,7 @@ msgstr "`创建 GitHub 个人访问令牌`_"
 
 #: admin/config.rst:1070
 msgid "List for credentials for Bitbucket Data Center."
-msgstr "Bitbucket 数据中心凭据列表。"
+msgstr "Bitbucket 数据中心凭证列表。"
 
 #: admin/config.rst:1086
 msgid ""
@@ -5710,7 +5618,7 @@ msgstr ""
 
 #: admin/config.rst:1095
 msgid "List for credentials for Bitbucket Cloud servers."
-msgstr "Bitbucket Cloud 服务器凭据列表。"
+msgstr "Bitbucket Cloud 服务器凭证列表。"
 
 #: admin/config.rst:1107 admin/config.rst:1147 admin/config.rst:2820
 msgid ""
@@ -5718,7 +5626,7 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
-"配置目录由为每个 API 主机定义的凭据所组成。API 主机可能和你在网页浏览器中所用"
+"配置目录由为每个 API 主机定义的凭证所组成。API 主机可能和你在网页浏览器中所用"
 "的不同，比如 GitHub API 访问地址为 ``api.github.com``."
 
 #: admin/config.rst:1111 admin/config.rst:1151 admin/config.rst:2828
@@ -5761,7 +5669,7 @@ msgstr ""
 
 #: admin/config.rst:1135
 msgid "List for credentials for Azure DevOps servers."
-msgstr "Azure DevOps 服务器凭据列表。"
+msgstr "Azure DevOps 服务器凭证列表。"
 
 #: admin/config.rst:1154
 msgid "The name of the Azure DevOps project. This is not the repository name."
@@ -5812,7 +5720,7 @@ msgid ""
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
-"隐藏仓库凭据避免出现在 web 界面中。在仓库 URL 带有用户名和密码的情况下，"
+"隐藏仓库凭证避免出现在 web 界面中。在仓库 URL 带有用户名和密码的情况下，"
 "Weblate 会在相关信息显示给用户时将其隐藏起来。"
 
 #: admin/config.rst:1191
@@ -5979,16 +5887,12 @@ msgid "Additional licenses to include in the license choices."
 msgstr "包括在许可选择中的其他许可。"
 
 #: admin/config.rst:1369
-#, fuzzy
-#| msgid ""
-#| "Each license definition should be tuple of its short name, a long name, a "
-#| "URL and a boolean, indication with it is a libre license."
 msgid ""
 "Each license definition should be a tuple of its short name, a long name, a "
 "URL and a boolean, indicating whether it is a libre license."
 msgstr ""
-"每个许可证定义应该是其短名称、长名称、URL 和布尔值的元组，表明其是自由许可"
-"证。"
+"每个许可证定义应该是其短名称、长名称、URL 和布尔值的元组，表明其是否是自由许"
+"可证。"
 
 #: admin/config.rst:1371 admin/config.rst:1400 admin/config.rst:1495
 #: admin/projects.rst:534 formats/xliff.rst:79
@@ -6044,13 +5948,6 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL 和 LOCALIZE_CDN_PATH"
 
 #: admin/config.rst:1449
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-"
-#| "on. :setting:`LOCALIZE_CDN_URL` defines root URL where the localization "
-#| "CDN is available and :setting:`LOCALIZE_CDN_PATH` defines path where "
-#| "Weblate should store generated files which will be served at "
-#| "the :setting:`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
 "weblate.cdn.cdnjs` and :ref:`addon-"
@@ -6061,10 +5958,11 @@ msgid ""
 "CDN, not by Weblate; see :ref:`cdn-server-security` for secure serving "
 "guidance."
 msgstr ""
-"这些设置配置 :ref:`addon-weblate.cdn.cdnjs` 附加组"
-"件。:setting:`LOCALIZE_CDN_URL` 定义了本地化 CDN 可用的根 URL，"
-"而 :setting:`LOCALIZE_CDN_PATH` 定义了 Weblate 应"
-"把 :setting:`LOCALIZE_CDN_URL` 将提供的生成文件存储在哪个路径。"
+"这些设置配置 :ref:`addon-weblate.cdn.cdnjs` 和 :ref:`addon-"
+"weblate.cdn.files` 在内的 CDN 附加组件。:setting:`LOCALIZE_CDN_URL` 定义了本"
+"地化 CDN 可用的根 URL，而 :setting:`LOCALIZE_CDN_PATH` 定义了 Weblate 应把 "
+":setting:`LOCALIZE_CDN_URL` 将提供的生成文件存储在哪个路径。你的 web 服务器"
+"或 CDN 提供这些文件，安全提供指南见 :ref:`cdn-server-security`。"
 
 #: admin/config.rst:1459
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -6104,7 +6002,7 @@ msgstr "分页激活时显示的默认元素数量。"
 
 #: admin/config.rst:1531
 msgid "List for credentials for Pagure servers."
-msgstr "Pagure 服务器凭据列表。"
+msgstr "Pagure 服务器凭证列表。"
 
 #: admin/config.rst:1547
 msgid "`Pagure API <https://pagure.io/api/0/>`_"
@@ -6230,14 +6128,12 @@ msgid ""
 msgstr "定义项目备份将在服务器上保留多长时间，默认值为 30 天。"
 
 #: admin/config.rst:1709
-#, fuzzy
-#| msgid ""
-#| "Configures the maximum size, in bytes, for uploaded component ZIP files. "
-#| "Defaults to 50 MB."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded project backup ZIP "
 "files. Defaults to 536870912 bytes (512 MiB)."
-msgstr "配置上传部件 ZIP 文件的最大大小，单位为字节。默认 50 MB。"
+msgstr ""
+"配置上传部件备份 ZIP 文件的最大大小，单位为字节。默认 536870912 字节（512 MiB"
+"）。"
 
 #: admin/config.rst:1712
 msgid ""
@@ -6262,26 +6158,20 @@ msgstr ""
 "这是针对格式错误或刻意碎片化归档文件的一种防护措施。默认为 100000 个条目。"
 
 #: admin/config.rst:1734
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS`` environment variable."
 msgstr ""
-"在 Docker 中，用 ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` 环境变量配置这个。"
+"在 Docker 中，用 ``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS`` 环境变量配置这"
+"个。"
 
 #: admin/config.rst:1748
-#, fuzzy
-#| msgid ""
-#| "Defines the maximum uncompressed size, in bytes, for a single highly "
-#| "compressed ZIP entry in an imported project backup."
 msgid ""
 "Defines the maximum total uncompressed size, in bytes, for ZIP entries in an "
 "imported project backup. Defaults to 536870912 bytes (512 MiB)."
 msgstr ""
-"定义导入的项目备份中单个高度压缩的 ZIP 条目的最大未压缩大小（以字节为单位）。"
+"定义导入的项目备份中 ZIP 项的最大的总未压缩大小。默认为 536870912 字节（512 "
+"MiB）。"
 
 #: admin/config.rst:1751
 msgid ""
@@ -6290,16 +6180,14 @@ msgid ""
 msgstr ""
 
 #: admin/config.rst:1754
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`` environment "
 "variable."
 msgstr ""
-"在 Docker 中，用 ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` 环境变量配置这个。"
+"在 Docker 中，用 "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`` 环境变量配置这"
+"个。"
 
 #: admin/config.rst:1769
 msgid ""
@@ -6320,16 +6208,13 @@ msgstr ""
 "262144000 字节（250 MiB）。"
 
 #: admin/config.rst:1777
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`` environment "
 "variable."
 msgstr ""
-"在 Docker 中，用 ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` 环境变量配置这个。"
+"在 Docker 中，用 ``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`` "
+"环境变量配置这个。"
 
 #: admin/config.rst:1792
 msgid ""
@@ -6349,15 +6234,12 @@ msgstr ""
 "件。默认为 1048576 字节（1 MiB）。"
 
 #: admin/config.rst:1799
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable."
 msgstr ""
-"在 Docker 中，用 ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` 环境变量配置这个。"
+"在 Docker 中，用 ``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` 环境变量配"
+"置这个。"
 
 #: admin/config.rst:1813
 msgid ""
@@ -6379,16 +6261,14 @@ msgstr ""
 "目，同时仍然允许大型仓库打包文件和其他低压缩率内容。默认为 250。"
 
 #: admin/config.rst:1822
-#, fuzzy
-#| msgid ""
-#| "In Docker, configure this using the "
-#| "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`` environment "
 "variable."
 msgstr ""
-"在 Docker 中，用 ``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` 环境变量配置这个。"
+"在 Docker 中，用 "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`` 环境变量配置这个"
+"。"
 
 #: admin/config.rst:1837
 msgid ""
@@ -6543,10 +6423,6 @@ msgid ""
 msgstr "新账户注册是否受 CAPTCHA 的保护。此功能默认开启。"
 
 #: admin/config.rst:2114
-#, fuzzy
-#| msgid ""
-#| "If turned on, a CAPTCHA is added to all pages where a users enters their "
-#| "e-mail address:"
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a user enters their e-"
 "mail address:"
@@ -6577,16 +6453,14 @@ msgid "Mathematical captcha to be solved by the user."
 msgstr "用户要解决的数学人机验证。"
 
 #: admin/config.rst:2124
-#, fuzzy
-#| msgid ""
-#| "Proof of work challenge calculated by the browser. The difficulty can be "
-#| "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`."
 msgstr ""
-"由浏览器计算的工作证明挑战。可使用 :setting:`ALTCHA_MAX_NUMBER` 调整难度。"
+"由浏览器计算的工作证明挑战。可使用 "
+":setting:`ALTCHA_COST`、:setting:`ALTCHA_MEMORY_COST` 和 "
+":setting:`ALTCHA_PARALLELISM` 调整难度。"
 
 #: admin/config.rst:2131
 msgid "Allows you to filter which e-mail addresses can register."
@@ -6701,14 +6575,10 @@ msgid ""
 msgstr "配置是否用 Sentry 监控 Celery Beat 任务。默认值是 ``True``."
 
 #: admin/config.rst:2261
-#, fuzzy
-#| msgid ""
-#| "Configure sampling rate for performance monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to profile all "
 "traced events (the default), 0 disables profiling."
-msgstr "配置性能监控采样率。设为 1 跟踪所有事件，0（默认值）禁用跟踪。"
+msgstr "配置性能监控采样率。设为 1 绘制所有跟踪事件的图表（默认），0 表示禁用。"
 
 #: admin/config.rst:2265 admin/install.rst:1746
 msgid ""
@@ -7000,20 +6870,16 @@ msgstr ""
 "中明确包含它们。"
 
 #: admin/config.rst:2577
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls "
-#| "in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls "
 "in :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-merge-"
 "requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
 "pagure-merge-requests`, and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
-"在 :ref:`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-gitea`、:ref:`vcs-pagure` "
-"和 :ref:`vcs-azure-devops` 中配置第三方 API 调用之间的最小延迟（以秒为单"
-"位）。"
+"在 :ref:`code-hosting-github-pull-requests`、:ref:`code-hosting-gitlab-merge-"
+"requests`、 :ref:`code-hosting-gitea-pull-requests`、 :ref:`code-hosting-"
+"pagure-merge-requests` 和 :ref:`code-hosting-azure-devops-pull-requests` 中配"
+"置第三方 API 调用之间的最小延迟（以秒为单位）。"
 
 #: admin/config.rst:2584
 msgid ""
@@ -7032,11 +6898,6 @@ msgid "The default value is 10."
 msgstr "默认值为 10。"
 
 #: admin/config.rst:2597
-#, fuzzy
-#| msgid ""
-#| "Configures timeout in seconds for third-party API calls such as forking "
-#| "or creating merge requests in :ref:`vcs-github`, :ref:`vcs-"
-#| "gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures timeout in seconds for third-party API calls such as forking or "
 "creating merge requests in :ref:`code-hosting-github-pull-"
@@ -7044,9 +6905,10 @@ msgid ""
 "gitea-pull-requests`, :ref:`code-hosting-pagure-merge-requests`, "
 "and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
-"为第三方 API 调用，如在 :ref:`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-"
-"gitea`、:ref:`vcs-pagure` 和 :ref:`vcs-azure-devops` 进行 fork 或创建合并请"
-"求，配置秒为单位的超时。"
+"在 :ref:`code-hosting-github-pull-requests`、 :ref:`code-hosting-gitlab-"
+"merge-requests`、 :ref:`code-hosting-gitea-pull-requests`、:ref:`code-"
+"hosting-pagure-merge-requests` 和 :ref:`code-hosting-azure-devops-pull-"
+"requests` 中配置 fork 或创建合并请求等第三方 API 调用的超时秒数。"
 
 #: admin/config.rst:2611
 msgid "Configuration of available VCS backends."
@@ -7181,15 +7043,15 @@ msgstr "项目网站的可用性并非您安装所关注的问题"
 
 #: admin/config.rst:2811
 msgid "Configuring version control credentials"
-msgstr "配置版本控制凭据"
+msgstr "配置版本控制凭证"
 
 #: admin/config.rst:2815
 msgid ""
 "This section describes VCS credential variables "
 "as :setting:`GITHUB_CREDENTIALS`, :setting:`GITLAB_CREDENTIALS`, :setting:`GITEA_CREDENTIALS`, :setting:`PAGURE_CREDENTIALS`, :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"此部分将 VCS 凭据描述"
-"为 :setting:`GITHUB_CREDENTIALS`、:setting:`GITLAB_CREDENTIALS`、:setting:`GITEA_CREDENTIALS`、:setting:`PAGURE_CREDENTIALS`、:setting:`BITBUCKETSERVER_CREDENTIALS`。"
+"此部分将 VCS 凭证描述为 "
+":setting:`GITHUB_CREDENTIALS`、:setting:`GITLAB_CREDENTIALS`、:setting:`GITEA_CREDENTIALS`、:setting:`PAGURE_CREDENTIALS`、:setting:`BITBUCKETSERVER_CREDENTIALS`。"
 
 #: admin/config.rst:2824
 msgid ""
@@ -7197,8 +7059,8 @@ msgid ""
 "or :ref:`component-repo` (if push URL is not configured), these take "
 "precedence over the ones specified in the configuration file."
 msgstr ""
-"凭据也可以在 :ref:`component-push` 或 :ref:`component-repo` 中被覆盖（如果没"
-"有配置 URL），这些凭据的优先级高于配置文件中所指定的凭据。"
+"凭证也可以在 :ref:`component-push` 或 :ref:`component-repo` 中被覆盖（如果没"
+"有配置 URL），这些凭证的优先级高于配置文件中所指定的凭证。"
 
 #: admin/config.rst:2831
 msgid "API user, required."
@@ -7217,8 +7079,7 @@ msgstr ""
 msgid ""
 "In the Docker container, the credentials can be configured using environment "
 "variables, see :ref:`docker-vcs-config`."
-msgstr ""
-"在 Docker 容器中，可使用环境变量配置凭据，见 :ref:`docker-vcs-config`。"
+msgstr "在 Docker 容器中，可使用环境变量配置凭证，见 :ref:`docker-vcs-config`。"
 
 #: admin/continuous.rst:4
 msgid "Continuous localization"
@@ -7234,16 +7095,13 @@ msgstr ""
 "必在发布之前处理大量的新文本。"
 
 #: admin/continuous.rst:12
-#, fuzzy
-#| msgid ""
-#| ":doc:`/devel/integration` describes basic ways to integrate your "
-#| "development with Weblate."
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate. :doc:`/admin/code-hosting` lists provider-specific setup steps "
 "for common code hosting sites."
 msgstr ""
-":doc:`/devel/integration` 描述了将您的开发集成到 Weblate 中的基本方式。"
+":doc:`/devel/integration` 描述了将您的开发集成到 Weblate 中的基本方式"
+"。:doc:`/admin/code-hosting` 列出常见代码托管站的适用于特定供应商的配置步骤。"
 
 #: admin/continuous.rst:17
 msgid "This is the process:"
@@ -7280,14 +7138,10 @@ msgstr ""
 "译者完成后，Weblate 会将更改提交到本地仓库（请参阅 :ref:`lazy-commit`）。"
 
 #: admin/continuous.rst:24
-#, fuzzy
-#| msgid ""
-#| "Changes are pushed back to the upstream repository (see :ref:`push-"
-#| "changes`)."
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`code-hosting-"
 "push-options`)."
-msgstr "更改被推送回上游仓库（见 :ref:`push-changes`）。"
+msgstr "更改被推送回上游仓库（见 :ref:`code-hosting-push-options`）。"
 
 #: admin/continuous.rst:76
 msgid ""
@@ -7736,10 +7590,8 @@ msgid ""
 msgstr "在 Weblate 中使用锁定避免在审核 GitHub 拉取请求时的更改。"
 
 #: admin/continuous.rst:293
-#, fuzzy
-#| msgid "Added digest notifications."
 msgid "Code hosting notifications"
-msgstr "添加了摘要通知。"
+msgstr "代码托管通知"
 
 #: admin/continuous.rst:295
 msgid ""
@@ -7749,10 +7601,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:309
-#, fuzzy
-#| msgid "Version-specific instructions"
 msgid "Provider-specific notifications"
-msgstr "特定版本的操作指南"
+msgstr "特定提供商的通知"
 
 #: admin/continuous.rst:311
 msgid ""
@@ -7807,16 +7657,6 @@ msgstr ""
 "换为进行每晚合并，通过允许 :setting:`AUTO_UPDATE`。"
 
 #: admin/continuous.rst:337
-#, fuzzy
-#| msgid ""
-#| "Each translation component can have a push URL set up "
-#| "(see :ref:`component-push`), and in that case Weblate will be able to "
-#| "push change to the remote repository. Weblate can be also be configured "
-#| "to automatically push changes on every commit (this is default, "
-#| "see :ref:`component-push_on_commit`). If you do not want changes to be "
-#| "pushed automatically, you can do that manually "
-#| "under :guilabel:`Repository maintenance` or using the API "
-#| "via :option:`wlc push`."
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
 "push`), and in that case Weblate will be able to push changes to the remote "
@@ -7825,9 +7665,7 @@ msgid ""
 msgstr ""
 "每个翻译部件可以新建推送 URL（请参见 :ref:`component-push`），在那种情况下 "
 "Weblate 能够将更改推送到远程仓库。Weblate 还可以配置在每次提交时自动推送更改"
-"（这是默认的，请参见 :ref:`component-push_on_commit`）。如果不想更改自动给推"
-"送，可以在 :guilabel:`仓库维护` 之下手动进行，或通过 :option:`wlc push` 使用 "
-"API。"
+"（请参见 :ref:`component-push_on_commit`）。"
 
 #: admin/continuous.rst:342
 msgid ""
@@ -8546,10 +8384,8 @@ msgid "PostgreSQL, see :ref:`database-setup`"
 msgstr "PostgreSQL，见 :ref:`database-setup`"
 
 #: admin/install.rst:0
-#, fuzzy
-#| msgid "`wllegal <https://pypi.org/project/wllegal>`_"
 msgid "`rollbar <https://pypi.org/project/rollbar>`__"
-msgstr "`wllegal <https://pypi.org/project/wllegal>`_"
+msgstr "`rollbar <https://pypi.org/project/rollbar>`__"
 
 #: admin/install.rst:251
 msgid "Integrating SAML 2 IDP into Weblate"
@@ -9887,18 +9723,13 @@ msgid "Sample configuration for NGINX and Gunicorn"
 msgstr "NGINX 和 Gunicorn 的配置示例"
 
 #: admin/install.rst:1394
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate using Gunicorn under the NGINX "
-#| "webserver (also available as :file:`weblate/examples/"
-#| "weblate.nginx.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (:file:`weblate/examples/weblate.nginx.gunicorn.conf` in the "
 "source tree):"
 msgstr ""
-"下列配置在 NGINX web服务器下使用 Gunicorn 运行 Weblate (同样作"
-"为 :file:`weblate/examples/weblate.nginx.gunicorn.conf` 文件可用)："
+"下列配置在 NGINX web服务器下使用 Gunicorn 运行 Weblate (源码树中的 "
+":file:`weblate/examples/weblate.nginx.gunicorn.conf`)："
 
 #: admin/install.rst:1409
 msgid "Sample configuration for NGINX and uWSGI"
@@ -9923,26 +9754,16 @@ msgid ""
 msgstr "后面的配置将 Weblate 作为 NGINX web 服务器下的 uWSGI 来运行。"
 
 #: admin/install.rst:1420
-#, fuzzy
-#| msgid ""
-#| "Configuration for NGINX (also available as :file:`weblate/examples/"
-#| "weblate.nginx.conf`):"
 msgid ""
 "Configuration for NGINX (:file:`weblate/examples/weblate.nginx.conf` in the "
 "source tree):"
-msgstr ""
-"NGINX 的配置（还作为 :file:`weblate/examples/weblate.nginx.conf` 来获得）："
+msgstr "NGINX 的配置（源码树中的 :file:`weblate/examples/weblate.nginx.conf`）："
 
 #: admin/install.rst:1425
-#, fuzzy
-#| msgid ""
-#| "Configuration for uWSGI (also available as :file:`weblate/examples/"
-#| "weblate.uwsgi.ini`):"
 msgid ""
 "Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the "
 "source tree):"
-msgstr ""
-"uWSGI 的配置（还作为 :file:`weblate/examples/weblate.uwsgi.ini` 来获得）："
+msgstr "uWSGI 的配置（源码树中的 :file:`weblate/examples/weblate.uwsgi.ini`）："
 
 #: admin/install.rst:1437
 msgid "Sample configuration for Apache"
@@ -9953,16 +9774,12 @@ msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr "推荐当 Weblate 使用 WSGI 时使用 prefork MPM。"
 
 #: admin/install.rst:1441
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as WSGI, you need to have "
-#| "enabled ``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (:file:`weblate/examples/apache.conf` in the source tree):"
 msgstr ""
-"后面的配置将 Weblate 作为 WSGI 来运行，您需要允许 ``mod_wsgi``\\ （作"
-"为 :file:`weblate/examples/apache.conf` 来获得）："
+"下面的配置将 Weblate 作为 WSGI 来运行，您需要允许 ``mod_wsgi`` (源码树中的 "
+":file:`weblate/examples/apache.conf`):"
 
 #: admin/install.rst:1449
 msgid ""
@@ -9982,16 +9799,12 @@ msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Apache 和 Gunicorn 的配置示例"
 
 #: admin/install.rst:1465
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(:file:`weblate/examples/apache.gunicorn.conf` in the source tree):"
 msgstr ""
-"后面的配置在 Gunicorn 和 Apache 2.4 中运行 Weblate（作为 :file:`weblate/"
-"examples/apache.gunicorn.conf` 获得）："
+"后面的配置在 Gunicorn 和 Apache 2.4 中运行 Weblate（源码树中的 "
+":file:`weblate/examples/apache.gunicorn.conf` ）："
 
 #: admin/install.rst:1480
 msgid "Sample configuration to start Granian"
@@ -10035,18 +9848,13 @@ msgid "Running Weblate under path"
 msgstr "在路径下运行 Weblate"
 
 #: admin/install.rst:1534
-#, fuzzy
-#| msgid ""
-#| "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
-#| "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-"
-#| "path.conf`):"
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (:file:`weblate/examples/apache-path.conf` in the source "
 "tree):"
 msgstr ""
 "为 ``/weblate`` 下的 Weblate 提供服务的 Apache 配置的示例。再次使用 "
-"``mod_wsgi``\\ （还作为 :file:`weblate/examples/apache-path.conf` 获得）："
+"``mod_wsgi`` （源码树中的 :file:`weblate/examples/apache-path.conf` ）："
 
 #: admin/install.rst:1540
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -10104,18 +9912,13 @@ msgid ""
 msgstr ":ref:`Celery 中的 Redis 代理配置 <celery:broker-redis-configuration>`"
 
 #: admin/install.rst:1575
-#, fuzzy
-#| msgid ""
-#| "You should also start the Celery worker to process the tasks and start "
-#| "scheduled tasks, this can be done directly on the command-line (which is "
-#| "mostly useful when debugging or developing):"
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks. For debugging or development, this can be done directly on "
 "the command-line:"
 msgstr ""
-"您应该启动 Celery 工作进程来处理任务，并且定时任务，这可以直接在命令行完成"
-"（调试和开发时最有用）："
+"您应该启动 Celery 工作进程来处理任务，并且开启定时任务。对于调试和开发，这可"
+"以直接在命令行完成："
 
 #: admin/install.rst:1585
 msgid ""
@@ -10155,12 +9958,6 @@ msgid "Running Celery as system service"
 msgstr "运行 Celery 作为系统服务"
 
 #: admin/install.rst:1612
-#, fuzzy
-#| msgid ""
-#| "Most likely you will want to run Celery as a daemon and that is covered "
-#| "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
-#| "using systemd, you can use the example files shipped in "
-#| "the :file:`examples` folder listed below."
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered "
 "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
@@ -10169,8 +9966,9 @@ msgid ""
 "Python wheels do not install these deployment samples."
 msgstr ""
 "您更可能想要运行 Celery 作为守护进程，这由 :doc:`celery:userguide/"
-"daemonizing` 来涵盖。对于使用 systemd 的最通常的 Linux 设置，您可以使用与下面"
-"列出的 :file:`examples` 文件夹一起上市的示例文件。"
+"daemonizing` 来涵盖。对于使用 systemd 的最通常的 Linux 设置，调整下面列出的示"
+"例文件。这些例子在 :file:`weblate/examples/` 下的 Weblate 源码树中的维护。"
+"Python wheels 不安装这些部署样例。"
 
 #: admin/install.rst:1618
 msgid ""
@@ -10598,16 +10396,12 @@ msgid "Weblate stable release"
 msgstr "Weblate 稳定发行版"
 
 #: admin/install/docker.rst:82
-#, fuzzy
-#| msgid "Rolling updates within a major version in a production environment"
 msgid "Rolling updates within a calendar year in a production environment"
-msgstr "生产环境下大版本内的滚动更新"
+msgstr "生产环境下日历年内的滚动更新"
 
 #: admin/install/docker.rst:84
-#, fuzzy
-#| msgid "Rolling updates within a major version in a production environment"
 msgid "Rolling updates within a monthly release in a production environment"
-msgstr "生产环境下大版本内的滚动更新"
+msgstr "生产环境下月度版本内的滚动更新"
 
 #: admin/install/docker.rst:86
 msgid "Well defined deploy in a production environment"
@@ -11216,10 +11010,8 @@ msgid "Defaults to enabled."
 msgstr "默认为启用。"
 
 #: admin/install/docker.rst:719
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`。"
 
 #: admin/install/docker.rst:721
 msgid "Expects a comma-separated list of trusted project slugs."
@@ -11238,16 +11030,12 @@ msgid "Expects a comma-separated list of trusted hostnames or domains."
 msgstr ""
 
 #: admin/install/docker.rst:743
-#, fuzzy
-#| msgid "Configures :setting:`VCS_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`ASSET_RESTRICT_PRIVATE`."
-msgstr "配置 :setting:`VCS_RESTRICT_PRIVATE`."
+msgstr "配置 :setting:`ASSET_RESTRICT_PRIVATE`。"
 
 #: admin/install/docker.rst:751
-#, fuzzy
-#| msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgid "Configures :setting:`ASSET_PRIVATE_ALLOWLIST`."
-msgstr "配置 :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
+msgstr "配置 :setting:`ASSET_PRIVATE_ALLOWLIST`。"
 
 #: admin/install/docker.rst:757
 msgid ""
@@ -11359,12 +11147,6 @@ msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr "这是一个布尔值设定（使用 ``\"true\"`` 或者 ``\"false\"``）。"
 
 #: admin/install/docker.rst:866
-#, fuzzy
-#| msgid ""
-#| "A tuple representing a HTTP header/value combination that signifies a "
-#| "request is secure. This is needed when Weblate is running behind a "
-#| "reverse proxy doing SSL termination which does not pass standard HTTPS "
-#| "headers."
 msgid ""
 "A tuple representing an HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
@@ -11678,30 +11460,22 @@ msgstr ""
 "第三方容器共享。"
 
 #: admin/install/docker.rst:1269
-#, fuzzy
-#| msgid "Configures :setting:`VERSION_DISPLAY`."
 msgid "Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
-msgstr "配置 :setting:`VERSION_DISPLAY`."
+msgstr "配置 :setting:`TRANSLATION_UPLOAD_MAX_SIZE`。"
 
 #: admin/install/docker.rst:1271 admin/install/docker.rst:1277
 #: admin/install/docker.rst:1298 admin/install/docker.rst:1306
 #: admin/install/docker.rst:1314
-#, fuzzy
-#| msgid "The attribute value is not quoted."
 msgid "The value is in bytes."
-msgstr "属性值未被引用。"
+msgstr "该值单位为字节。"
 
 #: admin/install/docker.rst:1275
-#, fuzzy
-#| msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgid "Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
-msgstr "配置 :setting:`IP_PROXY_OFFSET`。"
+msgstr "配置 :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`。"
 
 #: admin/install/docker.rst:1281
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`。"
 
 #: admin/install/docker.rst:1283
 msgid ""
@@ -11710,46 +11484,30 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:1290
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`。"
 
 #: admin/install/docker.rst:1296
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`。"
 
 #: admin/install/docker.rst:1304
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`。"
 
 #: admin/install/docker.rst:1312
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`。"
 
 #: admin/install/docker.rst:1320
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
-msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_PRIVATE`。"
+msgstr "配置 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`。"
 
 #: admin/install/docker.rst:1326
 msgid "Code hosting sites credentials"
-msgstr "代码托管站点凭据"
+msgstr "代码托管站点凭证"
 
 #: admin/install/docker.rst:1328
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the code hosting credentials can be configured "
-#| "either in separate variables or using a Python dictionary to set them at "
-#| "once. The following examples are for :ref:`vcs-github`, but applies to "
-#| "all :ref:`vcs` with appropriately changed variable names."
 msgid ""
 "In the Docker container, the code hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -11757,9 +11515,9 @@ msgid ""
 "requests`, but apply to all :ref:`vcs` with appropriately changed variable "
 "names."
 msgstr ""
-"在 Docker 容器中，代码托管凭据可以配置在单独的变量中，或用 Python 词典一次性"
-"设置。下列示例适用于 :ref:`vcs-github`，但适用于所有适当更改的变量名"
-"的 :ref:`vcs`。"
+"在 Docker 容器中，代码托管凭证可以配置在单独的变量中，或用 Python 词典一次性"
+"设置。下列示例适用于 :ref:`code-hosting-github-pull-requests`，但适用于所有带"
+"恰当更改的变量名的 :ref:`vcs`。"
 
 #: admin/install/docker.rst:1335
 msgid ""
@@ -11768,7 +11526,7 @@ msgid ""
 "not ``GITHUB_USERNAME``. This applies whether you're configuring for pull "
 "requests or any other VCS integration."
 msgstr ""
-"所有环境变量名必须包含 ``WEBLATE_`` 前缀。例如，要配置 Weblate 凭据，使用 "
+"所有环境变量名必须包含 ``WEBLATE_`` 前缀。例如，要配置 Weblate 凭证，使用 "
 "``WEBLATE_GITHUB_USERNAME``，而不是 ``GITHUB_USERNAME``。 不论是配置拉取请求"
 "还是其他任何 VCS 集成，这都适用。"
 
@@ -11789,13 +11547,12 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "或者到包含该 Python 字典的文件的路径："
 
 #: admin/install/docker.rst:1376
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-github-pull-requests` by "
 "changing :setting:`GITHUB_CREDENTIALS`."
-msgstr "配置 :ref:`vcs-github`，方法是更改 :setting:`GITHUB_CREDENTIALS`。"
+msgstr ""
+"配置 :ref:`code-hosting-github-pull-requests`，方法是更改 "
+":setting:`GITHUB_CREDENTIALS`。"
 
 #: admin/install/docker.rst:1381 admin/install/docker.rst:1393
 #: admin/install/docker.rst:1405 admin/install/docker.rst:1417
@@ -11805,67 +11562,52 @@ msgid ""
 msgstr ":ref:`在 Docker 中配置代码托管凭证 <docker-vcs-config>`"
 
 #: admin/install/docker.rst:1388
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-gitlab-merge-requests` by "
 "changing :setting:`GITLAB_CREDENTIALS`."
-msgstr "配置 :ref:`vcs-gitlab`，方法是更改 :setting:`GITLAB_CREDENTIALS`。"
+msgstr ""
+"配置 :ref:`code-hosting-gitlab-merge-requests`，方法是更改 "
+":setting:`GITLAB_CREDENTIALS`。"
 
 #: admin/install/docker.rst:1400
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-gitea-pull-requests` by "
 "changing :setting:`GITEA_CREDENTIALS`."
-msgstr "配置 :ref:`vcs-gitea`，方法是更改 :setting:`GITEA_CREDENTIALS`。"
+msgstr ""
+"配置 :ref:`code-hosting-gitea-pull-requests`，方法是更改 "
+":setting:`GITEA_CREDENTIALS`。"
 
 #: admin/install/docker.rst:1412
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-pagure-merge-requests` by "
 "changing :setting:`PAGURE_CREDENTIALS`."
-msgstr "配置 :ref:`vcs-pagure`，方法是更改 :setting:`PAGURE_CREDENTIALS`。"
+msgstr ""
+"配置 :ref:`code-hosting-pagure-merge-requests`，方法是更改 "
+":setting:`PAGURE_CREDENTIALS`。"
 
 #: admin/install/docker.rst:1424
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-data-center` by "
-#| "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-bitbucket-data-center-pull-requests` by "
 "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"配置 :ref:`vcs-bitbucket-data-center`，方法是更"
-"改 :setting:`BITBUCKETSERVER_CREDENTIALS`。"
+"配置 :ref:`code-hosting-bitbucket-data-center-pull-requests`，方法是更改 "
+":setting:`BITBUCKETSERVER_CREDENTIALS`。"
 
 #: admin/install/docker.rst:1433
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-cloud` by "
-#| "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-bitbucket-cloud-pull-requests` by "
 "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"配置 :ref:`vcs-bitbucket-cloud`，方法是更"
-"改 :setting:`BITBUCKETCLOUD_CREDENTIALS`."
+"配置 :ref:`code-hosting-bitbucket-cloud-pull-requests`，方法是更改 "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/install/docker.rst:1446
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-azure-devops` by "
-#| "changing :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-azure-devops-pull-requests` by "
 "changing :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-"配置 :ref:`vcs-azure-devops`，方法是更"
-"改 :setting:`AZURE_DEVOPS_CREDENTIALS`。"
+"配置 :ref:`code-hosting-azure-devops-pull-requests`，方法是更改 "
+":setting:`AZURE_DEVOPS_CREDENTIALS`。"
 
 #: admin/install/docker.rst:1456
 msgid "Automatic suggestion settings"
@@ -12169,11 +11911,6 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: admin/install/docker.rst:1861
-#, fuzzy
-#| msgid ""
-#| "Set to false to disables environment based configuration of the database "
-#| "connection. Use :ref:`docker-settings-override` to configure the database "
-#| "connection manually."
 msgid ""
 "Set to false to disable environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
@@ -12384,12 +12121,12 @@ msgid "Localization CDN"
 msgstr "语言本地化内容分发网络"
 
 #: admin/install/docker.rst:2132
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid ""
 "Configuration for CDN add-ons, including :ref:`addon-weblate.cdn.cdnjs` "
 "and :ref:`addon-weblate.cdn.files`."
-msgstr ":ref:`addon-weblate.cdn.cdnjs` 的配置。"
+msgstr ""
+"包括 :ref:`addon-weblate.cdn.cdnjs` 和 :ref:`addon-weblate.cdn.files` 在内的 "
+"CDN 附加组件的配置。"
 
 #: admin/install/docker.rst:2135
 msgid ""
@@ -12404,33 +12141,26 @@ msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr "一种可能性是存储在 Weblate 数据目录中："
 
 #: admin/install/docker.rst:2148
-#, fuzzy
-#| msgid ""
-#| "You are responsible for setting up serving of the files generated by "
-#| "Weblate, it only does stores the files in configured location."
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only stores the files in configured location. See :ref:`cdn-"
 "server-security` for secure serving guidance."
-msgstr "您负责设置Weblate生成的文件的服务，它只在配置的位置存储文件。"
+msgstr ""
+"您负责设置Weblate生成的文件的服务，它只在配置的位置存储文件。安全提供指南见 "
+":ref:`cdn-server-security`。"
 
 #: admin/install/docker.rst:2160
-#, fuzzy
-#| msgid ""
-#| "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgid ""
 "Changing enabled apps, checks, formats, add-ons, machinery, or autofixes"
-msgstr "更改启用的应用、检查、附加组件、机器翻译或自动修复"
+msgstr "更改启用的应用、检查、格式、附加组件、机器翻译或自动修复"
 
 #: admin/install/docker.rst:2162
-#, fuzzy
-#| msgid ""
-#| "The built-in configuration of enabled checks, add-ons or autofixes can be "
-#| "adjusted by the following variables:"
 msgid ""
 "The built-in configuration of enabled checks, file formats, add-ons, "
 "machinery, or autofixes can be adjusted by the following variables:"
-msgstr "可以通过后面的变量来调整允许的检查、附加组件或自动修复的内建配置："
+msgstr ""
+"可以通过后面的变量来调整允许的检查、文件格式、附加组件、机器翻译或自动修复的"
+"内建配置："
 
 #: admin/install/docker.rst:2202
 msgid "Container settings"
@@ -12622,12 +12352,6 @@ msgstr ""
 "docker-compose 目录的名称、容器和卷的名称组成）。"
 
 #: admin/install/docker.rst:2353
-#, fuzzy
-#| msgid ""
-#| "The :file:`cache` volume is mounted as :file:`/app/cache` and is used to "
-#| "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
-#| "container startup and the volume can be mounted using ephemeral "
-#| "filesystem such as `tmpfs`."
 msgid ""
 "The :file:`cache` volume is mounted as :file:`/app/cache` and is used to "
 "store static files and :setting:`CACHE_DIR`. Its content is recreated on "
@@ -12635,9 +12359,10 @@ msgid ""
 "such as `tmpfs`, but the mount has to allow execution because Weblate stores "
 "generated helper files there."
 msgstr ""
-":file:`cache` 卷被挂载为 :file:`/app/cache`，用于存储静态文件"
-"和 :setting:`CACHE_DIR`。它的内容在容器启动时被重新创建，卷可以使用短暂的文件"
-"系统（如 `tmpfs`）挂载。"
+":file:`cache` 卷被挂载为 :file:`/app/cache`，用于存储静态文件和 "
+":setting:`CACHE_DIR`。它的内容在容器启动时被重新创建，卷可以使用短暂的文件系"
+"统（如 `tmpfs`）挂载，但挂载必须允许执行，因为 Weblate 在那里存储生成的助手文"
+"件。"
 
 #: admin/install/docker.rst:2359
 msgid ""
@@ -13423,8 +13148,8 @@ msgid ""
 "see :ref:`configuration`."
 msgstr ""
 "将新的 :file:`settings.py` 文件中的值调整为您所需要的。您至少需要提供数据库凭"
-"据和 Django 密钥，但在生产安装中需要做更多的更改，参"
-"见：:ref:`configuration`。"
+"证和 Django 密钥，但在生产安装中需要做更多的更改，参见"
+"：:ref:`configuration`。"
 
 #: admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -13540,7 +13265,7 @@ msgstr "您可以在 ``http://localhost:8000/`` 访问 Weblate。"
 msgid ""
 "Sign in with admin credentials obtained during installation or register with "
 "new users."
-msgstr "使用安装期间获得的管理凭据登录或注册新用户。"
+msgstr "使用安装期间获得的管理凭证登录或注册新用户。"
 
 #: admin/install/steps/install-after.rst:8
 msgid ""
@@ -13789,10 +13514,6 @@ msgid "Language definitions"
 msgstr "语言定义"
 
 #: admin/languages.rst:6
-#, fuzzy
-#| msgid ""
-#| "To present different translations properly, info about language name, "
-#| "text direction, plural definitions and language code is needed."
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code are needed."
@@ -14073,22 +13794,16 @@ msgid ""
 msgstr ""
 
 #: admin/languages.rst:193
-#, fuzzy
-#| msgid "For example, this covers:"
 msgid "For example, English uses:"
-msgstr "例如，这涵盖了："
+msgstr "例如，英语使用："
 
 #: admin/languages.rst:202
-#, fuzzy
-#| msgid "Better naming of plural forms."
 msgid "`GNU gettext manual for plural forms`_"
-msgstr "更好地命名复数形式。"
+msgstr "`GNU gettext 的复数形式手册`_"
 
 #: admin/languages.rst:203
-#, fuzzy
-#| msgid "Language plural formula and number"
 msgid "`GNU gettext plural formula parser`_"
-msgstr "语言复数公式和数量"
+msgstr "`GNU gettext 复数公式解析器`_"
 
 #: admin/languages.rst:204
 msgid "`Language Plural Rules by the Unicode Consortium`_"
@@ -14180,15 +13895,13 @@ msgstr ""
 "可以在项目设置中为特定项目开启："
 
 #: admin/machine.rst:19
-#, fuzzy
-#| msgid ""
-#| "They come subject to their terms of use, so ensure you are allowed to use "
-#| "them how you want."
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want. Third-party services can receive source strings, "
 "translations, and related context from Weblate."
-msgstr "它们受到其使用条款的约束，所以确保你被允许以你想要的方式使用它们。"
+msgstr ""
+"它们受到其使用条款的约束，所以确保你被允许以你想要的方式使用它们。第三方服务"
+"可从 Weblate 接收源字符串、翻译、和相关的上下文。"
 
 #: admin/machine.rst:23
 msgid ""
@@ -14286,10 +13999,8 @@ msgid ""
 msgstr "退回到自动选择源语言，如果未配置第二语言。"
 
 #: admin/machine.rst:67
-#, fuzzy
-#| msgid "Translation context"
 msgid "LLM translation context"
-msgstr "翻译上下文"
+msgstr "LLM 翻译上下文"
 
 #: admin/machine.rst:69
 msgid ""
@@ -15661,10 +15372,8 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:242
-#, fuzzy
-#| msgid "The recommended Weblate configuration verifies:"
 msgid "Recommended server configuration:"
-msgstr "推荐的 Weblate 配置验证："
+msgstr "推荐的服务器配置："
 
 #: admin/optionals.rst:244
 msgid ""
@@ -15674,10 +15383,8 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:247
-#, fuzzy
-#| msgid "Disaster recovery plan"
 msgid "Disable directory listing."
-msgstr "灾难恢复计划"
+msgstr "禁用目录列举。"
 
 #: admin/optionals.rst:248
 msgid "Use HTTPS and make the CDN host read-only from the web server."
@@ -16466,18 +16173,13 @@ msgid "Repository push URL"
 msgstr "仓库推送 URL"
 
 #: admin/projects.rst:425
-#, fuzzy
-#| msgid ""
-#| "Repository URL used for pushing. The behavior of this depends "
-#| "on :ref:`component-vcs`, and this is in more detail covered in :ref:`push-"
-#| "changes`."
 msgid ""
 "Repository URL used for pushing. The behavior of this depends "
 "on :ref:`component-vcs`, and this is in more detail covered in :ref:`code-"
 "hosting-push-options`."
 msgstr ""
-"用于推送的仓库 URL，其行为取决于 :ref:`component-vcs`。更多详细信息"
-"见 :ref:`push-changes`。"
+"用于推送的仓库 URL，其行为取决于 :ref:`component-vcs`。更多详细信息见 "
+":ref:`code-hosting-push-options`。"
 
 #: admin/projects.rst:429
 msgid ""
@@ -16486,17 +16188,13 @@ msgid ""
 msgstr "对于链接的仓库，这一点不被使用，链接部件的设置适用。"
 
 #: admin/projects.rst:433
-#, fuzzy
-#| msgid ""
-#| "See :ref:`vcs-repos` for more details on how to specify a repository URL "
-#| "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`code-hosting-push-options` for more details on pushing changes "
 "from Weblate."
 msgstr ""
 "关于如何指定仓库 URL 的更多细节请见 :ref:`vcs-repos`，并且关于从 Weblate 推送"
-"更改的更多细节，请参见 :ref:`push-changes`。"
+"更改的更多细节，请参见 :ref:`code-hosting-push-options`。"
 
 #: admin/projects.rst:440
 msgid "Repository browser"
@@ -16564,10 +16262,8 @@ msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
 msgstr "用于推送更改的分支，留空则使用 :ref:`component-branch`。"
 
 #: admin/projects.rst:487
-#, fuzzy
-#| msgid "This setting is inherited from the project if left empty."
 msgid "This setting is ignored for Mercurial and Subversion."
-msgstr "如果留空，则此设置将从项目继承。"
+msgstr "Mercurial 和 Subversion 忽略此设置。"
 
 #: admin/projects.rst:489
 msgid ""
@@ -18313,15 +18009,6 @@ msgid ""
 msgstr "上传截图后，就可以在这个界面进行管理以及和源字符串的关联："
 
 #: admin/translating.rst:155
-#, fuzzy
-#| msgid ""
-#| "You can upload a screenshot from a local file, paste it from the "
-#| "clipboard, or provide a URL to download an image from an external source. "
-#| "URL-based uploads may be restricted based on "
-#| "the :setting:`ALLOWED_ASSET_DOMAINS` setting, which controls which "
-#| "domains are trusted for downloading external assets, including any "
-#| "redirects followed while fetching the image, "
-#| "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgid ""
 "You can upload a screenshot from a local file, paste it from the clipboard, "
 "or provide a URL to download an image from an external source. URL-based "
@@ -18334,8 +18021,9 @@ msgid ""
 msgstr ""
 "可以从本地文件上传截图，从剪贴板粘贴它，或提供从外部源下载图片的 URL。根据控"
 "制信任哪些域名下载外部资源的 :setting:`ALLOWED_ASSET_DOMAINS` 设置，包括获取"
-"图片时遵循的任何重定向，限制资源最大大小的 :setting:`ALLOWED_ASSET_SIZE` 设"
-"置，基于 URL 的上传可能受到限制。"
+"图片时跟随的任何重定向，以及 :setting:`ASSET_RESTRICT_PRIVATE`，用于拒绝未包"
+"含在 :setting:`ASSET_PRIVATE_ALLOWLIST` 中的内部或非公开目标。 "
+":setting:`ALLOWED_ASSET_SIZE` 设置限制资源最大大小。"
 
 #: admin/translating.rst:165
 msgid "Managing screenshots from the repository"
@@ -18552,25 +18240,18 @@ msgid ""
 msgstr "特定版本的操作指南现在包含在发行日志中，见 :doc:`/changes`。"
 
 #: admin/upgrade.rst:128
-#, fuzzy
-#| msgid "Upgrade from an older major version"
 msgid "Upgrade from an older unsupported release"
-msgstr "从较旧的大版本进行升级"
+msgstr "从较旧的不受支持的版本进行升级"
 
 #: admin/upgrade.rst:130
-#, fuzzy
-#| msgid ""
-#| "Upgrades across major versions are not supported. Always upgrade to the "
-#| "latest patch level for the initial major release. Upgrades skipping this "
-#| "step are not supported and will break."
 msgid ""
 "Direct upgrades are only supported for releases from the current or previous "
 "calendar year. If you need to upgrade across this boundary, upgrade first to "
 "an intermediate version as listed below. Upgrades skipping this step are not "
 "supported and will break."
 msgstr ""
-"不支持跨大版本的升级。始终先升级到初始大版本的最新补丁级别。跳过此步骤进行升"
-"级不受支持，并且会搞砸升级。"
+"只支持来自当前或上个日历年的版本进行直接升级。如果你需要跨越这个边界进行升级"
+"，请先升级到下方所列的中间版本。不支持跳过这一步进行升级，这样升级会出问题。"
 
 #: admin/upgrade.rst:135
 msgid ""
@@ -18588,17 +18269,12 @@ msgid ""
 msgstr "如果从 4.x 发布版本升级，请首先升级到 5.0.2。"
 
 #: admin/upgrade.rst:138
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
 msgid "If you are upgrading from 5.0.x-5.9.x, always first upgrade to 5.10.4."
-msgstr "如果从 4.x 发布版本升级，请首先升级到 5.0.2。"
+msgstr "如果从 5.0.x-5.9.x 升级，请始终先升级到 5.10.4。"
 
 #: admin/upgrade.rst:139
-#, fuzzy
-#| msgid "Upgrades from older version than 3.0.1 are not supported."
 msgid "Upgrades from 5.10.x and newer are currently directly supported."
-msgstr "不再支持从早于 3.0.1 的更旧版本的升级。"
+msgstr "当前直接支持从 5.10.x 和更新版本进行升级。"
 
 #: admin/upgrade.rst:143
 msgid ""
@@ -19025,10 +18701,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2.5"
 msgid "Weblate 2026.6"
-msgstr "Weblate 2.5"
+msgstr "Weblate 2026.6"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -19046,22 +18720,16 @@ msgid "New features"
 msgstr "新功能"
 
 #: changes.rst:8
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/announcements` can now also be managed via the :ref:`api` "
-#| "for categories."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "specific project languages."
-msgstr "现在也可通过类别的 :ref:`api` 管理 :doc:`/admin/announcements`。"
+msgstr "现在也可通过特定项目语言的 :ref:`api` 管理 :doc:`/admin/announcements`。"
 
 #: changes.rst:9
-#, fuzzy
-#| msgid "Group ACLs can now be limited to certain permissions."
 msgid ""
 "Team memberships can now be limited to selected languages for per-user "
 "translation permissions."
-msgstr "Group（群组）ACLs 现在可以限制为某个权限。"
+msgstr "现在可以将团队成员身份限制为所选语言用于每用户翻译权限。"
 
 #: changes.rst:12 changes.rst:56 changes/v5.rst:18 changes/v5.rst:104
 #: changes/v5.rst:208 changes/v5.rst:243 changes/v5.rst:290 changes/v5.rst:334
@@ -19082,25 +18750,18 @@ msgid "Improvements"
 msgstr "改进"
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
 "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"在 Docker 容器中可使用 :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"和 :envvar:`WEBLATE_API_RATELIMIT_USER` 对此进行配置。"
+"Docker 容器现在可以调整 :setting:`WEBLATE_FORMATS`。使用 "
+":envvar:`WEBLATE_ADD_FORMATS` 和 :envvar:`WEBLATE_REMOVE_FORMATS`。"
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid ""
 "Improved performance of the :ref:`check-inconsistent` check on large "
 "projects."
-msgstr "改进了一致性检查的性能。"
+msgstr "改进了大型项目 :ref:`check-inconsistent` 检查的性能。"
 
 #: changes.rst:16
 msgid ""
@@ -19250,28 +18911,20 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: changes.rst:37
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "65?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/165?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/65?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/165?closed=1>"
+"`__。"
 
 #: changes.rst:40
-#, fuzzy
-#| msgid "Weblate 2.5"
 msgid "Weblate 2026.5"
-msgstr "Weblate 2.5"
+msgstr "Weblate 2026.5"
 
 #: changes.rst:42
-#, fuzzy
-#| msgid "*Released on May 13th 2024.*"
 msgid "*Released on May 15th 2026.*"
-msgstr "*发布于 2024 年 5 月 13 日。*"
+msgstr "*发布于 2026 年 5 月 15 日。*"
 
 #: changes.rst:46
 msgid ""
@@ -19319,25 +18972,16 @@ msgid ""
 msgstr ""
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 "Added :ref:`addon-weblate.cdn.files` to publish translation files to the "
 "configured CDN."
-msgstr ":ref:`addon-weblate.cdn.cdnjs` 附加组件提供了一些配置选项。"
+msgstr "新增 :ref:`addon-weblate.cdn.files` 发布翻译文件到配置的 CDN。"
 
 #: changes.rst:57
-#, fuzzy
-#| msgid ""
-#| "The wrapping width can be configured using the ``po_line_wrap`` "
-#| "parameter, see :ref:`file_format_params`."
 msgid ""
 "Using DOS line endings can now be configured using the "
 "``dos_eol`` :ref:`file_format_params`."
-msgstr ""
-"可以用 ``po_line_wrap`` 参数配置换行宽度，见 :ref:`file_format_params`。"
+msgstr "现在可用 ``dos_eol`` :ref:`file_format_params` 来配置使用 DOS 行结尾符号。"
 
 #: changes.rst:58
 msgid ""
@@ -19346,11 +18990,9 @@ msgid ""
 msgstr ""
 
 #: changes.rst:59
-#, fuzzy
-#| msgid "Access control changes are now tracked in history."
 msgid ""
 "Audited project and component setting changes are now recorded in history."
-msgstr "现在在历史中跟踪访问控制更改。"
+msgstr "现在在历史记录中记录经审计的项目和部件设置。"
 
 #: changes.rst:60
 msgid ""
@@ -19439,13 +19081,13 @@ msgid ""
 msgstr ""
 
 #: changes.rst:77
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Category :doc:`/admin/announcements` no longer appear across the whole "
 "project, and translation announcement deletion now honors language-scoped "
 "permissions."
-msgstr "可在项目/语言层级发布 :doc:`/admin/announcements`。"
+msgstr ""
+":doc:`/admin/announcements` 类别不再出现在整个项目中，翻译声明删除现在遵守语"
+"言级的权限。"
 
 #: changes.rst:78
 msgid ""
@@ -19553,16 +19195,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:108
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/62?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/162?closed=1>"
+"`__。"
 
 #: changes/contributors/2026.5.rst:2 changes/contributors/5.10.1.rst:2
 #: changes/contributors/5.10.2.rst:2 changes/contributors/5.10.3.rst:2
@@ -19589,10 +19227,8 @@ msgid "Code contributions"
 msgstr "代码贡献"
 
 #: changes/contributors/2026.5.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Gersona"
 msgid "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
-msgstr "Michal Čihař, Karen Konou, Gersona"
+msgstr "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
 
 #: changes/contributors/2026.5.rst:7 changes/contributors/5.10.1.rst:7
 #: changes/contributors/5.10.2.rst:7 changes/contributors/5.10.3.rst:7
@@ -19653,10 +19289,8 @@ msgid "Documentation contributions"
 msgstr "文档贡献"
 
 #: changes/contributors/2026.5.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, AliceVisek"
-msgstr "Michal Čihař, Karen Konou, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, AliceVisek"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -20486,10 +20120,8 @@ msgstr ""
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
-msgstr "Michal Čihař, Karen Konou, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
 
 #: changes/contributors/5.17.1.rst:10
 msgid ""
@@ -20507,10 +20139,8 @@ msgid ""
 msgstr ""
 
 #: changes/contributors/5.17.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, michael-smt"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, michael-smt"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -25250,7 +24880,7 @@ msgstr ""
 msgid ""
 "The deprecated VCS setting for credentials is no longer supported, "
 "see :ref:`up-4-14`."
-msgstr "不再支持已废弃的 VCS 凭据设置，见 :ref:`up-4-14`。"
+msgstr "不再支持已废弃的 VCS 凭证设置，见 :ref:`up-4-14`。"
 
 #: changes/v4.rst:176
 msgid ""
@@ -26002,10 +25632,8 @@ msgstr ""
 "避免 :ref:`addon-weblate.generate.pseudolocale` 附加组件触发未通过的检查。"
 
 #: changes/v4.rst:421
-#, fuzzy
-#| msgid "Added support for :ref:`vcs-gitea`."
 msgid "Added support for :ref:`code-hosting-gitea-pull-requests`."
-msgstr "新增了对 :ref:`vcs-gitea` 的支持。"
+msgstr "新增支持 :ref:`code-hosting-gitea-pull-requests`。"
 
 #: changes/v4.rst:422
 msgid ""
@@ -26774,11 +26402,9 @@ msgid "Improved SAML authentication integration."
 msgstr "改进了 SAML 验证集成。"
 
 #: changes/v4.rst:683
-#, fuzzy
-#| msgid "Fixed :ref:`vcs-gerrit` integration to better handle corner cases."
 msgid ""
 "Fixed :ref:`code-hosting-gerrit` integration to better handle corner cases."
-msgstr "修复了 :ref:`vcs-gerrit` 集成问题，可更好地处理极端情况。"
+msgstr "修复了 :ref:`code-hosting-gerrit` 集成来更好地处理极端情况。"
 
 #: changes/v4.rst:684
 msgid "Weblate now requires Django 3.2."
@@ -28627,20 +28253,16 @@ msgid "Extended download options for platform wide translation memory."
 msgstr "扩展了平台范围的翻译记忆库的下载选项。"
 
 #: changes/v5.rst:2
-#, fuzzy
-#| msgid "Weblate 0.x series"
 msgid "Weblate 5.x series"
-msgstr "Weblate 0.x 系列"
+msgstr "Weblate 5.x 系列"
 
 #: changes/v5.rst:5
 msgid "Weblate 5.17.1"
 msgstr "Weblate 5.17.1"
 
 #: changes/v5.rst:7
-#, fuzzy
-#| msgid "*Released on April 15th 2026.*"
 msgid "*Released on April 30th 2026.*"
-msgstr "*发布于 2026 年 4 月 15 日。*"
+msgstr "*发布于 2026 年 4 月 30 日。*"
 
 #: changes/v5.rst:11
 msgid ""
@@ -28657,11 +28279,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:13
-#, fuzzy
-#| msgid ""
-#| "Admin user management search can now find users by audit log IP address."
 msgid "Admin user management can now find users by audit log IP address."
-msgstr "管理员用户管理搜索现在可以通过审计日志 IP 地址查找用户。"
+msgstr "管理员用户管理现在可以通过审计日志 IP 地址查找用户。"
 
 #: changes/v5.rst:14
 msgid ""
@@ -28670,10 +28289,8 @@ msgid ""
 msgstr "现在也可通过类别的 :ref:`api` 管理 :doc:`/admin/announcements`。"
 
 #: changes/v5.rst:15
-#, fuzzy
-#| msgid ":ref:`mt-ltengine` machine translation service."
 msgid "Added :ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-ltengine` 机器翻译服务。"
+msgstr "新增 :ref:`mt-ltengine` 机器翻译服务。"
 
 #: changes/v5.rst:19
 msgid ""
@@ -28689,10 +28306,6 @@ msgid ""
 msgstr "改进 :ref:`screenshots` 文档并从屏幕截图用户界面链接它。"
 
 #: changes/v5.rst:21
-#, fuzzy
-#| msgid ""
-#| "Documented restoring Docker based setups from backups, see :ref:`restore-"
-#| "docker`."
 msgid ""
 "Documented restoring Docker-based setups from backups, see :ref:`restore-"
 "docker`."
@@ -28706,16 +28319,12 @@ msgstr ""
 "澄清 :ref:`generic-upgrade-instructions` 声明升级前 Celery 队列应该为空。"
 
 #: changes/v5.rst:23
-#, fuzzy
-#| msgid ""
-#| "The OpenAPI schema now describes action endpoints with their actual list, "
-#| "statistics, status, upload, and download response payloads."
 msgid ""
 "The OpenAPI schema is cleaner and now describes action endpoints with their "
 "actual list, statistics, status, upload, and download response payloads."
 msgstr ""
-"OpenAPI 方案现在用操作端点的实际列表、统计数字、状态、上传和下载响应载荷描述"
-"操作端点。"
+"OpenAPI 方案更加清晰，现在用操作端点的实际列表、统计数字、状态、上传和下载响"
+"应载荷描述操作端点。"
 
 #: changes/v5.rst:24
 msgid ""
@@ -28727,26 +28336,20 @@ msgstr ""
 "目、类别、或全站范围创建缺失的语言文件前要求确认。"
 
 #: changes/v5.rst:25
-#, fuzzy
-#| msgid ""
-#| "Improved :ref:`addon-weblate.discovery.discovery` guidance with guided "
-#| "client-side presets, clearer ``{{ component }}`` validation, and a worked "
-#| "discovery-template example in the docs."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now offers guided client-side "
 "presets, suggests presets detected from component repository layouts, "
 "validates ``{{ component }}`` more clearly, and includes a worked discovery-"
 "template example in the docs."
 msgstr ""
-"用有向导的客户端预设、更清晰的 ``{{ component }}`` 验证、文档中有效的发现模板"
-"示例改进 :ref:`addon-weblate.discovery.discovery` 指南。"
+":ref:`addon-weblate.discovery.discovery` 现在提供客户端侧预设，建议从部件仓库"
+"布局检测到的预设，更清楚地确认 ``{{ component }}`` 有效性，并在文档中包含有效"
+"的 discovery-template 示例。"
 
 #: changes/v5.rst:26
-#, fuzzy
-#| msgid "Track superuser and site-wide team changes in :ref:`audit-log`."
 msgid ""
 "Superuser and site-wide team changes are now tracked in :ref:`audit-log`."
-msgstr "在 :ref:`audit-log` 中追踪超级用户和全站团队更改。"
+msgstr "现在在 :ref:`audit-log` 中追踪超级用户和全站团队更改。"
 
 #: changes/v5.rst:27
 msgid ""
@@ -28757,17 +28360,13 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:28
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.autotranslate.autotranslate` now records automatic "
-#| "translation results in the add-on activity log."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` now attributes copied "
 "translations to the add-on user and records automatic translation results in "
 "the add-on activity log."
 msgstr ""
-":ref:`addon-weblate.autotranslate.autotranslate` 现在在附加组件活动日志中记录"
-"自动翻译结果。"
+":ref:`addon-weblate.autotranslate.autotranslate` 现在将复制的翻译归因到附加组"
+"件用户并在附件组件活动日志中记录自动翻译结果。"
 
 #: changes/v5.rst:29
 msgid ""
@@ -28780,15 +28379,13 @@ msgid ":ref:`profile` links now show an external-link warning where possible."
 msgstr ""
 
 #: changes/v5.rst:31
-#, fuzzy
-#| msgid ""
-#| "Client-side popup notifications triggered by JavaScript now use Bootstrap "
-#| "toasts."
 msgid ""
 "Client-side popup notifications triggered by JavaScript now use Bootstrap "
 "toasts, with higher-contrast dark theme colors for Bootstrap subtle and "
 "emphasis variants."
-msgstr "由 JavaScript 触发的客户端弹出通知现已使用 Bootstrap Toasts。"
+msgstr ""
+"由 JavaScript 触发的客户端侧弹出通知现使用 Bootstrap Toasts，Bootstrap "
+"subtle 和 emphasis 变体使用更强对比度的深色主题颜色。"
 
 #: changes/v5.rst:32
 msgid ""
@@ -28805,33 +28402,28 @@ msgid ""
 msgstr "项目列举现在在任何所列的项目启用了审校时显示审校进度列。"
 
 #: changes/v5.rst:37
-#, fuzzy
-#| msgid "Markdown image URLs are now escaped before rendering."
 msgid ""
 "Image URLs in Markdown are now escaped before rendering "
 "(:cve:`2026-44264` / :ghsa:`5cmv-3rc4-7279`)."
-msgstr "Markdown图像链接现在在渲染前已转义。"
+msgstr ""
+"Markdown 格式的图像链接现在在渲染前已转义（:cve:`2026-44264`/:ghsa:`5cmv-"
+"3rc4-7279`）。"
 
 #: changes/v5.rst:38
-#, fuzzy
-#| msgid ""
-#| "Tightened :ref:`api` permission enforcement "
-#| "(:cve:`2026-34393` / :ghsa:`3382-gw9x-477v`)."
 msgid ""
 "Tightened :ref:`api` input validation to prevent translation enumeration "
 "(:cve:`2026-44263` / :ghsa:`gcg5-86jr-f7jg`)."
 msgstr ""
-"收紧了 :ref:`api` 权限强制（:cve:`2026-34393`/:ghsa:`3382-gw9x-477v`）。"
+"收紧了 :ref:`api` 输入验证防止译文枚举（:cve:`2026-44263`/:ghsa:`gcg5-86jr-"
+"f7jg`）。"
 
 #: changes/v5.rst:39
-#, fuzzy
-#| msgid ""
-#| "Project backup import now revalidates component repository URLs before "
-#| "restore."
 msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
-msgstr "项目备份导入现在会在恢复之前重新验证部件仓库 URL。"
+msgstr ""
+"项目备份导入现在会在从备份文件恢复前重新验证部件仓库 URL。（:cve:`2026-"
+"41654`/:ghsa:`cwcx-382v-8m9g`）。"
 
 #: changes/v5.rst:40
 msgid ""
@@ -28954,15 +28546,10 @@ msgstr ""
 "必需标头的 TMX 文件的验证错误，而不是让验证请求失败。"
 
 #: changes/v5.rst:57
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
-#| "PostgreSQL searches."
 msgid ""
 ":ref:`mt-weblate-translation-memory` no longer misses boundary similarity "
 "matches after stricter lookups."
-msgstr ""
-":ref:`mt-weblate-translation-memory` 自动翻译避免大范围的 PostgreSQL 搜索。"
+msgstr ":ref:`mt-weblate-translation-memory` 在更严格的查询后不再缺失边界相似性匹配。"
 
 #: changes/v5.rst:58
 msgid ""
@@ -28991,10 +28578,6 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:62
-#, fuzzy
-#| msgid ""
-#| "Markdown rendering now falls back to escaped plain text when the Markdown "
-#| "parser fails."
 msgid ""
 "Markdown rendering now falls back to escaped plain text when the parser "
 "fails."
@@ -29007,12 +28590,12 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:67
-#, fuzzy
-#| msgid "Password updates now regenerate your personal API key by default."
 msgid ""
 "Password changes now regenerate personal API keys by default "
 "(:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`)."
-msgstr "密码更新现在默认重新生成个人 API 密钥。"
+msgstr ""
+"密码更改现在默认重新生成个人 API 密钥（:cve:`2026-41519`/:ghsa:`6j8j-4qp3-"
+"36p2`）。"
 
 #: changes/v5.rst:68
 msgid ""
@@ -29024,17 +28607,12 @@ msgstr ""
 "绝验证期间无法解析主机名的 URL，除非该主机被明确允许。"
 
 #: changes/v5.rst:69
-#, fuzzy
-#| msgid ""
-#| ":ref:`profile` links now show an external-link warning where possible; "
-#| "obvious direct file download URLs and invalid code site or Fediverse "
-#| "profile links are rejected."
 msgid ""
 ":ref:`profile` URL validation now rejects obvious direct file download URLs "
 "and invalid code site or Fediverse profile links."
 msgstr ""
-":ref:`profile` 链接现在如有可能会显示外链警告；明显的直接文件下载 URL 和无效"
-"的代码站或 Fediverse 个人资料链接将被拒绝。"
+":ref:`profile` URL 验证现在拒绝明显的直接文件下载 URL 并让代码站或 Fediverse "
+"个人资料链接失效。"
 
 #: changes/v5.rst:70
 msgid ""
@@ -29122,12 +28700,12 @@ msgid "Added :ref:`check-objc-format`."
 msgstr "新增了 :ref:`check-objc-format`."
 
 #: changes/v5.rst:97
-#, fuzzy
-#| msgid "Added Forgejo notification webhook, see :ref:`forgejo-setup`."
 msgid ""
 "Added Forgejo notification webhook, see :ref:`Forgejo notifications <code-"
 "hosting-forgejo-notifications>`."
-msgstr "新增 Forgejo 通知 webhook，见 :ref:`forgejo-setup`。"
+msgstr ""
+"新增 Forgejo 通知 webhook，见 :ref:`Forgejo 通知 <code-hosting-forgejo-"
+"notifications>`。"
 
 #: changes/v5.rst:98
 msgid ""
@@ -29959,12 +29537,10 @@ msgid "Better visibility of :ref:`project-commit_policy` to translators."
 msgstr "改进对译者的 :ref:`project-commit_policy` 可见性。"
 
 #: changes/v5.rst:296
-#, fuzzy
-#| msgid "Validation of VCS settings :ref:`push-changes` has been extended."
 msgid ""
 "Validation of VCS settings :ref:`code-hosting-push-options` has been "
 "extended."
-msgstr "扩展了 VCS 设置 :ref:`push-changes` 的验证。"
+msgstr "扩展了 VCS 设置 :ref:`code-hosting-push-options` 的验证。"
 
 #: changes/v5.rst:297
 msgid ""
@@ -31496,14 +31072,12 @@ msgid "Docker health check is now supported in non-web service containers."
 msgstr "非 web 服务容器现支持 Docker 健康检查。"
 
 #: changes/v5.rst:962
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-gitlab` integration now detects merge‑request conflicts more "
-#| "robustly."
 msgid ""
 ":ref:`code-hosting-gitlab-merge-requests` integration now detects "
 "merge‑request conflicts more robustly."
-msgstr ":ref:`vcs-gitlab` 现在更加有力地检测合并请求冲突。"
+msgstr ""
+":ref:`code-hosting-gitlab-merge-requests` 集成现在更加有力地检测合并请求冲突"
+"。"
 
 #: changes/v5.rst:963
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
@@ -31810,8 +31384,7 @@ msgstr ""
 msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
-msgstr ""
-"当提供 HTTP 凭据时，Weblate 对于 Git 2.46.0 及更高版本使用主动身份认证。"
+msgstr "当提供 HTTP 凭证时，Weblate 对于 Git 2.46.0 及更高版本使用主动身份认证。"
 
 #: changes/v5.rst:1107
 msgid ""
@@ -32102,12 +31675,12 @@ msgid "*Released on December 19th 2024.*"
 msgstr "*发布于 2024 年 12 月 19 日。*"
 
 #: changes/v5.rst:1214
-#, fuzzy
-#| msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
 msgid ""
 "Renamed :ref:`code-hosting-bitbucket-data-center-pull-requests` to match new "
 "product name."
-msgstr "已重命名 :ref:`vcs-bitbucket-data-center` 匹配新的产品名。"
+msgstr ""
+"重命名 :ref:`code-hosting-bitbucket-data-center-pull-requests` 来匹配新的产品"
+"名。"
 
 #: changes/v5.rst:1215
 msgid ":http:get:`/api/users/` supports searching by user ID."
@@ -32328,13 +31901,10 @@ msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgstr ":ref:`check-icu-message-format` 优雅地处理复数字符串。"
 
 #: changes/v5.rst:1320
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
 msgid ""
 ":ref:`code-hosting-bitbucket-cloud-pull-requests` correctly generates pull "
 "request description."
-msgstr ":ref:`vcs-bitbucket-cloud` 正确地生成拉取请求描述。"
+msgstr ":ref:`code-hosting-bitbucket-cloud-pull-requests` 正确地生成拉取请求描述。"
 
 #: changes/v5.rst:1330
 msgid ""
@@ -32445,18 +32015,15 @@ msgstr ""
 msgid ""
 "Merge requests credentials can now be passed in the repository URL, "
 "see :ref:`settings-credentials`."
-msgstr ""
-"现在可以在仓库 URL 中传递合并请求凭据，见 :ref:`settings-credentials`。"
+msgstr "现在可以在仓库 URL 中传递合并请求凭证，见 :ref:`settings-credentials`。"
 
 #: changes/v5.rst:1404
 msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr ":ref:`mt-azure-openai` 自动建议服务。"
 
 #: changes/v5.rst:1405
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-cloud`."
 msgid ":ref:`code-hosting-bitbucket-cloud-pull-requests`."
-msgstr ":ref:`vcs-bitbucket-cloud`。"
+msgstr ":ref:`code-hosting-bitbucket-cloud-pull-requests`."
 
 #: changes/v5.rst:1409
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
@@ -33270,10 +32837,8 @@ msgid "Fixed :guilabel:`Needs editing` state calculation."
 msgstr "修复了 :guilabel:`需要编辑` 状态计算的问题。"
 
 #: changes/v5.rst:1782
-#, fuzzy
-#| msgid "Fixed changing :ref:`component-push` with :ref:`vcs-gerrit`."
 msgid "Fixed changing :ref:`component-push` with :ref:`code-hosting-gerrit`."
-msgstr "修复了使用 :ref:`vcs-gerrit` 更改 :ref:`component-push` 的问题。"
+msgstr "修复了使用 :ref:`code-hosting-gerrit` 更改 :ref:`component-push` 的问题。"
 
 #: changes/v5.rst:1783
 msgid ""
@@ -33356,13 +32921,12 @@ msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
 msgstr "避免安装 :ref:`addon-weblate.generate.pseudolocale` 时的崩溃。"
 
 #: changes/v5.rst:1811
-#, fuzzy
-#| msgid ""
-#| ":ref:`azure-setup` gracefully handles repositories with spaces in URL."
 msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>` "
 "gracefully handles repositories with spaces in URL."
-msgstr ":ref:`azure-setup` 优雅地处理 URL 中有空格的仓库。"
+msgstr ""
+":ref:`Azure 仓库通知 <code-hosting-azure-repos-notifications>` 优雅地处理 "
+"URL 中有空格的仓库。"
 
 #: changes/v5.rst:1812
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
@@ -33721,10 +33285,8 @@ msgid "*Released on November 16th 2023.*"
 msgstr "*发布于 2023 年 11 月 16 日。*"
 
 #: changes/v5.rst:1985
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`."
 msgid ":ref:`code-hosting-azure-devops-pull-requests`."
-msgstr ":ref:`vcs-azure-devops`。"
+msgstr ":ref:`code-hosting-azure-devops-pull-requests`."
 
 #: changes/v5.rst:1989
 msgid "Faster statistics updates."
@@ -33832,7 +33394,7 @@ msgstr "新增分享到 Fediverse 按钮。"
 
 #: changes/v5.rst:2028
 msgid "Added validation for VCS integration credentials."
-msgstr "新增 VCS 集成凭据验证。"
+msgstr "新增 VCS 集成凭证验证。"
 
 #: changes/v5.rst:2029
 msgid "Reduced overhead of statistics collection."
@@ -33904,7 +33466,7 @@ msgstr "接受邀请时，项目自动添加到已关注列表。"
 #: changes/v5.rst:2059
 msgid ""
 "Configure VCS API credentials as a Python dict from environment variables."
-msgstr "将 VCS API 凭据配置为来自环境变量的 Python 字典。"
+msgstr "将 VCS API 凭证配置为来自环境变量的 Python 字典。"
 
 #: changes/v5.rst:2060
 msgid "Improved accuracy of checks on plural messages."
@@ -35328,10 +34890,8 @@ msgid "Run ``cd client``."
 msgstr "运行 ``cd client``。"
 
 #: contributing/frontend.rst:34
-#, fuzzy
-#| msgid "Run ``yarn install``."
 msgid "Run ``yarn install --check-files``."
-msgstr "运行 ``yarn install``。"
+msgstr "运行 ``yarn install --check-files``."
 
 #: contributing/frontend.rst:39
 msgid "To install a library, first run the following command:"
@@ -35448,16 +35008,14 @@ msgid "Coding style"
 msgstr "代码风格"
 
 #: contributing/frontend.rst:91
-#, fuzzy
-#| msgid ""
-#| "Weblate relies on `Biome`_ for formatting and linting the JavaScript and "
-#| "CSS code."
 msgid ""
 "Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS "
 "code. Django templates are formatted and linted separately "
 "by :program:`djade` and :program:`djlint`."
 msgstr ""
 "Weblate 依赖 `Biome`_ 更改 JavaScript and CSS 代码格式并进行 lint 操作。"
+"Django 模板由 :program:`djade` 处理格式，由 :program:`djlint` 进行 lint 操作"
+"。"
 
 #: contributing/frontend.rst:99
 msgid "Localization"
@@ -36017,11 +35575,6 @@ msgid ""
 msgstr ""
 
 #: contributing/release.rst:23
-#, fuzzy
-#| msgid ""
-#| "The Docker container includes additional digit in versioning to track "
-#| "changes in the container itself like dependencies. These updates may "
-#| "include security updates."
 msgid ""
 "The Docker container includes an additional version component to track "
 "changes in the container itself, such as dependencies. Fixed Docker image "
@@ -36029,8 +35582,9 @@ msgid ""
 "when the Weblate version omits a ``0`` patch component. These updates may "
 "include security updates."
 msgstr ""
-"Docker 容器包含额外的版本数字来跟踪容器本身像是依赖项的变化，这些更新可能包含"
-"安全更新。"
+"Docker 容器包含额外的版本部件来跟踪容器本身变化，比如依赖项。即便在 Weblate "
+"版本省略 ``0`` 补丁部件时，固定的 Docker 映像标签仍同时包含补丁部件和这个构建"
+"部件。这些更新可能包含安全更新。"
 
 #: contributing/release.rst:35
 msgid "Release planning"
@@ -36262,18 +35816,13 @@ msgid "Type checking"
 msgstr "类型检查"
 
 #: contributing/snippets/code-guide.rst:73
-#, fuzzy
-#| msgid ""
-#| "Any new code should utilize :pep:`484` type hints. We are "
-#| "using :program:`mypy` to check (because it has a Django plugin that makes "
-#| "type checking of Django apps doable)."
 msgid ""
 "Any new code should utilize :pep:`484` type hints. We are "
 "using :program:`mypy` to check them because it has a Django plugin that "
 "makes type checking of Django apps practical."
 msgstr ""
-"任何新代码都应使用 :pep:`484` 类型提示。我们在使用 :program:`mypy` 进行检查"
-"（因为它有一个让 Django 应用的类型检查可做的 Django 插件）。"
+"任何新代码都应使用 :pep:`484` 类型提示。我们在使用 :program:`mypy` 进行检查（"
+"因为它有一个让 Django 应用的类型检查变得实际可行的 Django 插件）。"
 
 #: contributing/snippets/code-guide.rst:77
 msgid ""
@@ -36434,10 +35983,8 @@ msgid "Clone the Weblate source code:"
 msgstr "克隆 Weblate 源码："
 
 #: contributing/start.rst:30
-#, fuzzy
-#| msgid "Install all dependencies useful for development:"
 msgid "Install Weblate and all dependencies useful for development:"
-msgstr "安装用于开发的所有依赖项："
+msgstr "安装 Weblate 和所有对开发有用的依赖项："
 
 #: contributing/start.rst:36
 msgid "Start a development server:"
@@ -36449,8 +35996,6 @@ msgid ""
 msgstr "你可能还想启动 Celery 工作进程，这取决于你的配置："
 
 #: contributing/start.rst:48
-#, fuzzy
-#| msgid "To run a test (see :ref:`local-tests` for more details):"
 msgid "To run tests (see :ref:`local-tests` for more details):"
 msgstr "若要运行测试（更多细节请参见 :ref:`local-tests`）："
 
@@ -36798,15 +36343,9 @@ msgid "Local testing of Weblate"
 msgstr "Weblate 的本地测试"
 
 #: contributing/tests.rst:56
-#, fuzzy
-#| msgid ""
-#| "Before running test, please ensure test dependencies are installed. This "
-#| "can be done by ``pip install -e .[test]``."
 msgid ""
 "Before running tests, please ensure development dependencies are installed:"
-msgstr ""
-"运行测试前，请确保测试依赖已安装。可以通过 ``pip install -e .[test]`` 进行确"
-"认。"
+msgstr "运行测试前，请确保开发依赖已安装："
 
 #: contributing/tests.rst:63
 msgid "Testing using pytest"
@@ -36819,8 +36358,6 @@ msgid ""
 msgstr "运行测试前，应该收集静态文件，因为一些测试在出现时依赖于它们："
 
 #: contributing/tests.rst:71
-#, fuzzy
-#| msgid "You can use `pytest` to run a testsuite locally:"
 msgid "You can use `pytest` to run the test suite locally:"
 msgstr "你可以使用 `pytest` 在本地运行测试套件："
 
@@ -36866,14 +36403,10 @@ msgid "Local testing of Weblate modules"
 msgstr "Weblate 模块的本地测试"
 
 #: contributing/tests.rst:115
-#, fuzzy
-#| msgid ""
-#| "The tests are executed using :program:`py.test`. First you need to "
-#| "install test requirements:"
 msgid ""
 "The tests are executed using :program:`pytest`. First you need to install "
 "development dependencies:"
-msgstr "测试使用 :program:`py.test` 执行，首先你需要安装测试需求："
+msgstr "测试使用 :program:`pytest` 执行，首先你需要安装开发依赖项："
 
 #: contributing/tests.rst:121
 msgid "You can then execute the testsuite in the repository checkout:"
@@ -37823,46 +37356,34 @@ msgid "Translating HTML and JavaScript using Weblate CDN"
 msgstr "使用 Weblate CDN 翻译 HTML 和 JavaScript"
 
 #: devel/html.rst:6
-#, fuzzy
-#| msgid ""
-#| "Starting with Weblate 4.2 it is possible to export localization to a CDN "
-#| "using :ref:`addon-weblate.cdn.cdnjs` add-on."
 msgid ""
 "Starting with Weblate 4.2 it is possible to export JavaScript and HTML "
 "localization to a CDN using :ref:`addon-weblate.cdn.cdnjs` add-on. To "
 "publish translation files without the JavaScript loader, use :ref:`addon-"
 "weblate.cdn.files`."
 msgstr ""
-"从 Weblate 4.2 开始能够使用 :ref:`addon-weblate.cdn.cdnjs` 附加组件将本地化导"
-"出到 CDN。"
+"从 Weblate 4.2 开始能够使用 :ref:`addon-weblate.cdn.cdnjs` 附加组件将 "
+"JavaScript 和 HTML 本地化导出到 CDN。要在没有 JavaScript 加载器情况下发布翻译"
+"文件，使用 :ref:`addon-weblate.cdn.files`。"
 
 #: devel/html.rst:13
-#, fuzzy
-#| msgid ""
-#| "This feature is configured on Hosted Weblate. It requires additional "
-#| "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
-#| "and :setting:`LOCALIZE_CDN_PATH`."
 msgid ""
 "This feature is configured on Hosted Weblate. It requires additional "
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` "
 "and :setting:`LOCALIZE_CDN_PATH`. See also :ref:`cdn-server-security`."
 msgstr ""
-"此功能在 Hosted Weblate 上是配置好的。它需要在安装时进行额外的配置，"
-"见 :setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH`。"
+"此功能在 Hosted Weblate 上是配置好的。它需要在安装时进行额外的配置，见 "
+":setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH`。另见 :ref:`cdn-"
+"server-security`。"
 
 #: devel/html.rst:17
-#, fuzzy
-#| msgid ""
-#| "Upon installation into your component it will push committed translations "
-#| "(see :ref:`lazy-commit`) to the CDN and these can be used in your web "
-#| "pages to localize them."
 msgid ""
 "Upon installation into your component the JavaScript localization add-on "
 "will push committed translations (see :ref:`lazy-commit`) to the CDN and "
 "these can be used in your web pages to localize them."
 msgstr ""
-"在安装到您的部件后，它会将已提交的翻译（请参见 :ref:`lazy-commit`）推送到 "
-"CDN，这些翻译可以在您的网页中用于本地化。"
+"安装到您的部件时，JavaScript 本地化附加组件会将已提交的翻译（请参见 "
+":ref:`lazy-commit`）推送到 CDN，这些翻译可以在您的网页中用于本地化。"
 
 #: devel/html.rst:22
 msgid "Creating component"
@@ -38012,13 +37533,9 @@ msgid "HTML localization using Weblate CDN"
 msgstr "使用 Weblate 内容分发网络对 HTML 进行本地化操作"
 
 #: devel/html.rst:106
-#, fuzzy
-#| msgid ""
-#| "To localize a HTML document, you need to load the :file:`weblate.js` "
-#| "script:"
 msgid ""
 "To localize an HTML document, you need to load the :file:`weblate.js` script:"
-msgstr "为了将 HTML 文档本地化，需要加载 :file:`weblate.js` 脚本："
+msgstr "要本地化 HTML 文档，需要加载 :file:`weblate.js` 脚本："
 
 #: devel/html.rst:112
 msgid ""
@@ -38061,10 +37578,8 @@ msgid "The actual localization logic needs to be implemented in this case."
 msgstr "在这种情况下需要采用实际的本地化逻辑。"
 
 #: devel/html.rst:137
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Publishing translation files"
-msgstr "清理翻译文件"
+msgstr "发布翻译文件"
 
 #: devel/html.rst:139
 msgid ""
@@ -38134,18 +37649,14 @@ msgstr ""
 "用 :ref:`wlc` 从命令行执行此操作。"
 
 #: devel/integration.rst:34
-#, fuzzy
-#| msgid ""
-#| "Pushing changes can be automated if you grant Weblate push access to your "
-#| "repository and configure :ref:`component-push` in the :ref:`component`, "
-#| "see :ref:`push-changes`."
 msgid ""
 "Pushing changes can be automated if you grant Weblate push access to your "
 "repository and configure :ref:`component-push` in the :ref:`component`, "
 "see :ref:`code-hosting-push-options`."
 msgstr ""
-"如果你向 Weblate 授予了仓库的推送权限，并配置了 :ref:`component` 中"
-"的 :ref:`component-push`，此操作可以自动进行。见 :ref:`push-changes`。"
+"如果你向 Weblate 授予了仓库的推送权限，并配置了 :ref:`component` 中的 "
+":ref:`component-push`，此操作可以自动进行。见 :ref:`code-hosting-push-"
+"options`。"
 
 #: devel/integration.rst:38
 msgid ""
@@ -38721,14 +38232,10 @@ msgstr ""
 "更新"
 
 #: devel/migration.rst:179
-#, fuzzy
-#| msgid ""
-#| "**Push changes**: Configure :ref:`push-changes` so translations are "
-#| "committed back to your repository"
 msgid ""
 "**Push changes**: Configure :ref:`code-hosting-push-options` so translations "
 "are committed back to your repository"
-msgstr "**推送更改**：配置 :ref:`push-changes` 让译文提交回仓库"
+msgstr "**推送更改**：配置 :ref:`code-hosting-push-options` 将译文提交回仓库"
 
 #: devel/migration.rst:181
 msgid "Enable automatic actions in component settings:"
@@ -40999,12 +40506,6 @@ msgid "Does Weblate support other VCSes than Git and Mercurial?"
 msgstr "Weblate 支持 Git 和 Mercurial 以外的其他版本控制系统吗？"
 
 #: faq.rst:545
-#, fuzzy
-#| msgid ""
-#| "Weblate currently does not have native support for anything other "
-#| "than :ref:`vcs-git` (with extended support for :ref:`vcs-"
-#| "github`, :ref:`vcs-gerrit` and :ref:`vcs-git-svn`) and :ref:`vcs-"
-#| "mercurial`, but it is possible to write backends for other VCSes."
 msgid ""
 "Weblate currently does not have native support for anything other "
 "than :ref:`vcs-git` (with extended support for :ref:`code-hosting-github-"
@@ -41012,9 +40513,9 @@ msgid ""
 "and :ref:`vcs-mercurial`, but it is possible to write backends for other "
 "VCSes."
 msgstr ""
-"Weblate 当前不原生支持除 :ref:`vcs-git`\\ （扩展支持 :ref:`vcs-"
-"github`、:ref:`vcs-gerrit` 和 :ref:`vcs-git-svn`）和 :ref:`vcs-mercurial` 以"
-"外的任何版本控制系统，但可以为其他版本控制系统编写后端。"
+"Weblate 当前不原生支持非 :ref:`vcs-git` （扩展支持 :ref:`code-hosting-github-"
+"pull-requests`、:ref:`code-hosting-gerrit` 和 :ref:`vcs-git-svn`）和 "
+":ref:`vcs-mercurial` 的版本控制系统，但可以为其他版本控制系统编写后端。"
 
 #: faq.rst:551
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
@@ -42545,14 +42046,12 @@ msgid "Markdown files"
 msgstr "Markdown 文件"
 
 #: formats/markdown.rst:10
-#, fuzzy
-#| msgid ""
-#| "The translatable content is extracted from the Markdown files and offered "
-#| "for the translation."
 msgid ""
 "The translatable content is extracted from the Markdown files and offered "
 "for the translation. For Markdown files with JSX syntax, use :ref:`mdx`."
-msgstr "从 Markdown 文件中提取可翻译内容并供翻译。"
+msgstr ""
+"从 Markdown 文件中提取可翻译内容并供翻译。对于含 JSX 语法的 Markdown 文件，使"
+"用 :ref:`mdx`。"
 
 #: formats/markdown.rst:13
 msgid ""
@@ -42583,10 +42082,8 @@ msgstr ""
 "Markdown 表格中这可能有问题，因为调整行顺序会改变上下文，导致译文丢失。"
 
 #: formats/mdx.rst:4
-#, fuzzy
-#| msgid "DTD files"
 msgid "MDX files"
-msgstr "DTD 文件"
+msgstr "MDX 文件"
 
 #: formats/mdx.rst:10
 msgid ""
@@ -42596,14 +42093,6 @@ msgid ""
 msgstr ""
 
 #: formats/mdx.rst:13
-#, fuzzy
-#| msgid ""
-#| "Markdown units automatically get the ``md-text`` and ``auto-safe-html`` "
-#| "flags. This keeps the unsafe HTML check active for plain text, standard "
-#| "HTML, and custom elements while avoiding HTML cleanup on non-HTML angle-"
-#| "bracket syntax such as MDX or JSX-like components. Use the explicit "
-#| "``safe-html`` flag for strings that are known to contain HTML and should "
-#| "always be sanitized, including SVG or MathML snippets."
 msgid ""
 "MDX units automatically get the ``md-text`` and ``auto-safe-html`` flags. "
 "This keeps the unsafe HTML check active for plain text, standard HTML, and "
@@ -42611,32 +42100,25 @@ msgid ""
 "the explicit ``safe-html`` flag for strings that are known to contain HTML "
 "and should always be sanitized, including SVG or MathML snippets."
 msgstr ""
-"Markdown 单元自动获得 ``md-text`` 和 ``auto-safe-html`` 标记。这使不安全 "
-"HTML 勾选对纯文本、标准 HTML 和自定义元素生效，同时避免对 MDX 或类 JSX 部件等"
-"非 HTML 尖括号语法的 HTML 清理。对已知包含 HTML 和应当始终被净化的字符串使用"
-"显式 ``safe-html`` 标记，包括 SVG 或 MathML 片段。"
+"MDX 单元自动获得 ``md-text`` 和 ``auto-safe-html`` 标记。这使不安全 HTML 勾选"
+"对纯文本、标准 HTML 和自定义元素生效，同时避免对 MDX 或类 JSX 语法的 HTML 清"
+"理。对已知包含 HTML 和应当始终被净化的字符串使用显式 ``safe-html`` 标记，包"
+"括 SVG 或 MathML 片段。"
 
 #: formats/mdx.rst:44
-#, fuzzy
-#| msgid "`DTD file`"
 msgid "`MDX file`"
-msgstr "`DTD 文件`"
+msgstr "`MDX 文件`"
 
 #: formats/mdx.rst:54
-#, fuzzy
-#| msgid ""
-#| "By default, Weblate treats each occurrence of a string as a separate "
-#| "translation unit to provide line-based context. This can be problematic "
-#| "in Markdown tables, where reordering rows changes the context and can "
-#| "lead to translation loss."
 msgid ""
 "By default, Weblate treats each occurrence of a string as a separate "
 "translation unit to provide line-based context. This can be problematic in "
 "MDX tables or repeated component content, where reordering changes the "
 "context and can lead to translation loss."
 msgstr ""
-"Weblate 默认将字符串的每次出现视为不同的翻译单元来提供基于行的上下文。在 "
-"Markdown 表格中这可能有问题，因为调整行顺序会改变上下文，导致译文丢失。"
+"Weblate 默认将字符串的每次出现视为不同的翻译单元来提供基于行的上下文。在 MDX "
+"表格或重复的部件内容中可能会有问题，因为调整行顺序会改变上下文，导致译文丢失"
+"。"
 
 #: formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
@@ -43745,12 +43227,6 @@ msgid "Software Bill of Material"
 msgstr "软件物料清单"
 
 #: security/dependencies.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a Software Bill of Material (SBOM) in the source core "
-#| "as :file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can "
-#| "be used to review the dependencies for security issues or license "
-#| "compliance."
 msgid ""
 "Weblate publishes a Software Bill of Material (SBOM) using the CycloneDX "
 "format for released versions. The SBOM is available as a versioned ``weblate-"
@@ -43759,9 +43235,10 @@ msgid ""
 "can be used to review the dependencies for security issues or license "
 "compliance."
 msgstr ""
-"Weblate 源码核心包含了一份软件物料清单，具体文件为 :file:`docs/specs/sbom/"
-"sbom.json`，使用 CycloneDX 格式。这可被用于检查依赖项的安全问题或许可证合规"
-"性。"
+"Weblate 为已发布版本发布一份使用 CycloneDX 格式的软件物料清单 (SBOM)。该 "
+"SBOM 是一份 `GitHub release assets`_ 中支持版本的 ``weblate-<version>-"
+"sbom.cdx.json`` 文件，并用 GitHub artifact 证明附加到发布来源。这可被用于检查"
+"依赖项的安全问题或许可证合规性。"
 
 #: security/dependencies.rst:17
 msgid "Tracking dependencies for vulnerabilities"
@@ -44355,7 +43832,7 @@ msgstr "立即暂停受影响的用户账户。"
 msgid ""
 "Revoke or rotate affected administrative, API, VCS, and webhook credentials "
 "as applicable."
-msgstr "如果适用，撤销或轮换受影响的管理、API、VCS 和 webhook 凭据。"
+msgstr "如果适用，撤销或轮换受影响的管理、API、VCS 和 webhook 凭证。"
 
 #: security/incident-response-plan.rst:116
 msgid ""
@@ -45107,29 +44584,19 @@ msgid "Privacy regulations compliance"
 msgstr "隐私监管合规"
 
 #: security/privacy-compliance.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate enables organizations to operate within privacy frameworks such "
-#| "as GDPR, DPDPA, PIPL, and others by offering strict data minimization, "
-#| "full data ownership, and fine-grained access control. All hosting and "
-#| "compliance responsibilities remain fully within the deploying "
-#| "organization’s control."
 msgid ""
 "Weblate provides features that help organizations operate within privacy "
 "frameworks such as GDPR, DPDPA, PIPL, and others. Hosting, legal basis, "
 "retention, notices, and compliance responsibilities remain under the "
 "deploying organization's control."
 msgstr ""
-"Weblate 提供严格的数据最小化、完整的数据所有权、细粒度的访问控制允许组织在 "
-"GDPR、DPDPA、PIPL 等隐私框架内运作。所有托管和合规职责完全保持在部署机构的控"
-"制下。"
+"Weblate 提供帮助组织在 GDPR、DPDPA、PIPL 及其他隐私框架内运作的特性。托管、法"
+"律依据、留存、通知和合规职责仍在部署机构的控制下。"
 
 #: security/privacy-compliance.rst:13
-#, fuzzy
-#| msgid "This document outlines how Weblate supports compliance with:"
 msgid ""
 "This document outlines Weblate features that can support compliance with:"
-msgstr "本文档概述 Weblate 如何支持符合下列监管框架："
+msgstr "本文档概述可支持下列隐私监管框架的 Weblate 特性："
 
 #: security/privacy-compliance.rst:15
 msgid "EU General Data Protection Regulation (GDPR)"
@@ -45264,13 +44731,9 @@ msgid "Right to erasure and correction"
 msgstr "数据擦除和修正的权利"
 
 #: security/privacy-compliance.rst:73
-#, fuzzy
-#| msgid ""
-#| "Users may update or correct personal information directly via the profile "
-#| "interface."
 msgid ""
 "Users can correct account and profile information from the profile interface."
-msgstr "用户可以通过个人资料界面直接更新或修正个人信息。"
+msgstr "用户可以通过个人资料界面更正账户和个人资料信息。"
 
 #: security/privacy-compliance.rst:75
 msgid ""
@@ -45297,10 +44760,8 @@ msgid "Data retention and deletion"
 msgstr "数据保留和删除"
 
 #: security/privacy-compliance.rst:87
-#, fuzzy
-#| msgid "Characters configured using :setting:`SPECIAL_CHARS`"
 msgid "Audit-log retention is configured using :setting:`AUDITLOG_EXPIRY`."
-msgstr "使用 :setting:`SPECIAL_CHARS` 配置的字符"
+msgstr "使用 :setting:`AUDITLOG_EXPIRY` 配置审计日志留存。"
 
 #: security/privacy-compliance.rst:88
 msgid ""
@@ -45327,13 +44788,12 @@ msgid ""
 msgstr ""
 
 #: security/privacy-compliance.rst:100
-#, fuzzy
-#| msgid ""
-#| "Failed logins, permission changes, and other security events are logged."
 msgid ""
 "Failed sign-ins, permission changes, two-factor changes, account removal "
 "requests, and other security events are recorded in the audit log."
-msgstr "记录失败的登录、权限更改，以及其他安全事件。"
+msgstr ""
+"在审计日志中记录失败的登录、权限更改，双因素更改、账户删除请求以及其他安全事"
+"件。"
 
 #: security/privacy-compliance.rst:102
 msgid "Optional GELF logging can forward logs to systems such as Graylog."
@@ -45389,10 +44849,8 @@ msgid "Framework"
 msgstr "框架"
 
 #: security/privacy-compliance.rst:131
-#, fuzzy
-#| msgid "Supported features"
 msgid "Supporting Weblate features"
-msgstr "支持的功能"
+msgstr "支持 Weblate 特性"
 
 #: security/privacy-compliance.rst:132
 msgid "GDPR (EU)"
@@ -45439,10 +44897,8 @@ msgid "PIPEDA (Canada)"
 msgstr "PIPEDA（加拿大）"
 
 #: security/privacy-compliance.rst:145
-#, fuzzy
-#| msgid "Legal basis, access, correction, deletion"
 msgid "Notice, consent workflow, access, correction, deletion"
-msgstr "法律依据、访问、修正、删除"
+msgstr "通知、同意工作流程、访问、修正、删除"
 
 #: security/privacy-compliance.rst:146
 msgid "DPDPA (India)"
@@ -45459,12 +44915,10 @@ msgid "PIPL (China)"
 msgstr "PIPL（中国）"
 
 #: security/privacy-compliance.rst:150
-#, fuzzy
-#| msgid "Purpose limitation, data minimization, locality"
 msgid ""
 "Purpose limitation by configuration, data minimization, self-hosted locality "
 "controls"
-msgstr "目的限制、数据最小化、地域性"
+msgstr "通过配置、数据最小化、自托管的本地控制限制目的"
 
 #: security/privacy-compliance.rst:154
 msgid "Recommendations for compliance"
@@ -45516,10 +44970,8 @@ msgid "Weblate threat model"
 msgstr "Weblate 威胁模型"
 
 #: security/threat-model.rst:4
-#, fuzzy
-#| msgid "Project website"
 msgid "Project: Weblate"
-msgstr "项目网站"
+msgstr "项目：Weblate"
 
 #: security/threat-model.rst:6
 msgid "Last reviewed for Weblate |release| at commit ``491e79010b2``."
@@ -45574,16 +45026,12 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:38
-#, fuzzy
-#| msgid "Scope and objectives"
 msgid "Scope and intended use"
-msgstr "范围和对象"
+msgstr "范围和预期用途"
 
 #: security/threat-model.rst:43
-#, fuzzy
-#| msgid "Component name"
 msgid "Component family"
-msgstr "部件名称"
+msgstr "部件族"
 
 #: security/threat-model.rst:44
 msgid "Representative surface"
@@ -45594,16 +45042,12 @@ msgid "Outside-process effects"
 msgstr ""
 
 #: security/threat-model.rst:46
-#, fuzzy
-#| msgid "Monitoring Celery status"
 msgid "Model status"
-msgstr "监测 Celery 状态"
+msgstr "部件状态"
 
 #: security/threat-model.rst:47
-#, fuzzy
-#| msgid "Weblate's REST API"
 msgid "Web UI and REST API"
-msgstr "Weblate 的 REST API"
+msgstr "Web 用户界面和 REST API"
 
 #: security/threat-model.rst:48
 msgid "Browser views, forms, session endpoints, :doc:`/api`"
@@ -45618,10 +45062,8 @@ msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 msgstr ""
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "**Authentication & authorization:**"
 msgid "Authentication, sessions, and authorization"
-msgstr "**身份认证&授权：**"
+msgstr "身份认证、会话和授权"
 
 #: security/threat-model.rst:52
 msgid "Login, 2FA, SSO, teams, permissions, project access, API tokens"
@@ -45637,10 +45079,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:55
-#, fuzzy
-#| msgid "Per-project access tokens"
 msgid "Project-scoped API tokens"
-msgstr "项目访问令牌"
+msgstr "项目级 API 令牌"
 
 #: security/threat-model.rst:56
 msgid "Tokens created in project :guilabel:`API access`"
@@ -45657,40 +45097,28 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:60
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhooks"
-msgstr "Webhook"
+msgstr "Webhooks"
 
 #: security/threat-model.rst:61
-#, fuzzy
-#| msgid ":ref:`project-enable_hooks`"
 msgid ":ref:`hooks`, project :ref:`project-enable_hooks`"
-msgstr ":ref:`project-enable_hooks`"
+msgstr ":ref:`hooks`, 项目 :ref:`project-enable_hooks`"
 
 #: security/threat-model.rst:62
-#, fuzzy
-#| msgid "Background tasks using Celery"
 msgid "Background task scheduling and VCS repository updates"
-msgstr "使用 Celery 的后台任务"
+msgstr "后台任务计划和 VCS 仓库更新"
 
 #: security/threat-model.rst:63
-#, fuzzy
-#| msgid ""
-#| "Treat webhook endpoints as deployment-hardened interfaces and enable them "
-#| "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgid ""
 "In scope as a public, deployment-hardened interface. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"将 webhook 端点视作为部署强化的接口并只在必要的地方启用它们，见 :ref:`hooks` "
-"和 :ref:`project-enable_hooks`。"
+"在范围内作为公共、为部署强化的接口。*(有文档信息)* (来源： :ref:`hooks`, "
+":ref:`project-enable_hooks`)"
 
 #: security/threat-model.rst:64
-#, fuzzy
-#| msgid "**VCS integration**"
 msgid "VCS integration"
-msgstr "**VCS 集成**"
+msgstr "VCS 集成"
 
 #: security/threat-model.rst:65
 msgid "Repository URLs, branches, pushes, pulls, merge requests, local clones"
@@ -45707,10 +45135,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:70
-#, fuzzy
-#| msgid "Background tasks internals"
 msgid "Background tasks"
-msgstr "后台任务间隔"
+msgstr "后台任务"
 
 #: security/threat-model.rst:71
 msgid ""
@@ -45729,16 +45155,12 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:76
-#, fuzzy
-#| msgid "Project backed up"
 msgid "Project backup import/export"
-msgstr "已备份项目"
+msgstr "项目备份导入/导出"
 
 #: security/threat-model.rst:77
-#, fuzzy
-#| msgid ":ref:`markup`, :wladmin:`import_project`"
 msgid ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
-msgstr ":ref:`markup`, :wladmin:`import_project`"
+msgstr ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
 
 #: security/threat-model.rst:78
 msgid "Uploaded ZIP archives, filesystem restore, repository state"
@@ -45751,10 +45173,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:81
-#, fuzzy
-#| msgid "Service name"
 msgid "Service backup"
-msgstr "服务名称"
+msgstr "服务备份"
 
 #: security/threat-model.rst:82
 msgid "BorgBackup configuration and :wladmin:`backup`"
@@ -45772,10 +45192,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:87
-#, fuzzy
-#| msgid "Machine translation engines"
 msgid "Machine translation and outbound integrations"
-msgstr "机器翻译引擎"
+msgstr "机器翻译和外部集成"
 
 #: security/threat-model.rst:88
 msgid "Machine translation, avatars, status reporting, VCS hosts, CDN add-on"
@@ -45862,10 +45280,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:124
-#, fuzzy
-#| msgid "slug of component"
 msgid "Out of scope"
-msgstr "部件的标识串"
+msgstr "超出范围"
 
 #: security/threat-model.rst:126
 msgid "The following are explicit non-goals for this model:"
@@ -45927,10 +45343,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:155
-#, fuzzy
-#| msgid "Trust boundaries"
 msgid "Trust boundaries and data flow"
-msgstr "信任边界"
+msgstr "信任边界和数据流动"
 
 #: security/threat-model.rst:157
 msgid ""
@@ -45946,16 +45360,12 @@ msgid "Boundary"
 msgstr ""
 
 #: security/threat-model.rst:167
-#, fuzzy
-#| msgid "Target translation"
 msgid "Trust transition"
-msgstr "目标译文"
+msgstr "信任转变"
 
 #: security/threat-model.rst:168
-#, fuzzy
-#| msgid "Incident response plan for Weblate"
 msgid "Client browser/API client to Weblate"
-msgstr "Weblate 事件响应计划"
+msgstr "客户端浏览器/API 客户端到 Weblate"
 
 #: security/threat-model.rst:169
 msgid ""
@@ -45964,10 +45374,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:171
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender to Weblate"
-msgstr "Webhook secret"
+msgstr "Webhook 发送方到 Weblate"
 
 #: security/threat-model.rst:172
 msgid ""
@@ -45977,10 +45385,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:175
-#, fuzzy
-#| msgid "**Database/Datastore**"
 msgid "Weblate to database/datastore"
-msgstr "**数据库/数据存储**"
+msgstr "Weblate 到数据库/数据存储"
 
 #: security/threat-model.rst:176
 msgid ""
@@ -45989,10 +45395,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:178
-#, fuzzy
-#| msgid "Managing the local VCS repository"
 msgid "Weblate to local VCS repositories"
-msgstr "管理本地 VCS 仓库"
+msgstr "Weblate 到本地 VCS 仓库"
 
 #: security/threat-model.rst:179
 msgid ""
@@ -46001,10 +45405,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:181
-#, fuzzy
-#| msgid "Weblate 0.x series"
 msgid "Weblate to external services"
-msgstr "Weblate 0.x 系列"
+msgstr "Weblate 到外部服务"
 
 #: security/threat-model.rst:182
 msgid ""
@@ -46024,10 +45426,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:189
-#, fuzzy
-#| msgid "Propagation preconditions:"
 msgid "Reachability preconditions:"
-msgstr "传播前提条件："
+msgstr "可及性前提条件："
 
 #: security/threat-model.rst:191
 msgid ""
@@ -46081,10 +45481,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:215
-#, fuzzy
-#| msgid "Environment variables"
 msgid "Environment assumptions"
-msgstr "环境变量"
+msgstr "环境假设"
 
 #: security/threat-model.rst:217
 msgid ""
@@ -46132,10 +45530,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:243
-#, fuzzy
-#| msgid "Grant Weblate access to the repository."
 msgid "What Weblate does to its host:"
-msgstr "授予 Weblate 访问该仓库的权限。"
+msgstr "Weblate 对其主机做什么："
 
 #: security/threat-model.rst:245
 msgid ""
@@ -46173,20 +45569,16 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:260
-#, fuzzy
-#| msgid "Custom configuration files"
 msgid "Build-time and configuration variants"
-msgstr "定制配置文件"
+msgstr "构建时间和配置变体"
 
 #: security/threat-model.rst:265
 msgid "Knob"
 msgstr ""
 
 #: security/threat-model.rst:266
-#, fuzzy
-#| msgid "*Default component list*"
 msgid "Default or documented posture"
-msgstr "*默认部件列表*"
+msgstr "默认或文档记录的立场"
 
 #: security/threat-model.rst:267
 #, fuzzy
@@ -55652,7 +55044,7 @@ msgstr "输入用于存储术语表文件的 Google 云存储桶名称。"
 msgid ""
 "This service uses the Google Translation API v3 and you need credentials in "
 "JSON format to access it."
-msgstr "这项服务使用 Google 翻译 API v3，您需要 JSON 格式的凭据来访问它。"
+msgstr "这项服务使用 Google 翻译 API v3，您需要 JSON 格式的凭证来访问它。"
 
 #: snippets/machines-autogenerated.rst:478
 msgid ""
@@ -57009,7 +56401,7 @@ msgid ""
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"配置目录由为每个 API 主机定义的凭据所组成。几乎所有版本控制集成的布局都是一样"
+"配置目录由为每个 API 主机定义的凭证所组成。几乎所有版本控制集成的布局都是一样"
 "的，描述见 :ref:`settings-credentials`。"
 
 #: user/checks.rst:4
@@ -57749,7 +57141,7 @@ msgstr "您可以按照以下几个简单步骤进行注册："
 
 #: user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
-msgstr "使用您的凭据填写注册表。"
+msgstr "使用您的凭证填写注册表。"
 
 #: user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
@@ -60248,7 +59640,7 @@ msgstr ""
 
 #: vcs.rst:434
 msgid "Subversion credentials"
-msgstr "Subversion 凭据"
+msgstr "Subversion 凭证"
 
 #: vcs.rst:436
 msgid ""
@@ -60257,9 +59649,9 @@ msgid ""
 "the :setting:`DATA_DIR` directory. Accept the certificate by using `svn` "
 "once with the `$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
-"Weblate 希望您预先接受证书（如果需要，还需要您的凭据）。它会将它们插入"
-"到 :setting:`DATA_DIR` 目录中。在 `$HOME` 环境变量设置为 :setting:`DATA_DIR` "
-"的情况下使用 `svn` 接受证书："
+"Weblate 希望您预先接受证书（如果需要，还需要您的凭证）。它会将它们插入到 "
+":setting:`DATA_DIR` 目录中。在 `$HOME` 环境变量设置为 :setting:`DATA_DIR` 的"
+"情况下使用 `svn` 接受证书："
 
 #: vcs.rst:454
 msgid "Local files"
