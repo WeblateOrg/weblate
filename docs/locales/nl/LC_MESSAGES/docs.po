@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-23 15:21+0000\n"
+"PO-Revision-Date: 2026-05-25 10:02+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -11285,12 +11285,6 @@ msgid "Running Celery as system service"
 msgstr "Celery uitvoeren als systeemservice"
 
 #: admin/install.rst:1612
-#, fuzzy
-#| msgid ""
-#| "Most likely you will want to run Celery as a daemon and that is covered "
-#| "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
-#| "using systemd, you can use the example files shipped in "
-#| "the :file:`examples` folder listed below."
 msgid ""
 "Most likely you will want to run Celery as a daemon and that is covered "
 "by :doc:`celery:userguide/daemonizing`. For the most common Linux setup "
@@ -11298,11 +11292,12 @@ msgid ""
 "maintained in the Weblate source tree under :file:`weblate/examples/`; "
 "Python wheels do not install these deployment samples."
 msgstr ""
-"Meest waarschijnlijk is dat u Celery wilt uitvoeren als een daemon en dat "
-"wordt behandeld in :doc:`celery:userguide/daemonizing`. Voor de meest "
-"voorkomende opstelling in Linux met systemd, kunt u de voorbeeldbestanden "
-"gebruiken die worden meegeleverd in de map :file:`examples` die hieronder "
-"zijn vermeld."
+"Waarschijnlijk wilt u Celery uitvoeren als een daemon en dat wordt behandeld "
+"in :doc:`celery:userguide/daemonizing`. Voor de meest voorkomende opstelling "
+"in Linux met systemd, kunt u de voorbeeldbestanden aanpassen die hieronder "
+"zijn vermeld. Deze voorbeelden worden onderhouden in de boom van de bron van "
+"Weblate onder :file:`weblate/examples/`; Python-wheels installeren deze "
+"voorbeelden voor uitrollen niet."
 
 #: admin/install.rst:1618
 msgid ""
@@ -12464,10 +12459,8 @@ msgid "Defaults to enabled."
 msgstr "Standaard ingeschakeld."
 
 #: admin/install/docker.rst:719
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
-msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
 
 #: admin/install/docker.rst:721
 msgid "Expects a comma-separated list of trusted project slugs."
@@ -12618,21 +12611,15 @@ msgstr ""
 "``\"false\"``)."
 
 #: admin/install/docker.rst:866
-#, fuzzy
-#| msgid ""
-#| "A tuple representing a HTTP header/value combination that signifies a "
-#| "request is secure. This is needed when Weblate is running behind a "
-#| "reverse proxy doing SSL termination which does not pass standard HTTPS "
-#| "headers."
 msgid ""
 "A tuple representing an HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
-"Een tuple, die een combinatie weergeeft voor de HTTP header/waarde, die een "
-"verzoek aangeeft is veilig. Dit is nodig als Weblate wordt uitgevoerd "
-"vanachter een omgekeerde proxy die beëindiging van SSL uitvoert die geen "
-"standaard HTTPS-headers doorgeeft."
+"Een tuple, die een combinatie weergeeft voor de combinatie HTTP header/"
+"waarde, die een verzoek aangeeft is veilig. Dit is nodig als Weblate wordt "
+"uitgevoerd achter een omgekeerde proxy die beëindiging van SSL uitvoert en "
+"geen standaard HTTPS-headers doorgeeft."
 
 #: admin/install/docker.rst:884
 msgid ""
@@ -12964,30 +12951,22 @@ msgstr ""
 "in :ref:`docker-https-portal`."
 
 #: admin/install/docker.rst:1269
-#, fuzzy
-#| msgid "Configures :setting:`VERSION_DISPLAY`."
 msgid "Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
-msgstr "Configureert :setting:`VERSION_DISPLAY`."
+msgstr "Configureert :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1271 admin/install/docker.rst:1277
 #: admin/install/docker.rst:1298 admin/install/docker.rst:1306
 #: admin/install/docker.rst:1314
-#, fuzzy
-#| msgid "The attribute value is not quoted."
 msgid "The value is in bytes."
-msgstr "De waarde van het attribuut staat niet tussen aanhalingstekens."
+msgstr "De waarde is in bytes."
 
 #: admin/install/docker.rst:1275
-#, fuzzy
-#| msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgid "Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
-msgstr "Configureert :setting:`IP_PROXY_OFFSET`."
+msgstr "Configureert :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1281
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
-msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Configureert :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1283
 msgid ""
@@ -12998,34 +12977,27 @@ msgstr ""
 "groot genoeg is voor de geüploade back-upbestanden."
 
 #: admin/install/docker.rst:1290
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
-msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Configureert :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
 
 #: admin/install/docker.rst:1296
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
-msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
+"Configureert :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
 
 #: admin/install/docker.rst:1304
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
-msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
+"Configureert :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
 
 #: admin/install/docker.rst:1312
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
-msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr "Configureert :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
 
 #: admin/install/docker.rst:1320
-#, fuzzy
-#| msgid "Configures :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
-msgstr "Configureert :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
+msgstr ""
+"Configureert :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/install/docker.rst:1326
 msgid "Code hosting sites credentials"
@@ -13464,11 +13436,6 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: admin/install/docker.rst:1861
-#, fuzzy
-#| msgid ""
-#| "Set to false to disables environment based configuration of the database "
-#| "connection. Use :ref:`docker-settings-override` to configure the database "
-#| "connection manually."
 msgid ""
 "Set to false to disable environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
@@ -13703,12 +13670,12 @@ msgid "Localization CDN"
 msgstr "Vertaling CDN"
 
 #: admin/install/docker.rst:2132
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid ""
 "Configuration for CDN add-ons, including :ref:`addon-weblate.cdn.cdnjs` "
 "and :ref:`addon-weblate.cdn.files`."
-msgstr "Configuratie voor :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Configuratie voor :ref:`addon-weblate.cdn.cdnjs` en :ref:`addon-"
+"weblate.cdn.files`."
 
 #: admin/install/docker.rst:2135
 msgid ""
@@ -13724,10 +13691,6 @@ msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr "Een van de mogelijkheden is om het op te slaan in de Weblate-map data:"
 
 #: admin/install/docker.rst:2148
-#, fuzzy
-#| msgid ""
-#| "You are responsible for setting up serving of the files generated by "
-#| "Weblate, it only does stores the files in configured location."
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only stores the files in configured location. See :ref:`cdn-"
@@ -13735,29 +13698,24 @@ msgid ""
 msgstr ""
 "U bent verantwoordelijk voor het instellen van het serveren van de bestanden "
 "die worden gegenereerd door Weblate, het slaat alleen bestanden op in de "
-"geconfigureerde locatie."
+"geconfigureerde locatie. Bekijk :ref:`cdn-server-security` voor richtlijnen "
+"over veilig serveren."
 
 #: admin/install/docker.rst:2160
-#, fuzzy
-#| msgid ""
-#| "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgid ""
 "Changing enabled apps, checks, formats, add-ons, machinery, or autofixes"
 msgstr ""
-"Wijzigen ingeschakelde apps, controles, add-ons, machinevertaling of "
+"Wijzigen ingeschakelde apps, controles, indelingen, add-ons, machinalen of "
 "automatische reparaties"
 
 #: admin/install/docker.rst:2162
-#, fuzzy
-#| msgid ""
-#| "The built-in configuration of enabled checks, add-ons or autofixes can be "
-#| "adjusted by the following variables:"
 msgid ""
 "The built-in configuration of enabled checks, file formats, add-ons, "
 "machinery, or autofixes can be adjusted by the following variables:"
 msgstr ""
-"De ingebouwde configuratie van ingeschakelde controles, add-ons of "
-"automatische reparaties kan worden aangepast met de volgende variabelen:"
+"De ingebouwde configuratie van ingeschakelde controles, indelingen, add-ons, "
+"machinalen of automatische reparaties kan worden aangepast met de volgende "
+"variabelen:"
 
 #: admin/install/docker.rst:2202
 msgid "Container settings"
@@ -15281,10 +15239,6 @@ msgid "Language definitions"
 msgstr "Taaldefinities"
 
 #: admin/languages.rst:6
-#, fuzzy
-#| msgid ""
-#| "To present different translations properly, info about language name, "
-#| "text direction, plural definitions and language code is needed."
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code are needed."
@@ -15611,22 +15565,16 @@ msgstr ""
 "liggen tussen ``0`` en ``nplurals - 1``."
 
 #: admin/languages.rst:193
-#, fuzzy
-#| msgid "For example, this covers:"
 msgid "For example, English uses:"
-msgstr "Dit behandelt bijvoorbeeld:"
+msgstr "Bijvoorbeeld Engels gebruikt:"
 
 #: admin/languages.rst:202
-#, fuzzy
-#| msgid "Better naming of plural forms."
 msgid "`GNU gettext manual for plural forms`_"
-msgstr "Betere naamgeving voor meervoudsvormen."
+msgstr "`GNU gettext handleiding voor meervoudsvormen`_"
 
 #: admin/languages.rst:203
-#, fuzzy
-#| msgid "Language plural formula and number"
 msgid "`GNU gettext plural formula parser`_"
-msgstr "Formule voor meervoud en aantal taal"
+msgstr "`GNU gettext formule voor meervoud parser`_"
 
 #: admin/languages.rst:204
 msgid "`Language Plural Rules by the Unicode Consortium`_"
@@ -15728,17 +15676,15 @@ msgstr ""
 "in :ref:`management-interface`) of in de instellingen voor het project:"
 
 #: admin/machine.rst:19
-#, fuzzy
-#| msgid ""
-#| "They come subject to their terms of use, so ensure you are allowed to use "
-#| "them how you want."
 msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want. Third-party services can receive source strings, "
 "translations, and related context from Weblate."
 msgstr ""
-"Zij zijn onderworpen aan hun gebruiksvoorwaarden, zorg er dus voor dat u "
-"toestemming hebt ze te gebruiken zoals u wilt."
+"Ze zijn onderworpen aan hun gebruiksvoorwaarden, zorg er dus voor dat u "
+"toestemming hebt ze te gebruiken zoals u wilt. Services van derde partijen "
+"kunnen brontekenreeksen, vertalingen en gerelateerde inhoud ontvangen van "
+"Weblate."
 
 #: admin/machine.rst:23
 msgid ""
@@ -17453,10 +17399,8 @@ msgstr ""
 "domein van CDN."
 
 #: admin/optionals.rst:242
-#, fuzzy
-#| msgid "The recommended Weblate configuration verifies:"
 msgid "Recommended server configuration:"
-msgstr "De aanbevolen configuratie van Weblate verifieert:"
+msgstr "Aanbevolen configuratie server:"
 
 #: admin/optionals.rst:244
 msgid ""
@@ -17469,10 +17413,8 @@ msgstr ""
 "gehele gegevensmap weer."
 
 #: admin/optionals.rst:247
-#, fuzzy
-#| msgid "Disaster recovery plan"
 msgid "Disable directory listing."
-msgstr "Rampen herstelplan"
+msgstr "Vermelden mappen uitschakelen."
 
 #: admin/optionals.rst:248
 msgid "Use HTTPS and make the CDN host read-only from the web server."
@@ -18470,11 +18412,6 @@ msgid "This setting is ignored for Mercurial and Subversion."
 msgstr "Deze instelling wordt genegeerd voor Mercurial en Subversion."
 
 #: admin/projects.rst:489
-#, fuzzy
-#| msgid ""
-#| "For Gerrit, this selects the target branch for the review request. Leave "
-#| "it empty to review against :ref:`component-branch`. Use the short branch "
-#| "name, not ``refs/heads/<branch>`` or ``refs/for/<branch>``."
 msgid ""
 "For Gerrit, this selects the target branch for the review request. Leave it "
 "empty to review against :ref:`component-branch`. Use the short branch name, "
@@ -18482,8 +18419,9 @@ msgid ""
 "such as ``%submit``."
 msgstr ""
 "Voor Gerrit selecteert dit de doelbranch voor het review request. Laat het "
-"leeg om te beoordelen ten opzichte van :ref:`component-branch`. Gebruik de "
-"verkorte branchnaam, niet ``refs/heads/<branch>`` of ``verw/naar/<branch>``."
+"leeg om te beoordelen vergeleken met :ref:`component-branch`. Gebruik de "
+"verkorte branchnaam, niet ``refs/heads/<branch>``, ``verw/naar/<branch>``, "
+"of Gerrit opties voor pushen, zoals ``%submit``."
 
 #: admin/projects.rst:501 devel/gettext.rst:233 formats/android.rst:78
 #: formats/apple.rst:31 formats/appstore.rst:31 formats/arb.rst:34
@@ -21230,10 +21168,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.5"
 msgid "Weblate 2026.6"
-msgstr "Weblate 2026.5"
+msgstr "Weblate 2026.6"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -21251,24 +21187,20 @@ msgid "New features"
 msgstr "Nieuwe mogelijkheden"
 
 #: changes.rst:8
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/announcements` can now also be managed via the :ref:`api` "
-#| "for categories."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "specific project languages."
 msgstr ""
 ":doc:`/admin/announcements` kunnen nu ook worden beheerd via de :ref:`api` "
-"voor categorieën."
+"voor specifieke projecttalen."
 
 #: changes.rst:9
-#, fuzzy
-#| msgid "Group ACLs can now be limited to certain permissions."
 msgid ""
 "Team memberships can now be limited to selected languages for per-user "
 "translation permissions."
-msgstr "Groeperen van ACL's kan nu worden beperkt tot bepaalde rechten."
+msgstr ""
+"Lidmaatschap voor team kan nu worden beperkt tot geselecteerde talen voor "
+"rechten voor vertalen per gebruiker."
 
 #: changes.rst:12 changes.rst:56 changes/v5.rst:18 changes/v5.rst:104
 #: changes/v5.rst:208 changes/v5.rst:243 changes/v5.rst:290 changes/v5.rst:334
@@ -51273,10 +51205,8 @@ msgstr ""
 "aanvaller. *(maintainer)*"
 
 #: security/threat-model.rst:215
-#, fuzzy
-#| msgid "Environment variables"
 msgid "Environment assumptions"
-msgstr "Omgevingsvariabelen"
+msgstr "Aannames over omgeving"
 
 #: security/threat-model.rst:217
 msgid ""
@@ -51402,32 +51332,24 @@ msgstr ""
 "(maintainer)*"
 
 #: security/threat-model.rst:260
-#, fuzzy
-#| msgid "Number of configuration errors"
 msgid "Build-time and configuration variants"
-msgstr "Aantal configuratiefouten"
+msgstr "Bouwtijd en varianten configuratie"
 
 #: security/threat-model.rst:265
 msgid "Knob"
 msgstr "Knop"
 
 #: security/threat-model.rst:266
-#, fuzzy
-#| msgid "*Default component list*"
 msgid "Default or documented posture"
-msgstr "*Standaard onderdelenlijst*"
+msgstr "Standaard of gedocumenteerde houding"
 
 #: security/threat-model.rst:267
-#, fuzzy
-#| msgid "Weblate threat model"
 msgid "Effect on the model"
-msgstr "Weblate dreigingsmodel"
+msgstr "Effect op het model"
 
 #: security/threat-model.rst:268
-#, fuzzy
-#| msgid "Container settings"
 msgid "Maintainer stance"
-msgstr "Instellingen container"
+msgstr "Standpunt onderhouder"
 
 #: security/threat-model.rst:269
 msgid ":setting:`ENABLE_HOOKS` and :ref:`project-enable_hooks`"
@@ -51442,18 +51364,15 @@ msgstr ""
 "ingeschakeld voor een project. *(documented)*"
 
 #: security/threat-model.rst:272
-#, fuzzy
-#| msgid ""
-#| "Treat webhook endpoints as deployment-hardened interfaces and enable them "
-#| "only where necessary, see :ref:`hooks` and :ref:`project-enable_hooks`."
 msgid ""
 "Exposes webhook endpoints as a public scheduling interface. Abuse resistance "
 "depends on deployment controls. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"Behandel eindpunten van webhooks als verharde ontwikkelingsinterfaces en "
-"schakel ze alleen in als dat nodig is, bekijk :ref:`hooks` en :ref:`project-"
-"enable_hooks`."
+"Geeft eindpunten van webhaken weer als een publieke interface voor planning. "
+"Tegenmaatregelen voor misbruik zijn afhankelijk van uitgerolde "
+"besturingselementen. *(documented)* (source: :ref:`hooks`, :ref:`project-"
+"enable_hooks`)"
 
 #: security/threat-model.rst:274
 msgid ""
@@ -51495,12 +51414,12 @@ msgstr ""
 "headers. *(documented)*"
 
 #: security/threat-model.rst:284
-#, fuzzy
-#| msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgid ""
 "Configures accepted HTTP hostnames. *(documented)* "
 "(source: :setting:`ALLOWED_HOSTS`)"
-msgstr "Configureert toegestane HTTP-hostnamen met :setting:`ALLOWED_HOSTS`."
+msgstr ""
+"Configureert geaccepteerde HTTP-hostnamen. *(documented)* (source: "
+":setting:`ALLOWED_HOSTS`"
 
 #: security/threat-model.rst:285
 msgid ""
@@ -51518,12 +51437,12 @@ msgstr ""
 "(maintainer)*"
 
 #: security/threat-model.rst:288
-#, fuzzy
-#| msgid ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:`django:EMAIL_USE_TLS`"
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
 "and :setting:`RATELIMIT_ATTEMPTS`"
-msgstr ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:`django:EMAIL_USE_TLS`"
+msgstr ""
+":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER` "
+"en :setting:`RATELIMIT_ATTEMPTS`"
 
 #: security/threat-model.rst:290
 msgid ""
@@ -51551,10 +51470,11 @@ msgstr ""
 "eigenschap schendt. *(maintainer)*"
 
 #: security/threat-model.rst:297
-#, fuzzy
-#| msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
 msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
-msgstr ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
+msgstr ""
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, "
+":setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
 
 #: security/threat-model.rst:300
 msgid ""
@@ -51581,17 +51501,14 @@ msgstr ""
 "uitgebreide vertrouwen voor de browser. *(maintainer)*"
 
 #: security/threat-model.rst:305
-#, fuzzy
-#| msgid ""
-#| "Import validation of uploaded project backups can be tuned "
-#| "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
-#| "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgid ":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
 msgstr ""
-"Importeren van validatie van geüploade projectback-ups kan fijn worden "
-"afgestemd "
-"met :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` "
-"en :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
 
 #: security/threat-model.rst:311
 msgid ""
@@ -51657,15 +51574,11 @@ msgstr ""
 "URL-oppervlakken. *(maintainer)*"
 
 #: security/threat-model.rst:331
-#, fuzzy
-#| msgid ""
-#| "Added support for customizing SSH invocation "
-#| "via :setting:`SSH_EXTRA_ARGS`."
 msgid ""
 "Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)"
 msgstr ""
-"Ondersteuning toegevoegd voor aanpassen van aanroepen SSH "
-"via :setting:`SSH_EXTRA_ARGS`."
+"Aangepaste opties voor SSH toestaan. *(documented)* (source: "
+":setting:`SSH_EXTRA_ARGS`"
 
 #: security/threat-model.rst:332
 msgid ""
@@ -51706,10 +51619,8 @@ msgid "Third-party code is modeled separately. *(maintainer)*"
 msgstr "Code van derde partijen wordt afzonderlijk gemodelleerd. *(maintainer)*"
 
 #: security/threat-model.rst:342
-#, fuzzy
-#| msgid "Key Assumptions"
 msgid "Input assumptions"
-msgstr "Belangrijkste aannames"
+msgstr "Aannames voor invoer"
 
 #: security/threat-model.rst:347
 msgid "Surface"
@@ -51755,10 +51666,8 @@ msgstr ""
 "rechten. *(documented)* (source: :doc:`/admin/install`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:357
-#, fuzzy
-#| msgid "Authentication backends"
 msgid "Authentication endpoints"
-msgstr "Authenticatie backends"
+msgstr "Authenticatie-eindpunten"
 
 #: security/threat-model.rst:358
 msgid "Passwords, WebAuthn data, SSO callbacks, reset tokens"
@@ -51777,16 +51686,12 @@ msgstr ""
 ":doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:361
-#, fuzzy
-#| msgid "Per-project access tokens"
 msgid "Project-scoped tokens"
-msgstr "Per-project toegangstokens"
+msgstr "Tokens bereik project"
 
 #: security/threat-model.rst:362
-#, fuzzy
-#| msgid "Authentication tokens"
 msgid "API requests authenticated by token"
-msgstr "Tokens voor authenticatie"
+msgstr "API-verzoeken geauthenticeerd door token"
 
 #: security/threat-model.rst:363
 msgid "Yes, by whoever holds the token. *(documented)* (source: :doc:`/api`)"
@@ -51800,19 +51705,13 @@ msgstr ""
 "Opslag token, rotatie en minste-privilege teamlidmaatschap. *(maintainer)*"
 
 #: security/threat-model.rst:366
-#, fuzzy
-#| msgid "Translation context"
 msgid "Translation content"
-msgstr "Context vertaling"
+msgstr "Inhoud vertaling"
 
 #: security/threat-model.rst:367
-#, fuzzy
-#| msgid ""
-#| "Support for starting translation components without existing translations."
 msgid "Source strings, translations, comments, suggestions, glossary entries"
 msgstr ""
-"Ondersteuning voor het beginnen van vertaalonderdelen zonder bestaande "
-"vertalingen."
+"Brontekenreeksen, vertalingen, opmerkingen, suggesties, items woordenlijst"
 
 #: security/threat-model.rst:368
 msgid ""
@@ -51831,10 +51730,8 @@ msgstr ""
 "(documented)* (source: :doc:`/workflows`)"
 
 #: security/threat-model.rst:371
-#, fuzzy
-#| msgid "**Webhook handling**"
 msgid "Webhook endpoints"
-msgstr "**Webhook afhandeling**"
+msgstr "Webhook-eindpunten"
 
 #: security/threat-model.rst:372
 msgid "Headers, event type, body, repository and branch metadata"
@@ -51850,118 +51747,138 @@ msgid ""
 "Hook enablement only where needed, request limits, and monitoring. "
 "*(maintainer)*"
 msgstr ""
+"Alleen haken inschakelen waar nodig, verzoeken beperken en monitoren. *"
+"(maintainer)*"
 
 #: security/threat-model.rst:376
-#, fuzzy
-#| msgid "Repository integration"
 msgid "Repository configuration"
-msgstr "Opslagruimte integratie"
+msgstr "Configuratie opslagruimte"
 
 #: security/threat-model.rst:377
 msgid "Repository URLs, branches, push URLs, credentials, add-on settings"
 msgstr ""
+"URL's voor opslagruimte, branches, URL's voor pushen, inloggegevens, "
+"instellingen voor add-ons"
 
 #: security/threat-model.rst:378
 msgid ""
 "Trusted to users with corresponding management permissions. *(documented)* "
 "(source: :doc:`/admin/access`, :doc:`/admin/continuous`)"
 msgstr ""
+"Vertrouwd voor gebruikers met corresponderende rechten voor beheren. *"
+"(documented)* (source: :doc:`/admin/access`, :doc:`/admin/continuous`)"
 
 #: security/threat-model.rst:380
 msgid ""
 "Assign VCS and project management permissions only to trusted users. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"VCS toewijzen en rechten voor beheren van project alleen voor vertrouwde "
+"gebruikers. *(documented)* (source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:382
-#, fuzzy
-#| msgid "Exported repository URL"
 msgid "External repository content"
-msgstr "Geëxporteerde opslagruimte-url"
+msgstr "Externe inhoud opslagruimte"
 
 #: security/threat-model.rst:383
 msgid "Translation files, paths, branch names, commit metadata"
-msgstr ""
+msgstr "Vertaalbestanden, branchnamen, metadata indienen"
 
 #: security/threat-model.rst:384
 msgid ""
 "Yes, if the upstream repository is controlled by another actor. "
 "*(maintainer)*"
 msgstr ""
+"Ja, als de opslagruimte upstream wordt beheerd door een andere acteur. *"
+"(maintainer)*"
 
 #: security/threat-model.rst:386
 msgid ""
 "Trust the configured upstream repository or review imported changes. "
 "*(maintainer)*"
 msgstr ""
+"Vertrouw de geconfigureerde opslagruimte upstream of beoordeel geïmporteerde "
+"wijzigingen. *(maintainer)*"
 
 #: security/threat-model.rst:388
-#, fuzzy
-#| msgid "Project backed up"
 msgid "Project backup import"
-msgstr "Project geback-upt"
+msgstr "Projectback-up importeren"
 
 #: security/threat-model.rst:389
 msgid "ZIP archive members, metadata, translation files, repository state"
-msgstr ""
+msgstr "Leden ZIP-archief, metadata, vertaalbestanden, status opslagruimte"
 
 #: security/threat-model.rst:390
 msgid ""
 "Yes, for whoever can upload or provide the backup. *(documented)* "
 "(source: :ref:`projectbackup`)"
 msgstr ""
+"Ja, voor iedereen die de back-up kan uploaden of verschaffen. *(documented)* "
+"(source: :ref:`projectbackup`)"
 
 #: security/threat-model.rst:391
 msgid ""
 "Keep import limits at values appropriate for the instance. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
+"Houd limieten voor importeren toepasselijk voor de instantie. *(documented)* "
+"(source: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:392
-#, fuzzy
-#| msgid "Machine translation services are now configurable per project."
 msgid "Machine translation and external service configuration"
-msgstr "Services voor machinevertalingen zijn nu per project te configureren."
+msgstr "Machinevertaling en configureren externe service"
 
 #: security/threat-model.rst:393
 msgid "Provider URLs, credentials, model or service settings"
-msgstr ""
+msgstr "URL's voor providers, inloggegevens, instellingen voor model of service"
 
 #: security/threat-model.rst:394
 msgid ""
 "Trusted to administrators or users granted configuration permissions. "
 "*(documented)* (source: :doc:`/admin/machine`, :doc:`/admin/access`)"
 msgstr ""
+"Vertrouwd voor beheerders of gebruikers die rechten voor configuratie "
+"hebben. *(documented)* (source: :doc:`/admin/machine`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:396
 msgid ""
 "Treat configured providers as recipients of the data sent to them; the "
 "submitted content varies by provider and enabled feature. *(maintainer)*"
 msgstr ""
+"Behandel geconfigureerde providers als ontvangers van de aan hen verzonden "
+"gegevens; de ingediende inhoud varieert per provider en ingeschakelde "
+"mogelijkheid. *(maintainer)*"
 
 #: security/threat-model.rst:399
 msgid "Command-line arguments and files supplied by the local operator"
 msgstr ""
+"Argumenten voor de opdrachtregel en bestanden verschaft door de lokale "
+"operator"
 
 #: security/threat-model.rst:400
 msgid ""
 "Trusted local input unless processing Weblate data or project backups. "
 "*(maintainer)*"
 msgstr ""
+"Vertrouwde lokale invoer, tenzij het verwerken van gegevens van Weblate of "
+"projectback-ups. *(maintainer)*"
 
 #: security/threat-model.rst:402
 msgid "Restrict shell access to trusted operators. *(maintainer)*"
-msgstr ""
+msgstr "Beperk toegang van shell tot vertrouwde operators. *(maintainer)*"
 
 #: security/threat-model.rst:404
 msgid "Size and rate assumptions:"
-msgstr ""
+msgstr "Aannames voor grootte en hoeveelheid:"
 
 #: security/threat-model.rst:406
 msgid ""
 "Weblate relies on application and reverse-proxy upload limits for large HTTP "
 "requests. *(documented)* (source: :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)"
 msgstr ""
+"Weblate vertrouwt op uploadlimieten voor toepassing en omgekeerde proxy voor "
+"grote HTTP-verzoeken. *(documented)* (source: "
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)"
 
 #: security/threat-model.rst:408
 msgid ""
@@ -51969,12 +51886,19 @@ msgid ""
 "size, compressed entry size, minimum ratio size, and compression ratio "
 "settings. *(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
+"Projectback-up importeren is gebonden aan het tellen van leden, "
+"samengevoegde niet-gecomprimeerde grootte, gecomprimeerde invoergrootte, "
+"minimale verhoudingsgrootte en instellingen voor compressieverhouding. *"
+"(documented)* (source: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:411
 msgid ""
 "API and selected web actions are expected to be protected by configured rate "
 "limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
 msgstr ""
+"Van API en geselecteerde webacties wordt verwacht dat ze worden beveiligd "
+"door geconfigureerde limieten voor de hoeveelheid. *(documented)* (source: "
+":doc:`/api`, :doc:`/admin/config`)"
 
 #: security/threat-model.rst:413
 msgid ""
@@ -51996,22 +51920,16 @@ msgid "Actor"
 msgstr "Acteur"
 
 #: security/threat-model.rst:424
-#, fuzzy
-#| msgid "Translation types capabilities"
 msgid "In-scope capabilities"
-msgstr "Mogelijkheden typen vertaling"
+msgstr "Mogelijkheden binnen bereik"
 
 #: security/threat-model.rst:425
-#, fuzzy
-#| msgid "Translation types capabilities"
 msgid "Out-of-scope capabilities"
-msgstr "Mogelijkheden typen vertaling"
+msgstr "Mogelijkheden buiten bereik"
 
 #: security/threat-model.rst:426
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "Unauthenticated internet client"
-msgstr "Elke geauthenticeerde gebruiker kan bijdragen."
+msgstr "Niet-geauthenticeerde internetcliënt"
 
 #: security/threat-model.rst:427
 msgid ""
@@ -52031,10 +51949,8 @@ msgstr ""
 "toegang tot interne services. *(maintainer)*"
 
 #: security/threat-model.rst:431
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticated user"
-msgstr "Authenticatie"
+msgstr "Geauthenticeerde gebruiker"
 
 #: security/threat-model.rst:432
 msgid ""
@@ -52045,37 +51961,26 @@ msgstr ""
 "werkstroom. *(documented)* (source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:434
-#, fuzzy
-#| msgid ""
-#| "Lists permissions in reStructuredText as a template for :doc:`/admin/"
-#| "access`."
 msgid ""
 "Act outside assigned permissions without exploiting a Weblate flaw. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Vermeld rechten in reStructuredText als een sjabloon voor :doc:`/admin/"
-"access`."
+"Optreden buiten toegewezen rechten zonder een zwakte in Weblate te "
+"exploiteren. *(documented)* (source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:436
 msgid "Reviewer or project manager"
 msgstr "Beoordelaar of projectbeheerder"
 
 #: security/threat-model.rst:437
-#, fuzzy
-#| msgid ""
-#| "Role-based access control (RBAC) to enforce the least privilege (for "
-#| "example separating translation, review, VCS, translation memory, "
-#| "screenshot, and project access management permissions), see :doc:`/admin/"
-#| "access`."
 msgid ""
 "Exercise delegated project, component, language, review, VCS, translation "
 "memory, screenshot, or access-management permissions. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
-"Op rollen gebaseerde toegangscontrole (RBAC) om het minste recht af te "
-"dwingen (bijv. scheiden van rechten voor vertalen, beoordelen, VCS, "
-"vertaalgeheugen, schermafdruk en voor beheer van projecttoegang), "
-"bekijk :doc:`/admin/access`."
+"Uitvoeren van gedelegeerde rechten voor project, onderdeel, taal, "
+"beoordelen, VCS, vertaalgeheugen, schermafdruk of toegangsbeheer. *"
+"(documented)* (source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:440
 msgid ""
@@ -52106,10 +52011,8 @@ msgstr ""
 "(documented)* (source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:447
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender"
-msgstr "Webhaak geheime wachtwoord"
+msgstr "Webhook-afzender"
 
 #: security/threat-model.rst:448
 msgid ""
@@ -52149,10 +52052,8 @@ msgstr ""
 "protocol van processen van Weblate. *(maintainer)*"
 
 #: security/threat-model.rst:457
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Translator or localization contributor"
-msgstr "Bijgedragen vertalingen"
+msgstr "Bijdrager vertalen of vertaling"
 
 #: security/threat-model.rst:458
 msgid ""
@@ -52171,10 +52072,8 @@ msgstr ""
 "buiten Weblate. *(documented)* (source: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:462
-#, fuzzy
-#| msgid "Boolean operators"
 msgid "Local operator"
-msgstr "Booleaanse operatoren"
+msgstr "Lokale operator"
 
 #: security/threat-model.rst:463
 msgid ""
@@ -52206,49 +52105,34 @@ msgstr ""
 "toepassing zijn verbonden uit te putten. *(maintainer)*"
 
 #: security/threat-model.rst:474
-#, fuzzy
-#| msgid "Supporting Weblate features"
 msgid "Security properties Weblate provides"
-msgstr "Ondersteunende mogelijkheden voor Weblate"
+msgstr "Beveiligingseigenschappen die Weblate verschaft"
 
 #: security/threat-model.rst:479
-#, fuzzy
-#| msgid "Java Properties"
 msgid "Property"
-msgstr "Java-eigenschappen"
+msgstr "Eigenschap"
 
 #: security/threat-model.rst:480
-#, fuzzy
-#| msgid "Configuration"
 msgid "Conditions"
-msgstr "Configuratie"
+msgstr "Omstandigheden"
 
 #: security/threat-model.rst:481
 msgid "Violation symptom"
 msgstr "Symptoom schending"
 
 #: security/threat-model.rst:482
-#, fuzzy
-#| msgid "Severity"
 msgid "Severity tier"
-msgstr "Ernst"
+msgstr "Niveau ernst"
 
 #: security/threat-model.rst:483
-#, fuzzy
-#| msgid ""
-#| "Role-based access control (RBAC) to enforce the least privilege (for "
-#| "example separating translation, review, VCS, translation memory, "
-#| "screenshot, and project access management permissions), see :doc:`/admin/"
-#| "access`."
 msgid ""
 "Web authorization separates site, project, component, language, glossary, "
 "VCS, translation memory, screenshot, review, and access management "
 "permissions. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Op rollen gebaseerde toegangscontrole (RBAC) om het minste recht af te "
-"dwingen (bijv. scheiden van rechten voor vertalen, beoordelen, VCS, "
-"vertaalgeheugen, schermafdruk en voor beheer van projecttoegang), "
-"bekijk :doc:`/admin/access`."
+"Webautorisatie scheidt rechten voor site, project, onderdeel, taal, "
+"woordenlijst, VCS, vertaalgeheugen, schermafdruk, beoordelen en "
+"toegangsbeheer. *(documented)* (source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:486
 msgid "Permission assignments match the intended trust relationship."
@@ -52285,10 +52169,8 @@ msgstr "Token kan buiten het bereik van project of team werken."
 #: security/threat-model.rst:493 security/threat-model.rst:499
 #: security/threat-model.rst:504 security/threat-model.rst:510
 #: security/threat-model.rst:515 security/threat-model.rst:553
-#, fuzzy
-#| msgid "Security"
 msgid "Security-critical."
-msgstr "Beveiliging"
+msgstr "Beveiligingskritiek."
 
 #: security/threat-model.rst:494
 msgid ""
@@ -52348,14 +52230,10 @@ msgstr ""
 "voor opslagruimte en geconfigureerde inloggegevens."
 
 #: security/threat-model.rst:509
-#, fuzzy
-#| msgid ""
-#| "**Command injection:** Arbitrary code execution due to improper input "
-#| "validation in repository URLs or add-ons."
 msgid "Command injection or arbitrary code execution as the Weblate user."
 msgstr ""
-"**Injecteren van opdrachten:** Willekeurig uitvoeren van code vanwege "
-"onjuist valideren van invoer in de URL's van de opslagruimte of add-ons."
+"Injecteren van opdrachten of willekeurig uitvoeren van code als de gebruiker "
+"Weblate."
 
 #: security/threat-model.rst:511
 msgid ""
@@ -52390,12 +52268,8 @@ msgstr ""
 ":ref:`projectbackup`)"
 
 #: security/threat-model.rst:518
-#, fuzzy
-#| msgid "Default dashboard for unauthenticated users can be configured."
 msgid "Defaults or stricter limits remain configured."
-msgstr ""
-"Standaard dashboard voor niet geauthenticeerde gebruikers kan worden "
-"geconfigureerd."
+msgstr "Standaarden of striktere limieten blijven geconfigureerd."
 
 #: security/threat-model.rst:519
 msgid ""
@@ -52589,10 +52463,16 @@ msgid ""
 "boundary. *(documented)* (source: :doc:`/security/localization-"
 "threat`, :doc:`/user/checks`)"
 msgstr ""
+"Weblate garandeert niet dat vertaalinhoud veilig is indien gekopieerd naar "
+"een lagergelegen product, zonder het eigen escapen, valideren of beoordelen "
+"van dat product. Vertaalcontroles en werkstromen voor beoordelen helpen de "
+"kwaliteit en risico van de vertaling te beheren; ze zijn geen volledige "
+"grens voor de beveiliging van de lagergelegen toepassing. *(documented)* "
+"(source: :doc:`/security/localization-threat`, :doc:`/user/checks`)"
 
 #: security/threat-model.rst:584
 msgid "False friends:"
-msgstr ""
+msgstr "Valse vrienden:"
 
 #: security/threat-model.rst:586
 msgid ""
@@ -52600,6 +52480,10 @@ msgid ""
 "user granted VCS or project management permissions can intentionally "
 "configure integrations within that role's power. *(maintainer)*"
 msgstr ""
+"Rechten voor Weblate zijn autorisatie voor de toepassing, geen zandbak voor "
+"een host. Aan gebruikers gegeven rechten voor het beheren van VCS of project "
+"kunnen opzettelijk integraties configureren binnen de kracht van die rol. *"
+"(maintainer)*"
 
 #: security/threat-model.rst:589
 msgid ""
@@ -52607,6 +52491,9 @@ msgid ""
 "the legitimate forge when the integration does not authenticate the "
 "delivery. *(maintainer)*"
 msgstr ""
+"Webhaakovereenkomsten voor project en parsen van gebeurtenissen zijn geen "
+"bewijs dat de afzender de legitieme bron is als de integratie de aflevering "
+"niet authenticeert. *(maintainer)*"
 
 #: security/threat-model.rst:592
 msgid ""
@@ -52615,6 +52502,10 @@ msgid ""
 "*(documented)* (source: :doc:`/user/checks`, :doc:`/security/localization-"
 "threat`)"
 msgstr ""
+"Vertaalcontroles ontdekken veelvoorkomende problemen met kwaliteit en "
+"indeling; ze zijn geen garantie dat vertaalde tekenreeksen veilig zijn voor "
+"elke lagergelegen renderer. *(documented)* (source: :doc:`/user/checks`, "
+":doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:596
 msgid ""
@@ -52622,18 +52513,27 @@ msgid ""
 "Weblate does not add a separate cryptographic guarantee for Borg internals. "
 "*(documented)* (source: :doc:`/admin/backup`)"
 msgstr ""
+"Versleuteling voor BorgBackup beschermt archieven voor back-ups "
+"overeenkomstig het ontwerp van Borg; Weblate voegt geen afzonderlijke "
+"cryptografische garantie toe voor internen van Borg. *(documented)* (source: "
+":doc:`/admin/backup`)"
 
 #: security/threat-model.rst:599
 msgid ""
 "Rate limits reduce abuse of configured endpoints; they are not a guarantee "
 "of availability under volumetric network attacks. *(maintainer)*"
 msgstr ""
+"Limieten voor lading verkleinen misbruik van geconfigureerde eindpunten; ze "
+"zijn geen garantie van beschikbaarheid onder volumetrische netwerkaanvallen. "
+"*(maintainer)*"
 
 #: security/threat-model.rst:602
 msgid ""
 "Well-known attack classes left partly or wholly to deployment or downstream "
 "systems:"
 msgstr ""
+"Bekende achtergelaten hele of gedeeltelijke klassen van aanvallen voor "
+"uitrollen of lagergelegen systemen:"
 
 #: security/threat-model.rst:605
 msgid ""
@@ -52641,6 +52541,9 @@ msgid ""
 "2FA, but Weblate cannot prevent users from disclosing credentials outside "
 "the service. *(maintainer)*"
 msgstr ""
+"Phishing en hergebruik van inloggegevens wordt verminderd door beleid voor "
+"authenticatie en 2FA, maar Weblate kan niet voorkomen dat gebruikers "
+"inloggegevens onthullen buiten de service. *(maintainer)*"
 
 #: security/threat-model.rst:608
 msgid ""
@@ -52648,6 +52551,9 @@ msgid ""
 "problems in downstream applications that render them unsafely. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Kwaadwillende vertalingen kunnen XSS, tekenreeks voor opmaak, opdracht of "
+"beleidsproblemen in lagergelegen toepassingen worden die deze niet veilig "
+"renderen. *(documented)* (source: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:610
 msgid ""
@@ -52656,6 +52562,11 @@ msgid ""
 "allowlists, proxies, and administrator-controlled configuration can "
 "intentionally expand reachability. *(maintainer)*"
 msgstr ""
+"Door gebruiker te configureren uitgaande URL's oppervlakken met "
+"gedocumenteerde beperkingen voor private-doel weigeren standaard interne of "
+"niet-publieke doelen; geprivilegieerde toegestane lijsten, proxy's en een "
+"door beheerders beheerde configuratie kunnen bereikbaarheid opzettelijk "
+"uitbreiden. *(maintainer)*"
 
 #: security/threat-model.rst:614
 msgid ""
@@ -52663,12 +52574,13 @@ msgid ""
 "require deployment sizing and operational limits beyond Weblate's single-"
 "input validation. *(maintainer)*"
 msgstr ""
+"Grote geschiedenissen van opslagruimte, projectschaal en volume van "
+"achtergrondtaken vereisen het op maat brengen van uitrollen en operationele "
+"limieten buiten het valideren van enkele-invoer van Weblate. *(maintainer)*"
 
 #: security/threat-model.rst:619
-#, fuzzy
-#| msgid "Roles and responsibilities"
 msgid "Downstream responsibilities"
-msgstr "Rollen en verantwoordelijkheden"
+msgstr "Lagergelegen verantwoordelijkheden"
 
 #: security/threat-model.rst:621
 msgid ""
@@ -52677,6 +52589,10 @@ msgid ""
 "*(documented)* (source: :doc:`/admin/"
 "install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 msgstr ""
+"Operators moeten Weblate uitrollen achter productiegraads HTTPS met correcte "
+"proxy-headers, hostnamen, limieten voor grootte van verzoeken en gedrag van "
+"veilige cookies. *(documented)* (source: :doc:`/admin/install`, "
+":setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 
 #: security/threat-model.rst:626
 msgid ""
@@ -52684,6 +52600,10 @@ msgid ""
 "and project management permissions according to least privilege for their "
 "organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)"
 msgstr ""
+"Operators moeten teams toewijzen, rollen, tokens binnen het bereik project, "
+"inloggegevens voor VCS en rechten voor projectbeheer overeenkomstig het "
+"minste privilege voor hun organisatie. *(documented)* (source: :doc:`/admin/"
+"access`, :doc:`/api`)"
 
 #: security/threat-model.rst:630
 msgid ""
@@ -52691,6 +52611,10 @@ msgid ""
 "provide deployment controls such as reverse-proxy rate limits, body-size "
 "limits, monitoring, and optional source restrictions. *(maintainer)*"
 msgstr ""
+"Operators die :ref:`hooks` weergeven moeten die alleen inschakelen waar "
+"nodig en uitrolbeheer verschaffen, zoals hoeveelheidslimieten voor "
+"omgekeerde proxy, limieten voor blokteksten, monitoren en optionele "
+"beperkingen voor bron. *(maintainer)*"
 
 #: security/threat-model.rst:634
 msgid ""
@@ -52698,6 +52622,10 @@ msgid ""
 "outbound integration settings as intentional expansion of Weblate's default "
 "network reachability limits. *(maintainer)*"
 msgstr ""
+"Operators moeten toegestane lijsten voor private-doel, proxy's en "
+"instellingen voor geprivilegieerde uitgaande integratie behandelen als "
+"opzettelijke uitbreiding van de limieten van Weblate standaard "
+"netwerkbereikbaarheid. *(maintainer)*"
 
 #: security/threat-model.rst:638
 msgid ""
@@ -52705,6 +52633,10 @@ msgid ""
 "limits at values that match instance capacity and exposure. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
+"Operators moeten limieten voor importeren van back-ups, limieten voor "
+"hoeveelheid API en limieten voor hoeveelheid web bijhouden op waarden die "
+"overeenkomen met de capaciteit van de instantie en de weergave. *(documented)"
+"* (source: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:641
 msgid ""
@@ -52713,6 +52645,10 @@ msgid ""
 "trusted infrastructure. *(documented)* (source: :doc:`/admin/backup`, :doc:`/"
 "admin/install`)"
 msgstr ""
+"Operators moeten de gegevensmap van Weblate, configuratie, inloggegevens "
+"voor back-up, gemaakte sleutels, database, gegevensopslag en lokale toegang "
+"voor shell beveiligen als een vertrouwde infrastructuur. *(documented)* "
+"(source: :doc:`/admin/backup`, :doc:`/admin/install`)"
 
 #: security/threat-model.rst:646
 msgid ""
@@ -52721,12 +52657,14 @@ msgid ""
 "validated them for the target renderer. *(documented)* (source: :doc:`/"
 "security/localization-threat`)"
 msgstr ""
+"Lagergelegen productteams moeten vertaalde tekenreeksen in hun eigen "
+"toepassingen behandelen als niet vertrouwde inhoud, tenzij ze deze "
+"afzonderlijk hebben beoordeeld, geëscapet en gevalideerd voor de "
+"doelrenderer. *(documented)* (source: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:651
-#, fuzzy
-#| msgid "Source file patterns"
 msgid "Known misuse patterns"
-msgstr "Bronbestand patronen"
+msgstr "Bekende patronen misbruik"
 
 #: security/threat-model.rst:653
 msgid ""
@@ -52735,6 +52673,11 @@ msgid ""
 "some supported hooks are compatibility-oriented. Use deployment controls and "
 "prefer authenticated integrations where available. *(maintainer)*"
 msgstr ""
+"Breed weergeven van eindpunten van webhaken, inschakelen van projecthaken en "
+"vertrouwen op ladingen van webhaken als geauthenticeerd vervalsen "
+"identiteit. Dat is niet veilig, omdat sommige ondersteunde haken "
+"compatibiliteit-georiënteerd zijn. Gebruik besturingselementen voor uitrol "
+"en bij voorkeur geauthenticeerde integraties waar beschikbaar. *(maintainer)*"
 
 #: security/threat-model.rst:657
 msgid ""
@@ -52743,6 +52686,11 @@ msgid ""
 "permissions can affect repositories, credentials, or other users. Assign "
 "narrower roles. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Toewijzen van rechten voor projectbeheer, VCS of toegangsbeheer aan "
+"gebruikers die alleen als vertalers worden vertrouwd. Dat is niet veilig "
+"omdat die rechten invloed kunnen hebben op opslagruimten, inloggegevens of "
+"andere gebruikers. Wijs nauwere rollen toe. *(documented)* (source: :doc:`/"
+"admin/access`)"
 
 #: security/threat-model.rst:661
 msgid ""
@@ -52753,6 +52701,12 @@ msgid ""
 "Configure providers according to the data policy for the project. "
 "*(maintainer)*"
 msgstr ""
+"Verzenden van gevoelige brontekenreeksen of private klantinhoud naar "
+"providers voor machinevertaling zonder de provider te behandelen als een "
+"ontvanger van gegevens. Dat is niet veilig omdat Weblate inhoud moet "
+"verzenden naar de geconfigureerde service en de ingediende inhoud varieert "
+"per provider en ingeschakelde mogelijkheid. Configureer providers "
+"overeenkomstig het gegevensbeleid voor het project. *(maintainer)*"
 
 #: security/threat-model.rst:666
 msgid ""
@@ -52762,6 +52716,11 @@ msgid ""
 "import only backups appropriate for the target instance. *(documented)* "
 "(source: :doc:`/admin/backup`)"
 msgstr ""
+"Importeren van projectback-ups van niet-vertrouwde bronnen als "
+"administratief gemak. Dat is niet veilig, omdat back-ups projectmetadata "
+"bevatten, vertaalinhoud en status van de opslagruimte. Houd limieten voor "
+"importeren ingeschakeld en importeer alleen back-ups die toepasselijk zijn "
+"voor de doelinstantie. *(documented)* (source: :doc:`/admin/backup`)"
 
 #: security/threat-model.rst:670
 msgid ""
@@ -52771,10 +52730,15 @@ msgid ""
 "translations in the consuming application. *(documented)* (source: :doc:`/"
 "security/localization-threat`)"
 msgstr ""
+"Behandelen van vertaalcontroles van Weblate als bewijs dat lagergelegen "
+"toepassingen niet kunnen worden aangevallen via vertaalde tekenreeksen. Dit "
+"is niet veilig, omdat de lagergelegen renderer de uiteindelijke context voor "
+"uitvoeren definieert. Beoordeel en escape vertalingen in de toepassing die "
+"ze opneemt. *(documented)* (source: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:676
 msgid "Known non-findings"
-msgstr ""
+msgstr "Bekende niet-uitkomsten"
 
 #: security/threat-model.rst:678
 msgid ""
@@ -52783,6 +52747,11 @@ msgid ""
 "is routed to ``VALID-HARDENING`` unless it bypasses documented limits, leaks "
 "data, or causes effects beyond modeled scheduling. *(maintainer)*"
 msgstr ""
+"Een rapport dat een bereikbare webhaak kan worden aangeroepen met vervalste "
+"authenticatie en alleen planning van gemodelleerde bijwerking activeert, is "
+"op zichzelf niet ``VALID``. Het wordt gerouteerd naar ``VALID-HARDENING``, "
+"tenzij het gedocumenteerde limieten omzeilt, gegevens lekt of effecten "
+"veroorzaakt buiten de gemodelleerde planning. *(maintainer)*"
 
 #: security/threat-model.rst:682
 msgid ""
@@ -52791,6 +52760,10 @@ msgid ""
 "has the documented permission for that action. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
+"Een rapport dat een projectbeheerder instellingen voor opslagplaats kan "
+"wijzigen, VCS-inloggegevens of projectconfiguratie is geen kwetsbaarheid als "
+"de acteur voor die actie de gedocumenteerde rechten heeft. *(documented)* "
+"(source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:685
 msgid ""
@@ -52798,6 +52771,9 @@ msgid ""
 "vulnerability unless the report shows Weblate's permission or installation "
 "boundaries are bypassed. *(maintainer)*"
 msgstr ""
+"Een rapport tegen het gedrag van add-on van derde partij is geen "
+"kwetsbaarheid van de bron van Weblate, tenzij het rapport aantoont dat "
+"rechten van Weblate of grenzen voor installatie zijn omzeilt. *(maintainer)*"
 
 #: security/threat-model.rst:688
 msgid ""
@@ -52805,6 +52781,9 @@ msgid ""
 "management commands, or alter files is out of model because local operators "
 "are trusted infrastructure. *(maintainer)*"
 msgstr ""
+"Een rapport dat een kwaadwillende lokale operator de configuratie kan lezen, "
+"beheersopdrachten kan uitvoeren of bestanden kan wijzigen, liggen buiten het "
+"model, omdat lokale operators vertrouwde infrastructuur zijn. *(maintainer)*"
 
 #: security/threat-model.rst:691
 msgid ""
@@ -52813,10 +52792,15 @@ msgid ""
 "property while storing, checking, reviewing, or displaying that translation. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Een rapport dat een lagergelegen toepassing een gevaarlijke vertaling "
+"rendert, is geen kwetsbaarheid van Weblate, tenzij Weblate zelf een "
+"geclaimde eigenschap schendt bij het opslaan, controleren, beoordelen of "
+"weergeven van die vertaling. *(documented)* (source: :doc:`/security/"
+"localization-threat`)"
 
 #: security/threat-model.rst:697
 msgid "Conditions that change this model"
-msgstr ""
+msgstr "Omstandigheden die dit model wijzigen"
 
 #: security/threat-model.rst:699
 msgid ""
@@ -52827,6 +52811,14 @@ msgid ""
 "rate limits, CSP, private-network access, or backup import limits. "
 "*(maintainer)*"
 msgstr ""
+"Reviseer dit model wanneer Weblate een nieuwe familie voor een publiek "
+"eindpunt, een nieuwe authenticatie of modus voor token, een nieuwe "
+"standaardmodus voor uitrollen, een nieuwe indeling voor back-up of "
+"importeren, een nieuw uitvoeringspad voor VCS, een nieuwe uitgaande klasse "
+"voor integratie, een nieuwe mogelijkheid voor uitvoeren van add-on toevoegt "
+"of bij een wijziging aan standaarden voor haken, HTTPS, limieten voor "
+"hoeveelheden, CSP, toegang tot private-netwerk of limieten voor importeren "
+"van back-ups. *(maintainer)*"
 
 #: security/threat-model.rst:705
 msgid ""
@@ -52835,41 +52827,42 @@ msgid ""
 "maintainers accept a vulnerability report that cannot be routed to a triage "
 "disposition below. *(maintainer)*"
 msgstr ""
+"Reviseer dit model wanneer een niet-ondersteund onderdeel een ondersteund "
+"productoppervlak wordt, wanneer een gedocumenteerde beveiligingseigenschap "
+"wordt verwijderd of beperkt, of wanneer onderhouders een "
+"kwetsbaarheidsrapport accepteren dat niet kan worden gerouteerd naar een "
+"triage-instelling hieronder. *(maintainer)*"
 
 #: security/threat-model.rst:711
-#, fuzzy
-#| msgid "Language definitions"
 msgid "Triage dispositions"
-msgstr "Taaldefinities"
+msgstr "Triage-instellingen"
 
 #: security/threat-model.rst:716
-#, fuzzy
-#| msgid "Definition"
 msgid "Disposition"
-msgstr "Definitie"
+msgstr "Instelling"
 
 #: security/threat-model.rst:717
-#, fuzzy
-#| msgid "Warning"
 msgid "Meaning"
-msgstr "Waarschuwing"
+msgstr "Betekenis"
 
 #: security/threat-model.rst:718
-#, fuzzy
-#| msgid "License"
 msgid "Licensed by"
-msgstr "Licentie"
+msgstr "Gelicenseerd door"
 
 #: security/threat-model.rst:720
 msgid ""
 "Violates a property Weblate claims, through an in-scope actor and input."
 msgstr ""
+"Schendt een eigenschap die Weblate claimt, via een in-bereik acteur en "
+"invoer."
 
 #: security/threat-model.rst:721
 msgid ""
 "`Security properties Weblate provides`_, `Input assumptions`_, `Adversary "
 "model`_"
 msgstr ""
+"`Security properties Weblate provides`_, `Input assumptions`_, `Adversary "
+"model`_"
 
 #: security/threat-model.rst:724
 msgid ""
@@ -52877,77 +52870,82 @@ msgid ""
 "misuse risk, such as compatibility webhook triggering that stays within "
 "modeled effects."
 msgstr ""
+"Geen geclaimde eigenschap wordt geschonden, maar Weblate kiest ervoor om een "
+"bekend risico voor misbruik te beperken, zoals activeren van compatibiliteit "
+"voor webhaak die binnen de gemodelleerde effecten blijft."
 
 #: security/threat-model.rst:727
 msgid ""
 "`Known misuse patterns`_, `Security properties Weblate does not provide`_"
 msgstr ""
+"`Known misuse patterns`_, `Security properties Weblate does not provide`_"
 
 #: security/threat-model.rst:729
 msgid "Requires attacker control of input this model marks trusted."
 msgstr ""
+"Vereist beheer door een aanvaller of invoer die dit model als vertrouwd "
+"aanmerkt."
 
 #: security/threat-model.rst:730
-#, fuzzy
-#| msgid "Key Assumptions"
 msgid "`Input assumptions`_"
-msgstr "Belangrijkste aannames"
+msgstr "`Aannames voor invoer`_"
 
 #: security/threat-model.rst:732
 msgid "Requires a capability this model excludes."
-msgstr ""
+msgstr "Vereist een mogelijkheid die dit model uitsluit."
 
 #: security/threat-model.rst:733
 msgid "`Adversary model`_"
-msgstr ""
+msgstr "`Tegenhanger model`_"
 
 #: security/threat-model.rst:735
 msgid ""
 "Lands in third-party add-ons, generated docs, tests, local customization, or "
 "another component marked out of scope."
 msgstr ""
+"Land in add-ons van derde partijen, gemaakte documenten, testen, lokale "
+"aanpassingen of een ander onderdeel dat als buiten bereik wordt aangemerkt."
 
 #: security/threat-model.rst:737
 msgid "`Out of scope`_"
-msgstr ""
+msgstr "`Out of scope`_"
 
 #: security/threat-model.rst:739
 msgid ""
 "Manifests only after deployment choices that knowingly remove a claimed "
 "property."
 msgstr ""
+"Manifesteert zich alleen na keuzes voor uitrollen die willens en wetens een "
+"geclaimde eigenschap verwijderen."
 
 #: security/threat-model.rst:741
-#, fuzzy
-#| msgid "Number of configuration errors"
 msgid "`Build-time and configuration variants`_"
-msgstr "Aantal configuratiefouten"
+msgstr "`Bouwtijd en varianten configuratie`_"
 
 #: security/threat-model.rst:743
-#, fuzzy
-#| msgid "Controls how prominently Weblate exposes its own version."
 msgid "Concerns a property Weblate explicitly does not provide."
-msgstr "Beheert hoe prominent Weblate zijn eigen versie weergeeft."
+msgstr ""
+"Heeft betrekking op een eigenschap die Weblate niet expliciet verschaft."
 
 #: security/threat-model.rst:744
 msgid "`Security properties Weblate does not provide`_"
-msgstr ""
+msgstr "`Security properties Weblate does not provide`_"
 
 #: security/threat-model.rst:746
 msgid "Matches a documented recurring false positive."
-msgstr ""
+msgstr "Komt overeen met een herhalende valse positieve."
 
 #: security/threat-model.rst:747
 msgid "`Known non-findings`_"
-msgstr ""
+msgstr "`Known non-findings`_"
 
 #: security/threat-model.rst:749
 msgid "Cannot be cleanly routed to any disposition above."
-msgstr ""
+msgstr "Kan niet netjes worden gerouteerd naar enige instelling hierboven."
 
 #: security/threat-model.rst:750
 msgid "`Conditions that change this model`_"
-msgstr ""
+msgstr "`Omstandigheden die dit model wijzigen`_"
 
 #: security/us-compliance.rst:2
 msgid "US controls compliance"
@@ -54106,10 +54104,8 @@ msgid "Component setting changed"
 msgstr "Instelling onderdeel gewijzigd"
 
 #: snippets/addon-parameters-autogenerated.rst:407
-#, fuzzy
-#| msgid "License changed"
 msgid "User access changed"
-msgstr "Licentie gewijzigd"
+msgstr "Toegang gebruiker gewijzigd"
 
 #: snippets/addons-autogenerated.rst:6
 msgid "Built-in add-ons"
@@ -54220,19 +54216,14 @@ msgstr ""
 "moeten worden doorzocht op vertaalbare tekenreeksen."
 
 #: snippets/addons-autogenerated.rst:82
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
 "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, "
+":ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-"
+"remove`, :ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:84
 msgid ""
@@ -54298,19 +54289,14 @@ msgid "`This add-on has no configuration.`"
 msgstr "`Deze add-on heeft geen configuratie.`"
 
 #: snippets/addons-autogenerated.rst:126
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-#| "daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-"
-"daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, "
+":ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-"
+"remove`, :ref:`addon-event-repository-post-update`"
 
 #: snippets/addons-autogenerated.rst:128
 msgid "Publishes translation files into a content delivery network."
@@ -54327,6 +54313,15 @@ msgid ""
 "the source language file, while bilingual components publish only target-"
 "language files. See :ref:`cdn-server-security` for secure serving guidance."
 msgstr ""
+"Publiceert vertaalbestanden zonder ze te converteren naar een andere "
+"indeling. Bestanden worden weggeschreven onder de add-onspecifieke map voor "
+"CDN en geserveerd vanuit ``LOCALIZE_CDN_URL/<add-on UUID>/``. Vertalingen in "
+"enkele bestanden gebruiken de taalcode en de originele bestandsextensie, "
+"bijvoorbeeld ``cs.json`` of ``de.po``. Vertalingen met meerdere bestanden "
+"worden geserveerd onder de taalcode met relatieve paden naar de vertaalmap. "
+"Eentalige onderdelen bevatten het brontaalbestand, terwijl tweetalige "
+"onderdelen alleen doeltaalbestanden publiceren. Bekijk :ref:`cdn-server-"
+"security` voor richtlijnen voor veilig serveren."
 
 #: snippets/addons-autogenerated.rst:147
 msgid "Remove blank strings"
@@ -58164,7 +58159,7 @@ msgstr "Eenvoudige opmaak voor tekenreeks"
 
 #: snippets/checks-autogenerated.rst:979
 msgid ":ref:`Python brace format <python:formatstrings>`"
-msgstr ":ref:`Python brace format <python:formatstrings>`"
+msgstr ":ref:`Python indeling haakjes <python:formatstrings>`"
 
 #: snippets/checks-autogenerated.rst:980 snippets/checks-autogenerated.rst:1007
 msgid ""
@@ -58184,7 +58179,7 @@ msgstr "De tekenreeks voor opmaak van Python komt niet overeen met de bron."
 
 #: snippets/checks-autogenerated.rst:1006
 msgid ":ref:`Python string formatting <python:old-string-formatting>`"
-msgstr ":ref:`Python string formatting <python:old-string-formatting>`"
+msgstr ":ref:`Python opmaak tekenreeks <python:old-string-formatting>`"
 
 #: snippets/checks-autogenerated.rst:1015
 msgid "Qt format"
@@ -59270,17 +59265,10 @@ msgid "URL"
 msgstr "URL"
 
 #: snippets/checks-autogenerated.rst:2113
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "De vertaling bevat geen URL."
 
 #: snippets/checks-autogenerated.rst:2123
-#, fuzzy
-#| msgid ""
-#| "The translation does not contain an URL. This is triggered only in case "
-#| "the unit is marked as containing URL. In that case the translation has to "
-#| "be a valid URL."
 msgid ""
 "The translation does not contain a URL. This is triggered only in case the "
 "unit is marked as containing URL. In that case the translation has to be a "
@@ -59442,12 +59430,6 @@ msgstr ""
 "bij het gebruiken van het Fluent DOM-pakket."
 
 #: snippets/checks-autogenerated.rst:2268
-#, fuzzy
-#| msgid ""
-#| "The aim of this check is to predict how the value will be parsed as inner "
-#| "HTML, assuming a HTML5 conforming parser, to catch cases where there "
-#| "would be some \"unintended\" loss of the string, without being too strict "
-#| "about technical parsing errors that do *not* lead to a loss of the string."
 msgid ""
 "The aim of this check is to predict how the value will be parsed as inner "
 "HTML, assuming an HTML5 conforming parser, to catch cases where there would "
@@ -59475,14 +59457,6 @@ msgstr ""
 "alleen verwezen kan worden in de selectoren van Fluent Select Expressions."
 
 #: snippets/checks-autogenerated.rst:2279
-#, fuzzy
-#| msgid ""
-#| "Generally, most Fluent values are not expected to contain any HTML "
-#| "markup. Therefore, this check does not expect or want translators and "
-#| "developers to have to care about strictly avoiding *any* technical HTML5 "
-#| "parsing errors (let alone XHTML parsing errors). Instead, this check will "
-#| "just want to warn them when they may have unintentionally opened a HTML "
-#| "tag or inserted a character reference."
 msgid ""
 "Generally, most Fluent values are not expected to contain any HTML markup. "
 "Therefore, this check does not expect or want translators and developers to "
@@ -59567,26 +59541,20 @@ msgid "Missing a closing tag."
 msgstr "Tag voor sluiten ontbreekt."
 
 #: snippets/checks-autogenerated.rst:2317
-#, fuzzy
-#| msgid "``four`` is not a HTML void element, so should not self-close."
 msgid "``four`` is not an HTML void element, so should not self-close."
-msgstr "``four`` is geen element HTML void, dus zou niet zelf sluiten."
+msgstr "``four`` is geen HTML-void-element, dus zou niet zelf sluiten."
 
 #: snippets/checks-autogenerated.rst:2321
 msgid "Custom element tag with a matching closing tag."
 msgstr "Aangepaste tag voor element met een overeenkomende sluitingstag."
 
 #: snippets/checks-autogenerated.rst:2325
-#, fuzzy
-#| msgid "``img`` is a HTML void element. Self-closing is allowed."
 msgid "``img`` is an HTML void element. Self-closing is allowed."
-msgstr "``img`` is een element HTML void. Zelf sluiten is toegestaan."
+msgstr "``img`` is een HTML-void-element. Zelf sluiten is toegestaan."
 
 #: snippets/checks-autogenerated.rst:2329
-#, fuzzy
-#| msgid "``br`` is a HTML void element."
 msgid "``br`` is an HTML void element."
-msgstr "``br`` is een element HTML void."
+msgstr "``br`` is een HTML-void-element."
 
 #: snippets/checks-autogenerated.rst:2333
 msgid "The attribute value is not quoted."
@@ -60887,18 +60855,15 @@ msgstr "Zowel enkeltalige als tweetalige"
 #: snippets/format-features/resourcedictionary-features.rst:27
 #: snippets/format-features/strings-features.rst:27
 #: snippets/format-features/stringsdict-features.rst:27
-#, fuzzy
-#| msgid "Inherited flags can now be discarded, see :ref:`custom-checks`."
 msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
 msgstr ""
-"Geërfde vlaggen kunnen nu worden genegeerd, bekijk :ref:`custom-checks`."
+"Controleer vlaggen die zijn toegevoegd door deze indeling :ref:`ⓘ <custom-"
+"checks>`"
 
 #: snippets/format-features/asciidoc-features.rst:28
 #: snippets/format-features/html-features.rst:28
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid ":ref:`check-safe-html`, ``strict-same``"
-msgstr "Sla de kwaliteitscontrole :ref:`check-safe-html` over."
+msgstr ":ref:`check-safe-html`, ``strict-same``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -60930,6 +60895,10 @@ msgid ""
 "references`, :ref:`check-fluent-source-inner-html`, :ref:`check-fluent-"
 "target-inner-html`, ``ignore-xml-tags``, ``ignore-xml-invalid``"
 msgstr ""
+":ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-syntax`, "
+":ref:`check-fluent-parts`, :ref:`check-fluent-references`, :ref:`check-"
+"fluent-source-inner-html`, :ref:`check-fluent-target-inner-html`, ``ignore-"
+"xml-tags``, ``ignore-xml-invalid``"
 
 #: snippets/format-features/go-i18n-json-features.rst:24
 msgid "``go-i18n-json``, ``go-i18n-json-v2``"
@@ -60941,10 +60910,8 @@ msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/markdown-features.rst:28
 #: snippets/format-features/mdx-features.rst:28
-#, fuzzy
-#| msgid "``auto-safe-html``, ``safe-html``"
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
-msgstr "``auto-safe-html``, ``safe-html``"
+msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -64073,15 +64040,11 @@ msgstr ""
 "het :guilabel:`Instellingen`."
 
 #: user/profile.rst:63
-#, fuzzy
-#| msgid ""
-#| "The user profile contains your preferences. Name and e-mail address is "
-#| "used in VCS commits, so keep this info accurate."
 msgid ""
 "The user profile contains your preferences. Name and e-mail address are used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
-"Het gebruikersprofiel bevat uw voorkeuren. Naam en e-mailadres wordt "
+"Het gebruikersprofiel bevat uw voorkeuren. Naam en e-mailadres worden "
 "gebruikt voor indieningen bij het VCS, houd deze informatie dus nauwkeurig "
 "bij."
 
@@ -64255,6 +64218,9 @@ msgid ""
 "summarizes added, updated, translated, approved, needs editing, and "
 "unfinished strings."
 msgstr ""
+"De notificatie :guilabel:`Overzicht vertaalactiviteiten` is alleen-digest en "
+"vat toegevoegde, bijgewerkte, vertaalde, goedgekeurde, Bewerken nodig en nog "
+"niet afgeronde tekenreeksen samen."
 
 #: user/profile.rst:177
 msgid ""
@@ -64623,6 +64589,9 @@ msgid ""
 "search for strings with at least one content change without a recorded "
 "author."
 msgstr ""
+"Tekenreeks werd gewijzigd door de auteur met de opgegeven gebruikersnaam. "
+"Gebruik ``changed_by:\"\"`` om te zoeken naar tekenreeksen met ten minste "
+"een wijziging in de inhoud zonder een vastgelegde auteur."
 
 #: user/search.rst:86
 msgid ""
@@ -64665,6 +64634,9 @@ msgid ""
 "When combining ``changed_by``, ``changed``, ``change_time``, and "
 "``change_action`` filters, the filters apply to the same change event."
 msgstr ""
+"Indien gecombineerd met de filters ``changed_by``, ``changed``, "
+"``change_time`` en ``change_action``, zijn de filters van toepassing op "
+"dezelfde gebeurtenis van wijzigen."
 
 #: user/search.rst:101
 msgid ""
@@ -65927,15 +65899,11 @@ msgstr ""
 "uitvoeren."
 
 #: user/translating.rst:429
-#, fuzzy
-#| msgid ""
-#| "Default limits and fine-tuning is described in the administrative manual, "
-#| "see :ref:`rate-limit`."
 msgid ""
 "Default limits and fine-tuning are described in the administrative manual, "
 "see :ref:`rate-limit`."
 msgstr ""
-"Standaard limieten en fijn afstemmen wordt beschreven in de handleiding voor "
+"Standaardlimieten en fijn afstemmen worden beschreven in de handleiding voor "
 "beheerders, bekijk :ref:`rate-limit`."
 
 #: user/translating.rst:435
@@ -66203,14 +66171,6 @@ msgstr ""
 "daarvan :ref:`hosted-push`."
 
 #: vcs.rst:77
-#, fuzzy
-#| msgid ""
-#| "For self-hosted Weblate, accessing repositories on code hosting sites is "
-#| "typically done by creating a dedicated user who is associated with a "
-#| "Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
-#| "Weblate SSH key with a single user (platforms frequently enforce single "
-#| "use of a SSH key) and grant this user access to the repository. You can "
-#| "then use SSH URL to access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For self-hosted Weblate, accessing repositories on code hosting sites is "
 "typically done by creating a dedicated user who is associated with a Weblate "
@@ -66219,14 +66179,13 @@ msgid ""
 "and grant this user access to the repository. You can then use SSH URL to "
 "access the repository (see :ref:`ssh-repos`)."
 msgstr ""
-"Voor zelf gehoste Weblate, toegang tot opslagruimten van sites voor het "
-"hosten van code wordt gewoonlijk gedaan door een aangewezen gebruiker te "
-"maken die wordt geassocieerd met een Weblate SSH-sleutel "
-"(bekijk :ref:`weblate-ssh-key`). Op deze manier associeert u de Weblate SSH-"
-"sleutel aan een enkele gebruiker (platforms dwingen vaak het eenmalig "
-"gebruik van een SSH-sleutel af) en geeft deze gebruiker toegang tot de "
-"opslagruimte. U kunt dan de URL van SSH gebruiken voor toegang tot de "
-"opslagruimte (bekijk :ref:`ssh-repos`)."
+"Voor zelfgehoste Weblate wordt toegang tot opslagruimten van sites voor het "
+"hosten van code gewoonlijk gedaan door een aangewezen gebruiker te maken die "
+"wordt geassocieerd met een Weblate SSH-sleutel (bekijk :ref:`weblate-ssh-"
+"key`). Op deze manier associeert u de Weblate SSH-sleutel aan een enkele "
+"gebruiker (platforms dwingen vaak het eenmalig gebruik van een SSH-sleutel "
+"af) en geeft deze gebruiker toegang tot de opslagruimte. U kunt dan de URL "
+"van SSH gebruiken voor toegang tot de opslagruimte (bekijk :ref:`ssh-repos`)."
 
 #: vcs.rst:87
 msgid "SSH repositories"
