@@ -22,7 +22,9 @@ if TYPE_CHECKING:
     )
 
 
-def sorted_handlers(handlers: Iterable[Notification]) -> Iterable[Notification]:
+def sorted_handlers(
+    handlers: Iterable[type[Notification]],
+) -> Iterable[type[Notification]]:
     return sorted(handlers, key=lambda handler: handler.__name__)
 
 
@@ -41,9 +43,9 @@ class Command(DocGeneratorCommand):
         self.add_section("notification-scopes", scope_content)
 
         frequency_content = []
-        for scope in NotificationFrequency:
+        for frequency in NotificationFrequency:
             frequency_content.extend(
-                [f"``{scope.value}``", f"   :guilabel:`{scope.label}`"]
+                [f"``{frequency.value}``", f"   :guilabel:`{frequency.label}`"]
             )
         self.add_section("notification-frequencies", frequency_content)
 
