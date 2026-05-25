@@ -44,6 +44,7 @@ from weblate.auth.models import (
 )
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
+from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.trans.util import redirect_param
@@ -92,7 +93,7 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("memory", "manage-memory", gettext_lazy("Translation memory")),
     ("performance", "manage-performance", gettext_lazy("Performance report")),
     ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
-    ("alerts", "manage-alerts", gettext_lazy("Alerts")),
+    ("alerts", "manage-alerts", gettext_lazy("Diagnostics")),
     ("repos", "manage-repos", gettext_lazy("Repositories")),
     ("users", "manage-users", gettext_lazy("Users")),
     ("teams", "manage-teams", gettext_lazy("Teams")),
@@ -361,13 +362,14 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
 def handle_dismiss(request: AuthenticatedHttpRequest) -> HttpResponse:
     try:
         error = ConfigurationError.objects.get(pk=int(request.POST["pk"]))
+    except (ValueError, KeyError, ConfigurationError.DoesNotExist):
+        messages.error(request, gettext("Could not dismiss the configuration error!"))
+    else:
         if "ignore" in request.POST:
             error.ignored = True
             error.save(update_fields=["ignored"])
         else:
             error.delete()
-    except (ValueError, KeyError, ConfigurationError.DoesNotExist):
-        messages.error(request, gettext("Could not dismiss the configuration error!"))
     return redirect("manage-performance")
 
 
@@ -484,9 +486,9 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
 def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show component alerts."""
     context = {
-        "alerts": Alert.objects.order_by(
-            "name", "component__project__name", "component__name"
-        ).select_related("component", "component__project"),
+        "alerts": Alert.objects.filter(severity__gte=AlertSeverity.ERROR)
+        .order_by("name", "component__project__name", "component__name")
+        .select_related("component", "component__project"),
         "no_components": Project.objects.filter(component__isnull=True),
         "menu_items": MENU,
         "menu_page": "alerts",

@@ -10,6 +10,7 @@ from unittest.mock import patch
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
+from django.template.loader import render_to_string
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -25,6 +26,9 @@ from weblate.billing.tasks import (
     schedule_removal,
 )
 from weblate.lang.models import Language
+from weblate.trans.alerts.community import (
+    MissingTranslationInstructions,
+)
 from weblate.trans.models import (
     Component,
     PendingUnitChange,
@@ -185,6 +189,94 @@ class BillingTest(BaseTestCase):
         self.user.save()
         response = self.client.get(reverse("billing"))
         self.assertContains(response, "Owners")
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_billing_overview_shows_component_alerts(self) -> None:
+        self.plan.price = 0
+        self.plan.save(update_fields=["price"])
+        project = self.add_project()
+        project.web = "https://example.org/"
+        project.access_control = Project.ACCESS_PUBLIC
+        project.save(update_fields=["web", "access_control"])
+        component = self.add_component(project, "000000")
+        Component.objects.filter(pk=component.pk).update(license="GPL-3.0-or-later")
+        component.add_alert("BillingLimit")
+        component.add_alert("MissingTranslationInstructions")
+        component.add_alert("RecommendedXgettextAddon")
+        component.alert_set.filter(name="MissingTranslationInstructions").update(
+            dismissed=True
+        )
+
+        self.refresh_from_db()
+        self.assertTrue(self.billing.valid_libre)
+
+        verbose = MissingTranslationInstructions.verbose
+        MissingTranslationInstructions.verbose = "<strong>Escaped alert</strong>"
+        self.client.login(username=self.user.username, password="testpassword")
+        try:
+            response = self.client.get(self.billing.get_absolute_url())
+        finally:
+            MissingTranslationInstructions.verbose = verbose
+
+        self.assertContains(response, "Your billing plan has exceeded its limits.")
+        self.assertContains(response, "&lt;strong&gt;Escaped alert&lt;/strong&gt;")
+        self.assertNotContains(response, "<strong>Escaped alert</strong>")
+        self.assertContains(response, "Enable add-on:")
+        self.assertContains(response, "<br />")
+        self.assertContains(response, f"{component.get_absolute_url()}?alerts=1#alerts")
+        self.assertContains(response, "dismissed")
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_no_libre_alert_omits_component_alerts(self) -> None:
+        self.plan.price = 0
+        self.plan.save(update_fields=["price"])
+        project = self.add_project()
+        project.web = "https://example.org/"
+        project.access_control = Project.ACCESS_PUBLIC
+        project.save(update_fields=["web", "access_control"])
+        component = self.add_component(project, "000000")
+        Component.objects.filter(pk=component.pk).update(license="GPL-3.0-or-later")
+        component.add_alert("BillingLimit")
+
+        content = render_to_string(
+            "trans/alert/nolibreconditions.html", {"component": component}
+        )
+
+        self.assertIn(
+            "This project does no longer fit into Libre hosting conditions.", content
+        )
+        self.assertNotIn("Your billing plan has exceeded its limits.", content)
+        self.assertNotIn(f"{component.get_absolute_url()}?alerts=1#alerts", content)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_billing_overview_compacts_component_checklist(self) -> None:
+        self.plan.price = 0
+        self.plan.save(update_fields=["price"])
+        project = self.add_project()
+        project.web = "https://example.org/"
+        project.access_control = Project.ACCESS_PUBLIC
+        project.save(update_fields=["web", "access_control"])
+        passing_component = self.add_component(project, "000000")
+        Component.objects.filter(pk=passing_component.pk).update(
+            license="GPL-3.0-or-later"
+        )
+        Component.objects.filter(pk=passing_component.pk).update(
+            agreement="Contributor agreement"
+        )
+        self.add_component(project, "000001")
+
+        self.refresh_from_db()
+        self.client.login(username=self.user.username, password="testpassword")
+        response = self.client.get(self.billing.get_absolute_url())
+        content = response.content.decode()
+
+        self.assertContains(response, "Missing license")
+        self.assertContains(
+            response, '<span class="badge text-bg-danger">Missing license</span>'
+        )
+        self.assertContains(response, "Contributor license agreement")
+        self.assertNotIn('data-bs-target="#libre-check-', content)
+        self.assertNotIn("libre-check-", content)
 
     def test_limit_projects(self) -> None:
         self.assertTrue(self.billing.in_limits)

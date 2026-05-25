@@ -7,16 +7,15 @@ Many times translators will find problems with the source strings. Make sure it 
 To gather this feedback, you can set up the :ref:`component-repoweb` field on your Weblate component, for translators to
 propose their changes to the upstream repository. You can also receive translator comments if you setup :ref:`component-report_source_bugs`.
 
-Community localization checklist
---------------------------------
+Component diagnostics
+---------------------
 
-The :guilabel:`Community localization checklist` which can be found in the
-menu of each component can give you guidance to make your
-localization process easy for community translators.
+Guidance is shown in the :guilabel:`Diagnostics` tab on each
+component. These alerts are dismissible and point to the configuration or
+documentation needed to make your localization process easier for community
+translators.
 
-
-
-.. image:: /screenshots/guide.webp
+.. image:: /screenshots/component-diagnostics.webp
 
 Terminology management
 ----------------------

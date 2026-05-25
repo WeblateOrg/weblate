@@ -744,33 +744,67 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         return filename
 
     @staticmethod
+    def remove_repo_temp_file(filename: str) -> None:
+        with suppress(OSError):
+            os.unlink(filename)
+
+    @staticmethod
+    def write_binary_repo_temp_file(
+        basename: str, temp_dir: str | os.PathLike[str], content: bytes
+    ) -> str:
+        temp_filename = ""
+        try:
+            with tempfile.NamedTemporaryFile(
+                prefix=basename, dir=temp_dir, delete=False
+            ) as handle:
+                temp_filename = handle.name
+                handle.write(content)
+        except Exception:
+            if temp_filename:
+                BaseAddon.remove_repo_temp_file(temp_filename)
+            raise
+        return temp_filename
+
+    @staticmethod
+    def write_text_repo_temp_file(
+        basename: str, temp_dir: str | os.PathLike[str], content: str
+    ) -> str:
+        temp_filename = ""
+        try:
+            with tempfile.NamedTemporaryFile(
+                prefix=basename,
+                dir=temp_dir,
+                delete=False,
+                mode="w",
+                encoding="utf-8",
+            ) as handle:
+                temp_filename = handle.name
+                handle.write(content)
+        except Exception:
+            if temp_filename:
+                BaseAddon.remove_repo_temp_file(temp_filename)
+            raise
+        return temp_filename
+
+    @staticmethod
+    def write_repo_temp_file(
+        basename: str, temp_dir: str | os.PathLike[str], content: bytes | str
+    ) -> str:
+        if isinstance(content, bytes):
+            return BaseAddon.write_binary_repo_temp_file(basename, temp_dir, content)
+        return BaseAddon.write_text_repo_temp_file(basename, temp_dir, content)
+
+    @staticmethod
     def write_repo_file(filename: str, content: bytes | str) -> None:
         dirname, basename = os.path.split(filename)
         temp_dir = get_repo_temp_dir(dirname)
-        temp_filename = ""
+        temp_filename = BaseAddon.write_repo_temp_file(basename, temp_dir, content)
         try:
-            if isinstance(content, bytes):
-                with tempfile.NamedTemporaryFile(
-                    prefix=basename, dir=temp_dir, delete=False
-                ) as handle:
-                    temp_filename = handle.name
-                    handle.write(content)
-            else:
-                with tempfile.NamedTemporaryFile(
-                    prefix=basename,
-                    dir=temp_dir,
-                    delete=False,
-                    mode="w",
-                    encoding="utf-8",
-                ) as handle:
-                    temp_filename = handle.name
-                    handle.write(content)
             os.replace(temp_filename, filename)
             temp_filename = ""
         finally:
             if temp_filename:
-                with suppress(OSError):
-                    os.unlink(temp_filename)
+                BaseAddon.remove_repo_temp_file(temp_filename)
 
     @classmethod
     def pre_install(

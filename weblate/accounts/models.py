@@ -28,7 +28,12 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.timezone import now
-from django.utils.translation import get_language, gettext, gettext_lazy
+from django.utils.translation import (
+    get_language,
+    gettext,
+    gettext_lazy,
+    pgettext_lazy,
+)
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.models import WebAuthnCredential
@@ -78,6 +83,7 @@ if TYPE_CHECKING:
 
     from django.http.request import HttpRequest
     from django_otp.models import Device
+    from django_stubs_ext import StrOrPromise
 
     from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -446,6 +452,23 @@ NOTIFY_ACTIVITY = {
 }
 
 
+# Taken from https://github.com/selwin/python-user-agents/blob/master/user_agents/parsers.py
+USER_AGENT_DEVICE_TYPES: dict[str, StrOrPromise] = {
+    # Translators: User agent device type
+    "PC": pgettext_lazy("User agent device type", "PC"),
+    # Translators: User agent device type
+    "Other": pgettext_lazy("User agent device type", "Other"),
+    # Translators: User agent device type
+    "Generic Smartphone": pgettext_lazy("User agent device type", "Generic Smartphone"),
+    # Translators: User agent device type
+    "Generic Feature Phone": pgettext_lazy(
+        "User agent device type", "Generic Feature Phone"
+    ),
+    # Translators: User agent device type
+    "iOS-Device": pgettext_lazy("User agent device type", "iOS-Device"),
+}
+
+
 class AuditLogManager(models.Manager):
     def is_new_login(self, user: User, address, user_agent) -> bool:
         """
@@ -599,6 +622,18 @@ class AuditLog(models.Model):
         if self.activity in EXTRA_MESSAGES:
             return EXTRA_MESSAGES[self.activity].format(**self.params)
         return None
+
+    def get_user_agent_display(self) -> str:
+        """Return a user agent string with a localized first device-type segment."""
+        ua_string = self.user_agent
+        if not ua_string:
+            return ""
+
+        parts = ua_string.split(" / ")
+        device_type = parts[0].strip()
+        parts[0] = str(USER_AGENT_DEVICE_TYPES.get(device_type, device_type))
+
+        return " / ".join(parts)
 
     def should_notify(self) -> bool:
         return (

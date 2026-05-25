@@ -449,10 +449,9 @@ def show_progress(request: AuthenticatedHttpRequest, path):
 def multi_progress(request: AuthenticatedHttpRequest, obj: Category | Project):
     components = list(obj.all_repo_components)
     return_target = obj
-    # There is no guide as in component view here
-    return_url = "show"
+    return_url = obj.get_absolute_url()
     if not any(component.in_progress() for component in components):
-        return redirect(return_url, path=return_target.get_url_path())
+        return redirect(return_url)
     return render(
         request,
         "multi-progress.html",
@@ -467,11 +466,15 @@ def multi_progress(request: AuthenticatedHttpRequest, obj: Category | Project):
 
 def component_progress(request: AuthenticatedHttpRequest, obj: Component | Translation):
     component = obj if isinstance(obj, Component) else obj.component
-    return_target = obj
-    return_url = "show" if "info" in request.GET else "guide"
+    if "info" in request.GET:
+        return_target = obj
+        return_url = obj.get_absolute_url()
+    else:
+        return_target = component
+        return_url = f"{component.get_absolute_url()}#alerts"
 
     if not component.in_progress():
-        return redirect(return_url, path=return_target.get_url_path())
+        return redirect(return_url)
 
     progress, log = component.get_progress()
 

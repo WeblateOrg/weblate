@@ -72,6 +72,7 @@ if TYPE_CHECKING:
     from weblate.formats.base import TranslationUnit
     from weblate.machinery.base import UnitMemoryResultDict
     from weblate.trans.models.label import Label
+    from weblate.trans.models.translation import Translation
     from weblate.utils.stats import StatItem, TranslationStats
 
 
@@ -1060,49 +1061,63 @@ class Unit(models.Model, LoggerMixin):
             translation = self.translation
             component = translation.component
             try:
-                location = unit.locations
-                if self.translation.component.file_format_cls.supports_explanation:
-                    explanation = unit.explanation
-                    source_explanation = unit.source_explanation
-                else:
-                    explanation = self.explanation
-                    source_explanation = "" if created else self.source_unit.explanation
-                flags = Flags(unit.flags)
-                source = unit.source
-                self.check_valid(split_plural(source))
-                if not translation.is_template and translation.is_source:
-                    # Load target from source string for bilingual source translations
-                    target = source
-                else:
-                    target = unit.target
-                    self.check_valid(split_plural(target))
-                context = unit.context
-                self.check_valid([context])
-                note = unit.notes
-                previous_source = unit.previous_source
+                self.unit_attributes = self.build_unit_attributes(
+                    unit=unit,
+                    pos=pos,
+                    created=created,
+                    id_hash=id_hash,
+                    translation=translation,
+                )
             except DjangoDatabaseError:
                 raise
             except Exception as error:
                 report_error("Unit update error", project=component.project)
                 translation.component.handle_parse_error(error, translation)
-
-            self.unit_attributes = {
-                "location": location,
-                "explanation": explanation,
-                "source_explanation": source_explanation,
-                "flags": flags,
-                "source": source,
-                "target": target,
-                "context": context,
-                "note": note,
-                "previous_source": previous_source,
-                "unit": unit,
-                "created": created,
-                "pos": pos,
-                "id_hash": id_hash,
-                "automatically_translated": unit.is_automatically_translated(),
-            }
         return self.unit_attributes
+
+    def build_unit_attributes(
+        self,
+        *,
+        unit: TranslationUnit,
+        pos: int,
+        created: bool,
+        id_hash: int,
+        translation: Translation,
+    ) -> UnitAttributesDict:
+        location = unit.locations
+        if self.translation.component.file_format_cls.supports_explanation:
+            explanation = unit.explanation
+            source_explanation = unit.source_explanation
+        else:
+            explanation = self.explanation
+            source_explanation = "" if created else self.source_unit.explanation
+        flags = Flags(unit.flags)
+        source = unit.source
+        self.check_valid(split_plural(source))
+        if not translation.is_template and translation.is_source:
+            # Load target from source string for bilingual source translations
+            target = source
+        else:
+            target = unit.target
+            self.check_valid(split_plural(target))
+        context = unit.context
+        self.check_valid([context])
+        return {
+            "location": location,
+            "explanation": explanation,
+            "source_explanation": source_explanation,
+            "flags": flags,
+            "source": source,
+            "target": target,
+            "context": context,
+            "note": unit.notes,
+            "previous_source": unit.previous_source,
+            "unit": unit,
+            "created": created,
+            "pos": pos,
+            "id_hash": id_hash,
+            "automatically_translated": unit.is_automatically_translated(),
+        }
 
     def update_from_unit(  # noqa: C901,PLR0914
         self,

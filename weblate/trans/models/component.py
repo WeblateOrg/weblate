@@ -48,6 +48,12 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
 from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.registry import (
+    get_alert_class,
+    get_import_alerts,
+    update_alerts,
+)
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -67,7 +73,7 @@ from weblate.trans.mixins import (
     LockMixin,
     PathMixin,
 )
-from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT, Alert, update_alerts
+from weblate.trans.models.alert import Alert
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
@@ -1383,6 +1389,8 @@ class Component(  # noqa: PLR0904
 
     @cached_property
     def lock(self):
+        # Serializes component-wide creation/import operations. Existing string
+        # updates should rely on row locks, and check refreshes use checks_lock.
         return WeblateLock(
             scope="component:update",
             key=self.pk,
@@ -2038,21 +2046,25 @@ class Component(  # noqa: PLR0904
         )
 
     @perform_on_link
+    def update_remote_repository(self) -> str | None:
+        with self.repository.lock:
+            start = time.monotonic()
+            try:
+                previous_revision = self.repository.last_remote_revision
+            except RepositoryError:
+                previous_revision = None
+            self.repository.update_remote()
+            timediff = time.monotonic() - start
+            self.log_info("update took %.2f seconds", timediff)
+            return previous_revision
+
+    @perform_on_link
     def update_remote_branch(self, validate: bool = False, retry: bool = True) -> bool:
         """Pull from remote repository."""
         # Update
         self.log_info("updating repository")
         try:
-            with self.repository.lock:
-                start = time.monotonic()
-                try:
-                    previous_revision = self.repository.last_remote_revision
-                except RepositoryError:
-                    # Repository not yet configured
-                    previous_revision = None
-                self.repository.update_remote()
-                timediff = time.monotonic() - start
-                self.log_info("update took %.2f seconds", timediff)
+            previous_revision = self.update_remote_repository()
         except RepositoryError as error:
             report_error(
                 "Could not update the repository",
@@ -2386,6 +2398,67 @@ class Component(  # noqa: PLR0904
 
         return True
 
+    def reset_repository_to_remote(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        user: User | None,
+        *,
+        keep_changes: bool,
+    ) -> str | None:
+        with self.track_local_head_change() as head_change:
+            repo_unit_filter = Q(translation__component=self) | Q(
+                translation__component__linked_component=self
+            )
+            previous_head = head_change.previous_head or "N/A"
+            # First check we're up to date
+            self.update_remote_branch()
+
+            if keep_changes:
+                # Mark all strings as pending when keeping changes
+                self.do_file_sync(request, do_commit=False, store_disk_state=False)
+            else:
+                # Explicitly remove all pending changes
+                PendingUnitChange.objects.filter(
+                    Q(unit__translation__component=self)
+                    | Q(unit__translation__component__linked_component=self)
+                ).delete()
+            # Remove disk state as we are going to change that
+            Unit.objects.filter(repo_unit_filter).clear_disk_state()
+
+            # Do actual reset
+            self.log_info("resetting to remote repo")
+            self.repository.reset()
+            new_head = head_change.refresh_new_head()
+
+            self.change_set.create(
+                action=ActionEvents.RESET,
+                user=user,
+                details={
+                    "new_head": new_head,
+                    "previous_head": previous_head,
+                },
+            )
+            self.delete_alert("MergeFailure")
+            self.delete_alert("RepositoryOutdated")
+            self.delete_alert("PushFailure")
+
+            if keep_changes and not self.restore_pending_translation_files(
+                request=request, user=user
+            ):
+                return None
+
+            if not keep_changes:
+                self.trigger_post_update(
+                    previous_head=previous_head,
+                    skip_push=False,
+                    user=user,
+                )
+
+                # create translation objects for all files
+                self.create_translations(request=request, force=True)
+
+            return previous_head
+
     @perform_on_link
     def do_reset(
         self,
@@ -2398,57 +2471,9 @@ class Component(  # noqa: PLR0904
 
         user = request.user if request else self.acting_user
         try:
-            with self.track_local_head_change() as head_change:
-                repo_unit_filter = Q(translation__component=self) | Q(
-                    translation__component__linked_component=self
-                )
-                previous_head = head_change.previous_head or "N/A"
-                # First check we're up to date
-                self.update_remote_branch()
-
-                if keep_changes:
-                    # Mark all strings as pending when keeping changes
-                    self.do_file_sync(request, do_commit=False, store_disk_state=False)
-                else:
-                    # Explicitly remove all pending changes
-                    PendingUnitChange.objects.filter(
-                        Q(unit__translation__component=self)
-                        | Q(unit__translation__component__linked_component=self)
-                    ).delete()
-                # Remove disk state as we are going to change that
-                Unit.objects.filter(repo_unit_filter).clear_disk_state()
-
-                # Do actual reset
-                self.log_info("resetting to remote repo")
-                self.repository.reset()
-                new_head = head_change.refresh_new_head()
-
-                self.change_set.create(
-                    action=ActionEvents.RESET,
-                    user=user,
-                    details={
-                        "new_head": new_head,
-                        "previous_head": previous_head,
-                    },
-                )
-                self.delete_alert("MergeFailure")
-                self.delete_alert("RepositoryOutdated")
-                self.delete_alert("PushFailure")
-
-                if keep_changes and not self.restore_pending_translation_files(
-                    request=request, user=user
-                ):
-                    return False
-
-                if not keep_changes:
-                    self.trigger_post_update(
-                        previous_head=previous_head,
-                        skip_push=False,
-                        user=user,
-                    )
-
-                    # create translation objects for all files
-                    self.create_translations(request=request, force=True)
+            previous_head = self.reset_repository_to_remote(
+                request, user, keep_changes=keep_changes
+            )
         except RepositoryError:
             report_error(
                 "Could not reset the repository",
@@ -2459,6 +2484,9 @@ class Component(  # noqa: PLR0904
                 request,
                 gettext("Could not reset to remote branch on %s.") % self,
             )
+            return False
+
+        if previous_head is None:
             return False
 
         if keep_changes:
@@ -3187,15 +3215,25 @@ class Component(  # noqa: PLR0904
     @perform_on_link
     @contextmanager
     def track_local_head_change(self) -> Generator[LocalHeadChange]:
-        """Track local HEAD changes and persist them on successful exit."""
+        """Track local HEAD changes and persist them on exit."""
         head_change = LocalHeadChange(component=self)
         with self.repository.lock:
             head_change.previous_head = self.try_get_local_head_revision()
-            yield head_change
-            if head_change.new_head is None:
-                head_change.refresh_new_head()
-            if self.id and head_change.needs_local_revision_sync:
-                self.store_local_revision()
+            raised = False
+            try:
+                yield head_change
+            except BaseException:
+                raised = True
+                raise
+            finally:
+                try:
+                    if head_change.new_head is None:
+                        head_change.refresh_new_head()
+                    if self.id and head_change.needs_local_revision_sync:
+                        self.store_local_revision()
+                except Exception:
+                    if not raised:
+                        raise
 
     @perform_on_link
     def update_branch(
@@ -3404,8 +3442,24 @@ class Component(  # noqa: PLR0904
         return [alert for alert in self.alert_set.all() if not alert.dismissed]
 
     @cached_property
+    def all_problem_alerts(self) -> list[Alert]:
+        return [alert for alert in self.all_active_alerts if alert.is_problem]
+
+    @cached_property
     def all_alerts(self) -> dict[str, Alert]:
         return {alert.name: alert for alert in self.alert_set.all()}
+
+    def update_alert_caches(self) -> None:
+        if "all_active_alerts" in self.__dict__:
+            self.__dict__["all_active_alerts"] = [
+                item for item in self.all_alerts.values() if not item.dismissed
+            ]
+        if "all_problem_alerts" in self.__dict__:
+            self.__dict__["all_problem_alerts"] = [
+                item
+                for item in self.all_active_alerts
+                if item.severity >= AlertSeverity.ERROR
+            ]
 
     def clear_prefetched_alerts(self) -> None:
         with suppress(AttributeError, KeyError):
@@ -3429,10 +3483,7 @@ class Component(  # noqa: PLR0904
         if alert in self.all_alerts:
             self.all_alerts[alert].delete()
             del self.all_alerts[alert]
-            if "all_active_alerts" in self.__dict__:
-                self.__dict__["all_active_alerts"] = [
-                    item for item in self.all_alerts.values() if not item.dismissed
-                ]
+            self.update_alert_caches()
             self.clear_prefetched_alerts()
             if (
                 self.locked
@@ -3450,17 +3501,19 @@ class Component(  # noqa: PLR0904
             ):
                 self.do_lock(user=None, lock=False, auto=True)
 
-        if ALERTS[alert].link_wide:
+        if get_alert_class(alert).link_wide:
             for component in self.linked_children:
                 component.delete_alert(alert)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
+        alert_class = get_alert_class(alert)
+        severity = alert_class.severity
         if alert in self.all_alerts:
             obj = self.all_alerts[alert]
             created = False
         else:
             obj, created = self.alert_set.get_or_create(
-                name=alert, defaults={"details": details}
+                name=alert, defaults={"details": details, "severity": severity}
             )
             self.all_alerts[alert] = obj
 
@@ -3469,23 +3522,27 @@ class Component(  # noqa: PLR0904
             self.do_lock(user=None, lock=True, auto=True)
 
         # Update details with exception of component removal
-        if not created and not noupdate:
-            obj.details = details
-            obj.save()
+        if not created:
+            update_fields = []
+            if obj.severity != severity:
+                obj.severity = severity
+                update_fields.append("severity")
+            if not noupdate and obj.details != details:
+                obj.details = details
+                update_fields.append("details")
+            if update_fields or not noupdate:
+                obj.save(update_fields=[*update_fields, "updated"])
 
-        if "all_active_alerts" in self.__dict__:
-            self.__dict__["all_active_alerts"] = [
-                item for item in self.all_alerts.values() if not item.dismissed
-            ]
+        self.update_alert_caches()
         self.clear_prefetched_alerts()
 
-        if ALERTS[alert].link_wide:
+        if alert_class.link_wide:
             for component in self.linked_children:
                 component.add_alert(alert, noupdate=noupdate, **details)
 
     def update_import_alerts(self, delete: bool = True) -> None:
         self.log_info("checking triggered alerts")
-        for alert in ALERTS_IMPORT:
+        for alert in get_import_alerts():
             if alert in self.alerts_trigger:
                 self.add_alert(alert, occurrences=self.alerts_trigger[alert])
             elif delete:
@@ -5179,12 +5236,6 @@ class Component(  # noqa: PLR0904
         return pgettext("Translation key", "Key")
 
     @cached_property
-    def guidelines(self):
-        from weblate.trans.guide import GUIDELINES  # noqa: PLC0415
-
-        return [guide(self) for guide in GUIDELINES]
-
-    @cached_property
     def addons_cache(self) -> AddonCache:
         from weblate.addons.models import Addon  # noqa: PLC0415
 
@@ -5283,9 +5334,9 @@ class Component(  # noqa: PLR0904
         if config is None:
             return Component.objects.none()
 
-        push, push_branch = config
+        push, push_branch, pulls_from_push_branch = config
 
-        return (
+        conflicts = (
             Component.objects.filter(
                 push=push,
                 vcs__in=VCS_REGISTRY.git_based,
@@ -5295,10 +5346,15 @@ class Component(  # noqa: PLR0904
             .exclude(vcs="local")
             .filter(Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch))
         )
+        if pulls_from_push_branch:
+            conflicts = conflicts.exclude(
+                Q(push_branch="") | Q(push_branch=F("branch"))
+            )
+        return conflicts
 
     def get_conflicting_repository_setup_config(
         self, old_settings: OldComponentSettings | None = None
-    ) -> tuple[str, str] | None:
+    ) -> tuple[str, str, bool] | None:
         if old_settings is None:
             push = self.push
             push_branch = self.push_branch
@@ -5322,11 +5378,11 @@ class Component(  # noqa: PLR0904
         push_branch = push_branch or branch
         if not push_branch:
             return None
-        return (push, push_branch)
+        return (push, push_branch, push_branch == branch)
 
     def get_conflicting_repository_setup_configs(
         self,
-    ) -> set[tuple[str, str]]:
+    ) -> set[tuple[str, str, bool]]:
         return {
             config
             for config in (
@@ -5347,13 +5403,13 @@ class Component(  # noqa: PLR0904
         )
 
     def cleanup_conflicting_repository_setup_alerts(
-        self, cleanup_configs: set[tuple[str, str]] | None = None
+        self, cleanup_configs: set[tuple[str, str, bool]] | None = None
     ) -> None:
         if cleanup_configs is None:
             cleanup_configs = self.get_conflicting_repository_setup_configs()
 
-        for push, push_branch in cleanup_configs:
-            matching = (
+        for push, push_branch, _pulls_from_push_branch in cleanup_configs:
+            matching = list(
                 Component.objects.filter(
                     push=push,
                     vcs__in=VCS_REGISTRY.git_based,
@@ -5364,10 +5420,22 @@ class Component(  # noqa: PLR0904
                 .filter(
                     Q(push_branch=push_branch) | Q(push_branch="", branch=push_branch)
                 )
+                .values_list("id", "push_branch", "branch")
             )
-            if matching.count() == 1:
+            component_ids = [component_id for component_id, _, _ in matching]
+            unsafe_count = sum(
+                1
+                for _, component_push_branch, component_branch in matching
+                if component_push_branch and component_push_branch != component_branch
+            )
+            if unsafe_count == 0 or len(matching) == 1:
+                stale_component_ids = component_ids
+            else:
+                stale_component_ids = []
+            if stale_component_ids:
                 Alert.objects.filter(
-                    name="ConflictingRepositorySetup", component__in=matching
+                    name="ConflictingRepositorySetup",
+                    component_id__in=stale_component_ids,
                 ).delete()
 
     @cached_property

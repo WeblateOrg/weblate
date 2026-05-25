@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import csv
 import os
-import shutil
 import subprocess  # noqa: S404
 import tempfile
 from io import BytesIO, StringIO
@@ -620,11 +619,10 @@ class MultiCSVExporterTest(PoExporterTest):
     def test_real_multivalue_data(self) -> None:
         """Test multivalue export with real data from CSV file - integration test."""
         # Create a temporary directory for the git repository
-        temp_dir = tempfile.mkdtemp()
-        git_dir = os.path.join(temp_dir, "git")
-        os.makedirs(git_dir)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            git_dir = os.path.join(temp_dir, "git")
+            os.makedirs(git_dir)
 
-        try:
             # Initialize git repository
 
             subprocess.run(["git", "init"], cwd=git_dir, check=True)  # noqa: S607
@@ -788,7 +786,3 @@ class MultiCSVExporterTest(PoExporterTest):
             self.assertEqual(
                 content.count("Primární otevřená redukce zlomeniny a funkční ortéza"), 1
             )
-
-        finally:
-            # Clean up the temporary directory
-            shutil.rmtree(temp_dir, ignore_errors=True)

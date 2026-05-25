@@ -118,14 +118,20 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @contextmanager
     def wait_for_page_load(self, timeout: int = 30) -> Iterator[None]:
         old_page = self.driver.find_element(By.TAG_NAME, "html")
-        yield
+        success = False
         try:
-            WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
-        except WebDriverException:
-            # Retry the same condition to workaround issue in Chromedriver/Selenium, see
-            # https://github.com/SeleniumHQ/selenium/issues/15401
-            time.sleep(0.1)
-            WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
+            yield
+            success = True
+        finally:
+            if success:
+                try:
+                    WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
+                except WebDriverException:
+                    # Retry the same condition to workaround issue in
+                    # Chromedriver/Selenium, see
+                    # https://github.com/SeleniumHQ/selenium/issues/15401
+                    time.sleep(0.1)
+                    WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -1303,14 +1309,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Duplicates")
-        self.click("Alerts")
+        self.click("Diagnostics")
         self.screenshot("alerts.png")
         self.assertGreater(self.count_elements("#alerts .card"), 0)
 
-        self.click("Insights")
-        with self.wait_for_page_load():
-            self.click("Community localization checklist")
-        self.screenshot("guide.png")
+        guidance = Component.objects.create(
+            name="Guidance",
+            slug="guidance",
+            project=project,
+            repo="https://github.com/WeblateOrg/test.git",
+            filemask="po/*.po",
+            file_format="po",
+        )
+        guidance.add_alert("MissingTranslationInstructions")
+        self.driver.get(f"{self.live_server_url}{guidance.get_absolute_url()}")
+        self.click("Diagnostics")
+        self.screenshot("component-diagnostics.png")
+        self.assert_text_contains("#alerts", "Define translation instructions")
 
     def test_fonts(self) -> None:
         self.create_component()
@@ -1383,29 +1398,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def test_backup(self) -> None:
         self.create_temp()
-        try:
-            self.open_manage()
-            with self.wait_for_page_load():
-                self.click("Backups")
-            element = self.driver.find_element(By.ID, "id_repository")
-            element.send_keys(self.tempdir)
-            with self.wait_for_page_load():
-                element.submit()
-            with self.wait_for_page_load():
-                self.click(self.driver.find_element(By.NAME, "trigger"))
-            self.click(
-                self.driver.find_element(
-                    By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
-                )
+        self.addCleanup(self.remove_temp)
+        self.open_manage()
+        with self.wait_for_page_load():
+            self.click("Backups")
+        element = self.driver.find_element(By.ID, "id_repository")
+        element.send_keys(self.tempdir)
+        with self.wait_for_page_load():
+            element.submit()
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.NAME, "trigger"))
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
             )
-            time.sleep(0.2)
-            self.screenshot("backups.png")
-            SupportStatus.objects.create(secret="123", name="community")
-            with self.wait_for_page_load():
-                self.click("Weblate status")
-            self.screenshot("support-discovery.png")
-        finally:
-            self.remove_temp()
+        )
+        time.sleep(0.2)
+        self.screenshot("backups.png")
+        SupportStatus.objects.create(secret="123", name="community")
+        with self.wait_for_page_load():
+            self.click("Weblate status")
+        self.screenshot("support-discovery.png")
 
     def test_manage(self) -> None:
         self.open_manage()

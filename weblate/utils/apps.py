@@ -8,13 +8,12 @@ import errno
 import os
 import subprocess  # noqa: S404
 import time
-from contextlib import suppress
 from datetime import timedelta
 from email.utils import parseaddr
 from itertools import chain
 from pathlib import Path
 from shutil import disk_usage
-from tempfile import NamedTemporaryFile
+from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 
 from celery.exceptions import TimeoutError as CeleryTimeoutError
@@ -69,30 +68,27 @@ DEFAULT_SECRET_KEYS = {
 CACHE_EXEC_CHECK_PREFIX = ".weblate-cache-exec-"
 
 
-def check_cache_dir_executable(cache_dir: Path) -> CheckMessage | None:
-    """Check whether Weblate can execute generated files from cache."""
-    probe: Path | None = None
-    message = (
-        "Cannot execute files from {}, check your CACHE_DIR settings and mount options."
-    )
-    try:
-        with NamedTemporaryFile(
-            mode="w",
-            encoding="utf-8",
-            dir=cache_dir,
-            prefix=CACHE_EXEC_CHECK_PREFIX,
-            delete=False,
-        ) as handle:
-            probe = Path(handle.name)
-            handle.write("#!/bin/sh\nexit 0\n")
+def run_cache_exec_probe(cache_dir: Path) -> subprocess.CompletedProcess[bytes]:
+    with TemporaryDirectory(dir=cache_dir, prefix=CACHE_EXEC_CHECK_PREFIX) as tempdir:
+        probe = Path(tempdir) / "probe"
+        probe.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
         probe.chmod(0o755)
-        result = subprocess.run(  # noqa: S603
+        return subprocess.run(  # noqa: S603
             [probe.as_posix()],
             check=False,
             stderr=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
             timeout=5,
         )
+
+
+def check_cache_dir_executable(cache_dir: Path) -> CheckMessage | None:
+    """Check whether Weblate can execute generated files from cache."""
+    message = (
+        "Cannot execute files from {}, check your CACHE_DIR settings and mount options."
+    )
+    try:
+        result = run_cache_exec_probe(cache_dir)
         if result.returncode:
             status = result.returncode
             return weblate_check(
@@ -101,10 +97,6 @@ def check_cache_dir_executable(cache_dir: Path) -> CheckMessage | None:
             )
     except (OSError, subprocess.SubprocessError) as error:
         return weblate_check("weblate.C044", f"{message.format(cache_dir)} {error}")
-    finally:
-        if probe is not None:
-            with suppress(OSError):
-                probe.unlink()
 
     return None
 
@@ -126,6 +118,31 @@ def check_mail_connection(
         errors.append(weblate_check("weblate.E003", message.format(error)))
 
     return errors
+
+
+def check_celery_response(
+    errors: list[CheckMessage], result, start: float, ping_task
+) -> None:
+    pong = result.get(timeout=10, disable_sync_subtasks=False)
+    cache.set("celery_latency", round(1000 * (time.monotonic() - start)))
+    current = ping_task()
+    # Check for outdated Celery running different version of configuration
+    if current != pong:
+        if pong is None:
+            # Celery runs Weblate 4.0 or older
+            differing = ["version"]
+        else:
+            differing = [
+                key
+                for key, value in current.items()
+                if key not in pong or value != pong[key]
+            ]
+        errors.append(
+            weblate_check(
+                "weblate.E034",
+                f"The Celery process is outdated or misconfigured. Following items differ: {format_html_join_comma('{}', list_to_tuples(differing))}",
+            )
+        )
 
 
 @register(deploy=True)
@@ -164,26 +181,7 @@ def check_celery(
         start = time.monotonic()
         result = ping.delay()
         try:
-            pong = result.get(timeout=10, disable_sync_subtasks=False)
-            cache.set("celery_latency", round(1000 * (time.monotonic() - start)))
-            current = ping()
-            # Check for outdated Celery running different version of configuration
-            if current != pong:
-                if pong is None:
-                    # Celery runs Weblate 4.0 or older
-                    differing = ["version"]
-                else:
-                    differing = [
-                        key
-                        for key, value in current.items()
-                        if key not in pong or value != pong[key]
-                    ]
-                errors.append(
-                    weblate_check(
-                        "weblate.E034",
-                        f"The Celery process is outdated or misconfigured. Following items differ: {format_html_join_comma('{}', list_to_tuples(differing))}",
-                    )
-                )
+            check_celery_response(errors, result, start, ping)
         except CeleryTimeoutError:
             errors.append(
                 weblate_check(

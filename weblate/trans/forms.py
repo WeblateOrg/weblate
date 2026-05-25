@@ -1543,6 +1543,14 @@ class UserBlockForm(UserContributionCleanupForm):
 
 
 class ReportsForm(forms.Form):
+    layout_fields: ClassVar[tuple[str, ...]] = (
+        "style",
+        "period",
+        "language",
+        "sort_by",
+        "sort_order",
+    )
+
     style = forms.ChoiceField(
         label=gettext_lazy("Report format"),
         help_text=gettext_lazy("Choose a file format for the report"),
@@ -1581,13 +1589,7 @@ class ReportsForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Field("style"),
-            Field("period"),
-            Field("language"),
-            Field("sort_by"),
-            Field("sort_order"),
-        )
+        self.helper.layout = Layout(*(Field(field) for field in self.layout_fields))
         if not scope:
             languages = Language.objects.have_translation()
         elif "project" in scope:
@@ -1606,6 +1608,32 @@ class ReportsForm(forms.Form):
             msg = f"Invalid scope: {scope}"
             raise ValueError(msg)
         self.fields["language"].choices += languages.as_choices()
+
+
+class CountsReportsForm(ReportsForm):
+    COUNTING_MODE_UNIQUE = "unique"
+    COUNTING_MODE_ALL = "all"
+    layout_fields = (*ReportsForm.layout_fields, "counting_mode")
+
+    counting_mode = forms.ChoiceField(
+        label=gettext_lazy("Counting mode"),
+        help_text=gettext_lazy(
+            "Choose whether repeated changes on the same string are counted once or "
+            "as separate changes."
+        ),
+        choices=[
+            (
+                COUNTING_MODE_UNIQUE,
+                gettext_lazy("Unique strings"),
+            ),
+            (
+                COUNTING_MODE_ALL,
+                gettext_lazy("All changes"),
+            ),
+        ],
+        initial=COUNTING_MODE_UNIQUE,
+        required=False,
+    )
 
 
 class CleanRepoMixin:

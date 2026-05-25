@@ -465,7 +465,151 @@ class Translation(
         )
         return newunit
 
-    def check_sync(  # noqa: C901, PLR0915
+    def update_units_from_store(  # noqa: C901
+        self, *, user: User | None, author: User | None
+    ) -> tuple[dict[int, Unit], dict[int, Unit]]:
+        store = self.store
+        translation_store = None
+
+        try:
+            store_units = store.content_units
+        except ValueError as error:
+            raise FileParseError(str(error)) from error
+
+        self.log_info(
+            "processing %s, %s, %d strings",
+            self.filename,
+            self.reason,
+            len(store_units),
+        )
+
+        # Store plural
+        plural = store.get_plural(self.language)
+        if plural != self.plural:
+            self.plural = plural
+            self.save(update_fields=["plural"])
+
+        # Select all current units for update
+        dbunits = {
+            unit.id_hash: unit
+            for unit in self.unit_set.prefetch_bulk().select_for_update()
+        }
+        updated: dict[int, Unit] = {}
+        duplicates: list[Unit] = []
+
+        # Process based on intermediate store if available
+        if self.component.intermediate:
+            translation_store = store
+            store = self.load_store(force_intermediate=True)
+            try:
+                store_units = store.content_units
+            except ValueError as error:
+                raise FileParseError(str(error)) from error
+
+        for pos, unit in enumerate(store_units):
+            # Use translation store if exists and if it contains the string
+            if translation_store is not None:
+                try:
+                    translated_unit, created = translation_store.find_unit(
+                        unit.context, unit.source
+                    )
+                except UnitNotFoundError:
+                    pass
+                else:
+                    if translated_unit and not created:
+                        unit = translated_unit
+                    else:
+                        # Patch unit to have matching source
+                        unit.source = translated_unit.source
+            if (
+                self.component.file_format_cls.monolingual
+                and self.component.key_filter_re
+            ):
+                try:
+                    key_filter_match = regex_match(
+                        self.component.key_filter_re, unit.context
+                    )
+                except TimeoutError:
+                    report_error(
+                        "Component key filter regex timed out",
+                        project=self.component.project,
+                    )
+                    self.component.log_warning(
+                        "key filter regex timed out, skipping: %s (%s)",
+                        unit.context,
+                        repr(unit.source),
+                    )
+                    continue
+                if key_filter_match is None:
+                    # This is where the key filtering take place
+                    self.log_info(
+                        "Doesn't match with key_filter, skipping: %s (%s)",
+                        unit.context,
+                        repr(unit.source),
+                    )
+                    continue
+
+            try:
+                id_hash = unit.id_hash
+            except Exception as error:
+                self.component.handle_parse_error(error, self)
+
+            # Check for possible duplicate units
+            if id_hash in updated:
+                newunit = updated[id_hash]
+                self.log_warning(
+                    "duplicate string to translate: %s (%s)",
+                    newunit,
+                    repr(newunit.source),
+                )
+                duplicates.append(newunit)
+                continue
+
+            # Collect source strings
+            newunit = self.pre_process_unit(
+                dbunits=dbunits,
+                id_hash=id_hash,
+                unit=unit,
+                pos=pos + 1,
+            )
+
+            # Store current unit ID
+            updated[id_hash] = newunit
+
+        # Create source strings
+        if not self.is_source and not self.component.template:
+            with sentry_sdk.start_span(
+                op="component.bulk_create_source", name=self.full_slug
+            ):
+                self.component.bulk_create_sources(
+                    [
+                        newunit.unit_attributes
+                        for newunit in updated.values()
+                        if newunit.unit_attributes is not None
+                    ],
+                    create_unit_change_action=self.create_unit_change_action,
+                )
+
+        # Create/update translations
+        for newunit in updated.values():
+            with sentry_sdk.start_span(
+                op="unit.update_from_unit",
+                name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
+            ):
+                newunit.update_from_unit(user=user, author=author)
+
+        # Trigger duplicate alerts
+        for newunit in duplicates:
+            self.component.trigger_alert(
+                "DuplicateString",
+                language_code=self.language.code,
+                source=newunit.source,
+                unit_pk=newunit.pk,
+            )
+
+        return dbunits, updated
+
+    def check_sync(
         self,
         force: bool = False,
         request: AuthenticatedHttpRequest | None = None,
@@ -518,148 +662,10 @@ class Translation(
 
             self.component.check_template_valid()
 
-            # List of updated units (used for cleanup and duplicates detection)
-            updated: dict[int, Unit] = {}
-
             try:
-                store = self.store
-                translation_store = None
-
-                try:
-                    store_units = store.content_units
-                except ValueError as error:
-                    raise FileParseError(str(error)) from error
-
-                self.log_info(
-                    "processing %s, %s, %d strings",
-                    self.filename,
-                    self.reason,
-                    len(store_units),
+                dbunits, updated = self.update_units_from_store(
+                    user=user, author=author
                 )
-
-                # Store plural
-                plural = store.get_plural(self.language)
-                if plural != self.plural:
-                    self.plural = plural
-                    self.save(update_fields=["plural"])
-
-                # Select all current units for update
-                dbunits = {
-                    unit.id_hash: unit
-                    for unit in self.unit_set.prefetch_bulk().select_for_update()
-                }
-                duplicates: list[Unit] = []
-
-                # Process based on intermediate store if available
-                if self.component.intermediate:
-                    translation_store = store
-                    store = self.load_store(force_intermediate=True)
-                    try:
-                        store_units = store.content_units
-                    except ValueError as error:
-                        raise FileParseError(str(error)) from error
-
-                for pos, unit in enumerate(store_units):
-                    # Use translation store if exists and if it contains the string
-                    if translation_store is not None:
-                        try:
-                            translated_unit, created = translation_store.find_unit(
-                                unit.context, unit.source
-                            )
-                        except UnitNotFoundError:
-                            pass
-                        else:
-                            if translated_unit and not created:
-                                unit = translated_unit
-                            else:
-                                # Patch unit to have matching source
-                                unit.source = translated_unit.source
-                    if (
-                        self.component.file_format_cls.monolingual
-                        and self.component.key_filter_re
-                    ):
-                        try:
-                            key_filter_match = regex_match(
-                                self.component.key_filter_re, unit.context
-                            )
-                        except TimeoutError:
-                            report_error(
-                                "Component key filter regex timed out",
-                                project=self.component.project,
-                            )
-                            self.component.log_warning(
-                                "key filter regex timed out, skipping: %s (%s)",
-                                unit.context,
-                                repr(unit.source),
-                            )
-                            continue
-                        if key_filter_match is None:
-                            # This is where the key filtering take place
-                            self.log_info(
-                                "Doesn't match with key_filter, skipping: %s (%s)",
-                                unit.context,
-                                repr(unit.source),
-                            )
-                            continue
-
-                    try:
-                        id_hash = unit.id_hash
-                    except Exception as error:
-                        self.component.handle_parse_error(error, self)
-
-                    # Check for possible duplicate units
-                    if id_hash in updated:
-                        newunit = updated[id_hash]
-                        self.log_warning(
-                            "duplicate string to translate: %s (%s)",
-                            newunit,
-                            repr(newunit.source),
-                        )
-                        duplicates.append(newunit)
-                        continue
-
-                    # Collect source strings
-                    newunit = self.pre_process_unit(
-                        dbunits=dbunits,
-                        id_hash=id_hash,
-                        unit=unit,
-                        pos=pos + 1,
-                    )
-
-                    # Store current unit ID
-                    updated[id_hash] = newunit
-
-                # Create source strings
-                if not self.is_source and not self.component.template:
-                    with sentry_sdk.start_span(
-                        op="component.bulk_create_source", name=self.full_slug
-                    ):
-                        self.component.bulk_create_sources(
-                            [
-                                newunit.unit_attributes
-                                for newunit in updated.values()
-                                if newunit.unit_attributes is not None
-                            ],
-                            create_unit_change_action=self.create_unit_change_action,
-                        )
-
-                # Create/update translations
-                for newunit in updated.values():
-                    with sentry_sdk.start_span(
-                        op="unit.update_from_unit",
-                        name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
-                    ):
-                        newunit.update_from_unit(user=user, author=author)
-
-                # Trigger duplicate alerts
-                for newunit in duplicates:
-                    self.component.trigger_alert(
-                        "DuplicateString",
-                        language_code=self.language.code,
-                        source=newunit.source,
-                        unit_pk=newunit.pk,
-                    )
-
             except FileParseError as error:
                 report_error(
                     "Could not parse file on update", project=self.component.project
@@ -1051,6 +1057,17 @@ class Translation(
         )
         pending_change.save()
 
+    @staticmethod
+    def update_pending_store_unit(
+        pounit: TranslationUnit, unit: Unit, pending_change: PendingUnitChange
+    ) -> None:
+        if unit.is_plural:
+            pounit.set_target(unit.get_target_plurals())
+        else:
+            pounit.set_target(pending_change.target)
+        pounit.set_explanation(pending_change.explanation)
+        pounit.set_source_explanation(pending_change.source_unit_explanation)
+
     @property
     def count_pending_units(self):
         """Return count of units with pending changes."""
@@ -1198,14 +1215,7 @@ class Translation(
 
                 # Store translations
                 try:
-                    if unit.is_plural:
-                        pounit.set_target(unit.get_target_plurals())
-                    else:
-                        pounit.set_target(pending_change.target)
-                    pounit.set_explanation(pending_change.explanation)
-                    pounit.set_source_explanation(
-                        pending_change.source_unit_explanation
-                    )
+                    self.update_pending_store_unit(pounit, unit, pending_change)
                 except Exception as error:
                     self._log_unit_update_failure(unit, error)
                     self._store_failed_unit_update(unit, pending_change, error)

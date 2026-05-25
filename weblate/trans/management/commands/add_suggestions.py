@@ -39,18 +39,19 @@ class Command(WeblateTranslationCommand):
 
         # Process import
         try:
-            with options["file"].open("rb") as handle:
-                try:
-                    translation.handle_upload(
-                        request,
-                        handle,
-                        False,
-                        method="suggest",
-                        author_email=options["author"],
-                    )
-                except OSError as error:
-                    msg = f"Could not import translation file: {error}"
-                    raise CommandError(msg) from error
+            handle = options["file"].open("rb")
         except OSError as error:
             msg = f"Could not open file: {error}"
             raise CommandError(msg) from error
+        with handle:
+            try:
+                translation.handle_upload(
+                    request,
+                    handle,
+                    False,
+                    method="suggest",
+                    author_email=options["author"],
+                )
+            except OSError as error:
+                msg = f"Could not import translation file: {error}"
+                raise CommandError(msg) from error

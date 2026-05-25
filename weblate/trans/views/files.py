@@ -244,11 +244,6 @@ def upload(request: AuthenticatedHttpRequest, path):
             method=form.cleaned_data["method"],
             fuzzy=form.cleaned_data["fuzzy"],
         )
-        message = get_upload_message(not_found, skipped, accepted, total)
-        if accepted == 0:
-            messages.warning(request, message)
-        else:
-            messages.success(request, message)
     except PluralFormsMismatchError:
         messages.error(
             request,
@@ -295,5 +290,11 @@ def upload(request: AuthenticatedHttpRequest, path):
             ),
         )
         report_error("Upload error", project=obj.component.project)
+    else:
+        message = get_upload_message(not_found, skipped, accepted, total)
+        if accepted == 0:
+            messages.warning(request, message)
+        else:
+            messages.success(request, message)
 
     return redirect(obj)

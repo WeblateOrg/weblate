@@ -941,6 +941,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
             return committed
         if committed:
             self.mark_successful_run(component, component.repository.last_revision)
+            component.create_translations()
         else:
             self.mark_successful_run(component, revision)
         return committed

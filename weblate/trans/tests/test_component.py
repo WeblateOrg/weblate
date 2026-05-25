@@ -2298,6 +2298,40 @@ class CleanupRevisionTest(ComponentTestCase):
         mock_cleanup.assert_called_once_with()
         mock_store.assert_called_once_with(self.component)
 
+    def test_cleanup_error_updates_stored_local_revision_when_head_changes(
+        self,
+    ) -> None:
+        request = self.get_request()
+        with (
+            patch.object(
+                Component,
+                "try_get_local_head_revision",
+                autospec=True,
+                return_value="old",
+            ),
+            patch.object(
+                Component,
+                "get_local_head_revision",
+                autospec=True,
+                return_value="new",
+            ),
+            patch.object(
+                Component, "store_local_revision", autospec=True
+            ) as mock_store,
+            patch.object(
+                self.component.repository,
+                "cleanup",
+                side_effect=RepositoryError(128, "cleanup failed"),
+            ) as mock_cleanup,
+        ):
+            self.assertFalse(self.component.do_cleanup(request))
+
+        mock_cleanup.assert_called_once_with()
+        mock_store.assert_called_once_with(self.component)
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("Could not clean the repository", messages[0])
+
     def test_cleanup_reports_post_cleanup_head_read_failure(self) -> None:
         request = self.get_request()
         with (

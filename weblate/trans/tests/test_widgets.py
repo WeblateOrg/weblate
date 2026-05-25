@@ -51,10 +51,10 @@ class EngageTaskChecklistTest(SimpleTestCase):
         tasks = self.get_engage_tasks(nottranslated=1, fuzzy=2)
 
         self.assertEqual(
-            [(task.url, str(task.label), task.total) for task in tasks],
+            [(task.url, task.total) for task in tasks],
             [
-                ("/translate/?q=state:empty", "Untranslated", 1),
-                ("/translate/?q=state:needs-editing", "Needs editing", 2),
+                ("/translate/?q=state:empty", 1),
+                ("/translate/?q=state:needs-editing", 2),
             ],
         )
 
@@ -66,6 +66,26 @@ class EngageTaskChecklistTest(SimpleTestCase):
 
 class WidgetsTest(FixtureTestCase):
     """Testing of widgets."""
+
+    def get_engage_translate_url(self, language: str) -> str:
+        return reverse(
+            "translate",
+            kwargs={"path": [*self.project.get_url_path(), "-", language]},
+        )
+
+    def assert_engage_task_urls(
+        self, response: HttpResponse, expected_urls: list[str]
+    ) -> None:
+        task_urls = [
+            task.url for task in response.context["translate_object"].list_engage_tasks
+        ]
+        self.assertEqual(task_urls, expected_urls)
+
+    def assert_engage_task_url(self, response: HttpResponse, expected_url: str) -> None:
+        task_urls = [
+            task.url for task in response.context["translate_object"].list_engage_tasks
+        ]
+        self.assertIn(expected_url, task_urls)
 
     def test_view_widgets(self) -> None:
         response = self.client.get(
@@ -95,12 +115,10 @@ class WidgetsTest(FixtureTestCase):
             headers={"accept-language": "cs"},
         )
 
-        target_url = reverse(
-            "translate", kwargs={"path": [*self.project.get_url_path(), "-", "cs"]}
-        )
-        self.assertContains(response, "Choose what to work on")
+        target_url = self.get_engage_translate_url("cs")
+        self.assertEqual(response.context["target_language"].code, "cs")
+        self.assert_engage_task_urls(response, [f"{target_url}?q=state:empty"])
         self.assertContains(response, "row engage-task-list justify-content-center")
-        self.assertContains(response, "Czech")
         self.assertContains(response, f"{target_url}?q=state:empty")
         self.assertContains(response, "engage-language-button")
         self.assertContains(response, "engage-button-language")
@@ -112,7 +130,9 @@ class WidgetsTest(FixtureTestCase):
             )
         )
         self.assertContains(response, "Test")
-        self.assertContains(response, "Choose what to work on")
+        self.assert_engage_task_urls(
+            response, [f"{self.get_engage_translate_url('cs')}?q=state:empty"]
+        )
         self.assertContains(response, "row engage-task-list justify-content-center")
         self.assertContains(response, "?q=state:empty")
         self.assertNotContains(response, "?q=state:needs-editing")
@@ -130,7 +150,10 @@ class WidgetsTest(FixtureTestCase):
             )
         )
 
-        self.assertContains(response, "Suggestions pending")
+        self.assert_engage_task_url(
+            response,
+            f"{self.get_engage_translate_url('cs')}?q=has:suggestion#suggestions",
+        )
         self.assertContains(response, "?q=has:suggestion#suggestions")
 
     def test_view_engage_lang_review_tasks(self) -> None:
@@ -144,7 +167,9 @@ class WidgetsTest(FixtureTestCase):
             )
         )
 
-        self.assertContains(response, "Needs review")
+        self.assert_engage_task_url(
+            response, f"{self.get_engage_translate_url('cs')}?q=state:translated"
+        )
         self.assertContains(response, "?q=state:translated")
 
     def test_view_engage_lang_source_review_tasks(self) -> None:

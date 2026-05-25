@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.13
+  rev: v0.15.14
   hooks:
   - id: ruff-check
     args:
@@ -44,7 +44,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.15.13
+    - ruff==0.15.14
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -185,12 +185,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.99.0
+  rev: v1.101.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.1.93
+  rev: v0.2.0
   hooks:
   - id: rumdl
   - id: rumdl-fmt

@@ -81,6 +81,11 @@ Generates the number of translated words and strings by translator name:
 This can be useful if you pay your translators based on the amount of work done;
 it gives you various stats of translators’ work.
 
+By default, repeated changes by the same translator on the same string are
+counted once for each stats variant in the selected report period. Choose
+:guilabel:`All changes` in the counting mode if you need every edit or approval
+to be counted separately.
+
 All stats are available in four variants:
 
 `Total`
@@ -108,3 +113,6 @@ The following metrics are available for each:
    Amount of characters in the translated string.
 
 The translator's join date is also included in the report.
+
+Use source-word metrics when comparing work across target languages, because the
+source text is shared while translated word counts differ by language.

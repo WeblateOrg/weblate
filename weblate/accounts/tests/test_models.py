@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from unittest import mock
+
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
@@ -35,6 +37,24 @@ class AuditLogTestCase(SimpleTestCase):
         self.assertIn("superuser-revoked", AUDIT_WARNING)
         self.assertIn("superuser-granted", NOTIFY_ACTIVITY)
         self.assertIn("superuser-revoked", NOTIFY_ACTIVITY)
+
+    def test_user_agent_display_empty(self) -> None:
+        audit = AuditLog(user_agent="")
+        self.assertEqual(audit.get_user_agent_display(), "")
+
+    def test_user_agent_display(self) -> None:
+        audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
+        self.assertEqual(audit.get_user_agent_display(), "PC / Linux / Chrome 120.0.0")
+
+    def test_user_agent_display_localizes_first_part_via_mapping(self) -> None:
+        with mock.patch.dict(
+            "weblate.accounts.models.USER_AGENT_DEVICE_TYPES",
+            {"PC": "Translated PC"},
+            clear=False,
+        ):
+            audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
+            result = audit.get_user_agent_display()
+            self.assertEqual(result, "Translated PC / Linux / Chrome 120.0.0")
 
 
 class AuditLogLoggingTestCase(TestCase):

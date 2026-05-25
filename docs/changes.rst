@@ -15,15 +15,22 @@ Weblate 2026.6
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
 * Translation flag fields now use a tag-based editor with autocompletion
   and grouped suggestions for all known flags.
+* :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
+* :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories.
+* :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
+* :ref:`alerts` now include dismissible component diagnostics for community localization.
 
 .. rubric:: Bug fixes
 
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
-* Searching for strings with content changes without a recorded author now supports ``changed_by:""``.
+* Searching for strings with content changes without a recorded author now supports ``changed_by:""``, and combined change filters now apply to the same change event.
 * Gitea and Forgejo pull requests no longer reconfigure existing fork remotes to point to the source repository.
 * Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
 * Engage page task links now stay centered and show the target translation language.
+* Gettext POT update add-ons now rescan translations after committing updated POT and PO files.
+* Git repositories now update branches correctly when the remote also has a tag with the same name.
+* Conflicting repository setup alerts now allow same-branch direct pushes.
 
 .. rubric:: Compatibility
 

@@ -37,7 +37,9 @@ def execute_locked(
     except WeblateLockTimeoutError:
         messages.error(
             request,
-            gettext("Could not lock the repository, another operation is in progress."),
+            gettext(
+                "There appears to be an ongoing operation on the repository. Please try again later."
+            ),
         )
         if isinstance(obj, Project):
             report_error("Repository lock timeout", project=obj)

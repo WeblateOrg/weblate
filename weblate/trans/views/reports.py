@@ -15,7 +15,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.forms import ReportsForm
+from weblate.trans.forms import CountsReportsForm, ReportsForm
 from weblate.trans.models import Category, Change, Component, Project
 from weblate.trans.util import count_words, redirect_param
 from weblate.utils.views import parse_path, show_form_errors
@@ -220,12 +220,13 @@ COUNT_DEFAULTS = dict.fromkeys(
 
 
 def generate_counts(
-    user: User,
+    user: User | None,
     start_date,
     end_date,
     language_code: str,
     sort_by: str,
     sort_order: str,
+    counting_mode: str = CountsReportsForm.COUNTING_MODE_UNIQUE,
     **kwargs,
 ):
     """Generate credits data for given component."""
@@ -240,9 +241,11 @@ def generate_counts(
     if language_code:
         base = base.filter(language__code=language_code)
 
-    changes = base.filter(
-        timestamp__range=(start_date, end_date), **kwargs
-    ).prefetch_related("author", "unit")
+    changes = base.filter(timestamp__range=(start_date, end_date), **kwargs)
+    if counting_mode == CountsReportsForm.COUNTING_MODE_UNIQUE:
+        changes = changes.order_by("-timestamp", "-pk")
+    changes = changes.prefetch_related("author", "language", "unit")
+    seen_changes = set()
     for change in changes:
         email = change.author.email
 
@@ -256,6 +259,13 @@ def generate_counts(
         else:
             current = result[email]
 
+        suffix = action_map.get(change.action, "edit")
+        if counting_mode == CountsReportsForm.COUNTING_MODE_UNIQUE:
+            deduplicated_key = (change.author_id, change.unit_id, suffix)
+            if deduplicated_key in seen_changes:
+                continue
+            seen_changes.add(deduplicated_key)
+
         src_chars = len(change.unit.source)
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
@@ -268,8 +278,6 @@ def generate_counts(
         current["t_words"] += tgt_words
         current["edits"] += edits
         current["count"] += 1
-
-        suffix = action_map.get(change.action, "edit")
 
         current[f"t_chars_{suffix}"] += tgt_chars
         current[f"t_words_{suffix}"] += tgt_words
@@ -301,7 +309,7 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
     else:
         kwargs = {"component": obj}
 
-    form = ReportsForm(kwargs, request.POST)
+    form = CountsReportsForm(kwargs, request.POST)
 
     if not form.is_valid():
         show_form_errors(request, form)
@@ -314,6 +322,8 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
         form.cleaned_data["language"],
         form.cleaned_data["sort_by"],
         form.cleaned_data["sort_order"],
+        form.cleaned_data.get("counting_mode")
+        or CountsReportsForm.COUNTING_MODE_UNIQUE,
         **kwargs,
     )
 

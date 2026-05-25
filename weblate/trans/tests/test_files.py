@@ -1169,6 +1169,30 @@ class ImportAddTest(ImportBaseTest):
 
     test_file = TEST_TBX
 
+    def test_add_upload_holds_component_lock(self) -> None:
+        translation = self.get_translation()
+        request = self.get_request()
+        store = object()
+
+        def handle_add_upload(*args, **kwargs):
+            self.assertTrue(translation.component.lock.is_locked)
+            return (0, 0, 0, 0)
+
+        with (
+            patch.object(translation, "load_uploaded_file", return_value=store),
+            patch.object(
+                translation, "handle_add_upload", side_effect=handle_add_upload
+            ) as add_upload,
+        ):
+            translation.handle_upload(
+                request,
+                NamedBytesIO("upload.tbx", b""),
+                "",
+                method="add",
+            )
+
+        add_upload.assert_called_once()
+
     def test_import(self) -> None:
         """Test importing normally."""
         response = self.do_import(method="add", follow=True)

@@ -927,6 +927,45 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.update_remote()
 
+    def test_update_remote_fetches_branch_over_same_named_tag(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("GitRepository-specific regression test")
+
+        branch = self._remote_branch
+        with tempfile.TemporaryDirectory() as tempdir:
+            remote_repo = self.clone_repo(tempdir)
+            with remote_repo.lock:
+                old_revision = remote_repo.last_revision
+                remote_repo.execute(["tag", branch, old_revision], remote_op="none")
+                remote_repo.execute(
+                    ["push", "origin", f"refs/tags/{branch}:refs/tags/{branch}"],
+                    remote_op="push",
+                )
+
+                filename = "same-name-tag"
+                Path(os.path.join(tempdir, filename)).write_text(
+                    "SECOND TEST FILE\n", encoding="utf-8"
+                )
+                remote_repo.commit(
+                    "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), [filename]
+                )
+                new_revision = remote_repo.last_revision
+                remote_repo.execute(
+                    ["push", "origin", f"refs/heads/{branch}:refs/heads/{branch}"],
+                    remote_op="push",
+                )
+
+        with self.repo.lock:
+            self.assertEqual(old_revision, self.repo.last_remote_revision)
+            self.repo.update_remote()
+            self.assertEqual(new_revision, self.repo.last_remote_revision)
+            self.assertEqual(
+                "",
+                self.repo.execute(
+                    ["tag", "--list", branch], remote_op="none", merge_err=False
+                ),
+            )
+
     def test_list_remote_branches_runtime_private_url_rejected(self) -> None:
         if self._class in {SubversionRepository, HgRepository, LocalRepository}:
             self.skipTest("Covered by backend-specific behavior")
@@ -3128,8 +3167,8 @@ class VCSLocalTest(VCSGitTest):
 
     def test_should_retry_popen(self) -> None:
         # This really belongs to the Git class, but we want to test it just once
-        tempdir = Path(tempfile.mkdtemp())
-        try:
+        with tempfile.TemporaryDirectory() as tempdir_name:
+            tempdir = Path(tempdir_name)
             gitdir = tempdir / ".git"
             gitdir.mkdir()
             lockfile = gitdir / "HEAD.lock"
@@ -3153,8 +3192,6 @@ may have crashed in this repository earlier:
 remove the file manually to continue.
 """)
             )
-        finally:
-            shutil.rmtree(tempdir)
 
     def test_from_zip_rejects_symlink_entry(self) -> None:
         archive = BytesIO()

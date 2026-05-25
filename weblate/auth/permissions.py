@@ -814,7 +814,7 @@ def check_billing(user: User, permission: str, obj: Project) -> bool | Permissio
 def check_announcement_delete(
     user: User,
     permission: str,
-    obj: Announcement | Project | Category | Component | None,
+    obj: Announcement | Project | ProjectLanguage | Category | Component | None,
 ) -> bool | PermissionResult:
     if isinstance(obj, Announcement):
         if obj.component_id is not None:
@@ -829,6 +829,11 @@ def check_announcement_delete(
             obj = obj.component
         elif obj.category_id is not None:
             obj = obj.category
+        elif obj.language_id is not None:
+            if obj.project_id is not None:
+                obj = ProjectLanguage(obj.project, obj.language)
+            else:
+                obj = obj.language
         else:
             obj = obj.project
 
