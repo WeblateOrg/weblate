@@ -129,7 +129,7 @@
               : "";
           return `<div><code>${sample}</code>${label}</div>`;
         },
-        item: (data, esc) => `<div><code>${esc(data.value)}</code></div>`,
+        item: (data, esc) => `<div><code>${esc(data.name)}</code></div>`,
         no_results: (data, esc) =>
           `<div class="no-results">${esc(
             interpolate(
