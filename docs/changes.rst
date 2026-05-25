@@ -8,6 +8,7 @@ Weblate 2026.6
 * :doc:`/admin/announcements` can now also be managed via the :ref:`api` for specific project languages.
 * Team memberships can now be limited to selected languages for per-user translation permissions.
 * Added :ref:`cost estimates <cost-estimate>` to translation reports.
+* Added optional :ref:`OpenTelemetry tracing <collecting-errors>` support for backend requests and tasks.
 
 .. rubric:: Improvements
 

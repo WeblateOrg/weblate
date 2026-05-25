@@ -89,8 +89,8 @@ Data retention and deletion
   controlled by the site operator.
 - Third-party services receive data only when configured or used by the
   operator, for example external authentication providers, avatar providers,
-  Matomo, Sentry, remote logging, machine translation services, or repository
-  integrations.
+  Matomo, Sentry, OpenTelemetry, remote logging, machine translation services,
+  or repository integrations.
 
 Security and confidentiality
 ----------------------------
@@ -166,7 +166,8 @@ Recommendations for compliance
   periods for database backups, log aggregation, mail systems, repositories,
   and external integrations.
 - **External services:** Review configured authentication providers, avatar
-  providers, analytics, Sentry, GELF logging, machine translation, e-mail, and
-  repository integrations for transfer and processor obligations.
+  providers, analytics, Sentry, OpenTelemetry, GELF logging, machine
+  translation, e-mail, and repository integrations for transfer and processor
+  obligations.
 - **Locality:** Ensure application hosting, backups, logs, repositories, and
   external processors are located in permitted jurisdictions.

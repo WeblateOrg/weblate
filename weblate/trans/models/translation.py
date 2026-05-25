@@ -13,7 +13,6 @@ from itertools import chain
 from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
 
-import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -75,6 +74,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+from weblate.utils.tracing import start_span
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
@@ -400,9 +400,7 @@ class Translation(
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
         # Use intermediate store as template for source translation
-        with sentry_sdk.start_span(
-            op="translation.load_store", name=self.get_filename()
-        ):
+        with start_span(op="translation.load_store", name=self.get_filename()):
             if force_intermediate or (self.is_template and self.component.intermediate):
                 template = self.component.intermediate_store
             else:
@@ -578,9 +576,7 @@ class Translation(
 
         # Create source strings
         if not self.is_source and not self.component.template:
-            with sentry_sdk.start_span(
-                op="component.bulk_create_source", name=self.full_slug
-            ):
+            with start_span(op="component.bulk_create_source", name=self.full_slug):
                 self.component.bulk_create_sources(
                     [
                         newunit.unit_attributes
@@ -592,7 +588,7 @@ class Translation(
 
         # Create/update translations
         for newunit in updated.values():
-            with sentry_sdk.start_span(
+            with start_span(
                 op="unit.update_from_unit",
                 name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
             ):
@@ -617,7 +613,7 @@ class Translation(
         author: User | None = None,
     ) -> None:
         """Check whether database is in sync with git and possibly updates."""
-        with sentry_sdk.start_span(op="translation.check_sync", name=self.full_slug):
+        with start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
                 change = ActionEvents.UPDATE
             user = None if request is None else request.user
@@ -1185,7 +1181,7 @@ class Translation(
                     report_error(
                         "String disappeared",
                         project=self.component.project,
-                        skip_sentry=True,
+                        skip_error_reporting=True,
                     )
                     unit.state = STATE_FUZZY
                     # Use update instead of hitting expensive save()

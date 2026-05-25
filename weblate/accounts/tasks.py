@@ -12,7 +12,6 @@ from smtplib import SMTP, SMTPConnectError
 from types import MethodType
 from typing import TYPE_CHECKING, TypedDict
 
-import sentry_sdk
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
@@ -26,6 +25,7 @@ from weblate.utils.celery import app
 from weblate.utils.errors import report_error
 from weblate.utils.html import HTML2Text
 from weblate.utils.icons import load_icon
+from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -232,7 +232,7 @@ def queue_mails(mails: list[OutgoingEmail]) -> None:
 def send_mails(mails: list[OutgoingEmail]) -> None:
     """Send multiple mails in single connection."""
     images = []
-    with sentry_sdk.start_span(op="email.images"):
+    with start_span(op="email.images"):
         for name in ("email-logo.png", "email-logo-footer.png"):
             image = MIMEPart()
             image.set_content(
@@ -245,7 +245,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             )
             images.append(image)
 
-    with sentry_sdk.start_span(op="email.connect"):
+    with start_span(op="email.connect"):
         connection = get_connection()
         try:
             connection.open()
@@ -260,7 +260,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
 
     with closing(connection):
         for mail in mails:
-            with sentry_sdk.start_span(op="email.text"):
+            with start_span(op="email.text"):
                 text = html2text.handle(mail["body"])
             email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
@@ -272,7 +272,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             for image in images:
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")
-            with sentry_sdk.start_span(op="email.send"):
+            with start_span(op="email.send"):
                 LOGGER.debug("sending e-mail to %s", mail["address"])
                 email.send()
 

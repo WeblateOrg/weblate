@@ -9,7 +9,6 @@ import re
 from functools import partial, reduce
 from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
-import sentry_sdk
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
 from django.core.cache import cache
@@ -63,6 +62,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
     StringState,
 )
+from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
@@ -1461,7 +1461,7 @@ class Unit(models.Model, LoggerMixin):
         """Propagate current translation to all others."""
         warnings: list[str] = []
 
-        with sentry_sdk.start_span(op="unit.propagate", name=f"{self.pk}"):
+        with start_span(op="unit.propagate", name=f"{self.pk}"):
             to_update: list[Unit] = []
             units = self.propagated_units.exclude(
                 target=self.target, state=self.state
@@ -1687,7 +1687,7 @@ class Unit(models.Model, LoggerMixin):
 
         This is needed when editing template translation for monolingual formats.
         """
-        with sentry_sdk.start_span(op="unit.update_source_units", name=f"{self.pk}"):
+        with start_span(op="unit.update_source_units", name=f"{self.pk}"):
             changes = []
             translation_parent_stats = {}
             delta_failed = False
@@ -2033,9 +2033,7 @@ class Unit(models.Model, LoggerMixin):
             propagated_units = propagated_units.distinct().prefetch_all_checks()
 
             for unit in propagated_units:
-                with sentry_sdk.start_span(
-                    op="unit.propagate_check", name=f"{unit.pk}"
-                ):
+                with start_span(op="unit.propagate_check", name=f"{unit.pk}"):
                     try:
                         unit.run_checks(force_propagate=False, skip_propagate=True)
                     except Unit.DoesNotExist:
@@ -2064,7 +2062,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of nearby messages based on location."""
         if self.position == 0:
             return Unit.objects.none()
-        with sentry_sdk.start_span(op="unit.nearby", name=f"{self.pk}"):
+        with start_span(op="unit.nearby", name=f"{self.pk}"):
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (
@@ -2082,7 +2080,7 @@ class Unit(models.Model, LoggerMixin):
         # Do not show nearby keys on bilingual
         if not self.translation.component.has_template():
             return []
-        with sentry_sdk.start_span(op="unit.nearby_keys", name=f"{self.pk}"):
+        with start_span(op="unit.nearby_keys", name=f"{self.pk}"):
             key = self.translation.keys_cache_key
             key_list = cache.get(key)
             unit_set = self.translation.unit_set

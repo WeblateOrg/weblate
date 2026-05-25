@@ -2121,6 +2121,43 @@ To enable support for Sentry, set following:
 
    Configures :setting:`SENTRY_SEND_PII`.
 
+To enable support for OpenTelemetry tracing, set following:
+
+.. envvar:: OPENTELEMETRY_ENABLED
+
+   Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``.
+
+.. envvar:: OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+
+   Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         OPENTELEMETRY_ENABLED: true
+         OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT: https://collector.example.com/v1/traces
+         OPENTELEMETRY_TRACES_SAMPLE_RATE: 0.1
+
+.. envvar:: OPENTELEMETRY_EXPORTER_OTLP_HEADERS
+
+   Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` as a comma-separated
+   ``name:value`` mapping.
+
+.. envvar:: OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES
+
+   Configures :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` as a
+   comma-separated ``name:value`` mapping.
+
+.. envvar:: OPENTELEMETRY_SERVICE_NAME
+
+   Configures :setting:`OPENTELEMETRY_SERVICE_NAME`.
+
+.. envvar:: OPENTELEMETRY_TRACES_SAMPLE_RATE
+
+   Configures :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`.
+
 Localization CDN
 ++++++++++++++++
 

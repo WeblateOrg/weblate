@@ -8,7 +8,6 @@ import re
 from contextlib import nullcontext
 from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
-import sentry_sdk
 from django.http import Http404
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
@@ -19,6 +18,7 @@ from siphashc import siphash
 from weblate.utils.classloader import ClassLoaderProtocol
 from weblate.utils.docs import DocVersionsMixin, get_doc_url
 from weblate.utils.html import format_html_join_comma
+from weblate.utils.tracing import start_span
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
@@ -239,7 +239,7 @@ class BatchCheckMixin(BaseCheck):
         lock = nullcontext()
         if self.batch_project_wide and component.allow_translation_propagation:
             lock = component.project.checks_lock
-        with lock, sentry_sdk.start_span(op="check.perform_batch", name=self.check_id):
+        with lock, start_span(op="check.perform_batch", name=self.check_id):
             self._perform_batch(component)
 
     def _perform_batch(self, component: Component) -> None:
