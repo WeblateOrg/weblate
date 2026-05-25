@@ -231,7 +231,7 @@ class ChecksumField(forms.CharField):
 
 
 class FlagEditorWidget(forms.TextInput):
-    """Text input wired up to the tom-select-based flag editor in the UI."""
+    """Text input for interactive flag editor."""
 
     def __init__(self, attrs=None) -> None:
         attrs = {**(attrs or {})}
@@ -249,6 +249,11 @@ class FlagEditorWidget(forms.TextInput):
 class FlagField(forms.CharField):
     default_validators = [validate_check_flags]  # noqa: RUF012
     widget = FlagEditorWidget
+
+    def __init__(self, *args, **kwargs) -> None:
+        # Force the tag-based editor widget
+        kwargs["widget"] = FlagEditorWidget()
+        super().__init__(*args, **kwargs)
 
 
 class PluralTextarea(forms.Textarea):
@@ -1384,6 +1389,9 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         widgets = {  # noqa: RUF012
             "labels": forms.CheckboxSelectMultiple(),
             "explanation": MarkdownTextarea,
+        }
+        field_classes = {  # noqa: RUF012
+            "extra_flags": FlagField,
         }
 
     doc_links: ClassVar[dict[str, tuple[str, str]]] = {

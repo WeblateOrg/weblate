@@ -454,33 +454,55 @@ class FlagsValidator(Flags):
 FlagInput = str | etree._Element | Flags | FlagItems | None  # noqa: SLF001
 
 
-# Categorization of flags for the UI flag editor. Keys are flag names that
-# are not derived from a check; values are translatable category labels.
+# Categories used by the UI flag editor
+FLAG_CATEGORY_FORMAT: StrOrPromise = gettext_lazy("Format")
+FLAG_CATEGORY_BEHAVIOR: StrOrPromise = gettext_lazy("Translation behavior")
+FLAG_CATEGORY_VALIDATION: StrOrPromise = gettext_lazy("Validation")
+FLAG_CATEGORY_RENDERING: StrOrPromise = gettext_lazy("Rendering")
+FLAG_CATEGORY_ICU: StrOrPromise = gettext_lazy("ICU MessageFormat")
+FLAG_CATEGORY_DISABLE: StrOrPromise = gettext_lazy("Disabled check")
+FLAG_CATEGORY_AUTO: StrOrPromise = gettext_lazy("Automatic detection")
+FLAG_CATEGORY_OTHER: StrOrPromise = gettext_lazy("Other")
+
+# Explicit overrides for flags whose name doesn't make the category obvious.
 _FLAG_CATEGORIES: dict[str, StrOrPromise] = {
-    "rst-text": gettext_lazy("Text format"),
-    "md-text": gettext_lazy("Text format"),
-    "xml-text": gettext_lazy("Text format"),
-    "url": gettext_lazy("Text format"),
-    "read-only": gettext_lazy("String behavior"),
-    "forbidden": gettext_lazy("String behavior"),
-    "terminology": gettext_lazy("String behavior"),
-    "case-insensitive": gettext_lazy("String behavior"),
-    "strict-same": gettext_lazy("String behavior"),
-    "strict-format": gettext_lazy("String behavior"),
-    "ignore-all-checks": gettext_lazy("String behavior"),
-    "priority": gettext_lazy("String behavior"),
-    "max-length": gettext_lazy("String behavior"),
-    "replacements": gettext_lazy("String behavior"),
-    "variant": gettext_lazy("String behavior"),
-    "font-family": gettext_lazy("Rendering"),
-    "font-size": gettext_lazy("Rendering"),
-    "font-weight": gettext_lazy("Rendering"),
-    "font-spacing": gettext_lazy("Rendering"),
-    "icu-flags": gettext_lazy("ICU MessageFormat"),
-    "icu-tag-prefix": gettext_lazy("ICU MessageFormat"),
-    "fluent-type": gettext_lazy("Format"),
-    DISCARD_FLAG: gettext_lazy("Other"),
+    "rst-text": FLAG_CATEGORY_FORMAT,
+    "md-text": FLAG_CATEGORY_FORMAT,
+    "xml-text": FLAG_CATEGORY_FORMAT,
+    "url": FLAG_CATEGORY_FORMAT,
+    "read-only": FLAG_CATEGORY_BEHAVIOR,
+    "forbidden": FLAG_CATEGORY_BEHAVIOR,
+    "terminology": FLAG_CATEGORY_BEHAVIOR,
+    "case-insensitive": FLAG_CATEGORY_BEHAVIOR,
+    "strict-same": FLAG_CATEGORY_BEHAVIOR,
+    "strict-format": FLAG_CATEGORY_BEHAVIOR,
+    "ignore-all-checks": FLAG_CATEGORY_BEHAVIOR,
+    "priority": FLAG_CATEGORY_BEHAVIOR,
+    "replacements": FLAG_CATEGORY_BEHAVIOR,
+    "variant": FLAG_CATEGORY_BEHAVIOR,
+    "fluent-type": FLAG_CATEGORY_BEHAVIOR,
+    "max-length": FLAG_CATEGORY_VALIDATION,
+    "max-size": FLAG_CATEGORY_VALIDATION,
+    "check-glossary": FLAG_CATEGORY_VALIDATION,
+    "font-family": FLAG_CATEGORY_RENDERING,
+    "font-size": FLAG_CATEGORY_RENDERING,
+    "font-weight": FLAG_CATEGORY_RENDERING,
+    "font-spacing": FLAG_CATEGORY_RENDERING,
+    "icu-flags": FLAG_CATEGORY_ICU,
+    "icu-tag-prefix": FLAG_CATEGORY_ICU,
+    DISCARD_FLAG: FLAG_CATEGORY_OTHER,
 }
+
+
+def _category_for_check_flag(name: str, *, has_value: bool) -> StrOrPromise:
+    """Pick a sensible category for a flag derived from a check."""
+    if has_value:
+        return FLAG_CATEGORY_VALIDATION
+    if name.endswith(("-format", "-text", "-interpolation", "-placeholders")):
+        return FLAG_CATEGORY_FORMAT
+    if name in {"url", "safe-html", "bbcode-text"} or name.startswith("fluent-"):
+        return FLAG_CATEGORY_FORMAT
+    return FLAG_CATEGORY_OTHER
 
 
 def _flag_choice(
@@ -521,27 +543,26 @@ def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
         )
 
     for name, label in PLAIN_FLAGS.items():
-        category = _FLAG_CATEGORIES.get(
-            name,
-            gettext_lazy("Enabled check")
-            if name in enable_strings
-            else gettext_lazy("Automatic detection"),
-        )
+        if name in _FLAG_CATEGORIES:
+            category: StrOrPromise = _FLAG_CATEGORIES[name]
+        elif name in enable_strings:
+            category = _category_for_check_flag(name, has_value=False)
+        else:
+            category = FLAG_CATEGORY_AUTO
         add(name, label, category, has_value=False)
 
     for name, label in TYPED_FLAGS.items():
-        category = _FLAG_CATEGORIES.get(
-            name,
-            gettext_lazy("Parametrized check")
-            if name in enable_strings
-            else gettext_lazy("Other"),
-        )
+        if name in _FLAG_CATEGORIES:
+            category = _FLAG_CATEGORIES[name]
+        elif name in enable_strings:
+            category = _category_for_check_flag(name, has_value=True)
+        else:
+            category = FLAG_CATEGORY_OTHER
         add(name, label, category, has_value=True)
 
-    ignore_category = gettext_lazy("Ignored check")
     for check in CHECKS.values():
-        add(check.ignore_string, check.name, ignore_category, has_value=False)
+        add(check.ignore_string, check.name, FLAG_CATEGORY_DISABLE, has_value=False)
     for ignore_string in AUTOFIXES.get_ignore_strings():
-        add(ignore_string, ignore_string, ignore_category, has_value=False)
+        add(ignore_string, ignore_string, FLAG_CATEGORY_DISABLE, has_value=False)
 
     return tuple(choices)

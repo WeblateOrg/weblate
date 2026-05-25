@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// Tag-based editor for translation flag fields, powered by tom-select.
-// Activates on any input/textarea carrying the "flag-editor" class and a
-// "data-flag-choices-url" attribute pointing at the JSON flag catalog.
+// Tag-based editor for translation flag fields
 
 (() => {
   let flagChoicesPromise = null;
@@ -23,8 +21,7 @@
   }
 
   /*
-   * Split a flag-text string into individual flag tokens, honoring quoted
-   * values that may legitimately contain commas (eg. `regex:"foo,bar"`).
+   * Split a flag-text string into individual flag tokens
    */
   function parseFlagInputValue(value) {
     const items = [];
@@ -152,17 +149,24 @@
       input.dispatchEvent(new Event("change", { bubbles: true }));
     });
 
-    /* If a parametrized flag (eg. max-length) is selected without a value,
-     * undo the add and pre-fill the textbox with the flag name and colon so
-     * the user can type the value. */
-    ts.on("item_add", (value) => {
-      const opt = ts.options[value];
+    /* Intercept selection of a parametrized flag without a value */
+    const origAddItem = ts.addItem;
+    ts.addItem = function (value, silent) {
+      const opt = this.options[value];
       if (opt?.has_value && !String(value).includes(":")) {
-        ts.removeItem(value, true);
-        ts.setTextboxValue(`${value}:`);
-        ts.focus();
+        const typed = (this.control_input?.value || "").trim();
+        const prefix = `${value}:`;
+        if (typed.length > prefix.length && typed.startsWith(prefix)) {
+          this.createItem(typed);
+          return;
+        }
+        this.setTextboxValue(prefix);
+        this.focus();
+        this.refreshOptions(true);
+        return;
       }
-    });
+      return origAddItem.call(this, value, silent);
+    };
 
     loadFlagChoices(choicesUrl).then((choices) => {
       const groups = new Set();
