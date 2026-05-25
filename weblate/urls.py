@@ -1122,6 +1122,9 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
     real_patterns.append(
         path("create/billing/", CreateBillingView.as_view(), name="create-billing"),
     )
+    real_patterns.append(
+        path("hosted/api/", include("wlhosted.integrations.urls")),
+    )
 
 # Django SAML2 Identity Provider
 if "djangosaml2idp" in settings.INSTALLED_APPS:
