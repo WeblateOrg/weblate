@@ -14,6 +14,7 @@ from django.db.models import Case, IntegerField, Value, When
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
+from weblate.logger import LOGGER
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
@@ -28,11 +29,59 @@ from weblate.utils.state import (
 from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
     from weblate.auth.models import User
     from weblate.machinery.base import BatchMachineTranslation, UnitMemoryResultDict
     from weblate.utils.state import StringState
+
+
+def fetch_machinery_matches(
+    *,
+    units: list[Unit],
+    user: User | None,
+    services: Sequence[BatchMachineTranslation],
+    threshold: int,
+    set_progress: Callable[[int], None] | None = None,
+    log_translation: Translation | None = None,
+) -> dict[int, UnitMemoryResultDict]:
+    """Fetch machinery matches without applying them to units."""
+    num_units = len(units)
+
+    for pos, translation_service in enumerate(services):
+        batch_size = translation_service.batch_size
+        if log_translation is not None:
+            log_translation.log_info(
+                "fetching translations for %d units from %s, %d per request",
+                num_units,
+                translation_service.name,
+                batch_size,
+            )
+
+        for batch_start in range(0, num_units, batch_size):
+            if set_progress is not None:
+                set_progress(pos * num_units + batch_start)
+            try:
+                translation_service.batch_translate(
+                    units[batch_start : batch_start + batch_size],
+                    user,
+                    threshold=threshold,
+                )
+            except MachineTranslationError as error:
+                if log_translation is not None:
+                    log_translation.log_error("failed automatic translation: %s", error)
+                else:
+                    LOGGER.warning(
+                        "failed machinery translation from %s: %s",
+                        translation_service.name,
+                        error,
+                    )
+
+    return {
+        unit.id: unit.machinery
+        for unit in units
+        if unit.machinery and any(unit.machinery["quality"])
+    }
 
 
 class BaseAutoTranslate:
@@ -374,35 +423,16 @@ class AutoTranslate(BaseAutoTranslate):
         # Estimate number of strings to translate, this is adjusted in process_mt
         self.progress_steps = self.progress_base + num_units
 
-        for pos, translation_service in enumerate(engines):
-            batch_size = translation_service.batch_size
-            self.translation.log_info(
-                "fetching translations for %d units from %s, %d per request",
-                num_units,
-                translation_service.name,
-                batch_size,
-            )
-
-            for batch_start in range(0, num_units, batch_size):
-                self.set_progress(pos * num_units + batch_start)
-                try:
-                    translation_service.batch_translate(
-                        units[batch_start : batch_start + batch_size],
-                        self.user,
-                        threshold=threshold,
-                    )
-                except MachineTranslationError as error:
-                    # Ignore errors here to complete fetching
-                    self.translation.log_error(
-                        "failed automatic translation: %s", error
-                    )
-
+        translations = fetch_machinery_matches(
+            units=units,
+            user=self.user,
+            services=engines,
+            threshold=threshold,
+            set_progress=self.set_progress,
+            log_translation=self.translation,
+        )
         self.set_progress(self.progress_base)
-        return {
-            unit.id: unit.machinery
-            for unit in units
-            if unit.machinery and any(unit.machinery["quality"])
-        }
+        return translations
 
     def process_mt(self, engines: list[str], threshold: int) -> None:
         """Perform automatic translation based on machine translation."""

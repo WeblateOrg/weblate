@@ -3,16 +3,24 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from datetime import UTC, datetime, timedelta
+from decimal import Decimal
+from unittest.mock import patch
 
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import User
+from weblate.memory.models import Memory
 from weblate.trans.forms import CountsReportsForm
+from weblate.trans.models import Category, Change, PendingUnitChange, Suggestion, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
-from weblate.trans.views.reports import generate_counts, generate_credits
-from weblate.utils.state import STATE_APPROVED
+from weblate.trans.views.reports import (
+    generate_cost_estimate,
+    generate_counts,
+    generate_credits,
+)
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY
 
 COUNTS_DATA = [
     {
@@ -74,6 +82,50 @@ class BaseReportsTest(ViewTestCase):
             counting_mode,
             component=self.component,
         )
+
+    def get_cost_rates(self):
+        return {
+            "rate_new": Decimal(100),
+            "rate_needs_editing": Decimal(50),
+            "rate_tm_100": Decimal(0),
+            "rate_tm_fuzzy": Decimal(50),
+            "rate_repetition": Decimal(0),
+        }
+
+    def generate_cost_data(
+        self,
+        *,
+        q: str = "state:<translated",
+        threshold: int = 80,
+        entity=None,
+    ):
+        return generate_cost_estimate(
+            self.user,
+            "",
+            q,
+            Decimal("0.10"),
+            threshold,
+            self.get_cost_rates(),
+            self.component if entity is None else entity,
+        )
+
+    def add_memory(self, source: str) -> None:
+        Memory.objects.create(
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            source=source,
+            target="Translation memory result",
+            origin="test",
+            project=self.project,
+            status=Memory.STATUS_ACTIVE,
+        )
+
+    def move_component_to_child_category(self) -> Category:
+        parent = self.create_category(project=self.project)
+        child = self.create_category(project=self.project, category=parent)
+        self.component.category = child
+        self.component.save(update_fields=["category"])
+        return parent
 
 
 class ReportsTest(BaseReportsTest):
@@ -139,6 +191,37 @@ class ReportsTest(BaseReportsTest):
         self.edit_unit("Hello, world!\n", "Nazdar svete2!\n")
         self.test_credits_one(expected_count=2)
 
+    def test_credits_include_child_category_components(self) -> None:
+        parent = self.move_component_to_child_category()
+        self.add_change()
+
+        data = generate_credits(
+            None,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "cs",
+            parent,
+            "date_joined",
+            "ascending",
+        )
+
+        self.assertEqual(
+            data,
+            [
+                {
+                    "Czech": [
+                        {
+                            "email": "weblate@example.org",
+                            "full_name": "Weblate <b>Test</b>",
+                            "username": "testuser",
+                            "change_count": 1,
+                            "date_joined": self.user.date_joined.isoformat(),
+                        }
+                    ]
+                }
+            ],
+        )
+
     def test_counts_one(self) -> None:
         self.add_change()
         data = generate_counts(
@@ -160,6 +243,22 @@ class ReportsTest(BaseReportsTest):
             "ascending",
             component=self.component,
         )
+        self.assertEqual(data, self.counts_data)
+
+    def test_counts_include_child_category_components(self) -> None:
+        parent = self.move_component_to_child_category()
+        self.add_change()
+
+        data = generate_counts(
+            None,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "cs",
+            "date_joined",
+            "ascending",
+            category=parent,
+        )
+
         self.assertEqual(data, self.counts_data)
 
     def test_counts_unique_repeated_edits(self) -> None:
@@ -235,6 +334,102 @@ class ReportsTest(BaseReportsTest):
         self.assertEqual(data[self.user.email]["count_edit"], 1)
         self.assertEqual(data[user.email]["count"], 1)
         self.assertEqual(data[user.email]["count_edit"], 1)
+
+    def test_cost_estimate_exact_memory(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        self.add_memory(unit.source)
+
+        data = self.generate_cost_data()
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+
+        self.assertEqual(buckets["tm_100"]["count"], 1)
+        self.assertEqual(buckets["tm_100"]["words"], unit.num_words)
+        self.assertEqual(buckets["tm_100"]["cost"], "0")
+
+    def test_cost_estimate_fuzzy_memory(self) -> None:
+        self.add_memory("Thank you for using Weblate!")
+
+        data = self.generate_cost_data(threshold=1)
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+
+        self.assertEqual(buckets["tm_fuzzy"]["count"], 1)
+        self.assertEqual(buckets["tm_100"]["count"], 0)
+
+    def test_cost_estimate_needs_editing(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+
+        data = self.generate_cost_data()
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+
+        self.assertEqual(buckets["needs_editing"]["count"], 1)
+
+    def test_cost_estimate_repetition_precedes_memory(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        self.add_memory(unit.source)
+        self.create_po(project=self.project, name="Other")
+
+        data = self.generate_cost_data(entity=self.project)
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+
+        self.assertEqual(buckets["tm_100"]["count"], 1)
+        self.assertGreaterEqual(buckets["repetition"]["count"], 1)
+
+    def test_cost_estimate_includes_child_category_components(self) -> None:
+        parent = self.move_component_to_child_category()
+
+        data = self.generate_cost_data(entity=parent)
+
+        self.assertGreater(data["total"]["count"], 0)
+
+    def test_cost_estimate_plural_match_uses_weakest_form(self) -> None:
+        def fake_fetch_machinery_matches(*, units, threshold, **kwargs):
+            result = {}
+            for unit in units:
+                if unit.source.startswith("Orangutan"):
+                    unit.machinery = {
+                        "quality": [100, 0 if threshold == 100 else 80],
+                        "translation": ["", ""],
+                        "origin": [None, None],
+                    }
+                    result[unit.id] = unit.machinery
+            return result
+
+        with patch(
+            "weblate.trans.views.reports.fetch_machinery_matches",
+            side_effect=fake_fetch_machinery_matches,
+        ):
+            data = self.generate_cost_data()
+
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+        self.assertEqual(buckets["tm_100"]["count"], 0)
+        self.assertGreater(buckets["tm_fuzzy"]["count"], 0)
+
+    def test_cost_estimate_does_not_modify_units(self) -> None:
+        unit_targets = {
+            pk: (target, state)
+            for pk, target, state in Unit.objects.filter(
+                translation=self.translation
+            ).values_list("pk", "target", "state")
+        }
+        change_count = Change.objects.count()
+        pending_count = PendingUnitChange.objects.count()
+        suggestion_count = Suggestion.objects.count()
+
+        self.generate_cost_data()
+
+        self.assertEqual(
+            {
+                pk: (target, state)
+                for pk, target, state in Unit.objects.filter(
+                    translation=self.translation
+                ).values_list("pk", "target", "state")
+            },
+            unit_targets,
+        )
+        self.assertEqual(Change.objects.count(), change_count)
+        self.assertEqual(PendingUnitChange.objects.count(), pending_count)
+        self.assertEqual(Suggestion.objects.count(), suggestion_count)
 
 
 class ReportsComponentTest(BaseReportsTest):
@@ -343,10 +538,51 @@ class ReportsComponentTest(BaseReportsTest):
             reverse("counts", kwargs=self.get_kwargs()), params, follow=follow
         )
 
+    def get_costs(self, style, follow=False, **kwargs):
+        params = {
+            "style": style,
+            "q": "state:<translated",
+            "base_rate": "0.10",
+            "tm_threshold": "80",
+            "rate_new": "100",
+            "rate_needs_editing": "50",
+            "rate_tm_100": "0",
+            "rate_tm_fuzzy": "50",
+            "rate_repetition": "0",
+        }
+        params.update(kwargs)
+        return self.client.post(
+            reverse("costs", kwargs=self.get_kwargs()), params, follow=follow
+        )
+
     def test_counts_view_json(self) -> None:
         response = self.get_counts("json")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), self.counts_data)
+
+    def test_costs_view_json(self) -> None:
+        response = self.get_costs("json")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["base_rate"], "0.1")
+        self.assertEqual(data["threshold"], 80)
+        self.assertEqual(
+            [bucket["slug"] for bucket in data["buckets"]],
+            ["repetition", "tm_100", "tm_fuzzy", "needs_editing", "new"],
+        )
+
+    def test_costs_view_html(self) -> None:
+        response = self.get_costs("html")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New strings")
+        self.assertContains(response, "Total")
+
+    def test_costs_invalid_threshold(self) -> None:
+        response = self.get_costs("json", tm_threshold="200", follow=True)
+        self.assertContains(
+            response,
+            "Error in parameter tm_threshold: Ensure this value is less than or equal to 100.",
+        )
 
     def test_counts_view_30days(self) -> None:
         end = timezone.now()

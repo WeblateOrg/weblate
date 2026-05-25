@@ -1576,24 +1576,28 @@ class ReportsForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(*(Field(field) for field in self.layout_fields))
-        if not scope:
-            languages = Language.objects.have_translation()
-        elif "project" in scope:
-            languages = Language.objects.filter(
-                translation__component__project=scope["project"]
-            ).distinct()
-        elif "category" in scope:
-            languages = Language.objects.filter(
-                translation__component__category=scope["category"]
-            ).distinct()
-        elif "component" in scope:
-            languages = Language.objects.filter(
-                translation__component=scope["component"]
-            ).exclude(pk=scope["component"].source_language_id)
-        else:
-            msg = f"Invalid scope: {scope}"
-            raise ValueError(msg)
-        self.fields["language"].choices += languages.as_choices()
+        self.fields["language"].choices = get_report_language_choices(scope)
+
+
+def get_report_language_choices(scope: dict[str, Model]):
+    if not scope:
+        languages = Language.objects.have_translation()
+    elif "project" in scope:
+        languages = Language.objects.filter(
+            translation__component__project=scope["project"]
+        ).distinct()
+    elif "category" in scope:
+        languages = Language.objects.filter(
+            translation__component_id__in=scope["category"].all_component_ids
+        ).distinct()
+    elif "component" in scope:
+        languages = Language.objects.filter(
+            translation__component=scope["component"]
+        ).exclude(pk=scope["component"].source_language_id)
+    else:
+        msg = f"Invalid scope: {scope}"
+        raise ValueError(msg)
+    return [("", gettext_lazy("All languages")), *languages.as_choices()]
 
 
 class CountsReportsForm(ReportsForm):
@@ -1620,6 +1624,97 @@ class CountsReportsForm(ReportsForm):
         initial=COUNTING_MODE_UNIQUE,
         required=False,
     )
+
+
+class CostEstimateReportsForm(forms.Form):
+    layout_fields: ClassVar[tuple[str, ...]] = (
+        "style",
+        "language",
+        "q",
+        "base_rate",
+        "tm_threshold",
+        "rate_new",
+        "rate_needs_editing",
+        "rate_tm_100",
+        "rate_tm_fuzzy",
+        "rate_repetition",
+    )
+
+    style = forms.ChoiceField(
+        label=gettext_lazy("Report format"),
+        help_text=gettext_lazy("Choose a file format for the report"),
+        choices=(
+            ("rst", gettext_lazy("reStructuredText")),
+            ("json", gettext_lazy("JSON")),
+            ("html", gettext_lazy("HTML")),
+        ),
+    )
+    language = forms.ChoiceField(
+        label=gettext_lazy("Language"),
+        choices=[("", gettext_lazy("All languages"))],
+        required=False,
+    )
+    q = QueryField(
+        required=True,
+        initial="state:<translated",
+        label=gettext_lazy("Search filter"),
+    )
+    base_rate = forms.DecimalField(
+        label=gettext_lazy("Base rate"),
+        help_text=gettext_lazy("Price per source word."),
+        initial=1,
+        min_value=0,
+        max_digits=12,
+        decimal_places=4,
+    )
+    tm_threshold = forms.IntegerField(
+        label=gettext_lazy("Translation memory threshold"),
+        initial=MACHINERY_DEFAULT_THRESHOLD,
+        min_value=1,
+        max_value=100,
+    )
+    rate_new = forms.DecimalField(
+        label=gettext_lazy("New strings rate"),
+        initial=100,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_needs_editing = forms.DecimalField(
+        label=gettext_lazy("Needs editing rate"),
+        initial=50,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_tm_100 = forms.DecimalField(
+        label=gettext_lazy("Exact match rate"),
+        initial=0,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_tm_fuzzy = forms.DecimalField(
+        label=gettext_lazy("Fuzzy match rate"),
+        initial=50,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_repetition = forms.DecimalField(
+        label=gettext_lazy("Repetition rate"),
+        initial=0,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+
+    def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(*(Field(field) for field in self.layout_fields))
+        self.fields["language"].choices = get_report_language_choices(scope)
 
 
 class CleanRepoMixin:
