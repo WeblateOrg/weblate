@@ -310,8 +310,9 @@ function loadTableSorting() {
 
           // Click handler
           th.click(function () {
-            tbody
+            const sorted = tbody
               .find("tr")
+              .toArray()
               .sort((a, b) => {
                 let $a = $(a);
                 let $b = $(b);
@@ -330,8 +331,8 @@ function loadTableSorting() {
                     extractText($b.find("td,th")[myIndex]),
                   )
                 );
-              })
-              .appendTo(tbody);
+              });
+            $(sorted).appendTo(tbody);
             thead.find(".sort-icon").removeClass("sort-down sort-up");
             if (inverse === 1) {
               $(this).find(".sort-icon").addClass("sort-down");
