@@ -246,6 +246,7 @@ class CDNJSAddon(CDNBaseAddon):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> None:
         self.daily_component(component)
@@ -346,6 +347,7 @@ class CDNFilesAddon(CDNBaseAddon):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> None:
         self.publish_files(component)

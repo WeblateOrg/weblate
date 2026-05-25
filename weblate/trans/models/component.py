@@ -2219,7 +2219,12 @@ class Component(  # noqa: PLR0904
 
             # update local branch
             try:
-                result = self.update_branch(request, method=method, skip_push=True)
+                result = self.update_branch(
+                    request,
+                    method=method,
+                    skip_push=True,
+                    parse_after_update=True,
+                )
             except RepositoryError:
                 result = False
 
@@ -2452,6 +2457,7 @@ class Component(  # noqa: PLR0904
                     previous_head=previous_head,
                     skip_push=False,
                     user=user,
+                    parse_after_update=True,
                 )
 
                 # create translation objects for all files
@@ -3241,6 +3247,7 @@ class Component(  # noqa: PLR0904
         request: AuthenticatedHttpRequest | None = None,
         method: str | None = None,
         skip_push: bool = False,
+        parse_after_update: bool = False,
     ) -> bool:
         """Update current branch to match remote (if possible)."""
         if method is None:
@@ -3342,12 +3349,18 @@ class Component(  # noqa: PLR0904
                     previous_head=previous_head,
                     skip_push=skip_push,
                     user=user,
+                    parse_after_update=parse_after_update,
                 )
         return True
 
     @perform_on_link
     def trigger_post_update(
-        self, *, previous_head: str, skip_push: bool, user: User | None
+        self,
+        *,
+        previous_head: str,
+        skip_push: bool,
+        user: User | None,
+        parse_after_update: bool = False,
     ) -> None:
         vcs_post_update.send(
             sender=self.__class__,
@@ -3355,6 +3368,7 @@ class Component(  # noqa: PLR0904
             previous_head=previous_head,
             skip_push=skip_push,
             user=user,
+            parse_after_update=parse_after_update,
         )
         for component in self.linked_children:
             vcs_post_update.send(
@@ -3363,6 +3377,7 @@ class Component(  # noqa: PLR0904
                 previous_head=previous_head,
                 skip_push=skip_push,
                 user=user,
+                parse_after_update=parse_after_update,
             )
 
     def get_mask_matches(self, *, raise_on_timeout: bool = False) -> list[str]:
@@ -3946,6 +3961,7 @@ class Component(  # noqa: PLR0904
         validate: bool = False,
         skip_push: bool = False,
         skip_commit: bool = False,
+        parse_after_update: bool = False,
     ) -> None:
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
@@ -3962,7 +3978,10 @@ class Component(  # noqa: PLR0904
         self.configure_branch()
         if self.id:
             # Update existing repo
-            self.update_branch(skip_push=skip_push)
+            self.update_branch(
+                skip_push=skip_push,
+                parse_after_update=parse_after_update,
+            )
         else:
             # Reset to upstream in case not yet saved model (this is called
             # from the clean method only)
@@ -4548,7 +4567,11 @@ class Component(  # noqa: PLR0904
         # Configure git repo if there were changes
         if changed_git and (not create or not self.is_repo_link):
             # Bring VCS repo in sync with current model
-            self.sync_git_repo(skip_push=skip_push, skip_commit=create)
+            self.sync_git_repo(
+                skip_push=skip_push,
+                skip_commit=create,
+                parse_after_update=True,
+            )
 
         # Create template in case intermediate file is present
         self.create_template_if_missing()

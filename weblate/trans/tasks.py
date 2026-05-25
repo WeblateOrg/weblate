@@ -151,6 +151,7 @@ def perform_commit(
                 previous_head=previous_head,
                 skip_push=False,
                 user=user,
+                parse_after_update=True,
             )
             component.create_translations(force=True)
 

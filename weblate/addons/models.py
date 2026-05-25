@@ -691,12 +691,13 @@ def post_update(
     component: Component,
     previous_head: str,
     skip_push: bool = False,
+    parse_after_update: bool = False,
     **kwargs,
 ) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_UPDATE,
         "post_update",
-        (component, previous_head, skip_push),
+        (component, previous_head, skip_push, parse_after_update),
         component=component,
     )
 
