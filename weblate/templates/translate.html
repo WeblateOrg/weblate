@@ -56,8 +56,8 @@
   {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
   <div class="btn-group float-end btn-group-settings" role="group">
-    <a href="{% url 'zen' path=object.get_url_path %}?offset={{ offset }}&amp;{{ search_url }}"
-       data-params="{{ search_url }}"
+    <a href="{% url 'zen' path=object.get_url_path %}?{% querystring offset=offset %}"
+       data-params="{% querystring %}"
        title="{% translate "Open in Zen mode" %}"
        class="btn btn-link">{% icon "flash.svg" %} {% translate "Zen" %}</a>
 
@@ -410,7 +410,7 @@
                 <p class="help-block">{% translate "Showing only subset of the strings as there were too many matches." %}</p>
               {% endif %}
               <form method="post"
-                    action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
+                    action="{{ unit.translation.get_translate_url }}?{% querystring offset=offset checksum=unit.checksum %}">
                 {% csrf_token %}
                 <table class="table table-sm">
                   <thead>

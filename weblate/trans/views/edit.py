@@ -270,19 +270,15 @@ def search(
     form_valid = form.is_valid()
     if form_valid:
         cleaned_data = form.cleaned_data
-        search_url = form.urlencode()
         search_query = form.cleaned_data["q"]
         name = form.get_name()
-        search_items = form.items()
     else:
         cleaned_data = {}
         show_form_errors(request, form)
-        search_url = ""
         search_query = ""
         name = ""
-        search_items = ()
 
-    with sentry_sdk.start_span(op="unit.search", name=search_url):
+    with sentry_sdk.start_span(op="unit.search", name=search_query):
         search_result = {
             "form": form,
             "offset": cleaned_data.get("offset", 1),
@@ -313,8 +309,6 @@ def search(
 
         store_result = {
             "query": search_query,
-            "url": search_url,
-            "items": search_items,
             "key": session_key,
             "name": str(name),
             "ids": unit_ids,
@@ -709,7 +703,7 @@ def translate(request: AuthenticatedHttpRequest, path):
     handle_component_shift_notice(request, unit_set, search_result, unit)
 
     # Some URLs we will most likely use
-    base_unit_url = f"{obj.get_translate_url()}?{search_result['url']}&offset="
+    base_unit_url = f"{obj.get_translate_url()}?{request.GET.urlencode()}&offset="
     this_unit_url = base_unit_url + str(offset)
     next_unit_url = base_unit_url + str(offset + 1)
 
@@ -777,8 +771,6 @@ def translate(request: AuthenticatedHttpRequest, path):
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
             "can_go_next_section": offset + user.profile.nearby_strings <= num_results,
             "others": get_other_units(unit) if user.is_authenticated else {"total": 0},
-            "search_url": search_result["url"],
-            "search_items": search_result["items"],
             "search_query": search_result["query"],
             "offset": offset,
             "filter_count": num_results,
@@ -789,7 +781,7 @@ def translate(request: AuthenticatedHttpRequest, path):
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
             "context_form": ContextForm(instance=unit.source_unit, user=user),
-            "search_form": search_result["form"].reset_offset(),
+            "search_form": search_result["form"],
             "secondary": secondary,
             "locked": unit.translation.component.locked,
             "glossary": get_glossary_terms(unit, full=True),
@@ -1034,9 +1026,8 @@ def zen(request: AuthenticatedHttpRequest, path):
             "filter_count": len(search_result["ids"]),
             "filter_pos": search_result["offset"],
             "last_section": search_result["last_section"],
-            "search_url": search_result["url"],
             "offset": search_result["offset"],
-            "search_form": search_result["form"].reset_offset(),
+            "search_form": search_result["form"],
             "is_zen": True,
         },
     )
@@ -1065,7 +1056,6 @@ def load_zen(request: AuthenticatedHttpRequest, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
-            "search_url": search_result["url"],
             "last_section": search_result["last_section"],
         },
     )
@@ -1198,7 +1188,7 @@ def browse(request: AuthenticatedHttpRequest, path):
         search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
     )
 
-    base_unit_url = f"{reverse('browse', kwargs={'path': obj.get_url_path()})}?{search_result['url']}&offset="
+    base_unit_url = f"{reverse('browse', kwargs={'path': obj.get_url_path()})}?{request.GET.urlencode()}&offset="
     num_results = ceil(len(search_result["ids"]) / page)
 
     return render(
@@ -1211,8 +1201,7 @@ def browse(request: AuthenticatedHttpRequest, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "units": units,
             "search_query": search_result["query"],
-            "search_url": search_result["url"],
-            "search_form": search_result["form"].reset_offset(),
+            "search_form": search_result["form"],
             "filter_count": num_results,
             "filter_pos": offset,
             "first_unit_url": f"{base_unit_url}1",

@@ -19,7 +19,7 @@
              title="{% translate "Copy permalink" %}"
              tabindex="-1">{% icon "link.svg" %}</a>
           <a class="btn btn-link btn-xs"
-             href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}&amp;offset={{ item.offset }}"
+             href="{% url 'translate' path=object.get_url_path %}?{% querystring offset=item.offset %}"
              title="{% translate "Open in full editor" %}"
              tabindex="-1">{% icon "pencil-mini.svg" %}</a>
         </div>
