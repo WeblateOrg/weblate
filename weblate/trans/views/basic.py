@@ -36,6 +36,7 @@ from weblate.trans.forms import (
     ComponentLinkAddForm,
     ComponentLinkCategoryForm,
     ComponentRenameForm,
+    CostEstimateReportsForm,
     CountsReportsForm,
     DownloadForm,
     ProjectDeleteForm,
@@ -516,6 +517,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
             "last_announcements": last_announcements,
             "reports_form": ReportsForm({"project": obj}),
             "reports_count_form": CountsReportsForm({"project": obj}),
+            "reports_cost_form": CostEstimateReportsForm({"project": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(
                 request=request,
@@ -609,6 +611,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
             "last_announcements": last_announcements,
             "reports_form": ReportsForm({"category": obj}),
             "reports_count_form": CountsReportsForm({"category": obj}),
+            "reports_cost_form": CostEstimateReportsForm({"category": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(
                 request=request,
@@ -690,6 +693,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
             "translations": translations,
             "reports_form": ReportsForm({"component": obj}),
             "reports_count_form": CountsReportsForm({"component": obj}),
+            "reports_cost_form": CostEstimateReportsForm({"component": obj}),
             "last_changes": last_changes,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(

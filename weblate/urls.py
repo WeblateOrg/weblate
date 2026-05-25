@@ -187,6 +187,7 @@ real_patterns = [
     ),
     path("credits/", weblate.trans.views.reports.get_credits, name="credits"),
     path("counts/", weblate.trans.views.reports.get_counts, name="counts"),
+    path("costs/", weblate.trans.views.reports.get_costs, name="costs"),
     path(
         "credits/<object_path:path>/",
         weblate.trans.views.reports.get_credits,
@@ -196,6 +197,11 @@ real_patterns = [
         "counts/<object_path:path>/",
         weblate.trans.views.reports.get_counts,
         name="counts",
+    ),
+    path(
+        "costs/<object_path:path>/",
+        weblate.trans.views.reports.get_costs,
+        name="costs",
     ),
     path(
         "new-lang/<object_path:path>/",
