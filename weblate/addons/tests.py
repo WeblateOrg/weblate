@@ -2323,6 +2323,155 @@ class GettextAddonTest(ViewTestCase):
 
         mocked_commit.assert_called_once_with("add-on", None)
 
+    def test_extract_pot_commit_parses_without_followup_parse(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.pending_successful_revisions[self.component.pk] = (
+            self.component.repository.last_revision
+        )
+
+        with (
+            patch.object(self.component.repository, "needs_commit", return_value=True),
+            patch.object(self.component, "commit_files") as mocked_commit,
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            committed = addon.commit_and_push(
+                self.component, files=["po/hello.pot"], skip_push=True
+            )
+
+        self.assertTrue(committed)
+        mocked_commit.assert_called_once()
+        mocked_parse.assert_called_once_with()
+
+    def test_extract_pot_commit_uses_followup_parse(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.pending_successful_revisions[self.component.pk] = (
+            self.component.repository.last_revision
+        )
+
+        with (
+            patch.object(self.component.repository, "needs_commit", return_value=True),
+            patch.object(self.component, "commit_files") as mocked_commit,
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            committed = addon.commit_and_push(
+                self.component,
+                files=["po/hello.pot"],
+                skip_push=True,
+                parse_after_update=True,
+            )
+
+        self.assertTrue(committed)
+        mocked_commit.assert_called_once()
+        mocked_parse.assert_not_called()
+
+    def test_extract_pot_post_configure_parses_once_after_commit(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Thank you for using Weblate!")\n',
+            encoding="utf-8",
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        template = Path(self.component.get_new_base_filename())
+        template_content = template.read_text(encoding="utf-8").replace(
+            "Thank you for using Weblate.",
+            "Thank you for using Weblate!",
+        )
+
+        def run_process(component: Component, command: list[str]) -> str:
+            template.write_text(template_content, encoding="utf-8")
+            return ""
+
+        with (
+            patch.object(XgettextAddon, "run_process", side_effect=run_process),
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            addon.post_configure_run_component(self.component)
+
+        mocked_parse.assert_called_once_with()
+
+    def test_extract_pot_manual_parses_once_after_commit(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Thank you for using Weblate!")\n',
+            encoding="utf-8",
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        template = Path(self.component.get_new_base_filename())
+        template_content = template.read_text(encoding="utf-8").replace(
+            "Thank you for using Weblate.",
+            "Thank you for using Weblate!",
+        )
+
+        def run_process(component: Component, command: list[str]) -> str:
+            template.write_text(template_content, encoding="utf-8")
+            return ""
+
+        with (
+            patch.object(XgettextAddon, "run_process", side_effect=run_process),
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            addon.manual_component(self.component)
+
+        mocked_parse.assert_called_once_with()
+
+    def test_extract_pot_manual_does_not_parse_without_commit(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "execute_update", return_value=False),
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            addon.manual_component(self.component)
+
+        mocked_parse.assert_not_called()
+
     def test_xgettext_uses_last_successful_revision_for_change_detection(self) -> None:
         addon = XgettextAddon.create(
             component=self.component,

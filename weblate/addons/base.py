@@ -341,7 +341,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
                 *(base_event_args),
                 AddonEvent.EVENT_POST_UPDATE,
                 "post_update",
-                (component, "", False),
+                (component, "", False, True),
             )
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
@@ -472,6 +472,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> dict | None:
         """
@@ -690,6 +691,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component,
         files: list[str] | None = None,
         skip_push: bool = False,
+        parse_after_update: bool = False,
     ) -> bool:
         if files is None:
             files = list(
@@ -879,13 +881,18 @@ class UpdateBaseAddon(BaseAddon):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with component.repository.lock:
             with suppress(FileParseError):
                 self.update_translations(component, previous_head)
-            self.commit_and_push(component, skip_push=skip_push)
+            self.commit_and_push(
+                component,
+                skip_push=skip_push,
+                parse_after_update=parse_after_update,
+            )
 
 
 class ChangeBaseAddon(BaseAddon):
