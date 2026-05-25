@@ -522,7 +522,8 @@ def _flag_choice(
 
 @lru_cache(maxsize=1)
 def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
-    """Return catalog of all known flags for the UI flag editor.
+    """
+    Return catalog of all known flags for the UI flag editor.
 
     Each entry contains:
     - ``name``: the actual flag identifier as used in the flag string
@@ -534,7 +535,9 @@ def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
     seen: set[str] = set()
     enable_strings = {check.enable_string for check in CHECKS.values()}
 
-    def add(name: str, label: StrOrPromise, category: StrOrPromise, has_value: bool) -> None:  # noqa: FBT001
+    def add(
+        name: str, label: StrOrPromise, category: StrOrPromise, has_value: bool
+    ) -> None:
         if name in seen:
             return
         seen.add(name)
