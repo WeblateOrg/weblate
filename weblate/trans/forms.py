@@ -551,6 +551,8 @@ class TranslationForm(UnitForm):
         }
         kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         super().__init__(unit, *args, **kwargs)
+        user_can_edit = user.has_perm("unit.edit", unit)
+        user_can_review = user.has_perm("unit.review", translation)
         if unit.readonly:
             self.fields["target"].widget.attrs["readonly"] = 1
             # checkbox cannot be read-only, so hide it instead
@@ -577,6 +579,15 @@ class TranslationForm(UnitForm):
                 for state, label in StringState.choices
                 if state not in {STATE_READONLY, STATE_EMPTY} | states_to_hide
             ]
+        if not user_can_edit:
+            state = StringState(unit.state)
+            self.fields["review"].choices = [
+                (
+                    state,
+                    get_state_label(state, state.label, translation.enable_review),
+                )
+            ]
+            self.fields["review"].disabled = True
         self.user = user
         self.fields["target"].widget.profile = user.profile
         # Avoid failing validation on untranslated string
@@ -594,7 +605,7 @@ class TranslationForm(UnitForm):
             InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
         )
-        if unit and user.has_perm("unit.review", translation):
+        if user_can_review or not user_can_edit:
             self.fields["fuzzy"].widget = forms.HiddenInput()
         else:
             self.fields["review"].widget = forms.HiddenInput()

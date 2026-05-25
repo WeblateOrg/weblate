@@ -27,6 +27,7 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
+    STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
@@ -165,6 +166,26 @@ class EditTest(ViewTestCase):
         self.edit_unit(self.source, self.target, review=str(STATE_NEEDS_CHECKING))
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_NEEDS_CHECKING)
+
+    def test_approved_state_visible_without_edit_permission(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+        unit = self.change_unit(self.target, source=self.source, state=STATE_APPROVED)
+
+        self.assertFalse(self.user.has_perm("unit.edit", unit))
+
+        response = self.client.get(unit.get_absolute_url())
+
+        form = response.context["form"]
+        self.assertTrue(form.fields["fuzzy"].widget.is_hidden)
+        self.assertFalse(form.fields["review"].widget.is_hidden)
+        self.assertTrue(form.fields["review"].disabled)
+        self.assertEqual(
+            [choice[0] for choice in form.fields["review"].choices],
+            [STATE_APPROVED],
+        )
+        self.assertContains(response, "Approved")
+        self.assertNotContains(response, "fuzzy_checkbox")
 
     def add_unit(self, key, force_source: bool = False):
         if force_source or self.component.has_template():
