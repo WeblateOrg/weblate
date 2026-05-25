@@ -32,7 +32,6 @@ from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
 import requests
-import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
@@ -48,6 +47,7 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
+from weblate.utils.tracing import start_span
 from weblate.utils.xml import parse_xml
 from weblate.utils.zip import (
     ZipSafetyError,
@@ -1610,7 +1610,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             next_api_time = cache.get(cache_id)
             now = time()
             if next_api_time is not None and now < next_api_time:
-                with sentry_sdk.start_span(op="vcs.api_sleep", name=vcs_id):
+                with start_span(op="vcs.api_sleep", name=vcs_id):
                     sleep(next_api_time - now)
             try:
                 response = requests.request(

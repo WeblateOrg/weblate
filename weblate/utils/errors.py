@@ -4,12 +4,15 @@
 from __future__ import annotations
 
 import logging
+import os
 import sys
+from contextlib import suppress
 from json import JSONDecodeError
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 import sentry_sdk
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import get_language
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -17,6 +20,7 @@ from sentry_sdk.integrations.logging import ignore_logger
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import weblate.utils.version
+from weblate.utils.tracing import record_error
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -24,6 +28,11 @@ if TYPE_CHECKING:
 ERROR_LOGGER = "weblate.errors"
 
 LOGGER = logging.getLogger(ERROR_LOGGER)
+_STATE: dict[str, Any] = {
+    "opentelemetry_at_fork_registered": False,
+    "opentelemetry_initialized_pid": None,
+    "opentelemetry_provider": None,
+}
 
 try:
     import rollbar
@@ -39,7 +48,7 @@ def report_error(
     level: Literal[
         "fatal", "critical", "error", "warning", "info", "debug"
     ] = "warning",
-    skip_sentry: bool = False,
+    skip_error_reporting: bool = False,
     print_tb: bool = False,
     extra_log: str | None = None,
     project=None,
@@ -53,19 +62,33 @@ def report_error(
     """
     # pylint: disable-next=unused-variable
     __traceback_hide__ = True  # noqa: F841
-    if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
-        rollbar.report_exc_info(level=level)
+    error = sys.exc_info()[1]
+    locale = get_language()
 
-    if not skip_sentry and settings.SENTRY_DSN:
-        sentry_sdk.set_tag("cause", cause)
-        if project is not None:
-            sentry_sdk.set_tag("project", project.slug)
-        sentry_sdk.set_tag("user.locale", get_language())
-        sentry_sdk.set_level(level)
-        if message:
-            sentry_sdk.capture_message(cause)
-        else:
-            sentry_sdk.capture_exception()
+    if not skip_error_reporting:
+        if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
+            rollbar.report_exc_info(level=level)
+
+        if settings.SENTRY_DSN:
+            sentry_sdk.set_tag("cause", cause)
+            if project is not None:
+                sentry_sdk.set_tag("project", project.slug)
+            sentry_sdk.set_tag("user.locale", locale)
+            sentry_sdk.set_level(level)
+            if message:
+                sentry_sdk.capture_message(cause)
+            else:
+                sentry_sdk.capture_exception()
+
+        record_error(
+            cause,
+            level=level,
+            exception=None if message else error,
+            attributes={
+                "weblate.project": None if project is None else project.slug,
+                "weblate.user_locale": locale,
+            },
+        )
 
     _log_error(cause, level=level, extra_log=extra_log, print_tb=print_tb)
 
@@ -164,6 +187,112 @@ def init_sentry() -> None:
     ignore_logger("social.*")
 
 
+def _init_opentelemetry_after_fork() -> None:
+    """Reinitialize OpenTelemetry tracing in forked child processes."""
+    _STATE["opentelemetry_initialized_pid"] = None
+    _STATE["opentelemetry_provider"] = None
+    init_opentelemetry()
+
+
+def _register_opentelemetry_after_fork() -> None:
+    if _STATE["opentelemetry_at_fork_registered"] or not hasattr(
+        os, "register_at_fork"
+    ):
+        return
+    os.register_at_fork(after_in_child=_init_opentelemetry_after_fork)
+    _STATE["opentelemetry_at_fork_registered"] = True
+
+
+def init_opentelemetry() -> None:
+    """Initialize OpenTelemetry tracing."""
+    from weblate.utils.tracing import configure_opentelemetry_tracer  # noqa: PLC0415
+
+    current_pid = os.getpid()
+    if _STATE["opentelemetry_initialized_pid"] == current_pid:
+        return
+    if (
+        not settings.OPENTELEMETRY_ENABLED
+        or not settings.OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+    ):
+        configure_opentelemetry_tracer(None)
+        return
+
+    sample_rate = settings.OPENTELEMETRY_TRACES_SAMPLE_RATE
+    if sample_rate < 0 or sample_rate > 1:
+        msg = "OPENTELEMETRY_TRACES_SAMPLE_RATE has to be between 0 and 1"
+        raise ImproperlyConfigured(msg)
+    if sample_rate == 0:
+        configure_opentelemetry_tracer(None)
+        return
+
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import (  # noqa: PLC0415
+        OTLPSpanExporter,
+    )
+    from opentelemetry.instrumentation.celery import (  # noqa: PLC0415
+        CeleryInstrumentor,
+    )
+    from opentelemetry.instrumentation.django import (  # noqa: PLC0415
+        DjangoInstrumentor,
+    )
+    from opentelemetry.instrumentation.psycopg import (  # noqa: PLC0415
+        PsycopgInstrumentor,
+    )
+    from opentelemetry.instrumentation.redis import RedisInstrumentor  # noqa: PLC0415
+    from opentelemetry.instrumentation.requests import (  # noqa: PLC0415
+        RequestsInstrumentor,
+    )
+    from opentelemetry.sdk.resources import Resource  # noqa: PLC0415
+    from opentelemetry.sdk.trace import TracerProvider  # noqa: PLC0415
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor  # noqa: PLC0415
+    from opentelemetry.sdk.trace.sampling import TraceIdRatioBased  # noqa: PLC0415
+
+    previous_provider = _STATE["opentelemetry_provider"]
+    if previous_provider is not None:
+        with suppress(Exception):
+            previous_provider.shutdown()
+
+    resource_attributes = {
+        "service.name": settings.OPENTELEMETRY_SERVICE_NAME,
+        "service.version": weblate.utils.version.VERSION,
+    }
+    if settings.SENTRY_ENVIRONMENT:
+        resource_attributes["deployment.environment"] = settings.SENTRY_ENVIRONMENT
+    resource_attributes.update(settings.OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES)
+
+    provider = TracerProvider(
+        resource=Resource.create(resource_attributes),
+        sampler=TraceIdRatioBased(sample_rate),
+    )
+    provider.add_span_processor(
+        BatchSpanProcessor(
+            OTLPSpanExporter(
+                endpoint=settings.OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT,
+                headers=settings.OPENTELEMETRY_EXPORTER_OTLP_HEADERS,
+            )
+        )
+    )
+    configure_opentelemetry_tracer(
+        provider.get_tracer("weblate", weblate.utils.version.VERSION)
+    )
+
+    for instrumentor_class in (
+        DjangoInstrumentor,
+        CeleryInstrumentor,
+        RedisInstrumentor,
+        RequestsInstrumentor,
+        PsycopgInstrumentor,
+    ):
+        instrumentor = instrumentor_class()
+        if instrumentor.is_instrumented_by_opentelemetry:
+            instrumentor.uninstrument()
+        instrumentor.instrument(tracer_provider=provider)
+
+    _STATE["opentelemetry_initialized_pid"] = current_pid
+    _STATE["opentelemetry_provider"] = provider
+    _register_opentelemetry_after_fork()
+    LOGGER.info("configured OpenTelemetry tracing")
+
+
 def init_rollbar() -> None:
     rollbar.init(**settings.ROLLBAR)  # type: ignore[misc]
     rollbar.BASE_DATA_HOOK = celery_base_data_hook
@@ -173,6 +302,8 @@ def init_rollbar() -> None:
 def init_error_collection(celery=False) -> None:
     if settings.SENTRY_DSN:
         init_sentry()
+
+    init_opentelemetry()
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         init_rollbar()

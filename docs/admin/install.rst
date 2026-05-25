@@ -1746,6 +1746,25 @@ and profiles for defined percentage of operations. This can be configured using
    * `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_
    * `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
 
+OpenTelemetry
++++++++++++++
+
+Weblate can export backend traces using `OpenTelemetry <https://opentelemetry.io/>`_.
+It uses OTLP over HTTP and can send traces to an OpenTelemetry Collector or a
+compatible vendor endpoint.
+
+.. code-block:: python
+
+   OPENTELEMETRY_ENABLED = True
+   OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT = "https://collector.example.com/v1/traces"
+   OPENTELEMETRY_TRACES_SAMPLE_RATE = 0.1
+
+The integration traces Django requests, Celery tasks, Redis, outgoing HTTP
+requests, database calls, and Weblate-specific spans. Configure it using
+:setting:`OPENTELEMETRY_ENABLED`,
+:setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, and
+:setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`.
+
 .. _rollbar-errors:
 
 Rollbar

@@ -8,7 +8,6 @@ import os
 from contextlib import contextmanager
 from typing import TYPE_CHECKING, cast
 
-import sentry_sdk
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import FileResponse, JsonResponse
@@ -30,6 +29,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
 from weblate.utils.requests import fetch_url
 from weblate.utils.search import parse_query
+from weblate.utils.tracing import start_span
 from weblate.utils.validators import PIL_FORMATS
 from weblate.utils.views import PathViewMixin
 
@@ -166,7 +166,7 @@ def ensure_tesseract_language(lang: str) -> None:
             slug="screenshots:tesseract:download",
             timeout=600,
         ),
-        sentry_sdk.start_span(op="ocr.models"),
+        start_span(op="ocr.models"),
     ):
         if not os.path.isdir(tessdata):
             os.makedirs(tessdata)
@@ -181,7 +181,7 @@ def ensure_tesseract_language(lang: str) -> None:
 
             LOGGER.debug("downloading tesseract data %s", url)
 
-            with sentry_sdk.start_span(op="ocr.download", name=url):
+            with start_span(op="ocr.download", name=url):
                 response = fetch_url("GET", url, allow_redirects=True)
 
             with open(full_name, "xb") as handle:
@@ -411,14 +411,14 @@ def ocr_get_strings(api, *, image: Image.Image, filename: str, resolution: int =
     else:
         api.SetSourceResolution(resolution)
 
-        with sentry_sdk.start_span(op="ocr.recognize", name=filename):
+        with start_span(op="ocr.recognize", name=filename):
             api.Recognize()
 
-        with sentry_sdk.start_span(op="ocr.iterate", name=filename):
+        with start_span(op="ocr.iterate", name=filename):
             iterator = api.GetIterator()
             level = RIL.TEXTLINE
             for r in iterate_level(iterator, level):
-                with sentry_sdk.start_span(op="ocr.text", name=filename):
+                with start_span(op="ocr.text", name=filename):
                     try:
                         yield r.GetUTF8Text(level)
                     except RuntimeError:

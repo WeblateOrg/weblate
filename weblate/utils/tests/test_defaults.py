@@ -60,6 +60,10 @@ class DefaultsTest(SimpleTestCase):
             utils_defaults.DEFAULT_SENTRY_PROFILES_SAMPLE_RATE,
         )
         self.assertEqual(
+            UtilsConf.OPENTELEMETRY_SERVICE_NAME,
+            utils_defaults.DEFAULT_OPENTELEMETRY_SERVICE_NAME,
+        )
+        self.assertEqual(
             VCSConf.VCS_CLONE_DEPTH,
             vcs_defaults.DEFAULT_VCS_CLONE_DEPTH,
         )

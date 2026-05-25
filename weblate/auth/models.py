@@ -13,7 +13,6 @@ from functools import cache as functools_cache
 from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
-import sentry_sdk
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
@@ -62,6 +61,7 @@ from weblate.trans.models import Component, ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
+from weblate.utils.tracing import start_span
 from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
 
 from . import defaults as auth_defaults
@@ -954,7 +954,7 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
-        with sentry_sdk.start_span(op="auth.permissions", name=self.username):
+        with start_span(op="auth.permissions", name=self.username):
             for membership in self.cached_memberships:
                 group = membership.group
                 # Skip permissions for not verified users

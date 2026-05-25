@@ -9,7 +9,6 @@ from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
 
-import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
@@ -37,6 +36,7 @@ from weblate.trans.util import split_plural
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.state import StringState
+from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from collections.abc import Collection, Iterable
@@ -253,7 +253,7 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         more effective here.
         """
         result: list[Change] = []
-        with transaction.atomic(), sentry_sdk.start_span(op="change.recent"):
+        with transaction.atomic(), start_span(op="change.recent"):
             for change in self.order().iterator(chunk_size=count):
                 result.append(change)
                 if len(result) >= count:

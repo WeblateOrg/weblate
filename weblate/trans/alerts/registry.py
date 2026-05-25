@@ -8,7 +8,7 @@ from functools import cache
 from importlib import import_module
 from typing import TYPE_CHECKING
 
-import sentry_sdk
+from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from weblate.trans.alerts.base import BaseAlert
@@ -54,7 +54,7 @@ def update_alerts(component: Component, alerts: set[str] | None = None) -> None:
     for name, alert in ALERTS.items():
         if alerts and name not in alerts:
             continue
-        with sentry_sdk.start_span(op="alerts.update", name=f"ALERT {name}"):
+        with start_span(op="alerts.update", name=f"ALERT {name}"):
             result = alert.check_component(component)
             if result is None:
                 continue
