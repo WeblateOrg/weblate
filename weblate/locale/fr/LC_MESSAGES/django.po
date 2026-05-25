@@ -32,7 +32,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-24 06:32+0000\n"
+"PO-Revision-Date: 2026-05-25 12:03+0000\n"
 "Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -4880,11 +4880,7 @@ msgstr ""
 "Il manque à la balise HTML {tag} une balise de fin correspondante : {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4909,16 +4905,12 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "La source Fluent doit être du HTML interne valide."
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "Il manque une balise HTML {tag} à la valeur Fluent."
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
@@ -5505,8 +5497,6 @@ msgid "Markdown syntax does not match source."
 msgstr "La syntaxe Markdown ne correspond pas à la source."
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "La traduction ne contient pas d’URL."
 
@@ -6356,25 +6346,21 @@ msgstr "Trois"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Laissez ce champ vide pour utiliser la sélection de langue de l'équipe sans "
+"restriction supplémentaire."
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
-msgstr "Limite de langues"
+msgstr "Limite linguistique"
 
 #: weblate/lang/forms.py:93
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "Limite de langues"
+msgstr "Aucune limite de langue"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "Langue sélectionnée incorrecte !"
+msgstr "Entrez un code de langue valide."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -9371,10 +9357,14 @@ msgstr "Instructions pour l’intégration"
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
+"Les fichiers de traduction publiés sont disponibles à l'adresse de base du "
+"CDN :"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
 msgstr ""
+"Les fichiers portent des noms correspondant à leur code de langue, "
+"accompagnés de leur extension d'origine."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9711,6 +9701,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Cette vérification est effectuée pour chaque nouvel utilisateur du site, "
+"quel que soit le projet qu'il utilise."
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -9726,10 +9718,8 @@ msgid "Team administrator"
 msgstr "Administrateur de l’équipe"
 
 #: weblate/templates/auth/team.html:140
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "No additional limit"
-msgstr "Modifier les informations supplémentaires de la chaîne"
+msgstr "Pas de limite supplémentaire"
 
 #: weblate/templates/auth/team.html:148
 #: weblate/templates/trans/project-access-row.html:18
