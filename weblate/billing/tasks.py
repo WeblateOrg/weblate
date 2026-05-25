@@ -27,9 +27,7 @@ if TYPE_CHECKING:
 def filter_with_projects(queryset):
     db = queryset.db
     return queryset.filter(
-        Exists(
-            Project.objects.using(db).filter(workspace_id=OuterRef("workspace_id"))
-        )
+        Exists(Project.objects.using(db).filter(workspace_id=OuterRef("workspace_id")))
     )
 
 
