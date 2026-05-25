@@ -69,7 +69,7 @@ class BillingAdmin(WeblateModelAdmin):
         "last_invoice",
     )
     list_filter = ("plan", "state", "paid", "in_limits")
-    search_fields = ("projects__name", "owners__email")
+    search_fields = ("projects__name", "owners__email", "customer_name")
     autocomplete_fields = ("projects", "owners")
 
     def get_queryset(self, request: AuthenticatedHttpRequest):

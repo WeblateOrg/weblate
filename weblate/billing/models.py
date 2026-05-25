@@ -223,6 +223,12 @@ class Billing(models.Model):
     owners = models.ManyToManyField(
         User, blank=True, verbose_name=gettext_lazy("Billing owners")
     )
+    customer_name = models.CharField(
+        blank=True,
+        default="",
+        max_length=200,
+        verbose_name=gettext_lazy("Customer name"),
+    )
     state = models.IntegerField(
         choices=(
             (STATE_ACTIVE, gettext_lazy("Active")),
@@ -308,11 +314,11 @@ class Billing(models.Model):
     }
 
     def __str__(self) -> str:
-        projects = self.projects_display
-        owners = self.owners.order()
-        if projects:
+        if self.customer_name:
+            base = self.customer_name
+        elif projects := self.projects_display:
             base = projects
-        elif owners:
+        elif owners := self.owners.order():
             base = format_html_join_comma(
                 "{}", list_to_tuples(x.get_visible_name() for x in owners)
             )
