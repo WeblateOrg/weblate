@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-23 09:12+0000\n"
+"PO-Revision-Date: 2026-05-25 10:02+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -3873,10 +3873,8 @@ msgid ""
 msgstr "使用語言資訊來驗證捷克語中的兩種複數形式並不相同。"
 
 #: admin/code-hosting.rst:4
-#, fuzzy
-#| msgid "Continuous integration"
 msgid "Code hosting integrations"
-msgstr "連續整合"
+msgstr "程式碼託管整合"
 
 #: admin/code-hosting.rst:6
 msgid ""
@@ -3894,10 +3892,8 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:15
-#, fuzzy
-#| msgid "Architecture overview"
 msgid "Setup overview"
-msgstr "架構概覽"
+msgstr "設定概覽"
 
 #: admin/code-hosting.rst:17
 #, fuzzy
@@ -3919,10 +3915,8 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:25
-#, fuzzy
-#| msgid "Configures if and how Weblate should update repositories."
 msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
-msgstr "配置 Weblate 應該如何更新儲存庫。"
+msgstr "配置 :ref:`component-repo` 所以 Weblate 可以複製儲存庫。"
 
 #: admin/code-hosting.rst:27
 msgid ""
@@ -3940,6 +3934,8 @@ msgid ""
 "Use :ref:`vcs-git` or :ref:`vcs-mercurial` and :ref:`component-push` to push "
 "directly."
 msgstr ""
+"使用 :ref:`vcs-git` 或 :ref:`vcs-mercurial` 與 :ref:`component-push` 以直接推"
+"送。"
 
 #: admin/code-hosting.rst:35
 msgid ""
@@ -3956,7 +3952,7 @@ msgstr ""
 
 #: admin/code-hosting.rst:45 admin/continuous.rst:335
 msgid "Pushing changes from Weblate"
-msgstr "推送 Weblate 的變更"
+msgstr "從 Weblate 推送變更"
 
 #: admin/code-hosting.rst:47
 #, fuzzy
@@ -3990,13 +3986,6 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:57
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests "
-#| "or :ref:`vcs-gerrit` reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` "
-#| "or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-"
@@ -4006,25 +3995,25 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"如果不想要Weblate 的直接推送，系統也支援:ref:`vcs-github` 、 :ref:`vcs-"
-"gitlab`、 :ref:`vcs-pagure`的拉取請求或:ref:`vcs-gerrit`檢閱。您可以通過"
-"在:ref:`component` 中選"
-"擇:guilabel:`GitHub` 、 :guilabel:`GitLab` 、 :guilabel:`Gerrit` "
-"或:guilabel:`Pagure` 作為:ref:`component-vcs` 來啟動這些。"
+"如果您不想由 Weblate 直接推送，我們支援 :ref:`code-hosting-github-pull-"
+"requests` 、 :ref:`code-hosting-gitlab-merge-requests` 、 :ref:`code-hosting-"
+"gitea-pull-requests` 、 :ref:`code-hosting-pagure-merge-requests` 、 "
+":ref:`code-hosting-azure-devops-pull-requests` 或 :ref:`code-hosting-gerrit` "
+"檢閱。您可以透過在 :ref:`component` 中選擇 :guilabel:`GitHub` 、 "
+":guilabel:`GitLab` 、 :guilabel:`Gitea` 、 :guilabel:`Gerrit` 、 "
+":guilabel:`Azure DevOps` 或 :guilabel:`Pagure` 作為 :ref:`component-vcs` 來啟"
+"動它們。"
 
 #: admin/code-hosting.rst:68
-#, fuzzy
-#| msgid ""
-#| "Overall, following options are available with Git, GitHub and GitLab:"
 msgid ""
 "Overall, following options are available with Git, Mercurial, GitHub, "
 "GitLab, Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and "
 "Bitbucket Cloud:"
-msgstr "整體上， Git 、 GitHub 和 GitLab 可以具有後面的選項："
+msgstr ""
 
 #: admin/code-hosting.rst:74
 msgid "Desired setup"
-msgstr "需要的設定"
+msgstr ""
 
 #: admin/code-hosting.rst:79 admin/code-hosting.rst:94
 msgid "No push"
@@ -4065,7 +4054,7 @@ msgstr "分支名稱"
 
 #: admin/code-hosting.rst:104
 msgid "GitHub pull request from fork"
-msgstr "來自叉子的 GitHub 拉取請求"
+msgstr "來自 fork 的 GitHub 拉取請求"
 
 #: admin/code-hosting.rst:109
 msgid "GitHub pull request from branch"
@@ -4080,23 +4069,19 @@ msgstr "SSH URL [#empty]_"
 
 #: admin/code-hosting.rst:114
 msgid "GitLab merge request from fork"
-msgstr "來自叉子的 GitLab 結合請求"
+msgstr "來自 fork 的 GitLab 合併請求"
 
 #: admin/code-hosting.rst:119
 msgid "GitLab merge request from branch"
-msgstr "來自分支的 GitLab 結合請求"
+msgstr "來自分支的 GitLab 合併請求"
 
 #: admin/code-hosting.rst:124
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "Gitea merge request from fork"
-msgstr "來自叉子的 GitLab 結合請求"
+msgstr "來自 fork 的 Gitea 合併請求"
 
 #: admin/code-hosting.rst:129
-#, fuzzy
-#| msgid "GitLab merge request from branch"
 msgid "Gitea merge request from branch"
-msgstr "來自分支的 GitLab 結合請求"
+msgstr "來自分支的 Gitea 合併請求"
 
 #: admin/code-hosting.rst:134
 msgid "Pagure merge request from fork"
@@ -4115,10 +4100,8 @@ msgid "Azure DevOps pull request from branch"
 msgstr "來自分支的 Azure DevOps 拉取請求"
 
 #: admin/code-hosting.rst:154
-#, fuzzy
-#| msgid "Peer review"
 msgid "Gerrit review"
-msgstr "同行評審"
+msgstr "Gerrit 檢閱"
 
 #: admin/code-hosting.rst:157
 #, fuzzy
@@ -4159,10 +4142,8 @@ msgid "GitHub"
 msgstr "GitHub"
 
 #: admin/code-hosting.rst:189
-#, fuzzy
-#| msgid "GitHub repositories"
 msgid "GitHub repository access"
-msgstr "GitHub 儲存庫"
+msgstr "GitHub 儲存庫存取"
 
 #: admin/code-hosting.rst:191
 msgid ""
@@ -4243,25 +4224,16 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:226
-#, fuzzy
-#| msgid ""
-#| "In case the :ref:`component-push_branch` is not set, the project is "
-#| "forked and changes pushed through a fork. In case it is set, changes are "
-#| "pushed to the upstream repository and chosen branch."
 msgid ""
 "When using :guilabel:`GitHub` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"如果 :ref:`component-push_branch` 未設定，則專案被叉，並通過叉子推出的變化。"
-"如果設定，則將變更推送到上游儲存庫和所選分支。"
 
 #: admin/code-hosting.rst:234
-#, fuzzy
-#| msgid "GitHub authentication"
 msgid "GitHub notifications"
-msgstr "GitHub 驗證"
+msgstr "GitHub 通知"
 
 #: admin/code-hosting.rst:236
 msgid "Weblate comes with native support for GitHub."
@@ -4364,10 +4336,8 @@ msgid "GitLab"
 msgstr "GitLab"
 
 #: admin/code-hosting.rst:294
-#, fuzzy
-#| msgid "GitLab repositories"
 msgid "GitLab repository access"
-msgstr "GitLab 儲存庫"
+msgstr "GitLab 儲存庫存取"
 
 #: admin/code-hosting.rst:296
 #, fuzzy
@@ -4386,8 +4356,6 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
-"如果 :ref:`component-push_branch` 未設定，則專案被叉，並通過叉子推出的變化。"
-"如果設定，則將變更推送到上游儲存庫和所選分支。"
 
 #: admin/code-hosting.rst:304
 msgid ""
@@ -4414,10 +4382,8 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:325
-#, fuzzy
-#| msgid "Notifications"
 msgid "GitLab notifications"
-msgstr "通知"
+msgstr "GitLab 通知"
 
 #: admin/code-hosting.rst:327
 #, fuzzy
@@ -4488,6 +4454,8 @@ msgid ""
 "To create merge requests, select :guilabel:`GitLab` as :ref:`component-vcs` "
 "and configure :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"要建立合併請求，請選擇 :guilabel:`GitLab` 作為 :ref:`component-vcs` 並配置 "
+":setting:`GITLAB_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:365
 msgid "Gitea, Forgejo, and Codeberg"
@@ -4760,13 +4728,6 @@ msgid "Azure Repos notifications"
 msgstr "Azure Repos 通知"
 
 #: admin/code-hosting.rst:513
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Azure Repos web hooks, add a webhook "
-#| "for :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` "
-#| "URL on your Weblate installation (for example ``https://"
-#| "hosted.weblate.org/hooks/azure/``). This can be done "
-#| "in :guilabel:`Service hooks` under :guilabel:`Project settings`."
 msgid ""
 "Weblate has support for Azure Repos webhooks. Add a webhook "
 "for :guilabel:`Code pushed` event with destination to ``/hooks/azure/`` URL "
@@ -4774,10 +4735,6 @@ msgid ""
 "azure/``. This can be done in :guilabel:`Service hooks` "
 "under :guilabel:`Project settings`."
 msgstr ""
-"Weblate 已經支援 Azure Repos web hooks，為 :guilabel:`Code pushed` 事件新增 "
-"Webhook，目的地為您的 Weblate 安裝上的``/hooks/azure/`` URL （例如 ``https://"
-"hosted.weblate .org/hooks/azure/``）。這可以在 :guilabel:`Project settings` "
-"之下的 :guilabel:`Service hooks` 中完成。"
 
 #: admin/code-hosting.rst:521
 #, fuzzy
@@ -8277,7 +8234,7 @@ msgstr ""
 #: admin/continuous.rst:320
 msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`"
-msgstr ""
+msgstr ":ref:`Azure Repos 通知 <code-hosting-azure-repos-notifications>`"
 
 #: admin/continuous.rst:321
 msgid ":ref:`Gitea notifications <code-hosting-gitea-notifications>`"
@@ -14171,13 +14128,6 @@ msgstr ""
 "個文件被翻譯。更多細節請參閱 :ref:`component`。"
 
 #: admin/install/steps/install-after.rst:25
-#, fuzzy
-#| msgid ""
-#| "The important fields here are: Component name, VCS repository address and "
-#| "mask for finding translatable files. Weblate supports a wide range of "
-#| "formats including gettext PO files, Android resource strings, iOS string "
-#| "properties, Java properties or Qt Linguist files, see :ref:`formats` for "
-#| "more details."
 msgid ""
 "The important fields here are: :ref:`component-name`, :ref:`component-repo`, "
 "and :ref:`component-filemask` for finding translatable files. Weblate "
@@ -14185,9 +14135,6 @@ msgid ""
 "including :ref:`gettext`, :ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` "
 "or :ref:`fluent`, see :ref:`formats` for more details."
 msgstr ""
-"這裡重要的欄位是：組件名稱、版本控制系統（VCS ）儲存庫地址和找到的翻譯文件的"
-"遮罩。 Weblate 支援大範圍的格式，包括 PO 檔案、Android資源字串、 IOS 字串屬"
-"性， Java 屬性或 Qt Linguist 文件，更多細節請參看： :ref:`formats`。"
 
 #: admin/install/steps/install-after.rst:31
 msgid ""
@@ -19964,12 +19911,10 @@ msgstr ""
 "關於 Docker 容器，網站域名通過 :envvar:`WEBLATE_ALLOWED_HOSTS` 來配置。"
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Performance overview"
 msgid ""
 "Improved performance of the :ref:`check-inconsistent` check on large "
 "projects."
-msgstr "效能概覽"
+msgstr "改進了大型專案中的 :ref:`check-inconsistent` 檢查效能。"
 
 #: changes.rst:16
 msgid ""
@@ -20202,12 +20147,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:58
-#, fuzzy
-#| msgid ":ref:`mt-openai` no longer requires the OpenAI Python SDK."
 msgid ""
 ":ref:`mt-openai` and :ref:`mt-alibaba` no longer require their vendor Python "
 "SDKs."
-msgstr ":ref:`mt-openai` 不再需要 OpenAI Python SDK。"
+msgstr ":ref:`mt-openai` 與 :ref:`mt-alibaba` 不再需要它們的供應商 Python SDK 了。"
 
 #: changes.rst:59
 #, fuzzy
@@ -23585,7 +23528,7 @@ msgstr "去掉對 Django 1.6 和 South migrations 的支援。"
 
 #: changes/v2.rst:419
 msgid "Support for adding new translations when using Java Property files."
-msgstr "支援使用 Java 屬性文件時新增新翻譯。"
+msgstr ""
 
 #: changes/v2.rst:420
 msgid "Allow to accept suggestion without editing."
@@ -24531,7 +24474,7 @@ msgstr "擴充了報告的預定義週期。"
 
 #: changes/v3.rst:224
 msgid "Added webhook support for Azure Repos."
-msgstr "為 Azure Repos 新增了 webhook 支援。"
+msgstr ""
 
 #: changes/v3.rst:225
 msgid ""
@@ -29409,7 +29352,7 @@ msgstr "修復了組件刪除時的潛在崩潰問題。"
 
 #: changes/v4.rst:1216
 msgid "Fixed displaying of translation changes in some corner cases."
-msgstr "修復了一些極端情況下顯示翻譯變更的問題。"
+msgstr "修復了一些極端情況下翻譯變更的顯示問題。"
 
 #: changes/v4.rst:1217
 msgid "Improved warning about too long celery queue."
@@ -29417,11 +29360,11 @@ msgstr "改進了 celery 佇列過長的警告。"
 
 #: changes/v4.rst:1218
 msgid "Fixed possible false positives in the consistency check."
-msgstr "改進了一致性檢查中的誤報。"
+msgstr ""
 
 #: changes/v4.rst:1219
 msgid "Fixed deadlock when changing linked component repository."
-msgstr "修復了變更連結的組件儲存庫時的死鎖。"
+msgstr ""
 
 #: changes/v4.rst:1220
 msgid "Included edit distance in changes listing and CSV and reports."
@@ -29433,7 +29376,7 @@ msgstr "避免了對加拿大法語進行符號間隔檢查時的誤報。"
 
 #: changes/v4.rst:1222
 msgid "Fixed XLIFF export with placeholders."
-msgstr "修復了用佔位符號匯出 XLIFF。"
+msgstr ""
 
 #: changes/v4.rst:1223
 msgid "Fixed false positive with zero width check."
@@ -29445,7 +29388,7 @@ msgstr "改進了配置錯誤的報告。"
 
 #: changes/v4.rst:1225
 msgid "Fixed bilingual source upload."
-msgstr "改進了雙語言來源上傳。"
+msgstr "修復了雙語言來源上傳。"
 
 #: changes/v4.rst:1226
 msgid "Automatically detect supported languages for DeepL machine translation."
@@ -29453,11 +29396,11 @@ msgstr "為 DeepL 機器翻譯自動檢測支援的語言。"
 
 #: changes/v4.rst:1227
 msgid "Fixed progress bar display in some corner cases."
-msgstr "修復了一些極端情況下的進度條顯示。"
+msgstr "修復了一些極端情況下的進度條顯示問題。"
 
 #: changes/v4.rst:1228
 msgid "Fixed some checks triggering on non translated strings."
-msgstr "修復了非翻譯字串出發的一些檢查。"
+msgstr ""
 
 #: changes/v4.rst:1231
 msgid "Weblate 4.0.1"
@@ -29469,7 +29412,7 @@ msgstr "*發佈於 2020 年 4 月 16 日。*"
 
 #: changes/v4.rst:1235
 msgid "Fixed package installation from PyPI."
-msgstr "修復了來自 Pypi 的套件安裝。"
+msgstr ""
 
 #: changes/v4.rst:1238
 msgid "Weblate 4.0"
@@ -29543,7 +29486,7 @@ msgstr "重新命名要宣布的白板消息。"
 
 #: changes/v4.rst:1257
 msgid "Fixed occasional problems with registration mails."
-msgstr "修復了註冊郵件偶爾出現的問題。"
+msgstr ""
 
 #: changes/v4.rst:1258
 msgid "Improved LINGUAS update add-on to handle more syntax variants."
@@ -29551,7 +29494,7 @@ msgstr "改進了 LINGUAS 更新附加元件來處理更多的語法變數。"
 
 #: changes/v4.rst:1259
 msgid "Fixed editing monolingual XLIFF source file."
-msgstr "修復了編輯單語言 XLIFF 來源文件。"
+msgstr ""
 
 #: changes/v4.rst:1260
 msgid "Added support for exact matching in :doc:`/user/search`."
@@ -29578,23 +29521,19 @@ msgstr "新增了對來源字串檢閱的支援。"
 
 #: changes/v4.rst:1265
 msgid "Extended download options for platform wide translation memory."
-msgstr "擴充了平臺範圍的翻譯記憶庫的下載選項。"
+msgstr "擴充了平臺範圍翻譯記憶的下載選項。"
 
 #: changes/v5.rst:2
-#, fuzzy
-#| msgid "Weblate 0.x series"
 msgid "Weblate 5.x series"
-msgstr "Weblate 0.x 系列"
+msgstr "Weblate 5.x 系列"
 
 #: changes/v5.rst:5
 msgid "Weblate 5.17.1"
 msgstr "Weblate 5.17.1"
 
 #: changes/v5.rst:7
-#, fuzzy
-#| msgid "*Released on April 15th 2026.*"
 msgid "*Released on April 30th 2026.*"
-msgstr "*發佈於 2026 年 4 月 15 日。*"
+msgstr "*發佈於 2026 年 4 月 30 日。*"
 
 #: changes/v5.rst:11
 msgid ""
@@ -29747,12 +29686,10 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:40
-#, fuzzy
-#| msgid "Fixed crash after moving shared component between projects."
 msgid ""
 "Fixed revert links in the translate-view history tab after moving a "
 "component to another project."
-msgstr "修正在專案間移動已分享的組件所造成的失敗。"
+msgstr ""
 
 #: changes/v5.rst:41
 msgid ""
@@ -30257,12 +30194,10 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:146
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Fixed background failures in :ref:`addon-"
 "weblate.autotranslate.autotranslate`."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加元件"
+msgstr ""
 
 #: changes/v5.rst:147
 msgid ""
@@ -30637,7 +30572,7 @@ msgstr "改進了語言變體的複數處理。"
 
 #: changes/v5.rst:253
 msgid "Fixed API access control."
-msgstr "已修復 API 存取控制。"
+msgstr "修復了 API 存取控制。"
 
 #: changes/v5.rst:255
 msgid "Users can manage their own notification subscriptions via the API."
@@ -31003,10 +30938,8 @@ msgid "Locking error that prevented updating linked components."
 msgstr "當更新翻譯組件時的報告過程。"
 
 #: changes/v5.rst:390
-#, fuzzy
-#| msgid "Upgrading the Docker container"
 msgid "Fixed e-mail SSL configuration in Docker container."
-msgstr "升級 Docker 容器"
+msgstr "修復了 Docker 容器中的電子郵件 SSL 配置。"
 
 #: changes/v5.rst:391
 #, fuzzy
@@ -33242,10 +33175,8 @@ msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
 
 #: changes/v5.rst:1318
-#, fuzzy
-#| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "修復了報告中可能的崩潰。"
+msgstr "修復了 :ref:`rss` 中的偶發崩潰問題。"
 
 #: changes/v5.rst:1319
 #, fuzzy
@@ -35208,10 +35139,8 @@ msgid "Fixed GitHub Team and Organization authentication in Docker container."
 msgstr "新增了對 Docker 容器中 Slack 身分認證的支援。"
 
 #: changes/v5.rst:2144
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "GitLab merge requests when using a customized SSH port."
-msgstr "來自叉子的 GitLab 結合請求"
+msgstr ""
 
 #: changes/v5.rst:2148
 msgid "`pyahocorasick` dependency has been replaced by `ahocorasick_rs`."
@@ -38393,8 +38322,6 @@ msgid ""
 "If it is missing, the component clears all current checks. Alerts can not be "
 "ignored, but will disappear once the underlying problem has been fixed."
 msgstr ""
-"警告在每個各自組件頁面上列為 :guilabel:`Alerts`。如果遺失的話，組件會清除所有"
-"目前的檢查。警告不能被忽略，但一旦潛在的問題被修復就會消失。"
 
 #: devel/alerts.rst:40
 msgid "A component with both duplicated strings and languages looks like this:"
@@ -40427,7 +40354,7 @@ msgstr "新加入的來源語言單詞數量"
 
 #: devel/reporting-example.rst:2
 msgid "Source chars new"
-msgstr "新加入的來源語言字元數量"
+msgstr "新加入的來源語言字元數"
 
 #: devel/reporting-example.rst:2
 msgid "Target words new"
@@ -40435,7 +40362,7 @@ msgstr "新加入的目標語言單詞數量"
 
 #: devel/reporting-example.rst:2
 msgid "Target chars new"
-msgstr "新加入的目標語言字元數量"
+msgstr "新加入的目標語言字元數"
 
 #: devel/reporting-example.rst:2
 msgid "Count approved"
@@ -42536,7 +42463,7 @@ msgstr ""
 
 #: formats.rst:157
 msgid "Read-only strings"
-msgstr "唯讀字串"
+msgstr "唯讀的字串"
 
 #: formats.rst:159
 msgid ""
@@ -42545,9 +42472,6 @@ msgid ""
 "(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding "
 "a ``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
-"將包含來自翻譯文件的唯讀字串，但不能在 Weblate 中編輯。此功能本功能僅由少量格"
-"式支援（ :ref:`xliff` 和 :ref:`aresource`），但可以通過新增一個 ``read-"
-"only`` 標記，參閱 :ref:`custom-checks`。"
 
 #: formats.rst:166
 msgid "Supporting other formats"
@@ -43048,7 +42972,7 @@ msgstr ""
 
 #: formats/csv.rst:47 snippets/addon-parameters-autogenerated.rst:98
 msgid "Multivalue CSV file"
-msgstr "多值 CSV 檔案"
+msgstr "多數值 CSV 檔案"
 
 #: formats/csv.rst:51
 msgid ""
@@ -43619,7 +43543,7 @@ msgstr "`Inno Setup INI 檔案`"
 
 #: formats/java.rst:6
 msgid "Java properties"
-msgstr "Java 屬性"
+msgstr "Java properties"
 
 #: formats/java.rst:11
 msgid "Native Java format for translations."
@@ -43627,7 +43551,7 @@ msgstr "用於翻譯的本地 Java 格式。"
 
 #: formats/java.rst:13
 msgid "Java properties are usually used as monolingual translations."
-msgstr "Java 屬性通常用作單語言翻譯。"
+msgstr ""
 
 #: formats/java.rst:15
 msgid ""
@@ -43657,8 +43581,9 @@ msgid ""
 msgstr "`wikipedia <https://en.wikipedia.org/wiki/full_stop>`_"
 
 #: formats/java.rst:49
+#, fuzzy
 msgid "`Java Properties`"
-msgstr "`Java 屬性`"
+msgstr "`Java Properties`"
 
 #: formats/java.rst:51
 msgid "`ISO-8859-1`"
@@ -48017,10 +47942,8 @@ msgid "Security properties Weblate provides"
 msgstr "支持的功能"
 
 #: security/threat-model.rst:479
-#, fuzzy
-#| msgid "Java Properties"
 msgid "Property"
-msgstr "Java 屬性"
+msgstr ""
 
 #: security/threat-model.rst:480
 #, fuzzy
@@ -49352,7 +49275,7 @@ msgstr "XLIFF 1.2 附 gettext 擴充功能"
 
 #: snippets/addon-parameters-autogenerated.rst:166
 msgid "Java Properties"
-msgstr "Java 屬性"
+msgstr "Java Properties"
 
 #: snippets/addon-parameters-autogenerated.rst:168
 msgid "RC file"
@@ -49470,7 +49393,7 @@ msgstr "新增了翻譯"
 
 #: snippets/addon-parameters-autogenerated.rst:237 user/translating.rst:114
 msgid "Automatically translated"
-msgstr "自動翻譯"
+msgstr "已自動翻譯"
 
 #: snippets/addon-parameters-autogenerated.rst:239
 msgid "Suggestion accepted"
@@ -50334,7 +50257,7 @@ msgstr "符合的檔案："
 
 #: snippets/addons-autogenerated.rst:336
 msgid "Gettext locales layout"
-msgstr "Gettext語言環境佈局"
+msgstr ""
 
 #: snippets/addons-autogenerated.rst:338
 msgid "Usual structure for storing gettext PO files."
@@ -50767,7 +50690,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:800
 msgid "Fill read-only strings with source"
-msgstr "用來源填充唯讀字串"
+msgstr "使用來源填充唯讀字串"
 
 #: snippets/addons-autogenerated.rst:806 snippets/addons-autogenerated.rst:868
 #: snippets/addons-autogenerated.rst:906
@@ -50780,7 +50703,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:808
 msgid "Fills in translation of read-only strings with source string."
-msgstr "將來源字串作為唯讀字串的翻譯填充。"
+msgstr "使用來源字串作為唯讀字串的翻譯填充。"
 
 #: snippets/addons-autogenerated.rst:818
 msgid "Statistics generator"
@@ -50890,7 +50813,7 @@ msgstr "根據來源字串的長度，決定變數文字要重複多少次。"
 
 #: snippets/addons-autogenerated.rst:903
 msgid "Include read-only strings"
-msgstr "納入唯讀字串"
+msgstr "包含唯讀字串"
 
 #: snippets/addons-autogenerated.rst:908
 msgid ""
@@ -51512,7 +51435,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:1389
 msgid "Reset repository to upstream"
-msgstr "重設儲存庫回上游狀態"
+msgstr "重設儲存庫至上游狀態"
 
 #: snippets/addons-autogenerated.rst:1395
 #: snippets/addons-autogenerated.rst:1438
@@ -51522,7 +51445,7 @@ msgstr ":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`"
 
 #: snippets/addons-autogenerated.rst:1397
 msgid "Discards all changes in the Weblate repository each night."
-msgstr "每天晚上都丟棄在 Weblate 儲存庫中所有的變動。"
+msgstr "每晚丟棄 Weblate 儲存庫中所有變更。"
 
 #: snippets/addons-autogenerated.rst:1406
 msgid "Format the Java properties file"
@@ -55313,7 +55236,7 @@ msgstr "properties_encoding"
 
 #: snippets/file-format-parameters.rst:143
 msgid "Encoding used for Java Properties files"
-msgstr "Java 屬性檔案使用的編碼方式"
+msgstr "Java Properties 檔案使用的編碼方式"
 
 #: snippets/file-format-parameters.rst:154
 #: snippets/file-format-parameters.rst:164
@@ -58648,7 +58571,7 @@ msgstr "取代既有翻譯檔案 (``replace``)"
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
-msgstr "現有文件替換為新內容。這可能導致現有翻譯遺失，謹慎使用。"
+msgstr "現有檔案被取代為新內容。這可能導致現有翻譯遺失，請謹慎使用。"
 
 #: user/files.rst:132
 msgid ""
@@ -60381,7 +60304,7 @@ msgstr ""
 
 #: user/translating.rst:192
 msgid "Keyboard shortcuts"
-msgstr "鍵盤快捷鍵"
+msgstr "鍵盤快速鍵"
 
 #: user/translating.rst:194
 msgid "The following keyboard shortcuts can be utilized during translation:"
