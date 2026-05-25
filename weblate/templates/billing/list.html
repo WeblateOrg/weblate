@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>{% translate "Owners" %}</th>
+      <th>{% translate "Customer" %}</th>
       <th>{% translate "Projects" %}</th>
       <th>{% translate "Plan" %}</th>
       <th class="number">{% translate "Hosted words" %}</th>
@@ -26,6 +27,7 @@
             <em>{% translate "No users currently assigned!" %}</em>
           {% endfor %}
         </td>
+        <td>{{ object.customer_name }}</td>
         <td>
           {% for project in object.all_projects %}
             <a href="{{ project.get_absolute_url }}">{{ project }}</a>

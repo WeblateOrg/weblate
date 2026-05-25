@@ -14,6 +14,12 @@
         {% endif %}
       </td>
     </tr>
+    {% if billing.customer_name %}
+      <tr>
+        <th>{% translate "Customer name" %}</th>
+        <td colspan="2">{{ billing.customer_name }}</td>
+      </tr>
+    {% endif %}
     {% if billing.expiry %}
       <tr>
         <th>{% translate "Trial expiry date" %}</th>

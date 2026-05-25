@@ -190,6 +190,27 @@ class BillingTest(BaseTestCase):
         response = self.client.get(reverse("billing"))
         self.assertContains(response, "Owners")
 
+    def test_customer_name(self) -> None:
+        self.client.login(username=self.user.username, password="testpassword")
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        response = self.client.get(billing_url)
+        self.assertNotContains(response, "Customer name")
+
+        self.billing.customer_name = "Acme Billing LLC"
+        self.billing.save(update_fields=["customer_name"])
+        self.assertEqual(str(self.billing), f"Acme Billing LLC ({self.plan})")
+
+        response = self.client.get(billing_url)
+        self.assertContains(response, "Customer name")
+        self.assertContains(response, "Acme Billing LLC")
+
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse("billing"))
+        self.assertContains(response, "Customer")
+        self.assertContains(response, "Acme Billing LLC")
+
     @override_settings(OFFER_HOSTING=True)
     def test_billing_overview_shows_component_alerts(self) -> None:
         self.plan.price = 0
