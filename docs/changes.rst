@@ -17,6 +17,7 @@ Weblate 2026.6
 * :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories.
 * :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
 * :ref:`alerts` now include dismissible component diagnostics for community localization.
+* :ref:`sbom` release artifacts now include CISA 2025 document-level metadata.
 
 .. rubric:: Bug fixes
 

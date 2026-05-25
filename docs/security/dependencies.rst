@@ -13,6 +13,13 @@ is also attached to the release provenance using GitHub artifact attestations.
 This can be used to review the dependencies for security issues or license
 compliance.
 
+The release SBOM records document-level metadata for the CISA 2025 minimum
+elements, including the SBOM author, software producer, generation tools,
+timestamp, generation context, and Weblate release component identity.
+Dependency component details are emitted by the ecosystem SBOM generators used
+during the release. Python component license and hash completeness therefore
+depends on CycloneDX export support in :program:`uv`.
+
 Tracking dependencies for vulnerabilities
 -----------------------------------------
 
