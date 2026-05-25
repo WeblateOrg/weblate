@@ -19,7 +19,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
 "PO-Revision-Date: 2026-05-25 10:02+0000\n"
-"Last-Translator: justcontributor <kty5663@gmail.com>\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -2025,10 +2025,8 @@ msgstr ""
 "디렉터리가 필요합니다."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "구성요소는 새 번역을 위한 POT 파일을 정의해야 합니다."
+msgstr "이 컴포넌트는 새로운 번역을 위해 gettext 템플릿을 정의해야 합니다."
 
 #: weblate/addons/forms.py:448
 #, fuzzy
@@ -2610,10 +2608,8 @@ msgid "Updates the gettext template using Meson gettext conventions."
 msgstr "Meson gettext 규칙을 사용하여 gettext 템플릿을 업데이트합니다."
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "POT 파일 업데이트 (Django)"
+msgstr "gettext 템플릿 업데이트 (Django)"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -2808,14 +2804,13 @@ msgstr ""
 
 #: weblate/api/serializers.py:527
 msgid "Commenter’s email"
-msgstr "댓글 단 유저의 이메일"
+msgstr "의견 작성자 이메일"
 
 #: weblate/api/serializers.py:529
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
-msgstr ""
-"관리자인 경우, 댓글 작성자를 다른 사용자의 이메일 주소로 설정할 수 있습니다."
+msgstr "관리자인 경우, 의견 작성자를 다른 사용자의 이메일 주소로 설정할 수 있습니다."
 
 #: weblate/api/serializers.py:674 weblate/auth/forms.py:506
 msgid "Cannot change this on a built-in team."
@@ -4204,7 +4199,7 @@ msgstr "표준 라틴 카빌 문자를 사용하세요(예: 그리스 문자 γ 
 
 #: weblate/checks/chars.py:144
 msgid "Trailing space"
-msgstr "末尾 공백"
+msgstr "후행 공백"
 
 #: weblate/checks/chars.py:145
 msgid "Source and translation do not both end with a space."
@@ -5842,16 +5837,14 @@ msgid "Plural form metadata in CSV file requires source_plural_form."
 msgstr "CSV 파일 내 복수형 메타데이터에는 source_plural_form 값이 필요합니다."
 
 #: weblate/formats/ttkit.py:2478
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "파일에서 중복 문자열이 발견되었습니다."
+msgstr "CSV 파일 내 중복된 대상 복수형: %s"
 
 #: weblate/formats/ttkit.py:2487
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "CSV 파일 인코딩"
+msgstr "CSV 파일 내 출처 복수형 불일치: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2667
@@ -6098,10 +6091,8 @@ msgid "No language limit"
 msgstr "언어 제한 없음"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid suggestion!"
 msgid "Enter a valid language code."
-msgstr "잘못된 제안!"
+msgstr "유효한 언어 코드를 입력하세요."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -7570,19 +7561,14 @@ msgid "Support for another Weblate server"
 msgstr "다른 Weblate 서버 후원"
 
 #: weblate/templates/accounts/contact.html:96
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for any other Weblate deployment than %(site_title)s, "
-#| "please check support offerings at %(weblate_link)s or use this form on "
-#| "the correct server."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "check the available support offerings, or use the contact form on the "
 "correct server."
 msgstr ""
-"%(site_title)s 이외의 다른 Weblate 배포에 대한 지원을 원하는 경우 "
-"%(weblate_link)s에서 지원 서비스를 확인하거나 올바른 서버에서 이 양식을 사용"
-"하세요."
+"%(site_title)s 이외의 다른 Weblate 배포판에 대한 지원을 원하시면, 제공되는 "
+"지원 서비스를 확인하시거나 해당 서버의 문의 양식을 이용해 주십시오."
 
 #: weblate/templates/accounts/contact.html:103
 #, fuzzy
@@ -7614,10 +7600,9 @@ msgid "Read the docs"
 msgstr ""
 
 #: weblate/templates/accounts/contact.html:131
-#, fuzzy, python-format
-#| msgid "Contact server administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "서버 관리자에게 연락하기"
+msgstr "%(site_title)s 관리자분들께 드리는 질문"
 
 #: weblate/templates/accounts/contact.html:133
 #, fuzzy
@@ -8642,7 +8627,7 @@ msgstr "기여 지우기"
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
-msgstr "모든 프로젝트에서 %(user)s 님의 번역, 제안, 댓글을 지웁니다."
+msgstr "모든 프로젝트에서 %(user)s 님의 번역, 제안, 의견을 지웁니다."
 
 #: weblate/templates/accounts/user.html:459
 #: weblate/templates/accounts/user.html:485
@@ -8812,7 +8797,7 @@ msgstr "저장소 전체"
 #: weblate/templates/language.html:22 weblate/templates/project.html:31
 #: weblate/templates/translate.html:374 weblate/templates/translation.html:33
 msgid "History"
-msgstr "기록"
+msgstr "히스토리"
 
 #: weblate/templates/addons/addon_list.html:24
 #: weblate/templates/auth/team.html:47 weblate/templates/machinery/edit.html:18
@@ -9821,7 +9806,7 @@ msgstr "문자열을 찾을 수 없습니다!"
 #: weblate/templates/language-project.html:26 weblate/templates/project.html:28
 #: weblate/templates/translation.html:30
 msgid "Insights"
-msgstr "인사이트"
+msgstr "분석"
 
 #: weblate/templates/category-language.html:34
 #: weblate/templates/category.html:50 weblate/templates/component-list.html:18
@@ -11253,13 +11238,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
-msgstr "새 번역 요청이 프로젝트 유지관리자에게 전송되었습니다."
+msgstr ""
+"Weblate에는 %(date)s 이후로 이 프로젝트들에 대한 미처리 번역 변경 사항이 "
+"있습니다."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
@@ -11267,14 +11251,9 @@ msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate should now be able to see updated repository and you can unlock "
-#| "it."
+#, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
-msgstr ""
-"이제 Weblate에서 업데이트된 저장소를 확인할 수 있으며 잠금을 해제할 수 있습니"
-"다."
+msgstr "Weblate는 %(date)s 이후로 저장소 변경 사항을 푸시하지 못하고 있습니다."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
@@ -11284,10 +11263,8 @@ msgstr ""
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "만료 후 계정이 비활성화됩니다."
+msgstr "활동이 없는 프로젝트의 정기 결제는 중단됩니다"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -11685,10 +11662,8 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s이(가) 완료되었습니다"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "번역 품질 필터"
+msgstr "이 기간의 번역 활동:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
 #, fuzzy
@@ -14578,10 +14553,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/project-access-team-form.html:45
-#, fuzzy
-#| msgid "Not available"
 msgid "No teams are available."
-msgstr "사용 불가"
+msgstr "선택 가능한 팀이 없습니다."
 
 #: weblate/templates/trans/project-access.html:103
 msgid "Clean up user contributions"
@@ -15855,14 +15828,9 @@ msgstr ""
 "습니다."
 
 #: weblate/trans/change_display.py:256
-#, fuzzy, python-format
-#| msgid ""
-#| "The license of the \"%(component)s\" component was changed from %(old)s "
-#| "to %(target)s."
+#, python-format
 msgid "%(setting)s changed from \"%(old)s\" to \"%(target)s\"."
-msgstr ""
-"\"%(component)s\" 구성요소의 라이선스가 %(old)s에서 %(target)s(으)로 변경되었"
-"습니다."
+msgstr "%(setting)s 설정이 \"%(old)s\"에서 \"%(target)s\"(으)로 변경되었습니다."
 
 #: weblate/trans/change_display.py:266
 #, fuzzy
@@ -16082,24 +16050,16 @@ msgid "Update last translator header"
 msgstr "번역된 문자열 업데이트"
 
 #: weblate/trans/file_format_params.py:399
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"Last-Translator\" file header."
-msgstr ""
-"Weblate가 프로젝트의 \"Language-Team\" 파일 헤더를 업데이트하도록 허용합니다."
+msgstr "Weblate가 “Last-Translator” 파일 헤더를 업데이트하도록 합시다."
 
 #: weblate/trans/file_format_params.py:406
 msgid "Update X-Generator header"
 msgstr ""
 
 #: weblate/trans/file_format_params.py:409
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"X-Generator\" file header."
-msgstr ""
-"Weblate가 프로젝트의 \"Language-Team\" 파일 헤더를 업데이트하도록 허용합니다."
+msgstr "Weblate가 “X-Generator” 파일 헤더를 업데이트하도록 합시다."
 
 #: weblate/trans/file_format_params.py:416
 #, fuzzy
@@ -18412,16 +18372,14 @@ msgid_plural "Could not find %d strings:"
 msgstr[0] "문자열 %d개를 찾을 수 없습니다:"
 
 #: weblate/trans/models/translation.py:1345
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
-msgstr "업로드한 파일의 복수형이 현재 번역과 일치하지 않습니다."
+msgstr "업로드된 파일의 복수형 %d가 허용 범위를 벗어났습니다."
 
 #: weblate/trans/models/translation.py:1351
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr "업로드한 파일의 복수형이 현재 번역과 일치하지 않습니다."
+msgstr "업로드된 파일에서 복수형 %d가 누락되었습니다."
 
 #: weblate/trans/models/translation.py:1562
 #: weblate/trans/models/translation.py:1567
@@ -18583,10 +18541,8 @@ msgid "Automatic translation skipped because the target no longer exists."
 msgstr "대상이 더 이상 존재하지 않으므로 자동 번역이 건너뛰었습니다."
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "구성요소가 없는 프로젝트"
+msgstr "프로젝트 백업 가져오기가 완료되었습니다."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19750,10 +19706,9 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "복수형 수식을 평가할 수 없습니다: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "복수형 수식을 평가할 수 없습니다: {}"
+msgstr "count {count}에 대한 복수형 수식 평가에 실패했습니다: {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
