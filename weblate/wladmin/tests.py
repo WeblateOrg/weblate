@@ -395,7 +395,6 @@ class AdminTest(ViewTestCase):
 
         for index in range(3):
             billing = Billing.objects.create(plan=plan)
-            billing.owners.add(self.user)
             project = Project.objects.create(
                 name=f"Billed project {index}",
                 slug=f"billed-project-{index}",
@@ -404,8 +403,6 @@ class AdminTest(ViewTestCase):
             billing.add_project(project)
 
         project_table = Project._meta.db_table  # noqa: SLF001
-        owners_table = Billing.owners.through._meta.db_table  # noqa: SLF001
-
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get(reverse("manage-workspaces"))
 
@@ -419,7 +416,6 @@ class AdminTest(ViewTestCase):
             )
         ]
         self.assertEqual(project_queries, [])
-        self.assertFalse(any(owners_table in query["sql"] for query in queries))
 
     def test_ssh(self) -> None:
         response = self.client.get(reverse("manage-ssh"))

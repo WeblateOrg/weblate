@@ -115,6 +115,12 @@ PERMISSIONS = (
     ("announcement.add", gettext_noop("Post announcements")),
     # Translators: Permission name
     ("announcement.delete", gettext_noop("Delete announcements")),
+    # Translators: Permission name
+    ("workspace.edit", gettext_noop("Edit workspace settings")),
+    # Translators: Permission name
+    ("workspace.add_project", gettext_noop("Add projects to workspace")),
+    # Translators: Permission name
+    ("workspace.edit_members", gettext_noop("Manage workspace access")),
 )
 
 PERMISSION_NAMES = {perm[0] for perm in PERMISSIONS}
@@ -184,7 +190,7 @@ TRANSLATE_PERMS = {
 ROLES = (
     (
         pgettext_noop("Access-control role", "Administration"),
-        [x[0] for x in PERMISSIONS],
+        [x[0] for x in PERMISSIONS if not x[0].startswith("workspace.")],
     ),
     (
         pgettext_noop("Access-control role", "Edit source"),
@@ -257,6 +263,18 @@ ROLES = (
     (
         pgettext_noop("Access-control role", "Manage repository"),
         filter_perms("vcs.") | {"component.lock"},
+    ),
+    (
+        pgettext_noop("Access-control role", "Workspace administration"),
+        {
+            "workspace.edit",
+            "workspace.add_project",
+            "workspace.edit_members",
+        },
+    ),
+    (
+        pgettext_noop("Access-control role", "Add workspace projects"),
+        {"workspace.add_project"},
     ),
     (pgettext_noop("Access-control role", "Add new projects"), {"project.add"}),
 )

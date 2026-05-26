@@ -123,6 +123,7 @@ from weblate.utils.validators import (
 )
 from weblate.utils.views import get_sort_name
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import Model, QuerySet
@@ -2897,31 +2898,31 @@ class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
         fields = ["name", "slug"]  # noqa: RUF012
 
 
-class BillingMixin(forms.Form):
+class WorkspaceMixin(forms.Form):
     # This is fake field with is either hidden or configured
     # in the view
-    billing = forms.ModelChoiceField(
-        label=gettext_lazy("Billing"),
-        queryset=User.objects.none(),
-        required=True,
+    workspace = forms.ModelChoiceField(
+        label=gettext_lazy("Workspace"),
+        queryset=Workspace.objects.none(),
+        required=False,
         empty_label=None,
     )
 
 
 class ProjectCreateForm(
-    BillingMixin, SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
+    WorkspaceMixin, SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
 ):
     """Project creation form."""
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "instructions")
+        fields = ("name", "slug", "web", "instructions", "workspace")
 
 
 class ProjectImportCreateForm(ProjectCreateForm):
     class Meta:
         model = Project
-        fields = ("name", "slug")
+        fields = ("name", "slug", "workspace")
 
     def __init__(
         self, request: AuthenticatedHttpRequest, projectbackup, *args, **kwargs
@@ -2939,11 +2940,11 @@ class ProjectImportCreateForm(ProjectCreateForm):
             ),
             Field("name"),
             Field("slug"),
-            Field("billing"),
+            Field("workspace"),
         )
 
 
-class ProjectImportForm(BillingMixin, forms.Form):
+class ProjectImportForm(WorkspaceMixin, forms.Form):
     """Component base form."""
 
     zipfile = forms.FileField(
@@ -2965,7 +2966,7 @@ class ProjectImportForm(BillingMixin, forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("zipfile"),
-            Field("billing"),
+            Field("workspace"),
         )
 
     def clean_zipfile(self):

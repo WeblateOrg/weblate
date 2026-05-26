@@ -10,7 +10,7 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -43,7 +43,6 @@ def get_billing_context(
 
     from weblate.billing.forms import (  # noqa: PLC0415
         BillingMergeForm,
-        BillingUserForm,
         HostingForm,
     )
 
@@ -51,26 +50,26 @@ def get_billing_context(
         "billing": billing,
         "hosting_form": HostingForm(),
         "merge_form": BillingMergeForm(),
-        "user_form": BillingUserForm(),
     }
 
 
 def get_create_project_url(
-    request: AuthenticatedHttpRequest, billing: Billing | None
+    request: AuthenticatedHttpRequest, workspace: Workspace, billing: Billing | None
 ) -> str | None:
-    if billing is None:
+    if not request.user.has_perm("workspace.add_project", workspace):
         return None
 
-    from weblate.billing.models import Billing  # noqa: PLC0415
+    if billing is not None:
+        from weblate.billing.models import Billing  # noqa: PLC0415
 
-    if not (
-        Billing.objects.filter(pk=billing.pk)
-        .for_user_within_limits(request.user)
-        .exists()
-    ):
-        return None
+        if not (
+            Billing.objects.filter(pk=billing.pk)
+            .for_user_within_limits(request.user)
+            .exists()
+        ):
+            return None
 
-    return f"{reverse('create-project')}?{urlencode({'billing': billing.pk})}"
+    return f"{reverse('create-project')}?{urlencode({'workspace': workspace.pk})}"
 
 
 @never_cache
@@ -81,9 +80,19 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     user_can_view_billing = billing is not None and request.user.has_perm(
         "meta:billing.view", billing
     )
+    user_has_workspace_access = any(
+        request.user.has_perm(permission, workspace)
+        for permission in (
+            "workspace.edit",
+            "workspace.add_project",
+            "workspace.edit_members",
+        )
+    )
+    can_manage_access = request.user.has_perm("workspace.edit_members", workspace)
     if (
         not projects.exists()
         and not user_can_view_billing
+        and not user_has_workspace_access
         and not request.user.has_perm("management.use")
     ):
         msg = "Access denied"
@@ -110,7 +119,11 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "title": workspace.name,
             "query_string": "",
             "show_review_columns": show_review_columns,
-            "create_project_url": get_create_project_url(request, billing),
+            "create_project_url": get_create_project_url(request, workspace, billing),
+            "can_manage_access": can_manage_access,
+            "workspace_teams": workspace.defined_groups.annotate(Count("user"))
+            .order()
+            .prefetch_related("roles"),
             **get_billing_context(request, billing),
         },
     )

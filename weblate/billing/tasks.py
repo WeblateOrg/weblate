@@ -169,7 +169,7 @@ def inactive_recurring_check() -> None:
             bill = (
                 Billing.objects.select_for_update()
                 .select_related("plan")
-                .prefetch_related("owners", "owners__profile", "workspace__projects")
+                .prefetch_related("workspace__projects")
                 .get(pk=billing_id)
             )
             status = bill.get_inactive_recurring_status(now)

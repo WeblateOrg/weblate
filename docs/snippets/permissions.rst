@@ -324,6 +324,14 @@ List of privileges
 |                       |                                           +---------------------------------------+
 |                       |                                           | :guilabel:`Translation coordinator`   |
 +-----------------------+-------------------------------------------+---------------------------------------+
+| Workspaces            | Edit workspace settings                   | :guilabel:`Workspace administration`  |
+|                       +-------------------------------------------+---------------------------------------+
+|                       | Add projects to workspace                 | :guilabel:`Workspace administration`  |
+|                       |                                           +---------------------------------------+
+|                       |                                           | :guilabel:`Add workspace projects`    |
+|                       +-------------------------------------------+---------------------------------------+
+|                       | Manage workspace access                   | :guilabel:`Workspace administration`  |
++-----------------------+-------------------------------------------+---------------------------------------+
 | Site wide privileges  | Use management interface                  |                                       |
 |                       +-------------------------------------------+---------------------------------------+
 |                       | Add new projects                          | :guilabel:`Add new projects`          |

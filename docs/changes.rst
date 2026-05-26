@@ -10,7 +10,7 @@ Weblate 2026.6
 * Added :ref:`cost estimates <cost-estimate>` to translation reports.
 * Added optional :ref:`OpenTelemetry tracing <collecting-errors>` support for backend requests and tasks.
 * Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` support for handled server errors.
-* Added workspaces to group related projects, with workspace project listings and billing details when available.
+* Added :doc:`/admin/workspaces` to group related projects, with workspace project listings, workspace-scoped teams and project creation permissions, and billing details when available.
 
 .. rubric:: Improvements
 
@@ -41,6 +41,8 @@ Weblate 2026.6
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.workspaces`` should be added.
 
 .. rubric:: Contributors
 

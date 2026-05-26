@@ -713,7 +713,7 @@ def trial(request: AuthenticatedHttpRequest):
             expiry=timezone.now() + timedelta(days=14),
         )
         billing.billinglog_set.create(event=BillingEvent.CREATED, user=request.user)
-        billing.owners.add(request.user)
+        billing.workspace.add_owner(request.user, request)
         messages.info(
             request,
             gettext(
@@ -721,7 +721,7 @@ def trial(request: AuthenticatedHttpRequest):
                 "create your translation project and start Weblating!"
             ),
         )
-        return redirect(f"{reverse('create-project')}?billing={billing.pk}")
+        return redirect(f"{reverse('create-project')}?workspace={billing.workspace_id}")
 
     return render(request, "accounts/trial.html", {"title": gettext("Gratis trial")})
 
@@ -891,9 +891,15 @@ class UserPage(UpdateView):
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
         memberships = (
-            user.team_memberships.select_related("group", "group__defining_project")
+            user.team_memberships.select_related(
+                "group", "group__defining_project", "group__defining_workspace"
+            )
             .prefetch_related(prefetch_membership_limit_languages())
-            .order_by("group__defining_project__name", "group__name")
+            .order_by(
+                "group__defining_project__name",
+                "group__defining_workspace__name",
+                "group__name",
+            )
         )
         memberships_by_group_id = {}
         for membership in memberships:
@@ -903,12 +909,25 @@ class UserPage(UpdateView):
             memberships_by_group_id[membership.group_id] = membership
         page_user_groups = list(
             user.groups.annotate(Count("user"))
-            .select_related("defining_project")
+            .select_related("defining_project", "defining_workspace")
             .order()
         )
         for group in page_user_groups:
             group.team_membership = memberships_by_group_id.get(group.pk)
         context["page_user_groups"] = page_user_groups
+        context["page_user_billings"] = []
+        if "weblate.billing" in settings.INSTALLED_APPS:
+            from weblate.billing.models import Billing  # noqa: PLC0415
+
+            context["page_user_billings"] = list(
+                Billing.objects.filter(
+                    workspace__defined_groups__memberships__user=user,
+                    workspace__defined_groups__memberships__limit_languages__isnull=True,
+                    workspace__defined_groups__roles__permissions__codename="workspace.edit",
+                )
+                .distinct()
+                .prefetch()
+            )
         return context
 
 

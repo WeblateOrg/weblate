@@ -16,7 +16,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from weblate.auth.models import User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.billing.models import (
     Billing,
     BillingEvent,
@@ -50,7 +50,11 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     create_test_user,
 )
-from weblate.workspaces.models import WORKSPACE_NAME_LENGTH, Workspace
+from weblate.workspaces.models import (
+    WORKSPACE_NAME_LENGTH,
+    WORKSPACE_PROJECT_CREATORS_GROUP,
+    Workspace,
+)
 
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data")
 
@@ -81,7 +85,6 @@ class BillingTest(BaseTestCase):
             name=name, slug=name, access_control=Project.ACCESS_PROTECTED
         )
         self.billing.add_project(project)
-        self.billing.owners.add(self.user)
         return project
 
     def add_component(
@@ -197,7 +200,7 @@ class BillingTest(BaseTestCase):
         self.user.is_superuser = True
         self.user.save()
         response = self.client.get(reverse("billing"))
-        self.assertContains(response, "Owners")
+        self.assertContains(response, "Workspace")
 
     def test_customer_name(self) -> None:
         self.client.login(username=self.user.username, password="testpassword")
@@ -436,25 +439,6 @@ class BillingTest(BaseTestCase):
         self.assertEqual(billing.workspace.name, "Acme Billing LLC")
         self.assertTrue(billing.workspace.name_managed)
 
-    def test_owners_update_workspace_name(self) -> None:
-        billing = Billing.objects.create(plan=self.plan)
-
-        self.assertEqual(billing.workspace.name, "Billing")
-
-        billing.owners.add(self.user)
-        billing.workspace.refresh_from_db()
-
-        self.assertEqual(
-            billing.workspace.name, f"Billing for {self.user.get_visible_name()}"
-        )
-        self.assertTrue(billing.workspace.name_managed)
-
-        billing.owners.clear()
-        billing.workspace.refresh_from_db()
-
-        self.assertEqual(billing.workspace.name, "Billing")
-        self.assertTrue(billing.workspace.name_managed)
-
     def test_customer_name_updates_workspace_after_plan_change(self) -> None:
         paid_plan = Plan.objects.create(
             name="Paid plan", slug="paid-plan", price=29, yearly_price=299
@@ -498,17 +482,6 @@ class BillingTest(BaseTestCase):
         self.billing.workspace.refresh_from_db()
         self.assertEqual(self.billing.workspace.name, "Manual workspace name")
         self.assertFalse(self.billing.workspace.name_managed)
-
-    def test_owners_preserve_manual_workspace_name(self) -> None:
-        billing = Billing.objects.create(plan=self.plan)
-        billing.workspace.name = "Manual workspace name"
-        billing.workspace.save(update_fields=["name"])
-
-        billing.owners.add(self.user)
-
-        billing.workspace.refresh_from_db()
-        self.assertEqual(billing.workspace.name, "Manual workspace name")
-        self.assertFalse(billing.workspace.name_managed)
 
     def test_billing_demo_with_existing_workspace(self) -> None:
         workspace = Workspace.objects.create(name="Billing Demo")
@@ -559,6 +532,21 @@ class BillingTest(BaseTestCase):
         self.add_project()
         billing_notify()
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_billing_notify_users_are_workspace_admins(self) -> None:
+        project_creator = create_another_user(suffix="-creator")
+        workspace_groups = self.billing.workspace.setup_groups()
+        project_creator.add_team(
+            None, workspace_groups[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+
+        notify_users = list(self.billing.get_notify_users())
+        self.assertEqual(set(notify_users), {self.user})
+        expected_language = self.user.profile.language
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                [user.profile.language for user in notify_users], [expected_language]
+            )
 
     @override_settings(EMAIL_SUBJECT_PREFIX="")
     def test_inactive_recurring_warning_and_disable(self) -> None:
@@ -1071,7 +1059,11 @@ class BillingTest(BaseTestCase):
         project.add_user(third_user, "Translate")
         project.delete()
         self.assertEqual(
-            set(self.billing.owners.values_list("username", flat=True)),
+            set(
+                self.billing.workspace.get_owners_group().user_set.values_list(
+                    "username", flat=True
+                )
+            ),
             {self.user.username, second_user.username},
         )
 
@@ -1149,6 +1141,23 @@ class BillingTest(BaseTestCase):
         other = Billing.objects.create(plan=self.billing.plan)
         project = self.add_project()
         project2 = self.add_project()
+        limited_user = create_another_user("-limited")
+        custom_user = create_another_user("-custom")
+        source_group = self.billing.workspace.setup_groups()[
+            WORKSPACE_PROJECT_CREATORS_GROUP
+        ]
+        limited_user.add_team(None, source_group)
+        source_membership = TeamMembership.objects.get(
+            group=source_group, user=limited_user
+        )
+        source_membership.limit_languages.add(Language.objects.get(code="cs"))
+        custom_role = Role.objects.create(name="Custom workspace editor")
+        custom_role.permissions.add(Permission.objects.get(codename="workspace.edit"))
+        custom_group = Group.objects.create(
+            name="Custom workspace team", defining_workspace=self.billing.workspace
+        )
+        custom_group.roles.add(custom_role)
+        custom_user.add_team(None, custom_group)
         self.refresh_from_db()
         self.assertFalse(self.billing.in_limits)
         self.billing.payment = {"all": [{"charge": "source-payment"}]}
@@ -1206,9 +1215,36 @@ class BillingTest(BaseTestCase):
         self.assertTrue(self.billing.in_limits)
         self.assertEqual(other.count_projects, 2)
         self.assertFalse(other.in_limits)
+        target_group = other.workspace.setup_groups()[WORKSPACE_PROJECT_CREATORS_GROUP]
+        target_membership = TeamMembership.objects.get(
+            group=target_group, user=limited_user
+        )
+        self.assertEqual(
+            list(target_membership.limit_languages.values_list("code", flat=True)),
+            ["cs"],
+        )
+        target_custom_group = other.workspace.defined_groups.get(name=custom_group.name)
+        self.assertEqual(set(target_custom_group.roles.all()), {custom_role})
+        self.assertTrue(target_custom_group.user_set.filter(pk=custom_user.pk).exists())
 
-    def test_owners(self) -> None:
+    def test_workspace_access_controls_billing_view(self) -> None:
         second_user = create_another_user()
+        project_creator = create_another_user(suffix="-creator")
+        workspace_editor = create_another_user(suffix="-editor")
+        workspace_groups = self.billing.workspace.setup_groups()
+        project_creator.add_team(
+            None, workspace_groups[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+        workspace_edit = Role.objects.create(name="Workspace edit")
+        workspace_edit.permissions.set(
+            Permission.objects.filter(codename="workspace.edit")
+        )
+        workspace_editors = Group.objects.create(
+            name="Workspace editors",
+            defining_workspace=self.billing.workspace,
+        )
+        workspace_editors.roles.add(workspace_edit)
+        workspace_editor.add_team(None, workspace_editors)
         billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
 
         # No access for different user
@@ -1217,82 +1253,24 @@ class BillingTest(BaseTestCase):
         response = self.client.get(billing_url)
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk})
-        )
+        # Project creation access does not grant billing access
+        self.client.login(username=project_creator.username, password="testpassword")
+
+        response = self.client.get(billing_url)
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.post(
-            reverse(
-                "billing-owner-remove",
-                kwargs={"pk": self.billing.pk, "user_id": self.user.pk},
-            )
-        )
-        self.assertEqual(response.status_code, 403)
+        # Workspace edit access grants billing access
+        self.client.login(username=workspace_editor.username, password="testpassword")
 
-        # Access for owner
+        response = self.client.get(billing_url)
+        self.assertContains(response, "Billing plan")
+
+        # Access for workspace owner
         self.client.login(username=self.user.username, password="testpassword")
 
         response = self.client.get(billing_url)
-        self.assertContains(response, "Billing admins")
-
-        # Add user
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
-            {"user": "nonexisting-user"},
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(1, self.billing.owners.count())
-
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
-            {"user": second_user.username},
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(2, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username, second_user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
-        # Add user (no-op)
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
-            {"user": second_user.username},
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(2, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username, second_user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
-
-        # Delete user restricted for self
-        response = self.client.post(
-            reverse(
-                "billing-owner-remove",
-                kwargs={"pk": self.billing.pk, "user_id": self.user.pk},
-            )
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(2, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username, second_user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
-
-        # Delete other user works
-        response = self.client.post(
-            reverse(
-                "billing-owner-remove",
-                kwargs={"pk": self.billing.pk, "user_id": second_user.pk},
-            )
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(1, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
+        self.assertContains(response, "Billing plan")
+        self.assertNotContains(response, "Billing admins", status_code=200)
 
 
 class HostingTest(RepoTestCase):
@@ -1325,7 +1303,7 @@ class HostingTest(RepoTestCase):
 
         # Add component to a trial
         component = self.create_component()
-        billing = user.billing_set.get()
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
         billing.add_project(component.project)
 
         # Not valid for libre
@@ -1339,7 +1317,7 @@ class HostingTest(RepoTestCase):
 
         # Add missing license info
         component.project.component_set.update(license="GPL-3.0-or-later")
-        billing = user.billing_set.get()
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
 
         # Valid for libre
         self.assertTrue(billing.valid_libre)

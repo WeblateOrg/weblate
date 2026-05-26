@@ -8,10 +8,8 @@ from typing import TYPE_CHECKING
 
 from django.contrib import admin
 from django.contrib.admin import RelatedOnlyFieldListFilter
-from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.utils import validate_team_assignable_user
 from weblate.wladmin.models import WeblateModelAdmin
 
 from .models import Billing, Invoice, Plan
@@ -43,15 +41,11 @@ class PlanAdmin(WeblateModelAdmin):
     list_filter = ("public", "change_access_control")
 
 
-def format_user(obj) -> str:
-    return f"{obj.username}: {obj.full_name} <{obj.email}>"
-
-
 @admin.register(Billing)
 class BillingAdmin(WeblateModelAdmin):
     list_display = (
         "list_projects",
-        "list_owners",
+        "workspace",
         "plan",
         "state",
         "removal",
@@ -69,8 +63,7 @@ class BillingAdmin(WeblateModelAdmin):
         "last_invoice",
     )
     list_filter = ("plan", "state", "paid", "in_limits")
-    search_fields = ("workspace__projects__name", "owners__email", "customer_name")
-    autocomplete_fields = ("owners",)
+    search_fields = ("workspace__projects__name", "workspace__name", "customer_name")
 
     def get_queryset(self, request: AuthenticatedHttpRequest):
         return super().get_queryset(request).prefetch()
@@ -81,16 +74,6 @@ class BillingAdmin(WeblateModelAdmin):
             return "none projects associated"
         return ",".join(project.name for project in obj.all_projects)
 
-    @admin.display(description=gettext_lazy("Owners"))
-    def list_owners(self, obj):
-        return ",".join(owner.full_name for owner in obj.owners.all())
-
-    # pylint: disable-next=arguments-differ
-    def get_form(self, request: AuthenticatedHttpRequest, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        form.base_fields["owners"].label_from_instance = format_user
-        return form
-
     def save_related(
         self, request: AuthenticatedHttpRequest, form, formsets, change
     ) -> None:
@@ -100,11 +83,9 @@ class BillingAdmin(WeblateModelAdmin):
         for project in obj.get_projects_queryset():
             group = project.defined_groups.get(name="Administration")
             if not group.user_set.exists():
-                for user in obj.owners.all():
-                    try:
-                        validate_team_assignable_user(user)
-                    except ValidationError:
-                        continue
+                for user in obj.workspace.users_with_permission(
+                    "workspace.edit_members"
+                ):
                     user.add_team(request, group)
 
 
@@ -114,7 +95,6 @@ class InvoiceAdmin(WeblateModelAdmin):
     list_filter = (
         "currency",
         ("billing__workspace__projects", RelatedOnlyFieldListFilter),
-        ("billing__owners", RelatedOnlyFieldListFilter),
     )
     search_fields = ("billing__workspace__projects__name", "ref", "note")
     date_hierarchy = "end"

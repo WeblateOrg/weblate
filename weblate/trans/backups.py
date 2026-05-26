@@ -84,6 +84,7 @@ if TYPE_CHECKING:
     from django.db.models import Model
 
     from weblate.billing.models import Billing
+    from weblate.workspaces.models import Workspace
 
 warnings.filterwarnings("error", module="zipfile")
 
@@ -1398,6 +1399,7 @@ class ProjectBackup:
         project_slug: str,
         user: User,
         billing: Billing | None = None,
+        workspace: Workspace | None = None,
         progress_callback: Callable[[int, int], None] | None = None,
     ) -> Project:
         if not self.filename:
@@ -1415,6 +1417,8 @@ class ProjectBackup:
             kwargs = self.data["project"].copy()
             kwargs["name"] = project_name
             kwargs["slug"] = project_slug
+            if workspace is not None:
+                kwargs["workspace"] = workspace
             # the attribute `set_language_team` is present in legacy backups prior to 5.17.1
             self.set_language_team_project = kwargs.pop("set_language_team", False)
             self.project = project = Project.objects.create(**kwargs)

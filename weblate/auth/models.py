@@ -18,6 +18,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group as DjangoGroup
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Prefetch, Q, UniqueConstraint
@@ -89,6 +90,7 @@ if TYPE_CHECKING:
     class PermissionsDictType(TypedDict):
         projects: PermissionCacheType
         components: SimplePermissionCacheType
+        workspaces: dict[uuid.UUID, set[str]]
 
 
 class Permission(models.Model):
@@ -106,6 +108,41 @@ class Permission(models.Model):
         return name
 
 
+class RoleQuerySet(models.QuerySet["Role", "Role"]):
+    def without_global_permissions(self) -> Self:
+        return self.exclude(
+            pk__in=self.model.objects.filter(
+                permissions__codename__in=GLOBAL_PERM_NAMES
+            ).values("pk")
+        )
+
+    def without_workspace_permissions(self) -> Self:
+        return self.exclude(
+            pk__in=self.model.objects.filter(
+                permissions__codename__startswith="workspace."
+            ).values("pk")
+        )
+
+    def assignable_to_project_team(self) -> Self:
+        return (
+            self.without_global_permissions().without_workspace_permissions().distinct()
+        )
+
+    def assignable_to_workspace_team(self) -> Self:
+        return (
+            self.filter(permissions__codename__startswith="workspace.")
+            .without_global_permissions()
+            .distinct()
+        )
+
+    def assignable_to_team(self, team: Group) -> Self:
+        if team.defining_project_id:
+            return self.assignable_to_project_team()
+        if team.defining_workspace_id:
+            return self.assignable_to_workspace_team()
+        return self.all()
+
+
 class Role(models.Model):
     name = models.CharField(
         verbose_name=gettext_lazy("Name"), max_length=200, unique=True
@@ -116,6 +153,8 @@ class Role(models.Model):
         blank=True,
         help_text=gettext_lazy("Choose permissions granted to this role."),
     )
+
+    objects = RoleQuerySet.as_manager()
 
     class Meta:
         verbose_name = "Role"
@@ -128,7 +167,9 @@ class Role(models.Model):
 class GroupQuerySet(models.QuerySet["Group", "Group"]):
     def order(self):
         """Ordering in project scope by priority."""
-        return self.order_by("defining_project__name", "name")
+        return self.order_by(
+            "defining_project__name", "defining_workspace__name", "name"
+        )
 
 
 class Group(models.Model):
@@ -142,6 +183,13 @@ class Group(models.Model):
 
     defining_project = models.ForeignKey(
         "trans.Project",
+        related_name="defined_groups",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+    )
+    defining_workspace = models.ForeignKey(
+        "workspaces.Workspace",
         related_name="defined_groups",
         on_delete=models.deletion.CASCADE,
         null=True,
@@ -214,14 +262,37 @@ class Group(models.Model):
     class Meta:
         verbose_name = "Group"
         verbose_name_plural = "Groups"
+        constraints = [  # noqa: RUF012
+            models.CheckConstraint(
+                condition=(
+                    Q(defining_project__isnull=True)
+                    | Q(defining_workspace__isnull=True)
+                ),
+                name="weblate_auth_group_single_definition",
+            ),
+            UniqueConstraint(
+                fields=("defining_workspace", "name"),
+                condition=Q(defining_workspace__isnull=False),
+                name="weblate_auth_group_unique_workspace_name",
+            ),
+        ]
 
     def __str__(self) -> str:
         if self.defining_project:
             return pgettext("Per-project access-control team name", self.name)
+        if self.defining_workspace:
+            return pgettext("Per-workspace access-control team name", self.name)
         return pgettext("Access-control team name", self.name)
 
     def save(self, *args, **kwargs) -> None:
+        self.clean()
         super().save(*args, **kwargs)
+        if self.defining_workspace_id:
+            self.projects.clear()
+            self.components.clear()
+            self.componentlists.clear()
+            self.languages.clear()
+            return
         if self.language_selection == SELECTION_ALL:
             self.languages.clear()
         if self.project_selection in {
@@ -241,9 +312,33 @@ class Group(models.Model):
     def get_absolute_url(self) -> str:
         return reverse("team", kwargs={"pk": self.pk})
 
+    def clean(self) -> None:
+        super().clean()
+        if self.defining_project_id and self.defining_workspace_id:
+            raise ValidationError(
+                gettext("Team can be scoped either to a project or to a workspace.")
+            )
+        if (
+            self.defining_workspace_id
+            and Group.objects.filter(
+                defining_workspace_id=self.defining_workspace_id, name=self.name
+            )
+            .exclude(pk=self.pk)
+            .exists()
+        ):
+            raise ValidationError(
+                {
+                    "name": gettext(
+                        "A team with this name already exists in this workspace."
+                    )
+                }
+            )
+
     def long_name(self):
         if self.defining_project:
             return f"{self.defining_project} / {self}"
+        if self.defining_workspace:
+            return f"{self.defining_workspace} / {self}"
         return str(self)
 
 
@@ -896,7 +991,7 @@ class User(AbstractBaseUser):
     @cached_property
     def cached_memberships(self) -> Iterable[TeamMembership]:
         return (
-            self.team_memberships.select_related("group")
+            self.team_memberships.select_related("group", "group__defining_workspace")
             .prefetch_related(
                 Prefetch("limit_languages", queryset=Language.objects.only("id")),
                 "group__roles__permissions",
@@ -922,7 +1017,11 @@ class User(AbstractBaseUser):
                     queryset=Language.objects.only("id", "name", "code"),
                 ),
             )
-            .order_by("group__defining_project__name", "group__name")
+            .order_by(
+                "group__defining_project__name",
+                "group__defining_workspace__name",
+                "group__name",
+            )
         )
 
     def group_enforces_2fa(self) -> bool:
@@ -954,6 +1053,8 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
+        workspaces: dict[uuid.UUID, set[str]] = defaultdict(set)
+
         with start_span(op="auth.permissions", name=self.username):
             for membership in self.cached_memberships:
                 group = membership.group
@@ -973,6 +1074,14 @@ class User(AbstractBaseUser):
                         role.permissions.all() for role in group.roles.all()
                     )
                 }
+                if group.defining_workspace_id:
+                    if languages is None or not languages.membership_limited:
+                        workspaces[group.defining_workspace_id].update(
+                            permission
+                            for permission in permissions
+                            if permission.startswith("workspace.")
+                        )
+                    continue
 
                 # Component list specific permissions
                 componentlist_values = {
@@ -1023,7 +1132,11 @@ class User(AbstractBaseUser):
                 # Remove all permissions for blocked user
                 projects[block.project_id] = [(None, None)]
 
-        return {"projects": projects, "components": components}
+        return {
+            "projects": projects,
+            "components": components,
+            "workspaces": workspaces,
+        }
 
     @property
     def project_permissions(self) -> PermissionCacheType:
@@ -1034,6 +1147,11 @@ class User(AbstractBaseUser):
     def component_permissions(self) -> SimplePermissionCacheType:
         """List all component permissions."""
         return self._permissions["components"]
+
+    @property
+    def workspace_permissions(self) -> dict[uuid.UUID, set[str]]:
+        """List all workspace permissions."""
+        return self._permissions["workspaces"]
 
     @cached_property
     def global_permissions(self) -> set[str]:
@@ -1076,6 +1194,26 @@ class User(AbstractBaseUser):
                         break
                     condition |= Q(access_control=access)
         return Project.objects.filter(condition).distinct().order()
+
+    def workspace_ids_with_perm(self, perm: str) -> set[uuid.UUID]:
+        if self.is_superuser:
+            from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
+            return set(Workspace.objects.values_list("pk", flat=True))
+        return {
+            workspace_id
+            for workspace_id, permissions in self.workspace_permissions.items()
+            if perm in permissions
+        }
+
+    def workspaces_with_perm(self, perm: str):
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
+        if self.is_superuser:
+            return Workspace.objects.order()
+        return Workspace.objects.filter(
+            pk__in=self.workspace_ids_with_perm(perm)
+        ).order()
 
     def get_visible_name(self) -> str:
         """Get full name from database or username."""
@@ -1250,7 +1388,7 @@ class User(AbstractBaseUser):
         team: Group,
         activity: Literal["team-add", "team-change", "team-remove"],
     ) -> str:
-        if team.defining_project_id is None:
+        if team.defining_project_id is None and team.defining_workspace_id is None:
             return f"sitewide-{activity}"
         return activity
 
@@ -1333,6 +1471,12 @@ def create_groups(update) -> None:
     group = builtin_groups["Viewers"]
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match="^.*$")
+
+    if "weblate.workspaces" in settings.INSTALLED_APPS:
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
+        for workspace in Workspace.objects.iterator():
+            workspace.setup_groups()
 
     # Create new per project groups
     if new_roles:

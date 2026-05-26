@@ -4,8 +4,10 @@
 
 from __future__ import annotations
 
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 
+from weblate.auth.models import Group
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import get_breadcrumbs
 from weblate.trans.tests.test_models import BaseTestCase
@@ -15,7 +17,7 @@ from weblate.trans.tests.utils import (
     create_test_user,
 )
 from weblate.utils.views import parse_path
-from weblate.workspaces.models import Workspace
+from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 
 class WorkspaceViewTest(BaseTestCase):
@@ -86,7 +88,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, workspace.name)
         self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
 
-    def test_empty_billing_workspace_is_visible_to_billing_owner(self) -> None:
+    def test_empty_billing_workspace_is_visible_to_workspace_owner(self) -> None:
         user = create_test_user()
         billing = create_test_billing(user, invoice=False)
 
@@ -95,7 +97,7 @@ class WorkspaceViewTest(BaseTestCase):
 
         self.assertContains(response, billing.workspace.name)
         self.assertContains(
-            response, f"{reverse('create-project')}?billing={billing.pk}"
+            response, f"{reverse('create-project')}?workspace={billing.workspace_id}"
         )
         self.assertContains(response, "Add new translation project")
         self.assertContains(response, 'data-bs-target="#billing"')
@@ -122,7 +124,7 @@ class WorkspaceViewTest(BaseTestCase):
             ],
         )
 
-    def test_billing_tab_is_shown_to_billing_owner(self) -> None:
+    def test_billing_tab_is_shown_to_workspace_owner(self) -> None:
         user = create_test_user()
         billing = create_test_billing(user, invoice=False)
         project = Project.objects.create(
@@ -157,3 +159,37 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, project.name)
         self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
         self.assertNotContains(response, "Billing plan", status_code=200)
+
+    def test_access_tab_is_shown_to_workspace_owner(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Access workspace")
+        workspace.add_owner(user)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, 'data-bs-target="#access"')
+        self.assertContains(response, "Access control")
+        self.assertContains(response, "Project creators")
+
+    def test_access_tab_is_hidden_without_member_management(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Project creator workspace")
+        groups = workspace.setup_groups()
+        user.add_team(None, groups[WORKSPACE_PROJECT_CREATORS_GROUP])
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, workspace.name)
+        self.assertNotContains(response, 'data-bs-target="#access"', status_code=200)
+        self.assertNotContains(response, "Access control", status_code=200)
+
+    def test_workspace_team_names_are_unique(self) -> None:
+        workspace = Workspace.objects.create(name="Team workspace")
+        workspace.setup_groups()
+
+        with self.assertRaisesMessage(
+            ValidationError, "A team with this name already exists in this workspace."
+        ):
+            Group.objects.create(name="Owners", defining_workspace=workspace)

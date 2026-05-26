@@ -20,7 +20,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models, transaction
 from django.db.models import Min, Prefetch, Q
 from django.db.models.signals import (
-    m2m_changed,
     post_delete,
     post_save,
     pre_delete,
@@ -183,12 +182,20 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
         if user.has_perm("billing.manage"):
             billings = self.all()
         else:
-            billings = self.filter(owners=user).distinct()
+            billings = self.filter(
+                workspace__in=user.workspaces_with_perm("workspace.edit")
+            ).distinct()
         return billings.order_by("state")
 
     def for_user_within_limits(self, user: User):
         """Return billings for the given user which are valid and within project creation limits."""
-        billings = self.get_valid().for_user(user).prefetch()
+        if user.has_perm("billing.manage"):
+            billings = self.get_valid()
+        else:
+            billings = self.get_valid().filter(
+                workspace__in=user.workspaces_with_perm("workspace.add_project")
+            )
+        billings = billings.distinct().prefetch()
         pks = set()
         for billing in billings:
             limit = billing.plan.display_limit_projects
@@ -198,8 +205,6 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
 
     def prefetch(self):
         return self.select_related("plan", "workspace").prefetch_related(
-            "owners",
-            "owners__profile",
             Prefetch(
                 "workspace__projects",
                 queryset=Project.objects.order(),
@@ -230,9 +235,6 @@ class Billing(models.Model):
         related_name="billing",
         verbose_name=gettext_lazy("Workspace"),
         editable=False,
-    )
-    owners = models.ManyToManyField(
-        User, blank=True, verbose_name=gettext_lazy("Billing owners")
     )
     customer_name = models.CharField(
         blank=True,
@@ -329,10 +331,8 @@ class Billing(models.Model):
             base = self.customer_name
         elif projects := self.projects_display:
             base = projects
-        elif owners := self.owners.order():
-            base = format_html_join_comma(
-                "{}", list_to_tuples(x.get_visible_name() for x in owners)
-            )
+        elif self.workspace_id:
+            base = self.workspace.name
         else:
             base = "Unassigned"
         trial = ", trial" if self.is_trial else ""
@@ -408,18 +408,8 @@ class Billing(models.Model):
 
         if self.customer_name:
             name = self.customer_name
-        elif self.pk:
-            owners = self.owners.order_by("username")
-            database = using or self._state.db
-            if database is not None:
-                owners = owners.using(database)
-            owner_names = [owner.get_visible_name() for owner in owners[:2]]
-            if owner_names:
-                name = gettext("Billing for %(owners)s") % {
-                    "owners": ", ".join(owner_names)
-                }
-            else:
-                name = gettext("Billing")
+        elif self.workspace_id:
+            name = self.workspace.name
         else:
             name = gettext("Billing")
         return name[:WORKSPACE_NAME_LENGTH]
@@ -724,7 +714,9 @@ class Billing(models.Model):
         return self.state in Billing.ACTIVE_STATES
 
     def get_notify_users(self):
-        return self.owners.all()
+        return self.workspace.users_with_permission("workspace.edit").select_related(
+            "profile"
+        )
 
     @staticmethod
     def _get_commit_date(commit: CommitInfo | None) -> datetime | None:
@@ -1247,17 +1239,6 @@ def get_project_billings(
     return objects.filter(workspace_id__in=workspace_ids)
 
 
-@receiver(m2m_changed, sender=Billing.owners.through)
-@disable_for_loaddata
-def update_billing_workspace_name(
-    sender, instance: Billing, action: str, using=None, **kwargs
-) -> None:
-    if kwargs.get("reverse") or action not in {"post_add", "post_remove", "post_clear"}:
-        return
-    if instance.workspace_id:
-        instance.update_workspace_name(using=using)
-
-
 @receiver(post_save, sender=Component)
 @receiver(post_save, sender=Project)
 @receiver(post_save, sender=Plan)
@@ -1299,12 +1280,13 @@ def record_project_bill(
             # Do the owners sync only for the last project
             if billing.get_projects_queryset().exclude(pk=instance.pk).exists():
                 continue
-            # Add project admins to the billing
-            existing_owners = set(billing.owners.values_list("id", flat=True))
+            # Keep workspace access when the last project in a billing is removed.
+            owners_group = billing.workspace.get_owners_group()
+            existing_owners = set(owners_group.user_set.values_list("id", flat=True))
             for user in users:
                 if user.id in existing_owners:
                     continue
-                billing.owners.add(user)
+                user.add_team(None, owners_group)
                 billing.billinglog_set.create(
                     event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username
                 )
