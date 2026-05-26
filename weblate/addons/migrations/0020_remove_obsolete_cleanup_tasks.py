@@ -42,5 +42,7 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             remove_obsolete_cleanup_tasks,
             migrations.RunPython.noop,
+            elidable=True,
         ),
+    ]
     ]
