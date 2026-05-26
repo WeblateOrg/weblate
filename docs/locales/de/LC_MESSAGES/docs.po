@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-24 06:32+0000\n"
+"PO-Revision-Date: 2026-05-26 15:11+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -9971,7 +9971,7 @@ msgstr "Weblate für die Verwendung von PostgreSQL konfigurieren"
 
 #: admin/install.rst:511
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
-msgstr "Das :file:`settings.py`-Snippet für PostgreSQL:"
+msgstr "Der :file:`settings.py`-Ausschnitt für PostgreSQL:"
 
 #: admin/install.rst:537
 msgid ""
@@ -17471,6 +17471,11 @@ msgid ""
 "them. Configure the web server or CDN serving :setting:`LOCALIZE_CDN_URL` as "
 "a public, read-only static file host."
 msgstr ""
+"Die Erweiterungen :ref:`addon-weblate.cdn.cdnjs` und :ref:`addon-"
+"weblate.cdn.files` schreiben Dateien auf :setting:`LOCALIZE_CDN_PATH`; "
+"Weblate stellt diese nicht bereit. Konfigurieren Sie den Webserver oder das "
+"CDN, das :setting:`LOCALIZE_CDN_URL` bereitstellt, als öffentlichen, "
+"schreibgeschützten Host für statische Dateien."
 
 #: admin/optionals.rst:229
 msgid ""
@@ -17480,6 +17485,12 @@ msgid ""
 "data, internal URLs, API examples, repository paths, translator comments, or "
 "file-format metadata that should not be exposed."
 msgstr ""
+"Behandeln Sie jede veröffentlichte CDN-Datei als öffentlich. Die spezifische "
+"UUID der Erweiterung in der URL ist kein Mechanismus zur Zugriffssteuerung. "
+"Aktivieren Sie keine CDN-Erweiterungen für Komponenten, die private "
+"Zeichenketten, unveröffentlichte Produkttexte, Kundendaten, interne URLs, "
+"API-Beispiele, Repository-Pfade, Übersetzerkommentare oder Dateiformat-"
+"Metadaten enthalten, die nicht offengelegt werden sollten."
 
 #: admin/optionals.rst:235
 msgid ""
@@ -17490,6 +17501,13 @@ msgid ""
 "Weblate and from the application consuming the translations. Do not share "
 "authentication cookies with the CDN domain."
 msgstr ""
+"Die Erweiterung :ref:`addon-weblate.cdn.files` veröffentlicht rohe "
+"Übersetzungsdateien in von Weblate unterstützten Formaten. Einige Formate "
+"können von Browsern oder anderen Clients als HTML, SVG, XML, JavaScript, "
+"YAML oder anwendungsspezifische Konfiguration interpretiert werden. Stellen "
+"Sie das CDN über eine eigene Domain bereit, die von Weblate und der "
+"Anwendung, welche die Übersetzungen nutzt, getrennt ist. Geben Sie keine "
+"Authentifizierungs-Cookies an die CDN-Domain weiter."
 
 #: admin/optionals.rst:242
 msgid "Recommended server configuration:"
@@ -17501,20 +17519,23 @@ msgid ""
 "expose Weblate repositories, backups, media, configuration, or the whole "
 "data directory."
 msgstr ""
+"Nur das von :setting:`LOCALIZE_CDN_PATH` konfigurierte Verzeichnis "
+"bereitstellen; keine Repositorys, Sicherungen, Medien, Konfigurationen oder "
+"das gesamte Datenverzeichnis von Weblate offenlegen."
 
 #: admin/optionals.rst:247
-#, fuzzy
-#| msgid "Disaster recovery plan"
 msgid "Disable directory listing."
-msgstr "Wiederherstellungsplan"
+msgstr "Verzeichnisauflistung deaktivieren."
 
 #: admin/optionals.rst:248
 msgid "Use HTTPS and make the CDN host read-only from the web server."
 msgstr ""
+"HTTPS verwenden und den CDN-Host vom Webserver als schreibgeschützt "
+"einrichten."
 
 #: admin/optionals.rst:249
 msgid "Send :http:header:`X-Content-Type-Options` with ``nosniff``."
-msgstr ""
+msgstr ":http:header:`X-Content-Type-Options` mit ``nosniff`` senden."
 
 #: admin/optionals.rst:250
 msgid ""
@@ -17522,6 +17543,9 @@ msgid ""
 "as :mimetype:`text/plain` or :mimetype:`application/octet-stream`; only "
 "serve :file:`weblate.js` as JavaScript."
 msgstr ""
+"Konservative MIME-Typen konfigurieren. Unbekannte Übersetzungsformate als "
+":mimetype:`text/plain` oder :mimetype:`application/octet-stream` "
+"bereitstellen; nur :file:`weblate.js` als JavaScript bereitstellen."
 
 #: admin/optionals.rst:253
 msgid ""
@@ -17529,24 +17553,34 @@ msgid ""
 "browser, consider adding :http:header:`Content-Disposition` with "
 "``attachment``."
 msgstr ""
+"Für rohe Übersetzungsformate, die nicht für die Darstellung in einem Browser "
+"vorgesehen sind, sollte :http:header:`Content-Disposition` mit "
+"``attachment`` hinzugefügt werden."
 
 #: admin/optionals.rst:256
 msgid ""
 "Configure ``Access-Control-Allow-Origin`` only for sites that need browser "
 "access to the files."
 msgstr ""
+"``Access-Control-Allow-Origin`` nur für Seiten konfigurieren, die "
+"Browserzugriff auf die Dateien benötigen."
 
 #: admin/optionals.rst:258
 msgid ""
 "Set cache lifetimes that match your update expectations, and purge CDN "
 "caches when stale translations must disappear quickly."
 msgstr ""
+"Cache-Lebensdauern festlegen, die den Erwartungen hinsichtlich der "
+"Aktualisierung entsprechen, und CDN-Caches leeren, wenn veraltete "
+"Übersetzungen schnell entfernt werden müssen."
 
 #: admin/optionals.rst:261
 msgid ""
 "The following nginx snippet serves only the configured CDN directory and "
 "applies conservative defaults for raw translation files:"
 msgstr ""
+"Der folgende nginx-Ausschnitt stellt nur das konfigurierte CDN-Verzeichnis "
+"bereit und wendet konservative Standardwerte für rohe Übersetzungsdateien an:"
 
 #: admin/optionals.rst:277
 msgid "Signing Git commits with GnuPG"
@@ -18509,23 +18543,16 @@ msgid "This setting is ignored for Mercurial and Subversion."
 msgstr "Diese Einstellung wird bei Mercurial und Subversion ignoriert."
 
 #: admin/projects.rst:489
-#, fuzzy
-#| msgid ""
-#| "The optional :ref:`component-push_branch` setting selects the target "
-#| "branch for the Gerrit review. Leave it empty to use :ref:`component-"
-#| "branch`. Use the short branch name, such as ``main``; Weblate and ``git-"
-#| "review`` push the review to ``refs/for/<branch>`` automatically."
 msgid ""
 "For Gerrit, this selects the target branch for the review request. Leave it "
 "empty to review against :ref:`component-branch`. Use the short branch name, "
 "not ``refs/heads/<branch>``, ``refs/for/<branch>``, or Gerrit push options "
 "such as ``%submit``."
 msgstr ""
-"Die optionale :ref:`component-push_branch`-Einstellung wählt den Ziel-Branch "
-"für die Überprüfung in Gerrit aus. Lassen Sie sie leer, um :ref:`component-"
-"branch` zu verwenden. Verwenden Sie den Kurznamen des Branches, z. B. "
-"``main``; Weblate und ``git-review`` pushen die Überprüfung automatisch nach "
-"``refs/for/<branch>``."
+"Bei Gerrit wird damit der Branch für den Review-Request ausgewählt. Lassen "
+"Sie es leer, um gegen den :ref:`component-branch` zu überprüfen. Verwenden "
+"Sie den Kurznamen des Branches, nicht ``refs/heads/<branch>``, ``refs/for/"
+"<branch>`` oder Gerrit-Push-Optionen wie ``%submit``."
 
 #: admin/projects.rst:501 devel/gettext.rst:233 formats/android.rst:78
 #: formats/apple.rst:31 formats/appstore.rst:31 formats/arb.rst:34
@@ -20512,15 +20539,6 @@ msgstr ""
 "Verwaltung und die Zuordnung der Ausgangszeichenkette:"
 
 #: admin/translating.rst:155
-#, fuzzy
-#| msgid ""
-#| "You can upload a screenshot from a local file, paste it from the "
-#| "clipboard, or provide a URL to download an image from an external source. "
-#| "URL-based uploads may be restricted based on "
-#| "the :setting:`ALLOWED_ASSET_DOMAINS` setting, which controls which "
-#| "domains are trusted for downloading external assets, including any "
-#| "redirects followed while fetching the image, "
-#| "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgid ""
 "You can upload a screenshot from a local file, paste it from the clipboard, "
 "or provide a URL to download an image from an external source. URL-based "
@@ -20534,11 +20552,13 @@ msgstr ""
 "Sie können ein Bildschirmfoto aus einer lokalen Datei hochladen, es aus der "
 "Zwischenablage einfügen oder eine URL angeben, um ein Bild aus einer "
 "externen Quelle herunterzuladen. URL-basierte Uploads können mit der "
-"Einstellung :setting:`ALLOWED_ASSET_DOMAINS` eingeschränkt werden, dies "
-"steuert, welche Domains für das Herunterladen von externen Assets "
-"vertrauenswürdig sind, einschließlich aller Weiterleitungen, die beim "
-"Abrufen des Bildes befolgt werden, und :setting:`ALLOWED_ASSET_SIZE`, "
-"welches die maximale Größe für das Asset begrenzt."
+"Einstellung :setting:`ALLOWED_ASSET_DOMAINS` eingeschränkt werden, die "
+"festlegt, welche Domains für das Herunterladen externer Assets als "
+"vertrauenswürdig gelten, einschließlich aller Weiterleitungen, die beim "
+"Abrufen des Bildes befolgt werden, und :setting:`ASSET_RESTRICT_PRIVATE`, "
+"die interne oder nicht-öffentliche Ziele ablehnt, sofern sie nicht in "
+":setting:`ASSET_PRIVATE_ALLOWLIST` enthalten sind. Die Einstellung "
+":setting:`ALLOWED_ASSET_SIZE` begrenzt die maximale Größe des Assets."
 
 #: admin/translating.rst:165
 msgid "Managing screenshots from the repository"
@@ -20797,47 +20817,44 @@ msgid "Upgrade from an older unsupported release"
 msgstr "Upgrade von einer älteren, nicht unterstützten Version"
 
 #: admin/upgrade.rst:130
-#, fuzzy
-#| msgid ""
-#| "Upgrades across major versions are not supported. Always upgrade to the "
-#| "latest patch level for the initial major release. Upgrades skipping this "
-#| "step are not supported and will break."
 msgid ""
 "Direct upgrades are only supported for releases from the current or previous "
 "calendar year. If you need to upgrade across this boundary, upgrade first to "
 "an intermediate version as listed below. Upgrades skipping this step are not "
 "supported and will break."
 msgstr ""
-"Upgrades zwischen Hauptversionen werden nicht unterstützt. Aktualisieren Sie "
-"immer auf den neuesten Patch-Level für die erste Hauptversion. Upgrades, die "
-"diesen Schritt überspringen, werden nicht unterstützt und führen zu Fehlern."
+"Direkte Upgrades werden nur für Versionen aus dem aktuellen oder vorherigen "
+"Kalenderjahr unterstützt. Wenn Sie ein Upgrade über diese Grenze hinweg "
+"durchführen müssen, aktualisieren Sie zunächst auf eine Zwischenversion wie "
+"unten aufgeführt. Upgrades, die diesen Schritt überspringen, werden nicht "
+"unterstützt und führen zu Problemen."
 
 #: admin/upgrade.rst:135
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1."
 msgstr ""
-"Wenn Sie ein Upgrade von der Version 2.x durchführen, sollten Sie immer "
-"zuerst auf 3.0.1 aktualisieren."
+"Wenn ein Upgrade der Version 2.x durchgeführt wird, sollte immer zuerst auf "
+"3.0.1 aktualisiert werden."
 
 #: admin/upgrade.rst:136
 msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4."
 msgstr ""
-"Wenn Sie ein Upgrade von der Version 3.x durchführen, sollten Sie immer "
-"zuerst auf 4.0.4 aktualisieren."
+"Wenn ein Upgrade der Version 3.x durchgeführt wird, sollte immer zuerst auf "
+"4.0.4 aktualisiert werden."
 
 #: admin/upgrade.rst:137
 msgid ""
 "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
 msgstr ""
-"Wenn Sie ein Upgrade von der Version 4.x durchführen, sollten Sie immer "
-"zuerst auf 5.0.2 aktualisieren."
+"Wenn ein Upgrade der Version 4.x durchgeführt wird, sollte immer zuerst auf "
+"5.0.2 aktualisiert werden."
 
 #: admin/upgrade.rst:138
 msgid "If you are upgrading from 5.0.x-5.9.x, always first upgrade to 5.10.4."
 msgstr ""
-"Wenn Sie ein Upgrade von 5.0.x-5.9.x durchführen, sollten Sie immer zuerst "
-"auf 5.10.4 aktualisieren."
+"Wenn ein Upgrade der Version 5.0.x–5.9.x durchgeführt wird, sollte immer "
+"zuerst auf 5.10.4 aktualisiert werden."
 
 #: admin/upgrade.rst:139
 msgid "Upgrades from 5.10.x and newer are currently directly supported."
@@ -26002,7 +26019,7 @@ msgstr "Verbesserte Extraktion von XML-Platzhaltern."
 msgid ""
 "The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project."
 msgstr ""
-":setting:`SINGLE_PROJECT` kann nun eine Umleitung zum gewählten Projekt "
+":setting:`SINGLE_PROJECT` kann nun eine Weiterleitung zum gewählten Projekt "
 "erzwingen."
 
 #: changes/v3.rst:68
@@ -42258,7 +42275,7 @@ msgid ""
 "snippet for :ref:`cdn-addon-html`."
 msgstr ""
 "Name des Cookies, der die vom Benutzer ausgewählte Sprache enthält. Wird im "
-"JavaScript-Snippet für :ref:`cdn-addon-html` verwendet."
+"JavaScript-Ausschnitt für :ref:`cdn-addon-html` verwendet."
 
 #: devel/html.rst:59 snippets/addons-autogenerated.rst:79
 msgid "Extract strings from HTML files"
