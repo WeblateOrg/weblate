@@ -577,6 +577,12 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertContains(response, "New strings")
         self.assertContains(response, "Total")
 
+    def test_costs_requires_report_permission(self) -> None:
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        response = self.get_costs("json")
+        self.assertEqual(response.status_code, 403)
+
     def test_costs_invalid_threshold(self) -> None:
         response = self.get_costs("json", tm_threshold="200", follow=True)
         self.assertContains(

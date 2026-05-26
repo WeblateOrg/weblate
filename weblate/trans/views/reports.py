@@ -10,6 +10,7 @@ from operator import itemgetter
 from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
 from django.utils.html import conditional_escape, format_html, format_html_join
 from django.utils.translation import gettext
@@ -340,6 +341,9 @@ def get_costs(request: AuthenticatedHttpRequest, path=None):
         scope = {"category": obj}
     else:
         scope = {"component": obj}
+
+    if not request.user.has_perm("reports.view", obj):
+        raise PermissionDenied
 
     form = CostEstimateReportsForm(scope, request.POST)
 
