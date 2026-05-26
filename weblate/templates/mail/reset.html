@@ -4,7 +4,12 @@
 
 {% block content %}
   <p>
-    {% blocktranslate %}There was a request to reset your Weblate password at {{ site_title }}.{% endblocktranslate %}
+    {% if password_reset_scope == "weblate-services" %}
+      {% blocktranslate %}Weblate.org has created this Hosted Weblate sign-in account so you can access purchased Weblate services.{% endblocktranslate %}
+      {% blocktranslate %}Please set the password for this sign-in account now.{% endblocktranslate %}
+    {% else %}
+      {% blocktranslate %}There was a request to reset your Weblate password at {{ site_title }}.{% endblocktranslate %}
+    {% endif %}
   </p>
 
   {% include "mail/shared-registration.html" with action="reset" %}
