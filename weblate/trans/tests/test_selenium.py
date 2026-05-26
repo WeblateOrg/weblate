@@ -234,6 +234,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Return the count of elements matching css_selector on the current page."""
         return len(self.driver.find_elements(By.CSS_SELECTOR, css_selector))
 
+    def assert_labeled_control(self, htmlid: str, label_text: str) -> None:
+        """Assert a form control has a visible label associated by ID."""
+        self.driver.find_element(By.ID, htmlid)
+        labels = self.driver.find_elements(By.CSS_SELECTOR, f'label[for="{htmlid}"]')
+        self.assertTrue(labels, f"Missing label for #{htmlid}")
+        self.assertTrue(
+            any(label_text in label.text for label in labels),
+            f"Missing label text {label_text!r} for #{htmlid}",
+        )
+
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
         self.scroll_top()
@@ -350,6 +360,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # We should end up on login page as user was invalid
         self.driver.find_element(By.ID, "id_username")
 
+    def test_login_form_accessibility(self) -> None:
+        """Check labels and keyboard order on the public sign-in form."""
+        with self.wait_for_page_load():
+            self.click(htmlid="login-button")
+
+        self.assert_labeled_control("id_username", "Username or e-mail")
+        self.assert_labeled_control("id_password", "Password")
+
+        username_input = self.driver.find_element(By.ID, "id_username")
+        username_input.click()
+        username_input.send_keys(Keys.TAB)
+        self.assertEqual(
+            self.driver.switch_to.active_element.get_attribute("id"),
+            "id_password",
+        )
+
+        self.driver.switch_to.active_element.send_keys(Keys.TAB)
+        submit_button = self.driver.switch_to.active_element
+        self.assertEqual(submit_button.get_attribute("type"), "submit")
+        self.assertEqual(submit_button.get_attribute("value"), "Sign in")
+
     def test_js_assets_are_loaded(self) -> None:
         """Check that the main JS bundle is active and globals are available."""
         self.assertTrue(
@@ -440,6 +471,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 "show"
                 in driver.find_element(By.ID, "shortcuts-modal").get_attribute("class")
             )
+        )
+        modal = self.driver.find_element(By.ID, "shortcuts-modal")
+        self.assertEqual(modal.get_attribute("role"), "dialog")
+        modal_label = modal.get_attribute("aria-labelledby")
+        self.assertEqual(
+            self.driver.find_element(By.ID, modal_label).text,
+            "Keyboard shortcuts",
+        )
+        self.assertEqual(
+            self.driver.execute_script(
+                """
+                const ids = Array.from(arguments[0].querySelectorAll("[id]"))
+                    .map((element) => element.id);
+                return ids.filter((id, index) => ids.indexOf(id) !== index);
+                """,
+                modal,
+            ),
+            [],
         )
 
     def test_machinery_hotkeys_use_current_results(self) -> None:
