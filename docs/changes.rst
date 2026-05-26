@@ -32,6 +32,7 @@ Weblate 2026.6
 * Gettext POT update add-ons now rescan translations after committing updated POT and PO files.
 * Git repositories now update branches correctly when the remote also has a tag with the same name.
 * Conflicting repository setup alerts now allow same-branch direct pushes.
+* Obsolete cleanup schedules are now removed from Celery beat during upgrade.
 
 .. rubric:: Compatibility
 
