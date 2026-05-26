@@ -11,8 +11,8 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils.http import urlencode
 from django.utils import translation
+from django.utils.http import urlencode
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
@@ -182,7 +182,8 @@ def matomo(request: AuthenticatedHttpRequest):
 
 @cache_control(max_age=3600, private=True)
 def flag_choices(request: AuthenticatedHttpRequest):
-    """Return the catalog of known translation flags as JSON.
+    """
+    Return the catalog of known translation flags as JSON.
 
     The active language is taken from the ``lang`` query parameter so the
     browser cache key naturally varies per language. Without this, browser

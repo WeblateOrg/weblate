@@ -522,7 +522,7 @@ def _flag_choice(
 
 @lru_cache(maxsize=16)
 def _get_flag_choices_for_language(
-    language: str | None,  # noqa: ARG001 — cache key only
+    language: str | None,
 ) -> tuple[dict[str, str | bool], ...]:
     """Build the flag catalog with labels resolved in the current language."""
     choices: list[dict[str, str | bool]] = []
