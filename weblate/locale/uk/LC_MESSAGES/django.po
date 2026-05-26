@@ -27,7 +27,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-26 18:27+0000\n"
+"PO-Revision-Date: 2026-05-26 18:51+0000\n"
 "Last-Translator: User2068 <user603849745775@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -18605,13 +18605,7 @@ msgstr[3] ""
 "збережено."
 
 #: weblate/trans/models/component.py:2759
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(files)s while reapplying "
-#| "pending translations. Pending changes were kept."
-#| msgid_plural ""
-#| "Reset the repository, but could not recreate these files while reapplying "
-#| "pending translations: %(files)s. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -18619,20 +18613,21 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Репозиторій було скинуто, але під час повторного застосування очікуючих "
-"перекладів не вдалося відтворити %(files)s. Очікуючі зміни збережено."
+"Під час синхронізації файлів не вдалося відновити %(files)s перед "
+"збереженням змін, що очікують на затвердження. Зміни, що очікують на "
+"затвердження, було збережено."
 msgstr[1] ""
-"Репозиторій було скинуто, але під час повторного застосування очікуючих "
-"перекладів не вдалося відтворити ці файли: %(files)s. Очікуючі зміни "
-"збережено."
+"Під час синхронізації файлів не вдалося відновити ці файли перед збереженням "
+"змін, що очікують на затвердження: %(files)s. Зміни, що очікують на "
+"затвердження, було збережено."
 msgstr[2] ""
-"Репозиторій було скинуто, але під час повторного застосування очікуючих "
-"перекладів не вдалося відтворити ці файлів: %(files)s. Очікуючі зміни "
-"збережено."
+"Під час синхронізації файлів не вдалося відновити ці файлів перед "
+"збереженням змін, що очікують на затвердження: %(files)s. Зміни, що очікують "
+"на затвердження, було збережено."
 msgstr[3] ""
-"Репозиторій було скинуто, але під час повторного застосування очікуючих "
-"перекладів не вдалося відтворити цей файл: %(files)s. Очікуючі зміни "
-"збережено."
+"Під час синхронізації файлів не вдалося відновити ці файл перед збереженням "
+"змін, що очікують на затвердження: %(files)s. Зміни, що очікують на "
+"затвердження, було збережено."
 
 #: weblate/trans/models/component.py:2769
 msgid ""
@@ -18643,16 +18638,12 @@ msgstr ""
 "на розгляді. Зміни, що перебувають на розгляді, було збережено."
 
 #: weblate/trans/models/component.py:2776
-#, fuzzy
-#| msgid ""
-#| "Reset the repository, but could not recreate pending translations. "
-#| "Pending changes were kept."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Репозиторій було скинуто, але не вдалося відновити переклади, що перебувають "
-"на розгляді. Зміни, що перебувають на розгляді, було збережено."
+"Під час синхронізації файлів не вдалося відновити переклади, що перебувають "
+"на обробці. Зміни, що перебувають на обробці, було збережено."
 
 #: weblate/trans/models/component.py:2796
 #, python-format
@@ -18831,6 +18822,8 @@ msgid ""
 "Use %(branch)s instead of %(ref)s; Weblate and git-review add the Gerrit "
 "refs automatically."
 msgstr ""
+"Використовуйте %(branch)s замість %(ref)s; Weblate та git-review автоматично "
+"додають посилання на Gerrit."
 
 #: weblate/trans/models/component.py:4277
 #, python-format
@@ -19121,18 +19114,15 @@ msgstr[2] "Не вдалося знайти %d рядків:"
 msgstr[3] "Не вдалося знайти %d рядків:"
 
 #: weblate/trans/models/translation.py:1345
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
 msgstr ""
-"Форми множини у вивантаженому файлі не збігаються із поточним перекладом."
+"Значення %d у завантаженому файлі виходить за межі допустимого діапазону."
 
 #: weblate/trans/models/translation.py:1351
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr ""
-"Форми множини у вивантаженому файлі не збігаються із поточним перекладом."
+msgstr "У завантаженому файлі відсутня форма множини %d."
 
 #: weblate/trans/models/translation.py:1562
 #: weblate/trans/models/translation.py:1567
@@ -19298,10 +19288,8 @@ msgstr ""
 "Автоматичний переклад пропущено, оскільки цільова сторінка більше не існує."
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Проєкти без складників"
+msgstr "Імпорт резервної копії проекту завершено."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19789,7 +19777,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Триває імпорт резервної копії проекту"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -20558,10 +20546,9 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Не вдалося обробити формулу форм множини: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Не вдалося обробити формулу форм множини: {}"
+msgstr "Не вдалося обчислити формулу множини для числа {count}: {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
@@ -20569,6 +20556,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Результат формули множини {result} для кількості {count} виходить за межі "
+"допустимого діапазону 0..{max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -20761,6 +20750,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"Після розпакування ZIP-файл містить %(actual_size)s байт даних, що перевищує "
+"встановлений ліміт у %(limit_size)s байт."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
@@ -20788,6 +20779,8 @@ msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
 msgstr ""
+"Назви гілок у Gerrit не можуть містити символи %(chars)s, оскільки Gerrit "
+"розцінює їх як параметри відправлення на рецензію."
 
 #: weblate/vcs/git.py:968
 msgid "This will commit changes to the Subversion repository."
