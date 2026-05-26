@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-23 09:11+0000\n"
+"PO-Revision-Date: 2026-05-26 15:11+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -390,10 +390,8 @@ msgid "Team"
 msgstr "Foireann"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Cuir úsáideoir le foireann"
+msgstr "Cuir le foireann"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -603,11 +601,10 @@ msgstr ""
 "{username}."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"Cuireadh an t-úsáideoir leis an bhfoireann {team} ar fud an tsuímh ag "
+"Athraíodh rochtain úsáideora ar fhoireann {team} ar fud an tsuímh ag "
 "{username}."
 
 #: weblate/accounts/models.py:336
@@ -638,10 +635,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Cuireadh úsáideoir leis an bhfoireann {team} trí {username}."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "Cuireadh úsáideoir leis an bhfoireann {team} trí {username}."
+msgstr "Athraíodh rochtain úsáideora ar fhoireann {team} ag {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -734,14 +730,10 @@ msgstr ""
 "bhfuil sé seo míchuí."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Más tusa a bhí ann, bain úsáid as athshocrú pasfhocail chun rochtain a fháil "
-"ar do chuntas arís."
+"Más tusa a bhí ann, athshocraigh do phasfhocal chun rochtain a fháil ar do "
+"chuntas arís."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1089,11 +1081,9 @@ msgid "Strings are available for translation"
 msgstr "Tá teaghráin ar fáil le haghaidh aistriúcháin"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation memory"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Cuimhne aistriúcháin"
+msgstr "Achoimre ar ghníomhaíocht aistriúcháin"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1731,10 +1721,9 @@ msgid "Publishes translation files into a content delivery network."
 msgstr "Foilsíonn sé comhaid aistriúcháin i líonra seachadta ábhair."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "Ní féidir bunteanga an aistriúcháin a chur in eagar."
+msgstr ""
+"Ní féidir leis an mbreiseán CDN comhaid aistriúcháin weblate.js a fhoilsiú."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -2148,23 +2137,19 @@ msgstr ""
 "POTFILES nó POTFILES.in."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
 msgstr ""
-"Caithfidh an chomhpháirt comhad POT a shainiú le haghaidh aistriúcháin nua."
+"Caithfidh an chomhpháirt teimpléad gettext a shainiú le haghaidh "
+"aistriúcháin nua."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"Táthar ag súil leis go mbeidh an teimpléad le haghaidh aistriúcháin nua "
-"ainmnithe mar \"django.pot\" nó \"djangojs.pot\" sa bhreiseán Django."
+"Táthar ag súil leis sa bhreiseán Django go mbeidh teimpléad le haghaidh "
+"aistriúcháin nua ainmnithe mar \"django.pot\", \"djangojs.pot\", "
+"\"django.po\", nó \"djangojs.po\"."
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -3073,7 +3058,7 @@ msgstr ""
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "Bhíothas ag súil le réad."
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3865,10 +3850,8 @@ msgstr ""
 "Éilíonn sé go mbeidh fíordheimhniú dhá fhachtóir cumraithe ag úsáideoirí."
 
 #: weblate/auth/models.py:277 weblate/auth/models.py:1538
-#, fuzzy
-#| msgid "Languages"
 msgid "Limit languages"
-msgstr "Teangacha"
+msgstr "Teorainn a chur le teangacha"
 
 #: weblate/auth/models.py:280 weblate/auth/models.py:1541
 msgid ""
@@ -3877,6 +3860,10 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Teorainnigh ceadanna ón bhfoireann seo do na teangacha seo. Ní dheonaítear "
+"ceadanna ar fud an tionscadail, ar fud na comhpháirte ná ar fud na cruinne "
+"ón bhfoireann seo nuair a shocraítear teorainn teanga. Úsáideann rogha "
+"folamh rogha teanga na foirne gan teorainn bhreise."
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -4744,66 +4731,50 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Paraiméadair in easnamh le haghaidh bratach aistriúcháin: \"%s\""
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"Seans go leathnófar an tagairt Líofa in {sequence} ina chlib HTML. B’fhéidir "
-"{suggestion} a úsáid."
+"D’fhéadfadh an tagairt Fluent i {sequence} leathnú isteach i gclib HTML. "
+"B’fhéidir {suggestion} a úsáid."
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
-"D'fhéadfadh an tagairt Líofa i {sequence} a leathnú go tagairt carachtar "
-"HTML. B’fhéidir {suggestion} a úsáid."
+"D’fhéadfadh an tagairt Fluent i {sequence} leathnú isteach i dtagairt "
+"carachtar HTML. B’fhéidir {suggestion} a úsáid."
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
-"Tosaíonn an seicheamh {sequence} le clib deiridh HTML, ach níl an t-ainm nó "
-"an chomhréir bailí. Mura dteastaíonn clib deiridh uait, úsáid {suggestion}."
+"Tosaíonn an seicheamh {sequence} le clib dhúnta HTML, ach níl an t-ainm ná "
+"an comhréir bailí. Mura dteastaíonn clib dhúnta uait, bain úsáid as "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
 "Tosaíonn an seicheamh {sequence} le clib HTML, ach níl an t-ainm bailí. Mura "
-"bhfuil tú ag iarraidh tús a chur le clib HTML, úsáid {suggestion}."
+"mian leat clib HTML a thosú, bain úsáid as {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"Tosaíonn an seicheamh {sequence} le clib HTML, ach ní dhúntar an chlib le "
-"{close}. Mura bhfuil tú ag iarraidh tús a chur le clib HTML, úsáid "
-"{suggestion}."
+"Tosaíonn an seicheamh {sequence} le clib HTML, ach ní dhúnann {close} an "
+"clib choíche. Mura mian leat clib HTML a thosú, bain úsáid as {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:212
 #, python-brace-format
@@ -4814,19 +4785,15 @@ msgstr ""
 "{suggestion} a úsáid."
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
 "begin an HTML tag, use {suggestion}."
 msgstr ""
-"Tosaíonn an seicheamh {sequence} le clib HTML, ach ní aitreabúid bhailí é an "
-"seicheamh {attribute} le luach. Mura bhfuil tú ag iarraidh tús a chur le "
-"clib HTML, úsáid {suggestion}."
+"Tosaíonn an seicheamh {sequence} le clib HTML, ach ní tréith bhailí le luach "
+"í an seicheamh {attribute}. Mura mian leat clib HTML a thosú, bain úsáid as "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:246
 #, python-brace-format
@@ -4873,19 +4840,15 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Tá clib deiridh meaitseáilte in easnamh ar an gclib {tag} HTML: {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
-"Tosóidh an seicheamh {sequence} tagairt carachtar HTML, ach ní chríochnaíonn "
-"sé le {semicolon}. Mura dteastaíonn tagairt charachtair uait, úsáid "
-"{suggestion}."
+"Tosóidh an seicheamh {sequence} le tagairt charachtair HTML, ach ní "
+"chríochnóidh sé le {semicolon}. Mura dteastaíonn tagairt charachtair uait, "
+"bain úsáid as {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:360
 #, python-brace-format
@@ -4901,21 +4864,17 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Ba chóir go mbeadh HTML inmheánach bailí sa fhoinse líofa."
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
-msgstr "Tá clib HTML {tag} in easnamh ar luach líofa."
+msgstr "Tá clib HTML {tag} in easnamh ar luach Fluent."
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
-"Tá clib {tag} HTML in easnamh ar luach líofa do na leaganacha seo a leanas: "
+"Tá clib HTML {tag} in easnamh ar luach Fluent do na hathróga seo a leanas: "
 "{variant_list}."
 
 #: weblate/checks/fluent/inner_html.py:1042
@@ -6326,26 +6285,20 @@ msgstr "Trí"
 #: weblate/lang/forms.py:71
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
-msgstr ""
+msgstr "Fág folamh chun rogha teanga na foirne a úsáid gan teorainn bhreise."
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
-msgstr "Teorainn teangacha"
+msgstr "Teorainn teanga"
 
 #: weblate/lang/forms.py:93
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "Teorainn teangacha"
+msgstr "Gan teorainn teanga"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Repeated language code"
 msgid "Enter a valid language code."
-msgstr "Cód teanga arís agus arís eile"
+msgstr "Cuir isteach cód teanga bailí."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -9355,11 +9308,12 @@ msgstr "Treoracha comhtháthú"
 
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
-msgstr ""
+msgstr "Tá comhaid aistriúcháin foilsithe ar fáil ón URL bonn CDN:"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
 msgstr ""
+"Úsáideann comhaid ainmneacha cóid teanga leis an síneadh comhaid bunaidh."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9762,6 +9716,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Déantar seiceáil air seo do gach úsáideoir nua ar an suíomh, beag beann ar "
+"an tionscadal a úsáideann siad."
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -9777,10 +9733,8 @@ msgid "Team administrator"
 msgstr "Riarthóir foirne"
 
 #: weblate/templates/auth/team.html:140
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "No additional limit"
-msgstr "Cuir eolas teaghrán breise in eagar"
+msgstr "Gan aon teorainn bhreise"
 
 #: weblate/templates/auth/team.html:148
 #: weblate/templates/trans/project-access-row.html:18
@@ -11020,13 +10974,15 @@ msgstr ""
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "Roghnaigh cad atá le hobair air"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
 msgstr ""
+"Tosaigh le teaghráin neamhaistrithe, ansin lean ar aghaidh le seiceálacha, "
+"athbhreithniú, moltaí, nó eagarthóireacht."
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -11700,6 +11656,9 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Is féidir leis an tseirbhís seo teaghráin foinse, aistriúcháin, agus "
+"comhthéacs gaolmhar a sheoladh chuig soláthraí tríú páirtí. Athbhreithnigh "
+"téarmaí agus polasaí príobháideachta an tsoláthraí sula gcumasaíonn tú é."
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -12372,20 +12331,16 @@ msgid "%(translation)s has been completed"
 msgstr "Tá %(translation)s críochnaithe"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "Scagaire cáilíochta aistriúcháin"
+msgstr "Gníomhaíocht aistriúcháin sa tréimhse seo:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
 msgid "Added"
-msgstr ""
+msgstr "Cuireadh leis"
 
 #: weblate/templates/mail/translation_activity_summary.html:12
-#, fuzzy
-#| msgid "Update"
 msgid "Updated"
-msgstr "Nuashonrú"
+msgstr "Nuashonraithe"
 
 #: weblate/templates/mail/translation_activity_summary.html:14
 #: weblate/templates/snippets/list-objects.html:61
@@ -12405,10 +12360,8 @@ msgstr "Neamhchríochnaithe"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translation_activity_summary_subject.txt:5
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation activity summary"
-msgstr "Cuimhne aistriúcháin"
+msgstr "Achoimre ar ghníomhaíocht aistriúcháin"
 
 #: weblate/templates/manage/alerts.html:10
 msgid "Component alerts"
@@ -15446,12 +15399,13 @@ msgid ""
 "Leave the language limit empty to grant access to all languages available to "
 "the team. Select languages only to apply an additional filter."
 msgstr ""
+"Fág an teorainn teanga folamh chun rochtain a thabhairt don fhoireann ar "
+"gach teanga atá ar fáil. Roghnaigh teangacha amháin chun scagaire breise a "
+"chur i bhfeidhm."
 
 #: weblate/templates/trans/project-access-team-form.html:45
-#, fuzzy
-#| msgid "Not available"
 msgid "No teams are available."
-msgstr "Níl sé ar fáil"
+msgstr "Níl aon fhoirne ar fáil."
 
 #: weblate/templates/trans/project-access.html:103
 msgid "Clean up user contributions"
@@ -15892,10 +15846,8 @@ msgid "Browse glossary %(name)s"
 msgstr "Brabhsáil gluais %(name)s"
 
 #: weblate/templates/translate.html:810
-#, fuzzy
-#| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
-msgstr "Brabhsáil gluais %(name)s"
+msgstr "Brabhsáil an ghluais"
 
 #: weblate/templates/translate.html:835
 msgid "No screenshot currently associated."
@@ -16862,16 +16814,12 @@ msgid "State: %(state)s"
 msgstr "Stát: %(state)s"
 
 #: weblate/trans/checklists.py:51
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Suggestions pending"
-msgstr "Vótáil moltaí"
+msgstr "Moltaí ar feitheamh"
 
 #: weblate/trans/checklists.py:56
-#, fuzzy
-#| msgid "Source needs review"
 msgid "Needs review"
-msgstr "Ní mór athbhreithniú a dhéanamh ar fhoinse"
+msgstr "Athbhreithniú ag teastáil"
 
 #: weblate/trans/context_processors.py:129
 msgid "Hosted Weblate, the place to localize your software project."
@@ -17575,28 +17523,24 @@ msgid "Sort order"
 msgstr "Ord sórtála"
 
 #: weblate/trans/forms.py:1594
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "Lean ar aghaidh"
+msgstr "Mód comhairimh"
 
 #: weblate/trans/forms.py:1596
 msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Roghnaigh an ndéantar athruithe arís agus arís eile ar an teaghrán céanna a "
+"chomhaireamh uair amháin nó mar athruithe ar leithligh."
 
 #: weblate/trans/forms.py:1602
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "Teaghráin neamhchríochnaithe"
+msgstr "Teaghráin uathúla"
 
 #: weblate/trans/forms.py:1606
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "Gach teanga"
+msgstr "Gach athrú"
 
 #: weblate/trans/forms.py:1625
 msgid "You do not have permission to access this component."
@@ -17723,16 +17667,13 @@ msgid "ZIP file containing project backup"
 msgstr "Comhad ZIP ina bhfuil cúltaca tionscadail"
 
 #: weblate/trans/forms.py:2873
-#, fuzzy, python-format
-#| msgid ""
-#| "Could not load project backup: The backup is from an incompatible version "
-#| "(%(version)s). Please upgrade your Weblate instance."
+#, python-format
 msgid ""
 "The backup is from an incompatible version (%(version)s). Please upgrade "
 "your Weblate instance."
 msgstr ""
-"Níorbh fhéidir cúltaca an tionscadail a luchtú: Tá an cúltaca ó leagan neamh-"
-"chomhoiriúnach (%(version)s). Uasghrádaigh d'eispéireas Weblate le do thoil."
+"Tá an cúltaca ó leagan neamh-chomhoiriúnach (%(version)s). Uasghrádaigh "
+"d'eispéireas Weblate le do thoil."
 
 #: weblate/trans/forms.py:2876 weblate/trans/forms.py:2880
 #, python-format
@@ -17901,10 +17842,9 @@ msgid "Expiry cannot be in the past."
 msgstr "Ní féidir dul in éag san am atá caite."
 
 #: weblate/trans/forms.py:3543
-#, fuzzy, python-format
-#| msgid "Manage %(team)s"
+#, python-format
 msgid "Limit languages for %(team)s"
-msgstr "Bainistigh %(team)s"
+msgstr "Teorainn teangacha do %(team)s"
 
 #: weblate/trans/forms.py:3604
 msgid "Customize translation workflow for this language"
@@ -18223,6 +18163,7 @@ msgstr "Caithfidh catagóir na dtuismitheoirí a bheith difriúil!"
 #: weblate/trans/models/category.py:207
 msgid "Repository path for this category already exists and is not empty."
 msgstr ""
+"Tá an cosán stórais don chatagóir seo ann cheana féin agus níl sé folamh."
 
 #: weblate/trans/models/change.py:72
 msgid "Component created from scratch"
@@ -18902,17 +18843,7 @@ msgstr[4] ""
 "féidir le Weblate na comhaid aistriúcháin a chruthú."
 
 #: weblate/trans/models/component.py:2592
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "%(files)s is missing. Pending changes were kept. To recover, add the file "
-#| "upstream and rescan, or configure the component so Weblate can create the "
-#| "translation file."
-#| msgid_plural ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "these files are missing: %(files)s. Pending changes were kept. To "
-#| "recover, add the files upstream and rescan, or configure the component so "
-#| "Weblate can create the translation files."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s because it is missing. "
 "Pending changes were kept. To recover, add the file upstream and rescan, or "
@@ -18923,35 +18854,34 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
-"Athshocraigh an stórlann, ach níorbh fhéidir aistriúcháin atá ar feitheamh a "
-"chur i bhfeidhm arís mar gheall go bhfuil %(files)s ar iarraidh. Coinníodh "
-"athruithe atá ar feitheamh. Chun é a aisghabháil, cuir an comhad leis an "
-"sruth suas agus athscanadh é, nó cumraigh an chomhpháirt ionas gur féidir le "
-"Weblate an comhad aistriúcháin a chruthú."
+"Níorbh fhéidir %(files)s a athchruthú le sioncrónú comhad mar gheall ar "
+"easpa. Coinníodh athruithe atá ar feitheamh. Chun é a aisghabháil, cuir an "
+"comhad leis an sruth suas agus athscan é, nó cumraigh an chomhpháirt ionas "
+"gur féidir le Weblate an comhad aistriúcháin a chruthú."
 msgstr[1] ""
-"Athshocraigh an stórlann, ach níorbh fhéidir aistriúcháin ar feitheamh a "
-"chur i bhfeidhm arís mar gheall ar na comhaid seo a leanas: %(files)s. "
-"Coinníodh athruithe ar feitheamh. Chun iad a aisghabháil, cuir na comhaid "
-"leis an sruth suas agus athscanadh iad, nó cumraigh an chomhpháirt ionas gur "
-"féidir le Weblate na comhaid aistriúcháin a chruthú."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú mar "
+"gheall ar iad a bheith ar iarraidh: %(files)s. Coinníodh athruithe ar "
+"feitheamh. Chun iad a aisghabháil, cuir na comhaid leis an sruth suas agus "
+"déan athscanadh, nó cumraigh an chomhpháirt ionas gur féidir le Weblate na "
+"comhaid aistriúcháin a chruthú."
 msgstr[2] ""
-"Athshocraigh an stórlann, ach níorbh fhéidir aistriúcháin ar feitheamh a "
-"chur i bhfeidhm arís mar gheall ar na comhaid seo a leanas: %(files)s. "
-"Coinníodh athruithe ar feitheamh. Chun iad a aisghabháil, cuir na comhaid "
-"leis an sruth suas agus athscanadh iad, nó cumraigh an chomhpháirt ionas gur "
-"féidir le Weblate na comhaid aistriúcháin a chruthú."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú mar "
+"gheall ar iad a bheith ar iarraidh: %(files)s. Coinníodh athruithe ar "
+"feitheamh. Chun iad a aisghabháil, cuir na comhaid leis an sruth suas agus "
+"déan athscanadh, nó cumraigh an chomhpháirt ionas gur féidir le Weblate na "
+"comhaid aistriúcháin a chruthú."
 msgstr[3] ""
-"Athshocraigh an stórlann, ach níorbh fhéidir aistriúcháin ar feitheamh a "
-"chur i bhfeidhm arís mar gheall ar na comhaid seo a leanas: %(files)s. "
-"Coinníodh athruithe ar feitheamh. Chun iad a aisghabháil, cuir na comhaid "
-"leis an sruth suas agus athscanadh iad, nó cumraigh an chomhpháirt ionas gur "
-"féidir le Weblate na comhaid aistriúcháin a chruthú."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú mar "
+"gheall ar iad a bheith ar iarraidh: %(files)s. Coinníodh athruithe ar "
+"feitheamh. Chun iad a aisghabháil, cuir na comhaid leis an sruth suas agus "
+"déan athscanadh, nó cumraigh an chomhpháirt ionas gur féidir le Weblate na "
+"comhaid aistriúcháin a chruthú."
 msgstr[4] ""
-"Athshocraigh an stórlann, ach níorbh fhéidir aistriúcháin ar feitheamh a "
-"chur i bhfeidhm arís mar gheall ar na comhaid seo a leanas: %(files)s. "
-"Coinníodh athruithe ar feitheamh. Chun iad a aisghabháil, cuir na comhaid "
-"leis an sruth suas agus athscanadh iad, nó cumraigh an chomhpháirt ionas gur "
-"féidir le Weblate na comhaid aistriúcháin a chruthú."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú mar "
+"gheall ar iad a bheith ar iarraidh: %(files)s. Coinníodh athruithe ar "
+"feitheamh. Chun iad a aisghabháil, cuir na comhaid leis an sruth suas agus "
+"déan athscanadh, nó cumraigh an chomhpháirt ionas gur féidir le Weblate na "
+"comhaid aistriúcháin a chruthú."
 
 #: weblate/trans/models/component.py:2722
 #, python-format
@@ -18964,16 +18894,13 @@ msgstr ""
 "feitheamh."
 
 #: weblate/trans/models/component.py:2730
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(file)s while reapplying "
-#| "pending translations. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(file)s before committing pending "
 "translations. Pending changes were kept."
 msgstr ""
-"Athshocraíodh an stórlann, ach níorbh fhéidir %(file)s a athchruthú agus "
-"aistriúcháin ar feitheamh á gcur i bhfeidhm arís. Coinníodh athruithe ar "
+"Níorbh fhéidir %(file)s a chruthú le sioncrónú comhad sula ndearnadh "
+"aistriúcháin atá ar feitheamh a chur i bhfeidhm. Coinníodh athruithe atá ar "
 "feitheamh."
 
 #: weblate/trans/models/component.py:2749
@@ -19006,13 +18933,7 @@ msgstr[4] ""
 "athruithe ar feitheamh."
 
 #: weblate/trans/models/component.py:2759
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(files)s while reapplying "
-#| "pending translations. Pending changes were kept."
-#| msgid_plural ""
-#| "Reset the repository, but could not recreate these files while reapplying "
-#| "pending translations: %(files)s. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -19020,25 +18941,25 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Athshocraíodh an stórlann, ach níorbh fhéidir %(files)s a athchruthú agus "
-"aistriúcháin ar feitheamh á gcur i bhfeidhm arís. Coinníodh athruithe ar "
+"Níorbh fhéidir %(files)s a athchruthú le sioncrónú comhad sula ndearnadh "
+"aistriúcháin atá ar feitheamh a chur i bhfeidhm. Coinníodh athruithe atá ar "
 "feitheamh."
 msgstr[1] ""
-"Athshocraíodh an stórlann, ach níorbh fhéidir na comhaid seo a athchruthú "
-"agus aistriúcháin ar feitheamh á gcur i bhfeidhm arís: %(files)s. Coinníodh "
-"athruithe ar feitheamh."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú sula "
+"ndearnadh na haistriúcháin atá ar feitheamh a chur i bhfeidhm: %(files)s. "
+"Coinníodh na hathruithe atá ar feitheamh."
 msgstr[2] ""
-"Athshocraíodh an stórlann, ach níorbh fhéidir na comhaid seo a athchruthú "
-"agus aistriúcháin ar feitheamh á gcur i bhfeidhm arís: %(files)s. Coinníodh "
-"athruithe ar feitheamh."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú sula "
+"ndearnadh na haistriúcháin atá ar feitheamh a chur i bhfeidhm: %(files)s. "
+"Coinníodh na hathruithe atá ar feitheamh."
 msgstr[3] ""
-"Athshocraíodh an stórlann, ach níorbh fhéidir na comhaid seo a athchruthú "
-"agus aistriúcháin ar feitheamh á gcur i bhfeidhm arís: %(files)s. Coinníodh "
-"athruithe ar feitheamh."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú sula "
+"ndearnadh na haistriúcháin atá ar feitheamh a chur i bhfeidhm: %(files)s. "
+"Coinníodh na hathruithe atá ar feitheamh."
 msgstr[4] ""
-"Athshocraíodh an stórlann, ach níorbh fhéidir na comhaid seo a athchruthú "
-"agus aistriúcháin ar feitheamh á gcur i bhfeidhm arís: %(files)s. Coinníodh "
-"athruithe ar feitheamh."
+"Níorbh fhéidir leis an sioncrónú comhad na comhaid seo a athchruthú sula "
+"ndearnadh na haistriúcháin atá ar feitheamh a chur i bhfeidhm: %(files)s. "
+"Coinníodh na hathruithe atá ar feitheamh."
 
 #: weblate/trans/models/component.py:2769
 msgid ""
@@ -19049,16 +18970,12 @@ msgstr ""
 "a athchruthú. Coinníodh na hathruithe atá ar feitheamh."
 
 #: weblate/trans/models/component.py:2776
-#, fuzzy
-#| msgid ""
-#| "Reset the repository, but could not recreate pending translations. "
-#| "Pending changes were kept."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Athshocraíodh an stórlann, ach níorbh fhéidir aistriúcháin atá ar feitheamh "
-"a athchruthú. Coinníodh na hathruithe atá ar feitheamh."
+"Níorbh fhéidir le sioncrónú comhad aistriúcháin atá ar feitheamh a "
+"athchruthú. Coinníodh athruithe atá ar feitheamh."
 
 #: weblate/trans/models/component.py:2796
 #, python-format
@@ -19711,10 +19628,8 @@ msgstr ""
 "thuilleadh."
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Tionscadail gan comhpháirteanna saor in aisce,"
+msgstr "Iompórtáil chúltaca tionscadail críochnaithe."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -20230,7 +20145,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Iompórtáil chúltaca tionscadail ar siúl"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -21022,10 +20937,10 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Níorbh fhéidir an fhoirmle iolra a mheas: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Níorbh fhéidir an fhoirmle iolra a mheas: {}"
+msgstr ""
+"Níorbh fhéidir foirmle iolra a mheas le haghaidh comhaireamh {count}: {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
@@ -21033,6 +20948,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Tá toradh na foirmle iolra {result} don chomhaireamh {count} lasmuigh den "
+"raon ceadaithe 0..{max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -21224,6 +21141,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"Tá %(actual_size)s sonraí sa chomhad ZIP tar éis a dhíphacáil, rud a "
+"sháraíonn an teorainn chumraithe de %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
@@ -21252,6 +21171,8 @@ msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
 msgstr ""
+"Ní féidir %(chars)s a bheith in ainmneacha brainse Gerrit mar go "
+"léirmhíníonn Gerrit iad mar roghanna brú athbhreithnithe."
 
 #: weblate/vcs/git.py:968
 msgid "This will commit changes to the Subversion repository."
