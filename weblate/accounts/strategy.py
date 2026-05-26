@@ -11,6 +11,7 @@ from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
 from social_django.strategy import DjangoStrategy
 
+from weblate.accounts.flows import PASSWORD_RESET_EMAIL_SESSION
 from weblate.utils.site import get_site_url
 
 
@@ -40,6 +41,13 @@ class WeblateStrategy(DjangoStrategy):
             data = self.request.POST.copy()
         else:
             data = self.request.GET.copy()
+        if (
+            self.session.get("password_reset")
+            and self.session.get(PASSWORD_RESET_EMAIL_SESSION)
+            and "email" not in data
+            and "partial_token" not in data
+        ):
+            data["email"] = self.session[PASSWORD_RESET_EMAIL_SESSION]
         # This is mostly fix for lack of next validation in Python Social Auth
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62

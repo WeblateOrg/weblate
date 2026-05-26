@@ -14,7 +14,11 @@
 
 <div class="line buttons">
   {% if action == "reset" %}
-    <a class="button" href="{{ url }}">{% translate "Confirm password reset" %}</a>
+    {% if password_reset_scope == "weblate-services" %}
+      <a class="button" href="{{ url }}">{% translate "Set account password" %}</a>
+    {% else %}
+      <a class="button" href="{{ url }}">{% translate "Confirm password reset" %}</a>
+    {% endif %}
   {% elif action == "remove" %}
     <a class="button" href="{{ url }}">{% translate "Confirm account removal" %}</a>
   {% elif action == "invite" %}

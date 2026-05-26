@@ -21,6 +21,7 @@ from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
+from weblate.accounts.flows import PASSWORD_RESET_SCOPE_SESSION
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
@@ -185,7 +186,11 @@ def send_validation(strategy, backend, code, partial_token) -> None:
 
     url = f"{reverse('social:complete', args=(backend.name,))}?verification_code={code.code}&partial_token={partial_token}"
 
-    context = {"url": url, "validity": settings.AUTH_TOKEN_VALID // 3600}
+    context = {
+        "url": url,
+        "validity": settings.AUTH_TOKEN_VALID // 3600,
+        "password_reset_scope": session.get(PASSWORD_RESET_SCOPE_SESSION, ""),
+    }
 
     template = "activation"
     if session.get("password_reset"):

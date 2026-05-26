@@ -267,6 +267,8 @@ class Subscription(models.Model):
         return f"{reverse('unsubscribe')}?{urlencode({'i': self.get_signed_id()})}"
 
 
+EXTERNAL_CREATE_ACTIVITY = "external-create"
+
 ACCOUNT_ACTIVITY = {
     # Translators: Audit log entry
     "password": gettext_lazy("Password changed."),
@@ -318,6 +320,10 @@ ACCOUNT_ACTIVITY = {
     "autocreated": gettext_lazy(
         "The system created a user to track authorship of "
         "translations uploaded by other user."
+    ),
+    # Translators: Audit log entry
+    EXTERNAL_CREATE_ACTIVITY: gettext_lazy(
+        "Account created externally from weblate.org for access to purchased services."
     ),
     # Translators: Audit log entry
     "blocked": gettext_lazy("Access to project {project} was blocked."),

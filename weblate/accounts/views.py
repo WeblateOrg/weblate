@@ -91,6 +91,13 @@ from social_django.views import complete, disconnect
 
 from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
+from weblate.accounts.flows import (
+    PASSWORD_RESET_EMAIL_SESSION,
+    PASSWORD_RESET_SCOPE_SESSION,
+    PASSWORD_RESET_SCOPE_TOKEN_PARAM,
+    PASSWORD_RESET_SCOPE_TOKEN_SESSION,
+    get_signed_password_reset_scope,
+)
 from weblate.accounts.forms import (
     CommitForm,
     ContactForm,
@@ -1351,6 +1358,37 @@ def reset_password_set(request: AuthenticatedHttpRequest):
     )
 
 
+def remember_password_reset_scope_token(request: AuthenticatedHttpRequest) -> None:
+    token = request.POST.get(PASSWORD_RESET_SCOPE_TOKEN_PARAM) or request.GET.get(
+        PASSWORD_RESET_SCOPE_TOKEN_PARAM, ""
+    )
+    if not token:
+        return
+    if get_signed_password_reset_scope(token):
+        request.session[PASSWORD_RESET_SCOPE_TOKEN_SESSION] = token
+    else:
+        request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
+
+
+def get_password_reset_scope(request: AuthenticatedHttpRequest, email: str) -> str:
+    token = request.session.get(PASSWORD_RESET_SCOPE_TOKEN_SESSION, "")
+    if token:
+        return get_signed_password_reset_scope(token, email)
+    return ""
+
+
+def send_password_reset_email(
+    request: AuthenticatedHttpRequest, user: User, *, email: str, scope: str = ""
+) -> HttpResponse | None:
+    """Start the existing e-mail password reset flow for a known user."""
+    audit = AuditLog.objects.create(user, request, "reset-request")
+    if audit.check_rate_limit(request):
+        return None
+    request.session[PASSWORD_RESET_EMAIL_SESSION] = email
+    store_userid(request, reset=True, reset_scope=scope)
+    return social_complete(request, "email")
+
+
 def get_registration_hint(email: str) -> str | None:
     domain = email.rsplit("@", 1)[-1]
     return settings.REGISTRATION_HINTS.get(domain)
@@ -1360,6 +1398,7 @@ def get_registration_hint(email: str) -> str | None:
 @login_not_required
 def reset_password(request: AuthenticatedHttpRequest):
     """Password reset handling."""
+    remember_password_reset_scope_token(request)
     if request.user.is_authenticated:
         return redirect_profile()
     if "email" not in get_auth_keys():
@@ -1375,15 +1414,17 @@ def reset_password(request: AuthenticatedHttpRequest):
     if request.method == "POST":
         form = ResetForm(request=request, data=request.POST)
         if form.is_valid():
+            email = form.cleaned_data["email"]
             if form.cleaned_data["email_user"]:
-                audit = AuditLog.objects.create(
-                    form.cleaned_data["email_user"], request, "reset-request"
+                response = send_password_reset_email(
+                    request,
+                    form.cleaned_data["email_user"],
+                    email=email,
+                    scope=get_password_reset_scope(request, email),
                 )
-                if not audit.check_rate_limit(request):
-                    store_userid(request, reset=True)
-                    return social_complete(request, "email")
+                if response is not None:
+                    return response
             else:
-                email = form.cleaned_data["email"]
                 send_notification_email(
                     None,
                     [email],
@@ -1541,12 +1582,23 @@ class SuggestionView(ListView):
 
 
 def store_userid(
-    request: AuthenticatedHttpRequest, *, reset: bool = False, remove: bool = False
+    request: AuthenticatedHttpRequest,
+    *,
+    reset: bool = False,
+    remove: bool = False,
+    reset_scope: str = "",
 ) -> None:
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset
     request.session["account_remove"] = remove
+    if reset and reset_scope:
+        request.session[PASSWORD_RESET_SCOPE_SESSION] = reset_scope
+    else:
+        request.session.pop(PASSWORD_RESET_SCOPE_SESSION, None)
+    request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
+    if not reset:
+        request.session.pop(PASSWORD_RESET_EMAIL_SESSION, None)
 
 
 @require_POST

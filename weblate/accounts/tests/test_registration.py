@@ -17,15 +17,23 @@ import responses
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
 from django.core import mail
-from django.test import Client, SimpleTestCase, TestCase
+from django.test import Client, RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
+from social_django.models import DjangoStorage
 
 from weblate.accounts.captcha import solve_altcha
+from weblate.accounts.flows import (
+    PASSWORD_RESET_EMAIL_SESSION,
+    PASSWORD_RESET_SCOPE_TOKEN_PARAM,
+    PASSWORD_RESET_SCOPE_WEBLATE_SERVICES,
+    sign_password_reset_scope,
+)
 from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.pipeline import ensure_valid, handle_invite, store_email
+from weblate.accounts.strategy import WeblateStrategy
 from weblate.accounts.tasks import (
     cleanup_social_auth,
     get_registration_attempt_password_reset_url,
@@ -118,6 +126,20 @@ class RegistrationAttemptPasswordResetURLTest(SimpleTestCase):
             get_registration_attempt_password_reset_url("register"),
             reverse("password_reset"),
         )
+
+
+class WeblateStrategyTest(SimpleTestCase):
+    def test_password_reset_request_data_uses_session_email(self) -> None:
+        """Password reset social auth can continue without e-mail in request data."""
+        request = RequestFactory().post("/complete/email/")
+        request.session = {
+            "password_reset": True,
+            PASSWORD_RESET_EMAIL_SESSION: "test@example.com",
+        }
+
+        strategy = WeblateStrategy(DjangoStorage, request)
+
+        self.assertEqual(strategy.request_data()["email"], "test@example.com")
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
@@ -710,6 +732,113 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "Enter a valid e-mail address.")
         self.assertEqual(len(mail.outbox), 0)
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_weblate_services_scope(self) -> None:
+        """Test scoped password reset copy for weblate.org service access."""
+        User.objects.create_user("testuser", "test@example.com")
+        scope_token = sign_password_reset_scope(
+            PASSWORD_RESET_SCOPE_WEBLATE_SERVICES, "test@example.com"
+        )
+
+        response = self.client.get(
+            reverse("password_reset"),
+            {PASSWORD_RESET_SCOPE_TOKEN_PARAM: scope_token},
+        )
+        self.assertContains(response, "Reset my password")
+
+        response = self.client.post(
+            reverse("password_reset"),
+            {"email": "test@example.com"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Password reset almost complete")
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertEqual(
+            message.subject,
+            f"{settings.EMAIL_SUBJECT_PREFIX}Set password for your Weblate account",
+        )
+        self.assertIn(
+            "Weblate.org has created this Hosted Weblate sign-in account",
+            message.body,
+        )
+        self.assertRegex(message.body, r"Set account\s+password")
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_weblate_services_scope_ignores_untrusted_scope(self) -> None:
+        """Test scoped password reset copy needs a matching signed token."""
+        User.objects.create_user("testuser", "test@example.com")
+
+        response = self.client.post(
+            reverse("password_reset"),
+            {
+                "email": "test@example.com",
+                PASSWORD_RESET_SCOPE_TOKEN_PARAM: PASSWORD_RESET_SCOPE_WEBLATE_SERVICES,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Password reset almost complete")
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertEqual(
+            message.subject,
+            f"{settings.EMAIL_SUBJECT_PREFIX}Password reset on Weblate",
+        )
+        self.assertNotIn(
+            "Weblate.org has created this Hosted Weblate sign-in account",
+            message.body,
+        )
+        self.assertRegex(message.body, r"Confirm password\s+reset")
+        mail.outbox.clear()
+
+        scope_token = sign_password_reset_scope(
+            PASSWORD_RESET_SCOPE_WEBLATE_SERVICES, "other@example.com"
+        )
+        response = self.client.get(
+            reverse("password_reset"),
+            {PASSWORD_RESET_SCOPE_TOKEN_PARAM: scope_token},
+        )
+        self.assertContains(response, "Reset my password")
+        response = self.client.post(
+            reverse("password_reset"),
+            {"email": "test@example.com"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Password reset almost complete")
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertEqual(
+            message.subject,
+            f"{settings.EMAIL_SUBJECT_PREFIX}Password reset on Weblate",
+        )
+        self.assertNotIn(
+            "Weblate.org has created this Hosted Weblate sign-in account",
+            message.body,
+        )
+        self.assertRegex(message.body, r"Confirm password\s+reset")
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_secondary_verified_email(self) -> None:
+        """Test password reset confirmation for a verified secondary e-mail."""
+        user = User.objects.create_user("testuser", "primary@example.com", "x")
+        social = user.social_auth.create(provider="email", uid="secondary@example.net")
+        VerifiedEmail.objects.create(social=social, email="secondary@example.net")
+
+        response = self.client.post(
+            reverse("password_reset"), {"email": "secondary@example.net"}, follow=True
+        )
+
+        self.assertContains(response, "Password reset almost complete")
+        response = self.client.get(
+            self.assert_registration_mailbox("[Weblate] Password reset on Weblate"),
+            follow=True,
+        )
+        self.assertRedirects(response, reverse("password_reset"))
+        self.assertContains(response, "You can now set new one")
+
     @override_settings(
         REGISTRATION_CAPTCHA=True,
         ENABLE_HTTPS=True,
@@ -776,6 +905,32 @@ class RegistrationTest(BaseRegistrationTest):
             {i.subject for i in mail.outbox},
         )
         mail.outbox.clear()
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_twice_can_open_first_link_last(self) -> None:
+        """Test older password reset links survive later same-session requests."""
+        User.objects.create_user("testuser", "test@example.com", "x")
+        User.objects.create_user("testuser2", "test2@example.com", "x")
+
+        response = self.client.post(
+            reverse("password_reset"), {"email": "test@example.com"}
+        )
+        self.assertRedirects(response, reverse("email-sent"))
+        first_url = self.assert_registration_mailbox(
+            "[Weblate] Password reset on Weblate"
+        )
+        mail.outbox.clear()
+
+        response = self.client.post(
+            reverse("password_reset"), {"email": "test2@example.com"}
+        )
+        self.assertRedirects(response, reverse("email-sent"))
+        self.assert_registration_mailbox("[Weblate] Password reset on Weblate")
+        mail.outbox.clear()
+
+        response = self.client.get(first_url, follow=True)
+        self.assertRedirects(response, reverse("password_reset"))
+        self.assertContains(response, "You can now set new one")
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_parallel(self) -> None:
