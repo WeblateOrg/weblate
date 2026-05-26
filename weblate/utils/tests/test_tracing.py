@@ -35,12 +35,12 @@ class TracingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_start_span_disabled(self) -> None:
         with (
-            patch("weblate.utils.tracing.sentry_sdk.start_span") as sentry_span,
+            patch("weblate.utils.tracing.get_sentry_sdk") as get_sentry_sdk,
             tracing.start_span("test.op", "Test span"),
         ):
             pass
 
-        sentry_span.assert_not_called()
+        get_sentry_sdk.assert_not_called()
 
     @override_settings(SENTRY_DSN=None)
     def test_report_error_records_opentelemetry(self) -> None:
@@ -77,17 +77,16 @@ class TracingTest(SimpleTestCase):
         tracer.start_as_current_span.return_value = otel_context
 
         tracing.configure_opentelemetry_tracer(tracer)
+        sentry_sdk = MagicMock()
+        sentry_sdk.start_span.return_value = sentry_context
 
         with (
-            patch(
-                "weblate.utils.tracing.sentry_sdk.start_span",
-                return_value=sentry_context,
-            ) as sentry_start_span,
+            patch("weblate.utils.tracing.get_sentry_sdk", return_value=sentry_sdk),
             tracing.start_span("test.op", "Test span", extra=42),
         ):
             pass
 
-        sentry_start_span.assert_called_once_with(op="test.op", name="Test span")
+        sentry_sdk.start_span.assert_called_once_with(op="test.op", name="Test span")
         tracer.start_as_current_span.assert_called_once_with("test.op")
         sentry_span.set_attribute.assert_any_call("weblate.operation", "test.op")
         sentry_span.set_attribute.assert_any_call("weblate.name", "Test span")

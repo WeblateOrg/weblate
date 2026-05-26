@@ -9,6 +9,7 @@ Weblate 2026.6
 * Team memberships can now be limited to selected languages for per-user translation permissions.
 * Added :ref:`cost estimates <cost-estimate>` to translation reports.
 * Added optional :ref:`OpenTelemetry tracing <collecting-errors>` support for backend requests and tasks.
+* Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` support for handled server errors.
 
 .. rubric:: Improvements
 

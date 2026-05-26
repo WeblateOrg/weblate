@@ -6,10 +6,11 @@ from __future__ import annotations
 
 import logging
 from contextlib import ExitStack, contextmanager
+from importlib import import_module
 from typing import TYPE_CHECKING, Protocol, cast
 
-import sentry_sdk
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -39,6 +40,14 @@ class ErrorSpan(AttributeSpan, Protocol):
 
 _STATE: dict[str, object | None] = {"opentelemetry_tracer": None}
 LOGGER = logging.getLogger("weblate.tracing")
+
+
+def get_sentry_sdk():
+    try:
+        return import_module("sentry_sdk")
+    except ImportError as error:
+        msg = "sentry-sdk has to be installed to use SENTRY_DSN"
+        raise ImproperlyConfigured(msg) from error
 
 
 def configure_opentelemetry_tracer(tracer: Tracer | None) -> None:
@@ -138,6 +147,7 @@ def start_span(
     """Start tracing span in all configured tracing backends."""
     with ExitStack() as stack:
         if getattr(settings, "SENTRY_DSN", None):
+            sentry_sdk = get_sentry_sdk()
             stack.enter_context(sentry_sdk.start_span(op=op, name=name))
 
         tracer = cast("Tracer | None", _STATE["opentelemetry_tracer"])
