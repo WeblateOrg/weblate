@@ -133,7 +133,14 @@ class AlertTest(ViewTestCase):
     def create_component(self):
         return self._create_component("po", "po-duplicates/*.dpo", manage_units=True)
 
+    def update_component_alerts(self, component: Component | None = None) -> Component:
+        component = Component.objects.get(pk=(component or self.component).pk)
+        with self.captureOnCommitCallbacks(execute=True):
+            component.update_alerts()
+        return component
+
     def get_problem_alert_names(self) -> set[str]:
+        self.update_component_alerts()
         return set(
             self.component.alert_set.filter(
                 severity__gte=AlertSeverity.ERROR
@@ -161,7 +168,8 @@ class AlertTest(ViewTestCase):
             pk__in={item["unit_pk"] for item in occurrences}
         ).get()
         # Remove the unit
-        unit.translation.delete_unit(None, unit)
+        with self.captureOnCommitCallbacks(execute=True):
+            unit.translation.delete_unit(None, unit)
 
         # The alert should have been removed now
         self.assertEqual(
@@ -184,7 +192,8 @@ class AlertTest(ViewTestCase):
             },
         )
         self.component.enforced_checks = ["es_format"]
-        self.component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.save()
         self.assertEqual(
             self.get_problem_alert_names(),
             {
@@ -197,6 +206,7 @@ class AlertTest(ViewTestCase):
         )
 
     def test_dismiss(self) -> None:
+        self.update_component_alerts()
         self.user.is_superuser = True
         self.user.save()
         response = self.client.post(
@@ -228,33 +238,33 @@ class AlertTest(ViewTestCase):
 
         # No license and public project
         component = self.component
-        component.update_alerts()
+        update_alerts(component)
         self.assertTrue(has_license_alert(component))
 
         # Private project
         component.project.access_control = component.project.ACCESS_PRIVATE
-        component.update_alerts()
+        update_alerts(component)
         self.assertFalse(has_license_alert(component))
 
         # Public, but login required
         component.project.access_control = component.project.ACCESS_PUBLIC
         with override_settings(REQUIRE_LOGIN=True):
-            component.update_alerts()
+            update_alerts(component)
             self.assertFalse(has_license_alert(component))
 
         # Filtered licenses
         with override_settings(LICENSE_FILTER=set()):
-            component.update_alerts()
+            update_alerts(component)
             self.assertFalse(has_license_alert(component))
 
         # Filtered licenses
         with override_settings(LICENSE_FILTER={"proprietary"}):
-            component.update_alerts()
+            update_alerts(component)
             self.assertTrue(has_license_alert(component))
 
         # Set license
         component.license = "license"
-        component.update_alerts()
+        update_alerts(component)
         self.assertFalse(has_license_alert(component))
 
     def test_monolingual(self) -> None:
@@ -274,11 +284,14 @@ class AlertTest(ViewTestCase):
 
         other = self.create_link_existing()
 
+        self.update_component_alerts(component)
         self.assertTrue(component.alert_set.filter(name="DuplicateFilemask").exists())
         response = self.client.get(component.get_absolute_url())
         self.assertContains(response, "The following files were found multiple times")
 
-        other.delete()
+        with self.captureOnCommitCallbacks(execute=True):
+            other.delete()
+        self.update_component_alerts(component)
 
         self.assertFalse(component.alert_set.filter(name="DuplicateFilemask").exists())
 
@@ -515,7 +528,10 @@ class ConflictingRepositorySetupAlertTest(ViewTestCase):
 
         other.branch = "translations"
         other.filemask = "translations/*.po"
-        with patch.object(Component, "queue_background_task", return_value=None):
+        with (
+            patch.object(Component, "queue_background_task", return_value=None),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             other.save()
 
         self.assertFalse(
@@ -583,7 +599,10 @@ class ConflictingRepositorySetupAlertTest(ViewTestCase):
         )
 
         other.push_branch = "weblate-test-2"
-        with patch.object(Component, "queue_background_task", return_value=None):
+        with (
+            patch.object(Component, "queue_background_task", return_value=None),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             other.save()
 
         self.assertFalse(
@@ -667,8 +686,11 @@ class LanguageAlertTest(ViewTestCase):
     def test_ambiguous_language(self) -> None:
         component = self.component
         self.assertFalse(component.alert_set.filter(name="AmbiguousLanguage").exists())
-        component.add_new_language(Language.objects.get(code="ku"), self.get_request())
-        component.update_alerts()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.add_new_language(
+                Language.objects.get(code="ku"), self.get_request()
+            )
+        update_alerts(component)
         self.assertTrue(component.alert_set.filter(name="AmbiguousLanguage").exists())
 
 
@@ -682,17 +704,18 @@ class ExtractPotAlertTest(ViewTestCase):
         source.write_text(
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
-        XgettextAddon.create(
-            component=self.component,
-            run=False,
-            configuration={
-                "interval": "weekly",
-                "update_po_files": False,
-                "language": "Python",
-                "source_patterns": ["src/*.py"],
-            },
-        )
-        self.component.update_alerts()
+        with self.captureOnCommitCallbacks(execute=True):
+            XgettextAddon.create(
+                component=self.component,
+                run=False,
+                configuration={
+                    "interval": "weekly",
+                    "update_po_files": False,
+                    "language": "Python",
+                    "source_patterns": ["src/*.py"],
+                },
+            )
+        update_alerts(self.component)
 
         self.assertTrue(
             self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
@@ -747,20 +770,21 @@ class ExtractPotAlertTest(ViewTestCase):
         source.write_text(
             'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
         )
-        XgettextAddon.create(
-            component=self.component,
-            run=False,
-            configuration={
-                "interval": "weekly",
-                "language": "Python",
-                "source_patterns": ["src/*.py"],
-            },
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            XgettextAddon.create(
+                component=self.component,
+                run=False,
+                configuration={
+                    "interval": "weekly",
+                    "language": "Python",
+                    "source_patterns": ["src/*.py"],
+                },
+            )
         Addon.objects.bulk_create(
             [Addon(component=self.component, name="weblate.addon.nonexisting")]
         )
 
-        self.component.update_alerts()
+        update_alerts(self.component)
 
         self.assertTrue(
             self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
@@ -777,9 +801,11 @@ class MonolingualAlertTest(ViewTestCase):
         )
 
     def test_false_bilingual(self) -> None:
-        component = self._create_component(
-            "po-mono", "po-mono/*.po", project=self.project, name="bimono"
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self._create_component(
+                "po-mono", "po-mono/*.po", project=self.project, name="bimono"
+            )
+        update_alerts(component)
         self.assertTrue(
             component.alert_set.filter(name="MonolingualTranslation").exists()
         )

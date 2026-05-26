@@ -60,12 +60,17 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         mail.outbox.clear()
 
+    def post_with_callbacks(self, *args, **kwargs):
+        with self.captureOnCommitCallbacks(execute=True):
+            return self.client.post(*args, **kwargs)
+
     def test_audit_maturing(self) -> None:
         audit = self.create_webauthn_audit()
         audit.timestamp = now() - timedelta(minutes=10)
         audit.save()
         self.assertEqual(len(mail.outbox), 0)
-        cleanup_auditlog()
+        with self.captureOnCommitCallbacks(execute=True):
+            cleanup_auditlog()
         self.assert_audit_mail()
 
     def test_webauthn(self) -> None:
@@ -83,7 +88,7 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         # Test initial naming
-        response = self.client.post(url, {"name": test_name}, follow=True)
+        response = self.post_with_callbacks(url, {"name": test_name}, follow=True)
         # The device should be listed
         self.assertContains(response, test_name)
         # Audit log mail should be triggered
@@ -102,7 +107,7 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertEqual(credential.name, test_name)
 
         # Test removal
-        response = self.client.post(url, {"delete": ""}, follow=True)
+        response = self.post_with_callbacks(url, {"delete": ""}, follow=True)
         self.assertEqual(WebAuthnCredential.objects.all().count(), 0)
         # The audit log for removal should be present
         self.assertContains(response, test_name)
@@ -124,7 +129,7 @@ class TwoFactorTestCase(FixtureTestCase):
         totp_response = totp(totp_key, 30, 0, 6, 0)
 
         # Register TOTP device
-        response = self.client.post(
+        response = self.post_with_callbacks(
             reverse("totp"),
             {
                 "name": test_name,
@@ -158,7 +163,7 @@ class TwoFactorTestCase(FixtureTestCase):
         device = self.add_totp(test_name)
 
         # Remove it
-        response = self.client.post(
+        response = self.post_with_callbacks(
             reverse("totp-detail", kwargs={"pk": device.pk}),
             {"delete": "1"},
             follow=True,

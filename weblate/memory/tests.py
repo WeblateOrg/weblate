@@ -97,6 +97,20 @@ class MemoryParserTest(SimpleTestCase):
 
 
 class MemoryModelTest(FixtureTestCase):
+    def import_memory_with_callbacks(
+        self, project_id: int, component_id: int | None = None
+    ) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            import_memory(project_id, component_id)
+
+    def handle_unit_translation_change_with_callbacks(self, unit, user) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            handle_unit_translation_change(unit, user)
+
+    def translate_with_callbacks(self, unit, user, target: str, state: int) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            unit.translate(user, target, state)
+
     def test_machine(self) -> None:
         add_document()
         unit = self.get_unit()
@@ -389,9 +403,9 @@ msgstr "Nazdar svete!\n"
             self.import_file_with_languages_test(get_test_file("cs.ts"), "en", "cs", 0)
 
     def test_import_project(self) -> None:
-        import_memory(self.project.id)
+        self.import_memory_with_callbacks(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
-        import_memory(self.project.id)
+        self.import_memory_with_callbacks(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
 
     def test_user_contribute_personal_tm(self) -> None:
@@ -399,7 +413,7 @@ msgstr "Nazdar svete!\n"
         self.user.profile.save()
 
         unit = self.get_unit()
-        unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
+        self.translate_with_callbacks(unit, self.user, "Nazdar", STATE_TRANSLATED)
         self.assertEqual(Memory.objects.count(), 2)
 
         self.user.profile.contribute_personal_tm = True
@@ -412,15 +426,17 @@ msgstr "Nazdar svete!\n"
         unit = self.get_unit()
         component = unit.translation.component
         component.contribute_project_tm = False
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
 
         unit = self.get_unit()
-        unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
+        self.translate_with_callbacks(unit, self.user, "Nazdar", STATE_TRANSLATED)
         # hello, world! unit X 2 (user memory and shared memory)
         self.assertEqual(Memory.objects.count(), 2)
 
         component.contribute_project_tm = True
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
         # hello, world! unit X 3 (user, project and shared memory)
         # + other units (try weblate string) in the components
         # 2 translations X 2 (project and shared memory) = total 7
@@ -428,16 +444,16 @@ msgstr "Nazdar svete!\n"
 
     def test_import_unit(self) -> None:
         unit = self.get_unit()
-        handle_unit_translation_change(unit, self.user)
+        self.handle_unit_translation_change_with_callbacks(unit, self.user)
         self.assertEqual(Memory.objects.count(), 0)
-        handle_unit_translation_change(unit, self.user)
+        self.handle_unit_translation_change_with_callbacks(unit, self.user)
         self.assertEqual(Memory.objects.count(), 0)
-        unit.translate(self.user, "Nazdar", STATE_TRANSLATED)
+        self.translate_with_callbacks(unit, self.user, "Nazdar", STATE_TRANSLATED)
         self.assertEqual(Memory.objects.count(), 3)
         Memory.objects.all().delete()
-        handle_unit_translation_change(unit, self.user)
+        self.handle_unit_translation_change_with_callbacks(unit, self.user)
         self.assertEqual(Memory.objects.count(), 3)
-        handle_unit_translation_change(unit, self.user)
+        self.handle_unit_translation_change_with_callbacks(unit, self.user)
         self.assertEqual(Memory.objects.count(), 3)
 
     def test_memory_status_no_review(self) -> None:
@@ -449,7 +465,7 @@ msgstr "Nazdar svete!\n"
         machine_translation = WeblateMemory({})
 
         unit = self.get_unit()
-        unit.translate(self.user, "Hello", STATE_TRANSLATED)
+        self.translate_with_callbacks(unit, self.user, "Hello", STATE_TRANSLATED)
 
         # check memory status is created with status pending
         expected_status = (
@@ -508,7 +524,8 @@ msgstr "Nazdar svete!\n"
             "target_0": target,
             "review": review,
         }
-        self.client.post(unit.translation.get_translate_url(), params, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(unit.translation.get_translate_url(), params, follow=True)
 
     def search_suggestion(
         self,
@@ -528,7 +545,7 @@ msgstr "Nazdar svete!\n"
         return results[0]
 
     def test_pending_memory_autoclean(self, autoclean_active: bool = False) -> None:
-        import_memory(self.project.id)
+        self.import_memory_with_callbacks(self.project.id)
         imported_memory_ids = [m.pk for m in Memory.objects.all()]
         initial_memory_count = len(imported_memory_ids)
         not_imported_memory_qs = Memory.objects.exclude(id__in=imported_memory_ids)
@@ -539,7 +556,7 @@ msgstr "Nazdar svete!\n"
         machine_translation = WeblateMemory({})
 
         unit = self.get_unit()
-        unit.translate(self.user, "Hello 1", STATE_TRANSLATED)
+        self.translate_with_callbacks(unit, self.user, "Hello 1", STATE_TRANSLATED)
 
         # check memory status is created with status pending
         self.assertEqual(
@@ -556,7 +573,9 @@ msgstr "Nazdar svete!\n"
         self.assertLess(suggestion["quality"], 100)
 
         # another user submits a translation
-        unit.translate(self.anotheruser, "Hello 2", STATE_TRANSLATED)
+        self.translate_with_callbacks(
+            unit, self.anotheruser, "Hello 2", STATE_TRANSLATED
+        )
         self.assertEqual(
             2,
             not_imported_memory_qs.filter(
@@ -611,7 +630,7 @@ msgstr "Nazdar svete!\n"
         self.project.autoclean_tm = autoclean_tm
         self.project.save()
 
-        import_memory(self.project.id)
+        self.import_memory_with_callbacks(self.project.id)
         excepted_deleted_count = 0
 
         unit = self.get_unit()
@@ -619,8 +638,10 @@ msgstr "Nazdar svete!\n"
         self.project.translation_review = translation_review
         self.project.save()
 
-        unit.translate(self.user, "Hello 1", STATE_TRANSLATED)
-        unit.translate(self.anotheruser, "Hello 2", STATE_TRANSLATED)
+        self.translate_with_callbacks(unit, self.user, "Hello 1", STATE_TRANSLATED)
+        self.translate_with_callbacks(
+            unit, self.anotheruser, "Hello 2", STATE_TRANSLATED
+        )
 
         if translation_review:
             self.approve_translation(unit, "Hello 1")
@@ -659,8 +680,12 @@ msgstr "Nazdar svete!\n"
             id_hash=1001,
             position=1001,
         )
-        unit.translate(self.user, "Hello no context", STATE_TRANSLATED)
-        unit2.translate(self.user, "Hello with context", STATE_TRANSLATED)
+        self.translate_with_callbacks(
+            unit, self.user, "Hello no context", STATE_TRANSLATED
+        )
+        self.translate_with_callbacks(
+            unit2, self.user, "Hello with context", STATE_TRANSLATED
+        )
 
         if translation_review:
             self.approve_translation(unit, "Hello no context")
@@ -673,7 +698,9 @@ msgstr "Nazdar svete!\n"
 
         # check that memory with different context is not affected by autoclean
         if autoclean_tm:
-            unit.translate(self.user, "New translation", STATE_TRANSLATED)
+            self.translate_with_callbacks(
+                unit, self.user, "New translation", STATE_TRANSLATED
+            )
             self.approve_translation(unit, "New translation")
             suggestions = machine_translation.search(unit, unit.source, None)
 
@@ -791,11 +818,12 @@ class MemoryViewTest(FixtureTestCase):
                 follow=True,
             )
             self.assertContains(response, "Permission Denied", status_code=403)
-            response = self.client.post(
-                reverse(f"{prefix}memory-rebuild", **kwargs),
-                {"confirm": "1", "origin": self.component.full_slug},
-                follow=True,
-            )
+            with self.captureOnCommitCallbacks(execute=True):
+                response = self.client.post(
+                    reverse(f"{prefix}memory-rebuild", **kwargs),
+                    {"confirm": "1", "origin": self.component.full_slug},
+                    follow=True,
+                )
             if fail:
                 self.assertContains(response, "Permission Denied", status_code=403)
             else:
@@ -803,11 +831,12 @@ class MemoryViewTest(FixtureTestCase):
                     response, "Entries were deleted and the translation memory"
                 )
                 self.assertEqual(4, Memory.objects.count())
-                response = self.client.post(
-                    reverse(f"{prefix}memory-rebuild", **kwargs),
-                    {"confirm": "1"},
-                    follow=True,
-                )
+                with self.captureOnCommitCallbacks(execute=True):
+                    response = self.client.post(
+                        reverse(f"{prefix}memory-rebuild", **kwargs),
+                        {"confirm": "1"},
+                        follow=True,
+                    )
                 self.assertContains(
                     response, "Entries were deleted and the translation memory"
                 )

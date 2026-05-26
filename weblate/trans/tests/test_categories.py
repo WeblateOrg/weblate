@@ -371,7 +371,10 @@ class CategoriesTest(ViewTestCase):
             name="Linked B", slug="linked-b", category=category
         )
 
-        with patch.object(Component, "update_alerts", autospec=True) as update_alerts:
+        with (
+            patch.object(Component, "update_alerts", autospec=True) as update_alerts,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             category_removal(category.pk, self.user.pk)
 
         self.assertFalse(
@@ -400,9 +403,12 @@ class CategoriesTest(ViewTestCase):
         second.allow_translation_propagation = True
         second.save(update_fields=["allow_translation_propagation"])
 
-        with patch.object(
-            Component, "schedule_update_checks", autospec=True
-        ) as schedule:
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             category_removal(category.pk, self.user.pk)
 
         self.assertEqual(
@@ -432,9 +438,12 @@ class CategoriesTest(ViewTestCase):
         other.allow_translation_propagation = True
         other.save(update_fields=["allow_translation_propagation"])
 
-        with patch.object(
-            Component, "schedule_update_checks", autospec=True
-        ) as schedule:
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             category_removal(category.pk, self.user.pk)
 
         schedule.assert_not_called()
@@ -470,8 +479,11 @@ class CategoriesTest(ViewTestCase):
                     )
                 original_flush(batch_self)
 
-        with patch.object(
-            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        with (
+            patch.object(
+                RemovalBatch, "flush", autospec=True, side_effect=record_flush
+            ),
+            self.captureOnCommitCallbacks(execute=True),
         ):
             category_removal(category.pk, self.user.pk)
 
@@ -522,8 +534,11 @@ class CategoriesTest(ViewTestCase):
                     )
                 original_flush(batch_self)
 
-        with patch.object(
-            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        with (
+            patch.object(
+                RemovalBatch, "flush", autospec=True, side_effect=record_flush
+            ),
+            self.captureOnCommitCallbacks(execute=True),
         ):
             category_removal(category.pk, self.user.pk)
 

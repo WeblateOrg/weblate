@@ -348,8 +348,11 @@ class CreateTest(ViewTestCase):
             "You will be able to edit more options in the component settings after creating it.",
         )
 
-        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            response = self.client.post(
+        with (
+            override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.client.post(
                 f"{reverse('create-component-vcs')}?source_component={self.component.pk}#existing,",
                 {
                     "name": "Create Component From Existing",
@@ -368,10 +371,11 @@ class CreateTest(ViewTestCase):
                 },
                 follow=True,
             )
+        new_component = Component.objects.get(name="Create Component From Existing")
+        response = self.client.get(new_component.get_absolute_url(), follow=True)
         self.assertContains(response, "Diagnostics")
         self.assertContains(response, "Test/Create Component From Existing @ Weblate")
 
-        new_component = Component.objects.get(name="Create Component From Existing")
         cloned_fields = [
             "agreement",
             "merge_style",

@@ -48,6 +48,7 @@ class RemovalTest(ViewTestCase):
             patch.object(
                 Component, "schedule_update_checks", autospec=True
             ) as schedule,
+            self.captureOnCommitCallbacks(execute=True),
         ):
             translation.remove(self.user)
 
@@ -405,7 +406,8 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         czech = Language.objects.get(code="cs")
         self.anotheruser.profile.languages.add(czech)
 
-        response = self.client.post(url, self.data, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)
 

@@ -255,6 +255,10 @@ class ChangesTest(ViewTestCase):
                 self.assertContains(response, "Translation changed")
 
     def test_pagination(self) -> None:
+        self.component.change_set.create(action=ActionEvents.NEW_UNIT_UPLOAD)
+        for _index in range(20):
+            self.component.change_set.create(action=ActionEvents.LOCK)
+
         end = timezone.now()
         start = end - timedelta(days=1)
         period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"

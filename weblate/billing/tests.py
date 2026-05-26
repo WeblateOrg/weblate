@@ -323,7 +323,8 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         self.refresh_from_db()
         self.assertFalse(self.billing.in_limits)
-        project.delete()
+        with self.captureOnCommitCallbacks(execute=True):
+            project.delete()
         self.refresh_from_db()
         self.assertTrue(self.billing.in_limits)
 

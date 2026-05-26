@@ -601,7 +601,8 @@ class EditResourceSourceTest(ViewTestCase):
         translated_before = translation.stats.translated
         component_all_chars_before = component.stats.all_chars
 
-        self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en")
 
         translation = Translation.objects.get(pk=translation.pk)
         component = Component.objects.get(pk=self.component.pk)
@@ -731,10 +732,11 @@ class EditPoMonoTest(EditTest):
         response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
         self.assertEqual(response.status_code, 403)
         # Actual removal
-        response = self.client.post(
-            reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk}),
-            data={"next": f"{self.translate_url}?offset=3"},
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk}),
+                data={"next": f"{self.translate_url}?offset=3"},
+            )
         self.assertEqual(response.status_code, 302)
         self.assert_redirects_offset(response, self.translate_url, 3)
         component = Component.objects.get(pk=self.component.pk)
@@ -1557,9 +1559,10 @@ class EditComplexTest(ViewTestCase):
 
         # Ignore check
         check_id = unit.active_checks[0].id
-        response = self.client.post(
-            reverse("js-ignore-check", kwargs={"check_id": check_id})
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("js-ignore-check", kwargs={"check_id": check_id})
+            )
         self.assertContains(response, "ok")
 
         # Should have one less failing check
@@ -1578,7 +1581,8 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
-        response = self.client.post(ignore_url)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(ignore_url)
         self.assertEqual(response.headers["Content-Type"], "application/json")
 
         # Should have one less check

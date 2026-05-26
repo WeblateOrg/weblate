@@ -37,6 +37,8 @@ from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_READONLY
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.http import HttpResponseBase
 
 TEST_PO = get_test_file("cs.po")
@@ -130,11 +132,12 @@ class ImportBaseTest(ViewTestCase):
                 "author_email": self.user.email,
             }
             params.update(kwargs)
-            return self.client.post(
-                reverse("upload", kwargs=self.kw_translation),
-                params,
-                follow=follow,
-            )
+            with self.captureOnCommitCallbacks(execute=True):
+                return self.client.post(
+                    reverse("upload", kwargs=self.kw_translation),
+                    params,
+                    follow=follow,
+                )
 
 
 class ImportTest(ImportBaseTest):
@@ -801,13 +804,15 @@ class RubyPluralImportText(ImportBaseTest):
 
     def test_import_pt_br(self) -> None:
         language = Language.objects.get(code="pt_BR")
-        translation = self.component.add_new_language(language, None)
+        with self.captureOnCommitCallbacks(execute=True):
+            translation = self.component.add_new_language(language, None)
         self.assertIsNotNone(translation)
-        response = self.client.post(
-            reverse("upload", kwargs={"path": translation.get_url_path()}),
-            {
-                "file": BytesIO(
-                    r"""
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("upload", kwargs={"path": translation.get_url_path()}),
+                {
+                    "file": BytesIO(
+                        r"""
 pt_br:
   weblate:
     orangutan:
@@ -815,13 +820,13 @@ pt_br:
       many: "Orangutan má %d banány.\n"
       other: "Orangutan má %d banánů.\n"
 """.encode()
-                ),
-                "method": "translate",
-                "author_name": self.user.full_name,
-                "author_email": self.user.email,
-            },
-            follow=True,
-        )
+                    ),
+                    "method": "translate",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
+                },
+                follow=True,
+            )
         self.assertRedirects(response, translation.get_absolute_url())
 
         self.assertEqual(translation.stats.translated, 1)
@@ -938,7 +943,10 @@ class CSVImportTest(ViewTestCase):
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
-        with open(self.test_file, "rb") as handle:
+        with (
+            open(self.test_file, "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.client.post(
                 reverse("upload", kwargs=self.kw_translation),
                 {
@@ -1143,7 +1151,18 @@ class ImportSourceTest(ImportBaseTest):
         self.assertFalse(
             translation.change_set.filter(action=ActionEvents.SOURCE_UPLOAD).exists()
         )
-        response = self.do_import(method="source", follow=True)
+
+        def run_on_commit(
+            callback: Callable[[], object], *args: object, **kwargs: object
+        ) -> object:
+            del args, kwargs
+            return callback()
+
+        with patch(
+            "django.db.transaction.on_commit",
+            side_effect=run_on_commit,
+        ):
+            response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation.get_absolute_url())
         messages = list(response.context["messages"])
         self.assertIn(self.expected, messages[0].message)
