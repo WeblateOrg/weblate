@@ -79,6 +79,7 @@ from weblate.wladmin.forms import (
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -95,6 +96,7 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
     ("alerts", "manage-alerts", gettext_lazy("Diagnostics")),
     ("repos", "manage-repos", gettext_lazy("Repositories")),
+    ("workspaces", "manage-workspaces", gettext_lazy("Workspaces")),
     ("users", "manage-users", gettext_lazy("Users")),
     ("teams", "manage-teams", gettext_lazy("Teams")),
     ("appearance", "manage-appearance", gettext_lazy("Appearance")),
@@ -706,3 +708,23 @@ class TeamListView(FormMixin, ListView):
     def form_valid(self, form: SitewideTeamForm) -> HttpResponse:
         form.save()
         return super().form_valid(form)
+
+
+@method_decorator(management_access, name="dispatch")
+class WorkspaceListView(ListView):
+    template_name = "manage/workspaces.html"
+    paginate_by = 50
+    model = Workspace
+
+    def get_queryset(self) -> QuerySet[Workspace]:
+        queryset = Workspace.objects.annotate(Count("projects")).order()
+        if "weblate.billing" in settings.INSTALLED_APPS:
+            queryset = queryset.select_related("billing")
+        return queryset
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        result = super().get_context_data(**kwargs)
+        result["menu_items"] = MENU
+        result["menu_page"] = "workspaces"
+        result["billing_enabled"] = "weblate.billing" in settings.INSTALLED_APPS
+        return result

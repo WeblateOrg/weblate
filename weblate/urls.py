@@ -52,6 +52,7 @@ import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.views
+import weblate.workspaces.views
 from weblate.auth.decorators import management_access
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
@@ -80,6 +81,7 @@ if URL_PREFIX:
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
+    path("workspaces/<uuid:pk>/", weblate.workspaces.views.detail, name="workspace"),
     # Bulk accept all suggestions from a specific user
     path(
         "js/bulk-accept-suggestions/<object_path:path>/",
@@ -839,6 +841,11 @@ real_patterns = [
         "manage/teams/",
         weblate.wladmin.views.TeamListView.as_view(),
         name="manage-teams",
+    ),
+    path(
+        "manage/workspaces/",
+        weblate.wladmin.views.WorkspaceListView.as_view(),
+        name="manage-workspaces",
     ),
     path(
         "teams/<int:pk>/",
