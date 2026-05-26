@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n icons %}
+{% load crispy_forms_tags i18n icons %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active"
+      <a class="nav-link {% if active_tab == "projects" %}active{% endif %}"
          data-bs-target="#projects"
          data-bs-toggle="tab"
          href="#">{% translate "Projects" %}</a>
@@ -13,6 +13,14 @@
     {% if billing %}
       <li class="nav-item">
         <a class="nav-link" data-bs-target="#billing" data-bs-toggle="tab" href="#">{% translate "Billing" %}</a>
+      </li>
+    {% endif %}
+    {% if can_edit_workspace %}
+      <li class="nav-item">
+        <a class="nav-link {% if active_tab == "settings" %}active{% endif %}"
+           data-bs-target="#settings"
+           data-bs-toggle="tab"
+           href="#">{% translate "Settings" %}</a>
       </li>
     {% endif %}
     {% if can_manage_access %}
@@ -32,7 +40,8 @@
 {% block content %}
 
   <div class="tab-content">
-    <div class="tab-pane active" id="projects">
+    <div class="tab-pane {% if active_tab == "projects" %}active{% endif %}"
+         id="projects">
       {% include "list-projects.html" %}
 
       {% if not projects and create_project_url %}
@@ -46,6 +55,24 @@
 
     {% if billing %}
       <div class="tab-pane" id="billing">{% include "billing/detail-content.html" %}</div>
+    {% endif %}
+
+    {% if can_edit_workspace %}
+      <div class="tab-pane {% if active_tab == "settings" %}active{% endif %}"
+           id="settings">
+        <form action="{{ workspace.get_absolute_url }}" method="post">
+          {% csrf_token %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Workspace settings" %}</h4>
+            </div>
+            <div class="card-body">{{ settings_form|crispy }}</div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
+      </div>
     {% endif %}
 
     {% if can_manage_access %}

@@ -47,6 +47,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.lang.models import Language
     from weblate.trans.models import Category, Component, Translation, Unit
+    from weblate.workspaces.models import Workspace
 
 LOGGER = logging.getLogger("weblate.change")
 
@@ -59,6 +60,7 @@ PREFETCH_FIELDS = (
     "language",
     "component",
     "category",
+    "workspace",
     "project",
     "component__source_language",
     "component__secondary_language",
@@ -533,6 +535,12 @@ class Change(models.Model, UserDisplayMixin):
     project = models.ForeignKey(
         "trans.Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
+    workspace = models.ForeignKey(
+        "workspaces.Workspace",
+        null=True,
+        on_delete=models.deletion.CASCADE,
+        db_index=False,
+    )
     category = models.ForeignKey(
         "trans.Category", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -595,6 +603,11 @@ class Change(models.Model, UserDisplayMixin):
                 name="trans_change_project_idx",
             ),
             models.Index(
+                fields=["workspace", "-timestamp", "action"],
+                condition=Q(workspace__isnull=False),
+                name="trans_change_workspace_idx",
+            ),
+            models.Index(
                 fields=["language", "-timestamp", "action"],
                 condition=Q(language__isnull=False),
                 name="trans_change_language_idx",
@@ -638,14 +651,20 @@ class Change(models.Model, UserDisplayMixin):
             return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
                 "action": self.get_action_display(),
                 "time": self.timestamp,
-                "translation": self.translation or self.component or self.project,
+                "translation": self.translation
+                or self.component
+                or self.project
+                or self.workspace,
                 "user": self.get_user_display(False),
             }
         # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s") % {
             "action": self.get_action_display(),
             "time": self.timestamp,
-            "translation": self.translation or self.component or self.project,
+            "translation": self.translation
+            or self.component
+            or self.project
+            or self.workspace,
         }
 
     def __init__(self, *args, **kwargs) -> None:
@@ -695,6 +714,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.category.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
+        if self.workspace is not None:
+            return self.workspace.get_absolute_url()
         return "/"
 
     def log_event(self) -> None:
@@ -716,7 +737,9 @@ class Change(models.Model, UserDisplayMixin):
                 LOGGER.info("%s", message)
 
     @property
-    def path_object(self) -> Translation | Component | Category | Project | None:
+    def path_object(
+        self,
+    ) -> Translation | Component | Category | Project | Workspace | None:
         """Return link either to unit or translation."""
         if self.translation is not None:
             return self.translation
@@ -726,6 +749,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.category
         if self.project is not None:
             return self.project
+        if self.workspace is not None:
+            return self.workspace
         return None
 
     @staticmethod

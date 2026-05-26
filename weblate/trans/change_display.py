@@ -227,20 +227,26 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderSettingChange(BaseDetailsRenderStrategy):
-    """Strategy for displaying details of project and component setting changes."""
+    """Strategy for displaying details of setting changes."""
 
     details_required = True
     actions: ClassVar[set[ActionEvents]] = {
         ActionEvents.PROJECT_SETTING_CHANGE,
         ActionEvents.COMPONENT_SETTING_CHANGE,
+        ActionEvents.WORKSPACE_SETTING_CHANGE,
     }
 
     def render_details(self, change: Change) -> StrOrPromise:
-        obj = (
-            change.project
-            if change.action == ActionEvents.PROJECT_SETTING_CHANGE
-            else change.component
-        )
+        obj: models.Model | None
+        match change.action:
+            case ActionEvents.PROJECT_SETTING_CHANGE:
+                obj = change.project
+            case ActionEvents.COMPONENT_SETTING_CHANGE:
+                obj = change.component
+            case ActionEvents.WORKSPACE_SETTING_CHANGE:
+                obj = change.workspace
+            case _:
+                obj = None
         details = change.details
         if obj is None or "field" not in details:
             return change.get_action_display()

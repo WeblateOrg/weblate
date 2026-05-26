@@ -132,6 +132,8 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("project.add", gettext_noop("Add new projects")),
     # Translators: Permission name
+    ("workspace.add", gettext_noop("Add new workspaces")),
+    # Translators: Permission name
     ("language.add", gettext_noop("Add language definitions")),
     # Translators: Permission name
     ("language.edit", gettext_noop("Manage language definitions")),
@@ -276,7 +278,10 @@ ROLES = (
         pgettext_noop("Access-control role", "Add workspace projects"),
         {"workspace.add_project"},
     ),
-    (pgettext_noop("Access-control role", "Add new projects"), {"project.add"}),
+    (
+        pgettext_noop("Access-control role", "Add new projects"),
+        {"project.add", "workspace.add"},
+    ),
 )
 
 # Default set of roles for groups

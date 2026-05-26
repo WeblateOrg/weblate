@@ -4,14 +4,18 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Self
+from typing import TYPE_CHECKING, ClassVar, Self
 from uuid import uuid4
 
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
+from weblate.trans.actions import ActionEvents
+
 if TYPE_CHECKING:
+    from collections.abc import Collection
+
     from django.db.models import QuerySet
 
     from weblate.auth.models import Group, User
@@ -34,6 +38,8 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
 
 
 class Workspace(models.Model):
+    AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = ("name",)
+
     # Name loaded with this instance; used to detect manual name edits.
     workspace_original_name: str
     # Name management flag loaded with this instance.
@@ -62,6 +68,7 @@ class Workspace(models.Model):
         super().__init__(*args, **kwargs)
         self.workspace_original_name = self.name
         self.workspace_original_name_managed = self.name_managed
+        self.acting_user: User | None = None
 
     def __str__(self) -> str:
         return self.name
@@ -69,6 +76,10 @@ class Workspace(models.Model):
     def save(self, *args, **kwargs) -> None:
         create_groups = self._state.adding
         update_fields = kwargs.get("update_fields")
+        if not self._state.adding:
+            old = Workspace.objects.get(pk=self.pk)
+            self.generate_changes(old, update_fields=update_fields)
+
         name_saved = update_fields is None or "name" in update_fields
         managed_saved = update_fields is None or "name_managed" in update_fields
         name_changed = self.name != self.workspace_original_name
@@ -132,4 +143,18 @@ class Workspace(models.Model):
             )
             .distinct()
             .order()
+        )
+
+    def generate_changes(
+        self, old: Workspace, update_fields: Collection[str] | None = None
+    ) -> None:
+        from weblate.trans.models.audit import log_setting_changes  # noqa: PLC0415
+
+        log_setting_changes(
+            self,
+            old,
+            self.AUDIT_SETTINGS,
+            ActionEvents.WORKSPACE_SETTING_CHANGE,
+            self.acting_user,
+            update_fields,
         )

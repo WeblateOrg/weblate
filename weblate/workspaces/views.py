@@ -12,12 +12,15 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 
 from weblate.trans.models.project import prefetch_project_flags
+from weblate.utils import messages
 from weblate.utils.views import get_paginator
+from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -80,6 +83,7 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     user_can_view_billing = billing is not None and request.user.has_perm(
         "meta:billing.view", billing
     )
+    can_edit_workspace = request.user.has_perm("workspace.edit", workspace)
     user_has_workspace_access = any(
         request.user.has_perm(permission, workspace)
         for permission in (
@@ -97,6 +101,24 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     ):
         msg = "Access denied"
         raise Http404(msg)
+
+    active_tab = "projects"
+    if request.method == "POST":
+        if not can_edit_workspace:
+            msg = "Access denied"
+            raise Http404(msg)
+        workspace.acting_user = request.user
+        settings_form = WorkspaceSettingsForm(request.POST, instance=workspace)
+        if settings_form.is_valid():
+            settings_form.save()
+            messages.success(request, gettext("Settings saved"))
+            return redirect(f"{workspace.get_absolute_url()}#settings")
+        active_tab = "settings"
+        messages.error(
+            request, gettext("Invalid settings. Please check the form for errors.")
+        )
+    else:
+        settings_form = WorkspaceSettingsForm(instance=workspace)
 
     show_review_columns = projects.filter(
         Q(source_review=True) | Q(translation_review=True)
@@ -120,10 +142,13 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "query_string": "",
             "show_review_columns": show_review_columns,
             "create_project_url": get_create_project_url(request, workspace, billing),
+            "can_edit_workspace": can_edit_workspace,
             "can_manage_access": can_manage_access,
             "workspace_teams": workspace.defined_groups.annotate(Count("user"))
             .order()
             .prefetch_related("roles"),
+            "settings_form": settings_form,
+            "active_tab": active_tab,
             **get_billing_context(request, billing),
         },
     )

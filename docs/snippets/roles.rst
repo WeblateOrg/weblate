@@ -205,3 +205,4 @@ List of built-in roles
 
    * - `Add new projects`
      - * :guilabel:`Add new projects`
+       * :guilabel:`Add new workspaces`

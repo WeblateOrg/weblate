@@ -15,6 +15,9 @@
 
   <div class="card">
     <div class="card-header">
+      {% if not billing_enabled and can_add_workspace %}
+        <a class="btn btn-primary float-end" href="{% url 'manage-workspace-add' %}">{% translate "Add workspace" %}</a>
+      {% endif %}
       <h4 class="card-title">{% translate "Manage workspaces" %}</h4>
     </div>
     <table class="table table-striped">
