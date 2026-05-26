@@ -64,6 +64,13 @@ Please report feature requests and problems to:
 
 https://github.com/WeblateOrg/weblate/issues
 
+Accessibility
+-------------
+
+Please report accessibility problems using the accessibility issue template.
+See ``ACCESSIBILITY.md`` for Weblate's accessibility target and reporting
+guidance.
+
 Stats
 -----
 

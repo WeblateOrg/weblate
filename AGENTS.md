@@ -22,7 +22,10 @@ For application-developer workflows and broader product integration guidance, us
 - In templates, use `{% translate %}` / `{% blocktranslate %}` for translatable
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend
-  patterns.
+  patterns. For user-facing HTML, CSS, or JavaScript changes, follow
+  `ACCESSIBILITY.md` and `docs/contributing/frontend.rst`, including keyboard
+  navigation, visible focus, semantic controls, labels/errors, and
+  non-color-only state.
 - Write commit messages using the Conventional Commits format
   `<type>(<optional scope>): <description>`. Common types include `feat`,
   `fix`, `docs`, `refactor`, `test`, `ci`, and `chore`. Example:

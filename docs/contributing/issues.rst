@@ -14,6 +14,25 @@ There are various templates prepared to comfortably guide you through the issue 
 
 If you are not sure about your bug report or feature request, you can try :ref:`discussions`.
 
+Accessibility issues
+--------------------
+
+Accessibility problems should use the accessibility issue template. A good
+report includes the affected page or workflow, reproduction steps, expected and
+actual behavior, browser and operating system, assistive technology in use, and
+whether the problem occurs with keyboard-only navigation.
+
+Maintainers label accessibility reports with ``accessibility``. During triage,
+use the impact on core workflows and available workarounds to choose priority:
+
+- Blocker: a core workflow cannot be completed.
+- High: a core workflow is difficult, but a workaround exists.
+- Medium: a non-core workflow is difficult or inconsistent.
+- Low: a minor issue or polish problem that does not block the workflow.
+
+See :file:`ACCESSIBILITY.md` for Weblate's accessibility target and reporting
+guidance.
+
 .. _ai-issues:
 
 Using AI to create issues
