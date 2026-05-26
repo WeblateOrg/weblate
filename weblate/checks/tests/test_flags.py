@@ -356,3 +356,16 @@ class FlagTest(SimpleTestCase):
         self.assertFalse(read_only["has_value"])
         # Names are unique (no duplicates across categories)
         self.assertEqual(len(names), len(choices))
+
+    def test_get_flag_choices_per_language(self) -> None:
+        from django.utils.translation import override
+
+        with override("en"):
+            en_choices = get_flag_choices()
+        with override("cs"):
+            cs_choices = get_flag_choices()
+        with override("en"):
+            en_choices_again = get_flag_choices()
+
+        self.assertIsNot(en_choices, cs_choices)
+        self.assertIs(en_choices, en_choices_again)

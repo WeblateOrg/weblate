@@ -12,7 +12,7 @@ from functools import lru_cache
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import get_language, gettext, gettext_lazy
 from lxml import etree
 
 from weblate.checks.models import CHECKS
@@ -520,17 +520,11 @@ def _flag_choice(
     }
 
 
-@lru_cache(maxsize=1)
-def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
-    """
-    Return catalog of all known flags for the UI flag editor.
-
-    Each entry contains:
-    - ``name``: the actual flag identifier as used in the flag string
-    - ``label``: human-readable description
-    - ``category``: localized category for grouping in the UI
-    - ``has_value``: ``True`` when the flag requires a colon-separated value
-    """
+@lru_cache(maxsize=16)
+def _get_flag_choices_for_language(
+    language: str | None,  # noqa: ARG001 — cache key only
+) -> tuple[dict[str, str | bool], ...]:
+    """Build the flag catalog with labels resolved in the current language."""
     choices: list[dict[str, str | bool]] = []
     seen: set[str] = set()
     enable_strings = {check.enable_string for check in CHECKS.values()}
@@ -569,3 +563,20 @@ def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
         add(ignore_string, ignore_string, FLAG_CATEGORY_DISABLE, has_value=False)
 
     return tuple(choices)
+
+
+def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
+    """
+    Return catalog of all known flags for the UI flag editor.
+
+    The result is cached per active language so that ``gettext_lazy`` labels
+    and category names are resolved against the caller's locale rather than
+    whichever language happened to be active on the first call.
+
+    Each entry contains:
+    - ``name``: the actual flag identifier as used in the flag string
+    - ``label``: human-readable description
+    - ``category``: localized category for grouping in the UI
+    - ``has_value``: ``True`` when the flag requires a colon-separated value
+    """
+    return _get_flag_choices_for_language(get_language())
