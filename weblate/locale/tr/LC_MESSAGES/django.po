@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-16 05:45+0000\n"
+"PO-Revision-Date: 2026-05-26 15:12+0000\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -388,10 +388,8 @@ msgid "Team"
 msgstr "Takım"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Kullanıcıyı bir gruba ekle"
+msgstr "Takıma ekle"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -597,10 +595,11 @@ msgid "User was added to the site-wide {team} team by {username}."
 msgstr "Kullanıcı {username} tarafından {team} site geneli takımına eklendi."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
-msgstr "Kullanıcı {username} tarafından {team} site geneli takımına eklendi."
+msgstr ""
+"Site geneli {team} takımına kullanıcı erişimi {username} tarafından "
+"değiştirildi."
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -630,10 +629,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Kullanıcı {username} tarafından {team} takımına eklendi."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "Kullanıcı {username} tarafından {team} takımına eklendi."
+msgstr "{team} takımına kullanıcı erişimi {username} tarafından değiştirildi."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -725,14 +723,10 @@ msgstr ""
 "Bunun hatalı olduğunu düşünüyorsanız, lütfen proje yöneticileri ile görüşün."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"İsteği siz yaptıysanız, hesabınıza erişmek için parola sıfırlama özelliğini "
-"kullanın."
+"İsteği siz yaptıysanız, hesabınıza yeniden erişmek için parolanızı "
+"sıfırlayın."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1076,11 +1070,9 @@ msgid "Strings are available for translation"
 msgstr "Çevrilecek dizgeler var"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Çeviri özeti"
+msgstr "Çeviri etkinliği özeti"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1679,26 +1671,16 @@ msgstr ""
 "ağına çevirileri yayınlar."
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Çeviri dosyaları"
+msgstr "Çeviri dosyaları CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"JavaScript ya da HTML yerelleştirmesinde kullanılmak üzere içerik dağıtım "
-"ağına çevirileri yayınlar."
+msgstr "Çeviri dosyalarını içerik dağıtım ağına yayınlar."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "Çeviri temel dili düzenlenemez."
+msgstr "Çeviri dosyaları CDN eklentisi weblate.js yayınlayamaz."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
