@@ -577,7 +577,6 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertContains(response, "New strings")
         self.assertContains(response, "Total")
 
-
     def test_costs_requires_report_permission(self) -> None:
         self.user.is_superuser = False
         self.user.save(update_fields=["is_superuser"])
