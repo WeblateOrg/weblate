@@ -46,7 +46,6 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
-from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.ratelimit import reset_rate_limit
 
 if TYPE_CHECKING:
@@ -124,16 +123,6 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
     clear_cookie = False
     social_cleanup = False
 
-    @classmethod
-    def setUpClass(cls) -> None:
-        super().setUpClass()
-        immediate_on_commit(cls)
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        super().tearDownClass()
-        immediate_on_commit_leave(cls)
-
     def setUp(self) -> None:
         super().setUp()
         reset_rate_limit("registration", address="127.0.0.1")
@@ -153,29 +142,33 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
             cleanup_social_auth()
 
         # Confirm account
-        response = self.client.get(url, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.get(url, follow=True)
         if reset:
             # Ensure we can set the password
             self.assertRedirects(response, reverse("password_reset"))
             self.assertContains(response, "You can now set new one")
             # Invalid submission
-            response = self.client.post(reverse("password_reset"))
+            with self.captureOnCommitCallbacks(execute=True):
+                response = self.client.post(reverse("password_reset"))
             self.assertContains(response, "You can now set new one")
             # Set password
-            response = self.client.post(
-                reverse("password_reset"),
-                {
-                    "new_password1": "2pa$$word!",
-                    "new_password2": "2pa$$word!",
-                    "regenerate_api_key": "on",
-                },
-                follow=True,
-            )
+            with self.captureOnCommitCallbacks(execute=True):
+                response = self.client.post(
+                    reverse("password_reset"),
+                    {
+                        "new_password1": "2pa$$word!",
+                        "new_password2": "2pa$$word!",
+                        "regenerate_api_key": "on",
+                    },
+                    follow=True,
+                )
             self.assertContains(response, "Your password has been changed")
         else:
             # Accept terms if using legal
             if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
-                response = self.confirm_tos(self.client, response)
+                with self.captureOnCommitCallbacks(execute=True):
+                    response = self.confirm_tos(self.client, response)
 
             self.assertRedirects(response, reverse("password"))
         return url
@@ -183,7 +176,8 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
     def do_register(self, data=None):
         if data is None:
             data = REGISTRATION_DATA
-        return self.client.post(reverse("register"), data, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            return self.client.post(reverse("register"), data, follow=True)
 
     def create_registration_invitation(
         self, email: str = REGISTRATION_DATA["email"], *, is_superuser: bool = False
@@ -221,14 +215,15 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         mail.outbox.pop()
 
         # Set password
-        response = self.client.post(
-            reverse("password"),
-            {
-                "new_password1": "1pa$$word!",
-                "new_password2": "1pa$$word!",
-                "regenerate_api_key": "on",
-            },
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("password"),
+                {
+                    "new_password1": "1pa$$word!",
+                    "new_password2": "1pa$$word!",
+                    "regenerate_api_key": "on",
+                },
+            )
         self.assertRedirects(response, reverse("profile"))
         # Password change notification
         notification = mail.outbox.pop()
@@ -870,9 +865,10 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "is-invalid")
 
         # Add e-mail account
-        response = self.client.post(
-            reverse("email_login"), {"email": "second@example.net"}, follow=True
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("email_login"), {"email": "second@example.net"}, follow=True
+            )
         self.assertRedirects(response, reverse("email-sent"))
 
         if fails:
@@ -882,7 +878,8 @@ class RegistrationTest(BaseRegistrationTest):
 
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
-        response = self.client.get(url, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.get(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
 
         # Enter wrong password
@@ -892,9 +889,10 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "You have entered an invalid password.")
 
         # Correct password
-        response = self.client.post(
-            reverse("confirm"), {"password": "1pa$$word!"}, follow=True
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("confirm"), {"password": "1pa$$word!"}, follow=True
+            )
         self.assertRedirects(response, f"{reverse('profile')}#account")
 
         # Check database models
@@ -925,13 +923,14 @@ class RegistrationTest(BaseRegistrationTest):
         user = User.objects.get(username="username")
         social = user.social_auth.get(uid="noreply-weblate@example.org")
 
-        response = self.client.post(
-            reverse(
-                "social:disconnect_individual",
-                kwargs={"backend": social.provider, "association_id": social.pk},
-            ),
-            follow=True,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse(
+                    "social:disconnect_individual",
+                    kwargs={"backend": social.provider, "association_id": social.pk},
+                ),
+                follow=True,
+            )
         self.assertContains(
             response, "Your e-mail no longer belongs to verified account"
         )
@@ -1009,20 +1008,23 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.post(
             reverse("social:begin", args=("email",)), {"next": "/#valid"}
         )
-        response = self.client.post(
-            reverse("email_login"), {"email": "second@example.net"}, follow=True
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("email_login"), {"email": "second@example.net"}, follow=True
+            )
         self.assertRedirects(response, reverse("email-sent"))
 
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
         # Confirmation
         mail.outbox.pop()
-        response = self.client.get(url, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.get(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
-        response = self.client.post(
-            reverse("confirm"), {"password": "1pa$$word!"}, follow=True
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("confirm"), {"password": "1pa$$word!"}, follow=True
+            )
         self.assertRedirects(response, "/#valid")
         # Activity
         mail.outbox.pop()
@@ -1031,18 +1033,21 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.post(
             reverse("social:begin", args=("email",)), {"next": "////example.com"}
         )
-        response = self.client.post(
-            reverse("email_login"), {"email": "third@example.net"}, follow=True
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("email_login"), {"email": "third@example.net"}, follow=True
+            )
         self.assertRedirects(response, reverse("email-sent"))
 
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
-        response = self.client.get(url, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.get(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
-        response = self.client.post(
-            reverse("confirm"), {"password": "1pa$$word!"}, follow=True
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("confirm"), {"password": "1pa$$word!"}, follow=True
+            )
         # We should fallback to default URL
         self.assertRedirects(response, "/accounts/profile/#account")
 
@@ -1102,23 +1107,29 @@ class RegistrationTest(BaseRegistrationTest):
         )
         query = parse_qs(urlparse(response["Location"]).query)
         return_query = parse_qs(urlparse(query["redirect_uri"][0]).query)
-        response = self.client.get(
-            reverse("social:complete", args=("github",)),
-            {"state": query["state"][0] or return_query["state"][0], "code": "XXX"},
-            follow=True,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.get(
+                reverse("social:complete", args=("github",)),
+                {
+                    "state": query["state"][0] or return_query["state"][0],
+                    "code": "XXX",
+                },
+                follow=True,
+            )
         responses.assert_call_count("https://api.github.com/user/emails", 1)
         if fail:
             self.assertContains(response, "is already in use for another account")
             return
         if confirm:
             self.assertContains(response, "Confirm adding user identity")
-            response = self.client.post(
-                reverse("confirm"), {"password": confirm}, follow=True
-            )
+            with self.captureOnCommitCallbacks(execute=True):
+                response = self.client.post(
+                    reverse("confirm"), {"password": confirm}, follow=True
+                )
         # Accept terms if using legal
         if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
-            response = self.confirm_tos(self.client, response)
+            with self.captureOnCommitCallbacks(execute=True):
+                response = self.confirm_tos(self.client, response)
         self.assertContains(response, "Test Weblate Name")
         user = User.objects.get(username="weblate")
         self.assertEqual(user.full_name, "Test Weblate Name")

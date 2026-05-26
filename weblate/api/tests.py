@@ -74,7 +74,6 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
-from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
     STATE_EMPTY,
@@ -98,16 +97,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
     CREATE_GLOSSARIES: bool = True
 
     @classmethod
-    def setUpClass(cls) -> None:
-        super().setUpClass()
-        immediate_on_commit(cls)
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        super().tearDownClass()
-        immediate_on_commit_leave(cls)
-
-    @classmethod
     def setUpTestData(cls) -> None:
         super().setUpTestData()
         fixup_languages_seq()
@@ -116,7 +105,8 @@ class APIBaseTest(APITestCase, RepoTestMixin):
     def setUp(self) -> None:
         Language.objects.flush_object_cache()
         self.clone_test_repos()
-        self.component = self.create_component()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component = self.create_component()
         self.project = self.component.project
         self.translation_kwargs = {
             "language__code": "cs",
@@ -5454,6 +5444,7 @@ class ComponentAPITest(APIBaseTest):
                 "weblate.trans.models.component.AsyncResult",
                 return_value=SimpleNamespace(id="component-task", ready=lambda: False),
             ),
+            self.captureOnCommitCallbacks(execute=True),
         ):
             self.do_request(
                 "api:project-components",
@@ -7695,7 +7686,10 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
 
         # Correct upload
-        with open(TEST_POT, "rb") as handle:
+        with (
+            open(TEST_POT, "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             response = self.client.put(
                 reverse("api:translation-file", kwargs=source_kwargs),
                 {"file": handle, "method": "source"},
@@ -7703,12 +7697,12 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(
             response.data,
             {
-                "accepted": 3,
-                "count": 3,
+                "accepted": 4,
+                "count": 4,
                 "not_found": 0,
                 "result": True,
                 "skipped": 0,
-                "total": 3,
+                "total": 4,
             },
         )
         translation = self.component.translation_set.get(language_code="cs")
@@ -7813,7 +7807,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_suggest(self) -> None:
         self.authenticate()
         changes_start = self.component.change_set.count()
-        with open(TEST_PO, "rb") as handle:
+        with open(TEST_PO, "rb") as handle, self.captureOnCommitCallbacks(execute=True):
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
                 {"file": handle, "method": "suggest"},
@@ -8988,13 +8982,14 @@ class UnitAPITest(APIBaseTest):
             code=403,
         )
         # Deleting of source unit
-        self.do_request(
-            "api:unit-detail",
-            kwargs={"pk": unit.source_unit.pk},
-            method="delete",
-            code=204,
-            superuser=True,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.do_request(
+                "api:unit-detail",
+                kwargs={"pk": unit.source_unit.pk},
+                method="delete",
+                code=204,
+                superuser=True,
+            )
         # Verify units were actually removed
         component = Component.objects.get(pk=component.pk)
         self.assertNotEqual(revision, component.repository.last_revision)

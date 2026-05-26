@@ -48,7 +48,6 @@ from weblate.trans.tests.utils import (
     create_test_user,
     fixup_languages_seq,
 )
-from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -72,16 +71,6 @@ class BaseTestCase(TestCase):
     def setUpTestData(cls) -> None:
         fixup_languages_seq()
 
-    @classmethod
-    def setUpClass(cls) -> None:
-        super().setUpClass()
-        immediate_on_commit(cls)
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        super().tearDownClass()
-        immediate_on_commit_leave(cls)
-
 
 class BaseLiveServerTestCase(StaticLiveServerTestCase):
     def setUp(self) -> None:
@@ -92,16 +81,6 @@ class BaseLiveServerTestCase(StaticLiveServerTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         fixup_languages_seq()
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        super().setUpClass()
-        immediate_on_commit(cls)
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        super().tearDownClass()
-        immediate_on_commit_leave(cls)
 
 
 class RepoTestCase(BaseTestCase, RepoTestMixin):
@@ -189,7 +168,10 @@ class ProjectTest(RepoTestCase):
             slug="linked-b",
         )
 
-        with patch.object(Component, "update_alerts", autospec=True) as update_alerts:
+        with (
+            patch.object(Component, "update_alerts", autospec=True) as update_alerts,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             actual_project_removal(project.pk, None)
 
         self.assertFalse(
@@ -221,8 +203,11 @@ class ProjectTest(RepoTestCase):
                     )
                 original_flush(batch_self)
 
-        with patch.object(
-            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        with (
+            patch.object(
+                RemovalBatch, "flush", autospec=True, side_effect=record_flush
+            ),
+            self.captureOnCommitCallbacks(execute=True),
         ):
             actual_project_removal(project.pk, None)
 
@@ -270,8 +255,11 @@ class ProjectTest(RepoTestCase):
                     )
                 original_flush(batch_self)
 
-        with patch.object(
-            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        with (
+            patch.object(
+                RemovalBatch, "flush", autospec=True, side_effect=record_flush
+            ),
+            self.captureOnCommitCallbacks(execute=True),
         ):
             actual_project_removal(project.pk, None)
 
@@ -489,8 +477,9 @@ class TranslationTest(RepoTestCase):
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.all_words, 19)
-        translation.unit_set.all().delete()
-        translation.invalidate_cache()
+        with self.captureOnCommitCallbacks(execute=True):
+            translation.unit_set.all().delete()
+            translation.invalidate_cache()
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
 
@@ -982,7 +971,8 @@ class SourceUnitTest(ModelTestCase):
         self.assertEqual(self.component.stats.allchecks, 3)
         source = unit.source_unit
         source.extra_flags = f"ignore-{check.name}"
-        source.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            source.save()
         self.assertEqual(Check.objects.count(), 0)
         self.assertEqual(Component.objects.get(pk=self.component.pk).stats.allchecks, 0)
 

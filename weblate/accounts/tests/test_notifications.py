@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from types import SimpleNamespace
+from typing import Protocol, TypeVar
 
 from django.conf import settings
 from django.core import mail
@@ -47,6 +48,16 @@ from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
 TEMPLATES_RAISE[0]["OPTIONS"]["string_if_invalid"] = "TEMPLATE_BUG[%s]"
+
+_T = TypeVar("_T")
+
+
+class _CreateManager(Protocol[_T]):
+    def create(self, **kwargs: object) -> _T: ...
+
+
+class _Saveable(Protocol):
+    def save(self, **kwargs: object) -> None: ...
 
 
 class LazyTranslation:
@@ -211,8 +222,27 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
                 self.assertEqual(message.subject, subjects[i])
         self.assertEqual(len(mail.outbox), count)
 
+    def create_with_callbacks(
+        self, manager: _CreateManager[_T], **kwargs: object
+    ) -> _T:
+        with self.captureOnCommitCallbacks(execute=True):
+            return manager.create(**kwargs)
+
+    def save_with_callbacks(self, obj: _Saveable, **kwargs: object) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            obj.save(**kwargs)
+
+    def create_announcement(self, **kwargs: object) -> Announcement:
+        with self.captureOnCommitCallbacks(execute=True):
+            return Announcement.objects.create(**kwargs)
+
+    def add_component_alert(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("PushFailure", error="Some error")
+
     def test_notify_lock(self) -> None:
-        self.component.change_set.create(
+        self.create_with_callbacks(
+            self.component.change_set,
             action=ActionEvents.LOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was locked")
@@ -221,7 +251,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             self.user.username,
         )
         mail.outbox.clear()
-        self.component.change_set.create(
+        self.create_with_callbacks(
+            self.component.change_set,
             action=ActionEvents.UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
@@ -235,12 +266,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             frequency=NotificationFrequency.FREQ_INSTANT,
             onetime=True,
         )
-        self.component.change_set.create(
+        self.create_with_callbacks(
+            self.component.change_set,
             action=ActionEvents.UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
         mail.outbox.clear()
-        self.component.change_set.create(
+        self.create_with_callbacks(
+            self.component.change_set,
             action=ActionEvents.LOCK,
         )
         self.validate_notifications(0)
@@ -250,18 +283,19 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_license(self) -> None:
         self.component.license = "WTFPL"
-        self.component.save()
+        self.save_with_callbacks(self.component)
         self.validate_notifications(1, "[Weblate] Test/Test was re-licensed to WTFPL")
 
     def test_notify_agreement(self) -> None:
         self.component.agreement = "You have to agree."
-        self.component.save()
+        self.save_with_callbacks(self.component)
         self.validate_notifications(
             1, "[Weblate] Contributor license agreement for Test/Test was changed"
         )
 
     def test_notify_merge_failure(self) -> None:
-        change = self.component.change_set.create(
+        change = self.create_with_callbacks(
+            self.component.change_set,
             details={"error": "Failed merge", "status": "Error\nstatus"},
             action=ActionEvents.FAILED_MERGE,
         )
@@ -277,7 +311,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
 
     def test_notify_repository(self) -> None:
-        change = self.component.change_set.create(action=ActionEvents.MERGE)
+        change = self.create_with_callbacks(
+            self.component.change_set, action=ActionEvents.MERGE
+        )
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
@@ -290,7 +326,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(2, "[Weblate] Repository operation in Test/Test")
 
     def test_notify_parse_error(self) -> None:
-        change = self.get_translation().change_set.create(
+        change = self.create_with_callbacks(
+            self.get_translation().change_set,
             details={"error_message": "Failed merge", "filename": "test/file.po"},
             action=ActionEvents.PARSE_ERROR,
         )
@@ -309,7 +346,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_string(self) -> None:
         unit = self.get_unit()
-        unit.change_set.create(action=ActionEvents.NEW_UNIT)
+        self.create_with_callbacks(unit.change_set, action=ActionEvents.NEW_UNIT)
 
         # Check mail
         self.validate_notifications(
@@ -318,7 +355,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_translation(self) -> None:
         unit = self.get_unit()
-        unit.change_set.create(
+        self.create_with_callbacks(
+            unit.change_set,
             user=self.anotheruser,
             old="",
             action=ActionEvents.CHANGE,
@@ -329,7 +367,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_approved_translation(self) -> None:
         unit = self.get_unit()
-        unit.change_set.create(
+        self.create_with_callbacks(
+            unit.change_set,
             user=self.anotheruser,
             old="",
             action=ActionEvents.APPROVE,
@@ -345,7 +384,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_language(self) -> None:
         anotheruser = self.anotheruser
-        change = self.component.change_set.create(
+        change = self.create_with_callbacks(
+            self.component.change_set,
             user=anotheruser,
             details={"language": "de"},
             action=ActionEvents.REQUESTED_LANGUAGE,
@@ -363,7 +403,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_contributor(self) -> None:
         unit = self.get_unit()
-        unit.change_set.create(
+        self.create_with_callbacks(
+            unit.change_set,
             user=self.anotheruser,
             action=ActionEvents.NEW_CONTRIBUTOR,
         )
@@ -373,7 +414,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_suggestion(self) -> None:
         unit = self.get_unit()
-        unit.change_set.create(
+        self.create_with_callbacks(
+            unit.change_set,
             suggestion=Suggestion.objects.create(unit=unit, target="Foo"),
             user=self.anotheruser,
             action=ActionEvents.SUGGESTION,
@@ -384,7 +426,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def add_comment(self, comment="Foo", language="en") -> None:
         unit = self.get_unit(language=language)
-        unit.change_set.create(
+        self.create_with_callbacks(
+            unit.change_set,
             comment=Comment.objects.create(unit=unit, comment=comment),
             user=self.thirduser,
             action=ActionEvents.COMMENT,
@@ -410,7 +453,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_comment_report(self) -> None:
         self.component.report_source_bugs = "noreply@weblate.org"
-        self.component.save()
+        self.save_with_callbacks(self.component)
         self.test_notify_new_comment(2)
 
     def test_notify_new_comment_mention(self) -> None:
@@ -424,30 +467,32 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 0)
         change = self.get_unit().recent_content_changes[0]
         change.user = self.anotheruser
-        change.save()
+        self.save_with_callbacks(change)
         # Notification for other user edit via  TranslatedStringNotificaton
         self.assertEqual(len(mail.outbox), 1)
         mail.outbox.clear()
 
     def test_notify_new_component(self) -> None:
-        self.component.change_set.create(action=ActionEvents.CREATE_COMPONENT)
+        self.create_with_callbacks(
+            self.component.change_set, action=ActionEvents.CREATE_COMPONENT
+        )
         self.validate_notifications(1, "[Weblate] New translation component Test/Test")
 
     def test_notify_new_announcement(self) -> None:
-        Announcement.objects.create(
+        self.create_announcement(
             component=self.component,
             message="Hello word",
             notify=False,
         )
         self.validate_notifications(0)
-        Announcement.objects.create(
+        self.create_announcement(
             component=self.component,
             message="Hello word",
             notify=True,
         )
         self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox.clear()
-        Announcement.objects.create(
+        self.create_announcement(
             component=self.component,
             language=Language.objects.get(code="cs"),
             message="Hello word",
@@ -455,7 +500,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox.clear()
-        Announcement.objects.create(
+        self.create_announcement(
             component=self.component,
             language=Language.objects.get(code="de"),
             message="Hello word",
@@ -463,7 +508,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.validate_notifications(0)
         mail.outbox.clear()
-        Announcement.objects.create(
+        self.create_announcement(
             message="Hello global word",
             notify=True,
         )
@@ -474,7 +519,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_component_translated(self) -> None:
         unit = self.get_unit()
-        unit.translation.component.change_set.create(
+        self.create_with_callbacks(
+            unit.translation.component.change_set,
             user=self.anotheruser,
             old="",
             action=ActionEvents.COMPLETED_COMPONENT,
@@ -488,7 +534,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_language_translated(self) -> None:
         unit = self.get_unit(language="cs")
-        unit.translation.change_set.create(
+        self.create_with_callbacks(
+            unit.translation.change_set,
             user=self.anotheruser,
             action=ActionEvents.COMPLETE,
         )
@@ -497,7 +544,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_alert(self) -> None:
         self.component.project.add_user(self.user, "Administration")
-        self.component.add_alert("PushFailure", error="Some error")
+        self.add_component_alert()
         self.validate_notifications(
             2,
             subjects=[
@@ -508,7 +555,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_admin(self) -> None:
         def trigger_alert(expected_count: int) -> None:
-            self.component.add_alert("PushFailure", error="Some error")
+            self.add_component_alert()
             self.validate_notifications(expected_count)
             self.component.delete_alert("PushFailure")
             mail.outbox.clear()
@@ -538,7 +585,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Create linked component, this triggers missing license alert
         self.create_link_existing()
         mail.outbox.clear()
-        self.component.add_alert("PushFailure", error="Some error")
+        self.add_component_alert()
         self.validate_notifications(
             3,
             subjects=[
@@ -550,7 +597,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_account(self) -> None:
         request = self.get_request()
-        AuditLog.objects.create(request.user, request, "password")
+        with self.captureOnCommitCallbacks(execute=True):
+            AuditLog.objects.create(request.user, request, "password")
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
         self.assertEqual(
@@ -567,7 +615,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.user.profile.language = "cs"
         self.user.profile.save()
         request = self.get_request()
-        AuditLog.objects.create(request.user, request, "password")
+        with self.captureOnCommitCallbacks(execute=True):
+            AuditLog.objects.create(request.user, request, "password")
         self.assertEqual(len(mail.outbox), 1)
         # There is just one (html) alternative
         content = mail.outbox[0].alternatives[0][0]

@@ -212,19 +212,22 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(self.glossary.unit_set.count(), 164)
 
     def test_get_terms(self) -> None:
-        self.add_term("hello", "ahoj")
-        self.add_term("thank", "děkujeme")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term("hello", "ahoj")
+            self.add_term("thank", "děkujeme")
 
         unit = self.get_unit("Thank you for using Weblate.")
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)), {("thank", ((0, 5),))}
         )
-        self.add_term("thank", "díky", "other")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term("thank", "díky", "other")
         unit.glossary_terms = None
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)), {("thank", ((0, 5),))}
         )
-        self.add_term("thank you", "děkujeme vám")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term("thank you", "děkujeme vám")
         unit.glossary_terms = None
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
@@ -233,7 +236,10 @@ class GlossaryTest(ViewTestCase):
                 ("thank you", ((0, 9),)),
             },
         )
-        self.add_term("thank you for using Weblate", "děkujeme vám za použití Weblate")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term(
+                "thank you for using Weblate", "děkujeme vám za použití Weblate"
+            )
         unit.glossary_terms = None
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
@@ -243,7 +249,8 @@ class GlossaryTest(ViewTestCase):
                 ("thank you for using Weblate", ((0, 27),)),
             },
         )
-        self.add_term("web", "web")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term("web", "web")
         unit.glossary_terms = None
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
@@ -264,20 +271,22 @@ class GlossaryTest(ViewTestCase):
         )
 
     def test_phrases(self) -> None:
-        self.add_term("Destructive Breach", "x")
-        self.add_term("Flame Breach", "x")
-        self.add_term("Frost Breach", "x")
-        self.add_term("Icereach", "x")
-        self.add_term("Reach", "x")
-        self.add_term("Reachable", "x")
-        self.add_term("Skyreach", "x")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term("Destructive Breach", "x")
+            self.add_term("Flame Breach", "x")
+            self.add_term("Frost Breach", "x")
+            self.add_term("Icereach", "x")
+            self.add_term("Reach", "x")
+            self.add_term("Reachable", "x")
+            self.add_term("Skyreach", "x")
         unit = self.get_unit()
         unit.source = "During invasion from the Reach. Town burn, prior records lost.\n"
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
             {("Reach", ((25, 30),))},
         )
-        self.add_term("Town", "x")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term("Town", "x")
         unit.glossary_terms = None
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
@@ -286,7 +295,8 @@ class GlossaryTest(ViewTestCase):
                 ("Reach", ((25, 30),)),
             },
         )
-        self.add_term("The Reach", "x")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term("The Reach", "x")
         unit.glossary_terms = None
         self.assertEqual(
             unit_sources_and_positions(get_glossary_terms(unit)),
@@ -456,7 +466,8 @@ class GlossaryTest(ViewTestCase):
         start = Unit.objects.count()
 
         # Add single term
-        self.do_add_unit()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.do_add_unit()
 
         # Verify it has been added to single language (+ source)
         unit = self.glossary_component.source_translation.unit_set.get(source="source")
@@ -468,7 +479,7 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(Unit.objects.count(), start + 2)
 
         # Make it terminology
-        with transaction.atomic():
+        with self.captureOnCommitCallbacks(execute=True), transaction.atomic():
             unit.translation.component.unload_sources()
             unit.extra_flags = "terminology"
             unit.save()
@@ -478,7 +489,12 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(unit.unit_set.count(), 4)
 
         # Verify stats have been updated
-        translation = self.glossary_component.translation_set.get(language_code="de")
+        glossary_component = type(self.glossary_component).objects.get(
+            pk=self.glossary_component.pk
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            glossary_component.invalidate_cache()
+        translation = glossary_component.translation_set.get(language_code="de")
         self.assertEqual(translation.stats.all, translation.unit_set.count())
 
         # Terminology sync should be no-op now

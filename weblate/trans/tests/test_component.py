@@ -586,13 +586,15 @@ class ComponentTest(RepoTestCase):
         component.branch = "translations"
         component.filemask = "translations/*.po"
         component.clean()
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
         self.verify_component(component, 4, "cs", 4)
         # Switch back to main branch
         component.branch = "main"
         component.filemask = "po/*.po"
         component.clean()
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
         self.verify_component(component, 4, "cs", 4)
 
     def test_switch_branch_mercurial(self) -> None:
@@ -617,7 +619,8 @@ class ComponentTest(RepoTestCase):
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
         component.check_flags = f"ignore-{check.name}"
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
         self.assertEqual(Check.objects.count(), 0)
 
     def test_create_symlinks(self):
@@ -1811,7 +1814,10 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self.restore_local_missing_translation_files(self.de_translation)
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
 
-        self.assertTrue(self.component.do_reset(self.get_request(), keep_changes=True))
+        with self.captureOnCommitCallbacks(execute=True):
+            self.assertTrue(
+                self.component.do_reset(self.get_request(), keep_changes=True)
+            )
 
         self.de_translation.refresh_from_db()
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
@@ -1842,7 +1848,10 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self.assertFalse(self.user.has_perm("component.edit", self.component))
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
 
-        self.assertTrue(self.component.do_reset(self.get_request(), keep_changes=True))
+        with self.captureOnCommitCallbacks(execute=True):
+            self.assertTrue(
+                self.component.do_reset(self.get_request(), keep_changes=True)
+            )
 
         self.de_translation.refresh_from_db()
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))

@@ -83,7 +83,8 @@ class AutoTranslationTest(ViewTestCase):
         self.assertRedirects(response, self.translation_url)
 
     def make_different(self, language: str = "cs") -> None:
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", language=language)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n", language=language)
 
     def set_mismatched_plural(self) -> None:
         source_translation = self.get_translation()
@@ -120,7 +121,8 @@ class AutoTranslationTest(ViewTestCase):
             kwargs["mode"] = "translate"
         if self.use_component_id:
             kwargs["component"] = self.component.id
-        response = self.client.post(url, kwargs, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(url, kwargs, follow=True)
         if expected == 0:
             expected_string = (
                 "Automatic translation completed, no strings were updated."
@@ -137,8 +139,10 @@ class AutoTranslationTest(ViewTestCase):
             self.assertContains(response, expected_string)
 
         # Check we've translated something
-        translation = self.component2.translation_set.get(language_code="cs")
-        translation.invalidate_cache()
+        component = Component.objects.get(pk=self.component2.pk)
+        translation = component.translation_set.get(language_code="cs")
+        with self.captureOnCommitCallbacks(execute=True):
+            translation.invalidate_cache()
         if expected_count is None:
             expected_count = expected
         if kwargs["mode"] == "suggest":
@@ -310,7 +314,10 @@ class AutoTranslationTest(ViewTestCase):
             expected=2,
             expected_count=1,  # we only expect one new translation in 'cs'
         )
-        de_translation.invalidate_cache()
+        component = Component.objects.get(pk=self.component2.pk)
+        de_translation = component.translation_set.get(language_code="de")
+        with self.captureOnCommitCallbacks(execute=True):
+            de_translation.invalidate_cache()
         self.assertEqual(de_translation.stats.translated, initial_stats + 1)
 
     def test_autotranslate_category(self) -> None:

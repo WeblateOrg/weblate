@@ -109,6 +109,15 @@ class MultiRepoTest(ViewTestCase):
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
+    def do_update_with_callbacks(self, translation) -> bool:
+        translation = type(translation).objects.get(pk=translation.pk)
+        with self.captureOnCommitCallbacks(execute=True):
+            result = translation.do_update(self.request)
+        translation = type(translation).objects.get(pk=translation.pk)
+        with self.captureOnCommitCallbacks(execute=True):
+            translation.invalidate_cache()
+        return result
+
     def test_propagate(self) -> None:
         """Test handling of propagating."""
         # Do changes in first repo
@@ -158,10 +167,11 @@ class MultiRepoTest(ViewTestCase):
 
         # Test pull
         translation = self.component2.translation_set.get(language_code="cs")
-        translation.invalidate_cache()
+        with self.captureOnCommitCallbacks(execute=True):
+            translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, 0)
 
-        translation.do_update(self.request)
+        self.do_update_with_callbacks(translation)
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 1)
 
@@ -190,12 +200,12 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
 
         self.push_first(False, "Hello, world!\n")
-        translation.do_update(self.request)
+        self.do_update_with_callbacks(translation)
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.allchecks, 1)
 
         self.push_first(False, "Nazdar svete\n")
-        translation.do_update(self.request)
+        self.do_update_with_callbacks(translation)
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.allchecks, 0)
 
