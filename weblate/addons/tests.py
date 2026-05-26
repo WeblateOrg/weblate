@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import base64
 import contextlib
+import importlib
 import json
 import os
 import re
@@ -23,6 +24,7 @@ from unittest.mock import patch
 import jsonschema.exceptions
 import requests
 import responses
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -35,6 +37,7 @@ from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
 from weblate.addons.forms import (
@@ -5946,6 +5949,38 @@ class GitSquashAddonTest(ViewTestCase):
         )
         self.assertIn(expected_trailers, commit)
         self.assertEqual(self.component.repository.count_outgoing(), 1)
+
+
+class CleanupPeriodicTaskMigrationTest(TestCase):
+    def setUp(self) -> None:
+        self.interval = IntervalSchedule.objects.create(
+            every=1, period=IntervalSchedule.HOURS
+        )
+
+    def add_periodic_task(self, name: str, task: str) -> PeriodicTask:
+        return PeriodicTask.objects.create(name=name, task=task, interval=self.interval)
+
+    def test_obsolete_cleanup_periodic_tasks_are_removed(self) -> None:
+        migration = importlib.import_module(
+            "weblate.addons.migrations.0020_remove_obsolete_cleanup_tasks"
+        )
+
+        self.add_periodic_task(
+            "cleanup-old-comments", "weblate.trans.tasks.cleanup_old_comments"
+        )
+        self.add_periodic_task(
+            "renamed-old-suggestions",
+            "weblate.trans.tasks.cleanup_old_suggestions",
+        )
+        self.add_periodic_task("heartbeat", "weblate.utils.tasks.heartbeat")
+        PeriodicTasks.objects.all().delete()
+
+        migration.remove_obsolete_cleanup_tasks(apps, None)
+
+        self.assertEqual(
+            list(PeriodicTask.objects.values_list("name", flat=True)), ["heartbeat"]
+        )
+        self.assertTrue(PeriodicTasks.objects.exists())
 
 
 class TestRemoval(ComponentTestCase):
