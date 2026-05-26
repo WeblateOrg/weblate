@@ -18,6 +18,7 @@ from weblate.utils.apps import (
     CACHE_EXEC_CHECK_PREFIX,
     check_class_loader,
     check_data_writable,
+    check_errors,
     check_settings,
 )
 from weblate.utils.celery import is_celery_queue_long
@@ -155,3 +156,17 @@ class SettingsCheckTestCase(SimpleTestCase):
     def test_default_admin_tuple_email(self) -> None:
         errors = list(check_settings(app_configs=None, databases=None))
         self.assertTrue(any(error.id == "weblate.E011" for error in errors))
+
+
+class ErrorCollectionCheckTestCase(SimpleTestCase):
+    @override_settings(SENTRY_DSN=None, GOOGLE_CLOUD_ERROR_REPORTING=None)
+    def test_error_collection_missing(self) -> None:
+        errors = list(check_errors(app_configs=None, databases=None))
+
+        self.assertTrue(any(error.id == "weblate.I021" for error in errors))
+
+    @override_settings(SENTRY_DSN=None, GOOGLE_CLOUD_ERROR_REPORTING={})
+    def test_google_cloud_error_reporting_configured(self) -> None:
+        errors = list(check_errors(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.I021" for error in errors))

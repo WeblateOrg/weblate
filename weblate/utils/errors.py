@@ -7,17 +7,13 @@ import logging
 import os
 import sys
 from contextlib import suppress
+from importlib import import_module
 from json import JSONDecodeError
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, cast
 
-import sentry_sdk
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import get_language
-from sentry_sdk.integrations.celery import CeleryIntegration
-from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.logging import ignore_logger
-from sentry_sdk.integrations.redis import RedisIntegration
 
 import weblate.utils.version
 from weblate.utils.tracing import record_error
@@ -29,17 +25,38 @@ ERROR_LOGGER = "weblate.errors"
 
 LOGGER = logging.getLogger(ERROR_LOGGER)
 _STATE: dict[str, Any] = {
+    "google_cloud_error_reporting_client": None,
     "opentelemetry_at_fork_registered": False,
     "opentelemetry_initialized_pid": None,
     "opentelemetry_provider": None,
 }
 
-try:
-    import rollbar
 
-    HAS_ROLLBAR = True
-except ImportError:
-    HAS_ROLLBAR = False
+def get_sentry_sdk():
+    try:
+        return import_module("sentry_sdk")
+    except ImportError as error:
+        msg = "sentry-sdk has to be installed to use SENTRY_DSN"
+        raise ImproperlyConfigured(msg) from error
+
+
+def get_google_cloud_error_reporting():
+    try:
+        return import_module("google.cloud.error_reporting")
+    except ImportError as error:
+        msg = (
+            "google-cloud-error-reporting has to be installed to use "
+            "GOOGLE_CLOUD_ERROR_REPORTING"
+        )
+        raise ImproperlyConfigured(msg) from error
+
+
+def get_rollbar():
+    try:
+        return import_module("rollbar")
+    except ImportError as error:
+        msg = "rollbar has to be installed to use ROLLBAR"
+        raise ImproperlyConfigured(msg) from error
 
 
 def report_error(
@@ -66,10 +83,12 @@ def report_error(
     locale = get_language()
 
     if not skip_error_reporting:
-        if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
+        if hasattr(settings, "ROLLBAR"):
+            rollbar = get_rollbar()
             rollbar.report_exc_info(level=level)
 
         if settings.SENTRY_DSN:
+            sentry_sdk = get_sentry_sdk()
             sentry_sdk.set_tag("cause", cause)
             if project is not None:
                 sentry_sdk.set_tag("project", project.slug)
@@ -79,6 +98,13 @@ def report_error(
                 sentry_sdk.capture_message(cause)
             else:
                 sentry_sdk.capture_exception()
+
+        google_client = _STATE["google_cloud_error_reporting_client"]
+        if google_client is not None:
+            if message or error is None:
+                google_client.report(cause)
+            else:
+                google_client.report_exception()
 
         record_error(
             cause,
@@ -140,6 +166,7 @@ def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> 
     # we do not want to force loading settings early
     if not settings.configured or not getattr(settings, "SENTRY_DSN", None):
         return
+    sentry_sdk = get_sentry_sdk()
     sentry_sdk.add_breadcrumb(
         category=category, message=message, level=level, data=data
     )
@@ -150,6 +177,12 @@ def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
 
 
 def init_sentry() -> None:
+    sentry_sdk = get_sentry_sdk()
+    from sentry_sdk.integrations.celery import CeleryIntegration  # noqa: PLC0415
+    from sentry_sdk.integrations.django import DjangoIntegration  # noqa: PLC0415
+    from sentry_sdk.integrations.logging import ignore_logger  # noqa: PLC0415
+    from sentry_sdk.integrations.redis import RedisIntegration  # noqa: PLC0415
+
     integrations = [
         CeleryIntegration(monitor_beat_tasks=settings.SENTRY_MONITOR_BEAT_TASKS),
         DjangoIntegration(),
@@ -185,6 +218,21 @@ def init_sentry() -> None:
     # Python Social Auth logs provider failures before Weblate classifies them.
     ignore_logger("social")
     ignore_logger("social.*")
+
+
+def init_google_cloud_error_reporting() -> None:
+    google_error_reporting = get_google_cloud_error_reporting()
+    if settings.GOOGLE_CLOUD_ERROR_REPORTING is None:
+        return
+    config = dict(cast("dict[str, object]", settings.GOOGLE_CLOUD_ERROR_REPORTING))
+    config.setdefault("service", "weblate")
+    config.setdefault(
+        "version", weblate.utils.version.GIT_REVISION or weblate.utils.version.TAG_NAME
+    )
+    _STATE["google_cloud_error_reporting_client"] = google_error_reporting.Client(
+        **config
+    )
+    LOGGER.info("configured Google Cloud Error Reporting")
 
 
 def _init_opentelemetry_after_fork() -> None:
@@ -294,6 +342,7 @@ def init_opentelemetry() -> None:
 
 
 def init_rollbar() -> None:
+    rollbar = get_rollbar()
     rollbar.init(**settings.ROLLBAR)  # type: ignore[misc]
     rollbar.BASE_DATA_HOOK = celery_base_data_hook
     LOGGER.info("configured Rollbar error collection")
@@ -303,7 +352,10 @@ def init_error_collection(celery=False) -> None:
     if settings.SENTRY_DSN:
         init_sentry()
 
+    if settings.GOOGLE_CLOUD_ERROR_REPORTING is not None:
+        init_google_cloud_error_reporting()
+
     init_opentelemetry()
 
-    if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
+    if celery and hasattr(settings, "ROLLBAR"):
         init_rollbar()

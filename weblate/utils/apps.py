@@ -468,7 +468,11 @@ def check_errors(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     """Check that error collection is configured."""
-    if hasattr(settings, "ROLLBAR") or settings.SENTRY_DSN:
+    if (
+        hasattr(settings, "ROLLBAR")
+        or settings.SENTRY_DSN
+        or settings.GOOGLE_CLOUD_ERROR_REPORTING is not None
+    ):
         return []
     return [
         weblate_check(

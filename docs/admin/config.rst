@@ -2226,6 +2226,19 @@ and configures REST framework to require authentication for all API endpoints.
     This is implemented in the :ref:`sample-configuration`. For Docker, use
     :envvar:`WEBLATE_REQUIRE_LOGIN`.
 
+.. setting:: GOOGLE_CLOUD_ERROR_REPORTING
+
+GOOGLE_CLOUD_ERROR_REPORTING
+----------------------------
+
+Configuration for :ref:`collecting-errors` using Google Cloud Error Reporting.
+Set to ``None`` to disable the integration, or set to a dictionary of keyword
+arguments for the Google Cloud Error Reporting client.
+
+Weblate automatically supplies ``service`` as ``weblate`` and ``version`` as
+the current Weblate version or Git revision. Explicit values in the dictionary
+override these defaults.
+
 .. setting:: OPENTELEMETRY_ENABLED
 
 OPENTELEMETRY_ENABLED

@@ -226,6 +226,10 @@ Django REST Framework
          | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
        - :ref:`mt-google-translate-api-v3` with glossary support
 
+     * - ``google-errors``
+       - | `google-cloud-error-reporting <https://pypi.org/project/google-cloud-error-reporting>`_
+       - :ref:`collecting-errors`
+
      * - ``ldap``
        - | `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
        - :ref:`ldap-auth`
@@ -1745,6 +1749,24 @@ and profiles for defined percentage of operations. This can be configured using
 
    * `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_
    * `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
+
+Google Cloud Error Reporting
+++++++++++++++++++++++++++++
+
+Weblate can report handled server errors to `Google Cloud Error Reporting <https://cloud.google.com/error-reporting/>`_.
+Install Weblate with the ``google-errors`` extra and configure
+:setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:
+
+.. code-block:: python
+
+   GOOGLE_CLOUD_ERROR_REPORTING = {
+       "project": "your-google-cloud-project",
+   }
+
+Weblate automatically reports errors under the ``weblate`` service and uses the
+current Weblate version or Git revision as the reported version. These values
+can be overridden by setting ``service`` or ``version`` in
+:setting:`GOOGLE_CLOUD_ERROR_REPORTING`.
 
 OpenTelemetry
 +++++++++++++

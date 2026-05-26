@@ -232,7 +232,7 @@ version = "2026.6.dev0"
 
 [project.optional-dependencies]
 all = [
-  "weblate[amazon,gelf,gerrit,google,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
+  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
   "boto3==1.43.14"
@@ -246,6 +246,9 @@ gerrit = [
 google = [
   "google-cloud-storage==3.10.1",
   "google-cloud-translate==3.26.0"
+]
+google-errors = [
+  "google-cloud-error-reporting==1.15.0"
 ]
 ldap = [
   "django-auth-ldap==5.3.0"

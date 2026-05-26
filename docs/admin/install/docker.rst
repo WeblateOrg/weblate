@@ -2121,6 +2121,21 @@ To enable support for Sentry, set following:
 
    Configures :setting:`SENTRY_SEND_PII`.
 
+To enable support for Google Cloud Error Reporting, set following:
+
+.. envvar:: GOOGLE_CLOUD_ERROR_REPORTING_ENABLED
+
+   Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``.
+
+.. envvar:: GOOGLE_CLOUD_ERROR_REPORTING_PROJECT
+
+   Google Cloud project to report errors to. If omitted, the Google client uses
+   application default credentials to detect the project.
+
+.. envvar:: GOOGLE_CLOUD_ERROR_REPORTING_SERVICE
+
+   Service name to use in Google Cloud Error Reporting, defaults to ``weblate``.
+
 To enable support for OpenTelemetry tracing, set following:
 
 .. envvar:: OPENTELEMETRY_ENABLED

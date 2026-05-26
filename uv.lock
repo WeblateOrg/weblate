@@ -1709,6 +1709,35 @@ wheels = [
 ]
 
 [[package]]
+name = "google-cloud-appengine-logging"
+version = "1.9.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "google-api-core", extra = ["grpc"] },
+    { name = "google-auth" },
+    { name = "grpcio" },
+    { name = "proto-plus" },
+    { name = "protobuf" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bc/02/800897064ca6f1a26835cdf23939c4b93e38a30f3fb5c7cec7c01ae2edc2/google_cloud_appengine_logging-1.9.0.tar.gz", hash = "sha256:ff397f0bbc1485f979ab45767c38e0f676c9598c97c384f7412216e6ea22f805", size = 17963, upload-time = "2026-03-30T22:51:33.556Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/56/4a/304d42664ab2afbe7be39559c9eb3f81dd06e7ac9284f9f36f726f15939d/google_cloud_appengine_logging-1.9.0-py3-none-any.whl", hash = "sha256:bbf3a7e4dc171678f7f481259d1f68c3ae7d337530f1f2361f8a0b214dbcfe36", size = 18333, upload-time = "2026-03-30T22:49:39.045Z" },
+]
+
+[[package]]
+name = "google-cloud-audit-log"
+version = "0.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "googleapis-common-protos" },
+    { name = "protobuf" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/be/9f/3aedb3ce1d58c58ec7dd06b3964836eabfd17a16a95b60c8f609c0afff7f/google_cloud_audit_log-0.5.0.tar.gz", hash = "sha256:3b32d5e77db634c46fbd6c5e01f5bda836f420dfbb21d730501c75e9fab4e4a4", size = 44670, upload-time = "2026-03-30T22:50:42.295Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/64/40/79fa535b6e3321d5e07b2a9ab4bb63860d3fea12230c765837881348003c/google_cloud_audit_log-0.5.0-py3-none-any.whl", hash = "sha256:3f4632f25bf67446fa9085c52868f3cb42fb1afbab9489ba8978e30991afc79f", size = 44862, upload-time = "2026-03-30T22:47:57.533Z" },
+]
+
+[[package]]
 name = "google-cloud-core"
 version = "2.6.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1719,6 +1748,44 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a8/dd/1eef226e470369b26824a505c34482c0b493bc35fe8e0c6b003b5feca21a/google_cloud_core-2.6.0.tar.gz", hash = "sha256:e76149739f90fac1fc6757c09f47eaccb3145b54adbd7759b0f7c4b235f46c83", size = 36001, upload-time = "2026-05-07T08:04:04.124Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/84/4a/98da8930ab109c73d9a5d13782a9ebb81ea8c111f6d534a567b71d23e52b/google_cloud_core-2.6.0-py3-none-any.whl", hash = "sha256:6d63ac8e5eca6d9e4319d0a1e2265fadcd7f1049904378caecfa01cf52dd869e", size = 29390, upload-time = "2026-05-07T08:02:34.672Z" },
+]
+
+[[package]]
+name = "google-cloud-error-reporting"
+version = "1.15.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "google-api-core", extra = ["grpc"] },
+    { name = "google-auth" },
+    { name = "google-cloud-logging" },
+    { name = "grpcio" },
+    { name = "proto-plus" },
+    { name = "protobuf" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f5/5c/a01e1c92148381bcae879dd355b1af351d44608659640777b5a27f10b1f9/google_cloud_error_reporting-1.15.0.tar.gz", hash = "sha256:6fa4f4a90a63c6a241cd1986f493338ad7607e6eb99e6b91eca2ffe773ab3e36", size = 148528, upload-time = "2026-03-30T22:50:43.962Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ea/3e/3ca32bdf023966540989bce653da654a2df0b59a65e23b695a32b39de6fb/google_cloud_error_reporting-1.15.0-py3-none-any.whl", hash = "sha256:a27e9dee2ae934e87a92791328439c806e0a33956aa4a5c748e95fdbffdddd0c", size = 153214, upload-time = "2026-03-30T22:49:20.111Z" },
+]
+
+[[package]]
+name = "google-cloud-logging"
+version = "3.15.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "google-api-core", extra = ["grpc"] },
+    { name = "google-auth" },
+    { name = "google-cloud-appengine-logging" },
+    { name = "google-cloud-audit-log" },
+    { name = "google-cloud-core" },
+    { name = "grpc-google-iam-v1" },
+    { name = "grpcio" },
+    { name = "opentelemetry-api" },
+    { name = "proto-plus" },
+    { name = "protobuf" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/99/06/253e9795a5877f35183a7175977ca47a17255fe0c8487155f48b86c83f3e/google_cloud_logging-3.15.0.tar.gz", hash = "sha256:72168a1e98bbfc27c75f0b8f630a7f5d786065f3f1f7e9e53d2d787a03693a4a", size = 294881, upload-time = "2026-03-26T22:18:36.947Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/86/0c/fc1a0c57f95d21559ed13e381d9024e9ee9d521489707573fd10af856545/google_cloud_logging-3.15.0-py3-none-any.whl", hash = "sha256:7dcc67434c4e7181510c133d5ac8fd4ce60c23fa4158661f67e54bf440c32450", size = 234212, upload-time = "2026-03-26T22:15:16.404Z" },
 ]
 
 [[package]]
@@ -5585,6 +5652,7 @@ all = [
     { name = "django-auth-ldap" },
     { name = "django-zxcvbn-password-validator" },
     { name = "git-review" },
+    { name = "google-cloud-error-reporting" },
     { name = "google-cloud-storage" },
     { name = "google-cloud-translate" },
     { name = "logging-gelf" },
@@ -5605,6 +5673,9 @@ gerrit = [
 google = [
     { name = "google-cloud-storage" },
     { name = "google-cloud-translate" },
+]
+google-errors = [
+    { name = "google-cloud-error-reporting" },
 ]
 ldap = [
     { name = "django-auth-ldap" },
@@ -5813,6 +5884,7 @@ requires-dist = [
     { name = "fluent-syntax", specifier = "==0.19.0" },
     { name = "git-review", marker = "extra == 'gerrit'", specifier = "==2.5.0" },
     { name = "gitpython", specifier = "==3.1.50" },
+    { name = "google-cloud-error-reporting", marker = "extra == 'google-errors'", specifier = "==1.15.0" },
     { name = "google-cloud-storage", marker = "extra == 'google'", specifier = "==3.10.1" },
     { name = "google-cloud-translate", marker = "extra == 'google'", specifier = "==3.26.0" },
     { name = "granian", marker = "extra == 'wsgi'", specifier = "==2.7.4" },
@@ -5869,14 +5941,14 @@ requires-dist = [
     { name = "unidecode", specifier = "==1.4.0" },
     { name = "urllib3", extras = ["brotli", "zstd"], specifier = "==2.7.0" },
     { name = "user-agents", specifier = "==2.2.0" },
-    { name = "weblate", extras = ["amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "postgres", "rollbar", "sphinx", "zxcvbn"], marker = "extra == 'all'" },
+    { name = "weblate", extras = ["amazon", "gelf", "gerrit", "google", "google-errors", "ldap", "mercurial", "postgres", "rollbar", "sphinx", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-fonts", specifier = "==2026.1" },
     { name = "weblate-language-data", specifier = "==2026.8" },
     { name = "weblate-schemas", specifier = "==2026.2" },
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = "==2026.4" },
     { name = "xmlsec", marker = "extra == 'saml'", specifier = "==1.3.17" },
 ]
-provides-extras = ["all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "postgres", "rollbar", "saml", "saml2idp", "sphinx", "wllegal", "wsgi", "zxcvbn"]
+provides-extras = ["all", "amazon", "gelf", "gerrit", "google", "google-errors", "ldap", "mercurial", "postgres", "rollbar", "saml", "saml2idp", "sphinx", "wllegal", "wsgi", "zxcvbn"]
 
 [package.metadata.requires-dev]
 dev = [
