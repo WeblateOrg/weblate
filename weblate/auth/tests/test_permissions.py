@@ -17,6 +17,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Comment, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.workspaces.models import Workspace
 
 
 class PermissionsTest(FixtureComponentTestCase):
@@ -99,6 +100,39 @@ class PermissionsTest(FixtureComponentTestCase):
         self.user.groups.add(group)
 
         self.assertTrue(self.user.has_perm("management.use"))
+
+    def test_workspace_permissions_are_not_sitewide(self) -> None:
+        workspace = Workspace.objects.create(name="Global workspace")
+        group = Group.objects.get(name="Managers")
+        self.user.groups.add(group)
+
+        self.assertFalse(self.user.has_perm("workspace.edit", workspace))
+
+    def test_workspace_permissions_are_not_project_scoped(self) -> None:
+        workspace = Workspace.objects.create(name="Project workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.admin.clear_cache()
+
+        self.assertFalse(self.admin.has_perm("workspace.edit", workspace))
+
+    def test_workspace_permissions(self) -> None:
+        workspace = Workspace.objects.create(name="Workspace")
+        workspace.add_owner(self.user)
+
+        self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+
+    def test_administration_role_is_project_scoped(self) -> None:
+        self.assertFalse(
+            Role.objects.get(name="Administration").permissions.filter(
+                codename="workspace.edit"
+            )
+        )
+        self.assertTrue(
+            Role.objects.get(name="Workspace administration").permissions.filter(
+                codename="workspace.edit"
+            )
+        )
 
     def test_restricted_component(self) -> None:
         self.assertTrue(self.superuser.has_perm("unit.edit", self.component))

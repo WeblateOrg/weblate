@@ -82,6 +82,11 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
     :ref:`project-access_control`
 
+Workspace access control
+------------------------
+
+Workspace-scoped teams are documented in :ref:`workspace-acl`.
+
 .. _manage-acl:
 
 Managing per-project access control

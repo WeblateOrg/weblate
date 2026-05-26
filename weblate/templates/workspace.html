@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n icons %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
@@ -13,6 +13,11 @@
     {% if billing %}
       <li class="nav-item">
         <a class="nav-link" data-bs-target="#billing" data-bs-toggle="tab" href="#">{% translate "Billing" %}</a>
+      </li>
+    {% endif %}
+    {% if can_manage_access %}
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#access" data-bs-toggle="tab" href="#">{% translate "Access control" %}</a>
       </li>
     {% endif %}
   </ul>
@@ -41,6 +46,40 @@
 
     {% if billing %}
       <div class="tab-pane" id="billing">{% include "billing/detail-content.html" %}</div>
+    {% endif %}
+
+    {% if can_manage_access %}
+      <div class="tab-pane" id="access">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Teams" %}</h4>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "Roles" %}</th>
+                <th>{% translate "Members" %}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for group in workspace_teams %}
+                <tr>
+                  <td>{% include "auth/teams-name.html" %}</td>
+                  <td>{% include "auth/teams-roles.html" %}</td>
+                  <td class="number">{% include "auth/teams-count.html" %}</td>
+                  <td>
+                    <a href="{{ group.get_absolute_url }}"
+                       class="btn btn-link btn-xs"
+                       title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     {% endif %}
   </div>
 

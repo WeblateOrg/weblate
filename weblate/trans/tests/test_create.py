@@ -16,9 +16,14 @@ from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import create_test_billing, get_test_file
+from weblate.trans.tests.utils import (
+    create_another_user,
+    create_test_billing,
+    get_test_file,
+)
 from weblate.utils.views import get_form_data
 from weblate.vcs.git import GitRepository
+from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP
 
 if TYPE_CHECKING:
     from translation_finder.discovery.result import ResultDict
@@ -70,13 +75,29 @@ class CreateTest(ViewTestCase):
         self.assert_create_project(True)
 
         # Create one project
-        self.client_create_project(False, billing=0)
-        self.client_create_project(True, billing=billing.pk)
+        self.client_create_project(False, workspace=0)
+        self.client_create_project(True, workspace=billing.workspace_id)
 
         # No more billings left
         self.client_create_project(
-            reverse("create-project"), name="p2", slug="p2", billing=billing.pk
+            reverse("create-project"),
+            name="p2",
+            slug="p2",
+            workspace=billing.workspace_id,
         )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_project_billing_project_creator(self) -> None:
+        billing = create_test_billing(self.user)
+        project_creator = create_another_user(suffix="-creator")
+        project_creator.add_team(
+            None,
+            billing.workspace.setup_groups()[WORKSPACE_PROJECT_CREATORS_GROUP],
+        )
+        self.client.login(username=project_creator.username, password="testpassword")
+
+        self.assert_create_project(True)
+        self.client_create_project(True, workspace=billing.workspace_id)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_project_admin(self) -> None:

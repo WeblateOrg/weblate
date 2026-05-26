@@ -42,6 +42,11 @@ created. It is always permitted for users with the :guilabel:`Add new projects`
 permission, and if your instance uses billing (e.g. like
 https://hosted.weblate.org/ see :ref:`billing`), you can also create those
 based on your plans allowance from the user account that manages billing.
+Projects can also be created in a workspace by users who have the
+:guilabel:`Add projects to workspace` permission in that workspace. Creating a
+project without selecting a workspace requires the site-wide
+:guilabel:`Add new projects` permission. See
+:ref:`workspace-project-creation` for details.
 
 .. hint::
 
