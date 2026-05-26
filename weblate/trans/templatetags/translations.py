@@ -57,6 +57,7 @@ from weblate.utils.stats import (
 )
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.views import SORT_CHOICES
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
@@ -1442,14 +1443,18 @@ def get_breadcrumbs(  # noqa: C901
             )
         yield with_url(path_object.name)
     elif isinstance(path_object, Project):
+        workspace = path_object.workspace
+        if workspace is not None:
+            yield with_url(workspace.name, workspace.get_absolute_url())
+        yield with_url(path_object.name)
+    elif isinstance(path_object, Workspace):
         yield with_url(path_object.name)
     elif isinstance(path_object, Language):
         yield with_url(gettext("Languages"), url=reverse("languages"))
         yield with_url(path_object)
     elif isinstance(path_object, ProjectLanguage):
-        yield (
-            path_object.project.get_absolute_url(),
-            path_object.project.name,
+        yield from get_breadcrumbs(
+            path_object.project, flags=flags, only_names=only_names
         )
         yield with_url(path_object.language)
     elif isinstance(path_object, CategoryLanguage):

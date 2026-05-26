@@ -20,14 +20,15 @@ from django.core.checks import Critical
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db import connection
 from django.test import TestCase as DjangoTestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation
-from weblate.trans.models import Announcement
+from weblate.trans.models import Announcement, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
@@ -37,6 +38,7 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service
+from weblate.workspaces.models import Workspace
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 
@@ -354,6 +356,70 @@ class AdminTest(ViewTestCase):
     def test_manage_index(self) -> None:
         response = self.client.get(reverse("manage"))
         self.assertContains(response, "SSH")
+
+    def test_workspaces(self) -> None:
+        workspace = Workspace.objects.create(name="Test workspace")
+        Project.objects.create(
+            name="Workspace project",
+            slug="workspace-project",
+            web="https://example.com/",
+            workspace=workspace,
+        )
+
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, "Manage workspaces")
+        self.assertContains(response, workspace.name)
+        self.assertContains(response, workspace.get_absolute_url())
+        self.assertContains(response, ">1<")
+
+    def test_workspaces_pagination(self) -> None:
+        for index in range(51):
+            Workspace.objects.create(name=f"Workspace {index:02}")
+
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertTrue(response.context["is_paginated"])
+        self.assertEqual(len(response.context["object_list"]), 50)
+
+    def test_workspaces_avoid_billing_display_queries(self) -> None:
+        from weblate.billing.models import Billing, Plan  # noqa: PLC0415
+
+        plan = Plan.objects.create(
+            name="Workspace plan",
+            price=19,
+            yearly_price=199,
+            limit_projects=1,
+            display_limit_projects=1,
+        )
+
+        for index in range(3):
+            billing = Billing.objects.create(plan=plan)
+            billing.owners.add(self.user)
+            project = Project.objects.create(
+                name=f"Billed project {index}",
+                slug=f"billed-project-{index}",
+                web="https://example.com/",
+            )
+            billing.add_project(project)
+
+        project_table = Project._meta.db_table  # noqa: SLF001
+        owners_table = Billing.owners.through._meta.db_table  # noqa: SLF001
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, "Billing #")
+        project_queries = [
+            query["sql"]
+            for query in queries
+            if (
+                f'FROM "{project_table}"' in query["sql"]
+                and f'WHERE "{project_table}"."workspace_id"' in query["sql"]
+            )
+        ]
+        self.assertEqual(project_queries, [])
+        self.assertFalse(any(owners_table in query["sql"] for query in queries))
 
     def test_ssh(self) -> None:
         response = self.client.get(reverse("manage-ssh"))

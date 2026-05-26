@@ -284,7 +284,9 @@ def parse_path(  # noqa: C901
         return get_object_or_404(Language, code=path[2])
 
     # First level is always project
-    project = get_object_or_404(Project, slug=path.pop(0))
+    project = get_object_or_404(
+        Project.objects.select_related("workspace"), slug=path.pop(0)
+    )
     if request is not None:
         request.user.check_access(project)
     project.acting_user = acting_user

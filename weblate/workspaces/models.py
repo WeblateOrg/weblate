@@ -8,6 +8,7 @@ from typing import Self
 from uuid import uuid4
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
 WORKSPACE_NAME_LENGTH = 100
@@ -71,3 +72,6 @@ class Workspace(models.Model):
         super().save(*args, **kwargs)
         self.workspace_original_name = self.name
         self.workspace_original_name_managed = self.name_managed
+
+    def get_absolute_url(self) -> str:
+        return reverse("workspace", kwargs={"pk": self.pk})

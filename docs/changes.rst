@@ -10,6 +10,7 @@ Weblate 2026.6
 * Added :ref:`cost estimates <cost-estimate>` to translation reports.
 * Added optional :ref:`OpenTelemetry tracing <collecting-errors>` support for backend requests and tasks.
 * Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` support for handled server errors.
+* Added workspaces to group related projects, with workspace project listings and billing details when available.
 
 .. rubric:: Improvements
 

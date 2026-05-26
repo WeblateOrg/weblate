@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#projects"
+         data-bs-toggle="tab"
+         href="#">{% translate "Projects" %}</a>
+    </li>
+    {% if billing %}
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#billing" data-bs-toggle="tab" href="#">{% translate "Billing" %}</a>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="projects">
+      {% include "list-projects.html" %}
+
+      {% if not projects and create_project_url %}
+        <p>
+          <a class="btn btn-primary" href="{{ create_project_url }}">{% translate "Add new translation project" %}</a>
+        </p>
+      {% endif %}
+
+      {% include "paginator.html" with page_obj=projects anchor="projects" %}
+    </div>
+
+    {% if billing %}
+      <div class="tab-pane" id="billing">{% include "billing/detail-content.html" %}</div>
+    {% endif %}
+  </div>
+
+{% endblock content %}
