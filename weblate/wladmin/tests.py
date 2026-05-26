@@ -22,13 +22,14 @@ from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import connection
 from django.test import TestCase as DjangoTestCase
-from django.test.utils import CaptureQueriesContext, override_settings
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation
-from weblate.trans.models import Announcement, Project
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Announcement, Change, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
@@ -341,6 +342,44 @@ class BackupServiceStatusTest(TestCase):
         )
 
 
+class WorkspaceCreateTest(ViewTestCase):
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_workspace_add_denied_without_permission(self) -> None:
+        response = self.client.get(reverse("manage-workspace-add"))
+
+        self.assertEqual(response.status_code, 403)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_project_creator_can_add_workspace(self) -> None:
+        self.user.groups.add(Group.objects.get(name="Project creators"))
+
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, "Add new workspace")
+
+        response = self.client.get(reverse("manage-workspace-add"))
+        self.assertContains(response, "Add workspace")
+
+        response = self.client.post(
+            reverse("manage-workspace-add"), {"name": "Created workspace"}
+        )
+
+        workspace = Workspace.objects.get(name="Created workspace")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], workspace.get_absolute_url())
+        self.user.clear_cache()
+        self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+        self.assertTrue(self.user.has_perm("workspace.add_project", workspace))
+
+        response = self.client.get(workspace.get_absolute_url())
+        self.assertContains(response, "Created workspace")
+
+        change = Change.objects.get(
+            action=ActionEvents.CREATE_WORKSPACE, workspace=workspace
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+
 class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
 
@@ -372,6 +411,29 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, workspace.name)
         self.assertContains(response, workspace.get_absolute_url())
         self.assertContains(response, ">1<")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_workspaces_add_link(self) -> None:
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, reverse("manage-workspace-add"))
+        self.assertContains(response, "Add workspace")
+
+    def test_workspaces_add_link_hidden_with_billing(self) -> None:
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertNotContains(response, reverse("manage-workspace-add"))
+        self.assertNotContains(response, "Add workspace")
+
+    def test_workspace_add_hidden_from_sitewide_menu_with_billing(self) -> None:
+        response = self.client.get(reverse("home"))
+
+        self.assertNotContains(response, "Add new workspace")
+
+    def test_workspace_add_direct_access_hidden_with_billing(self) -> None:
+        response = self.client.get(reverse("manage-workspace-add"))
+
+        self.assertEqual(response.status_code, 404)
 
     def test_workspaces_pagination(self) -> None:
         for index in range(51):

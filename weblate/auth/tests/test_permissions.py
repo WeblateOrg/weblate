@@ -134,6 +134,12 @@ class PermissionsTest(FixtureComponentTestCase):
             )
         )
 
+    def test_project_creators_can_add_workspaces(self) -> None:
+        self.user.groups.add(Group.objects.get(name="Project creators"))
+
+        self.assertTrue(self.user.has_perm("project.add"))
+        self.assertTrue(self.user.has_perm("workspace.add"))
+
     def test_restricted_component(self) -> None:
         self.assertTrue(self.superuser.has_perm("unit.edit", self.component))
         self.assertTrue(self.admin.has_perm("unit.edit", self.component))

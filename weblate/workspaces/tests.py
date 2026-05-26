@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from weblate.auth.models import Group
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import get_breadcrumbs
 from weblate.trans.tests.test_models import BaseTestCase
@@ -88,6 +89,67 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, workspace.name)
         self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
 
+    def test_workspace_settings_are_visible_to_workspace_owner(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Settings workspace")
+        workspace.add_owner(user)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, 'data-bs-target="#settings"')
+        self.assertContains(response, "Workspace settings")
+
+    def test_workspace_settings_are_hidden_without_workspace_edit(self) -> None:
+        workspace = Workspace.objects.create(name="Public workspace")
+        self.create_project(
+            workspace,
+            name="Public project",
+            slug="public-project",
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Public project")
+        self.assertNotContains(response, 'data-bs-target="#settings"', status_code=200)
+        self.assertNotContains(response, "Workspace settings", status_code=200)
+
+    def test_workspace_settings_update_name_as_workspace_owner(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Original view workspace")
+        workspace.add_owner(user)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.post(
+            workspace.get_absolute_url(), {"name": "Renamed view workspace"}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response["Location"], f"{workspace.get_absolute_url()}#settings"
+        )
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.name, "Renamed view workspace")
+        change = workspace.change_set.get(action=ActionEvents.WORKSPACE_SETTING_CHANGE)
+        self.assertEqual(change.user, user)
+        self.assertEqual(change.details["field"], "name")
+
+    def test_workspace_settings_update_denied_without_workspace_edit(self) -> None:
+        workspace = Workspace.objects.create(name="Read-only workspace")
+        self.create_project(
+            workspace,
+            name="Read-only project",
+            slug="read-only-project",
+        )
+
+        response = self.client.post(
+            workspace.get_absolute_url(), {"name": "Denied workspace"}
+        )
+
+        self.assertEqual(response.status_code, 404)
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.name, "Read-only workspace")
+
     def test_empty_billing_workspace_is_visible_to_workspace_owner(self) -> None:
         user = create_test_user()
         billing = create_test_billing(user, invoice=False)
@@ -122,6 +184,26 @@ class WorkspaceViewTest(BaseTestCase):
                 (workspace.get_absolute_url(), workspace.name),
                 (project.get_absolute_url(), project.name),
             ],
+        )
+
+    def test_workspace_name_change_history(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Original workspace")
+
+        workspace.acting_user = user
+        workspace.name = "Renamed workspace"
+        workspace.save()
+
+        change = workspace.change_set.get(action=ActionEvents.WORKSPACE_SETTING_CHANGE)
+        self.assertEqual(change.user, user)
+        self.assertEqual(change.path_object, workspace)
+        self.assertEqual(change.get_absolute_url(), workspace.get_absolute_url())
+        self.assertEqual(change.details["field"], "name")
+        self.assertEqual(change.details["old"], "Original workspace")
+        self.assertEqual(change.details["target"], "Renamed workspace")
+        self.assertEqual(
+            change.get_details_display(),
+            'Workspace name changed from "Original workspace" to "Renamed workspace".',
         )
 
     def test_billing_tab_is_shown_to_workspace_owner(self) -> None:

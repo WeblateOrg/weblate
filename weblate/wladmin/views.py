@@ -26,7 +26,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import CreateView, FormMixin
 from requests.exceptions import HTTPError, Timeout
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
@@ -44,9 +44,10 @@ from weblate.auth.models import (
 )
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
+from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
-from weblate.trans.models import Alert, Announcement, Component, Project
+from weblate.trans.models import Alert, Announcement, Change, Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.cache import measure_cache_latency
@@ -76,6 +77,7 @@ from weblate.wladmin.forms import (
     BackupSelectionForm,
     SSHAddForm,
     TestMailForm,
+    WorkspaceCreateForm,
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
@@ -727,4 +729,47 @@ class WorkspaceListView(ListView):
         result["menu_items"] = MENU
         result["menu_page"] = "workspaces"
         result["billing_enabled"] = "weblate.billing" in settings.INSTALLED_APPS
+        result["can_add_workspace"] = self.request.user.has_perm("workspace.add")
         return result
+
+
+class WorkspaceCreateView(CreateView):
+    template_name = "manage/workspace_form.html"
+    model = Workspace
+    form_class = WorkspaceCreateForm
+    request: AuthenticatedHttpRequest
+    object: Workspace
+
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        if "weblate.billing" in settings.INSTALLED_APPS:
+            raise Http404
+        if not request.user.has_perm("workspace.add"):
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+    @transaction.atomic
+    def form_valid(self, form: WorkspaceCreateForm) -> HttpResponse:
+        self.object = form.save(commit=False)
+        self.object.acting_user = self.request.user
+        self.object.save()
+        self.object.add_owner(self.request.user, self.request)
+        self.request.user.clear_cache()
+        Change.objects.create(
+            action=ActionEvents.CREATE_WORKSPACE,
+            workspace=self.object,
+            user=self.request.user,
+            author=self.request.user,
+        )
+        messages.success(self.request, gettext("Workspace created."))
+        return redirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        result = super().get_context_data(**kwargs)
+        result["user_can_manage"] = self.request.user.has_perm("management.use")
+        if result["user_can_manage"]:
+            result["menu_items"] = MENU
+            result["menu_page"] = "workspaces"
+        return result
+
+    def get_success_url(self) -> str:
+        return self.object.get_absolute_url()

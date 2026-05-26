@@ -848,6 +848,11 @@ real_patterns = [
         name="manage-workspaces",
     ),
     path(
+        "manage/workspaces/add/",
+        weblate.wladmin.views.WorkspaceCreateView.as_view(),
+        name="manage-workspace-add",
+    ),
+    path(
         "teams/<int:pk>/",
         weblate.auth.views.TeamUpdateView.as_view(),
         name="team",
