@@ -68,8 +68,8 @@ class YandexV2Translation(MachineTranslation):
         response = self.request(
             "post",
             "https://translate.api.cloud.yandex.net/translate/v2/translate",
-            params={
-                "texts": text,
+            json={
+                "texts": [text],
                 "sourceLanguageCode": source_language,
                 "targetLanguageCode": target_language,
             },

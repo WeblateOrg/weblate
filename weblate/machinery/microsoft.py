@@ -30,7 +30,7 @@ if TYPE_CHECKING:
         SettingsDict,
     )
 
-TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"  # noqa: S105
+TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken"  # noqa: S105
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
@@ -75,9 +75,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         region = "" if not self.settings["region"] else f"{self.settings['region']}."
 
         self._cognitive_token_url = TOKEN_URL.format(
-            region,
-            self.settings["endpoint_url"],
-            self.settings["key"],
+            region, self.settings["endpoint_url"]
         )
 
     def get_url(self, suffix) -> str:
@@ -96,7 +94,10 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         """Obtain and caches access token."""
         if self._access_token is None or self.is_token_expired():
             self._access_token = self.request(
-                "post", self._cognitive_token_url, skip_auth=True
+                "post",
+                self._cognitive_token_url,
+                skip_auth=True,
+                headers={"Ocp-Apim-Subscription-Key": self.settings["key"]},
             ).text
             self._token_expiry = timezone.now() + TOKEN_EXPIRY
 
