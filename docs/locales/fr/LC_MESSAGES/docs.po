@@ -32,14 +32,15 @@
 # Julien Lepiller <roptat@lepiller.eu>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # MrZwave <polkadragon76@gmail.com>, 2026.
+# libermax <libremax@protonmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-21 16:31+0000\n"
-"PO-Revision-Date: 2026-05-26 15:11+0000\n"
-"Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
+"PO-Revision-Date: 2026-05-27 15:44+0000\n"
+"Last-Translator: libermax <libremax@protonmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -971,6 +972,16 @@ msgid ""
 "of those languages. Project-wide, component-wide and global permissions from "
 "that team are not granted for that member."
 msgstr ""
+"Les adhésions individuelles à une équipe peuvent restreindre davantage ces "
+"autorisations à certaines langues. Si le champ de limitation par membre est "
+"laissé vide, aucune restriction supplémentaire n'est appliquée au-delà de la "
+"sélection de langues de l'équipe. La même limitation de langues peut être "
+"définie lors de l'invitation de nouveaux utilisateurs à rejoindre une équipe "
+"de projet. Lorsqu'une limitation par membre est définie, l'adhésion "
+"n'accorde que les autorisations pouvant être évaluées pour l'une de ces "
+"langues. Les autorisations à l'échelle du projet, à l'échelle des composants "
+"et les autorisations globales de cette équipe ne sont pas accordées à ce "
+"membre."
 
 #: admin/access.rst:442
 msgid ""
@@ -2825,6 +2836,12 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
+"Cette mesure peut être appliquée aux utilisateurs au niveau du projet (voir "
+":ref:`project-enforced_2fa`) ou de l'équipe. Dans le cadre de déploiements à "
+"l'échelle du site, elle peut également servir à imposer l'authentification à "
+"deux facteurs à tous les utilisateurs en l'activant sur l'équipe par défaut "
+":guilabel:`Users`, qui est automatiquement attribuée aux nouveaux "
+"utilisateurs par :ref:`automatic team assignment <autoteam>`."
 
 #: admin/auth.rst:850
 msgid ""
@@ -3347,6 +3364,11 @@ msgid ""
 "The :file:`environment.yml` file from :ref:`backup-dumps` can help with "
 "this, but it is not imported automatically."
 msgstr ""
+"Commencez par récupérer une version de Docker Compose correspondant au "
+"déploiement restauré. Restaurez vos modifications Compose, vos secrets et "
+"vos variables d'environnement d'origine. Le fichier :file:`environment.yml` "
+"issu de :ref:`backup-dumps` peut vous aider dans cette tâche, mais il n'est "
+"pas importé automatiquement."
 
 #: admin/backup.rst:241
 msgid ""
@@ -3354,10 +3376,15 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Restaurez l'archive de sauvegarde à l'aide de :ref:`restore-borg` ou "
+"décompressez votre sauvegarde manuelle afin que le répertoire de données "
+"Weblate et le fichier :file:`backups/database.sql` soient disponibles."
 
 #: admin/backup.rst:245
 msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
+"Arrêtez les services qui peuvent écrire dans la base de données ou sur le "
+"volume de données :"
 
 #: admin/backup.rst:251
 msgid "Recreate the PostgreSQL volume."
@@ -3386,6 +3413,9 @@ msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Vérifiez que le nom de la base de données correspond à :envvar:`POSTGRES_DB` "
+"et que l'utilisateur correspond à :envvar:`POSTGRES_USER` dans votre "
+"configuration Compose."
 
 #: admin/backup.rst:278
 msgid ""
@@ -3393,6 +3423,10 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Restaurez le répertoire de données Weblate sur le volume de données Docker "
+"monté sous :file:`/app/data`, voir :ref:`docker-volume`. Les fichiers de ce "
+"volume doivent appartenir à l'utilisateur UID 1000, voir :ref:`file-"
+"permissions`."
 
 #: admin/backup.rst:282
 msgid "Start the remaining services and follow the logs:"
@@ -3980,6 +4014,9 @@ msgid ""
 "editing` (see :ref:`states`). This prevents translators from hiding such "
 "checks."
 msgstr ""
+"Les vérifications obligatoires ne peuvent pas être ignorées et marquent la "
+"chaîne comme :guilabel:`Needs editing` (see :ref:`states`). Cela empêche les "
+"traducteurs de masquer ces vérifications."
 
 #: admin/checks.rst:112
 #, fuzzy
@@ -4003,12 +4040,20 @@ msgid ""
 "same` is not recommended because dismissal is sometimes a reasonable "
 "approach in these."
 msgstr ""
+"Cette fonctionnalité est particulièrement utile pour les vérifications "
+"susceptibles d'entraîner des problèmes graves, comme celles de :ref:`check-"
+"formats`. Son utilisation pour des vérifications de style telles que "
+":ref:`check-same` n'est pas recommandée, car il est parfois raisonnable de "
+"ne pas tenir compte de ces avertissements."
 
 #: admin/checks.rst:120
 msgid ""
 "The :ref:`project-commit_policy` can then be used to exclude strings needing "
 "editing from being committed to the version control."
 msgstr ""
+"La :ref:`project-commit_policy` peut alors être utilisée pour empêcher que "
+"les chaînes de caractères nécessitant une modification ne soient validées "
+"dans le système de contrôle de version."
 
 #: admin/checks.rst:135
 msgid "Managing fonts"
@@ -4200,12 +4245,21 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "requests."
 msgstr ""
+"Weblate s'intègre aux sites d'hébergement de code à plusieurs niveaux : "
+"accès au dépôt, réception des notifications et renvoi des traductions. La "
+"configuration exacte dépend du fait que vous utilisiez Weblate hébergé ou "
+"que vous exploitiez votre propre instance Weblate, ainsi que de la manière "
+"dont Weblate doit procéder : en envoyant directement les modifications ou en "
+"créant des demandes de modification."
 
 #: admin/code-hosting.rst:11
 msgid ""
 "Use this page as a provider-oriented checklist. The individual setting pages "
 "remain the canonical reference for setting syntax."
 msgstr ""
+"Utilisez cette page comme une liste de contrôle destinée aux développeurs. "
+"Les pages de configuration individuelles restent la référence officielle en "
+"matière de syntaxe de configuration."
 
 #: admin/code-hosting.rst:15
 #, fuzzy
@@ -4237,6 +4291,9 @@ msgid ""
 "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-code-"
 "hosting`."
 msgstr ""
+"Pour une installation Weblate auto-hébergée, créez un utilisateur dédié à "
+"l'hébergement du code et accordez-lui l'accès à l'aide de la clé SSH de "
+"Weblate ou d'un jeton HTTPS ; voir :ref:`vcs-repos-code-hosting`."
 
 #: admin/code-hosting.rst:25
 #, fuzzy
@@ -4250,16 +4307,22 @@ msgid ""
 "The repository webhook or app must point to the matching Weblate hook URL, "
 "and the project must have :ref:`project-enable_hooks` enabled."
 msgstr ""
+"Configurez les notifications entrantes afin que Weblate récupère les "
+"modifications peu après leur publication. Le webhook ou l'application du "
+"dépôt doit pointer vers l'URL de hook Weblate correspondante, et l'option "
+":ref:`project-enable_hooks` doit être activée pour le projet."
 
 #: admin/code-hosting.rst:31
 msgid "Decide how Weblate should push translations back:"
-msgstr ""
+msgstr "Choisissez la manière dont Weblate doit renvoyer les traductions :"
 
 #: admin/code-hosting.rst:33
 msgid ""
 "Use :ref:`vcs-git` or :ref:`vcs-mercurial` and :ref:`component-push` to push "
 "directly."
 msgstr ""
+"Utilisez :ref:`vcs-git` ou :ref:`vcs-mercurial` et :ref:`component-push` "
+"pour effectuer un push directement."
 
 #: admin/code-hosting.rst:35
 msgid ""
