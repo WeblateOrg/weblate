@@ -1069,6 +1069,8 @@ class DiscoveryForm(BaseAddonForm):
 
     @cached_property
     def generic_ui_presets(self) -> list[dict[str, object]]:
+        if self._addon.instance.pk is not None:
+            return []
         return self.get_builtin_ui_presets()
 
     @cached_property
