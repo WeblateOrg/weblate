@@ -150,6 +150,11 @@ strings in the image using text recognition (OCR) with the
 Matching source strings can be assigned individually, in a selected batch, or
 all at once.
 
+The screenshot listing summarizes uploaded screenshots and lets you search or
+filter them:
+
+.. image:: /screenshots/screenshot-listing.webp
+
 Once a screenshot is uploaded, this interface handles
 management and source string association:
 
