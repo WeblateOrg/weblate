@@ -4,6 +4,7 @@
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
+from django.utils.translation import override
 from lxml import etree
 
 from weblate.checks.flags import (
@@ -358,8 +359,6 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(len(names), len(choices))
 
     def test_get_flag_choices_per_language(self) -> None:
-        from django.utils.translation import override
-
         with override("en"):
             en_choices = get_flag_choices()
         with override("cs"):
