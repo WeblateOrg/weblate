@@ -307,6 +307,28 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertNotContains(response, hidden.name, status_code=200)
         self.assertNotContains(response, other.name, status_code=200)
 
+    def test_workspace_changes_exclude_hidden_project_move_events(self) -> None:
+        workspace = Workspace.objects.create(name="Shared history workspace")
+        self.create_project(
+            workspace,
+            name="Visible shared history project",
+            slug="visible-shared-history-project",
+        )
+        hidden = self.create_project(
+            workspace,
+            name="Hidden moved project",
+            slug="hidden-moved-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+
+        hidden.change_set.create(action=ActionEvents.MOVE_PROJECT, workspace=workspace)
+
+        response = self.client.get(
+            reverse("changes", kwargs={"path": workspace.get_url_path()})
+        )
+
+        self.assertNotContains(response, hidden.name, status_code=200)
+
     def test_workspace_changes_rss(self) -> None:
         workspace = Workspace.objects.create(name="RSS workspace")
         project = self.create_project(

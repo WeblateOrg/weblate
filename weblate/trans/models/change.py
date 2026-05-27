@@ -428,7 +428,9 @@ class ChangeManager(models.Manager["Change"]):
         elif workspace is not None:
             if not workspace.can_view(user):
                 return cast("ChangeQuerySet", self.none())
-            result = self.filter(workspace=workspace) | cast(
+            result = self.filter(workspace=workspace).filter_projects(
+                user
+            ).filter_components(user) | cast(
                 "ChangeQuerySet",
                 self.filter(
                     project__workspace=workspace,
