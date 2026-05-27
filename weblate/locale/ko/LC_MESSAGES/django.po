@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-25 10:02+0000\n"
+"PO-Revision-Date: 2026-05-27 15:44+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -572,10 +572,11 @@ msgid "User was added to the site-wide {team} team by {username}."
 msgstr "{username} 님이 전체 사이트 {team} 팀에 사용자를 추가함."
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
-msgstr "{username} 님이 전체 사이트 {team} 팀에 사용자를 추가함."
+msgstr ""
+"{username} 님이) 사이트 전체 {team} 팀에 대한 사용자 접근 권한을 "
+"변경했습니다."
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -697,13 +698,8 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "이 조치가 부당하다고 생각되면 프로젝트 관리자에게 문의해 주세요."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
-msgstr ""
-"본인의 활동이었다면 비밀번호 재설정을 통해 계정 접근 권한을 복구하세요."
+msgstr "본인이 맞다면, 계정에 다시 로그인할 수 있도록 비밀번호를 재설정해 주세요."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1029,7 +1025,7 @@ msgstr "구문 분석 오류 발생"
 #: weblate/accounts/notifications.py:630
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "새 번역 가능 문자열"
+msgstr "해당 문자열은 번역 가능합니다"
 
 #: weblate/accounts/notifications.py:632
 msgctxt "Notification name"
@@ -1632,10 +1628,8 @@ msgid "Publishes translation files into a content delivery network."
 msgstr "번역 파일을 콘텐츠 전달 네트워크에 게시합니다."
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "번역 기본 언어를 편집할 수 없습니다."
+msgstr "번역 파일 CDN 애드온이 weblate.js을 배포하지 못했습니다."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -7338,7 +7332,7 @@ msgstr[0] "최근 변경사항"
 #: weblate/templates/manage/index.html:102
 #: weblate/templates/snippets/donate.html:14
 msgid "Give to Weblate"
-msgstr "Weblate에 후원하기"
+msgstr "Weblate에 기여하기"
 
 #: weblate/templates/about/index.html:27
 msgid "Hosting translations"
@@ -16353,8 +16347,8 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"문자열은 일반적으로 원문 문자열이 업데이트된 후 또는 수동으로 \"편집 필요"
-"\"로 표시됩니다."
+"원본 문자열이 업데이트되거나 수동으로 표시된 경우, 문자열은 대개 “편집 필요”"
+"로 표시됩니다."
 
 #: weblate/trans/forms.py:521
 msgid "Review state"
