@@ -85,6 +85,11 @@ from weblate.trans.models import (
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
+from weblate.trans.workspace_move import (
+    PROJECT_MOVE_WORKSPACE_SELECT_LIMIT,
+    get_project_move_target_workspaces,
+    get_project_workspace_move_error,
+)
 from weblate.utils.antispam import is_spam
 from weblate.utils.files import FileUploadMethod
 from weblate.utils.forms import (
@@ -2896,6 +2901,73 @@ class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
     class Meta:
         model = Project
         fields = ["name", "slug"]  # noqa: RUF012
+
+
+class ProjectMoveForm(forms.Form):
+    """Project workspace move form."""
+
+    workspace = forms.Field(label=gettext_lazy("Workspace"))
+
+    def __init__(
+        self, request: AuthenticatedHttpRequest, *args, instance: Project, **kwargs
+    ) -> None:
+        self.request = request
+        self.instance = instance
+        self.allow_standalone = instance.workspace_id is not None and (
+            request.user.has_perm("project.add")
+        )
+        self.target_workspaces = get_project_move_target_workspaces(
+            request.user, instance
+        )
+        self.use_uuid_input = (
+            self.target_workspaces.count() > PROJECT_MOVE_WORKSPACE_SELECT_LIMIT
+        )
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+        if self.use_uuid_input:
+            help_text = gettext(
+                "Enter the UUID of a workspace where you have permission to edit "
+                "settings and add projects."
+            )
+            if self.allow_standalone:
+                help_text = gettext(
+                    "Enter the UUID of a workspace where you have permission to edit "
+                    "settings and add projects, or leave empty to move the project "
+                    "out of a workspace."
+                )
+            self.fields["workspace"] = forms.UUIDField(
+                label=gettext_lazy("Workspace"),
+                required=not self.allow_standalone,
+                help_text=help_text,
+            )
+        else:
+            self.fields["workspace"] = forms.ModelChoiceField(
+                label=gettext_lazy("Workspace"),
+                queryset=self.target_workspaces,
+                required=not self.allow_standalone,
+                empty_label=gettext("No workspace") if self.allow_standalone else None,
+            )
+
+    def clean_workspace(self):
+        workspace = self.cleaned_data["workspace"]
+        if self.use_uuid_input and workspace is not None:
+            try:
+                workspace = Workspace.objects.get(pk=workspace)
+            except Workspace.DoesNotExist as exc:
+                raise ValidationError(gettext("No matching workspace found.")) from exc
+
+        if validation_error := get_project_workspace_move_error(
+            self.request.user, self.instance, workspace, reject_unchanged=True
+        ):
+            raise ValidationError(validation_error)
+        return workspace
+
+    def save(self) -> Project:
+        self.instance.workspace = self.cleaned_data["workspace"]
+        self.instance.save(update_fields=["workspace"])
+        return self.instance
 
 
 class WorkspaceMixin(forms.Form):

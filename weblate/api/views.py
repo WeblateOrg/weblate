@@ -1791,6 +1791,10 @@ class ProjectViewSet(
                     billing = serializer.instance.workspace.billing
             serializer.instance.post_create(self.request.user, billing)
 
+    def perform_update(self, serializer) -> None:
+        serializer.instance.acting_user = self.request.user
+        super().perform_update(serializer)
+
     def update(self, request: Request, *args, **kwargs):
         """Edit a project by a PUT request."""
         instance = self.get_object()

@@ -16,8 +16,8 @@ You can list all workspaces in the management interface at
 
 .. _workspace-project-creation:
 
-Project creation
-----------------
+Project creation and moves
+--------------------------
 
 Projects can be created with or without a workspace:
 
@@ -27,8 +27,15 @@ Projects can be created with or without a workspace:
   :guilabel:`Add new projects` permission.
 
 When creating a project with the :ref:`api`, pass the workspace UUID in the
-``workspace`` field. Existing projects can not currently be moved between
-workspaces using Weblate or the API.
+``workspace`` field.
+
+Existing projects can be moved between workspaces from the project
+:guilabel:`Organize` tab or by changing the ``workspace`` field with the
+:ref:`api`. Moving a project requires permission to edit the project and the
+:guilabel:`Edit workspace settings` permission for the source and target
+workspace. The target workspace also requires the
+:guilabel:`Add projects to workspace` permission. Moving a project out of a
+workspace also requires the site-wide :guilabel:`Add new projects` permission.
 
 .. _workspace-acl:
 

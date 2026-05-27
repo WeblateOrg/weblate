@@ -58,6 +58,10 @@ from weblate.trans.util import (
     check_upload_method_permissions,
     cleanup_repo_url,
 )
+from weblate.trans.workspace_move import (
+    get_project_move_billing_error,
+    get_project_workspace_move_permission_error,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
@@ -832,13 +836,15 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             workspace = attrs["workspace"]
             workspace_id = workspace.pk if workspace else None
             if workspace_id != self.instance.workspace_id:
-                raise serializers.ValidationError(
-                    {
-                        "workspace": gettext_lazy(
-                            "Cannot change workspace on an existing project."
-                        )
-                    }
-                )
+                request = self.context.get("request")
+                if request is None:
+                    raise PermissionDenied
+                if error := get_project_workspace_move_permission_error(
+                    request.user, self.instance, workspace
+                ):
+                    raise PermissionDenied(error)
+                if error := get_project_move_billing_error(workspace):
+                    raise serializers.ValidationError({"workspace": error})
         # Call model validation here, DRF does not do that
         if self.instance:
             instance = copy(self.instance)
