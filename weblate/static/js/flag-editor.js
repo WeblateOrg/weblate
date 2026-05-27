@@ -144,6 +144,10 @@
       },
     });
 
+    if (input.id && ts.control_input) {
+      ts.control_input.id = `${input.id}-ts-input`;
+    }
+
     ts.on("change", () => {
       input.value = ts.items.join(", ");
       input.dispatchEvent(new Event("change", { bubbles: true }));
