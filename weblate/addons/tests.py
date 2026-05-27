@@ -5319,9 +5319,11 @@ class DiscoveryTest(ViewTestCase):
             "Generic preset: One folder per language [gettext PO file; no monolingual base]",
         )
 
-    def test_detected_ui_presets_are_not_shown_when_editing_existing_addon(
+    def test_ui_presets_are_not_shown_when_editing_existing_addon(
         self,
     ) -> None:
+        self.user.is_superuser = True
+        self.user.save()
         addon = DiscoveryAddon.create(
             component=self.component,
             configuration={
@@ -5346,7 +5348,17 @@ class DiscoveryTest(ViewTestCase):
             self.fail("Expected discovery form to be created")
         form = cast("DiscoveryForm", form)
         self.assertEqual(form.detected_ui_presets, [])
+        self.assertEqual(form.generic_ui_presets, [])
+        self.assertEqual(form.guided_presets, [])
+        self.assertEqual(form.guided_preset_sections, [])
         mocked.assert_not_called()
+
+        response = self.client.get(
+            reverse("addon-detail", kwargs={"pk": addon.instance.pk})
+        )
+        self.assertNotContains(response, "Guided presets")
+        self.assertNotContains(response, 'id="addon-discovery-presets"')
+        self.assertNotContains(response, "addon-ui-presets")
 
     def test_detected_ui_presets_skip_builtin_equivalent_matches(self) -> None:
         detected = [
