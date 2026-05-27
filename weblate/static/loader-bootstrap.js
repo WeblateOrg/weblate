@@ -1152,6 +1152,67 @@ $(function () {
     });
   });
 
+  document.querySelectorAll("[data-inherited-setting]").forEach((el) => {
+    const checkbox = el.querySelector(
+      ".inherited-setting-toggle input[type=checkbox]",
+    );
+    const controls = Array.from(
+      el.querySelectorAll(
+        ".inherited-setting-field input, .inherited-setting-field select, .inherited-setting-field textarea",
+      ),
+    ).filter(
+      (control) =>
+        !(control instanceof HTMLInputElement && control.type === "hidden"),
+    );
+    if (!checkbox) {
+      return;
+    }
+
+    const getControlValue = (control) => {
+      if (control.tomselect) {
+        return control.tomselect.getValue();
+      }
+      return control.value;
+    };
+    const setControlValue = (control, value) => {
+      if (control.tomselect) {
+        control.tomselect.setValue(value, true);
+      } else {
+        control.value = value;
+      }
+    };
+    const setControlDisabled = (control, disabled) => {
+      control.disabled = disabled;
+      if (!control.tomselect) {
+        return;
+      }
+      if (disabled) {
+        control.tomselect.disable();
+      } else {
+        control.tomselect.enable();
+      }
+    };
+
+    const updateInheritedSetting = (syncValue) => {
+      const disabled = checkbox.checked;
+      el.classList.toggle("is-inherited", disabled);
+      controls.forEach((control) => {
+        if (syncValue) {
+          if (disabled) {
+            control.dataset.overrideValue = getControlValue(control);
+            setControlValue(control, control.dataset.inheritedValue || "");
+          } else {
+            setControlDisabled(control, false);
+            setControlValue(control, control.dataset.overrideValue || "");
+          }
+        }
+        setControlDisabled(control, disabled);
+      });
+    };
+    checkbox.addEventListener("change", () => updateInheritedSetting(true));
+    updateInheritedSetting(false);
+  });
+
   document.querySelectorAll(".project-membership-team-toggle").forEach((el) => {
     const limitField = document.getElementById(el.dataset.limitTarget);
     const updateLimitField = () => {

@@ -636,7 +636,15 @@ wlc \
                 <ul>
                   {% for agreement in agreements %}
                     <li>
-                      <a href="{% url 'contributor-agreement' path=agreement.component.get_url_path %}">{{ agreement.component }}</a>
+                      {% if agreement.component %}
+                        <a href="{% url 'contributor-agreement' path=agreement.component.get_url_path %}">{{ agreement.component }}</a>
+                      {% elif agreement.category %}
+                        <a href="{% url 'contributor-agreement' path=agreement.category.get_url_path %}">{{ agreement.category }}</a>
+                      {% elif agreement.project %}
+                        <a href="{% url 'contributor-agreement' path=agreement.project.get_url_path %}">{{ agreement.project }}</a>
+                      {% elif agreement.workspace %}
+                        <a href="{% url 'contributor-agreement' path=agreement.workspace.get_url_path %}">{{ agreement.workspace }}</a>
+                      {% endif %}
                     </li>
                   {% endfor %}
                 </ul>

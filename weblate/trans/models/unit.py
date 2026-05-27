@@ -119,7 +119,8 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
     def prefetch(self):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        from weblate.trans.models.component import Component  # noqa: PLC0415
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
         return self.prefetch_related(
             "translation",
@@ -128,18 +129,44 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             models.Prefetch(
                 "translation__component", queryset=Component.objects.defer_huge()
             ),
-            "translation__component__category",
-            "translation__component__category__project",
-            "translation__component__category__category",
-            "translation__component__category__category__project",
-            "translation__component__category__category__category",
-            "translation__component__category__category__category__project",
-            "translation__component__project",
+            models.Prefetch(
+                "translation__component__category",
+                queryset=Category.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "translation__component__category__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "translation__component__category__category",
+                queryset=Category.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "translation__component__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "translation__component__category__category__category",
+                queryset=Category.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "translation__component__category__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "translation__component__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "translation__component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            ),
             "translation__component__source_language",
         )
 
     def prefetch_source(self):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        from weblate.trans.models.component import Component  # noqa: PLC0415
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
         return self.prefetch_related(
             "source_unit",
@@ -151,7 +178,14 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 queryset=Component.objects.defer_huge(),
             ),
             "source_unit__translation__component__source_language",
-            "source_unit__translation__component__project",
+            models.Prefetch(
+                "source_unit__translation__component__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "source_unit__translation__component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            ),
         )
 
     def fill_in_source_translation(self):
@@ -2274,10 +2308,8 @@ class Unit(models.Model, LoggerMixin):
         secondary_langs: set[int] = user.profile.secondary_language_ids
 
         # Add project/component secondary languages
-        if component.secondary_language_id:
-            secondary_langs.add(component.secondary_language_id)
-        elif component.project.secondary_language_id:
-            secondary_langs.add(component.project.secondary_language_id)
+        if component.effective_secondary_language is not None:
+            secondary_langs.add(component.effective_secondary_language.pk)
 
         # Remove current source and target language
         secondary_langs -= {translation.language_id, component.source_language_id}

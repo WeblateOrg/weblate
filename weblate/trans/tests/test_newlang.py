@@ -63,6 +63,16 @@ class NewLangTest(ViewTestCase):
         self.assertNotContains(response, "Start new translation")
         self.assertNotContains(response, "/new-lang/")
 
+    def test_inherited_none(self) -> None:
+        self.project.new_lang = "none"
+        self.project.save(update_fields=["new_lang"])
+        self.component.inherit_new_lang = True
+        self.component.save(update_fields=["inherit_new_lang"])
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertNotContains(response, "Start new translation")
+        self.assertNotContains(response, "/new-lang/")
+
     def test_url(self) -> None:
         self.component.new_lang = "url"
         self.component.save()
@@ -72,6 +82,20 @@ class NewLangTest(ViewTestCase):
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Start new translation")
         self.assertContains(response, "http://example.com/instructions")
+
+    def test_inherited_url(self) -> None:
+        self.project.new_lang = "url"
+        self.project.instructions = "http://example.com/instructions"
+        self.project.save(update_fields=["new_lang", "instructions"])
+        self.component.inherit_new_lang = True
+        self.component.save(update_fields=["inherit_new_lang"])
+
+        response = self.client.get(reverse("new-language", kwargs=self.kw_component))
+        self.assertContains(
+            response,
+            "The translator instructions has info on how to start translating",
+        )
+        self.assertNotContains(response, "Please choose the language")
 
     def test_contact(self) -> None:
         # Make admin to receive notifications
@@ -96,6 +120,19 @@ class NewLangTest(ViewTestCase):
         self.assertEqual(
             mail.outbox[0].subject, "[Weblate] New language request in Test/Test"
         )
+
+    def test_inherited_contact(self) -> None:
+        self.project.new_lang = "contact"
+        self.project.save(update_fields=["new_lang"])
+        self.component.inherit_new_lang = True
+        self.component.save(update_fields=["inherit_new_lang"])
+
+        response = self.client.get(reverse("new-language", kwargs=self.kw_component))
+        self.assertContains(
+            response,
+            "Project maintainers are notified of this request",
+        )
+        self.assertContains(response, "Request new translation")
 
     def test_add(self) -> None:
         # Make admin to receive notifications

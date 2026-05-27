@@ -47,7 +47,7 @@
             <td class="text-break">{{ check.repository_url }}</td>
             <td>{{ check.file_format }}</td>
           </tr>
-          {% if check.alerts or component.agreement %}
+          {% if check.alerts or component.effective_agreement %}
             <tr>
               <td colspan="5" class="p-0 border-0">
                 <div class="p-2 text-break">
@@ -68,11 +68,11 @@
                       {% endfor %}
                     </ul>
                   {% endif %}
-                  {% if component.agreement %}
+                  {% if component.effective_agreement %}
                     <div class="mb-2">
                       {% icon "suggest.svg" %}
                       <a href="{{ component.get_absolute_url }}#information">{% translate "Contributor license agreement" %}</a>
-                      {{ component.agreement|markdown }}
+                      {{ component.effective_agreement|markdown }}
                     </div>
                   {% endif %}
                 </div>

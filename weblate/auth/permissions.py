@@ -372,7 +372,7 @@ def check_can_edit(  # noqa: C901
         # Check contributor license agreement
         if (
             not user.is_bot
-            and component.agreement
+            and component.effective_agreement
             and not ContributorAgreement.objects.has_agreed(user, component)
         ):
             return Denied(
@@ -596,7 +596,7 @@ def check_translation_add(
 ) -> bool | PermissionResult:
     if (
         isinstance(obj, Component)
-        and obj.new_lang == "none"
+        and obj.effective_new_lang == "none"
         and not obj.can_add_new_language(user, fast=True)
     ):
         return Denied(
@@ -651,7 +651,7 @@ def check_suggestion_add(
     if (
         not user.is_bot
         and isinstance(obj, Translation)
-        and obj.component.agreement
+        and obj.component.effective_agreement
         and not ContributorAgreement.objects.has_agreed(user, obj.component)
     ):
         return False

@@ -764,6 +764,7 @@ class GitBranchValidationTest(SimpleTestCase):
             pk=-1,
         )
         component.pull_message = "Title\n\nBody"
+        component.inherit_pull_message = False
 
         repo = GithubFakeRepository(".", branch="main", component=component, local=True)
 
@@ -2266,6 +2267,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
     def test_merge_message(self) -> None:
         repo = self.repo
         component = repo.component
+        component.inherit_pull_message = False
         component.pull_message = "Test message\n\nBody"
         self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
         component.pull_message = "Test message\r\n\r\nBody"

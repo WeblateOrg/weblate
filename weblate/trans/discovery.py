@@ -20,8 +20,10 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
+    should_copy_component_field,
 )
 from weblate.trans.defines import COMPONENT_NAME_LENGTH
+from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
@@ -717,8 +719,13 @@ class ComponentDiscovery:
         slug = get_val("slug") or "component"
 
         # Copy attributes from main component
+        explicit_fields = set(kwargs)
         for key in COPY_ATTRIBUTES:
-            if key not in kwargs and main is not None:
+            if (
+                key not in kwargs
+                and main is not None
+                and should_copy_component_field(key, explicit_fields)
+            ):
                 kwargs[key] = getattr(main, key)
         if main is not None and self.file_format != main.file_format:
             kwargs.pop("enforced_checks", None)
@@ -762,6 +769,7 @@ class ComponentDiscovery:
                 "copy_addons": self.copy_addons,
             }
         )
+        apply_create_inheritance_defaults(kwargs, set(kwargs))
 
         # Create non-saved object for validation
         component_kwargs = kwargs.copy()
@@ -775,6 +783,7 @@ class ComponentDiscovery:
             component.clean_new_lang()
         except ValidationError as error:
             component.new_lang = kwargs["new_lang"] = "none"
+            component.inherit_new_lang = kwargs["inherit_new_lang"] = False
             self.log("Disabling adding new languages for %s because of %s", name, error)
 
         # This might raise an exception

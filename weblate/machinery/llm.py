@@ -429,10 +429,18 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return None
 
         language_code = source_language
+        try:
+            secondary_candidates = (component.effective_secondary_language,)
+        except AttributeError:
+            secondary_candidates = (
+                getattr(component, "secondary_language", None),
+                getattr(
+                    getattr(component, "project", None), "secondary_language", None
+                ),
+            )
         candidates = (
             getattr(component, "source_language", None),
-            getattr(component, "secondary_language", None),
-            getattr(getattr(component, "project", None), "secondary_language", None),
+            *secondary_candidates,
             getattr(translation, "language", None),
         )
         for language in candidates:
@@ -478,9 +486,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if translation is None or component is None:
             return None
 
-        secondary_language = getattr(component, "secondary_language", None) or getattr(
-            getattr(component, "project", None), "secondary_language", None
-        )
+        try:
+            secondary_language = component.effective_secondary_language
+        except AttributeError:
+            secondary_language = getattr(
+                component, "secondary_language", None
+            ) or getattr(
+                getattr(component, "project", None), "secondary_language", None
+            )
         if secondary_language is None:
             return None
 

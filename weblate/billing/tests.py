@@ -11,6 +11,7 @@ from uuid import UUID
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
+from django.db import models
 from django.template.loader import render_to_string
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -236,7 +237,9 @@ class BillingTest(BaseTestCase):
         project.access_control = Project.ACCESS_PUBLIC
         project.save(update_fields=["web", "access_control"])
         component = self.add_component(project, "000000")
-        Component.objects.filter(pk=component.pk).update(license="GPL-3.0-or-later")
+        Component.objects.filter(pk=component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False
+        )
         component.add_alert("BillingLimit")
         component.add_alert("MissingTranslationInstructions")
         component.add_alert("RecommendedXgettextAddon")
@@ -272,7 +275,9 @@ class BillingTest(BaseTestCase):
         project.access_control = Project.ACCESS_PUBLIC
         project.save(update_fields=["web", "access_control"])
         component = self.add_component(project, "000000")
-        Component.objects.filter(pk=component.pk).update(license="GPL-3.0-or-later")
+        Component.objects.filter(pk=component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False
+        )
         component.add_alert("BillingLimit")
 
         content = render_to_string(
@@ -295,10 +300,10 @@ class BillingTest(BaseTestCase):
         project.save(update_fields=["web", "access_control"])
         passing_component = self.add_component(project, "000000")
         Component.objects.filter(pk=passing_component.pk).update(
-            license="GPL-3.0-or-later"
+            license="GPL-3.0-or-later", inherit_license=False
         )
         Component.objects.filter(pk=passing_component.pk).update(
-            agreement="Contributor agreement"
+            agreement="Contributor agreement", inherit_agreement=False
         )
         self.add_component(project, "000001")
 
@@ -1115,6 +1120,22 @@ class BillingTest(BaseTestCase):
             self.billing.workspace_id,
         )
 
+    def test_project_billing_workspace_recording_tracks_deferred_workspace_change(
+        self,
+    ) -> None:
+        project = Project.objects.defer("workspace").get(pk=self.add_project().pk)
+        other = Billing.objects.create(plan=self.plan)
+        project.workspace_id = other.workspace_id
+
+        self.assertIs(project.billing_original_workspace_id, models.DEFERRED)
+        with self.assertNumQueries(1):
+            record_project_billing_workspace(Project, project)
+
+        self.assertEqual(
+            project.billing_previous_workspace_id,
+            self.billing.workspace_id,
+        )
+
     def test_filter_with_projects_uses_exists(self) -> None:
         queryset = filter_with_projects(Billing.objects.all())
         query = str(queryset.query).upper()
@@ -1317,7 +1338,9 @@ class HostingTest(RepoTestCase):
         self.assertNotContains(response, "Pending approval")
 
         # Add missing license info
-        component.project.component_set.update(license="GPL-3.0-or-later")
+        component.project.component_set.update(
+            license="GPL-3.0-or-later", inherit_license=False
+        )
         billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
 
         # Valid for libre

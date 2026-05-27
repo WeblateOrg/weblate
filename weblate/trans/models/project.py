@@ -18,6 +18,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.utils import validate_team_assignable_user
+from weblate.checks.flags import Flags
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
@@ -25,10 +26,25 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.defines import PROJECT_NAME_LENGTH
+from weblate.trans.inherited_settings import (
+    HUGE_INHERITABLE_SETTINGS,
+    INHERITABLE_COMPONENT_SETTINGS,
+    LANGUAGE_CODE_STYLE_CHOICES,
+    NEW_LANG_CHOICES,
+    get_disabled_component_new_language_filter,
+    get_inherit_field_name,
+    get_inheritable_setting_value,
+)
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.validators import validate_check_flags
+from weblate.utils.licenses import get_license_choices
 from weblate.utils.lock import WeblateLock
+from weblate.utils.render import (
+    validate_render_addon,
+    validate_render_commit,
+    validate_render_component,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
@@ -44,6 +60,7 @@ if TYPE_CHECKING:
     from uuid import UUID
 
     from ahocorasick_rs import AhoCorasick
+    from django.db.models.base import Deferred
 
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.billing.models import Billing
@@ -119,6 +136,13 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
 
     def search(self, query: str) -> Self:
         return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
+
+    def defer_huge(self) -> Self:
+        return self.defer(
+            "instructions",
+            "language_aliases",
+            *HUGE_INHERITABLE_SETTINGS,
+        )
 
     def prefetch_languages(self) -> Self:
         # Bitmap for languages
@@ -335,6 +359,172 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         validators=[validate_check_flags],
         blank=True,
     )
+    license = models.CharField(
+        verbose_name=gettext_lazy("Translation license"),
+        max_length=150,
+        blank=not settings.LICENSE_REQUIRED,
+        default="",
+        choices=get_license_choices(),
+    )
+    inherit_license = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit translation license"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the translation license configured in the workspace."
+        ),
+    )
+    agreement = models.TextField(
+        verbose_name=gettext_lazy("Contributor license agreement"),
+        blank=True,
+        default="",
+        help_text=gettext_lazy(
+            "Contributor license agreement which needs to be approved before a user can "
+            "translate components in this project."
+        ),
+    )
+    inherit_agreement = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit contributor license agreement"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the contributor license agreement configured in the workspace."
+        ),
+    )
+    new_lang = models.CharField(
+        verbose_name=gettext_lazy("Adding new translation"),
+        max_length=10,
+        choices=NEW_LANG_CHOICES,
+        default="add",
+        help_text=gettext_lazy("How to handle requests for creating new translations."),
+    )
+    inherit_new_lang = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit adding new translations"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the adding new translations setting configured in the workspace."
+        ),
+    )
+    language_code_style = models.CharField(
+        verbose_name=gettext_lazy("Language code style"),
+        max_length=20,
+        choices=LANGUAGE_CODE_STYLE_CHOICES,
+        default="",
+        blank=True,
+        help_text=gettext_lazy(
+            "Customize language code used to generate the filename for "
+            "translations created by Weblate."
+        ),
+    )
+    inherit_language_code_style = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit language code style"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the language code style configured in the workspace."
+        ),
+    )
+    inherit_secondary_language = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit secondary language"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the secondary language configured in the workspace."
+        ),
+    )
+    commit_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when translating"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_COMMIT_MESSAGE,
+    )
+    inherit_commit_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when translating"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when translating configured in the workspace."
+        ),
+    )
+    add_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when adding translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_ADD_MESSAGE,
+    )
+    inherit_add_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when adding translation"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when adding translation configured in the workspace."
+        ),
+    )
+    delete_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when removing translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_DELETE_MESSAGE,
+    )
+    inherit_delete_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when removing translation"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when removing translation configured in the workspace."
+        ),
+    )
+    merge_message = models.TextField(
+        # Translators: The commit message, for when merging the translation
+        verbose_name=gettext_lazy("Commit message when merging translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_component],
+        default=settings.DEFAULT_MERGE_MESSAGE,
+    )
+    inherit_merge_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when merging translation"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when merging translation configured in the workspace."
+        ),
+    )
+    addon_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when add-on makes a change"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_addon],
+        default=settings.DEFAULT_ADDON_MESSAGE,
+    )
+    inherit_addon_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when add-on makes a change"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when add-on makes a change configured in the workspace."
+        ),
+    )
+    pull_message = models.TextField(
+        verbose_name=gettext_lazy("Merge request message"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_addon],
+        default=settings.DEFAULT_PULL_MESSAGE,
+    )
+    inherit_pull_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit merge request message"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the merge request message configured in the workspace."
+        ),
+    )
 
     machinery_settings = models.JSONField(default=dict, blank=True)
 
@@ -348,7 +538,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     # Used when updating for object removal
     billings_to_update: list[int]
     # Workspace loaded with this instance; used to detect workspace changes.
-    billing_original_workspace_id: UUID | None
+    billing_original_workspace_id: UUID | Deferred | None
     # Old workspace captured by pre_save for one post_save billing recalculation.
     billing_previous_workspace_id: UUID | None
 
@@ -362,15 +552,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.old_access_control = self.access_control
-        self.old_translation_review = self.translation_review
-        self.old_source_review = self.source_review
+        self.old_access_control = self.__dict__.get("access_control", models.DEFERRED)
+        self.old_translation_review = self.__dict__.get(
+            "translation_review", models.DEFERRED
+        )
+        self.old_source_review = self.__dict__.get("source_review", models.DEFERRED)
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: TranslationQuerySet | None = None
         self.languages_cache: dict[str, Language] = {}
-        self.billing_original_workspace_id = self.workspace_id
+        self.billing_original_workspace_id = self.__dict__.get(
+            "workspace_id", models.DEFERRED
+        )
 
     def save(self, *args, **kwargs) -> None:
         from weblate.trans.tasks import component_alerts  # noqa: PLC0415
@@ -379,9 +573,23 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
         # Renaming detection
         old = None
+        old_effective_check_flags = ""
         update_fields = kwargs.get("update_fields")
         if self.id:
             old = Project.objects.get(pk=self.id)
+            old_effective_check_flags = old.effective_check_flags.format()
+            update_fields_set = None if update_fields is None else set(update_fields)
+            for field in INHERITABLE_COMPONENT_SETTINGS:
+                if get_inheritable_setting_value(
+                    old, field
+                ) != get_inheritable_setting_value(self, field):
+                    inherit = get_inherit_field_name(field)
+                    setattr(self, inherit, False)
+                    if update_fields_set is not None:
+                        update_fields_set.add(inherit)
+            if update_fields_set is not None:
+                kwargs["update_fields"] = update_fields_set
+                update_fields = update_fields_set
             # Generate change entries for changes
             self.generate_changes(old, update_fields=update_fields)
             # Detect slug changes and rename directory
@@ -421,6 +629,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 self.component_set.filter(
                     is_glossary=True, name__contains=old.name
                 ).update(name=Replace("name", Value(old.name), Value(self.name)))
+            if old_effective_check_flags != self.effective_check_flags.format():
+                transaction.on_commit(
+                    lambda: self.schedule_component_check_updates(update_state=True)
+                )
 
         # Update translation memory on enabled sharing
         if update_tm:
@@ -439,6 +651,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 component__project=self, name="MissingTranslationInstructions"
             ).delete()
 
+    def schedule_component_check_updates(self, *, update_state: bool = False) -> None:
+        for component in self.component_set.iterator():
+            component.schedule_update_checks(update_state=update_state)
+
     def clean(self) -> None:
         super().clean()
         if self.web:
@@ -446,6 +662,34 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 validate_project_web(self.web, project_slug=self.slug or None)
             except ValidationError as error:
                 raise ValidationError({"web": error.messages}) from error
+
+    def uses_workspace_setting(self, field: str) -> bool:
+        """Return whether a project setting is inherited from the workspace."""
+        return (
+            field in INHERITABLE_COMPONENT_SETTINGS
+            and self.workspace_id is not None
+            and getattr(self, get_inherit_field_name(field), False)
+        )
+
+    def get_effective_setting(self, field: str) -> str | Language | None:
+        """Return setting value after applying workspace inheritance."""
+        if self.uses_workspace_setting(field):
+            return getattr(self.workspace, field)
+        return getattr(self, field)
+
+    def get_effective_setting_owner(self, field: str):
+        """Return object owning the effective setting value."""
+        if self.uses_workspace_setting(field):
+            return self.workspace
+        return self
+
+    @cached_property
+    def effective_check_flags(self) -> Flags:
+        """Return parsed project flags including workspace defaults."""
+        workspace = self.workspace
+        if workspace is not None:
+            return Flags(workspace.check_flags, self.check_flags)
+        return Flags(self.check_flags)
 
     @cached_property
     def checks_lock(self):
@@ -880,6 +1124,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 "is_glossary": is_glossary,
             }
         )
+        for field in INHERITABLE_COMPONENT_SETTINGS:
+            inherit = get_inherit_field_name(field)
+            kwargs.setdefault(inherit, field not in kwargs)
         # Create component
         if is_glossary:
             return self.component_set.get_or_create(
@@ -966,8 +1213,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
         """Return a queryset of components within the project that the given user is allowed to add new languages to."""
         filter_ = Q(is_glossary=True)
-        if not user.has_perm("project.edit", self):
-            filter_ |= Q(new_lang="none") | Q(new_lang="url")
+        check_effective_new_lang = not user.has_perm("project.edit", self)
+        if check_effective_new_lang:
+            filter_ |= get_disabled_component_new_language_filter()
 
         def filter_callback(qs: ComponentQuerySet) -> ComponentQuerySet:
             return qs.exclude(filter_)

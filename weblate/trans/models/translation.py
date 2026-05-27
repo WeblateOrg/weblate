@@ -161,33 +161,93 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         from weblate.trans.models import Component  # noqa: PLC0415
 
         component_prefetch: str | models.Prefetch
+        component_project: str | models.Prefetch
+        category: str | models.Prefetch
+        category_project: str | models.Prefetch
+        parent_category: str | models.Prefetch
+        parent_category_project: str | models.Prefetch
+        grandparent_category: str | models.Prefetch
+        grandparent_category_project: str | models.Prefetch
+        component_project_workspace: str | models.Prefetch
         if defer_huge:
+            from weblate.trans.models import Category, Project  # noqa: PLC0415
+            from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
             component_prefetch = models.Prefetch(
                 "component", queryset=Component.objects.defer_huge()
             )
+            component_project = models.Prefetch(
+                "component__project", queryset=Project.objects.defer_huge()
+            )
+            category = models.Prefetch(
+                "component__category", queryset=Category.objects.defer_huge()
+            )
+            category_project = models.Prefetch(
+                "component__category__project", queryset=Project.objects.defer_huge()
+            )
+            parent_category = models.Prefetch(
+                "component__category__category",
+                queryset=Category.objects.defer_huge(),
+            )
+            parent_category_project = models.Prefetch(
+                "component__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            )
+            grandparent_category = models.Prefetch(
+                "component__category__category__category",
+                queryset=Category.objects.defer_huge(),
+            )
+            grandparent_category_project = models.Prefetch(
+                "component__category__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            )
+            component_project_workspace = models.Prefetch(
+                "component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            )
         else:
             component_prefetch = "component"
+            component_project = "component__project"
+            category = "component__category"
+            category_project = "component__category__project"
+            parent_category = "component__category__category"
+            parent_category_project = "component__category__category__project"
+            grandparent_category = "component__category__category__category"
+            grandparent_category_project = (
+                "component__category__category__category__project"
+            )
+            component_project_workspace = "component__project__workspace"
 
         return self.prefetch_related(
             component_prefetch,
-            "component__project",
-            "component__category",
-            "component__category__project",
-            "component__category__category",
-            "component__category__category__project",
-            "component__category__category__category",
-            "component__category__category__category__project",
+            component_project,
+            component_project_workspace,
+            category,
+            category_project,
+            parent_category,
+            parent_category_project,
+            grandparent_category,
+            grandparent_category_project,
         ).prefetch_meta()
 
     def prefetch_meta(self):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        from weblate.trans.models import Component, Project  # noqa: PLC0415
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
         return self.prefetch_related(
             "language",
             models.Prefetch(
-                "component__linked_component", queryset=Component.objects.defer_huge()
+                "component__linked_component",
+                queryset=Component.objects.defer_huge(),
             ),
-            "component__linked_component__project",
+            models.Prefetch(
+                "component__linked_component__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "component__linked_component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            ),
             "component__alert_set",
         )
 
@@ -1104,7 +1164,7 @@ class Translation(
         """Commit translation to git."""
         repository = self.component.repository
         if template is None:
-            template = self.component.commit_message
+            template = self.component.effective_commit_message
         with repository.lock:
             # Pre commit hook
             vcs_pre_commit.send(
@@ -1965,7 +2025,7 @@ class Translation(
 
         # Build commit message before deleting (needs stats from DB)
         commit_message = self.get_commit_message(
-            author, template=self.component.delete_message
+            author, template=self.component.effective_delete_message
         )
 
         # Delete the translation from the database before committing

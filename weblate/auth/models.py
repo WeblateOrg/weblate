@@ -86,6 +86,9 @@ if TYPE_CHECKING:
 
     PermissionCacheType = dict[int, PermissionList]
     SimplePermissionCacheType = dict[int, SimplePermissionList]
+    ClaScope = Literal["category", "component", "project", "workspace"]
+    ClaCacheKey = tuple[int | None, ClaScope, int | uuid.UUID | None]
+    ClaCache = dict[ClaCacheKey, bool]
 
     class PermissionsDictType(TypedDict):
         projects: PermissionCacheType
@@ -773,7 +776,7 @@ class User(AbstractBaseUser):
 
     def __init__(self, *args, **kwargs) -> None:
         self.extra_data: dict[str, str] = {}
-        self.cla_cache: dict[tuple[int, int], bool] = {}
+        self.cla_cache: ClaCache = {}
         self.current_subscription: Subscription | None = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
@@ -1541,11 +1544,20 @@ def setup_project_groups(
 ) -> None:
     """Set up group objects upon saving project."""
     old_access_control = instance.old_access_control
+    if old_access_control is models.DEFERRED:
+        old_access_control = instance.access_control
     instance.old_access_control = instance.access_control
 
+    old_translation_review = instance.old_translation_review
+    if old_translation_review is models.DEFERRED:
+        old_translation_review = instance.translation_review
+    old_source_review = instance.old_source_review
+    if old_source_review is models.DEFERRED:
+        old_source_review = instance.source_review
+
     changed_review = (
-        instance.old_translation_review != instance.translation_review
-        or instance.old_source_review != instance.source_review
+        old_translation_review != instance.translation_review
+        or old_source_review != instance.source_review
     )
     # Handle no groups as newly created project
     if not created and not instance.defined_groups.exists():

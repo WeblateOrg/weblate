@@ -49,6 +49,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.workspaces.models import Workspace
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
@@ -447,6 +448,136 @@ class BackupsTest(ViewTestCase):
         # Verify that Git operations work on restored repos
         restored.do_reset()
 
+    def test_backup_inherited_settings(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Backup workspace",
+            license="MIT",
+            secondary_language=Language.objects.get(code="de"),
+            check_flags="safe-html",
+            commit_message="Workspace commit",
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace,
+            license="GPL-3.0-or-later",
+            secondary_language=Language.objects.get(code="ru"),
+            check_flags="strict-same",
+            commit_message="Project commit",
+            inherit_license=True,
+            inherit_secondary_language=True,
+            inherit_commit_message=True,
+        )
+        category = Category.objects.create(
+            name="Backup category",
+            slug="backup-category",
+            project=self.project,
+            commit_message="Category commit",
+            inherit_commit_message=False,
+            check_flags="xml-text",
+        )
+        self.component.category = category
+        self.component.check_flags = "ignore-same"
+        self.component.inherit_secondary_language = True
+        self.component.inherit_commit_message = True
+        self.component.save()
+        project = Project.objects.select_related("workspace").get(pk=self.project.pk)
+
+        backup = ProjectBackup()
+        backup.backup_project(project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            project_data = json.loads(zipfile.read("weblate-backup.json"))
+            category_data = project_data["categories"][0]
+            component_data = json.loads(
+                zipfile.read("components/backup-category/test.json")
+            )
+
+        self.assertEqual(project_data["project"]["commit_message"], "Workspace commit")
+        self.assertEqual(project_data["project"]["license"], "MIT")
+        self.assertEqual(project_data["project"]["secondary_language"], "de")
+        self.assertEqual(
+            project_data["project"]["check_flags"], "safe-html, strict-same"
+        )
+        self.assertTrue(project_data["project"]["inherit_license"])
+        self.assertTrue(project_data["project"]["inherit_commit_message"])
+        self.assertTrue(project_data["project"]["inherit_secondary_language"])
+        self.assertEqual(category_data["commit_message"], "Category commit")
+        self.assertEqual(category_data["check_flags"], "xml-text")
+        self.assertFalse(category_data["inherit_commit_message"])
+        self.assertTrue(category_data["inherit_secondary_language"])
+        self.assertEqual(component_data["component"]["check_flags"], "ignore-same")
+        self.assertTrue(component_data["component"]["inherit_commit_message"])
+        self.assertTrue(component_data["component"]["inherit_secondary_language"])
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+        restored_component = restored.component_set.select_related(
+            "project",
+            "project__workspace",
+            "project__secondary_language",
+            "category",
+            "category__category",
+            "secondary_language",
+        ).get(slug=self.component.slug)
+        restored_category = restored.category_set.get(slug=category.slug)
+
+        self.assertIsNone(restored.workspace)
+        self.assertEqual(restored.license, "MIT")
+        self.assertEqual(restored.commit_message, "Workspace commit")
+        self.assertEqual(restored.secondary_language.code, "de")
+        self.assertEqual(
+            restored.effective_check_flags.format(), "safe-html, strict-same"
+        )
+        self.assertTrue(restored.inherit_license)
+        self.assertTrue(restored.inherit_commit_message)
+        self.assertTrue(restored.inherit_secondary_language)
+        self.assertEqual(restored_category.commit_message, "Category commit")
+        self.assertEqual(restored_category.check_flags, "xml-text")
+        self.assertFalse(restored_category.inherit_commit_message)
+        self.assertTrue(restored_category.inherit_secondary_language)
+        self.assertTrue(restored_component.inherit_commit_message)
+        self.assertTrue(restored_component.inherit_secondary_language)
+        self.assertEqual(restored_component.effective_commit_message, "Category commit")
+        self.assertEqual(restored_component.effective_secondary_language.code, "de")
+        self.assertEqual(
+            set(restored_component.all_flags),
+            {"safe-html", "strict-same", "xml-text", "ignore-same"},
+        )
+
+        target_workspace = Workspace.objects.create(
+            name="Target workspace",
+            license="GPL-3.0-or-later",
+            secondary_language=Language.objects.get(code="fr"),
+            commit_message="Target workspace commit",
+        )
+        workspace_restore = ProjectBackup(backup.filename)
+        workspace_restore.validate()
+        restored_workspace_project = workspace_restore.restore(
+            project_name="Restored workspace",
+            project_slug="restored-workspace",
+            user=self.user,
+            workspace=target_workspace,
+        )
+
+        self.assertEqual(restored_workspace_project.workspace_id, target_workspace.pk)
+        self.assertFalse(restored_workspace_project.inherit_license)
+        self.assertFalse(restored_workspace_project.inherit_commit_message)
+        self.assertFalse(restored_workspace_project.inherit_secondary_language)
+        self.assertEqual(
+            restored_workspace_project.get_effective_setting("license"), "MIT"
+        )
+        self.assertEqual(
+            restored_workspace_project.get_effective_setting("commit_message"),
+            "Workspace commit",
+        )
+        secondary_language = restored_workspace_project.get_effective_setting(
+            "secondary_language"
+        )
+        self.assertIsInstance(secondary_language, Language)
+        self.assertEqual(secondary_language.code, "de")
+
     def test_backup_team_members_prefetches_limit_languages(self) -> None:
         team = Group.objects.create(name="Prefetch team", defining_project=self.project)
         first_user = type(self.user).objects.create_user(
@@ -810,6 +941,12 @@ class BackupsTest(ViewTestCase):
         # check that set_language_team is migrated to file format parameters
         self.assertTrue(component.file_format_params["po_set_language_team"])
         self.assertIsNone(glossary.file_format_params.get("po_set_language_team"))
+        self.assertFalse(restored.inherit_commit_message)
+        self.assertFalse(restored.inherit_secondary_language)
+        self.assertFalse(component.inherit_commit_message)
+        self.assertFalse(component.inherit_secondary_language)
+        self.assertFalse(glossary.inherit_commit_message)
+        self.assertFalse(glossary.inherit_secondary_language)
 
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)

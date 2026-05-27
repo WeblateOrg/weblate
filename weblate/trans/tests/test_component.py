@@ -130,6 +130,28 @@ class ComponentTest(RepoTestCase):
         )
         self.assertEqual(unit.state, STATE_EMPTY)
 
+    def test_direct_create_explicit_license_disables_inheritance(self) -> None:
+        project = self.create_project()
+        repo = self.format_local_path(self.git_repo_path)
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            component = Component.objects.create(
+                name="Licensed",
+                slug="licensed",
+                project=project,
+                repo=repo,
+                push=repo,
+                branch=VCS_REGISTRY["git"].get_remote_branch(repo),
+                filemask="po/*.po",
+                file_format="po",
+                new_lang="contact",
+                push_on_commit=False,
+                license="GPL-3.0-or-later",
+            )
+
+        self.assertFalse(component.inherit_license)
+        self.assertEqual(component.effective_license, "GPL-3.0-or-later")
+
     def test_create_dot(self) -> None:
         component = self._create_component("po", "./po/*.po")
         self.verify_component(component, 4, "cs", 4)
@@ -621,6 +643,21 @@ class ComponentTest(RepoTestCase):
         component.check_flags = f"ignore-{check.name}"
         with self.captureOnCommitCallbacks(execute=True):
             component.save()
+        self.assertEqual(Check.objects.count(), 0)
+
+    def test_category_update_checks(self) -> None:
+        """Moving to category changes checks inherited by related units."""
+        component = self.create_component()
+        self.assertEqual(Check.objects.count(), 3)
+        check = Check.objects.all()[0]
+        category = component.project.category_set.create(
+            name="Checks", slug="checks", check_flags=f"ignore-{check.name}"
+        )
+
+        component.category = category
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save(update_fields=["category"])
+
         self.assertEqual(Check.objects.count(), 0)
 
     def test_create_symlinks(self):

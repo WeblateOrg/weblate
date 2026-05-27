@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.core.management.base import CommandError
 from django.utils.text import slugify
 
+from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
 
@@ -110,6 +111,7 @@ class Command(BaseCommand):
                 component = Component.objects.get(slug=item["slug"], project=project)
             except Component.DoesNotExist:
                 params = {key: item[key] for key in allfields if key in item}
+                apply_create_inheritance_defaults(params, item)
                 component = Component(project=project, **params)
                 try:
                     component.full_clean()

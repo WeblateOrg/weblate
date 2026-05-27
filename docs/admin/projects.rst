@@ -166,6 +166,31 @@ Translation instructions
 Text describing localization process in the project, and any other information
 useful for translators. Markdown can be used for text formatting or inserting links.
 
+.. _project-license:
+
+Translation license
++++++++++++++++++++
+
+Default translation license for components in this project.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-license`
+
+.. _project-agreement:
+
+Contributor license agreement
++++++++++++++++++++++++++++++
+
+Default contributor license agreement for components in this project. Markdown
+can be used for text formatting or inserting links.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-agreement`
+
 .. _project-use_shared_tm:
 
 Use shared translation memory
@@ -315,6 +340,32 @@ Using non standard code: ``ia_FOO:ia``
    * :ref:`language-code`
    * :ref:`language-parsing-codes`
 
+.. _project-new-lang:
+
+Adding new translation
+++++++++++++++++++++++
+
+Default behavior for requests to create new translations in components in this
+project.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-new_lang`
+
+.. _project-language-code-style:
+
+Language code style
++++++++++++++++++++
+
+Default language code style for translations created by Weblate in components
+in this project.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-language_code_style`
+
 .. _project-secondary_language:
 
 Secondary language
@@ -328,6 +379,7 @@ Optionally, it can be also used as a source for the machine translation.
 
 .. seealso::
 
+   * :ref:`workspace-inherited-settings`
    * :ref:`secondary-languages`
    * :ref:`mt-sources`
 
@@ -339,6 +391,35 @@ Translation flags
 .. versionadded:: 5.11
 
 Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
+
+Workspace, project, component, and translation flags are merged.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+
+.. _project-commit-message:
+.. _project-add-message:
+.. _project-delete-message:
+.. _project-merge-message:
+.. _project-addon-message:
+.. _project-pull-message:
+
+Commit, add, delete, merge, add-on, and merge request messages
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Default commit and merge request message templates for components in this
+project.
+
+The default values can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
+:setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
+:setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`,
+:setting:`DEFAULT_PULL_MESSAGE`.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`markup`
 
 
 .. _component:
@@ -735,6 +816,12 @@ Translation flags
 
 Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
 
+Workspace, project, component, and translation flags are merged.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+
 .. _component-enforced_checks:
 
 Enforced checks
@@ -753,6 +840,10 @@ Translation license
 
 License of the translation (does not need to be the same as the source code license).
 
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+
 .. _component-agreement:
 
 Contributor license agreement
@@ -762,6 +853,10 @@ Contributor license agreement which needs to be approved before a user can
 translate this component.
 
 Markdown can be used for text formatting or inserting links.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
 
 .. _component-new_lang:
 
@@ -792,6 +887,7 @@ Disable adding new translations
 
 .. seealso::
 
+   * :ref:`workspace-inherited-settings`
    * :ref:`adding-translation`
    * :ref:`component-new_base`
 
@@ -878,6 +974,7 @@ Linux style, lower cased
 
 .. seealso::
 
+   * :ref:`workspace-inherited-settings`
    * :ref:`adding-translation`
    * :ref:`language-code`
    * :ref:`language-parsing-codes`
@@ -929,6 +1026,10 @@ The default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
 :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`,
 :setting:`DEFAULT_PULL_MESSAGE`.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
 
 .. _component-push_on_commit:
 
@@ -1081,12 +1182,13 @@ Additional language to show together with the source language while translating.
 
 Optionally, it can be also used as a source for the machine translation.
 
-.. hint::
+.. note::
 
-   This setting is inherited from the project if left empty.
+   This setting can be inherited from the project.
 
 .. seealso::
 
+   * :ref:`workspace-inherited-settings`
    * :ref:`secondary-languages`
    * :ref:`mt-sources`
 
@@ -1189,6 +1291,25 @@ Category
 
 Categories are there to give structure to components within a project. You can
 nest them to achieve a more complex structure.
+
+.. _category-settings:
+
+Category settings
++++++++++++++++++
+
+Categories can override the same inherited settings as projects and components,
+including translation license, contributor agreement, adding new translations,
+secondary language, translation flags, and commit messages.
+
+Nested categories inherit from their parent category by default. Top-level
+categories inherit from the project. Components in a category inherit from that
+category by default.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`project-license`
+   * :ref:`component-license`
 
 .. _markup:
 
