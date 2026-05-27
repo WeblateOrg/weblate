@@ -10,11 +10,25 @@ from uuid import uuid4
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
+from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.inherited_settings import (
+    COMPONENT_MESSAGE_SETTINGS,
+    HUGE_INHERITABLE_SETTINGS,
+    LANGUAGE_CODE_STYLE_CHOICES,
+    NEW_LANG_CHOICES,
+)
+from weblate.trans.validators import validate_check_flags
+from weblate.utils.licenses import get_license_choices
+from weblate.utils.render import (
+    validate_render_addon,
+    validate_render_commit,
+    validate_render_component,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -39,9 +53,21 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
     def order(self) -> Self:
         return self.order_by("name")
 
+    def defer_huge(self) -> Self:
+        return self.defer(*HUGE_INHERITABLE_SETTINGS)
+
 
 class Workspace(models.Model):
-    AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = ("name",)
+    AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "name",
+        "license",
+        "agreement",
+        "new_lang",
+        "language_code_style",
+        "secondary_language",
+        "check_flags",
+        *COMPONENT_MESSAGE_SETTINGS,
+    )
 
     # Name loaded with this instance; used to detect manual name edits.
     workspace_original_name: str
@@ -59,6 +85,116 @@ class Workspace(models.Model):
         editable=False,
         verbose_name=gettext_lazy("Managed name"),
         help_text=gettext_lazy("Whether Weblate can update the name automatically."),
+    )
+    license = models.CharField(
+        verbose_name=gettext_lazy("Translation license"),
+        max_length=150,
+        blank=not settings.LICENSE_REQUIRED,
+        default="",
+        choices=get_license_choices(),
+    )
+    agreement = models.TextField(
+        verbose_name=gettext_lazy("Contributor license agreement"),
+        blank=True,
+        default="",
+        help_text=gettext_lazy(
+            "Contributor license agreement which needs to be approved before a user can "
+            "translate components in this workspace."
+        ),
+    )
+    new_lang = models.CharField(
+        verbose_name=gettext_lazy("Adding new translation"),
+        max_length=10,
+        choices=NEW_LANG_CHOICES,
+        default="add",
+        help_text=gettext_lazy("How to handle requests for creating new translations."),
+    )
+    language_code_style = models.CharField(
+        verbose_name=gettext_lazy("Language code style"),
+        max_length=20,
+        choices=LANGUAGE_CODE_STYLE_CHOICES,
+        default="",
+        blank=True,
+        help_text=gettext_lazy(
+            "Customize language code used to generate the filename for "
+            "translations created by Weblate."
+        ),
+    )
+    secondary_language = models.ForeignKey(
+        Language,
+        verbose_name=gettext_lazy("Secondary language"),
+        help_text=gettext_lazy(
+            "Additional language to show together with the source language while translating."
+        ),
+        default=None,
+        blank=True,
+        null=True,
+        related_name="workspace_secondary_languages",
+        on_delete=models.deletion.CASCADE,
+    )
+    check_flags = models.TextField(
+        verbose_name=gettext_lazy("Translation flags"),
+        default="",
+        help_text=gettext_lazy(
+            "Additional comma-separated flags to influence Weblate behavior."
+        ),
+        validators=[validate_check_flags],
+        blank=True,
+    )
+    commit_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when translating"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_COMMIT_MESSAGE,
+    )
+    add_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when adding translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_ADD_MESSAGE,
+    )
+    delete_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when removing translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_DELETE_MESSAGE,
+    )
+    merge_message = models.TextField(
+        # Translators: The commit message, for when merging the translation
+        verbose_name=gettext_lazy("Commit message when merging translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_component],
+        default=settings.DEFAULT_MERGE_MESSAGE,
+    )
+    addon_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when add-on makes a change"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_addon],
+        default=settings.DEFAULT_ADDON_MESSAGE,
+    )
+    pull_message = models.TextField(
+        verbose_name=gettext_lazy("Merge request message"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_addon],
+        default=settings.DEFAULT_PULL_MESSAGE,
     )
 
     objects = WorkspaceQuerySet.as_manager()
@@ -79,6 +215,7 @@ class Workspace(models.Model):
     def save(self, *args, **kwargs) -> None:
         create_groups = self._state.adding
         update_fields = kwargs.get("update_fields")
+        old = None
         if not self._state.adding:
             old = Workspace.objects.get(pk=self.pk)
             self.generate_changes(old, update_fields=update_fields)
@@ -99,6 +236,8 @@ class Workspace(models.Model):
                 kwargs["update_fields"] = {*update_fields, "name_managed"}
 
         super().save(*args, **kwargs)
+        if old is not None and old.check_flags != self.check_flags:
+            transaction.on_commit(self.schedule_component_check_updates)
         if create_groups:
             self.setup_groups()
         self.workspace_original_name = self.name
@@ -128,6 +267,12 @@ class Workspace(models.Model):
             with suppress(AttributeError, ObjectDoesNotExist):
                 return bool(user.has_perm("meta:billing.view", self.billing))
         return False
+
+    def schedule_component_check_updates(self) -> None:
+        from weblate.trans.models import Component  # noqa: PLC0415
+
+        for component in Component.objects.filter(project__workspace=self).iterator():
+            component.schedule_update_checks(update_state=True)
 
     def setup_groups(self) -> dict[str, Group]:
         from weblate.auth.data import SELECTION_MANUAL  # noqa: PLC0415

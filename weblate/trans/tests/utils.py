@@ -26,6 +26,7 @@ from weblate.billing.models import Billing, Invoice, Plan
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, Plural
+from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 from weblate.trans.models import Category, Component, Project
 from weblate.utils.files import remove_tree
 from weblate.vcs.models import VCS_REGISTRY
@@ -226,6 +227,8 @@ class RepoTestMixin:
 
         if "push_on_commit" not in kwargs:
             kwargs["push_on_commit"] = False
+        for field in INHERITABLE_COMPONENT_FLAGS:
+            kwargs.setdefault(field, False)
 
         if "name" not in kwargs:
             kwargs["name"] = "Test"
@@ -479,6 +482,7 @@ class RepoTestMixin:
                 file_format="po",
                 filemask="po/*.po",
                 new_lang="contact",
+                **dict.fromkeys(INHERITABLE_COMPONENT_FLAGS, False),
             )
 
     def create_link_existing(
@@ -493,6 +497,7 @@ class RepoTestMixin:
             "file_format": "po",
             "filemask": "po-duplicates/*.dpo",
             "new_lang": "contact",
+            **dict.fromkeys(INHERITABLE_COMPONENT_FLAGS, False),
         }
         params.update(kwargs)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):

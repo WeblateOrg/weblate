@@ -83,6 +83,7 @@ def fetch_glossary_terms(  # noqa: C901
 ) -> None:
     """Fetch glossary terms for list of units."""
     from weblate.trans.models import Component, Project  # noqa: PLC0415
+    from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
     if len(units) == 0:
         return
@@ -172,6 +173,10 @@ def fetch_glossary_terms(  # noqa: C901
                             "check_flags",
                         ),
                     ),
+                    Prefetch(
+                        "translation__component__project__workspace",
+                        queryset=Workspace.objects.defer_huge(),
+                    ),
                 )
 
             glossary_units = list(
@@ -238,7 +243,8 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
     - source/target entry pairs are separated by a newline
     - source entries and target entries are separated by a tab
     """
-    from weblate.trans.models.component import Component  # noqa: PLC0415
+    from weblate.trans.models import Component, Project  # noqa: PLC0415
+    from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
     def cleanup(text):
         """
@@ -261,6 +267,14 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
             "source_unit",
             "translation",
             Prefetch("translation__component", queryset=Component.objects.defer_huge()),
+            Prefetch(
+                "translation__component__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            Prefetch(
+                "translation__component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            ),
         )
 
     included = set()

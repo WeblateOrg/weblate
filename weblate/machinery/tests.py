@@ -76,7 +76,7 @@ from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
 from weblate.memory.machine import WeblateMemory
-from weblate.trans.models import Project, Unit
+from weblate.trans.models import Category, Component, Project, Unit
 from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
@@ -4298,6 +4298,8 @@ class OpenAILLMContextTest(FixtureComponentTestCase):
             self.component.add_new_language(language, None)
 
         self.change_unit("Hallo Welt\n", language="de")
+        self.component.inherit_secondary_language = True
+        self.component.save(update_fields=["inherit_secondary_language"])
         self.project.secondary_language = language
         self.project.save(update_fields=["secondary_language"])
 
@@ -4933,27 +4935,53 @@ class CyrTranslitTranslationTest(ViewTestCase, BaseMachineTranslationTest):
 
         cyrillic_lang = Language.objects.get(code="sr_Cyrl")
         latin_lang = Language.objects.get(code="sr_Latn")
+        self.component.inherit_secondary_language = True
+        self.component.save(update_fields=["inherit_secondary_language"])
 
         # Not matching source language
         self.project.secondary_language = latin_lang
         self.project.save(update_fields=["secondary_language"])
+        latn_unit = self.get_unit("Hello, world!\n", language="sr_Latn")
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(results, [])
 
         # Matching source language
         self.project.secondary_language = cyrillic_lang
         self.project.save(update_fields=["secondary_language"])
+        latn_unit = self.get_unit("Hello, world!\n", language="sr_Latn")
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
 
         # Component secondary overrides project
         self.component.secondary_language = latin_lang
         self.component.save(update_fields=["secondary_language"])
+        latn_unit = self.get_unit("Hello, world!\n", language="sr_Latn")
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(results, [])
 
         self.component.secondary_language = cyrillic_lang
         self.component.save(update_fields=["secondary_language"])
+        latn_unit = self.get_unit("Hello, world!\n", language="sr_Latn")
+        results = machine.translate(latn_unit, self.user)
+        self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
+
+        # Category secondary overrides project for inherited components
+        category = Category.objects.create(
+            name="Cyrillic category",
+            slug="cyrillic-category",
+            project=self.project,
+            secondary_language=cyrillic_lang,
+            inherit_secondary_language=False,
+        )
+        self.project.secondary_language = latin_lang
+        self.project.save(update_fields=["secondary_language"])
+        Component.objects.filter(pk=self.component.pk).update(
+            category=category,
+            secondary_language=None,
+            inherit_secondary_language=True,
+        )
+        self.component.refresh_from_db()
+        latn_unit = self.get_unit("Hello, world!\n", language="sr_Latn")
         results = machine.translate(latn_unit, self.user)
         self.assertEqual(results[0][0]["text"], "Moj hoverkraft je pun jegulja\n")
 

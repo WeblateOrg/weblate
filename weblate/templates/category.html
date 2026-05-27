@@ -121,6 +121,9 @@
           <li>
             <a class="dropdown-item" href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
           </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+          </li>
         {% endif %}
         {% if delete_form or rename_form %}
           <li role="separator" class="divider"></li>

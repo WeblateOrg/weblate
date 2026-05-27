@@ -2664,6 +2664,43 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Project.objects.count(), 2)
+        project = Project.objects.get(slug="api-project")
+        self.assertFalse(project.inherit_license)
+
+    def test_create_with_workspace_inherits_settings(self) -> None:
+        workspace = Workspace.objects.create(name="API workspace", license="MIT")
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API workspace project",
+                "slug": "api-workspace-project",
+                "web": "https://weblate.org/",
+                "workspace": str(workspace.pk),
+            },
+        )
+        project = Project.objects.get(slug="api-workspace-project")
+        self.assertTrue(project.inherit_license)
+        self.assertEqual(project.get_effective_setting("license"), "MIT")
+
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API workspace project override",
+                "slug": "api-workspace-project-override",
+                "web": "https://weblate.org/",
+                "workspace": str(workspace.pk),
+                "license": "GPL-3.0-or-later",
+            },
+        )
+        project = Project.objects.get(slug="api-workspace-project-override")
+        self.assertFalse(project.inherit_license)
+        self.assertEqual(project.get_effective_setting("license"), "GPL-3.0-or-later")
 
     def test_create_restricted_web(self) -> None:
         with override_settings(PROJECT_WEB_RESTRICT_HOST={"example.com"}):
@@ -3323,6 +3360,33 @@ class ProjectAPITest(APIBaseTest):
             request={"slug": "new-slug"},
         )
         self.assertEqual(response.data["slug"], "new-slug")
+
+    def test_patch_inherited_setting_disables_inheritance(self) -> None:
+        workspace = Workspace.objects.create(
+            name="API workspace", commit_message="Workspace commit"
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace, inherit_commit_message=True
+        )
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"commit_message": "API project commit"},
+        )
+
+        self.assertEqual(response.data["commit_message"], "API project commit")
+        self.assertFalse(response.data["inherit_commit_message"])
+        self.assertEqual(
+            response.data["effective_commit_message"], "API project commit"
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.commit_message, "API project commit")
+        self.assertFalse(self.project.inherit_commit_message)
 
     def test_patch_workspace_move(self) -> None:
         current_workspace = Workspace.objects.create(name="Current workspace")
@@ -4884,6 +4948,33 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
 
+    def test_patch_inherited_setting_disables_inheritance(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            commit_message="Project commit"
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            inherit_commit_message=True
+        )
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"commit_message": "API component commit"},
+        )
+
+        self.assertEqual(response.data["commit_message"], "API component commit")
+        self.assertFalse(response.data["inherit_commit_message"])
+        self.assertEqual(
+            response.data["effective_commit_message"], "API component commit"
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.commit_message, "API component commit")
+        self.assertFalse(self.component.inherit_commit_message)
+
     def test_patch_locks_component_before_serializer_validation(self) -> None:
         events: list[tuple[str, int]] = []
         original_get_for_update = ComponentQuerySet.get_for_update
@@ -5349,6 +5440,33 @@ class ComponentAPITest(APIBaseTest):
         duplicated_translation = duplicate.translation_set.get(language_code="cs")
         duplicated_unit = duplicated_translation.unit_set.get(source="Hello, world!\n")
         self.assertEqual(duplicated_unit.target, "Duplicated from source!\n")
+
+    def test_create_component_from_component_keeps_explicit_license(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            license="GPL-3.0-or-later",
+            inherit_license=True,
+        )
+        self.component.refresh_from_db()
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy license",
+                "slug": "api-copy-license",
+                "from_component": self.component.pk,
+                "license": "MIT",
+            },
+        )
+
+        duplicate = Component.objects.get(slug="api-copy-license", project__slug="test")
+        self.assertFalse(duplicate.inherit_license)
+        self.assertEqual(duplicate.license, "MIT")
+        self.assertEqual(duplicate.effective_license, "MIT")
 
     def test_create_component_from_component_path(self) -> None:
         category = self.component.project.category_set.create(
@@ -10759,6 +10877,29 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 1)
         request = self.do_request("api:project-categories", self.project_kwargs)
         self.assertEqual(request.data["count"], 1)
+
+    def test_create_inherited_setting_disables_inheritance(self) -> None:
+        response = self.api_create_category(commit_message="Category commit")
+
+        self.assertFalse(response.data["inherit_commit_message"])
+        self.assertEqual(response.data["effective_commit_message"], "Category commit")
+
+    def test_patch_inherited_setting_disables_inheritance(self) -> None:
+        response = self.api_create_category()
+        category_url = response.data["url"]
+        self.assertTrue(response.data["inherit_commit_message"])
+
+        response = self.do_request(
+            category_url,
+            method="patch",
+            superuser=True,
+            request={"commit_message": "Patched category commit"},
+        )
+
+        self.assertFalse(response.data["inherit_commit_message"])
+        self.assertEqual(
+            response.data["effective_commit_message"], "Patched category commit"
+        )
 
     def test_create_nested(self) -> None:
         self.api_create_category()

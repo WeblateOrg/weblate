@@ -722,7 +722,9 @@ def documentation_icon(
 @register.simple_tag(takes_context=True)
 def form_field_doc_link(context: Context, form: forms.Form, field: forms.Field) -> str:
     if isinstance(form, FieldDocsMixin) and (field_doc := form.get_field_doc(field)):
-        return render_documentation_icon(get_doc_url(*field_doc, user=context["user"]))
+        return render_documentation_icon(
+            get_doc_url(*field_doc, user=context.get("user"))
+        )
     return ""
 
 
@@ -1017,7 +1019,7 @@ def active_link(context: Context, slug):
 
 
 def _needs_agreement(component, user: User) -> bool:
-    if not component.agreement:
+    if not component.effective_agreement:
         return False
     return not ContributorAgreement.objects.has_agreed(user, component)
 
@@ -1270,11 +1272,15 @@ def indicate_alerts(
     )
 
     license_badge = ""
-    if component and component.license and component.license != "proprietary":
+    if (
+        component
+        and component.effective_license
+        and component.effective_license != "proprietary"
+    ):
         license_badge = format_html(
             ' <span title="{}" class="license badge">{}</span>',
             component.get_license_display(),
-            component.license,
+            component.effective_license,
         )
 
     return format_html("{}{}", icons, license_badge)

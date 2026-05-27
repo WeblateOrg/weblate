@@ -90,7 +90,7 @@ class MissingLicense(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        return component.project.needs_license() and not component.license
+        return component.project.needs_license() and not component.effective_license
 
 
 @register

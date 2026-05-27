@@ -33,6 +33,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.component_copy import copy_component_addons
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import (
     Category,
     Change,
@@ -869,12 +870,14 @@ def auto_translate_component(
 
 @app.task(trail=False)
 def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
+    explicit_fields = set(kwargs)
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
     if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
         kwargs["secondary_language"] = Language.objects.get(
             pk=kwargs["secondary_language"]
         )
+    apply_create_inheritance_defaults(kwargs, explicit_fields)
     component = Component(**kwargs)
     # Perform validation to avoid creating duplicate components via background
     # tasks in discovery

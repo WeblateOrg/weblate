@@ -1263,6 +1263,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
+        inherit_agreement = self.driver.find_elements(By.ID, "id_inherit_agreement")
+        if inherit_agreement and inherit_agreement[0].is_selected():
+            self.click(inherit_agreement[0])
+            WebDriverWait(self.driver, 5).until(
+                lambda driver: driver.find_element(By.ID, "id_agreement").is_enabled()
+            )
         element = self.driver.find_element(By.ID, "id_agreement")
         element.send_keys("This is an agreement.")
         with self.wait_for_page_load():

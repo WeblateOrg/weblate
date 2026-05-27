@@ -944,6 +944,7 @@ def new_component_language(
             "component": obj,
             "form": form,
             "can_add": obj.can_add_new_language(user),
+            "new_lang": obj.effective_new_lang,
         },
     )
 
@@ -1085,7 +1086,7 @@ def add_languages_to_component(
                     lang_counts[f"added_{lang_code}"] += 1
                     continue
 
-            elif component.new_lang == "contact":
+            elif component.effective_new_lang == "contact":
                 if component.translation_set.filter(language_code=lang_code).exists():
                     continue
                 change_set.create(action=ActionEvents.REQUESTED_LANGUAGE, **kwargs)

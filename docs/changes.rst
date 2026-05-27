@@ -24,6 +24,8 @@ Weblate 2026.6
 * :ref:`alerts` now include dismissible component diagnostics for community localization.
 * :ref:`screenshots` now support bulk assignment from search or image text recognition results, make finding strings in uploaded images easier to discover, show source string coverage counts, and include advanced listing search.
 * :ref:`sbom` release artifacts now include CISA 2025 document-level metadata.
+* Added :ref:`workspace-inherited-settings`.
+  Workspace, project, and category settings can define inherited defaults for selected component settings.
 
 .. rubric:: Bug fixes
 

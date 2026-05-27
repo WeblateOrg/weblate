@@ -5,8 +5,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Literal
 
-from crispy_forms.layout import Div, Field
-from crispy_forms.utils import TEMPLATE_PACK
+from crispy_forms.layout import Div, Field, LayoutObject
+from crispy_forms.utils import TEMPLATE_PACK, render_field
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Q
@@ -212,6 +212,53 @@ class ContextDiv(Div):
     def render(self, form, context, template_pack=TEMPLATE_PACK, **kwargs):
         template = self.get_template_name(template_pack)
         return render_to_string(template, self.context)
+
+
+class InheritedSetting(LayoutObject):
+    template = "%s/layout/inherited_setting.html"
+
+    def __init__(self, field: str, inherit_field: str | None = None) -> None:
+        self.field = field
+        self.inherit_field = inherit_field or f"inherit_{field}"
+        self.fields = [self.inherit_field, self.field]
+
+    def render(self, form, context, template_pack=TEMPLATE_PACK, **kwargs):
+        if self.inherit_field not in form.fields:
+            return render_field(
+                self.field, form, context, template_pack=template_pack, **kwargs
+            )
+
+        inherit_widget = form.fields[self.inherit_field].widget
+        if inherit_widget.is_hidden:
+            return render_field(
+                self.field, form, context, template_pack=template_pack, **kwargs
+            )
+
+        template = self.get_template_name(template_pack)
+        inherit_field = render_field(
+            self.inherit_field,
+            form,
+            context,
+            template_pack=template_pack,
+            extra_context={"wrapper_class": "inherited-setting-checkbox"},
+            **kwargs,
+        )
+        value_field = render_field(
+            self.field,
+            form,
+            context,
+            template_pack=template_pack,
+            extra_context={"wrapper_class": "inherited-setting-value"},
+            **kwargs,
+        )
+        return render_to_string(
+            template,
+            {
+                "field_name": self.field,
+                "inherit_field": inherit_field,
+                "value_field": value_field,
+            },
+        )
 
 
 class SearchField(Field):

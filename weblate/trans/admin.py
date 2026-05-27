@@ -200,9 +200,24 @@ class ComponentListAdmin(WeblateModelAdmin):
 
 @admin.register(ContributorAgreement)
 class ContributorAgreementAdmin(WeblateModelAdmin):
-    list_display = ("user", "component", "timestamp")
+    list_display = (
+        "user",
+        "component",
+        "project",
+        "category",
+        "workspace",
+        "timestamp",
+    )
     date_hierarchy = "timestamp"
-    ordering = ("user__username", "component__project__name", "component__name")
+    ordering = (
+        "user__username",
+        "workspace__name",
+        "project__name",
+        "category__project__name",
+        "category__name",
+        "component__project__name",
+        "component__name",
+    )
 
 
 # Show some controls only in debug mode

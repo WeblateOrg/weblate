@@ -12,8 +12,11 @@ from django.core.exceptions import PermissionDenied
 
 from weblate.addons.models import Addon
 from weblate.trans.autotranslate import BatchAutoTranslate
+from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 
 if TYPE_CHECKING:
+    from collections.abc import Collection
+
     from weblate.trans.models import Component
     from weblate.vcs.git import GitRepository
 
@@ -50,12 +53,21 @@ BASE_INHERITED_COMPONENT_FIELDS = (
     "restricted",
     "key_filter",
     "secondary_language",
+    *INHERITABLE_COMPONENT_FLAGS,
 )
 
 
 def get_inherited_component_fields(*extra_fields: str) -> tuple[str, ...]:
     """Return base inherited component fields extended by caller-specific fields."""
     return (*BASE_INHERITED_COMPONENT_FIELDS, *extra_fields)
+
+
+def should_copy_component_field(field: str, explicit_fields: Collection[str]) -> bool:
+    """Return whether a component field should be copied from another component."""
+    return not (
+        field in INHERITABLE_COMPONENT_FLAGS
+        and field.removeprefix("inherit_") in explicit_fields
+    )
 
 
 def copy_component_addons(
