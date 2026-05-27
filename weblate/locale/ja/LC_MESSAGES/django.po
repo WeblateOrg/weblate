@@ -23,8 +23,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-23 09:15+0000\n"
-"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
+"PO-Revision-Date: 2026-05-27 03:59+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -386,10 +386,8 @@ msgid "Team"
 msgstr "チーム"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "チームにユーザーを追加"
+msgstr "チームに追加"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -594,11 +592,11 @@ msgstr ""
 "{username} により、ユーザーはサイト全体の {team} チームに追加されました。"
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"{username} により、ユーザーはサイト全体の {team} チームに追加されました。"
+"ユーザーのサイト全体の {team} チームへのアクセスは、{username} によって変更さ"
+"れました。"
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -628,10 +626,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "ユーザーは {username} さんによって {team} チームに追加されました。"
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "ユーザーは {username} さんによって {team} チームに追加されました。"
+msgstr "ユーザーの {team} チームへのアクセスは、{username} によって変更されました。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -724,14 +721,10 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "不適切だと思う場合は、プロジェクトの管理者に連絡してください。"
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"お客様の場合は、パスワードをリセットしてアカウントへの接続を回復させてくださ"
-"い。"
+"ご自身の操作である場合は、パスワードをリセットしてアカウントへのアクセスを回"
+"復してください。"
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1068,11 +1061,9 @@ msgid "Strings are available for translation"
 msgstr "翻訳可能な文字列があります"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "翻訳の概要"
+msgstr "翻訳活動の概要"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1275,19 +1266,15 @@ msgid "The registration link has been invalidated."
 msgstr "登録リンクを無効にしました。"
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "登録リンクを無効にしました。"
+msgstr "招待リンクは無効に変更されました。"
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
 #: weblate/auth/views.py:197 weblate/auth/views.py:271
 #: weblate/auth/views.py:292
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "ユーザーの招待は取り消されました。"
+msgstr "この招待は期限切れです。"
 
 #: weblate/accounts/pipeline.py:398
 msgid "You can not complete password reset while signed in."
@@ -1436,18 +1423,15 @@ msgstr ""
 "れました。"
 
 #: weblate/accounts/views.py:803
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
 msgstr ""
-"%(user)s によるサイト全体の編集を元に戻す処理が、タスク スケジュールに追加さ"
-"れました。"
+"%(user)s によるサイト全体への編集の初期化が、タスク スケジュールに追加されま"
+"した。"
 
 #: weblate/accounts/views.py:810 weblate/trans/views/acl.py:340
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "招待メールは作成されていません。"
+msgstr "実行する初期化が選択されていません。"
 
 #: weblate/accounts/views.py:941 weblate/templates/base.html:450
 msgid "Website"
@@ -1458,17 +1442,13 @@ msgid "Code site"
 msgstr "コード サイト"
 
 #: weblate/accounts/views.py:962
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "サービスは利用できなくなりました"
+msgstr "このプロフィール リンクは期限切れです。"
 
 #: weblate/accounts/views.py:974
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "ユーザー情報"
+msgstr "外部プロフィール リンク"
 
 #: weblate/accounts/views.py:1097 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1671,26 +1651,16 @@ msgstr ""
 "します。"
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "翻訳ファイル"
+msgstr "翻訳ファイルの CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"JavaScript または HTML の現地語化用に、翻訳をコンテンツ配信ネットワークに公開"
-"します。"
+msgstr "翻訳ファイルをコンテンツ配信ネットワーク（CDN）に公開します。"
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "翻訳元の言語は編集できません。"
+msgstr "翻訳ファイル CDN アドオンでは weblate.js を公開できません。"
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -2086,24 +2056,19 @@ msgstr ""
 "gettext 用ディレクトリの存在を前提としています。"
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
 msgstr ""
-"このコンポーネントは、新しい翻訳の POT ファイルを事前に定義しておくことが必要"
-"です。"
+"このコンポーネントは、新しい翻訳用の gettext テンプレートを設定する必要があり"
+"ます。"
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"Django アドオンは、新しい翻訳用のテンプレート ファイル名が \"django.pot\" ま"
-"たは \"djangojs.pot\" であることを前提としています。"
+"Django アドオンは、新しい翻訳用のテンプレート ファイル名が "
+"\"django.pot\"、\"djangojs.pot\"、\"django.po\"、または \"djangojs.po\" であ"
+"ることを前提としています。"
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2206,15 +2171,12 @@ msgid "Voting threshold"
 msgstr "投票数のしきい値"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"削除のしきい値を指定します。このフィールドは、投票ができない設定の場合は無効"
-"です。"
+"削除のしきい値です。空欄の場合、投票数に関係なく提案を削除します。投票が無効"
+"になっている場合、この項目は効果がありません。"
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2691,10 +2653,8 @@ msgstr ""
 "す。"
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "POT ファイルの更新（Django）"
+msgstr "gettext テンプレートの更新（Django）"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -2992,7 +2952,7 @@ msgstr ""
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "オブジェクトが必要です。"
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3772,10 +3732,8 @@ msgid "Requires users to have two-factor authentication configured."
 msgstr "ユーザーが二要素認証を設定する必要があります。"
 
 #: weblate/auth/models.py:277 weblate/auth/models.py:1538
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Limit languages"
-msgstr "ビハール語"
+msgstr "言語の制限"
 
 #: weblate/auth/models.py:280 weblate/auth/models.py:1541
 msgid ""
@@ -3784,6 +3742,9 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"このチームの権限を、指定した言語に制限します。言語制限が設定されている場合、"
+"このチームのプロジェクト全体・コンポーネント全体・サイト全体の権限は付与され"
+"ません。選択を空欄にすると、追加の制限なしでチームの言語選択が使用されます。"
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -4009,10 +3970,8 @@ msgid "The file format does not support updating source strings."
 msgstr "このファイル形式は原文の更新に対応していません。"
 
 #: weblate/auth/utils.py:97
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "ファイル名は絶対パスで記述できません。"
+msgstr "匿名ユーザーをチームに割り当てることはできません。"
 
 #: weblate/auth/utils.py:100
 msgid "Inactive users can not be assigned to teams."
@@ -8481,7 +8440,7 @@ msgstr "パスワードをリセットする"
 
 #: weblate/templates/accounts/snippets/login-about.html:4
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr "Web で使える <strong>継続的な</strong> 翻訳システム"
+msgstr "Web ベースの <strong>開発に合わせて翻訳を最新に保つ</strong> 翻訳システム"
 
 #. Translators: This is followed by list of legal documents such as Privacy Policy or General Terms and Conditions
 #: weblate/templates/accounts/snippets/login-info.html:7
