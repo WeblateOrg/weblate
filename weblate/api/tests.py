@@ -2679,6 +2679,19 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
 
+    def test_create_with_invalid_workspace_uuid(self) -> None:
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=400,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "workspace": "not-a-uuid",
+            },
+        )
+
     def test_create_with_billing(self) -> None:
         with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
             response = self.do_request(

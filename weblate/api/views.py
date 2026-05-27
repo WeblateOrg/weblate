@@ -1755,7 +1755,10 @@ class ProjectViewSet(
         """Create a new project."""
         workspace_id = request.data.get("workspace")
         if workspace_id:
-            workspace = get_object_or_404(Workspace, pk=workspace_id)
+            try:
+                workspace = get_object_or_404(Workspace, pk=workspace_id)
+            except (DjangoValidationError, ValueError) as error:
+                raise ValidationError({"workspace": error.messages}) from error
             if not request.user.has_perm("workspace.add_project", workspace):
                 self.permission_denied(request, "Can not create projects")
             if "weblate.billing" in settings.INSTALLED_APPS and hasattr(
