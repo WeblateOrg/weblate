@@ -60,6 +60,9 @@ class SearchQueryError(Exception):
     """Error in the search expression."""
 
 
+SearchParser = Literal["unit", "user", "superuser", "screenshot"]
+
+
 # Helper parsing objects
 class RegexExpr:
     def __init__(self, tokens) -> None:
@@ -1030,10 +1033,101 @@ class SuperuserUserTermExpr(UserTermExpr):
         return super().is_field(text, context)
 
 
-PARSERS: dict[Literal["unit", "user", "superuser"], ParserElement] = {
+class ScreenshotTermExpr(BaseTermExpr):
+    PLAIN_FIELDS: ClassVar[set[str]] = {"name"}
+    NONTEXT_FIELDS: ClassVar[dict[str, str]] = {
+        "id": "id",
+        "strings": "strings",
+        "timestamp": "timestamp",
+    }
+    STRING_FIELD_MAP: ClassVar[dict[str, str]] = {
+        "context": "units__context",
+        "location": "units__location",
+        "path": "repository_filename",
+        "repository": "repository_filename",
+        "string": "units__source",
+    }
+    enable_fulltext: ClassVar[bool] = False
+
+    def fixup(self) -> None:
+        if self.field in {
+            "context",
+            "language",
+            "location",
+            "path",
+            "repository",
+            "string",
+        } and self.operator not in {":", ":="}:
+            self.match = f"{self.operator[1:]}{self.match}"
+            self.operator = ":"
+        super().fixup()
+
+    def convert_non_field(self) -> Q:
+        return (
+            Q(name__icontains=self.match)
+            | Q(repository_filename__icontains=self.match)
+            | Q(translation__language__code__icontains=self.match)
+            | Q(translation__language__name__icontains=self.match)
+            | Q(units__source__icontains=self.match)
+            | Q(units__context__icontains=self.match)
+            | Q(units__location__icontains=self.match)
+        )
+
+    def language_field(self, text: str | RegexExpr, context: dict) -> Q:
+        if isinstance(text, RegexExpr):
+            return self.build_field_query(
+                "language_code",
+                text,
+                lambda _field, suffix: f"translation__language__code__{suffix}",
+            ) | self.build_field_query(
+                "language_name",
+                text,
+                lambda _field, suffix: f"translation__language__name__{suffix}",
+            )
+        if self.operator == ":=":
+            return Q(translation__language__code__iexact=text) | Q(
+                translation__language__name__iexact=text
+            )
+        return Q(translation__language__code__icontains=text) | Q(
+            translation__language__name__icontains=text
+        )
+
+    def field_name(self, field: str, suffix: str | None = None) -> str:
+        if field in self.NONTEXT_FIELDS:
+            if suffix is None:
+                suffix = OPERATOR_MAP[self.operator]
+            if suffix in {"substring", "iexact", "icontains"}:
+                return self.NONTEXT_FIELDS[field]
+            return f"{self.NONTEXT_FIELDS[field]}__{suffix}"
+        return super().field_name(field, suffix)
+
+    def has_field(self, text: str, context: dict) -> Q:
+        if text == "string":
+            return Q(units__isnull=False)
+        if text in {"path", "repository"}:
+            return ~Q(repository_filename="")
+
+        return super().has_field(text, context)
+
+    def convert_strings(self, text: str | RangeExpr) -> int | tuple[int, int]:
+        return self.convert_int(text)
+
+    def convert_timestamp(
+        self, text: str | RangeExpr
+    ) -> datetime | tuple[datetime, datetime]:
+        return self.convert_datetime(text)
+
+    def get_annotations(self, context: dict) -> dict[str, Expression]:
+        if self.field == "strings":
+            return {"strings": Count("units", distinct=True)}
+        return super().get_annotations(context)
+
+
+PARSERS: dict[SearchParser, ParserElement] = {
     "unit": build_parser(UnitTermExpr),
     "user": build_parser(UserTermExpr),
     "superuser": build_parser(SuperuserUserTermExpr),
+    "screenshot": build_parser(ScreenshotTermExpr),
 }
 PARSER_LOCK = threading.Lock()
 
@@ -1101,9 +1195,7 @@ def parser_annotations(
 
 
 @lru_cache(maxsize=32)
-def parse_string(
-    text: str, parser: Literal["unit", "user", "superuser"]
-) -> ParseResults:
+def parse_string(text: str, parser: SearchParser) -> ParseResults:
     if "\x00" in text:
         raise SearchQueryError(gettext("Invalid character in the query string"))
     with PARSER_LOCK:
@@ -1116,7 +1208,7 @@ def parse_string(
 
 
 def parse_query(
-    text: str, parser: Literal["unit", "user", "superuser"] = "unit", **context
+    text: str, parser: SearchParser = "unit", **context
 ) -> tuple[Q, dict[str, Expression]]:
     parsed = parse_string(text, parser)
     return parser_to_query(parsed, context), parser_annotations(parsed, context)

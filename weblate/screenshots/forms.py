@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import io
-from typing import Any, NoReturn, cast
+from typing import Any, ClassVar, NoReturn, cast
 
 import requests
 from django import forms
@@ -12,6 +12,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.forms.forms import BaseForm
 from django.template.loader import render_to_string
 from django.utils.html import format_html
+from django.utils.http import urlencode
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.screenshots.models import Screenshot
@@ -190,3 +191,50 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
 
 class SearchForm(forms.Form):
     q = QueryField(required=False)
+
+
+class ScreenshotListSearchForm(forms.Form):
+    sort_choices: ClassVar[dict[str, Any]] = {
+        "name": gettext_lazy("Name"),
+        "timestamp": gettext_lazy("Timestamp"),
+        "language": gettext_lazy("Language"),
+        "strings": gettext_lazy("Assigned strings"),
+    }
+    sort_values: ClassVar[set[str]] = set(sort_choices) | {
+        f"-{sort}" for sort in sort_choices
+    }
+
+    q = QueryField(
+        parser="screenshot",
+        required=False,
+        label=gettext_lazy("Search"),
+        widget=forms.SearchInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": gettext_lazy("Search screenshots"),
+            }
+        ),
+    )
+    sort_by = forms.CharField(
+        label=gettext_lazy("Sort by"),
+        required=False,
+        widget=forms.HiddenInput,
+    )
+
+    def clean_sort_by(self):
+        sort_by = self.cleaned_data.get("sort_by") or "name"
+        if sort_by not in self.sort_values:
+            raise forms.ValidationError(gettext("The chosen sorting is not supported."))
+        return sort_by
+
+    def items(self):
+        items = []
+        for param in sorted(self.cleaned_data):
+            value = self.cleaned_data[param]
+            if not value or (param == "sort_by" and value == "name"):
+                continue
+            items.append((param, value))
+        return items
+
+    def urlencode(self):
+        return urlencode(self.items())

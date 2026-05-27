@@ -33,7 +33,9 @@ if TYPE_CHECKING:
 
 class QueryField(forms.CharField):
     def __init__(
-        self, parser: Literal["unit", "user", "superuser"] = "unit", **kwargs
+        self,
+        parser: Literal["unit", "user", "superuser", "screenshot"] = "unit",
+        **kwargs,
     ) -> None:
         if "label" not in kwargs:
             kwargs["label"] = gettext_lazy("Query")
