@@ -239,10 +239,15 @@ class WorkspaceViewTest(BaseTestCase):
         response = self.client.get(workspace.get_absolute_url())
 
         self.assertContains(response, 'data-bs-target="#history"')
+        self.assertContains(response, "Insights")
+        self.assertContains(response, "Failing checks")
         self.assertContains(response, "Workspace name changed")
         self.assertContains(response, "Browse all workspace changes")
         self.assertContains(
             response, reverse("changes", kwargs={"path": workspace.get_url_path()})
+        )
+        self.assertContains(
+            response, reverse("checks", kwargs={"path": workspace.get_url_path()})
         )
 
     def test_workspace_changes_include_workspace_changes(self) -> None:
