@@ -11,6 +11,7 @@ from django.test import TestCase
 from django.utils.timezone import get_current_timezone
 
 from weblate.auth.models import User
+from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -32,8 +33,8 @@ if TYPE_CHECKING:
 
 
 class SearchTestCase(TestCase):
-    object_class: ClassVar[type[Unit | User]] = Unit
-    parser: ClassVar[Literal["unit", "user", "superuser"]] = "unit"
+    object_class: ClassVar[type[Unit | User | Screenshot]] = Unit
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "unit"
 
     def assert_query(
         self,
@@ -674,9 +675,89 @@ class UnitQueryParserTest(SearchTestCase):
             self.assert_query("labels_count:invalid", Q())
 
 
+class ScreenshotQueryParserTest(SearchTestCase):
+    object_class: ClassVar[type[Unit | User | Screenshot]] = Screenshot
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "screenshot"
+
+    def test_simple(self) -> None:
+        self.assert_query(
+            "login",
+            Q(name__icontains="login")
+            | Q(repository_filename__icontains="login")
+            | Q(translation__language__code__icontains="login")
+            | Q(translation__language__name__icontains="login")
+            | Q(units__source__icontains="login")
+            | Q(units__context__icontains="login")
+            | Q(units__location__icontains="login"),
+        )
+
+    def test_fields(self) -> None:
+        self.assert_query("id:100", Q(id=100))
+        self.assert_query("name:login", Q(name__icontains="login"))
+        self.assert_query("name:=login", Q(name__exact="login"))
+        self.assert_query("path:fastlane", Q(repository_filename__icontains="fastlane"))
+        self.assert_query(
+            "repository:fastlane", Q(repository_filename__icontains="fastlane")
+        )
+        self.assert_query("string:Save", Q(units__source__icontains="Save"))
+        self.assert_query("context:menu", Q(units__context__icontains="menu"))
+        self.assert_query("location:main", Q(units__location__icontains="main"))
+
+    def test_language(self) -> None:
+        self.assert_query(
+            "language:cs",
+            Q(translation__language__code__icontains="cs")
+            | Q(translation__language__name__icontains="cs"),
+        )
+        self.assert_query(
+            "language:=Czech",
+            Q(translation__language__code__iexact="Czech")
+            | Q(translation__language__name__iexact="Czech"),
+        )
+        self.assert_query(
+            'language:r".*"',
+            Q(translation__language__code__trgm_regex=".*")
+            | Q(translation__language__name__trgm_regex=".*"),
+        )
+        with self.assertRaises(SearchQueryError):
+            self.assert_query('language:r"["', Q())
+
+    def test_has(self) -> None:
+        self.assert_query("has:string", Q(units__isnull=False))
+        self.assert_query("NOT has:string", ~Q(units__isnull=False))
+        self.assert_query("has:repository", ~Q(repository_filename=""))
+        self.assert_query("has:path", ~Q(repository_filename=""))
+
+    def test_strings_count(self) -> None:
+        annotation = {"strings": Count("units", distinct=True)}
+        self.assert_query("strings:2", Q(strings=2), expected_annotations=annotation)
+        self.assert_query(
+            "strings:>2", Q(strings__gt=2), expected_annotations=annotation
+        )
+
+    def test_timestamp(self) -> None:
+        self.assert_query(
+            "timestamp:2018",
+            Q(
+                timestamp__range=(
+                    datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
+                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
+                )
+            ),
+        )
+
+    def test_invalid(self) -> None:
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("state:translated", Q())
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("has:translation", Q())
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("strings:invalid", Q())
+
+
 class UserQueryParserTest(SearchTestCase):
-    object_class: ClassVar[type[Unit | User]] = User
-    parser: ClassVar[Literal["unit", "user", "superuser"]] = "user"
+    object_class: ClassVar[type[Unit | User | Screenshot]] = User
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "user"
 
     def test_simple(self) -> None:
         self.assert_query(
@@ -772,8 +853,8 @@ class UserQueryParserTest(SearchTestCase):
 
 
 class SuperuserQueryParserTest(UserQueryParserTest):
-    object_class: ClassVar[type[Unit | User]] = User
-    parser: ClassVar[Literal["unit", "user", "superuser"]] = "superuser"
+    object_class: ClassVar[type[Unit | User | Screenshot]] = User
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "superuser"
 
     def test_simple(self) -> None:
         self.assert_query(
