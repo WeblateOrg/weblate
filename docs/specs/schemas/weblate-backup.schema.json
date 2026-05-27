@@ -32,6 +32,151 @@
             "my-category/my-subcategory"
           ]
         },
+        "check_flags": {
+          "$id": "#/definitions/category/check_flags",
+          "title": "Translation flags",
+          "type": "string",
+          "default": ""
+        },
+        "license": {
+          "$id": "#/definitions/category/license",
+          "title": "Translation license",
+          "type": "string",
+          "default": ""
+        },
+        "agreement": {
+          "$id": "#/definitions/category/agreement",
+          "title": "Contributor agreement",
+          "type": "string",
+          "default": ""
+        },
+        "new_lang": {
+          "$id": "#/definitions/category/new_lang",
+          "title": "Adding new translation",
+          "type": "string",
+          "default": ""
+        },
+        "language_code_style": {
+          "$id": "#/definitions/category/language_code_style",
+          "title": "Language code style",
+          "type": "string",
+          "default": ""
+        },
+        "secondary_language": {
+          "$id": "#/definitions/category/secondary_language",
+          "title": "Secondary language code",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "commit_message": {
+          "$id": "#/definitions/category/commit_message",
+          "title": "Commit message when translating",
+          "type": "string",
+          "default": ""
+        },
+        "add_message": {
+          "$id": "#/definitions/category/add_message",
+          "title": "Commit message when adding translation",
+          "type": "string",
+          "default": ""
+        },
+        "delete_message": {
+          "$id": "#/definitions/category/delete_message",
+          "title": "Commit message when removing translation",
+          "type": "string",
+          "default": ""
+        },
+        "merge_message": {
+          "$id": "#/definitions/category/merge_message",
+          "title": "Commit message when merging translation",
+          "type": "string",
+          "default": ""
+        },
+        "addon_message": {
+          "$id": "#/definitions/category/addon_message",
+          "title": "Commit message when add-on makes a change",
+          "type": "string",
+          "default": ""
+        },
+        "pull_message": {
+          "$id": "#/definitions/category/pull_message",
+          "title": "Merge request message",
+          "type": "string",
+          "default": ""
+        },
+        "inherit_license": {
+          "$id": "#/definitions/category/inherit_license",
+          "title": "Inherit translation license",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_agreement": {
+          "$id": "#/definitions/category/inherit_agreement",
+          "title": "Inherit contributor agreement",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_new_lang": {
+          "$id": "#/definitions/category/inherit_new_lang",
+          "title": "Inherit adding new translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_language_code_style": {
+          "$id": "#/definitions/category/inherit_language_code_style",
+          "title": "Inherit language code style",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_secondary_language": {
+          "$id": "#/definitions/category/inherit_secondary_language",
+          "title": "Inherit secondary language",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_commit_message": {
+          "$id": "#/definitions/category/inherit_commit_message",
+          "title": "Inherit commit message when translating",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_add_message": {
+          "$id": "#/definitions/category/inherit_add_message",
+          "title": "Inherit commit message when adding translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_delete_message": {
+          "$id": "#/definitions/category/inherit_delete_message",
+          "title": "Inherit commit message when removing translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_merge_message": {
+          "$id": "#/definitions/category/inherit_merge_message",
+          "title": "Inherit commit message when merging translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_addon_message": {
+          "$id": "#/definitions/category/inherit_addon_message",
+          "title": "Inherit commit message when add-on makes a change",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_pull_message": {
+          "$id": "#/definitions/category/inherit_pull_message",
+          "title": "Inherit merge request message",
+          "type": "boolean",
+          "default": false
+        },
         "categories": {
           "$id": "#/definitions/category/items/category",
           "title": "Categories",
@@ -224,6 +369,151 @@
         "enable_hooks": {
           "$id": "#root/project/enable_hooks",
           "title": "Enable hooks",
+          "type": "boolean",
+          "default": false
+        },
+        "check_flags": {
+          "$id": "#root/project/check_flags",
+          "title": "Translation flags",
+          "type": "string",
+          "default": ""
+        },
+        "license": {
+          "$id": "#root/project/license",
+          "title": "Translation license",
+          "type": "string",
+          "default": ""
+        },
+        "agreement": {
+          "$id": "#root/project/agreement",
+          "title": "Contributor agreement",
+          "type": "string",
+          "default": ""
+        },
+        "new_lang": {
+          "$id": "#root/project/new_lang",
+          "title": "Adding new translation",
+          "type": "string",
+          "default": ""
+        },
+        "language_code_style": {
+          "$id": "#root/project/language_code_style",
+          "title": "Language code style",
+          "type": "string",
+          "default": ""
+        },
+        "secondary_language": {
+          "$id": "#root/project/secondary_language",
+          "title": "Secondary language code",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "commit_message": {
+          "$id": "#root/project/commit_message",
+          "title": "Commit message when translating",
+          "type": "string",
+          "default": ""
+        },
+        "add_message": {
+          "$id": "#root/project/add_message",
+          "title": "Commit message when adding translation",
+          "type": "string",
+          "default": ""
+        },
+        "delete_message": {
+          "$id": "#root/project/delete_message",
+          "title": "Commit message when removing translation",
+          "type": "string",
+          "default": ""
+        },
+        "merge_message": {
+          "$id": "#root/project/merge_message",
+          "title": "Commit message when merging translation",
+          "type": "string",
+          "default": ""
+        },
+        "addon_message": {
+          "$id": "#root/project/addon_message",
+          "title": "Commit message when add-on makes a change",
+          "type": "string",
+          "default": ""
+        },
+        "pull_message": {
+          "$id": "#root/project/pull_message",
+          "title": "Merge request message",
+          "type": "string",
+          "default": ""
+        },
+        "inherit_license": {
+          "$id": "#root/project/inherit_license",
+          "title": "Inherit translation license",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_agreement": {
+          "$id": "#root/project/inherit_agreement",
+          "title": "Inherit contributor agreement",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_new_lang": {
+          "$id": "#root/project/inherit_new_lang",
+          "title": "Inherit adding new translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_language_code_style": {
+          "$id": "#root/project/inherit_language_code_style",
+          "title": "Inherit language code style",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_secondary_language": {
+          "$id": "#root/project/inherit_secondary_language",
+          "title": "Inherit secondary language",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_commit_message": {
+          "$id": "#root/project/inherit_commit_message",
+          "title": "Inherit commit message when translating",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_add_message": {
+          "$id": "#root/project/inherit_add_message",
+          "title": "Inherit commit message when adding translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_delete_message": {
+          "$id": "#root/project/inherit_delete_message",
+          "title": "Inherit commit message when removing translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_merge_message": {
+          "$id": "#root/project/inherit_merge_message",
+          "title": "Inherit commit message when merging translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_addon_message": {
+          "$id": "#root/project/inherit_addon_message",
+          "title": "Inherit commit message when add-on makes a change",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_pull_message": {
+          "$id": "#root/project/inherit_pull_message",
+          "title": "Inherit merge request message",
           "type": "boolean",
           "default": false
         }
