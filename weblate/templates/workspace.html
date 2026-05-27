@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n icons %}
+{% load crispy_forms_tags i18n icons translations %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
@@ -9,6 +9,9 @@
          data-bs-target="#projects"
          data-bs-toggle="tab"
          href="#">{% translate "Projects" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
     </li>
     {% if billing %}
       <li class="nav-item">
@@ -51,6 +54,11 @@
       {% endif %}
 
       {% include "paginator.html" with page_obj=projects anchor="projects" %}
+    </div>
+
+    <div class="tab-pane" id="history">
+      {% format_last_changes_content last_changes=last_changes user=user %}
+      <a class="btn btn-primary" href="{% url 'changes' path=workspace.get_url_path %}">{% translate "Browse all workspace changes" %}</a>
     </div>
 
     {% if billing %}

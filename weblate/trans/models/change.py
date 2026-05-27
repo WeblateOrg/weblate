@@ -396,38 +396,49 @@ class ChangeManager(models.Manager["Change"]):
         project: Project | None = None,
         category: Category | None = None,
         language: Language | None = None,
-    ) -> models.QuerySet[Change, Change]:
+        workspace: Workspace | None = None,
+    ) -> ChangeQuerySet:
         """
         Return the most recent changes for a user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.
         """
+        result: models.QuerySet[Change, Change]
         if unit is not None:
             if not user.can_access_component(unit.translation.component):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = unit.change_set.all()
         elif translation is not None:
             if not user.can_access_component(translation.component):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = translation.change_set.all()
         elif component is not None:
             if not user.can_access_component(component):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = component.change_set.all()
         elif project is not None:
             if not user.can_access_project(project):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = project.change_set.filter_components(user)
             if language is not None:
                 result = result.filter(language=language)
             if category is not None:
                 result = result.filter(category=category)
+        elif workspace is not None:
+            if not workspace.can_view(user):
+                return cast("ChangeQuerySet", self.none())
+            result = self.filter(workspace=workspace) | cast(
+                "ChangeQuerySet",
+                self.filter(
+                    project__workspace=workspace,
+                ),
+            ).filter_projects(user).filter_components(user)
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
             result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
-        return result.prefetch_for_render().order()
+        return cast("ChangeQuerySet", result).prefetch_for_render().order()
 
     def latest_revertable_changes(
         self,

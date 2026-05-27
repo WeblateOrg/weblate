@@ -27,6 +27,7 @@ from weblate.trans.models.change import Change
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import PathViewMixin
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import Model
@@ -46,6 +47,7 @@ class ChangesView(PathViewMixin, ListView):
         Language,
         ProjectLanguage,
         Unit,
+        Workspace,
     )
 
     def get_changes_url(self, url_name: str = "changes") -> str:
@@ -81,6 +83,8 @@ class ChangesView(PathViewMixin, ListView):
             return pgettext("Changes in language", "Changes in %s") % self.path_object
         if isinstance(self.path_object, ProjectLanguage):
             return pgettext("Changes in project", "Changes in %s") % self.path_object
+        if isinstance(self.path_object, Workspace):
+            return pgettext("Changes in workspace", "Changes in %s") % self.path_object
         if self.path_object is None:
             return gettext("Changes")
         msg = f"Unsupported {self.path_object}"
@@ -181,6 +185,8 @@ class ChangesView(PathViewMixin, ListView):
                 "project": self.path_object.project,
                 "language": self.path_object.language,
             }
+        elif isinstance(self.path_object, Workspace):
+            params = {"workspace": self.path_object}
         else:
             msg = f"Unsupported {self.path_object}"
             raise TypeError(msg)
