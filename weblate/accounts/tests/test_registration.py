@@ -22,7 +22,7 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
-from social_django.models import DjangoStorage
+from social_django.models import DjangoStorage, UserSocialAuth
 
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.flows import (
@@ -511,6 +511,72 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, f"{reverse('profile')}#account")
         self.assertContains(response, "This invitation has expired.")
         self.assertFalse(invited_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_signed_in_user_accepts_email_invitation_primary_email(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "Invited@Example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author, email="invited@example.com", group=invited_group
+        )
+        self.client.force_login(invited_user)
+
+        response = self.client.get(invitation.get_absolute_url(), follow=True)
+
+        self.assertContains(response, "Accept invitation")
+
+        response = self.client.post(invitation.get_absolute_url(), follow=True)
+
+        self.assertRedirects(response, reverse("home"))
+        self.assertTrue(invited_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_signed_in_user_accepts_email_invitation_verified_email(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_user = User.objects.create_user("invited", "primary@example.com", "x")
+        social = UserSocialAuth.objects.create(
+            user=invited_user, provider="github", uid="invited"
+        )
+        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author, email="SECONDARY@example.com", group=invited_group
+        )
+        self.client.force_login(invited_user)
+
+        response = self.client.get(invitation.get_absolute_url(), follow=True)
+
+        self.assertContains(response, "Accept invitation")
+
+        response = self.client.post(invitation.get_absolute_url(), follow=True)
+
+        self.assertRedirects(response, reverse("home"))
+        self.assertTrue(invited_user.groups.filter(pk=invited_group.pk).exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_signed_in_user_rejects_unowned_email_invitation(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        attacker = User.objects.create_user("attacker", "attacker@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author,
+            email="victim@example.com",
+            group=invited_group,
+            is_superuser=True,
+        )
+        self.client.force_login(attacker)
+
+        response = self.client.post(invitation.get_absolute_url(), follow=True)
+
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+        self.assertContains(
+            response,
+            "This invitation can be accepted only by the e-mail address chosen by the inviter",
+        )
+        attacker.refresh_from_db()
+        self.assertFalse(attacker.is_superuser)
+        self.assertFalse(attacker.groups.filter(pk=invited_group.pk).exists())
         self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
 
     def test_email_invitation_accept_requires_matching_user_email(self) -> None:

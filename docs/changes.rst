@@ -28,6 +28,7 @@ Weblate 2026.6
 
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
+* :ref:`invite-user` links now work for signed-in users whose account owns the invited e-mail address.
 * Searching for strings with content changes without a recorded author now supports ``changed_by:""``, and combined change filters now apply to the same change event.
 * Gitea and Forgejo pull requests no longer reconfigure existing fork remotes to point to the source repository.
 * Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.

@@ -196,6 +196,14 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["invitation_matches_user"] = (
+            self.request.user.is_authenticated
+            and self.object.matches_user(self.request.user)
+        )
+        return context
+
     def validate_invitation(
         self, request: AuthenticatedHttpRequest
     ) -> HttpResponse | None:
@@ -205,16 +213,17 @@ class InvitationView(DetailView):
                 return redirect_param("profile", "#account")
             return redirect("register")
 
-        if request.user.is_authenticated and self.object.user != request.user:
-            # Invitation not for this user (either is for email and user is None or different user)
-            messages.error(
-                request,
-                gettext(
-                    "This invitation can be accepted only by the e-mail address "
-                    "chosen by the inviter; it can't be used by your account."
-                ),
-            )
-            return redirect_param("profile", "#account")
+        if request.user.is_authenticated:
+            if not self.object.matches_user(request.user):
+                messages.error(
+                    request,
+                    gettext(
+                        "This invitation can be accepted only by the e-mail address "
+                        "chosen by the inviter; it can't be used by your account."
+                    ),
+                )
+                return redirect_param("profile", "#account")
+            return None
         if not self.object.user:
             # When inviting new user go through registration
             request.session["invitation_link"] = str(self.object.pk)
@@ -264,13 +273,8 @@ class InvitationView(DetailView):
             return redirect("manage-users")
 
         # Check if invitation can be accepted
-        if not invitation.user:
-            # This should go via registration path
-            raise Http404
         if not user.is_authenticated:
             raise PermissionDenied
-        if invitation.user != user:
-            raise Http404
 
         # Check if this is for us
         validation_result = self.validate_invitation(request)
