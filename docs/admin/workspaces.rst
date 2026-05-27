@@ -11,8 +11,14 @@ Workspace membership does not grant access to translate or manage projects in
 the workspace. Project access is still controlled by the project access control
 settings and project teams, see :ref:`acl`.
 
+The workspace page lists projects in that workspace that you can access.
+
+.. image:: /screenshots/workspace-projects.webp
+
 You can list all workspaces in the management interface at
 :guilabel:`Manage` ↓ :guilabel:`Workspaces`.
+
+.. image:: /screenshots/workspaces.webp
 
 .. _workspace-project-creation:
 
@@ -45,6 +51,8 @@ Workspace access control
 Workspaces have workspace-scoped teams. These teams control workspace-level
 actions only; they do not grant translation access to the projects in the
 workspace.
+
+.. image:: /screenshots/workspace-access.webp
 
 The default workspace teams are:
 
