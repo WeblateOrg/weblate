@@ -1077,12 +1077,17 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
     def mock_error(self) -> NoReturn:
         self.skipTest("Not tested")
 
+    def mock_token_response(self, url: str) -> None:
+        def request_callback(request: PreparedRequest):
+            self.assertEqual(urlparse(request.url).query, "")
+            self.assertEqual(request.headers["Ocp-Apim-Subscription-Key"], "KEY")
+            return 200, {}, "TOKEN"
+
+        responses.add_callback(responses.POST, url, callback=request_callback)
+
     def mock_response(self) -> None:
-        responses.add(
-            responses.POST,
+        self.mock_token_response(
             "https://api.cognitive.microsoft.com/sts/v1.0/issueToken"
-            "?Subscription-Key=KEY",
-            body="TOKEN",
         )
         responses.add(
             responses.GET,
@@ -1125,11 +1130,8 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
     }
 
     def mock_response(self) -> None:
-        responses.add(
-            responses.POST,
+        self.mock_token_response(
             "https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken"
-            "?Subscription-Key=KEY",
-            body="TOKEN",
         )
         responses.add(
             responses.GET,
@@ -1163,11 +1165,8 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
                 "base_url": "api-eur.cognitive.microsofttranslator.com",
             }
         )
-        responses.add(
-            responses.POST,
+        self.mock_token_response(
             "https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken"
-            "?Subscription-Key=KEY",
-            body="TOKEN",
         )
         responses.add(
             responses.GET,
@@ -1197,26 +1196,52 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
 
     def mock_error(self) -> None:
         responses.add(responses.GET, f"{GOOGLE_API_ROOT}languages", body="", status=500)
-        responses.add(responses.GET, GOOGLE_API_ROOT, body="", status=500)
+        responses.add(responses.POST, GOOGLE_API_ROOT, body="", status=500)
 
     def mock_response(self) -> None:
-        responses.add(
+        def languages_callback(request: PreparedRequest):
+            self.assertEqual(urlparse(request.url).query, "")
+            self.assertEqual(request.headers["X-Goog-Api-Key"], "KEY")
+            return (
+                200,
+                {},
+                json.dumps(
+                    {
+                        "data": {
+                            "languages": [
+                                {"language": "en"},
+                                {"language": "iw"},
+                                {"language": "cs"},
+                            ]
+                        }
+                    }
+                ),
+            )
+
+        def translate_callback(request: PreparedRequest):
+            self.assertEqual(urlparse(request.url).query, "")
+            self.assertEqual(request.headers["X-Goog-Api-Key"], "KEY")
+            payload = json.loads(request.body or "{}")
+            self.assertEqual(payload["source"], "en")
+            self.assertIn(payload["target"], {"cs", "de"})
+            self.assertIn(payload["q"], {self.SOURCE_TRANSLATED, "test"})
+            self.assertEqual(payload["format"], "text")
+            self.assertNotIn("key", payload)
+            return (
+                200,
+                {},
+                json.dumps({"data": {"translations": [{"translatedText": "svet"}]}}),
+            )
+
+        responses.add_callback(
             responses.GET,
             f"{GOOGLE_API_ROOT}languages",
-            json={
-                "data": {
-                    "languages": [
-                        {"language": "en"},
-                        {"language": "iw"},
-                        {"language": "cs"},
-                    ]
-                }
-            },
+            callback=languages_callback,
         )
-        responses.add(
-            responses.GET,
+        responses.add_callback(
+            responses.POST,
             GOOGLE_API_ROOT,
-            json={"data": {"translations": [{"translatedText": "svet"}]}},
+            callback=translate_callback,
         )
 
     @responses.activate
@@ -1613,6 +1638,22 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
         )
 
     def mock_response(self) -> None:
+        def translate_callback(request: PreparedRequest):
+            self.assertEqual(urlparse(request.url).query, "")
+            self.assertEqual(request.headers["Authorization"], "Api-Key KEY")
+            payload = json.loads(request.body or "{}")
+            self.assertEqual(payload["sourceLanguageCode"], "en")
+            self.assertIn(payload["targetLanguageCode"], {"cs", "de"})
+            self.assertEqual(len(payload["texts"]), 1)
+            self.assertIn(payload["texts"][0], {self.SOURCE_TRANSLATED, "test"})
+            return (
+                200,
+                {},
+                json.dumps(
+                    {"translations": [{"text": "svet", "detectedLanguageCode": "en"}]}
+                ),
+            )
+
         responses.add(
             responses.POST,
             "https://translate.api.cloud.yandex.net/translate/v2/languages",
@@ -1623,10 +1664,10 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
                 ]
             },
         )
-        responses.add(
+        responses.add_callback(
             responses.POST,
             "https://translate.api.cloud.yandex.net/translate/v2/translate",
-            json={"translations": [{"text": "svet", "detectedLanguageCode": "en"}]},
+            callback=translate_callback,
         )
 
     @responses.activate
@@ -1667,14 +1708,29 @@ class YoudaoTranslationTest(BaseMachineTranslationTest):
 
     def mock_error(self) -> None:
         responses.add(
-            responses.GET, "https://openapi.youdao.com/api", json={"errorCode": 1}
+            responses.POST, "https://openapi.youdao.com/api", json={"errorCode": 1}
         )
 
     def mock_response(self) -> None:
-        responses.add(
-            responses.GET,
+        def request_callback(request: PreparedRequest):
+            self.assertEqual(urlparse(request.url).query, "")
+            body = parse_qs(
+                request.body.decode()
+                if isinstance(request.body, bytes)
+                else str(request.body)
+            )
+            self.assertEqual(body["appKey"], ["id"])
+            self.assertIn(body["q"][0], {self.SOURCE_TRANSLATED, "test"})
+            self.assertIn(body["_from"][0], {"EN", "en"})
+            self.assertEqual(body["to"], ["de"])
+            self.assertIn("salt", body)
+            self.assertIn("sign", body)
+            return 200, {}, json.dumps({"errorCode": 0, "translation": ["hello"]})
+
+        responses.add_callback(
+            responses.POST,
             "https://openapi.youdao.com/api",
-            json={"errorCode": 0, "translation": ["hello"]},
+            callback=request_callback,
         )
 
 
@@ -1715,20 +1771,41 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
 
     def mock_error(self) -> None:
         responses.add(
-            responses.GET, BAIDU_API, json={"error_code": 1, "error_msg": "Error"}
+            responses.POST, BAIDU_API, json={"error_code": 1, "error_msg": "Error"}
         )
 
     def mock_response(self) -> None:
-        responses.add(
-            responses.GET,
+        def request_callback(request: PreparedRequest):
+            self.assertEqual(urlparse(request.url).query, "")
+            body = parse_qs(
+                request.body.decode()
+                if isinstance(request.body, bytes)
+                else str(request.body)
+            )
+            self.assertEqual(body["appid"], ["id"])
+            self.assertIn(body["q"][0], {self.SOURCE_TRANSLATED, "test"})
+            self.assertEqual(body["from"], ["en"])
+            self.assertIn(body["to"][0], {"cs", "de"})
+            self.assertIn("salt", body)
+            self.assertIn("sign", body)
+            return (
+                200,
+                {},
+                json.dumps({"trans_result": [{"src": "hello", "dst": "hallo"}]}),
+            )
+
+        responses.add_callback(
+            responses.POST,
             BAIDU_API,
-            json={"trans_result": [{"src": "hello", "dst": "hallo"}]},
+            callback=request_callback,
         )
 
     @responses.activate
     def test_ratelimit(self) -> None:
         responses.add(
-            responses.GET, BAIDU_API, json={"error_code": "54003", "error_msg": "Error"}
+            responses.POST,
+            BAIDU_API,
+            json={"error_code": "54003", "error_msg": "Error"},
         )
         with self.assertRaises(MachineryRateLimitError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
@@ -1736,7 +1813,9 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_bug(self) -> None:
         responses.add(
-            responses.GET, BAIDU_API, json={"error_code": "bug", "error_msg": "Error"}
+            responses.POST,
+            BAIDU_API,
+            json={"error_code": "bug", "error_msg": "Error"},
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
@@ -1756,22 +1835,36 @@ class SystranTranslationTest(BaseMachineTranslationTest):
         self.skipTest("Not tested")
 
     def mock_response(self) -> None:
+        def supported_languages_callback(request: PreparedRequest):
+            self.assertEqual(urlparse(request.url).query, "")
+            self.assertEqual(request.headers["Authorization"], "Key key")
+            return 200, {}, json.dumps(SYSTRAN_LANGUAGE_JSON)
+
+        def translate_callback(request: PreparedRequest):
+            query = parse_qs(urlparse(request.url).query)
+            self.assertEqual(request.headers["Authorization"], "Key key")
+            self.assertNotIn("key", query)
+            self.assertEqual(query["source"], ["en"])
+            self.assertIn(query["target"][0], {"cs", "de"})
+            self.assertIn(query["input"][0], {self.SOURCE_TRANSLATED, "test"})
+            return 200, {}, json.dumps({"outputs": [{"output": "ahoj"}]})
+
         responses.add(
             responses.GET,
             "https://api-translate.systran.net/translation/apiVersion",
             json={"version": "2.11.0"},
         )
 
-        responses.add(
+        responses.add_callback(
             responses.GET,
             "https://api-translate.systran.net/translation/supportedLanguages",
-            json=SYSTRAN_LANGUAGE_JSON,
+            callback=supported_languages_callback,
         )
 
-        responses.add(
+        responses.add_callback(
             responses.POST,
             "https://api-translate.systran.net/translation/text/translate",
-            json={"outputs": [{"output": "ahoj"}]},
+            callback=translate_callback,
         )
 
 

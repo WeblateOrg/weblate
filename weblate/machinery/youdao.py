@@ -77,9 +77,9 @@ class YoudaoTranslation(MachineTranslation):
         )
 
         response = self.request(
-            "get",
+            "post",
             YOUDAO_API_ROOT,
-            params={
+            data={
                 "q": text,
                 "_from": source_language,
                 "to": target_language,
