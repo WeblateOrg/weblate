@@ -26,8 +26,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-26 15:12+0000\n"
-"Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-05-27 04:24+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -372,10 +372,8 @@ msgid "Team"
 msgstr "團隊"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "將使用者加進團隊"
+msgstr "新增到團隊"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -572,10 +570,9 @@ msgid "User was added to the site-wide {team} team by {username}."
 msgstr "使用者已由 {username} 加入到全站的 {team} 團隊。"
 
 #: weblate/accounts/models.py:332
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
-msgstr "使用者已由 {username} 加入到全站的 {team} 團隊。"
+msgstr "{username} 已變更使用者對全站 {team} 團隊的存取權。"
 
 #: weblate/accounts/models.py:336
 #, python-brace-format
@@ -604,10 +601,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "使用者已由 {username} 加入到 {team} 團隊。"
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "使用者已由 {username} 加入到 {team} 團隊。"
+msgstr "{username} 已變更使用者對 {team} 團隊的存取權。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -698,12 +694,8 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "如果您覺得不適當請聯絡專案維護者。"
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
-msgstr "若確實是您，請重設密碼以重新取回帳號的存取權。"
+msgstr "如果是你本人操作，請重設密碼以重新取得帳號存取權。"
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -765,6 +757,8 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
+"輸入要用作原始碼連結的自訂 URL。你可以用 {{branch}} 代表分支，並用 {"
+"{filename}} 和 {{line}} 作為檔名與列號的預留位置。"
 
 #: weblate/accounts/models.py:753
 msgid "Translation editor mode"
@@ -1025,11 +1019,9 @@ msgid "Strings are available for translation"
 msgstr "有多個字串可翻譯"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "翻譯摘要"
+msgstr "翻譯活動摘要"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1381,16 +1373,13 @@ msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr "已經排程，將全站還原 %(user)s 所做的編輯。"
 
 #: weblate/accounts/views.py:803
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr "已經排程，將全站還原 %(user)s 所做的編輯。"
+msgstr "已排程清理全站由 %(user)s 提交的貢獻。"
 
 #: weblate/accounts/views.py:810 weblate/trans/views/acl.py:340
-#, fuzzy
-#| msgid "No invitations were created."
 msgid "No cleanup action was selected."
-msgstr "未建立任何邀請。"
+msgstr "未選取任何清理動作。"
 
 #: weblate/accounts/views.py:941 weblate/templates/base.html:450
 msgid "Website"
@@ -1401,10 +1390,8 @@ msgid "Code site"
 msgstr "程式碼網站"
 
 #: weblate/accounts/views.py:962
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "服務不再可用"
+msgstr "此個人檔案連結已無法使用。"
 
 #: weblate/accounts/views.py:974
 #: weblate/templates/accounts/user_profile_link.html:19
@@ -1602,27 +1589,19 @@ msgstr "JavaScript 在地化 CDN"
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr ""
+msgstr "將翻譯發佈到內容傳遞網路（CDN），供 JavaScript 或 HTML 在地化使用。"
 
 #: weblate/addons/cdn.py:268
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "翻譯檔案"
+msgstr "翻譯檔案 CDN"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr "將翻譯發佈給內容遞交網路，供 JavaScript 或 HTML 在地化處理使用。"
+msgstr "將翻譯檔案發佈到內容傳遞網路。"
 
 #: weblate/addons/cdn.py:307
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "翻譯基礎語言無法修改。"
+msgstr "翻譯檔案 CDN 附加元件無法發佈 weblate.js。"
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -1995,22 +1974,16 @@ msgstr ""
 "gettext 目錄。"
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "組件需要定義新翻譯會用到的 POT 檔案。"
+msgstr "組件必須為新翻譯定義 gettext 範本。"
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"Django 附加元件要求新翻譯的範本檔案名稱必須為「django.pot」或"
-"「djangojs.pot」。"
+"Django 附加元件預期新翻譯的範本名稱為「django.pot」、「djangojs.pot」、「"
+"django.po」或「djangojs.po」。"
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2109,13 +2082,10 @@ msgid "Voting threshold"
 msgstr "最低投票數"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
-msgstr "移除之最低票數。當停用投票時，這個欄位不會有效果。"
+msgstr "移除之最低票數。留空則不論票數一律移除建議。停用投票時，此欄位不會生效。"
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2241,7 +2211,7 @@ msgstr "符合諸如 cs/application.po 的檔案。"
 
 #: weblate/addons/forms.py:961
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "Gettext 語系結構"
 
 #: weblate/addons/forms.py:962
 msgid "Matches files like locale/cs/LC_MESSAGES/application.po."
@@ -2353,13 +2323,10 @@ msgid "Extract strings from HTML files"
 msgstr "從 HTML 檔案擷取字串"
 
 #: weblate/addons/forms.py:1299
-#, fuzzy
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
-msgstr ""
-"List of filenames in current repository or remote URLs to parse for "
-"translatable strings."
+msgstr "目前儲存庫中的檔名清單，或用來解析可翻譯字串的遠端 URL。"
 
 #: weblate/addons/forms.py:1327
 #, python-format
@@ -2492,13 +2459,13 @@ msgstr "產生內含翻譯狀態詳細資訊的檔案。"
 
 #: weblate/addons/generate.py:185
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "偽語系產生"
 
 #: weblate/addons/generate.py:187
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
-msgstr ""
+msgstr "自動為原文字串加上前綴與後綴來產生翻譯。"
 
 #: weblate/addons/generate.py:274
 msgid "Prefill translation with source"
@@ -2573,10 +2540,8 @@ msgid "Updates the gettext template using Meson gettext conventions."
 msgstr "依照 Meson 的 gettext 慣例更新 gettext 範本。"
 
 #: weblate/addons/gettext.py:1502
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "更新 POT 檔案（Django）"
+msgstr "更新 gettext 範本（Django）"
 
 #: weblate/addons/gettext.py:1504
 msgid ""
@@ -2858,7 +2823,7 @@ msgstr "無法取得 %(origin)s 的 %(scope)s 鎖定來執行操作。"
 
 #: weblate/api/views.py:780
 msgid "Expected an object."
-msgstr ""
+msgstr "預期為物件。"
 
 #: weblate/api/views.py:810 weblate/trans/forms.py:3592
 msgid "At least one team is required for a project token."
@@ -3636,10 +3601,8 @@ msgid "Requires users to have two-factor authentication configured."
 msgstr "需要使用者設定雙重要素身分驗證。"
 
 #: weblate/auth/models.py:277 weblate/auth/models.py:1538
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Limit languages"
-msgstr "比哈里語族"
+msgstr "限制語言"
 
 #: weblate/auth/models.py:280 weblate/auth/models.py:1541
 msgid ""
@@ -3648,6 +3611,8 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"將此團隊的權限限制在這些語言。設定語言限制後，將不會授予此團隊的專案範圍、組"
+"件範圍與全域權限。若不選擇任何項目，將使用團隊的語言選擇而不加上額外限制。"
 
 #: weblate/auth/models.py:558 weblate/utils/forms.py:86
 #: weblate/utils/validators.py:269
@@ -3865,18 +3830,16 @@ msgid "The file format does not support updating source strings."
 msgstr "此檔案格式不支援更新來源字串。"
 
 #: weblate/auth/utils.py:97
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "檔案名稱不能為絕對路徑。"
+msgstr "匿名使用者無法指派到團隊。"
 
 #: weblate/auth/utils.py:100
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "不活躍使用者無法指派到團隊。"
 
 #: weblate/auth/utils.py:103
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "專案權杖無法在此指派到團隊。"
 
 #: weblate/auth/views.py:154
 msgid "Cannot remove built-in team!"
@@ -3955,38 +3918,28 @@ msgid "In limits"
 msgstr "限制之內"
 
 #: weblate/billing/models.py:218
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "終止週期性循環支付"
+msgstr "定期付款不活躍通知"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Last remote commit"
 msgid "Latest upstream commit"
-msgstr "上次遠端提交"
+msgstr "最新上游提交"
 
 #: weblate/billing/models.py:228
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "提交待處理的變更"
+msgstr "最舊的未決 Weblate 變更"
 
 #: weblate/billing/models.py:233
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "儲存庫變更"
+msgstr "儲存庫變更警示"
 
 #: weblate/billing/models.py:238
 msgid "Push failure alert"
-msgstr ""
+msgstr "推送失敗警示"
 
 #: weblate/billing/models.py:243
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "終止週期性循環支付"
+msgstr "排程停用定期付款"
 
 #: weblate/billing/models.py:340
 msgid "Changes in last month"
@@ -4474,16 +4427,13 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "翻譯旗標遺失參數：「%s」"
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"{sequence} 中的 Fluent 引用可能會展開成 HTML 標記。或許可以試試 "
-"{suggestion}。"
+"{sequence} 中的 Fluent 引用可能會展開成 HTML 標籤。或許可以試試 {suggestion}"
+"。"
 
 #: weblate/checks/fluent/inner_html.py:144
 #, fuzzy, python-brace-format
@@ -4498,41 +4448,31 @@ msgstr ""
 "{suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
-"{sequence} 序列以 HTML 結束標記開頭，但其名稱或語法無效。如果您不想要結束標"
-"記，請使用 {suggestion}。"
+"序列 {sequence} 以 HTML 結束標籤開頭，但名稱或語法無效。若你不想使用結束標籤"
+"，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"{sequence} 序列以 HTML 標記開頭，但其名稱無效。如果您不想要以 HTML 標記開頭，"
-"請使用 {suggestion}。"
+"序列 {sequence} 以 HTML 標籤開頭，但名稱無效。若你不想以 HTML 標籤開頭，請使"
+"用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
-"{sequence} 序列以 HTML 標記開頭，但這個標記從未以 {close} 閉合。如果您不想用 "
-"HTML 標記開頭，請使用 {suggestion}。"
+"序列 {sequence} 以 HTML 標籤開頭，但該標籤從未由 {close} 閉合。若您不想以 "
+"HTML 標籤開頭，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:212
 #, python-brace-format
@@ -4541,18 +4481,14 @@ msgid ""
 msgstr "Fluent 的內部 HTML 不應包含 {sequence}。或許可以試試 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
 "begin an HTML tag, use {suggestion}."
 msgstr ""
-"{sequence} 序列以 HTML 標記開頭，但序列 {attribute} 屬性不是有效的有值屬性。"
-"如果您不想以 HTML 標記開頭，請使用 {suggestion}。"
+"序列 {sequence} 以 HTML 標籤開頭，但序列 {attribute} 不是有效的有值屬性。若你"
+"不想以 HTML 標籤開頭，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:246
 #, python-brace-format
@@ -4595,18 +4531,14 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML {tag} 標記缺少配對的結束標籤：{end}。"
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
-"{sequence} 序列將以 HTML 字元引用開頭，但沒有以 {semicolon} 結尾。如果您不想"
-"要字元引用，請使用 {suggestion}。"
+"序列 {sequence} 會開始一個 HTML 字元引用，但未以 {semicolon} 結尾。若你不想使"
+"用字元引用，請使用 {suggestion}。"
 
 #: weblate/checks/fluent/inner_html.py:360
 #, python-brace-format
@@ -4622,20 +4554,16 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Fluent 來源應為有效的內部 HTML。"
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
-msgstr "Fluent 數值缺少一個 HTML {tag} 標記。"
+msgstr "Fluent 值缺少 HTML {tag} 標籤。"
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
-msgstr "這些變型的 Fluent 數值缺少 HTML {tag} 標記：{variant_list}。"
+msgstr "Fluent 值在以下變體中缺少 HTML {tag} 標籤：{variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1042
 #, python-brace-format
@@ -5176,10 +5104,8 @@ msgid "Markdown syntax does not match source."
 msgstr "Markdown 語法與來源不符。"
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
-msgstr "此翻譯不包含 URL。"
+msgstr "譯文未包含 URL。"
 
 #: weblate/checks/markup.py:492 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
@@ -5195,7 +5121,7 @@ msgstr "不一致的 reStructuredText"
 
 #: weblate/checks/markup.py:720
 msgid "Inconsistent reStructuredText markup in the translated message."
-msgstr ""
+msgstr "翻譯訊息中的 reStructuredText 標記不一致。"
 
 #: weblate/checks/markup.py:726
 msgid "The following reStructuredText markup is missing: {}"
@@ -5565,25 +5491,24 @@ msgstr "多數值 CSV 檔案"
 #: weblate/formats/ttkit.py:222
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
-msgstr ""
+msgstr "CSV 檔案中的複數形式詮釋資料無效：%s"
 
 #: weblate/formats/ttkit.py:154 weblate/formats/ttkit.py:2369
 #, python-format
 msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
-msgstr ""
+msgstr "CSV 檔案中的複數形式詮釋資料超出範圍：%(value)s（最大值：%(maximum)s）"
 
 #: weblate/formats/ttkit.py:179 weblate/formats/ttkit.py:185
 #: weblate/formats/ttkit.py:190 weblate/formats/ttkit.py:196
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "無效的翻譯標記：「%s」"
+msgstr "CSV 檔案中的 id_hash 詮釋資料無效：%s"
 
 #: weblate/formats/ttkit.py:209 weblate/formats/ttkit.py:2401
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "CSV 檔案中的複數形式詮釋資料需要 id_hash。"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1669
@@ -5677,7 +5602,7 @@ msgstr "無法解析金鑰：%s"
 
 #: weblate/formats/ttkit.py:2116 weblate/formats/ttkit.py:2131
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "此字串鍵與現有的階層式字串鍵衝突。"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2143
@@ -5752,27 +5677,25 @@ msgstr "CSV 檔案"
 #: weblate/formats/ttkit.py:2378
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
-msgstr ""
+msgstr "CSV 檔案中的複數形式詮釋資料缺少形式 %d。"
 
 #: weblate/formats/ttkit.py:2448
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "CSV 檔案中的複數形式詮釋資料需要 target_plural_form。"
 
 #: weblate/formats/ttkit.py:2457
 msgid "Plural form metadata in CSV file requires source_plural_form."
-msgstr ""
+msgstr "CSV 檔案中的複數形式詮釋資料需要 source_plural_form。"
 
 #: weblate/formats/ttkit.py:2478
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "檔案中找到重複字串。"
+msgstr "CSV 檔案中有重複的目標複數形式：%s"
 
 #: weblate/formats/ttkit.py:2487
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "用於 CSV 檔案的編碼方式"
+msgstr "CSV 檔案中有衝突的來源複數形式：%s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2667
@@ -5921,14 +5844,10 @@ msgid "Glossary"
 msgstr "詞彙表"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
-msgstr "由於另一個背景作業正在進行中，因此無法移除該字串。請稍後再試。"
+msgstr "由於另一個背景作業正在進行，無法新增詞彙表字詞。請稍後再試。"
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -6005,26 +5924,20 @@ msgstr "三式"
 #: weblate/lang/forms.py:71
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
-msgstr ""
+msgstr "留空以使用團隊的語言選擇而不加上額外限制。"
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
-msgstr "語言數限制"
+msgstr "語言限制"
 
 #: weblate/lang/forms.py:93
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "語言數限制"
+msgstr "無語言限制"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "選擇的語言無效！"
+msgstr "請輸入有效的語言代碼。"
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -6244,7 +6157,7 @@ msgstr "複數類型"
 
 #: weblate/lang/models.py:1447
 msgid "Example counts for this plural form."
-msgstr "這個複數的計數範例。"
+msgstr "這個複數形式的計數範例。"
 
 #: weblate/lang/models.py:1456 weblate/templates/translation.html:246
 #: weblate/templates/translation.html:275
@@ -6259,7 +6172,7 @@ msgstr "複數"
 #: weblate/lang/models.py:1459
 #, python-format
 msgid "Plural form %d"
-msgstr "複數 %d"
+msgstr "複數形 %d"
 
 #: weblate/lang/views.py:74
 msgid "Remove all translations using this language first."
@@ -6408,14 +6321,10 @@ msgid "Source language selection"
 msgstr "來源語言選擇"
 
 #: weblate/machinery/forms.py:64
-#, fuzzy
-#| msgid ""
-#| "This URL is prohibited because it points to an internal or non-public "
-#| "address."
 msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
-msgstr "禁止填入此 URL，因為其指向內部或非公開的位址。"
+msgstr "專案層級的機器翻譯無法使用內部或非公開位址。"
 
 #: weblate/machinery/forms.py:68
 msgid ""
@@ -6423,6 +6332,8 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"專案層級的機器翻譯無法使用內部或非公開位址。如果這個服務需要在全站設定或加入"
+"允許清單，請聯絡網站管理員。"
 
 #: weblate/machinery/forms.py:106 weblate/machinery/forms.py:133
 #: weblate/machinery/forms.py:150 weblate/machinery/forms.py:157
@@ -6516,7 +6427,7 @@ msgstr "類別"
 msgctxt "Automatic suggestion service configuration"
 msgid ""
 "Specify a customized system category ID to use it instead of general one."
-msgstr "指定自訂的系統分類 ID（而非通用 ID）來使用。"
+msgstr "指定自訂的系統類別 ID（而非通用 ID）來使用。"
 
 #: weblate/machinery/forms.py:257
 msgctxt "Automatic suggestion service configuration"
@@ -6807,7 +6718,7 @@ msgstr "最大權杖數"
 
 #: weblate/machinery/forms.py:604
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "回應中可產生的 token 數上限。"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -6883,10 +6794,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "無法解析 TMX 檔案：%s"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "未在 TMX 檔案定義來源語言！"
+msgstr "TMX 檔案缺少標頭！"
 
 #: weblate/memory/models.py:426
 msgid "Source language not defined in the TMX file!"
@@ -7407,16 +7316,13 @@ msgid "Contact server administrators"
 msgstr "聯絡伺服器管理員"
 
 #: weblate/templates/accounts/contact.html:25
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s server here."
+#, python-format
 msgid "Use this form to reach the administrators of %(site_title)s."
-msgstr "您只能在這裡聯絡 %(site_title)s 伺服器的管理員。"
+msgstr "使用此表單聯絡 %(site_title)s 的管理員。"
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy
-#| msgid "You can only contact administrators of the whole server here."
 msgid "Use this form to reach the administrators of this server."
-msgstr "您只能在這裡聯絡整臺伺服器的管理員。"
+msgstr "使用此表單聯絡此伺服器的管理員。"
 
 #: weblate/templates/accounts/contact.html:34
 #: weblate/templates/accounts/user_profile_link.html:35
@@ -7432,87 +7338,57 @@ msgstr "傳送"
 
 #: weblate/templates/accounts/contact.html:44
 msgid "How can we help?"
-msgstr ""
+msgstr "我們可以如何協助？"
 
 #: weblate/templates/accounts/contact.html:47
 msgid "Select one of the options below to get help."
-msgstr ""
+msgstr "請從下方選擇其中一個選項以取得協助。"
 
 #: weblate/templates/accounts/contact.html:56
-#, fuzzy
-#| msgid "Import translation project"
 msgid "Question about a translation project"
-msgstr "匯入翻譯專案"
+msgstr "關於翻譯專案的問題"
 
 #: weblate/templates/accounts/contact.html:60
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, don’t use this form. "
-#| "Refer to the project’s Info tab and contact its maintainers."
 msgid ""
 "Find a specific translation project, refer to the project's Overview tab and "
 "contact its maintainers directly."
-msgstr ""
-"如果對特定翻譯專案有疑問，請不要使用這個表單。請參考專案的「資訊」分頁，並聯"
-"絡專案的維護者。"
+msgstr "要尋找特定的翻譯專案，請前往該專案的「概覽」分頁，並直接聯絡其維護者。"
 
 #: weblate/templates/accounts/contact.html:64
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse projects"
-msgstr "瀏覽所有專案"
+msgstr "瀏覽專案"
 
 #: weblate/templates/accounts/contact.html:72
-#, fuzzy
-#| msgid "Weblate project"
 msgid "Weblate product feedback"
-msgstr "Weblate 專案"
+msgstr "Weblate 產品意見回饋"
 
 #: weblate/templates/accounts/contact.html:76
-#, fuzzy
-#| msgid ""
-#| "Weblate development ideas and questions can be sent to the %"
-#| "(link_start)sWeblate issue tracker%(link_end)s."
 msgid ""
 "Share Weblate development ideas, feature requests, or report bugs in the "
 "upstream issue tracker."
-msgstr ""
-"可以將 Weblate 部署建議與疑問寄到 %(link_start)sWeblate 議題追蹤器%"
-"(link_end)s。"
+msgstr "在上游問題追蹤器分享 Weblate 開發想法、功能需求，或回報錯誤。"
 
 #: weblate/templates/accounts/contact.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "Open issue"
-#| msgid_plural "Open issues"
 msgid "Open issue tracker"
-msgstr "待處理問題"
+msgstr "開啟問題追蹤器"
 
 #: weblate/templates/accounts/contact.html:92
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support for another Weblate server"
-msgstr "支援 Weblate"
+msgstr "尋求其他 Weblate 伺服器的協助"
 
 #: weblate/templates/accounts/contact.html:96
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for any other Weblate deployment than %(site_title)s, "
-#| "please check support offerings at %(weblate_link)s or use this form on "
-#| "the correct server."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "check the available support offerings, or use the contact form on the "
 "correct server."
 msgstr ""
-"若您正在尋求架設 %(site_title)s 之外另一臺 Weblate 實體的支援，請參考 "
-"%(weblate_link)s 列出的支援報價，或在正確的伺服器上填寫這份表單。"
+"若您要尋求 %(site_title)s 以外的任何 Weblate 部署支援，請參考適合的支援方案，"
+"或在正確的伺服器上使用聯絡表單。"
 
 #: weblate/templates/accounts/contact.html:103
-#, fuzzy
-#| msgid "New source string"
 msgid "View support offerings"
-msgstr "有新的來源字串"
+msgstr "檢視支援方案"
 
 #: weblate/templates/accounts/contact.html:112 weblate/templates/base.html:428
 #: weblate/templates/base.html:430 weblate/templates/footer.html:41
@@ -7531,35 +7407,32 @@ msgstr "說明文件"
 msgid ""
 "Browse the Weblate documentation for guides on translating, administration, "
 "and configuration."
-msgstr ""
+msgstr "瀏覽 Weblate 文件，取得翻譯、管理與設定的指南。"
 
 #: weblate/templates/accounts/contact.html:121
 msgid "Read the docs"
-msgstr ""
+msgstr "閱讀文件"
 
 #: weblate/templates/accounts/contact.html:131
-#, fuzzy, python-format
-#| msgid "Contact site administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "聯絡站臺管理員"
+msgstr "給 %(site_title)s 管理員的問題"
 
 #: weblate/templates/accounts/contact.html:133
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Question for the server administrators"
-msgstr "聯絡伺服器管理員"
+msgstr "給伺服器管理員的問題"
 
 #: weblate/templates/accounts/contact.html:139
 msgid ""
 "Reach out to the administrators of this server about account, registration, "
 "or server-wide questions that don't fit the topics above."
 msgstr ""
+"如有帳號、註冊或伺服器整體相關且不屬於上述主題的問題，請聯絡此伺服器的管理員"
+"。"
 
 #: weblate/templates/accounts/contact.html:143
-#, fuzzy
-#| msgid "Use contact form"
 msgid "Open contact form"
-msgstr "使用聯絡表單"
+msgstr "開啟聯絡表單"
 
 #: weblate/templates/accounts/email-sent.html:7
 #: weblate/templates/accounts/register.html:7
@@ -8177,7 +8050,7 @@ msgstr "帳號移除"
 msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
-msgstr "您將失去您管理專案的存取權限。專案本身不會被移除。"
+msgstr "您將失去您管理專案的存取權。專案本身不會被移除。"
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
@@ -8553,13 +8426,11 @@ msgid "Contribution cleanup"
 msgstr "貢獻清理"
 
 #: weblate/templates/accounts/user.html:454
-#, fuzzy, python-format
-#| msgid ""
-#| "Revert the latest editable translations by %(user)s across all projects."
+#, python-format
 msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
-msgstr "還原 %(user)s 在所有專案中最後一次的可編輯翻譯。"
+msgstr "在所有專案中清理來自 %(user)s 的翻譯、建議與評論。"
 
 #: weblate/templates/accounts/user.html:459
 #: weblate/templates/accounts/user.html:485
@@ -8608,14 +8479,11 @@ msgid "Close"
 msgstr "關閉"
 
 #: weblate/templates/accounts/user.html:479
-#, fuzzy, python-format
-#| msgid ""
-#| "This will revert the latest editable translations by <b>%(user)s</b> "
-#| "across all projects."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
-msgstr "這將還原 %(user)s 在所有專案中最後一次的可編輯翻譯。"
+msgstr "選擇要在所有專案中清理 <b>%(user)s</b> 的哪些貢獻。"
 
 #: weblate/templates/accounts/user.html:495
 msgid "Account removal deletes all user private data."
@@ -8651,16 +8519,16 @@ msgstr "將從 Weblate 移除 <b>%(user)s</b>。"
 #: weblate/templates/accounts/user_profile_link.html:23
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
-msgstr ""
+msgstr "您將離開 Weblate，開啟由 %(user)s 提供的個人檔案連結。"
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "目的地：%(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
-msgstr ""
+msgstr "只有在你信任此目的地時才繼續。"
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -8782,7 +8650,7 @@ msgstr[0] "管理專案範圍的附加元件（已安裝 %(count)s 個）"
 
 #: weblate/templates/addons/addon_list.html:92
 msgid "Add-ons installed here apply to all components within this category."
-msgstr "這裡安裝的附加元件，會套用到此分類中的所有元件。"
+msgstr "這裡安裝的附加元件，會套用到此類別中的所有元件。"
 
 #: weblate/templates/addons/addon_list.html:99
 #, python-format
@@ -8862,11 +8730,11 @@ msgstr "整合說明"
 
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
-msgstr ""
+msgstr "已發佈的翻譯檔可從 CDN 基底 URL 取得："
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
-msgstr ""
+msgstr "檔案使用語言代碼命名，並保留原始檔案副檔名。"
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9167,7 +9035,7 @@ msgstr "根據電子郵件位址，自動將新建立的使用者加入到這個
 msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
-msgstr ""
+msgstr "網站上的每位新使用者都會檢查此項目，不論使用的專案為何。"
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -9183,10 +9051,8 @@ msgid "Team administrator"
 msgstr "團隊管理員"
 
 #: weblate/templates/auth/team.html:140
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "No additional limit"
-msgstr "編輯額外字串資訊"
+msgstr "無額外限制"
 
 #: weblate/templates/auth/team.html:148
 #: weblate/templates/trans/project-access-row.html:18
@@ -10071,7 +9937,7 @@ msgstr ""
 #: weblate/templates/component.html:341
 msgid ""
 "Share this component in other projects, optionally placing it in a category."
-msgstr "在其他專案中共享這個組件，並可選擇將其放入分類中。"
+msgstr "在其他專案中共享這個組件，並可選擇將其放入類別中。"
 
 #: weblate/templates/component.html:355
 msgid "Current links"
@@ -10338,13 +10204,13 @@ msgstr "一旦您啟動帳號後，請繼續前往翻譯區塊。"
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "選擇要處理的項目"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
-msgstr ""
+msgstr "先從未翻譯的字串開始，接著再進行檢查、檢閱、建議或編輯。"
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -10489,7 +10355,7 @@ msgstr "儲存庫狀態"
 #, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(total_count)s 個待處理單位"
+msgstr[0] "%(total_count)s 個未決單位"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
@@ -10945,6 +10811,8 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"此服務可將來源字串、翻譯及相關情境傳送給第三方供應商。啟用前請先檢閱供應商的"
+"條款與隱私權政策。"
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -11041,7 +10909,7 @@ msgstr "生成時間 %(timestamp)s。"
 msgid ""
 "Following billings have recurring payment scheduled for automatic "
 "disablement due to inactivity:"
-msgstr ""
+msgstr "以下帳單因長期不活躍，已排程將定期付款自動停用："
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -11130,49 +10998,41 @@ msgstr "您的付費方案已過期"
 msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
-msgstr ""
+msgstr "由於涵蓋的專案似乎已被棄置，您的帳務方案之年度定期付款將於 %(date)s 停用。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:13
 #, python-format
 msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
-msgstr ""
+msgstr "這些專案目前已知最新的上游儲存庫提交來自 %(date)s。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
-msgstr "新增語言的要求已傳送給專案維護者。"
+msgstr "自 %(date)s 起，Weblate 對這些專案有未決的翻譯變更。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
-msgstr ""
+msgstr "自 %(date)s 起，Weblate 有等待推送的儲存庫變更。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate should now be able to see updated repository and you can unlock "
-#| "it."
+#, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
-msgstr "Weblate 應該現在就能看到更新過的儲存庫，接著您就能解鎖該組件。"
+msgstr "自 %(date)s 起，Weblate 一直無法推送儲存庫變更。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
 "The projects will remain available, but the next payment will need to be "
 "made manually."
-msgstr ""
+msgstr "專案仍可繼續使用，但下一筆款項需要手動付款。"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "帳號在過期之後會停用。"
+msgstr "將停用不活躍專案的定期付款"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -11565,22 +11425,16 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s 已經完成"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "翻譯品質過濾器"
+msgstr "此期間的翻譯活動："
 
 #: weblate/templates/mail/translation_activity_summary.html:11
-#, fuzzy
-#| msgid "Added user"
 msgid "Added"
-msgstr "加入了使用者"
+msgstr "已新增"
 
 #: weblate/templates/mail/translation_activity_summary.html:12
-#, fuzzy
-#| msgid "Update"
 msgid "Updated"
-msgstr "更新"
+msgstr "已更新"
 
 #: weblate/templates/mail/translation_activity_summary.html:14
 #: weblate/templates/snippets/list-objects.html:61
@@ -11600,10 +11454,8 @@ msgstr "未完成"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translation_activity_summary_subject.txt:5
-#, fuzzy
-#| msgid "Translation summary"
 msgid "Translation activity summary"
-msgstr "翻譯摘要"
+msgstr "翻譯活動摘要"
 
 #: weblate/templates/manage/alerts.html:10
 msgid "Component alerts"
@@ -13115,7 +12967,7 @@ msgstr "請登入以開展新翻譯"
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
-msgstr ""
+msgstr "此公式會根據給定的數量 (n) 判斷將使用哪一種複數形式。"
 
 #: weblate/templates/snippets/plural.html:10
 #, python-format
