@@ -1393,10 +1393,12 @@ class User(AbstractBaseUser):
         return activity
 
     def has_email(self, email: str) -> bool:
+        if not email:
+            return False
         return (
-            email == self.email
+            bool(self.email and self.email.casefold() == email.casefold())
             or User.objects.filter(
-                pk=self.pk, social_auth__verifiedemail__email=email
+                pk=self.pk, social_auth__verifiedemail__email__iexact=email
             ).exists()
         )
 
@@ -1706,7 +1708,7 @@ class Invitation(models.Model):
     def matches_user(self, user: User) -> bool:
         if self.user_id is not None:
             return self.user_id == user.pk
-        return self.matches_email(user.email)
+        return bool(self.email and user.has_email(self.email))
 
     def send_email(self) -> None:
         from weblate.accounts.notifications import (  # noqa: PLC0415
