@@ -961,12 +961,18 @@ Projects
 
     Edit a project by a :http:method:`PATCH` request.
 
-    The project workspace can not be changed using this endpoint. To create a
-    project in a workspace, pass ``workspace`` to :http:post:`/api/projects/`;
-    see :ref:`workspace-project-creation`.
+    Changing ``workspace`` moves the project. Moving a project requires
+    permission to edit the project and the :guilabel:`Edit workspace settings`
+    permission for the source and target workspace. The target workspace also
+    requires the :guilabel:`Add projects to workspace` permission. Moving a
+    project out of a workspace also requires the site-wide :guilabel:`Add new
+    projects` permission. See :ref:`workspace-project-creation`.
 
     :param project: Project URL slug
     :type project: string
+    :param workspace: Optional workspace UUID, or ``null`` to move the project
+                       out of a workspace
+    :type workspace: string
 
 .. http:put:: /api/projects/(string:project)/
 
@@ -974,7 +980,8 @@ Projects
 
     Edit a project by a :http:method:`PUT` request.
 
-    The project workspace can not be changed using this endpoint.
+    Changing ``workspace`` follows the same permission checks as
+    :http:patch:`/api/projects/(string:project)/`.
 
     :param project: Project URL slug
     :type project: string

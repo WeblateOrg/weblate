@@ -485,6 +485,31 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     "old_access_control": old.access_control,
                 },
             )
+        if (
+            should_track_field(self, "workspace", update_fields)
+            and old.workspace_id != self.workspace_id
+        ):
+            old_workspace_name = ""
+            if old.workspace is not None:
+                old_workspace_name = old.workspace.name
+            workspace_name = ""
+            if self.workspace is not None:
+                workspace_name = self.workspace.name
+            self.change_set.create(
+                action=ActionEvents.MOVE_PROJECT,
+                old=str(old.workspace_id or ""),
+                target=str(self.workspace_id or ""),
+                workspace=self.workspace,
+                user=self.acting_user,
+                details={
+                    "old_workspace": (
+                        str(old.workspace_id) if old.workspace_id else None
+                    ),
+                    "old_workspace_name": old_workspace_name,
+                    "workspace": str(self.workspace_id) if self.workspace_id else None,
+                    "workspace_name": workspace_name,
+                },
+            )
         log_setting_changes(
             self,
             old,

@@ -2479,6 +2479,7 @@ paths:
             enum:
             - 0
             - 1
+            - 100
             - 13
             - 14
             - 15
@@ -2666,6 +2667,7 @@ paths:
           * `97` - User access changed
           * `98` - Workspace created
           * `99` - Workspace setting changed
+          * `100` - Project moved
         explode: true
         style: form
       - name: page
@@ -28411,6 +28413,7 @@ components:
       - 97
       - 98
       - 99
+      - 100
       type: integer
       description: |-
         * `0` - Resource updated
@@ -28507,6 +28510,7 @@ components:
         * `97` - User access changed
         * `98` - Workspace created
         * `99` - Workspace setting changed
+        * `100` - Project moved
     Addon:
       type: object
       properties:

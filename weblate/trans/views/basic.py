@@ -42,6 +42,7 @@ from weblate.trans.forms import (
     ProjectDeleteForm,
     ProjectFilterForm,
     ProjectLanguageDeleteForm,
+    ProjectMoveForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
@@ -68,6 +69,7 @@ from weblate.trans.models.component import (
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode, translation_percent
+from weblate.trans.workspace_move import can_offer_project_move
 from weblate.utils import messages
 from weblate.utils.decorators import engage_login_not_required
 from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
@@ -540,6 +542,9 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
                 request=request,
                 instance=obj,
             ),
+            "move_form": ProjectMoveForm(request, instance=obj)
+            if can_offer_project_move(user, obj)
+            else None,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,

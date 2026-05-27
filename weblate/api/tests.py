@@ -3324,31 +3324,169 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["slug"], "new-slug")
 
-    def test_patch_workspace_rejected(self) -> None:
+    def test_patch_workspace_move(self) -> None:
         current_workspace = Workspace.objects.create(name="Current workspace")
         target_workspace = Workspace.objects.create(name="Target workspace")
-        self.project.workspace = current_workspace
-        self.project.save(update_fields=["workspace"])
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        current_workspace.add_owner(self.user)
+        target_workspace.add_owner(self.user)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_cache()
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"workspace": str(target_workspace.pk)},
+        )
+        self.assertEqual(response.data["workspace"], target_workspace.pk)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target_workspace.pk)
+        change = self.project.change_set.get(action=ActionEvents.MOVE_PROJECT)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.details["old_workspace_name"], "Current workspace")
+        self.assertEqual(change.details["workspace_name"], "Target workspace")
+
+    def test_patch_workspace_requires_source_and_target_edit(self) -> None:
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        target_workspace = Workspace.objects.create(name="Target workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
         self.grant_perm_to_user("project.edit", project=self.project)
 
+        target_workspace.add_owner(self.user)
+        self.user.clear_cache()
         self.do_request(
             "api:project-detail",
             self.project_kwargs,
             method="patch",
-            code=400,
+            code=403,
             format="json",
             request={"workspace": str(target_workspace.pk)},
         )
         self.project.refresh_from_db()
         self.assertEqual(self.project.workspace_id, current_workspace.pk)
 
+        current_workspace.add_owner(self.user)
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"workspace": str(target_workspace.pk)},
+        )
+
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        unauthorized_workspace = Workspace.objects.create(name="Unauthorized")
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"workspace": str(unauthorized_workspace.pk)},
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, current_workspace.pk)
+
+    def test_patch_workspace_requires_target_add_project(self) -> None:
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        target_workspace = Workspace.objects.create(name="Target workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        current_workspace.add_owner(self.user)
+        self.grant_perm_to_user("project.edit", project=self.project)
+
+        role = Role.objects.create(name="Target workspace edit")
+        role.permissions.add(Permission.objects.get(codename="workspace.edit"))
+        group = Group.objects.create(
+            name="Target workspace editors",
+            defining_workspace=target_workspace,
+        )
+        group.roles.add(role)
+        self.user.add_team(None, group)
+        self.user.clear_cache()
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"workspace": str(target_workspace.pk)},
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, current_workspace.pk)
+
+    def test_patch_workspace_standalone_moves(self) -> None:
+        target_workspace = Workspace.objects.create(name="Target workspace")
+        target_workspace.add_owner(self.user)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_cache()
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"workspace": str(target_workspace.pk)},
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target_workspace.pk)
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"workspace": None},
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target_workspace.pk)
+
+        permission = Permission.objects.get(codename="project.add")
+        group = Group.objects.create(
+            name="Project add", language_selection=SELECTION_ALL
+        )
+        role = Role.objects.create(name="Project add role")
+        role.permissions.add(permission)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"workspace": None},
+        )
+        self.project.refresh_from_db()
+        self.assertIsNone(self.project.workspace_id)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_patch_workspace_checks_billing_limits(self) -> None:
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        current_workspace.add_owner(self.user)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        billing = create_test_billing(self.user)
+        other_project = Project.objects.create(name="Other", slug="other")
+        billing.add_project(other_project)
+        self.user.clear_cache()
+
         self.do_request(
             "api:project-detail",
             self.project_kwargs,
             method="patch",
             code=400,
             format="json",
-            request={"workspace": None},
+            request={"workspace": str(billing.workspace_id)},
         )
         self.project.refresh_from_db()
         self.assertEqual(self.project.workspace_id, current_workspace.pk)
