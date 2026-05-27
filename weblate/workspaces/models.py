@@ -4,9 +4,12 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING, ClassVar, Self
 from uuid import uuid4
 
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
@@ -103,6 +106,28 @@ class Workspace(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse("workspace", kwargs={"pk": self.pk})
+
+    def get_url_path(self) -> tuple[str, ...]:
+        return ("-", "workspace", str(self.pk))
+
+    def can_view(self, user: User) -> bool:
+        if user.allowed_projects.filter(workspace=self).exists():
+            return True
+        if any(
+            user.has_perm(permission, self)
+            for permission in (
+                "workspace.edit",
+                "workspace.add_project",
+                "workspace.edit_members",
+            )
+        ):
+            return True
+        if user.has_perm("management.use"):
+            return True
+        if "weblate.billing" in settings.INSTALLED_APPS:
+            with suppress(AttributeError, ObjectDoesNotExist):
+                return bool(user.has_perm("meta:billing.view", self.billing))
+        return False
 
     def setup_groups(self) -> dict[str, Group]:
         from weblate.auth.data import SELECTION_MANUAL  # noqa: PLC0415

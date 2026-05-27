@@ -17,6 +17,7 @@ from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 
+from weblate.trans.models.change import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.views import get_paginator
@@ -142,6 +143,9 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "query_string": "",
             "show_review_columns": show_review_columns,
             "create_project_url": get_create_project_url(request, workspace, billing),
+            "last_changes": Change.objects.last_changes(
+                request.user, workspace=workspace
+            ).recent(),
             "can_edit_workspace": can_edit_workspace,
             "can_manage_access": can_manage_access,
             "workspace_teams": workspace.defined_groups.annotate(Count("user"))

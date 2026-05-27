@@ -12,6 +12,7 @@ from contextlib import suppress
 
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
+from uuid import UUID
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -37,6 +38,7 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, prefetch_stats
 from weblate.vcs.git import LocalRepository
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -275,6 +277,24 @@ def parse_path(  # noqa: C901
         raise UnsupportedPathObjectError(msg)
 
     path = list(path)
+
+    # Workspace URL
+    if path[:2] == ["-", "workspace"]:
+        check_type(Workspace)
+        if len(path) != 3:
+            msg = "Invalid workspace path"
+            raise UnsupportedPathObjectError(msg)
+        try:
+            workspace_id = UUID(path[2])
+        except ValueError as error:
+            msg = "Invalid workspace id"
+            raise Http404(msg) from error
+        workspace = get_object_or_404(Workspace, pk=workspace_id)
+        if request is not None and not workspace.can_view(request.user):
+            msg = "Access denied"
+            raise Http404(msg)
+        workspace.acting_user = acting_user
+        return workspace
 
     # Language URL
     if path[:2] == ["-", "-"] and len(path) == 3:
