@@ -1421,6 +1421,29 @@ class ChangeTest(ModelTestCase):
 
         self.assertEqual(change.workspace_id, original.pk)
 
+    def test_workspace_last_changes_includes_project_changes_for_superuser(
+        self,
+    ) -> None:
+        workspace = Workspace.objects.create(name="Change workspace")
+        project = self.component.project
+        Project.objects.filter(pk=project.pk).update(workspace=workspace)
+        project.refresh_from_db()
+        user = User.objects.create_user("history", "history@example.com", "history")
+        user.is_superuser = True
+        user.save(update_fields=["is_superuser"])
+
+        workspace_change = Change.objects.create(
+            workspace=workspace, action=ActionEvents.CREATE_PROJECT
+        )
+        project_change = Change.objects.create(
+            project=project, action=ActionEvents.LOCK
+        )
+
+        changes = Change.objects.last_changes(user, workspace=workspace)
+
+        self.assertIn(workspace_change, changes)
+        self.assertIn(project_change, changes)
+
     def test_change_workspace_backfill_migration(self) -> None:
         migration = importlib.import_module(
             "weblate.trans.migrations.0088_change_workspace_backfill"

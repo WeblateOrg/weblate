@@ -13,14 +13,18 @@ from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.models import AddonActivityLog
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, Role, TeamMembership
+from weblate.auth.models import Group, Role, TeamMembership, User
+from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language, Plural
+from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
+from weblate.workspaces.models import Workspace
 
 
 class AutoTranslationTest(ViewTestCase):
@@ -295,6 +299,47 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto(mode="approved")
         self.perform_auto(0, 1, mode="approved")
 
+    def test_approved_requires_review_permission(self) -> None:
+        limited_user = User.objects.create_user(
+            "limited-auto-approve",
+            "limited-auto-approve@example.com",
+            "limited-auto-approve",
+        )
+        group = Group.objects.create(
+            name="Limited automatic approval",
+            language_selection=SELECTION_ALL,
+        )
+        group.projects.add(self.project)
+        group.roles.add(Role.objects.get(name="Automatic translation"))
+        limited_user.groups.add(group)
+        limited_user.clear_cache()
+        translation = self.component2.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=translation)
+        group.projects.add(translation.component.project)
+        limited_user.clear_cache()
+
+        self.assertTrue(limited_user.has_perm("translation.auto", translation))
+        self.assertFalse(limited_user.has_perm("unit.review", unit))
+
+        self.make_different()
+        result = auto_translate(
+            translation_id=translation.id,
+            user_id=limited_user.id,
+            mode="approved",
+            q="state:<translated",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        unit.refresh_from_db()
+        self.assertNotEqual(unit.state, STATE_APPROVED)
+
     def test_fuzzy(self) -> None:
         """Test for automatic suggestion in fuzzy mode."""
         self.perform_auto(mode="fuzzy")
@@ -380,6 +425,202 @@ class AutoTranslationTest(ViewTestCase):
             path_params={"path": project_language.get_url_path()},
             expected_count=1,
             expected=1,
+        )
+
+    def test_autotranslate_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        Project.objects.filter(
+            pk__in={self.project.pk, self.component2.project_id}
+        ).update(workspace=workspace)
+
+        response = self.client.get(workspace.get_absolute_url())
+        self.assertContains(response, "Batch automatic translation")
+
+        self.make_different()
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("auto_translation", kwargs={"path": workspace.get_url_path()}),
+                {
+                    "auto_source": "others",
+                    "threshold": "100",
+                    "q": "state:<translated",
+                    "mode": "translate",
+                },
+                follow=True,
+            )
+        self.assertRedirects(response, workspace.get_absolute_url())
+        self.assertContains(
+            response, "Automatic translation completed, 1 string was updated."
+        )
+        translation = self.component2.translation_set.get(language_code="cs")
+        with self.captureOnCommitCallbacks(execute=True):
+            translation.invalidate_cache()
+        self.assertEqual(translation.stats.translated, 1)
+
+    def test_autotranslate_workspace_project_machinery_settings(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        self.project.workspace = workspace
+        self.component2.project.workspace = workspace
+        identifier = DummyTranslation.get_identifier()
+        self.project.machinery_settings[identifier] = {}
+        self.project.save(update_fields=["workspace", "machinery_settings"])
+        self.component2.project.save(update_fields=["workspace"])
+        Setting.objects.filter(category=SettingCategory.MT, name=identifier).delete()
+
+        original_service = MACHINERY.get(identifier)
+        MACHINERY[identifier] = DummyTranslation
+
+        def restore_dummy_machinery() -> None:
+            if original_service is None:
+                MACHINERY.data.pop(identifier, None)
+            else:
+                MACHINERY[identifier] = original_service
+
+        self.addCleanup(restore_dummy_machinery)
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, f'value="{identifier}"')
+        self.assertContains(response, "Dummy")
+
+    def test_autotranslate_workspace_machine_translation(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        project = Project.objects.create(
+            name="Machine translation project",
+            slug="machine-translation-project",
+            web="https://nonexisting.weblate.org/",
+            workspace=workspace,
+        )
+        component = self.create_po_new_base(name="Machine component", project=project)
+        identifier = DummyTranslation.get_identifier()
+        project.machinery_settings[identifier] = {}
+        project.save(update_fields=["machinery_settings"])
+
+        original_service = MACHINERY.get(identifier)
+        MACHINERY[identifier] = DummyTranslation
+
+        def restore_dummy_machinery() -> None:
+            if original_service is None:
+                MACHINERY.data.pop(identifier, None)
+            else:
+                MACHINERY[identifier] = original_service
+
+        self.addCleanup(restore_dummy_machinery)
+
+        result = auto_translate(
+            workspace_id=str(workspace.pk),
+            user_id=self.user.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="mt",
+            source_component_id=None,
+            engines=[identifier],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, 2 strings were updated.",
+        )
+        translation = component.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=translation)
+        self.assertIn(unit.target, {"Nazdar světe!\n", "Ahoj světe!\n"})
+
+    def test_autotranslate_workspace_ignores_locked_components(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        Project.objects.filter(
+            pk__in={self.project.pk, self.component2.project_id}
+        ).update(workspace=workspace)
+        locked_component = self.create_po_new_base(
+            name="Locked component", project=self.project
+        )
+        locked_component.locked = True
+        locked_component.save(update_fields=["locked"])
+
+        self.make_different()
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("auto_translation", kwargs={"path": workspace.get_url_path()}),
+                {
+                    "auto_source": "others",
+                    "threshold": "100",
+                    "q": "state:<translated",
+                    "mode": "translate",
+                },
+                follow=True,
+            )
+
+        self.assertRedirects(response, workspace.get_absolute_url())
+        self.assertContains(
+            response, "Automatic translation completed, 1 string was updated."
+        )
+
+    def test_autotranslate_workspace_skips_mismatched_selected_source(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        self.project.workspace = workspace
+        self.component2.project.workspace = workspace
+        self.component.source_language = Language.objects.get(code="de")
+        self.project.save(update_fields=["workspace"])
+        self.component2.project.save(update_fields=["workspace"])
+        self.component.save(update_fields=["source_language"])
+
+        self.make_different()
+        result = auto_translate(
+            workspace_id=str(workspace.pk),
+            user_id=self.user.id,
+            mode="translate",
+            q="state:<translated",
+            auto_source="others",
+            source_component_id=self.component.id,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        self.assertEqual(
+            result["warnings"],
+            [
+                (
+                    "Automatic translation skipped some translations because selected "
+                    "source components use a different source language."
+                )
+            ],
+        )
+
+    def test_autotranslate_workspace_skips_target_as_source(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        self.project.workspace = workspace
+        self.component.source_language = Language.objects.get(code="de")
+        self.project.save(update_fields=["workspace"])
+        self.component.save(update_fields=["source_language"])
+
+        self.make_different()
+        result = auto_translate(
+            workspace_id=str(workspace.pk),
+            user_id=self.user.id,
+            mode="fuzzy",
+            q="state:translated",
+            auto_source="others",
+            source_component_id=None,
+            engines=[],
+            threshold=100,
+        )
+
+        self.assertEqual(
+            result["message"],
+            "Automatic translation completed, no strings were updated.",
+        )
+        self.assertEqual(
+            result["warnings"],
+            [
+                (
+                    "Automatic translation skipped some translations because "
+                    "no other source components were available."
+                )
+            ],
         )
 
     def test_autotranslate_fail(self) -> None:

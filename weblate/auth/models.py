@@ -933,20 +933,39 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.order()
+        return Project.objects.filter(self.get_project_access_query()).order()
+
+    def get_project_access_query(self, prefix: str = "") -> Q:
+        """Return direct project access filter for related objects."""
+        if self.is_superuser:
+            return Q()
+
+        field_prefix = f"{prefix}__" if prefix else ""
         # All public and protected projects are accessible
         acls = {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
-        if -SELECTION_ALL in self.project_permissions:
+        if self.project_permissions[-SELECTION_ALL]:
             acls.add(Project.ACCESS_PRIVATE)
             acls.add(Project.ACCESS_CUSTOM)
-        condition = Q(access_control__in=acls)
+        condition = Q(**{f"{field_prefix}access_control__in": acls})
+
+        blocked_ids = {
+            key
+            for key, permissions in self.project_permissions.items()
+            if permissions == [(None, None)]
+        }
+        if blocked_ids:
+            condition &= ~Q(**{f"{field_prefix}pk__in": blocked_ids})
 
         # Add project-specific allowance
         restricted = {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
-        project_ids = {key for key in self.project_permissions if key not in restricted}
+        project_ids = {
+            key
+            for key, permissions in self.project_permissions.items()
+            if key not in restricted and key not in blocked_ids and permissions
+        }
         if project_ids:
-            condition |= Q(pk__in=project_ids)
-
-        return Project.objects.filter(condition).order()
+            condition |= Q(**{f"{field_prefix}pk__in": project_ids})
+        return condition
 
     @cached_property
     def needs_component_restrictions_filter(self):
@@ -958,7 +977,7 @@ class User(AbstractBaseUser):
     def needs_project_filter(self):
         if self.is_superuser:
             return False
-        if -SELECTION_ALL in self.project_permissions:
+        if self.project_permissions[-SELECTION_ALL]:
             return False
         return Project.objects.exclude(
             pk__in=self.allowed_projects.values("pk").order_by()

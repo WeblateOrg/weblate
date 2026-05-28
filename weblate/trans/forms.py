@@ -138,6 +138,7 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import Model, QuerySet
+    from django.http import QueryDict
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -877,14 +878,16 @@ class SearchForm(forms.Form):
         | ProjectLanguage
         | Category
         | CategoryLanguage
+        | Workspace
         | Language
         | None = None,
+        query_data: QueryDict | None = None,
         **kwargs,
     ) -> None:
         """Generate choices for other components in the same project."""
         self.user = request.user
         self.language = language
-        sort_by = get_sort_name(request, obj)
+        sort_by = get_sort_name(request, obj, query_data=query_data)
         self.sort_name = sort_by["name"]
         self.sort_query = sort_by["query"]
         super().__init__(**kwargs)
@@ -1031,6 +1034,10 @@ class AutoForm(forms.Form):
         "Enter slug of a component to use as source, keep blank to use all "
         "components in the current project."
     )
+    COMPONENT_WORKSPACE_SLUG_HELP_TEXT = gettext_lazy(
+        "Enter project and component slug or component ID to use as source, "
+        "keep blank to use all components in the current workspace."
+    )
     COMPONENT_SELECT_HELP_TEXT = gettext_lazy(
         "Turn on contribution to shared translation memory for the project to "
         "get access to additional components."
@@ -1074,7 +1081,7 @@ class AutoForm(forms.Form):
     )
 
     def __init__(
-        self, obj: Component | Project | None, user=None, *args, **kwargs
+        self, obj: Component | Project | Workspace | None, user=None, *args, **kwargs
     ) -> None:
         """Generate choices for other components in the same project."""
         auto_id = kwargs.pop("auto_id", "id_auto_%s")
@@ -1101,6 +1108,14 @@ class AutoForm(forms.Form):
             ).exclude(project=obj)
             machinery_settings = obj.get_machinery_settings()
             self.project = obj
+        elif isinstance(obj, Workspace):
+            self.components = Component.objects.filter(project__workspace=obj)
+            projects = Project.objects.filter(workspace=obj).order()
+            if user is not None:
+                self.components = self.components.filter_access(user)
+                projects = user.allowed_projects.filter(workspace=obj).order()
+            for project in projects:
+                machinery_settings.update(project.get_machinery_settings())
         else:
             # Site-wide add-ons
             self.components = Component.objects.all()
@@ -1110,10 +1125,15 @@ class AutoForm(forms.Form):
         # thousands of components
         if len(self.components.values_list("id")[:30]) == 30:
             # Do not show choices when too many
+            help_text = (
+                self.COMPONENT_WORKSPACE_SLUG_HELP_TEXT
+                if isinstance(obj, Workspace)
+                else self.fields["component"].help_text
+            )
             self.fields["component"] = forms.CharField(
                 required=False,
                 label=gettext("Component"),
-                help_text=self.fields["component"].help_text,
+                help_text=help_text,
             )
         else:
             choices = [
@@ -1121,10 +1141,11 @@ class AutoForm(forms.Form):
                 for s in self.components.order_project().prefetch_related("project")
             ]
 
-            self.fields["component"].choices = [
-                ("", gettext("All components in current project")),
-                *choices,
-            ]
+            if isinstance(obj, Workspace):
+                all_components_label = gettext("All components in current workspace")
+            else:
+                all_components_label = gettext("All components in current project")
+            self.fields["component"].choices = [("", all_components_label), *choices]
             self.fields["component"].help_text = self.COMPONENT_SELECT_HELP_TEXT
 
         engines = sorted(
@@ -1174,7 +1195,9 @@ class AutoForm(forms.Form):
                 raise ValidationError(gettext("Component not found!")) from error
         elif "/" not in component:
             if self.project is None:
-                raise ValidationError(gettext("Component not found!"))
+                raise ValidationError(
+                    gettext("Enter component ID or project/component slug.")
+                )
             try:
                 result = self.components.get(slug=component, project=self.project)
             except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
@@ -3539,9 +3562,8 @@ class ReplaceForm(forms.Form):
     )
 
     def __init__(self, obj: URLMixin, data: dict | None = None) -> None:
-        super().__init__(
-            data=data, auto_id="id_replace_%s", initial={"path": obj.full_slug}
-        )
+        path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
+        super().__init__(data=data, auto_id="id_replace_%s", initial={"path": path})
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -3840,16 +3862,25 @@ class BulkEditForm(forms.Form):
         | ProjectLanguage
         | Category
         | CategoryLanguage
+        | Workspace
         | None,
         *args,
         **kwargs,
     ) -> None:
         project = kwargs.pop("project", None)
+        labels = kwargs.pop("labels", None)
         kwargs["auto_id"] = "id_bulk_%s"
         if obj is not None:
-            kwargs["initial"] = {"path": obj.full_slug}
+            kwargs["initial"] = {
+                "path": getattr(obj, "full_slug", "/".join(obj.get_url_path()))
+            }
         super().__init__(*args, **kwargs)
-        labels = Label.objects.all() if project is None else project.label_set.all()
+        if labels is None:
+            # Labels are project-scoped, so non-project bulk edit scopes do not
+            # offer label operations to avoid applying labels across projects.
+            labels = (
+                Label.objects.none() if project is None else project.label_set.all()
+            )
         if labels:
             self.fields["remove_labels"].queryset = labels
             self.fields["add_labels"].queryset = labels

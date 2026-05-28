@@ -257,7 +257,7 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
-            result = result.filter(component__project__in=user.allowed_projects)
+            result = result.filter(user.get_project_access_query("component__project"))
         if user.needs_component_restrictions_filter:
             result = result.filter(
                 Q(component__restricted=False)
