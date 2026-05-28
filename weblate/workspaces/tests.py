@@ -4,11 +4,14 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
 from django.core.exceptions import ValidationError
 from django.http import Http404
 from django.urls import reverse
 
 from weblate.auth.models import Group
+from weblate.billing.models import Billing, BillingQuerySet
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import get_breadcrumbs
@@ -166,6 +169,30 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, 'data-bs-target="#billing"')
         self.assertContains(response, "Billing plan")
 
+    def test_empty_billing_workspace_project_url_checks_current_billing(self) -> None:
+        user = create_test_user()
+        billing = create_test_billing(user, invoice=False)
+        other = Billing.objects.create(plan=billing.plan)
+        other.workspace.add_owner(user)
+        self.create_project(
+            other.workspace,
+            name="Other billed project",
+            slug="other-billed-project",
+        )
+
+        self.client.login(username=user.username, password="testpassword")
+        with patch.object(
+            BillingQuerySet,
+            "for_user_within_limits",
+            side_effect=AssertionError,
+        ):
+            response = self.client.get(billing.workspace.get_absolute_url())
+
+        self.assertContains(response, billing.workspace.name)
+        self.assertContains(
+            response, f"{reverse('create-project')}?workspace={billing.workspace_id}"
+        )
+
     def test_project_breadcrumbs_include_workspace(self) -> None:
         workspace = Workspace.objects.create(name="Breadcrumb workspace")
         project = self.create_project(
@@ -249,6 +276,27 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(
             response, reverse("checks", kwargs={"path": workspace.get_url_path()})
         )
+
+    def test_workspace_history_tab_shows_project_changes(self) -> None:
+        workspace = Workspace.objects.create(name="History tab workspace")
+        visible = self.create_project(
+            workspace,
+            name="Visible tab history project",
+            slug="visible-tab-history-project",
+        )
+        hidden = self.create_project(
+            workspace,
+            name="Hidden tab history project",
+            slug="hidden-tab-history-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        visible.change_set.create(action=ActionEvents.CREATE_PROJECT)
+        hidden.change_set.create(action=ActionEvents.CREATE_PROJECT)
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Visible tab history project")
+        self.assertNotContains(response, "Hidden tab history project", status_code=200)
 
     def test_workspace_changes_include_workspace_changes(self) -> None:
         user = create_test_user()
