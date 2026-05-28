@@ -17,6 +17,23 @@ LOCAL_HOST_SUFFIXES = (
     ".localhost",
 )
 
+# IPv6 transition prefixes whose addresses encode an IPv4 destination.  On
+# hosts where NAT64 translation is configured, the kernel routes packets sent
+# to these addresses to the embedded IPv4 endpoint, so they must be unwrapped
+# before consulting ipaddress.is_global - which classifies 64:ff9b::/96 as
+# globally routable.
+_NAT64_PREFIX = ipaddress.IPv6Network("64:ff9b::/96")
+_NAT64_LOCAL_USE_PREFIX = ipaddress.IPv6Network("64:ff9b:1::/48")
+_SIXTOFOUR_PREFIX = ipaddress.IPv6Network("2002::/16")
+_IPV4_COMPAT = ipaddress.IPv6Network("::0.0.0.0/96")
+_NON_PUBLIC_SPECIAL_USE_PREFIXES: tuple[
+    ipaddress.IPv4Network | ipaddress.IPv6Network, ...
+] = (
+    ipaddress.IPv4Network("192.88.99.0/24"),  # 6to4 relay anycast
+    ipaddress.IPv6Network("5f00::/16"),  # IPv6 Segment Routing
+    ipaddress.IPv6Network("2001:20::/28"),  # ORCHIDv2
+)
+
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:
     try:
@@ -55,9 +72,67 @@ def _parse_hostname_ip(
     return ipaddress.IPv4Address(packed)
 
 
+def _unwrap_ipv6_transition(
+    address: ipaddress.IPv4Address | ipaddress.IPv6Address,
+) -> ipaddress.IPv4Address | ipaddress.IPv6Address:
+    """
+    Return the embedded IPv4 destination for an IPv6 transition address.
+
+    Covers IPv4-mapped IPv6 (``::ffff:0:0/96``), IPv4-compatible IPv6
+    (``::0.0.0.0/96``, deprecated by RFC 4291 but still routable on hosts
+    that have not removed the configuration), and the well-known NAT64 prefix
+    (``64:ff9b::/96`` per RFC 6052).  Returns the input unchanged when the
+    address does not embed an IPv4 destination.
+
+    Without this unwrap, ``ipaddress.IPv6Address.is_global`` classifies
+    ``64:ff9b::/96`` as globally routable and the outbound-URL guard misses
+    these forms when an attacker supplies a hostname whose AAAA record points
+    at a wrapped private IPv4.
+    """
+    if not isinstance(address, ipaddress.IPv6Address):
+        return address
+    if address.ipv4_mapped is not None:
+        return address.ipv4_mapped
+    if address in _NAT64_PREFIX:
+        return ipaddress.IPv4Address(address.packed[-4:])
+    if address in _IPV4_COMPAT:
+        # ::N.N.N.N - skip the unspecified address (::), which is also
+        # technically inside this /96 but is not an embedded IPv4 wrapper.
+        embedded = ipaddress.IPv4Address(address.packed[-4:])
+        if int(embedded) != 0:
+            return embedded
+    return address
+
+
 def _is_public_ip(value: str) -> bool:
     address = _parse_ip(value)
-    return address is not None and address.is_global
+    if address is None:
+        return False
+    return _is_global_address(address)
+
+
+def _is_global_address(
+    address: ipaddress.IPv4Address | ipaddress.IPv6Address,
+) -> bool:
+    if address.is_multicast:
+        return False
+    for network in _NON_PUBLIC_SPECIAL_USE_PREFIXES:
+        if address.version == network.version and address in network:
+            return False
+    if isinstance(address, ipaddress.IPv6Address) and address in _SIXTOFOUR_PREFIX:
+        return False
+    if (
+        isinstance(address, ipaddress.IPv6Address)
+        and address in _NAT64_LOCAL_USE_PREFIX
+    ):
+        # Legacy compatibility: Python before 3.12.4 classified this local-use
+        # NAT64 prefix as global. TODO: remove once support for those Python
+        # versions is dropped.
+        return False
+    unwrapped = _unwrap_ipv6_transition(address)
+    if unwrapped != address:
+        return _is_global_address(unwrapped)
+    return address.is_global
 
 
 def validate_runtime_ip(value: str, *, allow_private_targets: bool = True) -> None:
@@ -99,7 +174,7 @@ def validate_untrusted_hostname(
         return
 
     if ip_address := _parse_hostname_ip(normalized):
-        if not ip_address.is_global:
+        if not _is_global_address(ip_address):
             raise ValidationError(
                 gettext(
                     "This URL is prohibited because it points to an internal or non-public address."
