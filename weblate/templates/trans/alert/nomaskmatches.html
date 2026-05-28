@@ -1,14 +1,18 @@
 {% load i18n %}
 
-<p>{% translate "This component set up is incomplete, as it lacks any translations." %}</p>
+<p>{% translate "No translations were found for this component file mask." %}</p>
 
 <ul>
+  <li>{% translate "This is okay when the repository does not contain translations yet." %}</li>
+  <li>
+    {% translate "The alert will disappear once translations are added in Weblate or committed to the repository." %}
+  </li>
   {% if analysis.can_add %}
     <li>
       {% translate "Starting new translations directly in Weblate is possible, and creates files based on the file mask." %}
     </li>
   {% endif %}
   <li>
-    {% blocktranslate with filemask=component.filemask %}Check whether the file mask <code>{{ filemask }}</code> matches files in your version control system repository.{% endblocktranslate %}
+    {% blocktranslate with filemask=component.filemask %}If translations already exist, check whether the file mask <code>{{ filemask }}</code> matches files in your version control system repository.{% endblocktranslate %}
   </li>
 </ul>
