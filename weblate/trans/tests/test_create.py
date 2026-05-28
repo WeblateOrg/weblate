@@ -14,6 +14,7 @@ from translation_finder import DiscoveryResult
 
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
+from weblate.trans.forms import ComponentCreateForm
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import (
@@ -23,7 +24,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.views import get_form_data
 from weblate.vcs.git import GitRepository
-from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP
+from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
     from translation_finder.discovery.result import ResultDict
@@ -440,6 +441,48 @@ class CreateTest(ViewTestCase):
         self.assertEqual(component.effective_license, "")
         self.assertFalse(component.inherit_language_code_style)
         self.assertEqual(component.effective_language_code_style, "")
+
+    def test_create_component_blank_parent_license_is_editable(self) -> None:
+        form = ComponentCreateForm(
+            self.get_request(), initial={"project": self.project.pk}
+        )
+
+        self.assertFalse(form.fields["license"].disabled)
+        self.assertFalse(form["inherit_license"].value())
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_blank_parent_preserves_selected_license(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        self.project.license = ""
+        self.project.save(update_fields=["license"])
+
+        self.client_create_component(True, license="GPL-3.0-or-later")
+
+        component = Component.objects.get(slug="create-component")
+        self.assertFalse(component.inherit_license)
+        self.assertEqual(component.license, "GPL-3.0-or-later")
+        self.assertEqual(component.effective_license, "GPL-3.0-or-later")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_blank_workspace_preserves_selected_license(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        self.project.workspace = Workspace.objects.create(name="Blank workspace")
+        self.project.inherit_license = True
+        self.project.license = ""
+        self.project.workspace.license = ""
+        self.project.workspace.save(update_fields=["license"])
+        self.project.save(update_fields=["workspace", "inherit_license", "license"])
+
+        self.client_create_component(True, license="GPL-3.0-or-later")
+
+        component = Component.objects.get(slug="create-component")
+        self.assertFalse(component.inherit_license)
+        self.assertEqual(component.license, "GPL-3.0-or-later")
+        self.assertEqual(component.effective_license, "GPL-3.0-or-later")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_existing(self) -> None:

@@ -2469,6 +2469,13 @@ class ComponentCreateForm(
             )
             self.initial["inherit_license"] = inherit_license
             self.instance.inherit_license = inherit_license
+        elif (
+            not self.is_bound
+            and "inherit_license" not in self.initial
+            and not self.get_inherited_setting_value("license")
+        ):
+            self.initial["inherit_license"] = False
+            self.instance.inherit_license = False
 
         self.setup_inherited_settings(parent_name, has_parent=parent is not None)
 

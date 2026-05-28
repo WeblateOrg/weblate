@@ -784,6 +784,17 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
 
+    def test_project_component_listing_shows_inherited_license_badge(self) -> None:
+        self.project.license = "MIT"
+        self.project.save(update_fields=["license"])
+        self.component.license = ""
+        self.component.inherit_license = True
+        self.component.save(update_fields=["license", "inherit_license"])
+
+        response = self.client.get(self.project.get_absolute_url())
+
+        self.assertContains(response, 'class="license badge">MIT</span>')
+
     def test_view_project_deduplicates_outgoing_shared_component(self) -> None:
         first_project = Project.objects.create(name="Shared target one", slug="target1")
         second_project = Project.objects.create(

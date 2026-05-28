@@ -39,6 +39,7 @@ from weblate.accounts.views import log_handled_auth_failure
 from weblate.auth.models import Group, User
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import (
@@ -693,6 +694,22 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+
+    def test_profile_inherited_license_display(self) -> None:
+        self.project.license = "MIT"
+        self.project.save(update_fields=["license"])
+        self.component.license = ""
+        self.component.inherit_license = True
+        self.component.save(update_fields=["license", "inherit_license"])
+        unit = self.get_unit()
+        unit.change_set.create(
+            action=ActionEvents.CHANGE, user=self.user, author=self.user
+        )
+
+        response = self.client.get(reverse("profile"))
+
+        self.assertContains(response, "MIT License")
+        self.assertContains(response, 'class="license badge">MIT</span>')
 
     def test_profile_contact_rejects_direct_download(self) -> None:
         form = ProfileForm(

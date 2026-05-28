@@ -504,10 +504,17 @@ def user_profile(request: AuthenticatedHttpRequest):
     license_components = (
         Component.objects.filter_access(user)
         .filter(translation__id__in=user_translation_ids)
-        .exclude(license="")
         .prefetch(alerts=False)
         .distinct()
-        .order_by("license")
+    )
+    license_components = sorted(
+        (
+            component
+            for component in license_components
+            if component.effective_license
+            and component.effective_license != "proprietary"
+        ),
+        key=lambda component: component.effective_license,
     )
 
     return render(
