@@ -40,6 +40,12 @@ class AnnouncementManager(models.Manager["Announcement"]):
 
         if component:
             category_filter = self._category_filter(component.category)
+            project_filter = (
+                Q(project=component.project)
+                & Q(category=None)
+                & Q(component=None)
+                & Q(language=None)
+            )
             if language:
                 return base.filter(
                     (Q(component=component) & Q(language=language))
@@ -50,31 +56,50 @@ class AnnouncementManager(models.Manager["Announcement"]):
                         & Q(language=language)
                     )
                     | (Q(component=component) & Q(language=None))
-                    | (category_filter & Q(component=None))
+                    | (category_filter & Q(component=None) & Q(language=None))
+                    | (category_filter & Q(component=None) & Q(language=language))
+                    | project_filter
                     | (
                         Q(project=component.project)
                         & Q(category=None)
                         & Q(component=None)
+                        & Q(language=language)
                     )
                 )
 
             return base.filter(
                 (Q(component=component) & Q(language=None))
-                | (category_filter & Q(component=None))
-                | (Q(project=component.project) & Q(category=None) & Q(component=None))
+                | (category_filter & Q(component=None) & Q(language=None))
+                | project_filter
             )
 
         if category:
             category_filter = self._category_filter(category)
             return base.filter(
-                (category_filter & Q(component=None))
-                | (Q(project=category.project) & Q(category=None) & Q(component=None))
+                (category_filter & Q(component=None) & Q(language=None))
+                | (
+                    Q(project=category.project)
+                    & Q(category=None)
+                    & Q(component=None)
+                    & Q(language=None)
+                )
             )
 
         if project:
-            return base.filter(
-                Q(project=project) & Q(category=None) & Q(component=None)
+            project_filter = (
+                Q(project=project)
+                & Q(category=None)
+                & Q(component=None)
+                & Q(language=None)
             )
+            if language:
+                project_filter |= (
+                    Q(project=project)
+                    & Q(category=None)
+                    & Q(component=None)
+                    & Q(language=language)
+                )
+            return base.filter(project_filter)
 
         # All are None
         return base.filter(project=None, category=None, component=None, language=None)

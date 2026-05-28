@@ -256,7 +256,7 @@
               {% csrf_token %}
               {{ announcement_form|crispy }}
               <p class="help-block">
-                {% translate "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}
+                {% translate "The message is shown for all translations in this project language, until its given expiry, or permanently until it is deleted." %}
               </p>
             </div>
             <div class="card-footer">

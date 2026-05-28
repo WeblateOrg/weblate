@@ -1172,19 +1172,27 @@ class AnnouncementTest(ModelTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.second_project = self.create_project("Other", "other")
-        Announcement.objects.create(
-            language=Language.objects.get(code="cs"), message="test cs"
-        )
-        Announcement.objects.create(
-            language=Language.objects.get(code="de"), message="test de"
-        )
+        self.czech = Language.objects.get(code="cs")
+        self.german = Language.objects.get(code="de")
+        Announcement.objects.create(language=self.czech, message="test cs")
+        Announcement.objects.create(language=self.german, message="test de")
         Announcement.objects.create(
             project=self.second_project,
-            language=Language.objects.get(code="cs"),
+            language=self.czech,
             message="test other cs",
         )
         Announcement.objects.create(
             project=self.component.project, message="test project"
+        )
+        Announcement.objects.create(
+            project=self.component.project,
+            language=self.czech,
+            message="test project cs",
+        )
+        Announcement.objects.create(
+            project=self.component.project,
+            language=self.german,
+            message="test project de",
         )
         Announcement.objects.create(
             component=self.component,
@@ -1209,6 +1217,28 @@ class AnnouncementTest(ModelTestCase):
             "test project",
         )
 
+    def test_contextfilter_project_language(self) -> None:
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    project=self.component.project,
+                    language=self.czech,
+                )
+            ],
+            ["test project", "test project cs"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    project=self.component.project,
+                    language=self.german,
+                )
+            ],
+            ["test project", "test project de"],
+        )
+
     def test_contextfilter_category(self) -> None:
         category = self.create_category(self.component.project)
         self.component.category = category
@@ -1217,6 +1247,16 @@ class AnnouncementTest(ModelTestCase):
         Announcement.objects.create(
             category=category,
             message="test category",
+        )
+        Announcement.objects.create(
+            category=category,
+            language=self.czech,
+            message="test category cs",
+        )
+        Announcement.objects.create(
+            category=category,
+            language=self.german,
+            message="test category de",
         )
 
         self.assertCountEqual(
@@ -1227,6 +1267,40 @@ class AnnouncementTest(ModelTestCase):
                 )
             ],
             ["test project"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=self.component,
+                    language=self.czech,
+                )
+            ],
+            [
+                "test cs",
+                "test project",
+                "test project cs",
+                "test component",
+                "test category",
+                "test category cs",
+            ],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=self.component,
+                    language=self.german,
+                )
+            ],
+            [
+                "test de",
+                "test project",
+                "test project de",
+                "test component",
+                "test category",
+                "test category de",
+            ],
         )
         self.assertCountEqual(
             [
@@ -1257,30 +1331,44 @@ class AnnouncementTest(ModelTestCase):
         )
 
     def test_contextfilter_component(self) -> None:
-        self.verify_filter(
-            Announcement.objects.context_filter(component=self.component), 2
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=self.component
+                )
+            ],
+            ["test project", "test component"],
         )
 
     def test_contextfilter_translation(self) -> None:
-        self.verify_filter(
-            Announcement.objects.context_filter(
-                component=self.component, language=Language.objects.get(code="cs")
-            ),
-            3,
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=self.component, language=self.czech
+                )
+            ],
+            ["test cs", "test project", "test project cs", "test component"],
+        )
+        self.assertCountEqual(
+            [
+                announcement.message
+                for announcement in Announcement.objects.context_filter(
+                    component=self.component, language=self.german
+                )
+            ],
+            ["test de", "test project", "test project de", "test component"],
         )
 
     def test_contextfilter_language(self) -> None:
         self.verify_filter(
-            Announcement.objects.context_filter(
-                language=Language.objects.get(code="cs")
-            ),
+            Announcement.objects.context_filter(language=self.czech),
             1,
             "test cs",
         )
         self.verify_filter(
-            Announcement.objects.context_filter(
-                language=Language.objects.get(code="de")
-            ),
+            Announcement.objects.context_filter(language=self.german),
             1,
             "test de",
         )

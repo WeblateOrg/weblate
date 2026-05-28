@@ -27,6 +27,7 @@ Weblate 2026.6
 .. rubric:: Bug fixes
 
 * Outbound URL validation now rejects additional non-public targets.
+* Project-language :doc:`/admin/announcements` no longer appear across the whole project.
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
 * :ref:`invite-user` links now work for signed-in users whose account owns the invited e-mail address.
