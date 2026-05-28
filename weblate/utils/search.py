@@ -1109,13 +1109,34 @@ class ScreenshotTermExpr(BaseTermExpr):
 
         return super().has_field(text, context)
 
-    def convert_strings(self, text: str | RangeExpr) -> int | tuple[int, int]:
+    def reject_regex(
+        self, text: str | RangeExpr | RegexExpr, field: str
+    ) -> str | RangeExpr:
+        if isinstance(text, RegexExpr):
+            raise SearchQueryError(
+                gettext("Regular expression not supported for field {}").format(field)
+            )
+        return text
+
+    def convert_strings(
+        self, text: str | RangeExpr | RegexExpr
+    ) -> int | tuple[int, int]:
+        text = self.reject_regex(text, "strings")
         return self.convert_int(text)
 
     def convert_timestamp(
-        self, text: str | RangeExpr
+        self, text: str | RangeExpr | RegexExpr
     ) -> datetime | tuple[datetime, datetime]:
+        text = self.reject_regex(text, "timestamp")
         return self.convert_datetime(text)
+
+    def convert_id(self, text: str | RangeExpr | RegexExpr) -> int | set[int]:
+        text = self.reject_regex(text, "id")
+        if isinstance(text, RangeExpr):
+            raise SearchQueryError(
+                gettext("Range not supported for field {}").format("id")
+            )
+        return super().convert_id(text)
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         if self.field == "strings":
