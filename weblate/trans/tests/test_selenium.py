@@ -292,6 +292,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.actions.move_to_element(element).perform()
             element.click()
 
+    def select_component_license(self, license_id: str) -> None:
+        inherit_license = self.driver.find_element(By.ID, "id_inherit_license")
+        if inherit_license.is_selected():
+            self.click(inherit_license)
+        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
+            license_id
+        )
+
     def upload_file(self, element: WebElement, filename: str | Path) -> None:
         name: str
         exists: bool
@@ -1099,9 +1107,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "weblate/langdata/locale/django.pot"
         )
         Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
-        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
-            "GPL-3.0-or-later"
-        )
+        self.select_component_license("GPL-3.0-or-later")
         element = self.driver.find_element(By.ID, "id_language_regex")
         element.clear()
         element.send_keys(language_regex)
@@ -1133,7 +1139,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value(
             "aresource"
         )
-        Select(self.driver.find_element(By.ID, "id_license")).select_by_value("MIT")
+        self.select_component_license("MIT")
         self.screenshot("add-component-mono.png")
         # This takes long
         with self.wait_for_page_load(timeout=1200):
@@ -1442,9 +1448,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "weblate/langdata/locale/django.pot"
         )
         Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
-        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
-            "GPL-3.0-or-later"
-        )
+        self.select_component_license("GPL-3.0-or-later")
         element = self.driver.find_element(By.ID, "id_language_regex")
         element.clear()
         element.send_keys("^(cs|he|hu)$")

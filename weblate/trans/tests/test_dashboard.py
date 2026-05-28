@@ -156,6 +156,19 @@ class DashboardTest(FixtureTestCase):
         response = self.client.get(reverse("home"))
         self.assertEqual(len(response.context["usersubscriptions"]), 1)
 
+    def test_watched_translations_show_inherited_license_badge(self) -> None:
+        self.project.license = "MIT"
+        self.project.save(update_fields=["license"])
+        self.component.license = ""
+        self.component.inherit_license = True
+        self.component.save(update_fields=["license", "inherit_license"])
+        self.user.profile.watched.add(self.project)
+
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, "MIT License")
+        self.assertContains(response, 'class="license badge">MIT</span>')
+
     def test_watched_translations_are_sorted_by_language(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="de"))
         self.user.profile.watched.add(self.project)
