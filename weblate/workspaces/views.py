@@ -57,21 +57,26 @@ def get_billing_context(
     }
 
 
+def billing_allows_project_creation(billing: Billing) -> bool:
+    if not billing.in_limits:
+        return False
+    if billing.state == billing.STATE_ACTIVE and not billing.paid:
+        return False
+    if billing.state not in billing.ACTIVE_STATES:
+        return False
+
+    limit = billing.plan.display_limit_projects
+    return limit == 0 or billing.get_projects_queryset().count() < limit
+
+
 def get_create_project_url(
     request: AuthenticatedHttpRequest, workspace: Workspace, billing: Billing | None
 ) -> str | None:
     if not request.user.has_perm("workspace.add_project", workspace):
         return None
 
-    if billing is not None:
-        from weblate.billing.models import Billing  # noqa: PLC0415
-
-        if not (
-            Billing.objects.filter(pk=billing.pk)
-            .for_user_within_limits(request.user)
-            .exists()
-        ):
-            return None
+    if billing is not None and not billing_allows_project_creation(billing):
+        return None
 
     return f"{reverse('create-project')}?{urlencode({'workspace': workspace.pk})}"
 
