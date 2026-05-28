@@ -487,8 +487,9 @@ class ViewTest(FixtureTestCase):
         url = reverse("screenshots", kwargs=self.kw_component)
 
         for query in ('id:r"foo"', 'strings:r"foo"', 'timestamp:r"foo"'):
-            response = self.client.get(url, {"q": query})
-            self.assertContains(response, "Could not parse query string")
+            with self.subTest(query=query):
+                response = self.client.get(url, {"q": query})
+                self.assertContains(response, "Could not parse query string")
 
     def test_list_search_takes_precedence_over_legacy_unassigned_filter(self) -> None:
         self.make_manager()
