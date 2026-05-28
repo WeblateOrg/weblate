@@ -32,6 +32,7 @@ from weblate.utils.environment import (
     get_env_float,
     get_env_int,
     get_env_int_or_none,
+    get_env_json,
     get_env_list,
     get_env_list_or_none,
     get_env_map,
@@ -462,6 +463,7 @@ if WEBLATE_SAML_IDP:
     SOCIAL_AUTH_SAML_TITLE = get_env_str(
         "WEBLATE_SAML_IDP_TITLE", accounts_defaults.DEFAULT_SOCIAL_AUTH_SAML_TITLE
     )
+    SOCIAL_AUTH_SAML_SECURITY_CONFIG = get_env_json("WEBLATE_SAML_SECURITY_CONFIG", {})
 
 # Microsoft Entra ID
 SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY")

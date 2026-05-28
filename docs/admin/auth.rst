@@ -569,6 +569,18 @@ When configuring Weblate SP in your IdP, it is recommended to choose persistent
 
 .. hint::
 
+   Some identity providers (such as Microsoft Entra ID with multi-factor
+   authentication) require disabling the default ``requestedAuthnContext``
+   in the SAML security configuration:
+
+   .. code-block:: python
+
+      SOCIAL_AUTH_SAML_SECURITY_CONFIG = {"requestedAuthnContext": False}
+
+   In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead.
+
+.. hint::
+
    The example above and the Docker image define an IdP called ``weblate``.
    You might need to configure this string as :guilabel:`Relay` in your IdP.
 
