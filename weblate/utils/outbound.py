@@ -23,7 +23,6 @@ LOCAL_HOST_SUFFIXES = (
 # must be unwrapped before consulting ipaddress.is_global - which classifies
 # 2002::/16 and 64:ff9b::/96 as globally routable.
 _NAT64_PREFIX = ipaddress.IPv6Network("64:ff9b::/96")
-_NAT64_DISCOVERY_PREFIX = ipaddress.IPv6Network("64:ff9b:1::/48")
 _IPV4_COMPAT = ipaddress.IPv6Network("::0.0.0.0/96")
 
 
@@ -73,9 +72,9 @@ def _unwrap_ipv6_transition(
     Covers IPv4-mapped IPv6 (``::ffff:0:0/96``), IPv4-compatible IPv6
     (``::0.0.0.0/96``, deprecated by RFC 4291 but still routable on hosts
     that have not removed the configuration), 6to4 (``2002::/16``,
-    RFC 3056) and NAT64 (``64:ff9b::/96`` per RFC 6052 and
-    ``64:ff9b:1::/48`` per RFC 8215).  Returns the input unchanged when
-    the address does not embed an IPv4 destination.
+    RFC 3056) and the well-known NAT64 prefix (``64:ff9b::/96`` per
+    RFC 6052).  Returns the input unchanged when the address does not embed
+    an IPv4 destination.
 
     Without this unwrap, ``ipaddress.IPv6Address.is_global`` classifies
     ``2002::/16`` and ``64:ff9b::/96`` as globally routable and the
@@ -88,7 +87,7 @@ def _unwrap_ipv6_transition(
         return address.ipv4_mapped
     if address.sixtofour is not None:
         return address.sixtofour
-    if address in _NAT64_PREFIX or address in _NAT64_DISCOVERY_PREFIX:
+    if address in _NAT64_PREFIX:
         return ipaddress.IPv4Address(address.packed[-4:])
     if address in _IPV4_COMPAT:
         # ::N.N.N.N - skip the unspecified address (::), which is also

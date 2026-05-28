@@ -722,6 +722,11 @@ class OutboundAddressValidationTest(SimpleTestCase):
                     validate_runtime_ip(wrapped_address, allow_private_targets=False)
                 self.assertIn("internal or non-public address", str(error.exception))
 
+    def test_validate_runtime_ip_rejects_nat64_local_use_suffix(self) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_runtime_ip("64:ff9b:1::808:808", allow_private_targets=False)
+        self.assertIn("internal or non-public address", str(error.exception))
+
     def test_validate_runtime_ip_permits_public_ipv6(self) -> None:
         """
         Legitimate public IPv6 must still be accepted.
