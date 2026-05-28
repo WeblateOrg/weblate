@@ -31,6 +31,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.expected_conditions import (
+    element_to_be_clickable,
     presence_of_element_located,
     staleness_of,
 )
@@ -135,6 +136,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     # https://github.com/SeleniumHQ/selenium/issues/15401
                     time.sleep(0.1)
                     WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
+                WebDriverWait(self.driver, timeout).until(self.is_page_loaded)
+
+    @staticmethod
+    def is_page_loaded(driver: WebDriver) -> bool:
+        try:
+            return driver.execute_script("return document.readyState") == "complete"
+        except WebDriverException:
+            return False
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -1410,7 +1419,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.find_element(By.ID, "id_name").submit()
 
         self.screenshot("user-add-component-discovery.png")
-        self.driver.find_element(By.ID, "id_discovery_1").click()
+        discovery_choice = WebDriverWait(self.driver, 30).until(
+            element_to_be_clickable((By.ID, "id_discovery_1"))
+        )
+        discovery_choice.click()
         with self.wait_for_page_load(timeout=1200):
             self.driver.find_element(By.ID, "id_name").submit()
 
