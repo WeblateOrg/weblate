@@ -112,6 +112,13 @@
       valueField: "name",
       labelField: "name",
       searchField: ["name", "label"],
+      /* While typing the value of a parametrized flag keep matching the 
+       * base flag name so the known flag stays visible in the dropdown. */
+      score: function (search) {
+        const colon = search.indexOf(":");
+        const base = colon === -1 ? search : search.slice(0, colon);
+        return this.getScoreFunction(base);
+      },
       optgroupField: "category",
       optgroupLabelField: "category",
       optgroupValueField: "category",
