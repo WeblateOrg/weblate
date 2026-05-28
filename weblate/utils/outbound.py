@@ -67,7 +67,8 @@ def _parse_hostname_ip(
 def _unwrap_ipv6_transition(
     address: ipaddress.IPv4Address | ipaddress.IPv6Address,
 ) -> ipaddress.IPv4Address | ipaddress.IPv6Address:
-    """Return the embedded IPv4 destination for an IPv6 transition address.
+    """
+    Return the embedded IPv4 destination for an IPv6 transition address.
 
     Covers IPv4-mapped IPv6 (``::ffff:0:0/96``), IPv4-compatible IPv6
     (``::0.0.0.0/96``, deprecated by RFC 4291 but still routable on hosts
