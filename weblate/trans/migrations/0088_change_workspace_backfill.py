@@ -6,17 +6,18 @@ from django.db import migrations
 
 
 def backfill_change_workspace(apps, schema_editor) -> None:
-    with schema_editor.connection.cursor() as cursor:
-        cursor.execute(
-            """
-            UPDATE trans_change AS change
-               SET workspace_id = project.workspace_id
-              FROM trans_project AS project
-             WHERE change.workspace_id IS NULL
-               AND change.project_id = project.id
-               AND project.workspace_id IS NOT NULL
-            """
-        )
+    Change = apps.get_model("trans", "Change")
+    Project = apps.get_model("trans", "Project")
+
+    for project_id, workspace_id in (
+        Project.objects.filter(workspace__isnull=False)
+        .values_list("id", "workspace_id")
+        .iterator()
+    ):
+        Change.objects.filter(
+            workspace__isnull=True,
+            project_id=project_id,
+        ).update(workspace_id=workspace_id)
 
 
 class Migration(migrations.Migration):
