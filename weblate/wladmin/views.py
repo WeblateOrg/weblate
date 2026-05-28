@@ -8,7 +8,7 @@ from shutil import disk_usage
 
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, Any, Literal, cast, get_args
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 from django.conf import settings
 from django.core.cache import cache
@@ -16,7 +16,7 @@ from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -78,6 +78,7 @@ from weblate.wladmin.forms import (
     SSHAddForm,
     TestMailForm,
     WorkspaceCreateForm,
+    WorkspaceSearchForm,
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
@@ -718,18 +719,38 @@ class WorkspaceListView(ListView):
     paginate_by = 50
     model = Workspace
 
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
+        super().setup(request, *args, **kwargs)
+        self.search_form = WorkspaceSearchForm(request.GET)
+
     def get_queryset(self) -> QuerySet[Workspace]:
         queryset = Workspace.objects.annotate(Count("projects")).order()
-        if "weblate.billing" in settings.INSTALLED_APPS:
+        billing_enabled = "weblate.billing" in settings.INSTALLED_APPS
+        if self.search_form.is_valid() and (
+            query := self.search_form.cleaned_data["q"].strip()
+        ):
+            filters = Q(name__icontains=query)
+            if billing_enabled:
+                filters |= Q(billing__customer_name__icontains=query)
+            queryset = queryset.filter(filters)
+        if billing_enabled:
             queryset = queryset.select_related("billing")
         return queryset
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
+        search_query = ""
+        if self.search_form.is_valid():
+            search_query = self.search_form.cleaned_data["q"].strip()
+        search_items = (("q", search_query),) if search_query else ()
         result["menu_items"] = MENU
         result["menu_page"] = "workspaces"
         result["billing_enabled"] = "weblate.billing" in settings.INSTALLED_APPS
         result["can_add_workspace"] = self.request.user.has_perm("workspace.add")
+        result["search_form"] = self.search_form
+        result["search_query"] = search_query
+        result["search_items"] = search_items
+        result["query_string"] = urlencode(search_items)
         return result
 
 

@@ -412,6 +412,47 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, workspace.get_absolute_url())
         self.assertContains(response, ">1<")
 
+    def test_workspaces_search(self) -> None:
+        workspace = Workspace.objects.create(name="Localization workspace")
+        Workspace.objects.create(name="Documentation workspace")
+
+        response = self.client.get(reverse("manage-workspaces"), {"q": "local"})
+
+        self.assertContains(response, "Localization workspace")
+        self.assertNotContains(response, "Documentation workspace")
+        self.assertEqual(list(response.context["object_list"]), [workspace])
+        self.assertEqual(response.context["search_query"], "local")
+        self.assertEqual(response.context["query_string"], "q=local")
+
+        response = self.client.get(reverse("manage-workspaces"), {"q": "missing"})
+
+        self.assertContains(response, "No workspaces found.")
+        self.assertNotContains(response, "Localization workspace")
+        self.assertNotContains(response, "Documentation workspace")
+
+    def test_workspaces_search_billing_customer_name(self) -> None:
+        from weblate.billing.models import Billing, Plan  # noqa: PLC0415
+
+        plan = Plan.objects.create(
+            name="Workspace plan",
+            price=19,
+            yearly_price=199,
+            limit_projects=1,
+            display_limit_projects=1,
+        )
+        billing = Billing.objects.create(plan=plan, customer_name="Acme Billing LLC")
+        workspace = billing.workspace
+        workspace.name = "Manually renamed workspace"
+        workspace.save(update_fields=["name"])
+        Workspace.objects.create(name="Acme localization workspace")
+
+        response = self.client.get(reverse("manage-workspaces"), {"q": "billing"})
+
+        self.assertContains(response, "Manually renamed workspace")
+        self.assertContains(response, "Acme Billing LLC")
+        self.assertNotContains(response, "Acme localization workspace")
+        self.assertEqual(list(response.context["object_list"]), [workspace])
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_workspaces_add_link(self) -> None:
         response = self.client.get(reverse("manage-workspaces"))
