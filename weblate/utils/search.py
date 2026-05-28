@@ -284,13 +284,13 @@ class BaseTermExpr:
             )
         try:
             return int(text)
-        except ValueError as error:
+        except (TypeError, ValueError) as error:
             raise SearchQueryError(
                 gettext("Could not parse numeric value: {}").format(text)
             ) from error
 
     def convert_id(self, text: str) -> int | set[int]:
-        if "," in text:
+        if isinstance(text, str) and "," in text:
             return {self.convert_int(part) for part in text.split(",")}
         return self.convert_int(text)
 
@@ -312,7 +312,7 @@ class BaseTermExpr:
                     text.end, hour=23, minute=59, second=59, microsecond=999999
                 ),
             )
-        if text.isdigit() and len(text) == 4:
+        if isinstance(text, str) and text.isdigit() and len(text) == 4:
             tzinfo = timezone.get_current_timezone()
             year = int(text)
             return (
@@ -338,7 +338,12 @@ class BaseTermExpr:
                 ),
             )
 
-        return self.date_parse(text)
+        try:
+            return self.date_parse(text)
+        except (AttributeError, TypeError, ValueError) as error:
+            raise SearchQueryError(
+                gettext("Could not parse date value: {}").format(text)
+            ) from error
 
     def get_day_range(self, timestamp: datetime) -> tuple[datetime, datetime]:
         return (

@@ -482,6 +482,14 @@ class ViewTest(FixtureTestCase):
 
         self.assertContains(response, "Could not parse query string")
 
+    def test_list_search_invalid_regex_on_non_text_fields(self) -> None:
+        self.make_manager()
+        url = reverse("screenshots", kwargs=self.kw_component)
+
+        for query in ('id:r"foo"', 'strings:r"foo"', 'timestamp:r"foo"'):
+            response = self.client.get(url, {"q": query})
+            self.assertContains(response, "Could not parse query string")
+
     def test_list_search_takes_precedence_over_legacy_unassigned_filter(self) -> None:
         self.make_manager()
         source = self.component.source_translation.unit_set.all()[0]
