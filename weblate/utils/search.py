@@ -1130,8 +1130,12 @@ class ScreenshotTermExpr(BaseTermExpr):
         text = self.reject_regex(text, "timestamp")
         return self.convert_datetime(text)
 
-    def convert_id(self, text: str | RegexExpr) -> int | set[int]:
+    def convert_id(self, text: str | RangeExpr | RegexExpr) -> int | set[int]:
         text = self.reject_regex(text, "id")
+        if isinstance(text, RangeExpr):
+            raise SearchQueryError(
+                gettext("Range not supported for field {}").format("id")
+            )
         return super().convert_id(text)
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
