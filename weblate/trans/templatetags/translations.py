@@ -47,6 +47,7 @@ from weblate.utils.diff import Differ
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
+from weblate.utils.icons import load_icon
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
 from weblate.utils.random import get_random_identifier
@@ -110,6 +111,13 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
+
+PRIORITY_ICONS = {
+    60: ("double_arrow_up", "text-danger", gettext_lazy("Priority: Very high")),
+    80: ("single_arrow_up", "text-warning", gettext_lazy("Priority: High")),
+    120: ("single_arrow_down", "text-muted", gettext_lazy("Priority: Low")),
+    140: ("double_arrow_down", "text-secondary", gettext_lazy("Priority: Very low")),
+}
 
 SOURCE_LINK = (
     '<a href="{0}" target="_blank" rel="noopener noreferrer"'
@@ -1278,6 +1286,20 @@ def indicate_alerts(
     # GhostProjectLanguageStats and GhostCategoryLanguageStats as these would
     # be confusing (showing alert or admin icon on ghost containers).
 
+    priority_html = ""
+    if component and (priority := component.priority) in PRIORITY_ICONS:
+        selected_svg, css_class, title_text = PRIORITY_ICONS[priority]
+
+        priority_html = format_html(
+            '<span class="state-icon {}" data-bs-toggle="tooltip" title="{}" alt="{}" style="margin: 0">{}</span>',
+            css_class,
+            title_text,
+            title_text,
+            mark_safe(  # noqa: S308
+                load_icon(f"priorities/{selected_svg}.svg", auto_prefix=False).decode()
+            ),
+        )
+
     icons = format_html_join(
         "\n",
         '{}<span class="state-icon {}" title="{}" alt="{}">{}</span>{}',
@@ -1317,7 +1339,7 @@ def indicate_alerts(
             component.effective_license,
         )
 
-    return format_html("{}{}", icons, license_badge)
+    return format_html("{}{}{}", priority_html, icons, license_badge)
 
 
 @register.filter(is_safe=True)
