@@ -477,8 +477,10 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     user = request.user
 
     all_changes = obj.change_set.filter_components(request.user).prefetch()
-    last_changes = all_changes.recent()
-    last_announcements = all_changes.filter_announcements().recent()
+    last_changes = all_changes.recent(skip_preload="project")
+    last_announcements = all_changes.filter_announcements().recent(
+        skip_preload="project"
+    )
 
     all_components = obj.get_child_components_access(user, filter_no_category)
     all_components = get_paginator(

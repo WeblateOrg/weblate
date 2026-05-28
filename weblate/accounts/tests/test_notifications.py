@@ -83,7 +83,8 @@ class LazyLanguageChange:
     def __init__(self) -> None:
         self.translation = LazyTranslation()
         self.component = SimpleNamespace(project=None, category=None)
-        self.project = object()
+        self.project = SimpleNamespace(workspace=None)
+        self.workspace = SimpleNamespace()
         self.category = object()
         self.language = SimpleNamespace()
 
@@ -98,6 +99,7 @@ class ChangePrefetchTest(SimpleTestCase):
         self.assertIs(change.translation.component, change.component)
         self.assertIs(change.component.project, change.project)
         self.assertIs(change.component.category, change.category)
+        self.assertIs(change.project.workspace, change.workspace)
 
     def test_preload_list_injects_change_language(self) -> None:
         change = LazyLanguageChange()
@@ -105,6 +107,7 @@ class ChangePrefetchTest(SimpleTestCase):
         Change.objects.preload_list([change])
 
         self.assertIs(change.translation.prefetched_language, change.language)
+        self.assertIs(change.project.workspace, change.workspace)
         self.assertIs(change.translation.component, change.component)
         self.assertIs(change.component.project, change.project)
 

@@ -50,6 +50,7 @@ Weblate 2026.6
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.workspaces`` should be added.
+* The database migrations might take longer on larger instances.
 
 .. rubric:: Contributors
 
