@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-05-23 13:41+0000\n"
+"PO-Revision-Date: 2026-05-28 11:32+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -584,7 +584,7 @@ msgid ""
 "to all the `Users`."
 msgstr ""
 "您还可以向默认团队授予一些您选择的额外权限。例如，你可能想给所有 `用户` 管理"
-"截图的权限。"
+"屏幕截图的权限。"
 
 #: admin/access.rst:301
 msgid ""
@@ -16601,7 +16601,7 @@ msgstr ""
 
 #: admin/projects.rst:527
 msgid "Screenshot file mask"
-msgstr "截图文件掩码"
+msgstr "屏幕截图文件掩码"
 
 #: admin/projects.rst:529
 msgid ""
@@ -18182,8 +18182,8 @@ msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
 msgstr ""
-"直接在翻译界面点击 :guilabel:`截图上下文` 或 :guilabel:`标记` 旁的“编辑”图标"
-"即可进入此界面。"
+"直接在翻译界面点击 :guilabel:`屏幕截图上下文` 或 :guilabel:`标记` 旁的“编辑”"
+"图标即可进入此界面。"
 
 #: admin/translating.rst:68
 msgid "Strings prioritization"
@@ -18316,7 +18316,7 @@ msgstr ""
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
-msgstr "上传截图后，就可以在这个界面进行管理以及和源字符串的关联："
+msgstr "上传屏幕截图后，就可以在这个界面进行管理以及和源字符串的关联："
 
 #: admin/translating.rst:163
 msgid ""
@@ -18371,8 +18371,8 @@ msgid ""
 "fill in :guilabel:`Repository path to screenshot` with the path tracked in "
 "the repository."
 msgstr ""
-"要将手动上传的屏幕截图和之后的仓库更新连接起来，用仓库中跟踪的路径填"
-"充 :guilabel:`仓库的屏幕截图路径`。"
+"要将手动上传的屏幕截图和之后的仓库更新连接起来，用仓库中跟踪的路径填充 "
+":guilabel:`仓库的屏幕截图路径`。"
 
 #: admin/translating.rst:193
 msgid ""
@@ -18420,7 +18420,7 @@ msgstr ""
 
 #: admin/translating.rst:217
 msgid "Managing screenshots through the API"
-msgstr "通过 API 管理截图"
+msgstr "通过 API 管理屏幕截图"
 
 #: admin/translating.rst:219
 msgid ""
@@ -18435,12 +18435,12 @@ msgid ""
 "and the optional repository path used for repository-based updates."
 msgstr ""
 "也可通过 REST API 获得屏幕截图工作流。用 :http:get:`/api/components/"
-"(string:project)/(string:component)/screenshots/` 列出一个部件的屏幕截"
-"图，:http:post:`/api/screenshots/` 创建屏幕截图，:http:post:`/api/"
-"screenshots/(int:id)/file/` 替换图片，:http:post:`/api/screenshots/(int:id)/"
-"units/` 和 :http:delete:`/api/screenshots/(int:id)/units/(int:unit_id)` 管理"
-"源字符串关联，:http:delete:`/api/screenshots/(int:id)/` 来删除屏幕截图。屏幕"
-"截图 API 对象包括相关翻译和用于基于仓库的更新的可选仓库路径。"
+"(string:project)/(string:component)/screenshots/` 列出一个部件的屏幕截图"
+"，:http:post:`/api/screenshots/` 创建屏幕截图，:http:post:`/api/screenshots/"
+"(int:id)/file/` 替换图片，:http:post:`/api/screenshots/(int:id)/units/` 和 "
+":http:delete:`/api/screenshots/(int:id)/units/(int:unit_id)` 管理源字符串关联"
+"，:http:delete:`/api/screenshots/(int:id)/` 来删除屏幕截图。屏幕截图 API 对象"
+"包括相关翻译和用于基于仓库的更新的可选仓库路径。"
 
 #: admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -22761,7 +22761,7 @@ msgstr "添加搜索和替换特性。"
 #: changes/v2.rst:279
 msgid ""
 "Added support for uploading visual context (screenshots) for translations."
-msgstr "支持上传翻译的可视化上下文（截图）。"
+msgstr "支持上传翻译的可视化上下文（屏幕截图）。"
 
 #: changes/v2.rst:282
 msgid "Weblate 2.8"
@@ -27338,7 +27338,7 @@ msgstr "忽略 :ref:`check-duplicate` 检查中的格式字符串。"
 
 #: changes/v4.rst:795
 msgid "Allow uploading screenshot from a translate page."
-msgstr "允许从翻译页面上传截图。"
+msgstr "允许从翻译页面上传屏幕截图。"
 
 #: changes/v4.rst:796
 msgid "Added forced file synchronization to the repository maintenance."
@@ -27803,9 +27803,9 @@ msgid ""
 "using :wladmin:`loadpo`."
 msgstr ""
 ":ref:`mono_gettext` 现在同时使用 ``msgid`` 和 ``msgctxt``\\ （若存在）。这将"
-"改变此类文件中翻译字符串的标识，破坏到与 Weblate 扩展数据（如截图和审核状态）"
-"的链接。请确保在升级之前提交此类文件的待处理更改，建议使用 :wladmin:`loadpo` "
-"强制加载受影响的部件。"
+"改变此类文件中翻译字符串的标识，破坏到与 Weblate 扩展数据（如屏幕截图和审核状"
+"态）的链接。请确保在升级之前提交此类文件的待处理更改，建议使用 "
+":wladmin:`loadpo` 强制加载受影响的部件。"
 
 #: changes/v4.rst:946
 msgid ""
@@ -28033,7 +28033,7 @@ msgstr "为 Android 自动启动 java 格式。"
 
 #: changes/v4.rst:1013
 msgid "Added support for localized screenshots."
-msgstr "增加了对本地化截图的支持。"
+msgstr "增加了对本地化屏幕截图的支持。"
 
 #: changes/v4.rst:1014
 msgid "Added support for Python 3.9."
@@ -28400,7 +28400,7 @@ msgstr "支持了使用包含国家地区代码创建新翻译。"
 
 #: changes/v4.rst:1130
 msgid "Added support for searching source strings with screenshot."
-msgstr "支持了搜索带截图的源字符串。"
+msgstr "支持了搜索带屏幕截图的源字符串。"
 
 #: changes/v4.rst:1131
 msgid "Extended info available in the stats insights."
@@ -29444,7 +29444,8 @@ msgid ""
 "Screenshot and font upload forms now honor :setting:`ALLOWED_ASSET_SIZE` "
 "which now defaults to 10 MB."
 msgstr ""
-"截图和字体上传表单现在支持 :setting:`ALLOWED_ASSET_SIZE`，现在默认为 10 MB。"
+"屏幕截图和字体上传表单现在支持 :setting:`ALLOWED_ASSET_SIZE`，现在默认为 10 "
+"MB。"
 
 #: changes/v5.rst:120
 msgid ""
@@ -36326,7 +36327,7 @@ msgstr "由 :command:`./scripts/prepare-release` 来设置最终版本。"
 msgid ""
 "Make sure screenshots are up to date :command:`make -j 12 -C docs update-"
 "screenshots`."
-msgstr "确保截图是最新的 :command:`make -j 12 -C docs update-screenshots`。"
+msgstr "确保屏幕截图是最新的 :command:`make -j 12 -C docs update-screenshots`。"
 
 #: contributing/release.rst:48
 msgid ""
@@ -37739,7 +37740,7 @@ msgid ""
 msgstr ""
 "译文在编辑后应由第二个人进行审核。有公正且称职的审核者，双人审核规则可以减少"
 "错误，提升内容的质量和一致性。向审核者提供预览或 alpha 翻译有助于实现最佳审核"
-"效果。截图、解释也有助于在上下文中审核字符串。"
+"效果。屏幕截图、解释也有助于在上下文中审核字符串。"
 
 #: devel/community.rst:36
 msgid "Structured feedback"
@@ -48532,11 +48533,11 @@ msgstr "更改了贡献者许可协议"
 
 #: snippets/addon-parameters-autogenerated.rst:327
 msgid "Screenshot added"
-msgstr "添加了截图"
+msgstr "添加了屏幕截图"
 
 #: snippets/addon-parameters-autogenerated.rst:329
 msgid "Screenshot uploaded"
-msgstr "上传了截图"
+msgstr "上传了屏幕截图"
 
 #: snippets/addon-parameters-autogenerated.rst:331
 msgid "String updated in the repository"
@@ -48644,7 +48645,7 @@ msgstr "已强制重新扫描翻译"
 
 #: snippets/addon-parameters-autogenerated.rst:383
 msgid "Screenshot removed"
-msgstr "删除了截图"
+msgstr "删除了屏幕截图"
 
 #: snippets/addon-parameters-autogenerated.rst:385
 msgid "Label added"
@@ -56564,20 +56565,20 @@ msgstr "下载报告"
 
 #: snippets/permissions.rst:103
 msgid "Add screenshot"
-msgstr "添加截图"
+msgstr "添加屏幕截图"
 
 #: snippets/permissions.rst:107 snippets/permissions.rst:113
 #: snippets/permissions.rst:119
 msgid ":guilabel:`Manage screenshots`"
-msgstr ":guilabel:`管理截图`"
+msgstr ":guilabel:`管理屏幕截图`"
 
 #: snippets/permissions.rst:109
 msgid "Edit screenshot"
-msgstr "编辑截图"
+msgstr "编辑屏幕截图"
 
 #: snippets/permissions.rst:115
 msgid "Delete screenshot"
-msgstr "删除截图"
+msgstr "删除屏幕截图"
 
 #: snippets/permissions.rst:121
 msgid "Edit additional string info"
@@ -57095,7 +57096,7 @@ msgstr "`管理翻译记忆库`"
 
 #: snippets/roles.rst:184
 msgid "`Manage screenshots`"
-msgstr "`管理截图`"
+msgstr "`管理屏幕截图`"
 
 #: snippets/roles.rst:189
 msgid "`Manage repository`"
@@ -58577,7 +58578,7 @@ msgstr "搜索标签。"
 
 #: user/search.rst:123
 msgid "Search in screenshots."
-msgstr "搜索截图。"
+msgstr "搜索屏幕截图。"
 
 #: user/search.rst:125
 msgid "Filter by count of labels"
@@ -59615,8 +59616,8 @@ msgid ""
 msgstr ""
 "可以用 :guilabel:`添加屏幕截图` 直接从面板上传屏幕截图，或在 Weblate 其他地方"
 "管理屏幕截图以更好地通知译者字符串在何处及如何被使用。源语言字符串的屏幕截图"
-"会在每种语言的翻译中显示，而特定语言翻译的屏幕截图只在相关语言中显示，"
-"见 :ref:`screenshots`。"
+"会在每种语言的翻译中显示，而特定语言翻译的屏幕截图只在相关语言中显示，见 "
+":ref:`screenshots`。"
 
 #: user/translating.rst:317
 msgid "Nearby strings"
