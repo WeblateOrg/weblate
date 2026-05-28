@@ -812,6 +812,26 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_no_mask_matches_explains_empty_repository_state(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/nomaskmatches.html",
+            {
+                "analysis": {"can_add": True},
+                "component": SimpleNamespace(filemask="po/*.po"),
+            },
+        )
+
+        self.assertIn(
+            "This is okay when the repository does not contain translations yet.",
+            rendered,
+        )
+        self.assertIn(
+            "The alert will disappear once translations are added in Weblate or "
+            "committed to the repository.",
+            rendered,
+        )
+        self.assertIn("If translations already exist", rendered)
+
     def test_broken_project_url_renders_validation_error_as_main_message(
         self,
     ) -> None:
