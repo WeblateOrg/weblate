@@ -284,13 +284,13 @@ class BaseTermExpr:
             )
         try:
             return int(text)
-        except (TypeError, ValueError) as error:
+        except ValueError as error:
             raise SearchQueryError(
                 gettext("Could not parse numeric value: {}").format(text)
             ) from error
 
     def convert_id(self, text: str) -> int | set[int]:
-        if isinstance(text, str) and "," in text:
+        if "," in text:
             return {self.convert_int(part) for part in text.split(",")}
         return self.convert_int(text)
 
@@ -312,7 +312,7 @@ class BaseTermExpr:
                     text.end, hour=23, minute=59, second=59, microsecond=999999
                 ),
             )
-        if isinstance(text, str) and text.isdigit() and len(text) == 4:
+        if text.isdigit() and len(text) == 4:
             tzinfo = timezone.get_current_timezone()
             year = int(text)
             return (
@@ -338,12 +338,7 @@ class BaseTermExpr:
                 ),
             )
 
-        try:
-            return self.date_parse(text)
-        except (AttributeError, TypeError, ValueError) as error:
-            raise SearchQueryError(
-                gettext("Could not parse date value: {}").format(text)
-            ) from error
+        return self.date_parse(text)
 
     def get_day_range(self, timestamp: datetime) -> tuple[datetime, datetime]:
         return (
@@ -1114,13 +1109,30 @@ class ScreenshotTermExpr(BaseTermExpr):
 
         return super().has_field(text, context)
 
-    def convert_strings(self, text: str | RangeExpr) -> int | tuple[int, int]:
+    def reject_regex(
+        self, text: str | RangeExpr | RegexExpr, field: str
+    ) -> str | RangeExpr:
+        if isinstance(text, RegexExpr):
+            raise SearchQueryError(
+                gettext("Regular expression not supported for field {}").format(field)
+            )
+        return text
+
+    def convert_strings(
+        self, text: str | RangeExpr | RegexExpr
+    ) -> int | tuple[int, int]:
+        text = self.reject_regex(text, "strings")
         return self.convert_int(text)
 
     def convert_timestamp(
-        self, text: str | RangeExpr
+        self, text: str | RangeExpr | RegexExpr
     ) -> datetime | tuple[datetime, datetime]:
+        text = self.reject_regex(text, "timestamp")
         return self.convert_datetime(text)
+
+    def convert_id(self, text: str | RegexExpr) -> int | set[int]:
+        text = self.reject_regex(text, "id")
+        return super().convert_id(text)
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         if self.field == "strings":
