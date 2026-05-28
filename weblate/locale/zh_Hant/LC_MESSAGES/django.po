@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-28 04:09-0500\n"
-"PO-Revision-Date: 2026-05-27 15:44+0000\n"
+"PO-Revision-Date: 2026-05-28 11:32+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -2166,13 +2166,13 @@ msgstr "使用 Django 模板語法。這個模板必須包含 {{ component }}。
 
 #: weblate/addons/forms.py:786
 msgid "Define the monolingual base filename"
-msgstr "定義單語的基礎檔案名"
+msgstr "定義單語言的基礎檔案名"
 
 #: weblate/addons/forms.py:790
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "雙語翻譯檔案請留空。若有設定，這個模板必須包含 {{ component }}。"
+msgstr "雙語言翻譯檔案請留空。若有設定，這個模板必須包含 {{ component }}。"
 
 #: weblate/addons/forms.py:794
 msgid "Define the base file for new translations"
@@ -2235,11 +2235,11 @@ msgstr "格式不是預設集"
 #: weblate/addons/forms.py:935
 #, python-format
 msgid "monolingual base: %(base)s"
-msgstr "單語基底檔：%(base)s"
+msgstr "單語言基底檔：%(base)s"
 
 #: weblate/addons/forms.py:938
 msgid "no monolingual base"
-msgstr "沒有單語基底檔"
+msgstr "沒有單語言基底檔"
 
 #: weblate/addons/forms.py:946
 #, python-format
@@ -2319,7 +2319,7 @@ msgstr "通用預設"
 
 #: weblate/addons/forms.py:1127 weblate/trans/models/component.py:4254
 msgid "You can not use a monolingual translation without a base file."
-msgstr "您不用基底檔案就不能作單語翻譯。"
+msgstr "您不用基底檔案就不能作單語言翻譯。"
 
 #: weblate/addons/forms.py:1135 weblate/trans/models/component.py:4176
 msgid "You can not use a base file for bilingual translation."
@@ -5641,7 +5641,7 @@ msgstr "gettext PO 檔案"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1739
 msgid "gettext PO file (monolingual)"
-msgstr "gettext PO 檔案（單語）"
+msgstr "gettext PO 檔案（單語言）"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1766
@@ -6936,7 +6936,7 @@ msgstr "不支援的檔案！"
 
 #: weblate/memory/models.py:511
 msgid "Monolingual format not supported for memory upload"
-msgstr "不支援單語格式的記憶庫上傳"
+msgstr "不支援單語言格式的記憶庫上傳"
 
 #: weblate/memory/models.py:521
 msgid "Missing source or target language in file!"
@@ -9002,7 +9002,7 @@ msgstr "找到下列錯誤"
 #: weblate/templates/trans/alert/inexistantfiles.html:12
 #: weblate/trans/models/component.py:624
 msgid "Monolingual base language file"
-msgstr "單語的基底語言檔案"
+msgstr "單語言的基底語言檔案"
 
 #: weblate/templates/addons/discovery_preview.html:31
 #: weblate/templates/addons/discovery_preview.html:70
@@ -10083,7 +10083,7 @@ msgstr "完成後繼續"
 #: weblate/templates/snippets/libre-checklist.html:57
 #: weblate/wladmin/views.py:99
 msgid "Diagnostics"
-msgstr ""
+msgstr "診斷"
 
 #: weblate/templates/component.html:41 weblate/templates/project.html:46
 msgid "Download language statistics (CSV)"
@@ -11348,10 +11348,8 @@ msgid "%(invitation_author)s has invited you to join"
 msgstr "%(invitation_author)s 邀請您加入"
 
 #: weblate/templates/mail/new_alert.html:14
-#, fuzzy
-#| msgid "View details"
 msgid "View diagnostics"
-msgstr "檢視詳細資訊"
+msgstr "檢視診斷"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/new_alert_subject.txt:5
@@ -11692,10 +11690,8 @@ msgid "Translation activity summary"
 msgstr "翻譯活動摘要"
 
 #: weblate/templates/manage/alerts.html:10
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "組件清單"
+msgstr "組件診斷"
 
 #: weblate/templates/manage/alerts.html:40
 msgid "Projects without components"
@@ -12468,10 +12464,8 @@ msgid "Renaming the project will also change URLs for all its components."
 msgstr "重新命名專案亦會變更其所有組件的 URL。"
 
 #: weblate/templates/project.html:401
-#, fuzzy
-#| msgid "Removed project"
 msgid "Move project"
-msgstr "移除了專案"
+msgstr "移動專案"
 
 #: weblate/templates/project.html:408
 msgid "Move"
@@ -12537,10 +12531,8 @@ msgid "Suggests source strings by recognizing text in this screenshot."
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:81
-#, fuzzy
-#| msgid "Include strings needing editing"
 msgid "Find strings in image"
-msgstr "包含需要編輯的字串"
+msgstr "在影像中尋找字串"
 
 #: weblate/templates/screenshots/screenshot_detail.html:85
 #, fuzzy
@@ -12594,10 +12586,8 @@ msgid "There are no assigned strings."
 msgstr "沒有指派的字串。"
 
 #: weblate/templates/screenshots/screenshot_list.html:209
-#, fuzzy
-#| msgid "No suggestions found."
 msgid "No screenshots found."
-msgstr "找不到建議。"
+msgstr "找不到螢幕擷圖。"
 
 #: weblate/templates/screenshots/screenshot_list.html:223
 #: weblate/templates/translate.html:1134
@@ -12610,16 +12600,12 @@ msgid "Add to screenshot"
 msgstr "加到螢幕擷圖"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection.html:7
-#, fuzzy
-#| msgid "New source string"
 msgid "Select source string"
-msgstr "有新的來源字串"
+msgstr "選取來源字串"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection_header.html:6
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Select all source strings"
-msgstr "在來源字串中搜尋"
+msgstr "選取所有來源字串"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
 msgid "Paste from clipboard"
@@ -12781,10 +12767,8 @@ msgid "Clone to translation"
 msgstr "複製翻譯"
 
 #: weblate/templates/snippets/embed-units.html:13
-#, fuzzy
-#| msgid "CSS selector"
 msgid "Select"
-msgstr "CSS 選擇器"
+msgstr "選取"
 
 #: weblate/templates/snippets/embed-units.html:52 weblate/utils/views.py:228
 msgid "Target string"
@@ -12959,7 +12943,7 @@ msgstr "翻譯基礎語言無法修改。"
 
 #: weblate/templates/snippets/info.html:125
 msgid "The translation uses bilingual files."
-msgstr "翻譯採用雙語檔案。"
+msgstr "翻譯採用雙語言檔案。"
 
 #: weblate/templates/snippets/info.html:153
 #: weblate/templates/translate.html:988
@@ -13960,7 +13944,8 @@ msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"您可能把單語翻譯檔案當作雙語言使用。若是如此，請設定單語基底語言檔的位置。"
+"您可能把單語言翻譯檔案當作雙語言使用。若是如此，請設定單語言基底語言檔的位置"
+"。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
@@ -14075,11 +14060,11 @@ msgstr "您依然可以繼續這樣使用詞彙表，但一些功能會無法使
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
-msgstr "此翻譯組件看起來是單語的，但該組件尚未設定為單語。"
+msgstr "此翻譯組件看起來是單語言的，但該組件尚未設定為單語言。"
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:4
 msgid "Please add a monolingual base language file in the component settings."
-msgstr "請在組件設定中新增單語基底語言檔案。"
+msgstr "請在組件設定中新增單語言基底語言檔案。"
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
@@ -15692,10 +15677,8 @@ msgstr "來源字串有變更"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:206
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved"
-msgstr "移除了專案"
+msgstr "專案已移動"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -15755,7 +15738,7 @@ msgstr "為自動從 Weblate 傳輸翻譯流程配置推送 URL。"
 #, fuzzy
 #| msgid "Define translation instructions to give translators a guideline."
 msgid "Define translation instructions to help translators."
-msgstr "定義翻譯指南以提供翻譯者指導原則。"
+msgstr "定義翻譯指南以幫助翻譯者。"
 
 #: weblate/trans/alerts/community.py:212
 msgid "Add screenshots to show where strings are being used."
@@ -15774,10 +15757,8 @@ msgstr ""
 "時造成危險。"
 
 #: weblate/trans/alerts/community.py:287
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Recommended add-on"
-msgstr "最近新增"
+msgstr "推薦的附加元件"
 
 #: weblate/trans/alerts/community.py:307
 msgid "Enable add-on:"
@@ -15796,7 +15777,7 @@ msgstr "缺少授權條款資訊。"
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:99
 msgid "Misconfigured monolingual translation."
-msgstr "單語翻譯設定錯誤。"
+msgstr "單語言翻譯配置錯誤。"
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:141
@@ -16757,10 +16738,8 @@ msgid "Search filter"
 msgstr "搜尋篩選"
 
 #: weblate/trans/forms.py:1669
-#, fuzzy
-#| msgid "Date range"
 msgid "Base rate"
-msgstr "日期範圍"
+msgstr "基本速率"
 
 #: weblate/trans/forms.py:1670
 #, fuzzy
@@ -16769,10 +16748,8 @@ msgid "Price per source word."
 msgstr "來源單字數"
 
 #: weblate/trans/forms.py:1677
-#, fuzzy
-#| msgid "Translation threshold"
 msgid "Translation memory threshold"
-msgstr "最低翻譯數"
+msgstr "翻譯記憶閾值"
 
 #: weblate/trans/forms.py:1683
 #, fuzzy
@@ -16848,7 +16825,7 @@ msgstr "翻譯檔案"
 
 #: weblate/trans/forms.py:2056
 msgid "Monolingual translations"
-msgstr "單語翻譯"
+msgstr "單語言翻譯"
 
 #: weblate/trans/forms.py:2062
 msgid "Adding new languages"
@@ -17457,7 +17434,7 @@ msgstr "相對於儲存庫的螢幕擷圖路徑。範例：docs/screenshots/*.pn
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
-msgstr "包含所有字串與其單語翻譯來源之翻譯基礎檔的檔案名稱。"
+msgstr "包含所有字串與其單語言翻譯來源之翻譯基礎檔的檔案名稱。"
 
 #: weblate/trans/models/component.py:635
 msgid "Edit base file"
@@ -17467,7 +17444,7 @@ msgstr "編輯基底檔案"
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
-msgstr "使用者是否可編輯單語的翻譯基底檔案。"
+msgstr "使用者是否可編輯單語言的翻譯基底檔案。"
 
 #: weblate/trans/models/component.py:647
 msgid ""
@@ -17726,7 +17703,7 @@ msgstr "鍵值篩選器"
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
-msgstr "用於篩選鍵值的正規表達式。這僅適用於單語格式。"
+msgstr "用於篩選鍵值的正規表達式。這僅適用於單語言格式。"
 
 #: weblate/trans/models/component.py:972 weblate/trans/models/project.py:319
 msgid "Secondary language"
@@ -17962,7 +17939,7 @@ msgstr "中間語言檔案需要與編輯範本一起使用。"
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
-msgstr "中間語言檔案必須和單語基礎語言檔案不同。您也可以保留空白。"
+msgstr "中間語言檔案必須和單語言基礎語言檔案不同。您也可以保留空白。"
 
 #: weblate/trans/models/component.py:4221
 msgid "Using a .pot file as base file is unsupported."
@@ -18053,7 +18030,7 @@ msgstr "只能在投票功能開啟時才能使用自動接受建議功能。"
 
 #: weblate/trans/models/component.py:4416
 msgid "To use the key filter, the file format must be monolingual."
-msgstr "要使用鍵值篩選器，檔案格式必須是單語的。"
+msgstr "要使用鍵值篩選器，檔案格式必須是單語言的。"
 
 #: weblate/trans/models/component.py:4463
 msgid "Can not validate file matches due to invalid regular expression."
@@ -18540,10 +18517,8 @@ msgid "This language is used for source strings."
 msgstr "本語言將當作來源字串。"
 
 #: weblate/trans/templatetags/translations.py:1122
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Fix this component to clear its diagnostics."
-msgstr "修正此組件以清除警告。"
+msgstr "修復此組件以清除其診斷。"
 
 #: weblate/trans/templatetags/translations.py:1127
 #: weblate/trans/templatetags/translations.py:1146
@@ -18555,10 +18530,8 @@ msgid "Updating translation component…"
 msgstr "更新翻譯組件…"
 
 #: weblate/trans/templatetags/translations.py:1141
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some of the components within this project have diagnostics."
-msgstr "部份專案內的組件有警告。"
+msgstr "此專案中的某些組件有診斷。"
 
 #: weblate/trans/templatetags/translations.py:1170
 msgid "You administrate this project."
@@ -19125,10 +19098,8 @@ msgid "All components are now open for translation updates."
 msgstr "現已開放所有組件更新翻譯。"
 
 #: weblate/trans/views/reports.py:79
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Repetitions"
-msgstr "最近新增"
+msgstr "重複"
 
 #: weblate/trans/views/reports.py:80
 #, fuzzy
@@ -19143,25 +19114,20 @@ msgid "Fuzzy matches"
 msgstr "使用模糊比對"
 
 #: weblate/trans/views/reports.py:83
-#, fuzzy
-#| msgid "New string"
 msgid "New strings"
-msgstr "有新字串"
+msgstr "新字串"
 
 #: weblate/trans/views/reports.py:252
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "Source characters"
-msgstr "託管字元"
+msgstr "來源字元"
 
 #: weblate/trans/views/reports.py:253
 msgid "Rate"
-msgstr ""
+msgstr "速率"
 
 #: weblate/trans/views/reports.py:254
 msgid "Cost"
-msgstr ""
+msgstr "花費"
 
 #: weblate/trans/views/search.py:124
 msgid "Search and replace completed, no strings were updated."
@@ -19244,10 +19210,8 @@ msgid ""
 msgstr "無法變更 %(obj)s，因為其設定中存在未解決的問題：%(error)s"
 
 #: weblate/trans/views/settings.py:331
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved."
-msgstr "移除了專案"
+msgstr "專案已移動。"
 
 #: weblate/trans/views/settings.py:368
 #, python-format
@@ -19550,7 +19514,7 @@ msgstr "無法從提供的 URL 下載資產（HTTP 狀態碼：%(code)s）。"
 
 #: weblate/utils/search.py:147 weblate/utils/search.py:164
 msgid "Search query is too complex."
-msgstr ""
+msgstr "搜尋查詢太複雜了。"
 
 #: weblate/utils/search.py:262
 msgid "Unsupported state: {}"
@@ -20330,10 +20294,8 @@ msgid "Managed name"
 msgstr "語言名稱"
 
 #: weblate/workspaces/models.py:61
-#, fuzzy
-#| msgid "Lets Weblate update the \"X-Generator\" file header."
 msgid "Whether Weblate can update the name automatically."
-msgstr "讓 Weblate 更新「X-Generator」檔案標頭。"
+msgstr "Weblate 是否可以自動更新名稱。"
 
 #~ msgid "Owners"
 #~ msgstr "擁有者"
