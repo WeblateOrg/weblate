@@ -85,6 +85,11 @@ from weblate.trans.models import (
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
+from weblate.trans.workspace_move import (
+    PROJECT_MOVE_WORKSPACE_SELECT_LIMIT,
+    get_project_move_target_workspaces,
+    get_project_workspace_move_error,
+)
 from weblate.utils.antispam import is_spam
 from weblate.utils.files import FileUploadMethod
 from weblate.utils.forms import (
@@ -123,6 +128,7 @@ from weblate.utils.validators import (
 )
 from weblate.utils.views import get_sort_name
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import Model, QuerySet
@@ -582,6 +588,8 @@ class TranslationForm(UnitForm):
         }
         kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         super().__init__(unit, *args, **kwargs)
+        user_can_edit = user.has_perm("unit.edit", unit)
+        user_can_review = user.has_perm("unit.review", translation)
         if unit.readonly:
             self.fields["target"].widget.attrs["readonly"] = 1
             # checkbox cannot be read-only, so hide it instead
@@ -608,6 +616,15 @@ class TranslationForm(UnitForm):
                 for state, label in StringState.choices
                 if state not in {STATE_READONLY, STATE_EMPTY} | states_to_hide
             ]
+        if not user_can_edit:
+            state = StringState(unit.state)
+            self.fields["review"].choices = [
+                (
+                    state,
+                    get_state_label(state, state.label, translation.enable_review),
+                )
+            ]
+            self.fields["review"].disabled = True
         self.user = user
         self.fields["target"].widget.profile = user.profile
         # Avoid failing validation on untranslated string
@@ -625,7 +642,7 @@ class TranslationForm(UnitForm):
             InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
         )
-        if unit and user.has_perm("unit.review", translation):
+        if user_can_review or not user_can_edit:
             self.fields["fuzzy"].widget = forms.HiddenInput()
         else:
             self.fields["review"].widget = forms.HiddenInput()
@@ -1599,24 +1616,28 @@ class ReportsForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(*(Field(field) for field in self.layout_fields))
-        if not scope:
-            languages = Language.objects.have_translation()
-        elif "project" in scope:
-            languages = Language.objects.filter(
-                translation__component__project=scope["project"]
-            ).distinct()
-        elif "category" in scope:
-            languages = Language.objects.filter(
-                translation__component__category=scope["category"]
-            ).distinct()
-        elif "component" in scope:
-            languages = Language.objects.filter(
-                translation__component=scope["component"]
-            ).exclude(pk=scope["component"].source_language_id)
-        else:
-            msg = f"Invalid scope: {scope}"
-            raise ValueError(msg)
-        self.fields["language"].choices += languages.as_choices()
+        self.fields["language"].choices = get_report_language_choices(scope)
+
+
+def get_report_language_choices(scope: dict[str, Model]):
+    if not scope:
+        languages = Language.objects.have_translation()
+    elif "project" in scope:
+        languages = Language.objects.filter(
+            translation__component__project=scope["project"]
+        ).distinct()
+    elif "category" in scope:
+        languages = Language.objects.filter(
+            translation__component_id__in=scope["category"].all_component_ids
+        ).distinct()
+    elif "component" in scope:
+        languages = Language.objects.filter(
+            translation__component=scope["component"]
+        ).exclude(pk=scope["component"].source_language_id)
+    else:
+        msg = f"Invalid scope: {scope}"
+        raise ValueError(msg)
+    return [("", gettext_lazy("All languages")), *languages.as_choices()]
 
 
 class CountsReportsForm(ReportsForm):
@@ -1643,6 +1664,97 @@ class CountsReportsForm(ReportsForm):
         initial=COUNTING_MODE_UNIQUE,
         required=False,
     )
+
+
+class CostEstimateReportsForm(forms.Form):
+    layout_fields: ClassVar[tuple[str, ...]] = (
+        "style",
+        "language",
+        "q",
+        "base_rate",
+        "tm_threshold",
+        "rate_new",
+        "rate_needs_editing",
+        "rate_tm_100",
+        "rate_tm_fuzzy",
+        "rate_repetition",
+    )
+
+    style = forms.ChoiceField(
+        label=gettext_lazy("Report format"),
+        help_text=gettext_lazy("Choose a file format for the report"),
+        choices=(
+            ("rst", gettext_lazy("reStructuredText")),
+            ("json", gettext_lazy("JSON")),
+            ("html", gettext_lazy("HTML")),
+        ),
+    )
+    language = forms.ChoiceField(
+        label=gettext_lazy("Language"),
+        choices=[("", gettext_lazy("All languages"))],
+        required=False,
+    )
+    q = QueryField(
+        required=True,
+        initial="state:<translated",
+        label=gettext_lazy("Search filter"),
+    )
+    base_rate = forms.DecimalField(
+        label=gettext_lazy("Base rate"),
+        help_text=gettext_lazy("Price per source word."),
+        initial=1,
+        min_value=0,
+        max_digits=12,
+        decimal_places=4,
+    )
+    tm_threshold = forms.IntegerField(
+        label=gettext_lazy("Translation memory threshold"),
+        initial=MACHINERY_DEFAULT_THRESHOLD,
+        min_value=1,
+        max_value=100,
+    )
+    rate_new = forms.DecimalField(
+        label=gettext_lazy("New strings rate"),
+        initial=100,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_needs_editing = forms.DecimalField(
+        label=gettext_lazy("Needs editing rate"),
+        initial=50,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_tm_100 = forms.DecimalField(
+        label=gettext_lazy("Exact match rate"),
+        initial=0,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_tm_fuzzy = forms.DecimalField(
+        label=gettext_lazy("Fuzzy match rate"),
+        initial=50,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+    rate_repetition = forms.DecimalField(
+        label=gettext_lazy("Repetition rate"),
+        initial=0,
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
+    )
+
+    def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(*(Field(field) for field in self.layout_fields))
+        self.fields["language"].choices = get_report_language_choices(scope)
 
 
 class CleanRepoMixin:
@@ -2829,31 +2941,98 @@ class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
         fields = ["name", "slug"]  # noqa: RUF012
 
 
-class BillingMixin(forms.Form):
+class ProjectMoveForm(forms.Form):
+    """Project workspace move form."""
+
+    workspace = forms.Field(label=gettext_lazy("Workspace"))
+
+    def __init__(
+        self, request: AuthenticatedHttpRequest, *args, instance: Project, **kwargs
+    ) -> None:
+        self.request = request
+        self.instance = instance
+        self.allow_standalone = instance.workspace_id is not None and (
+            request.user.has_perm("project.add")
+        )
+        self.target_workspaces = get_project_move_target_workspaces(
+            request.user, instance
+        )
+        self.use_uuid_input = (
+            self.target_workspaces.count() > PROJECT_MOVE_WORKSPACE_SELECT_LIMIT
+        )
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+        if self.use_uuid_input:
+            help_text = gettext(
+                "Enter the UUID of a workspace where you have permission to edit "
+                "settings and add projects."
+            )
+            if self.allow_standalone:
+                help_text = gettext(
+                    "Enter the UUID of a workspace where you have permission to edit "
+                    "settings and add projects, or leave empty to move the project "
+                    "out of a workspace."
+                )
+            self.fields["workspace"] = forms.UUIDField(
+                label=gettext_lazy("Workspace"),
+                required=not self.allow_standalone,
+                help_text=help_text,
+            )
+        else:
+            self.fields["workspace"] = forms.ModelChoiceField(
+                label=gettext_lazy("Workspace"),
+                queryset=self.target_workspaces,
+                required=not self.allow_standalone,
+                empty_label=gettext("No workspace") if self.allow_standalone else None,
+            )
+
+    def clean_workspace(self):
+        workspace = self.cleaned_data["workspace"]
+        if self.use_uuid_input and workspace is not None:
+            try:
+                workspace = Workspace.objects.get(pk=workspace)
+            except Workspace.DoesNotExist as exc:
+                raise ValidationError(gettext("No matching workspace found.")) from exc
+
+        if validation_error := get_project_workspace_move_error(
+            self.request.user, self.instance, workspace, reject_unchanged=True
+        ):
+            raise ValidationError(validation_error)
+        return workspace
+
+    def save(self) -> Project:
+        self.instance.workspace = self.cleaned_data["workspace"]
+        self.instance.save(update_fields=["workspace"])
+        return self.instance
+
+
+class WorkspaceMixin(forms.Form):
     # This is fake field with is either hidden or configured
     # in the view
-    billing = forms.ModelChoiceField(
-        label=gettext_lazy("Billing"),
-        queryset=User.objects.none(),
-        required=True,
+    workspace = forms.ModelChoiceField(
+        label=gettext_lazy("Workspace"),
+        queryset=Workspace.objects.none(),
+        required=False,
         empty_label=None,
     )
 
 
 class ProjectCreateForm(
-    BillingMixin, SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
+    WorkspaceMixin, SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
 ):
     """Project creation form."""
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "instructions")
+        fields = ("name", "slug", "web", "instructions", "workspace")
 
 
 class ProjectImportCreateForm(ProjectCreateForm):
     class Meta:
         model = Project
-        fields = ("name", "slug")
+        fields = ("name", "slug", "workspace")
 
     def __init__(
         self, request: AuthenticatedHttpRequest, projectbackup, *args, **kwargs
@@ -2871,11 +3050,11 @@ class ProjectImportCreateForm(ProjectCreateForm):
             ),
             Field("name"),
             Field("slug"),
-            Field("billing"),
+            Field("workspace"),
         )
 
 
-class ProjectImportForm(BillingMixin, forms.Form):
+class ProjectImportForm(WorkspaceMixin, forms.Form):
     """Component base form."""
 
     zipfile = forms.FileField(
@@ -2897,7 +3076,7 @@ class ProjectImportForm(BillingMixin, forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("zipfile"),
-            Field("billing"),
+            Field("workspace"),
         )
 
     def clean_zipfile(self):

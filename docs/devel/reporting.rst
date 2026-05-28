@@ -116,3 +116,18 @@ The translator's join date is also included in the report.
 
 Use source-word metrics when comparing work across target languages, because the
 source text is shared while translated word counts differ by language.
+
+.. _cost-estimate:
+
+Cost estimate
+-------------
+
+Estimates translation costs for the selected scope from source-word counts. It
+classifies strings as repetitions, exact translation memory matches, fuzzy
+translation memory matches, strings needing editing, or new strings, and then
+applies the configured rate percentage for each category.
+
+The estimate uses Weblate translation memory matches and does not contact
+external machine translation services. The base rate is the price per source
+word. Category rates are percentages of that base rate; for example, ``50``
+charges half of the base rate and ``0`` excludes that category from the total.

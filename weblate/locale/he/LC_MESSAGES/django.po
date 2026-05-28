@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-13 12:55+0000\n"
+"PO-Revision-Date: 2026-05-26 15:11+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -222,7 +222,7 @@ msgstr "נא להקליד את שם המשתמש והסיסמה הנכונים."
 
 #: weblate/accounts/forms.py:830
 msgid "This account is inactive."
-msgstr "חשבון זה אינו פעיל."
+msgstr "חשבון זה רדום."
 
 #: weblate/accounts/forms.py:949
 msgid "Component wide notifications"
@@ -366,10 +366,8 @@ msgid "Team"
 msgstr "צוות"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "הוספת משתמש לצוות"
+msgstr "הוספה לצוות"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -564,10 +562,9 @@ msgid "User was disabled because the access has expired."
 msgstr "המשתמש הושבת כי תוקף הגישה פג."
 
 #: weblate/accounts/models.py:328
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "משתמש נוסף אל {team} על ידי {username}."
+msgstr "משתמש נוסף לצוות המקיף {team} על ידי {username}."
 
 #: weblate/accounts/models.py:332
 #, fuzzy, python-brace-format
@@ -576,20 +573,19 @@ msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr "משתמש נוסף אל {team} על ידי {username}."
 
 #: weblate/accounts/models.py:336
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "משתמש הוסר מהצוות {team} על ידי {username}."
+msgstr "משתמש הוסר מהצוות המקיף {team} על ידי {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:339
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "הוענקו הרשאות על."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:341
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "נשללו הרשאות על."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:343
@@ -603,10 +599,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "משתמש נוסף אל {team} על ידי {username}."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "משתמש נוסף אל {team} על ידי {username}."
+msgstr "גישת המשתמש לצוות {team} השתנתה על ידי {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
@@ -616,10 +611,9 @@ msgstr "משתמש הוסר מהצוות {team} על ידי {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:353
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "הגישה למיזם {project} נחסמה."
+msgstr "נוצר אסימון מיזם עבור {project}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:355
@@ -698,12 +692,8 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "נא ליצור קשר עם הנהלת המיזם אם לדעתך זה בלתי הולם."
 
 #: weblate/accounts/models.py:417 weblate/accounts/models.py:421
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
-msgstr "אם מדובך בך, נא להשתמש באיפוס סיסמה כדי לשוב ולגשת ולחשבון שלך."
+msgstr "אם מדובך בך, נא לאפס את הסיסמה שלך כדי להשיב את הגישה לחשבון שלך."
 
 #: weblate/accounts/models.py:581 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:311
@@ -1033,11 +1023,9 @@ msgid "Strings are available for translation"
 msgstr "מחרוזות זמינות לתרגום"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "סיכום תרגום"
+msgstr "סיכום פעילות תרגום"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1247,10 +1235,8 @@ msgid "The registration link has been invalidated."
 msgstr "תוקף קישור ההרשמה פג."
 
 #: weblate/accounts/pipeline.py:88 weblate/accounts/pipeline.py:524
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "תוקף קישור ההרשמה פג."
+msgstr "תוקף קישור ההזמנה פג."
 
 #: weblate/accounts/pipeline.py:91 weblate/accounts/pipeline.py:432
 #: weblate/accounts/pipeline.py:508 weblate/accounts/pipeline.py:517
@@ -1640,12 +1626,8 @@ msgid "Translation files CDN"
 msgstr "קובצי תרגום"
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr "מפרסם תרגומים לרשת מסירת תוכן (CDN) לשימוש בתרגום JavaScript או HTML."
+msgstr "מפרסם קובצי תרגום לרשת מסירת תוכן (CDN)."
 
 #: weblate/addons/cdn.py:307
 #, fuzzy
@@ -3788,7 +3770,7 @@ msgstr "פעיל"
 
 #: weblate/auth/models.py:586
 msgid "Mark user as inactive instead of removing."
-msgstr "לסמן משתמש כבלתי לפעיל במקום להסיר."
+msgstr "לסמן משתמש כרדום במקום להסיר."
 
 #: weblate/auth/models.py:594 weblate/templates/trans/project-access.html:396
 msgid "Expires"
@@ -3994,7 +3976,7 @@ msgstr "שם הקובץ לא יכול להיות נתיב מלא."
 
 #: weblate/auth/utils.py:100
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "אי אפשר להקצות משתמשים רדומים לצוותים."
 
 #: weblate/auth/utils.py:103
 msgid "Project tokens can not be assigned to teams here."
@@ -4077,10 +4059,8 @@ msgid "In limits"
 msgstr "בגבולות"
 
 #: weblate/billing/models.py:218
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "קטיעת תשלום מחזורי"
+msgstr "התראת תשלום מחזורי רדום"
 
 #: weblate/billing/models.py:223
 #, fuzzy
@@ -5511,10 +5491,8 @@ msgid "Weblate configuration"
 msgstr "הגדרות Weblate"
 
 #: weblate/examples/check_czech.py:18 weblate/examples/check_foo.py:18
-#, fuzzy
-#| msgid "No translation found."
 msgid "Your translation is foo"
-msgstr "לא נמצא תרגום."
+msgstr "התרגום שלך הוא foo"
 
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:94
@@ -6180,10 +6158,8 @@ msgid "No language limit"
 msgstr "מגבלת שפות"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "השפה שנבחרה שגויה!"
+msgstr "נא למלא קוד שפה תקף."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -11463,13 +11439,9 @@ msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate should now be able to see updated repository and you can unlock "
-#| "it."
+#, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
-msgstr ""
-"מעכשיו ל־Weblate אמורה להיות אפשרות לצפות במאגר העדכני ולאפשר לך לשחרר אותו."
+msgstr "Weblate לא הצליח לדחוף שינויים למאגר מאז %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
@@ -11479,10 +11451,8 @@ msgstr ""
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "החשבון יושבת אחרי תפוגת התוקף."
+msgstr "תשלום מחזורי יושבת למיזמים רדומים"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -11893,10 +11863,8 @@ msgid "%(translation)s has been completed"
 msgstr "התרגום ל%(translation)s הושלם"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "מסנן איכות תרגום"
+msgstr "פעילות תרגום בתקופה הזאת:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
 #, fuzzy

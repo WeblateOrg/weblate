@@ -8,7 +8,6 @@ import time
 from math import ceil
 from typing import TYPE_CHECKING, Any
 
-import sentry_sdk
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
@@ -75,6 +74,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.tracing import start_span
 from weblate.utils.views import parse_path, parse_path_units, show_form_errors
 
 if TYPE_CHECKING:
@@ -115,7 +115,7 @@ def format_newly_failing_checks_message(check_names: set[str]) -> str:
 
 def get_other_units(unit):
     """Return other units to show while translating."""
-    with sentry_sdk.start_span(op="unit.others", name=f"{unit.pk}"):
+    with start_span(op="unit.others", name=f"{unit.pk}"):
         result: dict[str, Any] = {
             "total": 0,
             "skipped": False,
@@ -282,7 +282,7 @@ def search(
         name = ""
         search_items = ()
 
-    with sentry_sdk.start_span(op="unit.search", name=search_url):
+    with start_span(op="unit.search", name=search_url):
         search_result = {
             "form": form,
             "offset": cleaned_data.get("offset", 1),

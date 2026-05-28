@@ -108,7 +108,7 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
 
     report_error(
         f"Failure while executing task {task_id}",
-        skip_sentry=True,
+        skip_error_reporting=True,
         print_tb=True,
         level="error",
     )

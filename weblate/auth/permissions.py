@@ -23,6 +23,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.workspaces.models import Workspace
 
 from .results import Allowed, Denied
 
@@ -207,7 +208,8 @@ def check_permission(
     | ProjectLanguage
     | Category
     | Project
-    | ComponentList,
+    | ComponentList
+    | Workspace,
     *,
     allow_limited_without_language: bool = False,
 ) -> bool:
@@ -223,6 +225,8 @@ def check_permission(
         )
     if isinstance(obj, Category):
         obj = obj.project
+    if isinstance(obj, Workspace):
+        return permission in user.workspace_permissions.get(obj.pk, set())
     if isinstance(obj, Project):
         return any(
             _has_scoped_permission(
@@ -750,7 +754,9 @@ def check_repository_status(
 
 
 @register_perm("meta:team.edit")
-def check_team_edit(user: User, permission: str, obj: Group) -> bool:
+def check_team_edit(
+    user: User, permission: str, obj: Group | Project | Workspace
+) -> bool:
     from weblate.auth.models import Group  # noqa: PLC0415
 
     return (
@@ -761,18 +767,29 @@ def check_team_edit(user: User, permission: str, obj: Group) -> bool:
             and check_permission(user, "project.permissions", obj.defining_project)
         )
         or (
+            isinstance(obj, Group)
+            and obj.defining_workspace
+            and check_permission(user, "workspace.edit_members", obj.defining_workspace)
+        )
+        or (
             isinstance(obj, Project)
             and check_permission(user, "project.permissions", obj)
+        )
+        or (
+            isinstance(obj, Workspace)
+            and check_permission(user, "workspace.edit_members", obj)
         )
     )
 
 
 @register_perm("meta:team.users")
 def check_team_edit_users(
-    user: User, permission: str, obj: Group
+    user: User, permission: str, obj: Group | Project | Workspace
 ) -> bool | PermissionResult:
-    return (
-        check_team_edit(user, permission, obj) or obj.pk in user.administered_group_ids
+    from weblate.auth.models import Group  # noqa: PLC0415
+
+    return check_team_edit(user, permission, obj) or (
+        isinstance(obj, Group) and obj.pk in user.administered_group_ids
     )
 
 
@@ -792,7 +809,11 @@ def check_billing_view(
     else:
         billings = obj.billings
 
-    return any(billing.owners.filter(pk=user.pk).exists() for billing in billings)
+    return any(
+        billing.workspace_id
+        and check_permission(user, "workspace.edit", billing.workspace)
+        for billing in billings
+    )
 
 
 @register_perm("billing:project.permissions")

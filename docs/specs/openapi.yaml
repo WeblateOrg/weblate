@@ -2479,6 +2479,7 @@ paths:
             enum:
             - 0
             - 1
+            - 100
             - 13
             - 14
             - 15
@@ -2569,6 +2570,8 @@ paths:
             - 95
             - 96
             - 97
+            - 98
+            - 99
         description: |-
           * `0` - Resource updated
           * `1` - Translation completed
@@ -2662,6 +2665,9 @@ paths:
           * `95` - Project setting changed
           * `96` - Component setting changed
           * `97` - User access changed
+          * `98` - Workspace created
+          * `99` - Workspace setting changed
+          * `100` - Project moved
         explode: true
         style: form
       - name: page
@@ -28405,6 +28411,9 @@ components:
       - 95
       - 96
       - 97
+      - 98
+      - 99
+      - 100
       type: integer
       description: |-
         * `0` - Resource updated
@@ -28499,6 +28508,9 @@ components:
         * `95` - Project setting changed
         * `96` - Component setting changed
         * `97` - User access changed
+        * `98` - Workspace created
+        * `99` - Workspace setting changed
+        * `100` - Project moved
     Addon:
       type: object
       properties:
@@ -30140,6 +30152,11 @@ components:
         defining_project:
           type: string
           format: uri
+        defining_workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         project_selection:
           allOf:
           - $ref: '#/components/schemas/ProjectSelectionEnum'
@@ -31700,6 +31717,11 @@ components:
         defining_project:
           type: string
           format: uri
+        defining_workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         project_selection:
           allOf:
           - $ref: '#/components/schemas/ProjectSelectionEnum'
@@ -31913,6 +31935,11 @@ components:
             * `30` - Only include approved translations
           minimum: -2147483648
           maximum: 2147483647
+        workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         instructions:
           type: string
           title: Translation instructions
@@ -32156,6 +32183,11 @@ components:
             * `30` - Only include approved translations
           minimum: -2147483648
           maximum: 2147483647
+        workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         instructions:
           type: string
           title: Translation instructions

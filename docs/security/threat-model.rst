@@ -85,7 +85,8 @@ Scope and intended use
        is out of scope. *(documented)* (source: :doc:`/admin/backup`,
        :doc:`/admin/management`)
    * - Machine translation and outbound integrations
-     - Machine translation, avatars, status reporting, VCS hosts, CDN add-on
+     - Machine translation, avatars, status reporting, telemetry, error
+       reporting, VCS hosts, CDN add-on
      - Outbound HTTP(S), provider APIs, logs
      - In scope for Weblate's enforcement of configured access and network
        restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/addons`)
@@ -243,7 +244,8 @@ or integration. *(documented)* (source: :doc:`/admin/code-hosting`,
 What Weblate does to its host:
 
 * It opens outbound network connections for configured VCS, identity-provider,
-  avatar, machine-translation, backup, status-reporting, and add-on features.
+  avatar, machine-translation, backup, status-reporting, telemetry,
+  error-reporting, and add-on features.
   *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-hosting`,
   :doc:`/admin/backup`)
 * It runs VCS and backup-related helper commands as part of repository and

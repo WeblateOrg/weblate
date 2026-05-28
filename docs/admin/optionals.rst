@@ -107,18 +107,20 @@ After installation you can control billing in the admin interface. Users with
 billing enabled will get new :guilabel:`Billing` tab in their
 :ref:`user-profile`.
 
-The billing module additionally allows project admins to create new projects
-and components without being superusers (see :ref:`adding-projects`). This is
+The billing module additionally allows users to create new projects and
+components without being superusers (see :ref:`adding-projects`). This is
 possible when following conditions are met:
 
 * The billing is in its configured limits (any overusage results in blocking
   of project/component creation) and paid (if its price is non zero)
-* The user is admin of existing project with billing or user is owner of
-  billing (the latter is necessary when creating new billing for users to be
-  able to import new projects).
+* The user has :guilabel:`Add projects to workspace` permission for the
+  workspace covered by the billing plan.
 
-Upon project creation user is able to choose which billing should be charged
-for the project in case he has access to more of them.
+Upon project creation user is able to choose which workspace should contain the
+project. Projects created in a workspace with billing count against the billing
+plan assigned to that workspace. Users with the :guilabel:`Edit workspace
+settings` permission can view and pay the billing plan; billing notification
+e-mails are sent to these users. See :ref:`workspace-billing` for details.
 
 
 .. _legal:

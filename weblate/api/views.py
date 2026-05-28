@@ -175,6 +175,7 @@ from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
+from weblate.workspaces.models import Workspace
 
 from .renderers import FlatJsonRenderer, OpenMetricsRenderer, OpenMetricsSample
 
@@ -977,6 +978,11 @@ class GroupViewSet(viewsets.ModelViewSet):
                 Q(user=user)
                 | Q(admins=user)
                 | Q(defining_project__in=user.projects_with_perm("project.permissions"))
+                | Q(
+                    defining_workspace__in=user.workspaces_with_perm(
+                        "workspace.edit_members"
+                    )
+                )
             ).distinct()
         return queryset.order_by("id")
 
@@ -985,9 +991,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         request: Request,
         group: Group | None = None,
         project: Project | None = None,
+        workspace: Workspace | None = None,
     ) -> None:
         # if a project is provided and the user has the required permission to edit teams in the project, allow access
         if project is not None and request.user.has_perm("meta:team.edit", project):
+            return
+        if workspace is not None and request.user.has_perm("meta:team.edit", workspace):
             return
 
         if (group is None and not self.request.user.has_perm("group.edit")) or (
@@ -1002,7 +1011,9 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer) -> None:
         self.perm_check(
-            self.request, project=serializer.validated_data.get("defining_project")
+            self.request,
+            project=serializer.validated_data.get("defining_project"),
+            workspace=serializer.validated_data.get("defining_workspace"),
         )
         super().perform_create(serializer)
 
@@ -1015,7 +1026,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"])
     def roles(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "role_id" not in request.data:
             msg = "Missing role_id parameter"
@@ -1028,6 +1039,11 @@ class GroupViewSet(viewsets.ModelViewSet):
             raise invalid_integer_error(field_name) from error
         except Role.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Role") from error
+
+        if not Role.objects.assignable_to_team(obj).filter(pk=role.pk).exists():
+            raise ValidationError(
+                {"role_id": gettext("This role cannot be assigned to this team.")}
+            )
 
         obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -1043,7 +1059,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_roles(self, request: Request, id, role_id):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             role = obj.roles.get(pk=role_id)
@@ -1061,7 +1077,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "language_code" not in request.data:
             msg = "Missing language_code parameter"
@@ -1093,7 +1109,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_languages(self, request: Request, id, language_code):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             language = obj.languages.get(code=language_code)
@@ -1110,7 +1126,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     def projects(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "project_id" not in request.data:
             msg = "Missing project_id parameter"
@@ -1135,7 +1151,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_projects(self, request: Request, id, project_id):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             project = obj.projects.get(pk=project_id)
@@ -1151,7 +1167,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"])
     def componentlists(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "component_list_id" not in request.data:
             msg = "Missing component_list_id parameter"
@@ -1187,7 +1203,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         component_list_id,
     ):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
         try:
             component_list = obj.componentlists.get(pk=component_list_id)
         except ComponentList.DoesNotExist as error:
@@ -1203,7 +1219,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
         if "component_id" not in request.data:
             msg = "Missing component_id parameter"
             raise ValidationError({"component_id": msg})
@@ -1229,7 +1245,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_components(self, request: Request, id, component_id):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             component = obj.components.get(pk=component_id)
@@ -1737,30 +1753,47 @@ class ProjectViewSet(
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new project."""
-        billing = None
-        if not request.user.has_perm("project.add"):
-            if "weblate.billing" in settings.INSTALLED_APPS:
+        workspace_id = request.data.get("workspace")
+        if workspace_id:
+            try:
+                workspace = get_object_or_404(Workspace, pk=workspace_id)
+            except (DjangoValidationError, ValueError) as error:
+                raise ValidationError({"workspace": error.messages}) from error
+            if not request.user.has_perm("workspace.add_project", workspace):
+                self.permission_denied(request, "Can not create projects")
+            if "weblate.billing" in settings.INSTALLED_APPS and hasattr(
+                workspace, "billing"
+            ):
                 from weblate.billing.models import Billing  # noqa: PLC0415
 
-                try:
-                    billing = Billing.objects.for_user_within_limits(self.request.user)[
-                        0
-                    ]
-                except IndexError:
+                if not (
+                    Billing.objects.filter(pk=workspace.billing.pk)
+                    .for_user_within_limits(request.user)
+                    .exists()
+                ):
                     self.permission_denied(
                         request, "No valid billing found or limit exceeded."
                     )
-            else:
-                self.permission_denied(request, "Can not create projects")
+        elif not request.user.has_perm("project.add"):
+            self.permission_denied(request, "Can not create projects")
         self.request = request
-        self.billing = billing
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer) -> None:
         with transaction.atomic():
             super().perform_create(serializer)
-            billing = getattr(self, "billing", None)
+            billing = None
+            if (
+                "weblate.billing" in settings.INSTALLED_APPS
+                and serializer.instance.workspace_id
+            ):
+                with suppress(AttributeError):
+                    billing = serializer.instance.workspace.billing
             serializer.instance.post_create(self.request.user, billing)
+
+    def perform_update(self, serializer) -> None:
+        serializer.instance.acting_user = self.request.user
+        super().perform_update(serializer)
 
     def update(self, request: Request, *args, **kwargs):
         """Edit a project by a PUT request."""

@@ -2,5 +2,9 @@
 
 {% autoescape off %}
   {# Translators: e-mail subject #}
-  {% blocktranslate %}Password reset on {{ site_title }}{% endblocktranslate %}
+  {% if password_reset_scope == "weblate-services" %}
+    {% translate "Set password for your Weblate account" %}
+  {% else %}
+    {% blocktranslate %}Password reset on {{ site_title }}{% endblocktranslate %}
+  {% endif %}
 {% endautoescape %}

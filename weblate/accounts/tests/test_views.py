@@ -37,11 +37,12 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.views import log_handled_auth_failure
 from weblate.auth.models import Group, User
-from weblate.billing.models import Plan
+from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import (
+    create_test_billing,
     social_core_modify_settings,
     social_core_override_settings,
 )
@@ -233,7 +234,7 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, "640k")
         response = self.client.post(reverse("trial"), follow=True)
         self.assertContains(response, "Create project")
-        billing = user.billing_set.get()
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
         self.assertTrue(billing.is_trial)
 
         # Repeated attempt should fail
@@ -278,6 +279,30 @@ class ViewTest(RepoTestCase):
         # Get public profile
         response = self.client.get(user.get_absolute_url())
         self.assertContains(response, "table-activity")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_user_without_billing(self) -> None:
+        """Test user pages without billing."""
+        user = self.get_user()
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(user.get_absolute_url())
+
+        self.assertContains(response, "table-activity")
+        self.assertEqual(response.context["page_user_billings"], [])
+
+    def test_user_billing_tab(self) -> None:
+        """Test billing tab on user pages."""
+        user = self.get_user()
+        user.is_superuser = True
+        user.save()
+        billing = create_test_billing(user, invoice=False)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(user.get_absolute_url())
+
+        self.assertEqual(response.context["page_user_billings"], [billing])
+        self.assertContains(response, 'data-bs-target="#billing"')
 
     def test_suggestions(self) -> None:
         """Test user pages."""

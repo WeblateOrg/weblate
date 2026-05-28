@@ -201,12 +201,10 @@ jobs:
           --python "$PYTHON_VERSION" \
           --no-python-downloads \
           > build/sbom/python.json
-        ./scripts/reproducible-sbom.py build/sbom/python.json
         cd client
         yarn install --immutable --check-files
         npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
         cd ..
-        ./scripts/reproducible-sbom.py build/sbom/javascript.json
         cyclonedx_cli=/tmp/cyclonedx-linux-x64
         curl -fsSL "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > "$cyclonedx_cli"
         echo "${CYCLONEDX_CLI_DIGEST#sha256:}  $cyclonedx_cli" | sha256sum --check --strict

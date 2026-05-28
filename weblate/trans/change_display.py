@@ -227,20 +227,26 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderSettingChange(BaseDetailsRenderStrategy):
-    """Strategy for displaying details of project and component setting changes."""
+    """Strategy for displaying details of setting changes."""
 
     details_required = True
     actions: ClassVar[set[ActionEvents]] = {
         ActionEvents.PROJECT_SETTING_CHANGE,
         ActionEvents.COMPONENT_SETTING_CHANGE,
+        ActionEvents.WORKSPACE_SETTING_CHANGE,
     }
 
     def render_details(self, change: Change) -> StrOrPromise:
-        obj = (
-            change.project
-            if change.action == ActionEvents.PROJECT_SETTING_CHANGE
-            else change.component
-        )
+        obj: models.Model | None
+        match change.action:
+            case ActionEvents.PROJECT_SETTING_CHANGE:
+                obj = change.project
+            case ActionEvents.COMPONENT_SETTING_CHANGE:
+                obj = change.component
+            case ActionEvents.WORKSPACE_SETTING_CHANGE:
+                obj = change.workspace
+            case _:
+                obj = None
         details = change.details
         if obj is None or "field" not in details:
             return change.get_action_display()
@@ -273,6 +279,24 @@ class RenderSettingChange(BaseDetailsRenderStrategy):
         if isinstance(value, list):
             return ", ".join(str(item) for item in value)
         return str(value)
+
+
+@register_details_display_strategy
+class RenderProjectMove(BaseDetailsRenderStrategy):
+    """Strategy for displaying details of project moves."""
+
+    details_required = True
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.MOVE_PROJECT}
+
+    def render_details(self, change: Change) -> StrOrPromise:
+        no_workspace = gettext("No workspace")
+        details = change.details
+        old = details.get("old_workspace_name") or no_workspace
+        target = details.get("workspace_name") or no_workspace
+        return gettext('Project moved from "%(old)s" to "%(target)s".') % {
+            "old": old,
+            "target": target,
+        }
 
 
 @register_details_display_strategy

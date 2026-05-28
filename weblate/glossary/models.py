@@ -11,7 +11,6 @@ from itertools import chain
 from typing import TYPE_CHECKING, cast
 
 import ahocorasick_rs
-import sentry_sdk
 from django.core.cache import cache
 from django.db.models import Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
@@ -19,6 +18,7 @@ from django.db.models.functions import MD5, Lower
 from weblate.trans.models.unit import Unit
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.tracing import start_span
 from weblate.utils.unicodechars import CONTROLCHARS
 
 if TYPE_CHECKING:
@@ -43,7 +43,7 @@ def get_glossary_sources(component):
 def get_glossary_automaton(project: Project) -> ahocorasick_rs.AhoCorasick:
     from weblate.trans.models.component import prefetch_glossary_terms  # noqa: PLC0415
 
-    with sentry_sdk.start_span(op="glossary.automaton", name=project.slug):
+    with start_span(op="glossary.automaton", name=project.slug):
         # Chain terms
         prefetch_glossary_terms(project.glossaries)
         terms = set(
@@ -126,7 +126,7 @@ def fetch_glossary_terms(  # noqa: C901
         ]
         terms: set[str] = set()
         # Extract terms present in the source
-        with sentry_sdk.start_span(op="glossary.match", name=project.slug):
+        with start_span(op="glossary.match", name=project.slug):
             for i, source in enumerate(sources):
                 for _termno, start, end in automaton.find_matches_as_indexes(
                     source, overlapping=True

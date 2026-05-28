@@ -531,7 +531,7 @@ def create_test_billing(user: User, invoice: bool = True) -> Billing:
         yearly_price=199,
     )
     billing = Billing.objects.create(plan=plan)
-    billing.owners.add(user)
+    billing.workspace.add_owner(user)
     if invoice:
         Invoice.objects.create(
             billing=billing,

@@ -47,7 +47,7 @@ package-lint = [
   "twine==6.2.0"
 ]
 pre-commit = [
-  "prek==0.4.1"
+  "prek==0.4.3"
 ]
 pylint = [
   "pylint==4.0.5"
@@ -56,7 +56,7 @@ sbom = [
   "packaging==26.2"
 ]
 schemas = [
-  "weblate-schemas==2026.2"
+  "weblate-schemas==2026.4"
 ]
 scripts = [
   "django-debug-toolbar==6.3.0",
@@ -66,7 +66,7 @@ scripts = [
   "tinyunicodeblock==1.3"
 ]
 test = [
-  "coverage==7.14.0",
+  "coverage==7.14.1",
   "pytest-cov==7.1.0",
   "pytest-django==4.12.0",
   "pytest-github-actions-annotate-failures==0.4.0",
@@ -78,12 +78,12 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.43.14",
+  "boto3-stubs==1.43.16",
   "celery-types==0.26.0",
-  "django-stubs-ext==6.0.4",
-  "django-stubs[compatible-mypy]==6.0.4",
+  "django-stubs-ext==6.0.5",
+  "django-stubs[compatible-mypy]==6.0.5",
   "djangorestframework-stubs==3.17.0",
-  "mypy==1.20.2",
+  "mypy==2.1.0",
   "PyGObject-stubs==2.17.0",
   "types-dateparser==1.4.0.20260518",
   "types-docutils==0.22.3.20260518",
@@ -139,7 +139,7 @@ dependencies = [
   "cyrtranslit==1.2.0",
   "dateparser==1.4.0",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.188",
+  "disposable-email-domains==0.0.190",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-compressor==4.6.0",
@@ -169,6 +169,13 @@ dependencies = [
   "mistletoe==1.5.1",
   "nh3==0.3.5",
   "openpyxl==3.1.5",
+  "opentelemetry-exporter-otlp-proto-http==1.42.1",
+  "opentelemetry-instrumentation-celery==0.63b1",
+  "opentelemetry-instrumentation-django==0.63b1",
+  "opentelemetry-instrumentation-psycopg==0.63b1",
+  "opentelemetry-instrumentation-redis==0.63b1",
+  "opentelemetry-instrumentation-requests==0.63b1",
+  "opentelemetry-sdk==1.42.1",
   "packaging==26.2",
   # Pin for translate-toolkit extra
   "phply==1.2.6",
@@ -206,7 +213,7 @@ dependencies = [
   "user-agents==2.2.0",
   "weblate-fonts==2026.1",
   "weblate-language-data==2026.8",
-  "weblate-schemas==2026.2"
+  "weblate-schemas==2026.4"
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
@@ -225,10 +232,10 @@ version = "2026.6.dev0"
 
 [project.optional-dependencies]
 all = [
-  "weblate[amazon,gelf,gerrit,google,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
+  "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.14"
+  "boto3==1.43.16"
 ]
 gelf = [
   "logging-gelf==0.0.32"
@@ -239,6 +246,9 @@ gerrit = [
 google = [
   "google-cloud-storage==3.10.1",
   "google-cloud-translate==3.26.0"
+]
+google-errors = [
+  "google-cloud-error-reporting==1.15.0"
 ]
 ldap = [
   "django-auth-ldap==5.3.0"

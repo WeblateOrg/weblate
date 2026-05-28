@@ -430,6 +430,7 @@ INSTALLED_APPS = [
     "weblate.formats",
     "weblate.glossary",
     "weblate.machinery",
+    "weblate.workspaces",
     "weblate.trans",
     "weblate.lang",
     "weblate_language_data",
@@ -980,4 +981,11 @@ MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
 SENTRY_ENVIRONMENT = SITE_DOMAIN
+GOOGLE_CLOUD_ERROR_REPORTING = None
+OPENTELEMETRY_ENABLED = False
+OPENTELEMETRY_SERVICE_NAME = "weblate"
+OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT = None
+OPENTELEMETRY_EXPORTER_OTLP_HEADERS = {}
+OPENTELEMETRY_TRACES_SAMPLE_RATE = 0
+OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES = {}
 PASSWORD_RESET_URL = None

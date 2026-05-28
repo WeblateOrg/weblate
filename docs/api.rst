@@ -913,6 +913,13 @@ Projects
     :type slug: string
     :param web: Project website
     :type web: string
+    :param workspace: Optional workspace UUID. Creating a project in a workspace
+                       requires :guilabel:`Add projects to workspace` permission
+                       for that workspace. Creating a project without a
+                       workspace requires the site-wide :guilabel:`Add new
+                       projects` permission. See
+                       :ref:`workspace-project-creation`.
+    :type workspace: string
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -930,6 +937,8 @@ Projects
     :>json boolean translation_review: :ref:`project-translation_review`
     :>json boolean source_review: :ref:`project-source_review`
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
+    :>json string workspace: workspace UUID, or ``null`` when the project is not
+                            assigned to a workspace
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string announcements_url: URL to announcements; see :http:get:`/api/projects/(string:project)/announcements/`
@@ -952,16 +961,27 @@ Projects
 
     Edit a project by a :http:method:`PATCH` request.
 
+    Changing ``workspace`` moves the project. Moving a project requires
+    permission to edit the project and the :guilabel:`Edit workspace settings`
+    permission for the source and target workspace. The target workspace also
+    requires the :guilabel:`Add projects to workspace` permission. Moving a
+    project out of a workspace also requires the site-wide :guilabel:`Add new
+    projects` permission. See :ref:`workspace-project-creation`.
+
     :param project: Project URL slug
     :type project: string
-    :param component: Component URL slug
-    :type component: string
+    :param workspace: Optional workspace UUID, or ``null`` to move the project
+                       out of a workspace
+    :type workspace: string
 
 .. http:put:: /api/projects/(string:project)/
 
     .. versionadded:: 4.3
 
     Edit a project by a :http:method:`PUT` request.
+
+    Changing ``workspace`` follows the same permission checks as
+    :http:patch:`/api/projects/(string:project)/`.
 
     :param project: Project URL slug
     :type project: string

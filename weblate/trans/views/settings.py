@@ -32,6 +32,7 @@ from weblate.trans.forms import (
     ComponentLinkCategoryForm,
     ComponentRenameForm,
     ComponentSettingsForm,
+    ProjectMoveForm,
     ProjectRenameForm,
     ProjectSettingsForm,
     WorkflowSettingForm,
@@ -294,6 +295,41 @@ def rename(request: AuthenticatedHttpRequest, path):
     if isinstance(obj, Category):
         return perform_rename(CategoryRenameForm, request, obj, "project.edit")
     return perform_rename(ProjectRenameForm, request, obj, "project.edit")
+
+
+@login_required
+@require_POST
+@transaction.atomic
+def move(request: AuthenticatedHttpRequest, path):
+    obj = parse_path(request, path, (Project,))
+    if not request.user.has_perm("project.edit", obj):
+        raise PermissionDenied
+
+    obj.acting_user = request.user
+    try:
+        obj.full_clean()
+    except ValidationError as err:
+        messages.error(
+            request,
+            gettext(
+                "Could not change %(obj)s due to an outstanding issue in its "
+                "settings: %(error)s"
+            )
+            % {"obj": obj, "error": err},
+        )
+        return redirect_param(obj, "#organize")
+
+    form = ProjectMoveForm(request, request.POST, instance=obj)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        obj.refresh_from_db()
+        return redirect_param(obj, "#organize")
+
+    old_stats = list(obj.stats.get_update_objects())
+    moved = form.save()
+    moved.stats.update_parents(extra_objects=old_stats)
+    messages.success(request, gettext("Project moved."))
+    return redirect(moved)
 
 
 @login_required

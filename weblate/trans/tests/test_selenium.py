@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, Literal, cast, overload
 
 from django.conf import settings
 from django.core import mail
+from django.core.files import File
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -42,6 +43,7 @@ from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Project, Unit
@@ -56,6 +58,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.vcs.ssh import get_key_data
 from weblate.wladmin.models import ConfigurationError, SupportStatus
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -234,6 +237,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Return the count of elements matching css_selector on the current page."""
         return len(self.driver.find_elements(By.CSS_SELECTOR, css_selector))
 
+    def assert_labeled_control(self, htmlid: str, label_text: str) -> None:
+        """Assert a form control has a visible label associated by ID."""
+        self.driver.find_element(By.ID, htmlid)
+        labels = self.driver.find_elements(By.CSS_SELECTOR, f'label[for="{htmlid}"]')
+        self.assertTrue(labels, f"Missing label for #{htmlid}")
+        self.assertTrue(
+            any(label_text in label.text for label in labels),
+            f"Missing label text {label_text!r} for #{htmlid}",
+        )
+
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
         self.scroll_top()
@@ -350,6 +363,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # We should end up on login page as user was invalid
         self.driver.find_element(By.ID, "id_username")
 
+    def test_login_form_accessibility(self) -> None:
+        """Check labels and keyboard order on the public sign-in form."""
+        with self.wait_for_page_load():
+            self.click(htmlid="login-button")
+
+        self.assert_labeled_control("id_username", "Username or e-mail")
+        self.assert_labeled_control("id_password", "Password")
+
+        username_input = self.driver.find_element(By.ID, "id_username")
+        username_input.click()
+        username_input.send_keys(Keys.TAB)
+        self.assertEqual(
+            self.driver.switch_to.active_element.get_attribute("id"),
+            "id_password",
+        )
+
+        self.driver.switch_to.active_element.send_keys(Keys.TAB)
+        submit_button = self.driver.switch_to.active_element
+        self.assertEqual(submit_button.get_attribute("type"), "submit")
+        self.assertEqual(submit_button.get_attribute("value"), "Sign in")
+
     def test_js_assets_are_loaded(self) -> None:
         """Check that the main JS bundle is active and globals are available."""
         self.assertTrue(
@@ -440,6 +474,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 "show"
                 in driver.find_element(By.ID, "shortcuts-modal").get_attribute("class")
             )
+        )
+        modal = self.driver.find_element(By.ID, "shortcuts-modal")
+        self.assertEqual(modal.get_attribute("role"), "dialog")
+        modal_label = modal.get_attribute("aria-labelledby")
+        self.assertEqual(
+            self.driver.find_element(By.ID, modal_label).text,
+            "Keyboard shortcuts",
+        )
+        self.assertEqual(
+            self.driver.execute_script(
+                """
+                const ids = Array.from(arguments[0].querySelectorAll("[id]"))
+                    .map((element) => element.id);
+                return ids.filter((id, index) => ids.indexOf(id) !== index);
+                """,
+                modal,
+            ),
+            [],
         )
 
     def test_machinery_hotkeys_use_current_results(self) -> None:
@@ -754,10 +806,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "Unit",
             Unit.objects.get(source=text, translation__language=language).source_unit,
         )
+        component = source.translation.component
         source.explanation = "Help text for automatic translation tool"
         source.save()
         self.create_glossary(user, project, language)
-        source.translation.component.alert_set.all().delete()
+        component.alert_set.all().delete()
 
         def capture_unit(name, tab) -> None:
             unit = Unit.objects.get(source=text, translation__language=language)
@@ -796,11 +849,35 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Screenshots")
 
         # Upload screenshot
+        self.click("Add screenshot")
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
         self.upload_file(element, get_test_file("screenshot.png"))
         with self.wait_for_page_load():
             element.submit()
+
+        with open(get_test_file("screenshot.png"), "rb") as handle:
+            listing_screenshot = Screenshot.objects.create(
+                name="Main menu",
+                repository_filename="fastlane/metadata/android/en-US/images/menu.png",
+                image=File(handle, name="main-menu.png"),
+                translation=component.source_translation,
+                user=user,
+            )
+        listing_screenshot.add_unit(source, user)
+
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}"
+                f"{reverse('screenshots', kwargs={'path': component.get_url_path()})}"
+            )
+        self.assert_text_contains(".tab-content", "Automatic translation")
+        self.assert_text_contains(".tab-content", "Main menu")
+        self.assert_text_contains(".tab-content", "fastlane")
+        self.screenshot("screenshot-listing.png")
+
+        with self.wait_for_page_load():
+            self.click("Automatic translation")
 
         # Perform OCR
         self.click(htmlid="screenshots-auto")
@@ -900,6 +977,72 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Czech")
         self.screenshot("announcement-language.png")
         self.assert_text_contains(".announcement", "Czech translators rock!")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_workspaces(self) -> None:
+        """Test workspaces management interface."""
+        workspace = Workspace.objects.create(name="Localization workspace")
+        Project.objects.create(
+            name="Website translations",
+            slug="website-translations",
+            web="https://example.com/",
+            workspace=workspace,
+        )
+        Project.objects.create(
+            name="Mobile application",
+            slug="mobile-application",
+            web="https://example.com/mobile/",
+            workspace=workspace,
+        )
+        Project.objects.create(
+            name="Documentation portal",
+            slug="documentation-portal",
+            web="https://example.com/docs/",
+            workspace=workspace,
+        )
+
+        user = self.do_login(superuser=True)
+        workspace.add_owner(user)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('manage-workspaces')}")
+
+        self.assert_text_contains("h4.card-title", "Manage workspaces")
+        self.assert_text_contains("table.table-striped", "Localization workspace")
+        self.assert_text_contains("table.table-striped", "3")
+
+        with self.wait_for_page_load():
+            self.click("Add workspace")
+        self.assert_labeled_control("id_name", "Workspace name")
+        self.driver.find_element(By.ID, "id_name").send_keys("Documentation workspace")
+        with self.wait_for_page_load():
+            self.driver.find_element(By.ID, "id_name").submit()
+
+        self.assertTrue(
+            Workspace.objects.filter(name="Documentation workspace").exists()
+        )
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('manage-workspaces')}")
+        self.screenshot("workspaces.png")
+
+        with self.wait_for_page_load():
+            self.click("Localization workspace")
+        self.assert_text_contains(".nav-pills", "Projects")
+        self.assert_text_contains(".tab-content", "Website translations")
+        self.assert_text_contains(".tab-content", "Mobile application")
+        self.assert_text_contains(".tab-content", "Documentation portal")
+        self.screenshot("workspace-projects.png")
+
+        self.click("Access control")
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: (
+                "active" in driver.find_element(By.ID, "access").get_attribute("class")
+            )
+        )
+        self.assert_text_contains("#access", "Owners")
+        self.assert_text_contains("#access", "Project creators")
+        self.screenshot("workspace-access.png")
 
     def test_weblate(self) -> None:  # noqa: PLR0915
         user = self.open_admin()

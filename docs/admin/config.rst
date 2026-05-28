@@ -2226,6 +2226,69 @@ and configures REST framework to require authentication for all API endpoints.
     This is implemented in the :ref:`sample-configuration`. For Docker, use
     :envvar:`WEBLATE_REQUIRE_LOGIN`.
 
+.. setting:: GOOGLE_CLOUD_ERROR_REPORTING
+
+GOOGLE_CLOUD_ERROR_REPORTING
+----------------------------
+
+Configuration for :ref:`collecting-errors` using Google Cloud Error Reporting.
+Set to ``None`` to disable the integration, or set to a dictionary of keyword
+arguments for the Google Cloud Error Reporting client.
+
+Weblate automatically supplies ``service`` as ``weblate`` and ``version`` as
+the current Weblate version or Git revision. Explicit values in the dictionary
+override these defaults.
+
+.. setting:: OPENTELEMETRY_ENABLED
+
+OPENTELEMETRY_ENABLED
+---------------------
+
+.. versionadded:: 2026.6
+
+Enable backend tracing using OpenTelemetry. Disabled by default.
+
+Traces are exported only when this is enabled and
+:setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured.
+
+.. setting:: OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+
+OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+------------------------------------
+
+OTLP HTTP traces endpoint for OpenTelemetry, for example
+``https://collector.example.com/v1/traces``.
+
+.. setting:: OPENTELEMETRY_EXPORTER_OTLP_HEADERS
+
+OPENTELEMETRY_EXPORTER_OTLP_HEADERS
+-----------------------------------
+
+Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an
+empty dictionary.
+
+.. setting:: OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES
+
+OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES
+---------------------------------------
+
+Additional OpenTelemetry resource attributes. Defaults to an empty dictionary.
+
+.. setting:: OPENTELEMETRY_SERVICE_NAME
+
+OPENTELEMETRY_SERVICE_NAME
+--------------------------
+
+OpenTelemetry service name. Defaults to ``weblate``.
+
+.. setting:: OPENTELEMETRY_TRACES_SAMPLE_RATE
+
+OPENTELEMETRY_TRACES_SAMPLE_RATE
+--------------------------------
+
+Configure sampling rate for OpenTelemetry traces. Set to 1 to trace all events,
+0 (the default) disables tracing.
+
 .. setting:: SENTRY_DSN
 
 SENTRY_DSN

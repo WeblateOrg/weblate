@@ -16,11 +16,19 @@ from django.utils.translation import gettext
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing, BillingEvent
+from weblate.trans.models import Project
 from weblate.trans.tasks import project_removal
 from weblate.utils.celery import app
 
 if TYPE_CHECKING:
     from datetime import datetime
+
+
+def filter_with_projects(queryset):
+    db = queryset.db
+    return queryset.filter(
+        Exists(Project.objects.using(db).filter(workspace_id=OuterRef("workspace_id")))
+    )
 
 
 @app.task(trail=False)
@@ -44,12 +52,7 @@ def billing_notify() -> None:
         .prefetch()
     )
 
-    billing_projects = Billing.projects.through.objects.filter(
-        billing_id=OuterRef("pk")
-    )
-    with_project = Billing.objects.alias(has_projects=Exists(billing_projects)).filter(
-        has_projects=True
-    )
+    with_project = filter_with_projects(Billing.objects.all())
     toremove = with_project.exclude(removal=None).order_by("removal")
     trial = with_project.filter(removal=None, state=Billing.STATE_TRIAL).order_by(
         "expiry"
@@ -73,19 +76,18 @@ def billing_notify() -> None:
 @app.task(trail=False)
 def notify_expired() -> None:
     # Notify about expired billings
-    billing_projects = Billing.projects.through.objects.filter(
-        billing_id=OuterRef("pk")
-    )
-    possible_billings = Billing.objects.alias(
-        has_projects=Exists(billing_projects)
-    ).filter(
-        # Active without payment (checked later)
-        Q(state=Billing.STATE_ACTIVE)
-        # Scheduled removal
-        | Q(removal__isnull=False)
-        # Trials expiring soon
-        | Q(state=Billing.STATE_TRIAL, expiry__lte=timezone.now() + timedelta(days=7)),
-        has_projects=True,
+    possible_billings = filter_with_projects(
+        Billing.objects.filter(
+            # Active without payment (checked later)
+            Q(state=Billing.STATE_ACTIVE)
+            # Scheduled removal
+            | Q(removal__isnull=False)
+            # Trials expiring soon
+            | Q(
+                state=Billing.STATE_TRIAL,
+                expiry__lte=timezone.now() + timedelta(days=7),
+            ),
+        )
     )
     for bill in possible_billings:
         if bill.state == Billing.STATE_ACTIVE and bill.check_payment_status(now=True):
@@ -167,7 +169,7 @@ def inactive_recurring_check() -> None:
             bill = (
                 Billing.objects.select_for_update()
                 .select_related("plan")
-                .prefetch_related("owners", "owners__profile", "projects")
+                .prefetch_related("workspace__projects")
                 .get(pk=billing_id)
             )
             status = bill.get_inactive_recurring_status(now)
@@ -220,7 +222,7 @@ def remove_single_billing(billing_id: int) -> None:
             info=str(bill),
             user=user,
         )
-    for prj in bill.projects.iterator():
+    for prj in bill.get_projects_queryset().iterator():
         bill.billinglog_set.create(
             event=BillingEvent.REMOVED, summary=f"Removed project {prj}"
         )

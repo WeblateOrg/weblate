@@ -198,6 +198,12 @@ class ActionEvents(IntegerChoices):
     COMPONENT_SETTING_CHANGE = 96, gettext_lazy("Component setting changed")
     # Translators: Name of event in the history
     USER_ACCESS_CHANGE = 97, gettext_lazy("User access changed")
+    # Translators: Name of event in the history
+    CREATE_WORKSPACE = 98, gettext_lazy("Workspace created")
+    # Translators: Name of event in the history
+    WORKSPACE_SETTING_CHANGE = 99, gettext_lazy("Workspace setting changed")
+    # Translators: Name of event in the history
+    MOVE_PROJECT = 100, gettext_lazy("Project moved")
 
 
 # Actions which are logged
@@ -224,6 +230,9 @@ ACTIONS_LOG = {
     ActionEvents.COMPONENT_RESTORE,
     ActionEvents.PROJECT_SETTING_CHANGE,
     ActionEvents.COMPONENT_SETTING_CHANGE,
+    ActionEvents.CREATE_WORKSPACE,
+    ActionEvents.WORKSPACE_SETTING_CHANGE,
+    ActionEvents.MOVE_PROJECT,
 }
 
 

@@ -42,6 +42,11 @@ created. It is always permitted for users with the :guilabel:`Add new projects`
 permission, and if your instance uses billing (e.g. like
 https://hosted.weblate.org/ see :ref:`billing`), you can also create those
 based on your plans allowance from the user account that manages billing.
+Projects can also be created in a workspace by users who have the
+:guilabel:`Add projects to workspace` permission in that workspace. Creating a
+project without selecting a workspace requires the site-wide
+:guilabel:`Add new projects` permission. See
+:ref:`workspace-project-creation` for details.
 
 .. hint::
 
@@ -547,6 +552,13 @@ You'd set the screenshot file mask for component_A as ``component_A/docs/*.png``
 This means any PNG images under docs in component_A can be discovered and updated.
 So, if you want to update ``image1.png``, the new screenshot you provide should be named ``image1.png``,
 matching the existing ``filename``, and stored under ``component_A/docs/``.
+
+For Android projects using Fastlane metadata, a source-language screenshot mask
+can point to the metadata screenshot folder, for example
+``fastlane/metadata/android/en-US/images/phoneScreenshots/*.png``. Weblate will
+discover matching screenshots on repository update. The discovered screenshots
+still need to be associated with source strings in the screenshot management
+interface; use OCR or source string search there to assign them in bulk.
 
 .. _component-template:
 

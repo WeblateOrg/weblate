@@ -17,7 +17,6 @@ from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
 import regex
-import sentry_sdk
 from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
@@ -146,6 +145,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import ComponentStats
+from weblate.utils.tracing import start_span
 from weblate.utils.validators import (
     validate_filename,
     validate_re_nonempty,
@@ -2069,7 +2069,7 @@ class Component(  # noqa: PLR0904
             report_error(
                 "Could not update the repository",
                 project=self.project,
-                skip_sentry=not settings.DEBUG,
+                skip_error_reporting=not settings.DEBUG,
             )
             error_text = self.error_text(error)
             if validate:
@@ -2219,7 +2219,12 @@ class Component(  # noqa: PLR0904
 
             # update local branch
             try:
-                result = self.update_branch(request, method=method, skip_push=True)
+                result = self.update_branch(
+                    request,
+                    method=method,
+                    skip_push=True,
+                    parse_after_update=True,
+                )
             except RepositoryError:
                 result = False
 
@@ -2284,7 +2289,7 @@ class Component(  # noqa: PLR0904
                 report_error(
                     "Could not push the repo",
                     project=self.project,
-                    skip_sentry=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG,
                 )
                 self.change_set.create(
                     action=ActionEvents.FAILED_PUSH,
@@ -2309,7 +2314,7 @@ class Component(  # noqa: PLR0904
                             report_error(
                                 "Could not unshallow the repo",
                                 project=self.project,
-                                skip_sentry=not settings.DEBUG,
+                                skip_error_reporting=not settings.DEBUG,
                             )
                         else:
                             return self.push_repo(request, retry=False)
@@ -2452,6 +2457,7 @@ class Component(  # noqa: PLR0904
                     previous_head=previous_head,
                     skip_push=False,
                     user=user,
+                    parse_after_update=True,
                 )
 
                 # create translation objects for all files
@@ -2478,7 +2484,7 @@ class Component(  # noqa: PLR0904
             report_error(
                 "Could not reset the repository",
                 project=self.project,
-                skip_sentry=not settings.DEBUG,
+                skip_error_reporting=not settings.DEBUG,
             )
             messages.error(
                 request,
@@ -2719,7 +2725,7 @@ class Component(  # noqa: PLR0904
                 report_error(
                     "Could not roll back partial translation file restore during reset",
                     project=self.project,
-                    skip_sentry=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG,
                 )
                 self.log_error(
                     "reset/reapply failed to roll back partial missing translation restore"
@@ -2734,7 +2740,7 @@ class Component(  # noqa: PLR0904
                 report_error(
                     "Could not roll back partial translation file restore during file sync",
                     project=self.project,
-                    skip_sentry=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG,
                 )
                 self.log_error(
                     "file sync failed to roll back partial missing translation restore"
@@ -2815,7 +2821,7 @@ class Component(  # noqa: PLR0904
             report_error(
                 "Could not clean the repository",
                 project=self.project,
-                skip_sentry=not settings.DEBUG,
+                skip_error_reporting=not settings.DEBUG,
             )
             messages.error(
                 request,
@@ -3060,7 +3066,7 @@ class Component(  # noqa: PLR0904
                             continue
 
                     components[component.pk] = component
-                with self.start_sentry_span("commit_pending"):
+                with self.start_tracing_span("commit_pending"):
                     pending_changes_pk = changes_by_translation[translation.pk]
                     translation_changed = translation._commit_pending(  # noqa: SLF001
                         reason, user, pending_changes_pk
@@ -3120,7 +3126,7 @@ class Component(  # noqa: PLR0904
                 store_hash=store_hash,
             )
 
-        with self.start_sentry_span("commit_files"), self.track_local_head_change():
+        with self.start_tracing_span("commit_files"), self.track_local_head_change():
             if message is None:
                 if template is None:
                     msg = "Missing template when message is not specified"
@@ -3241,6 +3247,7 @@ class Component(  # noqa: PLR0904
         request: AuthenticatedHttpRequest | None = None,
         method: str | None = None,
         skip_push: bool = False,
+        parse_after_update: bool = False,
     ) -> bool:
         """Update current branch to match remote (if possible)."""
         if method is None:
@@ -3284,7 +3291,7 @@ class Component(  # noqa: PLR0904
                 report_error(
                     f"Failed {method}",
                     project=self.project,
-                    skip_sentry=not settings.DEBUG,
+                    skip_error_reporting=not settings.DEBUG,
                 )
 
                 # In case merge has failure recover
@@ -3342,12 +3349,18 @@ class Component(  # noqa: PLR0904
                     previous_head=previous_head,
                     skip_push=skip_push,
                     user=user,
+                    parse_after_update=parse_after_update,
                 )
         return True
 
     @perform_on_link
     def trigger_post_update(
-        self, *, previous_head: str, skip_push: bool, user: User | None
+        self,
+        *,
+        previous_head: str,
+        skip_push: bool,
+        user: User | None,
+        parse_after_update: bool = False,
     ) -> None:
         vcs_post_update.send(
             sender=self.__class__,
@@ -3355,6 +3368,7 @@ class Component(  # noqa: PLR0904
             previous_head=previous_head,
             skip_push=skip_push,
             user=user,
+            parse_after_update=parse_after_update,
         )
         for component in self.linked_children:
             vcs_post_update.send(
@@ -3363,6 +3377,7 @@ class Component(  # noqa: PLR0904
                 previous_head=previous_head,
                 skip_push=skip_push,
                 user=user,
+                parse_after_update=parse_after_update,
             )
 
     def get_mask_matches(self, *, raise_on_timeout: bool = False) -> list[str]:
@@ -3609,7 +3624,7 @@ class Component(  # noqa: PLR0904
         """
         # In case the lock cannot be acquired, an error will be raised.
         with (
-            self.start_sentry_span("create_translations"),
+            self.start_tracing_span("create_translations"),
             self.repository.lock,
             self.lock,
         ):
@@ -3946,6 +3961,7 @@ class Component(  # noqa: PLR0904
         validate: bool = False,
         skip_push: bool = False,
         skip_commit: bool = False,
+        parse_after_update: bool = False,
     ) -> None:
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
@@ -3962,7 +3978,10 @@ class Component(  # noqa: PLR0904
         self.configure_branch()
         if self.id:
             # Update existing repo
-            self.update_branch(skip_push=skip_push)
+            self.update_branch(
+                skip_push=skip_push,
+                parse_after_update=parse_after_update,
+            )
         else:
             # Reset to upstream in case not yet saved model (this is called
             # from the clean method only)
@@ -4548,7 +4567,11 @@ class Component(  # noqa: PLR0904
         # Configure git repo if there were changes
         if changed_git and (not create or not self.is_repo_link):
             # Bring VCS repo in sync with current model
-            self.sync_git_repo(skip_push=skip_push, skip_commit=create)
+            self.sync_git_repo(
+                skip_push=skip_push,
+                skip_commit=create,
+                parse_after_update=True,
+            )
 
         # Create template in case intermediate file is present
         self.create_template_if_missing()
@@ -4751,7 +4774,7 @@ class Component(  # noqa: PLR0904
             report_error(
                 "Could not check if merge is needed",
                 project=self.project,
-                skip_sentry=not settings.DEBUG,
+                skip_error_reporting=not settings.DEBUG,
             )
             self.add_alert("MergeFailure", error=self.error_text(error))
             return 0
@@ -4767,7 +4790,7 @@ class Component(  # noqa: PLR0904
             report_error(
                 "Could not check if push is needed",
                 project=self.project,
-                skip_sentry=not settings.DEBUG,
+                skip_error_reporting=not settings.DEBUG,
             )
             self.add_alert("PushFailure", error=error_text)
             return 0
@@ -4805,7 +4828,7 @@ class Component(  # noqa: PLR0904
             report_error(
                 "Could not check if push is needed",
                 project=self.project,
-                skip_sentry=not settings.DEBUG,
+                skip_error_reporting=not settings.DEBUG,
             )
             self.add_alert("PushFailure", error=error_text)
             return False
@@ -4886,7 +4909,7 @@ class Component(  # noqa: PLR0904
 
     def load_template_store(self, fileobj=None) -> TranslationFormat:
         """Load translate-toolkit store for template."""
-        with self.start_sentry_span("load_template_store"):
+        with self.start_tracing_span("load_template_store"):
             return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
@@ -5459,8 +5482,8 @@ class Component(  # noqa: PLR0904
             return [self.linked_component]
         return [self]
 
-    def start_sentry_span(self, op: str):
-        return sentry_sdk.start_span(op=op, name=self.full_slug)
+    def start_tracing_span(self, op: str):
+        return start_span(op=op, name=self.full_slug)
 
     @cached_property
     def key_filter_re(self) -> regex.Pattern:

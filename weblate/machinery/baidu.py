@@ -19,7 +19,7 @@ if TYPE_CHECKING:
         DownloadTranslations,
     )
 
-BAIDU_API = "http://api.fanyi.baidu.com/api/trans/vip/translate"
+BAIDU_API = "https://api.fanyi.baidu.com/api/trans/vip/translate"
 
 
 class BaiduTranslation(MachineTranslation):
@@ -119,7 +119,7 @@ class BaiduTranslation(MachineTranslation):
             "sign": sign,
         }
 
-        response = self.request("get", BAIDU_API, params=args)
+        response = self.request("post", BAIDU_API, data=args)
         payload = response.json()
 
         for item in payload["trans_result"]:

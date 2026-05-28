@@ -297,10 +297,11 @@
               {# Adding new translations #}
               {% if user.is_authenticated %}
                 {% perm "project.add" user as user_can_add_project %}
+                {% perm "workspace.add" user as user_can_add_workspace %}
                 {% if component %}
                   {% perm 'translation.add' component as user_can_add_translation %}
                 {% endif %}
-                {% if user_can_add_project or user.managed_projects or user_can_add_translation|default:False or offer_hosting %}
+                {% if user_can_add_project or user_can_add_workspace and not has_billing or user.managed_projects or user_can_add_translation|default:False or offer_hosting %}
                   <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                       <span class="d-none d-sm-inline">{% icon "plus.svg" %}</span>
@@ -310,6 +311,11 @@
                       {% if user_can_add_project or offer_hosting %}
                         <li>
                           <a class="dropdown-item" href="{% url 'create-project' %}">{% translate "Add new translation project" %}</a>
+                        </li>
+                      {% endif %}
+                      {% if user_can_add_workspace and not has_billing %}
+                        <li>
+                          <a class="dropdown-item" href="{% url 'manage-workspace-add' %}">{% translate "Add new workspace" %}</a>
                         </li>
                       {% endif %}
                       {% if user.managed_projects %}

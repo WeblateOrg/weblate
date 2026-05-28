@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block breadcrumbs %}
+  {% if user_can_manage %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-workspaces' %}">{% translate "Workspaces" %}</a>
+    </li>
+  {% endif %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-workspace-add' %}">{% translate "Add workspace" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Add workspace" %}</h4>
+      </div>
+      <div class="card-body">{{ form|crispy }}</div>
+      <div class="card-footer">
+        <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
+
+{% endblock content %}

@@ -52,6 +52,7 @@ import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.views
+import weblate.workspaces.views
 from weblate.auth.decorators import management_access
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
@@ -80,6 +81,7 @@ if URL_PREFIX:
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
+    path("workspaces/<uuid:pk>/", weblate.workspaces.views.detail, name="workspace"),
     # Bulk accept all suggestions from a specific user
     path(
         "js/bulk-accept-suggestions/<object_path:path>/",
@@ -187,6 +189,7 @@ real_patterns = [
     ),
     path("credits/", weblate.trans.views.reports.get_credits, name="credits"),
     path("counts/", weblate.trans.views.reports.get_counts, name="counts"),
+    path("costs/", weblate.trans.views.reports.get_costs, name="costs"),
     path(
         "credits/<object_path:path>/",
         weblate.trans.views.reports.get_credits,
@@ -196,6 +199,11 @@ real_patterns = [
         "counts/<object_path:path>/",
         weblate.trans.views.reports.get_counts,
         name="counts",
+    ),
+    path(
+        "costs/<object_path:path>/",
+        weblate.trans.views.reports.get_costs,
+        name="costs",
     ),
     path(
         "new-lang/<object_path:path>/",
@@ -438,6 +446,7 @@ real_patterns = [
     path(
         "rename/<object_path:path>/", weblate.trans.views.settings.rename, name="rename"
     ),
+    path("move/<object_path:path>/", weblate.trans.views.settings.move, name="move"),
     path(
         "category/add/<object_path:path>/",
         weblate.trans.views.settings.add_category,
@@ -840,6 +849,16 @@ real_patterns = [
         name="manage-teams",
     ),
     path(
+        "manage/workspaces/",
+        weblate.wladmin.views.WorkspaceListView.as_view(),
+        name="manage-workspaces",
+    ),
+    path(
+        "manage/workspaces/add/",
+        weblate.wladmin.views.WorkspaceCreateView.as_view(),
+        name="manage-workspace-add",
+    ),
+    path(
         "teams/<int:pk>/",
         weblate.auth.views.TeamUpdateView.as_view(),
         name="team",
@@ -1008,16 +1027,6 @@ if "weblate.billing" in settings.INSTALLED_APPS:
         path(
             "billing/<int:pk>/merge/", weblate.billing.views.merge, name="billing-merge"
         ),
-        path(
-            "billing/<int:pk>/owners/",
-            weblate.billing.views.owner_add,
-            name="billing-owner-add",
-        ),
-        path(
-            "billing/<int:pk>/owners/<int:user_id>/",
-            weblate.billing.views.owner_remove,
-            name="billing-owner-remove",
-        ),
         path("manage/billing/", weblate.wladmin.views.billing, name="manage-billing"),
     ]
 
@@ -1120,6 +1129,9 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
 
     real_patterns.append(
         path("create/billing/", CreateBillingView.as_view(), name="create-billing"),
+    )
+    real_patterns.append(
+        path("hosted/api/", include("wlhosted.integrations.urls")),
     )
 
 # Django SAML2 Identity Provider

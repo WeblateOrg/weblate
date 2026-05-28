@@ -11,6 +11,7 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from filelock import FileLock
 
+from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ComponentSettingsForm
@@ -20,6 +21,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
+from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
@@ -99,7 +101,7 @@ class SettingsTest(ViewTestCase):
 
         # Allow editing by creating billing plan
         billing = create_test_billing(self.user)
-        billing.projects.add(self.project)
+        billing.add_project(self.project)
 
         # Editing should now work, but components do not have a license
         response = self.client.post(url, data)
@@ -159,6 +161,90 @@ class SettingsTest(ViewTestCase):
             'Translation quality filter changed from "Commit all translations '
             'regardless of quality" to "Skip translations marked as needing editing".',
         )
+
+    def test_project_move(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        target_workspace = Workspace.objects.create(name="Target workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        self.project.refresh_from_db()
+        current_workspace.add_owner(self.user)
+        target_workspace.add_owner(self.user)
+        self.user.clear_cache()
+
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, "Move project")
+        self.assertFalse(response.context["move_form"].use_uuid_input)
+
+        response = self.client.post(
+            reverse("move", kwargs={"path": self.project.get_url_path()}),
+            {"workspace": str(target_workspace.pk)},
+            follow=True,
+        )
+        self.assertContains(response, "Project moved.")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, target_workspace.pk)
+        change = self.project.change_set.get(action=ActionEvents.MOVE_PROJECT)
+        self.assertEqual(
+            change.get_details_display(),
+            'Project moved from "Current workspace" to "Target workspace".',
+        )
+
+    def test_project_move_requires_target_add_project(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        target_workspace = Workspace.objects.create(name="Target workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        self.project.refresh_from_db()
+        current_workspace.add_owner(self.user)
+
+        role = Role.objects.create(name="Target workspace edit")
+        role.permissions.add(Permission.objects.get(codename="workspace.edit"))
+        group = Group.objects.create(
+            name="Target workspace editors",
+            defining_workspace=target_workspace,
+        )
+        group.roles.add(role)
+        self.user.add_team(None, group)
+        self.user.clear_cache()
+
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertNotContains(response, "Move project")
+
+        response = self.client.post(
+            reverse("move", kwargs={"path": self.project.get_url_path()}),
+            {"workspace": str(target_workspace.pk)},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, current_workspace.pk)
+
+    def test_project_move_uuid_input(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        first_workspace = Workspace.objects.create(name="First target")
+        second_workspace = Workspace.objects.create(name="Second target")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        self.project.refresh_from_db()
+        current_workspace.add_owner(self.user)
+        first_workspace.add_owner(self.user)
+        second_workspace.add_owner(self.user)
+        self.user.clear_cache()
+
+        with patch("weblate.trans.forms.PROJECT_MOVE_WORKSPACE_SELECT_LIMIT", 1):
+            response = self.client.get(self.project.get_absolute_url())
+            move_form = response.context["move_form"]
+            self.assertTrue(move_form.use_uuid_input)
+
+            response = self.client.post(
+                reverse("move", kwargs={"path": self.project.get_url_path()}),
+                {"workspace": str(second_workspace.pk)},
+                follow=True,
+            )
+        self.assertContains(response, "Project moved.")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, second_workspace.pk)
 
     def test_commit_policy(self) -> None:
         self.project.add_user(self.user, "Administration")

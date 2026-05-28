@@ -32,7 +32,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-21 11:29-0500\n"
-"PO-Revision-Date: 2026-05-24 06:32+0000\n"
+"PO-Revision-Date: 2026-05-26 15:11+0000\n"
 "Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -4880,11 +4880,7 @@ msgstr ""
 "Il manque à la balise HTML {tag} une balise de fin correspondante : {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4909,16 +4905,12 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "La source Fluent doit être du HTML interne valide."
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "Il manque une balise HTML {tag} à la valeur Fluent."
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
@@ -5505,8 +5497,6 @@ msgid "Markdown syntax does not match source."
 msgstr "La syntaxe Markdown ne correspond pas à la source."
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "La traduction ne contient pas d’URL."
 
@@ -6356,25 +6346,21 @@ msgstr "Trois"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Laissez ce champ vide pour utiliser la sélection de langue de l'équipe sans "
+"restriction supplémentaire."
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:120
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
-msgstr "Limite de langues"
+msgstr "Limite linguistique"
 
 #: weblate/lang/forms.py:93
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "Limite de langues"
+msgstr "Aucune limite de langue"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "Langue sélectionnée incorrecte !"
+msgstr "Entrez un code de langue valide."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -9371,10 +9357,14 @@ msgstr "Instructions pour l’intégration"
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
+"Les fichiers de traduction publiés sont disponibles à l'adresse de base du "
+"CDN :"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
 msgstr ""
+"Les fichiers portent des noms correspondant à leur code de langue, "
+"accompagnés de leur extension d'origine."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9711,6 +9701,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Cette vérification est effectuée pour chaque nouvel utilisateur du site, "
+"quel que soit le projet qu'il utilise."
 
 #: weblate/templates/auth/team.html:99
 msgid "Add automatic assignment"
@@ -9726,10 +9718,8 @@ msgid "Team administrator"
 msgstr "Administrateur de l’équipe"
 
 #: weblate/templates/auth/team.html:140
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "No additional limit"
-msgstr "Modifier les informations supplémentaires de la chaîne"
+msgstr "Pas de limite supplémentaire"
 
 #: weblate/templates/auth/team.html:148
 #: weblate/templates/trans/project-access-row.html:18
@@ -10943,13 +10933,15 @@ msgstr ""
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "Choisissez sur quoi travailler"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
 msgstr ""
+"Commencez par les chaînes non traduites, puis passez aux vérifications, à la "
+"relecture, aux suggestions ou à la révision."
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -11592,6 +11584,10 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Ce service peut transmettre des chaînes de texte source, des traductions et "
+"le contexte associé à un fournisseur tiers. Veuillez consulter les "
+"conditions d'utilisation et la politique de confidentialité du fournisseur "
+"avant de l'activer."
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -12253,22 +12249,16 @@ msgid "%(translation)s has been completed"
 msgstr "La traduction %(translation)s est terminée"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "Filtre sur la qualité de traduction"
+msgstr "Activité de traduction au cours de cette période :"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
-#, fuzzy
-#| msgid "Added user"
 msgid "Added"
-msgstr "L’utilisateur a été ajouté"
+msgstr "Ajouté"
 
 #: weblate/templates/mail/translation_activity_summary.html:12
-#, fuzzy
-#| msgid "Update"
 msgid "Updated"
-msgstr "Mettre à jour"
+msgstr "Mise à jour"
 
 #: weblate/templates/mail/translation_activity_summary.html:14
 #: weblate/templates/snippets/list-objects.html:61
@@ -12288,10 +12278,8 @@ msgstr "Non terminé"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translation_activity_summary_subject.txt:5
-#, fuzzy
-#| msgid "Translation summary"
 msgid "Translation activity summary"
-msgstr "Résumé des traductions"
+msgstr "Résumé des activités de traduction"
 
 #: weblate/templates/manage/alerts.html:10
 msgid "Component alerts"
@@ -15285,12 +15273,13 @@ msgid ""
 "Leave the language limit empty to grant access to all languages available to "
 "the team. Select languages only to apply an additional filter."
 msgstr ""
+"Laissez le champ « Langue » vide pour autoriser l'accès à toutes les langues "
+"disponibles pour l'équipe. Sélectionnez des langues uniquement pour "
+"appliquer un filtre supplémentaire."
 
 #: weblate/templates/trans/project-access-team-form.html:45
-#, fuzzy
-#| msgid "Not available"
 msgid "No teams are available."
-msgstr "Non disponible"
+msgstr "Aucune équipe n'est disponible."
 
 #: weblate/templates/trans/project-access.html:103
 msgid "Clean up user contributions"
@@ -15696,10 +15685,8 @@ msgid "Browse glossary %(name)s"
 msgstr "Parcourir le glossaire %(name)s"
 
 #: weblate/templates/translate.html:810
-#, fuzzy
-#| msgid "Browse glossary %(name)s"
 msgid "Browse glossary"
-msgstr "Parcourir le glossaire %(name)s"
+msgstr "Consulter le glossaire"
 
 #: weblate/templates/translate.html:835
 msgid "No screenshot currently associated."
@@ -16473,11 +16460,8 @@ msgstr "Le paramètre du composant a été modifié"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:200
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "License was changed"
 msgid "User access changed"
-msgstr "La licence a été modifiée"
+msgstr "Modification des droits d'accès de l'utilisateur"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16663,17 +16647,12 @@ msgid "State: %(state)s"
 msgstr "État : %(state)s"
 
 #: weblate/trans/checklists.py:51
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Suggestions pending"
-msgstr "Vote pour la suggestion"
+msgstr "Suggestions en attente"
 
 #: weblate/trans/checklists.py:56
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
-msgstr "À vérifier"
+msgstr "À revoir"
 
 #: weblate/trans/context_processors.py:129
 msgid "Hosted Weblate, the place to localize your software project."
@@ -17387,28 +17366,24 @@ msgid "Sort order"
 msgstr "Ordre de tri"
 
 #: weblate/trans/forms.py:1594
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "Poursuivre"
+msgstr "Mode de comptage"
 
 #: weblate/trans/forms.py:1596
 msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Choisissez si les modifications répétées sur la même chaîne doivent être "
+"comptées une seule fois ou comme des modifications distinctes."
 
 #: weblate/trans/forms.py:1602
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "Chaînes non terminées"
+msgstr "Chaînes uniques"
 
 #: weblate/trans/forms.py:1606
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "Toutes les langues"
+msgstr "Toutes les modifications"
 
 #: weblate/trans/forms.py:1625
 msgid "You do not have permission to access this component."
@@ -17537,17 +17512,13 @@ msgid "ZIP file containing project backup"
 msgstr "Fichier Zip contenant les sauvegardes du projet"
 
 #: weblate/trans/forms.py:2873
-#, fuzzy, python-format
-#| msgid ""
-#| "Could not load project backup: The backup is from an incompatible version "
-#| "(%(version)s). Please upgrade your Weblate instance."
+#, python-format
 msgid ""
 "The backup is from an incompatible version (%(version)s). Please upgrade "
 "your Weblate instance."
 msgstr ""
-"Impossible de charger la sauvegarde du projet : la sauvegarde provient d’une "
-"version incompatible (%(version)s). Veuillez mettre à jour votre instance "
-"Weblate."
+"La sauvegarde provient d'une version incompatible (%(version)s). Veuillez "
+"mettre à jour votre instance Weblate."
 
 #: weblate/trans/forms.py:2876 weblate/trans/forms.py:2880
 #, python-format
@@ -17718,10 +17689,9 @@ msgid "Expiry cannot be in the past."
 msgstr "L’expiration ne peut pas être dans le passé."
 
 #: weblate/trans/forms.py:3543
-#, fuzzy, python-format
-#| msgid "Manage %(team)s"
+#, python-format
 msgid "Limit languages for %(team)s"
-msgstr "Gérer %(team)s"
+msgstr "Limiter les langues pour %(team)s"
 
 #: weblate/trans/forms.py:3604
 msgid "Customize translation workflow for this language"
@@ -18038,10 +18008,10 @@ msgid "Parent category has to be different!"
 msgstr "La catégorie parente doit être différente !"
 
 #: weblate/trans/models/category.py:207
-#, fuzzy
-#| msgid "Component with this name already exists in the project."
 msgid "Repository path for this category already exists and is not empty."
-msgstr "Un composant portant ce nom existe déjà dans le projet."
+msgstr ""
+"Le chemin d'accès au référentiel pour cette catégorie existe déjà et n'est "
+"pas vide."
 
 #: weblate/trans/models/change.py:72
 msgid "Component created from scratch"
@@ -18703,17 +18673,7 @@ msgstr[1] ""
 "composant afin que Weblate puisse créer les fichiers de traduction."
 
 #: weblate/trans/models/component.py:2592
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "%(files)s is missing. Pending changes were kept. To recover, add the file "
-#| "upstream and rescan, or configure the component so Weblate can create the "
-#| "translation file."
-#| msgid_plural ""
-#| "Reset the repository, but could not reapply pending translations because "
-#| "these files are missing: %(files)s. Pending changes were kept. To "
-#| "recover, add the files upstream and rescan, or configure the component so "
-#| "Weblate can create the translation files."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s because it is missing. "
 "Pending changes were kept. To recover, add the file upstream and rescan, or "
@@ -18724,17 +18684,16 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
-"Le dépôt a été réinitialisé, mais les traductions en attente n'ont pas pu "
-"être réappliquées car le fichier %(files)s est manquant. Les modifications "
-"en attente ont été conservées. Pour résoudre le problème, ajoutez le fichier "
-"en amont et relancez l'analyse, ou configurez le composant pour que Weblate "
-"puisse créer le fichier de traduction."
+"La synchronisation des fichiers n'a pas pu recréer %(files)s car ce fichier "
+"est manquant. Les modifications en attente ont été conservées. Pour remédier "
+"à cela, ajoutez le fichier en amont et relancez l'analyse, ou configurez le "
+"composant afin que Weblate puisse créer le fichier de traduction."
 msgstr[1] ""
-"Le dépôt a été réinitialisé, mais les traductions en attente n'ont pas pu "
-"être réappliquées car les fichiers suivants sont manquants : %(files)s. Les "
-"modifications en attente ont été conservées. Pour résoudre le problème, "
-"ajoutez les fichiers en amont et relancez l'analyse, ou configurez le "
-"composant afin que Weblate puisse créer les fichiers de traduction."
+"La synchronisation des fichiers n'a pas pu recréer ces fichiers car ils sont "
+"manquants : %(files)s. Les modifications en attente ont été conservées. Pour "
+"remédier à cela, ajoutez les fichiers en amont et relancez l'analyse, ou "
+"configurez le composant afin que Weblate puisse créer les fichiers de "
+"traduction."
 
 #: weblate/trans/models/component.py:2722
 #, python-format
@@ -18747,17 +18706,14 @@ msgstr ""
 "été conservées."
 
 #: weblate/trans/models/component.py:2730
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(file)s while reapplying "
-#| "pending translations. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(file)s before committing pending "
 "translations. Pending changes were kept."
 msgstr ""
-"Le dépôt a été réinitialisé, mais impossible de recréer %(file)s lors de la "
-"réapplication des traductions en attente. Les modifications en attente ont "
-"été conservées."
+"La synchronisation des fichiers n'a pas pu recréer %(file)s avant la "
+"validation des traductions en attente. Les modifications en attente ont été "
+"conservées."
 
 #: weblate/trans/models/component.py:2749
 #, python-format
@@ -18777,13 +18733,7 @@ msgstr[1] ""
 "en attente ont été conservées."
 
 #: weblate/trans/models/component.py:2759
-#, fuzzy, python-format
-#| msgid ""
-#| "Reset the repository, but could not recreate %(files)s while reapplying "
-#| "pending translations. Pending changes were kept."
-#| msgid_plural ""
-#| "Reset the repository, but could not recreate these files while reapplying "
-#| "pending translations: %(files)s. Pending changes were kept."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -18791,13 +18741,13 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Le dépôt a été réinitialisé, mais impossible de recréer %(files)s lors de la "
-"réapplication des traductions en attente. Les modifications en attente ont "
-"été conservées."
+"La synchronisation des fichiers n'a pas pu recréer %(files)s avant la "
+"validation des traductions en attente. Les modifications en attente ont été "
+"conservées."
 msgstr[1] ""
-"Réinitialisation du dépôt, mais impossible de recréer ces fichiers lors de "
-"la réapplication des traductions en attente : %(files)s. Les modifications "
-"en attente ont été conservées."
+"La synchronisation des fichiers n'a pas pu recréer ces fichiers avant la "
+"validation des traductions en attente : %(files)s. Les modifications en "
+"attente ont été conservées."
 
 #: weblate/trans/models/component.py:2769
 msgid ""
@@ -18808,16 +18758,12 @@ msgstr ""
 "être recréées. Les modifications en attente ont été conservées."
 
 #: weblate/trans/models/component.py:2776
-#, fuzzy
-#| msgid ""
-#| "Reset the repository, but could not recreate pending translations. "
-#| "Pending changes were kept."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Le dépôt a été réinitialisé, mais les traductions en attente n'ont pas pu "
-"être recréées. Les modifications en attente ont été conservées."
+"La synchronisation des fichiers n'a pas pu recréer les traductions en "
+"attente. Les modifications en attente ont été conservées."
 
 #: weblate/trans/models/component.py:2796
 #, python-format
@@ -19473,10 +19419,8 @@ msgstr ""
 "La traduction automatique a été ignorée parce que la cible n’existe plus."
 
 #: weblate/trans/tasks.py:1031
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Projets sans composant"
+msgstr "L'importation de la sauvegarde du projet est terminée."
 
 #: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
@@ -19948,7 +19892,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:226
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Importation de la sauvegarde du projet en cours"
 
 #: weblate/trans/views/create.py:293
 #, python-format
@@ -20716,10 +20660,10 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Impossible d’évaluer la formule plurielle : {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Impossible d’évaluer la formule plurielle : {}"
+msgstr ""
+"Impossible d'évaluer la formule au pluriel pour le nombre {count} : {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
@@ -20727,6 +20671,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Le résultat de la formule plurielle {result} pour le nombre {count} se situe "
+"en dehors de la plage autorisée 0..{max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -20919,6 +20865,8 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"Le fichier ZIP contient %(actual_size)s octets de données une fois "
+"décompressé, ce qui dépasse la limite configurée de %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
@@ -20946,6 +20894,8 @@ msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
 msgstr ""
+"Les noms de branches Gerrit ne peuvent pas contenir de %(chars)s, car Gerrit "
+"les interprète comme des options de push de révision."
 
 #: weblate/vcs/git.py:968
 msgid "This will commit changes to the Subversion repository."

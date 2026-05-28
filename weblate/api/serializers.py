@@ -58,6 +58,10 @@ from weblate.trans.util import (
     check_upload_method_permissions,
     cleanup_repo_url,
 )
+from weblate.trans.workspace_move import (
+    get_project_move_billing_error,
+    get_project_workspace_move_permission_error,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
@@ -75,6 +79,7 @@ from weblate.utils.views import (
     guess_filemask_from_doc,
 )
 from weblate.vcs.base import RepositoryError
+from weblate.workspaces.models import Workspace
 
 NEW_UNIT_STATE_CHOICES = tuple(
     choice for choice in StringState.choices if choice[0] != STATE_READONLY
@@ -604,6 +609,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         "project_selection",
         "language_selection",
         "defining_project",
+        "defining_workspace",
     )
     roles = serializers.HyperlinkedIdentityField(
         view_name="api:role-detail",
@@ -640,6 +646,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         lookup_field="slug",
         required=False,
     )
+    defining_workspace = serializers.PrimaryKeyRelatedField(
+        queryset=Workspace.objects.all(), required=False, allow_null=True
+    )
     admins = serializers.HyperlinkedRelatedField(
         view_name="api:user-detail",
         lookup_field="username",
@@ -653,6 +662,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "id",
             "name",
             "defining_project",
+            "defining_workspace",
             "project_selection",
             "language_selection",
             "url",
@@ -667,6 +677,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:group-detail", "lookup_field": "id"},
         }
+        validators = ()
 
     def validate(self, attrs):
         if self.instance is not None and self.instance.internal:
@@ -689,6 +700,47 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
                     )
                 }
             )
+        if (
+            self.instance is not None
+            and "defining_workspace" in attrs
+            and attrs["defining_workspace"] != self.instance.defining_workspace
+        ):
+            raise serializers.ValidationError(
+                {
+                    "defining_workspace": gettext_lazy(
+                        "Cannot change this on an existing team."
+                    )
+                }
+            )
+        if attrs.get("defining_project") and attrs.get("defining_workspace"):
+            raise serializers.ValidationError(
+                {
+                    "defining_workspace": gettext_lazy(
+                        "Choose either a project or a workspace."
+                    )
+                }
+            )
+        defining_workspace = attrs.get(
+            "defining_workspace",
+            self.instance.defining_workspace if self.instance is not None else None,
+        )
+        name = attrs.get(
+            "name", self.instance.name if self.instance is not None else None
+        )
+        if (
+            defining_workspace is not None
+            and name is not None
+            and Group.objects.filter(defining_workspace=defining_workspace, name=name)
+            .exclude(pk=self.instance.pk if self.instance is not None else None)
+            .exists()
+        ):
+            raise serializers.ValidationError(
+                {
+                    "name": gettext_lazy(
+                        "A team with this name already exists in this workspace."
+                    )
+                }
+            )
         request = self.context.get("request")
         if (
             self.instance is not None
@@ -704,6 +756,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
 
 
 class ProjectSerializer(serializers.ModelSerializer[Project]):
+    workspace = serializers.PrimaryKeyRelatedField(
+        queryset=Workspace.objects.all(), required=False, allow_null=True
+    )
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
@@ -762,6 +817,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "translation_review",
             "source_review",
             "commit_policy",
+            "workspace",
             "instructions",
             "enable_hooks",
             "language_aliases",
@@ -776,6 +832,19 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
         }
 
     def validate(self, attrs):
+        if self.instance is not None and "workspace" in attrs:
+            workspace = attrs["workspace"]
+            workspace_id = workspace.pk if workspace else None
+            if workspace_id != self.instance.workspace_id:
+                request = self.context.get("request")
+                if request is None:
+                    raise PermissionDenied
+                if error := get_project_workspace_move_permission_error(
+                    request.user, self.instance, workspace
+                ):
+                    raise PermissionDenied(error)
+                if error := get_project_move_billing_error(workspace):
+                    raise serializers.ValidationError({"workspace": error})
         # Call model validation here, DRF does not do that
         if self.instance:
             instance = copy(self.instance)

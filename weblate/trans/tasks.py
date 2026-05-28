@@ -151,6 +151,7 @@ def perform_commit(
                 previous_head=previous_head,
                 skip_push=False,
                 user=user,
+                parse_after_update=True,
             )
             component.create_translations(force=True)
 
@@ -1022,6 +1023,7 @@ def restore_project_backup(
     user_id: int,
     filename: str,
     billing_id: int | None,
+    workspace_id: str | None = None,
 ) -> Project:
     from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
 
@@ -1032,6 +1034,11 @@ def restore_project_backup(
         from weblate.billing.models import Billing  # noqa: PLC0415
 
         billing = Billing.objects.get(pk=billing_id)
+    workspace = None
+    if workspace_id is not None:
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
+        workspace = Workspace.objects.get(pk=workspace_id)
     restore = ProjectBackup(filename)
     report_task_progress(10)
     restore.validate()
@@ -1041,6 +1048,7 @@ def restore_project_backup(
         project_slug=project_slug,
         user=user,
         billing=billing,
+        workspace=workspace,
         progress_callback=report_restore_component_progress,
     )
     report_task_progress(95)
@@ -1054,6 +1062,7 @@ def import_project_backup(
     user_id: int,
     filename: str,
     billing_id: int | None = None,
+    workspace_id: str | None = None,
 ) -> dict[str, str]:
     try:
         project = restore_project_backup(
@@ -1062,6 +1071,7 @@ def import_project_backup(
             user_id,
             filename,
             billing_id,
+            workspace_id,
         )
     finally:
         with suppress(OSError):

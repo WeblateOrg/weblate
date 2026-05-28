@@ -70,7 +70,10 @@ class GitNoChangeProjectTest(ViewTestCase):
         self.assertEqual(self.get_unit().target, "")
 
     def test_reset_keep(self) -> None:
-        response = self.client.post(self.get_test_url("reset"), {"keep_changes": "1"})
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                self.get_test_url("reset"), {"keep_changes": "1"}
+            )
         self.assertRedirects(
             response,
             self.get_expected_redirect_progress(),

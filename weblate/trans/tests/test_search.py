@@ -634,11 +634,12 @@ class BulkEditTest(ViewTestCase):
 
     def test_bulk_labels(self) -> None:
         label = self.project.label_set.create(name="Test label", color="black")
-        response = self.client.post(
-            reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
-            {"q": "state:needs-editing", "state": -1, "add_labels": label.pk},
-            follow=True,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+                {"q": "state:needs-editing", "state": -1, "add_labels": label.pk},
+                follow=True,
+            )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
@@ -655,11 +656,12 @@ class BulkEditTest(ViewTestCase):
             getattr(unit.source_unit.translation.stats, f"label:{label.name}"),
             1,
         )
-        response = self.client.post(
-            reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
-            {"q": "state:needs-editing", "state": -1, "remove_labels": label.pk},
-            follow=True,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+                {"q": "state:needs-editing", "state": -1, "remove_labels": label.pk},
+                follow=True,
+            )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),

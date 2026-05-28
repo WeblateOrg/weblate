@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n icons translations %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link {% if active_tab == "projects" %}active{% endif %}"
+         data-bs-target="#projects"
+         data-bs-toggle="tab"
+         href="#">{% translate "Projects" %}</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
+      <ul class="dropdown-menu shadow">
+        <li>
+          <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'checks' path=workspace.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
+      </ul>
+    </li>
+    {% if billing %}
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#billing" data-bs-toggle="tab" href="#">{% translate "Billing" %}</a>
+      </li>
+    {% endif %}
+    {% if can_edit_workspace %}
+      <li class="nav-item">
+        <a class="nav-link {% if active_tab == "settings" %}active{% endif %}"
+           data-bs-target="#settings"
+           data-bs-toggle="tab"
+           href="#">{% translate "Settings" %}</a>
+      </li>
+    {% endif %}
+    {% if can_manage_access %}
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#access" data-bs-toggle="tab" href="#">{% translate "Access control" %}</a>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="tab-content">
+    <div class="tab-pane {% if active_tab == "projects" %}active{% endif %}"
+         id="projects">
+      {% include "list-projects.html" %}
+
+      {% if not projects and create_project_url %}
+        <p>
+          <a class="btn btn-primary" href="{{ create_project_url }}">{% translate "Add new translation project" %}</a>
+        </p>
+      {% endif %}
+
+      {% include "paginator.html" with page_obj=projects anchor="projects" %}
+    </div>
+
+    <div class="tab-pane" id="history">
+      {% format_last_changes_content last_changes=last_changes user=user %}
+      <a class="btn btn-primary" href="{% url 'changes' path=workspace.get_url_path %}">{% translate "Browse all workspace changes" %}</a>
+    </div>
+
+    {% if billing %}
+      <div class="tab-pane" id="billing">{% include "billing/detail-content.html" %}</div>
+    {% endif %}
+
+    {% if can_edit_workspace %}
+      <div class="tab-pane {% if active_tab == "settings" %}active{% endif %}"
+           id="settings">
+        <form action="{{ workspace.get_absolute_url }}" method="post">
+          {% csrf_token %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Workspace settings" %}</h4>
+            </div>
+            <div class="card-body">{{ settings_form|crispy }}</div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if can_manage_access %}
+      <div class="tab-pane" id="access">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Teams" %}</h4>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "Roles" %}</th>
+                <th>{% translate "Members" %}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for group in workspace_teams %}
+                <tr>
+                  <td>{% include "auth/teams-name.html" %}</td>
+                  <td>{% include "auth/teams-roles.html" %}</td>
+                  <td class="number">{% include "auth/teams-count.html" %}</td>
+                  <td>
+                    <a href="{{ group.get_absolute_url }}"
+                       class="btn btn-link btn-xs"
+                       title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+{% endblock content %}

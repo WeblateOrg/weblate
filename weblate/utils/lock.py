@@ -9,13 +9,13 @@ import threading
 from typing import TYPE_CHECKING, cast
 from urllib.parse import quote
 
-import sentry_sdk
 from django.core.cache import cache
 from filelock import FileLock, Timeout
 
 from weblate.utils.cache import is_redis_cache
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb
+from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from types import TracebackType
@@ -167,7 +167,7 @@ class WeblateLock:
         self.add_breadcrumb("enter")
         if not self.is_locked:
             self.add_breadcrumb("acquire")
-            with sentry_sdk.start_span(op="lock.wait", name=self._name):
+            with start_span(op="lock.wait", name=self._name):
                 if self._using_redis:
                     self._enter_redis()
                 else:

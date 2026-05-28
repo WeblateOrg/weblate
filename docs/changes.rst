@@ -7,6 +7,10 @@ Weblate 2026.6
 
 * :doc:`/admin/announcements` can now also be managed via the :ref:`api` for specific project languages.
 * Team memberships can now be limited to selected languages for per-user translation permissions.
+* Added :ref:`cost estimates <cost-estimate>` to translation reports.
+* Added optional :ref:`OpenTelemetry tracing <collecting-errors>` support for backend requests and tasks.
+* Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` support for handled server errors.
+* Added :doc:`/admin/workspaces` to group related projects, with workspace project listings, workspace-scoped teams and project creation permissions, and billing details when available.
 
 .. rubric:: Improvements
 
@@ -18,11 +22,14 @@ Weblate 2026.6
 * :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories.
 * :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
 * :ref:`alerts` now include dismissible component diagnostics for community localization.
+* :ref:`screenshots` now support bulk assignment from search or image text recognition results, make finding strings in uploaded images easier to discover, show source string coverage counts, and include advanced listing search.
+* :ref:`sbom` release artifacts now include CISA 2025 document-level metadata.
 
 .. rubric:: Bug fixes
 
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
+* :ref:`invite-user` links now work for signed-in users whose account owns the invited e-mail address.
 * Searching for strings with content changes without a recorded author now supports ``changed_by:""``, and combined change filters now apply to the same change event.
 * Gitea and Forgejo pull requests no longer reconfigure existing fork remotes to point to the source repository.
 * Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably.
@@ -30,12 +37,15 @@ Weblate 2026.6
 * Gettext POT update add-ons now rescan translations after committing updated POT and PO files.
 * Git repositories now update branches correctly when the remote also has a tag with the same name.
 * Conflicting repository setup alerts now allow same-branch direct pushes.
+* Obsolete cleanup schedules are now removed from Celery beat during upgrade.
 
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.workspaces`` should be added.
 
 .. rubric:: Contributors
 

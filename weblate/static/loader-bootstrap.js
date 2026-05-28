@@ -171,7 +171,14 @@ hotkeys("ctrl+enter,command+enter", (e) => {
 });
 
 function screenshotStart() {
-  $("#search-results tbody.unit-listing-body").empty();
+  document
+    .querySelector("#search-results tbody.unit-listing-body")
+    ?.replaceChildren();
+  const summary = document.getElementById("screenshots-search-summary");
+  if (summary !== null) {
+    summary.textContent = "";
+  }
+  screenshotUpdateBulkControls();
   increaseLoading("screenshots");
 }
 
@@ -179,49 +186,178 @@ function screenshotFailure() {
   screenshotLoaded({ responseCode: 500 });
 }
 
-function screenshotAddString() {
-  const pk = this.getAttribute("data-pk");
-  const form = $("#screenshot-add-form");
+function screenshotSelectedSources() {
+  return Array.from(
+    document.querySelectorAll(
+      "#search-results .screenshot-source-select:checked",
+    ),
+    (element) => element.value,
+  );
+}
 
-  $("#add-source").val(pk);
-  $.ajax({
-    type: "POST",
-    url: form.attr("action"),
-    data: form.serialize(),
-    dataType: "json",
-    success: () => {
-      const list = $("#sources-listing");
-      $.get(list.data("href"), (data) => {
-        list.find("table").replaceWith(data);
-      });
-    },
-    error: (_jqXhr, _textStatus, errorThrown) => {
-      addAlert(errorThrown);
-    },
+function screenshotAllSources() {
+  return Array.from(
+    document.querySelectorAll("#search-results .screenshot-source-select"),
+    (element) => element.value,
+  );
+}
+
+function screenshotUpdateBulkControls() {
+  const sourceCount = screenshotAllSources().length;
+  const selectedCount = screenshotSelectedSources().length;
+  const addSelected = document.getElementById("screenshots-add-selected");
+  const selectionToggle = document.getElementById(
+    "screenshots-toggle-selection",
+  );
+  if (addSelected !== null) {
+    addSelected.disabled = selectedCount === 0;
+  }
+  if (selectionToggle instanceof HTMLInputElement) {
+    selectionToggle.disabled = sourceCount === 0;
+    selectionToggle.checked = sourceCount > 0 && selectedCount === sourceCount;
+    selectionToggle.indeterminate =
+      selectedCount > 0 && selectedCount < sourceCount;
+  }
+}
+
+function screenshotToggleSelection(checked) {
+  const checkboxes = document.querySelectorAll(
+    "#search-results .screenshot-source-select",
+  );
+  for (const checkbox of checkboxes) {
+    checkbox.checked = checked;
+  }
+  screenshotUpdateBulkControls();
+}
+
+function screenshotRemoveSources(pks) {
+  const rows = new Set();
+  for (const pk of pks) {
+    for (const element of document.querySelectorAll(
+      "#search-results .add-string, #search-results .screenshot-source-select",
+    )) {
+      if (
+        element.getAttribute("data-pk") === String(pk) ||
+        element.getAttribute("value") === String(pk)
+      ) {
+        rows.add(element.closest("tr"));
+      }
+    }
+  }
+  for (const row of rows) {
+    row?.remove();
+  }
+  screenshotUpdateBulkControls();
+}
+
+async function screenshotRefreshAssignedSources() {
+  const list = document.getElementById("sources-listing");
+  if (list?.dataset.href === undefined) {
+    return;
+  }
+  const response = await fetch(list.dataset.href, {
+    headers: { "X-Requested-With": "XMLHttpRequest" },
   });
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  const table = list.querySelector("table");
+  if (table !== null) {
+    table.outerHTML = await response.text();
+  }
+}
+
+function screenshotBindAddButtons() {
+  for (const button of document.querySelectorAll(
+    "#search-results .add-string",
+  )) {
+    button.addEventListener("click", screenshotAddString);
+  }
+}
+
+async function screenshotAddSources(pks) {
+  if (pks.length === 0) {
+    return;
+  }
+  const form = document.getElementById("screenshot-add-form");
+  if (form === null) {
+    return;
+  }
+  const formData = new FormData(form);
+  formData.delete("source");
+  for (const pk of pks) {
+    formData.append("source", pk);
+  }
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData,
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    const data = await response.json();
+    await screenshotRefreshAssignedSources();
+    if (data.added > 0) {
+      screenshotRemoveSources(pks);
+    }
+    if (data.invalid > 0) {
+      addAlert(gettext("Some source strings could not be assigned."));
+    }
+  } catch (error) {
+    addAlert(error instanceof Error ? error.message : error);
+  }
+}
+
+function screenshotAddString(event) {
+  event.preventDefault();
+  const pk = this.getAttribute("data-pk");
+  if (pk !== null) {
+    screenshotAddSources([pk]);
+  }
 }
 
 function screenshotResultError(severity, message) {
-  $("#search-results tbody.unit-listing-body").html(
-    $("<tr/>")
-      .addClass(severity)
-      .html($('<td colspan="4"></td>').text(message)),
+  const columnCount =
+    document.querySelectorAll("#search-results thead th").length || 6;
+  const body = document.querySelector(
+    "#search-results tbody.unit-listing-body",
   );
+  if (body === null) {
+    return;
+  }
+  const row = document.createElement("tr");
+  row.classList.add(severity);
+  const cell = document.createElement("td");
+  cell.colSpan = columnCount;
+  cell.textContent = message;
+  row.append(cell);
+  body.replaceChildren(row);
 }
 
 function screenshotLoaded(data) {
   decreaseLoading("screenshots");
+  const summary = document.getElementById("screenshots-search-summary");
+  if (summary !== null) {
+    summary.textContent = data.summary || "";
+  }
   if (data.responseCode !== 200) {
     screenshotResultError("danger", gettext("Error loading search results!"));
-  } else if (data.results.length === 0) {
+  } else if (data.count === 0) {
     screenshotResultError(
       "warning",
-      gettext("No new matching source strings found."),
+      data.empty || gettext("No new matching source strings found."),
     );
   } else {
-    $("#search-results table").replaceWith(data.results);
-    $("#search-results").find(".add-string").click(screenshotAddString);
+    const table = document.querySelector("#search-results table");
+    if (table !== null) {
+      table.outerHTML = data.results;
+    }
+    screenshotBindAddButtons();
   }
+  screenshotUpdateBulkControls();
 }
 
 function getNumber(n) {
@@ -310,8 +446,9 @@ function loadTableSorting() {
 
           // Click handler
           th.click(function () {
-            tbody
+            const sorted = tbody
               .find("tr")
+              .toArray()
               .sort((a, b) => {
                 let $a = $(a);
                 let $b = $(b);
@@ -330,8 +467,8 @@ function loadTableSorting() {
                     extractText($b.find("td,th")[myIndex]),
                   )
                 );
-              })
-              .appendTo(tbody);
+              });
+            $(sorted).appendTo(tbody);
             thead.find(".sort-icon").removeClass("sort-down sort-up");
             if (inverse === 1) {
               $(this).find(".sort-icon").addClass("sort-down");
@@ -831,21 +968,55 @@ $(function () {
     return false;
   });
   /* Screenshot management */
-  $("#screenshots-search,#screenshots-auto").click(function () {
-    const $this = $(this);
+  for (const button of document.querySelectorAll(
+    "#screenshots-search, #screenshots-auto",
+  )) {
+    button.addEventListener("click", async function (event) {
+      event.preventDefault();
+      const url = this.getAttribute("data-href");
+      const form = this.closest("form");
+      if (url === null || form === null) {
+        screenshotFailure();
+        return;
+      }
 
-    screenshotStart();
-    $.ajax({
-      type: "POST",
-      url: this.getAttribute("data-href"),
-      data: $this.parent().serialize(),
-      dataType: "json",
-      success: screenshotLoaded,
-      error: screenshotFailure,
+      screenshotStart();
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+        });
+        if (!response.ok) {
+          screenshotFailure();
+          return;
+        }
+        screenshotLoaded(await response.json());
+      } catch (_error) {
+        screenshotFailure();
+      }
     });
-    return false;
+  }
+  document.addEventListener("change", (event) => {
+    if (
+      event.target instanceof Element &&
+      event.target.matches("#search-results .screenshot-source-select")
+    ) {
+      screenshotUpdateBulkControls();
+    }
+    if (
+      event.target instanceof HTMLInputElement &&
+      event.target.id === "screenshots-toggle-selection"
+    ) {
+      screenshotToggleSelection(event.target.checked);
+    }
   });
-
+  document
+    .getElementById("screenshots-add-selected")
+    ?.addEventListener("click", (event) => {
+      event.preventDefault();
+      screenshotAddSources(screenshotSelectedSources());
+    });
   /* Avoid double submission of non AJAX forms */
   $("form:not(.double-submission)").on("submit", function (e) {
     const $form = $(this);

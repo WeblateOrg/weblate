@@ -91,6 +91,13 @@ from social_django.views import complete, disconnect
 
 from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
+from weblate.accounts.flows import (
+    PASSWORD_RESET_EMAIL_SESSION,
+    PASSWORD_RESET_SCOPE_SESSION,
+    PASSWORD_RESET_SCOPE_TOKEN_PARAM,
+    PASSWORD_RESET_SCOPE_TOKEN_SESSION,
+    get_signed_password_reset_scope,
+)
 from weblate.accounts.forms import (
     CommitForm,
     ContactForm,
@@ -706,7 +713,7 @@ def trial(request: AuthenticatedHttpRequest):
             expiry=timezone.now() + timedelta(days=14),
         )
         billing.billinglog_set.create(event=BillingEvent.CREATED, user=request.user)
-        billing.owners.add(request.user)
+        billing.workspace.add_owner(request.user, request)
         messages.info(
             request,
             gettext(
@@ -714,7 +721,7 @@ def trial(request: AuthenticatedHttpRequest):
                 "create your translation project and start Weblating!"
             ),
         )
-        return redirect(f"{reverse('create-project')}?billing={billing.pk}")
+        return redirect(f"{reverse('create-project')}?workspace={billing.workspace_id}")
 
     return render(request, "accounts/trial.html", {"title": gettext("Gratis trial")})
 
@@ -884,9 +891,15 @@ class UserPage(UpdateView):
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
         memberships = (
-            user.team_memberships.select_related("group", "group__defining_project")
+            user.team_memberships.select_related(
+                "group", "group__defining_project", "group__defining_workspace"
+            )
             .prefetch_related(prefetch_membership_limit_languages())
-            .order_by("group__defining_project__name", "group__name")
+            .order_by(
+                "group__defining_project__name",
+                "group__defining_workspace__name",
+                "group__name",
+            )
         )
         memberships_by_group_id = {}
         for membership in memberships:
@@ -896,12 +909,25 @@ class UserPage(UpdateView):
             memberships_by_group_id[membership.group_id] = membership
         page_user_groups = list(
             user.groups.annotate(Count("user"))
-            .select_related("defining_project")
+            .select_related("defining_project", "defining_workspace")
             .order()
         )
         for group in page_user_groups:
             group.team_membership = memberships_by_group_id.get(group.pk)
         context["page_user_groups"] = page_user_groups
+        context["page_user_billings"] = []
+        if "weblate.billing" in settings.INSTALLED_APPS:
+            from weblate.billing.models import Billing  # noqa: PLC0415
+
+            context["page_user_billings"] = list(
+                Billing.objects.filter(
+                    workspace__defined_groups__memberships__user=user,
+                    workspace__defined_groups__memberships__limit_languages__isnull=True,
+                    workspace__defined_groups__roles__permissions__codename="workspace.edit",
+                )
+                .distinct()
+                .prefetch()
+            )
         return context
 
 
@@ -1351,6 +1377,37 @@ def reset_password_set(request: AuthenticatedHttpRequest):
     )
 
 
+def remember_password_reset_scope_token(request: AuthenticatedHttpRequest) -> None:
+    token = request.POST.get(PASSWORD_RESET_SCOPE_TOKEN_PARAM) or request.GET.get(
+        PASSWORD_RESET_SCOPE_TOKEN_PARAM, ""
+    )
+    if not token:
+        return
+    if get_signed_password_reset_scope(token):
+        request.session[PASSWORD_RESET_SCOPE_TOKEN_SESSION] = token
+    else:
+        request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
+
+
+def get_password_reset_scope(request: AuthenticatedHttpRequest, email: str) -> str:
+    token = request.session.get(PASSWORD_RESET_SCOPE_TOKEN_SESSION, "")
+    if token:
+        return get_signed_password_reset_scope(token, email)
+    return ""
+
+
+def send_password_reset_email(
+    request: AuthenticatedHttpRequest, user: User, *, email: str, scope: str = ""
+) -> HttpResponse | None:
+    """Start the existing e-mail password reset flow for a known user."""
+    audit = AuditLog.objects.create(user, request, "reset-request")
+    if audit.check_rate_limit(request):
+        return None
+    request.session[PASSWORD_RESET_EMAIL_SESSION] = email
+    store_userid(request, reset=True, reset_scope=scope)
+    return social_complete(request, "email")
+
+
 def get_registration_hint(email: str) -> str | None:
     domain = email.rsplit("@", 1)[-1]
     return settings.REGISTRATION_HINTS.get(domain)
@@ -1360,6 +1417,7 @@ def get_registration_hint(email: str) -> str | None:
 @login_not_required
 def reset_password(request: AuthenticatedHttpRequest):
     """Password reset handling."""
+    remember_password_reset_scope_token(request)
     if request.user.is_authenticated:
         return redirect_profile()
     if "email" not in get_auth_keys():
@@ -1375,15 +1433,17 @@ def reset_password(request: AuthenticatedHttpRequest):
     if request.method == "POST":
         form = ResetForm(request=request, data=request.POST)
         if form.is_valid():
+            email = form.cleaned_data["email"]
             if form.cleaned_data["email_user"]:
-                audit = AuditLog.objects.create(
-                    form.cleaned_data["email_user"], request, "reset-request"
+                response = send_password_reset_email(
+                    request,
+                    form.cleaned_data["email_user"],
+                    email=email,
+                    scope=get_password_reset_scope(request, email),
                 )
-                if not audit.check_rate_limit(request):
-                    store_userid(request, reset=True)
-                    return social_complete(request, "email")
+                if response is not None:
+                    return response
             else:
-                email = form.cleaned_data["email"]
                 send_notification_email(
                     None,
                     [email],
@@ -1541,12 +1601,23 @@ class SuggestionView(ListView):
 
 
 def store_userid(
-    request: AuthenticatedHttpRequest, *, reset: bool = False, remove: bool = False
+    request: AuthenticatedHttpRequest,
+    *,
+    reset: bool = False,
+    remove: bool = False,
+    reset_scope: str = "",
 ) -> None:
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset
     request.session["account_remove"] = remove
+    if reset and reset_scope:
+        request.session[PASSWORD_RESET_SCOPE_SESSION] = reset_scope
+    else:
+        request.session.pop(PASSWORD_RESET_SCOPE_SESSION, None)
+    request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
+    if not reset:
+        request.session.pop(PASSWORD_RESET_EMAIL_SESSION, None)
 
 
 @require_POST

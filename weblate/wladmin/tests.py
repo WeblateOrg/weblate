@@ -20,14 +20,16 @@ from django.core.checks import Critical
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db import connection
 from django.test import TestCase as DjangoTestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation
-from weblate.trans.models import Announcement
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Announcement, Change, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
@@ -37,6 +39,7 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service
+from weblate.workspaces.models import Workspace
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 
@@ -339,6 +342,44 @@ class BackupServiceStatusTest(TestCase):
         )
 
 
+class WorkspaceCreateTest(ViewTestCase):
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_workspace_add_denied_without_permission(self) -> None:
+        response = self.client.get(reverse("manage-workspace-add"))
+
+        self.assertEqual(response.status_code, 403)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_project_creator_can_add_workspace(self) -> None:
+        self.user.groups.add(Group.objects.get(name="Project creators"))
+
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, "Add new workspace")
+
+        response = self.client.get(reverse("manage-workspace-add"))
+        self.assertContains(response, "Add workspace")
+
+        response = self.client.post(
+            reverse("manage-workspace-add"), {"name": "Created workspace"}
+        )
+
+        workspace = Workspace.objects.get(name="Created workspace")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], workspace.get_absolute_url())
+        self.user.clear_cache()
+        self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+        self.assertTrue(self.user.has_perm("workspace.add_project", workspace))
+
+        response = self.client.get(workspace.get_absolute_url())
+        self.assertContains(response, "Created workspace")
+
+        change = Change.objects.get(
+            action=ActionEvents.CREATE_WORKSPACE, workspace=workspace
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+
 class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
 
@@ -354,6 +395,89 @@ class AdminTest(ViewTestCase):
     def test_manage_index(self) -> None:
         response = self.client.get(reverse("manage"))
         self.assertContains(response, "SSH")
+
+    def test_workspaces(self) -> None:
+        workspace = Workspace.objects.create(name="Test workspace")
+        Project.objects.create(
+            name="Workspace project",
+            slug="workspace-project",
+            web="https://example.com/",
+            workspace=workspace,
+        )
+
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, "Manage workspaces")
+        self.assertContains(response, workspace.name)
+        self.assertContains(response, workspace.get_absolute_url())
+        self.assertContains(response, ">1<")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_workspaces_add_link(self) -> None:
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, reverse("manage-workspace-add"))
+        self.assertContains(response, "Add workspace")
+
+    def test_workspaces_add_link_hidden_with_billing(self) -> None:
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertNotContains(response, reverse("manage-workspace-add"))
+        self.assertNotContains(response, "Add workspace")
+
+    def test_workspace_add_hidden_from_sitewide_menu_with_billing(self) -> None:
+        response = self.client.get(reverse("home"))
+
+        self.assertNotContains(response, "Add new workspace")
+
+    def test_workspace_add_direct_access_hidden_with_billing(self) -> None:
+        response = self.client.get(reverse("manage-workspace-add"))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_workspaces_pagination(self) -> None:
+        for index in range(51):
+            Workspace.objects.create(name=f"Workspace {index:02}")
+
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertTrue(response.context["is_paginated"])
+        self.assertEqual(len(response.context["object_list"]), 50)
+
+    def test_workspaces_avoid_billing_display_queries(self) -> None:
+        from weblate.billing.models import Billing, Plan  # noqa: PLC0415
+
+        plan = Plan.objects.create(
+            name="Workspace plan",
+            price=19,
+            yearly_price=199,
+            limit_projects=1,
+            display_limit_projects=1,
+        )
+
+        for index in range(3):
+            billing = Billing.objects.create(plan=plan)
+            project = Project.objects.create(
+                name=f"Billed project {index}",
+                slug=f"billed-project-{index}",
+                web="https://example.com/",
+            )
+            billing.add_project(project)
+
+        project_table = Project._meta.db_table  # noqa: SLF001
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, "Billing #")
+        project_queries = [
+            query["sql"]
+            for query in queries
+            if (
+                f'FROM "{project_table}"' in query["sql"]
+                and f'WHERE "{project_table}"."workspace_id"' in query["sql"]
+            )
+        ]
+        self.assertEqual(project_queries, [])
 
     def test_ssh(self) -> None:
         response = self.client.get(reverse("manage-ssh"))

@@ -454,9 +454,16 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         component: Component,
         files: list[str] | None = None,
         skip_push: bool = False,
+        parse_after_update: bool = False,
     ) -> bool:
-        if super().commit_and_push(component, files=files, skip_push=skip_push):
-            component.create_translations()
+        if super().commit_and_push(
+            component,
+            files=files,
+            skip_push=skip_push,
+            parse_after_update=parse_after_update,
+        ):
+            if not parse_after_update:
+                component.create_translations()
             return True
         return False
 
@@ -934,14 +941,21 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         component: Component,
         files: list[str] | None = None,
         skip_push: bool = False,
+        parse_after_update: bool = False,
     ) -> bool:
-        committed = super().commit_and_push(component, files=files, skip_push=skip_push)
+        committed = super().commit_and_push(
+            component,
+            files=files,
+            skip_push=skip_push,
+            parse_after_update=parse_after_update,
+        )
         revision = self.pending_successful_revisions.pop(component.pk, None)
         if revision is None:
             return committed
         if committed:
             self.mark_successful_run(component, component.repository.last_revision)
-            component.create_translations()
+            if not parse_after_update:
+                component.create_translations()
         else:
             self.mark_successful_run(component, revision)
         return committed

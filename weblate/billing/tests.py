@@ -6,6 +6,7 @@ import os.path
 from datetime import timedelta
 from io import StringIO
 from unittest.mock import patch
+from uuid import UUID
 
 from django.core import mail
 from django.core.exceptions import ValidationError
@@ -15,11 +16,18 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from weblate.auth.models import User
-from weblate.billing.models import Billing, BillingEvent, Invoice, Plan
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.billing.models import (
+    Billing,
+    BillingEvent,
+    Invoice,
+    Plan,
+    record_project_billing_workspace,
+)
 from weblate.billing.tasks import (
     billing_check,
     billing_notify,
+    filter_with_projects,
     inactive_recurring_check,
     notify_expired,
     perform_removal,
@@ -41,6 +49,11 @@ from weblate.trans.tests.utils import (
     create_another_user,
     create_test_billing,
     create_test_user,
+)
+from weblate.workspaces.models import (
+    WORKSPACE_NAME_LENGTH,
+    WORKSPACE_PROJECT_CREATORS_GROUP,
+    Workspace,
 )
 
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data")
@@ -71,8 +84,7 @@ class BillingTest(BaseTestCase):
         project = Project.objects.create(
             name=name, slug=name, access_control=Project.ACCESS_PROTECTED
         )
-        self.billing.projects.add(project)
-        self.billing.owners.add(self.user)
+        self.billing.add_project(project)
         return project
 
     def add_component(
@@ -188,7 +200,32 @@ class BillingTest(BaseTestCase):
         self.user.is_superuser = True
         self.user.save()
         response = self.client.get(reverse("billing"))
-        self.assertContains(response, "Owners")
+        self.assertContains(response, "Workspace")
+
+    def test_customer_name(self) -> None:
+        self.client.login(username=self.user.username, password="testpassword")
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        response = self.client.get(billing_url)
+        self.assertNotContains(response, "Customer name")
+
+        self.billing.customer_name = "Acme Billing LLC"
+        workspace_id = self.billing.workspace_id
+        self.billing.save(update_fields=["customer_name"])
+        self.assertEqual(str(self.billing), f"Acme Billing LLC ({self.plan})")
+        self.billing.workspace.refresh_from_db()
+        self.assertEqual(self.billing.workspace_id, workspace_id)
+        self.assertEqual(self.billing.workspace.name, "Acme Billing LLC")
+
+        response = self.client.get(billing_url)
+        self.assertContains(response, "Customer name")
+        self.assertContains(response, "Acme Billing LLC")
+
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse("billing"))
+        self.assertContains(response, "Customer")
+        self.assertContains(response, "Acme Billing LLC")
 
     @override_settings(OFFER_HOSTING=True)
     def test_billing_overview_shows_component_alerts(self) -> None:
@@ -286,9 +323,181 @@ class BillingTest(BaseTestCase):
         project = self.add_project()
         self.refresh_from_db()
         self.assertFalse(self.billing.in_limits)
-        project.delete()
+        with self.captureOnCommitCallbacks(execute=True):
+            project.delete()
         self.refresh_from_db()
         self.assertTrue(self.billing.in_limits)
+
+    def test_add_project_flushes_cached_properties(self) -> None:
+        self.assertEqual(self.billing.count_projects, 0)
+        self.assertTrue(self.billing.libre_checklist_without_alerts)
+        self.assertIn("count_projects", self.billing.__dict__)
+        self.assertIn("libre_checklist_without_alerts", self.billing.__dict__)
+
+        self.add_project()
+
+        self.assertNotIn("count_projects", self.billing.__dict__)
+        self.assertNotIn("libre_checklist_without_alerts", self.billing.__dict__)
+        self.assertEqual(self.billing.count_projects, 1)
+
+    def test_add_project_updates_workspace_directly(self) -> None:
+        project = Project.objects.create(
+            name="direct-update",
+            slug="direct-update",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+
+        with patch.object(Project, "save", side_effect=AssertionError):
+            self.billing.add_project(project)
+
+        project.refresh_from_db()
+        self.assertEqual(project.workspace_id, self.billing.workspace_id)
+
+    def test_add_project_updates_billing_instance(self) -> None:
+        billing = Billing.objects.create(plan=self.plan)
+        project = Project.objects.create(
+            name="new-project",
+            slug="new-project",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+
+        billing.add_project(project)
+
+        self.assertFalse(billing.paid)
+        billing.invoice_set.create(
+            amount=10,
+            start=timezone.now().date() - timedelta(days=1),
+            end=timezone.now().date() + timedelta(days=1),
+        )
+        billing.refresh_from_db()
+        self.assertTrue(billing.paid)
+
+    def test_project_billings_uses_project_database(self) -> None:
+        project = Project(
+            name="database-project",
+            slug="database-project",
+            workspace_id=UUID("00000000-0000-0000-0000-000000000001"),
+        )
+        project._state.db = "other"  # noqa: SLF001
+
+        with patch.object(Billing.objects, "db_manager") as db_manager:
+            manager = db_manager.return_value
+            manager.filter.return_value = ["billing"]
+
+            self.assertEqual(project.billings, ["billing"])
+
+        db_manager.assert_called_once_with("other")
+        manager.filter.assert_called_once_with(workspace_id=project.workspace_id)
+
+    def test_add_project_rejects_unsaved_billing(self) -> None:
+        billing = Billing(plan=self.plan)
+        project = Project.objects.create(
+            name="unsaved-billing",
+            slug="unsaved-billing",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+
+        with self.assertRaisesRegex(ValidationError, "saved"):
+            billing.add_project(project)
+
+        project.refresh_from_db()
+        self.assertIsNone(project.workspace_id)
+
+    def test_workspace_can_not_be_changed(self) -> None:
+        workspace = self.billing.workspace
+        self.billing.workspace = None
+        with self.assertRaises(ValidationError):
+            self.billing.save()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.workspace_id, workspace.pk)
+
+        other = Billing.objects.create(plan=self.plan)
+        self.billing.workspace = other.workspace
+        with self.assertRaises(ValidationError):
+            self.billing.save()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.workspace_id, workspace.pk)
+
+    def test_workspace_validation_uses_original_workspace(self) -> None:
+        with self.assertNumQueries(0):
+            self.billing.validate_workspace()
+
+    def test_default_workspace_name_truncated(self) -> None:
+        billing = Billing.objects.create(
+            plan=self.plan, customer_name="x" * (WORKSPACE_NAME_LENGTH + 10)
+        )
+
+        self.assertEqual(billing.workspace.name, "x" * WORKSPACE_NAME_LENGTH)
+        self.assertEqual(len(billing.workspace.name), WORKSPACE_NAME_LENGTH)
+        self.assertIsInstance(billing.workspace_id, UUID)
+        self.assertTrue(billing.workspace.name_managed)
+
+    def test_customer_name_used_for_workspace(self) -> None:
+        billing = Billing.objects.create(
+            plan=self.plan, customer_name="Acme Billing LLC"
+        )
+
+        self.assertEqual(billing.workspace.name, "Acme Billing LLC")
+        self.assertTrue(billing.workspace.name_managed)
+
+    def test_customer_name_updates_workspace_after_plan_change(self) -> None:
+        paid_plan = Plan.objects.create(
+            name="Paid plan", slug="paid-plan", price=29, yearly_price=299
+        )
+        workspace_id = self.billing.workspace_id
+
+        self.billing.plan = paid_plan
+        self.billing.customer_name = "Acme Billing LLC"
+        self.billing.save(update_fields=["plan", "customer_name"])
+
+        self.billing.workspace.refresh_from_db()
+        self.assertEqual(self.billing.workspace_id, workspace_id)
+        self.assertEqual(self.billing.workspace.name, "Acme Billing LLC")
+        self.assertTrue(self.billing.workspace.name_managed)
+
+    def test_customer_name_baseline_ignores_unsaved_field(self) -> None:
+        billing = Billing.objects.create(plan=self.plan)
+
+        billing.customer_name = "Acme Billing LLC"
+        billing.payment = {"id": "payment-id"}
+        billing.save(update_fields=["payment"])
+        billing.save(update_fields=["customer_name"])
+
+        billing.workspace.refresh_from_db()
+        self.assertEqual(billing.workspace.name, "Acme Billing LLC")
+
+    def test_customer_name_preserves_manual_workspace_name(self) -> None:
+        paid_plan = Plan.objects.create(
+            name="Manual paid plan",
+            slug="manual-paid-plan",
+            price=29,
+            yearly_price=299,
+        )
+        self.billing.workspace.name = "Manual workspace name"
+        self.billing.workspace.save(update_fields=["name"])
+
+        self.billing.plan = paid_plan
+        self.billing.customer_name = "Acme Billing LLC"
+        self.billing.save(update_fields=["plan", "customer_name"])
+
+        self.billing.workspace.refresh_from_db()
+        self.assertEqual(self.billing.workspace.name, "Manual workspace name")
+        self.assertFalse(self.billing.workspace.name_managed)
+
+    def test_billing_demo_with_existing_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Billing Demo")
+        Project.objects.create(
+            name="Billing Demo", slug="billing-demo", workspace=workspace
+        )
+
+        call_command("billing_demo")
+
+        billing = Billing.objects.get(workspace=workspace)
+        self.assertEqual(billing.plan.slug, "160k")
+
+        call_command("billing_demo")
+
+        self.assertEqual(Billing.objects.filter(workspace=workspace).count(), 1)
 
     def test_commands(self) -> None:
         out = StringIO()
@@ -324,6 +533,21 @@ class BillingTest(BaseTestCase):
         self.add_project()
         billing_notify()
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_billing_notify_users_are_workspace_admins(self) -> None:
+        project_creator = create_another_user(suffix="-creator")
+        workspace_groups = self.billing.workspace.setup_groups()
+        project_creator.add_team(
+            None, workspace_groups[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+
+        notify_users = list(self.billing.get_notify_users())
+        self.assertEqual(set(notify_users), {self.user})
+        expected_language = self.user.profile.language
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                [user.profile.language for user in notify_users], [expected_language]
+            )
 
     @override_settings(EMAIL_SUBJECT_PREFIX="")
     def test_inactive_recurring_warning_and_disable(self) -> None:
@@ -680,7 +904,7 @@ class BillingTest(BaseTestCase):
         self.assertIsNone(self.billing.removal)
         self.assertTrue(self.billing.paid)
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
 
         # Not paid
         self.invoice.start -= timedelta(days=14)
@@ -694,7 +918,7 @@ class BillingTest(BaseTestCase):
         self.assertIsNone(self.billing.removal)
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
         self.assertTrue(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
         self.assertEqual(mail.outbox.pop().subject, "Your billing plan has expired")
 
         # Not paid for long
@@ -709,7 +933,7 @@ class BillingTest(BaseTestCase):
         self.assertIsNotNone(self.billing.removal)
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
         self.assertFalse(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
         self.assertEqual(
             mail.outbox.pop().subject,
             "Your translation project is scheduled for removal",
@@ -722,7 +946,7 @@ class BillingTest(BaseTestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
         self.assertFalse(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 0)
+        self.assertEqual(self.billing.count_projects, 0)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox.pop().subject, "Your translation project was removed"
@@ -742,7 +966,7 @@ class BillingTest(BaseTestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertTrue(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
         self.assertIsNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 0)
 
@@ -755,7 +979,7 @@ class BillingTest(BaseTestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertTrue(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
         self.assertIsNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 0)
 
@@ -768,7 +992,7 @@ class BillingTest(BaseTestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertTrue(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
         self.assertIsNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
@@ -784,7 +1008,7 @@ class BillingTest(BaseTestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertTrue(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
         self.assertIsNone(self.billing.expiry)
         self.assertIsNotNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 1)
@@ -800,7 +1024,7 @@ class BillingTest(BaseTestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertTrue(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertEqual(self.billing.count_projects, 1)
         self.assertIsNotNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
@@ -816,7 +1040,7 @@ class BillingTest(BaseTestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
         self.assertFalse(self.billing.paid)
-        self.assertEqual(self.billing.projects.count(), 0)
+        self.assertEqual(self.billing.count_projects, 0)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox.pop().subject, "Your translation project was removed"
@@ -836,12 +1060,107 @@ class BillingTest(BaseTestCase):
         project.add_user(third_user, "Translate")
         project.delete()
         self.assertEqual(
-            set(self.billing.owners.values_list("username", flat=True)),
+            set(
+                self.billing.workspace.get_owners_group().user_set.values_list(
+                    "username", flat=True
+                )
+            ),
             {self.user.username, second_user.username},
         )
 
+    def test_project_workspace_change_updates_previous_billing(self) -> None:
+        project = self.add_project()
+        self.add_project()
+        self.refresh_from_db()
+        self.assertFalse(self.billing.in_limits)
+        other = Billing.objects.create(plan=self.plan)
+
+        project.workspace = other.workspace
+        project.save(update_fields=["workspace"])
+
+        self.refresh_from_db()
+        other.refresh_from_db()
+        self.assertEqual(self.billing.count_projects, 1)
+        self.assertTrue(self.billing.in_limits)
+        self.assertEqual(other.count_projects, 1)
+        self.assertTrue(other.in_limits)
+
+    def test_project_billing_workspace_recording_ignores_unrelated_updates(
+        self,
+    ) -> None:
+        project = self.add_project()
+        project.billing_previous_workspace_id = self.billing.workspace_id
+
+        with self.assertNumQueries(0):
+            record_project_billing_workspace(Project, project, update_fields={"name"})
+
+        self.assertIsNone(project.billing_previous_workspace_id)
+
+        project.billing_previous_workspace_id = self.billing.workspace_id
+        with self.assertNumQueries(0):
+            record_project_billing_workspace(Project, project)
+
+        self.assertIsNone(project.billing_previous_workspace_id)
+
+    def test_project_billing_workspace_recording_tracks_workspace_change(self) -> None:
+        project = self.add_project()
+        other = Billing.objects.create(plan=self.plan)
+        project.workspace = other.workspace
+
+        with self.assertNumQueries(0):
+            record_project_billing_workspace(Project, project)
+
+        self.assertEqual(
+            project.billing_previous_workspace_id,
+            self.billing.workspace_id,
+        )
+
+    def test_filter_with_projects_uses_exists(self) -> None:
+        queryset = filter_with_projects(Billing.objects.all())
+        query = str(queryset.query).upper()
+
+        self.assertIn("EXISTS", query)
+        self.assertNotIn("DISTINCT", query)
+
+    def test_transfer_project_updates_previous_billing(self) -> None:
+        project = self.add_project()
+        self.add_project()
+        self.refresh_from_db()
+        self.assertFalse(self.billing.in_limits)
+        other = Billing.objects.create(plan=self.plan)
+
+        other.transfer_project(project)
+
+        self.refresh_from_db()
+        other.refresh_from_db()
+        self.assertEqual(self.billing.count_projects, 1)
+        self.assertTrue(self.billing.in_limits)
+        self.assertEqual(other.count_projects, 1)
+        self.assertTrue(other.in_limits)
+
     def test_merge(self) -> None:
         other = Billing.objects.create(plan=self.billing.plan)
+        project = self.add_project()
+        project2 = self.add_project()
+        limited_user = create_another_user("-limited")
+        custom_user = create_another_user("-custom")
+        source_group = self.billing.workspace.setup_groups()[
+            WORKSPACE_PROJECT_CREATORS_GROUP
+        ]
+        limited_user.add_team(None, source_group)
+        source_membership = TeamMembership.objects.get(
+            group=source_group, user=limited_user
+        )
+        source_membership.limit_languages.add(Language.objects.get(code="cs"))
+        custom_role = Role.objects.create(name="Custom workspace editor")
+        custom_role.permissions.add(Permission.objects.get(codename="workspace.edit"))
+        custom_group = Group.objects.create(
+            name="Custom workspace team", defining_workspace=self.billing.workspace
+        )
+        custom_group.roles.add(custom_role)
+        custom_user.add_team(None, custom_group)
+        self.refresh_from_db()
+        self.assertFalse(self.billing.in_limits)
         self.billing.payment = {"all": [{"charge": "source-payment"}]}
         self.billing.save()
         Invoice.objects.create(
@@ -875,10 +1194,11 @@ class BillingTest(BaseTestCase):
             response, reverse("billing-detail", kwargs={"pk": self.billing.pk})
         )
 
-        response = self.client.post(
-            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
-            {"other": other.pk, "confirm": 1},
-        )
+        with patch.object(Billing, "transfer_project", side_effect=AssertionError):
+            response = self.client.post(
+                reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+                {"other": other.pk, "confirm": 1},
+            )
         self.assertRedirects(
             response, reverse("billing-detail", kwargs={"pk": other.pk})
         )
@@ -886,9 +1206,46 @@ class BillingTest(BaseTestCase):
         self.assertEqual(other.invoice_set.count(), 2)
         other.refresh_from_db()
         self.assertEqual(other.payment["all"], [{"charge": "source-payment"}])
+        project.refresh_from_db()
+        project2.refresh_from_db()
+        self.assertEqual(project.workspace_id, other.workspace_id)
+        self.assertEqual(project2.workspace_id, other.workspace_id)
+        self.refresh_from_db()
+        other = Billing.objects.get(pk=other.pk)
+        self.assertEqual(self.billing.count_projects, 0)
+        self.assertTrue(self.billing.in_limits)
+        self.assertEqual(other.count_projects, 2)
+        self.assertFalse(other.in_limits)
+        target_group = other.workspace.setup_groups()[WORKSPACE_PROJECT_CREATORS_GROUP]
+        target_membership = TeamMembership.objects.get(
+            group=target_group, user=limited_user
+        )
+        self.assertEqual(
+            list(target_membership.limit_languages.values_list("code", flat=True)),
+            ["cs"],
+        )
+        target_custom_group = other.workspace.defined_groups.get(name=custom_group.name)
+        self.assertEqual(set(target_custom_group.roles.all()), {custom_role})
+        self.assertTrue(target_custom_group.user_set.filter(pk=custom_user.pk).exists())
 
-    def test_owners(self) -> None:
+    def test_workspace_access_controls_billing_view(self) -> None:
         second_user = create_another_user()
+        project_creator = create_another_user(suffix="-creator")
+        workspace_editor = create_another_user(suffix="-editor")
+        workspace_groups = self.billing.workspace.setup_groups()
+        project_creator.add_team(
+            None, workspace_groups[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+        workspace_edit = Role.objects.create(name="Workspace edit")
+        workspace_edit.permissions.set(
+            Permission.objects.filter(codename="workspace.edit")
+        )
+        workspace_editors = Group.objects.create(
+            name="Workspace editors",
+            defining_workspace=self.billing.workspace,
+        )
+        workspace_editors.roles.add(workspace_edit)
+        workspace_editor.add_team(None, workspace_editors)
         billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
 
         # No access for different user
@@ -897,82 +1254,24 @@ class BillingTest(BaseTestCase):
         response = self.client.get(billing_url)
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk})
-        )
+        # Project creation access does not grant billing access
+        self.client.login(username=project_creator.username, password="testpassword")
+
+        response = self.client.get(billing_url)
         self.assertEqual(response.status_code, 403)
 
-        response = self.client.post(
-            reverse(
-                "billing-owner-remove",
-                kwargs={"pk": self.billing.pk, "user_id": self.user.pk},
-            )
-        )
-        self.assertEqual(response.status_code, 403)
+        # Workspace edit access grants billing access
+        self.client.login(username=workspace_editor.username, password="testpassword")
 
-        # Access for owner
+        response = self.client.get(billing_url)
+        self.assertContains(response, "Billing plan")
+
+        # Access for workspace owner
         self.client.login(username=self.user.username, password="testpassword")
 
         response = self.client.get(billing_url)
-        self.assertContains(response, "Billing admins")
-
-        # Add user
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
-            {"user": "nonexisting-user"},
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(1, self.billing.owners.count())
-
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
-            {"user": second_user.username},
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(2, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username, second_user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
-        # Add user (no-op)
-        response = self.client.post(
-            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
-            {"user": second_user.username},
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(2, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username, second_user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
-
-        # Delete user restricted for self
-        response = self.client.post(
-            reverse(
-                "billing-owner-remove",
-                kwargs={"pk": self.billing.pk, "user_id": self.user.pk},
-            )
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(2, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username, second_user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
-
-        # Delete other user works
-        response = self.client.post(
-            reverse(
-                "billing-owner-remove",
-                kwargs={"pk": self.billing.pk, "user_id": second_user.pk},
-            )
-        )
-        self.assertRedirects(response, billing_url)
-        self.assertEqual(1, self.billing.owners.count())
-        self.assertEqual(
-            {self.user.username},
-            set(self.billing.owners.values_list("username", flat=True)),
-        )
+        self.assertContains(response, "Billing plan")
+        self.assertNotContains(response, "Billing admins", status_code=200)
 
 
 class HostingTest(RepoTestCase):
@@ -1005,8 +1304,8 @@ class HostingTest(RepoTestCase):
 
         # Add component to a trial
         component = self.create_component()
-        billing = user.billing_set.get()
-        billing.projects.add(component.project)
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
+        billing.add_project(component.project)
 
         # Not valid for libre
         self.assertFalse(billing.valid_libre)
@@ -1019,7 +1318,7 @@ class HostingTest(RepoTestCase):
 
         # Add missing license info
         component.project.component_set.update(license="GPL-3.0-or-later")
-        billing = user.billing_set.get()
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
 
         # Valid for libre
         self.assertTrue(billing.valid_libre)

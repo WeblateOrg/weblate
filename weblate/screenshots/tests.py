@@ -14,7 +14,8 @@ import requests
 import responses
 from django.conf import settings
 from django.core.files import File
-from django.test.utils import override_settings
+from django.db import connection
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from PIL import Image
@@ -68,6 +69,10 @@ class ViewTest(FixtureTestCase):
         self.make_manager()
         response = self.do_upload()
         self.assertContains(response, "Obrazek")
+        self.assertContains(
+            response,
+            "Search for source strings or find strings in the image.",
+        )
         self.assertEqual(Screenshot.objects.count(), 1)
         uploaded_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_UPLOADED,
@@ -135,6 +140,13 @@ class ViewTest(FixtureTestCase):
         self.assertContains(
             response, get_doc_url("admin/translating", "screenshots", user=self.user)
         )
+        self.assertContains(response, "Add selected")
+        self.assertContains(response, "Find strings in image")
+        self.assertContains(
+            response,
+            "Suggests source strings by recognizing text in this screenshot.",
+        )
+        self.assertContains(response, 'id="screenshots-toggle-selection"')
 
     @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_edit_metadata_with_existing_oversized_image(self) -> None:
@@ -269,6 +281,8 @@ class ViewTest(FixtureTestCase):
         data = response.json()
         self.assertEqual(data["responseCode"], 200)
         self.assertIn('<a class="add-string', data["results"])
+        self.assertIn("screenshot-source-select", data["results"])
+        self.assertIn("screenshots-toggle-selection", data["results"])
 
         source_pk = self.extract_pk(data["results"])
 
@@ -314,6 +328,195 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(removed_changes.count(), 1)
         self.assertEqual(removed_changes[0].user, self.user)
 
+    def test_source_bulk_manipulations(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        source_units = list(
+            self.component.source_translation.unit_set.order_by("pk")[:2]
+        )
+        source_ids = [unit.pk for unit in source_units]
+        screenshot.units.add(source_units[0])
+
+        response = self.client.post(
+            reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+            {
+                "source": [
+                    source_units[0].pk,
+                    source_units[1].pk,
+                    source_units[1].pk,
+                    "invalid",
+                    999999,
+                ]
+            },
+        )
+
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertEqual(data["status"], True)
+        self.assertEqual(data["added"], 1)
+        self.assertEqual(data["skipped"], 2)
+        self.assertEqual(data["invalid"], 2)
+        self.assertCountEqual(screenshot.units.values_list("pk", flat=True), source_ids)
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=screenshot,
+            unit=source_units[1],
+        )
+        self.assertEqual(added_changes.count(), 1)
+        self.assertEqual(added_changes[0].user, self.user)
+        self.assertFalse(
+            Change.objects.filter(
+                action=ActionEvents.SCREENSHOT_ADDED,
+                screenshot=screenshot,
+                unit=source_units[0],
+            ).exists()
+        )
+
+    def test_source_bulk_invalid(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+
+        response = self.client.post(
+            reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+            {"source": ["invalid", 999999]},
+        )
+
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertEqual(data["status"], False)
+        self.assertEqual(data["added"], 0)
+        self.assertEqual(data["skipped"], 0)
+        self.assertEqual(data["invalid"], 2)
+        self.assertEqual(screenshot.units.count(), 0)
+
+    def test_source_bulk_denied(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        source = self.component.source_translation.unit_set.all()[0]
+        self.user.groups.remove(Group.objects.get(name="Managers"))
+        self.project.remove_user(self.user)
+
+        response = self.client.post(
+            reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+            {"source": [source.pk]},
+        )
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(screenshot.units.count(), 0)
+
+    def test_list_coverage_summary(self) -> None:
+        self.make_manager()
+        source = self.component.source_translation.unit_set.all()[0]
+        self.do_upload(source=source.pk)
+
+        response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
+
+        self.assertContains(response, "Unassigned screenshots")
+        self.assertContains(response, "Source strings with screenshots")
+        self.assertContains(response, "Source strings without screenshots")
+        self.assertContains(
+            response,
+            f"{reverse('screenshots', kwargs=self.kw_component)}?q=NOT+has%3Astring",
+        )
+        self.assertContains(response, "?q=has%3Astring")
+        self.assertContains(response, "?q=has%3Ascreenshot")
+        self.assertContains(response, "?q=NOT%20has%3Ascreenshot")
+
+    def test_list_unassigned_filter(self) -> None:
+        self.make_manager()
+        source = self.component.source_translation.unit_set.all()[0]
+        self.do_upload(name="Assigned", source=source.pk)
+        self.do_upload(name="Unassigned")
+
+        response = self.client.get(
+            reverse("screenshots", kwargs=self.kw_component), {"assigned": "0"}
+        )
+
+        self.assertContains(response, "Unassigned")
+        self.assertContains(response, "All screenshots")
+        self.assertContains(response, 'value="NOT has:string"')
+        self.assertContains(response, reverse("screenshots", kwargs=self.kw_component))
+        self.assertNotContains(response, "Assigned</a>")
+
+    def test_list_search(self) -> None:
+        self.make_manager()
+        source = self.component.source_translation.unit_set.search("hello").get()
+        self.do_upload(
+            name="Assigned login",
+            source=source.pk,
+            repository_filename="fastlane/login.png",
+        )
+        self.do_upload(name="Unassigned help")
+
+        url = reverse("screenshots", kwargs=self.kw_component)
+
+        response = self.client.get(url, {"q": "has:string"})
+        self.assertContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
+        response = self.client.get(url, {"q": "NOT has:string"})
+        self.assertContains(response, "Unassigned help")
+        self.assertNotContains(response, "Assigned login")
+
+        response = self.client.get(url, {"q": "path:fastlane"})
+        self.assertContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
+        response = self.client.get(url, {"q": "string:hello"})
+        self.assertContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
+        response = self.client.get(url, {"q": "strings:1"})
+        self.assertContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
+    def test_list_search_invalid(self) -> None:
+        self.make_manager()
+        response = self.client.get(
+            reverse("screenshots", kwargs=self.kw_component),
+            {"q": "state:translated"},
+        )
+
+        self.assertContains(response, "Could not parse query string")
+
+    def test_list_search_takes_precedence_over_legacy_unassigned_filter(self) -> None:
+        self.make_manager()
+        source = self.component.source_translation.unit_set.all()[0]
+        self.do_upload(name="Assigned", source=source.pk)
+        self.do_upload(name="Unassigned")
+
+        response = self.client.get(
+            reverse("screenshots", kwargs=self.kw_component),
+            {"assigned": "0", "q": "name:=Assigned"},
+        )
+
+        self.assertContains(response, "Assigned")
+        self.assertNotContains(response, "Unassigned</a>")
+
+    def test_list_queries_do_not_scale_with_screenshots(self) -> None:
+        self.make_manager()
+        source = self.component.source_translation.unit_set.all()[0]
+        url = reverse("screenshots", kwargs=self.kw_component)
+
+        def render_query_count() -> tuple[int, list[str]]:
+            with CaptureQueriesContext(connection) as queries:
+                response = self.client.get(url)
+            self.assertEqual(response.status_code, 200)
+            return len(queries), [query["sql"] for query in queries]
+
+        self.do_upload(name="Screenshot 0", source=source.pk)
+        baseline_count, _baseline_queries = render_query_count()
+
+        for index in range(1, 5):
+            self.do_upload(name=f"Screenshot {index}", source=source.pk)
+
+        query_count, queries = render_query_count()
+
+        self.assertEqual(query_count, baseline_count, queries)
+
     def test_ocr_backend(self) -> None:
         # Extract strings
         with (
@@ -350,6 +553,8 @@ class ViewTest(FixtureTestCase):
         data = response.json()
 
         self.assertEqual(data["responseCode"], 200)
+        self.assertGreater(data["count"], 0)
+        self.assertIn("matching source string", data["summary"])
         # We should find at least one string
         self.assertIn(
             '<a class="add-string',
@@ -384,6 +589,8 @@ class ViewTest(FixtureTestCase):
 
         data = response.json()
         self.assertEqual(data["responseCode"], 200)
+        self.assertEqual(data["count"], 0)
+        self.assertEqual(data["empty"], "No new matching source strings found.")
         self.assertNotIn('<a class="add-string', data["results"])
         self.assertIn(
             "Skipping OCR for unreadable screenshot",

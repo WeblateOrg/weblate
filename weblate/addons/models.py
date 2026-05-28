@@ -8,7 +8,6 @@ import logging
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
-import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
@@ -39,6 +38,7 @@ from weblate.trans.signals import (
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
+from weblate.utils.tracing import start_span
 
 from .base import BaseAddon
 from .defaults import (
@@ -536,8 +536,8 @@ def execute_addon_event(
             return
 
         try:
-            # Execute event in sentry span to track performance
-            with sentry_sdk.start_span(op=f"addon.{event.name}", name=addon.name):
+            # Execute event in tracing span to track performance.
+            with start_span(op=f"addon.{event.name}", name=addon.name):
                 log_result = getattr(addon.addon, method)(
                     *args, **kwargs, activity_log_id=activity_log.pk
                 )
@@ -691,12 +691,13 @@ def post_update(
     component: Component,
     previous_head: str,
     skip_push: bool = False,
+    parse_after_update: bool = False,
     **kwargs,
 ) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_UPDATE,
         "post_update",
-        (component, previous_head, skip_push),
+        (component, previous_head, skip_push, parse_after_update),
         component=component,
     )
 

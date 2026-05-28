@@ -4,9 +4,11 @@
 
 from django.conf import settings
 
-from weblate.auth.models import Group, TeamMembership, User
+from weblate.auth.forms import ProjectTeamForm, WorkspaceTeamForm
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.workspaces.models import Workspace
 
 
 class TeamsTest(FixtureTestCase):
@@ -69,6 +71,57 @@ class TeamsTest(FixtureTestCase):
         self.assertRedirects(response, group.get_absolute_url())
         group.refresh_from_db()
         self.assertEqual(group.name, "Other")
+
+    def test_project_team_form_roles(self) -> None:
+        global_role = Role.objects.create(name="Global project")
+        global_role.permissions.add(
+            Permission.objects.get(codename="project.add"),
+            Permission.objects.get(codename="translation.add"),
+        )
+        workspace_role = Role.objects.create(name="Workspace project")
+        workspace_role.permissions.add(
+            Permission.objects.get(codename="workspace.edit"),
+            Permission.objects.get(codename="translation.add"),
+        )
+
+        form = ProjectTeamForm(self.project)
+        roles = set(form.fields["roles"].queryset)
+
+        self.assertIn(Role.objects.get(name="Administration"), roles)
+        self.assertNotIn(global_role, roles)
+        self.assertNotIn(workspace_role, roles)
+        self.assertNotIn(Role.objects.get(name="Workspace administration"), roles)
+
+    def test_workspace_team_form_roles(self) -> None:
+        workspace = Workspace.objects.create(name="Workspace")
+        workspace_role = Role.objects.create(name="Custom workspace")
+        workspace_role.permissions.add(
+            Permission.objects.get(codename="workspace.edit")
+        )
+        global_role = Role.objects.create(name="Global workspace")
+        global_role.permissions.add(
+            Permission.objects.get(codename="workspace.edit"),
+            Permission.objects.get(codename="project.add"),
+        )
+        project_role = Role.objects.create(name="Project")
+        project_role.permissions.add(Permission.objects.get(codename="project.edit"))
+
+        form = WorkspaceTeamForm(workspace)
+        roles = set(form.fields["roles"].queryset)
+
+        self.assertIn(workspace_role, roles)
+        self.assertNotIn(global_role, roles)
+        self.assertNotIn(project_role, roles)
+
+    def test_workspace_internal_team_delete(self) -> None:
+        workspace = Workspace.objects.create(name="Workspace")
+        workspace.add_owner(self.user)
+        group = workspace.get_owners_group()
+
+        response = self.client.post(group.get_absolute_url(), {"delete": "1"})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Group.objects.filter(pk=group.pk).exists())
 
     def test_add_users(self) -> None:
         group = Group.objects.create(name="Test group", defining_project=self.project)

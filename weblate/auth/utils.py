@@ -163,7 +163,9 @@ def migrate_groups(
     """Create groups as defined in the data."""
     result: dict[str, Group] = {
         obj.name: obj
-        for obj in model.objects.filter(internal=True, defining_project=None)
+        for obj in model.objects.filter(
+            internal=True, defining_project=None, defining_workspace=None
+        )
     }
     for group, roles, selection in GROUPS:
         if group in result:
@@ -181,6 +183,7 @@ def migrate_groups(
                 name=group,
                 internal=True,
                 defining_project=None,
+                defining_workspace=None,
                 project_selection=selection,
                 language_selection=SELECTION_ALL,
             )

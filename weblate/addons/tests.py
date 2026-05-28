@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import base64
 import contextlib
+import importlib
 import json
 import os
 import re
@@ -23,6 +24,7 @@ from unittest.mock import patch
 import jsonschema.exceptions
 import requests
 import responses
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -35,6 +37,7 @@ from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
 from weblate.addons.forms import (
@@ -2323,6 +2326,155 @@ class GettextAddonTest(ViewTestCase):
 
         mocked_commit.assert_called_once_with("add-on", None)
 
+    def test_extract_pot_commit_parses_without_followup_parse(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.pending_successful_revisions[self.component.pk] = (
+            self.component.repository.last_revision
+        )
+
+        with (
+            patch.object(self.component.repository, "needs_commit", return_value=True),
+            patch.object(self.component, "commit_files") as mocked_commit,
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            committed = addon.commit_and_push(
+                self.component, files=["po/hello.pot"], skip_push=True
+            )
+
+        self.assertTrue(committed)
+        mocked_commit.assert_called_once()
+        mocked_parse.assert_called_once_with()
+
+    def test_extract_pot_commit_uses_followup_parse(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        addon.pending_successful_revisions[self.component.pk] = (
+            self.component.repository.last_revision
+        )
+
+        with (
+            patch.object(self.component.repository, "needs_commit", return_value=True),
+            patch.object(self.component, "commit_files") as mocked_commit,
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            committed = addon.commit_and_push(
+                self.component,
+                files=["po/hello.pot"],
+                skip_push=True,
+                parse_after_update=True,
+            )
+
+        self.assertTrue(committed)
+        mocked_commit.assert_called_once()
+        mocked_parse.assert_not_called()
+
+    def test_extract_pot_post_configure_parses_once_after_commit(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Thank you for using Weblate!")\n',
+            encoding="utf-8",
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        template = Path(self.component.get_new_base_filename())
+        template_content = template.read_text(encoding="utf-8").replace(
+            "Thank you for using Weblate.",
+            "Thank you for using Weblate!",
+        )
+
+        def run_process(component: Component, command: list[str]) -> str:
+            template.write_text(template_content, encoding="utf-8")
+            return ""
+
+        with (
+            patch.object(XgettextAddon, "run_process", side_effect=run_process),
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            addon.post_configure_run_component(self.component)
+
+        mocked_parse.assert_called_once_with()
+
+    def test_extract_pot_manual_parses_once_after_commit(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Thank you for using Weblate!")\n',
+            encoding="utf-8",
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        template = Path(self.component.get_new_base_filename())
+        template_content = template.read_text(encoding="utf-8").replace(
+            "Thank you for using Weblate.",
+            "Thank you for using Weblate!",
+        )
+
+        def run_process(component: Component, command: list[str]) -> str:
+            template.write_text(template_content, encoding="utf-8")
+            return ""
+
+        with (
+            patch.object(XgettextAddon, "run_process", side_effect=run_process),
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            addon.manual_component(self.component)
+
+        mocked_parse.assert_called_once_with()
+
+    def test_extract_pot_manual_does_not_parse_without_commit(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "execute_update", return_value=False),
+            patch.object(self.component, "create_translations") as mocked_parse,
+        ):
+            addon.manual_component(self.component)
+
+        mocked_parse.assert_not_called()
+
     def test_xgettext_uses_last_successful_revision_for_change_detection(self) -> None:
         addon = XgettextAddon.create(
             component=self.component,
@@ -3776,15 +3928,16 @@ msgstr ""
 
     def test_generate(self) -> None:
         self.assertTrue(GenerateFileAddon.can_install(component=self.component))
-        GenerateFileAddon.create(
-            component=self.component,
-            configuration={
-                "filename": "stats/{{ language_code }}.json",
-                "template": """{
+        with self.captureOnCommitCallbacks(execute=True):
+            GenerateFileAddon.create(
+                component=self.component,
+                configuration={
+                    "filename": "stats/{{ language_code }}.json",
+                    "template": """{
     "translated": {{ stats.translated_percent }}
 }""",
-            },
-        )
+                },
+            )
         commit = self.component.repository.show(self.component.repository.last_revision)
         # Verify file is created upon install
         self.assertIn("stats/cs.json", commit)
@@ -3793,7 +3946,8 @@ msgstr ""
         self.assertIn('"translated": 0', commit)
 
         # Verify file is updated upon edit
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("stats/cs.json", commit)
@@ -3894,18 +4048,21 @@ msgstr ""
 
     def test_read_only(self) -> None:
         self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
-        addon = FillReadOnlyAddon.create(component=self.component)
+        with self.captureOnCommitCallbacks(execute=True):
+            addon = FillReadOnlyAddon.create(component=self.component)
         for translation in self.component.translation_set.prefetch():
             if translation.is_source:
                 continue
             self.assertEqual(translation.stats.readonly, 0)
         unit = self.get_unit().source_unit
         unit.extra_flags = "read-only"
-        unit.save(same_content=True, update_fields=["extra_flags"])
+        with self.captureOnCommitCallbacks(execute=True):
+            unit.save(same_content=True, update_fields=["extra_flags"])
         for translation in self.component.translation_set.prefetch():
             if translation.is_source:
                 continue
-            translation.invalidate_cache()
+            with self.captureOnCommitCallbacks(execute=True):
+                translation.invalidate_cache()
             self.assertEqual(translation.stats.readonly, 1)
             unit = translation.unit_set.get(state=STATE_READONLY)
             self.assertEqual(unit.target, "")
@@ -5162,9 +5319,11 @@ class DiscoveryTest(ViewTestCase):
             "Generic preset: One folder per language [gettext PO file; no monolingual base]",
         )
 
-    def test_detected_ui_presets_are_not_shown_when_editing_existing_addon(
+    def test_ui_presets_are_not_shown_when_editing_existing_addon(
         self,
     ) -> None:
+        self.user.is_superuser = True
+        self.user.save()
         addon = DiscoveryAddon.create(
             component=self.component,
             configuration={
@@ -5189,7 +5348,17 @@ class DiscoveryTest(ViewTestCase):
             self.fail("Expected discovery form to be created")
         form = cast("DiscoveryForm", form)
         self.assertEqual(form.detected_ui_presets, [])
+        self.assertEqual(form.generic_ui_presets, [])
+        self.assertEqual(form.guided_presets, [])
+        self.assertEqual(form.guided_preset_sections, [])
         mocked.assert_not_called()
+
+        response = self.client.get(
+            reverse("addon-detail", kwargs={"pk": addon.instance.pk})
+        )
+        self.assertNotContains(response, "Guided presets")
+        self.assertNotContains(response, 'id="addon-discovery-presets"')
+        self.assertNotContains(response, "addon-ui-presets")
 
     def test_detected_ui_presets_skip_builtin_equivalent_matches(self) -> None:
         detected = [
@@ -5531,7 +5700,8 @@ class LanguageConsistencyTest(ComponentTestCase):
         )
 
         # Install consistency addon at top_category level
-        LanguageConsistencyAddon.create(category=top_category)
+        with self.captureOnCommitCallbacks(execute=True):
+            LanguageConsistencyAddon.create(category=top_category)
 
         # comp_nested should gain languages from comp_top (they share the category tree)
         nested_langs_after = set(
@@ -5618,7 +5788,8 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.assertEqual(Translation.objects.count(), 10)
 
         # Installation should make languages consistent
-        addon = LanguageConsistencyAddon.create(project=self.project)
+        with self.captureOnCommitCallbacks(execute=True):
+            addon = LanguageConsistencyAddon.create(project=self.project)
         self.component.drop_addons_cache()
         self.assertEqual(Translation.objects.count(), 12)
 
@@ -5639,7 +5810,8 @@ class LanguageConsistencyTest(ComponentTestCase):
 
         # Add one language
         language = Language.objects.get(code="af")
-        self.component.add_new_language(language, None)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_new_language(language, None)
         self.assertEqual(
             Translation.objects.filter(
                 language=language, component__project=self.component.project
@@ -5797,6 +5969,38 @@ class GitSquashAddonTest(ViewTestCase):
         )
         self.assertIn(expected_trailers, commit)
         self.assertEqual(self.component.repository.count_outgoing(), 1)
+
+
+class CleanupPeriodicTaskMigrationTest(TestCase):
+    def setUp(self) -> None:
+        self.interval = IntervalSchedule.objects.create(
+            every=1, period=IntervalSchedule.HOURS
+        )
+
+    def add_periodic_task(self, name: str, task: str) -> PeriodicTask:
+        return PeriodicTask.objects.create(name=name, task=task, interval=self.interval)
+
+    def test_obsolete_cleanup_periodic_tasks_are_removed(self) -> None:
+        migration = importlib.import_module(
+            "weblate.addons.migrations.0020_remove_obsolete_cleanup_tasks"
+        )
+
+        self.add_periodic_task(
+            "cleanup-old-comments", "weblate.trans.tasks.cleanup_old_comments"
+        )
+        self.add_periodic_task(
+            "renamed-old-suggestions",
+            "weblate.trans.tasks.cleanup_old_suggestions",
+        )
+        self.add_periodic_task("heartbeat", "weblate.utils.tasks.heartbeat")
+        PeriodicTasks.objects.all().delete()
+
+        migration.remove_obsolete_cleanup_tasks(apps, None)
+
+        self.assertEqual(
+            list(PeriodicTask.objects.values_list("name", flat=True)), ["heartbeat"]
+        )
+        self.assertTrue(PeriodicTasks.objects.exists())
 
 
 class TestRemoval(ComponentTestCase):
@@ -6197,23 +6401,27 @@ class AutoTranslateAddonTest(ComponentTestCase):
             },
         )
         for component in (component_1, component_2):
-            component.source_translation.add_unit(
-                None, context="", source="one", target=None, author=self.user
-            )
+            with self.captureOnCommitCallbacks(execute=True):
+                component.source_translation.add_unit(
+                    None, context="", source="one", target=None, author=self.user
+                )
 
         translation_1 = component_1.translation_set.get(language_code="cs")
         unit_1 = translation_1.unit_set.get(source="one")
-        unit_1.translate(self.user, "jeden", STATE_TRANSLATED)
+        with self.captureOnCommitCallbacks(execute=True):
+            unit_1.translate(self.user, "jeden", STATE_TRANSLATED)
 
         translation_2 = component_2.translation_set.get(language_code="cs")
         unit_2 = translation_2.unit_set.get(source="one")
-        Comment.objects.create(unit=unit_2, comment="Foo")
+        with self.captureOnCommitCallbacks(execute=True):
+            Comment.objects.create(unit=unit_2, comment="Foo")
         change = unit_2.change_set.latest("timestamp")
         change.user = None
         change.author = None
         change.save(update_fields=["user", "author"])
 
-        addon_change.run([change.pk])
+        with self.captureOnCommitCallbacks(execute=True):
+            addon_change.run([change.pk])
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
@@ -6579,7 +6787,8 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertTrue(os.path.isfile(jsname))
 
         # Translate some content
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.component.commit_pending("test", None)
 
         # Check translation files
@@ -6589,7 +6798,8 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
 
         translation = self.get_translation()
-        translation.remove(self.user)
+        with self.captureOnCommitCallbacks(execute=True):
+            translation.remove(self.user)
         self.assertNotIn('"cs"', Path(jsname).read_text(encoding="utf-8"))
         self.assertFalse(os.path.isfile(addon.cdn_path("cs.json")))
 
@@ -7246,13 +7456,15 @@ class BaseWebhookTests:
             responses_kwargs |= {"status": response_code}
         responses.add(responses.POST, self.WEBHOOK_URL, **responses_kwargs)
 
-        self.edit_unit(
-            "Hello, world!\n", "Nazdar svete!\n"
-        )  # triggers ActionEvents.NEW event
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Hello, world!\n", "Nazdar svete!\n"
+            )  # triggers ActionEvents.NEW event
         unit_to_delete = self.get_unit("Orangutan has %d banana")
-        self.translation.delete_unit(
-            None, unit_to_delete
-        )  # triggers ActionEvents.STRING_REMOVE event
+        with self.captureOnCommitCallbacks(execute=True):
+            self.translation.delete_unit(
+                None, unit_to_delete
+            )  # triggers ActionEvents.STRING_REMOVE event
         self.assertEqual(self.count_requests(), expected_calls)
 
     @responses.activate
@@ -7272,7 +7484,8 @@ class BaseWebhookTests:
         responses.add(responses.POST, self.WEBHOOK_URL, status=200)
 
         # create translation for unit and similar units across project
-        self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
         self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
@@ -7281,7 +7494,8 @@ class BaseWebhookTests:
         self.addon_configuration["events"].append(ActionEvents.CHANGE)
         self.do_translation_added_test(response_code=200)
         self.reset_calls()
-        self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
         self.assertEqual(self.count_requests(), 1)
 
     @responses.activate
@@ -7294,14 +7508,16 @@ class BaseWebhookTests:
         )
 
         self.reset_calls()
-        Announcement.objects.create(user=self.user, message="Site-wide")
+        with self.captureOnCommitCallbacks(execute=True):
+            Announcement.objects.create(user=self.user, message="Site-wide")
         # Only site-wide add-on should receive this
         self.assertEqual(self.count_requests(), 1)
 
         self.reset_calls()
-        Announcement.objects.create(
-            user=self.user, message="Project-wide", project=self.project
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            Announcement.objects.create(
+                user=self.user, message="Project-wide", project=self.project
+            )
         # Both site-wide and project-wide add-ons should receive this
         self.assertEqual(self.count_requests(), 2)
 
@@ -7328,12 +7544,16 @@ class BaseWebhookTests:
         translation1.unit_set.filter(source="Thank you for using Weblate.").delete()
         translation2.unit_set.filter(source="Hello, world!\n").delete()
 
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation1)
-        self.edit_unit(
-            "Thank you for using Weblate.",
-            "Díky za používání Weblate.",
-            translation=translation2,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Hello, world!\n", "Nazdar svete!\n", translation=translation1
+            )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Thank you for using Weblate.",
+                "Díky za používání Weblate.",
+                translation=translation2,
+            )
 
         self.assertEqual(len(resp1.calls), 1)
         self.assertEqual(len(resp2.calls), 1)
@@ -7370,13 +7590,20 @@ class BaseWebhookTests:
         translation_a1.unit_set.filter(source="Thank you for using Weblate.").delete()
         translation_a2.unit_set.filter(source="Hello, world!\n").delete()
 
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_a1)
-        self.edit_unit(
-            "Thank you for using Weblate.",
-            "Díky za používání Weblate.",
-            translation=translation_a2,
-        )
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_b1)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Hello, world!\n", "Nazdar svete!\n", translation=translation_a1
+            )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Thank you for using Weblate.",
+                "Díky za používání Weblate.",
+                translation=translation_a2,
+            )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Hello, world!\n", "Nazdar svete!\n", translation=translation_b1
+            )
 
         self.assertEqual(len(resp_a.calls), 2)
         self.assertEqual(len(resp_b.calls), 1)
@@ -7394,8 +7621,14 @@ class BaseWebhookTests:
 
         translation_a1 = self.get_translation()
         translation_b1 = component_b1.translation_set.get(language__code="cs")
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_a1)
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_b1)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Hello, world!\n", "Nazdar svete!\n", translation=translation_a1
+            )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Hello, world!\n", "Nazdar svete!\n", translation=translation_b1
+            )
 
         self.assertEqual(self.count_requests(), 2)
 
@@ -7665,15 +7898,16 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.component.save()
 
         responses.add(responses.POST, "https://example.com/webhooks", status=200)
-        self.client.post(
-            reverse("rename", kwargs={"path": self.component.get_url_path()}),
-            {
-                "name": "New name",
-                "slug": "new-name",
-                "project": self.project.pk,
-                "category": sub_category.pk,
-            },
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(
+                reverse("rename", kwargs={"path": self.component.get_url_path()}),
+                {
+                    "name": "New name",
+                    "slug": "new-name",
+                    "project": self.project.pk,
+                    "category": sub_category.pk,
+                },
+            )
 
         request_body = json.loads(cast("bytes", responses.calls[0].request.body))
         self.assertIn("child-category", request_body["category"])
@@ -7688,7 +7922,8 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
     def test_private_webhook_target_is_blocked(self, mocked_getaddrinfo) -> None:
         self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
 
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
         mocked_getaddrinfo.assert_called_once()
         self.assertEqual(mocked_getaddrinfo.call_args.args[0], "example.com")

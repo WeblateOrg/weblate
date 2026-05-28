@@ -21,7 +21,12 @@ from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.trans.alerts.base import AlertSeverity
-from weblate.trans.forms import CountsReportsForm, ReportsForm, SearchForm
+from weblate.trans.forms import (
+    CostEstimateReportsForm,
+    CountsReportsForm,
+    ReportsForm,
+    SearchForm,
+)
 from weblate.trans.models import Alert, Component, ComponentList, Project, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
@@ -338,6 +343,7 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
             "active_tab_slug": active_tab_slug,
             "reports_form": ReportsForm({}),
             "reports_count_form": CountsReportsForm({}),
+            "reports_cost_form": CostEstimateReportsForm({}),
             "all_owned_projects": owned,
             "owned_projects": prefetch_project_flags(prefetch_stats(owned[:10])),
         },

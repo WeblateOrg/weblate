@@ -84,10 +84,11 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, "Start new translation")
         self.assertContains(response, "/new-lang/")
 
-        response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component),
-            {"lang": "af"},
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("new-language", kwargs=self.kw_component),
+                {"lang": "af"},
+            )
         self.assertRedirects(response, self.component.get_absolute_url())
 
         # Verify mail
@@ -109,9 +110,10 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, "/new-lang/")
 
         lang = {"lang": "af"}
-        response = self.client.post(
-            reverse("new-language", kwargs=self.kw_component), lang, follow=True
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("new-language", kwargs=self.kw_component), lang, follow=True
+            )
         translation = self.component.translation_set.get(language__code="af")
         self.assertRedirects(response, translation.get_absolute_url())
 

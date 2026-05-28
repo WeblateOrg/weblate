@@ -18,7 +18,7 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.data import GLOBAL_PERM_NAMES, SELECTION_MANUAL
+from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -36,6 +36,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import (
         AuthenticatedHttpRequest,
     )
+    from weblate.workspaces.models import Workspace
 
 
 @dataclass
@@ -506,12 +507,18 @@ class BaseTeamForm(forms.ModelForm):
                         {field: gettext("Cannot change this on a built-in team.")}
                     )
 
-    def save(self, commit=True, project=None):
+    def save(self, commit=True, project=None, workspace: Workspace | None = None):
         if not commit:
             return super().save(commit=commit)
         if project:
             self.instance.defining_project = project
+            self.instance.defining_workspace = None
             self.instance.project_selection = SELECTION_MANUAL
+        if workspace:
+            self.instance.defining_project = None
+            self.instance.defining_workspace = workspace
+            self.instance.project_selection = SELECTION_MANUAL
+            self.instance.language_selection = SELECTION_MANUAL
 
         self.instance.save()
 
@@ -531,10 +538,27 @@ class ProjectTeamForm(BaseTeamForm):
     def __init__(self, project, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["components"].queryset = project.component_set.order()
-        # Exclude site-wide permissions here
-        self.fields["roles"].queryset = Role.objects.exclude(
-            permissions__codename__in=GLOBAL_PERM_NAMES
+        self.fields["roles"].queryset = Role.objects.assignable_to_project_team()
+
+
+class WorkspaceTeamForm(BaseTeamForm):
+    class Meta:
+        model = Group
+        fields = (
+            "name",
+            "roles",
+            "enforced_2fa",
         )
+
+    internal_fields = ("name",)
+
+    def __init__(self, workspace: Workspace, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.workspace = workspace
+        self.fields["roles"].queryset = Role.objects.assignable_to_workspace_team()
+
+    def save(self, commit=True, project=None, workspace: Workspace | None = None):
+        return super().save(commit=commit, workspace=workspace or self.workspace)
 
 
 class SitewideTeamForm(BaseTeamForm):

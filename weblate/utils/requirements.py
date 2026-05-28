@@ -72,6 +72,7 @@ OPTIONAL = [
     "boto3",
     "aeidon",
     "iniparse",
+    "google-cloud-error-reporting",
     "google-cloud-translate",
     "openai",
 ]

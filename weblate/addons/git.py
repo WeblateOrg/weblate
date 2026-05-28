@@ -302,7 +302,9 @@ class GitSquashAddon(
             if component.repo_needs_merge():
                 try:
                     branch_updated = component.update_branch(
-                        method="rebase", skip_push=True
+                        method="rebase",
+                        skip_push=True,
+                        parse_after_update=True,
                     )
                 except RepositoryError:
                     return

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os.path
-from contextlib import suppress
+from contextlib import nullcontext, suppress
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from functools import partial
@@ -19,7 +19,12 @@ from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models, transaction
 from django.db.models import Min, Prefetch, Q
-from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
+from django.db.models.signals import (
+    post_delete,
+    post_save,
+    pre_delete,
+    pre_save,
+)
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
@@ -43,7 +48,9 @@ from weblate.utils.stats import prefetch_stats
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
+    from uuid import UUID
 
+    from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
     from weblate.vcs.base import CommitInfo
@@ -175,12 +182,20 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
         if user.has_perm("billing.manage"):
             billings = self.all()
         else:
-            billings = self.filter(owners=user).distinct()
+            billings = self.filter(
+                workspace__in=user.workspaces_with_perm("workspace.edit")
+            ).distinct()
         return billings.order_by("state")
 
     def for_user_within_limits(self, user: User):
         """Return billings for the given user which are valid and within project creation limits."""
-        billings = self.get_valid().for_user(user).prefetch()
+        if user.has_perm("billing.manage"):
+            billings = self.get_valid()
+        else:
+            billings = self.get_valid().filter(
+                workspace__in=user.workspaces_with_perm("workspace.add_project")
+            )
+        billings = billings.distinct().prefetch()
         pks = set()
         for billing in billings:
             limit = billing.plan.display_limit_projects
@@ -189,12 +204,9 @@ class BillingQuerySet(models.QuerySet["Billing", "Billing"]):
         return Billing.objects.filter(pk__in=pks).prefetch()
 
     def prefetch(self):
-        return self.prefetch_related(
-            "owners",
-            "owners__profile",
-            "plan",
+        return self.select_related("plan", "workspace").prefetch_related(
             Prefetch(
-                "projects",
+                "workspace__projects",
                 queryset=Project.objects.order(),
                 to_attr="ordered_projects",
             ),
@@ -217,11 +229,18 @@ class Billing(models.Model):
         on_delete=models.deletion.CASCADE,
         verbose_name=gettext_lazy("Billing plan"),
     )
-    projects = models.ManyToManyField(
-        Project, blank=True, verbose_name=gettext_lazy("Billed projects")
+    workspace = models.OneToOneField(
+        "workspaces.Workspace",
+        on_delete=models.PROTECT,
+        related_name="billing",
+        verbose_name=gettext_lazy("Workspace"),
+        editable=False,
     )
-    owners = models.ManyToManyField(
-        User, blank=True, verbose_name=gettext_lazy("Billing owners")
+    customer_name = models.CharField(
+        blank=True,
+        default="",
+        max_length=200,
+        verbose_name=gettext_lazy("Customer name"),
     )
     state = models.IntegerField(
         choices=(
@@ -308,18 +327,21 @@ class Billing(models.Model):
     }
 
     def __str__(self) -> str:
-        projects = self.projects_display
-        owners = self.owners.order()
-        if projects:
+        if self.customer_name:
+            base = self.customer_name
+        elif projects := self.projects_display:
             base = projects
-        elif owners:
-            base = format_html_join_comma(
-                "{}", list_to_tuples(x.get_visible_name() for x in owners)
-            )
+        elif self.workspace_id:
+            base = self.workspace.name
         else:
             base = "Unassigned"
         trial = ", trial" if self.is_trial else ""
         return f"{base} ({self.plan}{trial})"
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.billing_original_workspace_id = self.workspace_id
+        self.billing_original_customer_name = self.customer_name
 
     # pylint: disable-next=arguments-differ
     def save(
@@ -330,28 +352,154 @@ class Billing(models.Model):
         update_fields=None,
         skip_limits=False,
     ) -> None:
-        if (
-            not skip_limits
-            and self.pk
-            and self.check_limits(save=False)
-            and update_fields
-        ):
-            update_fields = set(update_fields)
-            update_fields.update(("state", "expiry", "removal", "paid", "in_limits"))
-
-        super().save(
-            force_insert=force_insert,
-            force_update=force_update,
-            using=using,
-            update_fields=update_fields,
+        self.validate_workspace()
+        create_workspace = self.workspace_id is None
+        customer_name_saved = update_fields is None or "customer_name" in update_fields
+        workspace_name_changed = (
+            self.pk is not None
+            and self.workspace_id is not None
+            and customer_name_saved
+            and self.customer_name != self.billing_original_customer_name
         )
+        context = transaction.atomic(using=using) if create_workspace else nullcontext()
+
+        with context:
+            if create_workspace:
+                self.ensure_workspace(using=using)
+                if update_fields is not None:
+                    update_fields = {*update_fields, "workspace"}
+
+            if (
+                not skip_limits
+                and self.pk
+                and self.check_limits(save=False)
+                and update_fields
+            ):
+                update_fields = set(update_fields)
+                update_fields.update(
+                    ("state", "expiry", "removal", "paid", "in_limits")
+                )
+
+            super().save(
+                force_insert=force_insert,
+                force_update=force_update,
+                using=using,
+                update_fields=update_fields,
+            )
+            self.billing_original_workspace_id = self.workspace_id
+            if workspace_name_changed:
+                self.update_workspace_name(using=using)
+            if customer_name_saved:
+                self.billing_original_customer_name = self.customer_name
 
     def get_absolute_url(self) -> str:
         return reverse("billing-detail", kwargs={"pk": self.pk})
 
+    def validate_workspace(self) -> None:
+        if not self.pk:
+            return
+        if self.billing_original_workspace_id == self.workspace_id:
+            return
+        msg = gettext("Billing workspace can not be changed.")
+        raise ValidationError({"workspace": msg})
+
+    def get_default_workspace_name(self, using=None) -> str:
+        from weblate.workspaces.models import WORKSPACE_NAME_LENGTH  # noqa: PLC0415
+
+        if self.customer_name:
+            name = self.customer_name
+        elif self.workspace_id:
+            name = self.workspace.name
+        else:
+            name = gettext("Billing")
+        return name[:WORKSPACE_NAME_LENGTH]
+
+    def update_workspace_name(self, using=None) -> None:
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
+        name = self.get_default_workspace_name(using=using)
+        objects = Workspace.objects
+        database = using or self._state.db
+        if database is not None:
+            objects = objects.db_manager(database)
+        updated = (
+            objects.filter(pk=self.workspace_id, name_managed=True)
+            .exclude(name=name)
+            .update(name=name)
+        )
+        if updated and "workspace" in self._state.fields_cache:
+            self.workspace.name = name
+            self.workspace.workspace_original_name = name
+
+    def ensure_workspace(self, using=None) -> None:
+        if self.workspace_id:
+            return
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
+        objects = Workspace.objects
+        database = using or self._state.db
+        if database is not None:
+            objects = objects.db_manager(database)
+        self.workspace = objects.create(
+            name=self.get_default_workspace_name(using=using),
+            name_managed=True,
+        )
+
+    def add_project(self, project: Project) -> None:
+        self._set_project_workspace(project, allow_workspace_change=False)
+
+    def transfer_project(self, project: Project) -> None:
+        self._set_project_workspace(project, allow_workspace_change=True)
+
+    def _set_project_workspace(
+        self, project: Project, *, allow_workspace_change: bool
+    ) -> None:
+        if self.pk is None:
+            msg = gettext("Billing needs to be saved before assigning projects.")
+            raise ValidationError(msg)
+        self.ensure_workspace()
+        if (
+            not allow_workspace_change
+            and project.workspace_id
+            and project.workspace_id != self.workspace_id
+        ):
+            msg = gettext("Project already belongs to another workspace.")
+            raise ValidationError(msg)
+        if project.pk is None:
+            msg = gettext("Project needs to be saved before assigning it to billing.")
+            raise ValidationError(msg)
+        previous_workspace_id = project.workspace_id
+        project_objects = Project.objects
+        database = self._state.db
+        if database is not None:
+            project_objects = project_objects.db_manager(database)
+        if not project_objects.filter(pk=project.pk).update(workspace=self.workspace):
+            raise Project.DoesNotExist
+        project.workspace = self.workspace
+        project.billing_original_workspace_id = self.workspace_id
+        for key in ("billings", "paid", "is_trial", "is_libre_trial"):
+            project.__dict__.pop(key, None)
+        if previous_workspace_id and previous_workspace_id != self.workspace_id:
+            billing_objects = Billing.objects
+            if database is not None:
+                billing_objects = billing_objects.db_manager(database)
+            for billing in billing_objects.filter(workspace_id=previous_workspace_id):
+                billing.check_limits()
+        self.check_limits()
+        self.flush_cache()
+
+    def get_projects_queryset(self) -> QuerySet[Project, Project]:
+        if not self.workspace_id:
+            return Project.objects.none()
+        return self.workspace.projects.order()
+
     @cached_property
     def ordered_projects(self):
-        return self.projects.order()
+        if not self.workspace_id:
+            return Project.objects.none()
+        if hasattr(self.workspace, "ordered_projects"):
+            return self.workspace.ordered_projects
+        return self.get_projects_queryset()
 
     @cached_property
     def all_projects(self):
@@ -432,10 +580,10 @@ class Billing(models.Model):
         return f"{self.count_languages} / {self.plan.display_limit_languages}"
 
     def flush_cache(self) -> None:
-        keys = list(self.__dict__.keys())
-        for key in keys:
-            if key.startswith("count_"):
-                del self.__dict__[key]
+        for cls in type(self).mro():
+            for key, value in cls.__dict__.items():
+                if isinstance(value, cached_property):
+                    self.__dict__.pop(key, None)
 
     def check_in_limits(self, plan=None):
         if plan is None:
@@ -555,10 +703,10 @@ class Billing(models.Model):
     def update_alerts(self) -> None:
         if self.in_limits:
             Alert.objects.filter(
-                component__project__in=self.projects.all(), name="BillingLimit"
+                component__project__in=self.get_projects_queryset(), name="BillingLimit"
             ).delete()
         else:
-            for project in self.projects.iterator():
+            for project in self.get_projects_queryset().iterator():
                 for component in project.component_set.iterator():
                     component.add_alert("BillingLimit")
 
@@ -566,7 +714,9 @@ class Billing(models.Model):
         return self.state in Billing.ACTIVE_STATES
 
     def get_notify_users(self):
-        return self.owners.all()
+        return self.workspace.users_with_permission("workspace.edit").select_related(
+            "profile"
+        )
 
     @staticmethod
     def _get_commit_date(commit: CommitInfo | None) -> datetime | None:
@@ -616,7 +766,7 @@ class Billing(models.Model):
         latest_commit = None
         has_upstream_component = False
 
-        for project in self.projects.all():
+        for project in self.get_projects_queryset():
             project_latest = None
             for component in self._get_project_repo_components(project):
                 has_upstream_component = True
@@ -636,7 +786,7 @@ class Billing(models.Model):
         return latest_commit
 
     def _get_project_ids(self) -> list[int]:
-        return [project.id for project in self.projects.all()]
+        return list(self.get_projects_queryset().values_list("id", flat=True))
 
     def get_oldest_pending_weblate_change(self) -> datetime | None:
         """Return oldest pending Weblate change in billed projects."""
@@ -1048,15 +1198,62 @@ class BillingLog(models.Model):
         return f"{self.timestamp.isoformat()}: {self.billing}: {self.get_event_display()} {self.summary}"
 
 
+@receiver(pre_save, sender=Project)
+@disable_for_loaddata
+def record_project_billing_workspace(
+    sender, instance: Project, using=None, update_fields=None, **kwargs
+) -> None:
+    if update_fields is not None and not {"workspace", "workspace_id"} & set(
+        update_fields
+    ):
+        instance.billing_previous_workspace_id = None
+        return
+    if not instance.pk:
+        instance.billing_previous_workspace_id = None
+        return
+
+    workspace_id = instance.workspace_id
+    previous_workspace_id = getattr(
+        instance, "billing_original_workspace_id", workspace_id
+    )
+    if previous_workspace_id == workspace_id:
+        previous_workspace_id = None
+    instance.billing_previous_workspace_id = previous_workspace_id
+
+
+def get_project_billings(
+    project: Project, *, using=None, include_previous=False
+) -> QuerySet[Billing, Billing]:
+    objects = Billing.objects
+    if using is not None:
+        objects = objects.db_manager(using)
+    workspace_ids: set[UUID] = set()
+    if project.workspace_id is not None:
+        workspace_ids.add(project.workspace_id)
+    if include_previous:
+        previous_workspace_id = getattr(project, "billing_previous_workspace_id", None)
+        if previous_workspace_id is not None:
+            workspace_ids.add(previous_workspace_id)
+    if not workspace_ids:
+        return objects.none()
+    return objects.filter(workspace_id__in=workspace_ids)
+
+
 @receiver(post_save, sender=Component)
 @receiver(post_save, sender=Project)
 @receiver(post_save, sender=Plan)
 @disable_for_loaddata
-def update_project_bill(sender, instance, **kwargs) -> None:
+def update_project_bill(sender, instance, using=None, **kwargs) -> None:
     if isinstance(instance, Component):
-        instance = instance.project
-    for billing in instance.billing_set.all():
+        billings = get_project_billings(instance.project, using=using)
+    elif isinstance(instance, Project):
+        billings = get_project_billings(instance, using=using, include_previous=True)
+    else:
+        billings = instance.billing_set.all()
+    for billing in billings:
         billing.check_limits()
+    if isinstance(instance, Project):
+        instance.billing_original_workspace_id = instance.workspace_id
 
 
 @receiver(pre_delete, sender=Project)
@@ -1079,24 +1276,23 @@ def record_project_bill(
     # terminate billing for removed project
     if isinstance(instance, Project):
         users = User.objects.having_perm("project.edit", instance)
-        for billing in instance.billing_set.all():
+        for billing in instance.billings:
             # Do the owners sync only for the last project
-            if billing.projects.exclude(pk=instance.pk).exists():
+            if billing.get_projects_queryset().exclude(pk=instance.pk).exists():
                 continue
-            # Add project admins to the billing
-            existing_owners = set(billing.owners.values_list("id", flat=True))
+            # Keep workspace access when the last project in a billing is removed.
+            owners_group = billing.workspace.get_owners_group()
+            existing_owners = set(owners_group.user_set.values_list("id", flat=True))
             for user in users:
                 if user.id in existing_owners:
                     continue
-                billing.owners.add(user)
+                user.add_team(None, owners_group)
                 billing.billinglog_set.create(
                     event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username
                 )
 
     # Collect billings to update for delete_project_bill
-    instance.billings_to_update = list(
-        instance.billing_set.values_list("pk", flat=True)
-    )
+    instance.billings_to_update = [billing.pk for billing in instance.billings]
 
 
 @receiver(post_delete, sender=Project)
@@ -1127,14 +1323,6 @@ def delete_project_bill(
 @disable_for_loaddata
 def update_invoice_bill(sender, instance, **kwargs) -> None:
     instance.billing.check_limits()
-
-
-@receiver(m2m_changed, sender=Billing.projects.through)
-@disable_for_loaddata
-def change_billing_projects(sender, instance, action, **kwargs) -> None:
-    if not action.startswith("post_"):
-        return
-    instance.check_limits()
 
 
 class WeblateConf(AppConf):
