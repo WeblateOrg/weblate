@@ -61,6 +61,21 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, visible.name)
         self.assertNotContains(response, hidden.name, status_code=200)
 
+    def test_workspace_project_sort_does_not_affect_search_sort(self) -> None:
+        workspace = Workspace.objects.create(name="Test workspace")
+        self.create_project(
+            workspace,
+            name="Visible project",
+            slug="visible-project",
+        )
+
+        response = self.client.get(workspace.get_absolute_url(), {"sort_by": "name"})
+
+        self.assertEqual(response.context["projects"].paginator.sort_by, "name")
+        self.assertEqual(
+            response.context["search_form"].sort_query, "component,-priority"
+        )
+
     def test_workspace_without_accessible_projects_is_not_visible(self) -> None:
         workspace = Workspace.objects.create(name="Private workspace")
         self.create_project(

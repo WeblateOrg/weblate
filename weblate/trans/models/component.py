@@ -426,7 +426,7 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
-            result = result.filter(project__in=user.allowed_projects)
+            result = result.filter(user.get_project_access_query("project"))
         if user.needs_component_restrictions_filter:
             result = result.filter(
                 Q(restricted=False) | Q(id__in=user.component_permissions)

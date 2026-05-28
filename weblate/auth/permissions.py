@@ -453,12 +453,18 @@ def check_unit_review(
     | Component
     | ProjectLanguage
     | Category
-    | Project,
+    | Project
+    | Workspace,
     *,
     skip_enabled: bool = False,
 ) -> bool | PermissionResult:
     if isinstance(obj, Unit):
         obj = obj.translation
+    if isinstance(obj, Workspace):
+        return any(
+            check_unit_review(user, permission, project, skip_enabled=skip_enabled)
+            for project in user.allowed_projects.filter(workspace=obj)
+        )
     if not skip_enabled:
         if isinstance(obj, Translation):
             if obj.is_readonly:
@@ -486,7 +492,7 @@ def check_unit_review(
 def check_edit_approved(
     user: User,
     permission: str,
-    obj: Unit | Translation | Component | Project | ProjectLanguage,
+    obj: Unit | Translation | Component | Project | ProjectLanguage | Workspace,
 ) -> bool | PermissionResult:
     component = None
     if isinstance(obj, Unit):
@@ -510,6 +516,11 @@ def check_edit_approved(
                     "Only reviewers can change approved strings. Please add a suggestion if you think the string should be changed."
                 )
             )
+    if isinstance(obj, Workspace):
+        return any(
+            check_edit_approved(user, permission, project)
+            for project in user.allowed_projects.filter(workspace=obj)
+        )
     if isinstance(obj, Translation):
         component = obj.component
         if obj.is_readonly:
@@ -618,10 +629,16 @@ def check_autotranslate(
     | CategoryLanguage
     | Component
     | ProjectLanguage
-    | Project,
+    | Project
+    | Workspace,
 ) -> bool | PermissionResult:
     if isinstance(translation, Unit):
         translation = translation.translation
+    if isinstance(translation, Workspace):
+        return any(
+            check_autotranslate(user, permission, project)
+            for project in user.allowed_projects.filter(workspace=translation)
+        )
     if isinstance(translation, Translation) and (
         (translation.is_source and not translation.component.intermediate)
         or translation.is_readonly

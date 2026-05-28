@@ -331,7 +331,7 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
     def filter_projects(self, user: User) -> Self:
         if not user.needs_project_filter:
             return self
-        return self.filter(project__in=user.allowed_projects)
+        return self.filter(user.get_project_access_query("project"))
 
     def lookup_project_rename(self, name: str) -> Project | None:
         lookup = cache.get(CHANGE_PROJECT_LOOKUP_KEY)
@@ -439,7 +439,8 @@ class ChangeManager(models.Manager["Change"]):
                 result = cast(
                     "ChangeQuerySet",
                     result.filter(
-                        Q(project__isnull=True) | Q(project__in=user.allowed_projects)
+                        Q(project__isnull=True)
+                        | user.get_project_access_query("project")
                     ),
                 )
             result = result.filter_components(user)
