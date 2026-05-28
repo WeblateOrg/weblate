@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-28 04:09-0500\n"
-"PO-Revision-Date: 2026-05-28 13:49+0000\n"
+"PO-Revision-Date: 2026-05-28 15:54+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -3465,7 +3465,7 @@ msgstr "Mitteilungen löschen"
 #. Translators: Permission name
 #: weblate/auth/data.py:119
 msgid "Edit workspace settings"
-msgstr "Arbeitsbereicheinstellungen bearbeiten"
+msgstr "Arbeitsbereich-Einstellungen bearbeiten"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
@@ -19850,10 +19850,8 @@ msgid "This language is used for source strings."
 msgstr "Diese Sprache wird für Ausgangszeichenketten verwendet."
 
 #: weblate/trans/templatetags/translations.py:1122
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Fix this component to clear its diagnostics."
-msgstr "Korrigieren Sie diese Komponente, um ihre Warnungen zu löschen."
+msgstr "Korrigieren Sie diese Komponente, um die Diagnose zu löschen."
 
 #: weblate/trans/templatetags/translations.py:1127
 #: weblate/trans/templatetags/translations.py:1146
@@ -19865,10 +19863,8 @@ msgid "Updating translation component…"
 msgstr "Übersetzungskomponente wird aktualisiert …"
 
 #: weblate/trans/templatetags/translations.py:1141
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some of the components within this project have diagnostics."
-msgstr "Einige Komponenten in diesem Projekt enthalten Warnungen."
+msgstr "Einige Komponenten in diesem Projekt enthalten Diagnosen."
 
 #: weblate/trans/templatetags/translations.py:1170
 msgid "You administrate this project."
@@ -20250,9 +20246,7 @@ msgid "Changes in %s"
 msgstr "Änderungen in %s"
 
 #: weblate/trans/views/changes.py:87
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Änderungen in %s"
@@ -20264,10 +20258,8 @@ msgstr ""
 "überprüfen."
 
 #: weblate/trans/views/create.py:120
-#, fuzzy
-#| msgid "Fetching VCS repository from %s is not allowed."
 msgid "Creating a project without a workspace is not allowed."
-msgstr "Abruf des VCS-Repositorys von %s ist nicht erlaubt."
+msgstr "Das Erstellen eines Projekts ohne Arbeitsbereich ist nicht zulässig."
 
 #: weblate/trans/views/create.py:243
 msgid "Project backup import in progress"
@@ -20443,16 +20435,12 @@ msgstr ""
 "Übersetzung überein."
 
 #: weblate/trans/views/git.py:41
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
-"Die Zeichenkette konnte nicht entfernt werden, da ein anderer "
-"Hintergrundvorgang läuft. Bitte später erneut versuchen."
+"Es scheint eine laufende Operation im Repository zu geben. Bitte später "
+"erneut versuchen."
 
 #: weblate/trans/views/git.py:65
 msgid ""
@@ -20512,37 +20500,28 @@ msgid "Repetitions"
 msgstr "Wiederholungen"
 
 #: weblate/trans/views/reports.py:80
-#, fuzzy
-#| msgid "Example matched files"
 msgid "Exact matches"
-msgstr "Beispiel für übereinstimmende Dateien"
+msgstr "Genaue Übereinstimmungen"
 
 #: weblate/trans/views/reports.py:81
-#, fuzzy
-#| msgid "Use fuzzy matching"
 msgid "Fuzzy matches"
-msgstr "Fuzzy-Matching verwenden"
+msgstr "Ungenaue Übereinstimmungen"
 
 #: weblate/trans/views/reports.py:83
-#, fuzzy
-#| msgid "New string"
 msgid "New strings"
-msgstr "Neue Zeichenkette"
+msgstr "Neue Zeichenketten"
 
 #: weblate/trans/views/reports.py:252
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "Source characters"
-msgstr "Gehostete Zeichen"
+msgstr "Ausgangszeichen"
 
 #: weblate/trans/views/reports.py:253
 msgid "Rate"
-msgstr ""
+msgstr "Rate"
 
 #: weblate/trans/views/reports.py:254
 msgid "Cost"
-msgstr ""
+msgstr "Kosten"
 
 #: weblate/trans/views/search.py:124
 msgid "Search and replace completed, no strings were updated."
@@ -20637,10 +20616,8 @@ msgstr ""
 "vorliegt: %(error)s"
 
 #: weblate/trans/views/settings.py:331
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved."
-msgstr "Projekt entfernt"
+msgstr "Projekt verschoben."
 
 #: weblate/trans/views/settings.py:368
 #, python-format
@@ -20726,37 +20703,30 @@ msgstr[1] "Sprachen"
 
 #: weblate/trans/workspace_move.py:67
 msgid "No valid billing found or limit exceeded."
-msgstr ""
+msgstr "Keine gültige Abrechnung gefunden oder Limit überschritten."
 
 #: weblate/trans/workspace_move.py:81
-#, fuzzy
-#| msgid "This component is already shared in %s."
 msgid "The project is already assigned to this workspace."
-msgstr "Diese Komponente ist bereits in %s freigegeben."
+msgstr "Das Projekt ist diesem Arbeitsbereich bereits zugewiesen."
 
 #: weblate/trans/workspace_move.py:87
-#, fuzzy
-#| msgid "You do not have permission to create terminology."
 msgid "You do not have permission to edit the current workspace."
-msgstr "Sie haben keine Berechtigung, eine Terminologie zu erstellen."
+msgstr ""
+"Sie haben keine Berechtigung, den aktuellen Arbeitsbereich zu bearbeiten."
 
 #: weblate/trans/workspace_move.py:92
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to move projects without a workspace."
-msgstr "Sie haben keine Berechtigung, die Projektzugriffssteuerung zu ändern."
+msgstr ""
+"Sie haben keine Berechtigung, Projekte ohne Arbeitsbereich zu verschieben."
 
 #: weblate/trans/workspace_move.py:97
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit the target workspace."
-msgstr "Sie haben nicht die Berechtigung, Vorschläge anzunehmen."
+msgstr "Sie haben keine Berechtigung, den Ziel-Arbeitsbereich zu bearbeiten."
 
 #: weblate/trans/workspace_move.py:100
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to add projects to the target workspace."
-msgstr "Sie haben keine Berechtigung, die Projektzugriffssteuerung zu ändern."
+msgstr ""
+"Sie haben keine Berechtigung, Projekte zum Ziel-Arbeitsbereich hinzuzufügen."
 
 #: weblate/utils/backup.py:137
 msgid "Borg completed with warnings without any output."
@@ -20956,7 +20926,7 @@ msgstr ""
 
 #: weblate/utils/search.py:147 weblate/utils/search.py:164
 msgid "Search query is too complex."
-msgstr ""
+msgstr "Die Suchanfrage ist zu komplex."
 
 #: weblate/utils/search.py:262
 msgid "Unsupported state: {}"
@@ -21773,34 +21743,24 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Der Konfigurationsfehler konnte nicht behoben werden!"
 
 #: weblate/wladmin/views.py:763
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created."
-msgstr "Komponente erstellt"
+msgstr "Arbeitsbereich erstellt."
 
 #: weblate/workspaces/apps.py:12
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate workspaces"
-msgstr "Weblate-Schlüssel"
+msgstr "Weblate-Arbeitsbereiche"
 
 #: weblate/workspaces/models.py:53
-#, fuzzy
-#| msgid "Resource update"
 msgid "Workspace name"
-msgstr "Datei-Aktualisierung"
+msgstr "Arbeitsbereichsname"
 
 #: weblate/workspaces/models.py:60
-#, fuzzy
-#| msgid "Language name"
 msgid "Managed name"
-msgstr "Sprachenname"
+msgstr "Verwalteter Name"
 
 #: weblate/workspaces/models.py:61
-#, fuzzy
-#| msgid "Lets Weblate update the \"X-Generator\" file header."
 msgid "Whether Weblate can update the name automatically."
-msgstr "Lässt Weblate den „X-Generator“-Dateiheader aktualisieren."
+msgstr "Ob Weblate den Namen automatisch aktualisieren kann."
 
 #~ msgid "Owners"
 #~ msgstr "Besitzer"
