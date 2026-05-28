@@ -424,11 +424,15 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.perform_test(url)
 
     def test_project_language(self) -> None:
-        project_language = ProjectLanguage(
-            project=self.project, language=Language.objects.get(code="cs")
-        )
+        czech = Language.objects.get(code="cs")
+        project_language = ProjectLanguage(project=self.project, language=czech)
         url = reverse("announcement", kwargs={"path": project_language.get_url_path()})
         self.perform_test(url)
+        announcement = Announcement.objects.get(message=self.data["message"])
+        self.assertEqual(announcement.project, self.project)
+        self.assertEqual(announcement.language, czech)
+        self.assertIsNone(announcement.category)
+        self.assertIsNone(announcement.component)
 
     def test_category(self) -> None:
         category = Category(
