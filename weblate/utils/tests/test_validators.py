@@ -681,6 +681,20 @@ class OutboundAddressValidationTest(SimpleTestCase):
             validate_runtime_ip("100.64.0.1", allow_private_targets=False)
         self.assertIn("internal or non-public address", str(error.exception))
 
+    def test_validate_runtime_ip_rejects_special_use_ranges(self) -> None:
+        for label, address in (
+            ("6to4 relay anycast", "192.88.99.1"),
+            ("IPv4 multicast", "224.0.0.1"),
+            ("IPv4 multicast documentation", "233.252.0.1"),
+            ("IPv6 Segment Routing", "5f00::1"),
+            ("ORCHIDv2", "2001:20::1"),
+            ("IPv6 multicast", "ff00::1"),
+        ):
+            with self.subTest(case=label, address=address):
+                with self.assertRaises(ValidationError) as error:
+                    validate_runtime_ip(address, allow_private_targets=False)
+                self.assertIn("internal or non-public address", str(error.exception))
+
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("100.64.0.1", 443))],
@@ -703,9 +717,8 @@ class OutboundAddressValidationTest(SimpleTestCase):
         """
         6to4, NAT64 and IPv4-compatible wrappers must be rejected.
 
-        Python's ``ipaddress.is_global`` classifies these wrappers as globally
-        routable; on hosts where the kernel has 6to4 or NAT64 translation
-        configured, traffic to them is forwarded to the embedded IPv4 endpoint.
+        On hosts where the kernel has NAT64 translation configured, traffic to
+        the NAT64 well-known prefix is forwarded to the embedded IPv4 endpoint.
         """
         for label, wrapped_address in (
             ("6to4 IMDS", "2002:a9fe:a9fe::"),

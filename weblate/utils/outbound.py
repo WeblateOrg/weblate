@@ -26,6 +26,13 @@ _NAT64_PREFIX = ipaddress.IPv6Network("64:ff9b::/96")
 _NAT64_LOCAL_USE_PREFIX = ipaddress.IPv6Network("64:ff9b:1::/48")
 _SIXTOFOUR_PREFIX = ipaddress.IPv6Network("2002::/16")
 _IPV4_COMPAT = ipaddress.IPv6Network("::0.0.0.0/96")
+_NON_PUBLIC_SPECIAL_USE_PREFIXES: tuple[
+    ipaddress.IPv4Network | ipaddress.IPv6Network, ...
+] = (
+    ipaddress.IPv4Network("192.88.99.0/24"),  # 6to4 relay anycast
+    ipaddress.IPv6Network("5f00::/16"),  # IPv6 Segment Routing
+    ipaddress.IPv6Network("2001:20::/28"),  # ORCHIDv2
+)
 
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:
@@ -107,6 +114,11 @@ def _is_public_ip(value: str) -> bool:
 def _is_global_address(
     address: ipaddress.IPv4Address | ipaddress.IPv6Address,
 ) -> bool:
+    if address.is_multicast:
+        return False
+    for network in _NON_PUBLIC_SPECIAL_USE_PREFIXES:
+        if address.version == network.version and address in network:
+            return False
     if isinstance(address, ipaddress.IPv6Address) and address in _SIXTOFOUR_PREFIX:
         return False
     if (
