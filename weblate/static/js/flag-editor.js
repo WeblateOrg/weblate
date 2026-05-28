@@ -112,7 +112,7 @@
       valueField: "name",
       labelField: "name",
       searchField: ["name", "label"],
-      /* While typing the value of a parametrized flag keep matching the 
+      /* While typing the value of a parametrized flag keep matching the
        * base flag name so the known flag stays visible in the dropdown. */
       score: function (search) {
         const colon = search.indexOf(":");
