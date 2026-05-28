@@ -1731,6 +1731,24 @@ In case you want to use own keys, place the certificate and private key in
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 
+.. envvar:: WEBLATE_SAML_SECURITY_CONFIG
+
+    .. versionadded:: 2026.6
+
+    SAML security configuration as a JSON object, passed to
+    ``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. For example, to disable the
+    ``requestedAuthnContext`` (needed for some identity providers such as
+    Microsoft Entra ID with multi-factor authentication):
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_SAML_SECURITY_CONFIG: '{"requestedAuthnContext": false}'
+
+    .. seealso::
+
+       `python3-saml security settings <https://github.com/SAML-Toolkits/python3-saml#settings>`_
+
 .. envvar:: WEBLATE_SAML_ID_ATTR_FULL_NAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_FIRST_NAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_LAST_NAME

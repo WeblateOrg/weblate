@@ -14,6 +14,7 @@ Weblate 2026.6
 
 .. rubric:: Improvements
 
+* Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` to customize SAML security settings such as disabling ``requestedAuthnContext``.
 * Docker containers can now adjust :setting:`WEBLATE_FORMATS`.
   Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
