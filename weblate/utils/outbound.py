@@ -23,6 +23,7 @@ LOCAL_HOST_SUFFIXES = (
 # must be unwrapped before consulting ipaddress.is_global - which classifies
 # 2002::/16 and 64:ff9b::/96 as globally routable.
 _NAT64_PREFIX = ipaddress.IPv6Network("64:ff9b::/96")
+_NAT64_LOCAL_USE_PREFIX = ipaddress.IPv6Network("64:ff9b:1::/48")
 _IPV4_COMPAT = ipaddress.IPv6Network("::0.0.0.0/96")
 
 
@@ -102,8 +103,21 @@ def _is_public_ip(value: str) -> bool:
     address = _parse_ip(value)
     if address is None:
         return False
-    address = _unwrap_ipv6_transition(address)
-    return address.is_global
+    return _is_global_address(address)
+
+
+def _is_global_address(
+    address: ipaddress.IPv4Address | ipaddress.IPv6Address,
+) -> bool:
+    if (
+        isinstance(address, ipaddress.IPv6Address)
+        and address in _NAT64_LOCAL_USE_PREFIX
+    ):
+        # Legacy compatibility: Python before 3.12.4 classified this local-use
+        # NAT64 prefix as global. TODO: remove once support for those Python
+        # versions is dropped.
+        return False
+    return _unwrap_ipv6_transition(address).is_global
 
 
 def validate_runtime_ip(value: str, *, allow_private_targets: bool = True) -> None:
@@ -145,7 +159,7 @@ def validate_untrusted_hostname(
         return
 
     if ip_address := _parse_hostname_ip(normalized):
-        if not _unwrap_ipv6_transition(ip_address).is_global:
+        if not _is_global_address(ip_address):
             raise ValidationError(
                 gettext(
                     "This URL is prohibited because it points to an internal or non-public address."
