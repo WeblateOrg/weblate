@@ -729,7 +729,11 @@ class OutboundAddressValidationTest(SimpleTestCase):
             ("NAT64 IMDS", "64:ff9b::a9fe:a9fe"),
             ("NAT64 loopback", "64:ff9b::7f00:1"),
             ("NAT64 RFC1918", "64:ff9b::a00:1"),
+            ("NAT64 multicast", "64:ff9b::e000:1"),
+            ("NAT64 6to4 relay anycast", "64:ff9b::c058:6301"),
             ("IPv4-compat", "::a00:1"),
+            ("IPv4-compat multicast", "::e000:1"),
+            ("IPv4-compat 6to4 relay anycast", "::c058:6301"),
         ):
             with self.subTest(case=label, address=wrapped_address):
                 with self.assertRaises(ValidationError) as error:

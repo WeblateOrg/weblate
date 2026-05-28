@@ -129,7 +129,10 @@ def _is_global_address(
         # NAT64 prefix as global. TODO: remove once support for those Python
         # versions is dropped.
         return False
-    return _unwrap_ipv6_transition(address).is_global
+    unwrapped = _unwrap_ipv6_transition(address)
+    if unwrapped != address:
+        return _is_global_address(unwrapped)
+    return address.is_global
 
 
 def validate_runtime_ip(value: str, *, allow_private_targets: bool = True) -> None:
