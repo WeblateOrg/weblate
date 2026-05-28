@@ -4,12 +4,14 @@
 
 """Test for translation models."""
 
+import importlib
 import os
 from contextlib import ExitStack
 from datetime import timedelta
 from pathlib import Path
 from unittest.mock import patch
 
+from django.apps import apps
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.exceptions import ValidationError
 from django.db import transaction
@@ -59,6 +61,7 @@ from weblate.utils.state import (
 )
 from weblate.utils.stats import CategoryLanguage, GlobalStats, ProjectLanguage
 from weblate.utils.version import GIT_VERSION
+from weblate.workspaces.models import Workspace
 
 
 class BaseTestCase(TestCase):
@@ -1376,6 +1379,85 @@ class AnnouncementTest(ModelTestCase):
 
 class ChangeTest(ModelTestCase):
     """Test(s) for Change model."""
+
+    def test_fixup_references_inherits_project_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Change workspace")
+        Project.objects.filter(pk=self.component.project_id).update(workspace=workspace)
+
+        project = Project.objects.get(pk=self.component.project_id)
+        component = Component.objects.select_related("project__workspace").get(
+            pk=self.component.pk
+        )
+        translation = Translation.objects.select_related(
+            "component__project__workspace", "language"
+        ).get(component=component, language_code="cs")
+        unit = Unit.objects.select_related(
+            "translation__component__project__workspace",
+            "translation__language",
+        ).filter(translation=translation)[0]
+
+        for change in (
+            Change(project=project),
+            Change(component=component),
+            Change(translation=translation),
+            Change(unit=unit),
+        ):
+            self.assertEqual(change.workspace_id, workspace.pk)
+
+    def test_existing_change_keeps_workspace_after_project_move(self) -> None:
+        original = Workspace.objects.create(name="Original change workspace")
+        target = Workspace.objects.create(name="Target change workspace")
+        project = self.component.project
+        Project.objects.filter(pk=project.pk).update(workspace=original)
+        project.refresh_from_db()
+
+        change = Change.objects.create(
+            project=project, action=ActionEvents.CREATE_PROJECT
+        )
+
+        project.workspace = target
+        project.save(update_fields=["workspace"])
+        change.refresh_from_db()
+
+        self.assertEqual(change.workspace_id, original.pk)
+
+    def test_change_workspace_backfill_migration(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0088_change_workspace_backfill"
+        )
+        workspace = Workspace.objects.create(name="Backfilled change workspace")
+        existing = Workspace.objects.create(name="Existing change workspace")
+        project = self.component.project
+        Project.objects.filter(pk=project.pk).update(workspace=workspace)
+        project.refresh_from_db()
+        Change.objects.all().delete()
+
+        backfilled = Change.objects.create(
+            project=project, action=ActionEvents.CREATE_PROJECT
+        )
+        kept = Change.objects.create(project=project, action=ActionEvents.LOCK)
+        standalone = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
+        standalone_project = self.create_project(
+            name="Standalone backfill project",
+            slug="standalone-backfill-project",
+        )
+        standalone_project_change = Change.objects.create(
+            project=standalone_project,
+            action=ActionEvents.CREATE_PROJECT,
+        )
+        Change.objects.filter(pk=backfilled.pk).update(workspace=None)
+        Change.objects.filter(pk=kept.pk).update(workspace=existing)
+
+        migration.backfill_change_workspace(apps, None)
+
+        backfilled.refresh_from_db()
+        kept.refresh_from_db()
+        standalone.refresh_from_db()
+        standalone_project_change.refresh_from_db()
+        self.assertEqual(backfilled.workspace_id, workspace.pk)
+        self.assertEqual(kept.workspace_id, existing.pk)
+        self.assertIsNone(standalone.workspace_id)
+        self.assertIsNone(standalone_project_change.workspace_id)
 
     def test_day_filtering(self) -> None:
         Change.objects.all().delete()

@@ -209,6 +209,8 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
     def preload_list(self, results, skip=None):
         """Companion for prefetch to fill in nested references."""
         for item in results:
+            if item.project and skip != "project":
+                item.project.workspace = item.workspace
             if item.component and skip != "component":
                 item.component.project = item.project
             if item.translation and skip != "translation":
@@ -279,6 +281,10 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         from weblate.accounts.notifications import (  # noqa: PLC0415
             dispatch_changes_notifications,
         )
+
+        objs = list(objs)
+        for change in objs:
+            change.fixup_references()
 
         changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
             objs,  # type: ignore[arg-type]
@@ -428,12 +434,15 @@ class ChangeManager(models.Manager["Change"]):
         elif workspace is not None:
             if not workspace.can_view(user):
                 return cast("ChangeQuerySet", self.none())
-            result = self.filter(workspace=workspace) | cast(
-                "ChangeQuerySet",
-                self.filter(
-                    project__workspace=workspace,
-                ),
-            ).filter_projects(user).filter_components(user)
+            result = cast("ChangeQuerySet", self.filter(workspace=workspace))
+            if user.needs_project_filter:
+                result = cast(
+                    "ChangeQuerySet",
+                    result.filter(
+                        Q(project__isnull=True) | Q(project__in=user.allowed_projects)
+                    ),
+                )
+            result = result.filter_components(user)
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
@@ -796,6 +805,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.component:
             self.project = self.component.project
             self.category = self.component.category
+        if self.project:
+            self.workspace = self.project.workspace
         if (self.user is None or not self.user.is_authenticated) and (
             ip_address := self.get_ip_address()
         ):
@@ -994,6 +1005,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.component:
             self.component.project = cast("Project", self.project)
             self.component.category = cast("Category", self.category)
+        if self.project:
+            self.project.workspace = self.workspace
 
 
 @receiver(post_save, sender=Change)
