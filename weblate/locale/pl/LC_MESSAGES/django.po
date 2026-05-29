@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-28 04:09-0500\n"
-"PO-Revision-Date: 2026-05-29 04:47+0000\n"
+"PO-Revision-Date: 2026-05-29 05:06+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -7488,13 +7488,12 @@ msgid "Source has been removed."
 msgstr "Źródło zostało usunięte."
 
 #: weblate/screenshots/views.py:534
-#, fuzzy, python-format
-#| msgid "No matching source strings found."
+#, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "Nie odnaleziono pasujących tekstów źródłowych."
-msgstr[1] "Nie odnaleziono pasujących tekstów źródłowych."
-msgstr[2] "Nie odnaleziono pasujących tekstów źródłowych."
+msgstr[0] "Znaleziono %(count)s pasujący ciąg źródłowy."
+msgstr[1] "Znaleziono %(count)s pasujące ciągi źródłowe."
+msgstr[2] "Znaleziono %(count)s pasujących ciągów źródłowych."
 
 #: weblate/screenshots/views.py:539
 msgid "No new matching source strings found."
@@ -9881,10 +9880,8 @@ msgid "Add new translation project"
 msgstr "Dodaj nowy projekt tłumaczenia"
 
 #: weblate/templates/base.html:315
-#, fuzzy
-#| msgid "Add new word"
 msgid "Add new workspace"
-msgstr "Dodaj nowe słowo"
+msgstr "Dodaj nowy obszar roboczy"
 
 #: weblate/templates/base.html:321 weblate/templates/category.html:109
 #: weblate/templates/project.html:144
@@ -10458,16 +10455,12 @@ msgstr ""
 
 #: weblate/templates/category.html:326 weblate/templates/component.html:448
 #: weblate/templates/dashboard/user.html:141 weblate/templates/project.html:431
-#, fuzzy
-#| msgid ""
-#| "You don't have permission to view reports for all users, only your "
-#| "contributions will be listed."
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
 msgstr ""
-"Nie masz uprawnień do przeglądania raportów dla wszystkich użytkowników, "
-"tylko Twoje wpisy zostaną wymienione."
+"Nie masz uprawnień do przeglądania raportów dla wszystkich użytkowników; "
+"raporty o współautorach będą zawierać wyłącznie listę Twoich wkładów."
 
 #: weblate/templates/category.html:338 weblate/templates/component.html:460
 #: weblate/templates/dashboard/user.html:151 weblate/templates/project.html:443
@@ -10507,7 +10500,7 @@ msgstr "Podaje liczbę ciągów i słów przetłumaczonych przez każdego tłuma
 #: weblate/templates/category.html:382 weblate/templates/component.html:504
 #: weblate/templates/dashboard/user.html:191 weblate/templates/project.html:487
 msgid "Cost estimate"
-msgstr ""
+msgstr "Kosztorys"
 
 #: weblate/templates/category.html:387 weblate/templates/component.html:509
 #: weblate/templates/dashboard/user.html:196 weblate/templates/project.html:492
@@ -10515,6 +10508,8 @@ msgid ""
 "Estimates translation costs based on source words, repetitions, needs-"
 "editing strings, and translation memory matches."
 msgstr ""
+"Szacuje koszty tłumaczenia na podstawie słów źródłowych, powtórzeń, ciągów "
+"wymagających edycji i dopasowań w pamięci tłumaczeniowej."
 
 #: weblate/templates/check_list.html:36 weblate/trans/views/reports.py:313
 msgid "Total"
@@ -10565,7 +10560,7 @@ msgstr "Kontynuuj po zakończeniu"
 #: weblate/templates/snippets/libre-checklist.html:57
 #: weblate/wladmin/views.py:99
 msgid "Diagnostics"
-msgstr ""
+msgstr "Diagnostyka"
 
 #: weblate/templates/component.html:41 weblate/templates/project.html:46
 msgid "Download language statistics (CSV)"
@@ -11942,10 +11937,8 @@ msgid "%(invitation_author)s has invited you to join"
 msgstr "%(invitation_author)s zaprasza Cię do dołączenia"
 
 #: weblate/templates/mail/new_alert.html:14
-#, fuzzy
-#| msgid "View details"
 msgid "View diagnostics"
-msgstr "Zobacz szczegóły"
+msgstr "Zobacz diagnostykę"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/new_alert_subject.txt:5
@@ -12149,12 +12142,12 @@ msgid ""
 "Weblate.org has created this Hosted Weblate sign-in account so you can "
 "access purchased Weblate services."
 msgstr ""
+"Strona Weblate.org utworzyła konto logowania do usługi Hosted Weblate, "
+"dzięki czemu możesz uzyskać dostęp do zakupionych usług Weblate."
 
 #: weblate/templates/mail/reset.html:9
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Please set the password for this sign-in account now."
-msgstr "Włącz uwierzytelnianie hasłem, aby zabezpieczyć swoje konto."
+msgstr "Ustaw teraz hasło do tego konta."
 
 #: weblate/templates/mail/reset.html:11
 #, python-format
@@ -12165,7 +12158,7 @@ msgstr ""
 
 #: weblate/templates/mail/reset_subject.txt:6
 msgid "Set password for your Weblate account"
-msgstr ""
+msgstr "Ustaw hasło do swojego konta Weblate"
 
 #: weblate/templates/mail/reset_subject.txt:8
 #, python-format
@@ -12204,10 +12197,8 @@ msgstr ""
 "paska adresu przeglądarki, aby kontynuować."
 
 #: weblate/templates/mail/shared-registration.html:18
-#, fuzzy
-#| msgid "Set password"
 msgid "Set account password"
-msgstr "Ustal hasło"
+msgstr "Ustaw hasło do konta"
 
 #: weblate/templates/mail/shared-registration.html:20
 msgid "Confirm password reset"
@@ -12308,10 +12299,8 @@ msgid "Translation activity summary"
 msgstr "Podsumowanie aktywności tłumaczeniowej"
 
 #: weblate/templates/manage/alerts.html:10
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "Listy komponentów"
+msgstr "Diagnostyka komponentów"
 
 #: weblate/templates/manage/alerts.html:40
 msgid "Projects without components"
@@ -12826,34 +12815,27 @@ msgstr "Kontrola dostępu użytkownika"
 
 #: weblate/templates/manage/workspace_form.html:11
 #: weblate/templates/manage/workspaces.html:10 weblate/wladmin/views.py:101
-#, fuzzy
-#| msgid "Spaces"
 msgid "Workspaces"
-msgstr "Spacje"
+msgstr "Obszary robocze"
 
 #: weblate/templates/manage/workspace_form.html:15
 #: weblate/templates/manage/workspace_form.html:25
 #: weblate/templates/manage/workspaces.html:19
 msgid "Add workspace"
-msgstr ""
+msgstr "Dodaj obszar roboczy"
 
 #: weblate/templates/manage/workspaces.html:21
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage workspaces"
-msgstr "Zarządzaj użytkownikami"
+msgstr "Zarządzaj obszarami roboczymi"
 
 #: weblate/templates/manage/workspaces.html:47
-#, fuzzy, python-format
-#| msgid "Billing admins"
+#, python-format
 msgid "Billing #%(id)s"
-msgstr "Administratorzy rozliczeń"
+msgstr "Rozliczenie nr %(id)s"
 
 #: weblate/templates/manage/workspaces.html:58
-#, fuzzy
-#| msgid "No words found!"
 msgid "No workspaces found."
-msgstr "Nie odnaleziono żadnych słów!"
+msgstr "Nie znaleziono żadnych obszarów roboczych."
 
 #: weblate/templates/matrix-table.html:14
 msgid "String missing"
@@ -13125,10 +13107,8 @@ msgstr ""
 "komponentów."
 
 #: weblate/templates/project.html:401
-#, fuzzy
-#| msgid "Removed project"
 msgid "Move project"
-msgstr "Usunięto projekt"
+msgstr "Przenieś projekt"
 
 #: weblate/templates/project.html:408
 msgid "Move"
@@ -13198,18 +13178,16 @@ msgstr "Wyszukiwanie źródłowych ciągów znaków"
 #: weblate/templates/screenshots/screenshot_detail.html:80
 msgid "Suggests source strings by recognizing text in this screenshot."
 msgstr ""
+"Sugeruje ciągi źródłowe na podstawie rozpoznania tekstu na tym zrzucie "
+"ekranu."
 
 #: weblate/templates/screenshots/screenshot_detail.html:81
-#, fuzzy
-#| msgid "Include strings needing editing"
 msgid "Find strings in image"
-msgstr "Dołącz ciągi wymagające edycji"
+msgstr "Znajdź ciągi na obrazie"
 
 #: weblate/templates/screenshots/screenshot_detail.html:85
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Add selected"
-msgstr "Dodaj zrzut ekranu"
+msgstr "Dodaj wybrane"
 
 #: weblate/templates/screenshots/screenshot_detail.html:149
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -13218,16 +13196,12 @@ msgstr ""
 "źródłowych, do których został przypisany."
 
 #: weblate/templates/screenshots/screenshot_list.html:72
-#, fuzzy
-#| msgid "Strings with screenshots"
 msgid "Source strings with screenshots"
-msgstr "Ciągi ze zrzutami ekranu"
+msgstr "Ciągi źródłowe ze zrzutami ekranu"
 
 #: weblate/templates/screenshots/screenshot_list.html:82
-#, fuzzy
-#| msgid "Strings without screenshots"
 msgid "Source strings without screenshots"
-msgstr "Ciągi bez zrzutów ekranu"
+msgstr "Ciągi źródłowe bez zrzutów ekranu"
 
 #: weblate/templates/screenshots/screenshot_list.html:133
 #: weblate/templates/snippets/sort-field.html:14
@@ -13261,10 +13235,8 @@ msgid "There are no assigned strings."
 msgstr "Nie ma przypisanych ciągów."
 
 #: weblate/templates/screenshots/screenshot_list.html:209
-#, fuzzy
-#| msgid "No suggestions found."
 msgid "No screenshots found."
-msgstr "Nie znaleziono sugestii."
+msgstr "Nie znaleziono zrzutów ekranu."
 
 #: weblate/templates/screenshots/screenshot_list.html:223
 #: weblate/templates/translate.html:1134
@@ -13277,16 +13249,12 @@ msgid "Add to screenshot"
 msgstr "Dodaj do zrzutu ekranu"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection.html:7
-#, fuzzy
-#| msgid "New source string"
 msgid "Select source string"
-msgstr "Dodano nowy ciąg źródłowy"
+msgstr "Wybierz ciąg źródłowy"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection_header.html:6
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Select all source strings"
-msgstr "Wyszukanie w tekstach źródłowych"
+msgstr "Wybierz wszystkie ciągi źródłowe"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
 msgid "Paste from clipboard"
@@ -13479,10 +13447,8 @@ msgid "Clone to translation"
 msgstr "Klonuj do tłumaczenia"
 
 #: weblate/templates/snippets/embed-units.html:13
-#, fuzzy
-#| msgid "CSS selector"
 msgid "Select"
-msgstr "Selektor CSS"
+msgstr "Wybierz"
 
 #: weblate/templates/snippets/embed-units.html:52 weblate/utils/views.py:228
 msgid "Target string"
@@ -14229,16 +14195,13 @@ msgstr ""
 "zmiany."
 
 #: weblate/templates/snippets/settings-organize.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
-#| "remove it."
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug, move "
 "it, or remove it."
 msgstr ""
 "<a href=\"%(url)s\">Organizuj projekt</a>, aby zmienić jego końcówkę adresu "
-"URL lub ją usunąć."
+"URL, przenieść lub ją usunąć."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -16097,16 +16060,12 @@ msgid "Embed Code"
 msgstr "Kod osadzenia"
 
 #: weblate/templates/workspace.html:69
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all workspace changes"
-msgstr "Przeglądaj wszystkie zmiany komponentu"
+msgstr "Przeglądaj wszystkie zmiany obszaru roboczego"
 
 #: weblate/templates/workspace.html:83
-#, fuzzy
-#| msgid "Source strings"
 msgid "Workspace settings"
-msgstr "Ciągi źródłowe"
+msgstr "Ustawienia obszaru roboczego"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -16580,24 +16539,18 @@ msgstr "Zmieniono dostęp użytkownika"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created"
-msgstr "Utworzono komponent"
+msgstr "Utworzono obszar roboczy"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:204
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Workspace setting changed"
-msgstr "Zmieniono ciąg źródłowy"
+msgstr "Zmieniono ustawienia obszaru roboczego"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:206
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved"
-msgstr "Usunięto projekt"
+msgstr "Przeniesiono projekt"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16640,10 +16593,8 @@ msgid "Information"
 msgstr "Informacje"
 
 #: weblate/trans/alerts/base.py:23
-#, fuzzy
-#| msgid "Warnings"
 msgid "Warning"
-msgstr "Ostrzeżenia"
+msgstr "Ostrzeżenie"
 
 #: weblate/trans/alerts/community.py:145
 msgid "Configure repository hooks for automated flow of updates to Weblate."
@@ -16658,10 +16609,8 @@ msgstr ""
 "Weblate."
 
 #: weblate/trans/alerts/community.py:186
-#, fuzzy
-#| msgid "Define translation instructions to give translators a guideline."
 msgid "Define translation instructions to help translators."
-msgstr "Zdefiniuj instrukcje tłumaczeniowe, aby dać tłumaczom wytyczne."
+msgstr "Zdefiniuj instrukcje tłumaczeniowe, aby ułatwić pracę tłumaczom."
 
 #: weblate/trans/alerts/community.py:212
 msgid "Add screenshots to show where strings are being used."
@@ -16680,10 +16629,8 @@ msgstr ""
 "HTML od tłumaczy dla ciągów renderowanych jako HTML."
 
 #: weblate/trans/alerts/community.py:287
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Recommended add-on"
-msgstr "Ostatnie uzupełnienia"
+msgstr "Polecany dodatek"
 
 #: weblate/trans/alerts/community.py:307
 msgid "Enable add-on:"
@@ -16916,13 +16863,12 @@ msgstr "Nie ustawiono"
 #: weblate/trans/change_display.py:292 weblate/trans/forms.py:2950
 #: weblate/trans/views/create.py:109
 msgid "No workspace"
-msgstr ""
+msgstr "Brak obszaru roboczego"
 
 #: weblate/trans/change_display.py:296
-#, fuzzy, python-format
-#| msgid "%(setting)s changed from \"%(old)s\" to \"%(target)s\"."
+#, python-format
 msgid "Project moved from \"%(old)s\" to \"%(target)s\"."
-msgstr "%(setting)s zmieniono z „%(old)s” na „%(target)s”."
+msgstr "Projekt przeniesiono z „%(old)s” do „%(target)s”."
 
 #: weblate/trans/change_display.py:372
 msgid "Original revision: {}"
@@ -17702,44 +17648,32 @@ msgid "Search filter"
 msgstr "Filtr wyszukiwania"
 
 #: weblate/trans/forms.py:1669
-#, fuzzy
-#| msgid "Date range"
 msgid "Base rate"
-msgstr "Zakres dat"
+msgstr "Stawka bazowa"
 
 #: weblate/trans/forms.py:1670
-#, fuzzy
-#| msgid "Number of source words"
 msgid "Price per source word."
-msgstr "Liczba słów źródłowych"
+msgstr "Cena za słowo źródłowe."
 
 #: weblate/trans/forms.py:1677
-#, fuzzy
-#| msgid "Translation threshold"
 msgid "Translation memory threshold"
-msgstr "Próg tłumaczenia"
+msgstr "Próg pamięci tłumaczeniowej"
 
 #: weblate/trans/forms.py:1683
-#, fuzzy
-#| msgid "New string added"
 msgid "New strings rate"
-msgstr "Dodano nowy ciąg"
+msgstr "Stawka za nowe ciągi"
 
 #: weblate/trans/forms.py:1690
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs editing rate"
-msgstr "Wymaga edycji"
+msgstr "Stawka za wymagające edycji"
 
 #: weblate/trans/forms.py:1697
-#, fuzzy
-#| msgid "Extract front matter"
 msgid "Exact match rate"
-msgstr "Wyodrębnij część wstępną"
+msgstr "Stawka za dokładne dopasowanie"
 
 #: weblate/trans/forms.py:1704
 msgid "Fuzzy match rate"
-msgstr ""
+msgstr "Stawka za rozmyte dopasowanie"
 
 #: weblate/trans/forms.py:1711
 #, fuzzy
