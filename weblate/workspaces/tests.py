@@ -230,7 +230,7 @@ class WorkspaceViewTest(BaseTestCase):
         with self.assertRaises(UnsupportedPathObjectError):
             parse_path(None, workspace.get_url_path(), (Project,))
 
-    def test_workspace_with_deferred_name_loads(self) -> None:
+    def test_workspace_with_deferred_name_does_not_eager_load(self) -> None:
         workspace = Workspace.objects.create(name="Deferred workspace")
 
         deferred = Workspace.objects.only("id").get(pk=workspace.pk)
