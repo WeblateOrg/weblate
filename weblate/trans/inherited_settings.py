@@ -82,7 +82,7 @@ COMPONENT_MESSAGE_SETTINGS = (
     "pull_message",
 )
 
-HUGE_INHERITABLE_SETTINGS = ("agreement", *COMPONENT_MESSAGE_SETTINGS)
+HUGE_INHERITABLE_SETTINGS = COMPONENT_MESSAGE_SETTINGS
 
 
 def get_inherit_field_name(field: str) -> str:

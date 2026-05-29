@@ -54,12 +54,18 @@ class SettingsTest(ViewTestCase):
         migration.consolidate_category_settings(apps, None)
 
     def assert_huge_inherited_settings_deferred(self, component: Component) -> None:
-        for field in ("agreement", "commit_message"):
+        for field in ("commit_message",):
             self.assertIn(field, component.get_deferred_fields())
             self.assertIn(field, component.project.get_deferred_fields())
             self.assertIn(field, component.project.workspace.get_deferred_fields())
             if component.category_id:
                 self.assertIn(field, component.category.get_deferred_fields())
+        for field in ("agreement",):
+            self.assertNotIn(field, component.get_deferred_fields())
+            self.assertNotIn(field, component.project.get_deferred_fields())
+            self.assertNotIn(field, component.project.workspace.get_deferred_fields())
+            if component.category_id:
+                self.assertNotIn(field, component.category.get_deferred_fields())
         self.assertNotIn("check_flags", component.get_deferred_fields())
         self.assertNotIn("check_flags", component.project.get_deferred_fields())
         self.assertNotIn(

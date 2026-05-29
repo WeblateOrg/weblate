@@ -230,6 +230,14 @@ class WorkspaceViewTest(BaseTestCase):
         with self.assertRaises(UnsupportedPathObjectError):
             parse_path(None, workspace.get_url_path(), (Project,))
 
+    def test_workspace_with_deferred_name_does_not_eager_load(self) -> None:
+        workspace = Workspace.objects.create(name="Deferred workspace")
+
+        deferred = Workspace.objects.only("id").get(pk=workspace.pk)
+
+        self.assertEqual(deferred.pk, workspace.pk)
+        self.assertIn("name", deferred.get_deferred_fields())
+
     def test_workspace_url_path_rejects_invalid_uuid(self) -> None:
         with self.assertRaisesMessage(Http404, "Invalid workspace id"):
             parse_path(None, ("-", "workspace", "not-a-uuid"), (Workspace,))

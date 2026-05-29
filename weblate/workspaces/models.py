@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from collections.abc import Collection
 
     from django.db.models import QuerySet
+    from django.db.models.base import Deferred
 
     from weblate.auth.models import Group, User
 
@@ -70,9 +71,9 @@ class Workspace(models.Model):
     )
 
     # Name loaded with this instance; used to detect manual name edits.
-    workspace_original_name: str
+    workspace_original_name: str | Deferred
     # Name management flag loaded with this instance.
-    workspace_original_name_managed: bool
+    workspace_original_name_managed: bool | Deferred
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(
@@ -205,8 +206,10 @@ class Workspace(models.Model):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.workspace_original_name = self.name
-        self.workspace_original_name_managed = self.name_managed
+        self.workspace_original_name = self.__dict__.get("name", models.DEFERRED)
+        self.workspace_original_name_managed = self.__dict__.get(
+            "name_managed", models.DEFERRED
+        )
         self.acting_user: User | None = None
 
     def __str__(self) -> str:
@@ -222,8 +225,19 @@ class Workspace(models.Model):
 
         name_saved = update_fields is None or "name" in update_fields
         managed_saved = update_fields is None or "name_managed" in update_fields
-        name_changed = self.name != self.workspace_original_name
-        managed_changed = self.name_managed != self.workspace_original_name_managed
+        original_name = self.workspace_original_name
+        if original_name is models.DEFERRED and old is not None:
+            original_name = old.name
+        original_name_managed = self.workspace_original_name_managed
+        if original_name_managed is models.DEFERRED and old is not None:
+            original_name_managed = old.name_managed
+        name_changed = (
+            original_name is not models.DEFERRED and self.name != original_name
+        )
+        managed_changed = (
+            original_name_managed is not models.DEFERRED
+            and self.name_managed != original_name_managed
+        )
         if (
             self.pk is not None
             and self.name_managed
