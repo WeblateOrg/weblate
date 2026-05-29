@@ -4127,6 +4127,63 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[0][0]["text"], "Bonjour %s! <<foo>>")
 
     @responses.activate
+    def test_translate_drops_trailing_empty_extra_reply(self) -> None:
+        self.mock_response('["**Konfigurēt paziņojumus**:", ""]')
+
+        translation = self.assert_translate(
+            "lv",
+            "**Configure notifications**:",
+            1,
+            unit_args={"flags": "rst-text"},
+        )
+
+        self.assertEqual(translation[0][0]["text"], "**Konfigurēt paziņojumus**:")
+
+    @responses.activate
+    def test_translate_recovers_extra_rst_closing_placeholder(self) -> None:
+        machine = self.get_machine()
+        source = (
+            "If upstream no longer contains Weblate commits because they were squash "
+            "merged, updating the repository might not be enough. Use "
+            ":guilabel:`Reset and reapply` from :guilabel:`Repository maintenance` "
+            "to reset Weblate to upstream while keeping pending translations; see "
+            ":ref:`manage-vcs-reset-reapply`. Use :guilabel:`Reset and discard` "
+            "only when upstream should fully replace Weblate's local changes."
+        )
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            cleaned_source = json.loads(content)["strings"][0]["source"]
+            return json.dumps(
+                [
+                    cleaned_source.replace(
+                        "Reset and reapply@@PH157@@",
+                        "Reset und @@PH157@@erneut anwenden@@PH157@@",
+                    )
+                ]
+            )
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "de",
+                source,
+                1,
+                machine=machine,
+                unit_args={"flags": "rst-text"},
+            )
+
+        self.assertIn(
+            ":guilabel:`Reset und erneut anwenden`",
+            translation[0][0]["text"],
+        )
+
+    @responses.activate
     def test_translate_restores_placeholder_before_literal_at(self) -> None:
         machine = self.get_machine()
 
@@ -4215,6 +4272,51 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 "en",
                 "fr",
                 [("One", None), ("Two", None)],
+            )
+
+    @responses.activate
+    def test_translate_rejects_non_empty_extra_reply(self) -> None:
+        self.mock_response('["Premier", "Deuxieme"]')
+
+        with self.assertRaises(MachineTranslationError):
+            self.get_machine().download_multiple_translations(
+                "en",
+                "fr",
+                [("One", None)],
+            )
+
+    def test_translate_rejects_ambiguous_rst_duplicate_placeholders(self) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            cleaned_source = json.loads(content)["strings"][0]["source"]
+            placeholders = re.findall(r"@@PH\d+@@", cleaned_source)
+            return json.dumps(
+                [
+                    (
+                        f"{placeholders[0]}Save{placeholders[1]}{placeholders[1]} "
+                        f"and {placeholders[2]}Open{placeholders[3]}{placeholders[3]}"
+                    )
+                ]
+            )
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                ":guilabel:`Save` and :guilabel:`Open`",
+                1,
+                machine=machine,
+                unit_args={"flags": "rst-text"},
             )
 
     @responses.activate

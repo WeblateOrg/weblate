@@ -113,7 +113,7 @@ Rules:
 9. Output must be valid JSON.
 10. Output must be a single JSON array of strings.
 11. Do not include markdown code fences or any additional text.
-12. The number of output elements must exactly match the number of input strings.
+12. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings.
 13. Ensure all output strings are properly JSON-escaped.
 14. Internally verify placeholder integrity and JSON validity before responding.
 15. Placeholder contract: Tokens like @@PH44@@ are opaque atoms. Never translate, inflect, split, rename, reorder characters inside, wrap, or escape them. Never convert them to another syntax.
@@ -122,6 +122,7 @@ Rules:
 18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add their contents unless they are present in source.
 19. Placeholder mappings explain what opaque placeholder tokens represent. This information may guide wording, but the output must still contain the exact placeholder tokens, not the mapped content.
 20. Failing checks describe issues to avoid or fix when improving an existing translation.
+21. For translatable markup placeholders that wrap text, translate the whole text between the placeholders. Example: @@PH1@@Reset and reapply@@PH2@@ can become @@PH1@@Zurucksetzen und erneut anwenden@@PH2@@, never @@PH1@@Zurucksetzen und @@PH2@@erneut anwenden@@PH2@@.
 
 Valid placeholder and markup handling:
 ["Click <a href=\"/x\">log out</a> and use @@PH195@@."]
@@ -970,7 +971,27 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if len(placeholder_matches) + len(translation_highlights) != len(
             source_placeholders
         ):
-            return None
+            repaired = cls._repair_duplicate_placeholder(
+                translation,
+                source_text,
+                unit,
+                placeholder_matches,
+                translation_highlights,
+            )
+            if repaired is None:
+                return None
+            translation = repaired
+            placeholder_matches = cls._iter_placeholder_matches(translation)
+            placeholder_tokens = {token for _start, _end, token in placeholder_matches}
+            if not placeholder_tokens.issubset(source_placeholders):
+                return None
+            translation_highlights = cls._iter_translation_highlights(
+                translation, unit, placeholder_matches
+            )
+            if len(placeholder_matches) + len(translation_highlights) != len(
+                source_placeholders
+            ):
+                return None
         if not translation_highlights:
             return translation
 
@@ -1009,6 +1030,91 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return "".join(result)
 
     @classmethod
+    def _repair_duplicate_placeholder(
+        cls,
+        translation: str,
+        source_text: str,
+        unit: Unit | None,
+        placeholder_matches: list[tuple[int, int, str]],
+        translation_highlights: list[tuple[int, int, str]],
+    ) -> str | None:
+        if unit is None:
+            return None
+
+        source_specs = cls._iter_source_placeholder_specs(source_text, unit)
+        if source_specs is None:
+            return None
+
+        source_tokens = [token for token, _highlight_text in source_specs]
+        actual_counts = cls._extract_placeholders(translation)
+        expected_counts = Counter(source_tokens)
+        extras = actual_counts - expected_counts
+        missing = expected_counts - actual_counts
+        if sum(extras.values()) != 1 or sum(missing.values()) > 1:
+            return None
+
+        extra_token = next(iter(extras))
+        source_highlights = dict(source_specs)
+        extra_index = source_tokens.index(extra_token)
+        missing_token = next(iter(missing), None)
+        if missing_token is not None:
+            if source_highlights.get(extra_token) != source_highlights.get(
+                missing_token
+            ):
+                return None
+
+            missing_index = source_tokens.index(missing_token)
+            if missing_index >= extra_index:
+                return None
+
+        matches_by_token = [
+            (start, end)
+            for start, end, token in placeholder_matches
+            if token == extra_token
+        ]
+        if len(matches_by_token) != expected_counts[extra_token] + 1:
+            return None
+
+        highlight_starts = [start for start, _end, _text in translation_highlights]
+        candidates = [
+            (start, end)
+            for start, end in matches_by_token
+            if any(
+                start <= highlight_start < end for highlight_start in highlight_starts
+            )
+        ]
+        if missing_token is not None:
+            if len(candidates) != 1:
+                return None
+
+            start, end = candidates[0]
+            return f"{translation[:start]}{missing_token}{translation[end:]}"
+
+        if extra_index == 0:
+            return None
+        opening_token = source_tokens[extra_index - 1]
+        if source_highlights.get(opening_token) == source_highlights.get(extra_token):
+            return None
+
+        opening_matches = [
+            (start, end)
+            for start, end, token in placeholder_matches
+            if token == opening_token
+        ]
+        if len(opening_matches) != expected_counts[opening_token]:
+            return None
+
+        opening_end = opening_matches[-1][1]
+        closing_candidates = [
+            (start, end) for start, end in matches_by_token if start > opening_end
+        ]
+        if len(closing_candidates) != 2:
+            return None
+
+        start, end = closing_candidates[0]
+        return f"{translation[:start]}{translation[end:]}"
+
+    @classmethod
     def _placeholderize_existing_translation(
         cls, translation: str, source_text: str, unit: Unit | None
     ) -> str | None:
@@ -1037,11 +1143,25 @@ class BaseLLMTranslation(BatchMachineTranslation):
         )
 
     @classmethod
+    def _normalize_translations(
+        cls, translations: JSONValue, expected_length: int
+    ) -> JSONValue:
+        if (
+            isinstance(translations, list)
+            and len(translations) > expected_length
+            and all(isinstance(item, str) for item in translations)
+            and not any(translations[expected_length:])
+        ):
+            return translations[:expected_length]
+        return translations
+
+    @classmethod
     def _validate_translations(
         cls,
         translations: JSONValue,
         sources: list[tuple[str, Unit | None]],
     ) -> list[str]:
+        translations = cls._normalize_translations(translations, len(sources))
         if not cls._is_string_list(translations, len(sources)):
             msg = "Mismatching assistant reply."
             raise MachineTranslationError(msg)
