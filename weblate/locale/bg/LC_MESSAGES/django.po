@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-28 04:09-0500\n"
-"PO-Revision-Date: 2026-05-28 11:33+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-05-29 12:29+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -382,10 +382,8 @@ msgid "Team"
 msgstr "Екип"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Добавяне на потребител към екип"
+msgstr "Добавяне към екип"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -568,7 +566,7 @@ msgstr ""
 #: weblate/accounts/models.py:326
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
-msgstr ""
+msgstr "Акаунтът е създаден извън weblate.org за достъп до платени услуги."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
@@ -597,11 +595,11 @@ msgstr ""
 "Потребител е добавен в екип {team}, който е за целия уеб сайт, от {username}."
 
 #: weblate/accounts/models.py:344
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"Потребител е добавен в екип {team}, който е за целия уеб сайт, от {username}."
+"Достъпът на потребител до екип {team}, който е за целия уеб сайт, беше "
+"променен от {username}."
 
 #: weblate/accounts/models.py:348
 #, python-brace-format
@@ -632,10 +630,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Потребител е добавен в екип {team} от {username}."
 
 #: weblate/accounts/models.py:360
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "Потребител е добавен в екип {team} от {username}."
+msgstr "Достъпът на потребител до екип {team} беше променен от {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:363
@@ -730,52 +727,39 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "Свържете се с отговорниците на проекта, ако смятате, че има грешка."
 
 #: weblate/accounts/models.py:429 weblate/accounts/models.py:433
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Ако сте били Вие, заявете нулиране на паролата, за да получите отново достъп "
-"до акаунта си."
+"Ако сте били Вие, нулирайте паролата си, за да получите отново достъп до "
+"акаунта си."
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:464
 msgctxt "User agent device type"
 msgid "PC"
-msgstr ""
+msgstr "Компютър"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:466
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "User agent device type"
 msgid "Other"
 msgstr "Друго"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:468
-#, fuzzy
-#| msgid "Generate"
 msgctxt "User agent device type"
 msgid "Generic Smartphone"
-msgstr "Създаване"
+msgstr "Смартфон"
 
 #: weblate/accounts/models.py:471
-#, fuzzy
-#| msgid "Generic presets"
 msgctxt "User agent device type"
 msgid "Generic Feature Phone"
-msgstr "Общи конфигурации"
+msgstr "Обикновен мобилен телефон"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:474
-#, fuzzy
-#| msgid "Service"
 msgctxt "User agent device type"
 msgid "iOS-Device"
-msgstr "Услуга"
+msgstr "Устройство с iOS"
 
 #: weblate/accounts/models.py:610 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:309
@@ -1120,11 +1104,9 @@ msgid "Strings are available for translation"
 msgstr "Низове са налични за превод"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary:"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Информация за превода:"
+msgstr "Информация за дейността по превода"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1733,20 +1715,12 @@ msgstr ""
 "ползват за превод в JavaScript или HTML."
 
 #: weblate/addons/cdn.py:269
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Файлове за превод"
+msgstr "CDN за файловете за превод"
 
 #: weblate/addons/cdn.py:271
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Публикува преводите в мрежа за доставка на съдържание (CDN), откъдето да се "
-"ползват за превод в JavaScript или HTML."
+msgstr "Публикува файловете с преводи в мрежа за доставка на съдържание."
 
 #: weblate/addons/cdn.py:308
 #, fuzzy
