@@ -42,6 +42,7 @@ Weblate 2026.6
 * Git repositories now update branches correctly when the remote also has a tag with the same name.
 * Conflicting repository setup alerts now allow same-branch direct pushes.
 * Obsolete cleanup schedules are now removed from Celery beat during upgrade.
+* Translation pages for workspace projects no longer crash when workspace fields are deferred.
 
 .. rubric:: Compatibility
 
