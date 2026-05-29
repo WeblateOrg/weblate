@@ -296,7 +296,7 @@ class ComponentTestCase(RepoTestCase):
         self.assertEqual(
             translated,
             expected_translated,
-            f"Did not found expected number of translations ({translated} != {expected_translated}).",
+            f"Did not find expected number of translations ({translated} != {expected_translated}).",
         )
 
     def edit_unit(
