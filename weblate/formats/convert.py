@@ -472,6 +472,7 @@ class MDXFormat(MarkdownFormat):
     name = gettext_lazy("MDX file")
     autoload: tuple[str, ...] = ("*.mdx",)
     format_id = "mdx"
+    check_flags = ("auto-safe-html", "strict-same", "md-text", "safe-mdx")
 
     @staticmethod
     def get_parser_class() -> type[Any]:

@@ -393,6 +393,12 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
         self.assertNotIn("Do not translate this JSX body.", sources)
         self.assertIn("LessonCard", Path(self.FILE).read_text(encoding="utf-8"))
 
+    def test_default_check_flags(self) -> None:
+        self.assertEqual(
+            self.format_class.check_flags,
+            ("auto-safe-html", "strict-same", "md-text", "safe-mdx"),
+        )
+
 
 class MDXFormatSaveTest(SimpleTestCase):
     def test_duplicate_sources_save_distinct_targets(self) -> None:
