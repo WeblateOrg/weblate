@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-05-29 06:29+0000\n"
+"PO-Revision-Date: 2026-05-29 12:29+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -1392,7 +1392,7 @@ msgstr "目前組件的檔案遮罩。"
 
 #: admin/addons.rst:110
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr "單語言翻譯範本的檔案名（可以為空）。"
+msgstr "單語言翻譯範本的檔案名稱（可以為空）。"
 
 #: admin/addons.rst:114
 msgid "Filename of the file used for creating new translations (can be empty)."
@@ -1473,7 +1473,7 @@ msgstr "在將翻譯提交到儲存庫之前，使用提交指令稿自動變更
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
-msgstr "它作為組成目前翻譯檔案名的單一參數而透過。"
+msgstr "它作為組成目前翻譯檔案名稱的單一參數而透過。"
 
 #: admin/addons.rst:184
 msgid "Add-on activity logging"
@@ -3405,7 +3405,7 @@ msgstr ""
 
 #: admin/backup.rst:417
 msgid "SSH and GPG keys"
-msgstr "SSH 和 GPG 金鑰"
+msgstr "SSH 與 GPG 金鑰"
 
 #: admin/backup.rst:419
 msgid ""
@@ -3429,6 +3429,7 @@ msgid ""
 msgstr ""
 
 #: admin/backup.rst:429
+#, fuzzy
 msgid "User uploaded files"
 msgstr "使用者已上傳檔案"
 
@@ -3457,7 +3458,7 @@ msgstr ""
 
 #: admin/backup.rst:448
 msgid "Command-line for manual backup"
-msgstr "手動備份的命令列"
+msgstr "適用於手動備份的命令列"
 
 #: admin/backup.rst:450
 msgid ""
@@ -3482,10 +3483,8 @@ msgid "Restore all data you have backed up."
 msgstr "將已經備份的所有資料恢復。"
 
 #: admin/backup.rst:467
-#, fuzzy
-#| msgid "Update all repositories using :djadmin:`updategit`."
 msgid "Update all repositories using :wladmin:`updategit`."
-msgstr "使用 :djadmin:`updategit` 更新所有儲存庫。"
+msgstr "使用 :wladmin:`updategit` 更新所有儲存庫。"
 
 #: admin/backup.rst:474
 msgid "Moving a Weblate installation"
@@ -3498,22 +3497,22 @@ msgid ""
 msgstr "按照上面備份與恢復說明，將您的安裝遷移到不同系統。"
 
 #: admin/backup.rst:481
-#, fuzzy
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_"
 msgstr ""
-"`Weblate 3.0 說明文件中關於從 2.20 升級到 3.0 <https://docs.weblate.org/en/"
-"weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
+"`Weblate 3.11.1 說明文件中關於從 Python 2 升級到 Python 3 的部分 <https://"
+"docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-"
+"2-to-python-3>`_"
 
 #: admin/checks.rst:2 user/checks.rst:2
 msgid "Checks and fixups"
-msgstr "檢查和修復"
+msgstr "檢查與修復"
 
 #: admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr "自訂自動修正"
+msgstr "自訂自動修復"
 
 #: admin/checks.rst:9
 msgid ""
@@ -3541,12 +3540,12 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"為了安裝客製的檢查，在 :setting:`AUTOFIX_LIST` 中為 Python 類提供完全合規的路"
+"為了安裝自訂的檢查，在 :setting:`AUTOFIX_LIST` 中為 Python 類提供完全合規的路"
 "徑，請參閱 :ref:`custom-check-modules`。"
 
 #: admin/checks.rst:27
 msgid "Customizing behavior using flags"
-msgstr "使用標誌自訂行為"
+msgstr "使用旗標自訂行為"
 
 #: admin/checks.rst:29
 #, fuzzy
@@ -3594,7 +3593,7 @@ msgstr ""
 
 #: admin/checks.rst:41
 msgid "File-format specific flags."
-msgstr ""
+msgstr "檔案格式特定旗標。"
 
 #: admin/checks.rst:42
 msgid ":ref:`component` (:ref:`component-check_flags`)."
@@ -3647,7 +3646,7 @@ msgstr ""
 
 #: admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
-msgstr "這裡是現在能接受的標記的清單："
+msgstr "這裡是目前接受的旗標清單："
 
 #: admin/checks.rst:84
 msgid ""
@@ -3739,6 +3738,7 @@ msgstr ""
 "面中沒有效果。"
 
 #: admin/checks.rst:143
+#, fuzzy
 msgid ""
 "The :ref:`check-max-size` check used to calculate dimensions of the rendered "
 "text needs font to be loaded into Weblate and selected using a translation "
@@ -3829,7 +3829,7 @@ msgid ""
 msgstr ""
 "Weblate 內建了很大範圍的品質檢查，（請參閱 :ref:`checks` ），儘管可能沒有覆寫"
 "想要檢查的所有內容。可以使用 :setting:`CHECK_LIST` 來調整執行檢查的清單，也可"
-"以新增客製的檢查。"
+"以新增自訂的檢查。"
 
 #: admin/checks.rst:190
 msgid "Subclass the `weblate.checks.Check`"
@@ -3856,8 +3856,8 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"為了安裝客製的檢查，在 :setting:`CHECK_LIST` 中為 Python 類提供完全合格的路"
-"徑，請參閱 :ref:`custom-check-modules`。"
+"為了安裝自訂的檢查，在 :setting:`CHECK_LIST` 中為 Python 類提供完全合格的路徑"
+"，請參閱 :ref:`custom-check-modules`。"
 
 #: admin/checks.rst:201
 msgid "Checking translation text does not contain \"foo\""
@@ -5564,8 +5564,8 @@ msgid ""
 "header is automatically generated based on enabled integrations with third-"
 "party services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"為 Weblate 客製 ``Content-Security-Policy`` 標頭。根據允許整合的第三方服務"
-"（ Matomo 、 Google Analytics 、 Sentry ……）來自動產生標頭。"
+"為 Weblate 自訂 ``Content-Security-Policy`` 標頭。根據允許整合的第三方服務（ "
+"Matomo 、 Google Analytics 、 Sentry ……）來自動產生標頭。"
 
 #: admin/config.rst:468
 #, fuzzy
@@ -7556,7 +7556,7 @@ msgstr "Weblate 嘗試使用您所有工具支援的後端。"
 
 #: admin/config.rst:2682
 msgid "You can limit choices or add custom VCS back-ends by using this."
-msgstr "可以使用這個來限制選擇或新增客製版本控制系統 （ VCS ）後端。"
+msgstr "可以使用這個來限制選擇或新增自訂版本控制系統 （ VCS ）後端。"
 
 #: admin/config.rst:2697
 msgid "Configures how deep cloning of repositories Weblate should do."
@@ -7571,7 +7571,7 @@ msgid ""
 "shallow clones completely by setting this to 0."
 msgstr ""
 "目前這只在 :ref:`vcs-git` 中支援。預設 Weblate 進行儲存庫的淺複製，使複製更快"
-"並節省磁碟空間。根據應用（例如當使用客製的 :ref:`addons` 時），您可能想要增加"
+"並節省磁碟空間。根據應用（例如當使用自訂的 :ref:`addons` 時），您可能想要增加"
 "深度，或通過設定為 0 來完全關閉淺複製。"
 
 #: admin/config.rst:2708
@@ -8629,7 +8629,7 @@ msgstr ""
 
 #: admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr "客製 Weblate"
+msgstr "自訂 Weblate"
 
 #: admin/customize.rst:4
 msgid ""
@@ -8638,7 +8638,7 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
-"使用 Django 和 Python 擴充與客製。將您的變更貢獻給上游，使每人都能夠受益。這"
+"使用 Django 和 Python 擴充與自訂。將您的變更貢獻給上游，使每人都能夠受益。這"
 "降低了您的維護成本； Weblate 中的代碼對變更內部介面或重構編碼時的情況。"
 
 #: admin/customize.rst:11
@@ -8660,7 +8660,7 @@ msgid ""
 "Please review your customizations for every upgrade, the interfaces or their "
 "semantics might change without notice."
 msgstr ""
-"內部介面與範本都不被認為是穩定的 API。請對每次升級都複查自己的客製，介面或其"
+"內部介面與範本都不被認為是穩定的 API。請對每次升級都複查自己的自訂，介面或其"
 "語義可能未經通知就進行變更。"
 
 #: admin/customize.rst:27
@@ -8708,7 +8708,7 @@ msgstr ""
 
 #: admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr "更好地是，將您的客製化轉變為適當的 Python 包："
+msgstr "更好地是，將您的自訂轉換為適當的 Python 套件："
 
 #: admin/customize.rst:47
 msgid "Create a folder for your package (we will use `weblate_customization`)."
@@ -8761,12 +8761,12 @@ msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
-"可以在 <https://github.com/WeblateOrg/customize-example> 找到客製 Weblate 範"
-"例，它涵蓋了下面描述的所有題目。"
+"可以在 <https://github.com/WeblateOrg/customize-example> 找到自訂 Weblate 的"
+"範例，它涵蓋了下面描述的所有主題。"
 
 #: admin/customize.rst:88
 msgid "Changing the logo"
-msgstr "替換 logo 中"
+msgstr "變更標誌"
 
 #: admin/customize.rst:90
 msgid ""
@@ -8804,7 +8804,7 @@ msgstr "在通知電子郵件中使用。"
 
 #: admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr "加入到 :setting:`django:INSTALLED_APPS` :"
+msgstr "將其新增至 :setting:`django:INSTALLED_APPS`："
 
 #: admin/customize.rst:116
 msgid ""
@@ -8838,7 +8838,7 @@ msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module` or :ref:`docker-python-override`)."
 msgstr ""
-"將檔案放置到您的包含 Weblate 客製的 Python 模組中（請參閱 :ref:`custom-"
+"將檔案放置到您的包含 Weblate 自訂的 Python 模組中（請參閱 :ref:`custom-"
 "module` ）。"
 
 #: admin/customize.rst:136
@@ -8862,7 +8862,7 @@ msgstr "如果多個組件分享相同的儲存庫，需要分別將他們全部
 
 #: admin/deployments.rst:13
 msgid "Third-party deployments for Weblate"
-msgstr "佈署第三方套件於 Weblate"
+msgstr "適用於 Weblate 的第三方部署"
 
 #: admin/deployments.rst:17
 msgid ""
@@ -8902,6 +8902,7 @@ msgid "Weblate in YunoHost"
 msgstr "在 YunoHost 中的 Weblate"
 
 #: admin/deployments.rst:34
+#, fuzzy
 msgid ""
 "The self-hosting project `YunoHost <https://yunohost.org/>`_ provides a "
 "package for Weblate. Once you have your YunoHost installation, you may "
@@ -8933,7 +8934,7 @@ msgstr "快速設定指南"
 
 #: admin/install.rst:4
 msgid "Configuration instructions"
-msgstr "配置指令"
+msgstr "配置指示"
 
 #: admin/install.rst:7
 msgid "Installing Weblate"
@@ -8947,15 +8948,15 @@ msgstr "根據您的設定和經驗，為您選擇適當的安裝方法："
 
 #: admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ":doc:`install/docker`, 推薦用於生產安裝。"
+msgstr ":doc:`install/docker`，推薦用於生產設定。"
 
 #: admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr "Virtualenv 安裝，推薦用於產品設定："
+msgstr "Virtualenv 安裝，推薦用於生產設定："
 
 #: admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ":doc:`install/source` ，推薦於開發。"
+msgstr ":doc:`install/source`，推薦用於開發。"
 
 #: admin/install.rst:43
 msgid "Architecture overview"
@@ -8975,17 +8976,13 @@ msgstr "Celery workers"
 
 #: admin/install.rst:133
 msgid ":ref:`celery` are executed here."
-msgstr ""
+msgstr ":ref:`celery` 在此被執行。"
 
 #: admin/install.rst:135
-#, fuzzy
-#| msgid ""
-#| "Depending on your configuration, you might also want to start Celery "
-#| "workers:"
 msgid ""
 "Depending on your workload, you might want to customize the number of "
 "workers."
-msgstr "取決於配置，您也許想啟動 Celery workers："
+msgstr "取決於工作負載，您可能會想自訂 workers 的數量。"
 
 #: admin/install.rst:137 admin/install.rst:141 admin/install.rst:149
 msgid "Use dedicated node when scaling Weblate horizontally."
@@ -9076,7 +9073,7 @@ msgstr ""
 msgid ""
 "Weblate is not supported on Windows. But it may still work and patches are "
 "happily accepted."
-msgstr "Windows 不支援 Weblate。但仍然可能工作，並願意接受修補程式。"
+msgstr ""
 
 #: admin/install.rst:177
 msgid ""
@@ -9094,10 +9091,13 @@ msgid ""
 "Python 3.12 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
+"Weblate 是以 `Python <https://www.python.org/>`_ 編寫並支援 Python 3.12 或更"
+"新版本。您可以使用 pip 或從您的發行版套件安裝依賴項，完整清單在 "
+":file:`requirements.txt` 中可用。"
 
 #: admin/install.rst:188
 msgid "Most notable dependencies:"
-msgstr "值得注意的依賴項："
+msgstr "最值得注意的依賴項："
 
 #: admin/install.rst:191
 msgid "https://www.djangoproject.com/"
@@ -9157,7 +9157,7 @@ msgstr "Weblate 功能"
 
 #: admin/install.rst:227
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
-msgstr ":ref:`mt-google-translate-api-v3` 帶有詞彙表支援"
+msgstr "支援詞彙表的 :ref:`mt-google-translate-api-v3`"
 
 #: admin/install.rst:243
 msgid "PostgreSQL, see :ref:`database-setup`"
@@ -9169,7 +9169,7 @@ msgstr "`rollbar <https://pypi.org/project/rollbar>`__"
 
 #: admin/install.rst:255
 msgid "Integrating SAML 2 IDP into Weblate"
-msgstr "整合 SAML 2 IDP 到 Weblate"
+msgstr "整合 SAML 2 IDP 至 Weblate 中"
 
 #: admin/install.rst:0
 msgid "`Sphinx <https://pypi.org/project/Sphinx>`_"
@@ -9227,6 +9227,8 @@ msgid ""
 "This is a known issue of the xmlsec package, please see https://github.com/"
 "xmlsec/python-xmlsec/issues/314."
 msgstr ""
+"此為 xmlsec 套件的已知問題，請參閱 https://github.com/xmlsec/python-xmlsec/"
+"issues/314。"
 
 #: admin/install.rst:314
 msgid ""
@@ -9259,18 +9261,16 @@ msgstr ""
 "閱 :ref:`pangocairo`"
 
 #: admin/install.rst:329
-#, fuzzy
 msgid "``git-review`` (optional for Gerrit support)"
-msgstr "``git-review`` （可選用支援 Gerrit）"
+msgstr "``git-review`` （對於 Gerrit 支援可選）"
 
 #: admin/install.rst:330
 msgid "https://pypi.org/project/git-review/"
 msgstr "https://pypi.org/project/git-review/"
 
 #: admin/install.rst:331
-#, fuzzy
 msgid "``git-svn`` (optional for Subversion support)"
-msgstr "``git-svn`` （可選用支援 Subversion）"
+msgstr "``git-svn`` （對於 Subversion 支援可選）"
 
 #: admin/install.rst:332
 msgid "https://git-scm.com/docs/git-svn"
@@ -9307,6 +9307,7 @@ msgid "Pango and Cairo"
 msgstr "Pango 與 Cairo"
 
 #: admin/install.rst:349
+#, fuzzy
 msgid ""
 "Weblate uses Pango and Cairo for rendering bitmap widgets "
 "(see :ref:`promotion`) and rendering checks (see :ref:`fonts`). To properly "
@@ -9825,8 +9826,6 @@ msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
-"金鑰會被 Django 簽署相同資訊在瀏覽器 cookies 中，請參閱 :ref:`production-"
-"secret` 瞭解更多資訊。"
 
 #: admin/install.rst:822
 msgid ""
@@ -10258,7 +10257,7 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
-"Weblate 在 HTTP 請求時驗證 SSL 憑證。在使用 客製的憑證授權的情況下，這樣客製"
+"Weblate 在 HTTP 請求時驗證 SSL 憑證。在使用 自訂的憑證授權的情況下，這樣自訂"
 "的憑證授權在預設 bundles 的中不被信任，您必須將其憑證新增為可信任。"
 
 #: admin/install.rst:1185
@@ -10524,7 +10523,7 @@ msgstr ""
 "預設的 Weblate 配置允許 ``weblate.middleware.SecurityMiddleware`` 中介層，它"
 "設定與 HTTP 標頭相關的安全，如 ``Content-Security-Policy`` 或 ``X-XSS-"
 "Protection``。這些被預設新增，與 Weblate 及其配置一起工作，但這對您的環境需要"
-"客製化。"
+"自訂化。"
 
 #: admin/install.rst:1379
 msgid "Sample configuration for NGINX and Granian"
@@ -11189,7 +11188,7 @@ msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
-"不要忘記移動 Weblate 會使用的其他服務，如 Redis 、 Cron 工作或客製的身分驗證"
+"不要忘記移動 Weblate 會使用的其他服務，如 Redis 、 Cron 工作或自訂的身分驗證"
 "後端。"
 
 #: admin/install/docker.rst:2
@@ -12243,7 +12242,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgid "Allows to customize :http:header:`Content-Security-Policy` HTTP header."
-msgstr "允許客製 ``Content-Security-Policy`` HTTP 標頭。"
+msgstr "允許自訂 ``Content-Security-Policy`` HTTP 標頭。"
 
 #: admin/install/docker.rst:1034
 msgid "Configures :setting:`LICENSE_FILTER`."
@@ -14048,6 +14047,7 @@ msgid "Eliminate"
 msgstr "終止"
 
 #: admin/install/openshift.rst:104
+#, fuzzy
 msgid ""
 "By processing the template a respective ``ConfigMap`` will be created and "
 "which can be used to customize the Weblate image. The ``ConfigMap`` is "
@@ -14055,7 +14055,7 @@ msgid ""
 "every time it is changed. For further configuration options, "
 "see :ref:`docker-environment` for full list of environment variables."
 msgstr ""
-"通過處理範本，將新增各自的 ``ConfigMap``，並且可以用於客製 Weblate 映像。 "
+"通過處理範本，將新增各自的 ``ConfigMap``，並且可以用於自訂 Weblate 映像。 "
 "``ConfigMap`` 直接作為環境變數掛載，並且在每次變更時觸發新的部署。對於更多配"
 "置選項，環境變數的完整清單請參閱 :ref:`docker-environment` for full list of "
 "environment variables。"
@@ -15417,7 +15417,7 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
-"更複雜範例是關於解析文件名而從文件名中得到正確的組件和語言，像 ``src/"
+"更複雜範例是關於解析檔案名稱而從檔案名稱中得到正確的組件和語言，像 ``src/"
 "security/Numerous_security_holes_in_0.10.1.de.po``："
 
 #: admin/management.rst:614
@@ -17122,8 +17122,8 @@ msgid ""
 "matches are case sensitive, so ensure you use the source language codes in "
 "same form as used in the filenames."
 msgstr ""
-"當匹配翻譯文件時映射語言代碼，並且映射是大小寫敏感的，所以您確保使用與文件名"
-"中使用的形式相同的來源語言代碼。"
+"當匹配翻譯文件時映射語言代碼，並且映射是大小寫敏感的，所以您確保使用與檔案名"
+"稱中使用的形式相同的來源語言代碼。"
 
 #: admin/projects.rst:321 admin/projects.rst:1076
 msgid "Secondary language"
@@ -17153,7 +17153,7 @@ msgstr "翻譯旗標"
 msgid ""
 "Customization of quality checks and other Weblate behavior, see :ref:`custom-"
 "checks`."
-msgstr "品質檢查和其他 Weblate 行為的客製，請參閱 :ref:`custom-checks`。"
+msgstr "品質檢查和其他 Weblate 行為的自訂，請參閱 :ref:`custom-checks`。"
 
 #: admin/projects.rst:347 devel/sphinx.rst:30
 msgid "Component configuration"
@@ -17424,7 +17424,7 @@ msgid ""
 "In case your filename contains special characters such as ``[``, ``]``, "
 "these need to be escaped as ``[[]`` or ``[]]``."
 msgstr ""
-"如果文件名包含特殊字元（例如``[``，``]``），則需要將這些特殊字元轉義為 "
+"如果檔案名稱包含特殊字元（例如``[``，``]``），則需要將這些特殊字元轉義為 "
 "``[[]`` 或 ``[]]``。"
 
 #: admin/projects.rst:527
@@ -17504,7 +17504,7 @@ msgstr ""
 #: formats/winrc.rst:40 formats/wxl.rst:33 formats/xliff.rst:150
 #: formats/xliff.rst:162 formats/xliff2.rst:51 formats/yaml.rst:36
 msgid "Monolingual base language file"
-msgstr "單語言的基底語言檔案"
+msgstr "單語言基底語言檔案"
 
 #: admin/projects.rst:568
 #, fuzzy
@@ -17917,7 +17917,7 @@ msgstr "語言代碼類型"
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
-msgstr "用來產生使用 Weblate 建立之翻譯檔案名的自訂語言代碼。"
+msgstr "用來產生使用 Weblate 建立之翻譯檔案名稱的自訂語言代碼。"
 
 #: admin/projects.rst:840
 #, fuzzy
@@ -18256,7 +18256,7 @@ msgstr "掃描檔案遮罩時用來篩選過濾翻譯檔案的正規表達式。
 
 #: admin/projects.rst:1008
 msgid "You need to list language codes as they appear in the filename."
-msgstr "單出現在文件名中時，您需要列出語言代碼。"
+msgstr "單出現在檔案名稱中時，您需要列出語言代碼。"
 
 #: admin/projects.rst:1010 admin/projects.rst:1038
 msgid "Some examples of filtering:"
@@ -18545,7 +18545,7 @@ msgstr "翻譯 URL"
 
 #: admin/projects.rst:1227
 msgid "Translation filename"
-msgstr "翻譯檔案名"
+msgstr "翻譯檔案名稱"
 
 #: admin/projects.rst:1229
 msgid "Translation stats, this has further attributes, examples below."
@@ -18612,8 +18612,8 @@ msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
-"文件名，您也可以使用 ``parentdir`` 過濾器，例如 ``{{filename|parentdir}}``，"
-"來剝除前導部分"
+"檔案名稱，您也可以使用 ``parentdir`` 過濾器，例如 ``{{filename|parentdir}}"
+"``，來剝除前導部分"
 
 #: admin/projects.rst:1260
 #, fuzzy
@@ -18641,7 +18641,7 @@ msgstr "您可以將它與過濾器結合："
 
 #: admin/projects.rst:1286
 msgid "There are also additional filter to manipulate with filenames:"
-msgstr "還有另外的過濾器來操作文件名："
+msgstr "還有另外的過濾器來操作檔案名稱："
 
 #: admin/projects.rst:1295
 #, fuzzy
@@ -19027,7 +19027,7 @@ msgstr ""
 
 #: admin/translating.rst:2
 msgid "Translation process"
-msgstr "翻譯程式"
+msgstr "翻譯過程"
 
 #: admin/translating.rst:9
 #, fuzzy
@@ -19070,8 +19070,6 @@ msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
 msgstr ""
-"您可以將這些與 :ref:`access control <access-control>` 合併到以下設定中的一"
-"個："
 
 #: admin/translating.rst:26
 msgid ""
@@ -19084,16 +19082,12 @@ msgid "Turn on voting."
 msgstr "開啟投票。"
 
 #: admin/translating.rst:30
-#, fuzzy
-#| msgid "Turn off this notification"
 msgid "Turn off automatic acceptance."
-msgstr "關閉此通知"
+msgstr "關閉自動接受"
 
 #: admin/translating.rst:31
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Don't let users save translations."
-msgstr "刪除一個翻譯。"
+msgstr "不要讓使用者儲存翻譯。"
 
 #: admin/translating.rst:33
 #, fuzzy
@@ -19131,7 +19125,7 @@ msgstr ""
 
 #: admin/translating.rst:47
 msgid "Additional info on source strings"
-msgstr "來源字串另外的資訊"
+msgstr "來源字串的額外資訊"
 
 #: admin/translating.rst:49
 msgid ""
@@ -19140,9 +19134,6 @@ msgid ""
 "Some of that info may be extracted from the translation files and some may "
 "be added by editing the additional string info:"
 msgstr ""
-"通過向字串新增額外的資訊來增強翻譯過程，這些資訊包括解釋、字串優先級、檢查標"
-"記和可視化上下文。有些資訊可以從翻譯文件中提取，有些可以通過編輯額外的字串資"
-"訊新增:"
 
 #: admin/translating.rst:56
 msgid ""
@@ -19161,8 +19152,6 @@ msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag."
 msgstr ""
-"使用 ``priority`` 標識可以變更字串優先級來為字串提供更高優先級，以便更早地進"
-"行翻譯。"
 
 #: admin/translating.rst:75
 msgid "This can be used to order the flow of translation in a logical manner."
@@ -19181,7 +19170,7 @@ msgstr "解釋"
 
 #: admin/translating.rst:105
 msgid "In previous versions this has been called :guilabel:`Extra context`."
-msgstr "在以前的版本中這被稱為 :guilabel:`Extra context`。"
+msgstr ""
 
 #: admin/translating.rst:109
 #, fuzzy
@@ -19222,12 +19211,10 @@ msgid ""
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
 msgstr ""
-"您可以將顯示您程式中使用的給定來源字串的截屏上傳。這幫助翻譯者理解它用在哪"
-"裡，並且應該如何翻譯。"
 
 #: admin/translating.rst:130
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
-msgstr "上傳的截屏在翻譯語境的側邊條中顯示："
+msgstr ""
 
 #: admin/translating.rst:134
 msgid ""
@@ -19266,7 +19253,7 @@ msgstr ""
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
-msgstr "一旦上傳了截屏，那麼這個介面處理管理以及來源字串的聯繫："
+msgstr ""
 
 #: admin/translating.rst:163
 msgid ""
@@ -19818,10 +19805,8 @@ msgid ""
 msgstr ""
 
 #: admin/workspaces.rst:57
-#, fuzzy
-#| msgid "The default value is:"
 msgid "The default workspace teams are:"
-msgstr "預設值為："
+msgstr "預設工作空間團隊為："
 
 #: admin/workspaces.rst:59
 #, fuzzy
@@ -22156,7 +22141,7 @@ msgstr "支援檢查 Python brace 格式字元傳。"
 
 #: changes/v1.rst:43
 msgid "Per component customization of quality checks."
-msgstr "每個組件的品質檢查客製。"
+msgstr "每個組件的品質檢查自訂。"
 
 #: changes/v1.rst:44
 msgid "Detailed per translation stats."
@@ -24065,7 +24050,7 @@ msgstr "新增了對 Google Analytics 的支援。"
 
 #: changes/v2.rst:445
 msgid "Improved handling of translation filenames."
-msgstr "改進了翻譯文件名的處理。"
+msgstr "改進了翻譯檔案名稱的處理。"
 
 #: changes/v2.rst:446
 msgid "Added support for monolingual JSON translations."
@@ -24130,7 +24115,7 @@ msgstr "改進了儲存庫鎖定。"
 
 #: changes/v2.rst:466
 msgid "Customizable quality checks per source string."
-msgstr "每個來源字串可客製的品質檢查。"
+msgstr "每個來源字串可自訂的品質檢查。"
 
 #: changes/v2.rst:467
 msgid "Allow to hide completed translations from dashboard."
@@ -24328,7 +24313,7 @@ msgstr "存檔的 Celery 設定變更。"
 
 #: changes/v3.rst:42
 msgid "Improved filename validation on component creation."
-msgstr "改進了新增組件時文件名的驗證。"
+msgstr "改進了新增組件時檔案名稱的驗證。"
 
 #: changes/v3.rst:43
 msgid "Fixed minimal versions of some dependencies."
@@ -24772,7 +24757,7 @@ msgstr "新增了對 Gitea 與 Gitee webhooks 的支援。"
 
 #: changes/v3.rst:182
 msgid "Added new custom regex based check."
-msgstr "新增了新的客製的基於正規表達式的檢查。"
+msgstr "新增了新的自訂的基於正規表達式的檢查。"
 
 #: changes/v3.rst:183
 msgid "Allow to configure contributing to shared translation memory."
@@ -25030,7 +25015,7 @@ msgstr "允許終止執行背景組件的更新。"
 
 #: changes/v3.rst:259
 msgid "Extend template language for filename manipulations."
-msgstr "為文件名操作擴充了範本語言。"
+msgstr "為檔案名稱操作擴充了範本語言。"
 
 #: changes/v3.rst:260
 msgid "Use templates for editor link and repository browser URL."
@@ -25387,7 +25372,7 @@ msgstr "新增了帶有翻譯文件自動檢測的翻譯組件新增指南。"
 
 #: changes/v3.rst:369
 msgid "Customizable merge commit messages for Git."
-msgstr "可客製的 Git 合併提交消息。"
+msgstr "可自訂的 Git 合併提交消息。"
 
 #: changes/v3.rst:370
 msgid "Added visual indication of component alerts in navigation."
@@ -25713,7 +25698,7 @@ msgstr "為翻譯時跳到特定位置新增支援。"
 
 #: changes/v3.rst:472
 msgid "Downloaded translations can now be customized."
-msgstr "現在可以客製下載翻譯。"
+msgstr "現在可以自訂下載翻譯。"
 
 #: changes/v3.rst:473
 msgid ""
@@ -27241,7 +27226,7 @@ msgstr "修復了提出建議的問題。"
 #, fuzzy
 #| msgid "Downloaded translations can now be customized."
 msgid "The project tokens access can now be customized."
-msgstr "現在可以客製下載翻譯。"
+msgstr "現在可以自訂下載翻譯。"
 
 #: changes/v4.rst:458
 msgid ""
@@ -32814,7 +32799,7 @@ msgstr "新語言加入了至 %(component)s"
 #, fuzzy
 #| msgid "Downloaded translations can now be customized."
 msgid ":ref:`mt-sources` can now be customized."
-msgstr "現在可以客製下載翻譯。"
+msgstr "現在可以自訂下載翻譯。"
 
 #: changes/v5.rst:993
 msgid ""
@@ -33302,7 +33287,7 @@ msgstr ""
 #| msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgid ""
 ":http:header:`Content-Security-Policy` is now automatically set for AWS."
-msgstr "允許客製 ``Content-Security-Policy`` HTTP 標頭。"
+msgstr "允許自訂 ``Content-Security-Policy`` HTTP 標頭。"
 
 #: changes/v5.rst:1181
 #, fuzzy
@@ -35973,11 +35958,11 @@ msgstr "查詢 :ref:`internals` 看看 Weblate 從內部看是什麼樣子的。
 
 #: contributing/code_of_conduct.rst:2
 msgid "Code of Conduct"
-msgstr ""
+msgstr "行為準則"
 
 #: contributing/code_of_conduct.rst:5
 msgid "Our Pledge"
-msgstr ""
+msgstr "我們的承諾"
 
 #: contributing/code_of_conduct.rst:7
 msgid "We pledge to make our community welcoming, safe, and equitable for all."
@@ -35997,7 +35982,7 @@ msgstr ""
 
 #: contributing/code_of_conduct.rst:12
 msgid "Encouraged Behaviors"
-msgstr ""
+msgstr "鼓勵的行為"
 
 #: contributing/code_of_conduct.rst:14
 msgid ""
@@ -37268,7 +37253,7 @@ msgstr "版本控制系統抽象概念。"
 
 #: contributing/internals.rst:102
 msgid "Django admin interface customization."
-msgstr "Django 管理介面客製化。"
+msgstr "Django 管理介面自訂。"
 
 #: contributing/internals.rst:111
 msgid "Background tasks internals"
@@ -41721,8 +41706,7 @@ msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames. Additionally, any mappings defined "
 "in :ref:`project-language_aliases` are applied in reverse."
-msgstr ""
-":ref:`component-language_code_style` 允許在產生的文件名中將語言代碼客製化："
+msgstr ":ref:`component-language_code_style` 允許在產生的檔案名稱中將語言代碼自訂化："
 
 #: devel/translations.rst:65
 #, fuzzy
@@ -43622,7 +43606,7 @@ msgstr ""
 
 #: formats/fluent.rst:4
 msgid "Fluent format"
-msgstr "流暢的格式"
+msgstr "Fluent 格式"
 
 #: formats/fluent.rst:10
 msgid ""
@@ -43633,7 +43617,7 @@ msgstr ""
 
 #: formats/fluent.rst:18
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
-msgstr ""
+msgstr "`Project Fluent 網站 <https://projectfluent.org/>`_"
 
 #: formats/fluent.rst:38
 msgid "`Fluent file`"
@@ -44641,7 +44625,7 @@ msgstr "`go-i18n TOML 檔案`"
 
 #: formats/toml.rst:15
 msgid "go-i18n variant with plurals support."
-msgstr ""
+msgstr "支援複數的 go-i18n 變體。"
 
 #: formats/txt.rst:4
 msgid "Text files"
@@ -44698,7 +44682,7 @@ msgstr "WebExtension JSON"
 msgid ""
 "File format used when translating extensions for Mozilla Firefox or Google "
 "Chromium."
-msgstr "在翻譯Mozilla Firefox或Google Chromium的擴充時使用的檔案格式。"
+msgstr ""
 
 #: formats/webextension.rst:10
 #, fuzzy
@@ -44719,6 +44703,8 @@ msgid ""
 "`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
 "api/i18n>`_"
 msgstr ""
+"`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
+"api/i18n>`_"
 
 #: formats/webextension.rst:18
 #, fuzzy
@@ -44788,7 +44774,7 @@ msgstr "XLIFF 1.1 與 1.2"
 msgid ""
 ":doc:`/formats/xliff2` is a different format and is not backwards compatible "
 "with XLIFF 1.2."
-msgstr ""
+msgstr ":doc:`/formats/xliff2` 是個不同的格式並且不向下相容於 XLIFF 1.2。"
 
 #: formats/xliff.rst:13 formats/xliff2.rst:12
 msgid ""
@@ -45080,7 +45066,7 @@ msgstr "YAML 檔案"
 msgid ""
 "The plain YAML files with string keys and values. Weblate also extract "
 "strings from lists or dictionaries."
-msgstr "具有字串鍵和值的普通yaml文件。Weblate還從清單或詞典中提取字串。"
+msgstr ""
 
 #: formats/yaml.rst:11
 msgid "Weblate currently supports several variants of YAML translations:"
@@ -45088,7 +45074,7 @@ msgstr "Weblate 目前支援 YAML 翻譯的幾個變體："
 
 #: formats/yaml.rst:21
 msgid "Example of a YAML file:"
-msgstr "YAML 檔案的範例："
+msgstr "YAML 檔案範例："
 
 #: formats/yaml.rst:40
 msgid "`YAML file`"
@@ -45149,6 +45135,9 @@ msgid ""
 "docs.weblate.org/en/latest/>`_ by community members on `Hosted Weblate "
 "<https://hosted.weblate.org/projects/weblate/documentation/>`_."
 msgstr ""
+"此說明文件為社群成員在 `Hosted Weblate <https://hosted.weblate.org/projects/"
+"weblate/documentation/>`_ 上從 `原始英文版本 <https://docs.weblate.org/en/"
+"latest/>`_ 翻譯而來。"
 
 #: index.rst:20
 msgid ""
@@ -45157,13 +45146,15 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"取決於翻譯進度，您可能會找到仍為英語的段落或整個頁面。您可以透過在 Weblate 上"
+"提供新翻譯或檢閱現有翻譯來幫助社群。"
 
 #: index.rst:25
 msgid ""
 "Welcome to the official documentation of `Weblate <https://weblate.org>`_, "
 "the libre software web-based continuous localization system."
 msgstr ""
-"歡迎來到 `Weblate <https://weblate.org>`_ 的官方說明文件，基於 web 並且是自由"
+"歡迎來到 `Weblate <https://weblate.org>`_ 的官方說明文件，基於網路並且是自由"
 "軟體的持續在地化系統。"
 
 #: index.rst:28
@@ -45238,7 +45229,7 @@ msgstr ":exc:`WeblateException`"
 
 #: python.rst:31
 msgid "Base class for all exceptions."
-msgstr "所有例外的基底類別。"
+msgstr "適用於所有例外的基底類別。"
 
 #: python.rst:34
 msgid ":class:`Weblate`"
@@ -50599,7 +50590,7 @@ msgstr "使用 Django 模板語法。這個模板必須包含 {{ component }}。
 
 #: snippets/addons-autogenerated.rst:240
 msgid "Define the monolingual base filename"
-msgstr "定義單語言的基礎檔案名"
+msgstr "定義單語言的基礎檔案名稱"
 
 #: snippets/addons-autogenerated.rst:240
 msgid ""
@@ -50740,7 +50731,7 @@ msgstr ""
 #| "You can use Django templates markup in both filename and content, for "
 #| "example:"
 msgid "You can use Django template markup in all filename fields, for example:"
-msgstr "您可以在檔案名和內容中使用 Django 範本標記語法，例如："
+msgstr "您可以在檔案名稱和內容中使用 Django 範本標記語法，例如："
 
 #: snippets/addons-autogenerated.rst:305
 #, fuzzy
@@ -50750,7 +50741,7 @@ msgstr "冗長組件名稱，用於顯示組件的名稱。"
 
 #: snippets/addons-autogenerated.rst:307
 msgid "Component filename with upper case first letter"
-msgstr "組件檔案名首字母大寫"
+msgstr "組件檔案名稱首字母大寫"
 
 #: snippets/addons-autogenerated.rst:309
 #, fuzzy
@@ -50822,7 +50813,7 @@ msgstr "複雜的檔案名稱"
 
 #: snippets/addons-autogenerated.rst:351
 msgid "Using both component and language name within filename."
-msgstr "檔案名同時使用組件名稱和語言名稱。"
+msgstr "檔案名稱同時使用組件名稱和語言名稱。"
 
 #: snippets/addons-autogenerated.rst:362
 msgid "Repeated language code"
@@ -50830,7 +50821,7 @@ msgstr "重複的語言代碼"
 
 #: snippets/addons-autogenerated.rst:364
 msgid "Using language in both path and filename."
-msgstr "路徑和檔案名中都使用語言名稱。"
+msgstr "路徑和檔案名稱中都使用語言名稱。"
 
 #: snippets/addons-autogenerated.rst:376
 msgid "Split Android strings"
@@ -51271,8 +51262,8 @@ msgid ""
 "You can use a Django template in both filename and content, "
 "see :ref:`markup` for a detailed markup description."
 msgstr ""
-"您可以使用 Django 範本在檔案名或內容中，參閱： :ref:`markup` 取得更多標記描述"
-"細節。"
+"您可以使用 Django 範本在檔案名稱或內容中，參閱： :ref:`markup` 取得更多標記描"
+"述細節。"
 
 #: snippets/addons-autogenerated.rst:836
 msgid "For example generating a summary file for each translation:"
@@ -51699,10 +51690,11 @@ msgid "Automatically generates a MO file for every changed PO file."
 msgstr "每次 PO 檔案有變動時便自動產生 MO 檔案。"
 
 #: snippets/addons-autogenerated.rst:1144
+#, fuzzy
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
-msgstr "產生的 MO 檔案的位置可以客製化，並且其欄位使用 :ref:`markup`。"
+msgstr "產生的 MO 檔案的位置可以自訂，並且其欄位使用 :ref:`markup`。"
 
 #: snippets/addons-autogenerated.rst:1148
 msgid ""
@@ -51950,7 +51942,7 @@ msgstr ""
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
-msgstr "原始提交資訊可選地由客製的提交資訊覆寫。"
+msgstr "原始提交資訊可選地由自訂的提交資訊覆寫。"
 
 #: snippets/addons-autogenerated.rst:1367
 msgid ""
@@ -51976,7 +51968,7 @@ msgstr "重設儲存庫至上游狀態"
 #: snippets/addons-autogenerated.rst:1438
 #: snippets/addons-autogenerated.rst:1463
 msgid ":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`"
-msgstr ":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`"
+msgstr ":ref:`addon-event-add-on-installation` 、 :ref:`addon-event-daily`"
 
 #: snippets/addons-autogenerated.rst:1397
 msgid "Discards all changes in the Weblate repository each night."
@@ -51996,7 +51988,7 @@ msgstr "格式化並排序 Java properties 檔案。"
 
 #: snippets/addons-autogenerated.rst:1419
 msgid "Consolidates newlines to Unix ones."
-msgstr "將新行合併為 Unix ones。"
+msgstr "合併換行至 Unix 版本。"
 
 #: snippets/addons-autogenerated.rst:1420
 msgid ""
@@ -52043,7 +52035,7 @@ msgstr "陳舊建議移除"
 
 #: snippets/addons-autogenerated.rst:1460
 msgid "Voting threshold"
-msgstr "最低投票數"
+msgstr "投票閾值"
 
 #: snippets/addons-autogenerated.rst:1460
 msgid ""
@@ -52124,11 +52116,11 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:1548
 msgid "Webhook secret"
-msgstr "Webhook 金鑰"
+msgstr "Webhook 秘密"
 
 #: snippets/addons-autogenerated.rst:1548
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr "標準的 Webhook 金鑰是一個編碼成 Base64 的字串。"
+msgstr "標準 Webhook 秘密是個 base64 編碼的字串。"
 
 #: snippets/addons-autogenerated.rst:1555
 msgid ""
@@ -52177,6 +52169,8 @@ msgid ""
 "`Standard Webhooks Specification <https://github.com/standard-webhooks/"
 "standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 msgstr ""
+"`標準 Webhooks 規範 <https://github.com/standard-webhooks/standard-webhooks/"
+"blob/main/spec/standard-webhooks.md>`_"
 
 #: snippets/addons-autogenerated.rst:1628
 #, fuzzy
@@ -52188,7 +52182,7 @@ msgstr "https://pypi.org/project/git-review/"
 
 #: snippets/basics.rst:2
 msgid "Weblate basics"
-msgstr "Weblate 基礎知識"
+msgstr "Weblate 基礎"
 
 #: snippets/basics.rst:5
 msgid "Project and component structure"
@@ -52235,7 +52229,7 @@ msgstr ""
 
 #: snippets/basics.rst:32
 msgid ":ref:`architecture` describes how Weblate works internally."
-msgstr ""
+msgstr ":ref:`architecture` 描述 Weblate 內部如何運作。"
 
 #: snippets/basics.rst:35
 msgid "User attribution"
@@ -52277,8 +52271,7 @@ msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 可以讓電子郵件預設隱藏
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
-msgstr ""
-"字串應該唯讀，並且不能在 Weblate 中編輯。請參閱 :ref:`read-only-strings`。"
+msgstr "應該唯讀並且不該在 Weblate 中編輯的字串。請參閱 :ref:`read-only-strings`。"
 
 #: snippets/check-flags-autogenerated.rst:4
 msgid ""
@@ -52300,31 +52293,29 @@ msgstr ""
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
-msgstr "將字串的最大長度限制為 N 個字元，請參閱 :ref:`check-max-length`。"
+msgstr "限制字串的最大長度為 N 個字元，請參閱 :ref:`check-max-length`。"
 
 #: snippets/check-flags-autogenerated.rst:12
 msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
-msgstr ""
-"將文字看作 XML 檔案，影響 :ref:`check-xml-invalid` and :ref:`check-xml-"
-"tags`。"
+msgstr "將文字視為 XML 文件，影響 :ref:`check-xml-invalid` 與 :ref:`check-xml-tags`。"
 
 #: snippets/check-flags-autogenerated.rst:14
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
-msgstr "定義 font-family 來提供檢查，請參閱 :ref:`fonts`。"
+msgstr "為繪製檢查定義字型家族，請參閱 :ref:`fonts`。"
 
 #: snippets/check-flags-autogenerated.rst:16
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
-msgstr "定義 font-weight 來提供檢查，請參閱 :ref:`fonts`。"
+msgstr "為繪製檢查定義字型權重，請參閱 :ref:`fonts`。"
 
 #: snippets/check-flags-autogenerated.rst:18
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
-msgstr "定義 font-size 來提供檢查，請參閱 :ref:`fonts`。"
+msgstr "為繪製檢查定義字型大小，請參閱 :ref:`fonts`。"
 
 #: snippets/check-flags-autogenerated.rst:20
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
-msgstr "定義渲染檢查的字母間隔，請參閱 :ref:`fonts`。"
+msgstr "為繪製檢查定義字母間隔，請參閱 :ref:`fonts`。"
 
 #: snippets/check-flags-autogenerated.rst:22
 #, fuzzy
@@ -52366,7 +52357,7 @@ msgstr "將此字串標記為具有匹配來源的字串的變體。見 :ref:`va
 
 #: snippets/check-flags-autogenerated.rst:35
 msgid "Regular expression to match translation, see :ref:`check-regex`."
-msgstr "正規表達式用來比對翻譯，參閱：:ref:`check-regex` 。"
+msgstr ""
 
 #: snippets/check-flags-autogenerated.rst:37
 msgid "Discards flag defined on a higher level."
@@ -53185,7 +53176,7 @@ msgid ""
 "This check has to be turned on using ``check-glossary`` flag "
 "(see :ref:`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
-"此檢查必須使用“檢查詞彙表”標誌（參閱:ref:“客製檢查”）。在啟用它之前請考慮以下"
+"此檢查必須使用“檢查詞彙表”標誌（參閱:ref:“自訂檢查”）。在啟用它之前請考慮以下"
 "操作："
 
 #: snippets/checks-autogenerated.rst:115
@@ -58421,13 +58412,11 @@ msgstr ":guilabel:`工作空間管理`"
 
 #: snippets/permissions.rst:329
 msgid "Add projects to workspace"
-msgstr ""
+msgstr "新增專案至工作空間"
 
 #: snippets/permissions.rst:331
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add workspace projects`"
-msgstr ":guilabel:`新增新專案`"
+msgstr ":guilabel:`新增工作空間專案`"
 
 #: snippets/permissions.rst:333
 msgid "Manage workspace access"
@@ -58787,38 +58776,28 @@ msgid "`Workspace administration`"
 msgstr "`工作空間管理`"
 
 #: snippets/roles.rst:199 snippets/roles.rst:204
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add projects to workspace`"
-msgstr ":guilabel:`新增新專案`"
+msgstr ":guilabel:`新增專案至工作空間`"
 
 #: snippets/roles.rst:200
-#, fuzzy
-#| msgid ":guilabel:`Edit source strings`"
 msgid ":guilabel:`Edit workspace settings`"
-msgstr ":guilabel:`編輯來源字串`"
+msgstr ":guilabel:`編輯工作空間設定`"
 
 #: snippets/roles.rst:201
-#, fuzzy
-#| msgid ":guilabel:`Manage project access`"
 msgid ":guilabel:`Manage workspace access`"
-msgstr ":guilabel:`管理專案存取`"
+msgstr ":guilabel:`管理工作空間存取權`"
 
 #: snippets/roles.rst:203
-#, fuzzy
-#| msgid "`Add new projects`"
 msgid "`Add workspace projects`"
-msgstr "`新增新專案`"
+msgstr "`新增工作空間專案`"
 
 #: snippets/roles.rst:206
 msgid "`Add new projects`"
 msgstr "`新增新專案`"
 
 #: snippets/roles.rst:208
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add new workspaces`"
-msgstr ":guilabel:`新增新專案`"
+msgstr ":guilabel:`新增新的工作空間`"
 
 #: snippets/vcs-credentials.rst:1
 msgid ""
