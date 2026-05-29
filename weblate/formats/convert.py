@@ -378,7 +378,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     name = gettext_lazy("Markdown file")
     autoload: tuple[str, ...] = ("*.md", "*.markdown")
     format_id = "markdown"
-    check_flags = ("auto-safe-html", "strict-same", "md-text")
+    check_flags: tuple[str, ...] = ("auto-safe-html", "strict-same", "md-text")
 
     @staticmethod
     def get_parser_class() -> type[Any]:
