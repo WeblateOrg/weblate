@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-05-28 15:54+0000\n"
+"PO-Revision-Date: 2026-05-29 12:29+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -4483,6 +4483,9 @@ msgid ""
 "GitHub SSH URLs for your repositories, for example ``git@github.com:owner/"
 "repo.git``."
 msgstr ""
+"Für GitHub erstellen Sie einen eigenen Benutzer, z. B. ``weblate-bot``, und "
+"verwenden Sie GitHub-SSH-URLs für Ihre Repositorys, z. B. "
+"``git@github.com:owner/repo.git``."
 
 #: admin/code-hosting.rst:215
 msgid ""
@@ -4499,10 +4502,10 @@ msgid ""
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"Beim Verwenden von :guilabel:`GitHub` für Pull Requests wirkt sich "
-"die :ref:`component-push_branch`-Konfiguration auf das Verhalten aus: Wenn "
-"sie nicht gesetzt ist, wird das Projekt geforkt und die Änderungen werden "
-"über einen Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen in das "
+"Beim Verwenden von :guilabel:`GitHub` für Pull Requests wirkt sich die "
+":ref:`component-push_branch`-Konfiguration auf das Verhalten aus: Wenn sie "
+"nicht gesetzt ist, wird das Projekt geforkt und die Änderungen werden durch "
+"einen Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen in das "
 "Upstream-Repository und den ausgewählten Branch gepusht."
 
 #: admin/code-hosting.rst:228
@@ -4612,29 +4615,21 @@ msgstr "GitLab"
 
 #: admin/code-hosting.rst:288
 msgid "GitLab repository access"
-msgstr "GitLab Repository-Zugriff"
+msgstr "GitLab-Repository-Zugriff"
 
 #: admin/code-hosting.rst:291
 msgid "HTTPS with personal or project access token"
 msgstr "HTTPS mit persönlichem oder projektbezogenem Zugangstoken"
 
 #: admin/code-hosting.rst:295
-#, fuzzy
-#| msgid ""
-#| "Using personal or project access tokens is possible as well. The token "
-#| "needs :guilabel:`write_repository` scope to be able to push changes to "
-#| "the repository. The project access token requires :guilabel:`Developer` "
-#| "role for pushing."
 msgid ""
 "For GitLab, the token needs :guilabel:`write_repository` scope to be able to "
 "push changes to the repository. The project access token "
 "requires :guilabel:`Developer` role for pushing."
 msgstr ""
-"Das Verwenden von persönlichen oder Projekt-Zugangstoken ist ebenfalls "
-"möglich. Das Token benötigt die Berechtigung :guilabel:`write_repository`, "
-"um Änderungen an das Repository pushen zu können. Der Zugangstoken für das "
-"Projekt benötigt die Rolle :guilabel:`Developer`, um Änderungen pushen zu "
-"können."
+"Für GitLab benötigt das Token die Berechtigung :guilabel:`write_repository`, "
+"um Änderungen in das Repository pushen zu können. Das Projekt-Zugangstoken "
+"erfordert die Rolle :guilabel:`Developer`, um Änderungen pushen zu können."
 
 #: admin/code-hosting.rst:299
 msgid ""
@@ -4667,6 +4662,8 @@ msgid ""
 "For GitLab, create a dedicated user and use GitLab SSH URLs, for example "
 "``git@gitlab.com:group/project.git``."
 msgstr ""
+"Für GitLab erstellen Sie einen eigenen Benutzer und verwenden GitLab-SSH-"
+"URLs, z. B. ``git@gitlab.com:group/project.git``."
 
 #: admin/code-hosting.rst:323
 msgid "GitLab notifications"
@@ -4738,23 +4735,17 @@ msgstr ""
 "als :ref:`component-vcs` und konfigurieren Sie :setting:`GITLAB_CREDENTIALS`."
 
 #: admin/code-hosting.rst:358
-#, fuzzy
-#| msgid ""
-#| "When using :guilabel:`GitHub` for pull requests, the :ref:`component-"
-#| "push_branch` configuration affects the behavior: if not set, the project "
-#| "is forked and changes are pushed through a fork. If set, changes are "
-#| "pushed to the upstream repository and the chosen branch."
 msgid ""
 "The :ref:`component-push_branch` configuration affects where Weblate pushes "
 "changes before opening the merge request. If it is not set, the project is "
 "forked and changes are pushed through a fork. If it is set, changes are "
 "pushed to the upstream repository and chosen branch."
 msgstr ""
-"Beim Verwenden von :guilabel:`GitHub` für Pull Requests wirkt sich "
-"die :ref:`component-push_branch`-Konfiguration auf das Verhalten aus: Wenn "
-"sie nicht gesetzt ist, wird das Projekt geforkt und die Änderungen werden "
-"über einen Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen in das "
-"Upstream-Repository und den ausgewählten Branch gepusht."
+"Die :ref:`component-push_branch`-Konfiguration beeinflusst, wohin Weblate "
+"Änderungen pusht, bevor der Merge Request geöffnet wird. Wenn sie nicht "
+"gesetzt ist, wird das Projekt geforkt und die Änderungen werden durch einen "
+"Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen in das Upstream-"
+"Repository und den ausgewählten Branch gepusht."
 
 #: admin/code-hosting.rst:368
 msgid "Gitea, Forgejo, and Codeberg"
@@ -5007,10 +4998,13 @@ msgstr "Azure-Repos-Repository-Zugriff"
 #: admin/code-hosting.rst:551
 msgid "Use the HTTPS clone URL shown by Azure Repos for the repository."
 msgstr ""
+"Verwenden Sie die von Azure Repos angezeigte HTTPS-Klon-URL für das "
+"Repository."
 
 #: admin/code-hosting.rst:558
 msgid "Use the SSH URL shown by Azure Repos for the repository."
 msgstr ""
+"Verwenden Sie die von Azure Repos angezeigte SSH-URL für das Repository."
 
 #: admin/code-hosting.rst:563
 msgid "Azure Repos notifications"
@@ -7477,6 +7471,10 @@ msgid ""
 "Reporting. Set to ``None`` to disable the integration, or set to a "
 "dictionary of keyword arguments for the Google Cloud Error Reporting client."
 msgstr ""
+"Konfiguration für :ref:`collecting-errors` unter Verwendung von Google-Cloud-"
+"Fehlerberichterstattung. Auf ``None`` setzen, um die Integration zu "
+"deaktivieren, oder auf ein Wörterbuch mit Schlüsselwortargumenten für den "
+"Google-Cloud-Fehlerberichterstattungs-Client setzen."
 
 #: admin/config.rst:2238
 msgid ""
@@ -7484,34 +7482,46 @@ msgid ""
 "the current Weblate version or Git revision. Explicit values in the "
 "dictionary override these defaults."
 msgstr ""
+"Weblate liefert automatisch ``service`` als ``weblate`` und ``version`` als "
+"die aktuelle Weblate-Version oder Git-Revision. Explizite Werte im "
+"Wörterbuch überschreiben diese Standardwerte."
 
 #: admin/config.rst:2249
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
 msgstr ""
+"Aktiviert das Backend-Tracing mit OpenTelemetry. Standardmäßig deaktiviert."
 
 #: admin/config.rst:2251
 msgid ""
 "Traces are exported only when this is enabled "
 "and :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured."
 msgstr ""
+"Traces werden nur exportiert, wenn dies aktiviert ist und "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` konfiguriert ist."
 
 #: admin/config.rst:2259
 msgid ""
 "OTLP HTTP traces endpoint for OpenTelemetry, for example ``https://"
 "collector.example.com/v1/traces``."
 msgstr ""
+"OTLP-HTTP-Trace-Endpunkt für OpenTelemetry, zum Beispiel ``https://"
+"collector.example.com/v1/traces``."
 
 #: admin/config.rst:2267
 msgid ""
 "Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an "
 "empty dictionary."
 msgstr ""
+"Zusätzliche HTTP-Header für den OpenTelemetry-OTLP-Exporter. Standardmäßig "
+"wird ein leeres Wörterbuch verwendet."
 
 #: admin/config.rst:2275
 msgid ""
 "Additional OpenTelemetry resource attributes. Defaults to an empty "
 "dictionary."
 msgstr ""
+"Zusätzliche OpenTelemetry-Ressourcenattribute. Standardmäßig wird ein leeres "
+"Wörterbuch verwendet."
 
 #: admin/config.rst:2282
 msgid "OpenTelemetry service name. Defaults to ``weblate``."
@@ -8689,14 +8699,6 @@ msgstr ""
 "eines Pull Requests)."
 
 #: admin/continuous.rst:271
-#, fuzzy
-#| msgid ""
-#| "The reason for merge conflicts is different in this case - there are "
-#| "changes in Weblate which happened after you merged Weblate commits. This "
-#| "typically happens if merging is not automated and waits for days or weeks "
-#| "for a human to review them. Git is then sometimes no longer able to "
-#| "identify upstream changes as matching the Weblate ones and refuses to "
-#| "perform a rebase."
 msgid ""
 "The reason for merge conflicts is different in this case. Weblate can have "
 "new local commits after you merge earlier Weblate commits upstream. This "
@@ -8705,13 +8707,13 @@ msgid ""
 "upstream changes as matching the Weblate ones and refuses to perform a "
 "rebase."
 msgstr ""
-"Der Grund für Merge-Konflikte ist in diesem Fall ein anderer – es gibt "
-"Änderungen in Weblate, die nach dem Zusammenführen von Weblate-Commits "
-"entstanden sind. Das passiert typischerweise, wenn das Zusammenführen nicht "
-"automatisiert ist und man Tage oder Wochen wartet, bis eine Person die "
-"Änderungen überprüft. Git ist dann manchmal nicht mehr in der Lage, die "
-"Upstream-Änderungen mit den Weblate-Änderungen abzugleichen und weigert "
-"sich, eine Umbasierung durchzuführen."
+"Der Grund für Merge-Konflikte ist in diesem Fall ein anderer. Weblate kann "
+"neue lokale Commits haben, nachdem Sie frühere Weblate-Commits Upstream "
+"zusammengeführt haben. Das passiert typischerweise, wenn das Zusammenführen "
+"nicht automatisiert ist und Änderungen tage- oder wochenlang auf ein "
+"menschliches Überprüfen warten. Git ist dann manchmal nicht mehr in der "
+"Lage, Upstream-Änderungen mit den Weblate-Änderungen als übereinstimmend zu "
+"erkennen und weigert sich, eine Umbasierung durchzuführen."
 
 #: admin/continuous.rst:277
 msgid ""
@@ -8723,6 +8725,15 @@ msgid ""
 "can differ from both repositories, so Weblate can keep failing to update "
 "even after the pull request was merged upstream."
 msgstr ""
+"Das Zusammenfassen von Weblate-Änderungen macht es schwieriger, dies zu "
+"beheben. Ein Squash Merge erstellt einen neuen Commit, anstatt die einzelnen "
+"Weblate-Commits im Upstream-Verlauf beizubehalten. Weblate hat die "
+"ursprünglichen Commits immer noch in seinem lokalen Repository, und Git kann "
+"nicht mehr nachweisen, dass diese bereits in Upstream enthalten sind. Wenn "
+"der Konflikt zudem manuell gelöst wurde, können sich die Dateiinhalte in "
+"beiden Repositorys unterscheiden, sodass Weblate auch dann nicht "
+"aktualisieren kann, nachdem der Pull Request in Upstream zusammengeführt "
+"wurde."
 
 #: admin/continuous.rst:285
 msgid ""
@@ -8733,6 +8744,13 @@ msgid ""
 "reapply`. Use :guilabel:`Reset and discard` only when upstream should fully "
 "replace Weblate's local changes."
 msgstr ""
+"Wenn Upstream keine Weblate-Commits mehr enthält, weil sie zusammengefasst "
+"wurden, reicht es möglicherweise nicht aus, das Repository zu aktualisieren. "
+"Verwenden Sie :guilabel:`Zurücksetzen und erneut anwenden` von "
+":guilabel:`Repository-Wartung`, um Weblate auf Upstream zurückzusetzen und "
+"dabei ausstehende Übersetzungen beizubehalten; siehe :ref:`manage-vcs-reset-"
+"reapply`. Verwenden Sie :guilabel:`Zurücksetzen und verwerfen` nur, wenn "
+"Upstream die lokalen Änderungen von Weblate vollständig ersetzen soll."
 
 #: admin/continuous.rst:292
 msgid ""
@@ -8750,19 +8768,14 @@ msgid "Here are few options how to avoid that:"
 msgstr "Hier sind einige Möglichkeiten, um dies zu vermeiden:"
 
 #: admin/continuous.rst:298
-#, fuzzy
-#| msgid ""
-#| "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
-#| "time. This is the root cause why git doesn't recognize changes after "
-#| "merging."
 msgid ""
 "Do not use :ref:`addon-weblate.git.squash` or squash merging for Weblate "
 "changes. Squashing is why Git might no longer recognize the changes after "
 "merging."
 msgstr ""
-"Weder :ref:`addon-weblate.git.squash` verwenden noch Zusammenfassen zum "
-"Merge-Zeitpunkt . Dies ist die Hauptursache dafür, dass Git Änderungen nach "
-"dem Zusammenführen nicht erkennt."
+"Für Weblate-Änderungen nicht :ref:`addon-weblate.git.squash` oder Squash "
+"Merge verwenden. Das Zusammenfassen (Squash) ist der Grund, warum Git die "
+"Änderungen nach dem Zusammenführen (Merge) möglicherweise nicht mehr erkennt."
 
 #: admin/continuous.rst:301
 msgid ""
@@ -8770,6 +8783,10 @@ msgid ""
 "regular merge commit and push that result upstream. Do not squash merge the "
 "conflict-resolution pull request."
 msgstr ""
+"Beim Lösen von Konflikten außerhalb von Weblate die Weblate-Commits mit "
+"einem regulären Merge-Commit zusammenführen und dieses Ergebnis Upstream "
+"pushen. Keinen Squash Merge für den konfliktlösenden Pull Request "
+"durchführen."
 
 #: admin/continuous.rst:304
 msgid ""
@@ -9012,9 +9029,9 @@ msgstr ""
 "planen. Dies kann mit :guilabel:`Periodic Tasks` in der :ref:`admin-"
 "interface` erfolgen. Legen Sie zunächst das gewünschte :guilabel:`Interval` "
 "fest (zum Beispiel 120 Sekunden). Fügen Sie dann eine neue periodische "
-"Aufgabe hinzu und wählen Sie ``weblate.trans.tasks.commit_pending`` "
-"als :guilabel:`Task` mit ``{\"hours\": 0}`` als :guilabel:`Keyword "
-"Arguments` und dem gewünschten Intervall."
+"Aufgabe hinzu und wählen Sie ``weblate.trans.tasks.commit_pending`` als "
+":guilabel:`Task` mit ``{\"hours\": 0}`` als :guilabel:`Keyword Arguments` "
+"sowie das gewünschte Intervall."
 
 #: admin/continuous.rst:427
 msgid "Processing repository with scripts"
@@ -11679,7 +11696,7 @@ msgstr ""
 
 #: admin/install.rst:1754
 msgid "Google Cloud Error Reporting"
-msgstr ""
+msgstr "Google-Cloud-Fehlerberichterstattung"
 
 #: admin/install.rst:1756
 msgid ""
@@ -11688,6 +11705,11 @@ msgid ""
 "``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
+"Weblate kann behandelte Serverfehler an `Google-Cloud-"
+"Fehlerberichterstattung <https://cloud.google.com/error-reporting/>`_ "
+"melden. Installieren Sie Weblate mit dem Zusatzmodul ``google-errors`` und "
+"konfigurieren Sie :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in "
+":file:`settings.py`:"
 
 #: admin/install.rst:1766
 msgid ""
@@ -11696,10 +11718,14 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
+"Weblate meldet Fehler automatisch unter dem Dienst ``weblate`` und verwendet "
+"die aktuelle Weblate-Version oder Git-Revision als gemeldete Version. Diese "
+"Werte können durch die Einstellung ``service`` oder ``version`` in "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING` überschrieben werden."
 
 #: admin/install.rst:1772
 msgid "OpenTelemetry"
-msgstr ""
+msgstr "OpenTelemetry"
 
 #: admin/install.rst:1774
 msgid ""
@@ -11707,6 +11733,9 @@ msgid ""
 "opentelemetry.io/>`_. It uses OTLP over HTTP and can send traces to an "
 "OpenTelemetry Collector or a compatible vendor endpoint."
 msgstr ""
+"Weblate kann Backend-Traces mit `OpenTelemetry <https://opentelemetry.io/>`_ "
+"exportieren. Es verwendet OTLP über HTTP und kann Traces an einen "
+"OpenTelemetry-Collector oder einen kompatiblen Anbieter-Endpunkt senden."
 
 #: admin/install.rst:1784
 msgid ""
@@ -11715,6 +11744,11 @@ msgid ""
 "using :setting:`OPENTELEMETRY_ENABLED`, :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, "
 "and :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 msgstr ""
+"Die Integration erfasst Django-Anfragen, Celery-Aufgaben, Redis, ausgehende "
+"HTTP-Anfragen, Datenbankaufrufe und Weblate-spezifische Bereiche. "
+"Konfigurieren Sie sie mit :setting:`OPENTELEMETRY_ENABLED`, "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` und "
+":setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install.rst:1793
 msgid "Rollbar"
@@ -13895,26 +13929,32 @@ msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgstr "Konfiguriert :setting:`SENTRY_SEND_PII`."
 
 #: admin/install/docker.rst:2124
-#, fuzzy
-#| msgid "To enable support for Rollbar, set the following:"
 msgid "To enable support for Google Cloud Error Reporting, set following:"
 msgstr ""
-"Um die Unterstützung für Rollbar zu aktivieren, stellen Sie Folgendes ein:"
+"Um die Unterstützung für Google-Cloud-Fehlerberichterstattung zu aktivieren, "
+"stellen Sie Folgendes ein:"
 
 #: admin/install/docker.rst:2128
 msgid "Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``."
 msgstr ""
+"Aktiviert :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, der Standardwert ist "
+"``False``."
 
 #: admin/install/docker.rst:2132
 msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
+"Google-Cloud-Projekt, an das Fehler gemeldet werden sollen. Wird dies nicht "
+"angegeben, verwendet der Google-Client die standardmäßigen Zugangsdaten der "
+"Anwendung, um das Projekt zu erkennen."
 
 #: admin/install/docker.rst:2137
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
 msgstr ""
+"Dienstname, der in der Google-Cloud-Fehlerberichterstattung verwendet werden "
+"soll, der Standardwert ist ``weblate``."
 
 #: admin/install/docker.rst:2139
 msgid "To enable support for OpenTelemetry tracing, set following:"
@@ -13925,32 +13965,27 @@ msgstr ""
 #: admin/install/docker.rst:2143
 msgid "Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``."
 msgstr ""
+"Aktiviert :setting:`OPENTELEMETRY_ENABLED`, der Standardwert ist ``False``."
 
 #: admin/install/docker.rst:2147
 msgid "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
 msgstr "Konfiguriert :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
 
 #: admin/install/docker.rst:2160
-#, fuzzy
-#| msgid ""
-#| "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
-"Konfiguriert :setting:`BORG_EXTRA_ARGS` als komma-getrennte Liste von "
-"Argumenten."
+"Konfiguriert :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` als "
+"kommagetrennte Zuordnung ``name:value``."
 
 #: admin/install/docker.rst:2165
-#, fuzzy
-#| msgid ""
-#| "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
-"Konfiguriert :setting:`BORG_EXTRA_ARGS` als komma-getrennte Liste von "
-"Argumenten."
+"Konfiguriert :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` als "
+"kommagetrennte Zuordnung ``name:value``."
 
 #: admin/install/docker.rst:2170
 msgid "Configures :setting:`OPENTELEMETRY_SERVICE_NAME`."
@@ -17534,6 +17569,8 @@ msgid ""
 "The user has :guilabel:`Add projects to workspace` permission for the "
 "workspace covered by the billing plan."
 msgstr ""
+"Der Benutzer hat die Berechtigung :guilabel:`Projekte zum Arbeitsbereich "
+"hinzufügen` für den Arbeitsbereich, der unter das Abrechnungsmodell fällt."
 
 #: admin/optionals.rst:119
 msgid ""
