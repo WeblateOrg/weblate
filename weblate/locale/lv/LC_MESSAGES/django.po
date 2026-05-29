@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-28 04:09-0500\n"
-"PO-Revision-Date: 2026-05-29 12:29+0000\n"
+"PO-Revision-Date: 2026-05-29 21:41+0000\n"
 "Last-Translator: \"ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝)\" <coool@mail.lv>\n"
 "Language-Team: Latvian <https://hosted.weblate.org/projects/weblate/"
 "application/lv/>\n"
@@ -1578,10 +1578,9 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 
 #: weblate/accounts/views.py:1686
-#, fuzzy, python-format
-#| msgid "Failed to find language %s!"
+#, python-format
 msgid "Could not authenticate: %s"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja autentificēt: %s"
 
 #: weblate/accounts/views.py:1696
 msgid "Could not complete registration."
@@ -1983,10 +1982,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:189
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Komentāru nevarēja pievienot!"
+msgstr "Neizgūt komentārus"
 
 #: weblate/addons/forms.py:190
 msgid "Extract all comments"
@@ -2900,13 +2897,11 @@ msgstr ""
 
 #: weblate/api/serializers.py:719
 msgid "Choose either a project or a workspace."
-msgstr ""
+msgstr "Atlasiet vai nu projektu vai darbvietu."
 
 #: weblate/api/serializers.py:740 weblate/auth/models.py:332
-#, fuzzy
-#| msgid "Font with the same name already exists."
 msgid "A team with this name already exists in this workspace."
-msgstr "Fonts ar šādu nosaukumu jau pastāv."
+msgstr "Komanda ar šādu nosaukumu jau pastāv šajā darbvietā."
 
 #: weblate/api/serializers.py:1714 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3344,25 +3339,18 @@ msgstr "Jauns ziņojums"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Edit component settings"
 msgid "Edit workspace settings"
-msgstr "Rediģēt komponentu iestatījumus"
+msgstr "Rediģēt darbvietas iestatījumus"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add projects to workspace"
-msgstr "Pievienot jaunus projektus"
+msgstr "Pievienot projektus darbvietai"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage screenshots"
 msgid "Manage workspace access"
-msgstr "Pārvaldīt ekrānšāviņus"
+msgstr "Pārvaldīt darbvietas piekļuvi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
@@ -3376,10 +3364,8 @@ msgstr "Pievienot jaunus projektus"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add new workspaces"
-msgstr "Pievienot jaunus projektus"
+msgstr "Pievienot jaunas darbvietas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
@@ -3532,16 +3518,15 @@ msgid "Manage repository"
 msgstr ""
 
 #: weblate/auth/data.py:270
+#, fuzzy
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr ""
+msgstr "Darbvietas administrēšana"
 
 #: weblate/auth/data.py:278
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "Pievienot jaunus projektus"
+msgstr "Pievienot darbvietas projektus"
 
 #: weblate/auth/data.py:282
 msgctxt "Access-control role"
@@ -3846,7 +3831,7 @@ msgstr ""
 
 #: weblate/auth/models.py:319
 msgid "Team can be scoped either to a project or to a workspace."
-msgstr ""
+msgstr "Komandu var attiecināt vai nu projektam, vai darbvietai."
 
 #: weblate/auth/models.py:372 weblate/auth/models.py:1684
 #, fuzzy
@@ -4139,7 +4124,7 @@ msgstr ""
 #: weblate/trans/forms.py:2947 weblate/trans/forms.py:2977
 #: weblate/trans/models/project.py:230
 msgid "Workspace"
-msgstr ""
+msgstr "Darbvieta"
 
 #: weblate/billing/models.py:243 weblate/templates/billing/status.html:19
 #, fuzzy
@@ -4213,7 +4198,7 @@ msgstr ""
 
 #: weblate/billing/models.py:403
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "Rēķinu darbvietu nevar mainīt."
 
 #: weblate/billing/models.py:414 weblate/billing/models.py:1185
 #: weblate/templates/accounts/user.html:191
@@ -4233,7 +4218,7 @@ msgstr ""
 
 #: weblate/billing/models.py:466
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "Projekts jau pieder citai darbvietai."
 
 #: weblate/billing/models.py:469
 msgid "Project needs to be saved before assigning it to billing."
@@ -4350,9 +4335,8 @@ msgstr "Tika atrastas šādas kļūdas:"
 
 #: weblate/checks/base.py:388
 #, fuzzy
-#| msgid "Failed to find language %s!"
 msgid "Could not parse {} flag: {}"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja parsēt {} karodziņu (birku): {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -7445,10 +7429,8 @@ msgid "Screenshot %s has been deleted."
 msgstr ""
 
 #: weblate/screenshots/views.py:507
-#, fuzzy
-#| msgid "Invalid image!"
 msgid "Invalid unit."
-msgstr "Nederīgs attēls!"
+msgstr "Nederīga vienība."
 
 #: weblate/screenshots/views.py:512
 msgid "Source has been removed."
@@ -9695,10 +9677,8 @@ msgid "Add new translation project"
 msgstr ""
 
 #: weblate/templates/base.html:315
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add new workspace"
-msgstr "Pievienot jaunus projektus"
+msgstr "Pievienot jaunu darbvietu"
 
 #: weblate/templates/base.html:321 weblate/templates/category.html:109
 #: weblate/templates/project.html:144
@@ -12505,22 +12485,18 @@ msgstr ""
 
 #: weblate/templates/manage/workspace_form.html:11
 #: weblate/templates/manage/workspaces.html:10 weblate/wladmin/views.py:101
-#, fuzzy
-#| msgid "Spaces"
 msgid "Workspaces"
-msgstr "Atstarpes"
+msgstr "Darbvietas"
 
 #: weblate/templates/manage/workspace_form.html:15
 #: weblate/templates/manage/workspace_form.html:25
 #: weblate/templates/manage/workspaces.html:19
 msgid "Add workspace"
-msgstr ""
+msgstr "Pievienot darbvietu"
 
 #: weblate/templates/manage/workspaces.html:21
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage workspaces"
-msgstr "Pārvaldīt lietotājus"
+msgstr "Pārvaldīt darbvietas"
 
 #: weblate/templates/manage/workspaces.html:47
 #, python-format
@@ -12528,10 +12504,8 @@ msgid "Billing #%(id)s"
 msgstr "Rēķins #%(id)s"
 
 #: weblate/templates/manage/workspaces.html:58
-#, fuzzy
-#| msgid "Suggestions made"
 msgid "No workspaces found."
-msgstr "Veiktie ieteikumi"
+msgstr "Nav atrasta neviena darbvieta."
 
 #: weblate/templates/matrix-table.html:14
 #, fuzzy
@@ -15549,15 +15523,12 @@ msgid "Embed Code"
 msgstr ""
 
 #: weblate/templates/workspace.html:69
-#, fuzzy
 msgid "Browse all workspace changes"
-msgstr "Pārvaldītie projekti"
+msgstr "Pārlūkot visas darbvietas izmaiņas"
 
 #: weblate/templates/workspace.html:83
-#, fuzzy
-#| msgid "Hosted strings"
 msgid "Workspace settings"
-msgstr "Mitināto virkņu skaits"
+msgstr "Darbvietas iestatījumi"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -16150,17 +16121,13 @@ msgstr "Tika veiktas izmaiņas virknē"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Component list"
 msgid "Workspace created"
-msgstr "Komponentu saraksts"
+msgstr "Darbvieta izveidota"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:204
-#, fuzzy
-#| msgid "Component list: %s"
 msgid "Workspace setting changed"
-msgstr "Komponentu saraksts: %s"
+msgstr "Darbvietas iestatījums mainīts"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:206
@@ -16484,7 +16451,7 @@ msgstr "Dzēst ieteikumu"
 #: weblate/trans/change_display.py:292 weblate/trans/forms.py:2950
 #: weblate/trans/views/create.py:109
 msgid "No workspace"
-msgstr ""
+msgstr "Nav darbvietas"
 
 #: weblate/trans/change_display.py:296
 #, python-format
@@ -17447,7 +17414,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:2959
 msgid "No matching workspace found."
-msgstr ""
+msgstr "Nav atrasta neviena atbilstoša darbvieta."
 
 #: weblate/trans/forms.py:3023
 msgid "ZIP file containing project backup"
@@ -18699,6 +18666,8 @@ msgstr ""
 #: weblate/trans/models/project.py:236
 msgid "Workspace this project belongs to. Standalone projects do not need one."
 msgstr ""
+"Darbvieta, kurai pieder šis projekts. Atsevišķiem projektiem tā nav "
+"nepieciešama."
 
 #: weblate/trans/models/project.py:241
 msgid "Use shared translation memory"
@@ -19248,9 +19217,8 @@ msgstr ""
 
 #: weblate/trans/validators.py:42
 #, fuzzy, python-format
-#| msgid "Failed to find language %s!"
 msgid "Could not parse flags: %s"
-msgstr "Valoda %s netika atrasta!"
+msgstr "Nevarēja parsēt karodziņus (birkas): %s"
 
 #: weblate/trans/validators.py:51
 #, python-format
@@ -19371,16 +19339,12 @@ msgid "User not found."
 msgstr ""
 
 #: weblate/trans/views/bulk_suggestions.py:54
-#, fuzzy
-#| msgid "Could not accept suggestion!"
 msgid "You do not have permission to accept suggestions."
-msgstr "Nevarēja pieņemt tulkojuma ieteikumu!"
+msgstr "Jums nav atļauts apstiprināt ieteikumus."
 
 #: weblate/trans/views/bulk_suggestions.py:61
-#, fuzzy
-#| msgid "Invalid image!"
 msgid "Invalid request."
-msgstr "Nederīgs attēls!"
+msgstr "Nederīgs pieprasījums."
 
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
@@ -19455,7 +19419,7 @@ msgstr ""
 
 #: weblate/trans/views/create.py:120
 msgid "Creating a project without a workspace is not allowed."
-msgstr ""
+msgstr "Izveidot projektu bez darbvietas nav atļauts."
 
 #: weblate/trans/views/create.py:243
 msgid "Project backup import in progress"
@@ -19890,31 +19854,23 @@ msgstr ""
 
 #: weblate/trans/workspace_move.py:81
 msgid "The project is already assigned to this workspace."
-msgstr ""
+msgstr "Projekts jau piešķirts šai darbvietai."
 
 #: weblate/trans/workspace_move.py:87
-#, fuzzy
-#| msgid "Could not accept suggestion!"
 msgid "You do not have permission to edit the current workspace."
-msgstr "Nevarēja pieņemt tulkojuma ieteikumu!"
+msgstr "Jums nav atļaujas rediģēt pašreizējo darbvietu."
 
 #: weblate/trans/workspace_move.py:92
-#, fuzzy
-#| msgid "Could not accept suggestion!"
 msgid "You do not have permission to move projects without a workspace."
-msgstr "Nevarēja pieņemt tulkojuma ieteikumu!"
+msgstr "Jums nav atļauts pārvietot projektus bez darbvietas."
 
 #: weblate/trans/workspace_move.py:97
-#, fuzzy
-#| msgid "Could not accept suggestion!"
 msgid "You do not have permission to edit the target workspace."
-msgstr "Nevarēja pieņemt tulkojuma ieteikumu!"
+msgstr "Jums nav atļaujas rediģēt mērķa darbvietu."
 
 #: weblate/trans/workspace_move.py:100
-#, fuzzy
-#| msgid "Could not accept suggestion!"
 msgid "You do not have permission to add projects to the target workspace."
-msgstr "Nevarēja pieņemt tulkojuma ieteikumu!"
+msgstr "Jums nav atļauts pievienot projektus mērķa darbvietai."
 
 #: weblate/utils/backup.py:137
 msgid "Borg completed with warnings without any output."
@@ -20891,22 +20847,16 @@ msgid "Could not dismiss the configuration error!"
 msgstr ""
 
 #: weblate/wladmin/views.py:763
-#, fuzzy
-#| msgid "Component list"
 msgid "Workspace created."
-msgstr "Komponentu saraksts"
+msgstr "Darbvieta izveidota."
 
 #: weblate/workspaces/apps.py:12
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Weblate workspaces"
-msgstr "Vērotie projekti - projekti, kuriem es sekoju"
+msgstr "Weblate darbvietas"
 
 #: weblate/workspaces/models.py:53
-#, fuzzy
-#| msgid "Your name"
 msgid "Workspace name"
-msgstr "Jūsu vārds"
+msgstr "Darbvietas nosaukums"
 
 #: weblate/workspaces/models.py:60
 #, fuzzy
