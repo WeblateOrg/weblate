@@ -12,6 +12,8 @@ from django.core.exceptions import ValidationError
 from django.http.request import validate_host
 from django.utils.translation import gettext
 
+from weblate.utils.errors import add_breadcrumb
+
 LOCAL_HOST_SUFFIXES = (
     ".local",
     ".localhost",
@@ -140,6 +142,7 @@ def validate_runtime_ip(value: str, *, allow_private_targets: bool = True) -> No
         return
 
     if not _is_public_ip(value):
+        add_breadcrumb(category="outbound", message=f"Non-public address {value}")
         raise ValidationError(
             gettext(
                 "This URL is prohibited because it points to an internal or non-public address."
