@@ -11,8 +11,8 @@ import hashlib
 import hmac
 import logging
 import time
-from typing import TYPE_CHECKING
-from urllib.parse import urlencode
+from typing import TYPE_CHECKING, ClassVar
+from urllib.parse import urlencode, urlparse
 
 import jwt
 import requests
@@ -22,8 +22,16 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
+from weblate.utils.errors import report_error
+from weblate.vcs.base import RepositoryError
+from weblate.vcs.git import GithubRepository, GitRepository
+
 if TYPE_CHECKING:
     from collections.abc import Iterator
+
+    from django_stubs_ext import StrOrPromise
+
+    from weblate.workspaces.models import Workspace
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +39,23 @@ logger = logging.getLogger(__name__)
 TOKEN_CACHE_TTL = 50 * 60
 # GitHub enforces a 10-minute maximum on App JWTs
 JWT_MAX_LIFETIME = 9 * 60
+
+# Permissions and events Weblate needs when registering a GitHub App via
+# the manifest flow. Keep aligned with the documented manual setup.
+GITHUB_APP_MANIFEST_PERMISSIONS: dict[str, str] = {
+    "contents": "write",
+    "metadata": "read",
+    "pull_requests": "write",
+    "workflows": "write",
+}
+GITHUB_APP_MANIFEST_EVENTS: tuple[str, ...] = (
+    "installation_target",
+    "meta",
+    "push",
+)
+# GitHub rejects App names longer than this; mirror the limit on our side so
+# users see the constraint up front and the manifest is always accepted.
+GITHUB_APP_NAME_MAX_LENGTH = 34
 
 
 def normalize_github_app_hostname(hostname: str) -> str:
@@ -41,8 +66,8 @@ def normalize_github_app_hostname(hostname: str) -> str:
     return normalized
 
 
-def get_github_app_configurations() -> dict[str, dict[str, str]]:
-    """Return configured Weblate GitHub app settings keyed by normalized hostname."""
+def _settings_github_app_configurations() -> dict[str, dict[str, str]]:
+    """Return GitHub app configurations declared in Django settings."""
     raw_configs = getattr(settings, "GITHUB_APP_CREDENTIALS", {})
     if raw_configs:
         configs = {}
@@ -78,6 +103,26 @@ def get_github_app_configurations() -> dict[str, dict[str, str]]:
     }
 
 
+def _db_github_app_configurations() -> dict[str, dict[str, str]]:
+    """Return GitHub app configurations registered via the manifest flow."""
+    try:
+        rows = list(GitHubAppCredentials.objects.all())
+    except Exception:
+        # Database may not be migrated yet (e.g. during initial setup or
+        # when this is called outside a request).
+        return {}
+    return {row.hostname: row.as_config() for row in rows}
+
+
+def get_github_app_configurations() -> dict[str, dict[str, str]]:
+    """Return configured Weblate GitHub app settings keyed by normalized hostname."""
+    configs = _settings_github_app_configurations()
+    # Database-registered credentials take precedence over settings so that
+    # apps registered through the manifest flow are immediately usable.
+    configs.update(_db_github_app_configurations())
+    return configs
+
+
 def get_github_app_settings(hostname: str | None = None) -> dict[str, str] | None:
     """Return the configured Weblate GitHub app settings for one host, if available."""
     configs = get_github_app_configurations()
@@ -105,10 +150,68 @@ def get_github_app_install_url(state: str, hostname: str | None = None) -> str:
         msg = "Weblate GitHub app is not configured"
         raise ValueError(msg)
 
+    # The documented ``installations/new`` URL can send returning users straight
+    # to an existing installation settings page. ``select_target`` keeps the
+    # account or organization picker in the connect flow.
+    app_path = "apps" if config["hostname"] == "github.com" else "github-apps"
     return (
-        f"https://{config['hostname']}/apps/{config['app_slug']}"
-        f"/installations/new?{urlencode({'state': state})}"
+        f"https://{config['hostname']}/{app_path}/{config['app_slug']}"
+        f"/installations/select_target?{urlencode({'state': state})}"
     )
+
+
+def build_github_app_manifest(
+    *,
+    name: str,
+    base_url: str,
+    redirect_url: str,
+    setup_url: str,
+    webhook_url: str,
+    public: bool = True,
+) -> dict[str, object]:
+    """
+    Return a GitHub App manifest pre-filled with Weblate's requirements.
+
+    ``public=True`` lets the App be installed on any account the maintainer
+    administrates (without it, GitHub's install URL skips the account picker
+    and forces a single-target install on the owner). This is *not* the same
+    as "Marketplace listed"; the App still has to be submitted separately to
+    show up in the Marketplace.
+    """
+    return {
+        "name": name,
+        "url": base_url,
+        "hook_attributes": {"url": webhook_url, "active": True},
+        "redirect_url": redirect_url,
+        "callback_urls": [setup_url],
+        "setup_url": setup_url,
+        "setup_on_update": True,
+        "public": public,
+        "default_permissions": dict(GITHUB_APP_MANIFEST_PERMISSIONS),
+        "default_events": list(GITHUB_APP_MANIFEST_EVENTS),
+    }
+
+
+def get_github_app_manifest_new_url(hostname: str, org: str | None = None) -> str:
+    """Return the GitHub URL where the manifest form should be POSTed."""
+    hostname = normalize_github_app_hostname(hostname)
+    if org:
+        return f"https://{hostname}/organizations/{org}/settings/apps/new"
+    return f"https://{hostname}/settings/apps/new"
+
+
+def exchange_github_app_manifest_code(
+    code: str, hostname: str = "github.com"
+) -> dict[str, object]:
+    """Exchange a temporary manifest code for the created app's credentials."""
+    api_base = get_github_api_base(normalize_github_app_hostname(hostname))
+    response = requests.post(
+        f"{api_base}/app-manifests/{code}/conversions",
+        headers={"Accept": "application/vnd.github.v3+json"},
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response.json()
 
 
 def validate_private_key(value: str) -> str:
@@ -288,23 +391,89 @@ class GitHubAppNotConfiguredError(RuntimeError):
     """Raised when Weblate GitHub app credentials are not configured for a host."""
 
 
+class GitHubAppCredentials(models.Model):
+    """
+    Per-host Weblate GitHub App credentials stored in the database.
+
+    Rows in this table are typically created by the manifest registration flow
+    in :mod:`weblate.vcs.views`. They take precedence over
+    ``settings.GITHUB_APP_CREDENTIALS`` so admins can register an App through
+    the UI without editing settings.
+    """
+
+    hostname = models.CharField(
+        max_length=255,
+        unique=True,
+        verbose_name=gettext_lazy("GitHub hostname"),
+    )
+    app_id = models.CharField(max_length=50, verbose_name=gettext_lazy("App ID"))
+    app_slug = models.CharField(max_length=255, verbose_name=gettext_lazy("App slug"))
+    private_key = models.TextField(verbose_name=gettext_lazy("Private key (PEM)"))
+    webhook_secret = models.CharField(
+        max_length=255, verbose_name=gettext_lazy("Webhook secret")
+    )
+    html_url = models.URLField(blank=True, verbose_name=gettext_lazy("App URL"))
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = gettext_lazy("Weblate GitHub App credentials")
+        verbose_name_plural = gettext_lazy("Weblate GitHub App credentials")
+
+    def __str__(self) -> str:
+        return f"{self.app_slug} ({self.hostname})"
+
+    def save(self, *args, **kwargs) -> None:
+        self.hostname = normalize_github_app_hostname(self.hostname)
+        super().save(*args, **kwargs)
+
+    def as_config(self) -> dict[str, str]:
+        return {
+            "app_id": self.app_id,
+            "app_slug": self.app_slug,
+            "private_key": self.private_key,
+            "webhook_secret": self.webhook_secret,
+            "hostname": self.hostname,
+        }
+
+
 class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
-    def get_for_installation(
+    def filter_for_installation(
         self, hostname: str, installation_id: str | int
-    ) -> GitHubInstallation | None:
-        """Return one installation by host and installation ID."""
+    ) -> models.QuerySet[GitHubInstallation]:
+        """Return installations by host and installation ID."""
         hostname = normalize_github_app_hostname(hostname)
         return self.filter(
             hostname=hostname,
             installation_id=str(installation_id),
-        ).first()
+        )
 
-    def get_for_repo(self, hostname: str, full_name: str) -> GitHubInstallation | None:
+    def get_for_installation(
+        self,
+        hostname: str,
+        installation_id: str | int,
+        *,
+        workspace: Workspace | None = None,
+    ) -> GitHubInstallation | None:
+        """Return one installation by host and installation ID."""
+        queryset = self.filter_for_installation(hostname, installation_id)
+        if workspace is not None:
+            queryset = queryset.filter(workspace=workspace)
+        return queryset.order_by("workspace_id", "-created").first()
+
+    def get_for_repo(
+        self,
+        hostname: str,
+        full_name: str,
+        *,
+        workspace: Workspace | None = None,
+    ) -> GitHubInstallation | None:
         """Return an enabled installation on ``hostname`` that owns ``full_name``."""
         hostname = normalize_github_app_hostname(hostname)
-        for installation in self.filter(hostname=hostname, enabled=True).order_by(
-            "-created"
-        ):
+        queryset = self.filter(hostname=hostname, enabled=True)
+        if workspace is not None:
+            queryset = queryset.filter(workspace=workspace)
+        for installation in queryset.order_by("-created"):
             if installation.has_repository(full_name):
                 return installation
         return None
@@ -315,7 +484,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
         installation_id: str | int,
         data: dict,
         *,
-        created_by=None,
+        workspace: Workspace,
         enabled: bool = True,
     ) -> GitHubInstallation:
         """Create or update an installation using trusted GitHub metadata."""
@@ -327,14 +496,21 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             defaults["target_login"] = login
         if target_type := account.get("type"):
             defaults["target_type"] = target_type
-        if created_by is not None:
-            defaults["created_by"] = created_by
 
-        installation, _created = self.update_or_create(
+        installation = self.filter(
             hostname=hostname,
             installation_id=installation_id,
-            defaults=defaults,
-        )
+            workspace=workspace,
+        ).first()
+        if installation is None:
+            installation = self.model(
+                hostname=hostname,
+                installation_id=installation_id,
+                workspace=workspace,
+            )
+        for name, value in defaults.items():
+            setattr(installation, name, value)
+        installation.save()
         return installation
 
     def sync_from_api(
@@ -342,7 +518,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
         hostname: str,
         installation_id: str | int,
         *,
-        created_by=None,
+        workspace: Workspace,
         enabled: bool = True,
     ) -> GitHubInstallation:
         """Fetch installation metadata from GitHub and persist it."""
@@ -362,21 +538,38 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             hostname,
             installation_id,
             data,
-            created_by=created_by,
+            workspace=workspace,
             enabled=enabled,
+        )
+
+    def connect_workspace(
+        self, hostname: str, installation_id: str | int, workspace: Workspace
+    ) -> tuple[GitHubInstallation, bool]:
+        """Connect an existing GitHub installation to a Weblate workspace."""
+        hostname = normalize_github_app_hostname(hostname)
+        installation_id = str(installation_id)
+
+        installation = self.get_for_installation(
+            hostname, installation_id, workspace=workspace
+        )
+        if installation is not None:
+            return installation, False
+
+        return (
+            self.sync_from_api(hostname, installation_id, workspace=workspace),
+            True,
         )
 
 
 class GitHubInstallation(models.Model):
     """
-    Tracks a connected GitHub account for the Weblate GitHub app.
+    Tracks a workspace-scoped connected GitHub account for the Weblate GitHub app.
 
-    Per-account rows store only what is unique to one install: the
-    GitHub-issued ``installation_id``, the account it was installed on, and a
-    cached repository list. App-level credentials (App ID, private key,
-    webhook secret) live in ``settings.GITHUB_APP_CREDENTIALS`` and are
-    looked up by hostname so a single configured App can serve every
-    connected account on that host.
+    Per-workspace rows store the GitHub-issued ``installation_id``, the account
+    it was installed on, and a cached repository list. App-level credentials
+    (App ID, private key, webhook secret) live in
+    ``settings.GITHUB_APP_CREDENTIALS`` and are looked up by hostname so a
+    single configured App can serve every connected account on that host.
     """
 
     installation_id = models.CharField(
@@ -395,11 +588,11 @@ class GitHubInstallation(models.Model):
         help_text=gettext_lazy("GitHub organization or user login"),
     )
 
-    created_by = models.ForeignKey(
-        "weblate_auth.User",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+    workspace = models.ForeignKey(
+        "workspaces.Workspace",
+        on_delete=models.CASCADE,
+        related_name="github_installations",
+        verbose_name=gettext_lazy("Workspace"),
     )
 
     hostname = models.CharField(
@@ -426,7 +619,7 @@ class GitHubInstallation(models.Model):
     class Meta:
         verbose_name = gettext_lazy("connected GitHub account")
         verbose_name_plural = gettext_lazy("connected GitHub accounts")
-        unique_together = (("hostname", "installation_id"),)
+        unique_together = (("hostname", "installation_id", "workspace"),)
 
     def __str__(self) -> str:
         return f"{self.target_login} ({self.hostname}/{self.installation_id})"
@@ -487,3 +680,159 @@ class GitHubInstallation(models.Model):
         if config is None:
             return ""
         return config["webhook_secret"]
+
+
+class GithubAppRepository(GithubRepository):
+    """
+    GitHub backend that authenticates exclusively via the Weblate GitHub app.
+
+    Components imported through the GitHub App flow use this backend so the
+    settings UI can prevent editing the repository URL — changing it would
+    silently switch the App-issued token to a different repository (or break
+    auth entirely, leaking PAT-style credentials embedded in the new URL).
+    """
+
+    name: ClassVar[StrOrPromise] = gettext_lazy("GitHub (via Weblate GitHub app)")
+    identifier: ClassVar[str] = "github-app"
+    push_label: ClassVar[StrOrPromise] = gettext_lazy(
+        "This will push changes and create a GitHub pull request "
+        "via the Weblate GitHub app."
+    )
+
+    @classmethod
+    def is_configured(cls) -> bool:
+        return github_app_is_configured()
+
+    @classmethod
+    def get_credentials_configuration(cls):
+        # The App backend authenticates per-installation rather than through
+        # a static settings dict; satisfy the base API with an empty mapping.
+        return {}
+
+    def should_use_fork(self, branch: str | None = None) -> bool:
+        # Apps push branches directly to the source repo; forking is both
+        # unnecessary (the App already has write access) and unsupported
+        # (Apps cannot fork without an explicit organization target).
+        return False
+
+    def push(self, branch: str) -> None:
+        # Translations must not push onto the pull branch — there's no fork
+        # to absorb them. Substitute a dedicated weblate-* branch on the
+        # source repo when no explicit push branch is configured (or when
+        # it equals the pull branch).
+        if not branch or branch == self.branch:
+            branch = self.get_fork_branch_name()
+        return super().push(branch)
+
+    @classmethod
+    def _resolve_github_app_credentials_for_repo(
+        cls, repo: str, *, workspace: Workspace | None = None
+    ) -> dict[str, str] | None:
+        """Resolve an installation access token for a GitHub HTTPS repo URL."""
+        parsed = urlparse(repo)
+        if parsed.scheme != "https" or not parsed.hostname:
+            return None
+        if parsed.username or parsed.password:
+            return None
+
+        path = parsed.path.strip("/").removesuffix(".git")
+        if path.count("/") != 1:
+            return None
+
+        installation = GitHubInstallation.objects.get_for_repo(
+            parsed.hostname.lower(), path, workspace=workspace
+        )
+        if installation is None:
+            return None
+
+        try:
+            token = installation.get_access_token()
+        except GitHubAppNotConfiguredError:
+            return None
+
+        return {
+            "username": "x-access-token",
+            "token": token,
+            "github_app": True,
+        }
+
+    @classmethod
+    def _get_auth_args(cls, repo: str, *, workspace: Workspace | None = None):
+        yield from GitRepository._get_auth_args(repo)  # noqa: SLF001
+
+        app_creds = cls._resolve_github_app_credentials_for_repo(
+            repo, workspace=workspace
+        )
+        if app_creds is not None:
+            yield from get_github_git_auth_args(
+                app_creds["username"], app_creds["token"]
+            )
+
+    def get_auth_args(self) -> list[str]:
+        if self.component:
+            workspace = (
+                self.component.project.workspace
+                if self.component.project_id is not None
+                else None
+            )
+            return list(self._get_auth_args(self.component.repo, workspace=workspace))
+        return []
+
+    @classmethod
+    def get_remote_branch(cls, repo: str):
+        if not repo:
+            return super().get_remote_branch(repo)
+
+        cls.validate_remote_url(repo)
+        try:
+            result = cls._popen(
+                [*cls._get_auth_args(repo), "ls-remote", "--symref", "--", repo, "HEAD"]
+            )
+        except RepositoryError:
+            report_error("Listing remote branch")
+            return super().get_remote_branch(repo)
+
+        for line in result.splitlines():
+            if not line.startswith("ref: "):
+                continue
+            return line.split("\t")[0].split("refs/heads/")[1]
+
+        report_error("Could not figure out remote branch", message=True)
+        raise RepositoryError(0, "Could not figure out remote branch")
+
+    def _resolve_github_app_token(self, hostname: str) -> dict[str, str] | None:
+        """Resolve an installation access token for the parsed repository."""
+        # ``hostname`` arrives as the API host (``api.github.com`` for
+        # github.com). Map it back to the user-facing hostname used by
+        # installations.
+        raw_hostname = "github.com" if hostname == "api.github.com" else hostname
+
+        _, _, _, _, owner, slug = self.parse_repo_url()
+        full_name = f"{owner}/{slug}"
+        workspace = (
+            self.component.project.workspace
+            if self.component is not None and self.component.project_id is not None
+            else None
+        )
+        installation = GitHubInstallation.objects.get_for_repo(
+            raw_hostname, full_name, workspace=workspace
+        )
+        if installation is None:
+            return None
+        try:
+            token = installation.get_access_token()
+        except GitHubAppNotConfiguredError:
+            return None
+        return {
+            "username": "x-access-token",
+            "token": token,
+            "github_app": True,
+        }
+
+    def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
+        app_creds = self._resolve_github_app_token(hostname)
+        if app_creds is None:
+            raise RepositoryError(
+                0, f"No Weblate GitHub app installation available for {hostname}"
+            )
+        return app_creds

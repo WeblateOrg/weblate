@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-github-accounts' %}">{% translate "Connected GitHub accounts" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'github-app-register' %}">{% translate "Register Weblate GitHub App" %}</a>
+  </li>
+  <li class="breadcrumb-item">{% translate "Continue to GitHub" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% blocktranslate with host=hostname %}Sending you to {{ host }}{% endblocktranslate %}
+      </h4>
+    </div>
+    <div class="card-body">
+      <p>
+        {% blocktranslate trimmed with host=hostname %}
+          Click the button below to send the pre-filled GitHub App manifest to
+          {{ host }}. You will be redirected back here once GitHub confirms.
+        {% endblocktranslate %}
+      </p>
+      <dl class="row">
+        <dt class="col-sm-3">{% translate "GitHub host" %}</dt>
+        <dd class="col-sm-9">
+          <code>{{ hostname }}</code>
+        </dd>
+        {% if org %}
+          <dt class="col-sm-3">{% translate "Organization" %}</dt>
+          <dd class="col-sm-9">
+            <code>{{ org }}</code>
+          </dd>
+        {% endif %}
+        <dt class="col-sm-3">{% translate "App name" %}</dt>
+        <dd class="col-sm-9">
+          {{ name }}
+        </dd>
+      </dl>
+      <form method="post" action="{% url 'github-app-register-redirect' %}">
+        {% csrf_token %}
+        <input type="hidden" name="manifest" value="{{ manifest_json }}">
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">
+            {% blocktranslate with host=hostname %}Continue to {{ host }}{% endblocktranslate %}
+          </button>
+          <a href="{% url 'github-app-register' %}" class="btn btn-outline-secondary">{% translate "Back" %}</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock content %}

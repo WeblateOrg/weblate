@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
@@ -109,6 +109,8 @@ class HandlerResponse(TypedDict):
     repos: list[str]
     branch: str | None
     full_name: str | None
+    exact_match: NotRequired[bool]
+    project_ids: NotRequired[list[int]]
 
 
 HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
@@ -121,9 +123,11 @@ class HookPayloadError(Exception):
     """Raised for malformed but expected webhook payload problems."""
 
 
-def exact_repositories_filter(repos: list[str]) -> Q:
+def exact_repositories_filter(repos: list[str], *, include_variants: bool = True) -> Q:
     """Build a filter for exact repository URL matching."""
     spfilter = Q(repo__in=repos)
+    if not include_variants:
+        return spfilter
     for repo in repos:
         # We need to match also URLs which include username and password
         if repo.startswith("http://"):
@@ -148,16 +152,26 @@ def inexact_hook_alert_details(details: Mapping[str, object]) -> dict[str, str]:
 
 
 def get_hook_components(
-    repos: list[str], full_name: str | None
+    repos: list[str],
+    full_name: str | None,
+    *,
+    exact_match: bool = False,
+    project_ids: list[int] | None = None,
 ) -> tuple[QuerySet[Component], str]:
     """Return hook target components and repository match method."""
-    repo_components = Component.objects.filter(exact_repositories_filter(repos))
+    components = Component.objects.all()
+    if project_ids is not None:
+        components = components.filter(project_id__in=project_ids)
+
+    repo_components = components.filter(
+        exact_repositories_filter(repos, include_variants=not exact_match)
+    )
+    if exact_match:
+        return repo_components, HOOK_MATCH_EXACT
     if repo_components.exists():
         return repo_components, HOOK_MATCH_EXACT
 
-    fallback_components = get_fallback_components(
-        Component.objects.all(), repos, full_name
-    )
+    fallback_components = get_fallback_components(components, repos, full_name)
     if fallback_components is None:
         return repo_components, HOOK_MATCH_EXACT
 
@@ -497,7 +511,7 @@ def _resolve_github_installation_hostname(
     if hostname := _match_github_signature_hostname(request, body, configured_hosts):
         return hostname
 
-    if len(configured_hosts) == 1:
+    if installation_id and len(configured_hosts) == 1:
         return next(iter(configured_hosts))
 
     return None
@@ -522,7 +536,9 @@ def _lookup_github_installation(data: dict, hostname: str | None = None):
     return None
 
 
-def _authenticate_github_app_webhook(request: Request, data: dict):
+def _authenticate_github_app_webhook(
+    request: Request, data: dict, *, require_signature: bool = False
+):
     """
     Resolve and authenticate a Weblate GitHub app webhook delivery.
 
@@ -541,13 +557,21 @@ def _authenticate_github_app_webhook(request: Request, data: dict):
 
     payload = data.get("installation") or {}
     is_app_event = bool(payload.get("id"))
-    if is_app_event and config is None:
+    if (is_app_event or require_signature) and config is None:
         LOGGER.warning(
             "Rejected Weblate GitHub app webhook for unconfigured host %s (installation %s)",
             hostname,
             payload.get("id"),
         )
         msg = "Weblate GitHub app webhook host is not configured"
+        raise PermissionDenied(msg)
+
+    if require_signature and config is not None and not config["webhook_secret"]:
+        LOGGER.warning(
+            "Rejected Weblate GitHub app webhook for host %s without configured secret",
+            hostname,
+        )
+        msg = "Weblate GitHub app webhook secret is not configured"
         raise PermissionDenied(msg)
 
     if config is not None and config["webhook_secret"]:
@@ -560,6 +584,23 @@ def _authenticate_github_app_webhook(request: Request, data: dict):
             msg = "Invalid webhook signature"
             raise PermissionDenied(msg)
     return installation, hostname
+
+
+def _refresh_github_installations(installations) -> None:
+    """Refresh repositories once and copy the result to matching project rows."""
+    if not installations:
+        return
+    try:
+        repositories = installations[0].refresh_repositories()
+    except Exception:
+        report_error("Failed to refresh connected GitHub account repositories")
+        return
+
+    repositories_updated = installations[0].repositories_updated
+    for installation in installations[1:]:
+        installation.repositories = repositories
+        installation.repositories_updated = repositories_updated
+        installation.save(update_fields=["repositories", "repositories_updated"])
 
 
 def _handle_github_installation_event(  # noqa: C901
@@ -596,20 +637,19 @@ def _handle_github_installation_event(  # noqa: C901
         return
 
     if action == "unsuspend":
-        if installation is None:
-            if config is None:
-                return
-            installation = GitHubInstallation.objects.sync_from_api(
-                hostname, installation_id, enabled=True
+        installations = list(
+            GitHubInstallation.objects.filter_for_installation(
+                hostname, installation_id
             )
-        else:
-            installation.enabled = True
-            installation.save(update_fields=["enabled"])
-        if installation.repositories:
-            try:
-                installation.refresh_repositories()
-            except Exception:
-                report_error("Failed to refresh connected GitHub account repositories")
+        )
+        if not installations:
+            # Nothing to do until the setup flow binds the installation to a workspace.
+            return
+        for item in installations:
+            item.enabled = True
+            item.save(update_fields=["enabled"])
+        if any(item.repositories for item in installations):
+            _refresh_github_installations(installations)
         LOGGER.info(
             "Connected GitHub account %s/%s unsuspended",
             hostname,
@@ -618,19 +658,24 @@ def _handle_github_installation_event(  # noqa: C901
         return
 
     if action in {"created", "new_permissions_accepted"}:
-        if installation is None and config is None:
-            return
-        installation = GitHubInstallation.objects.upsert_from_data(
-            hostname,
-            installation_id,
-            payload,
-            enabled=True,
+        installations = list(
+            GitHubInstallation.objects.filter_for_installation(
+                hostname, installation_id
+            )
         )
+        if not installations:
+            # The setup view will create the row after GitHub redirects the user.
+            return
+        for item in installations:
+            GitHubInstallation.objects.upsert_from_data(
+                hostname,
+                installation_id,
+                payload,
+                workspace=item.workspace,
+                enabled=True,
+            )
         if config is not None:
-            try:
-                installation.refresh_repositories()
-            except Exception:
-                report_error("Failed to refresh connected GitHub account repositories")
+            _refresh_github_installations(installations)
         LOGGER.info(
             "Connected GitHub account %s/%s synchronized",
             hostname,
@@ -639,43 +684,45 @@ def _handle_github_installation_event(  # noqa: C901
         return
 
     if action in {"added", "removed"}:
-        if installation is None:
-            installation = GitHubInstallation.objects.get_for_installation(
+        installations = list(
+            GitHubInstallation.objects.filter_for_installation(
                 hostname, installation_id
             )
-            if installation is None:
-                return
-        repos = list(installation.repositories)
-        existing_names = {r.get("full_name") for r in repos}
-
+        )
+        if not installations:
+            return
         http_host = "github.com" if hostname == "github.com" else hostname
-        for repo in data.get("repositories_added") or []:
-            full_name = repo.get("full_name")
-            if not full_name or full_name in existing_names:
-                continue
-            repos.append(
-                {
-                    "full_name": full_name,
-                    "clone_url": f"https://{http_host}/{full_name}.git",
-                    "ssh_url": f"git@{http_host}:{full_name}.git",
-                    "html_url": f"https://{http_host}/{full_name}",
-                    "default_branch": repo.get("default_branch", "main"),
-                    "private": repo.get("private", False),
-                    "description": repo.get("description", ""),
-                }
-            )
-            existing_names.add(full_name)
-
         removed_names = {
             repo["full_name"]
             for repo in data.get("repositories_removed") or []
             if "full_name" in repo
         }
-        if removed_names:
-            repos = [r for r in repos if r.get("full_name") not in removed_names]
+        for item in installations:
+            repos = list(item.repositories)
+            existing_names = {r.get("full_name") for r in repos}
 
-        installation.repositories = repos
-        installation.save(update_fields=["repositories"])
+            for repo in data.get("repositories_added") or []:
+                full_name = repo.get("full_name")
+                if not full_name or full_name in existing_names:
+                    continue
+                repos.append(
+                    {
+                        "full_name": full_name,
+                        "clone_url": f"https://{http_host}/{full_name}.git",
+                        "ssh_url": f"git@{http_host}:{full_name}.git",
+                        "html_url": f"https://{http_host}/{full_name}",
+                        "default_branch": repo.get("default_branch", "main"),
+                        "private": repo.get("private", False),
+                        "description": repo.get("description", ""),
+                    }
+                )
+                existing_names.add(full_name)
+
+            if removed_names:
+                repos = [r for r in repos if r.get("full_name") not in removed_names]
+
+            item.repositories = repos
+            item.save(update_fields=["repositories"])
         LOGGER.info(
             "Connected GitHub account %s/%s repositories updated: +%d -%d",
             hostname,
@@ -685,21 +732,13 @@ def _handle_github_installation_event(  # noqa: C901
         )
 
 
-@register_hook
-def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
-    """Parse hooks from GitHub."""
-    if request:
-        event = request.headers.get("x-github-event", "")
-
-        installation, hostname = _authenticate_github_app_webhook(request, data)
-
-        if event in {"installation", "installation_repositories"}:
-            _handle_github_installation_event(data, installation, hostname)
-            return None
-
-        if event != "push":
-            return None
-
+def _github_push_hook_response(
+    data: dict,
+    *,
+    repos: list[str] | None = None,
+    exact_match: bool = False,
+    project_ids: list[int] | None = None,
+) -> HandlerResponse:
     # Parse owner, branch and repository name
     repository = require_mapping(data.get("repository"), "repository")
     o_data = require_mapping(repository.get("owner"), "repository.owner")
@@ -712,10 +751,10 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
 
     params = {"owner": owner, "slug": slug}
 
-    if "clone_url" not in repository:
+    if repos is None and "clone_url" not in repository:
         # Construct possible repository URLs
         repos = [repo % params for repo in GITHUB_REPOS]
-    else:
+    elif repos is None:
         repos = []
         keys = ["clone_url", "git_url", "ssh_url", "svn_url", "html_url", "url"]
         for key in keys:
@@ -726,13 +765,87 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
             if url.endswith(".git"):
                 repos.append(url[:-4])
 
-    return {
+    response: HandlerResponse = {
         "service_long_name": "GitHub",
         "repo_url": repo_url,
         "repos": sorted(set(repos)),
         "branch": branch,
         "full_name": f"{owner}/{slug}",
     }
+    if exact_match:
+        response["exact_match"] = True
+    if project_ids is not None:
+        response["project_ids"] = project_ids
+    return response
+
+
+@register_hook
+def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
+    """Parse generic repository hooks from GitHub."""
+    if request:
+        event = request.headers.get("x-github-event", "")
+        if data.get("installation"):
+            msg = "GitHub App webhooks must use /hooks/github-app/"
+            raise PermissionDenied(msg)
+        if event != "push":
+            return None
+
+    return _github_push_hook_response(data)
+
+
+def github_app_hook_helper(
+    data: dict, request: Request | None
+) -> HandlerResponse | None:
+    """Parse signed GitHub App hooks."""
+    if request is None:
+        msg = "GitHub App webhooks require a request"
+        raise PermissionDenied(msg)
+
+    event = request.headers.get("x-github-event", "")
+    installation, hostname = _authenticate_github_app_webhook(
+        request, data, require_signature=True
+    )
+    if event in {"installation", "installation_repositories"}:
+        _handle_github_installation_event(data, installation, hostname)
+        return None
+    if event != "push":
+        return None
+
+    repository = data["repository"]
+    repo_url = repository.get("clone_url")
+    if not repo_url:
+        msg = "Missing repository clone URL in GitHub App webhook"
+        raise HookPayloadError(msg)
+
+    installation_id = str((data.get("installation") or {}).get("id", ""))
+    project_ids: list[int] = []
+    if hostname is not None and installation_id:
+        workspace_ids = list(
+            GitHubInstallation.objects.filter_for_installation(
+                hostname, installation_id
+            )
+            .filter(enabled=True)
+            .values_list("workspace_id", flat=True)
+            .distinct()
+        )
+        if workspace_ids:
+            from weblate.trans.models import Project  # noqa: PLC0415
+
+            project_ids = list(
+                Project.objects.filter(workspace_id__in=workspace_ids)
+                .values_list("pk", flat=True)
+                .distinct()
+            )
+
+    return _github_push_hook_response(
+        data,
+        repos=[repo_url],
+        exact_match=True,
+        project_ids=project_ids,
+    )
+
+
+HOOK_HANDLERS["github-app"] = github_app_hook_helper
 
 
 def _gitea_like_hook_helper(
@@ -939,7 +1052,7 @@ class ServiceHookView(APIView):
         )
         return Response(serializer.data, status=status)
 
-    def post(self, request: Request, service: str) -> Response:  # noqa: PLR0914
+    def post(self, request: Request, service: str) -> Response:
         """Process incoming webhook from a code hosting site."""
         # We support only post methods
         if not settings.ENABLE_HOOKS:
@@ -989,7 +1102,6 @@ class ServiceHookView(APIView):
 
         # Log data
         service_long_name = service_data["service_long_name"]
-        repos = service_data["repos"]
         repo_url = service_data["repo_url"]
         branch = service_data["branch"]
         full_name = service_data["full_name"]
@@ -1000,7 +1112,12 @@ class ServiceHookView(APIView):
             verbose=f"{service_data['service_long_name']} webhook",
         )
 
-        repo_components, match_method = get_hook_components(repos, full_name)
+        repo_components, match_method = get_hook_components(
+            service_data["repos"],
+            full_name,
+            exact_match=service_data.get("exact_match", False),
+            project_ids=service_data.get("project_ids"),
+        )
 
         if branch is not None:
             all_components = repo_components.filter(branch=branch)

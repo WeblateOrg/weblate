@@ -1103,13 +1103,23 @@ Server.
 Use the :guilabel:`App ID` from the GitHub App settings as ``app_id``, the
 slug from the app URL as ``app_slug``, a generated private key PEM as
 ``private_key``, and the configured app webhook secret as ``webhook_secret``.
+GitHub only offers accounts where the signed-in GitHub user can install or
+request the app. If an organization is not shown during the install flow, check
+the user's organization role and the organization's GitHub App installation
+restrictions. On GitHub.com, public apps can be installed on other accounts;
+private apps can only be installed on the account that owns the app.
 
-The :guilabel:`Webhook URL` configured in the GitHub App should include the
-matching host when Weblate is configured with multiple GitHub hosts:
+Each connected GitHub account is associated with one Weblate project. Project
+managers can then add components from repositories exposed by that app
+installation.
+
+The :guilabel:`Webhook URL` configured in the GitHub App should use the
+GitHub App hook endpoint and include the matching host when Weblate is
+configured with multiple GitHub hosts:
 
 .. code-block:: text
 
-    https://weblate.example.com/hooks/github/?host=github.example.com
+    https://weblate.example.com/hooks/github-app/?host=github.example.com
 
 .. seealso::
 

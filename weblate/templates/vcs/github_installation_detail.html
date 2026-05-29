@@ -40,6 +40,9 @@
           {% blocktranslate with hostname=installation.hostname %}Weblate GitHub app credentials are not configured for {{ hostname }}. Token refresh and webhook signature checks will not work until GITHUB_APP_CREDENTIALS is set in settings.{% endblocktranslate %}
         </div>
       {% endif %}
+      {% if github_app_install_url %}
+        {% include "vcs/github_install_help.html" %}
+      {% endif %}
       <dl class="row">
         <dt class="col-sm-3">{% translate "GitHub installation ID" %}</dt>
         <dd class="col-sm-9">
@@ -48,6 +51,10 @@
         <dt class="col-sm-3">{% translate "Account" %}</dt>
         <dd class="col-sm-9">
           {{ installation.target_login }} ({{ installation.target_type }})
+        </dd>
+        <dt class="col-sm-3">{% translate "Workspace" %}</dt>
+        <dd class="col-sm-9">
+          {{ installation.workspace }}
         </dd>
         <dt class="col-sm-3">{% translate "Hostname" %}</dt>
         <dd class="col-sm-9">
@@ -108,7 +115,7 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github"
+                  <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github-app"
                      class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
                 </td>
               </tr>

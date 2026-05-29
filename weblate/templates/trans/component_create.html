@@ -192,11 +192,15 @@
                  class="btn btn-outline-primary btn-sm float-end">{% translate "Add or configure account" %}</a>
             {% endif %}
           </p>
+          {% if github_app_install_url %}
+            {% include "vcs/github_install_help.html" %}
+          {% endif %}
           {% if github_app_repositories %}
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th>{% translate "Repository" %}</th>
+                  <th>{% translate "Workspace" %}</th>
                   <th>{% translate "Account" %}</th>
                   <th>{% translate "Branch" %}</th>
                   <th>{% translate "Visibility" %}</th>
@@ -213,6 +217,7 @@
                         <small class="text-body-secondary">{{ repo.description }}</small>
                       {% endif %}
                     </td>
+                    <td>{{ repo.workspace_name }}</td>
                     <td>{{ repo.account_name }}</td>
                     <td>{{ repo.default_branch }}</td>
                     <td>
@@ -223,7 +228,7 @@
                       {% endif %}
                     </td>
                     <td>
-                      <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github"
+                      <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github-app{% if github_app_target_project %}&project={{ github_app_target_project }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}"
                          class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
                     </td>
                   </tr>

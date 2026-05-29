@@ -650,8 +650,27 @@ class CreateComponentSelection(CreateComponent):
             kwargs["scratch_form"] = kwargs["form"]
         else:
             kwargs["existing_form"] = kwargs["form"]
-        installations = GitHubInstallation.objects.filter(enabled=True).order_by(
-            "target_login", "hostname"
+        workspace_ids = list(
+            self.projects.filter(workspace__isnull=False)
+            .values_list("workspace_id", flat=True)
+            .distinct()
+        )
+        installations = GitHubInstallation.objects.filter(
+            enabled=True, workspace_id__in=workspace_ids
+        ).select_related("workspace")
+        selected_project_obj = None
+        if self.selected_project:
+            selected_project_obj = self.projects.filter(
+                pk=self.selected_project
+            ).first()
+            if selected_project_obj is not None and selected_project_obj.workspace_id:
+                installations = installations.filter(
+                    workspace_id=selected_project_obj.workspace_id
+                )
+            else:
+                installations = installations.none()
+        installations = installations.order_by(
+            "workspace__name", "target_login", "hostname"
         )
         kwargs["github_app_available"] = github_app_is_configured() or (
             installations.exists()
@@ -661,13 +680,27 @@ class CreateComponentSelection(CreateComponent):
             for repo in installation.repositories:
                 entry = dict(repo)
                 entry["account_name"] = str(installation)
+                entry["workspace_id"] = str(installation.workspace_id)
+                entry["workspace_name"] = installation.workspace.name
                 repositories.append(entry)
         kwargs["github_app_repositories"] = repositories
-        if github_app_is_configured():
+        kwargs["github_app_target_project"] = (
+            selected_project_obj.pk if selected_project_obj is not None else None
+        )
+        if (
+            github_app_is_configured()
+            and selected_project_obj is not None
+            and selected_project_obj.workspace_id
+        ):
             kwargs["github_app_install_url"] = (
                 reverse("github-app-install")
                 + "?"
-                + urlencode({"next": self.request.get_full_path()})
+                + urlencode(
+                    {
+                        "next": f"{self.request.get_full_path()}#github",
+                        "workspace": selected_project_obj.workspace_id,
+                    }
+                )
             )
         return kwargs
 

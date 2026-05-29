@@ -2340,6 +2340,12 @@ class ComponentSettingsForm(
         self.fields["vcs"].choices = [
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
+        if self.instance.vcs == "github-app":
+            # Repo URL is managed by the GitHub App; editing it would point
+            # auth at a different repository and break the integration.
+            for locked_field in ("vcs", "repo"):
+                if locked_field in self.fields:
+                    self.fields[locked_field].disabled = True
         self.patch_unlinking_linked_repository_settings()
         self.patch_linked_repository_settings()
 
