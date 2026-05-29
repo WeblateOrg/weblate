@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-05-28 13:49+0000\n"
+"PO-Revision-Date: 2026-05-29 12:29+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -18669,16 +18669,12 @@ msgid ""
 msgstr ""
 
 #: admin/workspaces.rst:26
-#, fuzzy
-#| msgid "Project created"
 msgid "Project creation and moves"
-msgstr "创建了项目"
+msgstr "项目创建和移动"
 
 #: admin/workspaces.rst:28
-#, fuzzy
-#| msgid "Projects can be watched directly from project page."
 msgid "Projects can be created with or without a workspace:"
-msgstr "可以从项目页面直接关注项目。"
+msgstr "有没有工作空间均可创建项目："
 
 #: admin/workspaces.rst:30
 msgid ""
@@ -18717,16 +18713,12 @@ msgid ""
 msgstr ""
 
 #: admin/workspaces.rst:57
-#, fuzzy
-#| msgid "The default value is:"
 msgid "The default workspace teams are:"
-msgstr "默认值为："
+msgstr "默认工作空间团队为："
 
 #: admin/workspaces.rst:59
-#, fuzzy
-#| msgid "`Viewers`"
 msgid "`Owners`"
-msgstr "`查看者`"
+msgstr "`所有者`"
 
 #: admin/workspaces.rst:60
 msgid ""
@@ -19387,15 +19379,10 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: changes.rst:48
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS`; "
-#| "``weblate.metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; "
 "``weblate.workspaces`` should be added."
-msgstr ""
-":setting:`django:INSTALLED_APPS` 中有一处更改；应添加 ``weblate.metrics``."
+msgstr ":setting:`django:INSTALLED_APPS` 有一处更改；应添加 ``weblate.workspaces`` 。"
 
 #: changes.rst:51 changes.rst:122 changes/v5.rst:77 changes/v5.rst:193
 #: changes/v5.rst:227 changes/v5.rst:266 changes/v5.rst:323 changes/v5.rst:364
@@ -37376,10 +37363,8 @@ msgstr ""
 "则不会更改任何此类先前授予的许可。"
 
 #: devel/alerts.rst:4
-#, fuzzy
-#| msgid "Translation component alerts"
 msgid "Translation component diagnostics"
-msgstr "翻译部件警报"
+msgstr "翻译部件诊断"
 
 #: devel/alerts.rst:6
 msgid ""
@@ -37480,20 +37465,15 @@ msgstr ""
 "Weblate 将不再生成无法连接的项目网站的警报。"
 
 #: devel/alerts.rst:36
-#, fuzzy
-#| msgid ""
-#| "Alerts are listed on each respective component page "
-#| "as :guilabel:`Alerts`. If it is missing, the component clears all current "
-#| "checks. Alerts can not be ignored, but will disappear once the underlying "
-#| "problem has been fixed."
 msgid ""
 "Alerts are listed on each respective component page "
 "as :guilabel:`Diagnostics`. If it is missing, the component clears all "
 "current checks. Problem alerts cannot be ignored, but will disappear once "
 "the underlying problem has been fixed."
 msgstr ""
-"警报会在每个部件页面的 :guilabel:`警报` 选项卡中列出。如果缺少该选项卡，部件"
-"会清除所有当前的检查。警报无法被忽略，但一旦根本的问题被修复，警报就会消失。"
+"警报会在每个部件页面的 :guilabel:`诊断` 选项卡中列出。如果缺少该选项卡，部件"
+"会清除所有当前的检查。问题警报无法被忽略，但一旦根本的问题被修复，警报就会消"
+"失。"
 
 #: devel/alerts.rst:41
 msgid ""
@@ -37511,20 +37491,15 @@ msgid "Conflicting repository setup"
 msgstr "有冲突的仓库设置"
 
 #: devel/alerts.rst:53
-#, fuzzy
-#| msgid ""
-#| "This alert is shown when multiple Git components are configured to push "
-#| "to the same repository and push branch. This includes pull or merge "
-#| "request workflows, and direct pushes to Git repositories. Such a setup "
-#| "can overwrite the shared branch."
 msgid ""
 "This alert is shown when multiple Git components are configured to push to "
 "the same repository and push branch without all of them pulling from that "
 "branch. This includes pull or merge request workflows, and direct pushes to "
 "a separate push branch. Such a setup can overwrite the shared branch."
 msgstr ""
-"当多个 Git l 部件配置为推送到相同仓库和推送分支时显示此警告。这包括拉取过合并"
-"请求工作流和到 Git 仓库的直接推送。 这样的设置可以覆盖共享分支。"
+"当多个 Git 部件被配置为推送到相同仓库和推送分支而这些部件均不从那个分支进行拉"
+"取时显示此警告。这包括拉取或合并请求工作流以及直接推送到单独推送分支。 这样的"
+"设置可以覆盖共享分支。"
 
 #: devel/alerts.rst:58
 msgid ""
@@ -37574,18 +37549,13 @@ msgid "Component diagnostics"
 msgstr "部件诊断"
 
 #: devel/community.rst:13
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Community localization checklist` which can be found in "
-#| "the menu of each component can give you guidance to make your "
-#| "localization process easy for community translators."
 msgid ""
 "Guidance is shown in the :guilabel:`Diagnostics` tab on each component. "
 "These alerts are dismissible and point to the configuration or documentation "
 "needed to make your localization process easier for community translators."
 msgstr ""
-"可以在每个部件的菜单中找到 :guilabel:`社区本地化检查清单`，它可以就如何让社区"
-"译者轻松进行本地化过程为您提供指导。"
+"指引显示在每个部件的 :guilabel:`诊断` 选项卡中。这些警报可忽略并指向让你的本"
+"地化流程对社区译员更加简单所需的配置或文档。"
 
 #: devel/community.rst:21
 msgid "Terminology management"
@@ -53775,16 +53745,12 @@ msgid ""
 msgstr ""
 
 #: snippets/code-hosting-ssh-repository-access.rst:21
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate, add the hosted :guilabel:`weblate` user where it is "
-#| "available, see :ref:`hosted-push`."
 msgid ""
 "On Hosted Weblate, use the hosted :guilabel:`weblate` user on supported code "
 "hosting sites, see :ref:`hosted-push`."
 msgstr ""
-"对 Hosted Weblate，在可用的地方添加 hosted :guilabel:`weblate` 用户，"
-"见 :ref:`hosted-push`。"
+"在 Hosted Weblate 上，对支持的代码托管站点使用托管的 :guilabel:`weblate` 用户"
+"，见 :ref:`hosted-push`。"
 
 #: snippets/compliance-warning.rst:3
 msgid ""
@@ -56635,20 +56601,16 @@ msgstr "编辑工作空间设置"
 
 #: snippets/permissions.rst:327 snippets/permissions.rst:329
 #: snippets/permissions.rst:333
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`Workspace administration`"
-msgstr ":guilabel:`管理`"
+msgstr ":guilabel:`工作空间管理`"
 
 #: snippets/permissions.rst:329
 msgid "Add projects to workspace"
 msgstr "添加项目到工作空间"
 
 #: snippets/permissions.rst:331
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add workspace projects`"
-msgstr ":guilabel:`添加新项目`"
+msgstr ":guilabel:`添加工作空间项目`"
 
 #: snippets/permissions.rst:333
 msgid "Manage workspace access"
@@ -56990,44 +56952,32 @@ msgid "`Manage repository`"
 msgstr "`管理仓库`"
 
 #: snippets/roles.rst:198
-#, fuzzy
-#| msgid "`Administration`"
 msgid "`Workspace administration`"
-msgstr "`管理`"
+msgstr "`工作空间管理`"
 
 #: snippets/roles.rst:199 snippets/roles.rst:204
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add projects to workspace`"
-msgstr ":guilabel:`添加新项目`"
+msgstr ":guilabel:`添加项目到工作空间`"
 
 #: snippets/roles.rst:200
-#, fuzzy
-#| msgid ":guilabel:`Edit source strings`"
 msgid ":guilabel:`Edit workspace settings`"
-msgstr ":guilabel:`编辑源字符串`"
+msgstr ":guilabel:`编辑工作空间设置`"
 
 #: snippets/roles.rst:201
-#, fuzzy
-#| msgid ":guilabel:`Manage project access`"
 msgid ":guilabel:`Manage workspace access`"
-msgstr ":guilabel:`管理项目访问`"
+msgstr ":guilabel:`管理工作空间访问`"
 
 #: snippets/roles.rst:203
-#, fuzzy
-#| msgid "`Add new projects`"
 msgid "`Add workspace projects`"
-msgstr "`添加新项目`"
+msgstr "`添加工作空间项目`"
 
 #: snippets/roles.rst:206
 msgid "`Add new projects`"
 msgstr "`添加新项目`"
 
 #: snippets/roles.rst:208
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add new workspaces`"
-msgstr ":guilabel:`添加新项目`"
+msgstr ":guilabel:`添加新的工作空间`"
 
 #: snippets/vcs-credentials.rst:1
 msgid ""
@@ -58686,43 +58636,31 @@ msgid "Searching for screenshots"
 msgstr "正在搜索屏幕截图"
 
 #: user/search.rst:253
-#, fuzzy
-#| msgid ""
-#| "Advanced queries using boolean operations, parentheses, or field specific "
-#| "lookup can be used to find the strings you want."
 msgid ""
 "The screenshot listing in a component accepts advanced queries using boolean "
 "operations, parentheses, or field specific lookup."
-msgstr "使用布尔运算、括号或特定于字段的查找的高级查询可用于查找所需的字符串。"
+msgstr "部件中的屏幕截图列举接受使用布尔运算、括号或特定字段查找的高级查询。"
 
 #: user/search.rst:256
-#, fuzzy
-#| msgid ""
-#| "When no field is defined, the lookup happens on source, target, and "
-#| "context strings."
 msgid ""
 "When no field is defined, the lookup happens on the screenshot name, "
 "repository path, screenshot language, assigned source string, assigned "
 "context, and assigned location."
-msgstr "如果未定义字段，则对源、目标和上下文字符串进行查找。"
+msgstr ""
+"如果未定义字段，查找发生在屏幕截图名称、仓库路径、屏幕截图语言、分配的源字符"
+"串、分配的上下文和分配的位置上。"
 
 #: user/search.rst:261
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Screenshot fields"
-msgstr "截图文件掩码"
+msgstr "屏幕截图字段"
 
 #: user/search.rst:264
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Screenshot name case-insensitive search."
-msgstr "不区分大小写的源字符串搜索。"
+msgstr "不区分大小写的屏幕截图名搜索。"
 
 #: user/search.rst:266
-#, fuzzy
-#| msgid "Location string case-insensitive search."
 msgid "Repository path to screenshot case-insensitive search."
-msgstr "位置字符串不区分大小写的搜索。"
+msgstr "不区分大小写的仓库屏幕截图路径搜索。"
 
 #: user/search.rst:268
 msgid ""
@@ -58730,57 +58668,40 @@ msgid ""
 msgstr ""
 
 #: user/search.rst:271
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Screenshot language code or language name case-insensitive search."
-msgstr "不区分大小写的源字符串搜索。"
+msgstr "不区分大小写的屏幕截图语言代码或语言名搜索。"
 
 #: user/search.rst:273
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Assigned source string case-insensitive search."
-msgstr "不区分大小写的源字符串搜索。"
+msgstr "不区分大小写的分配的源字符串搜索。"
 
 #: user/search.rst:275
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Assigned source string context case-insensitive search."
-msgstr "不区分大小写的源字符串搜索。"
+msgstr "不区分大小写的分配的源字符串上下文搜索。"
 
 #: user/search.rst:277
-#, fuzzy
-#| msgid "Source string description case-insensitive search."
 msgid "Assigned source string location case-insensitive search."
-msgstr "不区分大小写的源字符串描述搜索。"
+msgstr "不区分大小写的分配的源字符串位置搜索。"
 
 #: user/search.rst:279
-#, fuzzy
-#| msgid "String unique identifier."
 msgid "Screenshot unique identifier."
-msgstr "字符串唯一标识符。"
+msgstr "屏幕截图唯一标识符。"
 
 #: user/search.rst:281
-#, fuzzy
-#| msgid "Timestamp for when the string was added to Weblate."
 msgid "Timestamp for when the screenshot was added to Weblate."
-msgstr "字符串被添加到 Weblate 时的时间戳。"
+msgstr "屏幕截图被添加到 Weblate 的时间戳。"
 
 #: user/search.rst:283
 msgid "Number of assigned source strings."
 msgstr "分配的源字符串数。"
 
 #: user/search.rst:285
-#, fuzzy
-#| msgid "Search in screenshots."
 msgid "Search for screenshots having attributes:"
-msgstr "搜索截图。"
+msgstr "搜索有下列属性的屏幕截图："
 
 #: user/search.rst:288
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Screenshot assigned to at least one source string."
-msgstr "管理屏幕截图（添加、删除并将其与源字符串关联）。"
+msgstr "屏幕截图被分配到至少一条源字符串。"
 
 #: user/search.rst:290
 msgid "Screenshot with a repository path."
@@ -58791,10 +58712,8 @@ msgid "Screenshot with a repository path, same as ``repository``."
 msgstr "带仓库路径的屏幕截图，同 ``repository`` 。"
 
 #: user/search.rst:295
-#, fuzzy
-#| msgid "Screenshot removed"
 msgid "Screenshot search examples"
-msgstr "删除了截图"
+msgstr "屏幕截图搜索示例"
 
 #: user/search.rst:298
 msgid ""
@@ -58815,36 +58734,26 @@ msgid ""
 msgstr ""
 
 #: user/search.rst:307
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Search for screenshots assigned to at least one source string."
-msgstr "管理屏幕截图（添加、删除并将其与源字符串关联）。"
+msgstr "搜索被分配到至少一条源字符串的屏幕截图。"
 
 #: user/search.rst:309
-#, fuzzy
-#| msgid "Support for user comments for both translations and source strings."
 msgid "Search for screenshots not assigned to any source string."
-msgstr "支持翻译和源字符串的用户评论。"
+msgstr "搜索未被分配到任何源字符串的屏幕截图。"
 
 #: user/search.rst:311
 msgid "Search for screenshots with ``fastlane`` in the repository path."
 msgstr "搜索仓库路径中有 ``fastlane`` 的屏幕截图。"
 
 #: user/search.rst:313
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Search for screenshots assigned to more than two source strings."
-msgstr "管理屏幕截图（添加、删除并将其与源字符串关联）。"
+msgstr "搜索被分配到超过两条源字符串的屏幕截图。"
 
 #: user/search.rst:315
-#, fuzzy
-#| msgid "Screenshots updated from the repository have proper history."
 msgid ""
 "Search for screenshots imported from the repository that still need source "
 "string assignment."
-msgstr "从仓库更新的屏幕截图有正确的历史记录。"
+msgstr "搜索从仓库导入仍需要源字符串分配的屏幕截图。"
 
 #: user/search.rst:318
 msgid ""
@@ -59955,14 +59864,6 @@ msgid ""
 msgstr ""
 
 #: vcs.rst:81
-#, fuzzy
-#| msgid ""
-#| "For self-hosted Weblate, accessing repositories on code hosting sites is "
-#| "typically done by creating a dedicated user who is associated with a "
-#| "Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
-#| "Weblate SSH key with a single user (platforms frequently enforce single "
-#| "use of an SSH key) and grant this user access to the repository. You can "
-#| "then use SSH URL to access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For multiple repositories, create a dedicated code hosting user associated "
 "with a Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
@@ -59970,28 +59871,23 @@ msgid ""
 "single use of an SSH key. Grant this user access to the repositories, and "
 "use SSH URLs to access them (see :ref:`ssh-repos`)."
 msgstr ""
-"对于自托管 Weblate，访问代码托管站点上的仓库通常是通过创建和 Weblate SSH 密钥"
-"相关联的专门用户实现的（见 :ref:`weblate-ssh-key`）。这样做，你将 Weblate "
-"SSH 密钥与单一用户相关联（代码平台经常强制 SSH 密钥的单一使用）并授予此用户访"
-"问仓库的权限。关联后，你可以使用 SSH URL 来访问仓库（见 :ref:`ssh-repos`）。"
+"对于多个仓库，创建一个与 Weblate SSH 密钥 （见 :ref:`weblate-ssh-key`) 相关联"
+"的专门的代码托管用户。这样就把单个用户和 Weblate SSH 密钥关联起来了，因为平台"
+"经常强制 SSH 密钥的单一用途。授予此用户访问仓库的权限，并使用 SSH URL 来访问"
+"它们（见 :ref:`ssh-repos`）。"
 
 #: vcs.rst:90
 msgid "SSH repositories"
 msgstr "SSH 仓库"
 
 #: vcs.rst:92
-#, fuzzy
-#| msgid ""
-#| "The most frequently used method to access private repositories is based "
-#| "on SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) "
-#| "to access the upstream repository this way."
 msgid ""
 "One common method to access private repositories is based on SSH. Authorize "
 "the public Weblate SSH key (see :ref:`weblate-ssh-key`) to access the "
 "upstream repository this way."
 msgstr ""
-"访问私有仓库的最常用方法是基于 SSH。授权公共 Weblate SSH 密钥（请参"
-"阅 :ref:`weblate-ssh-key`）以这种方式访问上游仓库。"
+"访问私有仓库的常见方法基于 SSH。授权公共 Weblate SSH 密钥（请参阅 "
+":ref:`weblate-ssh-key`）以这种方式访问上游仓库。"
 
 #: vcs.rst:98
 msgid ""
