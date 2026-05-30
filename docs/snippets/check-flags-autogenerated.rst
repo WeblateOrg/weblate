@@ -129,6 +129,8 @@
     Enables the :ref:`check-placeholders` quality check.
 ``regex``
     Enables the :ref:`check-regex` quality check.
+``safe-mdx``
+    Enables the :ref:`check-safe-mdx` quality check.
 ``safe-html``
     Enables the :ref:`check-safe-html` quality check.
 ``auto-safe-html``

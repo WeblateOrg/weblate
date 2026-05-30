@@ -245,7 +245,8 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             elif extension in {".md", ".markdown"}:
                 yield "md-text"
             elif extension == ".mdx":
-                yield "md-text,safe-mdx"
+                yield "md-text"
+                yield "safe-mdx"
         yield from self.add_flags
 
     @cached_property

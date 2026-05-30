@@ -16,14 +16,18 @@ class SafeMDXCheckTest(CheckTestCase):
         self.test_good_matching = (
             "Hello, {props.name.toUpperCase()}",
             "Ahoj, {props.name.toUpperCase()}",
-            "",
+            "safe-mdx",
         )
 
         self.test_failure_1 = (
             "Hello, {props.name.toUpperCase()}",
             "Ahoj, {props.unauthorized.access()}",
-            "",
+            "safe-mdx",
         )
-        self.test_failure_2 = ("Test {Math.PI * 100}", "Test {Math.PI*100}", "")
-        self.test_failure_3 = ("Hello, {props.name.toUpperCase()}", "Ahoj", "")
-        self.test_ignore = ("Hello, {test}", "Ahoj, {ignore}", "ignore-safe-mdx")
+        self.test_failure_2 = ("Test {Math.PI * 100}", "Test {Math.PI*100}", "safe-mdx")
+        self.test_failure_3 = ("Hello, {props.name.toUpperCase()}", "Ahoj", "safe-mdx")
+        self.test_ignore_check = (
+            "Hello, {test}",
+            "Ahoj, {ignore}",
+            "safe-mdx,ignore-safe-mdx",
+        )

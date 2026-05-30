@@ -20,7 +20,10 @@ class SafeMDXCheck(TargetCheck):
 
     check_id = "safe-mdx"
     name = gettext_lazy("Safe MDX")
-    description = gettext_lazy("The MDX content is safe.")
+    description = gettext_lazy(
+        "JSX expressions in the translation do not match the source."
+    )
+    default_disabled = True
     version_added = "2026.7"
 
     def get_jsx_expression_matches(self, text: str):
@@ -31,6 +34,6 @@ class SafeMDXCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit):
         """Check if the target string contains the same JSX expressions as the source string."""
-        expected = set(self.get_jsx_expression_matches(source))
-        found = set(self.get_jsx_expression_matches(target))
+        expected = list(self.get_jsx_expression_matches(source))
+        found = list(self.get_jsx_expression_matches(target))
         return found != expected
