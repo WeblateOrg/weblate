@@ -24,9 +24,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-29 23:00-0500\n"
-"PO-Revision-Date: 2026-05-30 06:52+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-05-30 21:06+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -570,7 +569,7 @@ msgstr ""
 #: weblate/accounts/models.py:326
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
-msgstr ""
+msgstr "購入したサービス利用のために外部で作成されたアカウントです。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
@@ -738,39 +737,30 @@ msgstr ""
 #: weblate/accounts/models.py:464
 msgctxt "User agent device type"
 msgid "PC"
-msgstr ""
+msgstr "PC"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:466
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "User agent device type"
 msgid "Other"
 msgstr "その他"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:468
-#, fuzzy
-#| msgid "Generate"
 msgctxt "User agent device type"
 msgid "Generic Smartphone"
-msgstr "生成"
+msgstr "一般的なスマートフォン"
 
 #: weblate/accounts/models.py:471
-#, fuzzy
-#| msgid "Generic presets"
 msgctxt "User agent device type"
 msgid "Generic Feature Phone"
-msgstr "汎用プリセット"
+msgstr "一般的なフィーチャーフォン"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:474
-#, fuzzy
-#| msgid "Service"
 msgctxt "User agent device type"
 msgid "iOS-Device"
-msgstr "サービス"
+msgstr "iOS デバイス"
 
 #: weblate/accounts/models.py:610 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:309
@@ -2915,13 +2905,11 @@ msgstr "既存のチームでは、この設定を変更できません。"
 
 #: weblate/api/serializers.py:726
 msgid "Choose either a project or a workspace."
-msgstr ""
+msgstr "プロジェクトまたはワークスペースを選択してください。"
 
 #: weblate/api/serializers.py:747 weblate/auth/models.py:335
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A team with this name already exists in this workspace."
-msgstr "指定したユーザー名はすでに存在しています。"
+msgstr "このワークスペースには、同名のチームがすでに存在しています。"
 
 #: weblate/api/serializers.py:1902 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3017,10 +3005,8 @@ msgid "At least one team is required for a project token."
 msgstr "プロジェクト トークンには、少なくとも 1 つのチームが必要です。"
 
 #: weblate/api/views.py:1045
-#, fuzzy
-#| msgid "The anonymous user can not be assigned to teams."
 msgid "This role cannot be assigned to this team."
-msgstr "匿名ユーザーをチームに割り当てることはできません。"
+msgstr "このチームには、このロールを割り当てることはできません。"
 
 #: weblate/api/views.py:3012 weblate/trans/models/translation.py:2543
 msgid "This string seems to already exist."
@@ -3360,24 +3346,18 @@ msgstr "お知らせの削除"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "原文の編集"
+msgstr "ワークスペース設定の編集"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
-#, fuzzy
-#| msgid "Add a project message"
 msgid "Add projects to workspace"
-msgstr "プロジェクト メッセージを追加"
+msgstr "ワークスペースにプロジェクトを追加"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "プロジェクトのアクセス管理"
+msgstr "ワークスペースのアクセス管理"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
@@ -3391,10 +3371,8 @@ msgstr "新しいプロジェクトの追加"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "Add new word"
 msgid "Add new workspaces"
-msgstr "新しい単語の追加"
+msgstr "新しいワークスペースの追加"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
@@ -3543,18 +3521,14 @@ msgid "Manage repository"
 msgstr "リポジトリの管理"
 
 #: weblate/auth/data.py:270
-#, fuzzy
-#| msgid "Revoke administration"
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr "管理の取り消し"
+msgstr "ワークスペースの管理"
 
 #: weblate/auth/data.py:278
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "新しいプロジェクトの追加"
+msgstr "ワークスペースにプロジェクトを追加"
 
 #: weblate/auth/data.py:282
 msgctxt "Access-control role"
@@ -3851,7 +3825,7 @@ msgstr "ユーザーが二要素認証を設定する必要があります。"
 
 #: weblate/auth/models.py:322
 msgid "Team can be scoped either to a project or to a workspace."
-msgstr ""
+msgstr "チームは、プロジェクトまたはワークスペースをスコープとして設定できます。"
 
 #: weblate/auth/models.py:375 weblate/auth/models.py:1715
 msgid "Limit languages"
@@ -4138,14 +4112,11 @@ msgstr "料金プラン"
 #: weblate/trans/forms.py:3426 weblate/trans/forms.py:3456
 #: weblate/trans/models/project.py:254
 msgid "Workspace"
-msgstr ""
+msgstr "ワークスペース"
 
 #: weblate/billing/models.py:243 weblate/templates/billing/status.html:19
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgid "Customer name"
-msgstr "カスタムモデル名"
+msgstr "顧客名"
 
 #: weblate/billing/models.py:248 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:12
@@ -4190,30 +4161,24 @@ msgid "Latest upstream commit"
 msgstr "最新の上流コミット"
 
 #: weblate/billing/models.py:289
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "保留中の変更をコミットする"
+msgstr "最も古い保留中の Weblate の変更"
 
 #: weblate/billing/models.py:294
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "リポジトリの変更"
+msgstr "リポジトリ変更の警告"
 
 #: weblate/billing/models.py:299
 msgid "Push failure alert"
-msgstr ""
+msgstr "プッシュ失敗の警告"
 
 #: weblate/billing/models.py:304
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "定期支払いの終了"
+msgstr "定期支払い停止のスケジュール"
 
 #: weblate/billing/models.py:403
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "請求ワークスペースは変更できません。"
 
 #: weblate/billing/models.py:414 weblate/billing/models.py:1185
 #: weblate/templates/accounts/user.html:191
@@ -4229,15 +4194,15 @@ msgstr "課金"
 
 #: weblate/billing/models.py:458
 msgid "Billing needs to be saved before assigning projects."
-msgstr ""
+msgstr "プロジェクトを割り当てる前に、請求情報の保存が必要です。"
 
 #: weblate/billing/models.py:466
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "このプロジェクトは別のワークスペースに所属しています。"
 
 #: weblate/billing/models.py:469
 msgid "Project needs to be saved before assigning it to billing."
-msgstr ""
+msgstr "プロジェクトを請求に割り当てる前に、プロジェクトの保存が必要です。"
 
 #: weblate/billing/models.py:530
 msgid "Changes in last month"
@@ -4709,34 +4674,25 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "翻訳フラグにパラメータがありません: \"%s\""
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
 "{sequence} の Fluent 参照は、HTML タグに展開される場合があります。"
-"{suggestion} を使用してみてください。"
+"{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
 "{sequence} の Fluent 参照は、HTML 文字参照に展開される場合があります。"
-"{suggestion} を使用してみてください。"
+"{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -4745,10 +4701,7 @@ msgstr ""
 "効です。閉じタグを使用したくないときは、{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
@@ -4757,11 +4710,7 @@ msgstr ""
 "HTML タグを使用したくないときは、{suggestion} を使用してください。"
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
@@ -4779,11 +4728,7 @@ msgstr ""
 "してみてください。"
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
@@ -4837,11 +4782,7 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML {tag} タグには対応する終了タグがない: {end}。"
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4864,21 +4805,16 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Fluent ソースは有効な内部 HTML であることが必要です。"
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "Fluent 値には HTML {tag} タグが欠けています。"
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
-msgstr ""
-"Fluent 値には次の別表記用の HTML {tag} タグが欠けています: {variant_list}。"
+msgstr "Fluent 値には次の別表記用の HTML {tag} タグが欠けています: {variant_list}。"
 
 #: weblate/checks/fluent/inner_html.py:1042
 #, python-brace-format
@@ -5431,10 +5367,8 @@ msgid "Markdown syntax does not match source."
 msgstr "Markdown 構文が原文と一致しません。"
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
-msgstr "翻訳文に URL が含まれていない。"
+msgstr "翻訳には URL が含まれていません。"
 
 #: weblate/checks/markup.py:492 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
@@ -5719,10 +5653,8 @@ msgstr "Markdown ファイル"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:472
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "DTD ファイル"
+msgstr "MDX ファイル"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:553
@@ -5832,7 +5764,7 @@ msgstr "複数値 CSV ファイル"
 #: weblate/formats/ttkit.py:222
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
-msgstr ""
+msgstr "無効な CSV ファイル内の複数形メタデータ: %s"
 
 #: weblate/formats/ttkit.py:154 weblate/formats/ttkit.py:2369
 #, python-format
@@ -5840,17 +5772,18 @@ msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
 msgstr ""
+"許容範囲を超えた CSV ファイルの複数形メタデータ：%(value)s（最大値: %"
+"(maximum)s）"
 
 #: weblate/formats/ttkit.py:179 weblate/formats/ttkit.py:185
 #: weblate/formats/ttkit.py:190 weblate/formats/ttkit.py:196
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "翻訳フラグが正しくありません: \"%s\""
+msgstr "無効な CSV ファイル内の id_hash メタデータ： %s"
 
 #: weblate/formats/ttkit.py:209 weblate/formats/ttkit.py:2401
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "CSV ファイルの複数形メタデータには id_hash の指定が必要です。"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1669
@@ -5944,7 +5877,7 @@ msgstr "鍵の解析に失敗しました: %s"
 
 #: weblate/formats/ttkit.py:2116 weblate/formats/ttkit.py:2131
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "キーが既存の階層キーと競合しています。"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2143
@@ -6019,11 +5952,11 @@ msgstr "CSV ファイル"
 #: weblate/formats/ttkit.py:2378
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
-msgstr ""
+msgstr "CSV ファイルの複数形メタデータに形式 %d が欠落しています。"
 
 #: weblate/formats/ttkit.py:2448
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "CSV ファイルの複数形メタデータには target_plural_form の指定が必要です。"
 
 #: weblate/formats/ttkit.py:2457
 msgid "Plural form metadata in CSV file requires source_plural_form."
