@@ -22,8 +22,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-05-29 23:00-0500\n"
 "PO-Revision-Date: 2026-05-30 06:52+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -11528,16 +11527,12 @@ msgstr ""
 "karty „Komponenty” powyżej, otwórz żądany komponent i tam prześlij."
 
 #: weblate/templates/language-project.html:259
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations within the project, until its "
-#| "given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this project language, until "
 "its given expiry, or permanently until it is deleted."
 msgstr ""
-"Wiadomość jest wyświetlana dla wszystkich tłumaczeń w ramach projektu, aż do "
-"jego upływu lub na stałe, aż zostanie usunięta."
+"Wiadomość jest wyświetlana dla wszystkich tłumaczeń w tym języku projektu, "
+"aż do jego upływu lub na stałe, aż zostanie usunięta."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:214 weblate/wladmin/views.py:106
@@ -12849,10 +12844,8 @@ msgid "Manage workspaces"
 msgstr "Zarządzaj obszarami roboczymi"
 
 #: weblate/templates/manage/workspaces.html:25 weblate/wladmin/forms.py:87
-#, fuzzy
-#| msgid "Weblate workspaces"
 msgid "Search workspaces"
-msgstr "Obszary robocze Weblate"
+msgstr "Wyszukaj obszary robocze"
 
 #: weblate/templates/manage/workspaces.html:30
 msgid "Clear"
@@ -13355,25 +13348,14 @@ msgstr[1] "%(count)s zmiany"
 msgstr[2] "%(count)s zmian"
 
 #: weblate/templates/snippets/autoform.html:19
-#, fuzzy
-#| msgid ""
-#| "Automatic translation via machine translation uses active machine "
-#| "translation engines to get the best possible translations and applies "
-#| "them in this project."
 msgid ""
 "Automatic translation takes existing translations in this workspace and "
 "applies them to matching strings."
 msgstr ""
-"Tłumaczenie automatyczne za pomocą tłumaczenia maszynowego wykorzystuje "
-"aktywne silniki do tłumaczenia maszynowego, aby uzyskać najlepsze możliwe "
-"tłumaczenia i zastosować je w tym projekcie."
+"Funkcja automatycznego tłumaczenia pobiera istniejące tłumaczenia z tego "
+"obszaru roboczego i stosuje je do pasujących ciągów."
 
 #: weblate/templates/snippets/autoform.html:22
-#, fuzzy
-#| msgid ""
-#| "Automatic translation via machine translation uses active machine "
-#| "translation engines to get the best possible translations and applies "
-#| "them in this project."
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
@@ -13381,7 +13363,7 @@ msgid ""
 msgstr ""
 "Tłumaczenie automatyczne za pomocą tłumaczenia maszynowego wykorzystuje "
 "aktywne silniki do tłumaczenia maszynowego, aby uzyskać najlepsze możliwe "
-"tłumaczenia i zastosować je w tym projekcie."
+"tłumaczenia i zastosować je w tym obszarze roboczym."
 
 #: weblate/templates/snippets/autoform.html:26
 msgid ""
@@ -14274,16 +14256,13 @@ msgstr ""
 "adresu URL, przenieść ją lub usunąć."
 
 #: weblate/templates/snippets/settings-organize.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, "
-#| "move or remove it."
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the category</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
-"<a href=\"%(url)s\">Organizuj komponent</a>, aby zmienić jego końcówkę "
-"adresu URL, przenieść ją lub usunąć."
+"<a href=\"%(url)s\">Organizuj kategorię</a>, aby zmienić jej końcówkę adresu "
+"URL, przenieść ją lub usunąć."
 
 #: weblate/templates/snippets/share-menu.html:5
 msgid "Community"
@@ -14910,20 +14889,21 @@ msgid "This project does no longer fit into Libre hosting conditions."
 msgstr "Ten projekt nie spełnia już warunków wolnego hostingu."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:3
-#, fuzzy
-#| msgid "There are no translations in this component."
 msgid "No translations were found for this component file mask."
-msgstr "W tym komponencie nie ma żadnych tłumaczeń."
+msgstr "Nie znaleziono tłumaczeń dla tej maski pliku komponentu."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
 msgid "This is okay when the repository does not contain translations yet."
 msgstr ""
+"Nie stanowi to problemu, jeśli repozytorium nie zawiera jeszcze tłumaczeń."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 msgid ""
 "The alert will disappear once translations are added in Weblate or committed "
 "to the repository."
 msgstr ""
+"Alert zniknie po dodaniu tłumaczeń w Weblate lub zatwierdzeniu ich w "
+"repozytorium."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:12
 msgid ""
@@ -14934,17 +14914,14 @@ msgstr ""
 "tworzenie plików na podstawie maski pliku."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether the file mask <code>%(filemask)s</code> matches files in "
-#| "your version control system repository."
+#, python-format
 msgid ""
 "If translations already exist, check whether the file mask "
 "<code>%(filemask)s</code> matches files in your version control system "
 "repository."
 msgstr ""
-"Sprawdź, czy maska pliku <code>%(filemask)s</code> pasuje do plików w "
-"repozytorium systemu kontroli wersji."
+"Jeśli tłumaczenia już istnieją, sprawdź, czy maska pliku <code>%(filemask)s</"
+"code> pasuje do plików w repozytorium systemu kontroli wersji."
 
 #. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:6
@@ -16895,18 +16872,16 @@ msgid ""
 "Automatic translation skipped some translations because selected source "
 "components use a different source language."
 msgstr ""
+"Funkcja automatycznego tłumaczenia pominęła niektóre tłumaczenia, ponieważ "
+"wybrane komponenty źródłowe używają innego języka źródłowego."
 
 #: weblate/trans/autotranslate.py:686
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid ""
 "Automatic translation skipped some translations because no other source "
 "components were available."
 msgstr ""
-"Automatycznie tłumaczy ciągi przy użyciu tłumaczenia maszynowego lub innych "
-"komponentów."
+"Funkcja automatycznego tłumaczenia pominęła niektóre tłumaczenia, ponieważ "
+"nie były dostępne żadne inne komponenty źródłowe."
 
 #: weblate/trans/backups.py:531
 msgid "Screenshot image is missing."
@@ -17586,16 +17561,13 @@ msgstr ""
 "aby użyć wszystkich komponentów w bieżącym projekcie."
 
 #: weblate/trans/forms.py:1038
-#, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
 msgid ""
 "Enter project and component slug or component ID to use as source, keep "
 "blank to use all components in the current workspace."
 msgstr ""
-"Wprowadź końcówkę adresu komponentu do użycia jako źródła; pozostaw puste, "
-"aby użyć wszystkich komponentów w bieżącym projekcie."
+"Wprowadź nazwę projektu i komponentu lub identyfikator komponentu, który ma "
+"być użyty jako źródło. Pozostaw puste pole, aby użyć wszystkich komponentów "
+"w bieżącym obszarze roboczym."
 
 #: weblate/trans/forms.py:1042
 msgid ""
@@ -17638,10 +17610,8 @@ msgid "Score threshold"
 msgstr "Ocena wyniku"
 
 #: weblate/trans/forms.py:1145
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All components in current workspace"
-msgstr "Wszystkie komponenty w aktualnym projekcie"
+msgstr "Wszystkie komponenty w aktualnym obszarze roboczym"
 
 #: weblate/trans/forms.py:1147
 msgid "All components in current project"
@@ -17670,7 +17640,7 @@ msgstr "Nie znaleziono komponentu!"
 
 #: weblate/trans/forms.py:1199
 msgid "Enter component ID or project/component slug."
-msgstr ""
+msgstr "Wprowadź identyfikator komponentu lub numer projektu/komponentu."
 
 #: weblate/trans/forms.py:1216
 msgid "Source component needs to have same source language as target one."
@@ -17813,12 +17783,14 @@ msgstr "Nie masz uprawnień dostępu do tego komponentu."
 #: weblate/trans/forms.py:1829
 #, python-format
 msgid "Inherit from %(scope)s"
-msgstr ""
+msgstr "Dziedzicz z %(scope)s"
 
 #: weblate/trans/forms.py:1848
 msgid ""
 "Inherited value is shown. Disable inheritance to edit the stored override."
 msgstr ""
+"Wyświetlana jest wartość odziedziczona. Wyłącz dziedziczenie, aby edytować "
+"zapisaną wartość nadrzędną."
 
 #: weblate/trans/forms.py:2016
 msgid "This submission has been identified as spam!"
@@ -17826,10 +17798,8 @@ msgstr "To zgłoszenie zostało zidentyfikowane jako spam!"
 
 #: weblate/trans/forms.py:2118 weblate/trans/forms.py:2468
 #: weblate/trans/forms.py:3041
-#, fuzzy
-#| msgid "Category"
 msgid "category"
-msgstr "Kategoria"
+msgstr "kategoria"
 
 #: weblate/trans/forms.py:2118 weblate/trans/forms.py:2471
 #: weblate/trans/forms.py:2473 weblate/trans/forms.py:3041
@@ -17935,10 +17905,8 @@ msgstr ""
 "wyłączeniem przeglądów tłumaczeń."
 
 #: weblate/trans/forms.py:3267
-#, fuzzy
-#| msgid "Workspace"
 msgid "workspace"
-msgstr "Obszar roboczy"
+msgstr "obszar roboczy"
 
 #: weblate/trans/forms.py:3305
 msgid "Access"
@@ -18358,50 +18326,36 @@ msgstr ""
 
 #: weblate/trans/models/category.py:129 weblate/trans/models/component.py:772
 #: weblate/trans/models/project.py:370
-#, fuzzy
-#| msgid "Translation license"
 msgid "Inherit translation license"
-msgstr "Licencja tłumaczenia"
+msgstr "Dziedzicz licencję tłumaczenia"
 
 #: weblate/trans/models/category.py:132
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the translation license configured in the parent category or project."
 msgstr ""
-"Przywróć ostatnie edycje tłumaczenia wprowadzone przez tego użytkownika w "
-"bieżącym projekcie."
+"Użyj licencji tłumaczenia skonfigurowanej w nadrzędnej kategorii lub "
+"projekcie."
 
 #: weblate/trans/models/category.py:140
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this category."
 msgstr ""
 "Umowa licencyjna dla współtwórców, która musi zostać zatwierdzona, zanim "
-"użytkownik będzie mógł przetłumaczyć ten komponent."
+"użytkownik będzie mógł tłumaczyć komponenty w tej kategorii."
 
 #: weblate/trans/models/category.py:145 weblate/trans/models/component.py:788
 #: weblate/trans/models/project.py:386
-#, fuzzy
-#| msgid "View contributor license agreement"
 msgid "Inherit contributor license agreement"
-msgstr "Wyświetl umowę licencyjną dla współtwórców"
+msgstr "Dziedzicz umowę licencyjną dla współtwórców"
 
 #: weblate/trans/models/category.py:148
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement for component %(component)s was changed."
 msgid ""
 "Use the contributor license agreement configured in the parent category or "
 "project."
 msgstr ""
-"Umowa licencyjna dla współtwórców dla komponentu %(component)s zostało "
-"zmienione."
+"Użyj umowy licencyjnej dla współtwórców skonfigurowanej w nadrzędnej "
+"kategorii lub projekcie."
 
 #: weblate/trans/models/category.py:152 weblate/trans/models/component.py:797
 #: weblate/trans/models/project.py:393 weblate/workspaces/models.py:107
@@ -18415,21 +18369,16 @@ msgstr "Jak obsługiwać żądania tworzenia nowych tłumaczeń."
 
 #: weblate/trans/models/category.py:159 weblate/trans/models/component.py:804
 #: weblate/trans/models/project.py:400
-#, fuzzy
-#| msgid "Disable adding new translations"
 msgid "Inherit adding new translations"
-msgstr "Wyłącz dodawanie nowych tłumaczeń"
+msgstr "Dziedzicz dodawanie nowych tłumaczeń"
 
 #: weblate/trans/models/category.py:162
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the adding new translations setting configured in the parent category or "
 "project."
 msgstr ""
-"Przywróć ostatnie edycje tłumaczenia wprowadzone przez tego użytkownika w "
-"bieżącym projekcie."
+"Użyj ustawienia dodawania nowych tłumaczeń skonfigurowanego w nadrzędnej "
+"kategorii lub projekcie."
 
 #: weblate/trans/models/category.py:166 weblate/trans/models/component.py:811
 #: weblate/trans/models/project.py:407 weblate/workspaces/models.py:114
@@ -18447,15 +18396,14 @@ msgstr ""
 
 #: weblate/trans/models/category.py:177 weblate/trans/models/component.py:822
 #: weblate/trans/models/project.py:418
-#, fuzzy
-#| msgid "Language code style"
 msgid "Inherit language code style"
-msgstr "Styl kodu języka"
+msgstr "Dziedzicz styl kodu języka"
 
 #: weblate/trans/models/category.py:180
 msgid ""
 "Use the language code style configured in the parent category or project."
 msgstr ""
+"Użyj stylu kodu języka skonfigurowanego w nadrzędnej kategorii lub projekcie."
 
 #: weblate/trans/models/category.py:185 weblate/trans/models/component.py:1059
 #: weblate/trans/models/project.py:343 weblate/workspaces/models.py:126
@@ -18472,18 +18420,15 @@ msgstr ""
 
 #: weblate/trans/models/category.py:196 weblate/trans/models/component.py:1074
 #: weblate/trans/models/project.py:425
-#, fuzzy
-#| msgid "Secondary language"
 msgid "Inherit secondary language"
-msgstr "Język dodatkowy"
+msgstr "Dziedzicz język dodatkowy"
 
 #: weblate/trans/models/category.py:199
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid ""
 "Use the secondary language configured in the parent category or project."
-msgstr "Język dodatkowy zdefiniowany w projekcie lub komponencie"
+msgstr ""
+"Użyj języka dodatkowego skonfigurowanego w nadrzędnej kategorii lub "
+"projekcie."
 
 #: weblate/trans/models/category.py:203 weblate/trans/models/component.py:850
 #: weblate/trans/models/project.py:432 weblate/workspaces/models.py:146
@@ -18511,16 +18456,16 @@ msgstr ""
 
 #: weblate/trans/models/category.py:212 weblate/trans/models/component.py:859
 #: weblate/trans/models/project.py:441
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Inherit commit message when translating"
-msgstr "Opis commita przy tłumaczeniu"
+msgstr "Dziedzicz opis commita przy tłumaczeniu"
 
 #: weblate/trans/models/category.py:215
 msgid ""
 "Use the commit message when translating configured in the parent category or "
 "project."
 msgstr ""
+"Użyj opisu commita podczas tłumaczenia skonfigurowanego w nadrzędnej "
+"kategorii lub projekcie."
 
 #: weblate/trans/models/category.py:219 weblate/trans/models/component.py:866
 #: weblate/trans/models/project.py:448 weblate/workspaces/models.py:155
@@ -18529,16 +18474,16 @@ msgstr "Opis commita przy dodawaniu tłumaczenia"
 
 #: weblate/trans/models/category.py:228 weblate/trans/models/component.py:875
 #: weblate/trans/models/project.py:457
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Inherit commit message when adding translation"
-msgstr "Opis commita przy dodawaniu tłumaczenia"
+msgstr "Dziedzicz opis commita przy dodawaniu tłumaczenia"
 
 #: weblate/trans/models/category.py:231
 msgid ""
 "Use the commit message when adding translation configured in the parent "
 "category or project."
 msgstr ""
+"Użyj opisu commita podczas dodawania tłumaczenia skonfigurowanego w "
+"nadrzędnej kategorii lub projekcie."
 
 #: weblate/trans/models/category.py:235 weblate/trans/models/component.py:882
 #: weblate/trans/models/project.py:464 weblate/workspaces/models.py:164
@@ -18547,16 +18492,16 @@ msgstr "Opis commita przy usuwaniu tłumaczenia"
 
 #: weblate/trans/models/category.py:244 weblate/trans/models/component.py:891
 #: weblate/trans/models/project.py:473
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Inherit commit message when removing translation"
-msgstr "Opis commita przy usuwaniu tłumaczenia"
+msgstr "Dziedzicz opis commita przy usuwaniu tłumaczenia"
 
 #: weblate/trans/models/category.py:247
 msgid ""
 "Use the commit message when removing translation configured in the parent "
 "category or project."
 msgstr ""
+"Użyj opisu commita podczas usuwania tłumaczenia skonfigurowanego w "
+"nadrzędnej kategorii lub projekcie."
 
 #. Translators: The commit message, for when merging the translation
 #: weblate/trans/models/category.py:252 weblate/trans/models/component.py:899
@@ -18566,16 +18511,16 @@ msgstr "Opis commita przy łączeniu tłumaczenia"
 
 #: weblate/trans/models/category.py:261 weblate/trans/models/component.py:908
 #: weblate/trans/models/project.py:490
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid "Inherit commit message when merging translation"
-msgstr "Opis commita przy łączeniu tłumaczenia"
+msgstr "Dziedzicz opis commita przy łączeniu tłumaczenia"
 
 #: weblate/trans/models/category.py:264
 msgid ""
 "Use the commit message when merging translation configured in the parent "
 "category or project."
 msgstr ""
+"Użyj opisu commita podczas scalania tłumaczenia skonfigurowanego w "
+"nadrzędnej kategorii lub projekcie."
 
 #: weblate/trans/models/category.py:268 weblate/trans/models/component.py:915
 #: weblate/trans/models/project.py:497 weblate/workspaces/models.py:183
@@ -18584,16 +18529,16 @@ msgstr "Opis commita przy wprowadzaniu zmian przez dodatek"
 
 #: weblate/trans/models/category.py:277 weblate/trans/models/component.py:924
 #: weblate/trans/models/project.py:506
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid "Inherit commit message when add-on makes a change"
-msgstr "Opis commita przy wprowadzaniu zmian przez dodatek"
+msgstr "Dziedzicz opis commita przy wprowadzaniu zmian przez dodatek"
 
 #: weblate/trans/models/category.py:280
 msgid ""
 "Use the commit message when add-on makes a change configured in the parent "
 "category or project."
 msgstr ""
+"Użyj opisu commita, gdy dodatek wprowadza zmianę skonfigurowaną w nadrzędnej "
+"kategorii lub projekcie."
 
 #: weblate/trans/models/category.py:284 weblate/trans/models/component.py:931
 #: weblate/trans/models/project.py:513 weblate/workspaces/models.py:192
@@ -18602,15 +18547,15 @@ msgstr "Wiadomość żądania scalenia"
 
 #: weblate/trans/models/category.py:293 weblate/trans/models/component.py:940
 #: weblate/trans/models/project.py:522
-#, fuzzy
-#| msgid "Merge request message"
 msgid "Inherit merge request message"
-msgstr "Wiadomość żądania scalenia"
+msgstr "Dziedzicz wiadomość żądania scalenia"
 
 #: weblate/trans/models/category.py:296
 msgid ""
 "Use the merge request message configured in the parent category or project."
 msgstr ""
+"Użyj wiadomości żądania scalenia skonfigurowanego w nadrzędnej kategorii lub "
+"projekcie."
 
 #: weblate/trans/models/category.py:417
 msgid "Too deep nesting of categories!"
@@ -18910,13 +18855,8 @@ msgid "List of checks which can not be dismissed."
 msgstr "Lista sprawdzeń, których nie można odrzucić."
 
 #: weblate/trans/models/component.py:775
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Use the translation license configured in the category or project."
-msgstr ""
-"Przywróć ostatnie edycje tłumaczenia wprowadzone przez tego użytkownika w "
-"bieżącym projekcie."
+msgstr "Użyj licencji tłumaczenia skonfigurowanej w kategorii lub projekcie."
 
 #: weblate/trans/models/component.py:783
 msgid ""
@@ -18927,26 +18867,22 @@ msgstr ""
 "użytkownik będzie mógł przetłumaczyć ten komponent."
 
 #: weblate/trans/models/component.py:791
-#, fuzzy
-#| msgid "There was no contributor license agreement before."
 msgid ""
 "Use the contributor license agreement configured in the category or project."
-msgstr "Wcześniej nie istniała żadna umowa licencyjna dla współtwórców."
+msgstr ""
+"Użyj umowy licencyjnej współautora skonfigurowanej w kategorii lub projekcie."
 
 #: weblate/trans/models/component.py:807
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the adding new translations setting configured in the category or "
 "project."
 msgstr ""
-"Przywróć ostatnie edycje tłumaczenia wprowadzone przez tego użytkownika w "
-"bieżącym projekcie."
+"Użyj ustawienia dodawania nowych tłumaczeń skonfigurowanego w kategorii lub "
+"projekcie."
 
 #: weblate/trans/models/component.py:825
 msgid "Use the language code style configured in the category or project."
-msgstr ""
+msgstr "Użyj stylu kodu języka skonfigurowanego w kategorii lub projekcie."
 
 #: weblate/trans/models/component.py:829
 msgid "Manage strings"
@@ -18979,42 +18915,45 @@ msgid ""
 "Use the commit message when translating configured in the category or "
 "project."
 msgstr ""
+"Użyj opisu commita podczas tłumaczenia skonfigurowanego w kategorii lub "
+"projekcie."
 
 #: weblate/trans/models/component.py:878
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the category or "
 "project."
-msgstr "Opis commita przy dodawaniu tłumaczenia"
+msgstr ""
+"Użyj opisu commita podczas dodawania tłumaczenia skonfigurowanego w "
+"kategorii lub projekcie."
 
 #: weblate/trans/models/component.py:894
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the category "
 "or project."
-msgstr "Opis commita przy usuwaniu tłumaczenia"
+msgstr ""
+"Użyj opisu commita podczas usuwania tłumaczenia skonfigurowanego w kategorii "
+"lub projekcie."
 
 #: weblate/trans/models/component.py:911
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the category "
 "or project."
-msgstr "Opis commita przy łączeniu tłumaczenia"
+msgstr ""
+"Użyj opisu commita podczas scalania tłumaczenia skonfigurowanego w kategorii "
+"lub projekcie."
 
 #: weblate/trans/models/component.py:927
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the category "
 "or project."
-msgstr "Opis commita przy wprowadzaniu zmian przez dodatek"
+msgstr ""
+"Użyj opisu commita, gdy dodatek wprowadzi zmianę skonfigurowaną w kategorii "
+"lub projekcie."
 
 #: weblate/trans/models/component.py:943
 msgid "Use the merge request message configured in the category or project."
 msgstr ""
+"Użyj wiadomości żądania scalenia skonfigurowanej w kategorii lub projekcie."
 
 #: weblate/trans/models/component.py:947
 msgid "Push on commit"
@@ -19122,11 +19061,8 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "To ustawienie jest dziedziczone z projektu, jeśli pozostanie puste."
 
 #: weblate/trans/models/component.py:1077
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the category or project."
-msgstr "Język dodatkowy zdefiniowany w projekcie lub komponencie"
+msgstr "Użyj języka dodatkowego skonfigurowanego w kategorii lub projekcie."
 
 #: weblate/trans/models/component.py:2126
 msgid ""
@@ -19730,82 +19666,73 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:373
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
-msgstr "Tłumaczenie zostanie zaktualizowane w tle."
+msgstr "Użyj licencji tłumaczenia skonfigurowanej w obszarze roboczym."
 
 #: weblate/trans/models/project.py:381
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this project."
 msgstr ""
 "Umowa licencyjna dla współtwórców, która musi zostać zatwierdzona, zanim "
-"użytkownik będzie mógł przetłumaczyć ten komponent."
+"użytkownik będzie mógł tłumaczyć komponenty w tym projekcie."
 
 #: weblate/trans/models/project.py:389
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "Use the contributor license agreement configured in the workspace."
-msgstr "Zmieniono umowę licencyjną dla współtwórców"
+msgstr ""
+"Użyj umowy licencyjnej dla współtwórców skonfigurowanej w obszarze roboczym."
 
 #: weblate/trans/models/project.py:403
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
+"Użyj ustawienia dodawania nowych tłumaczeń skonfigurowanego w obszarze "
+"roboczym."
 
 #: weblate/trans/models/project.py:421
 msgid "Use the language code style configured in the workspace."
-msgstr ""
+msgstr "Użyj stylu kodu języka skonfigurowanego w obszarze roboczym."
 
 #: weblate/trans/models/project.py:428
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the workspace."
-msgstr "Język dodatkowy zdefiniowany w projekcie lub komponencie"
+msgstr "Użyj języka dodatkowego skonfigurowanego w obszarze roboczym."
 
 #: weblate/trans/models/project.py:444
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Use the commit message when translating configured in the workspace."
-msgstr "Opis commita przy tłumaczeniu"
+msgstr ""
+"Użyj opisu commita podczas tłumaczenia skonfigurowanego w obszarze roboczym."
 
 #: weblate/trans/models/project.py:460
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the workspace."
-msgstr "Opis commita przy dodawaniu tłumaczenia"
+msgstr ""
+"Użyj opisu commita podczas dodawania tłumaczenia skonfigurowanego w obszarze "
+"roboczym."
 
 #: weblate/trans/models/project.py:476
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the workspace."
-msgstr "Opis commita przy usuwaniu tłumaczenia"
+msgstr ""
+"Użyj opisu commita podczas usuwania tłumaczenia skonfigurowanego w obszarze "
+"roboczym."
 
 #: weblate/trans/models/project.py:493
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the workspace."
-msgstr "Opis commita przy łączeniu tłumaczenia"
+msgstr ""
+"Użyj opisu commita podczas scalania tłumaczenia skonfigurowanego w obszarze "
+"roboczym."
 
 #: weblate/trans/models/project.py:509
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the "
 "workspace."
-msgstr "Opis commita przy wprowadzaniu zmian przez dodatek"
+msgstr ""
+"Użyj opisu commita, gdy dodatek wprowadzi zmianę skonfigurowaną w obszarze "
+"roboczym."
 
 #: weblate/trans/models/project.py:525
 msgid "Use the merge request message configured in the workspace."
-msgstr ""
+msgstr "Użyj wiadomości żądania scalenia skonfigurowanego w obszarze roboczym."
 
 #: weblate/trans/models/project.py:1245
 msgid ""
@@ -21220,16 +21147,12 @@ msgid "Could not parse IP address: {}"
 msgstr "Nie udało się przeanalizować adresu IP: {}"
 
 #: weblate/utils/search.py:1117
-#, fuzzy
-#| msgid "Regular expression for e-mail address"
 msgid "Regular expression not supported for field {}"
-msgstr "Wyrażenie regularne dla adresu e-mail"
+msgstr "Wyrażenie regularne nie jest obsługiwane w polu {}"
 
 #: weblate/utils/search.py:1137
-#, fuzzy
-#| msgid "Unsupported lookup for {field}: {value}"
 msgid "Range not supported for field {}"
-msgstr "Nieobsługiwane wyszukiwanie dla {field}: {value}"
+msgstr "Zakres nie jest obsługiwany w polu {}"
 
 #: weblate/utils/search.py:1170
 msgid "Mixed operators!"
@@ -21993,10 +21916,8 @@ msgid "Weblate workspaces"
 msgstr "Obszary robocze Weblate"
 
 #: weblate/workspaces/forms.py:54
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Inherited component defaults"
-msgstr "Ograniczony komponent"
+msgstr "Domyślne ustawienia odziedziczonych komponentów"
 
 #: weblate/workspaces/models.py:80
 msgid "Workspace name"
@@ -22011,16 +21932,12 @@ msgid "Whether Weblate can update the name automatically."
 msgstr "Czy Weblate może automatycznie aktualizować nazwę."
 
 #: weblate/workspaces/models.py:102
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this workspace."
 msgstr ""
 "Umowa licencyjna dla współtwórców, która musi zostać zatwierdzona, zanim "
-"użytkownik będzie mógł przetłumaczyć ten komponent."
+"użytkownik będzie mógł tłumaczyć komponenty w tym obszarze roboczym."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""
