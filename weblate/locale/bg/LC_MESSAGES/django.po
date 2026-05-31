@@ -14,9 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-29 23:00-0500\n"
-"PO-Revision-Date: 2026-05-30 06:52+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-01 01:01+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -3616,18 +3615,14 @@ msgid "Manage repository"
 msgstr "Управление на хранилището"
 
 #: weblate/auth/data.py:270
-#, fuzzy
-#| msgid "Revoke administration"
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr "Отнемане на администраторската роля"
+msgstr "Администриране на работното пространство"
 
 #: weblate/auth/data.py:278
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "Добавяне на проекти"
+msgstr "Добавяне на проекти в работното пространство"
 
 #: weblate/auth/data.py:282
 msgctxt "Access-control role"
@@ -3924,13 +3919,11 @@ msgstr "Изисква потребителите да имат настроен
 
 #: weblate/auth/models.py:322
 msgid "Team can be scoped either to a project or to a workspace."
-msgstr ""
+msgstr "Екипът може да бъде свързан с проект или с работно пространство."
 
 #: weblate/auth/models.py:375 weblate/auth/models.py:1715
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Limit languages"
-msgstr "Бихарски езици"
+msgstr "Ограничаване на езиците"
 
 #: weblate/auth/models.py:378 weblate/auth/models.py:1718
 msgid ""
@@ -3939,6 +3932,10 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Ограничаване на правомощията на този екип до само тези езици. Когато има "
+"зададено такова ограничение, правомощията в рамките на проект, компонент или "
+"глобалните такива не се дават автоматично. Ако това е празно, ще се "
+"използват избраните езици за екипа, без допълнителни ограничения."
 
 #: weblate/auth/models.py:656 weblate/utils/forms.py:88
 #: weblate/utils/validators.py:269
@@ -4220,14 +4217,11 @@ msgstr "Платежен план"
 #: weblate/trans/forms.py:3426 weblate/trans/forms.py:3456
 #: weblate/trans/models/project.py:254
 msgid "Workspace"
-msgstr ""
+msgstr "Работно пространство"
 
 #: weblate/billing/models.py:243 weblate/templates/billing/status.html:19
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgid "Customer name"
-msgstr "Име на персонализирания модел"
+msgstr "Име на клиента"
 
 #: weblate/billing/models.py:248 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:12
@@ -4289,7 +4283,7 @@ msgstr "Насрочено прекратяване на регулярно пл
 
 #: weblate/billing/models.py:403
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "Работното пространство за разплащанията не може да бъде променено."
 
 #: weblate/billing/models.py:414 weblate/billing/models.py:1185
 #: weblate/templates/accounts/user.html:191
@@ -4305,15 +4299,15 @@ msgstr "Таксуване"
 
 #: weblate/billing/models.py:458
 msgid "Billing needs to be saved before assigning projects."
-msgstr ""
+msgstr "Таксуването трябва да бъде запазено преди да се назначават проекти."
 
 #: weblate/billing/models.py:466
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "Проектът вече принадлежи на друго работно пространство."
 
 #: weblate/billing/models.py:469
 msgid "Project needs to be saved before assigning it to billing."
-msgstr ""
+msgstr "Проектът трябва да бъде запазен преди да бъде назначен към таксуване."
 
 #: weblate/billing/models.py:530
 msgid "Changes in last month"
@@ -4795,10 +4789,7 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Липсват параметри на флаг за превод: „%s“"
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
@@ -4807,10 +4798,7 @@ msgstr ""
 "Може би е по-добре да използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
@@ -4819,10 +4807,7 @@ msgstr ""
 "от HTML. Може би е по-добре да използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -4832,10 +4817,7 @@ msgstr ""
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
@@ -4845,11 +4827,7 @@ msgstr ""
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
@@ -4867,11 +4845,7 @@ msgstr ""
 "използвате {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
@@ -4925,11 +4899,7 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Липсва затварящ елемент за елемента {tag}: {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4953,16 +4923,12 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Оригиналният Fluent трябва да бъде правилен вътрешен HTML."
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "В Стойността на Fluent липсва елемент от HTML {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
@@ -5535,8 +5501,6 @@ msgid "Markdown syntax does not match source."
 msgstr "Синтаксисът на Markdown не съвпада с този в изходния низ."
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "Преводът не съдържа даден уеб-адрес."
 
