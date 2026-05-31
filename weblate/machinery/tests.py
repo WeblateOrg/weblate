@@ -4114,6 +4114,18 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
     @responses.activate
+    def test_translate_rejects_literal_placeholder_repair_mismatch(self) -> None:
+        self.mock_response('["@@PH5@@"]')
+
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(
+                "fr",
+                "Keep @@PH5@@ %s",
+                1,
+                unit_args={"flags": "python-format"},
+            )
+
+    @responses.activate
     def test_translate_recovers_spaced_placeholder_syntax(self) -> None:
         self.mock_response('["Bonjour @@PH7@ @! <<foo>>"]')
 

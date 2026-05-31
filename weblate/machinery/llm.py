@@ -1055,6 +1055,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
         extra_token = next(iter(extras))
         source_highlights = dict(source_specs)
+        if extra_token not in source_highlights:
+            return None
         extra_index = source_tokens.index(extra_token)
         missing_token = next(iter(missing), None)
         if missing_token is not None:
