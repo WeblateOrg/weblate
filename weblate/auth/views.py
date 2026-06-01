@@ -15,6 +15,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
+from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import (
     AutoGroup,
@@ -63,6 +64,11 @@ class TeamUpdateView(UpdateView):
     def get_form(self, form_class=None):
         if not self.request.user.has_perm("meta:team.edit", self.object):
             return None
+        if (
+            self.object.defining_project is None
+            and self.object.defining_workspace is None
+        ):
+            check_management_access(self.request, "group.edit")
         return super().get_form(form_class)
 
     def get_form_kwargs(self):
@@ -165,6 +171,12 @@ class TeamUpdateView(UpdateView):
     # pylint: disable=arguments-differ
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
+        if (
+            self.object.defining_project is None
+            and self.object.defining_workspace is None
+            and request.user.has_perm("group.edit")
+        ):
+            check_management_access(request, "group.edit")
         if self.request.user.has_perm("meta:team.users", self.object):
             if "add_user" in request.POST:
                 return self.handle_add_user(request)
@@ -253,7 +265,8 @@ class InvitationView(DetailView):
             elif workspace:
                 allowed = user.has_perm("workspace.edit_members", workspace)
             else:
-                allowed = user.has_perm("user.edit")
+                check_management_access(request, "user.edit")
+                allowed = True
             if not allowed:
                 raise PermissionDenied
 

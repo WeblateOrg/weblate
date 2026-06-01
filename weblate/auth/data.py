@@ -130,6 +130,8 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("management.use", gettext_noop("Use management interface")),
     # Translators: Permission name
+    ("management.configure", gettext_noop("Manage site configuration")),
+    # Translators: Permission name
     ("project.add", gettext_noop("Add new projects")),
     # Translators: Permission name
     ("workspace.add", gettext_noop("Add new workspaces")),
