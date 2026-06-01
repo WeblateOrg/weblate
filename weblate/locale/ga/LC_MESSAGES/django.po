@@ -13,9 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-29 23:00-0500\n"
-"PO-Revision-Date: 2026-05-30 06:52+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-02 12:01+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
 "Language: ga\n"
@@ -24,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
 "6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.6\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -579,6 +578,8 @@ msgstr ""
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
 msgstr ""
+"Cuntas cruthaithe go seachtrach ó weblate.org chun rochtain a fháil ar "
+"sheirbhísí a ceannaíodh."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
@@ -746,37 +747,30 @@ msgstr ""
 #: weblate/accounts/models.py:464
 msgctxt "User agent device type"
 msgid "PC"
-msgstr ""
+msgstr "Ríomhaire"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:466
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "User agent device type"
 msgid "Other"
 msgstr "Eile"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:468
-#, fuzzy
-#| msgid "Generate"
 msgctxt "User agent device type"
 msgid "Generic Smartphone"
-msgstr "Gin"
+msgstr "Fón Cliste Cineálach"
 
 #: weblate/accounts/models.py:471
-#, fuzzy
-#| msgid "Generic presets"
 msgctxt "User agent device type"
 msgid "Generic Feature Phone"
-msgstr "Réamhshocruithe ginearálta"
+msgstr "Fón Gnéithe Cineálach"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:474
 msgctxt "User agent device type"
 msgid "iOS-Device"
-msgstr ""
+msgstr "Gléas iOS"
 
 #: weblate/accounts/models.py:610 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:309
@@ -3014,13 +3008,11 @@ msgstr "Ní féidir é seo a athrú ar fhoireann atá ann cheana féin."
 
 #: weblate/api/serializers.py:726
 msgid "Choose either a project or a workspace."
-msgstr ""
+msgstr "Roghnaigh tionscadal nó spás oibre."
 
 #: weblate/api/serializers.py:747 weblate/auth/models.py:335
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A team with this name already exists in this workspace."
-msgstr "Tá úsáideoir leis an ainm úsáideora sin ann cheana."
+msgstr "Tá foireann leis an ainm seo ann cheana féin sa spás oibre seo."
 
 #: weblate/api/serializers.py:1902 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3121,10 +3113,8 @@ msgstr ""
 "Tá foireann amháin ar a laghad ag teastáil le haghaidh comhartha tionscadail."
 
 #: weblate/api/views.py:1045
-#, fuzzy
-#| msgid "The anonymous user can not be assigned to teams."
 msgid "This role cannot be assigned to this team."
-msgstr "Ní féidir an t-úsáideoir gan ainm a shannadh do fhoirne."
+msgstr "Ní féidir an ról seo a shannadh don fhoireann seo."
 
 #: weblate/api/views.py:3012 weblate/trans/models/translation.py:2543
 msgid "This string seems to already exist."
@@ -3464,24 +3454,18 @@ msgstr "Scrios fógraí"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Cuir teaghráin foinse in eagar"
+msgstr "Socruithe spás oibre a chur in eagar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
-#, fuzzy
-#| msgid "Add project"
 msgid "Add projects to workspace"
-msgstr "Cuir tionscadal leis"
+msgstr "Cuir tionscadail leis an spás oibre"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Mionathraigh rochtain an tionscadail"
+msgstr "Bainistigh rochtain ar an spás oibre"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
@@ -3495,10 +3479,8 @@ msgstr "Cuir tionscadail nua leis"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new workspaces"
-msgstr "Cuir úsáideoir nua leis"
+msgstr "Cuir spásanna oibre nua leis"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
@@ -3647,18 +3629,14 @@ msgid "Manage repository"
 msgstr "Bainistigh stór"
 
 #: weblate/auth/data.py:270
-#, fuzzy
-#| msgid "Revoke administration"
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr "Riarachán a chúlghairm"
+msgstr "Riarachán spáis oibre"
 
 #: weblate/auth/data.py:278
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "Cuir tionscadail nua leis"
+msgstr "Cuir tionscadail spás oibre leis"
 
 #: weblate/auth/data.py:282
 msgctxt "Access-control role"
@@ -3966,7 +3944,7 @@ msgstr ""
 
 #: weblate/auth/models.py:322
 msgid "Team can be scoped either to a project or to a workspace."
-msgstr ""
+msgstr "Is féidir foireann a cheangal le tionscadal nó le spás oibre."
 
 #: weblate/auth/models.py:375 weblate/auth/models.py:1715
 msgid "Limit languages"
@@ -4266,14 +4244,11 @@ msgstr "Plean billeála"
 #: weblate/trans/forms.py:3426 weblate/trans/forms.py:3456
 #: weblate/trans/models/project.py:254
 msgid "Workspace"
-msgstr ""
+msgstr "Spás Oibre"
 
 #: weblate/billing/models.py:243 weblate/templates/billing/status.html:19
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgid "Customer name"
-msgstr "Ainm múnla saincheaptha"
+msgstr "Ainm an chustaiméara"
 
 #: weblate/billing/models.py:248 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:12
@@ -4335,7 +4310,7 @@ msgstr "Díchumasú íocaíochta athfhillteach sceidealaithe"
 
 #: weblate/billing/models.py:403
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "Ní féidir spás oibre billeála a athrú."
 
 #: weblate/billing/models.py:414 weblate/billing/models.py:1185
 #: weblate/templates/accounts/user.html:191
@@ -4351,15 +4326,15 @@ msgstr "Billeáil"
 
 #: weblate/billing/models.py:458
 msgid "Billing needs to be saved before assigning projects."
-msgstr ""
+msgstr "Ní mór billeáil a shábháil sula sanntar tionscadail."
 
 #: weblate/billing/models.py:466
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "Tá an tionscadal i spás oibre eile cheana féin."
 
 #: weblate/billing/models.py:469
 msgid "Project needs to be saved before assigning it to billing."
-msgstr ""
+msgstr "Ní mór an tionscadal a shábháil sula sanntar é don bhilleáil."
 
 #: weblate/billing/models.py:530
 msgid "Changes in last month"
@@ -7486,10 +7461,8 @@ msgid "Timestamp"
 msgstr "Stampa ama"
 
 #: weblate/screenshots/forms.py:201
-#, fuzzy
-#| msgid "Assigned source strings"
 msgid "Assigned strings"
-msgstr "Teaghráin foinse sannta"
+msgstr "Teaghráin sannta"
 
 #: weblate/screenshots/forms.py:210 weblate/templates/base.html:135
 #: weblate/templates/category-language.html:20
@@ -7513,10 +7486,8 @@ msgstr "Cuardaigh"
 
 #: weblate/screenshots/forms.py:214
 #: weblate/templates/screenshots/screenshot_list.html:92
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Search screenshots"
-msgstr "Gabhálacha scáileáin"
+msgstr "Cuardaigh seat scáileáin"
 
 #: weblate/screenshots/forms.py:219 weblate/trans/forms.py:1594
 msgid "Sort by"
@@ -7544,10 +7515,8 @@ msgid "Upload image up to 2000x2000 pixels."
 msgstr "Íosluchtaigh pictiúir 2000x2000 pixel."
 
 #: weblate/screenshots/views.py:272
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "All screenshots"
-msgstr "Cuir screenshot leis"
+msgstr "Gach seat scáileán"
 
 #: weblate/screenshots/views.py:273
 #: weblate/templates/snippets/embed-units.html:69
@@ -7556,22 +7525,16 @@ msgstr "Scáileáin ghlacadh sannta"
 
 #: weblate/screenshots/views.py:274
 #: weblate/templates/screenshots/screenshot_list.html:62
-#, fuzzy
-#| msgid "Assigned screenshots"
 msgid "Unassigned screenshots"
-msgstr "Scáileáin ghlacadh sannta"
+msgstr "Seat scáileáin neamhshannta"
 
 #: weblate/screenshots/views.py:275
-#, fuzzy
-#| msgid "Repository path to screenshot"
 msgid "Repository screenshots"
-msgstr "Conair stór go dtí an scáileán"
+msgstr "Seat scáileáin an stórais"
 
 #: weblate/screenshots/views.py:277
-#, fuzzy
-#| msgid "Assigned screenshots"
 msgid "Unassigned repository screenshots"
-msgstr "Scáileáin ghlacadh sannta"
+msgstr "Seat scáileáin stórtha neamhshannta"
 
 #: weblate/screenshots/views.py:338
 #: weblate/templates/snippets/query-field.html:12
@@ -7579,15 +7542,12 @@ msgid "Filters"
 msgstr "Scagairí"
 
 #: weblate/screenshots/views.py:405
-#, fuzzy
-#| msgid ""
-#| "Screenshot has been uploaded, you can now assign it to source strings."
 msgid ""
 "Screenshot has been uploaded. Search for source strings or find strings in "
 "the image."
 msgstr ""
-"Uaslódáladh gabháil scáileáin, is féidir leat é a shannadh anois do "
-"theaghráin foinse."
+"Tá an seat scáileán uaslódáilte. Cuardaigh teaghráin foinse nó aimsigh "
+"teaghráin san íomhá."
 
 #: weblate/screenshots/views.py:411
 msgid "Could not upload screenshot, please fix errors below."
@@ -7608,15 +7568,14 @@ msgid "Source has been removed."
 msgstr "Tá an fhoinse bainte."
 
 #: weblate/screenshots/views.py:534
-#, fuzzy, python-format
-#| msgid "No matching strings found."
+#, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "Níor aimsíodh aon teaghráin mheaitseála."
-msgstr[1] "Níor aimsíodh aon teaghráin mheaitseála."
-msgstr[2] "Níor aimsíodh aon teaghráin mheaitseála."
-msgstr[3] "Níor aimsíodh aon teaghráin mheaitseála."
-msgstr[4] "Níor aimsíodh aon teaghráin mheaitseála."
+msgstr[0] "%(count)s teaghrán foinse comhoiriúnach aimsithe."
+msgstr[1] "%(count)s teaghráin foinse comhoiriúnacha aimsithe."
+msgstr[2] "%(count)s teaghráin foinse comhoiriúnacha aimsithe."
+msgstr[3] "%(count)s teaghráin foinse comhoiriúnacha aimsithe."
+msgstr[4] "%(count)s teaghráin foinse comhoiriúnacha aimsithe."
 
 #: weblate/screenshots/views.py:539
 msgid "No new matching source strings found."
@@ -10099,10 +10058,8 @@ msgid "Add new translation project"
 msgstr "Cuir tionscadal aistriúcháin nua leis"
 
 #: weblate/templates/base.html:315
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new workspace"
-msgstr "Cuir úsáideoir nua leis"
+msgstr "Cuir spás oibre nua leis"
 
 #: weblate/templates/base.html:321 weblate/templates/category.html:109
 #: weblate/templates/project.html:144
@@ -10679,16 +10636,12 @@ msgstr ""
 
 #: weblate/templates/category.html:329 weblate/templates/component.html:448
 #: weblate/templates/dashboard/user.html:141 weblate/templates/project.html:431
-#, fuzzy
-#| msgid ""
-#| "You don't have permission to view reports for all users, only your "
-#| "contributions will be listed."
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
 msgstr ""
-"Níl cead agat féachaint ar thuairiscí do gach úsáideoir, ní liostaeofar ach "
-"d'ionchuir."
+"Níl cead agat tuarascálacha a fheiceáil do gach úsáideoir; ní liostálfar i "
+"dtuarascálacha rannpháirtí ach do chuid ranníocaíochtaí féin."
 
 #: weblate/templates/category.html:341 weblate/templates/component.html:460
 #: weblate/templates/dashboard/user.html:151 weblate/templates/project.html:443
@@ -10731,7 +10684,7 @@ msgstr ""
 #: weblate/templates/category.html:385 weblate/templates/component.html:504
 #: weblate/templates/dashboard/user.html:191 weblate/templates/project.html:487
 msgid "Cost estimate"
-msgstr ""
+msgstr "Meastachán costais"
 
 #: weblate/templates/category.html:390 weblate/templates/component.html:509
 #: weblate/templates/dashboard/user.html:196 weblate/templates/project.html:492
@@ -10739,6 +10692,8 @@ msgid ""
 "Estimates translation costs based on source words, repetitions, needs-"
 "editing strings, and translation memory matches."
 msgstr ""
+"Meastar costais aistriúcháin bunaithe ar fhocail foinse, athrá, teaghráin a "
+"bhfuil gá le heagarthóireacht orthu, agus meaitseálacha cuimhne aistriúcháin."
 
 #: weblate/templates/check_list.html:36 weblate/trans/views/reports.py:313
 msgid "Total"
@@ -10789,7 +10744,7 @@ msgstr "Lean ar aghaidh tar éis críochnú"
 #: weblate/templates/snippets/libre-checklist.html:57
 #: weblate/wladmin/views.py:100
 msgid "Diagnostics"
-msgstr ""
+msgstr "Diagnóisic"
 
 #: weblate/templates/component.html:41 weblate/templates/project.html:46
 msgid "Download language statistics (CSV)"
@@ -11811,16 +11766,12 @@ msgstr ""
 "déan an uaslódáil ann."
 
 #: weblate/templates/language-project.html:259
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations within the project, until its "
-#| "given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this project language, until "
 "its given expiry, or permanently until it is deleted."
 msgstr ""
-"Taispeántar an teachtaireacht do gach aistriúchán laistigh den tionscadal, "
-"go dtí go dtéann sé in éag, nó go buan go dtí go scriostar é."
+"Taispeántar an teachtaireacht do gach aistriúchán sa teanga tionscadail seo, "
+"go dtí an dáta éaga tugtha, nó go buan go dtí go scriostar í."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:214 weblate/wladmin/views.py:106
@@ -12247,10 +12198,8 @@ msgid "%(invitation_author)s has invited you to join"
 msgstr "Thug %(invitation_author)s cuireadh duit páirt a ghlacadh"
 
 #: weblate/templates/mail/new_alert.html:14
-#, fuzzy
-#| msgid "View details"
 msgid "View diagnostics"
-msgstr "Féach ar na sonraí"
+msgstr "Féach ar dhiagnóisic"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/new_alert_subject.txt:5
@@ -12453,13 +12402,12 @@ msgid ""
 "Weblate.org has created this Hosted Weblate sign-in account so you can "
 "access purchased Weblate services."
 msgstr ""
+"Tá an cuntas sínithe isteach Weblate óstáilte seo cruthaithe ag Weblate.org "
+"ionas gur féidir leat rochtain a fháil ar sheirbhísí Weblate a ceannaíodh."
 
 #: weblate/templates/mail/reset.html:9
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Please set the password for this sign-in account now."
-msgstr ""
-"Cumasaigh fíordheimhniú an phasfhocail chun do chuntas a dhéanamh slán."
+msgstr "Socraigh an focal faire don chuntas logála isteach seo anois."
 
 #: weblate/templates/mail/reset.html:11
 #, python-format
@@ -12468,7 +12416,7 @@ msgstr "Bhí iarratas ann do phasfhocal Weblate a athshocrú ag %(site_title)s."
 
 #: weblate/templates/mail/reset_subject.txt:6
 msgid "Set password for your Weblate account"
-msgstr ""
+msgstr "Socraigh pasfhocal chun do chuntas Weblate"
 
 #: weblate/templates/mail/reset_subject.txt:8
 #, python-format
@@ -12508,10 +12456,8 @@ msgstr ""
 "i mbarra seoltaí an bhrabhsálaí chun leanúint ar aghaidh."
 
 #: weblate/templates/mail/shared-registration.html:18
-#, fuzzy
-#| msgid "Set password"
 msgid "Set account password"
-msgstr "Socraigh pasfhocal"
+msgstr "Socraigh pasfhocal cuntais"
 
 #: weblate/templates/mail/shared-registration.html:20
 msgid "Confirm password reset"
@@ -12616,10 +12562,8 @@ msgid "Translation activity summary"
 msgstr "Achoimre ar ghníomhaíocht aistriúcháin"
 
 #: weblate/templates/manage/alerts.html:10
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "Liosta míre"
+msgstr "Diagnóisic chomhpháirteanna"
 
 #: weblate/templates/manage/alerts.html:40
 msgid "Projects without components"
@@ -13140,44 +13084,35 @@ msgstr "Seiceáil rochtain úsáideora"
 
 #: weblate/templates/manage/workspace_form.html:11
 #: weblate/templates/manage/workspaces.html:10 weblate/wladmin/views.py:102
-#, fuzzy
-#| msgid "Spaces"
 msgid "Workspaces"
-msgstr "Spásanna"
+msgstr "Spásanna Oibre"
 
 #: weblate/templates/manage/workspace_form.html:15
 #: weblate/templates/manage/workspace_form.html:25
 #: weblate/templates/manage/workspaces.html:19
 msgid "Add workspace"
-msgstr ""
+msgstr "Cuir spás oibre leis"
 
 #: weblate/templates/manage/workspaces.html:21
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage workspaces"
-msgstr "Bainistigh úsáideoirí"
+msgstr "Bainistigh spásanna oibre"
 
 #: weblate/templates/manage/workspaces.html:25 weblate/wladmin/forms.py:87
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Search workspaces"
-msgstr "Eochracha gréasáin"
+msgstr "Cuardaigh spásanna oibre"
 
 #: weblate/templates/manage/workspaces.html:30
 msgid "Clear"
 msgstr "Glan"
 
 #: weblate/templates/manage/workspaces.html:60
-#, fuzzy, python-format
-#| msgid "Billing admins"
+#, python-format
 msgid "Billing #%(id)s"
-msgstr "Riarthóirí billeála"
+msgstr "Billeáil #%(id)s"
 
 #: weblate/templates/manage/workspaces.html:71
-#, fuzzy
-#| msgid "No invoices found."
 msgid "No workspaces found."
-msgstr "Níor aimsíodh aon sonraisc."
+msgstr "Níor aimsíodh aon spásanna oibre."
 
 #: weblate/templates/matrix-table.html:14
 msgid "String missing"
@@ -13456,14 +13391,12 @@ msgstr ""
 "léir."
 
 #: weblate/templates/project.html:401
-#, fuzzy
-#| msgid "Browse projects"
 msgid "Move project"
-msgstr "Brabhsáil tionscadail"
+msgstr "Bog tionscadal"
 
 #: weblate/templates/project.html:408
 msgid "Move"
-msgstr ""
+msgstr "Bog"
 
 #: weblate/templates/projects.html:23
 msgid "Ask for project hosting"
@@ -13530,19 +13463,15 @@ msgstr "Cuardach teaghrán foinse"
 
 #: weblate/templates/screenshots/screenshot_detail.html:80
 msgid "Suggests source strings by recognizing text in this screenshot."
-msgstr ""
+msgstr "Molann sé teaghráin foinse trí théacs a aithint sa seat scáileán seo."
 
 #: weblate/templates/screenshots/screenshot_detail.html:81
-#, fuzzy
-#| msgid "Include strings needing editing"
 msgid "Find strings in image"
-msgstr "Cuir teaghráin ar gá eagarthóireacht a dhéanamh orthu"
+msgstr "Aimsigh teaghráin san íomhá"
 
 #: weblate/templates/screenshots/screenshot_detail.html:85
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Add selected"
-msgstr "Cuir screenshot leis"
+msgstr "Cuir roghnaithe leis"
 
 #: weblate/templates/screenshots/screenshot_detail.html:149
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -13551,16 +13480,12 @@ msgstr ""
 "bhaineann leis."
 
 #: weblate/templates/screenshots/screenshot_list.html:72
-#, fuzzy
-#| msgid "Strings with screenshots"
 msgid "Source strings with screenshots"
-msgstr "Teaghráin le screenshots"
+msgstr "Teaghráin foinse le seat scáileáin"
 
 #: weblate/templates/screenshots/screenshot_list.html:82
-#, fuzzy
-#| msgid "Strings without screenshots"
 msgid "Source strings without screenshots"
-msgstr "Teaghráin gan screenshots"
+msgstr "Teaghráin foinse gan seat scáileáin"
 
 #: weblate/templates/screenshots/screenshot_list.html:133
 #: weblate/templates/snippets/sort-field.html:14
@@ -13596,10 +13521,8 @@ msgid "There are no assigned strings."
 msgstr "Níl aon teaghráin sannta."
 
 #: weblate/templates/screenshots/screenshot_list.html:209
-#, fuzzy
-#| msgid "No suggestions found."
 msgid "No screenshots found."
-msgstr "Níor aimsíodh aon mholtaí."
+msgstr "Níor aimsíodh aon seat scáileáin."
 
 #: weblate/templates/screenshots/screenshot_list.html:223
 #: weblate/templates/translate.html:1134
@@ -13612,16 +13535,12 @@ msgid "Add to screenshot"
 msgstr "Cuir le seat scáileáin"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection.html:7
-#, fuzzy
-#| msgid "Labeled source strings"
 msgid "Select source string"
-msgstr "Teaghráin foinse lipéadaithe"
+msgstr "Roghnaigh teaghrán foinse"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection_header.html:6
-#, fuzzy
-#| msgid "Labeled source strings"
 msgid "Select all source strings"
-msgstr "Teaghráin foinse lipéadaithe"
+msgstr "Roghnaigh na teaghráin foinse go léir"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
 msgid "Paste from clipboard"
@@ -13694,33 +13613,22 @@ msgstr[3] "%(count)s athruithe"
 msgstr[4] "%(count)s athruithe"
 
 #: weblate/templates/snippets/autoform.html:19
-#, fuzzy
-#| msgid ""
-#| "Automatic translation via machine translation uses active machine "
-#| "translation engines to get the best possible translations and applies "
-#| "them in this project."
 msgid ""
 "Automatic translation takes existing translations in this workspace and "
 "applies them to matching strings."
 msgstr ""
-"Úsáideann aistriúchán uathoibríoch trí mheaisínaistriúcháin innill "
-"ghníomhacha aistriúcháin uathoibríoch chun na haistriúcháin is fearr a fháil "
-"agus cuireann sé i bhfeidhm iad sa tionscadal seo."
+"Glacann aistriúchán uathoibríoch aistriúcháin atá ann cheana féin sa spás "
+"oibre seo agus cuireann sé i bhfeidhm iad ar theaghráin chomhoiriúnacha."
 
 #: weblate/templates/snippets/autoform.html:22
-#, fuzzy
-#| msgid ""
-#| "Automatic translation via machine translation uses active machine "
-#| "translation engines to get the best possible translations and applies "
-#| "them in this project."
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
 "in this workspace."
 msgstr ""
-"Úsáideann aistriúchán uathoibríoch trí mheaisínaistriúcháin innill "
-"ghníomhacha aistriúcháin uathoibríoch chun na haistriúcháin is fearr a fháil "
-"agus cuireann sé i bhfeidhm iad sa tionscadal seo."
+"Úsáideann aistriúchán uathoibríoch trí aistriúchán meaisín innill "
+"aistriúcháin meaisín ghníomhacha chun na haistriúcháin is fearr is féidir a "
+"fháil agus cuireann sé i bhfeidhm iad sa spás oibre seo."
 
 #: weblate/templates/snippets/autoform.html:26
 msgid ""
@@ -13853,10 +13761,8 @@ msgid "Clone to translation"
 msgstr "Clónáil don aistriúchán"
 
 #: weblate/templates/snippets/embed-units.html:13
-#, fuzzy
-#| msgid "CSS selector"
 msgid "Select"
-msgstr "Roghnóir CSS"
+msgstr "Roghnaigh"
 
 #: weblate/templates/snippets/embed-units.html:52 weblate/utils/views.py:228
 msgid "Target string"
@@ -14329,10 +14235,8 @@ msgid "License"
 msgstr "Ceadúnas"
 
 #: weblate/templates/snippets/libre-checklist.html:25
-#, fuzzy
-#| msgid "Repositories"
 msgid "Repository"
-msgstr "Taisclanna"
+msgstr "Stór"
 
 #: weblate/templates/snippets/list-objects.html:42
 msgid "Add project"
@@ -14614,16 +14518,13 @@ msgstr ""
 "ndeimhnítear an t-athrú iarbhír."
 
 #: weblate/templates/snippets/settings-organize.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Organize the project</a> to change its URL slug or "
-#| "remove it."
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug, move "
 "it, or remove it."
 msgstr ""
-"<a href=\"%(url)s\">Eagraigh an tionscadal</a> chun a seilide URL a athrú nó "
-"é a bhaint."
+"<a href=\"%(url)s\">Eagraigh an tionscadal</a> chun a shlug URL a athrú, é a "
+"bhogadh, nó é a bhaint."
 
 #: weblate/templates/snippets/settings-organize.html:8
 #, python-format
@@ -14635,16 +14536,13 @@ msgstr ""
 "é a bhogadh nó a bhaint."
 
 #: weblate/templates/snippets/settings-organize.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, "
-#| "move or remove it."
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the category</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
-"<a href=\"%(url)s\">Eagraigh an chomhpháirt</a> chun a seilide URL a athrú, "
-"é a bhogadh nó a bhaint."
+"<a href=\"%(url)s\">Eagraigh an chatagóir</a> chun a slug URL a athrú, a "
+"bhogadh nó a bhaint."
 
 #: weblate/templates/snippets/share-menu.html:5
 msgid "Community"
@@ -15282,20 +15180,20 @@ msgstr ""
 "Ní luíonn an tionscadal seo le coinníollacha óstála Libre a thuilleadh."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:3
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "No translations were found for this component file mask."
-msgstr "Níor iompórtáladh aon teaghráin ón gcomhad uaslódáilte."
+msgstr "Ní bhfuarthas aon aistriúcháin don masc comhaid comhpháirte seo."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
 msgid "This is okay when the repository does not contain translations yet."
-msgstr ""
+msgstr "Tá sé seo ceart go leor nuair nach bhfuil aistriúcháin sa stór fós."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 msgid ""
 "The alert will disappear once translations are added in Weblate or committed "
 "to the repository."
 msgstr ""
+"Imeoidh an foláireamh as radharc a luaithe a chuirfear aistriúcháin leis i "
+"Weblate nó a chuirfear sa stór iad."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:12
 msgid ""
@@ -15306,17 +15204,15 @@ msgstr ""
 "cruthaítear comhaid bunaithe ar an masc comhaid."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether the file mask <code>%(filemask)s</code> matches files in "
-#| "your version control system repository."
+#, python-format
 msgid ""
 "If translations already exist, check whether the file mask "
 "<code>%(filemask)s</code> matches files in your version control system "
 "repository."
 msgstr ""
-"Seiceáil an meaitseálann an masc comhaid <code>%(filemask)s</code> na "
-"comhaid i stór do chórais rialaithe leagan."
+"Más ann d’aistriúcháin cheana féin, seiceáil an bhfuil an masc comhaid <code>"
+"%(filemask)s</code> ag teacht le comhaid i stórlann do chórais rialaithe "
+"leaganacha."
 
 #. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:6
@@ -16570,16 +16466,12 @@ msgid "Embed Code"
 msgstr "Cód Leabaithe"
 
 #: weblate/templates/workspace.html:89
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all workspace changes"
-msgstr "Brabhsáil gach athrú comhpháirte"
+msgstr "Brabhsáil gach athrú ar an spás oibre"
 
 #: weblate/templates/workspace.html:136
-#, fuzzy
-#| msgid "Source strings"
 msgid "Workspace settings"
-msgstr "Teaghráin foinse"
+msgstr "Socruithe spáis oibre"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -17053,24 +16945,18 @@ msgstr "Athraíodh rochtain úsáideora"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created"
-msgstr "Comhpháirt cruthaithe"
+msgstr "Spás oibre cruthaithe"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:204
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Workspace setting changed"
-msgstr "Athraíodh teaghrán foinse"
+msgstr "Athraíodh socruithe an spáis oibre"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:206
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved"
-msgstr "Baineadh an tionscadal"
+msgstr "Tionscadal bogtha"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -17129,12 +17015,8 @@ msgstr ""
 "Weblate."
 
 #: weblate/trans/alerts/community.py:186
-#, fuzzy
-#| msgid "Define translation instructions to give translators a guideline."
 msgid "Define translation instructions to help translators."
-msgstr ""
-"Sainmhínigh treoracha aistriúcháin chun treoirlíne a thabhairt "
-"d’aistritheoirí."
+msgstr "Sainmhínigh treoracha aistriúcháin chun cabhrú le haistritheoirí."
 
 #: weblate/trans/alerts/community.py:212
 msgid "Add screenshots to show where strings are being used."
@@ -17154,10 +17036,8 @@ msgstr ""
 "aistritheoirí a sheachaint le haghaidh teaghráin a rindreáiltear mar HTML."
 
 #: weblate/trans/alerts/community.py:287
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Recommended add-on"
-msgstr "Breisithe le déanaí"
+msgstr "Breiseán molta"
 
 #: weblate/trans/alerts/community.py:307
 msgid "Enable add-on:"
@@ -17337,18 +17217,16 @@ msgid ""
 "Automatic translation skipped some translations because selected source "
 "components use a different source language."
 msgstr ""
+"Níor úsáideadh roinnt aistriúcháin san aistriúchán uathoibríoch mar gheall "
+"ar theanga foinse dhifriúil a úsáid sa chomhpháirt foinse roghnaithe."
 
 #: weblate/trans/autotranslate.py:686
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid ""
 "Automatic translation skipped some translations because no other source "
 "components were available."
 msgstr ""
-"Aistrítear teaghráin go huathoibríoch ag baint úsáide as aistriúchán meaisín "
-"nó comhpháirteanna eile."
+"Níor úsáideadh aistriúchán uathoibríoch chun roinnt aistriúcháin a "
+"sheachaint mar nach raibh aon chomhpháirteanna foinse eile ar fáil."
 
 #: weblate/trans/backups.py:531
 msgid "Screenshot image is missing."
@@ -17411,13 +17289,12 @@ msgstr "Gan socrú"
 #: weblate/trans/change_display.py:292 weblate/trans/forms.py:3429
 #: weblate/trans/views/create.py:114
 msgid "No workspace"
-msgstr ""
+msgstr "Gan spás oibre"
 
 #: weblate/trans/change_display.py:296
-#, fuzzy, python-format
-#| msgid "%(setting)s changed from \"%(old)s\" to \"%(target)s\"."
+#, python-format
 msgid "Project moved from \"%(old)s\" to \"%(target)s\"."
-msgstr "Athraíodh %(setting)s ó \"%(old)s\" go \"%(target)s\"."
+msgstr "Bogadh an tionscadal ó \"%(old)s\" go \"%(target)s\"."
 
 #: weblate/trans/change_display.py:372
 msgid "Original revision: {}"
@@ -18037,16 +17914,12 @@ msgstr ""
 "comhpháirt sa tionscadal reatha a úsáid."
 
 #: weblate/trans/forms.py:1038
-#, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
 msgid ""
 "Enter project and component slug or component ID to use as source, keep "
 "blank to use all components in the current workspace."
 msgstr ""
-"Cuir isteach sluga comhpháirte le húsáid mar fhoinse, coinnigh bán chun gach "
-"comhpháirt sa tionscadal reatha a úsáid."
+"Cuir isteach slug tionscadail agus comhpháirte nó ID comhpháirte le húsáid "
+"mar fhoinse, coinnigh bán chun gach comhpháirt sa spás oibre reatha a úsáid."
 
 #: weblate/trans/forms.py:1042
 msgid ""
@@ -18089,10 +17962,8 @@ msgid "Score threshold"
 msgstr "Tairseach scóir"
 
 #: weblate/trans/forms.py:1145
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All components in current workspace"
-msgstr "Na comhpháirteanna uile sa tionscadal reatha"
+msgstr "Gach comhpháirt sa spás oibre reatha"
 
 #: weblate/trans/forms.py:1147
 msgid "All components in current project"
@@ -18121,7 +17992,7 @@ msgstr "Comhpháirt gan aimsiú!"
 
 #: weblate/trans/forms.py:1199
 msgid "Enter component ID or project/component slug."
-msgstr ""
+msgstr "Cuir isteach aitheantóir comhpháirte nó slug tionscadail/comhpháirte."
 
 #: weblate/trans/forms.py:1216
 msgid "Source component needs to have same source language as target one."
@@ -18229,48 +18100,36 @@ msgid "Search filter"
 msgstr "Scagaire cuardaigh"
 
 #: weblate/trans/forms.py:1698
-#, fuzzy
-#| msgid "Date range"
 msgid "Base rate"
-msgstr "Raon dáta"
+msgstr "Ráta bonn"
 
 #: weblate/trans/forms.py:1699
 msgid "Price per source word."
-msgstr ""
+msgstr "Praghas in aghaidh an fhocail foinse."
 
 #: weblate/trans/forms.py:1706
-#, fuzzy
-#| msgid "Translation threshold"
 msgid "Translation memory threshold"
-msgstr "Tairseach aistriúcháin"
+msgstr "Tairseach cuimhne aistriúcháin"
 
 #: weblate/trans/forms.py:1712
-#, fuzzy
-#| msgid "No strings to translate"
 msgid "New strings rate"
-msgstr "Níl aon teaghráin le haistriú"
+msgstr "Ráta teaghrán nua"
 
 #: weblate/trans/forms.py:1719
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs editing rate"
-msgstr "Tá eagarthóireacht de dhíth"
+msgstr "Ráta eagarthóireachta ag teastáil"
 
 #: weblate/trans/forms.py:1726
-#, fuzzy
-#| msgid "Extract front matter"
 msgid "Exact match rate"
-msgstr "Sliocht ábhar tosaigh"
+msgstr "Ráta meaitseáil chruinn"
 
 #: weblate/trans/forms.py:1733
 msgid "Fuzzy match rate"
-msgstr ""
+msgstr "Ráta meaitseála doiléir"
 
 #: weblate/trans/forms.py:1740
-#, fuzzy
-#| msgid "Rejection reason"
 msgid "Repetition rate"
-msgstr "Cúis diúltaithe"
+msgstr "Ráta athrá"
 
 #: weblate/trans/forms.py:1766
 msgid "You do not have permission to access this component."
@@ -18279,12 +18138,14 @@ msgstr "Níl cead agat an chomhpháirt seo a rochtain."
 #: weblate/trans/forms.py:1829
 #, python-format
 msgid "Inherit from %(scope)s"
-msgstr ""
+msgstr "Oidhreacht ó %(scope)s"
 
 #: weblate/trans/forms.py:1848
 msgid ""
 "Inherited value is shown. Disable inheritance to edit the stored override."
 msgstr ""
+"Taispeántar luach oidhreachta. Díchumasaigh oidhreacht chun an sárú "
+"stóráilte a chur in eagar."
 
 #: weblate/trans/forms.py:2016
 msgid "This submission has been identified as spam!"
@@ -18292,10 +18153,8 @@ msgstr "Aithníodh an aighneacht seo mar thurscar!"
 
 #: weblate/trans/forms.py:2118 weblate/trans/forms.py:2468
 #: weblate/trans/forms.py:3041
-#, fuzzy
-#| msgid "Category"
 msgid "category"
-msgstr "Catagóir"
+msgstr "catagóir"
 
 #: weblate/trans/forms.py:2118 weblate/trans/forms.py:2471
 #: weblate/trans/forms.py:2473 weblate/trans/forms.py:3041
@@ -18403,10 +18262,8 @@ msgstr ""
 "tú athbhreithnithe aistriúcháin."
 
 #: weblate/trans/forms.py:3267
-#, fuzzy
-#| msgid "Spaces"
 msgid "workspace"
-msgstr "Spásanna"
+msgstr "spás oibre"
 
 #: weblate/trans/forms.py:3305
 msgid "Access"
@@ -18423,18 +18280,21 @@ msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects."
 msgstr ""
+"Cuir isteach UUID spás oibre ina bhfuil cead agat socruithe a chur in eagar "
+"agus tionscadail a chur leis."
 
 #: weblate/trans/forms.py:3415
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects, or leave empty to move the project out of a workspace."
 msgstr ""
+"Cuir isteach UUID spás oibre ina bhfuil cead agat socruithe a chur in eagar "
+"agus tionscadail a chur leis, nó fág folamh é chun an tionscadal a bhogadh "
+"amach as spás oibre."
 
 #: weblate/trans/forms.py:3438
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching workspace found."
-msgstr "Níor aimsíodh aon teaghráin mheaitseála."
+msgstr "Ní bhfuarthas aon spás oibre comhoiriúnach."
 
 #: weblate/trans/forms.py:3502
 msgid "ZIP file containing project backup"
@@ -18831,50 +18691,36 @@ msgstr "Bratacha breise camóg-scartha chun tionchar a imirt ar iompar Weblate."
 
 #: weblate/trans/models/category.py:129 weblate/trans/models/component.py:772
 #: weblate/trans/models/project.py:370
-#, fuzzy
-#| msgid "Translation license"
 msgid "Inherit translation license"
-msgstr "Ceadúnas aistriúcháin"
+msgstr "Ceadúnas aistriúcháin a oidhreacht"
 
 #: weblate/trans/models/category.py:132
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the translation license configured in the parent category or project."
 msgstr ""
-"Cuir na hathruithe aistriúcháin is déanaí ón úsáideoir seo sa tionscadal "
-"reatha ar ais."
+"Bain úsáid as an gceadúnas aistriúcháin atá cumraithe sa chatagóir nó sa "
+"tionscadal tuismitheora."
 
 #: weblate/trans/models/category.py:140
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this category."
 msgstr ""
-"Comhaontú ceadúnais ranníocóra a chaithfear a cheadú sular féidir le "
-"húsáideoir an chomhpháirt seo a aistriú."
+"Comhaontú ceadúnais rannpháirtí a chaithfear a cheadú sula bhféadfaidh "
+"úsáideoir comhpháirteanna sa chatagóir seo a aistriú."
 
 #: weblate/trans/models/category.py:145 weblate/trans/models/component.py:788
 #: weblate/trans/models/project.py:386
-#, fuzzy
-#| msgid "View contributor license agreement"
 msgid "Inherit contributor license agreement"
-msgstr "Féach ar chomhaontú ceadúnais ranníocóra"
+msgstr "Comhaontú ceadúnais rannpháirtí a oidhreachtú"
 
 #: weblate/trans/models/category.py:148
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement for component %(component)s was changed."
 msgid ""
 "Use the contributor license agreement configured in the parent category or "
 "project."
 msgstr ""
-"Athraíodh comhaontú ceadúnais ranníocóra le haghaidh comhpháirt %"
-"(component)s."
+"Bain úsáid as an gcomhaontú ceadúnais rannpháirtí atá cumraithe sa chatagóir "
+"nó sa tionscadal tuismitheora."
 
 #: weblate/trans/models/category.py:152 weblate/trans/models/component.py:797
 #: weblate/trans/models/project.py:393 weblate/workspaces/models.py:107
@@ -18888,21 +18734,16 @@ msgstr "Conas iarratais ar aistriúcháin nua a chruthú a láimhseáil."
 
 #: weblate/trans/models/category.py:159 weblate/trans/models/component.py:804
 #: weblate/trans/models/project.py:400
-#, fuzzy
-#| msgid "Disable adding new translations"
 msgid "Inherit adding new translations"
-msgstr "Díchumasaigh aistriúcháin nua a chur leis"
+msgstr "Oidhreacht a fháil trí aistriúcháin nua a chur leis"
 
 #: weblate/trans/models/category.py:162
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the adding new translations setting configured in the parent category or "
 "project."
 msgstr ""
-"Cuir na hathruithe aistriúcháin is déanaí ón úsáideoir seo sa tionscadal "
-"reatha ar ais."
+"Bain úsáid as an socrú chun aistriúcháin nua a chur leis atá cumraithe sa "
+"chatagóir nó sa tionscadal tuismitheora."
 
 #: weblate/trans/models/category.py:166 weblate/trans/models/component.py:811
 #: weblate/trans/models/project.py:407 weblate/workspaces/models.py:114
@@ -18920,15 +18761,15 @@ msgstr ""
 
 #: weblate/trans/models/category.py:177 weblate/trans/models/component.py:822
 #: weblate/trans/models/project.py:418
-#, fuzzy
-#| msgid "Language code style"
 msgid "Inherit language code style"
-msgstr "Stíl cód teanga"
+msgstr "Stíl chód teanga a oidhreachtú"
 
 #: weblate/trans/models/category.py:180
 msgid ""
 "Use the language code style configured in the parent category or project."
 msgstr ""
+"Bain úsáid as an stíl chód teanga atá cumraithe sa chatagóir nó sa "
+"tionscadal tuismitheora."
 
 #: weblate/trans/models/category.py:185 weblate/trans/models/component.py:1059
 #: weblate/trans/models/project.py:343 weblate/workspaces/models.py:126
@@ -18946,18 +18787,15 @@ msgstr ""
 
 #: weblate/trans/models/category.py:196 weblate/trans/models/component.py:1074
 #: weblate/trans/models/project.py:425
-#, fuzzy
-#| msgid "Secondary language"
 msgid "Inherit secondary language"
-msgstr "Teanga thánaisteach"
+msgstr "Oidhreacht teanga thánaisteach"
 
 #: weblate/trans/models/category.py:199
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid ""
 "Use the secondary language configured in the parent category or project."
-msgstr "Teanga thánaisteach atá sainmhínithe sa tionscadal nó sa chomhpháirt"
+msgstr ""
+"Úsáid an teanga thánaisteach atá cumraithe sa chatagóir nó sa tionscadal "
+"tuismitheora."
 
 #: weblate/trans/models/category.py:203 weblate/trans/models/component.py:850
 #: weblate/trans/models/project.py:432 weblate/workspaces/models.py:146
@@ -18985,16 +18823,18 @@ msgstr ""
 
 #: weblate/trans/models/category.py:212 weblate/trans/models/component.py:859
 #: weblate/trans/models/project.py:441
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Inherit commit message when translating"
-msgstr "Tiomantas teachtaireacht agus tú á aistriú"
+msgstr ""
+"Oidhreacht a fháil ar an teachtaireacht tiomantais agus aistriúchán á "
+"dhéanamh"
 
 #: weblate/trans/models/category.py:215
 msgid ""
 "Use the commit message when translating configured in the parent category or "
 "project."
 msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus tú ag aistriú rud atá "
+"cumraithe sa chatagóir nó sa tionscadal tuismitheora."
 
 #: weblate/trans/models/category.py:219 weblate/trans/models/component.py:866
 #: weblate/trans/models/project.py:448 weblate/workspaces/models.py:155
@@ -19003,16 +18843,17 @@ msgstr "Tiomantas teachtaireacht agus aistriúchán á chur leis"
 
 #: weblate/trans/models/category.py:228 weblate/trans/models/component.py:875
 #: weblate/trans/models/project.py:457
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Inherit commit message when adding translation"
-msgstr "Tiomantas teachtaireacht agus aistriúchán á chur leis"
+msgstr ""
+"Oidhreacht a fháil ar theachtaireacht tiomantais agus aistriúchán á chur leis"
 
 #: weblate/trans/models/category.py:231
 msgid ""
 "Use the commit message when adding translation configured in the parent "
 "category or project."
 msgstr ""
+"Úsáid an teachtaireacht tiomantais agus aistriúchán atá cumraithe sa "
+"chatagóir nó sa tionscadal tuismitheora á chur leis."
 
 #: weblate/trans/models/category.py:235 weblate/trans/models/component.py:882
 #: weblate/trans/models/project.py:464 weblate/workspaces/models.py:164
@@ -19021,16 +18862,17 @@ msgstr "Tiomantas teachtaireacht nuair a bhaintear an t-aistriúchán"
 
 #: weblate/trans/models/category.py:244 weblate/trans/models/component.py:891
 #: weblate/trans/models/project.py:473
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Inherit commit message when removing translation"
-msgstr "Tiomantas teachtaireacht nuair a bhaintear an t-aistriúchán"
+msgstr ""
+"Oidhreacht a fháil ar theachtaireacht tiomantais agus aistriúchán á bhaint"
 
 #: weblate/trans/models/category.py:247
 msgid ""
 "Use the commit message when removing translation configured in the parent "
 "category or project."
 msgstr ""
+"Úsáid an teachtaireacht tiomantais agus aistriúchán atá cumraithe sa "
+"chatagóir nó sa tionscadal tuismitheora á bhaint."
 
 #. Translators: The commit message, for when merging the translation
 #: weblate/trans/models/category.py:252 weblate/trans/models/component.py:899
@@ -19040,16 +18882,17 @@ msgstr "Tiomantas teachtaireacht agus aistriúchán á chumasc"
 
 #: weblate/trans/models/category.py:261 weblate/trans/models/component.py:908
 #: weblate/trans/models/project.py:490
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid "Inherit commit message when merging translation"
-msgstr "Tiomantas teachtaireacht agus aistriúchán á chumasc"
+msgstr ""
+"Oidhreacht a fháil ar theachtaireacht tiomantais agus aistriúchán á chumasc"
 
 #: weblate/trans/models/category.py:264
 msgid ""
 "Use the commit message when merging translation configured in the parent "
 "category or project."
 msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus aistriúcháin atá cumraithe "
+"sa chatagóir nó sa tionscadal tuismitheora á gcur le chéile."
 
 #: weblate/trans/models/category.py:268 weblate/trans/models/component.py:915
 #: weblate/trans/models/project.py:497 weblate/workspaces/models.py:183
@@ -19058,16 +18901,18 @@ msgstr "Tiomantas teachtaireacht nuair a dhéanann an breiseán athrú"
 
 #: weblate/trans/models/category.py:277 weblate/trans/models/component.py:924
 #: weblate/trans/models/project.py:506
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid "Inherit commit message when add-on makes a change"
-msgstr "Tiomantas teachtaireacht nuair a dhéanann an breiseán athrú"
+msgstr ""
+"Oidhreacht a fháil ar theachtaireacht tiomantais nuair a dhéanann breiseán "
+"athrú"
 
 #: weblate/trans/models/category.py:280
 msgid ""
 "Use the commit message when add-on makes a change configured in the parent "
 "category or project."
 msgstr ""
+"Úsáid an teachtaireacht tiomantais nuair a dhéanann breiseán athrú atá "
+"cumraithe sa chatagóir tuismitheora nó sa tionscadal."
 
 #: weblate/trans/models/category.py:284 weblate/trans/models/component.py:931
 #: weblate/trans/models/project.py:513 weblate/workspaces/models.py:192
@@ -19076,15 +18921,15 @@ msgstr "Cumaisc teachtaireacht iarratais"
 
 #: weblate/trans/models/category.py:293 weblate/trans/models/component.py:940
 #: weblate/trans/models/project.py:522
-#, fuzzy
-#| msgid "Merge request message"
 msgid "Inherit merge request message"
-msgstr "Cumaisc teachtaireacht iarratais"
+msgstr "Teachtaireacht iarratais chumasc a oidhreachtú"
 
 #: weblate/trans/models/category.py:296
 msgid ""
 "Use the merge request message configured in the parent category or project."
 msgstr ""
+"Úsáid an teachtaireacht iarratais chumasc atá cumraithe sa chatagóir nó sa "
+"tionscadal tuismitheora."
 
 #: weblate/trans/models/category.py:417
 msgid "Too deep nesting of categories!"
@@ -19387,13 +19232,10 @@ msgid "List of checks which can not be dismissed."
 msgstr "Liosta seiceálacha nach féidir a dhíbhe."
 
 #: weblate/trans/models/component.py:775
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Use the translation license configured in the category or project."
 msgstr ""
-"Cuir na hathruithe aistriúcháin is déanaí ón úsáideoir seo sa tionscadal "
-"reatha ar ais."
+"Bain úsáid as an gceadúnas aistriúcháin atá cumraithe sa chatagóir nó sa "
+"tionscadal."
 
 #: weblate/trans/models/component.py:783
 msgid ""
@@ -19404,26 +19246,25 @@ msgstr ""
 "húsáideoir an chomhpháirt seo a aistriú."
 
 #: weblate/trans/models/component.py:791
-#, fuzzy
-#| msgid "There was no contributor license agreement before."
 msgid ""
 "Use the contributor license agreement configured in the category or project."
-msgstr "Ní raibh aon chomhaontú ceadúnais ranníocóra ann roimhe seo."
+msgstr ""
+"Bain úsáid as an gcomhaontú ceadúnais rannpháirtí atá cumraithe sa chatagóir "
+"nó sa tionscadal."
 
 #: weblate/trans/models/component.py:807
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the adding new translations setting configured in the category or "
 "project."
 msgstr ""
-"Cuir na hathruithe aistriúcháin is déanaí ón úsáideoir seo sa tionscadal "
-"reatha ar ais."
+"Bain úsáid as an socrú chun aistriúcháin nua a chur leis atá cumraithe sa "
+"chatagóir nó sa tionscadal."
 
 #: weblate/trans/models/component.py:825
 msgid "Use the language code style configured in the category or project."
 msgstr ""
+"Bain úsáid as an stíl chód teanga atá cumraithe sa chatagóir nó sa "
+"tionscadal."
 
 #: weblate/trans/models/component.py:829
 msgid "Manage strings"
@@ -19456,42 +19297,46 @@ msgid ""
 "Use the commit message when translating configured in the category or "
 "project."
 msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus tú ag aistriú rud atá "
+"cumraithe sa chatagóir nó sa tionscadal."
 
 #: weblate/trans/models/component.py:878
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the category or "
 "project."
-msgstr "Tiomantas teachtaireacht agus aistriúchán á chur leis"
+msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus aistriúchán atá cumraithe sa "
+"chatagóir nó sa tionscadal á chur leis."
 
 #: weblate/trans/models/component.py:894
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the category "
 "or project."
-msgstr "Tiomantas teachtaireacht nuair a bhaintear an t-aistriúchán"
+msgstr ""
+"Úsáid an teachtaireacht tiomantais agus aistriúchán atá cumraithe sa "
+"chatagóir nó sa tionscadal á bhaint."
 
 #: weblate/trans/models/component.py:911
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the category "
 "or project."
-msgstr "Tiomantas teachtaireacht agus aistriúchán á chumasc"
+msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus aistriúcháin atá cumraithe "
+"sa chatagóir nó sa tionscadal á gcumaisc."
 
 #: weblate/trans/models/component.py:927
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the category "
 "or project."
-msgstr "Tiomantas teachtaireacht nuair a dhéanann an breiseán athrú"
+msgstr ""
+"Úsáid an teachtaireacht tiomantais nuair a dhéanann breiseán athrú atá "
+"cumraithe sa chatagóir nó sa tionscadal."
 
 #: weblate/trans/models/component.py:943
 msgid "Use the merge request message configured in the category or project."
 msgstr ""
+"Úsáid an teachtaireacht iarratais chumasc atá cumraithe sa chatagóir nó sa "
+"tionscadal."
 
 #: weblate/trans/models/component.py:947
 msgid "Push on commit"
@@ -19598,11 +19443,9 @@ msgstr ""
 "Faightear an socrú seo mar oidhreacht ón tionscadal má fhágtar folamh é."
 
 #: weblate/trans/models/component.py:1077
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the category or project."
-msgstr "Teanga thánaisteach atá sainmhínithe sa tionscadal nó sa chomhpháirt"
+msgstr ""
+"Úsáid an teanga thánaisteach atá cumraithe sa chatagóir nó sa tionscadal."
 
 #: weblate/trans/models/component.py:2126
 msgid ""
@@ -20173,6 +20016,8 @@ msgstr "Treoracha aistriúcháin"
 #: weblate/trans/models/project.py:260
 msgid "Workspace this project belongs to. Standalone projects do not need one."
 msgstr ""
+"Spás oibre lena mbaineann an tionscadal seo. Ní gá ceann a bheith i gceist "
+"le haghaidh tionscadal neamhspleách."
 
 #: weblate/trans/models/project.py:265
 msgid "Use shared translation memory"
@@ -20258,82 +20103,75 @@ msgstr ""
 "en_GB:ga,en_US:ga"
 
 #: weblate/trans/models/project.py:373
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
-msgstr "Déanfar an t-aistriúchán a nuashonrú sa chúlra."
+msgstr "Bain úsáid as an gceadúnas aistriúcháin atá cumraithe sa spás oibre."
 
 #: weblate/trans/models/project.py:381
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this project."
 msgstr ""
-"Comhaontú ceadúnais ranníocóra a chaithfear a cheadú sular féidir le "
-"húsáideoir an chomhpháirt seo a aistriú."
+"Comhaontú ceadúnais rannpháirtí a chaithfear a cheadú sula bhféadfaidh "
+"úsáideoir comhpháirteanna sa tionscadal seo a aistriú."
 
 #: weblate/trans/models/project.py:389
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "Use the contributor license agreement configured in the workspace."
-msgstr "Comhaontú ceadúnais ranníocóra athraithe"
+msgstr ""
+"Bain úsáid as an gcomhaontú ceadúnais rannpháirtí atá cumraithe sa spás "
+"oibre."
 
 #: weblate/trans/models/project.py:403
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
+"Bain úsáid as an socrú chun aistriúcháin nua a chur leis atá cumraithe sa "
+"spás oibre."
 
 #: weblate/trans/models/project.py:421
 msgid "Use the language code style configured in the workspace."
-msgstr ""
+msgstr "Bain úsáid as an stíl chód teanga atá cumraithe sa spás oibre."
 
 #: weblate/trans/models/project.py:428
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the workspace."
-msgstr "Teanga thánaisteach atá sainmhínithe sa tionscadal nó sa chomhpháirt"
+msgstr "Úsáid an teanga thánaisteach atá cumraithe sa spás oibre."
 
 #: weblate/trans/models/project.py:444
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Use the commit message when translating configured in the workspace."
-msgstr "Tiomantas teachtaireacht agus tú á aistriú"
+msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus tú ag aistriú rud atá "
+"cumraithe sa spás oibre."
 
 #: weblate/trans/models/project.py:460
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the workspace."
-msgstr "Tiomantas teachtaireacht agus aistriúchán á chur leis"
+msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus aistriúchán atá cumraithe sa "
+"spás oibre á chur leis."
 
 #: weblate/trans/models/project.py:476
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the workspace."
-msgstr "Tiomantas teachtaireacht nuair a bhaintear an t-aistriúchán"
+msgstr ""
+"Úsáid an teachtaireacht tiomantais agus aistriúchán atá cumraithe sa spás "
+"oibre á bhaint."
 
 #: weblate/trans/models/project.py:493
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the workspace."
-msgstr "Tiomantas teachtaireacht agus aistriúchán á chumasc"
+msgstr ""
+"Bain úsáid as an teachtaireacht tiomantais agus aistriúcháin atá cumraithe "
+"sa spás oibre á gcumaisc."
 
 #: weblate/trans/models/project.py:509
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the "
 "workspace."
-msgstr "Tiomantas teachtaireacht nuair a dhéanann an breiseán athrú"
+msgstr ""
+"Úsáid an teachtaireacht tiomantais nuair a dhéanann breiseán athrú atá "
+"cumraithe sa spás oibre."
 
 #: weblate/trans/models/project.py:525
 msgid "Use the merge request message configured in the workspace."
-msgstr ""
+msgstr "Úsáid an teachtaireacht iarratais chumasc atá cumraithe sa spás oibre."
 
 #: weblate/trans/models/project.py:1245
 msgid ""
@@ -20654,10 +20492,8 @@ msgid "This language is used for source strings."
 msgstr "Úsáidtear an teanga seo le haghaidh teaghráin foinse."
 
 #: weblate/trans/templatetags/translations.py:1124
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Fix this component to clear its diagnostics."
-msgstr "Deisigh an chomhpháirt seo chun a foláirimh a ghlanadh."
+msgstr "Deisigh an comhpháirt seo chun a diagnóisic a ghlanadh."
 
 #: weblate/trans/templatetags/translations.py:1129
 #: weblate/trans/templatetags/translations.py:1148
@@ -20669,11 +20505,10 @@ msgid "Updating translation component…"
 msgstr "Comhpháirt aistriúcháin á nuashonrú…"
 
 #: weblate/trans/templatetags/translations.py:1143
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some of the components within this project have diagnostics."
 msgstr ""
-"Tá foláirimh ag cuid de na comhpháirteanna laistigh den tionscadal seo."
+"Tá diagnóisic ag baint le cuid de na comhpháirteanna laistigh den tionscadal "
+"seo."
 
 #: weblate/trans/templatetags/translations.py:1172
 msgid "You administrate this project."
@@ -21085,12 +20920,10 @@ msgid "Changes in %s"
 msgstr "Athruithe ar %s"
 
 #: weblate/trans/views/changes.py:87
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes in workspace"
 msgid "Changes in %s"
-msgstr "Athruithe ar %s"
+msgstr "Athruithe i %s"
 
 #: weblate/trans/views/create.py:84
 msgid "The supplied configuration is incorrect. Please check the errors below."
@@ -21099,10 +20932,8 @@ msgstr ""
 "thoil."
 
 #: weblate/trans/views/create.py:125
-#, fuzzy
-#| msgid "Fetching VCS repository from %s is not allowed."
 msgid "Creating a project without a workspace is not allowed."
-msgstr "Ní cheadaítear stórlann VCS a fháil ó %s."
+msgstr "Ní cheadaítear tionscadal a chruthú gan spás oibre."
 
 #: weblate/trans/views/create.py:250
 msgid "Project backup import in progress"
@@ -21289,16 +21120,12 @@ msgstr ""
 "reatha."
 
 #: weblate/trans/views/git.py:41
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
-"Níorbh fhéidir an teaghrán a bhaint mar go bhfuil oibríocht chúlra eile ar "
-"siúl. Déan iarracht arís ar ball."
+"Is cosúil go bhfuil oibríocht ar siúl ar an stórlann. Déan iarracht arís ar "
+"ball."
 
 #: weblate/trans/views/git.py:65
 msgid ""
@@ -21354,43 +21181,32 @@ msgstr ""
 "aistriúcháin."
 
 #: weblate/trans/views/reports.py:79
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Repetitions"
-msgstr "Breisithe le déanaí"
+msgstr "Athrá"
 
 #: weblate/trans/views/reports.py:80
-#, fuzzy
-#| msgid "Extract front matter"
 msgid "Exact matches"
-msgstr "Sliocht ábhar tosaigh"
+msgstr "Meaitseálacha beachta"
 
 #: weblate/trans/views/reports.py:81
-#, fuzzy
-#| msgid "Use fuzzy matching"
 msgid "Fuzzy matches"
-msgstr "Bain úsáid as meaitseáil doiléir"
+msgstr "Meaitseálacha doiléire"
 
 #: weblate/trans/views/reports.py:83
-#, fuzzy
-#| msgid "Review strings"
 msgid "New strings"
-msgstr "Teaghráin athbhreithnithe"
+msgstr "Teaghráin nua"
 
 #: weblate/trans/views/reports.py:252
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "Source characters"
-msgstr "Carachtair óstáilte"
+msgstr "Carachtair nua teaghránFoinse"
 
 #: weblate/trans/views/reports.py:253
 msgid "Rate"
-msgstr ""
+msgstr "Ráta"
 
 #: weblate/trans/views/reports.py:254
 msgid "Cost"
-msgstr ""
+msgstr "Costas"
 
 #: weblate/trans/views/search.py:132
 msgid "Search and replace completed, no strings were updated."
@@ -21492,10 +21308,8 @@ msgstr ""
 "%(error)s"
 
 #: weblate/trans/views/settings.py:354
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved."
-msgstr "Baineadh an tionscadal"
+msgstr "Bogadh an tionscadal."
 
 #: weblate/trans/views/settings.py:391
 #, python-format
@@ -21584,37 +21398,27 @@ msgstr[4] "teangacha"
 
 #: weblate/trans/workspace_move.py:67
 msgid "No valid billing found or limit exceeded."
-msgstr ""
+msgstr "Níor aimsíodh aon bhilleáil bhailí ná níor sáraíodh an teorainn."
 
 #: weblate/trans/workspace_move.py:81
-#, fuzzy
-#| msgid "This component is already shared in %s."
 msgid "The project is already assigned to this workspace."
-msgstr "Tá an chomhpháirt seo roinnte cheana féin i %s."
+msgstr "Tá an tionscadal sannta don spás oibre seo cheana féin."
 
 #: weblate/trans/workspace_move.py:87
-#, fuzzy
-#| msgid "You do not have permission to create terminology."
 msgid "You do not have permission to edit the current workspace."
-msgstr "Níl cead agat téarmaíocht a chruthú."
+msgstr "Níl cead agat an spás oibre reatha a chur in eagar."
 
 #: weblate/trans/workspace_move.py:92
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to move projects without a workspace."
-msgstr "Níl cead agat rialú rochtana tionscadail a athrú."
+msgstr "Níl cead agat tionscadail a bhogadh gan spás oibre."
 
 #: weblate/trans/workspace_move.py:97
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit the target workspace."
-msgstr "Níl cead agat moltaí a ghlacadh."
+msgstr "Níl cead agat an spás oibre sprice a chur in eagar."
 
 #: weblate/trans/workspace_move.py:100
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to add projects to the target workspace."
-msgstr "Níl cead agat rialú rochtana tionscadail a athrú."
+msgstr "Níl cead agat tionscadail a chur leis an spás oibre sprice."
 
 #: weblate/utils/backup.py:137
 msgid "Borg completed with warnings without any output."
@@ -21823,7 +21627,7 @@ msgstr ""
 
 #: weblate/utils/search.py:147 weblate/utils/search.py:164
 msgid "Search query is too complex."
-msgstr ""
+msgstr "Tá an cuardach róchasta."
 
 #: weblate/utils/search.py:262
 msgid "Unsupported state: {}"
@@ -21864,16 +21668,12 @@ msgid "Could not parse IP address: {}"
 msgstr "Níorbh fhéidir an seoladh IP a pharsáil: {}"
 
 #: weblate/utils/search.py:1117
-#, fuzzy
-#| msgid "Regular expression for e-mail address"
 msgid "Regular expression not supported for field {}"
-msgstr "Slonn rialta le haghaidh seoladh r-phoist"
+msgstr "Ní thacaítear le léiriú rialta don réimse {}"
 
 #: weblate/utils/search.py:1137
-#, fuzzy
-#| msgid "Unsupported lookup for {field}: {value}"
 msgid "Range not supported for field {}"
-msgstr "Cuardach gan tacaíocht do {field}: {value}"
+msgstr "Ní thacaítear leis an raon don réimse {}"
 
 #: weblate/utils/search.py:1170
 msgid "Mixed operators!"
@@ -22643,53 +22443,36 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Níorbh fhéidir an earráid chumraíochta a dhíbhe!"
 
 #: weblate/wladmin/views.py:784
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created."
-msgstr "Comhpháirt cruthaithe"
+msgstr "Spás oibre cruthaithe."
 
 #: weblate/workspaces/apps.py:12
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate workspaces"
-msgstr "Eochracha gréasáin"
+msgstr "Spásanna oibre Weblate"
 
 #: weblate/workspaces/forms.py:54
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Inherited component defaults"
-msgstr "Comhpháirt srianta"
+msgstr "Réamhshocruithe comhpháirte oidhreachta"
 
 #: weblate/workspaces/models.py:80
-#, fuzzy
-#| msgid "Display name"
 msgid "Workspace name"
-msgstr "Ainm taispeána"
+msgstr "Ainm an spáis oibre"
 
 #: weblate/workspaces/models.py:87
-#, fuzzy
-#| msgid "Language name"
 msgid "Managed name"
-msgstr "Ainm teanga"
+msgstr "Ainm bainistithe"
 
 #: weblate/workspaces/models.py:88
-#, fuzzy
-#| msgid "Lets Weblate update the \"X-Generator\" file header."
 msgid "Whether Weblate can update the name automatically."
-msgstr ""
-"Ligeann sé do Weblate ceanntásc an chomhaid \"X-Generator\" a nuashonrú."
+msgstr "An féidir le Weblate an t-ainm a nuashonrú go huathoibríoch."
 
 #: weblate/workspaces/models.py:102
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this workspace."
 msgstr ""
-"Comhaontú ceadúnais ranníocóra a chaithfear a cheadú sular féidir le "
-"húsáideoir an chomhpháirt seo a aistriú."
+"Comhaontú ceadúnais rannpháirtí a chaithfear a cheadú sula bhféadfaidh "
+"úsáideoir comhpháirteanna a aistriú sa spás oibre seo."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr ""
