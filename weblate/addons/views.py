@@ -13,6 +13,7 @@ from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
+from weblate.auth.decorators import check_management_access
 from weblate.trans.models import Category, Change, Component, Project
 from weblate.utils import messages
 from weblate.utils.views import PathViewMixin, get_paginator
@@ -48,9 +49,7 @@ class AddonList(PathViewMixin, ListView):
             self.kwargs["project_obj"] = self.path_object
             return Addon.objects.filter_project(self.path_object)
 
-        if not self.request.user.has_perm("management.addons"):
-            msg = "Can not manage add-ons"
-            raise PermissionDenied(msg)
+        check_management_access(self.request, "management.addons")
         return Addon.objects.filter_sitewide()
 
     def get_success_url(self):
@@ -229,14 +228,8 @@ class BaseAddonView(DetailView):
         if obj.project and not self.request.user.has_perm("project.edit", obj.project):
             msg = "Can not edit project"
             raise PermissionDenied(msg)
-        if (
-            obj.project is None
-            and obj.category is None
-            and obj.component is None
-            and not self.request.user.has_perm("management.addons")
-        ):
-            msg = "Can not manage add-ons"
-            raise PermissionDenied(msg)
+        if obj.project is None and obj.category is None and obj.component is None:
+            check_management_access(self.request, "management.addons")
         return obj
 
 
