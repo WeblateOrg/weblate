@@ -8,28 +8,22 @@ Weblate 2026.6
 * :doc:`/admin/announcements` can now also be managed via the :ref:`api` for specific project languages.
 * Team memberships can now be limited to selected languages for per-user translation permissions.
 * Added :ref:`cost estimates <cost-estimate>` to translation reports.
-* Added optional :ref:`OpenTelemetry tracing <collecting-errors>` support for backend requests and tasks.
-* Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` support for handled server errors.
-* Added :doc:`/admin/workspaces` to group related projects, with workspace project listings, workspace-scoped teams and project creation permissions, and billing details when available.
+* Added optional :ref:`OpenTelemetry tracing <collecting-errors>` for backend requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-errors>` for handled server errors.
+* Added :doc:`/admin/workspaces` to group related projects, with workspace project listings, workspace-scoped teams and project creation permissions, inherited workspace, project, and category defaults for selected component settings, and billing details when available.
 
 .. rubric:: Improvements
 
-* Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` to customize SAML security settings such as disabling ``requestedAuthnContext``.
-* Docker containers can now adjust :setting:`WEBLATE_FORMATS`.
-  Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
+* Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
 * :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
-* :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories.
-* :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
+* :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
 * :ref:`alerts` now include dismissible component diagnostics for community localization.
 * :ref:`screenshots` now support bulk assignment from search or image text recognition results, make finding strings in uploaded images easier to discover, show source string coverage counts, and include advanced listing search.
 * :ref:`sbom` release artifacts now include CISA 2025 document-level metadata.
-* Added :ref:`workspace-inherited-settings`.
-  Workspace, project, and category settings can define inherited defaults for selected component settings.
 
 .. rubric:: Bug fixes
 
-* Outbound URL validation now rejects additional non-public targets.
+* Outbound URL validation now rejects additional non-public targets (:ghsa:`vmfc-9982-2m45`).
 * Project-language :doc:`/admin/announcements` no longer appear across the whole project.
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Registration-attempt account activity e-mails now link to password reset to help users finish account setup.
