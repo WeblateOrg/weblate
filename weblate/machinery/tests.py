@@ -4936,8 +4936,8 @@ class WeblateTranslationTest(FixtureComponentTestCase):
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_matches_still_probe_fuzzy_lookup(self, adjust_threshold) -> None:
-        unit = Unit.objects.filter(translation__language_code="cs")[0]
-        other = unit.translation.unit_set.exclude(pk=unit.pk)[0]
+        unit = Unit.objects.get(translation__language_code="cs", position=1)
+        other = unit.translation.unit_set.exclude(pk=unit.pk).order_by("pk")[0]
         other.source = unit.source
         other.target = "Preklad"
         other.state = STATE_TRANSLATED
