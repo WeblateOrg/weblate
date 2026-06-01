@@ -30,17 +30,11 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 2026.6.1
 ----------------
 
-*Not yet released.*
-
-.. rubric:: New features
-
-.. rubric:: Improvements
+*Released on June 1st 2026.*
 
 .. rubric:: Bug fixes
 
 * Language-wide :doc:`/admin/announcements` no longer break language overview pages.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
