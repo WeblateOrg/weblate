@@ -138,6 +138,15 @@ following templates in the documents:
    Privacy policy document
 :file:`legal/documents/summary.html`
    Short overview of the terms of service and privacy policy
+:file:`legal/documents/contracts.html`
+   Subcontractor information
+
+The legal module embeds these templates inside Weblate and uses
+:file:`legal/documents/tos.html` for terms of service confirmation. This is
+separate from :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`, which are meant
+for linking to externally hosted legal documents from the footer when the
+legal module is not enabled. When the legal module is enabled, Weblate links to
+the internal legal pages by default.
 
 On changing the terms of service documents, please adjust
 :setting:`LEGAL_TOS_DATE` so that users are forced to agree with the updated
@@ -193,10 +202,40 @@ Installation
    :file:`/app/data/python/customize/templates/legal/documents`, see
    :ref:`docker-static-override`.
 
+   Recreate the Docker container after changing environment variables, for
+   example using :program:`docker compose up -d`. Restarting an existing
+   container does not apply changed environment values.
+
 Usage
 +++++
 
 After installation and editing, the legal documents are shown in the Weblate UI.
+
+The legal document templates are regular Django templates. Text is translated
+only when you use Django translation tags such as ``{% translate %}`` or
+``{% blocktranslate %}``; plain HTML text is shown as written.
+
+Legal pages and the sign-in and registration overview provide ``terms_url`` and
+``privacy_url`` variables for linking to the terms of service and privacy
+policy documents.
+
+By default, legal document wrappers use the ``tos`` CSS class. This class
+automatically numbers ``h2`` headings, paragraphs with ``item``, ``subitem``,
+or ``subsubitem`` classes, and top-level ordered list items. If your legal
+text already contains numbering, set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an
+empty string to disable this styling.
+
+Use :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide optional legal pages such as
+subcontractors from the legal menu. Hidden pages return a 404 response when
+requested directly. If ``terms`` or ``privacy`` is hidden, links using
+``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` or
+:setting:`PRIVACY_URL` when configured, otherwise the link is omitted.
+
+To use externally hosted legal documents with terms confirmation, configure
+:setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and ``privacy`` and set
+:setting:`LEGAL_URL` and :setting:`PRIVACY_URL`. The confirmation page then
+links to those external documents without requiring a
+:file:`legal/documents/tos.html` template override.
 
 .. _avatars:
 

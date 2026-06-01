@@ -19,7 +19,9 @@
     <div class="card-header">
       <h4 class="card-title">{% translate "Privacy Policy" %}</h4>
     </div>
-    <div class="card-body tos">{% include "legal/documents/privacy.html" %}</div>
+    <div class="card-body{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
+      {% include "legal/documents/privacy.html" %}
+    </div>
   </div>
 
 {% endblock content %}
