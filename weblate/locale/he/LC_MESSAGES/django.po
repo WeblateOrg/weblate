@@ -14,9 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-29 23:00-0500\n"
-"PO-Revision-Date: 2026-06-01 06:48+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-02 12:01+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
 "Language: he\n"
@@ -25,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.6\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1665,20 +1664,16 @@ msgid ""
 msgstr "מפרסם תרגומים לרשת מסירת תוכן (CDN) לשימוש בתרגום JavaScript או HTML."
 
 #: weblate/addons/cdn.py:269
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "קובצי תרגום"
+msgstr "CDN לקובצי תרגום"
 
 #: weblate/addons/cdn.py:271
 msgid "Publishes translation files into a content delivery network."
 msgstr "מפרסם קובצי תרגום לרשת מסירת תוכן (CDN)."
 
 #: weblate/addons/cdn.py:308
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "שפת הבסיס אינה זמינה לעריכה."
+msgstr "תוסף ה־CDN של קובצי התרגום לא יכול לפרסם weblate.js."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -1724,6 +1719,8 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"התוסף הזה משפיע על כל המיזם ועלול ליצור קובצי תרגום על פני מגוון רכיבים או "
+"מאגרים."
 
 #: weblate/addons/consistency.py:134
 msgid ""
@@ -21293,22 +21290,20 @@ msgid "ZIP file contains unsupported symbolic links."
 msgstr "הרכיב מכיל תצורה בלתי נתמכת."
 
 #: weblate/utils/zip.py:67 weblate/utils/zip.py:71
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ZIP file contains unsupported special files."
-msgstr "הרכיב מכיל תצורה בלתי נתמכת."
+msgstr "קובץ ה־ZIP מכיל קבצים מיוחדים בלתי נתמכים."
 
 #: weblate/utils/zip.py:85
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "קובץ ZIP שמכיל תרגומים"
+msgstr "קובץ ה־ZIP מכיל יותר מדי רשומות."
 
 #: weblate/utils/zip.py:95
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"קובץ ה־zip מכיל קבצים כפולים. נא לייצר גיבוי חדש עם גרסה עדכנית יותר של "
+"Weblate."
 
 #: weblate/utils/zip.py:116
 #, python-format
@@ -21316,10 +21311,12 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"קובץ ה־ZIP מכיל %(actual_size)s של נתונים לאחר הפריסה, מה שחורג מהמגבלה "
+"המוגדרת על סך %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "קובץ ה־ZIP מכיל רשומה דחוסה גדולה מדי."
 
 #: weblate/vcs/base.py:287
 msgid "This will push changes to the upstream repository."
@@ -21343,6 +21340,8 @@ msgid ""
 "Gerrit branch names cannot contain %(chars)s because Gerrit interprets them "
 "as review push options."
 msgstr ""
+"שמות ענפים ב־Gerrit לא יכולים להכיל %(chars)s כיוון ש־Gerrit מפענח אותם "
+"כאפשרויות דחיפת סקירה."
 
 #: weblate/vcs/git.py:970
 msgid "This will commit changes to the Subversion repository."
@@ -21397,10 +21396,9 @@ msgid "Unknown error"
 msgstr "שגיאה לא ידועה"
 
 #: weblate/vcs/git.py:2445
-#, fuzzy, python-format
-#| msgid "Could not parse file %(file)s: %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
-msgstr "לא ניתן לפענח את הקובץ %(file)s:‏ %(error)s"
+msgstr "לא ניתן למשוך מיזם מ־GitLab‏ (%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:2564
 msgid "Pagure merge request"
@@ -21730,16 +21728,12 @@ msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
 
 #: weblate/wladmin/views.py:784
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created."
-msgstr "רכיב נוצר"
+msgstr "נוצר מרחב עבודה."
 
 #: weblate/workspaces/apps.py:12
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate workspaces"
-msgstr "מפתחות Weblate"
+msgstr "מרחבי עבודה ב־Weblate"
 
 #: weblate/workspaces/forms.py:54
 #, fuzzy
@@ -21748,16 +21742,12 @@ msgid "Inherited component defaults"
 msgstr "רכיב מוגבל"
 
 #: weblate/workspaces/models.py:80
-#, fuzzy
-#| msgid "Resource update"
 msgid "Workspace name"
-msgstr "עדכון משאב"
+msgstr "שם מרחב העבודה"
 
 #: weblate/workspaces/models.py:87
-#, fuzzy
-#| msgid "Language name"
 msgid "Managed name"
-msgstr "שם השפה"
+msgstr "שם מנוהל"
 
 #: weblate/workspaces/models.py:88
 #, fuzzy
@@ -21767,14 +21757,10 @@ msgid "Whether Weblate can update the name automatically."
 msgstr "לאפשר ל־Weblate לעדכן את צוות התרגום („Language-Team”) בכותרות הקבצים."
 
 #: weblate/workspaces/models.py:102
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this workspace."
-msgstr "הסכם תרומה אותו יש לאשר לפני שאפשר יהיה לתרגם את הרכיב הזה."
+msgstr "הסכם תרומה אותו יש לאשר לפני שאפשר יהיה לתרגם רכיבים במרחב העבודה הזה."
 
 #~ msgid "This component set up is incomplete, as it lacks any translations."
 #~ msgstr "רכיב זה מוגדר חלקית כיוון שחסרים בו תרגומים כלשהם."
