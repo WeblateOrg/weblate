@@ -908,6 +908,10 @@ Generic settings
     :file:`/app/data/python/customize/templates/legal/documents`, see
     :ref:`docker-static-override`.
 
+    Recreate the Docker container after changing this environment variable,
+    for example using :program:`docker compose up -d`. Restarting an existing
+    container does not apply changed environment values.
+
     **Example:**
 
     .. code-block:: yaml
@@ -919,6 +923,35 @@ Generic settings
 
        * :ref:`legal`
        * :ref:`docker-static-override`
+
+.. envvar:: WEBLATE_LEGAL_DOCUMENT_CSS_CLASS
+
+    Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments with
+    :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
+
+    Set this to an empty string to disable the built-in legal document
+    numbering.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_DOCUMENT_CSS_CLASS: ""
+
+.. envvar:: WEBLATE_LEGAL_HIDDEN_DOCUMENTS
+
+    Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments with
+    :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
+
+    Provide a comma-separated list of legal document page identifiers.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_HIDDEN_DOCUMENTS: contracts
 
 .. envvar:: WEBLATE_PUBLIC_ENGAGE
 

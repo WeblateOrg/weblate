@@ -1324,6 +1324,64 @@ Defaults to -1.
    * :setting:`IP_BEHIND_REVERSE_PROXY`
    * :setting:`IP_PROXY_HEADER`
 
+.. setting:: LEGAL_DOCUMENT_CSS_CLASS
+
+LEGAL_DOCUMENT_CSS_CLASS
+------------------------
+
+.. versionadded:: 2026.7
+
+CSS class added to the wrappers around legal document templates.
+
+Defaults to ``"tos"``, which enables the built-in legal document numbering and
+spacing rules. Set this to an empty string to render legal documents without
+the built-in numbering.
+
+.. code-block:: python
+
+   LEGAL_DOCUMENT_CSS_CLASS = ""
+
+.. seealso::
+
+   :ref:`legal`
+
+.. setting:: LEGAL_HIDDEN_DOCUMENTS
+
+LEGAL_HIDDEN_DOCUMENTS
+----------------------
+
+.. versionadded:: 2026.7
+
+List of legal document page identifiers to hide from the legal module.
+
+The ``index`` page is always visible. Supported document identifiers are
+``terms``, ``cookies``, ``privacy``, and ``contracts``.
+
+Hidden pages are removed from the legal menu and return a 404 response when
+requested directly. Hiding ``terms`` or ``privacy`` is not recommended when
+terms of service confirmation is enabled.
+
+When ``terms`` or ``privacy`` is hidden, links exposed through the
+``terms_url`` and ``privacy_url`` template variables use :setting:`LEGAL_URL`
+and :setting:`PRIVACY_URL` as fallbacks when configured. If no fallback URL is
+configured, the related link is omitted.
+
+With terms of service confirmation enabled, hiding ``terms`` and setting
+:setting:`LEGAL_URL` makes the confirmation page link to the external terms
+document instead of embedding :file:`legal/documents/tos.html`.
+
+In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` and
+:setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the API
+schema terms link uses the same fallback.
+
+.. code-block:: python
+
+   LEGAL_HIDDEN_DOCUMENTS = ("contracts",)
+
+.. seealso::
+
+   :ref:`legal`
+
 .. setting:: LEGAL_TOS_DATE
 
 LEGAL_TOS_DATE
@@ -1353,8 +1411,9 @@ URL where your Weblate instance shows its legal documents.
 
 .. hint::
 
-    Useful if you host your legal documents outside Weblate for embedding them inside Weblate.
-    Please check :ref:`legal` for details.
+    Useful if you host your legal documents outside Weblate instead of using
+    the :ref:`legal` module. When the legal module is enabled, Weblate links to
+    the internal legal pages by default.
 
 Example:
 
@@ -1595,8 +1654,9 @@ URL where your Weblate instance shows its privacy policy.
 
 .. hint::
 
-    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
-    please check :ref:`legal` for details.
+    Useful if you host your privacy policy outside Weblate instead of using
+    the :ref:`legal` module. When the legal module is enabled, Weblate links to
+    the internal legal pages by default.
 
 Example:
 

@@ -5,10 +5,13 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
@@ -23,8 +26,27 @@ def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
     return get_doc_url(page, anchor, doc_version="latest")
 
 
+def get_legal_terms_url(
+    legal_hidden_documents: Sequence[str] | str = (), legal_url: str | None = None
+) -> str | None:
+    if isinstance(legal_hidden_documents, str):
+        hidden_documents = legal_hidden_documents.split(",")
+    else:
+        hidden_documents = legal_hidden_documents
+
+    for document in hidden_documents:
+        if document.strip() == "terms":
+            return legal_url
+    return "/legal/terms/"
+
+
 def get_spectacular_settings(
-    installed_apps: list[str], site_url: str, site_title: str
+    installed_apps: list[str],
+    site_url: str,
+    site_title: str,
+    *,
+    legal_hidden_documents: Sequence[str] | str = (),
+    legal_url: str | None = None,
 ) -> dict[str, Any]:
     settings = {
         # Use redoc from sidecar
@@ -202,7 +224,9 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         "WEBHOOKS": ["weblate.addons.webhooks.change_event_webhook"],
     }
     if "weblate.legal" in installed_apps:
-        settings["TOS"] = "/legal/terms/"
+        terms_url = get_legal_terms_url(legal_hidden_documents, legal_url)
+        if terms_url:
+            settings["TOS"] = terms_url
 
     return settings
 
