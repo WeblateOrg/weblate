@@ -871,7 +871,7 @@ def check_announcement_delete(
             if obj.project_id is not None:
                 obj = ProjectLanguage(obj.project, obj.language)
             else:
-                obj = obj.language
+                obj = None
         else:
             obj = obj.project
 
