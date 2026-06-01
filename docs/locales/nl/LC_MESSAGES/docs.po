@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-06-01 08:42+0000\n"
+"PO-Revision-Date: 2026-06-01 09:34+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -7470,30 +7470,38 @@ msgstr ""
 #: admin/config.rst:2249
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
 msgstr ""
+"Backend traceren inschakelen met OpenTelemetry. Standaard uitgeschakeld."
 
 #: admin/config.rst:2251
 msgid ""
 "Traces are exported only when this is enabled "
 "and :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured."
 msgstr ""
+"Sporen worden alleen geëxporteerd als dat is ingeschakeld en "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is geconfigureerd."
 
 #: admin/config.rst:2259
 msgid ""
 "OTLP HTTP traces endpoint for OpenTelemetry, for example ``https://"
 "collector.example.com/v1/traces``."
 msgstr ""
+"OTLP HTTP-sporen eindpunt voor OpenTelemetry, bijvoorbeeld ``https://"
+"collector.example.com/v1/traces``."
 
 #: admin/config.rst:2267
 msgid ""
 "Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an "
 "empty dictionary."
 msgstr ""
+"Aanvullende HTTP-headers voor het exportprogramma van OpenTelemetry OTLP. "
+"Standaard een leeg woordenboek."
 
 #: admin/config.rst:2275
 msgid ""
 "Additional OpenTelemetry resource attributes. Defaults to an empty "
 "dictionary."
 msgstr ""
+"Aanvullende bronattributen van OpenTelemetry. Standaard een leeg woordenboek."
 
 #: admin/config.rst:2282
 #, fuzzy
@@ -8712,6 +8720,14 @@ msgid ""
 "can differ from both repositories, so Weblate can keep failing to update "
 "even after the pull request was merged upstream."
 msgstr ""
+"Squashen bij het samenvoegen van wijzigingen van Weblate maakt het "
+"moeilijker om daaruit te herstellen. Een squash van samenvoegen maakt een "
+"nieuwe commit, in plaats van de individuele commits van Weblate te behouden "
+"in de geschiedenis van upstream. Weblate heeft nog steeds de originele "
+"commits in zijn lokale opslagruimte, en Git kan niet langer bewijzen dat "
+"upstream ze al bevat. Als het conflict ook handmatig werd opgelost, kan de "
+"bestandsinhoud tussen beide opslagruimten verschillen, dus kan Weblate falen "
+"bij het updaten, zelfs nadat het pull request upstream werd samengevoegd."
 
 #: admin/continuous.rst:285
 msgid ""
@@ -8722,6 +8738,13 @@ msgid ""
 "reapply`. Use :guilabel:`Reset and discard` only when upstream should fully "
 "replace Weblate's local changes."
 msgstr ""
+"Als upstream niet langer commits van Weblate bevat omdat ze gesquasht werden "
+"samengevoegd, zou het bijwerken van de opslagruimte niet genoeg kunnen zijn. "
+"Gebruik :guilabel:`Herstellen en opnieuw toepassen` uit :guilabel:`Onderhoud "
+"opslagruimte` om Weblate te herstellen naar upstream terwijl de vertalingen "
+"worden behouden; bekijk :ref:`manage-vcs-reset-reapply`. Gebruik "
+":guilabel:`Herstellen en negeren` alleen als upstream volledig de lokale "
+"wijzigingen van Weblate zou moeten vervangen."
 
 #: admin/continuous.rst:292
 msgid ""
@@ -8758,6 +8781,10 @@ msgid ""
 "regular merge commit and push that result upstream. Do not squash merge the "
 "conflict-resolution pull request."
 msgstr ""
+"Bij het oplossen van conflicten buiten Weblate, voeg de commits van Weblate "
+"samen met een normale commit voor samenvoegen en push dat resultaat naar "
+"upstream. Maak geen squash-samenvoegen voor het pull request van het "
+"oplossen van het conflict."
 
 #: admin/continuous.rst:304
 msgid ""
@@ -11651,7 +11678,7 @@ msgstr ""
 
 #: admin/install.rst:1754
 msgid "Google Cloud Error Reporting"
-msgstr ""
+msgstr "Google Cloud Error Reporting"
 
 #: admin/install.rst:1756
 msgid ""
@@ -11660,6 +11687,10 @@ msgid ""
 "``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
+"Weblate kan afgehandelde serverfouten rapporteren naar `Google Cloud Error "
+"Reporting <https://cloud.google.com/error-reporting/>`_. Installeer Weblate "
+"extra met de ``google-errors`` en configureer "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 
 #: admin/install.rst:1766
 msgid ""
@@ -11668,10 +11699,14 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
+"Weblate rapporteert automatisch fouten in de service ``weblate`` en gebruikt "
+"de huidige versie van Weblate of Git-revisie als de gerapporteerde versie. "
+"Deze waarden kunnen worden overschreven door ``service`` of ``version`` in "
+"te stellen in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 
 #: admin/install.rst:1772
 msgid "OpenTelemetry"
-msgstr ""
+msgstr "OpenTelemetry"
 
 #: admin/install.rst:1774
 msgid ""
@@ -11679,6 +11714,9 @@ msgid ""
 "opentelemetry.io/>`_. It uses OTLP over HTTP and can send traces to an "
 "OpenTelemetry Collector or a compatible vendor endpoint."
 msgstr ""
+"Weblate kan sporen van backend exporteren met `OpenTelemetry <https://"
+"opentelemetry.io/>`_. Het gebruikt OTLP over HTTP en kan sporen verzenden "
+"naar een OpenTelemetry Collector of een compatibel eindpunt van ene verkoper."
 
 #: admin/install.rst:1784
 msgid ""
@@ -11687,6 +11725,11 @@ msgid ""
 "using :setting:`OPENTELEMETRY_ENABLED`, :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, "
 "and :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 msgstr ""
+"De integratie traceert verzoeken van Django, taken van Celery, Redis, "
+"uitgaande HTTP-verzoeken, aanroepen van database en Weblate-specifieke "
+"spans. Configureer het met :setting:`OPENTELEMETRY_ENABLED`, "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` en "
+":setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install.rst:1793
 msgid "Rollbar"
@@ -13863,17 +13906,23 @@ msgstr "Stel het volgende in om ondersteuning voor Rollbar in te schakelen:"
 #: admin/install/docker.rst:2128
 msgid "Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``."
 msgstr ""
+"Schakelt :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in, standaard is ``False``."
 
 #: admin/install/docker.rst:2132
 msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
+"Google Cloud-project waar fouten moeten worden gerapporteerd. Indien "
+"weggelaten, gebruikt de cliënt van Google de standaardinloggegevens voor de "
+"toepassing om het project op te sporen."
 
 #: admin/install/docker.rst:2137
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
 msgstr ""
+"Servicenaam die moet worden gebruikt in Google Cloud Error Reporting, "
+"standaard is ``weblate``."
 
 #: admin/install/docker.rst:2139
 #, fuzzy
@@ -13883,7 +13932,7 @@ msgstr "Stel het volgende in om ondersteuning voor Sentry in te schakelen:"
 
 #: admin/install/docker.rst:2143
 msgid "Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``."
-msgstr ""
+msgstr "Schakelt :setting:`OPENTELEMETRY_ENABLED` in, standaard is ``False``."
 
 #: admin/install/docker.rst:2147
 #, fuzzy
@@ -17474,6 +17523,8 @@ msgid ""
 "The user has :guilabel:`Add projects to workspace` permission for the "
 "workspace covered by the billing plan."
 msgstr ""
+"De gebruiker heeft het recht :guilabel:`Projecten aan werkruimte toevoegen` "
+"voor de werkruimte die wordt gedekt door de facturatie."
 
 #: admin/optionals.rst:119
 msgid ""
@@ -17484,6 +17535,13 @@ msgid ""
 "notification e-mails are sent to these users. See :ref:`workspace-billing` "
 "for details."
 msgstr ""
+"Bij het maken van een project is de gebruiker in staat te kiezen welke "
+"werkruimte het project zou moeten bevatten. Projecten worden gemaakt in een "
+"werkruimte met tellen voor factureren tegen de facturatie die is toegewezen "
+"voor die werkruimte. Gebruikers met het recht :guilabel:`Instellingen "
+"werkruimte bewerken` kunnen de facturatie bekijken; e-mails voor notificatie "
+"van facturen worden naar die gebruikers verzonden. Bekijk :ref:`workspace-"
+"billing` voor details."
 
 #: admin/optionals.rst:129
 msgid "Legal module"
@@ -18818,6 +18876,14 @@ msgid ""
 "screenshot management interface; use OCR or source string search there to "
 "assign them in bulk."
 msgstr ""
+"Voor projecten van Android die metadata van Fastlane gebruiken, kan een "
+"masker van een schermafdruk voor de brontaal wijzen naar de map voor een "
+"schermafdruk van de metadata, bijvoorbeeld ``fastlane/metadata/android/en-US/"
+"images/phoneScreenshots/*.png``. Weblate zal overeenkomende schermafdrukken "
+"herkennen bij het bijwerken van de opslagruimte. De herkende schermafdrukken "
+"moeten nog steeds worden geassocieerd met brontekenreeksen in de interface "
+"voor het beheren van schermafdrukken; gebruik daar OCR of zoeken van "
+"brontekenreeksen om ze in bulk toe te wijzen."
 
 #: admin/projects.rst:566 formats/android.rst:80 formats/apple.rst:33
 #: formats/appstore.rst:33 formats/arb.rst:36 formats/asciidoc.rst:32
@@ -20691,6 +20757,8 @@ msgid ""
 "The screenshot listing summarizes uploaded screenshots and lets you search "
 "or filter them:"
 msgstr ""
+"De lijst met schermafdrukken vermeldt geüploade schermafdrukken en laat u "
+"erin zoeken of ze filteren:"
 
 #: admin/translating.rst:158
 msgid ""
@@ -20710,6 +20778,14 @@ msgid ""
 "screenshots, or ``repository:fastlane`` to review screenshots discovered "
 "from repository paths."
 msgstr ""
+"Gebruik het zoeken in de lijst met schermafdrukken om schermafdrukken te "
+"vinden op naam, pad naar de opslagruimte, taal, toegewezen brontekenreeks, "
+"context brontekenreeks of locatie van de brontekenreeks. De zoekactie "
+"accepteert platte tekst alsook geavanceerde query's voor schermafdrukken, "
+"bekijk :ref:`search-screenshots`. Gebruik bijvoorbeeld ``NOT has:string`` om "
+"niet toegewezen schermafdrukken te zoeken, ``has:string`` om toegewezen "
+"schermafdrukken te zoeken, of ``repository:fastlane`` om schermafdrukken te "
+"bekijken die zijn herkend in paden naar de opslagruimte."
 
 #: admin/translating.rst:170
 msgid ""
@@ -20781,18 +20857,21 @@ msgstr ""
 
 #: admin/translating.rst:198
 msgid "For application projects, a practical workflow is:"
-msgstr ""
+msgstr "Voor toepassingsprojecten is een practische werkstroom:"
 
 #: admin/translating.rst:200
 msgid ""
 "Capture source-language screenshots for the most visible user interface."
 msgstr ""
+"Brontaal-schermafdrukken vastleggen voor de zichtbaarste gebruikersinterface."
 
 #: admin/translating.rst:201
 msgid ""
 "Store them in a stable repository path, for example below :file:`fastlane/"
 "metadata/android/en-US/images/phoneScreenshots/`."
 msgstr ""
+"Sla ze op in een stabiel pad naar de opslagruimte, bijvoorbeeld onder "
+":file:`fastlane/metadata/android/en-US/images/phoneScreenshots/`."
 
 #: admin/translating.rst:203
 #, fuzzy
@@ -20806,6 +20885,8 @@ msgid ""
 "Update the component repository so Weblate discovers or refreshes the "
 "screenshots."
 msgstr ""
+"Werk de opslagruimte voor het onderdeel bij, zodat Weblate de "
+"schermafdrukken herkent of vernieuwt."
 
 #: admin/translating.rst:206
 msgid ""
@@ -20813,6 +20894,10 @@ msgid ""
 "strings, and review the :guilabel:`Source strings without screenshots` "
 "counter for important strings still missing visual context."
 msgstr ""
+"Gebruik OCR of zoek naar brontekenreeksen om schermafdrukken toe te wijzen "
+"aan de overeenkomende brontekenreeksen, en bekijk de teller voor "
+":guilabel:`Brontekenreeksen zonder schermafdruk` voor belangrijke "
+"tekenreeksen die nog steeds visuele context missen."
 
 #: admin/translating.rst:217
 msgid "Managing screenshots through the API"
@@ -42149,10 +42234,8 @@ msgstr ""
 "report_source_bugs` instelt."
 
 #: devel/community.rst:11
-#, fuzzy
-#| msgid "Component Lists"
 msgid "Component diagnostics"
-msgstr "Onderdelenlijsten"
+msgstr "Onderdeel-diagnostiek"
 
 #: devel/community.rst:13
 #, fuzzy
@@ -63585,10 +63668,8 @@ msgid "Delete announcements"
 msgstr "Aankondigingen verwijderen"
 
 #: snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Brontekenreeksen aanpassen"
+msgstr "Instellingen werkruimte bewerken"
 
 #: snippets/permissions.rst:327 snippets/permissions.rst:329
 #: snippets/permissions.rst:333
@@ -63599,7 +63680,7 @@ msgstr ":guilabel:`Beheer`"
 
 #: snippets/permissions.rst:329
 msgid "Add projects to workspace"
-msgstr ""
+msgstr "Projecten aan werkruimte toevoegen"
 
 #: snippets/permissions.rst:331
 #, fuzzy
@@ -63608,10 +63689,8 @@ msgid ":guilabel:`Add workspace projects`"
 msgstr ":guilabel:`Nieuwe projecten toevoegen`"
 
 #: snippets/permissions.rst:333
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Projecttoegang beheren"
+msgstr "Toegang tot werkruimte beheren"
 
 #: snippets/permissions.rst:335
 msgid "Site wide privileges"
@@ -63631,10 +63710,8 @@ msgid ":guilabel:`Add new projects`"
 msgstr ":guilabel:`Nieuwe projecten toevoegen`"
 
 #: snippets/permissions.rst:339
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add new workspaces"
-msgstr "Projecten toevoegen"
+msgstr "Nieuwe werkruimten toevoegen"
 
 #: snippets/permissions.rst:341
 msgid "Add language definitions"
