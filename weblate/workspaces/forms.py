@@ -9,7 +9,7 @@ from crispy_forms.layout import Fieldset, Layout
 from django import forms
 from django.utils.translation import gettext
 
-from weblate.trans.forms import FieldDocsMixin
+from weblate.trans.forms import FieldDocsMixin, setup_message_setting_site_defaults
 from weblate.utils.forms import SearchableSelect, SortedSelect
 from weblate.workspaces.models import Workspace
 
@@ -40,6 +40,7 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        setup_message_setting_site_defaults(self.fields)
         self._missing_fields: set[str] = set()
         if self.is_bound and self.instance.pk:
             for field_name, field in self.fields.items():

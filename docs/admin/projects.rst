@@ -416,6 +416,11 @@ The default values can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`,
 :setting:`DEFAULT_PULL_MESSAGE`.
 
+The built-in defaults follow Conventional Commits and include
+Weblate links where available. Use :guilabel:`Restore site default` next to a
+message editor to restore the current installation default for that message;
+for inherited values, this also disables inheritance for that message.
+
 .. seealso::
 
    * :ref:`workspace-inherited-settings`
@@ -1026,6 +1031,11 @@ The default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
 :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`,
 :setting:`DEFAULT_PULL_MESSAGE`.
+
+The built-in defaults follow Conventional Commits and include
+Weblate links where available. Use :guilabel:`Restore site default` next to a
+message editor to restore the current installation default for that message;
+for inherited values, this also disables inheritance for that message.
 
 .. seealso::
 

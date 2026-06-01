@@ -707,6 +707,12 @@ DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, DEFAULT_DELE
 
 Default commit messages for different operations, please check :ref:`component` for details.
 
+The built-in defaults follow Conventional Commits and include
+Weblate links where available. Changing these settings affects newly created
+defaults; existing message templates can be reset in the settings forms with
+:guilabel:`Restore site default`. For inherited values, restoring the site
+default also disables inheritance for that message.
+
 
 .. seealso::
 
@@ -858,6 +864,9 @@ DEFAULT_PULL_MESSAGE
 --------------------
 
 Configures the default title and message for pull requests.
+
+The built-in default follows Conventional Commits and includes
+Weblate links and translation status.
 
 .. setting:: ENABLE_AVATARS
 
