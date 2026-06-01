@@ -9,6 +9,8 @@ Weblate 2026.6.1
 
 .. rubric:: Bug fixes
 
+* Language-wide :doc:`/admin/announcements` no longer break language overview pages.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
