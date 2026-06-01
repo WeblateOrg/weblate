@@ -37,6 +37,7 @@ from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
     PluralFormsMismatchError,
+    is_expected_parse_error,
 )
 from weblate.trans.file_format_params import (
     GettextLastTranslator,
@@ -496,9 +497,12 @@ class Translation(
         except FileParseError:
             raise
         except Exception as exc:
-            report_error(
-                "Translation parse error", project=self.component.project, print_tb=True
-            )
+            if not is_expected_parse_error(exc):
+                report_error(
+                    "Translation parse error",
+                    project=self.component.project,
+                    print_tb=True,
+                )
             self.component.handle_parse_error(exc, self)
             raise
 
@@ -723,9 +727,11 @@ class Translation(
                     user=user, author=author
                 )
             except FileParseError as error:
-                report_error(
-                    "Could not parse file on update", project=self.component.project
-                )
+                if not is_expected_parse_error(error):
+                    report_error(
+                        "Could not parse file on update",
+                        project=self.component.project,
+                    )
                 self.log_warning("skipping update due to parse error: %s", error)
                 self.store_update_changes()
                 return
@@ -905,9 +911,10 @@ class Translation(
         try:
             store = self.store
         except FileParseError as error:
-            report_error(
-                "Could not parse file on commit", project=self.component.project
-            )
+            if not is_expected_parse_error(error):
+                report_error(
+                    "Could not parse file on commit", project=self.component.project
+                )
             self.log_error("skipping commit due to error: %s", error)
             return False
 

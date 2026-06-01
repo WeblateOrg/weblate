@@ -22,6 +22,7 @@ from unittest.mock import Mock, patch
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from lxml import etree
+from translate.storage.base import ParseError
 from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
@@ -96,6 +97,36 @@ if TYPE_CHECKING:
         FileFormatParams,
     )
     from weblate.trans.models import Unit
+
+
+class BaseValidationErrorReportingTest(SimpleTestCase):
+    def test_translate_parse_error_is_not_reported(self) -> None:
+        errors: list[Exception] = []
+
+        with (
+            patch.object(PoFormat, "__init__", side_effect=ParseError("invalid")),
+            patch("weblate.formats.ttkit.report_error") as report_error,
+        ):
+            self.assertFalse(
+                PoFormat.is_valid_base_for_new("messages.po", True, errors)
+            )
+
+        self.assertEqual(len(errors), 1)
+        report_error.assert_not_called()
+
+    def test_unexpected_error_is_reported(self) -> None:
+        errors: list[Exception] = []
+
+        with (
+            patch.object(PoFormat, "__init__", side_effect=ValueError("unexpected")),
+            patch("weblate.formats.ttkit.report_error") as report_error,
+        ):
+            self.assertFalse(
+                PoFormat.is_valid_base_for_new("messages.po", True, errors)
+            )
+
+        self.assertEqual(len(errors), 1)
+        report_error.assert_called_once_with("File-parsing error")
 
 
 class DummyBilingualUpdate(BilingualUpdateMixin):

@@ -45,6 +45,7 @@ from translate.storage.xml_extract.extract import (
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import BasePoUnit, TTKitUnit, XliffUnit
+from weblate.trans.exceptions import is_expected_parse_error
 from weblate.trans.file_format_params import (
     LineMaxLength,
     MdExtractCodeBlocks,
@@ -211,7 +212,8 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error("File-parsing error")
+            if not is_expected_parse_error(exception):
+                report_error("File-parsing error")
             return False
         return True
 
