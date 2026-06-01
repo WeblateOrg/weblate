@@ -11,7 +11,7 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, cast
 
 import jsonschema
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -72,6 +72,7 @@ from weblate.trans.file_format_params import (
 )
 from weblate.trans.filter import FILTERS
 from weblate.trans.inherited_settings import (
+    COMPONENT_MESSAGE_SETTINGS,
     INHERITABLE_COMPONENT_FLAGS,
     INHERITABLE_COMPONENT_SETTINGS,
     get_inherit_field_name,
@@ -150,6 +151,12 @@ if TYPE_CHECKING:
     )
     from weblate.trans.models.translation import NewUnitParams
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+
+
+class SiteDefaultField(Protocol):
+    site_default: bool
+    widget: forms.Widget
+
 
 BUTTON_TEMPLATE = """
 <button type="button" class="btn btn-outline-primary {0}" title="{1}" {2}>{3}</button>
@@ -1821,6 +1828,7 @@ class InheritedSettingsFormMixin:
         )
 
     def setup_inherited_settings(self, parent_name: str, *, has_parent: bool) -> None:
+        setup_message_setting_site_defaults(self.fields)
         self._inherited_setting_fields = set()
         for field_name in INHERITABLE_COMPONENT_SETTINGS:
             inherit_field = get_inherit_field_name(field_name)
@@ -1882,6 +1890,16 @@ class InheritedSettingsFormMixin:
             super()._post_clean()
         finally:
             self.restore_inherited_values()
+
+
+def setup_message_setting_site_defaults(fields: dict[str, forms.Field]) -> None:
+    for field_name in COMPONENT_MESSAGE_SETTINGS:
+        if field_name not in fields:
+            continue
+        setting_name = f"DEFAULT_{field_name.upper()}"
+        field = cast("SiteDefaultField", fields[field_name])
+        field.site_default = True
+        field.widget.attrs["data-site-default-value"] = getattr(settings, setting_name)
 
 
 class SelectChecksWidget(SortedSelectMultiple):

@@ -8,6 +8,7 @@ Weblate 2026.7
 .. rubric:: Improvements
 
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
+* Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 
 .. rubric:: Bug fixes
 
