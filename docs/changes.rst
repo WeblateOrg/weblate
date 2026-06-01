@@ -1,6 +1,5 @@
 Weblate 2026.7
 --------------
-----------------
 
 *Not yet released.*
 
@@ -13,6 +12,8 @@ Weblate 2026.7
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
 
 .. rubric:: Bug fixes
+
+* Webhook target fallback matching is now stricter and reported in component diagnostics.
 
 .. rubric:: Compatibility
 
