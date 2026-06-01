@@ -19,13 +19,14 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.translation import activate
+from translate.storage.base import ParseError
 from translate.storage.fluent import FluentContentError
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.exceptions import SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
@@ -404,6 +405,40 @@ class ProjectTest(RepoTestCase):
 
 class TranslationTest(RepoTestCase):
     """Translation testing."""
+
+    def test_store_translate_parse_error_is_not_reported(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+
+        with (
+            patch.object(translation, "load_store", side_effect=ParseError("invalid")),
+            patch("weblate.trans.models.translation.report_error") as report_error,
+            self.assertRaises(FileParseError),
+        ):
+            # pylint: disable-next=pointless-statement
+            translation.store  # noqa: B018
+
+        report_error.assert_not_called()
+
+    def test_store_unexpected_error_is_reported(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+
+        with (
+            patch.object(
+                translation, "load_store", side_effect=ValueError("unexpected")
+            ),
+            patch("weblate.trans.models.translation.report_error") as report_error,
+            self.assertRaises(FileParseError),
+        ):
+            # pylint: disable-next=pointless-statement
+            translation.store  # noqa: B018
+
+        report_error.assert_called_once_with(
+            "Translation parse error",
+            project=component.project,
+            print_tb=True,
+        )
 
     def test_basic(self) -> None:
         component = self.create_component()
