@@ -1,7 +1,7 @@
 Weblate 2026.6
 --------------
 
-*Not yet released.*
+*Released on June 1st 2026.*
 
 .. rubric:: New features
 
@@ -43,8 +43,6 @@ Weblate 2026.6
 * Conflicting repository setup alerts now allow same-branch direct pushes.
 * Obsolete cleanup schedules are now removed from Celery beat during upgrade.
 * Translation pages for workspace projects no longer crash when workspace fields are deferred.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
