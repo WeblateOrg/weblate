@@ -9,7 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectElement =
     profileNotificationSettings?.querySelector("#id_watched");
 
-  if (container === null || container === undefined) {
+  if (
+    container === null ||
+    container === undefined ||
+    selectElement === null ||
+    selectElement === undefined
+  ) {
     return;
   }
 
@@ -35,6 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   function makeElementsLinkLike(parentElement) {
     const slugs = JSON.parse(selectElement.getAttribute("data-project-slugs"));
+    if (slugs === undefined || slugs === null) {
+      return;
+    }
     for (const element of parentElement.querySelectorAll("a")) {
       const dataValue = element.getAttribute("data-value");
       if (dataValue) {
