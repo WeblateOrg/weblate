@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-06-01 08:10+0000\n"
+"PO-Revision-Date: 2026-06-02 12:01+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -1925,9 +1925,9 @@ msgid ""
 "contributions users make."
 msgstr ""
 "啟用單獨的後端非常簡單，只需新增一個條目至設"
-"定:setting:`django:AUTHENTICATION_BACKENDS` 即可(可能還需為一個給定的驗證方式"
-"新增金鑰) 請注意，一些後端預設不提供使用者電子郵件，您必須明確地請求，否則"
-"Weblate無法將功勞歸於作出貢獻的使用者。"
+"定:setting:`django:AUTHENTICATION_BACKENDS` 即可(可能還需為一個給定的身分驗證"
+"方式新增金鑰) 請注意，一些後端預設不提供使用者電子郵件，您必須明確地請求，否"
+"則Weblate無法將功勞歸於作出貢獻的使用者。"
 
 #: admin/auth.rst:64
 msgid ""
@@ -1946,7 +1946,7 @@ msgstr ":doc:`Python Social Auth 後端 <psa:backends/index>`"
 
 #: admin/auth.rst:73
 msgid "OpenID authentication"
-msgstr "OpenID 驗證"
+msgstr "OpenID 身分驗證"
 
 #: admin/auth.rst:75
 msgid ""
@@ -1959,13 +1959,13 @@ msgstr ""
 
 #: admin/auth.rst:96
 msgid "GitHub authentication"
-msgstr "GitHub 驗證"
+msgstr "GitHub 身分驗證"
 
 #: admin/auth.rst:98
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
-msgstr "需要在 GitHub 上註冊一個 OAuth 應用，然後告訴 Weblate 所有的 secrets："
+msgstr "您需要在 GitHub 上註冊 OAuth 應用程式，並將其全部秘密傳遞給 Weblate："
 
 #: admin/auth.rst:114
 #, fuzzy
@@ -2039,7 +2039,7 @@ msgstr ""
 
 #: admin/auth.rst:170
 msgid "Bitbucket authentication"
-msgstr "Butbucket 驗證"
+msgstr "Bitbucket 身分驗證"
 
 #: admin/auth.rst:172
 msgid ""
@@ -2052,16 +2052,12 @@ msgid "Google OAuth 2"
 msgstr "Google OAuth 2"
 
 #: admin/auth.rst:199
-#, fuzzy
-#| msgid ""
-#| "To use Google OAuth 2, you need to register an application on <https://"
-#| "console.developers.google.com/> and enable the Google+ API."
 msgid ""
 "To use Google OAuth 2, you need to register an OAuth application at <https://"
 "console.developers.google.com/>."
 msgstr ""
-"為了使用 Google OAuth 2，可以在 <https://console.developers.google.com/> 上註"
-"冊應用，並允許 Google+ API。"
+"要使用 Google OAuth 2，您必須在 <https://console.developers.google.com/> 註"
+"冊 OAuth 應用程式。"
 
 #: admin/auth.rst:202
 msgid ""
@@ -2936,6 +2932,7 @@ msgstr ""
 "區。否則，備份檔案將在其所在的容器重啟時被 Docker 丟棄。"
 
 #: admin/backup.rst:140
+#, fuzzy
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
@@ -3093,6 +3090,7 @@ msgid ""
 msgstr "將整個儲存的資料目錄複製到 :setting:`DATA_DIR` 所配置的位置。"
 
 #: admin/backup.rst:205
+#, fuzzy
 msgid ""
 "When using Docker container place the data into the data volume, "
 "see :ref:`docker-volume`."
@@ -3139,11 +3137,11 @@ msgstr ""
 
 #: admin/backup.rst:245
 msgid "Stop the services which can write to the database or data volume:"
-msgstr ""
+msgstr "停止可以寫入資料庫或資料儲存區的服務："
 
 #: admin/backup.rst:251
 msgid "Recreate the PostgreSQL volume."
-msgstr "重新建立 PostgreSQL volume。"
+msgstr "重新建立 PostgreSQL 儲存區。"
 
 #: admin/backup.rst:259
 msgid ""
@@ -3195,7 +3193,7 @@ msgstr "手動備份"
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
-msgstr "取決於您想儲存什麼， Weblate 儲存的型別資料會備份在各自的位置。"
+msgstr ""
 
 #: admin/backup.rst:315
 msgid ""
@@ -5507,7 +5505,7 @@ msgstr ""
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
-msgstr "Docker 容器為這個使用了一個單獨的捲，請參閱 :ref:`docker-volume`。"
+msgstr "Docker 容器為此使用單獨的儲存區，請參閱 :ref:`docker-volume`。"
 
 #: admin/config.rst:441 admin/config.rst:593
 msgid "The following subdirectories usually exist:"
@@ -11567,6 +11565,9 @@ msgid ""
 "common older setup mounted the database volume at ``/var/lib/postgresql/"
 "data``, while PostgreSQL 18 now uses ``/var/lib/postgresql`` by default."
 msgstr ""
+"PostgreSQL 18 變更了容器中的預設資料目錄。常見的舊版設定是將資料庫儲存區掛載"
+"至 ``/var/lib/postgresql/data``，而 PostgreSQL 18 現在預設使用 ``/var/lib/"
+"postgresql``。"
 
 #: admin/install/docker.rst:271
 msgid ""
@@ -20568,7 +20569,7 @@ msgstr ""
 msgid ""
 "Added a :ref:`backup-management-command` to run configured backup services "
 "synchronously."
-msgstr ""
+msgstr "新增了 :ref:`backup-management-command` 以同步執行配置的備份服務。"
 
 #: changes.rst:69
 msgid ""
@@ -20638,12 +20639,16 @@ msgid ""
 "Added provider-oriented code hosting documentation and Gettext-"
 "style :ref:`plural-formula` guidance."
 msgstr ""
+"新增了供應商導向的程式碼託管說明文件與 Gettext 風格 :ref:`plural-formula` 指"
+"南。"
 
 #: changes.rst:83
 msgid ""
 "The Python wheel no longer ships source translation catalogs, test files, or "
 "deployment example files, reducing the installed package size."
 msgstr ""
+"Python wheel 不再隨附來源翻譯目錄、測試檔案或部署範例檔案，以降低安裝套件大小"
+"。"
 
 #: changes.rst:84
 msgid ""
@@ -20729,7 +20734,7 @@ msgstr ""
 msgid ""
 ":ref:`backup` logs no longer include OpenSSH post-quantum key exchange "
 "warnings from remote Borg connections."
-msgstr ""
+msgstr ":ref:`backup` 紀錄不再包含來自遠端 Borg 連線的 OpenSSH 後量子金鑰交換警告。"
 
 #: changes.rst:101
 msgid ""
@@ -20753,13 +20758,15 @@ msgstr ""
 msgid ""
 "The ``dos-eol`` flag is no longer supported. Use the "
 "``dos_eol`` :ref:`file_format_params` instead."
-msgstr ""
+msgstr "不再支援 ``dos-eol`` 旗標。請改為使用 ``dos_eol`` :ref:`file_format_params`。"
 
 #: changes.rst:108
 msgid ""
 "The registration CAPTCHA now uses the ALTCHA widget v3 protocol with "
 "Argon2id proof-of-work."
 msgstr ""
+"註冊流程的 CAPTCHA 現在使用 ALTCHA widget v3 協定並搭配 Argon2id 工作量證明機"
+"制。"
 
 #: changes.rst:109
 msgid ""
@@ -20785,6 +20792,9 @@ msgid ""
 "by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly."
 msgstr ""
+"``ALTCHA_MAX_NUMBER`` 設定已被 :setting:`ALTCHA_COST` 、 "
+":setting:`ALTCHA_MEMORY_COST` 與 :setting:`ALTCHA_PARALLELISM` 取代；請相應地"
+"調整您的設定。"
 
 #: changes.rst:118
 msgid ""
@@ -20833,10 +20843,8 @@ msgid "Code contributions"
 msgstr "程式碼貢獻"
 
 #: changes/contributors/2026.5.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
 
 #: changes/contributors/2026.5.rst:7 changes/contributors/5.10.1.rst:7
 #: changes/contributors/5.10.2.rst:7 changes/contributors/5.10.3.rst:7
@@ -20871,6 +20879,17 @@ msgid ""
 "Groskamp, MrZwave, hoanghuy309, Jim Spentzos, Adam Havránek, Ricky Tigg, "
 "Christian Wia, ButterflyOfFire"
 msgstr ""
+"이정희, Andrei Stepanov, Milo Ivir, ssantos, 大王叫我来巡山, Kaya Zeren, "
+"reducedradius, Peter Vančo, amano, Michal Čihař, Anucha Hlownonkor, Yaron "
+"Shahrabani, UDP, Максим Горпиніч, Agnieszka C, VfBFan, Blueberry, ojppe, "
+"Francisco Serrador, Aindriú Mac Giolla Eoin, Fjuro, Любомир Василев, Frank "
+"Paul Silye, Temuri Doghonadze, Yuri Chornoivan, Sergio Granadoz, Sketch6580, "
+"Hyeonjeong Lee, 為什麼不加空格, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), justcontributor, "
+"Kristijan \\\"Fremen\\\" Velkovski, Pierfrancesco Passerini, Besnik Bleta, "
+"Arif Budiman, Andi Chandler, jernejp21, Manuela Silva, Sjur N Moshagen, "
+"Abduqadir Abliz, Laitei, Кирилл Ванин, Matthaiks, Nozomu Matsui, Dick "
+"Groskamp, MrZwave, hoanghuy309, Jim Spentzos, Adam Havránek, Ricky Tigg, "
+"Christian Wia, ButterflyOfFire"
 
 #: changes/contributors/2026.5.rst:12 changes/contributors/5.10.1.rst:12
 #: changes/contributors/5.10.2.rst:12 changes/contributors/5.10.3.rst:12
@@ -20894,13 +20913,11 @@ msgstr ""
 #: changes/contributors/5.9.1.rst:7 changes/contributors/5.9.2.rst:12
 #: changes/contributors/5.9.rst:11
 msgid "Documentation contributions"
-msgstr "文件貢獻"
+msgstr "說明文件貢獻"
 
 #: changes/contributors/2026.5.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, AliceVisek"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, AliceVisek"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -20908,6 +20925,8 @@ msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
 "Malte L., StoyanDimitrov, 49"
 msgstr ""
+"Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
+"Malte L., StoyanDimitrov, 49"
 
 #: changes/contributors/5.10.rst:10
 msgid ""
@@ -20928,15 +20947,31 @@ msgid ""
 "qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
 "leyakid803, 김인수, bovirus"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus"
 
 #: changes/contributors/5.10.1.rst:15 changes/contributors/5.10.2.rst:15
 #: changes/contributors/5.10.3.rst:15 changes/contributors/5.10.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, gersona, Mehdi El Oualy"
 msgid ""
 "Michal Čihař, Rafael Fontenelle, AliceVisek, Gersona, StoyanDimitrov, Mehdi "
 "El Oualy"
-msgstr "Michal Čihař, gersona, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, Rafael Fontenelle, AliceVisek, Gersona, StoyanDimitrov, Mehdi "
+"El Oualy"
 
 #: changes/contributors/5.10.1.rst:10
 msgid ""
@@ -20959,6 +20994,24 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 
 #: changes/contributors/5.10.2.rst:10
 msgid ""
@@ -20981,6 +21034,24 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 
 #: changes/contributors/5.10.3.rst:10
 msgid ""
@@ -21004,6 +21075,25 @@ msgid ""
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
 "í Felli, Basheer Radman, dedakir923, xuars"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
+"í Felli, Basheer Radman, dedakir923, xuars"
 
 #: changes/contributors/5.10.4.rst:5 changes/contributors/5.10.4.rst:15
 #: changes/contributors/5.11.2.rst:5 changes/contributors/5.11.2.rst:15
@@ -21025,12 +21115,16 @@ msgid ""
 "Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
 "chen, Michal Čihař, cat"
 msgstr ""
+"Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
+"chen, Michal Čihař, cat"
 
 #: changes/contributors/5.11.rst:5
 msgid ""
 "Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
 "Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 msgstr ""
+"Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
+"Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 
 #: changes/contributors/5.11.rst:10
 msgid ""
@@ -21046,14 +21140,25 @@ msgid ""
 "Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
 "Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 msgstr ""
+"Michal Čihař, Vinko Kastelic, Dick Groskamp, ButterflyOfFire, Amalia "
+"Nostalgia, VfBFan, Balázs Úr, william chen, Alexander Gabilondo, cat, Fjuro, "
+"Ritwik, Rafael Fontenelle, Bee Crankson, Ldm Public, Christian Wia, ℂ𝕠𝕠𝕠𝕝 "
+"(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), தமிழ்நேரம், Emilia Meza, elid, xuars, Andi Chandler, "
+"RViktor, Tuukka Salminen, Yaron Shahrabani, Chang-Chia Tseng, Manuela Silva, "
+"Espea Tiviq, dedakir923, Besnik Bleta, ប៉ុកណូ រ៉ូយ៉ាល់, Dag Høidahl, Priit Jõerüüt, "
+"pan93412, Miguel A. Bouzada, Vũ Minh Nguyên, CyrTranslit, Avi Markovitz, "
+"Temuri Doghonadze, Matthaiks, Champ0999, Yauhen, Massimo Pissarello, "
+"Sketch6580, Максим Горпиніч, Emin Tufan Çetin, Agnieszka C, Ettore Atalan, "
+"Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
+"Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 
 #: changes/contributors/5.11.rst:15
 msgid "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
-msgstr ""
+msgstr "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
 
 #: changes/contributors/5.11.1.rst:5
 msgid "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
 
 #: changes/contributors/5.11.1.rst:10
 msgid ""
@@ -21064,10 +21169,16 @@ msgid ""
 "Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
 "Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 msgstr ""
+"xuars, Fjuro, Yaron Shahrabani, VfBFan, Michal Čihař, Yauhen, RViktor, cat, "
+"Andrei Stepanov, Ettore Atalan, 大学没毕业, Miguel A. Bouzada, ssantos, Emin "
+"Tufan Çetin, Jeff Huang, Christian Wia, Murun Battulga, Сергей, Peter Vančo, "
+"Dick Groskamp, amano, Julien Humbert, தமிழ்நேரம், WofWca, dedakir923, Rafael "
+"Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
+"Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 
 #: changes/contributors/5.11.1.rst:15
 msgid "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
 
 #: changes/contributors/5.11.2.rst:10
 msgid ""
@@ -21076,10 +21187,14 @@ msgid ""
 "dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
 "jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 msgstr ""
+"Yauhen, Michal Čihař, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 
 #: changes/contributors/5.11.4.rst:5
 msgid "Michal Čihař, مهدي الوالي"
-msgstr ""
+msgstr "Michal Čihař, مهدي الوالي"
 
 #: changes/contributors/5.12.rst:5
 msgid ""
@@ -21087,6 +21202,9 @@ msgid ""
 "KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
 "michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 msgstr ""
+"Michal Čihař, nijel, Kartik Ohri, مهدي الوالي, Gersona, Mehdi El Oualy, "
+"KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
+"michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 
 #: changes/contributors/5.12.rst:10
 msgid ""
@@ -21108,6 +21226,23 @@ msgid ""
 "hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
 "Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 msgstr ""
+"Michal Čihař, Yauhen, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri, "
+"Miguel A. Bouzada, Yaron Shahrabani, Fjuro, Jose Delvani, Jim Spentzos, "
+"Michał Korczak, Taufik Adi Wicaksono, joel MKO, Ldm Public, Carmelo "
+"Serraino, Yu Ting, Alex, Yago Raña Gayoso, Boonsita Noijad, Massimo "
+"Pissarello, 大王叫我来巡山, rimasx, Abhinav Ohri, Любомир Василев, Manuela "
+"Silva, Juzé, Licaon Kter, Anon, Ecron, ButterflyOfFire, Milo Ivir, Yuliia "
+"Ozkan, Christian Wia, Nat A, Drugi Sapog, Martin Srebotnjak, "
+"searinminecraft, Chou Chamnan, Priit Jõerüüt, Matthaiks, Sketch6580, Максим "
+"Горпиніч, Сергей, cat, Roland Reck, Agnieszka C, VfBFan, Besnik Bleta, Dick "
+"Groskamp, Pierfrancesco Passerini, PriitUring, Ding User, 大学没毕业, Peter "
+"Vančo, pan93412, Κyriaki L, Marijn Scholtus, Emin Tufan Çetin, Zulfar, Oasis "
+"Tri, zenobit, Abduqadir Abliz, ssantos, தமிழ்நேரம், lm, gogu, Andi Chandler, "
+"hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
+"Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 
 #: changes/contributors/5.12.rst:15
 msgid ""
@@ -21115,10 +21250,13 @@ msgid ""
 "ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
 "Yuki Noda, zoe, Zoe"
 msgstr ""
+"Michal Čihař, Kartik Ohri, AliceVisek, Gersona, KasukabeDefenceForce, "
+"ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
+"Yuki Noda, zoe, Zoe"
 
 #: changes/contributors/5.12.1.rst:10
 msgid "VfBFan, qywter11 qywter11, Manuela Silva"
-msgstr ""
+msgstr "VfBFan, qywter11 qywter11, Manuela Silva"
 
 #: changes/contributors/5.12.2.rst:10
 msgid ""
@@ -21127,6 +21265,10 @@ msgid ""
 "Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
 "Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 msgstr ""
+"eulalio, Linerly, Peter Vančo, Yaron Shahrabani, VfBFan, Roland Reck, "
+"Manuela Silva, Abduqadir Abliz, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Zahid Rizky "
+"Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
+"Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 
 #: changes/contributors/5.13.rst:5
 msgid ""
@@ -21135,6 +21277,10 @@ msgid ""
 "Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
 "Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, michael-smt, Kartik Ohri, مهدي الوالي, Benjamin Alan "
+"Jamie, Gersona, KarenKonou, Julian Wachholz, Jana, softworkz, Luc Didry, "
+"Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
+"Chilukuri"
 
 #: changes/contributors/5.13.rst:10
 msgid ""
@@ -21156,6 +21302,23 @@ msgid ""
 "Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
 "Alexander"
 msgstr ""
+"Emin Tufan Çetin, VfBFan, 大王叫我来巡山, Horus68, Aindriú Mac Giolla Eoin, "
+"Zulfar, Сергей, Besnik Bleta, Andi Chandler, Drugi Sapog, Eisuke Kawashima, "
+"wang, தமிழ்நேரம், Abduqadir Abliz, Yago Raña Gayoso, Manuela Silva, Arantxa, "
+"Linerly, Dick Groskamp, John, Peter Vančo, Jim Kats, WaldiS, caendeith, "
+"Michal Čihař, Florent, RViktor, hugoalh, Arun K Varghese, Wael Ibrahim, Juno "
+"Takano, Chang-Chia Tseng, eulalio, Fjuro, jonnysemon, Michael Neuendorf, "
+"Shizeeg Unadequatov, oxisol, Pierfrancesco Passerini, 大学没毕业, Любомир "
+"Василев, Ильсур Фаритович Ирназаров, Rafael Fontenelle, Yu Ting, J. Lavoie, "
+"Ilsur Irnazarov, Poesty Li, Xentrox Aero, amano, ButterflyOfFire, gfbdrgn, "
+"Zahid Rizky Fakhri, searinminecraft, Miguel A. Bouzada, pan93412, Mohammed "
+"Al Otaibi, Pexauteau Santander, Avi Markovitz, Helder Santana, qtm, "
+"Christian Wia, Ricky Tigg, Priit Jõerüüt, LucasMZ, VisionR1, ssantos, "
+"Yauhen, Clément Lyonnet, yangyangdaji, Максим Горпиніч, Matthaiks, Agnieszka "
+"C, Aleš Hakl, Yaron Shahrabani, Massimo Pissarello, 이정희, Dinh Nguyen, "
+"Martin Srebotnjak, Thunderstrike116, sletego, Sketch6580, 안정언, AlaxLima, "
+"Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
+"Alexander"
 
 #: changes/contributors/5.13.rst:15
 msgid ""
@@ -21163,12 +21326,17 @@ msgid ""
 "Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
 "Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, Benjamin Alan Jamie, Julian Wachholz, Jana, Nik "
+"Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
+"Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 
 #: changes/contributors/5.13.1.rst:5
 msgid ""
 "Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
 "Paul Harriet Asiñero"
 msgstr ""
+"Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
+"Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.1.rst:10
 msgid ""
@@ -21191,24 +21359,40 @@ msgid ""
 "Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
 "Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 msgstr ""
+"pan93412, eulalio, Zahid Rizky Fakhri, Maciej Olko, Aindriú Mac Giolla Eoin, "
+"Christian Wia, Fjuro, Brian Njoroge, ssantos, Junghyuk Kwon, hugoalh, Alexis "
+"Launay, Wolf, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Yaron Shahrabani, Marija "
+"Grineviciute, Milo Ivir, Данил Костенков, Dick Groskamp, abdelbasset "
+"jabrane, CyrTranslit, cat, Michal Čihař, VfBFan, Wuzzy, Michalis, Deleted "
+"User, Francisco Serrador, Adolfo Jayme Barrientos, Ricky Tigg, Nicolas Van "
+"Aarsen, Julien Humbert, Jérôme, Nifou, Miguel A. Bouzada, elid, RViktor, "
+"Taufik Adi Wicaksono, Reza Almanda, Sveinn í Felli, Massimo Pissarello, "
+"Kyotaro Iijima, amano, 이정희, WaldiS, tomkolp, Piotr Kołtun, Horus68, "
+"Manuela Silva, Alan Marques, Rafael Fontenelle, Alefsander Ribeiro "
+"Nascimento, Simona Iacob, Nicoara Alex, Golubev Alexander, Сергей, "
+"Blueberry, Mingun, xXx, Vin, BouenMarsh, gfbdrgn, Igor Polyakov, qtm, Alexey "
+"Napalkov, Julija Juli, Reno Tx, தமிழ்நேரம், Kaya Zeren, Yuri Chornoivan, Ihor "
+"Hordiichuk, Mirka Danylenko, Tymofii Lytvynenko, Andrij Mizyk, Максим "
+"Горпиніч, 大王叫我来巡山, Sketch6580, JY3, 大学没毕业, Xiang Heng Wei, "
+"yangyangdaji, Xzonn, Peter Dave Hello, 峡州仙士, Winston Sung, Toomore "
+"Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
+"Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 
 #: changes/contributors/5.13.1.rst:15
 msgid "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
-msgstr ""
+msgstr "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.2.rst:10
 msgid "Divarrek, VfBFan"
-msgstr ""
+msgstr "Divarrek, VfBFan"
 
 #: changes/contributors/5.13.2.rst:15
 msgid "Michal Čihař, nijel"
 msgstr "Michal Čihař, nijel"
 
 #: changes/contributors/5.13.3.rst:5 changes/contributors/5.13.3.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgid "Michal Čihař, Benjamin Alan Jamie, Raphael Michel, nijel"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr "Michal Čihař, Benjamin Alan Jamie, Raphael Michel, nijel"
 
 #: changes/contributors/5.13.3.rst:10
 msgid ""
@@ -21216,6 +21400,9 @@ msgid ""
 "Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
 "Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 
 #: changes/contributors/5.14.rst:5
 msgid ""
@@ -21223,6 +21410,9 @@ msgid ""
 "Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
 "Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, softworkz, Gersona, Benjamin Alan Jamie, Kartik Ohri, Kai "
+"Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
+"Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 
 #: changes/contributors/5.14.rst:10
 msgid ""
@@ -21239,6 +21429,18 @@ msgid ""
 "webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
 "Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute, "
+"Peter Vančo, Laurent FAVOLE, Сергей, Royston Shufflebotham, Massimo "
+"Pissarello, Emin Tufan Çetin, Juno Takano, Horus68, Martin Srebotnjak, "
+"Altos, ovl-1, 이정희, Yauhen, cat, Jessica Patricio, Alejandro Moctezuma, "
+"Kristijan \\\"Fremen\\\" Velkovski, Liviu Roman, Sveinn í Felli, Yamin "
+"Siahmargooei, Besnik Bleta, Øjvind Fritjof Arnfred, Danial Behzadi, Miguel "
+"A. Bouzada, CRISTIAN ANDREI, Denis96, Ldm Public, ROSPL-GR2-2025, Dick "
+"Groskamp, Jim Kats, Graaati, coronabond, VfBFan, Любомир Василев, GitHub "
+"webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
+"Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 
 #: changes/contributors/5.14.rst:15
 msgid ""
@@ -21246,12 +21448,13 @@ msgid ""
 "michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
 "eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, Gersona, Kai Kewley, Raphael Michel, Benjamin Alan Jamie, "
+"michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
+"eulalio, Sketch6580"
 
 #: changes/contributors/5.14.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, Gersona"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, Gersona"
 
 #: changes/contributors/5.14.1.rst:10
 msgid ""
@@ -21264,12 +21467,18 @@ msgid ""
 "学没毕业, Francisco Serrador, hoanghuy309, Arantxa, Denys Nykula, Martin "
 "Srebotnjak, Andi Chandler, Ricky Tigg, Kevin Zhang, Nataniel Dika Kurniawan"
 msgstr ""
+"Agnieszka C, Žiga Deisinger, Anthony Guéchoum, VfBFan, eulalio, Zahid Rizky "
+"Fakhri, Максим Горпиніч, Fjuro, Aindriú Mac Giolla Eoin, Peter Vančo, Dick "
+"Groskamp, Kyotaro Iijima, Pavel Miniutka, delvani, 大王叫我来巡山, Kaya "
+"Zeren, Øjvind Fritjof Arnfred, cat, mdfaruk896852-code, Michal Čihař, GitHub "
+"webhook, Besnik Bleta, Horus68, Hotripak, Aitor Astorga, Massimo Pissarello, "
+"Rafael Fontenelle, Sketch6580, Любомир Василев, Danial Behzadi, Milo Ivir, 大"
+"学没毕业, Francisco Serrador, hoanghuy309, Arantxa, Denys Nykula, Martin "
+"Srebotnjak, Andi Chandler, Ricky Tigg, Kevin Zhang, Nataniel Dika Kurniawan"
 
 #: changes/contributors/5.14.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, DeMiro5001, Gersona, Steffen"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, DeMiro5001, Gersona, Steffen"
 
 #: changes/contributors/5.15.rst:5
 msgid ""
@@ -21277,6 +21486,9 @@ msgid ""
 "Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
 "Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Steven Loria, Tudor Gradinaru, Karen Konou, "
+"Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
+"Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.rst:10
 msgid ""
@@ -21295,18 +21507,36 @@ msgid ""
 "Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
 "Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 msgstr ""
+"Miguel A. Bouzada, Turkish Language Team 🇹🇷, Francisco Serrador, "
+"hoanghuy309, Priit Jõerüüt, Ldm Public, eulalio, ssantos, Christian Wia, "
+"Andi Chandler, Joel A, Peter Vančo, Dick Groskamp, Besnik Bleta, Dũng Vũ, "
+"Nicola Bortoletto, Ricky Tigg, Chang-Chia Tseng, 大学没毕业, Yaron "
+"Shahrabani, Karen Konou, Michal Čihař, Minh Tâm Nguyễn, VfBFan, Miniontoby, "
+"pan93412, ButterflyOfFire, 이정희, Wirjadisastra Wiki, Sketch6580, liilliil, "
+"dreigiau, Blueberry, Jim Kats, Arif Budiman, marvel at flowers, 大王叫我来巡"
+"山, Golubev Alexander, Alyaksandr Koshal, Yauhen, 109247019824, Сергей, "
+"Manuela Silva, ابْنُ السَدِيمِ, Changseop Yeom, Daniel Nylander, Kristoffer "
+"Grundström, Annamurat Ovezov, gattyan61, Fulup Jakez, Milo Ivir, پرویز قادر, "
+"Xusi Fons, Anusuk Sangubon, Matthaiks, Gašper Pintar, Максим Горпиніч, "
+"Aindriú Mac Giolla Eoin, Fjuro, Любомир Василев, Massimo Pissarello, "
+"Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
+"Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 
 #: changes/contributors/5.15.rst:15
 msgid ""
 "Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
 "Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
+"Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.1.rst:5
 msgid ""
 "Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
 "aditi, Edison Dao, biplopghimire"
 msgstr ""
+"Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
+"aditi, Edison Dao, biplopghimire"
 
 #: changes/contributors/5.15.1.rst:10
 msgid ""
@@ -21317,18 +21547,28 @@ msgid ""
 "Massimo Pissarello, មនុញ្ញ - MᴇᴀнNսɴн, Jim Kats, Aindriú Mac Giolla Eoin, "
 "VfBFan"
 msgstr ""
+"eulalio, Yauhen, Emin Tufan Çetin, Priit Jõerüüt, Любомир Василев, Fjuro, "
+"Zahid Rizky Fakhri, Takeru Mikenu, ButterflyOfFire, 김인수, Manuela Silva, "
+"Pierfrancesco Passerini, Michal Čihař, 大王叫我来巡山, Dick Groskamp, Максим "
+"Горпиніч, Matthaiks, γλωσσολαλιά, Turkish Language Team 🇹🇷, Besnik Bleta, "
+"Massimo Pissarello, មនុញ្ញ - MᴇᴀнNսɴн, Jim Kats, Aindriú Mac Giolla Eoin, "
+"VfBFan"
 
 #: changes/contributors/5.15.1.rst:15
 msgid ""
 "Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
 "biplopghimire"
 msgstr ""
+"Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
+"biplopghimire"
 
 #: changes/contributors/5.15.2.rst:5
 msgid ""
 "Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
 "Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
+"Benjamin Alan Jamie"
 
 #: changes/contributors/5.15.2.rst:10
 msgid ""
@@ -21343,12 +21583,24 @@ msgid ""
 "Sangubon, پرویز قادر, Fulup Jakez, Matthaiks, Besnik Bleta, Hotripak, 大王叫"
 "我来巡山, Agnieszka C"
 msgstr ""
+"Jim Kats, Horus68, Francisco Serrador, VfBFan, Fjuro, Andi Chandler, Eduard "
+"Ereza Martínez, Takeru Mikenu, eulalio, Mickaël Binos, Любомир Василев, "
+"Peter Vančo, Mateus Liberale Gomes, Hanu E., Pierfrancesco Passerini, amano, "
+"Blueberry, ButterflyOfFire, Basheer Radman, therealmate, មនុញ្ញ - MᴇᴀнNսɴн, "
+"தமிழ்நேரம், EdoAug, Zahid Rizky Fakhri, Milo Ivir, Kristoffer Grundström, "
+"searinminecraft, Kyotaro Iijima, adecorte, Priit Jõerüüt, Rhoslyn Prys, Shah "
+"Zaman Pathan, Daniel Nylander, Michal Čihař, Kristijan \\\"Fremen\\\" "
+"Velkovski, Aindriú Mac Giolla Eoin, Tuomas Hietala, 이정희, pan93412, Anusuk "
+"Sangubon, پرویز قادر, Fulup Jakez, Matthaiks, Besnik Bleta, Hotripak, 大王叫"
+"我来巡山, Agnieszka C"
 
 #: changes/contributors/5.15.2.rst:15
 msgid ""
 "Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
 "alexis-pinon, Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
+"alexis-pinon, Benjamin Alan Jamie"
 
 #: changes/contributors/5.16.rst:5
 msgid ""
@@ -21356,6 +21608,9 @@ msgid ""
 "softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Serrano Pereira, moonchoe, "
+"softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 
 #: changes/contributors/5.16.rst:10
 msgid ""
@@ -21374,6 +21629,20 @@ msgid ""
 "Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
 "Duverne, 大学没毕业, Hotripak, delvani, A J."
 msgstr ""
+"தமிழ்நேரம், Andi Chandler, Daniel Nylander, Michal Čihař, VfBFan, "
+"ButterflyOfFire, Emin Tufan Çetin, eulalio, Milo Ivir, Yuri Chornoivan, 大王"
+"叫我来巡山, Zahid Rizky Fakhri, Peter Vančo, Kyotaro Iijima, amano, "
+"Hyeonjeong Lee, Yaron Shahrabani, Massimo Pissarello, Blueberry, Aindriú Mac "
+"Giolla Eoin, CRISTIAN ANDREI, Максим Горпиніч, Shah Zaman Pathan, Eduard "
+"Ereza Martínez, Alexis Launay, Luis Carlos González Morales, AlaxLima, "
+"Andrei Stepanov, Pierfrancesco Passerini, Valentin Ljuba, Anusuk Sangubon, "
+"Supaplex, Besnik Bleta, Matthaiks, Agnieszka C, Sketch6580, Mickaël Binos, U "
+"G, Kristoffer Grundström, Fjuro, 109247019824, Miguel A. Bouzada, Jim "
+"Spentzos, Fulup Jakez, Jim Kats, Omer I.S., nautilusx, jonnysemon, Martin "
+"Srebotnjak, Umida Hikmatilla, Arif Budiman, Ldm Public, pan93412, Heimen "
+"Stoffels, Romhányi-Kakucska Viktor, Pedro Leite, RViktor, Dick Groskamp, "
+"Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
+"Duverne, 大学没毕业, Hotripak, delvani, A J."
 
 #: changes/contributors/5.16.rst:15
 msgid ""
@@ -21381,10 +21650,13 @@ msgid ""
 "shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11"
 msgstr ""
+"Michal Čihař, Kartik Ohri, moonchoe, Karen Konou, softworkz, Serhii H., "
+"shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11"
 
 #: changes/contributors/5.16.1.rst:5
 msgid "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.1.rst:10
 msgid ""
@@ -21399,16 +21671,24 @@ msgid ""
 "justcontributor, Valentin Ljuba, Daniel Nylander, Arantxa, Marino Díaz, "
 "Artemka"
 msgstr ""
+"Heimen Stoffels, Michal Čihař, delvani, Yaron Shahrabani, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/"
+"ℂ𝕠𝕠𝕠𝕝), Priit Jõerüüt, Zahid Rizky Fakhri, Pierfrancesco Passerini, Massimo "
+"Pissarello, Romhányi-Kakucska Viktor, Mickaël Binos, Milo Ivir, Blueberry, 大"
+"王叫我来巡山, VfBFan, Besnik Bleta, Nikolay Korotkiy, Pavel Borecki, "
+"Matthaiks, Agnieszka C, Emin Tufan Çetin, Agustina Giselle, Fjuro, RViktor, "
+"ojppe, eulalio, Pavel Miniutka, Kristoffer Grundström, Aindriú Mac Giolla "
+"Eoin, reducedradius, Максим Горпиніч, Руслан Пузич, Francisco Serrador, "
+"Kyotaro Iijima, Petr Kadlec, தமிழ்நேரம், Dick Groskamp, PICOPress, "
+"justcontributor, Valentin Ljuba, Daniel Nylander, Arantxa, Marino Díaz, "
+"Artemka"
 
 #: changes/contributors/5.16.1.rst:15
 msgid "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.2.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, Kartik Ohri"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
 
 #: changes/contributors/5.17.rst:5
 msgid ""
@@ -21416,6 +21696,9 @@ msgid ""
 "Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
 "Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, michael-smt, Kartik Ohri, bogusdominica, Karen Konou, Sven "
+"Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
+"Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.rst:10
 msgid ""
@@ -21437,18 +21720,35 @@ msgid ""
 "jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
 "Gayoso, anas agha, Ettore Atalan"
 msgstr ""
+"PICOPress, Blueberry, Deleted User, Francisco Serrador, eulalio, Pavel "
+"Miniutka, Amir E. Aharoni, hoanghuy309, nKsyn, Jim Kats, Martin Srebotnjak, "
+"Zahid Rizky Fakhri, symegac, Francesco Marinucci, Michal Čihař, Hyeonjeong "
+"Lee, ovl-1, Tarás Lavrentiev, Edson Wolf, Yuri Chornoivan, Omer I.S., "
+"Arantxa, Tuomas Hietala, Milo Ivir, justcontributor, Kristoffer Grundström, "
+"Andi Chandler, Andrei Stepanov, ButterflyOfFire, Átila França, Мария "
+"Рангелова, EESF-2, CzaroGame, Agnieszka C, Manuela Silva, پرویز قادر, "
+"JiZPaper, Fjuro, Alexis Launay, tfr tint, Candied-Ecard, Kyotaro Iijima, "
+"Priit Jõerüüt, Matthaiks, Besnik Bleta, delvani, Mickaël Binos, VfBFan, UDP, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, mohammadA, 大王叫我来巡山, "
+"Sketch6580, Dick Groskamp, Heimen Stoffels, Yaron Shahrabani, Любомир "
+"Василев, Максим Горпиніч, Emin Tufan Çetin, Horus68, Sjur N Moshagen, Peter "
+"Vančo, Romhányi-Kakucska Viktor, ZayedRashid, Julien Lepiller, Massimo "
+"Pissarello, Jeff Huang, ojppe, தமிழ்நேரம், ibragimov, Sylvestre Ledru, Ldm "
+"Public, pan93412, Jernej Pangerc, Luciana Waldbaur, username-generic, "
+"jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
+"Gayoso, anas agha, Ettore Atalan"
 
 #: changes/contributors/5.17.rst:15
 msgid ""
 "Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
+"smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
 
 #: changes/contributors/5.17.1.rst:10
 msgid ""
@@ -21464,12 +21764,21 @@ msgid ""
 "Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
 "Ivir"
 msgstr ""
+"Michal Čihař, Besnik Bleta, Kristoffer Grundström, Francisco Serrador, "
+"ButterflyOfFire, anas agha, Zahid Rizky Fakhri, pan93412, Hyeonjeong Lee, "
+"VfBFan, 大王叫我来巡山, Yuri Chornoivan, LucasMZ, Átila França, Rafael "
+"Fontenelle, Aindriú Mac Giolla Eoin, UDP, Blueberry, Hotripak, Matthaiks, "
+"Agnieszka C, Priit Jõerüüt, Martin Srebotnjak, Fjuro, Andrei Stepanov, "
+"Mickaël Binos, IEEE-754, Adrian Reyes, bovirus, Max Kleinehelleforth, "
+"justcontributor, Yago Raña Gayoso, Horus68, Любомир Василев, CYAXXX, Andi "
+"Chandler, Adam Havránek, Kyotaro Iijima, Arif Budiman, ovl-1, Laitei, Jim "
+"Kats, Omer I.S., Fulup Jakez, ojppe, Julien Humbert, Jim Spentzos, "
+"Sketch6580, Dick Groskamp, 王晨旭, Frank Paul Silye, Anucha Hlownonkor, Milo "
+"Ivir"
 
 #: changes/contributors/5.17.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, michael-smt"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, michael-smt"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -24090,7 +24399,7 @@ msgstr "由 Awesome 替換了Glyphicon 字型。"
 
 #: changes/v2.rst:458
 msgid "Added icons for social authentication services."
-msgstr "新增了社交驗證服務的圖示。"
+msgstr ""
 
 #: changes/v2.rst:459
 msgid "Better consistency of button colors and icons."
@@ -24284,7 +24593,7 @@ msgstr "改進了格式字串檢查行為遺失百分比的問題。"
 
 #: changes/v3.rst:26
 msgid "Fixed authentication using some third party providers."
-msgstr "修復了使用某些第三方供應商時遇到的身份驗證問題。"
+msgstr "修復了使用某些第三方供應商時遇到的身分驗證問題。"
 
 #: changes/v3.rst:29
 msgid "Weblate 3.11.2"
@@ -27306,7 +27615,7 @@ msgstr "Weblate 現在需要 Python 3.6 或更新版本。"
 #, fuzzy
 #| msgid "Fixed GitHub hooks for repositories with authentication."
 msgid "Fixed some write operations with project token authentication."
-msgstr "對帶有驗證的儲存庫修復了 GitHub 鉤子。"
+msgstr "對帶有身分驗證的儲存庫修復了 GitHub 鉤子。"
 
 #: changes/v4.rst:476
 #, fuzzy
@@ -46257,7 +46566,7 @@ msgstr ""
 
 #: security/issues.rst:32
 msgid "**Sending encrypted reports**"
-msgstr ""
+msgstr "**發送加密的報告**"
 
 #: security/issues.rst:34
 msgid ""
@@ -49146,8 +49455,8 @@ msgid ""
 "export controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
-"Weblate 不包含任何加密程式碼，但由於它使用了第三方元件，而這些元件在驗證、資"
-"料完整性與機密性方面運用了加密技術，因此可能會受到出口管制的影響。"
+"Weblate 不包含任何加密程式碼，但由於它使用了第三方元件，而這些元件在身分驗證"
+"、資料完整性與機密性方面運用了加密技術，因此可能會受到出口管制的影響。"
 
 #: security/us-compliance.rst:24
 msgid ""
@@ -57577,20 +57886,11 @@ msgstr ""
 "text-translation/reference/v3/reference#base-urls>`_"
 
 #: snippets/machines-autogenerated.rst:684
-#, fuzzy
-#| msgid ""
-#| "Region prefix as defined in the `\"Authenticating with a Multi-service "
-#| "resource\" <https://docs.microsoft.com/en-us/azure/cognitive-services/"
-#| "translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
-#| "resource>`_ section."
 msgid ""
 "`\"Authenticating with a Multi-service resource\" <https://"
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-a-multi-service-resource>`_"
 msgstr ""
-"`“通過一個多服務資源進行驗證” <https://docs.microsoft.com/en-us/azure/"
-"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-"
-"multi-service -resource>`_ 部分中定義的地區前綴。"
 
 #: snippets/machines-autogenerated.rst:685
 #, fuzzy
@@ -61864,7 +62164,7 @@ msgid ""
 msgstr ""
 "Weblate 必須存取您要使用的 VCS 儲存庫。使用公開的儲存庫，您只需輸入正確的 URL"
 "（例如 ``https://github.com/WeblateOrg/weblate.git`` ），但對於私人儲存庫或推"
-"送 URL，設定更複雜並且需要驗證。"
+"送 URL，設定更複雜並且需要身分驗證。"
 
 #: vcs.rst:32
 msgid "Accessing repositories from Hosted Weblate"
@@ -61994,6 +62294,7 @@ msgstr ""
 "push`。"
 
 #: vcs.rst:101
+#, fuzzy
 msgid ""
 "Weblate also stores the host key fingerprint upon first connection, and "
 "fails to connect to the host should it be changed later (see :ref:`verify-"
@@ -62024,6 +62325,7 @@ msgid ""
 msgstr "Weblate 公鑰對瀏覽 :guilabel:`關於` 頁面的所有使用者可見。"
 
 #: vcs.rst:120
+#, fuzzy
 msgid ""
 "Admins can generate or display the public key currently used by Weblate in "
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
@@ -62054,7 +62356,7 @@ msgstr "驗證 SSH 主機金鑰"
 msgid ""
 "Weblate automatically stores the SSH host keys on first access and remembers "
 "them for further use."
-msgstr "Weblate 在第一次存取時自動儲存SSH主機金鑰，並記住它們以備將來使用。"
+msgstr "Weblate 在首次存取時自動儲存 SSH 主機金鑰，並記住它們以備將來使用。"
 
 #: vcs.rst:140
 #, fuzzy
@@ -62072,6 +62374,7 @@ msgstr ""
 "您新增的伺服器匹配。"
 
 #: vcs.rst:146
+#, fuzzy
 msgid "The added keys with fingerprints are shown in the confirmation message:"
 msgstr "帶指紋的新增鍵顯示在確認消息中："
 
@@ -62169,6 +62472,7 @@ msgid "Removing main component also removes linked components."
 msgstr "刪除主組件也會刪除連結組件。"
 
 #: vcs.rst:217
+#, fuzzy
 msgid ""
 "Weblate automatically adjusts the repository URL when creating a component "
 "if it finds a component with a matching repository setup. You can override "
@@ -62183,20 +62487,21 @@ msgstr "使用這個的理由："
 
 #: vcs.rst:223
 msgid "Saves disk space on the server, the repository is stored just once."
-msgstr "儲存伺服器上的磁碟空間，儲存庫僅儲存一次。"
+msgstr "節省伺服器的磁碟空間，儲存庫僅儲存一次。"
 
 #: vcs.rst:224
 msgid "Makes the updates faster, only one repository is updated."
-msgstr "使更新更快，只更新一個儲存庫。"
+msgstr "使更新過程更快速，僅更新一個儲存庫。"
 
 #: vcs.rst:225
+#, fuzzy
 msgid ""
 "There is just single exported repository with Weblate translations "
 "(see :ref:`git-exporter`)."
-msgstr ""
-"只有單一匯出的儲存庫，具有 Weblate 翻譯（請參閱 :ref:`git-exporter`）。"
+msgstr "只有單一匯出的儲存庫，具有 Weblate 翻譯（請參閱 :ref:`git-exporter`）。"
 
 #: vcs.rst:226
+#, fuzzy
 msgid ""
 "Some add-ons can operate on multiple components sharing one repository, for "
 "example :ref:`addon-weblate.git.squash`."
@@ -62209,13 +62514,14 @@ msgid "HTTPS repositories"
 msgstr "HTTPS 儲存庫"
 
 #: vcs.rst:237
+#, fuzzy
 msgid ""
 "To access protected HTTPS repositories, include the username and password in "
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
 "要存取受保護的 HTTPS 儲存庫，請在網址中包含使用者名稱和密碼。別擔心，Weblate "
-"會在網址向使用者顯示 URL 時剝離此資訊（如果允許查看儲存庫網址）。"
+"會在向使用者顯示 URL 時剝離此資訊（如果允許查看儲存庫網址）。"
 
 #: vcs.rst:241
 msgid ""
@@ -62297,7 +62603,7 @@ msgstr "Weblate 需要 Git 2.28 或更新版本。"
 msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
-msgstr "請參閱 :ref:`vcs-repos` 用於如何存取不同型別的儲存庫的資訊。"
+msgstr "請參閱 :ref:`vcs-repos` 以取得關於如何存取不同類型儲存庫的資訊。"
 
 #: vcs.rst:306
 msgid "Git with force push"
@@ -62406,8 +62712,8 @@ msgid ""
 "incompatible changes to the command-line interface which breaks Weblate "
 "integration."
 msgstr ""
-"它應該能與任何 Mercurial 版本配合使用，但命令列介面偶爾會出現不相容的變更打"
-"破 Weblate 整合。"
+"它應該能與任何 Mercurial 版本配合使用，但命令列介面偶爾會出現不相容的變更破"
+"壞 Weblate 整合。"
 
 #: vcs.rst:417
 msgid "Subversion"
