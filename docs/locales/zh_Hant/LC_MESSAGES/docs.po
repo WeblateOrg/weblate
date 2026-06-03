@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-06-02 12:45+0000\n"
+"PO-Revision-Date: 2026-06-03 21:01+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -1711,6 +1711,7 @@ msgid "Announcements"
 msgstr "公告"
 
 #: admin/announcements.rst:6
+#, fuzzy
 msgid "In prior releases this feature was called whiteboard messages."
 msgstr "在此前的發佈版本中，這個特性被稱為白板消息。"
 
@@ -5339,6 +5340,7 @@ msgid ""
 msgstr "這需要 :ref:`celery` 工作，並在重啟後生效。"
 
 #: admin/config.rst:279
+#, fuzzy
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/$"
 "{MAIL_HASH}?${PARAMS}``. The following services are known to work:"
@@ -5347,10 +5349,12 @@ msgstr ""
 "``。已知後面的服務工作："
 
 #: admin/config.rst:283
+#, fuzzy
 msgid "Gravatar (default), as per https://gravatar.com/"
 msgstr "Gravatar （預設），根據 https://gravatar.com/"
 
 #: admin/config.rst:285
+#, fuzzy
 msgid "Libravatar, as per https://www.libravatar.org/"
 msgstr "Libravatar，如 https://www.libravatar.org/"
 
@@ -5520,10 +5524,8 @@ msgid ":program:`font-config` cache for :ref:`fonts`."
 msgstr ""
 
 #: admin/config.rst:448
-#, fuzzy
-#| msgid "Celery scheduler data, see :ref:`celery`."
 msgid "Cached user avatars, see :ref:`avatars`."
-msgstr "Celery 分派程式資料，見 :ref:`celery`。"
+msgstr "快取的使用者頭像，請參閱 :ref:`avatars`。"
 
 #: admin/config.rst:450
 msgid ""
@@ -5910,11 +5912,11 @@ msgid "Whether to turn on Gravatar-based avatars for users. On by default."
 msgstr "是否為使用者打開基於 Gravatar 的頭像。預設打開。"
 
 #: admin/config.rst:869
+#, fuzzy
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
-msgstr ""
-"頭像取出並快取在從伺服器中，降低了洩漏個人資訊的風險，加速了使用者體驗。"
+msgstr "頭像取出並快取在從伺服器中，降低了洩漏個人資訊的風險，加速了使用者體驗。"
 
 #: admin/config.rst:883
 #, fuzzy
@@ -8790,7 +8792,7 @@ msgstr "傳統瀏覽器使用的 Web 圖示。"
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
-msgstr "機器人或匿名使用者使用的頭像。一些 Web 瀏覽器 使用這些作為快捷圖示。"
+msgstr "適用於機器人或匿名使用者的頭像。一些網路瀏覽器使用這些作為捷徑圖示。"
 
 #: admin/customize.rst:104
 msgid "Used in notifications e-mails."
@@ -10047,7 +10049,7 @@ msgstr ""
 
 #: admin/install.rst:1027
 msgid "Avatar caching"
-msgstr "個人頭像快取"
+msgstr "頭像快取"
 
 #: admin/install.rst:1029
 msgid ""
@@ -10055,7 +10057,7 @@ msgid ""
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
 "除了 Django 的快取， Weblate 還執行頭像快取。推薦使用單獨的、檔案後端快取來用"
-"於這個目的："
+"於此目的："
 
 #: admin/install.rst:1065
 msgid "Configure e-mail sending"
@@ -12308,7 +12310,7 @@ msgstr "配置 :setting:`ENABLE_HOOKS`。"
 
 #: admin/install/docker.rst:1103
 msgid "Configures :setting:`ENABLE_AVATARS`."
-msgstr "配置 :setting:`ENABLE_AVATARS`."
+msgstr "配置 :setting:`ENABLE_AVATARS`。"
 
 #: admin/install/docker.rst:1109
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
@@ -16408,6 +16410,7 @@ msgid "Avatars"
 msgstr "頭像"
 
 #: admin/optionals.rst:206
+#, fuzzy
 msgid ""
 "Avatars are downloaded and cached server-side to reduce information leaks to "
 "the sites serving them by default. The built-in support for fetching avatars "
@@ -16628,6 +16631,7 @@ msgid "Registration"
 msgstr "註冊"
 
 #: admin/optionals.rst:333
+#, fuzzy
 msgid "Sending message to admins"
 msgstr "將消息發送給管理員"
 
@@ -18133,6 +18137,7 @@ msgid "Commit, add, delete, merge, add-on, and merge request messages"
 msgstr "提交、新增、刪除、合併、附加元件與合併請求訊息"
 
 #: admin/projects.rst:926
+#, fuzzy
 msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr "當提交翻譯時使用的消息，請參閱 :ref:`markup`。"
 
@@ -18530,6 +18535,7 @@ msgid "Currently it is used in:"
 msgstr "目前它用在："
 
 #: admin/projects.rst:1204
+#, fuzzy
 msgid "Commit message formatting, see :ref:`component`"
 msgstr "提交消息格式，請參閱 :ref:`component`"
 
@@ -22039,6 +22045,7 @@ msgid "Fixed import of unknown languages."
 msgstr "修復了未知語言的匯入。"
 
 #: changes/v0.rst:10
+#, fuzzy
 msgid "Improved listing of nearby messages."
 msgstr "改進了附近消息的清單。"
 
@@ -22342,7 +22349,7 @@ msgstr "*發佈於 2012 年 2 月 6 日。*"
 
 #: changes/v0.rst:120
 msgid "Initial release."
-msgstr "初始發佈。"
+msgstr "初始版本。"
 
 #: changes/v1.rst:2
 msgid "Weblate 1.x series"
@@ -22362,7 +22369,7 @@ msgstr "Django 1.6 相容性。"
 
 #: changes/v1.rst:10
 msgid "No longer maintained compatibility with Django 1.4."
-msgstr "不在維護與 Django 1.4 的相容性。"
+msgstr "不再維護與 Django 1.4 的相容性。"
 
 #: changes/v1.rst:11
 msgid "Management commands for locking/unlocking translations."
@@ -22378,13 +22385,14 @@ msgstr "使用者現在可以刪除他們的帳號。"
 
 #: changes/v1.rst:14
 msgid "Avatars can be disabled."
-msgstr "Avatars 可以被停用。"
+msgstr "頭像可被停用。"
 
 #: changes/v1.rst:15
 msgid "Merged first and last name attributes."
 msgstr "合併第一個和最後一個名稱屬性。"
 
 #: changes/v1.rst:16
+#, fuzzy
 msgid "Avatars are now fetched and cached server side."
 msgstr "頭像現在可以取回並快取在伺服器一側。"
 
@@ -22401,6 +22409,7 @@ msgid "*Released on November 7th 2013.*"
 msgstr "*發佈於 2013 年 11 月 7 日。*"
 
 #: changes/v1.rst:24 changes/v1.rst:41 changes/v1.rst:82
+#, fuzzy
 msgid "Please check manual for upgrade instructions."
 msgstr "關於升級的指示，請查看手冊。"
 
@@ -22450,6 +22459,7 @@ msgid "*Released on October 7th 2013.*"
 msgstr "*發佈於 2013 年 10 月 7 日。*"
 
 #: changes/v1.rst:42
+#, fuzzy
 msgid "Support for checking Python brace format string."
 msgstr "支援檢查 Python brace 格式字元傳。"
 
@@ -22459,7 +22469,7 @@ msgstr "每個組件的品質檢查自訂。"
 
 #: changes/v1.rst:44
 msgid "Detailed per translation stats."
-msgstr "具體的每個翻譯的統計資料。"
+msgstr "每個翻譯的詳細統計資料。"
 
 #: changes/v1.rst:45
 msgid "Changed way of linking suggestions, checks and comments to strings."
@@ -22467,7 +22477,7 @@ msgstr "變更了將建議、檢查與註釋連接到字串的方式。"
 
 #: changes/v1.rst:46
 msgid "Users can now add text to commit message."
-msgstr "使用者現在可以新增文本來提交消息。"
+msgstr "使用者現在可以新增文字至提交訊息。"
 
 #: changes/v1.rst:47
 msgid "Support for subscribing on new language requests."
@@ -22478,19 +22488,22 @@ msgid "Support for adding new translations."
 msgstr "支援新增新的翻譯。"
 
 #: changes/v1.rst:49
+#, fuzzy
 msgid ""
 "Widgets and charts are now rendered using Pillow instead of Pango + Cairo."
 msgstr "現在使用 Pillow 而不是 Pango+ Cairo 來提供 Widget 和圖表。"
 
 #: changes/v1.rst:50
+#, fuzzy
 msgid "Add status badge widget."
 msgstr "新增狀態徽章 Widget。"
 
 #: changes/v1.rst:51
 msgid "Dropped invalid text direction check."
-msgstr "去掉了不合法的文本方向檢查。"
+msgstr "丟棄了無效的文字方向檢查。"
 
 #: changes/v1.rst:52
+#, fuzzy
 msgid "Changes in dictionary are now logged in history."
 msgstr "字典中的變更現在在歷史中記入紀錄。"
 
@@ -22528,17 +22541,20 @@ msgstr "新增了對 Amagama 機器翻譯的支援。"
 
 #: changes/v1.rst:65
 msgid "Various optimizations on frequently used pages."
-msgstr "頻繁使用的頁面上的各種最佳化。"
+msgstr "頻繁使用頁面上的各種最佳化。"
 
 #: changes/v1.rst:66
+#, fuzzy
 msgid "Highlights searched phrase in search results."
 msgstr "在搜尋結果中將搜尋到的短語高亮。"
 
 #: changes/v1.rst:67
+#, fuzzy
 msgid "Support for automatic fixups while saving the message."
 msgstr "支援儲存消息時的自動修復。"
 
 #: changes/v1.rst:68
+#, fuzzy
 msgid "Tracking of translation history and option to revert it."
 msgstr "追蹤翻譯歷史和選項來還原。"
 
@@ -22560,7 +22576,7 @@ msgstr "各種品質檢查改進。"
 
 #: changes/v1.rst:73
 msgid "Performance improvements for import."
-msgstr "匯入的效能改進。"
+msgstr "匯入效能改進。"
 
 #: changes/v1.rst:74
 msgid "Added support for voting on suggestions."
@@ -22597,19 +22613,19 @@ msgstr "新增了對 Bitbucket 通知的支援。"
 #: changes/v1.rst:87
 msgid ""
 "Activity charts are now available for each translation, language or user."
-msgstr "行為圖示現在可用於每個翻譯、語言或使用者。"
+msgstr ""
 
 #: changes/v1.rst:88
 msgid "Extended options of import_project admin command."
-msgstr "擴充了 import_project admin 指令的選項。"
+msgstr "擴充了 import_project 管理指令的選項。"
 
 #: changes/v1.rst:89
 msgid "Compatible with Django 1.5."
-msgstr "與 Django 1.5 相容。"
+msgstr "相容於 Django 1.5。"
 
 #: changes/v1.rst:90
 msgid "Avatars are now shown using libravatar."
-msgstr "現在使用 libravatar 顯示頭像。"
+msgstr "頭像現在使用 libravatar 顯示。"
 
 #: changes/v1.rst:91
 msgid "Added possibility to pretty print JSON export."
@@ -22617,7 +22633,7 @@ msgstr "為 pretty print JSON 匯出新增了可能性。"
 
 #: changes/v1.rst:92 changes/v2.rst:106 changes/v2.rst:232
 msgid "Various performance improvements."
-msgstr "更重新能改進。"
+msgstr "各種效能提升。"
 
 #: changes/v1.rst:93
 msgid ""
@@ -22648,7 +22664,7 @@ msgstr "擴充了快取的詮釋資料的量，來改進各種搜尋的速度。
 
 #: changes/v1.rst:99
 msgid "Now shows word counts as well."
-msgstr "現在也顯示單詞計數。"
+msgstr "現在開始也會顯示單詞數量。"
 
 #: changes/v1.rst:102
 msgid "Weblate 1.4"
@@ -22664,7 +22680,7 @@ msgstr "修復了在字串刪除時無法一起刪除檢查/評論的問題。"
 
 #: changes/v1.rst:107
 msgid "Added option to disable automatic propagation of translations."
-msgstr "新增了選項來禁止自動傳播翻譯。"
+msgstr "新增了選項來停用翻譯的自動傳播。"
 
 #: changes/v1.rst:108
 msgid "Added option to subscribe for merge failures."
@@ -22672,11 +22688,11 @@ msgstr "新增了選項為合併失敗而訂閱。"
 
 #: changes/v1.rst:109
 msgid "Correctly import on projects which needs custom ttkit loader."
-msgstr "正確地匯入需要用戶 ttkit 匯入程式的專案。"
+msgstr "正確地匯入需要自訂 ttkit 載入器的專案。"
 
 #: changes/v1.rst:110
 msgid "Added sitemaps to allow easier access by crawlers."
-msgstr "新增了網站地圖允許爬蟲更容易地存取。"
+msgstr "新增了網站地圖以允許爬蟲更容易存取。"
 
 #: changes/v1.rst:111
 msgid "Provide direct links to string in notification e-mails or feeds."
@@ -22709,7 +22725,7 @@ msgstr "在進度挑中指示失敗的檢查或模糊字串。"
 
 #: changes/v1.rst:118
 msgid "More options for formatting commit message."
-msgstr "用於將提交資訊格式化的更多選項。"
+msgstr "更多用於格式化提交訊息的選項。"
 
 #: changes/v1.rst:119
 msgid "Fixed error handling with machine translation services."
@@ -22720,6 +22736,7 @@ msgid "Improved automatic translation locking behaviour."
 msgstr "改進了自動翻譯鎖定行為。"
 
 #: changes/v1.rst:121
+#, fuzzy
 msgid "Support for showing changes from previous source string."
 msgstr "支援顯示不同於之前的來源字串的變更。"
 
@@ -22733,7 +22750,7 @@ msgstr "支援每個專案的 ACL。"
 
 #: changes/v1.rst:125
 msgid "Basic code coverage by unit tests."
-msgstr "基本代碼由單元測試來覆寫。"
+msgstr "單元測試提供了基本程式碼覆蓋率。"
 
 #: changes/v1.rst:128
 msgid "Weblate 1.3"
@@ -22745,9 +22762,10 @@ msgstr "*發佈於 2012 年 11 月 16 日。*"
 
 #: changes/v1.rst:132
 msgid "Compatibility with PostgreSQL database backend."
-msgstr "與 PostgreSQL 資料庫後端相容。"
+msgstr "支援 PostgreSQL 資料庫後端。"
 
 #: changes/v1.rst:133
+#, fuzzy
 msgid "Removes languages removed in upstream git repository."
 msgstr "將上游 git 儲存庫中刪除的語言也刪除。"
 
@@ -22757,9 +22775,10 @@ msgstr "改進了品質檢查處理。"
 
 #: changes/v1.rst:135
 msgid "Added new checks (BBCode, XML markup and newlines)."
-msgstr "新增了新的檢查（BB 代碼、XML 標記和新的行）。"
+msgstr ""
 
 #: changes/v1.rst:136
+#, fuzzy
 msgid "Support for optional rebasing instead of merge."
 msgstr "支援可選地 rebasing 而不是合併。"
 
@@ -22774,7 +22793,7 @@ msgstr "支援在自動檢測失敗的情況下手動選擇文件類型。"
 
 #: changes/v1.rst:139
 msgid "Better support for Android resources."
-msgstr "更好地支援 Android 源。"
+msgstr "更好地支援 Android 資源。"
 
 #: changes/v1.rst:140
 msgid "Support for generating SSH key from web interface."
@@ -22782,7 +22801,7 @@ msgstr "支援從 web 介面產生 SSH 金鑰。"
 
 #: changes/v1.rst:141
 msgid "More visible data exports."
-msgstr "更多的可視化資料匯出。"
+msgstr "更多可視化資料匯出。"
 
 #: changes/v1.rst:142
 msgid "New buttons to enter some special characters."
@@ -22802,15 +22821,15 @@ msgstr "檢查與支援來源字串的審查。"
 
 #: changes/v1.rst:146
 msgid "Support for user comments for both translations and source strings."
-msgstr "支援翻譯和來源字串的使用者註釋。"
+msgstr "支援翻譯與來源字串的使用者評論。"
 
 #: changes/v1.rst:147
 msgid "Better changes log tracking."
-msgstr "更好地變更紀錄追蹤。"
+msgstr "更好的變更紀錄追蹤。"
 
 #: changes/v1.rst:148
 msgid "Changes can now be monitored using RSS."
-msgstr "現在變更可以使用 RSS 監測。"
+msgstr "變更現在可以使用 RSS 進行監測。"
 
 #: changes/v1.rst:149
 msgid "Improved support for RTL languages."
@@ -22825,6 +22844,7 @@ msgid "*Released on August 14th 2012.*"
 msgstr "*發佈於 2012 年 8 月 14 日。*"
 
 #: changes/v1.rst:156
+#, fuzzy
 msgid ""
 "Weblate now uses South for database migration, please check upgrade "
 "instructions if you are upgrading."
@@ -22835,15 +22855,17 @@ msgid "Fixed minor issues with linked git repos."
 msgstr "修復了已連結 git 儲存庫的一些小問題。"
 
 #: changes/v1.rst:158
+#, fuzzy
 msgid ""
 "New introduction page for engaging people with translating using Weblate."
 msgstr "現在將人員與翻譯建立聯繫的簡介頁面使用 Weblate。"
 
 #: changes/v1.rst:159
 msgid "Added widgets which can be used for promoting translation projects."
-msgstr "新增了小工具，可以用於推動翻譯專案。"
+msgstr "新增了可用於推廣翻譯專案的小元件。"
 
 #: changes/v1.rst:160
+#, fuzzy
 msgid "Added option to reset repository to origin (for privileged users)."
 msgstr "新增了選項將儲存庫重設為原始狀態（對於有特權的使用者）。"
 
@@ -22853,11 +22875,11 @@ msgstr "現在可以為翻譯鎖定專案和組件。"
 
 #: changes/v1.rst:162
 msgid "Possibility to disable some translations."
-msgstr "停用一些翻譯的可能性。"
+msgstr "新增了停用一些翻譯的能力。"
 
 #: changes/v1.rst:163
 msgid "Configurable options for adding new translations."
-msgstr "新增新翻譯的可配置選項。"
+msgstr "適用於新增新翻譯的可配置選項。"
 
 #: changes/v1.rst:164
 msgid "Configuration of git commits per project."
@@ -22865,7 +22887,7 @@ msgstr "每個專案的 git 提交的配置。"
 
 #: changes/v1.rst:165
 msgid "Simple antispam protection."
-msgstr "簡單的防垃圾郵件保護。"
+msgstr "簡易的反垃圾郵件防護。"
 
 #: changes/v1.rst:166
 msgid "Better layout of main page."
@@ -22897,7 +22919,7 @@ msgstr "可選地維護 po 文件中的 ``Language-Team`` 標頭。"
 
 #: changes/v1.rst:173
 msgid "Include some statistics in about page."
-msgstr "在 about 頁面中包括一些統計資料。"
+msgstr "在關於頁面中包含一些統計資料。"
 
 #: changes/v1.rst:174
 msgid "Supports (and requires) django-registration 0.8."
@@ -23340,6 +23362,7 @@ msgid "Fixed upload for monolingual files of different format."
 msgstr "修復了不同格式單語言檔案的上傳問題。"
 
 #: changes/v2.rst:126
+#, fuzzy
 msgid "Improved error messages on failed authentication."
 msgstr "改進了認證失敗的錯誤消息。"
 
@@ -23604,6 +23627,7 @@ msgid ""
 msgstr "改進了帶有 OCR 支援的螢幕擷圖管理來匹配來源字串。"
 
 #: changes/v2.rst:211
+#, fuzzy
 msgid "Default commit message now includes translation information and URL."
 msgstr "預設提交消息現在包括翻譯資訊和 URL。"
 
@@ -23903,6 +23927,7 @@ msgid "Removed Google web translate machine translation."
 msgstr "去除了 Google web translation 機器翻譯。"
 
 #: changes/v2.rst:309
+#, fuzzy
 msgid "Improved commit message when adding translation."
 msgstr "改進了 新增翻譯時的提交消息。"
 
@@ -24040,6 +24065,7 @@ msgid "Extended list of options for import_project."
 msgstr "擴充了 import_project 選項的清單。"
 
 #: changes/v2.rst:353
+#, fuzzy
 msgid "Improved targeting for whiteboard messages."
 msgstr "改進了白板消息的目標。"
 
@@ -24452,6 +24478,7 @@ msgid "Rewritten VCS backend."
 msgstr "重寫了 VCS 後端。"
 
 #: changes/v2.rst:477
+#, fuzzy
 msgid "Added whiteboard for site wide messages."
 msgstr "為網站範圍的消息新增了白板。"
 
@@ -24937,6 +24964,7 @@ msgid "Avoid sending duplicate notifications for linked component alerts."
 msgstr "對連接的組件警示避免發送重複的通知。"
 
 #: changes/v3.rst:141
+#, fuzzy
 msgid "Improve default merge request message."
 msgstr "改進了預設的合併請求消息。"
 
@@ -25525,6 +25553,7 @@ msgid "Added support for muting component notifications."
 msgstr "新增了對組件通知靜音的支援。"
 
 #: changes/v3.rst:317
+#, fuzzy
 msgid "Added notifications for new alerts, whiteboard messages or components."
 msgstr "為新的警示、白板消息或組件新增了通知。"
 
@@ -25603,10 +25632,12 @@ msgid "Improved alerting on bad component state."
 msgstr "改進了壞的組件狀態的警示。"
 
 #: changes/v3.rst:345
+#, fuzzy
 msgid "Added user interface to manage whiteboard messages."
 msgstr "新增了管理白板消息的使用者介面。"
 
 #: changes/v3.rst:346
+#, fuzzy
 msgid "Add-on commit message now can be configured."
 msgstr "現在可以配置附加元件提交消息。"
 
@@ -25685,6 +25716,7 @@ msgid ""
 msgstr "新增了帶有翻譯文件自動檢測的翻譯組件新增指南。"
 
 #: changes/v3.rst:369
+#, fuzzy
 msgid "Customizable merge commit messages for Git."
 msgstr "可自訂的 Git 合併提交消息。"
 
@@ -25906,6 +25938,7 @@ msgid "Removed support for merging headers on upload."
 msgstr "刪除了對上傳時合併標頭的支援。"
 
 #: changes/v3.rst:438
+#, fuzzy
 msgid "Removed support for custom commit messages."
 msgstr "刪除了對用戶提交消息的支援。"
 
@@ -25976,6 +26009,7 @@ msgid "Upgrades from older version than 3.0.1 are not supported."
 msgstr "不再支援從早於 3.0.1 的更舊版本的升級。"
 
 #: changes/v3.rst:464
+#, fuzzy
 msgid "Allow to override default commit messages from settings."
 msgstr "允許覆寫從設定中預設提交的消息。"
 
@@ -25997,6 +26031,7 @@ msgid ""
 msgstr "Django 系統檢查現在用於診斷安裝問題。"
 
 #: changes/v3.rst:469
+#, fuzzy
 msgid "Removed support for soon shutdown libravatar service."
 msgstr "刪除了將很快關閉的 libravatar 服務的支援。"
 
@@ -26104,6 +26139,7 @@ msgid ""
 msgstr "部份專案內的組件有警告。"
 
 #: changes/v3.rst:503
+#, fuzzy
 msgid "Support for more variables in commit message templates."
 msgstr "在提交消息範本中支援更多變數。"
 
@@ -27377,7 +27413,7 @@ msgstr "改進了 gitexport 模組中的錯誤處理。"
 
 #: changes/v4.rst:405
 msgid "Fixed avatar display in notification e-mails."
-msgstr "修復了通知電子郵件中的 avatar 顯示。"
+msgstr "修復了通知電子郵件中的頭像顯示。"
 
 #: changes/v4.rst:406
 #, fuzzy
@@ -30229,6 +30265,7 @@ msgid "Improved comments extraction from monolingual po files."
 msgstr "改進了從單語言 po 文件中提取註釋。"
 
 #: changes/v4.rst:1256
+#, fuzzy
 msgid "Renamed whiteboard messages to announcements."
 msgstr "重新命名要宣布的白板消息。"
 
@@ -32579,7 +32616,7 @@ msgstr ""
 
 #: changes/v5.rst:728
 msgid "Avatars for API and internal accounts."
-msgstr ""
+msgstr "適用於 API 與內部帳號的頭像。"
 
 #: changes/v5.rst:729
 msgid ""
@@ -33653,6 +33690,8 @@ msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` "
 "flag is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
+":ref:`check-bbcode` 檢查現在預設為停用。 啟動此檢查需要 ``bbcode-text`` 旗標"
+"，請參閱 :ref:`custom-checks`。"
 
 #: changes/v5.rst:1192
 msgid "API error responses format has changed, see :ref:`api-errors`."
@@ -47739,7 +47778,7 @@ msgstr "機器翻譯引擎"
 msgid ""
 "Machine translation, avatars, status reporting, telemetry, error reporting, "
 "VCS hosts, CDN add-on"
-msgstr ""
+msgstr "機器翻譯 、 頭像 、 狀態報告 、 遙測 、 錯誤報告 、 VCS 主機 、 CDN 附加元件"
 
 #: security/threat-model.rst:90
 msgid "Outbound HTTP(S), provider APIs, logs"
@@ -53261,7 +53300,7 @@ msgstr "BBCode 標記"
 msgid ""
 "This checks no longer relies on unreliable automatic detection, it now needs "
 "to be turned on using the ``bbcode-text`` flag."
-msgstr ""
+msgstr "此檢查不再依賴於不可靠的自動偵測，現在其需要使用 ``bbcode-text`` 旗標啟用。"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Summary"
@@ -53386,6 +53425,7 @@ msgid "Flag to ignore"
 msgstr "要忽略的旗標"
 
 #: snippets/checks-autogenerated.rst:29
+#, fuzzy
 msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
@@ -55376,6 +55416,7 @@ msgid "Translation contains extra zero-width space character."
 msgstr "翻譯中包含有額外的零寬度的空白字元。"
 
 #: snippets/checks-autogenerated.rst:2202
+#, fuzzy
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
@@ -60250,6 +60291,7 @@ msgid ""
 msgstr ""
 
 #: user/profile.rst:245
+#, fuzzy
 msgid ""
 "Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`). "
 "These images are obtained using https://gravatar.com/."
