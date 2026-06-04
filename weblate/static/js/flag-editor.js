@@ -164,7 +164,11 @@
         }
       }
       // Carry over accessibility metadata
-      for (const attr of ["aria-label", "aria-labelledby", "aria-describedby"]) {
+      for (const attr of [
+        "aria-label",
+        "aria-labelledby",
+        "aria-describedby",
+      ]) {
         const value = input.getAttribute(attr);
         if (value) {
           ts.control_input.setAttribute(attr, value);
