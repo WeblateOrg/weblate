@@ -41,6 +41,26 @@ MY_QUESTION_MARK = "\u1038\u104b"
 INTERROBANGS = ("?!", "!?", "؟!", "!؟", "？！", "！？", "⁈", "⁉")
 
 
+class AcceleratorKeyCheck(TargetCheck):
+    """Check for inconsistent accelerator keys."""
+
+    check_id = "accelerators"
+    name = gettext_lazy("Accelerator key")
+    description = gettext_lazy(
+        "Source and translation do not both contain an accelerator key."
+    )
+    default_disabled = True
+    version_added = "2026.7"
+
+    def _check_accelerator(self, source: str, target: str, key: str) -> bool:
+        return target.count(key) > 1 or source.count(key) != target.count(key)
+
+    def check_single(self, source: str, target: str, unit: Unit):
+        return self._check_accelerator(source, target, "&") or self._check_accelerator(
+            source, target, "_"
+        )
+
+
 class BeginNewlineCheck(TargetCheck):
     """Check for newlines at beginning."""
 
