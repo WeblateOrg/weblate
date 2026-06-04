@@ -9,12 +9,16 @@
       <a href="{% url 'about' %}" id="footer-about-link">{% translate "About" context "About this server" %}</a>
     </li>
     {% if has_legal %}
-      <li>
-        <a href="{% url 'legal:terms' %}">{% translate "Terms" context "General terms and conditions" %}</a>
-      </li>
-      <li>
-        <a href="{% url 'legal:privacy' %}">{% translate "Privacy" context "Privacy policy" %}</a>
-      </li>
+      {% if terms_url %}
+        <li>
+          <a href="{{ terms_url }}">{% translate "Terms" context "General terms and conditions" %}</a>
+        </li>
+      {% endif %}
+      {% if privacy_url %}
+        <li>
+          <a href="{{ privacy_url }}">{% translate "Privacy" context "Privacy policy" %}</a>
+        </li>
+      {% endif %}
     {% else %}
       {% if legal_url %}
         <li>

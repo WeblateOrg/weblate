@@ -33,6 +33,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.component_copy import copy_component_addons
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import (
     Category,
     Change,
@@ -58,6 +59,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
     from weblate.trans.models.change import RevertUserEditsResult
+    from weblate.workspaces.models import Workspace
 
 
 @app.task(
@@ -731,7 +733,11 @@ def get_auto_translate_target(
     category_id: int | None,
     project_id: int | None,
     language_id: int | None,
-) -> tuple[Translation | Component | Category | ProjectLanguage, dict[str, int]]:
+    workspace_id: str | None = None,
+) -> tuple[
+    Translation | Component | Category | ProjectLanguage | Workspace,
+    dict[str, int | str],
+]:
     if translation_id is not None:
         translation = Translation.objects.get(pk=translation_id)
         return translation, {"translation": translation.id}
@@ -753,7 +759,15 @@ def get_auto_translate_target(
             "project": project_language.project.id,
             "language": project_language.language.id,
         }
-    msg = "One of translation_id, component_id, category_id, or project_id must be provided"
+    if workspace_id is not None:
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
+        workspace = Workspace.objects.get(pk=workspace_id)
+        return workspace, {"workspace": str(workspace.pk)}
+    msg = (
+        "One of translation_id, component_id, category_id, project_id, "
+        "or workspace_id must be provided"
+    )
     raise ValueError(msg)
 
 
@@ -779,10 +793,10 @@ def auto_translate(  # noqa: PLR0913
     category_id: int | None = None,
     project_id: int | None = None,
     language_id: int | None = None,
+    workspace_id: str | None = None,
     activity_log_id: int | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
-    obj: Translation | Component | Category | ProjectLanguage
     user = User.objects.get(pk=user_id) if user_id else None
     with override(user.profile.language if user else "en"):
         try:
@@ -792,6 +806,7 @@ def auto_translate(  # noqa: PLR0913
                 category_id=category_id,
                 project_id=project_id,
                 language_id=language_id,
+                workspace_id=workspace_id,
             )
         except ObjectDoesNotExist:
             result["message"] = gettext(
@@ -869,12 +884,14 @@ def auto_translate_component(
 
 @app.task(trail=False)
 def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
+    explicit_fields = set(kwargs)
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
     if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
         kwargs["secondary_language"] = Language.objects.get(
             pk=kwargs["secondary_language"]
         )
+    apply_create_inheritance_defaults(kwargs, explicit_fields)
     component = Component(**kwargs)
     # Perform validation to avoid creating duplicate components via background
     # tasks in discovery

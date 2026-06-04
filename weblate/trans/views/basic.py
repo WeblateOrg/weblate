@@ -477,8 +477,10 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     user = request.user
 
     all_changes = obj.change_set.filter_components(request.user).prefetch()
-    last_changes = all_changes.recent()
-    last_announcements = all_changes.filter_announcements().recent()
+    last_changes = all_changes.recent(skip_preload="project")
+    last_announcements = all_changes.filter_announcements().recent(
+        skip_preload="project"
+    )
 
     all_components = obj.get_child_components_access(user, filter_no_category)
     all_components = get_paginator(
@@ -944,6 +946,7 @@ def new_component_language(
             "component": obj,
             "form": form,
             "can_add": obj.can_add_new_language(user),
+            "new_lang": obj.effective_new_lang,
         },
     )
 
@@ -1085,7 +1088,7 @@ def add_languages_to_component(
                     lang_counts[f"added_{lang_code}"] += 1
                     continue
 
-            elif component.new_lang == "contact":
+            elif component.effective_new_lang == "contact":
                 if component.translation_set.filter(language_code=lang_code).exists():
                     continue
                 change_set.create(action=ActionEvents.REQUESTED_LANGUAGE, **kwargs)

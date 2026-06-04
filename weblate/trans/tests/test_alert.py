@@ -21,6 +21,7 @@ from django.utils import timezone
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import UpdateFailure
@@ -226,6 +227,105 @@ class AlertTest(ViewTestCase):
 
         alert.refresh_from_db()
         self.assertGreater(alert.updated, old_updated)
+
+    def test_inexact_hook_match_alert_exact_history(self) -> None:
+        self.component.repo = "https://example.com/owner/repo.git"
+        self.component.save()
+        self.component.change_set.create(
+            action=ActionEvents.HOOK,
+            details={
+                "service_long_name": "Gitea",
+                "repo_url": "https://example.com/owner/repo",
+                "repos": ["https://example.com/owner/repo.git"],
+                "branch": "main",
+                "full_name": "owner/repo",
+            },
+        )
+
+        update_alerts(self.component, {"InexactHookMatch"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        )
+
+    def test_inexact_hook_match_alert_inferred_history(self) -> None:
+        self.component.repo = "https://example.com/owner/repo.git"
+        self.component.save()
+        self.component.change_set.create(
+            action=ActionEvents.HOOK,
+            details={
+                "service_long_name": "Gitea",
+                "repo_url": "https://other.example.com/owner/repo",
+                "repos": ["https://other.example.com/owner/repo.git"],
+                "branch": "main",
+                "full_name": "owner/repo",
+            },
+        )
+
+        update_alerts(self.component, {"InexactHookMatch"})
+
+        alert = self.component.alert_set.get(name="InexactHookMatch")
+        self.assertEqual(alert.severity, AlertSeverity.WARNING)
+        self.assertEqual(alert.details["service_long_name"], "Gitea")
+        self.assertEqual(alert.details["full_name"], "owner/repo")
+
+    def test_inexact_hook_match_alert_configure_link(self) -> None:
+        self.component.add_alert(
+            "InexactHookMatch",
+            service_long_name="Gitea",
+            repo_url="https://example.com/owner/repo",
+            branch="main",
+            full_name="owner/repo",
+        )
+        alert = self.component.alert_set.get(name="InexactHookMatch")
+
+        rendered = alert.render(self.user)
+        self.assertNotIn("Configure component", rendered)
+
+        self.user.is_superuser = True
+        self.user.save()
+
+        rendered = alert.render(self.user)
+        self.assertIn("Configure component", rendered)
+        self.assertIn(reverse("settings", kwargs=self.kw_component), rendered)
+
+    def test_inexact_hook_match_alert_explicit_match_method(self) -> None:
+        self.component.repo = "https://example.com/owner/repo.git"
+        self.component.save()
+        self.component.change_set.create(
+            action=ActionEvents.HOOK,
+            details={
+                "service_long_name": "Gitea",
+                "repo_url": "https://example.com/owner/repo",
+                "repos": ["https://example.com/owner/repo.git"],
+                "branch": "main",
+                "full_name": "owner/repo",
+                "match_method": "fallback",
+            },
+        )
+
+        update_alerts(self.component, {"InexactHookMatch"})
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        )
+
+        self.component.change_set.create(
+            action=ActionEvents.HOOK,
+            details={
+                "service_long_name": "Gitea",
+                "repo_url": "https://example.com/owner/repo",
+                "repos": ["https://example.com/owner/repo.git"],
+                "branch": "main",
+                "full_name": "owner/repo",
+                "match_method": "exact",
+            },
+        )
+        update_alerts(self.component, {"InexactHookMatch"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        )
 
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
@@ -812,6 +912,26 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_no_mask_matches_explains_empty_repository_state(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/nomaskmatches.html",
+            {
+                "analysis": {"can_add": True},
+                "component": SimpleNamespace(filemask="po/*.po"),
+            },
+        )
+
+        self.assertIn(
+            "This is okay when the repository does not contain translations yet.",
+            rendered,
+        )
+        self.assertIn(
+            "The alert will disappear once translations are added in Weblate or "
+            "committed to the repository.",
+            rendered,
+        )
+        self.assertIn("If translations already exist", rendered)
+
     def test_broken_project_url_renders_validation_error_as_main_message(
         self,
     ) -> None:

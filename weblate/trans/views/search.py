@@ -35,6 +35,7 @@ from weblate.utils.views import (
     parse_path_units,
     show_form_errors,
 )
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -49,7 +50,14 @@ def search_replace(request: AuthenticatedHttpRequest, path):
     obj, unit_set, context = parse_path_units(
         request,
         path,
-        (Translation, Component, Project, ProjectLanguage, Category, CategoryLanguage),
+        (
+            Translation,
+            Component,
+            Project,
+            ProjectLanguage,
+            Category,
+            CategoryLanguage,
+        ),
     )
 
     if not request.user.has_perm("unit.edit", obj):
@@ -146,6 +154,7 @@ def search(request: AuthenticatedHttpRequest, path=None):
             Translation,
             Category,
             CategoryLanguage,
+            Workspace,
             Language,
             None,
         ),
@@ -209,7 +218,15 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
     obj, unit_set, context = parse_path_units(
         request,
         path,
-        (Translation, Component, Project, ProjectLanguage, Category, CategoryLanguage),
+        (
+            Translation,
+            Component,
+            Project,
+            ProjectLanguage,
+            Category,
+            CategoryLanguage,
+            Workspace,
+        ),
     )
 
     if not request.user.has_perm("unit.bulk_edit", obj) or not request.user.has_perm(
@@ -217,7 +234,7 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
     ):
         raise PermissionDenied
 
-    form = BulkEditForm(request.user, obj, request.POST, project=context["project"])
+    form = BulkEditForm(request.user, obj, request.POST, project=context.get("project"))
 
     if not form.is_valid():
         messages.error(request, gettext("Could not process form!"))
@@ -233,7 +250,7 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
         remove_flags=form.cleaned_data["remove_flags"],
         add_labels=form.cleaned_data["add_labels"],
         remove_labels=form.cleaned_data["remove_labels"],
-        project=context["project"],
+        project=context.get("project"),
         components=context["components"],
     )
 

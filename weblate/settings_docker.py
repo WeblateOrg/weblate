@@ -32,6 +32,7 @@ from weblate.utils.environment import (
     get_env_float,
     get_env_int,
     get_env_int_or_none,
+    get_env_json,
     get_env_list,
     get_env_list_or_none,
     get_env_map,
@@ -462,6 +463,7 @@ if WEBLATE_SAML_IDP:
     SOCIAL_AUTH_SAML_TITLE = get_env_str(
         "WEBLATE_SAML_IDP_TITLE", accounts_defaults.DEFAULT_SOCIAL_AUTH_SAML_TITLE
     )
+    SOCIAL_AUTH_SAML_SECURITY_CONFIG = get_env_json("WEBLATE_SAML_SECURITY_CONFIG", {})
 
 # Microsoft Entra ID
 SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY")
@@ -933,6 +935,9 @@ if PASSWORD_MINIMAL_STRENGTH > 0:
 # Legal integration
 LEGAL_INTEGRATION = get_env_str("WEBLATE_LEGAL_INTEGRATION")
 if LEGAL_INTEGRATION:
+    LEGAL_DOCUMENT_CSS_CLASS = get_env_str("WEBLATE_LEGAL_DOCUMENT_CSS_CLASS", "tos")
+    LEGAL_HIDDEN_DOCUMENTS = get_env_list("WEBLATE_LEGAL_HIDDEN_DOCUMENTS")
+
     # Hosted Weblate legal documents
     if LEGAL_INTEGRATION == "wllegal":
         INSTALLED_APPS.append("wllegal")
@@ -1338,7 +1343,13 @@ REST_FRAMEWORK = get_drf_settings(
     user_throttle=get_env_ratelimit("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
 )
 DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
-SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
+SPECTACULAR_SETTINGS = get_spectacular_settings(
+    INSTALLED_APPS,
+    SITE_URL,
+    SITE_TITLE,
+    legal_hidden_documents=LEGAL_HIDDEN_DOCUMENTS if LEGAL_INTEGRATION else (),
+    legal_url=get_env_str("WEBLATE_LEGAL_URL", trans_defaults.DEFAULT_LEGAL_URL),
+)
 
 # Fonts CDN URL
 FONTS_CDN_URL = trans_defaults.DEFAULT_FONTS_CDN_URL

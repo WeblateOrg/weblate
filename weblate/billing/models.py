@@ -1212,10 +1212,17 @@ def record_project_billing_workspace(
         instance.billing_previous_workspace_id = None
         return
 
-    workspace_id = instance.workspace_id
     previous_workspace_id = getattr(
-        instance, "billing_original_workspace_id", workspace_id
+        instance, "billing_original_workspace_id", models.DEFERRED
     )
+    if previous_workspace_id is models.DEFERRED:
+        objects = sender.objects
+        if using is not None:
+            objects = objects.db_manager(using)
+        previous_workspace_id = objects.values_list("workspace_id", flat=True).get(
+            pk=instance.pk
+        )
+    workspace_id = instance.__dict__.get("workspace_id", previous_workspace_id)
     if previous_workspace_id == workspace_id:
         previous_workspace_id = None
     instance.billing_previous_workspace_id = previous_workspace_id

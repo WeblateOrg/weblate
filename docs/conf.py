@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "2026.6"
+release = "2026.7"
 
 # -- General configuration ---------------------------------------------------
 
@@ -396,6 +396,7 @@ linkcheck_ignore = [
     "https://api.sap.com/api/translationhub/overview",
     # Anchor is not there for linkcheck
     "https://hub.docker.com/_/postgres#pgdata",
+    "https://github.com/SAML-Toolkits/python3-saml#settings",
     # Protected by Anubis
     "https://anubis.techaro.lol/",
     # Seems unstable

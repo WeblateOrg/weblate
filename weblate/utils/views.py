@@ -44,7 +44,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from django.db.models import Model
-    from django.http import HttpRequest, HttpResponseBase
+    from django.http import HttpRequest, HttpResponseBase, QueryDict
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin
@@ -239,15 +239,20 @@ SORT_CHOICES = {
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
 
 
-def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
+def get_sort_name(
+    request: AuthenticatedHttpRequest, obj=None, query_data: QueryDict | None = None
+):
     """Get sort name."""
-    if isinstance(obj, (Project, Category, ProjectLanguage, CategoryLanguage)):
+    if isinstance(
+        obj, (Project, Category, ProjectLanguage, CategoryLanguage, Workspace)
+    ):
         default = "component,-priority"
     elif hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
     else:
         default = "-priority,position"
-    sort_query = request.GET.get("sort_by", default)
+    data = request.GET if query_data is None else query_data
+    sort_query = data.get("sort_by", default)
     sort_params = sort_query.replace("-", "")
     sort_name = SORT_LOOKUP.get(sort_params, gettext("Position and priority"))
     return {
@@ -417,6 +422,11 @@ def parse_path_units(
     elif isinstance(obj, Project):
         unit_set = access_units.filter(translation__component__project=obj).prefetch()
         context["project"] = obj
+    elif isinstance(obj, Workspace):
+        unit_set = access_units.filter(
+            translation__component__project__workspace=obj
+        ).prefetch()
+        context["workspace"] = obj
     elif isinstance(obj, ProjectLanguage):
         unit_set = access_units.filter(
             translation__component__project=obj.project,

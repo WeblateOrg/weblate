@@ -326,7 +326,7 @@ class GitSquashAddon(
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
             component.commit_files(
-                template=component.addon_message,
+                template=component.effective_addon_message,
                 extra_context={"addon_name": self.verbose},
                 signals=False,
                 skip_push=True,

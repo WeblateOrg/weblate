@@ -45,6 +45,7 @@ from weblate.addons.forms import (
     SphinxExtractPotForm,
     XgettextExtractPotForm,
 )
+from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.file_format_params import get_default_params_for_file_format
@@ -7303,6 +7304,19 @@ class SiteWideAddonsTest(ViewTestCase):
     def create_component(self):
         return self.create_java()
 
+    def grant_global_permissions(self, *permissions: str) -> None:
+        role, _created = Role.objects.get_or_create(name="Test management role")
+        permission_objects = list(Permission.objects.filter(codename__in=permissions))
+        self.assertEqual(
+            {permission.codename for permission in permission_objects},
+            set(permissions),
+        )
+        role.permissions.add(*permission_objects)
+        group, _created = Group.objects.get_or_create(name="Test management team")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
     def test_history_filters_sitewide_changes(self) -> None:
         self.user.is_superuser = True
         self.user.save()
@@ -7351,6 +7365,30 @@ class SiteWideAddonsTest(ViewTestCase):
         self.assertNotContains(response, category_target)
         self.assertNotContains(response, component_target)
         self.assertLessEqual(len(queries), 50, [query["sql"] for query in queries])
+
+    def test_sitewide_addon_detail_requires_management_access(self) -> None:
+        identifier = "weblate.addon.nonexisting"
+        Addon.objects.bulk_create([Addon(name=identifier)])
+        addon = Addon.objects.get(name=identifier)
+        detail_url = reverse("addon-detail", kwargs={"pk": addon.pk})
+        logs_url = reverse("addon-logs", kwargs={"pk": addon.pk})
+
+        self.grant_global_permissions("management.addons")
+
+        response = self.client.get(detail_url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(logs_url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(detail_url, {"delete": "1"})
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(Addon.objects.filter(pk=addon.pk).exists())
+
+        self.grant_global_permissions("management.use")
+
+        response = self.client.get(detail_url)
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(logs_url)
+        self.assertEqual(response.status_code, 200)
 
     def test_gettext(self) -> None:
         MsgmergeAddon.create()

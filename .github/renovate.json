@@ -3,6 +3,22 @@
   "extends": [
     "github>WeblateOrg/meta:renovate"
   ],
+  "baseBranchPatterns": [
+    "main",
+    "stable"
+  ],
+  "packageRules": [
+    {
+      "description": "Only security updates on stable",
+      "matchBaseBranches": [
+        "stable"
+      ],
+      "matchPackageNames": [
+        "*"
+      ],
+      "enabled": false
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",

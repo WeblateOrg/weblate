@@ -27,6 +27,7 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from responses import matchers
 
+from weblate.trans import defaults
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import REPO_TEMP_DIRNAME
@@ -764,6 +765,7 @@ class GitBranchValidationTest(SimpleTestCase):
             pk=-1,
         )
         component.pull_message = "Title\n\nBody"
+        component.inherit_pull_message = False
 
         repo = GithubFakeRepository(".", branch="main", component=component, local=True)
 
@@ -773,6 +775,29 @@ class GitBranchValidationTest(SimpleTestCase):
             "origin/main",
         )
         self.assertIsInstance(component.repository, GitRepository)
+
+    def test_default_pull_message_title_ignores_multiline_names(self) -> None:
+        component = Component(
+            slug="test",
+            name="Test\ncomponent",
+            project=Project(name="Test\nproject", slug="test", pk=-1),
+            source_language_id=1,
+            branch="main",
+            vcs="git",
+            repo="https://example.invalid/repo.git",
+            pk=-1,
+        )
+        component.pull_message = defaults.DEFAULT_PULL_MESSAGE
+        component.inherit_pull_message = False
+
+        repo = GithubFakeRepository(".", branch="main", component=component, local=True)
+
+        with patch.object(
+            Component, "get_linked_children_for_template", return_value=[]
+        ):
+            title, body = repo.get_merge_message()
+        self.assertEqual(title, "chore(l10n): update translations")
+        self.assertIn("Test\nproject/Test\ncomponent", body)
 
 
 class RepositoryHostKeyErrorTest(SimpleTestCase):
@@ -2266,6 +2291,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
     def test_merge_message(self) -> None:
         repo = self.repo
         component = repo.component
+        component.inherit_pull_message = False
         component.pull_message = "Test message\n\nBody"
         self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
         component.pull_message = "Test message\r\n\r\nBody"

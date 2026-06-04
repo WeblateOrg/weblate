@@ -14,12 +14,21 @@
       </h4>
     </div>
     <div class="card-body">
-      <p>
-        {% translate "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}
-      </p>
-      <p>
-        {% translate "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this project." %}
-      </p>
+      {% if workspace and object == workspace %}
+        <p>
+          {% translate "Automatic translation takes existing translations in this workspace and applies them to matching strings." %}
+        </p>
+        <p>
+          {% translate "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this workspace." %}
+        </p>
+      {% else %}
+        <p>
+          {% translate "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}
+        </p>
+        <p>
+          {% translate "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this project." %}
+        </p>
+      {% endif %}
       {% crispy autoform %}
     </div>
     <div class="card-footer">

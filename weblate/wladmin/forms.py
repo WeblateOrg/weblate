@@ -77,6 +77,19 @@ class WorkspaceCreateForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
+class WorkspaceSearchForm(forms.Form):
+    q = forms.CharField(
+        label=gettext_lazy("Search"),
+        required=False,
+        widget=forms.SearchInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": gettext_lazy("Search workspaces"),
+            }
+        ),
+    )
+
+
 class BackupSelectionForm(forms.Form):
     service = forms.ModelChoiceField(BackupService.objects.all())
 

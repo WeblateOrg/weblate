@@ -53,7 +53,7 @@ import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.views
 import weblate.workspaces.views
-from weblate.auth.decorators import management_access
+from weblate.auth.decorators import management_permission_required
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
@@ -555,31 +555,41 @@ real_patterns = [
     ),
     path(
         "manage/memory/",
-        management_access(weblate.memory.views.MemoryView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.MemoryView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory",
     ),
     path(
         "manage/memory/upload/",
-        management_access(weblate.memory.views.UploadView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.UploadView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-upload",
     ),
     path(
         "manage/memory/delete/",
-        management_access(weblate.memory.views.DeleteView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.DeleteView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-delete",
     ),
     path(
         "manage/memory/rebuild/",
-        management_access(weblate.memory.views.RebuildView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.RebuildView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-rebuild",
     ),
     path(
         "manage/memory/download/",
-        management_access(weblate.memory.views.DownloadView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.DownloadView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-download",
     ),
@@ -611,12 +621,16 @@ real_patterns = [
     # Machinery
     path(
         "manage/machinery/",
-        management_access(weblate.machinery.views.ListMachineryGlobalView.as_view()),
+        management_permission_required("machinery.edit")(
+            weblate.machinery.views.ListMachineryGlobalView.as_view()
+        ),
         name="manage-machinery",
     ),
     path(
         "manage/machinery/<name:machinery>/",
-        management_access(weblate.machinery.views.EditMachineryGlobalView.as_view()),
+        management_permission_required("machinery.edit")(
+            weblate.machinery.views.EditMachineryGlobalView.as_view()
+        ),
         name="machinery-edit",
     ),
     path(
@@ -835,7 +849,11 @@ real_patterns = [
     path("manage/", weblate.wladmin.views.manage, name="manage"),
     path("manage/support/", weblate.wladmin.views.support_form, name="manage-support"),
     path(
-        "manage/addons/", weblate.addons.views.AddonList.as_view(), name="manage-addons"
+        "manage/addons/",
+        management_permission_required("management.addons")(
+            weblate.addons.views.AddonList.as_view()
+        ),
+        name="manage-addons",
     ),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
     path(

@@ -8,7 +8,7 @@ from shutil import disk_usage
 
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, Any, Literal, cast, get_args
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 from django.conf import settings
 from django.core.cache import cache
@@ -16,7 +16,7 @@ from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -31,7 +31,10 @@ from requests.exceptions import HTTPError, Timeout
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.views import UserList, get_initial_contact
-from weblate.auth.decorators import management_access
+from weblate.auth.decorators import (
+    management_access,
+    management_permission_required,
+)
 from weblate.auth.forms import (
     AdminBulkInviteForm,
     AdminInviteUserForm,
@@ -78,6 +81,7 @@ from weblate.wladmin.forms import (
     SSHAddForm,
     TestMailForm,
     WorkspaceCreateForm,
+    WorkspaceSearchForm,
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, support_status_update
@@ -187,11 +191,17 @@ def send_test_mail(email: str) -> None:
 
 @management_access
 def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
-    email_form = TestMailForm(initial={"email": request.user.email})
-    announce_form = AnnouncementForm()
+    can_configure = request.user.has_perm("management.configure")
+    email_form = (
+        TestMailForm(initial={"email": request.user.email}) if can_configure else None
+    )
+    can_post_announcement = request.user.has_perm("announcement.edit")
+    announce_form = AnnouncementForm() if can_post_announcement else None
 
     if request.method == "POST":
         if "email" in request.POST:
+            if not can_configure:
+                raise PermissionDenied
             email_form = TestMailForm(request.POST)
             if email_form.is_valid():
                 try:
@@ -205,10 +215,14 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
                 return redirect("manage-tools")
 
         if "sentry" in request.POST:
+            if not can_configure:
+                raise PermissionDenied
             report_error("Test message", message=True, level="info")
             return redirect("manage-tools")
 
         if "message" in request.POST:
+            if not can_post_announcement:
+                raise PermissionDenied
             announce_form = AnnouncementForm(request.POST)
             if announce_form.is_valid():
                 Announcement.objects.create(
@@ -223,11 +237,13 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
             "menu_page": "tools",
             "email_form": email_form,
             "announce_form": announce_form,
+            "can_configure": can_configure,
+            "can_post_announcement": can_post_announcement,
         },
     )
 
 
-@management_access
+@management_permission_required("management.configure")
 @require_POST
 @transaction.atomic
 def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
@@ -248,7 +264,7 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
     return redirect("manage")
 
 
-@management_access
+@management_permission_required("management.configure")
 @require_POST
 @transaction.atomic
 def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
@@ -324,7 +340,7 @@ def repos(request: AuthenticatedHttpRequest) -> HttpResponse:
     )
 
 
-@management_access
+@management_permission_required("management.configure")
 def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
     form = BackupForm()
     if request.method == "POST":
@@ -381,6 +397,8 @@ def handle_dismiss(request: AuthenticatedHttpRequest) -> HttpResponse:
 def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show performance tuning tips."""
     if request.method == "POST":
+        if not request.user.has_perm("management.configure"):
+            raise PermissionDenied
         return handle_dismiss(request)
     checks = sorted(
         (
@@ -426,7 +444,7 @@ def get_key_type(data: QueryDict) -> KeyType:
     return cast("KeyType", value)
 
 
-@management_access
+@management_permission_required("management.configure")
 def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
     key_type = get_key_type(request.GET)
     filename, data = get_key_data_raw(key_type=key_type, kind="private")
@@ -439,7 +457,7 @@ def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
     return response
 
 
-@management_access
+@management_permission_required("management.configure")
 def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show information and manipulate with SSH key."""
     # Check whether we can generate SSH key
@@ -518,6 +536,16 @@ class AdminUserList(UserList):
     def get_bulk_invite_form(data=None) -> AdminBulkInviteForm:
         return AdminBulkInviteForm(data, auto_id="id_admin_bulk_invite_%s")
 
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        if request.method == "POST":
+            if not request.user.has_perm("user.edit"):
+                raise PermissionDenied
+        elif not (
+            request.user.has_perm("user.view") or request.user.has_perm("user.edit")
+        ):
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
         if "emails" in request.POST:
             bulk_invite_form = self.get_bulk_invite_form(request.POST)
@@ -535,21 +563,31 @@ class AdminUserList(UserList):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
+        can_edit_users = self.request.user.has_perm("user.edit")
 
-        if self.request.method == "POST" and "email" in self.request.POST:
+        posted_invite = self.request.method == "POST" and "email" in self.request.POST
+        if can_edit_users and posted_invite:
             invite_form = self.get_invite_form(self.request.POST)
             invite_form.is_valid()
-        else:
+        elif can_edit_users:
             invite_form = self.get_invite_form()
+        else:
+            invite_form = None
 
-        if self.request.method == "POST" and "emails" in self.request.POST:
+        posted_bulk_invite = (
+            self.request.method == "POST" and "emails" in self.request.POST
+        )
+        if can_edit_users and posted_bulk_invite:
             bulk_invite_form = self.get_bulk_invite_form(self.request.POST)
             bulk_invite_form.is_valid()
-        else:
+        elif can_edit_users:
             bulk_invite_form = self.get_bulk_invite_form()
+        else:
+            bulk_invite_form = None
 
         result["menu_items"] = MENU
         result["menu_page"] = "users"
+        result["can_edit_users"] = can_edit_users
         result["invite_form"] = invite_form
         result["bulk_invite_form"] = bulk_invite_form
         result["search_form"] = self.form
@@ -557,7 +595,7 @@ class AdminUserList(UserList):
         return result
 
 
-@management_access
+@management_permission_required("user.edit")
 def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
     data: QueryDict = request.GET
     # Legacy links for care.weblate.org integration
@@ -579,7 +617,7 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
     return redirect("manage-users")
 
 
-@management_access
+@management_permission_required("management.configure")
 def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
     current = Setting.objects.get_settings_dict(SettingCategory.UI)
     form = AppearanceForm(initial=current)
@@ -625,7 +663,7 @@ def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
     )
 
 
-@management_access
+@management_permission_required("billing.manage")
 def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
     from weblate.billing.models import Billing  # noqa: PLC0415
 
@@ -683,6 +721,16 @@ class TeamListView(FormMixin, ListView):
     model = Group
     form_class = SitewideTeamForm
 
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
+        if request.method == "POST":
+            if not request.user.has_perm("group.edit"):
+                raise PermissionDenied
+        elif not (
+            request.user.has_perm("group.view") or request.user.has_perm("group.edit")
+        ):
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
     def get_queryset(self) -> QuerySet[Group]:
         return (
             cast("GroupQuerySet", super().get_queryset())
@@ -696,6 +744,7 @@ class TeamListView(FormMixin, ListView):
         result = super().get_context_data(**kwargs)
         result["menu_items"] = MENU
         result["menu_page"] = "teams"
+        result["can_edit_teams"] = self.request.user.has_perm("group.edit")
         return result
 
     def get_success_url(self) -> str:
@@ -718,18 +767,38 @@ class WorkspaceListView(ListView):
     paginate_by = 50
     model = Workspace
 
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
+        super().setup(request, *args, **kwargs)
+        self.search_form = WorkspaceSearchForm(request.GET)
+
     def get_queryset(self) -> QuerySet[Workspace]:
         queryset = Workspace.objects.annotate(Count("projects")).order()
-        if "weblate.billing" in settings.INSTALLED_APPS:
+        billing_enabled = "weblate.billing" in settings.INSTALLED_APPS
+        if self.search_form.is_valid() and (
+            query := self.search_form.cleaned_data["q"].strip()
+        ):
+            filters = Q(name__icontains=query)
+            if billing_enabled:
+                filters |= Q(billing__customer_name__icontains=query)
+            queryset = queryset.filter(filters)
+        if billing_enabled:
             queryset = queryset.select_related("billing")
         return queryset
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
+        search_query = ""
+        if self.search_form.is_valid():
+            search_query = self.search_form.cleaned_data["q"].strip()
+        search_items = (("q", search_query),) if search_query else ()
         result["menu_items"] = MENU
         result["menu_page"] = "workspaces"
         result["billing_enabled"] = "weblate.billing" in settings.INSTALLED_APPS
         result["can_add_workspace"] = self.request.user.has_perm("workspace.add")
+        result["search_form"] = self.search_form
+        result["search_query"] = search_query
+        result["search_items"] = search_items
+        result["query_string"] = urlencode(search_items)
         return result
 
 

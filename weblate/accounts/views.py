@@ -26,7 +26,6 @@ from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import (
     ImproperlyConfigured,
     ObjectDoesNotExist,
-    PermissionDenied,
     ValidationError,
 )
 from django.core.mail.message import EmailMessage
@@ -144,6 +143,7 @@ from weblate.accounts.utils import (
     remove_user,
     reset_api_token,
 )
+from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Invitation, User, get_anonymous
 from weblate.auth.utils import (
@@ -504,10 +504,17 @@ def user_profile(request: AuthenticatedHttpRequest):
     license_components = (
         Component.objects.filter_access(user)
         .filter(translation__id__in=user_translation_ids)
-        .exclude(license="")
         .prefetch(alerts=False)
         .distinct()
-        .order_by("license")
+    )
+    license_components = sorted(
+        (
+            component
+            for component in license_components
+            if component.effective_license
+            and component.effective_license != "proprietary"
+        ),
+        key=lambda component: component.effective_license,
     )
 
     return render(
@@ -761,8 +768,7 @@ class UserPage(UpdateView):
         return HttpResponseRedirect(f"{self.get_success_url()}#groups")
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        if not request.user.has_perm("user.edit"):
-            raise PermissionDenied
+        check_management_access(request, "user.edit")
         user = self.object = self.get_object()
         if "add_group" in request.POST:
             response = self.handle_add_group(request, user)

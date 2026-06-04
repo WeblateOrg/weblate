@@ -908,6 +908,10 @@ Generic settings
     :file:`/app/data/python/customize/templates/legal/documents`, see
     :ref:`docker-static-override`.
 
+    Recreate the Docker container after changing this environment variable,
+    for example using :program:`docker compose up -d`. Restarting an existing
+    container does not apply changed environment values.
+
     **Example:**
 
     .. code-block:: yaml
@@ -919,6 +923,35 @@ Generic settings
 
        * :ref:`legal`
        * :ref:`docker-static-override`
+
+.. envvar:: WEBLATE_LEGAL_DOCUMENT_CSS_CLASS
+
+    Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments with
+    :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
+
+    Set this to an empty string to disable the built-in legal document
+    numbering.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_DOCUMENT_CSS_CLASS: ""
+
+.. envvar:: WEBLATE_LEGAL_HIDDEN_DOCUMENTS
+
+    Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments with
+    :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
+
+    Provide a comma-separated list of legal document page identifiers.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_HIDDEN_DOCUMENTS: contracts
 
 .. envvar:: WEBLATE_PUBLIC_ENGAGE
 
@@ -1730,6 +1763,24 @@ In case you want to use own keys, place the certificate and private key in
 .. envvar:: WEBLATE_SAML_IDP_TITLE
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
+
+.. envvar:: WEBLATE_SAML_SECURITY_CONFIG
+
+    .. versionadded:: 2026.6
+
+    SAML security configuration as a JSON object, passed to
+    ``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. For example, to disable the
+    ``requestedAuthnContext`` (needed for some identity providers such as
+    Microsoft Entra ID with multi-factor authentication):
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_SAML_SECURITY_CONFIG: '{"requestedAuthnContext": false}'
+
+    .. seealso::
+
+       `python3-saml security settings <https://github.com/SAML-Toolkits/python3-saml#settings>`_
 
 .. envvar:: WEBLATE_SAML_ID_ATTR_FULL_NAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_FIRST_NAME

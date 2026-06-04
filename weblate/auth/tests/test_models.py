@@ -9,7 +9,7 @@ from django.contrib.auth.models import Group as DjangoGroup
 
 from weblate.auth import permissions as auth_permissions
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
 from weblate.auth.utils import format_membership_limit_language_codes
 from weblate.lang.models import Language
 from weblate.trans.models import Category, ComponentLink, ComponentList, Project
@@ -566,6 +566,16 @@ class ModelTest(FixtureComponentTestCase):
             set(self.user.allowed_projects.values_list("slug", flat=True)),
             {public_project.slug, protected_project.slug, self.project.slug},
         )
+
+    def test_blocked_project_access_query(self) -> None:
+        public_project = Project.objects.create(
+            slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
+        )
+        UserBlock.objects.create(user=self.user, project=public_project)
+
+        self.user.clear_cache()
+
+        self.assertNotIn(public_project, self.user.allowed_projects)
 
     def test_needs_project_filter(self) -> None:
         Project.objects.create(

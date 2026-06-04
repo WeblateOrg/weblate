@@ -62,7 +62,7 @@
           {% endif %}
 
           {% if component %}
-            {% if component.license %}
+            {% if component.effective_license %}
               <tr>
                 <th>{% translate "Translation license" %}</th>
                 <td colspan="2" class="full-cell">
@@ -75,7 +75,7 @@
               </tr>
             {% endif %}
 
-            {% if component.agreement %}
+            {% if component.effective_agreement %}
               <tr>
                 <th>{% translate "Contributor license agreement" %}</th>
                 <td colspan="2" class="full-cell">
@@ -83,7 +83,7 @@
                     <a class="btn btn-primary float-end"
                        href="{% url 'contributor-agreement' path=component.get_url_path %}">{% translate "View" %}</a>
                   {% endif %}
-                  {{ component.agreement|markdown }}
+                  {{ component.effective_agreement|markdown }}
                 </td>
               </tr>
             {% endif %}

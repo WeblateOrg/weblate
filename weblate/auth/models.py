@@ -86,6 +86,9 @@ if TYPE_CHECKING:
 
     PermissionCacheType = dict[int, PermissionList]
     SimplePermissionCacheType = dict[int, SimplePermissionList]
+    ClaScope = Literal["category", "component", "project", "workspace"]
+    ClaCacheKey = tuple[int | None, ClaScope, int | uuid.UUID | None]
+    ClaCache = dict[ClaCacheKey, bool]
 
     class PermissionsDictType(TypedDict):
         projects: PermissionCacheType
@@ -773,7 +776,7 @@ class User(AbstractBaseUser):
 
     def __init__(self, *args, **kwargs) -> None:
         self.extra_data: dict[str, str] = {}
-        self.cla_cache: dict[tuple[int, int], bool] = {}
+        self.cla_cache: ClaCache = {}
         self.current_subscription: Subscription | None = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
@@ -930,20 +933,39 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.order()
+        return Project.objects.filter(self.get_project_access_query()).order()
+
+    def get_project_access_query(self, prefix: str = "") -> Q:
+        """Return direct project access filter for related objects."""
+        if self.is_superuser:
+            return Q()
+
+        field_prefix = f"{prefix}__" if prefix else ""
         # All public and protected projects are accessible
         acls = {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
-        if -SELECTION_ALL in self.project_permissions:
+        if self.project_permissions[-SELECTION_ALL]:
             acls.add(Project.ACCESS_PRIVATE)
             acls.add(Project.ACCESS_CUSTOM)
-        condition = Q(access_control__in=acls)
+        condition = Q(**{f"{field_prefix}access_control__in": acls})
+
+        blocked_ids = {
+            key
+            for key, permissions in self.project_permissions.items()
+            if permissions == [(None, None)]
+        }
+        if blocked_ids:
+            condition &= ~Q(**{f"{field_prefix}pk__in": blocked_ids})
 
         # Add project-specific allowance
         restricted = {-SELECTION_ALL_PUBLIC, -SELECTION_ALL_PROTECTED, -SELECTION_ALL}
-        project_ids = {key for key in self.project_permissions if key not in restricted}
+        project_ids = {
+            key
+            for key, permissions in self.project_permissions.items()
+            if key not in restricted and key not in blocked_ids and permissions
+        }
         if project_ids:
-            condition |= Q(pk__in=project_ids)
-
-        return Project.objects.filter(condition).order()
+            condition |= Q(**{f"{field_prefix}pk__in": project_ids})
+        return condition
 
     @cached_property
     def needs_component_restrictions_filter(self):
@@ -955,7 +977,7 @@ class User(AbstractBaseUser):
     def needs_project_filter(self):
         if self.is_superuser:
             return False
-        if -SELECTION_ALL in self.project_permissions:
+        if self.project_permissions[-SELECTION_ALL]:
             return False
         return Project.objects.exclude(
             pk__in=self.allowed_projects.values("pk").order_by()
@@ -1541,11 +1563,20 @@ def setup_project_groups(
 ) -> None:
     """Set up group objects upon saving project."""
     old_access_control = instance.old_access_control
+    if old_access_control is models.DEFERRED:
+        old_access_control = instance.access_control
     instance.old_access_control = instance.access_control
 
+    old_translation_review = instance.old_translation_review
+    if old_translation_review is models.DEFERRED:
+        old_translation_review = instance.translation_review
+    old_source_review = instance.old_source_review
+    if old_source_review is models.DEFERRED:
+        old_source_review = instance.source_review
+
     changed_review = (
-        instance.old_translation_review != instance.translation_review
-        or instance.old_source_review != instance.source_review
+        old_translation_review != instance.translation_review
+        or old_source_review != instance.source_review
     )
     # Handle no groups as newly created project
     if not created and not instance.defined_groups.exists():

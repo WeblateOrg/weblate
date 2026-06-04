@@ -17,6 +17,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import F
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
@@ -129,6 +130,28 @@ class ComponentTest(RepoTestCase):
             source="Hello, world!\n", translation__language__code="cs"
         )
         self.assertEqual(unit.state, STATE_EMPTY)
+
+    def test_direct_create_explicit_license_disables_inheritance(self) -> None:
+        project = self.create_project()
+        repo = self.format_local_path(self.git_repo_path)
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            component = Component.objects.create(
+                name="Licensed",
+                slug="licensed",
+                project=project,
+                repo=repo,
+                push=repo,
+                branch=VCS_REGISTRY["git"].get_remote_branch(repo),
+                filemask="po/*.po",
+                file_format="po",
+                new_lang="contact",
+                push_on_commit=False,
+                license="GPL-3.0-or-later",
+            )
+
+        self.assertFalse(component.inherit_license)
+        self.assertEqual(component.effective_license, "GPL-3.0-or-later")
 
     def test_create_dot(self) -> None:
         component = self._create_component("po", "./po/*.po")
@@ -621,6 +644,21 @@ class ComponentTest(RepoTestCase):
         component.check_flags = f"ignore-{check.name}"
         with self.captureOnCommitCallbacks(execute=True):
             component.save()
+        self.assertEqual(Check.objects.count(), 0)
+
+    def test_category_update_checks(self) -> None:
+        """Moving to category changes checks inherited by related units."""
+        component = self.create_component()
+        self.assertEqual(Check.objects.count(), 3)
+        check = Check.objects.all()[0]
+        category = component.project.category_set.create(
+            name="Checks", slug="checks", check_flags=f"ignore-{check.name}"
+        )
+
+        component.category = category
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save(update_fields=["category"])
+
         self.assertEqual(Check.objects.count(), 0)
 
     def test_create_symlinks(self):
@@ -1397,6 +1435,40 @@ class ComponentErrorTest(RepoTestCase):
             self.component.template_store  # noqa: B018
         with self.assertRaises(ValidationError):
             self.component.clean()
+
+    def test_template_store_translate_parse_error_is_not_reported(self) -> None:
+        self.component.drop_template_store_cache()
+
+        with (
+            patch.object(
+                self.component, "load_template_store", side_effect=ParseError("invalid")
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+            self.assertRaises(FileParseError),
+        ):
+            # pylint: disable-next=pointless-statement
+            self.component.template_store  # noqa: B018
+
+        report_error.assert_not_called()
+
+    def test_template_store_unexpected_error_is_reported(self) -> None:
+        self.component.drop_template_store_cache()
+
+        with (
+            patch.object(
+                self.component,
+                "load_template_store",
+                side_effect=ValueError("unexpected"),
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+            self.assertRaises(FileParseError),
+        ):
+            # pylint: disable-next=pointless-statement
+            self.component.template_store  # noqa: B018
+
+        report_error.assert_called_once_with(
+            "Template parse error", project=self.component.project
+        )
 
     def test_change_source_language(self) -> None:
         self.component.source_language = Language.objects.get(code="cs")

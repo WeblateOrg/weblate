@@ -37,6 +37,7 @@ from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
     PluralFormsMismatchError,
+    is_expected_parse_error,
 )
 from weblate.trans.file_format_params import (
     GettextLastTranslator,
@@ -161,33 +162,93 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         from weblate.trans.models import Component  # noqa: PLC0415
 
         component_prefetch: str | models.Prefetch
+        component_project: str | models.Prefetch
+        category: str | models.Prefetch
+        category_project: str | models.Prefetch
+        parent_category: str | models.Prefetch
+        parent_category_project: str | models.Prefetch
+        grandparent_category: str | models.Prefetch
+        grandparent_category_project: str | models.Prefetch
+        component_project_workspace: str | models.Prefetch
         if defer_huge:
+            from weblate.trans.models import Category, Project  # noqa: PLC0415
+            from weblate.workspaces.models import Workspace  # noqa: PLC0415
+
             component_prefetch = models.Prefetch(
                 "component", queryset=Component.objects.defer_huge()
             )
+            component_project = models.Prefetch(
+                "component__project", queryset=Project.objects.defer_huge()
+            )
+            category = models.Prefetch(
+                "component__category", queryset=Category.objects.defer_huge()
+            )
+            category_project = models.Prefetch(
+                "component__category__project", queryset=Project.objects.defer_huge()
+            )
+            parent_category = models.Prefetch(
+                "component__category__category",
+                queryset=Category.objects.defer_huge(),
+            )
+            parent_category_project = models.Prefetch(
+                "component__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            )
+            grandparent_category = models.Prefetch(
+                "component__category__category__category",
+                queryset=Category.objects.defer_huge(),
+            )
+            grandparent_category_project = models.Prefetch(
+                "component__category__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            )
+            component_project_workspace = models.Prefetch(
+                "component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            )
         else:
             component_prefetch = "component"
+            component_project = "component__project"
+            category = "component__category"
+            category_project = "component__category__project"
+            parent_category = "component__category__category"
+            parent_category_project = "component__category__category__project"
+            grandparent_category = "component__category__category__category"
+            grandparent_category_project = (
+                "component__category__category__category__project"
+            )
+            component_project_workspace = "component__project__workspace"
 
         return self.prefetch_related(
             component_prefetch,
-            "component__project",
-            "component__category",
-            "component__category__project",
-            "component__category__category",
-            "component__category__category__project",
-            "component__category__category__category",
-            "component__category__category__category__project",
+            component_project,
+            component_project_workspace,
+            category,
+            category_project,
+            parent_category,
+            parent_category_project,
+            grandparent_category,
+            grandparent_category_project,
         ).prefetch_meta()
 
     def prefetch_meta(self):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        from weblate.trans.models import Component, Project  # noqa: PLC0415
+        from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
         return self.prefetch_related(
             "language",
             models.Prefetch(
-                "component__linked_component", queryset=Component.objects.defer_huge()
+                "component__linked_component",
+                queryset=Component.objects.defer_huge(),
             ),
-            "component__linked_component__project",
+            models.Prefetch(
+                "component__linked_component__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "component__linked_component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            ),
             "component__alert_set",
         )
 
@@ -197,7 +258,7 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
-            result = result.filter(component__project__in=user.allowed_projects)
+            result = result.filter(user.get_project_access_query("component__project"))
         if user.needs_component_restrictions_filter:
             result = result.filter(
                 Q(component__restricted=False)
@@ -436,9 +497,12 @@ class Translation(
         except FileParseError:
             raise
         except Exception as exc:
-            report_error(
-                "Translation parse error", project=self.component.project, print_tb=True
-            )
+            if not is_expected_parse_error(exc):
+                report_error(
+                    "Translation parse error",
+                    project=self.component.project,
+                    print_tb=True,
+                )
             self.component.handle_parse_error(exc, self)
             raise
 
@@ -663,9 +727,11 @@ class Translation(
                     user=user, author=author
                 )
             except FileParseError as error:
-                report_error(
-                    "Could not parse file on update", project=self.component.project
-                )
+                if not is_expected_parse_error(error):
+                    report_error(
+                        "Could not parse file on update",
+                        project=self.component.project,
+                    )
                 self.log_warning("skipping update due to parse error: %s", error)
                 self.store_update_changes()
                 return
@@ -845,9 +911,10 @@ class Translation(
         try:
             store = self.store
         except FileParseError as error:
-            report_error(
-                "Could not parse file on commit", project=self.component.project
-            )
+            if not is_expected_parse_error(error):
+                report_error(
+                    "Could not parse file on commit", project=self.component.project
+                )
             self.log_error("skipping commit due to error: %s", error)
             return False
 
@@ -1104,7 +1171,7 @@ class Translation(
         """Commit translation to git."""
         repository = self.component.repository
         if template is None:
-            template = self.component.commit_message
+            template = self.component.effective_commit_message
         with repository.lock:
             # Pre commit hook
             vcs_pre_commit.send(
@@ -1965,7 +2032,7 @@ class Translation(
 
         # Build commit message before deleting (needs stats from DB)
         commit_message = self.get_commit_message(
-            author, template=self.component.delete_message
+            author, template=self.component.effective_delete_message
         )
 
         # Delete the translation from the database before committing

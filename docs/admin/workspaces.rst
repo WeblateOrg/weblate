@@ -43,6 +43,172 @@ workspace. The target workspace also requires the
 :guilabel:`Add projects to workspace` permission. Moving a project out of a
 workspace also requires the site-wide :guilabel:`Add new projects` permission.
 
+.. _workspace-settings:
+
+Workspace settings
+------------------
+
+Workspace settings define workspace identity and defaults inherited by projects
+and components.
+
+.. _workspace-name:
+
+Workspace name
+++++++++++++++
+
+Verbose workspace name used in workspace listings and project organization.
+
+.. _workspace-license:
+
+Translation license
++++++++++++++++++++
+
+Default translation license for projects and components in this workspace.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-license`
+
+.. _workspace-agreement:
+
+Contributor license agreement
++++++++++++++++++++++++++++++
+
+Default contributor license agreement for projects and components in this
+workspace. Markdown can be used for text formatting or inserting links.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-agreement`
+
+.. _workspace-new-lang:
+
+Adding new translation
+++++++++++++++++++++++
+
+Default behavior for requests to create new translations in projects and
+components in this workspace.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-new_lang`
+
+.. _workspace-language-code-style:
+
+Language code style
++++++++++++++++++++
+
+Default language code style for translations created by Weblate in projects
+and components in this workspace.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`component-language_code_style`
+
+.. _workspace-secondary-language:
+
+Secondary language
+++++++++++++++++++
+
+Default secondary language to show together with the source language while
+translating projects and components in this workspace.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`secondary-languages`
+   * :ref:`component-secondary_language`
+
+.. _workspace-check-flags:
+
+Translation flags
++++++++++++++++++
+
+Workspace-level translation flags. These are merged with project, component,
+and translation flags instead of being inherited as a replacement.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`custom-checks`
+
+.. _workspace-commit-message:
+.. _workspace-add-message:
+.. _workspace-delete-message:
+.. _workspace-merge-message:
+.. _workspace-addon-message:
+.. _workspace-pull-message:
+
+Commit, add, delete, merge, add-on, and merge request messages
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Default commit and merge request message templates for projects and components
+in this workspace. These templates use the same markup as component message
+settings.
+
+The built-in defaults follow Conventional Commits and include
+Weblate links where available. Use :guilabel:`Restore site default` next to a
+message editor to restore the current installation default for that message.
+
+.. seealso::
+
+   * :ref:`workspace-inherited-settings`
+   * :ref:`markup`
+   * :ref:`component-commit_message`
+
+.. _workspace-inherited-settings:
+
+Settings inheritance
+--------------------
+
+Settings inheritance lets common defaults be configured once and reused in
+lower scopes:
+
+* Workspaces define defaults for projects in the workspace.
+* Projects define defaults for categories and components in the project.
+* Categories define defaults for nested categories and components in the
+  category.
+* Components use the effective value from the nearest inherited scope unless
+  inheritance is disabled for that setting.
+
+This is available for translation license, contributor license agreement,
+adding new translations, language code style, secondary language, and commit
+message templates.
+
+Project, category, and component settings expose :guilabel:`Inherit from
+workspace`, :guilabel:`Inherit from project`, or :guilabel:`Inherit from
+category` checkboxes for these values. When inheritance is enabled, the
+inherited value is shown in the settings form; disable inheritance and save to
+edit the stored override value.
+
+Translation flags are handled differently. Workspace, project, category,
+component, and translation flags are merged, so each level can add flags
+without replacing the lower levels.
+
+When a workspace is created, these defaults are copied from the current
+installation defaults. Later changes to installation defaults do not update
+existing workspaces.
+
+Workspace-less projects also store their own defaults when created and do not
+inherit from a workspace unless moved into one and configured to inherit.
+
+When upgrading existing installations, Weblate consolidates matching settings:
+if all components in a project use the same value, the value is moved to the
+project and those components inherit it. The same consolidation is then applied
+from projects to workspaces. Category settings are initialized to inherit from
+their parent and matching explicit child overrides can be consolidated to the
+category. Differing values remain configured directly on the lower scope.
+
+.. seealso::
+
+   * :ref:`workspace-settings`
+   * :ref:`project`
+   * :ref:`component`
+
 .. _workspace-acl:
 
 Workspace access control

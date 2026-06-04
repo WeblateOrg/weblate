@@ -691,12 +691,10 @@ class BatchMachineTranslation(DocVersionsMixin):
         if selection == SourceLanguageChoices.SOURCE:
             return translation.component.source_language
 
-        if selection == SourceLanguageChoices.SECONDARY:
-            # Use secondary if configured
-            if translation.component.secondary_language:
-                return translation.component.secondary_language
-            if translation.component.project.secondary_language:
-                return translation.component.project.secondary_language
+        if selection == SourceLanguageChoices.SECONDARY and (
+            secondary_language := translation.component.effective_secondary_language
+        ):
+            return secondary_language
 
         return self.get_default_source_language(translation)
 

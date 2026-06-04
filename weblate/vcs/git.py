@@ -1516,7 +1516,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         if component is None:
             raise RepositoryError(0, "Repository operation requires component.")
         lines = render_template(
-            component.pull_message.strip(), component=component
+            component.effective_pull_message.strip(), component=component
         ).splitlines()
         return lines[0], "\n".join(lines[1:]).strip()
 

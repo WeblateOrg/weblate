@@ -16,6 +16,7 @@ from weblate.utils.environment import (
     get_env_credentials,
     get_env_int,
     get_env_int_or_none,
+    get_env_json,
     get_env_list,
     get_env_list_or_none,
     get_env_map,
@@ -190,6 +191,21 @@ class EnvTest(SimpleTestCase):
         self.assertEqual(get_env_map_or_none("TEST_DATA"), {})
         del os.environ["TEST_DATA"]
         self.assertIsNone(get_env_map_or_none("TEST_DATA"))
+
+    def test_get_env_json(self) -> None:
+        os.environ["TEST_DATA"] = '{"bool": true}'
+        self.assertEqual(get_env_json("TEST_DATA"), {"bool": True})
+        os.environ["TEST_DATA"] = '{"key": "value", "num": 123}'
+        self.assertEqual(get_env_json("TEST_DATA"), {"key": "value", "num": 123})
+        os.environ["TEST_DATA"] = "{invalid-syntax}"
+        with self.assertRaises(ImproperlyConfigured):
+            get_env_json("TEST_DATA")
+        os.environ["TEST_DATA"] = ""
+        self.assertIsNone(get_env_json("TEST_DATA"))
+        self.assertEqual(get_env_json("TEST_DATA", {}), {})
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_json("TEST_DATA"))
+        self.assertEqual(get_env_json("TEST_DATA", {}), {})
 
     def test_bool(self) -> None:
         os.environ["TEST_DATA"] = "1"

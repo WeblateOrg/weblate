@@ -21,13 +21,13 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.trans.backups import PROJECTBACKUP_PREFIX, list_backups
 from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
     BaseDeleteForm,
     CategoryRenameForm,
+    CategorySettingsForm,
     ComponentLinkAddForm,
     ComponentLinkCategoryForm,
     ComponentRenameForm,
@@ -66,12 +66,14 @@ if TYPE_CHECKING:
 @never_cache
 @login_required
 def change(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Component, Project, ProjectLanguage))
+    obj = parse_path(request, path, (Component, Project, ProjectLanguage, Category))
     if not request.user.has_perm(obj.settings_permission, obj):
         raise Http404
 
     if isinstance(obj, Component):
         return change_component(request, obj)
+    if isinstance(obj, Category):
+        return change_category(request, obj)
     if isinstance(obj, ProjectLanguage):
         return change_project_language(request, obj)
     return change_project(request, obj)
@@ -124,6 +126,27 @@ def change_project_language(request: AuthenticatedHttpRequest, obj):
         request,
         "project-language-settings.html",
         {"object": obj, "form": settings_form},
+    )
+
+
+def change_category(request: AuthenticatedHttpRequest, obj):
+    if request.method == "POST":
+        obj.acting_user = request.user
+        settings_form = CategorySettingsForm(request, request.POST, instance=obj)
+        if settings_form.is_valid():
+            settings_form.save()
+            messages.success(request, gettext("Settings saved"))
+            return redirect("settings", path=obj.get_url_path())
+        messages.error(
+            request, gettext("Invalid settings. Please check the form for errors.")
+        )
+    else:
+        settings_form = CategorySettingsForm(request, instance=obj)
+
+    return render(
+        request,
+        "project-settings.html",
+        {"project": obj.project, "object": obj, "form": settings_form},
     )
 
 

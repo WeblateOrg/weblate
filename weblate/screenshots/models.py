@@ -44,7 +44,7 @@ class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
         result = self
         if user.needs_project_filter:
             result = result.filter(
-                translation__component__project__in=user.allowed_projects
+                user.get_project_access_query("translation__component__project")
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(

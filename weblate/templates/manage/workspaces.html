@@ -20,6 +20,19 @@
       {% endif %}
       <h4 class="card-title">{% translate "Manage workspaces" %}</h4>
     </div>
+    <div class="card-body">
+      <form method="get" class="result-page-form">
+        <label class="visually-hidden" for="{{ search_form.q.id_for_label }}">{% translate "Search workspaces" %}</label>
+        <div class="input-group search-group query-field">
+          {{ search_form.q }}
+          <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
+          {% if search_query %}
+            <a class="btn btn-outline-secondary" href="{% url 'manage-workspaces' %}">{% translate "Clear" %}</a>
+          {% endif %}
+        </div>
+        {% if search_form.q.errors %}<div class="invalid-feedback d-block">{{ search_form.q.errors }}</div>{% endif %}
+      </form>
+    </div>
     <table class="table table-striped">
       <thead>
         <tr>

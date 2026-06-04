@@ -57,38 +57,53 @@ DEFAULT_AUTO_LOCK_ERROR = True
 DEFAULT_VCS = "git"
 
 DEFAULT_COMMIT_MESSAGE = (
-    "Translated using Weblate ({{ language_name }})\n\n"
-    "Currently translated at {{ stats.translated_percent }}% "
-    "({{ stats.translated }} of {{ stats.all }} strings)\n\n"
+    "chore(l10n): update {{ language_name }} translation\n\n"
     "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Language: {{ language_name }}\n"
+    "Progress: {{ stats.translated_percent }}% "
+    "({{ stats.translated }} of {{ stats.all }} strings)\n"
     "Translate-URL: {{ url }}"
 )
 
-DEFAULT_ADD_MESSAGE = "Added translation using Weblate ({{ language_name }})\n\n"
+DEFAULT_ADD_MESSAGE = (
+    "chore(l10n): add {{ language_name }} translation\n\n"
+    "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Language: {{ language_name }}\n"
+    "Translate-URL: {{ url }}"
+)
 
-DEFAULT_DELETE_MESSAGE = "Deleted translation using Weblate ({{ language_name }})\n\n"
+DEFAULT_DELETE_MESSAGE = (
+    "chore(l10n): remove {{ language_name }} translation\n\n"
+    "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Language: {{ language_name }}\n"
+    "Translate-URL: {{ url }}"
+)
 
-DEFAULT_MERGE_MESSAGE = "Merge branch '{{ component_remote_branch }}' into Weblate.\n\n"
+DEFAULT_MERGE_MESSAGE = (
+    "chore(l10n): merge remote changes\n\n"
+    "Translation: {{ project_name }}/{{ component_name }}\n"
+    "Remote-Branch: {{ component_remote_branch }}\n"
+    "Translate-URL: {{ url }}"
+)
 
-DEFAULT_ADDON_MESSAGE = """Update translation files
+DEFAULT_ADDON_MESSAGE = """chore(l10n): update translation files
 
-Updated by "{{ addon_name }}" add-on in Weblate.
-
+Add-on: {{ addon_name }}
 Translation: {{ project_name }}/{{ component_name }}
 Translate-URL: {{ url }}"""
 
-DEFAULT_PULL_MESSAGE = """Translations update from {{ site_title }}
+DEFAULT_PULL_MESSAGE = """chore(l10n): update translations
 
-Translations update from [{{ site_title }}]({{ site_url }}) for [{{ project_name }}/{{ component_name }}]({{url}}).
+Translations updated in [{{ site_title }}]({{ site_url }}) for [{{ project_name }}/{{ component_name }}]({{ url }}).
 
 {% if component_linked_children %}
-It also includes following components:
+Included components:
 {% for linked in component_linked_children %}
 * [{{ linked.project_name }}/{{ linked.name }}]({{ linked.url }})
 {% endfor %}
 {% endif %}
 
-Current translation status:
+Translation status:
 
 ![Weblate translation status]({{widget_url}})
 """

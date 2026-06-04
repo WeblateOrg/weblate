@@ -14,7 +14,7 @@ on:
   schedule:
   - cron: 30 5 * * *
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 permissions:
@@ -55,17 +55,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10   # v6.0.3
       with:
         persist-credentials: false
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405   # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b   # v8.1.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39   # v8.2.0
       with:
         enable-cache: false
-        version: 0.11.16
+        version: 0.11.17
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
@@ -95,7 +95,7 @@ jobs:
     outputs:
       languages: ${{ steps.list.outputs.languages }}
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       with:
         persist-credentials: false
     - name: Get changed documentation translations
@@ -116,11 +116,11 @@ jobs:
         else
           echo "all_languages=true" >> "$GITHUB_OUTPUT"
         fi
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       with:
         enable-cache: false
-        version: 0.11.16
+        version: 0.11.17
     - name: Set up Python
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
@@ -150,13 +150,13 @@ jobs:
       READTHEDOCS_LANGUAGE: ${{ matrix.language }}
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       with:
         enable-cache: false
-        version: 0.11.16
+        version: 0.11.17
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:

@@ -36,6 +36,11 @@ Project specified
 
     Shown within the project, including all its components and translations.
 
+Project and language specified
+
+    Shown within the project for the specified language, including all its
+    translations.
+
 Category specified
 
     Shown within the category, including all its components and translations.

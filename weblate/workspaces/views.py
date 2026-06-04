@@ -17,6 +17,7 @@ from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 
+from weblate.trans.forms import AutoForm, BulkEditForm, SearchForm
 from weblate.trans.models.change import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
@@ -57,21 +58,26 @@ def get_billing_context(
     }
 
 
+def billing_allows_project_creation(billing: Billing) -> bool:
+    if not billing.in_limits:
+        return False
+    if billing.state == billing.STATE_ACTIVE and not billing.paid:
+        return False
+    if billing.state not in billing.ACTIVE_STATES:
+        return False
+
+    limit = billing.plan.display_limit_projects
+    return limit == 0 or billing.get_projects_queryset().count() < limit
+
+
 def get_create_project_url(
     request: AuthenticatedHttpRequest, workspace: Workspace, billing: Billing | None
 ) -> str | None:
     if not request.user.has_perm("workspace.add_project", workspace):
         return None
 
-    if billing is not None:
-        from weblate.billing.models import Billing  # noqa: PLC0415
-
-        if not (
-            Billing.objects.filter(pk=billing.pk)
-            .for_user_within_limits(request.user)
-            .exists()
-        ):
-            return None
+    if billing is not None and not billing_allows_project_creation(billing):
+        return None
 
     return f"{reverse('create-project')}?{urlencode({'workspace': workspace.pk})}"
 
@@ -124,6 +130,8 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     show_review_columns = projects.filter(
         Q(source_review=True) | Q(translation_review=True)
     ).exists()
+    search_query = request.GET.copy()
+    search_query.pop("sort_by", None)
 
     return render(
         request,
@@ -142,6 +150,19 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "title": workspace.name,
             "query_string": "",
             "show_review_columns": show_review_columns,
+            "search_form": SearchForm(
+                request=request,
+                initial=SearchForm.get_initial(request),
+                obj=workspace,
+                query_data=search_query,
+            ),
+            "autoform": AutoForm(workspace, user=request.user)
+            if request.user.has_perm("translation.auto", workspace)
+            else None,
+            "bulk_state_form": BulkEditForm(request.user, workspace)
+            if request.user.has_perm("unit.bulk_edit", workspace)
+            and request.user.has_perm("unit.edit", workspace)
+            else None,
             "create_project_url": get_create_project_url(request, workspace, billing),
             "last_changes": Change.objects.last_changes(
                 request.user, workspace=workspace

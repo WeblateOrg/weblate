@@ -31,6 +31,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.expected_conditions import (
+    element_to_be_clickable,
     presence_of_element_located,
     staleness_of,
 )
@@ -112,6 +113,9 @@ TEST_BACKENDS = (
 )
 
 
+# The fixture repositories are known public GitHub repos; allowlisting them
+# avoids flaky runtime DNS checks while keeping the real import path covered.
+@override_settings(VCS_ALLOW_HOSTS={"github.com"})
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     _driver: WebDriver | None = None
     _driver_error: str = ""
@@ -135,6 +139,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     # https://github.com/SeleniumHQ/selenium/issues/15401
                     time.sleep(0.1)
                     WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
+                WebDriverWait(self.driver, timeout).until(self.is_page_loaded)
+
+    @staticmethod
+    def is_page_loaded(driver: WebDriver) -> bool:
+        try:
+            return driver.execute_script("return document.readyState") == "complete"
+        except WebDriverException:
+            return False
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -282,6 +294,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             wait.until(lambda _: element.is_displayed())
             self.actions.move_to_element(element).perform()
             element.click()
+
+    def select_component_license(self, license_id: str) -> None:
+        inherit_license = self.driver.find_element(By.ID, "id_inherit_license")
+        if inherit_license.is_selected():
+            self.click(inherit_license)
+        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
+            license_id
+        )
 
     def upload_file(self, element: WebElement, filename: str | Path) -> None:
         name: str
@@ -707,6 +727,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             slug="language-names",
             project=project,
             repo="https://github.com/WeblateOrg/demo.git",
+            branch="main",
             filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
             new_base="weblate/langdata/locale/django.pot",
             file_format="po",
@@ -1080,6 +1101,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.find_element(By.ID, "id_repo").send_keys(
             "https://github.com/WeblateOrg/demo.git"
         )
+        self.driver.find_element(By.ID, "id_branch").send_keys("main")
         self.driver.find_element(By.ID, "id_repoweb").send_keys(
             "https://github.com/WeblateOrg/demo/blob/{{branch}}/{{filename}}#L{{line}}"
         )
@@ -1090,9 +1112,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "weblate/langdata/locale/django.pot"
         )
         Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
-        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
-            "GPL-3.0-or-later"
-        )
+        self.select_component_license("GPL-3.0-or-later")
         element = self.driver.find_element(By.ID, "id_language_regex")
         element.clear()
         element.send_keys(language_regex)
@@ -1124,7 +1144,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value(
             "aresource"
         )
-        Select(self.driver.find_element(By.ID, "id_license")).select_by_value("MIT")
+        self.select_component_license("MIT")
         self.screenshot("add-component-mono.png")
         # This takes long
         with self.wait_for_page_load(timeout=1200):
@@ -1254,6 +1274,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
+        inherit_agreement = self.driver.find_elements(By.ID, "id_inherit_agreement")
+        if inherit_agreement and inherit_agreement[0].is_selected():
+            self.click(inherit_agreement[0])
+            WebDriverWait(self.driver, 5).until(
+                lambda driver: driver.find_element(By.ID, "id_agreement").is_enabled()
+            )
         element = self.driver.find_element(By.ID, "id_agreement")
         element.send_keys("This is an agreement.")
         with self.wait_for_page_load():
@@ -1405,12 +1431,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.find_element(By.ID, "id_repo").send_keys(
             "https://github.com/WeblateOrg/demo.git"
         )
+        self.driver.find_element(By.ID, "id_branch").send_keys("main")
         self.screenshot("user-add-component-init.png")
         with self.wait_for_page_load(timeout=1200):
             self.driver.find_element(By.ID, "id_name").submit()
 
         self.screenshot("user-add-component-discovery.png")
-        self.driver.find_element(By.ID, "id_discovery_1").click()
+        discovery_choice = WebDriverWait(self.driver, 30).until(
+            element_to_be_clickable((By.ID, "id_discovery_1"))
+        )
+        discovery_choice.click()
         with self.wait_for_page_load(timeout=1200):
             self.driver.find_element(By.ID, "id_name").submit()
 
@@ -1424,9 +1454,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "weblate/langdata/locale/django.pot"
         )
         Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
-        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
-            "GPL-3.0-or-later"
-        )
+        self.select_component_license("GPL-3.0-or-later")
         element = self.driver.find_element(By.ID, "id_language_regex")
         element.clear()
         element.send_keys("^(cs|he|hu)$")
@@ -1439,6 +1467,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             slug="duplicates",
             project=project,
             repo="https://github.com/WeblateOrg/test.git",
+            branch="main",
             filemask="po-duplicates/*.dpo",
             new_base="po-duplicates/hello.pot",
             file_format="po",
@@ -1461,6 +1490,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             slug="guidance",
             project=project,
             repo="https://github.com/WeblateOrg/test.git",
+            branch="main",
             filemask="po/*.po",
             file_format="po",
         )

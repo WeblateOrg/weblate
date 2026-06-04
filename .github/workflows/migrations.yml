@@ -14,7 +14,7 @@ on:
     - codex/**
   pull_request:
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
   cancel-in-progress: true
 
 permissions:
@@ -48,18 +48,18 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       with:
         persist-credentials: false
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.11.16
+        version: 0.11.17
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:

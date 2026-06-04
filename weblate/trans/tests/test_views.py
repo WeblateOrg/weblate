@@ -28,7 +28,13 @@ from PIL import Image
 
 from weblate.auth.models import Group, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Component, ComponentLink, ComponentList, Project
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentLink,
+    ComponentList,
+    Project,
+)
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     clear_users_cache,
@@ -290,7 +296,7 @@ class ComponentTestCase(RepoTestCase):
         self.assertEqual(
             translated,
             expected_translated,
-            f"Did not found expected number of translations ({translated} != {expected_translated}).",
+            f"Did not find expected number of translations ({translated} != {expected_translated}).",
         )
 
     def edit_unit(
@@ -599,6 +605,79 @@ class ProjectLanguageAdditionTest(ViewTestCase):
                 component.translation_set.filter(language_code="af").exists()
             )
 
+    def test_category_override_new_lang_policy(self) -> None:
+        self.project.new_lang = "none"
+        self.project.save(update_fields=["new_lang"])
+        category = Category.objects.create(
+            name="Add category",
+            slug="add-category",
+            project=self.project,
+            new_lang="add",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="none",
+            name="test-inherited-add",
+            project=self.project,
+        )
+        component.category = category
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.project.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertIn(component.pk, eligible_ids)
+
+    def test_category_blocks_inherited_new_lang_policy(self) -> None:
+        category = Category.objects.create(
+            name="Disabled category",
+            slug="disabled-category",
+            project=self.project,
+            new_lang="none",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="add",
+            name="test-inherited-none",
+            project=self.project,
+        )
+        component.category = category
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.project.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertNotIn(component.pk, eligible_ids)
+
+    def test_shared_component_uses_own_inherited_new_lang_policy(self) -> None:
+        project = self.create_project(name="Shared source", slug="shared-source")
+        project.new_lang = "none"
+        project.save(update_fields=["new_lang"])
+        component = self.create_po_new_base(
+            new_lang="add",
+            name="test-shared-inherited-none",
+            project=project,
+        )
+        component.inherit_new_lang = True
+        component.save(update_fields=["inherit_new_lang"])
+        component.links.add(self.project)
+
+        eligible_ids = set(
+            self.project.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertNotIn(component.pk, eligible_ids)
+
 
 class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
     def setUp(self) -> None:
@@ -640,12 +719,81 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
             outside_component.translation_set.filter(language_code="af").exists()
         )
 
+    def test_child_category_override_new_lang_policy(self) -> None:
+        self.category.new_lang = "none"
+        self.category.inherit_new_lang = False
+        self.category.save(update_fields=["new_lang", "inherit_new_lang"])
+        child = Category.objects.create(
+            name="Child add category",
+            slug="child-add-category",
+            project=self.project,
+            category=self.category,
+            new_lang="add",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="none",
+            name="test-child-inherited-add",
+            project=self.project,
+        )
+        component.category = child
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.category.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertIn(component.pk, eligible_ids)
+
+    def test_child_category_blocks_inherited_new_lang_policy(self) -> None:
+        self.category.new_lang = "add"
+        self.category.inherit_new_lang = False
+        self.category.save(update_fields=["new_lang", "inherit_new_lang"])
+        child = Category.objects.create(
+            name="Child disabled category",
+            slug="child-disabled-category",
+            project=self.project,
+            category=self.category,
+            new_lang="none",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="add",
+            name="test-child-inherited-none",
+            project=self.project,
+        )
+        component.category = child
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.category.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertNotIn(component.pk, eligible_ids)
+
 
 class BasicViewTest(ViewTestCase):
     def test_view_project(self) -> None:
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
+
+    def test_project_component_listing_shows_inherited_license_badge(self) -> None:
+        self.project.license = "MIT"
+        self.project.save(update_fields=["license"])
+        self.component.license = ""
+        self.component.inherit_license = True
+        self.component.save(update_fields=["license", "inherit_license"])
+
+        response = self.client.get(self.project.get_absolute_url())
+
+        self.assertContains(response, 'class="license badge">MIT</span>')
 
     def test_view_project_deduplicates_outgoing_shared_component(self) -> None:
         first_project = Project.objects.create(name="Shared target one", slug="target1")

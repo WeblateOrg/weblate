@@ -28681,8 +28681,198 @@ components:
           type: string
           format: uri
           readOnly: true
+        check_flags:
+          type: string
+          title: Translation flags
+          description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the parent category
+            or project.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this category.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the parent
+            category or project.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: |-
+            How to handle requests for creating new translations.
+
+            * `contact` - Contact maintainers
+            * `url` - Point to translation instructions URL
+            * `add` - Create new language file
+            * `none` - Disable adding new translations
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the parent
+            category or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: |-
+            Customize language code used to generate the filename for translations created by Weblate.
+
+            * `` - Default based on the file format
+            * `posix` - POSIX style using underscore as a separator
+            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
+            * `bcp` - BCP style using hyphen as a separator
+            * `posix_long` - POSIX style using underscore as a separator, including country code
+            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
+            * `bcp_long` - BCP style using hyphen as a separator, including country code
+            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
+            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
+            * `android` - Android style
+            * `appstore` - Apple App Store metadata style
+            * `googleplay` - Google Play metadata style
+            * `linux` - Linux style
+            * `linux_lowercase` - Linux style, lower cased
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the parent category
+            or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
+        secondary_language:
+          type:
+          - integer
+          - 'null'
+          description: Additional language to show together with the source language
+            while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the parent category
+            or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the parent
+            category or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the parent category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the parent category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the parent category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the parent category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the parent category
+            or project.
+        effective_pull_message:
+          type: string
+          readOnly: true
       required:
       - announcements_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - id
       - name
       - project
@@ -29016,6 +29206,13 @@ components:
           - Apache-2.0
           - BSD-3-Clause
           - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the category or project.
+        effective_license:
+          type: string
+          readOnly: true
         license_url:
           type: string
           readOnly: true
@@ -29028,6 +29225,14 @@ components:
           title: Contributor license agreement
           description: Contributor license agreement which needs to be approved before
             a user can translate this component.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the category
+            or project.
+        effective_agreement:
+          type: string
+          readOnly: true
         web_url:
           type: string
           readOnly: true
@@ -29080,6 +29285,14 @@ components:
             * `url` - Point to translation instructions URL
             * `add` - Create new language file
             * `none` - Disable adding new translations
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the category
+            or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
         language_code_style:
           description: |-
             Customize language code used to generate the filename for translations created by Weblate.
@@ -29101,6 +29314,12 @@ components:
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the category or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         push:
           type: string
           maxLength: 300
@@ -29108,6 +29327,9 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
@@ -29155,31 +29377,79 @@ components:
           title: Commit message when translating
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the category
+            or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
         add_message:
           type: string
           title: Commit message when adding translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
         delete_message:
           type: string
           title: Commit message when removing translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
         merge_message:
           type: string
           title: Commit message when merging translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
         addon_message:
           type: string
           title: Commit message when add-on makes a change
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
         pull_message:
           type: string
           title: Merge request message
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the category or
+            project.
+        effective_pull_message:
+          type: string
+          readOnly: true
         allow_translation_propagation:
           type: boolean
           description: Whether translation updates in other components will cause
@@ -29236,6 +29506,14 @@ components:
           description: Additional language to show together with the source language
             while translating. This setting is inherited from the project if left
             empty.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the category or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
         variant_regex:
           type: string
           title: Variants regular expression
@@ -29284,6 +29562,18 @@ components:
       - announcements_url
       - changes_list_url
       - credits_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - file_format
       - filemask
       - id
@@ -31228,6 +31518,184 @@ components:
           type: string
           format: uri
           readOnly: true
+        check_flags:
+          type: string
+          title: Translation flags
+          description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the parent category
+            or project.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this category.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the parent
+            category or project.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: |-
+            How to handle requests for creating new translations.
+
+            * `contact` - Contact maintainers
+            * `url` - Point to translation instructions URL
+            * `add` - Create new language file
+            * `none` - Disable adding new translations
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the parent
+            category or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: |-
+            Customize language code used to generate the filename for translations created by Weblate.
+
+            * `` - Default based on the file format
+            * `posix` - POSIX style using underscore as a separator
+            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
+            * `bcp` - BCP style using hyphen as a separator
+            * `posix_long` - POSIX style using underscore as a separator, including country code
+            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
+            * `bcp_long` - BCP style using hyphen as a separator, including country code
+            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
+            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
+            * `android` - Android style
+            * `appstore` - Apple App Store metadata style
+            * `googleplay` - Google Play metadata style
+            * `linux` - Linux style
+            * `linux_lowercase` - Linux style, lower cased
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the parent category
+            or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
+        secondary_language:
+          type:
+          - integer
+          - 'null'
+          description: Additional language to show together with the source language
+            while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the parent category
+            or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the parent
+            category or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the parent category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the parent category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the parent category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the parent category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the parent category
+            or project.
+        effective_pull_message:
+          type: string
+          readOnly: true
     PatchedComponent:
       type: object
       properties:
@@ -31328,6 +31796,13 @@ components:
           - Apache-2.0
           - BSD-3-Clause
           - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the category or project.
+        effective_license:
+          type: string
+          readOnly: true
         license_url:
           type: string
           readOnly: true
@@ -31340,6 +31815,14 @@ components:
           title: Contributor license agreement
           description: Contributor license agreement which needs to be approved before
             a user can translate this component.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the category
+            or project.
+        effective_agreement:
+          type: string
+          readOnly: true
         web_url:
           type: string
           readOnly: true
@@ -31392,6 +31875,14 @@ components:
             * `url` - Point to translation instructions URL
             * `add` - Create new language file
             * `none` - Disable adding new translations
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the category
+            or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
         language_code_style:
           description: |-
             Customize language code used to generate the filename for translations created by Weblate.
@@ -31413,6 +31904,12 @@ components:
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the category or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         push:
           type: string
           maxLength: 300
@@ -31420,6 +31917,9 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
@@ -31467,31 +31967,79 @@ components:
           title: Commit message when translating
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the category
+            or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
         add_message:
           type: string
           title: Commit message when adding translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
         delete_message:
           type: string
           title: Commit message when removing translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
         merge_message:
           type: string
           title: Commit message when merging translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
         addon_message:
           type: string
           title: Commit message when add-on makes a change
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
         pull_message:
           type: string
           title: Merge request message
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the category or
+            project.
+        effective_pull_message:
+          type: string
+          readOnly: true
         allow_translation_propagation:
           type: boolean
           description: Whether translation updates in other components will cause
@@ -31548,6 +32096,14 @@ components:
           description: Additional language to show together with the source language
             while translating. This setting is inherited from the project if left
             empty.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the category or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
         variant_regex:
           type: string
           title: Variants regular expression
@@ -31879,6 +32435,9 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         components_list_url:
           type: string
           format: uri
@@ -31951,12 +32510,170 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the workspace.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this project.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the workspace.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: |-
+            How to handle requests for creating new translations.
+
+            * `contact` - Contact maintainers
+            * `url` - Point to translation instructions URL
+            * `add` - Create new language file
+            * `none` - Disable adding new translations
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the workspace.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: |-
+            Customize language code used to generate the filename for translations created by Weblate.
+
+            * `` - Default based on the file format
+            * `posix` - POSIX style using underscore as a separator
+            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
+            * `bcp` - BCP style using hyphen as a separator
+            * `posix_long` - POSIX style using underscore as a separator, including country code
+            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
+            * `bcp_long` - BCP style using hyphen as a separator, including country code
+            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
+            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
+            * `android` - Android style
+            * `appstore` - Apple App Store metadata style
+            * `googleplay` - Google Play metadata style
+            * `linux` - Linux style
+            * `linux_lowercase` - Linux style, lower cased
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the workspace.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         secondary_language:
           type:
           - integer
           - 'null'
           description: Additional language to show together with the source language
             while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the workspace.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the workspace.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the workspace.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the workspace.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the workspace.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the workspace.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the workspace.
+        effective_pull_message:
+          type: string
+          readOnly: true
         enforced_2fa:
           type: boolean
           title: Enforced two-factor authentication
@@ -32127,6 +32844,9 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         components_list_url:
           type: string
           format: uri
@@ -32199,12 +32919,170 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the workspace.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this project.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the workspace.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: |-
+            How to handle requests for creating new translations.
+
+            * `contact` - Contact maintainers
+            * `url` - Point to translation instructions URL
+            * `add` - Create new language file
+            * `none` - Disable adding new translations
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the workspace.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: |-
+            Customize language code used to generate the filename for translations created by Weblate.
+
+            * `` - Default based on the file format
+            * `posix` - POSIX style using underscore as a separator
+            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
+            * `bcp` - BCP style using hyphen as a separator
+            * `posix_long` - POSIX style using underscore as a separator, including country code
+            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
+            * `bcp_long` - BCP style using hyphen as a separator, including country code
+            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
+            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
+            * `android` - Android style
+            * `appstore` - Apple App Store metadata style
+            * `googleplay` - Google Play metadata style
+            * `linux` - Linux style
+            * `linux_lowercase` - Linux style, lower cased
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the workspace.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         secondary_language:
           type:
           - integer
           - 'null'
           description: Additional language to show together with the source language
             while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the workspace.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the workspace.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the workspace.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the workspace.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the workspace.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the workspace.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the workspace.
+        effective_pull_message:
+          type: string
+          readOnly: true
         enforced_2fa:
           type: boolean
           title: Enforced two-factor authentication
@@ -32227,6 +33105,18 @@ components:
       - changes_list_url
       - components_list_url
       - credits_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - id
       - labels_url
       - languages_url
@@ -32336,6 +33226,13 @@ components:
           - Apache-2.0
           - BSD-3-Clause
           - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the category or project.
+        effective_license:
+          type: string
+          readOnly: true
         license_url:
           type: string
           readOnly: true
@@ -32348,6 +33245,14 @@ components:
           title: Contributor license agreement
           description: Contributor license agreement which needs to be approved before
             a user can translate this component.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the category
+            or project.
+        effective_agreement:
+          type: string
+          readOnly: true
         web_url:
           type: string
           readOnly: true
@@ -32400,6 +33305,14 @@ components:
             * `url` - Point to translation instructions URL
             * `add` - Create new language file
             * `none` - Disable adding new translations
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the category
+            or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
         language_code_style:
           description: |-
             Customize language code used to generate the filename for translations created by Weblate.
@@ -32421,6 +33334,12 @@ components:
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the category or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         push:
           type: string
           maxLength: 300
@@ -32428,6 +33347,9 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
@@ -32475,31 +33397,79 @@ components:
           title: Commit message when translating
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the category
+            or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
         add_message:
           type: string
           title: Commit message when adding translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
         delete_message:
           type: string
           title: Commit message when removing translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
         merge_message:
           type: string
           title: Commit message when merging translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
         addon_message:
           type: string
           title: Commit message when add-on makes a change
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
         pull_message:
           type: string
           title: Merge request message
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the category or
+            project.
+        effective_pull_message:
+          type: string
+          readOnly: true
         allow_translation_propagation:
           type: boolean
           description: Whether translation updates in other components will cause
@@ -32556,6 +33526,14 @@ components:
           description: Additional language to show together with the source language
             while translating. This setting is inherited from the project if left
             empty.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the category or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
         variant_regex:
           type: string
           title: Variants regular expression
@@ -32604,6 +33582,18 @@ components:
       - announcements_url
       - changes_list_url
       - credits_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - file_format
       - filemask
       - id

@@ -11,7 +11,7 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, cast
 
 import jsonschema
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -71,6 +71,12 @@ from weblate.trans.file_format_params import (
     strip_unused_file_format_params,
 )
 from weblate.trans.filter import FILTERS
+from weblate.trans.inherited_settings import (
+    COMPONENT_MESSAGE_SETTINGS,
+    INHERITABLE_COMPONENT_FLAGS,
+    INHERITABLE_COMPONENT_SETTINGS,
+    get_inherit_field_name,
+)
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -97,6 +103,7 @@ from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
     EmailField,
+    InheritedSetting,
     NormalizedNewlineCharField,
     QueryField,
     SearchableSelect,
@@ -132,6 +139,7 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import Model, QuerySet
+    from django.http import QueryDict
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -143,6 +151,12 @@ if TYPE_CHECKING:
     )
     from weblate.trans.models.translation import NewUnitParams
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+
+
+class SiteDefaultField(Protocol):
+    site_default: bool
+    widget: forms.Widget
+
 
 BUTTON_TEMPLATE = """
 <button type="button" class="btn btn-outline-primary {0}" title="{1}" {2}>{3}</button>
@@ -902,14 +916,16 @@ class SearchForm(forms.Form):
         | ProjectLanguage
         | Category
         | CategoryLanguage
+        | Workspace
         | Language
         | None = None,
+        query_data: QueryDict | None = None,
         **kwargs,
     ) -> None:
         """Generate choices for other components in the same project."""
         self.user = request.user
         self.language = language
-        sort_by = get_sort_name(request, obj)
+        sort_by = get_sort_name(request, obj, query_data=query_data)
         self.sort_name = sort_by["name"]
         self.sort_query = sort_by["query"]
         super().__init__(**kwargs)
@@ -1056,6 +1072,10 @@ class AutoForm(forms.Form):
         "Enter slug of a component to use as source, keep blank to use all "
         "components in the current project."
     )
+    COMPONENT_WORKSPACE_SLUG_HELP_TEXT = gettext_lazy(
+        "Enter project and component slug or component ID to use as source, "
+        "keep blank to use all components in the current workspace."
+    )
     COMPONENT_SELECT_HELP_TEXT = gettext_lazy(
         "Turn on contribution to shared translation memory for the project to "
         "get access to additional components."
@@ -1099,7 +1119,7 @@ class AutoForm(forms.Form):
     )
 
     def __init__(
-        self, obj: Component | Project | None, user=None, *args, **kwargs
+        self, obj: Component | Project | Workspace | None, user=None, *args, **kwargs
     ) -> None:
         """Generate choices for other components in the same project."""
         auto_id = kwargs.pop("auto_id", "id_auto_%s")
@@ -1126,6 +1146,14 @@ class AutoForm(forms.Form):
             ).exclude(project=obj)
             machinery_settings = obj.get_machinery_settings()
             self.project = obj
+        elif isinstance(obj, Workspace):
+            self.components = Component.objects.filter(project__workspace=obj)
+            projects = Project.objects.filter(workspace=obj).order()
+            if user is not None:
+                self.components = self.components.filter_access(user)
+                projects = user.allowed_projects.filter(workspace=obj).order()
+            for project in projects:
+                machinery_settings.update(project.get_machinery_settings())
         else:
             # Site-wide add-ons
             self.components = Component.objects.all()
@@ -1135,10 +1163,15 @@ class AutoForm(forms.Form):
         # thousands of components
         if len(self.components.values_list("id")[:30]) == 30:
             # Do not show choices when too many
+            help_text = (
+                self.COMPONENT_WORKSPACE_SLUG_HELP_TEXT
+                if isinstance(obj, Workspace)
+                else self.fields["component"].help_text
+            )
             self.fields["component"] = forms.CharField(
                 required=False,
                 label=gettext("Component"),
-                help_text=self.fields["component"].help_text,
+                help_text=help_text,
             )
         else:
             choices = [
@@ -1146,10 +1179,11 @@ class AutoForm(forms.Form):
                 for s in self.components.order_project().prefetch_related("project")
             ]
 
-            self.fields["component"].choices = [
-                ("", gettext("All components in current project")),
-                *choices,
-            ]
+            if isinstance(obj, Workspace):
+                all_components_label = gettext("All components in current workspace")
+            else:
+                all_components_label = gettext("All components in current project")
+            self.fields["component"].choices = [("", all_components_label), *choices]
             self.fields["component"].help_text = self.COMPONENT_SELECT_HELP_TEXT
 
         engines = sorted(
@@ -1199,7 +1233,9 @@ class AutoForm(forms.Form):
                 raise ValidationError(gettext("Component not found!")) from error
         elif "/" not in component:
             if self.project is None:
-                raise ValidationError(gettext("Component not found!"))
+                raise ValidationError(
+                    gettext("Enter component ID or project/component slug.")
+                )
             try:
                 result = self.components.get(slug=component, project=self.project)
             except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
@@ -1787,6 +1823,119 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
         self.helper.form_tag = False
 
 
+class InheritedSettingsFormMixin:
+    _inherited_setting_fields: set[str]
+    _inherited_setting_restore_values: dict[str, Any]
+
+    def is_inheritance_enabled(self, inherit_field: str) -> bool:
+        if not self.is_bound:
+            return bool(getattr(self.instance, inherit_field, False))
+        field = self.fields[inherit_field]
+        value = field.widget.value_from_datadict(
+            self.data, self.files, self.add_prefix(inherit_field)
+        )
+        return bool(field.clean(value))
+
+    def get_inherited_setting_value(self, field_name: str) -> str | Language | None:
+        instance = self.instance
+        if isinstance(instance, Project) and instance.workspace_id is not None:
+            return getattr(instance.workspace, field_name)
+        if isinstance(instance, Category):
+            return instance.settings_parent.get_effective_setting(field_name)
+        if isinstance(instance, Component):
+            if instance.category_id is not None:
+                return instance.category.get_effective_setting(field_name)
+            return instance.project.get_effective_setting(field_name)
+        return instance.get_effective_setting(field_name)
+
+    def setup_inherited_setting_values(self, field_name: str) -> None:
+        field = self.fields[field_name]
+        inherited_value = self.get_inherited_setting_value(field_name)
+        override_value = getattr(self.instance, field_name)
+        inherited_value = field.prepare_value(inherited_value)
+        override_value = field.prepare_value(override_value)
+        field.widget.attrs["data-inherited-value"] = (
+            "" if inherited_value is None else inherited_value
+        )
+        field.widget.attrs["data-override-value"] = (
+            "" if override_value is None else override_value
+        )
+
+    def setup_inherited_settings(self, parent_name: str, *, has_parent: bool) -> None:
+        setup_message_setting_site_defaults(self.fields)
+        self._inherited_setting_fields = set()
+        for field_name in INHERITABLE_COMPONENT_SETTINGS:
+            inherit_field = get_inherit_field_name(field_name)
+            if inherit_field not in self.fields:
+                continue
+            self.fields[inherit_field].label = gettext("Inherit from %(scope)s") % {
+                "scope": parent_name
+            }
+            if not has_parent:
+                self.fields[inherit_field].initial = False
+                self.fields[inherit_field].widget = forms.HiddenInput()
+                continue
+            if field_name in self.fields:
+                self._inherited_setting_fields.add(field_name)
+                self.setup_inherited_setting_values(field_name)
+            if not self.is_inheritance_enabled(inherit_field):
+                continue
+            if field_name in self.fields:
+                field = self.fields[field_name]
+                effective_value = self.get_inherited_setting_value(field_name)
+                self.initial[field_name] = effective_value
+                field.initial = effective_value
+                field.disabled = True
+                note = gettext(
+                    "Inherited value is shown. Disable inheritance to edit the stored override."
+                )
+                field.help_text = (
+                    format_html("{} {}", field.help_text, note)
+                    if field.help_text
+                    else note
+                )
+
+    def preserve_inherited_values(self) -> None:
+        self._inherited_setting_restore_values = {}
+        for field_name in self._inherited_setting_fields:
+            if (
+                self.cleaned_data.get(get_inherit_field_name(field_name))
+                and field_name in self.cleaned_data
+            ):
+                stored_value = getattr(self.instance, field_name)
+                validate_with_effective_value = (
+                    field_name == "license"
+                    and self.fields[field_name].required
+                    and not stored_value
+                )
+                if validate_with_effective_value:
+                    self._inherited_setting_restore_values[field_name] = stored_value
+                else:
+                    self.cleaned_data[field_name] = stored_value
+
+    def restore_inherited_values(self) -> None:
+        for field_name, value in getattr(
+            self, "_inherited_setting_restore_values", {}
+        ).items():
+            setattr(self.instance, field_name, value)
+
+    def _post_clean(self) -> None:
+        try:
+            super()._post_clean()
+        finally:
+            self.restore_inherited_values()
+
+
+def setup_message_setting_site_defaults(fields: dict[str, forms.Field]) -> None:
+    for field_name in COMPONENT_MESSAGE_SETTINGS:
+        if field_name not in fields:
+            continue
+        setting_name = f"DEFAULT_{field_name.upper()}"
+        field = cast("SiteDefaultField", fields[field_name])
+        field.site_default = True
+        field.widget.attrs["data-site-default-value"] = getattr(settings, setting_name)
+
+
 class SelectChecksWidget(SortedSelectMultiple):
     def __init__(self, attrs=None, choices=()) -> None:
         choices = CHECKS.get_choices()
@@ -1887,11 +2036,22 @@ class FormParamsField(forms.MultiValueField):
 
 class ComponentDocsMixin(FieldDocsMixin):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
+        if field.name in INHERITABLE_COMPONENT_FLAGS:
+            return ("admin/workspaces", "workspace-inherited-settings")
         return ("admin/projects", f"component-{field.name.replace('_', '-')}")
+
+
+class CategoryDocsMixin(FieldDocsMixin):
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
+        if field.name in INHERITABLE_COMPONENT_FLAGS:
+            return ("admin/workspaces", "workspace-inherited-settings")
+        return ("admin/projects", "category-settings")
 
 
 class ProjectDocsMixin(FieldDocsMixin):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
+        if field.name in INHERITABLE_COMPONENT_FLAGS:
+            return ("admin/workspaces", "workspace-inherited-settings")
         return ("admin/projects", f"project-{field.name.replace('_', '-')}")
 
 
@@ -1913,12 +2073,19 @@ class ComponentAntispamMixin(SpamCheckMixin):
     spam_fields = ("agreement",)
 
 
+class CategoryAntispamMixin(SpamCheckMixin):
+    spam_fields = ("agreement",)
+
+
 class ProjectAntispamMixin(SpamCheckMixin):
     spam_fields = ("web", "instructions")
 
 
 class ComponentSettingsForm(
-    SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin
+    InheritedSettingsFormMixin,
+    SettingsBaseForm,
+    ComponentDocsMixin,
+    ComponentAntispamMixin,
 ):
     """Component settings form."""
 
@@ -1927,7 +2094,9 @@ class ComponentSettingsForm(
         fields = (
             "name",
             "report_source_bugs",
+            "inherit_license",
             "license",
+            "inherit_agreement",
             "agreement",
             "hide_glossary_matches",
             "allow_translation_propagation",
@@ -1938,11 +2107,17 @@ class ComponentSettingsForm(
             "priority",
             "check_flags",
             "enforced_checks",
+            "inherit_commit_message",
             "commit_message",
+            "inherit_add_message",
             "add_message",
+            "inherit_delete_message",
             "delete_message",
+            "inherit_merge_message",
             "merge_message",
+            "inherit_addon_message",
             "addon_message",
+            "inherit_pull_message",
             "pull_message",
             "vcs",
             "repo",
@@ -1956,7 +2131,9 @@ class ComponentSettingsForm(
             "file_format",
             "file_format_params",
             "edit_template",
+            "inherit_new_lang",
             "new_lang",
+            "inherit_language_code_style",
             "language_code_style",
             "source_language",
             "new_base",
@@ -1966,6 +2143,7 @@ class ComponentSettingsForm(
             "intermediate",
             "language_regex",
             "key_filter",
+            "inherit_secondary_language",
             "secondary_language",
             "variant_regex",
             "restricted",
@@ -1989,6 +2167,10 @@ class ComponentSettingsForm(
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
+        parent_name = (
+            gettext("category") if self.instance.category_id else gettext("project")
+        )
+        self.setup_inherited_settings(parent_name, has_parent=True)
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
         self.helper.layout = Layout(
@@ -2006,7 +2188,11 @@ class ComponentSettingsForm(
                             },
                         ),
                     ),
-                    Fieldset(gettext("License"), "license", "agreement"),
+                    Fieldset(
+                        gettext("License"),
+                        InheritedSetting("license"),
+                        InheritedSetting("agreement"),
+                    ),
                     Fieldset(gettext("Upstream links"), "report_source_bugs"),
                     Fieldset(
                         gettext("Listing and access"),
@@ -2037,7 +2223,7 @@ class ComponentSettingsForm(
                         "check_flags",
                         "variant_regex",
                         "enforced_checks",
-                        "secondary_language",
+                        InheritedSetting("secondary_language"),
                     ),
                     css_id="translation",
                 ),
@@ -2068,12 +2254,12 @@ class ComponentSettingsForm(
                         template="trans/messages_help.html",
                         context={"user": request.user},
                     ),
-                    "commit_message",
-                    "add_message",
-                    "delete_message",
-                    "merge_message",
-                    "addon_message",
-                    "pull_message",
+                    InheritedSetting("commit_message"),
+                    InheritedSetting("add_message"),
+                    InheritedSetting("delete_message"),
+                    InheritedSetting("merge_message"),
+                    InheritedSetting("addon_message"),
+                    InheritedSetting("pull_message"),
                     css_id="messages",
                 ),
                 Tab(
@@ -2096,8 +2282,8 @@ class ComponentSettingsForm(
                     Fieldset(
                         gettext("Adding new languages"),
                         "new_base",
-                        "new_lang",
-                        "language_code_style",
+                        InheritedSetting("new_lang"),
+                        InheritedSetting("language_code_style"),
                     ),
                     Fieldset(
                         gettext("Screenshots"),
@@ -2172,6 +2358,7 @@ class ComponentSettingsForm(
         )
 
     def clean(self) -> None:
+        super().clean()
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
@@ -2185,11 +2372,24 @@ class ComponentSettingsForm(
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
+        self.preserve_inherited_values()
 
 
-class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
+class ComponentCreateForm(
+    InheritedSettingsFormMixin,
+    SettingsBaseForm,
+    ComponentDocsMixin,
+    ComponentAntispamMixin,
+):
     """Component creation form."""
 
+    CREATE_INHERITABLE_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "license",
+        "new_lang",
+        "language_code_style",
+    )
+
+    detected_license = forms.CharField(required=False, widget=forms.HiddenInput)
     source_component = forms.ModelChoiceField(
         queryset=Component.objects.none(),
         required=False,
@@ -2215,9 +2415,12 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             "template",
             "edit_template",
             "intermediate",
+            "inherit_new_lang",
             "new_lang",
             "new_base",
+            "inherit_license",
             "license",
+            "inherit_language_code_style",
             "language_code_style",
             "language_regex",
             "key_filter",
@@ -2260,6 +2463,111 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
                     **initial_file_format_params,
                 }
         super().__init__(request, *args, **kwargs)
+        self.setup_create_inherited_settings()
+        self.helper.layout = Layout(
+            "project",
+            "category",
+            "name",
+            "slug",
+            "vcs",
+            "repo",
+            "branch",
+            "push",
+            "push_branch",
+            "repoweb",
+            "file_format",
+            "file_format_params",
+            "filemask",
+            "template",
+            "edit_template",
+            "intermediate",
+            InheritedSetting("new_lang"),
+            "new_base",
+            InheritedSetting("license"),
+            InheritedSetting("language_code_style"),
+            "language_regex",
+            "key_filter",
+            "source_language",
+            "is_glossary",
+            "detected_license",
+            "source_component",
+        )
+
+    def get_selected_parent(self) -> Project | Category | None:
+        category = self.get_selected_model("category", Category)
+        if category is not None:
+            return category
+        return self.get_selected_model("project", Project)
+
+    def get_selected_model(self, field_name: str, model: type[Project | Category]):
+        if self.is_bound:
+            value = self.data.get(self.add_prefix(field_name))
+        else:
+            value = self.initial.get(field_name)
+        if isinstance(value, model):
+            return value
+        if value in {None, ""}:
+            return None
+        try:
+            return model.objects.get(pk=value)
+        except (TypeError, ValueError, model.DoesNotExist):
+            return None
+
+    def setup_create_inherited_settings(self) -> None:
+        parent = self.get_selected_parent()
+        if isinstance(parent, Category):
+            self.instance.category = parent
+            self.instance.project = parent.project
+            parent_name = gettext("category")
+        elif isinstance(parent, Project):
+            self.instance.project = parent
+            parent_name = gettext("project")
+        else:
+            parent_name = gettext("project")
+
+        for field_name in self.CREATE_INHERITABLE_SETTINGS:
+            if field_name in self.initial:
+                setattr(self.instance, field_name, self.initial[field_name])
+            inherit_field = get_inherit_field_name(field_name)
+            if inherit_field not in self.fields:
+                continue
+            if inherit_field in self.initial:
+                setattr(
+                    self.instance,
+                    inherit_field,
+                    self.fields[inherit_field].clean(self.initial[inherit_field]),
+                )
+
+        detected_license = self.initial.get("detected_license")
+        if detected_license and detected_license == self.initial.get("license"):
+            inherit_license = detected_license == self.get_inherited_setting_value(
+                "license"
+            )
+            self.initial["inherit_license"] = inherit_license
+            self.instance.inherit_license = inherit_license
+        elif (
+            not self.is_bound
+            and "inherit_license" not in self.initial
+            and not self.get_inherited_setting_value("license")
+        ):
+            self.initial["inherit_license"] = False
+            self.instance.inherit_license = False
+
+        self.setup_inherited_settings(parent_name, has_parent=parent is not None)
+
+    def disables_inheritance_for_explicit_setting(self, field: str) -> bool:
+        inherit_field = get_inherit_field_name(field)
+        if self.cleaned_data.get(inherit_field):
+            return False
+        if inherit_field in self.cleaned_data:
+            return True
+        if self.is_bound and self.add_prefix(field) in self.data:
+            return True
+        if field in self.changed_data:
+            return True
+        return field == "license" and self.cleaned_data.get(
+            "detected_license"
+        ) == self.cleaned_data.get("license")
 
     def clean(self) -> None:
         super().clean()
@@ -2269,6 +2577,10 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
+        self.preserve_inherited_values()
+        for field in ("license", "new_lang", "language_code_style"):
+            if self.disables_inheritance_for_explicit_setting(field):
+                setattr(self.instance, get_inherit_field_name(field), False)
 
 
 class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
@@ -2485,8 +2797,8 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
 
     def clean_instance(self, data) -> None:
         params = copy.copy(data)
-        if "discovery" in params:
-            params.pop("discovery")
+        for field in ("detected_license", "discovery", "source_component"):
+            params.pop(field, None)
 
         instance = Component(**params)
         instance.clean_fields(
@@ -2734,7 +3046,106 @@ class AddCategoryForm(SettingsBaseForm):
         super().clean()
 
 
-class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
+class CategorySettingsForm(
+    InheritedSettingsFormMixin,
+    SettingsBaseForm,
+    CategoryDocsMixin,
+    CategoryAntispamMixin,
+):
+    """Category settings form."""
+
+    class Meta:
+        model = Category
+        fields = (
+            "name",
+            "inherit_license",
+            "license",
+            "inherit_agreement",
+            "agreement",
+            "check_flags",
+            "inherit_secondary_language",
+            "secondary_language",
+            "inherit_new_lang",
+            "new_lang",
+            "inherit_language_code_style",
+            "language_code_style",
+            "inherit_commit_message",
+            "commit_message",
+            "inherit_add_message",
+            "add_message",
+            "inherit_delete_message",
+            "delete_message",
+            "inherit_merge_message",
+            "merge_message",
+            "inherit_addon_message",
+            "addon_message",
+            "inherit_pull_message",
+            "pull_message",
+        )
+        widgets = {  # noqa: RUF012
+            "secondary_language": SortedSelect,
+            "language_code_style": SortedSelect,
+            "license": SearchableSelect,
+        }
+
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+        super().__init__(request, *args, **kwargs)
+        parent_name = (
+            gettext("category") if self.instance.category_id else gettext("project")
+        )
+        self.setup_inherited_settings(parent_name, has_parent=True)
+        self.helper.layout = Layout(
+            TabHolder(
+                Tab(
+                    gettext("Basic"),
+                    "name",
+                    ContextDiv(
+                        template="snippets/settings-organize.html",
+                        context={
+                            "object": self.instance,
+                            "type": "category",
+                        },
+                    ),
+                    Fieldset(
+                        gettext("License"),
+                        InheritedSetting("license"),
+                        InheritedSetting("agreement"),
+                    ),
+                    css_id="basic",
+                ),
+                Tab(
+                    gettext("Workflow"),
+                    "check_flags",
+                    InheritedSetting("secondary_language"),
+                    InheritedSetting("new_lang"),
+                    InheritedSetting("language_code_style"),
+                    css_id="workflow",
+                ),
+                Tab(
+                    gettext("Commit messages"),
+                    InheritedSetting("commit_message"),
+                    InheritedSetting("add_message"),
+                    InheritedSetting("delete_message"),
+                    InheritedSetting("merge_message"),
+                    InheritedSetting("addon_message"),
+                    InheritedSetting("pull_message"),
+                    css_id="messages",
+                ),
+                template="layout/pills.html",
+            )
+        )
+
+    def clean(self) -> None:
+        super().clean()
+        self.preserve_inherited_values()
+
+
+class ProjectSettingsForm(
+    InheritedSettingsFormMixin,
+    SettingsBaseForm,
+    ProjectDocsMixin,
+    ProjectAntispamMixin,
+):
     """Project settings form."""
 
     class Meta:
@@ -2748,6 +3159,15 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "autoclean_tm",
             "enable_hooks",
             "language_aliases",
+            "inherit_license",
+            "license",
+            "inherit_agreement",
+            "agreement",
+            "inherit_new_lang",
+            "new_lang",
+            "inherit_language_code_style",
+            "language_code_style",
+            "inherit_secondary_language",
             "secondary_language",
             "access_control",
             "enforced_2fa",
@@ -2755,16 +3175,65 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             "source_review",
             "commit_policy",
             "check_flags",
+            "inherit_commit_message",
+            "commit_message",
+            "inherit_add_message",
+            "add_message",
+            "inherit_delete_message",
+            "delete_message",
+            "inherit_merge_message",
+            "merge_message",
+            "inherit_addon_message",
+            "addon_message",
+            "inherit_pull_message",
+            "pull_message",
         )
         widgets = {  # noqa: RUF012
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
             "language_aliases": forms.TextInput,
             "secondary_language": SortedSelect,
+            "language_code_style": SortedSelect,
+            "license": SearchableSelect,
         }
         field_classes = {  # noqa: RUF012
             "check_flags": FlagField,
         }
+
+    def get_unlicensed_components(self, project_license: str) -> list[Component]:
+        categories_by_id = {
+            category.pk: category for category in self.instance.category_set.all()
+        }
+        category_license_cache: dict[int, str] = {}
+
+        def get_category_license(category: Category) -> str:
+            if category.pk in category_license_cache:
+                return category_license_cache[category.pk]
+            if category.inherit_license:
+                if category.category_id is None:
+                    license_value = project_license
+                else:
+                    license_value = get_category_license(
+                        categories_by_id[category.category_id]
+                    )
+            else:
+                license_value = category.license
+            category_license_cache[category.pk] = license_value
+            return license_value
+
+        unlicensed_categories = [
+            category_id
+            for category_id, category in categories_by_id.items()
+            if not get_category_license(category)
+        ]
+        components_filter = Q(inherit_license=False, license="")
+        if not project_license:
+            components_filter |= Q(inherit_license=True, category__isnull=True)
+        if unlicensed_categories:
+            components_filter |= Q(
+                inherit_license=True, category_id__in=unlicensed_categories
+            )
+        return list(self.instance.component_set.filter(components_filter))
 
     def clean(self) -> None:
         data = self.cleaned_data
@@ -2791,7 +3260,13 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 }
             )
         if self.changed_access and self.instance.needs_license(access):
-            unlicensed = self.instance.component_set.filter(license="")
+            project_license = data.get("license", self.instance.license)
+            if (
+                data.get("inherit_license", self.instance.inherit_license)
+                and self.instance.workspace_id
+            ):
+                project_license = self.instance.workspace.license
+            unlicensed = self.get_unlicensed_components(project_license)
             if unlicensed:
                 raise ValidationError(
                     {
@@ -2840,8 +3315,13 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                 }
             )
 
+        self.preserve_inherited_values()
+
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
+        self.setup_inherited_settings(
+            gettext("workspace"), has_parent=self.instance.workspace_id is not None
+        )
         self.user = request.user
         self.user_can_change_access = request.user.has_perm(
             "billing:project.permissions", self.instance
@@ -2870,6 +3350,11 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                     ),
                     "web",
                     "instructions",
+                    Fieldset(
+                        gettext("License"),
+                        InheritedSetting("license"),
+                        InheritedSetting("agreement"),
+                    ),
                     css_id="basic",
                 ),
                 Tab(
@@ -2890,7 +3375,9 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                     "check_flags",
                     "enable_hooks",
                     "language_aliases",
-                    "secondary_language",
+                    InheritedSetting("secondary_language"),
+                    InheritedSetting("new_lang"),
+                    InheritedSetting("language_code_style"),
                     "translation_review",
                     "source_review",
                     "commit_policy",
@@ -2907,6 +3394,16 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                         },
                     ),
                     css_id="workflow",
+                ),
+                Tab(
+                    gettext("Commit messages"),
+                    InheritedSetting("commit_message"),
+                    InheritedSetting("add_message"),
+                    InheritedSetting("delete_message"),
+                    InheritedSetting("merge_message"),
+                    InheritedSetting("addon_message"),
+                    InheritedSetting("pull_message"),
+                    css_id="messages",
                 ),
                 Tab(
                     gettext("Components"),
@@ -3121,9 +3618,8 @@ class ReplaceForm(forms.Form):
     )
 
     def __init__(self, obj: URLMixin, data: dict | None = None) -> None:
-        super().__init__(
-            data=data, auto_id="id_replace_%s", initial={"path": obj.full_slug}
-        )
+        path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
+        super().__init__(data=data, auto_id="id_replace_%s", initial={"path": path})
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -3422,16 +3918,25 @@ class BulkEditForm(forms.Form):
         | ProjectLanguage
         | Category
         | CategoryLanguage
+        | Workspace
         | None,
         *args,
         **kwargs,
     ) -> None:
         project = kwargs.pop("project", None)
+        labels = kwargs.pop("labels", None)
         kwargs["auto_id"] = "id_bulk_%s"
         if obj is not None:
-            kwargs["initial"] = {"path": obj.full_slug}
+            kwargs["initial"] = {
+                "path": getattr(obj, "full_slug", "/".join(obj.get_url_path()))
+            }
         super().__init__(*args, **kwargs)
-        labels = Label.objects.all() if project is None else project.label_set.all()
+        if labels is None:
+            # Labels are project-scoped, so non-project bulk edit scopes do not
+            # offer label operations to avoid applying labels across projects.
+            labels = (
+                Label.objects.none() if project is None else project.label_set.all()
+            )
         if labels:
             self.fields["remove_labels"].queryset = labels
             self.fields["add_labels"].queryset = labels

@@ -20,7 +20,7 @@
       </div>
       <div class="card-body">
         <p>{% translate "Please read the following contributor license agreement:" %}</p>
-        <div class="list-group-item pre-scrollable">{{ object.agreement|markdown }}</div>
+        <div class="list-group-item pre-scrollable">{{ agreement_text|markdown }}</div>
 
         {% csrf_token %}
 

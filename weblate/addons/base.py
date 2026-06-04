@@ -706,7 +706,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             return False
         with repository.lock:
             component.commit_files(
-                template=component.addon_message,
+                template=component.effective_addon_message,
                 extra_context={"addon_name": self.verbose},
                 files=files,
                 skip_push=skip_push,
