@@ -7,6 +7,7 @@
 from django.test import SimpleTestCase
 
 from weblate.checks.chars import (
+    AcceleratorKeyCheck,
     BeginNewlineCheck,
     BeginSpaceCheck,
     DoubleSpaceCheck,
@@ -30,6 +31,34 @@ from weblate.checks.chars import (
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
+
+
+class AcceleratorKeyCheckTest(CheckTestCase):
+    check = AcceleratorKeyCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_good_matching = ("&File", "&File", "accelerators")
+        self.test_good_none = ("File", "File", "accelerators")
+        self.test_good_flag = ("&File", "File", "")
+        self.test_failure_1 = ("&File", "File", "accelerators")
+        self.test_failure_2 = ("File", "&File", "accelerators")
+        self.test_failure_3 = ("&File", "&File &Edit", "accelerators")
+
+    def test_underscore_accelerator(self) -> None:
+        self.do_test(False, ("_File", "_File", "accelerators"))
+        self.do_test(True, ("_File", "File", "accelerators"))
+        self.do_test(True, ("File", "_File", "accelerators"))
+
+    def test_literal_ampersand(self) -> None:
+        # A balanced, literal ampersand is not treated as an accelerator key.
+        self.do_test(False, ("Walter & Sons", "Walter & Sons", "accelerators"))
+
+    def test_multiple_accelerators(self) -> None:
+        # More than one accelerator in the target is reported even if counts match.
+        self.do_test(True, ("&File &Edit", "&File &Edit", "accelerators"))
+        # A mismatched marker type (& vs _) is reported.
+        self.do_test(True, ("&File", "_File", "accelerators"))
 
 
 class BeginNewlineCheckTest(CheckTestCase):
