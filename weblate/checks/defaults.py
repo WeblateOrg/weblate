@@ -6,6 +6,7 @@ from __future__ import annotations
 
 DEFAULT_CHECK_LIST: tuple[str, ...] = (
     "weblate.checks.same.SameCheck",
+    "weblate.checks.chars.AcceleratorKeyCheck",
     "weblate.checks.chars.BeginNewlineCheck",
     "weblate.checks.chars.EndNewlineCheck",
     "weblate.checks.chars.BeginSpaceCheck",

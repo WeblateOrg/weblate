@@ -5,6 +5,8 @@ Weblate 2026.7
 
 .. rubric:: New features
 
+* Added the :ref:`check-accelerators` quality check, which verifies that accelerator keys are used consistently between the source and the translation. Enable it with the ``accelerators`` flag.
+
 .. rubric:: Improvements
 
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
