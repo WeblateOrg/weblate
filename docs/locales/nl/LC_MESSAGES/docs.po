@@ -20,8 +20,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-04 11:37+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-05 07:59+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -1864,20 +1864,16 @@ msgstr ""
 "Weergegeven binnen het project, inclusief al zijn onderdelen en vertalingen."
 
 #: admin/announcements.rst:39
-#, fuzzy
-#| msgid "Project specified"
 msgid "Project and language specified"
-msgstr "Project gespecificeerd"
+msgstr "Project en taal gespecificeerd"
 
 #: admin/announcements.rst:41
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the project for the specified language, including all its "
 "translations."
 msgstr ""
-"Weergegeven binnen het project, inclusief al zijn onderdelen en vertalingen."
+"Weergegeven binnen het project voor de gespecificeerde taal, inclusief al "
+"zijn vertalingen."
 
 #: admin/announcements.rst:44
 msgid "Category specified"
@@ -2519,10 +2515,14 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"Sommige identiteitsproviders (zoals Microsoft Entra ID met "
+"multifactorauthenticatie) vereisen het uitschakelen van de standaard "
+"``requestedAuthnContext`` in de beveiligingsconfiguratie van SAML:"
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
 msgstr ""
+"In Docker, stel in plaats daarvan :envvar:`WEBLATE_SAML_SECURITY_CONFIG` in."
 
 #: admin/auth.rst:584
 msgid ""
@@ -6116,6 +6116,12 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"De ingebouwde standaarden volgen Conventional Commits en bevatten links van "
+"Weblate waar beschikbaar. Wijzigen van deze instellingen beïnvloedt nieuw "
+"gemaakte standaarden; bestaande berichtensjablonen kunnen worden hersteld in "
+"de formulieren voor instellingen met :guilabel:`Standaardsite herstellen`. "
+"Voor geërfde waarden schakelt herstellen naar de standaardsite ook het erven "
+"voor dat bericht uit."
 
 #: admin/config.rst:729
 msgid "Default add-ons to install for every created component."
@@ -6206,6 +6212,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"De ingebouwde standaard volgt Conventional Commits en bevat links naar "
+"Weblate en status van de vertaling."
 
 #: admin/config.rst:876
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6660,6 +6668,8 @@ msgstr "Standaard is -1."
 #: admin/config.rst:1334
 msgid "CSS class added to the wrappers around legal document templates."
 msgstr ""
+"Klasse voor CSS toegevoegd aan de wrappers rondom sjablonen voor wettelijke "
+"documenten."
 
 #: admin/config.rst:1336
 msgid ""
@@ -6667,16 +6677,23 @@ msgid ""
 "and spacing rules. Set this to an empty string to render legal documents "
 "without the built-in numbering."
 msgstr ""
+"Standaard ``\"tos\"``, wat de ingebouwde regels voor nummeren afstanden in "
+"wettelijke documenten inschakelt. Stel dit in op een lege tekenreeks om "
+"wettelijke documenten te renderen zonder ingebouwde nummering."
 
 #: admin/config.rst:1355
 msgid "List of legal document page identifiers to hide from the legal module."
 msgstr ""
+"Lijst met pagina-identificaties voor wettelijke documenten om te verbergen "
+"in de module legal."
 
 #: admin/config.rst:1357
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"De pagina ``index`` is altijd zichtbaar. Ondersteunde identificaties voor "
+"documenten zijn ``terms``, ``cookies``, ``privacy`` en ``contracts``."
 
 #: admin/config.rst:1360
 msgid ""
@@ -6684,6 +6701,10 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"Verborgen pagina's worden verwijderd uit het menu legal en geven een "
+"antwoord 404 indien direct bevraagd. Verbergen van ``terms`` of ``privacy`` "
+"wordt niet aanbevolen als bevestigen van voorwaarden van service is "
+"inegschakeld."
 
 #: admin/config.rst:1364
 msgid ""
@@ -6692,6 +6713,11 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"Indien ``terms`` of ``privacy`` is verborgen, gebruiken links die worden "
+"weergegeven via de sjabloonvariabelen ``terms_url`` en "
+"``privacy_url``:setting:`LEGAL_URL` en :setting:`PRIVACY_URL` om op terug te "
+"vallen indien geconfigureerd. Als geen URL om op terug te vallen is "
+"geconfigureerd, wordt de gerelateerde link weggelaten."
 
 #: admin/config.rst:1369
 msgid ""
@@ -6700,6 +6726,10 @@ msgid ""
 "external terms document instead of embedding :file:`legal/documents/"
 "tos.html`."
 msgstr ""
+"Met bevestigen van voorwaarden voor service ingeschakeld, maakt het "
+"verbergen van ``terms`` en het instellen van :setting:`LEGAL_URL` de link "
+"naar de bevestigingspagina naar het externe document voor de voorwaarden, in "
+"plaats van het ingebedde :file:`legal/documents/tos.html`."
 
 #: admin/config.rst:1373
 msgid ""
@@ -6707,6 +6737,10 @@ msgid ""
 "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the "
 "API schema terms link uses the same fallback."
 msgstr ""
+"In niet-Docker uitrollen, definieer :setting:`LEGAL_HIDDEN_DOCUMENTS` en "
+":setting:`LEGAL_URL` voordat ``SPECTACULAR_SETTINGS`` is gemaakt, zodat de "
+"link naar de voorwaarden voor het API-schema dezelfde terugvalmogelijkheid "
+"gebruikt."
 
 #: admin/config.rst:1394
 msgid "You need :ref:`legal` installed to make this work."
@@ -6727,17 +6761,14 @@ msgstr ""
 "URL waar uw instantie van Weblate zijn wettelijke documenten weergeeft."
 
 #: admin/config.rst:1414
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate. Please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate instead of using "
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
-"Nuttig als u uw wettelijke documenten buiten Weblate host om ze in te bedden "
-"in Weblate. Bekijk :ref:`legal` voor details."
+"Nuttig als u uw wettelijke documenten buiten Weblate host in plaats van de "
+"module :ref:`legal` te gebruiken. Wanneer de module legal is ingeschakeld, "
+"linkt Weblate standaard naar de interne wettelijke pagina's."
 
 #: admin/config.rst:1433
 msgid "Additional licenses to include in the license choices."
@@ -6923,6 +6954,9 @@ msgid ""
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"Nuttig als u uw privacybeleid host buiten Weblate in plaats van de module "
+":ref:`legal` te gebruiken. Wanneer de module legal is ingeschakeld, linkt "
+"Weblate standaard naar de interne wettelijke pagina's."
 
 #: admin/config.rst:1678
 msgid ""
@@ -11727,20 +11761,13 @@ msgid "Google Cloud Error Reporting"
 msgstr "Google Cloud Error Reporting"
 
 #: admin/install.rst:1756
-#, fuzzy
-#| msgid ""
-#| "Weblate can report handled server errors to `Google Cloud Error Reporting "
-#| "<https://cloud.google.com/error-reporting/>`_. Install Weblate with the "
-#| "``google-errors`` extra and "
-#| "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgid ""
 "Weblate can report handled server errors to `Google Cloud Error Reporting`_. "
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
 "Weblate kan afgehandelde serverfouten rapporteren naar `Google Cloud Error "
-"Reporting <https://cloud.google.com/error-reporting/>`_. Installeer Weblate "
-"extra met de ``google-errors`` en "
+"Reporting`_. Installeer Weblate extra met de ``google-errors`` en "
 "configureer :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 
 #: admin/install.rst:1766
@@ -12959,29 +12986,38 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Maak de Dockercontainer opnieuw na het wijzigen van deze omgevingsvariabele, "
+"bijvoorbeeld met :program:`docker compose up -d`. Herstarten van een "
+"bestaande container past niet de gewijzigde omgevingswaarden toe."
 
 #: admin/install/docker.rst:929
 msgid ""
 "Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Configureert :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker-uitrollen met "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` ingeschakeld."
 
 #: admin/install/docker.rst:932
 msgid ""
 "Set this to an empty string to disable the built-in legal document numbering."
 msgstr ""
+"Stel dit in op een lege tekenreeks om de ingebouwde nummering voor "
+"wettelijke documenten uit te schakelen."
 
 #: admin/install/docker.rst:944
 msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Configureert :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker-uitrollen met "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` ingeschakeld."
 
 #: admin/install/docker.rst:947
-#, fuzzy
-#| msgid "Expects a comma-separated list of trusted project slugs."
 msgid "Provide a comma-separated list of legal document page identifiers."
-msgstr "Verwacht een kommagescheiden lijst met vertrouwde projectslugs."
+msgstr ""
+"Verschaft een kommagescheiden lijst met identificaties voor pagina's van "
+"wettelijke documenten."
 
 #: admin/install/docker.rst:958
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -13633,14 +13669,18 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"SAML beveiligingsconfiguratie als een object JSON, doorgegeven aan "
+"``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. Bijvoorbeeld om de "
+"``requestedAuthnContext`` uit te schakelen (nodig voor sommige "
+"identiteitsproviders, zoals Microsoft Entra ID met multifactorauthenticatie):"
 
 #: admin/install/docker.rst:1783
-#, fuzzy
-#| msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
 msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
 "saml#settings>`_"
-msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
+msgstr ""
+"`python3-saml beveiligingsinstellingen <https://github.com/SAML-Toolkits/"
+"python3-saml#settings>`_"
 
 #: admin/install/docker.rst:1794
 msgid "SAML attributes mapping."
@@ -17652,10 +17692,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Kort overzicht van de algemene voorwaarden en privacy policy"
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Save add-on state information."
 msgid "Subcontractor information"
-msgstr "Informatie status add-on opslaan."
+msgstr "Informatie subcontracten"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -17666,6 +17704,13 @@ msgid ""
 "module is not enabled. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"De module legal bed deze sjablonen in binnen Weblate en gebruikt "
+":file:`legal/documents/tos.html` voor bevestiging van de voorwaarden voor de "
+"service. Dat is afgescheiden van :setting:`LEGAL_URL` en "
+":setting:`PRIVACY_URL`, die zijn bedoeld voor het koppelen naar extern "
+"gehoste wettelijke documenten vanuit de voettekst als de module legal niet "
+"is ingeschakeld. Wanneer de module legal is ingeschakeld, linkt Weblate "
+"standaard naar de interne wettelijke pagina's."
 
 #: admin/optionals.rst:151
 msgid ""
@@ -17738,6 +17783,9 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Maak de Dockercontainer opnieuw na het wijzigen van deze omgevingsvariabele, "
+"bijvoorbeeld met :program:`docker compose up -d`. Herstarten van een "
+"bestaande container past niet de gewijzigde omgevingswaarden toe."
 
 #: admin/optionals.rst:212
 msgid ""
@@ -17753,6 +17801,10 @@ msgid ""
 "translated only when you use Django translation tags such as ``{% translate "
 "%}`` or ``{% blocktranslate %}``; plain HTML text is shown as written."
 msgstr ""
+"De sjablonen voor wettelijke documenten zijn normale sjablonen van Django. "
+"Tekst wordt alleen vertaald als u tags voor vertalingen van Django gebruikt, "
+"zoals ``{% translate %}`` of ``{% blocktranslate %}``; platte HTML-tekst "
+"wordt weergegeven zoals het is geschreven."
 
 #: admin/optionals.rst:218
 msgid ""
@@ -17760,6 +17812,9 @@ msgid ""
 "and ``privacy_url`` variables for linking to the terms of service and "
 "privacy policy documents."
 msgstr ""
+"Wettelijke pagina's en het overzicht voor aanmelden en registratie "
+"verschaffen variabelen ``terms_url`` en ``privacy_url`` voor het koppelen "
+"naar documenten voor de voorwaarden voor de service en voor privacybeleid."
 
 #: admin/optionals.rst:222
 msgid ""
@@ -17770,6 +17825,12 @@ msgid ""
 "set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an empty string to disable this "
 "styling."
 msgstr ""
+"Standaard gebruiken wettelijk documentwrappers de CSS-klasse ``tos``. Deze "
+"klasse nummert automatisch koppen ``h2``, alinea's met klassen ``item``, "
+"``subitem`` of ``subsubitem`` en items van genummerde lijsten op het "
+"bovenste niveau. Als uw wettelijke tekst al nummering bevat, stel "
+":setting:`LEGAL_DOCUMENT_CSS_CLASS` in op een lege tekenreeks om deze opmaak "
+"uit te schakelen."
 
 #: admin/optionals.rst:228
 msgid ""
@@ -17779,6 +17840,12 @@ msgid ""
 "``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` "
 "or :setting:`PRIVACY_URL` when configured, otherwise the link is omitted."
 msgstr ""
+"Gebruik :setting:`LEGAL_HIDDEN_DOCUMENTS` om optionele wettelijke pagina's, "
+"zoals subcontracten, in het menu legal te verbergen. Verborgen pagina's "
+"geven een antwoord 404 terug als ze direct worden bevraagd. Als ``terms`` of "
+"``privacy`` is verborgen, vallen links met ``terms_url`` of ``privacy_url`` "
+"terug op :setting:`LEGAL_URL` of :setting:`PRIVACY_URL` indien "
+"geconfigureerd, anders wordt de link weggelaten."
 
 #: admin/optionals.rst:234
 msgid ""
@@ -17788,6 +17855,12 @@ msgid ""
 "confirmation page then links to those external documents without requiring "
 "a :file:`legal/documents/tos.html` template override."
 msgstr ""
+"Extern gehoste wettelijke documenten gebruiken met bevestiging voor de "
+"voorwaarden, configureer :setting:`LEGAL_HIDDEN_DOCUMENTS` om ``terms`` en "
+"``privacy`` te verbergen en stel :setting:`LEGAL_URL` en "
+":setting:`PRIVACY_URL` in. De pagina voor bevestiging linkt dan naar die "
+"externe documenten zonder het overschrijven van het sjabloon :file:`legal/"
+"documents/tos.html` te eisen."
 
 #: admin/optionals.rst:243
 msgid "Avatars"
@@ -18427,24 +18500,16 @@ msgid "Translation license"
 msgstr "Licentie van de vertaling"
 
 #: admin/projects.rst:174
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid "Default translation license for components in this project."
-msgstr "Maakt vertaalonderdelen in het opgegeven project."
+msgstr "Standaardlicentie vertalen voor onderdelen in dit project."
 
 #: admin/projects.rst:186
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for components in this project. "
 "Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Tekst die het vertaalproces in het project beschrijft en alle andere "
-"informatie die nuttig is voor vertalers. Markdown mag worden gebruikt voor "
-"het opmaken van tekst of invoegen van koppelingen."
+"Standaard medewerkerlicentieovereenkomst voor onderdelen in dit project. "
+"Markdown mag worden gebruikt voor tekstopmaak of invoegen van koppelingen."
 
 #: admin/projects.rst:197
 msgid "Use shared translation memory"
@@ -18655,28 +18720,24 @@ msgid "Adding new translation"
 msgstr "Nieuwe vertaling toevoegen"
 
 #: admin/projects.rst:348
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid ""
 "Default behavior for requests to create new translations in components in "
 "this project."
-msgstr "Geeft een lijst terug van vertaalonderdelen in het opgegeven project."
+msgstr ""
+"Standaardgedrag voor verzoeken om nieuwe vertalingen te maken in onderdelen "
+"in dit project."
 
 #: admin/projects.rst:359 admin/projects.rst:934 admin/workspaces.rst:102
 msgid "Language code style"
 msgstr "Opmaak taalcode"
 
 #: admin/projects.rst:361
-#, fuzzy
-#| msgid ""
-#| "Customize language code used to generate the filename for translations "
-#| "created by Weblate."
 msgid ""
 "Default language code style for translations created by Weblate in "
 "components in this project."
 msgstr ""
-"Pas de taalcode aan die gebruikt wordt om de bestandsnaam van door Weblate "
-"aangemaakte vertalingen te genereren."
+"Standaardopmaak taalcode voor vertalingen die door Weblate zijn gemaakt in "
+"onderdelen in dit project."
 
 #: admin/projects.rst:372 admin/projects.rst:1187 admin/workspaces.rst:115
 msgid "Secondary language"
@@ -18709,12 +18770,10 @@ msgstr ""
 "bekijk :ref:`custom-checks`."
 
 #: admin/projects.rst:395 admin/projects.rst:824
-#, fuzzy
-#| msgid ""
-#| "Extended API with project, component and translation removal and creation."
 msgid "Workspace, project, component, and translation flags are merged."
 msgstr ""
-"API uitgebreid met verwijderen en maken van project, onderdeel en vertaling."
+"Werkruimte, project, onderdeel en vlaggen voor vertalingen worden "
+"samengevoegd."
 
 #: admin/projects.rst:409 admin/projects.rst:1026 admin/workspaces.rst:147
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -18727,18 +18786,18 @@ msgid ""
 "Default commit and merge request message templates for components in this "
 "project."
 msgstr ""
+"Standaard berichtsjablonen voor commit en merge request voor onderdelen in "
+"dit project."
 
 #: admin/projects.rst:414
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed "
-#| "by :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 msgid ""
 "The default values can be changed "
 "by :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"De standaard waarde kan worden gewijzigd "
-"met :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
+"De standaardwaarden kunnen worden gewijzigd met "
+":setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, "
+":setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, "
+":setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 
 #: admin/projects.rst:419 admin/projects.rst:1035
 msgid ""
@@ -18747,6 +18806,11 @@ msgid ""
 "editor to restore the current installation default for that message; for "
 "inherited values, this also disables inheritance for that message."
 msgstr ""
+"De ingebouwde standaarden volgen Conventional Commits en bevatten links naar "
+"Weblate waar beschikbaar. Gebruik :guilabel:`Standaardsite herstellen` naast "
+"een berichtbewerker om de huidige standaard voor de installatie te "
+"herstellen voor dat bericht; voor geërfde waarden schakelt dit ook het erven "
+"voor dat bericht uit."
 
 #: admin/projects.rst:433 devel/sphinx.rst:30
 msgid "Component configuration"
@@ -20022,10 +20086,8 @@ msgstr ""
 "projecteigenaren of beheerders."
 
 #: admin/projects.rst:1197
-#, fuzzy
-#| msgid "This setting is inherited from the project if left empty."
 msgid "This setting can be inherited from the project."
-msgstr "Deze instelling wordt geërfd van het project, indien leeg gelaten."
+msgstr "Deze instelling kan worden geërfd van het project."
 
 #: admin/projects.rst:1208
 msgid "Priority"
@@ -20197,10 +20259,8 @@ msgstr ""
 "U mag ze nesten om een meer complexe structuur te bereiken."
 
 #: admin/projects.rst:1308
-#, fuzzy
-#| msgid "Container settings"
 msgid "Category settings"
-msgstr "Instellingen container"
+msgstr "Instellingen categorie"
 
 #: admin/projects.rst:1310
 msgid ""
@@ -20208,6 +20268,10 @@ msgid ""
 "components, including translation license, contributor agreement, adding new "
 "translations, secondary language, translation flags, and commit messages."
 msgstr ""
+"Categorieën kunnen dezelfde geërfde instellingen overschrijven als projecten "
+"en onderdelen, inclusief licentie voor vertalen, medewerkersovereenkomst, "
+"nieuwe vertalingen toevoegen, tweede taal, vlaggen voor vertaling en "
+"berichten voor commit."
 
 #: admin/projects.rst:1314
 msgid ""
@@ -20215,6 +20279,9 @@ msgid ""
 "categories inherit from the project. Components in a category inherit from "
 "that category by default."
 msgstr ""
+"Geneste categorieën erven standaard van hun oudercategorie. Categorieën op "
+"het bovenste niveau erven van het project. Onderdelen in een categorie erven "
+"standaard van die categorie."
 
 #: admin/projects.rst:1327
 msgid "Template markup"
@@ -21569,67 +21636,67 @@ msgid ""
 "Workspace settings define workspace identity and defaults inherited by "
 "projects and components."
 msgstr ""
+"Instellingen voor werkruimte definiëren identiteit voor de werkruimte en "
+"erven standaard van projecten en onderdelen."
 
 #: admin/workspaces.rst:57
 msgid "Workspace name"
 msgstr "Naam werkruimte"
 
 #: admin/workspaces.rst:59
-#, fuzzy
-#| msgid "Verbose project name, used to display the project name."
 msgid ""
 "Verbose workspace name used in workspace listings and project organization."
-msgstr "Uitgebreide projectnaam, gebruikt om de projectnaam weer te geven."
+msgstr ""
+"Uitgebreide naam werkruimte, gebruikt in vermeldingen van werkruimten en "
+"projectbeheer."
 
 #: admin/workspaces.rst:66
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid ""
 "Default translation license for projects and components in this workspace."
-msgstr "Vertaalprojecten en onderdelen toevoegen"
+msgstr ""
+"Standaardlicentie vertalen voor projecten en onderdelen in deze werkruimte."
 
 #: admin/workspaces.rst:78
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for projects and components in this "
 "workspace. Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Tekst die het vertaalproces in het project beschrijft en alle andere "
-"informatie die nuttig is voor vertalers. Markdown mag worden gebruikt voor "
-"het opmaken van tekst of invoegen van koppelingen."
+"Standaard medewerkerlicentieovereenkomst voor projecten en onderdelen in "
+"deze werkruimte. Markdown mag worden gebruikt voor tekstopmaak of invoegen "
+"van koppelingen."
 
 #: admin/workspaces.rst:91
 msgid ""
 "Default behavior for requests to create new translations in projects and "
 "components in this workspace."
 msgstr ""
+"Standaardgedrag voor verzoeken voor het maken van nieuwe vertalingen in "
+"projecten en onderdelen in deze werkruimte."
 
 #: admin/workspaces.rst:104
 msgid ""
 "Default language code style for translations created by Weblate in projects "
 "and components in this workspace."
 msgstr ""
+"Standaardopmaak voor taalcode voor vertalingen gemaakt door Weblate in "
+"projecten en onderdelen in deze werkruimte."
 
 #: admin/workspaces.rst:117
-#, fuzzy
-#| msgid ""
-#| "Additional language to show together with the source language while "
-#| "translating."
 msgid ""
 "Default secondary language to show together with the source language while "
 "translating projects and components in this workspace."
 msgstr ""
-"Extra taal om samen met de brontaal te worden weergegeven bij het vertalen."
+"Standaard tweede taal om samen met de brontaal te worden weergegeven bij het "
+"vertalen van projecten en onderdelen in deze werkruimte."
 
 #: admin/workspaces.rst:131
 msgid ""
 "Workspace-level translation flags. These are merged with project, component, "
 "and translation flags instead of being inherited as a replacement."
 msgstr ""
+"Vlaggen voor vertaling op niveau van de werkruimte. Deze worden samengevoegd "
+"met die van project, onderdeel en vlaggen voor vertalen, in plaats van te "
+"worden geërfd als vervanging."
 
 #: admin/workspaces.rst:149
 msgid ""
@@ -21637,6 +21704,9 @@ msgid ""
 "components in this workspace. These templates use the same markup as "
 "component message settings."
 msgstr ""
+"Standaard berichtsjablonen voor commit en merge request voor projecten en "
+"onderdelen in deze werkruimte. Deze sjablonen gebruiken dezelfde opmaak als "
+"instellingen voor berichten van onderdelen."
 
 #: admin/workspaces.rst:153
 msgid ""
@@ -21644,42 +21714,48 @@ msgid ""
 "where available. Use :guilabel:`Restore site default` next to a message "
 "editor to restore the current installation default for that message."
 msgstr ""
+"De ingebouwde standaarden volgen Conventional Commits en bevatten links naar "
+"Weblate waar beschikbaar. Gebruik :guilabel:`Standaardsite herstellen` naast "
+"een berichtbewerker om de huidige standaardinstallatie te herstellen voor "
+"dat bericht."
 
 #: admin/workspaces.rst:166
-#, fuzzy
-#| msgid "Starting newline"
 msgid "Settings inheritance"
-msgstr "Nieuwe regel aan het begin"
+msgstr "Erven instellingen"
 
 #: admin/workspaces.rst:168
 msgid ""
 "Settings inheritance lets common defaults be configured once and reused in "
 "lower scopes:"
 msgstr ""
+"Erven van instellingen laat veelvoorkomende standaarden een keer "
+"geconfigureerd en opnieuw gebruikt in lagere bereiken:"
 
 #: admin/workspaces.rst:171
-#, fuzzy
-#| msgid "Can add projects to the workspace."
 msgid "Workspaces define defaults for projects in the workspace."
-msgstr "Mag projecten toevoegen aan de werkruimte."
+msgstr "Werkruimten definiëren standaarden voor projecten in de werkruimte."
 
 #: admin/workspaces.rst:172
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid "Projects define defaults for categories and components in the project."
-msgstr "Geeft een lijst terug van vertaalonderdelen in het opgegeven project."
+msgstr ""
+"Projecten definiëren standaarden voor categorieën en onderdelen in het "
+"project."
 
 #: admin/workspaces.rst:173
 msgid ""
 "Categories define defaults for nested categories and components in the "
 "category."
 msgstr ""
+"Categorieën definiëren standaarden voor geneste categorieën en onderdelen in "
+"de categorie."
 
 #: admin/workspaces.rst:175
 msgid ""
 "Components use the effective value from the nearest inherited scope unless "
 "inheritance is disabled for that setting."
 msgstr ""
+"Onderdelen gebruiken de effectieve waarde uit het dichtstbijzijnde geërfde "
+"bereik, tenzij erven voor de instelling is uitgeschakeld."
 
 #: admin/workspaces.rst:178
 msgid ""
@@ -21687,6 +21763,9 @@ msgid ""
 "adding new translations, language code style, secondary language, and commit "
 "message templates."
 msgstr ""
+"Dit is beschikbaar voor licentie voor vertaling, "
+"medewerkerlicentieovereenkomst, nieuwe vertalingen toevoegen, opmaak "
+"taalcode, tweede taal en berichtensjablonen voor commits."
 
 #: admin/workspaces.rst:182
 msgid ""
@@ -21696,6 +21775,12 @@ msgid ""
 "inherited value is shown in the settings form; disable inheritance and save "
 "to edit the stored override value."
 msgstr ""
+"Instellingen voor project, categorie en onderdeel geven keuzevakken "
+":guilabel:`Erft van werkruimte`, :guilabel:`Erft van project` of "
+":guilabel:`Erft van categorie` voor deze waarden weer. Wanneer erven is "
+"ingeschakeld, wordt de geërfde waarde weergegeven in het formulier van de "
+"instellingen; schakel erven uit en sla op om de opgeslagen overschreven "
+"waarde te bewerken."
 
 #: admin/workspaces.rst:188
 msgid ""
@@ -21703,6 +21788,9 @@ msgid ""
 "component, and translation flags are merged, so each level can add flags "
 "without replacing the lower levels."
 msgstr ""
+"Vlaggen voor vertalingen worden anders afgehandeld. Werkruimte, project, "
+"categorie, onderdeel en vlaggen voor vertalingen worden samengevoegd, dus "
+"elk niveau kan vlaggen toevoegen, zonder de lagere niveaus te vervangen."
 
 #: admin/workspaces.rst:192
 msgid ""
@@ -21710,12 +21798,18 @@ msgid ""
 "installation defaults. Later changes to installation defaults do not update "
 "existing workspaces."
 msgstr ""
+"Wanneer een werkruimte wordt gemaakt, worden deze standaarden gekopieerd "
+"vanuit de huidige standaarden van de installatie. Latere wijzigingen aan de "
+"standaarden van de installatie werken de bestaande werktuimten niet bij."
 
 #: admin/workspaces.rst:196
 msgid ""
 "Workspace-less projects also store their own defaults when created and do "
 "not inherit from a workspace unless moved into one and configured to inherit."
 msgstr ""
+"Projecten zonder werkruimten slaan ook hun eigen standaarden op wanneer ze "
+"gemaakt worden en erven niet van een werkruimte, tenzij verplaatst naar een "
+"en geconfigureerd om te erven."
 
 #: admin/workspaces.rst:199
 msgid ""
@@ -21727,6 +21821,14 @@ msgid ""
 "overrides can be consolidated to the category. Differing values remain "
 "configured directly on the lower scope."
 msgstr ""
+"Bij het bijwerken van bestaande installaties, consolideert Weblate "
+"overeenkomende instellingen: als alle onderdelen in een project dezelfde "
+"waarde gebruiken, wordt de waarde verplaatst naar het project en die "
+"onderdelen erven het. Dezelfde consolidatie wordt dan toegepast van "
+"projecten naar werkruimten. Instellingen voor categorieën worden "
+"geïnitialiseerd om te erven van hun ouder en overschrijven van overeenkomend "
+"expliciet kind kan worden geconsolideerd naar de categorie. Afwijkende "
+"waarden blijven direct geconfigureerd in het lagere bereik."
 
 #: admin/workspaces.rst:217
 msgid ""
@@ -22170,10 +22272,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.7"
-msgstr "Weblate 2026.6"
+msgstr "Weblate 2026.7"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -22213,6 +22313,8 @@ msgid ""
 "Management interface access control is now more fine-grained with dedicated "
 "site-wide permissions."
 msgstr ""
+"Toegangscontrole voor de beheersinterface is nu fijner afgestemd met "
+"aangewezen sitebrede rechten."
 
 #: changes.rst:11
 msgid ""
@@ -22220,12 +22322,17 @@ msgid ""
 "Commits, and settings forms can restore installation defaults for individual "
 "message templates."
 msgstr ""
+"Standaard berichtsjablonen voor commit en merge request gebruiken nu "
+"Conventional Commits en formulieren voor instellen kunnen de "
+"standaardinstallatie herstellen voor individuele berichtensjablonen."
 
 #: changes.rst:12
 msgid ""
 "Documented :ref:`legal` customizations and added options to hide legal pages "
 "or disable document numbering."
 msgstr ""
+"Gedocumenteerde aanpassingen voor :ref:`legal` en opties toegevoegd om "
+"wettelijke pagina's te verbergen of nummeren van documenten uit te schakelen."
 
 #: changes.rst:15 changes.rst:36 changes.rst:73 changes.rst:136
 #: changes/v5.rst:36 changes/v5.rst:144 changes/v5.rst:213 changes/v5.rst:248
@@ -22255,6 +22362,8 @@ msgid ""
 "Webhook target fallback matching is now stricter and reported in component "
 "diagnostics."
 msgstr ""
+"Webhookovereenkomst doel terugvallen is nu strikter en gerapporteerd in "
+"diagnostiek van onderdeel."
 
 #: changes.rst:19 changes.rst:152 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -22342,50 +22451,36 @@ msgid "Contributors"
 msgstr "Medewerkers"
 
 #: changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "66?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/166?"
 "closed=1>`__."
 msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
-"66?closed=1>`__."
+"166?closed=1>`__."
 
 #: changes.rst:31
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.6.1"
-msgstr "Weblate 2026.6"
+msgstr "Weblate 2026.6.1"
 
 #: changes.rst:33 changes.rst:52
-#, fuzzy
-#| msgid "*Released on June 1st 2018.*"
 msgid "*Released on June 1st 2026.*"
-msgstr "*Uitgegeven op 1 juni 2018.*"
+msgstr "*Uitgegeven op 1 juni 2026.*"
 
 #: changes.rst:37
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Language-wide :doc:`/admin/announcements` no longer break language overview "
 "pages."
 msgstr ""
-":doc:`/admin/announcements` kunnen worden gepost in het bereik van het "
-"project/de taal."
+"Taalbrede :doc:`/admin/announcements` verbreken niet langer "
+"overzichtspagina's van talen."
 
 #: changes.rst:47
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "69?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/169?"
 "closed=1>`__."
 msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
-"69?closed=1>`__."
+"169?closed=1>`__."
 
 #: changes.rst:50
 msgid "Weblate 2026.6"
@@ -22413,24 +22508,16 @@ msgstr ""
 "Toegevoegd :ref:`cost estimates <cost-estimate>` voor vertaalrapporten."
 
 #: changes.rst:59
-#, fuzzy
-#| msgid ""
-#| "Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` "
-#| "support for handled server errors."
 msgid ""
 "Added optional :ref:`OpenTelemetry tracing <collecting-errors>` for backend "
 "requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-"
 "errors>` for handled server errors."
 msgstr ""
-"Optionele ondersteuning toegevoegd voor :ref:`Google Cloud Error Reporting "
-"<collecting-errors>` voor afgehandelde serverfouten."
+"Optionele ondersteuning toegevoegd voor :ref:`OpenTelemetry traceren "
+"<collecting-errors>` voor backendverzoeken en -taken en :ref:`Google Cloud "
+"Error Reporting <collecting-errors>` voor afgehandelde serverfouten."
 
 #: changes.rst:60
-#, fuzzy
-#| msgid ""
-#| "Added :doc:`/admin/workspaces` to group related projects, with workspace "
-#| "project listings, workspace-scoped teams and project creation "
-#| "permissions, and billing details when available."
 msgid ""
 "Added :doc:`/admin/workspaces` to group related projects, with workspace "
 "project listings, workspace-scoped teams and project creation permissions, "
@@ -22439,20 +22526,20 @@ msgid ""
 msgstr ""
 "Toegevoegd :doc:`/admin/workspaces` om gerelateerde projecten te groeperen, "
 "met projectlijsten in werkruimte, team in bereik werkruimte en rechten voor "
-"maken van projecten, en details voor facturatie indien beschikbaar."
+"maken van projecten, geërfde werkruimte, project en categoriestandaarden "
+"voor geselecteerde instellingen, onderdelen en details voor facturatie "
+"indien beschikbaar."
 
 #: changes.rst:64
-#, fuzzy
-#| msgid ""
-#| "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
-#| "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgid ""
 "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
 "to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` "
 "using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"Docker container kan nu aanpassen :setting:`WEBLATE_FORMATS`. "
-"Gebruik :envvar:`WEBLATE_ADD_FORMATS` en :envvar:`WEBLATE_REMOVE_FORMATS`."
+"Docker container kan nu configureren :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
+"om SAML beveiligingsinstellingen aan te passen en :setting:`WEBLATE_FORMATS` "
+"aanpassen met :envvar:`WEBLATE_ADD_FORMATS` en "
+":envvar:`WEBLATE_REMOVE_FORMATS`."
 
 #: changes.rst:65
 msgid ""
@@ -22471,19 +22558,17 @@ msgstr ""
 "aan dezelfde tekenreeks, met een optie om alle wijzigingen te tellen."
 
 #: changes.rst:67
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/continuous` now explains why squash merging Weblate conflict-"
-#| "resolution pull requests can require a repository reset."
 msgid ""
 ":doc:`/admin/code-hosting` now documents HTTPS access-token URLs and "
 "dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/"
 "continuous` now explains why squash merging Weblate conflict-resolution pull "
 "requests can require a repository reset."
 msgstr ""
-":doc:`/admin/continuous` legt nu uit waarom het squashen van samenvoegen van "
-"Weblate conflict-oplossing pull requests het herstellen van een opslagruimte "
-"nodig kan maken."
+":doc:`/admin/code-hosting` documenteert nu URL's voor HTTPS-toegangstokens "
+"en URL's voor aangewezen gebruiker van SSH voor toegang tot opslagruimten, "
+"en :doc:`/admin/continuous` legt nu uit waarom het squashen van samenvoegen "
+"van Weblate conflictoplossing pull requests het herstellen van een "
+"opslagruimte nodig kan maken."
 
 #: changes.rst:68
 msgid ""
@@ -22513,23 +22598,20 @@ msgstr ""
 ":ref:`sbom` uitgaveartefacten bevatten nu CISA 2025-documentniveau-metadata."
 
 #: changes.rst:74
-#, fuzzy
-#| msgid "Outbound URL validation now rejects additional non-public targets."
 msgid ""
 "Outbound URL validation now rejects additional non-public targets "
 "(:ghsa:`vmfc-9982-2m45`)."
 msgstr ""
-"Valideren van uitgaande URL weigert nu aanvullende niet-publieke doelen."
+"Valideren van uitgaande URL weigert nu aanvullende niet-publieke doelen "
+"(:ghsa:`vmfc-9982-2m45`)."
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Project-language :doc:`/admin/announcements` no longer appear across the "
 "whole project."
 msgstr ""
-":doc:`/admin/announcements` kunnen worden gepost in het bereik van het "
-"project/de taal."
+"Projecttaal :doc:`/admin/announcements` verschijnen niet langer in het "
+"gehele project."
 
 #: changes.rst:76
 msgid ""
@@ -22627,6 +22709,8 @@ msgid ""
 "Translation pages for workspace projects no longer crash when workspace "
 "fields are deferred."
 msgstr ""
+"Pagina's voor vertalingen van projecten in werkruimten crashen niet langer "
+"als velden van de werkruimte afwijken."
 
 #: changes.rst:93
 msgid ""
@@ -22637,14 +22721,8 @@ msgstr ""
 "``weblate.workspaces`` zou moeten worden toegevoegd."
 
 #: changes.rst:94
-#, fuzzy
-#| msgid ""
-#| "The database migration make take hours on larger instances due to "
-#| "recreating some of the indexes."
 msgid "The database migrations might take longer on larger instances."
-msgstr ""
-"De migratie van de database kan uren duren op grotere instanties vanwege het "
-"opnieuw maken van de indexen."
+msgstr "De migratie van de database kan langer duren op grotere instanties."
 
 #: changes.rst:100
 msgid ""
@@ -23149,6 +23227,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
 "Kunc, felixfon"
 msgstr ""
+"Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
+"Kunc, felixfon"
 
 #: changes/contributors/2026.6.rst:10
 msgid ""
@@ -23162,12 +23242,19 @@ msgid ""
 "libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
 "Public, Andi Chandler, Burak SDN, ojppe"
 msgstr ""
+"Michal Čihař, VfBFan, 大王叫我来巡山, Emin Tufan Çetin, Basheer Radman, 為什"
+"麼不加空格, Peter Vančo, Christian Wia, Любомир Василев, Matthaiks, Andrei "
+"Stepanov, Libre, Besnik Bleta, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Balázs Meskó, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, Dick Groskamp, Arif Budiman, Mickaël "
+"Binos, Ryo Nakano, hoanghuy309, Pierfrancesco Passerini, Alefsander Ribeiro "
+"Nascimento, Massimo Pissarello, justcontributor, 이정희, Cabdi Waaxid "
+"Siciid, Yaron Shahrabani, User2068, Kyotaro Iijima, pan93412, jernejp21, "
+"libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
+"Public, Andi Chandler, Burak SDN, ojppe"
 
 #: changes/contributors/2026.6.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
 
 #: changes/contributors/2026.6.1.rst:5 changes/contributors/2026.6.1.rst:10
 #: changes/contributors/5.10.4.rst:5 changes/contributors/5.10.4.rst:15
@@ -64329,10 +64416,8 @@ msgid "Use management interface"
 msgstr "Beheerpaneel gebruiken"
 
 #: snippets/permissions.rst:337
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Weblate-configuratie"
+msgstr "Siteconfiguratie beheren"
 
 #: snippets/permissions.rst:339
 msgid "Add new projects"
