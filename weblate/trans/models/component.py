@@ -60,7 +60,11 @@ from weblate.trans.defines import (
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.exceptions import FileParseError, InvalidTemplateError
+from weblate.trans.exceptions import (
+    FileParseError,
+    InvalidTemplateError,
+    is_expected_parse_error,
+)
 from weblate.trans.fields import RegexField
 from weblate.trans.file_format_params import (
     FILE_FORMATS_PARAMS,
@@ -426,7 +430,7 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
-            result = result.filter(project__in=user.allowed_projects)
+            result = result.filter(user.get_project_access_query("project"))
         if user.needs_component_restrictions_filter:
             result = result.filter(
                 Q(restricted=False) | Q(id__in=user.component_permissions)
@@ -3183,7 +3187,7 @@ class Component(  # noqa: PLR0904
                         try:
                             component.template_store  # noqa: B018
                         except FileParseError as error:
-                            if not isinstance(error.__cause__, FileNotFoundError):
+                            if not is_expected_parse_error(error):
                                 report_error(
                                     "Could not parse template file on commit",
                                     project=self.project,
@@ -5065,7 +5069,7 @@ class Component(  # noqa: PLR0904
         try:
             return self.load_template_store()
         except Exception as error:
-            if not isinstance(error, FileNotFoundError):
+            if not is_expected_parse_error(error):
                 report_error("Template parse error", project=self.project)
             self.handle_parse_error(error, filename=self.template)
             return None

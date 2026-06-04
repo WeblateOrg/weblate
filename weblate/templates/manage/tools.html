@@ -14,21 +14,23 @@
 {% block content %}
 
 
-  <form method="post">
-    {% csrf_token %}
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">
-          {% documentation_icon 'admin/announcements' right=True %}
-          {% translate "Post announcement" %}
-        </h4>
+  {% if can_post_announcement %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/announcements' right=True %}
+            {% translate "Post announcement" %}
+          </h4>
+        </div>
+        <div class="card-body">{{ announce_form|crispy }}</div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Send" %}" />
+        </div>
       </div>
-      <div class="card-body">{{ announce_form|crispy }}</div>
-      <div class="card-footer">
-        <input type="submit" class="btn btn-primary" value="{% translate "Send" %}" />
-      </div>
-    </div>
-  </form>
+    </form>
+  {% endif %}
 
 
   <div class="card">
@@ -43,20 +45,22 @@
     </div>
   </div>
 
-  <form method="post">
-    {% csrf_token %}
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">{% translate "Send test e-mail" %}</h4>
+  {% if can_configure %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Send test e-mail" %}</h4>
+        </div>
+        <div class="card-body">{{ email_form|crispy }}</div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Send" %}" />
+        </div>
       </div>
-      <div class="card-body">{{ email_form|crispy }}</div>
-      <div class="card-footer">
-        <input type="submit" class="btn btn-primary" value="{% translate "Send" %}" />
-      </div>
-    </div>
-  </form>
+    </form>
+  {% endif %}
 
-  {% if has_sentry %}
+  {% if can_configure and has_sentry %}
     <form method="post">
       {% csrf_token %}
       <div class="card">

@@ -4,8 +4,10 @@
 
 from django.test import SimpleTestCase, override_settings
 from translate.misc.multistring import multistring
+from translate.storage.base import ParseError
 
 from weblate.lang.models import Language
+from weblate.trans.exceptions import FileParseError, is_expected_parse_error
 from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
@@ -15,6 +17,31 @@ from weblate.trans.util import (
     sanitize_backend_error_message,
     translation_percent,
 )
+
+
+class ExpectedParseErrorTest(SimpleTestCase):
+    def test_file_not_found(self) -> None:
+        self.assertTrue(is_expected_parse_error(FileNotFoundError()))
+
+    def test_translate_parse_error(self) -> None:
+        self.assertTrue(is_expected_parse_error(ParseError("invalid file")))
+
+    def test_wrapped_file_not_found(self) -> None:
+        error = FileNotFoundError()
+        wrapped = FileParseError(str(error))
+        wrapped.__cause__ = error
+
+        self.assertTrue(is_expected_parse_error(wrapped))
+
+    def test_wrapped_translate_parse_error(self) -> None:
+        error = ParseError("invalid file")
+        wrapped = FileParseError(str(error))
+        wrapped.__cause__ = error
+
+        self.assertTrue(is_expected_parse_error(wrapped))
+
+    def test_other_exception(self) -> None:
+        self.assertFalse(is_expected_parse_error(ValueError("broken")))
 
 
 class HideCredentialsTest(SimpleTestCase):

@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.http import Http404
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.auth.models import Group
@@ -61,6 +62,21 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, visible.name)
         self.assertNotContains(response, hidden.name, status_code=200)
 
+    def test_workspace_project_sort_does_not_affect_search_sort(self) -> None:
+        workspace = Workspace.objects.create(name="Test workspace")
+        self.create_project(
+            workspace,
+            name="Visible project",
+            slug="visible-project",
+        )
+
+        response = self.client.get(workspace.get_absolute_url(), {"sort_by": "name"})
+
+        self.assertEqual(response.context["projects"].paginator.sort_by, "name")
+        self.assertEqual(
+            response.context["search_form"].sort_query, "component,-priority"
+        )
+
     def test_workspace_without_accessible_projects_is_not_visible(self) -> None:
         workspace = Workspace.objects.create(name="Private workspace")
         self.create_project(
@@ -103,6 +119,20 @@ class WorkspaceViewTest(BaseTestCase):
 
         self.assertContains(response, 'data-bs-target="#settings"')
         self.assertContains(response, "Workspace settings")
+
+    @override_settings(DEFAULT_COMMIT_MESSAGE="Site default workspace commit")
+    def test_workspace_settings_show_site_default_message_control(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Settings workspace")
+        workspace.add_owner(user)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(
+            response, 'data-site-default-value="Site default workspace commit"'
+        )
+        self.assertContains(response, "Restore site default")
 
     def test_workspace_settings_are_hidden_without_workspace_edit(self) -> None:
         workspace = Workspace.objects.create(name="Public workspace")

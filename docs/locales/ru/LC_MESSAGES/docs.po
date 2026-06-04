@@ -52,7 +52,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-05-25 10:02+0000\n"
+"PO-Revision-Date: 2026-06-01 01:01+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -219,14 +219,14 @@ msgstr ""
 "помощью :ref:`custom settings <custom-acl>`."
 
 #: admin/access.rst:86 admin/workspaces.rst:49
-#, fuzzy
-#| msgid "Project access control"
 msgid "Workspace access control"
-msgstr "Контроль доступа к проекту"
+msgstr "Контроль доступа к рабочему пространству"
 
 #: admin/access.rst:88
 msgid "Workspace-scoped teams are documented in :ref:`workspace-acl`."
 msgstr ""
+"Команды с областью действия рабочего пространства описаны в :ref:`workspace-"
+"acl`."
 
 #: admin/access.rst:93
 msgid "Managing per-project access control"
@@ -4423,10 +4423,8 @@ msgid "GitHub repository access"
 msgstr "Доступ к репозиторию GitHub"
 
 #: admin/code-hosting.rst:192
-#, fuzzy
-#| msgid "**Option 1: HTTPS with personal access token**"
 msgid "HTTPS with personal access token"
-msgstr "**Вариант 1: HTTPS с персональным токеном доступа**"
+msgstr "HTTPS с персональным токеном доступа"
 
 #: admin/code-hosting.rst:196
 msgid "To use this approach:"
@@ -4460,10 +4458,8 @@ msgstr ""
 #: admin/code-hosting.rst:381 admin/code-hosting.rst:458
 #: admin/code-hosting.rst:554 admin/code-hosting.rst:611
 #: admin/code-hosting.rst:667
-#, fuzzy
-#| msgid "**Option 2: SSH with a dedicated user**"
 msgid "SSH with a dedicated user"
-msgstr "**Вариант 2: SSH с выделенным пользователем**"
+msgstr "SSH с выделенным пользователем"
 
 #: admin/code-hosting.rst:211
 msgid ""
@@ -4471,6 +4467,9 @@ msgid ""
 "GitHub SSH URLs for your repositories, for example ``git@github.com:owner/"
 "repo.git``."
 msgstr ""
+"Для GitHub создайте выделенного пользователя, например ``weblate-bot``, и "
+"используйте SSH-URL-адреса GitHub для ваших репозиториев, например "
+"``git@github.com:owner/repo.git``."
 
 #: admin/code-hosting.rst:215
 msgid ""
@@ -4600,27 +4599,18 @@ msgid "GitLab repository access"
 msgstr "Доступ к репозиторию GitLab"
 
 #: admin/code-hosting.rst:291
-#, fuzzy
-#| msgid "**Option 1: HTTPS with personal access token**"
 msgid "HTTPS with personal or project access token"
-msgstr "**Вариант 1: HTTPS с персональным токеном доступа**"
+msgstr "HTTPS с персональным или проектным токеном доступа"
 
 #: admin/code-hosting.rst:295
-#, fuzzy
-#| msgid ""
-#| "Using personal or project access tokens is possible as well. The token "
-#| "needs :guilabel:`write_repository` scope to be able to push changes to "
-#| "the repository. The project access token requires :guilabel:`Developer` "
-#| "role for pushing."
 msgid ""
 "For GitLab, the token needs :guilabel:`write_repository` scope to be able to "
 "push changes to the repository. The project access token "
 "requires :guilabel:`Developer` role for pushing."
 msgstr ""
-"Использование личных или проектных токенов доступа также возможно. Токену "
-"требуется область действия :guilabel:`write_repository`, чтобы иметь "
-"возможность отправлять изменения в репозиторий. Для отправки проектный токен "
-"доступа требует роль :guilabel:`Developer`."
+"Для GitLab токену требуется область действия :guilabel:`write_repository`, "
+"чтобы иметь возможность отправлять изменения в репозиторий. Для отправки "
+"проектный токен доступа требует роль :guilabel:`Developer`."
 
 #: admin/code-hosting.rst:299
 msgid ""
@@ -4652,6 +4642,8 @@ msgid ""
 "For GitLab, create a dedicated user and use GitLab SSH URLs, for example "
 "``git@gitlab.com:group/project.git``."
 msgstr ""
+"Для GitLab создайте выделенного пользователя и используйте SSH-URL-адреса "
+"GitLab, например ``git@gitlab.com:group/project.git``."
 
 #: admin/code-hosting.rst:323
 msgid "GitLab notifications"
@@ -4721,21 +4713,15 @@ msgstr ""
 "качестве :ref:`component-vcs` и настройте :setting:`GITLAB_CREDENTIALS`."
 
 #: admin/code-hosting.rst:358
-#, fuzzy
-#| msgid ""
-#| "When using :guilabel:`GitHub` for pull requests, the :ref:`component-"
-#| "push_branch` configuration affects the behavior: if not set, the project "
-#| "is forked and changes are pushed through a fork. If set, changes are "
-#| "pushed to the upstream repository and the chosen branch."
 msgid ""
 "The :ref:`component-push_branch` configuration affects where Weblate pushes "
 "changes before opening the merge request. If it is not set, the project is "
 "forked and changes are pushed through a fork. If it is set, changes are "
 "pushed to the upstream repository and chosen branch."
 msgstr ""
-"При использовании :guilabel:`GitHub` для запросов на извлечение "
-"конфигурация :ref:`component-push_branch` влияет на поведение: если не "
-"задано, проект форкается, и изменения отправляются через форк. Если задано, "
+"Конфигурация :ref:`component-push_branch` влияет на то, куда Weblate "
+"отправляет изменения перед открытием запроса на слияние. Если она не задана, "
+"проект форкается, и изменения отправляются через форк. Если задана, "
 "изменения отправляются в вышестоящий репозиторий и выбранную ветку."
 
 #: admin/code-hosting.rst:368
@@ -4743,18 +4729,14 @@ msgid "Gitea, Forgejo, and Codeberg"
 msgstr "Gitea, Forgejo и Codeberg"
 
 #: admin/code-hosting.rst:373
-#, fuzzy
-#| msgid "Gitea, Forgejo, and Codeberg"
 msgid "Gitea, Forgejo, and Codeberg repository access"
-msgstr "Gitea, Forgejo и Codeberg"
+msgstr "Доступ к репозиториям Gitea, Forgejo и Codeberg"
 
 #: admin/code-hosting.rst:376 admin/code-hosting.rst:453
 #: admin/code-hosting.rst:547 admin/code-hosting.rst:606
 #: admin/code-hosting.rst:662
-#, fuzzy
-#| msgid "**Option 1: HTTPS with personal access token**"
 msgid "HTTPS with an access token"
-msgstr "**Вариант 1: HTTPS с персональным токеном доступа**"
+msgstr "HTTPS с токеном доступа"
 
 #: admin/code-hosting.rst:385
 msgid ""
@@ -4864,10 +4846,8 @@ msgid "Bitbucket"
 msgstr "Bitbucket"
 
 #: admin/code-hosting.rst:450
-#, fuzzy
-#| msgid "GitHub repository access"
 msgid "Bitbucket repository access"
-msgstr "Доступ к репозиторию GitHub"
+msgstr "Доступ к репозиторию Bitbucket"
 
 #: admin/code-hosting.rst:462
 msgid ""
@@ -4991,18 +4971,18 @@ msgid "Azure DevOps"
 msgstr "Azure DevOps"
 
 #: admin/code-hosting.rst:544
-#, fuzzy
-#| msgid "GitHub repository access"
 msgid "Azure Repos repository access"
-msgstr "Доступ к репозиторию GitHub"
+msgstr "Доступ к репозиторию Azure Repos"
 
 #: admin/code-hosting.rst:551
 msgid "Use the HTTPS clone URL shown by Azure Repos for the repository."
 msgstr ""
+"Используйте HTTPS-URL-адрес клонирования, показываемый Azure Repos для "
+"репозитория."
 
 #: admin/code-hosting.rst:558
 msgid "Use the SSH URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "Используйте SSH-URL-адрес, показываемый Azure Repos для репозитория."
 
 #: admin/code-hosting.rst:563
 msgid "Azure Repos notifications"
@@ -5072,10 +5052,8 @@ msgid "Pagure"
 msgstr "Pagure"
 
 #: admin/code-hosting.rst:603
-#, fuzzy
-#| msgid "GitHub repository access"
 msgid "Pagure repository access"
-msgstr "Доступ к репозиторию GitHub"
+msgstr "Доступ к репозиторию Pagure"
 
 #: admin/code-hosting.rst:618
 msgid "Pagure notifications"
@@ -5137,10 +5115,8 @@ msgid "Other workflows"
 msgstr "Другие рабочие процессы"
 
 #: admin/code-hosting.rst:659
-#, fuzzy
-#| msgid "GitHub repository access"
 msgid "Gitee repository access"
-msgstr "Доступ к репозиторию GitHub"
+msgstr "Доступ к репозиторию Gitee"
 
 #: admin/code-hosting.rst:674
 msgid "Gitee notifications"
@@ -7467,6 +7443,9 @@ msgid ""
 "Reporting. Set to ``None`` to disable the integration, or set to a "
 "dictionary of keyword arguments for the Google Cloud Error Reporting client."
 msgstr ""
+"Конфигурация для :ref:`collecting-errors` с использованием Google Cloud "
+"Error Reporting. Установите ``None`` для отключения интеграции или словарь "
+"именованных аргументов для клиента Google Cloud Error Reporting."
 
 #: admin/config.rst:2238
 msgid ""
@@ -7474,53 +7453,59 @@ msgid ""
 "the current Weblate version or Git revision. Explicit values in the "
 "dictionary override these defaults."
 msgstr ""
+"Weblate автоматически передаёт ``service`` как ``weblate`` и ``version`` как "
+"текущую версию Weblate или ревизию Git. Явные значения в словаре "
+"переопределяют эти умолчания."
 
 #: admin/config.rst:2249
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
 msgstr ""
+"Включить трассировку серверной части с помощью OpenTelemetry. По умолчанию "
+"отключено."
 
 #: admin/config.rst:2251
 msgid ""
 "Traces are exported only when this is enabled "
 "and :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured."
 msgstr ""
+"Трассы экспортируются только когда это включено и настроен "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
 
 #: admin/config.rst:2259
 msgid ""
 "OTLP HTTP traces endpoint for OpenTelemetry, for example ``https://"
 "collector.example.com/v1/traces``."
 msgstr ""
+"Конечная точка OTLP HTTP для трасс OpenTelemetry, например ``https://"
+"collector.example.com/v1/traces``."
 
 #: admin/config.rst:2267
 msgid ""
 "Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an "
 "empty dictionary."
 msgstr ""
+"Дополнительные HTTP-заголовки для экспортёра OTLP OpenTelemetry. По "
+"умолчанию — пустой словарь."
 
 #: admin/config.rst:2275
 msgid ""
 "Additional OpenTelemetry resource attributes. Defaults to an empty "
 "dictionary."
 msgstr ""
+"Дополнительные атрибуты ресурсов OpenTelemetry. По умолчанию — пустой "
+"словарь."
 
 #: admin/config.rst:2282
-#, fuzzy
-#| msgid "Committer name, defaulting to ``Weblate``."
 msgid "OpenTelemetry service name. Defaults to ``weblate``."
-msgstr "Имя отправившего изменения, по умолчанию равен ``Weblate``."
+msgstr "Имя службы OpenTelemetry. По умолчанию — ``weblate``."
 
 #: admin/config.rst:2289
-#, fuzzy
-#| msgid ""
-#| "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for OpenTelemetry traces. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
-"Настройте частоту выборки для мониторинга профилирования. Установите "
-"значение 1 для отслеживания всех событий, значение 0 (по умолчанию) "
-"отключает отслеживание."
+"Настройте частоту выборки для трасс OpenTelemetry. Установите 1 для "
+"трассировки всех событий, 0 (по умолчанию) отключает трассировку."
 
 #: admin/config.rst:2297
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
@@ -8673,14 +8658,6 @@ msgstr ""
 "(например, при слиянии запроса на извлечение)."
 
 #: admin/continuous.rst:271
-#, fuzzy
-#| msgid ""
-#| "The reason for merge conflicts is different in this case - there are "
-#| "changes in Weblate which happened after you merged Weblate commits. This "
-#| "typically happens if merging is not automated and waits for days or weeks "
-#| "for a human to review them. Git is then sometimes no longer able to "
-#| "identify upstream changes as matching the Weblate ones and refuses to "
-#| "perform a rebase."
 msgid ""
 "The reason for merge conflicts is different in this case. Weblate can have "
 "new local commits after you merge earlier Weblate commits upstream. This "
@@ -8689,12 +8666,13 @@ msgid ""
 "upstream changes as matching the Weblate ones and refuses to perform a "
 "rebase."
 msgstr ""
-"Причина конфликтов слияния в данном случае иная — в Weblate есть изменения, "
-"произошедшие после того, как вы объединили коммиты Weblate. Обычно это "
-"происходит, если слияние не автоматизировано и ожидает несколько дней или "
-"недель, пока человек их проверит. Затем Git иногда больше не может "
-"определить, что изменения из вышестоящего репозитория соответствуют "
-"изменениям Weblate, и отказывается выполнять смену базы."
+"Причина конфликтов слияния в данном случае иная — у Weblate могут быть новые "
+"локальные коммиты после того, как вы объединили более ранние коммиты Weblate "
+"в вышестоящем репозитории. Обычно это происходит, если слияние не "
+"автоматизировано и изменения ожидают проверки человеком дни или недели. "
+"Затем Git иногда больше не может определить, что изменения из вышестоящего "
+"репозитория соответствуют изменениям Weblate, и отказывается выполнять смену "
+"базы."
 
 #: admin/continuous.rst:277
 msgid ""
@@ -8706,6 +8684,14 @@ msgid ""
 "can differ from both repositories, so Weblate can keep failing to update "
 "even after the pull request was merged upstream."
 msgstr ""
+"Склеивающее слияние (squash merge) изменений Weblate усложняет "
+"восстановление. Склеивающее слияние создаёт новый коммит вместо сохранения "
+"отдельных коммитов Weblate в истории вышестоящего репозитория. В локальном "
+"репозитории Weblate всё ещё есть исходные коммиты, и Git больше не может "
+"доказать, что вышестоящий репозиторий уже содержит их. Если конфликт также "
+"был разрешён вручную, содержимое файлов может отличаться от обоих "
+"репозиториев, поэтому Weblate может продолжать не обновляться, даже после "
+"того как запрос на извлечение был объединён вышестоящим репозиторием."
 
 #: admin/continuous.rst:285
 msgid ""
@@ -8716,6 +8702,13 @@ msgid ""
 "reapply`. Use :guilabel:`Reset and discard` only when upstream should fully "
 "replace Weblate's local changes."
 msgstr ""
+"Если вышестоящий репозиторий больше не содержит коммиты Weblate, потому что "
+"они были склеены при слиянии, обновления репозитория может быть "
+"недостаточно. Используйте :guilabel:`Сброс и повторное применение` в "
+":guilabel:`Обслуживание репозитория`, чтобы сбросить Weblate к вышестоящему "
+"состоянию, сохраняя ожидающие перевода строки; см. :ref:`manage-vcs-reset-"
+"reapply`. Используйте :guilabel:`Сброс и удаление`, только если вышестоящий "
+"репозиторий должен полностью заменить локальные изменения Weblate."
 
 #: admin/continuous.rst:292
 msgid ""
@@ -8732,19 +8725,14 @@ msgid "Here are few options how to avoid that:"
 msgstr "Вот несколько вариантов, как этого избежать:"
 
 #: admin/continuous.rst:298
-#, fuzzy
-#| msgid ""
-#| "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
-#| "time. This is the root cause why git doesn't recognize changes after "
-#| "merging."
 msgid ""
 "Do not use :ref:`addon-weblate.git.squash` or squash merging for Weblate "
 "changes. Squashing is why Git might no longer recognize the changes after "
 "merging."
 msgstr ""
-"Не используйте ни :ref:`addon-weblate.git.squash`, ни уплотнение во время "
-"слияния. Это основная причина того, что git не распознает изменения после "
-"объединения."
+"Не используйте :ref:`addon-weblate.git.squash` и не применяйте склеивание "
+"при слиянии изменений Weblate. Склеивание — это причина, по которой Git "
+"может больше не распознавать изменения после объединения."
 
 #: admin/continuous.rst:301
 msgid ""
@@ -8752,6 +8740,10 @@ msgid ""
 "regular merge commit and push that result upstream. Do not squash merge the "
 "conflict-resolution pull request."
 msgstr ""
+"При разрешении конфликтов вне Weblate объединяйте коммиты Weblate с помощью "
+"обычного коммита слияния и отправляйте этот результат вышестоящему "
+"репозиторию. Не применяйте склеивающее слияние к запросу на извлечение, "
+"разрешающему конфликт."
 
 #: admin/continuous.rst:304
 msgid ""
@@ -11627,7 +11619,7 @@ msgstr ""
 
 #: admin/install.rst:1754
 msgid "Google Cloud Error Reporting"
-msgstr ""
+msgstr "Отчёт об ошибках Google Cloud"
 
 #: admin/install.rst:1756
 msgid ""
@@ -11636,6 +11628,10 @@ msgid ""
 "``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
+"Weblate может сообщать об обработанных серверных ошибках в `Отчёт об ошибках "
+"Google Cloud <https://cloud.google.com/error-reporting/>`_. Установите "
+"Weblate с дополнительным компонентом ``google-errors`` и настройте "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING` в :file:`settings.py`:"
 
 #: admin/install.rst:1766
 msgid ""
@@ -11644,10 +11640,14 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
+"Weblate автоматически сообщает об ошибках в службе ``weblate`` и использует "
+"текущую версию Weblate или ревизию Git как сообщаемую версию. Эти значения "
+"можно переопределить, установив ``service`` или ``version`` в "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 
 #: admin/install.rst:1772
 msgid "OpenTelemetry"
-msgstr ""
+msgstr "OpenTelemetry"
 
 #: admin/install.rst:1774
 msgid ""
@@ -11655,6 +11655,10 @@ msgid ""
 "opentelemetry.io/>`_. It uses OTLP over HTTP and can send traces to an "
 "OpenTelemetry Collector or a compatible vendor endpoint."
 msgstr ""
+"Weblate может экспортировать трассы серверной части с помощью `OpenTelemetry "
+"<https://opentelemetry.io/>`_. Он использует OTLP через HTTP и может "
+"отправлять трассы в коллектор OpenTelemetry или совместимую конечную точку "
+"поставщика."
 
 #: admin/install.rst:1784
 msgid ""
@@ -11663,6 +11667,11 @@ msgid ""
 "using :setting:`OPENTELEMETRY_ENABLED`, :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, "
 "and :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 msgstr ""
+"Интеграция трассирует запросы Django, задачи Celery, Redis, исходящие HTTP-"
+"запросы, вызовы базы данных и специфичные для Weblate спаны. Настройте её с "
+"помощью :setting:`OPENTELEMETRY_ENABLED`, "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` и "
+":setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install.rst:1793
 msgid "Rollbar"
@@ -13834,75 +13843,68 @@ msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgstr "Настраивает :setting:`SENTRY_SEND_PII`."
 
 #: admin/install/docker.rst:2124
-#, fuzzy
-#| msgid "To enable support for Rollbar, set the following:"
 msgid "To enable support for Google Cloud Error Reporting, set following:"
-msgstr "Для включения поддержки Rollbar установите следующие переменные:"
+msgstr ""
+"Чтобы включить поддержку Отчёта об ошибках Google Cloud, установите "
+"следующее:"
 
 #: admin/install/docker.rst:2128
 msgid "Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``."
 msgstr ""
+"Включает :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, по умолчанию ``False``."
 
 #: admin/install/docker.rst:2132
 msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
+"Проект Google Cloud, в который отправлять отчёты об ошибках. Если опущено, "
+"клиент Google использует учётные данные приложения по умолчанию для "
+"определения проекта."
 
 #: admin/install/docker.rst:2137
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
 msgstr ""
+"Имя службы, используемое в Отчёте об ошибках Google Cloud, по умолчанию "
+"``weblate``."
 
 #: admin/install/docker.rst:2139
-#, fuzzy
-#| msgid "To enable support for Sentry, set following:"
 msgid "To enable support for OpenTelemetry tracing, set following:"
-msgstr "Для включения поддержки Sentry установите следующие переменные:"
+msgstr ""
+"Чтобы включить поддержку трассировки OpenTelemetry, установите следующее:"
 
 #: admin/install/docker.rst:2143
 msgid "Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``."
-msgstr ""
+msgstr "Включает :setting:`OPENTELEMETRY_ENABLED`, по умолчанию ``False``."
 
 #: admin/install/docker.rst:2147
-#, fuzzy
-#| msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgid "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
-msgstr "Настраивает :setting:`SENTRY_SEND_PII`."
+msgstr "Настраивает :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
 
 #: admin/install/docker.rst:2160
-#, fuzzy
-#| msgid ""
-#| "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
-"Настраивает :setting:`BORG_EXTRA_ARGS` как список аргументов, разделённых "
-"запятыми."
+"Настраивает :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` как разделённое "
+"запятыми отображение ``имя:значение``."
 
 #: admin/install/docker.rst:2165
-#, fuzzy
-#| msgid ""
-#| "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
-"Настраивает :setting:`BORG_EXTRA_ARGS` как список аргументов, разделённых "
-"запятыми."
+"Настраивает :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` как "
+"разделённое запятыми отображение ``имя:значение``."
 
 #: admin/install/docker.rst:2170
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_SHARING`."
 msgid "Configures :setting:`OPENTELEMETRY_SERVICE_NAME`."
-msgstr "Настраивает параметр :setting:`ENABLE_SHARING`."
+msgstr "Настраивает :setting:`OPENTELEMETRY_SERVICE_NAME`."
 
 #: admin/install/docker.rst:2174
-#, fuzzy
-#| msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 msgid "Configures :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
-msgstr "Настраивает :setting:`SENTRY_TRACES_SAMPLE_RATE`."
+msgstr "Настраивает :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install/docker.rst:2177 admin/optionals.rst:224
 msgid "Localization CDN"
@@ -17392,20 +17394,14 @@ msgstr ""
 "вкладку :guilabel:`Billing` в своём :ref:`user-profile`."
 
 #: admin/optionals.rst:110
-#, fuzzy
-#| msgid ""
-#| "The billing module additionally allows project admins to create new "
-#| "projects and components without being superusers (see :ref:`adding-"
-#| "projects`). This is possible when following conditions are met:"
 msgid ""
 "The billing module additionally allows users to create new projects and "
 "components without being superusers (see :ref:`adding-projects`). This is "
 "possible when following conditions are met:"
 msgstr ""
-"Также модуль тарифных планов даёт возможность администраторам проектов "
-"создавать новые проекты и компоненты без прав суперпользователя (смотреть "
-"раздел :ref:`adding-projects`). Это становится возможным, если удовлетворены "
-"следующие условия:"
+"Модуль тарифных планов также позволяет пользователям создавать новые проекты "
+"и компоненты без прав суперпользователя (см. :ref:`adding-projects`). Это "
+"возможно при выполнении следующих условий:"
 
 #: admin/optionals.rst:114
 msgid ""
@@ -17421,6 +17417,8 @@ msgid ""
 "The user has :guilabel:`Add projects to workspace` permission for the "
 "workspace covered by the billing plan."
 msgstr ""
+"Пользователь имеет разрешение :guilabel:`Добавление проектов в рабочее "
+"пространство` для рабочего пространства, охваченного тарифным планом."
 
 #: admin/optionals.rst:119
 msgid ""
@@ -17431,6 +17429,13 @@ msgid ""
 "notification e-mails are sent to these users. See :ref:`workspace-billing` "
 "for details."
 msgstr ""
+"При создании проекта пользователь может выбрать, в каком рабочем "
+"пространстве должен находиться проект. Проекты, созданные в рабочем "
+"пространстве с тарификацией, учитываются в тарифном плане, назначенном этому "
+"рабочему пространству. Пользователи с разрешением :guilabel:`Редактирование "
+"настроек рабочего пространства` могут просматривать и оплачивать тарифный "
+"план; этим пользователям отправляются уведомления о тарификации по "
+"электронной почте. Подробнее см. :ref:`workspace-billing`."
 
 #: admin/optionals.rst:129
 msgid "Legal module"
@@ -17947,14 +17952,6 @@ msgid "Adding translation projects and components"
 msgstr "Добавление проектов и компонентов перевода"
 
 #: admin/projects.rst:40
-#, fuzzy
-#| msgid ""
-#| "Based on your permissions, new translation projects and components can be "
-#| "created. It is always permitted for users with the :guilabel:`Add new "
-#| "projects` permission, and if your instance uses billing (e.g. like "
-#| "https://hosted.weblate.org/ see :ref:`billing`), you can also create "
-#| "those based on your plans allowance from the user account that manages "
-#| "billing."
 msgid ""
 "Based on your permissions, new translation projects and components can be "
 "created. It is always permitted for users with the :guilabel:`Add new "
@@ -17968,11 +17965,15 @@ msgid ""
 msgstr ""
 "В зависимости от ваших разрешений вы можете создавать новые проекты и "
 "компоненты перевода. Для пользователей с разрешением :guilabel:`Добавление "
-"новых проектов` их создание всегда разрешено, а если ваш экземпляр "
-"использует тарифные планы (как, например, https://hosted.weblate.org/, "
-"смотрите раздел :ref:`billing`), вы также можете создавать их на основе "
-"разрешений из вашего плана, установленных учётной записью пользователя, "
-"управляющего тарификацией."
+"новых проектов` это всегда разрешено, а если ваш экземпляр использует "
+"тарификацию (например, как https://hosted.weblate.org/, см. :ref:`billing`), "
+"вы также можете создавать их на основе разрешений вашего тарифа от учётной "
+"записи, управляющей тарификацией. Проекты также могут создаваться в рабочем "
+"пространстве пользователями, имеющими разрешение :guilabel:`Добавление "
+"проектов в рабочее пространство` в этом рабочем пространстве. Создание "
+"проекта без выбора рабочего пространства требует общесайтового разрешения "
+":guilabel:`Добавление новых проектов`. Подробнее см. :ref:`workspace-project-"
+"creation`."
 
 #: admin/projects.rst:53
 msgid ""
@@ -18774,6 +18775,13 @@ msgid ""
 "screenshot management interface; use OCR or source string search there to "
 "assign them in bulk."
 msgstr ""
+"Для проектов Android, использующих метаданные Fastlane, маска снимков экрана "
+"на исходном языке может указывать на папку со снимками экрана в метаданных, "
+"например ``fastlane/metadata/android/en-US/images/phoneScreenshots/*.png``. "
+"Weblate обнаружит соответствующие снимки экрана при обновлении репозитория. "
+"Обнаруженные снимки экрана всё равно необходимо связать с исходными строками "
+"в интерфейсе управления снимками экрана; используйте там OCR или поиск "
+"исходных строк, чтобы назначить их массово."
 
 #: admin/projects.rst:566 formats/android.rst:80 formats/apple.rst:33
 #: formats/appstore.rst:33 formats/arb.rst:36 formats/asciidoc.rst:32
@@ -20578,18 +20586,6 @@ msgid "Managing screenshots in the UI"
 msgstr "Управление снимками экрана в пользовательском интерфейсе"
 
 #: admin/translating.rst:140
-#, fuzzy
-#| msgid ""
-#| "Each screenshot is stored for a specific translation language. In the "
-#| "translate page, screenshots attached to the source language are shown for "
-#| "every translation of the string, while screenshots attached to any other "
-#| "language are shown only for that language. You can add a screenshot "
-#| "directly from the translate page using :guilabel:`Add screenshot` in "
-#| "the :guilabel:`Screenshot context` panel, or open the separate management "
-#| "interface under the :guilabel:`Operations` menu. There you can upload "
-#| "screenshots, assign them to source strings manually, or use optical "
-#| "character recognition (OCR) by pressing the :guilabel:`Automatically "
-#| "recognize` button."
 msgid ""
 "Each screenshot is stored for a specific translation language. In the "
 "translate page, screenshots attached to the source language are shown for "
@@ -20609,16 +20605,20 @@ msgstr ""
 "прикреплённые к любому другому языку, показываются только для этого языка. "
 "Вы можете добавить снимок экрана непосредственно со страницы перевода, "
 "используя :guilabel:`Добавить снимок экрана` на панели :guilabel:`Контекст "
-"снимков экрана`, или открыть отдельный интерфейс управления в "
-"меню :guilabel:`Управление`. Там вы можете загружать снимки экрана, вручную "
-"назначать их исходным строкам или использовать оптическое распознавание "
-"символов (OCR), нажав кнопку :guilabel:`Автоматически распознать`."
+"снимков экрана`, или открыть отдельный интерфейс управления в меню "
+":guilabel:`Управление`. Там вы можете загружать снимки экрана, вручную "
+"назначать их исходным строкам или позволить Weblate находить строки на "
+"изображении с помощью распознавания текста (OCR) с помощью кнопки "
+":guilabel:`Найти строки на изображении`. Соответствующие исходные строки "
+"можно назначать индивидуально, выбранной группой или все сразу."
 
 #: admin/translating.rst:153
 msgid ""
 "The screenshot listing summarizes uploaded screenshots and lets you search "
 "or filter them:"
 msgstr ""
+"Список снимков экрана суммирует загруженные снимки экрана и позволяет искать "
+"или фильтровать их:"
 
 #: admin/translating.rst:158
 msgid ""
@@ -20638,6 +20638,14 @@ msgid ""
 "screenshots, or ``repository:fastlane`` to review screenshots discovered "
 "from repository paths."
 msgstr ""
+"Используйте поиск в списке снимков экрана, чтобы находить снимки экрана по "
+"имени, пути в репозитории, языку, назначенной исходной строке, контексту "
+"исходной строки или расположению исходной строки. Поиск принимает простой "
+"текст, а также расширенные запросы по снимкам экрана, см. :ref:`search-"
+"screenshots`. Например, используйте ``NOT has:string`` для поиска "
+"неназначенных снимков экрана, ``has:string`` для поиска назначенных снимков "
+"экрана или ``repository:fastlane`` для просмотра снимков экрана, "
+"обнаруженных из путей в репозитории."
 
 #: admin/translating.rst:170
 msgid ""
@@ -20708,31 +20716,34 @@ msgstr ""
 
 #: admin/translating.rst:198
 msgid "For application projects, a practical workflow is:"
-msgstr ""
+msgstr "Для прикладных проектов практический рабочий процесс следующий:"
 
 #: admin/translating.rst:200
 msgid ""
 "Capture source-language screenshots for the most visible user interface."
 msgstr ""
+"Сделайте снимки экрана на исходном языке для наиболее заметного "
+"пользовательского интерфейса."
 
 #: admin/translating.rst:201
 msgid ""
 "Store them in a stable repository path, for example below :file:`fastlane/"
 "metadata/android/en-US/images/phoneScreenshots/`."
 msgstr ""
+"Сохраните их в стабильном пути репозитория, например, в :file:`fastlane/"
+"metadata/android/en-US/images/phoneScreenshots/`."
 
 #: admin/translating.rst:203
-#, fuzzy
-#| msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
 msgid "Configure :ref:`component-screenshot_filemask` for that path."
-msgstr ""
-"Настройте :ref:`component-repo`, чтобы Weblate мог клонировать репозиторий."
+msgstr "Настройте :ref:`component-screenshot_filemask` для этого пути."
 
 #: admin/translating.rst:204
 msgid ""
 "Update the component repository so Weblate discovers or refreshes the "
 "screenshots."
 msgstr ""
+"Обновите репозиторий компонента, чтобы Weblate обнаружил или обновил снимки "
+"экрана."
 
 #: admin/translating.rst:206
 msgid ""
@@ -20740,6 +20751,10 @@ msgid ""
 "strings, and review the :guilabel:`Source strings without screenshots` "
 "counter for important strings still missing visual context."
 msgstr ""
+"Используйте OCR или поиск исходных строк, чтобы назначить снимки экрана "
+"соответствующим исходным строкам, и проверьте счётчик :guilabel:`Исходные "
+"строки без снимков экрана` для важных строк, которым всё ещё не хватает "
+"визуального контекста."
 
 #: admin/translating.rst:217
 msgid "Managing screenshots through the API"
@@ -21091,10 +21106,8 @@ msgstr ""
 "пользователей из Pootle и импортировать их с помощью :wladmin:`importusers`."
 
 #: admin/workspaces.rst:4 snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Spaces"
 msgid "Workspaces"
-msgstr "Пробелы"
+msgstr "Рабочие пространства"
 
 #: admin/workspaces.rst:6
 msgid ""
@@ -21102,6 +21115,10 @@ msgid ""
 "provide a shared place for project listings, workspace-scoped access "
 "control, and billing details when the billing module is enabled."
 msgstr ""
+"Рабочие пространства группируют связанные проекты перевода. Они находятся "
+"над проектами и предоставляют общее место для списков проектов, контроля "
+"доступа с областью действия рабочего пространства и деталей тарификации, "
+"когда модуль тарификации включён."
 
 #: admin/workspaces.rst:10
 msgid ""
@@ -21109,47 +21126,58 @@ msgid ""
 "in the workspace. Project access is still controlled by the project access "
 "control settings and project teams, see :ref:`acl`."
 msgstr ""
+"Членство в рабочем пространстве не предоставляет доступа к переводу или "
+"управлению проектами в рабочем пространстве. Доступ к проекту по-прежнему "
+"контролируется настройками контроля доступа к проекту и командами проекта, "
+"см. :ref:`acl`."
 
 #: admin/workspaces.rst:14
 msgid ""
 "The workspace page lists projects in that workspace that you can access."
 msgstr ""
+"Страница рабочего пространства перечисляет проекты в этом рабочем "
+"пространстве, к которым у вас есть доступ."
 
 #: admin/workspaces.rst:18
 msgid ""
 "You can list all workspaces in the management interface "
 "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgstr ""
+"Вы можете перечислить все рабочие пространства в интерфейсе управления по "
+"адресу :guilabel:`Управление` ↓ :guilabel:`Рабочие пространства`."
 
 #: admin/workspaces.rst:26
-#, fuzzy
-#| msgid "Project created"
 msgid "Project creation and moves"
-msgstr "Проект создан"
+msgstr "Создание и перемещение проектов"
 
 #: admin/workspaces.rst:28
-#, fuzzy
-#| msgid "Projects can be watched directly from project page."
 msgid "Projects can be created with or without a workspace:"
-msgstr "Проекты теперь можно отмечать для отслеживания прямо с их страницы."
+msgstr "Проекты могут быть созданы как с рабочим пространством, так и без него:"
 
 #: admin/workspaces.rst:30
 msgid ""
 "Creating a project in a workspace requires the :guilabel:`Add projects to "
 "workspace` permission for that workspace."
 msgstr ""
+"Создание проекта в рабочем пространстве требует разрешения "
+":guilabel:`Добавление проектов в рабочее пространство` для этого рабочего "
+"пространства."
 
 #: admin/workspaces.rst:32
 msgid ""
 "Creating a project without a workspace requires the site-wide :guilabel:`Add "
 "new projects` permission."
 msgstr ""
+"Создание проекта без рабочего пространства требует общесайтового разрешения "
+":guilabel:`Добавление новых проектов`."
 
 #: admin/workspaces.rst:35
 msgid ""
 "When creating a project with the :ref:`api`, pass the workspace UUID in the "
 "``workspace`` field."
 msgstr ""
+"При создании проекта с помощью :ref:`api` передайте UUID рабочего "
+"пространства в поле ``workspace``."
 
 #: admin/workspaces.rst:38
 msgid ""
@@ -21161,6 +21189,14 @@ msgid ""
 "workspace` permission. Moving a project out of a workspace also requires the "
 "site-wide :guilabel:`Add new projects` permission."
 msgstr ""
+"Существующие проекты можно перемещать между рабочими пространствами на "
+"вкладке проекта :guilabel:`Организовать` или изменяя поле ``workspace`` с "
+"помощью :ref:`api`. Перемещение проекта требует разрешения на редактирование "
+"проекта и разрешения :guilabel:`Редактирование настроек рабочего "
+"пространства` для исходного и целевого рабочего пространства. Целевое "
+"рабочее пространство также требует разрешения :guilabel:`Добавление проектов "
+"в рабочее пространство`. Перемещение проекта из рабочего пространства также "
+"требует общесайтового разрешения :guilabel:`Добавление новых проектов`."
 
 #: admin/workspaces.rst:51
 msgid ""
@@ -21168,28 +21204,32 @@ msgid ""
 "actions only; they do not grant translation access to the projects in the "
 "workspace."
 msgstr ""
+"Рабочие пространства имеют команды с областью действия рабочего "
+"пространства. Эти команды контролируют только действия на уровне рабочего "
+"пространства; они не предоставляют доступа к переводу проектов в рабочем "
+"пространстве."
 
 #: admin/workspaces.rst:57
-#, fuzzy
-#| msgid "The default value is:"
 msgid "The default workspace teams are:"
-msgstr "Значение по умолчанию:"
+msgstr "Команды рабочего пространства по умолчанию:"
 
 #: admin/workspaces.rst:59
-#, fuzzy
-#| msgid "`Viewers`"
 msgid "`Owners`"
-msgstr "`Просматривающие`"
+msgstr "`Владельцы`"
 
 #: admin/workspaces.rst:60
 msgid ""
 "Can edit workspace settings, add projects to the workspace, manage workspace "
 "access, and view or pay billing plans assigned to the workspace."
 msgstr ""
+"Могут редактировать настройки рабочего пространства, добавлять проекты в "
+"рабочее пространство, управлять доступом к рабочему пространству, а также "
+"просматривать или оплачивать тарифные планы, назначенные рабочему "
+"пространству."
 
 #: admin/workspaces.rst:64
 msgid "Can add projects to the workspace."
-msgstr ""
+msgstr "Могут добавлять проекты в рабочее пространство."
 
 #: admin/workspaces.rst:66
 msgid ""
@@ -21197,28 +21237,40 @@ msgid ""
 "project in that workspace. This does not grant billing access or permission "
 "to add more projects."
 msgstr ""
+"Пользователи всё равно могут просматривать страницу рабочего пространства, "
+"когда у них есть доступ хотя бы к одному проекту в этом рабочем "
+"пространстве. Это не предоставляет доступа к тарификации или разрешения на "
+"добавление других проектов."
 
 #: admin/workspaces.rst:75
 msgid ""
 "When :ref:`billing` is enabled, a billing plan is assigned to a workspace. "
 "Projects in that workspace count against the workspace billing plan."
 msgstr ""
+"Когда :ref:`billing` включён, рабочему пространству назначается тарифный "
+"план. Проекты в этом рабочем пространстве учитываются в тарифном плане "
+"рабочего пространства."
 
 #: admin/workspaces.rst:78
 msgid ""
 "Users with :guilabel:`Edit workspace settings` permission can view and pay "
 "the billing plan. Billing notification e-mails are sent to these users."
 msgstr ""
+"Пользователи с разрешением :guilabel:`Редактирование настроек рабочего "
+"пространства` могут просматривать и оплачивать тарифный план. Уведомления о "
+"тарификации по электронной почте отправляются этим пользователям."
 
 #: admin/workspaces.rst:81
 msgid ""
 "Billing is optional. Workspaces are still available when the billing module "
 "is not installed."
 msgstr ""
+"Тарификация необязательна. Рабочие пространства по-прежнему доступны, когда "
+"модуль тарификации не установлен."
 
 #: admin/workspaces.rst:85
 msgid "Upgrading from billing owners"
-msgstr ""
+msgstr "Обновление от владельцев тарификации"
 
 #: admin/workspaces.rst:87
 msgid ""
@@ -21226,6 +21278,10 @@ msgid ""
 "These users are migrated to the workspace :guilabel:`Owners` team for the "
 "workspace covered by the billing plan."
 msgstr ""
+"В старых версиях Weblate владельцы тарификации хранились непосредственно в "
+"тарифных планах. Эти пользователи переносятся в команду рабочего "
+"пространства :guilabel:`Владельцы` для рабочего пространства, охваченного "
+"тарифным планом."
 
 #: api.rst:8
 msgid "Weblate's REST API"
@@ -21615,22 +21671,25 @@ msgstr ""
 "разрешений на перевод для каждого пользователя."
 
 #: changes.rst:10
-#, fuzzy
-#| msgid "Added :ref:`mt-systran` automatic translation support."
 msgid "Added :ref:`cost estimates <cost-estimate>` to translation reports."
-msgstr "Добавлено :ref:`mt-systran` поддержка автоматического перевода."
+msgstr ""
+"Добавлены :ref:`оценки стоимости <cost-estimate>` в отчёты по переводам."
 
 #: changes.rst:11
 msgid ""
 "Added optional :ref:`OpenTelemetry tracing <collecting-errors>` support for "
 "backend requests and tasks."
 msgstr ""
+"Добавлена опциональная поддержка :ref:`трассировки OpenTelemetry <collecting-"
+"errors>` для серверных запросов и задач."
 
 #: changes.rst:12
 msgid ""
 "Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` "
 "support for handled server errors."
 msgstr ""
+"Добавлена опциональная поддержка :ref:`Google Cloud Error Reporting "
+"<collecting-errors>` для обработанных серверных ошибок."
 
 #: changes.rst:13
 msgid ""
@@ -21638,6 +21697,10 @@ msgid ""
 "project listings, workspace-scoped teams and project creation permissions, "
 "and billing details when available."
 msgstr ""
+"Добавлены :doc:`/admin/workspaces` для группировки связанных проектов, со "
+"списками проектов рабочего пространства, командами с областью действия "
+"рабочего пространства и разрешениями на создание проектов, а также деталями "
+"тарификации, когда они доступны."
 
 #: changes.rst:16 changes.rst:73 changes/v5.rst:18 changes/v5.rst:104
 #: changes/v5.rst:208 changes/v5.rst:243 changes/v5.rst:290 changes/v5.rst:334
@@ -21687,18 +21750,26 @@ msgid ""
 ":doc:`/admin/code-hosting` now documents HTTPS access-token URLs and "
 "dedicated-user SSH URLs for accessing repositories."
 msgstr ""
+":doc:`/admin/code-hosting` теперь документирует URL-адреса доступа HTTPS с "
+"токенами и SSH-URL-адреса с выделенным пользователем для доступа к "
+"репозиториям."
 
 #: changes.rst:22
 msgid ""
 ":doc:`/admin/continuous` now explains why squash merging Weblate conflict-"
 "resolution pull requests can require a repository reset."
 msgstr ""
+":doc:`/admin/continuous` теперь объясняет, почему склеивающее слияние "
+"запросов на извлечение, разрешающих конфликты Weblate, может потребовать "
+"сброса репозитория."
 
 #: changes.rst:23
 msgid ""
 ":ref:`alerts` now include dismissible component diagnostics for community "
 "localization."
 msgstr ""
+":ref:`alerts` теперь включают скрываемую диагностику компонентов для "
+"локализации сообществом."
 
 #: changes.rst:24
 msgid ""
@@ -21707,11 +21778,17 @@ msgid ""
 "discover, show source string coverage counts, and include advanced listing "
 "search."
 msgstr ""
+":ref:`screenshots` теперь поддерживают массовое назначение из результатов "
+"поиска или распознавания текста на изображении, упрощают обнаружение строк "
+"на загруженных изображениях, показывают количество охваченных исходных строк "
+"и включают расширенный поиск в списке."
 
 #: changes.rst:25
 msgid ""
 ":ref:`sbom` release artifacts now include CISA 2025 document-level metadata."
 msgstr ""
+"Артефакты выпуска :ref:`sbom` теперь включают метаданные на уровне документа "
+"CISA 2025."
 
 #: changes.rst:28 changes.rst:90 changes/v5.rst:36 changes/v5.rst:144
 #: changes/v5.rst:213 changes/v5.rst:248 changes/v5.rst:302 changes/v5.rst:341
@@ -21739,6 +21816,8 @@ msgstr "Исправления ошибок"
 #: changes.rst:29
 msgid "Outbound URL validation now rejects additional non-public targets."
 msgstr ""
+"Проверка исходящих URL-адресов теперь отклоняет дополнительные непубличные "
+"цели."
 
 #: changes.rst:30
 msgid ""
@@ -21762,6 +21841,9 @@ msgid ""
 ":ref:`invite-user` links now work for signed-in users whose account owns the "
 "invited e-mail address."
 msgstr ""
+"Ссылки :ref:`invite-user` теперь работают для вошедших в систему "
+"пользователей, чья учётная запись владеет адресом электронной почты, на "
+"который отправлено приглашение."
 
 #: changes.rst:33
 msgid ""
@@ -21803,28 +21885,30 @@ msgid ""
 "Gettext POT update add-ons now rescan translations after committing updated "
 "POT and PO files."
 msgstr ""
+"Надстройки обновления Gettext POT теперь повторно сканируют переводы после "
+"коммита обновлённых POT- и PO-файлов."
 
 #: changes.rst:38
 msgid ""
 "Git repositories now update branches correctly when the remote also has a "
 "tag with the same name."
 msgstr ""
+"Репозитории Git теперь правильно обновляют ветки, когда в удалённом "
+"репозитории также есть тег с таким же именем."
 
 #: changes.rst:39
-#, fuzzy
-#| msgid ""
-#| "Extended the conflicting repository setup alert to direct Git pushes, "
-#| "see :ref:`alerts`."
 msgid ""
 "Conflicting repository setup alerts now allow same-branch direct pushes."
 msgstr ""
-"Расширено предупреждение о конфликтующей настройке репозитория для прямых "
-"отправок Git, см. :ref:`alerts`."
+"Предупреждения о конфликтующей настройке репозитория теперь разрешают прямые "
+"отправки в ту же ветку."
 
 #: changes.rst:40
 msgid ""
 "Obsolete cleanup schedules are now removed from Celery beat during upgrade."
 msgstr ""
+"Устаревшие расписания очистки теперь удаляются из Celery beat во время "
+"обновления."
 
 #: changes.rst:43 changes.rst:106 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -21895,16 +21979,12 @@ msgstr ""
 "обновления."
 
 #: changes.rst:48
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS`; "
-#| "``weblate.metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; "
 "``weblate.workspaces`` should be added."
 msgstr ""
 "В :setting:`django:INSTALLED_APPS` есть изменение; следует добавить "
-"``weblate.metrics``."
+"``weblate.workspaces``."
 
 #: changes.rst:51 changes.rst:122 changes/v5.rst:77 changes/v5.rst:193
 #: changes/v5.rst:227 changes/v5.rst:266 changes/v5.rst:323 changes/v5.rst:364
@@ -39472,7 +39552,7 @@ msgstr ""
 
 #: contributing/frontend.rst:20
 msgid "Accessibility"
-msgstr ""
+msgstr "Доступность"
 
 #: contributing/frontend.rst:22
 msgid ""
@@ -39480,53 +39560,68 @@ msgid ""
 "functionality where practical. Use semantic HTML and Bootstrap components "
 "before adding custom interaction code."
 msgstr ""
+"Weblate нацелен на WCAG 2.2 Уровень AA для новой и изменённой "
+"пользовательской функциональности, где это практично. Используйте "
+"семантический HTML и компоненты Bootstrap перед добавлением "
+"пользовательского кода взаимодействия."
 
 #: contributing/frontend.rst:26
-#, fuzzy
-#| msgid "Weblate frontend"
 msgid "When changing the frontend:"
-msgstr "Фронтэнд Weblate"
+msgstr "При изменении фронтэнда:"
 
 #: contributing/frontend.rst:28
 msgid "Make all interactive controls reachable and usable with a keyboard."
 msgstr ""
+"Сделайте все интерактивные элементы управления достижимыми и используемыми с "
+"клавиатуры."
 
 #: contributing/frontend.rst:29
 msgid "Keep focus order logical and preserve visible focus styling."
-msgstr ""
+msgstr "Сохраняйте логический порядок фокуса и сохраняйте видимые стили фокуса."
 
 #: contributing/frontend.rst:30
 msgid ""
 "Prefer native buttons, links, inputs, selects, and tables over custom "
 "widgets."
 msgstr ""
+"Предпочитайте нативные кнопки, ссылки, поля ввода, списки выбора и таблицы "
+"пользовательским виджетам."
 
 #: contributing/frontend.rst:31
 msgid ""
 "Associate every form control with a label, help text, and validation errors "
 "where applicable."
 msgstr ""
+"Связывайте каждый элемент управления формы с меткой, вспомогательным текстом "
+"и, где применимо, ошибками проверки."
 
 #: contributing/frontend.rst:33
 msgid ""
 "Do not use color, icon shape, or position as the only way to convey state."
 msgstr ""
+"Не используйте цвет, форму иконки или положение как единственный способ "
+"передачи состояния."
 
 #: contributing/frontend.rst:34
 msgid ""
 "Announce dynamic status changes that are not otherwise visible to assistive "
 "technology."
 msgstr ""
+"Объявляйте о динамических изменениях состояния, которые иначе не видны "
+"вспомогательным технологиям."
 
 #: contributing/frontend.rst:36
 msgid "Respect reduced-motion preferences for animation or scrolling behavior."
 msgstr ""
+"Уважайте предпочтения reduced-motion для анимации или поведения прокрутки."
 
 #: contributing/frontend.rst:37
 msgid ""
 "Test changed workflows with keyboard-only navigation and, when practical, a "
 "screen reader spot check."
 msgstr ""
+"Тестируйте изменённые рабочие процессы с навигацией только с клавиатуры и, "
+"где это практично, с выборочной проверкой скринридером."
 
 #: contributing/frontend.rst:41
 msgid "Dependency management"
@@ -40086,10 +40181,8 @@ msgstr ""
 "попробовать :ref:`discussions`."
 
 #: contributing/issues.rst:18
-#, fuzzy
-#| msgid "Accountability issues."
 msgid "Accessibility issues"
-msgstr "Проблемы подотчётности."
+msgstr "Проблемы доступности"
 
 #: contributing/issues.rst:20
 msgid ""
@@ -40098,6 +40191,11 @@ msgid ""
 "and actual behavior, browser and operating system, assistive technology in "
 "use, and whether the problem occurs with keyboard-only navigation."
 msgstr ""
+"Проблемы доступности должны использовать шаблон проблемы доступности. "
+"Хороший отчёт включает затронутую страницу или рабочий процесс, шаги "
+"воспроизведения, ожидаемое и фактическое поведение, браузер и операционную "
+"систему, используемую вспомогательную технологию, а также возникает ли "
+"проблема при навигации только с клавиатуры."
 
 #: contributing/issues.rst:25
 msgid ""
@@ -40105,28 +40203,36 @@ msgid ""
 "triage, use the impact on core workflows and available workarounds to choose "
 "priority:"
 msgstr ""
+"Сопровождающие маркируют отчёты о доступности меткой ``accessibility``. При "
+"сортировке используйте влияние на основные рабочие процессы и доступные "
+"обходные пути для выбора приоритета:"
 
 #: contributing/issues.rst:28
 msgid "Blocker: a core workflow cannot be completed."
-msgstr ""
+msgstr "Блокер: основной рабочий процесс не может быть завершён."
 
 #: contributing/issues.rst:29
 msgid "High: a core workflow is difficult, but a workaround exists."
 msgstr ""
+"Высокий: основной рабочий процесс затруднён, но существует обходной путь."
 
 #: contributing/issues.rst:30
 msgid "Medium: a non-core workflow is difficult or inconsistent."
-msgstr ""
+msgstr "Средний: неосновной рабочий процесс затруднён или непоследователен."
 
 #: contributing/issues.rst:31
 msgid "Low: a minor issue or polish problem that does not block the workflow."
 msgstr ""
+"Низкий: незначительная проблема или проблема полировки, не блокирующая "
+"рабочий процесс."
 
 #: contributing/issues.rst:33
 msgid ""
 "See :file:`ACCESSIBILITY.md` for Weblate's accessibility target and "
 "reporting guidance."
 msgstr ""
+"См. :file:`ACCESSIBILITY.md` для ознакомления с целевыми показателями "
+"доступности Weblate и руководством по отчётности."
 
 #: contributing/issues.rst:39
 msgid "Using AI to create issues"
@@ -41728,10 +41834,8 @@ msgstr ""
 "предоставленные разрешения."
 
 #: devel/alerts.rst:4
-#, fuzzy
-#| msgid "Translation component alerts"
 msgid "Translation component diagnostics"
-msgstr "Предупреждения компонента перевода"
+msgstr "Диагностика компонента перевода"
 
 #: devel/alerts.rst:6
 msgid ""
@@ -41838,22 +41942,16 @@ msgstr ""
 "будет генерировать предупреждения для недоступных веб-сайтов проектов."
 
 #: devel/alerts.rst:36
-#, fuzzy
-#| msgid ""
-#| "Alerts are listed on each respective component page "
-#| "as :guilabel:`Alerts`. If it is missing, the component clears all current "
-#| "checks. Alerts can not be ignored, but will disappear once the underlying "
-#| "problem has been fixed."
 msgid ""
 "Alerts are listed on each respective component page "
 "as :guilabel:`Diagnostics`. If it is missing, the component clears all "
 "current checks. Problem alerts cannot be ignored, but will disappear once "
 "the underlying problem has been fixed."
 msgstr ""
-"Предупреждения выводятся на соответствующей странице компонента в "
-"разделе :guilabel:`Предупреждения`. Если они отсутствуют, компонент очищает "
-"все текущие проверки. Предупреждения не могут быть проигнорированы, но "
-"исчезнут, как только нижележащая проблема будет устранена."
+"Предупреждения перечислены на соответствующей странице компонента как "
+":guilabel:`Диагностика`. Если они отсутствуют, компонент очищает все текущие "
+"проверки. Проблемные предупреждения нельзя игнорировать, но они исчезнут, "
+"как только основная проблема будет устранена."
 
 #: devel/alerts.rst:41
 msgid ""
@@ -41861,6 +41959,10 @@ msgid ""
 "localization. These can be dismissed and make the :guilabel:`Diagnostics` "
 "tab visible, but they do not indicate a component problem in listings."
 msgstr ""
+"Информационные предупреждения и предупреждения используются для руководства "
+"по улучшению локализации сообществом. Их можно скрыть, и они делают вкладку "
+":guilabel:`Диагностика` видимой, но они не указывают на проблему компонента "
+"в списках."
 
 #: devel/alerts.rst:46
 msgid "A component with both duplicated strings and languages looks like this:"
@@ -41871,12 +41973,6 @@ msgid "Conflicting repository setup"
 msgstr "Конфликтующая настройка репозитория"
 
 #: devel/alerts.rst:53
-#, fuzzy
-#| msgid ""
-#| "This alert is shown when multiple Git components are configured to push "
-#| "to the same repository and push branch. This includes pull or merge "
-#| "request workflows, and direct pushes to Git repositories. Such a setup "
-#| "can overwrite the shared branch."
 msgid ""
 "This alert is shown when multiple Git components are configured to push to "
 "the same repository and push branch without all of them pulling from that "
@@ -41884,9 +41980,10 @@ msgid ""
 "a separate push branch. Such a setup can overwrite the shared branch."
 msgstr ""
 "Это предупреждение отображается, когда несколько компонентов Git настроены "
-"на отправку в один и тот же репозиторий и ветку отправки. Это включает "
-"рабочие процессы с запросами на извлечение или слияние, а также прямые "
-"отправки в репозитории Git. Такая настройка может перезаписать общую ветку."
+"на отправку в один и тот же репозиторий и ветку отправки без того, чтобы все "
+"они извлекали из этой ветки. Это включает рабочие процессы с запросами на "
+"извлечение или слияние, а также прямые отправки в отдельную ветку отправки. "
+"Такая настройка может перезаписать общую ветку."
 
 #: devel/alerts.rst:58
 msgid ""
@@ -41940,25 +42037,19 @@ msgstr ""
 "поле :ref:`component-report_source_bugs`."
 
 #: devel/community.rst:11
-#, fuzzy
-#| msgid "Component Lists"
 msgid "Component diagnostics"
-msgstr "Списки компонентов"
+msgstr "Диагностика компонента"
 
 #: devel/community.rst:13
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Community localization checklist` which can be found in "
-#| "the menu of each component can give you guidance to make your "
-#| "localization process easy for community translators."
 msgid ""
 "Guidance is shown in the :guilabel:`Diagnostics` tab on each component. "
 "These alerts are dismissible and point to the configuration or documentation "
 "needed to make your localization process easier for community translators."
 msgstr ""
-":guilabel:`Контрольный список локализации сообщества`, который можно найти в "
-"меню каждого компонента, может дать вам рекомендации, выполнив которые, вы "
-"упростите сообществу переводчиков процесс локализации вашей программы."
+"Руководство отображается на вкладке :guilabel:`Диагностика` каждого "
+"компонента. Эти предупреждения можно скрыть, и они указывают на конфигурацию "
+"или документацию, необходимые для упрощения процесса локализации для "
+"переводчиков сообщества."
 
 #: devel/community.rst:21
 msgid "Terminology management"
@@ -43990,7 +44081,7 @@ msgstr ""
 
 #: devel/reporting.rst:123
 msgid "Cost estimate"
-msgstr ""
+msgstr "Оценка стоимости"
 
 #: devel/reporting.rst:125
 msgid ""
@@ -43999,6 +44090,11 @@ msgid ""
 "fuzzy translation memory matches, strings needing editing, or new strings, "
 "and then applies the configured rate percentage for each category."
 msgstr ""
+"Оценивает затраты на перевод для выбранной области на основе количества "
+"исходных слов. Он классифицирует строки как повторения, точные совпадения с "
+"памятью переводов, нечёткие совпадения с памятью переводов, строки, "
+"требующие правки, или новые строки, а затем применяет настроенный процент "
+"ставки для каждой категории."
 
 #: devel/reporting.rst:130
 msgid ""
@@ -44008,6 +44104,11 @@ msgid ""
 "charges half of the base rate and ``0`` excludes that category from the "
 "total."
 msgstr ""
+"Оценка использует совпадения с памятью переводов Weblate и не обращается к "
+"внешним службам машинного перевода. Базовая ставка — это цена за исходное "
+"слово. Категорийные ставки — это проценты от базовой ставки; например, "
+"``50`` взимает половину базовой ставки, а ``0`` исключает эту категорию из "
+"общей суммы."
 
 #: devel/reporting-example.rst:2
 msgid "Email"
@@ -45237,6 +45338,12 @@ msgid ""
 "local commits are already included upstream and might need a repository "
 "reset to recover."
 msgstr ""
+"Если вы разрешаете конфликт в запросе на извлечение, объединяйте его с "
+"помощью обычного коммита слияния. Не применяйте склеивающее слияние. "
+"Склеивающее слияние создаёт новый коммит вместо сохранения коммитов Weblate, "
+"поэтому Weblate может не распознать, что его локальные коммиты уже включены "
+"в вышестоящий репозиторий, и может потребоваться сброс репозитория для "
+"восстановления."
 
 #: faq.rst:63
 msgid ""
@@ -48993,6 +49100,13 @@ msgid ""
 "used during the release. Python component license and hash completeness "
 "therefore depends on CycloneDX export support in :program:`uv`."
 msgstr ""
+"SBOM выпуска записывает метаданные на уровне документа для минимальных "
+"элементов CISA 2025, включая автора SBOM, производителя программного "
+"обеспечения, инструменты генерации, временную метку, контекст генерации и "
+"идентификацию компонента выпуска Weblate. Детали компонентов зависимостей "
+"предоставляются генераторами SBOM экосистемы, используемыми во время "
+"выпуска. Поэтому полнота лицензий и хэшей компонентов Python зависит от "
+"поддержки экспорта CycloneDX в :program:`uv`."
 
 #: security/dependencies.rst:24
 msgid "Tracking dependencies for vulnerabilities"
@@ -50771,21 +50885,15 @@ msgstr ""
 "и хранение базы данных контролируются оператором сайта."
 
 #: security/privacy-compliance.rst:90
-#, fuzzy
-#| msgid ""
-#| "Third-party services receive data only when configured or used by the "
-#| "operator, for example external authentication providers, avatar "
-#| "providers, Matomo, Sentry, remote logging, machine translation services, "
-#| "or repository integrations."
 msgid ""
 "Third-party services receive data only when configured or used by the "
 "operator, for example external authentication providers, avatar providers, "
 "Matomo, Sentry, OpenTelemetry, remote logging, machine translation services, "
 "or repository integrations."
 msgstr ""
-"Сторонние службы получают данные только тогда, когда они настроены или "
-"используются оператором, например, внешние поставщики аутентификации, "
-"поставщики аватаров, Matomo, Sentry, удалённое журналирование, службы "
+"Сторонние службы получают данные только когда они настроены или используются "
+"оператором, например, внешние поставщики аутентификации, поставщики "
+"аватаров, Matomo, Sentry, OpenTelemetry, удалённое журналирование, службы "
 "машинного перевода или интеграции с репозиториями."
 
 #: security/privacy-compliance.rst:96
@@ -51010,11 +51118,6 @@ msgstr ""
 "почтовых систем, репозиториев и внешних интеграций."
 
 #: security/privacy-compliance.rst:168
-#, fuzzy
-#| msgid ""
-#| "**External services:** Review configured authentication providers, avatar "
-#| "providers, analytics, Sentry, GELF logging, machine translation, e-mail, "
-#| "and repository integrations for transfer and processor obligations."
 msgid ""
 "**External services:** Review configured authentication providers, avatar "
 "providers, analytics, Sentry, OpenTelemetry, GELF logging, machine "
@@ -51022,8 +51125,8 @@ msgid ""
 "obligations."
 msgstr ""
 "**Внешние службы:** Проверьте настроенных поставщиков аутентификации, "
-"поставщиков аватаров, аналитику, Sentry, журналирование GELF, машинный "
-"перевод, электронную почту и интеграции с репозиториями на предмет "
+"поставщиков аватаров, аналитику, Sentry, OpenTelemetry, журналирование GELF, "
+"машинный перевод, электронную почту и интеграции с репозиториями на предмет "
 "обязательств по передаче и обработке."
 
 #: security/privacy-compliance.rst:172
@@ -51319,14 +51422,12 @@ msgid "Machine translation and outbound integrations"
 msgstr "Машинный перевод и исходящие интеграции"
 
 #: security/threat-model.rst:88
-#, fuzzy
-#| msgid ""
-#| "Machine translation, avatars, status reporting, VCS hosts, CDN add-on"
 msgid ""
 "Machine translation, avatars, status reporting, telemetry, error reporting, "
 "VCS hosts, CDN add-on"
 msgstr ""
-"Машинный перевод, аватары, отчёты о состоянии, хосты СКВ, CDN-надстройка"
+"Машинный перевод, аватары, отчёты о состоянии, телеметрия, сообщение об "
+"ошибках, хосты СКВ, дополнение CDN"
 
 #: security/threat-model.rst:90
 msgid "Outbound HTTP(S), provider APIs, logs"
@@ -51794,12 +51895,6 @@ msgid "What Weblate does to its host:"
 msgstr "Что Weblate делает со своим хостом:"
 
 #: security/threat-model.rst:246
-#, fuzzy
-#| msgid ""
-#| "It opens outbound network connections for configured VCS, identity-"
-#| "provider, avatar, machine-translation, backup, status-reporting, and add-"
-#| "on features. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/"
-#| "code-hosting`, :doc:`/admin/backup`)"
 msgid ""
 "It opens outbound network connections for configured VCS, identity-provider, "
 "avatar, machine-translation, backup, status-reporting, telemetry, error-"
@@ -51808,9 +51903,9 @@ msgid ""
 msgstr ""
 "Он открывает исходящие сетевые соединения для настроенных функций СКВ, "
 "поставщика удостоверений, аватаров, машинного перевода, резервного "
-"копирования, отчётности о состоянии и надстроек. *(документировано)* "
-"(источник: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/"
-"backup`)"
+"копирования, отчётности о состоянии, телеметрии, сообщения об ошибках и "
+"дополнений. *(документировано)* (источник: :doc:`/admin/config`, :doc:`/"
+"admin/code-hosting`, :doc:`/admin/backup`)"
 
 #: security/threat-model.rst:251
 msgid ""
@@ -54491,15 +54586,15 @@ msgstr "Строка обновлена в репозитории"
 
 #: snippets/addon-parameters-autogenerated.rst:333
 msgid "Add-on installed"
-msgstr "Надстройка установлена"
+msgstr "Дополнение установлено"
 
 #: snippets/addon-parameters-autogenerated.rst:335
 msgid "Add-on configuration changed"
-msgstr "Настройка надстройки изменена"
+msgstr "Настройка дополнения изменена"
 
 #: snippets/addon-parameters-autogenerated.rst:337
 msgid "Add-on uninstalled"
-msgstr "Надстройка удалена"
+msgstr "Дополнение удалено"
 
 #: snippets/addon-parameters-autogenerated.rst:339
 msgid "String removed"
@@ -54642,22 +54737,16 @@ msgid "User access changed"
 msgstr "Доступ пользователя изменён"
 
 #: snippets/addon-parameters-autogenerated.rst:409
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created"
-msgstr "Компонент заблокирован"
+msgstr "Рабочее пространство создано"
 
 #: snippets/addon-parameters-autogenerated.rst:411
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Workspace setting changed"
-msgstr "Изменена исходная строка"
+msgstr "Настройка рабочего пространства изменена"
 
 #: snippets/addon-parameters-autogenerated.rst:413
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved"
-msgstr "Проект удалён"
+msgstr "Проект перемещён"
 
 #: snippets/addons-autogenerated.rst:6
 msgid "Built-in add-ons"
@@ -60229,6 +60318,10 @@ msgid ""
 "usually the simplest setup when the provider supports Git over HTTPS. Use "
 "the provider-required username and token in :ref:`component-repo`."
 msgstr ""
+"Для одного приватного репозитория HTTPS-доступ с токеном доступа обычно "
+"является самой простой настройкой, когда поставщик поддерживает Git через "
+"HTTPS. Используйте требуемое поставщиком имя пользователя и токен в "
+":ref:`component-repo`."
 
 #: snippets/code-hosting-https-repository-access.rst:5
 #: snippets/code-hosting-ssh-repository-access.rst:6
@@ -60237,6 +60330,9 @@ msgid ""
 "directly or when the chosen workflow requires a push URL, see :ref:`code-"
 "hosting-push-options`."
 msgstr ""
+"Настраивайте :ref:`component-push` только когда Weblate должен отправлять "
+"изменения напрямую или когда выбранный рабочий процесс требует URL-адреса "
+"отправки, см. :ref:`code-hosting-push-options`."
 
 #: snippets/code-hosting-https-repository-access.rst:9
 msgid ""
@@ -60244,6 +60340,10 @@ msgid ""
 "Provider-specific VCS backends that create pull or merge requests might "
 "require separate API credentials."
 msgstr ""
+"Токену требуется доступ на чтение для клонирования и доступ на запись для "
+"отправки. Серверные части СКВ специфичные для поставщика, которые создают "
+"запросы на извлечение или слияние, могут требовать отдельные учётные данные "
+"API."
 
 #: snippets/code-hosting-ssh-repository-access.rst:1
 msgid ""
@@ -60252,6 +60352,11 @@ msgid ""
 "the user access to the repositories, and use SSH URLs in :ref:`component-"
 "repo`, for example ``git@example.com:group/project.git``."
 msgstr ""
+"Для установок с несколькими репозиториями используйте SSH-доступ с "
+"выделенным пользователем хостинга кода для Weblate. Добавьте публичный SSH-"
+"ключ Weblate этому пользователю, предоставьте пользователю доступ к "
+"репозиториям и используйте SSH-URL-адреса в :ref:`component-repo`, например "
+"``git@example.com:group/project.git``."
 
 #: snippets/code-hosting-ssh-repository-access.rst:10
 msgid ""
@@ -60261,6 +60366,12 @@ msgid ""
 "user be granted access to multiple repositories without reusing the key in "
 "several places."
 msgstr ""
+"Это также позволяет избежать ограничений поставщика на повторное "
+"использование SSH-ключей. Некоторые сайты хостинга кода позволяют добавить "
+"публичный SSH-ключ только один раз или только одному пользователю или записи "
+"ключа развёртывания. Хранение SSH-ключа Weblate у выделенного пользователя "
+"позволяет предоставить этому пользователю доступ к нескольким репозиториям "
+"без повторного использования ключа в нескольких местах."
 
 #: snippets/code-hosting-ssh-repository-access.rst:16
 msgid ""
@@ -60269,18 +60380,19 @@ msgid ""
 "backend to create pull or merge requests; those credentials are configured "
 "separately from the Git repository URL."
 msgstr ""
+"Это позволяет не включать персональные, проектные токены или токены доступа "
+"API в URL-адреса репозиториев. Учётные данные API поставщика по-прежнему "
+"необходимы при использовании серверной части СКВ, специфичной для "
+"поставщика, для создания запросов на извлечение или слияние; эти учётные "
+"данные настраиваются отдельно от URL-адреса Git-репозитория."
 
 #: snippets/code-hosting-ssh-repository-access.rst:21
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate, add the hosted :guilabel:`weblate` user where it is "
-#| "available, see :ref:`hosted-push`."
 msgid ""
 "On Hosted Weblate, use the hosted :guilabel:`weblate` user on supported code "
 "hosting sites, see :ref:`hosted-push`."
 msgstr ""
-"Для Хостинга Weblate добавьте пользователя хостинга :guilabel:`weblate` там, "
-"где он доступен, см. :ref:`hosted-push`."
+"На Hosted Weblate используйте пользователя хостинга :guilabel:`weblate` на "
+"поддерживаемых сайтах хостинга кода, см. :ref:`hosted-push`."
 
 #: snippets/compliance-warning.rst:3
 msgid ""
@@ -63266,33 +63378,25 @@ msgid "Delete announcements"
 msgstr "Удаление объявлений"
 
 #: snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Правка исходных строк"
+msgstr "Изменение настроек рабочего пространства"
 
 #: snippets/permissions.rst:327 snippets/permissions.rst:329
 #: snippets/permissions.rst:333
-#, fuzzy
-#| msgid ":guilabel:`Administration`"
 msgid ":guilabel:`Workspace administration`"
-msgstr ":guilabel:`Администрирование`"
+msgstr ":guilabel:`Администрирование рабочего пространства`"
 
 #: snippets/permissions.rst:329
 msgid "Add projects to workspace"
-msgstr ""
+msgstr "Добавление проектов в рабочее пространство"
 
 #: snippets/permissions.rst:331
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add workspace projects`"
-msgstr ":guilabel:`Добавление новых проектов`"
+msgstr ":guilabel:`Добавление проектов в рабочее пространство`"
 
 #: snippets/permissions.rst:333
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Управление доступом к проекту"
+msgstr "Управление доступом к рабочему пространству"
 
 #: snippets/permissions.rst:335
 msgid "Site wide privileges"
@@ -63312,10 +63416,8 @@ msgid ":guilabel:`Add new projects`"
 msgstr ":guilabel:`Добавление новых проектов`"
 
 #: snippets/permissions.rst:339
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add new workspaces"
-msgstr "Добавление новых проектов"
+msgstr "Добавление новых рабочих пространств"
 
 #: snippets/permissions.rst:341
 msgid "Add language definitions"
@@ -63371,7 +63473,7 @@ msgstr "Управление тарифами"
 
 #: snippets/permissions.rst:367
 msgid "Manage site-wide add-ons"
-msgstr "Управление надстройками для всего сайта"
+msgstr "Управление дополнениями для всего сайта"
 
 #: snippets/roles.rst:3
 msgid "List of built-in roles"
@@ -63632,44 +63734,32 @@ msgid "`Manage repository`"
 msgstr "`Управление репозиторием`"
 
 #: snippets/roles.rst:198
-#, fuzzy
-#| msgid "`Administration`"
 msgid "`Workspace administration`"
-msgstr "`Администрация`"
+msgstr "`Администрирование рабочего пространства`"
 
 #: snippets/roles.rst:199 snippets/roles.rst:204
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add projects to workspace`"
-msgstr ":guilabel:`Добавление новых проектов`"
+msgstr ":guilabel:`Добавление проектов в рабочее пространство`"
 
 #: snippets/roles.rst:200
-#, fuzzy
-#| msgid ":guilabel:`Edit source strings`"
 msgid ":guilabel:`Edit workspace settings`"
-msgstr ":guilabel:`Правка исходных строк`"
+msgstr ":guilabel:`Редактирование настроек рабочего пространства`"
 
 #: snippets/roles.rst:201
-#, fuzzy
-#| msgid ":guilabel:`Manage project access`"
 msgid ":guilabel:`Manage workspace access`"
-msgstr ":guilabel:`Управление доступом к проекту`"
+msgstr ":guilabel:`Управление доступом к рабочему пространству`"
 
 #: snippets/roles.rst:203
-#, fuzzy
-#| msgid "`Add new projects`"
 msgid "`Add workspace projects`"
-msgstr "`Добавление новых проектов`"
+msgstr "`Добавление проектов в рабочее пространство`"
 
 #: snippets/roles.rst:206
 msgid "`Add new projects`"
 msgstr "`Добавление новых проектов`"
 
 #: snippets/roles.rst:208
-#, fuzzy
-#| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add new workspaces`"
-msgstr ":guilabel:`Добавление новых проектов`"
+msgstr ":guilabel:`Добавление новых рабочих пространств`"
 
 #: snippets/vcs-credentials.rst:1
 msgid ""
@@ -65517,191 +65607,141 @@ msgstr ""
 "потребностями:"
 
 #: user/search.rst:251
-#, fuzzy
-#| msgid "Search in screenshots."
 msgid "Searching for screenshots"
-msgstr "Поиск по снимкам экрана."
+msgstr "Поиск снимков экрана"
 
 #: user/search.rst:253
-#, fuzzy
-#| msgid ""
-#| "Advanced queries using boolean operations, parentheses, or field specific "
-#| "lookup can be used to find the strings you want."
 msgid ""
 "The screenshot listing in a component accepts advanced queries using boolean "
 "operations, parentheses, or field specific lookup."
 msgstr ""
-"Для поиска нужных строк можно использовать расширенные поисковые запросы, "
-"включающие в себя логические операции, круглые скобки или поиск по "
-"конкретным полям."
+"Список снимков экрана в компоненте принимает расширенные запросы с "
+"использованием логических операций, круглых скобок или поиска по конкретным "
+"полям."
 
 #: user/search.rst:256
-#, fuzzy
-#| msgid ""
-#| "When no field is defined, the lookup happens on source, target, and "
-#| "context strings."
 msgid ""
 "When no field is defined, the lookup happens on the screenshot name, "
 "repository path, screenshot language, assigned source string, assigned "
 "context, and assigned location."
 msgstr ""
-"Если поле не определено, поиск проводится в исходных, целевых и контекстных "
-"строках."
+"Когда поле не определено, поиск выполняется по имени снимка экрана, пути в "
+"репозитории, языку снимка экрана, назначенной исходной строке, назначенному "
+"контексту и назначенному расположению."
 
 #: user/search.rst:261
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Screenshot fields"
-msgstr "Маска файла снимка экрана"
+msgstr "Поля снимков экрана"
 
 #: user/search.rst:264
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Screenshot name case-insensitive search."
-msgstr "Регистронезависимый поиск по исходной строке."
+msgstr "Регистронезависимый поиск по имени снимка экрана."
 
 #: user/search.rst:266
-#, fuzzy
-#| msgid "Location string case-insensitive search."
 msgid "Repository path to screenshot case-insensitive search."
-msgstr "Регистронезависимый поиск по строке местоположения."
+msgstr "Регистронезависимый поиск по пути в репозитории к снимку экрана."
 
 #: user/search.rst:268
 msgid ""
 "Repository path to screenshot case-insensitive search, same as ``path:TEXT``."
 msgstr ""
+"Регистронезависимый поиск по пути в репозитории к снимку экрана, то же "
+"самое, что и ``path:TEXT``."
 
 #: user/search.rst:271
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Screenshot language code or language name case-insensitive search."
-msgstr "Регистронезависимый поиск по исходной строке."
+msgstr ""
+"Регистронезависимый поиск по коду языка или названию языка снимка экрана."
 
 #: user/search.rst:273
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Assigned source string case-insensitive search."
-msgstr "Регистронезависимый поиск по исходной строке."
+msgstr "Регистронезависимый поиск по назначенной исходной строке."
 
 #: user/search.rst:275
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Assigned source string context case-insensitive search."
-msgstr "Регистронезависимый поиск по исходной строке."
+msgstr "Регистронезависимый поиск по контексту назначенной исходной строки."
 
 #: user/search.rst:277
-#, fuzzy
-#| msgid "Source string description case-insensitive search."
 msgid "Assigned source string location case-insensitive search."
-msgstr "Регистронезависимый поиск по описанию исходной строки."
+msgstr "Регистронезависимый поиск по расположению назначенной исходной строки."
 
 #: user/search.rst:279
-#, fuzzy
-#| msgid "String unique identifier."
 msgid "Screenshot unique identifier."
-msgstr "Уникальный идентификатор строки."
+msgstr "Уникальный идентификатор снимка экрана."
 
 #: user/search.rst:281
-#, fuzzy
-#| msgid "Timestamp for when the string was added to Weblate."
 msgid "Timestamp for when the screenshot was added to Weblate."
-msgstr "Метка времени, когда строка была добавлена в Weblate."
+msgstr "Временная метка добавления снимка экрана в Weblate."
 
 #: user/search.rst:283
-#, fuzzy
-#| msgid "*Number of suggested strings*"
 msgid "Number of assigned source strings."
-msgstr "*Количество предложенных строк*"
+msgstr "Количество назначенных исходных строк."
 
 #: user/search.rst:285
-#, fuzzy
-#| msgid "Search in screenshots."
 msgid "Search for screenshots having attributes:"
-msgstr "Поиск по снимкам экрана."
+msgstr "Поиск снимков экрана, имеющих атрибуты:"
 
 #: user/search.rst:288
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Screenshot assigned to at least one source string."
-msgstr ""
-"Управление снимками экрана (добавление, удаление и связывание их с исходными "
-"строками)."
+msgstr "Снимок экрана, назначенный хотя бы одной исходной строке."
 
 #: user/search.rst:290
-#, fuzzy
-#| msgid "Managing screenshots from the repository"
 msgid "Screenshot with a repository path."
-msgstr "Управление снимками экрана из репозитория"
+msgstr "Снимок экрана с путём в репозитории."
 
 #: user/search.rst:292
-#, fuzzy
-#| msgid "Screenshots updated from the repository have proper history."
 msgid "Screenshot with a repository path, same as ``repository``."
-msgstr "Снимки экрана, обновлённые из репозитория, имеют правильную историю."
+msgstr "Снимок экрана с путём в репозитории, то же самое, что и ``repository``."
 
 #: user/search.rst:295
-#, fuzzy
-#| msgid "Screenshot removed"
 msgid "Screenshot search examples"
-msgstr "Снимок экрана удалён"
+msgstr "Примеры поиска снимков экрана"
 
 #: user/search.rst:298
 msgid ""
 "Search for screenshots matching ``login`` in any default screenshot field."
 msgstr ""
+"Поиск снимков экрана, соответствующих ``login`` в любом поле снимка экрана "
+"по умолчанию."
 
 #: user/search.rst:300
 msgid "Search for screenshots with ``login`` in the screenshot name."
-msgstr ""
+msgstr "Поиск снимков экрана с ``login`` в имени снимка экрана."
 
 #: user/search.rst:302
 msgid "Search for screenshots in languages matching ``cs``."
-msgstr ""
+msgstr "Поиск снимков экрана на языках, соответствующих ``cs``."
 
 #: user/search.rst:304
 msgid ""
 "Search for screenshots assigned to source strings matching ``Save changes``."
 msgstr ""
+"Поиск снимков экрана, назначенных исходным строкам, соответствующим ``Save "
+"changes``."
 
 #: user/search.rst:307
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Search for screenshots assigned to at least one source string."
-msgstr ""
-"Управление снимками экрана (добавление, удаление и связывание их с исходными "
-"строками)."
+msgstr "Поиск снимков экрана, назначенных хотя бы одной исходной строке."
 
 #: user/search.rst:309
-#, fuzzy
-#| msgid "Support for user comments for both translations and source strings."
 msgid "Search for screenshots not assigned to any source string."
-msgstr ""
-"Поддержка комментариев пользователей и для переводов и для исходных строк."
+msgstr "Поиск снимков экрана, не назначенных ни одной исходной строке."
 
 #: user/search.rst:311
-#, fuzzy
-#| msgid "Perform the renaming of the files in the repository."
 msgid "Search for screenshots with ``fastlane`` in the repository path."
-msgstr "Выполните переименование файлов в репозитории."
+msgstr "Поиск снимков экрана с ``fastlane`` в пути репозитория."
 
 #: user/search.rst:313
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Search for screenshots assigned to more than two source strings."
-msgstr ""
-"Управление снимками экрана (добавление, удаление и связывание их с исходными "
-"строками)."
+msgstr "Поиск снимков экрана, назначенных более чем двум исходным строкам."
 
 #: user/search.rst:315
-#, fuzzy
-#| msgid "Screenshots updated from the repository have proper history."
 msgid ""
 "Search for screenshots imported from the repository that still need source "
 "string assignment."
-msgstr "Снимки экрана, обновлённые из репозитория, имеют правильную историю."
+msgstr ""
+"Поиск снимков экрана, импортированных из репозитория, которые всё ещё "
+"требуют назначения исходных строк."
 
 #: user/search.rst:318
 msgid ""
@@ -65709,6 +65749,9 @@ msgid ""
 "operators`, :ref:`date-search`, exact match, and regular expression syntax "
 "as string search."
 msgstr ""
+"Поиск снимков экрана поддерживает тот же синтаксис :ref:`search-boolean`, "
+":ref:`search-operators`, :ref:`date-search`, точного совпадения и регулярных "
+"выражений, что и поиск строк."
 
 #: user/search.rst:325
 msgid "Searching for users"
@@ -66942,16 +66985,11 @@ msgid ""
 "up using an HTTPS repository URL with an access token, see :doc:`/admin/code-"
 "hosting`."
 msgstr ""
+"Для самостоятельно размещённого Weblate один приватный репозиторий часто "
+"проще всего настроить, используя HTTPS-URL-адрес репозитория с токеном "
+"доступа, см. :doc:`/admin/code-hosting`."
 
 #: vcs.rst:81
-#, fuzzy
-#| msgid ""
-#| "For self-hosted Weblate, accessing repositories on code hosting sites is "
-#| "typically done by creating a dedicated user who is associated with a "
-#| "Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
-#| "Weblate SSH key with a single user (platforms frequently enforce single "
-#| "use of an SSH key) and grant this user access to the repository. You can "
-#| "then use SSH URL to access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For multiple repositories, create a dedicated code hosting user associated "
 "with a Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
@@ -66959,32 +66997,26 @@ msgid ""
 "single use of an SSH key. Grant this user access to the repositories, and "
 "use SSH URLs to access them (see :ref:`ssh-repos`)."
 msgstr ""
-"Для самостоятельно размещённого Weblate доступ к репозиториям на сайтах "
-"хостинга кода обычно выполняется путём создания выделенного пользователя, "
-"который связан с SSH-ключом Weblate (см. :ref:`weblate-ssh-key`). Таким "
-"образом, вы связываете SSH-ключ Weblate с одним пользователем (платформы "
-"часто требуют однократного использования SSH-ключа) и предоставляете этому "
-"пользователю доступ к репозиторию. Затем вы можете использовать SSH-URL для "
-"доступа к репозиторию (см. :ref:`ssh-repos`)."
+"Для нескольких репозиториев создайте выделенного пользователя хостинга кода, "
+"связанного с SSH-ключом Weblate (см. :ref:`weblate-ssh-key`). Таким образом, "
+"вы связываете SSH-ключ Weblate с одним пользователем, поскольку платформы "
+"часто требуют однократного использования SSH-ключа. Предоставьте этому "
+"пользователю доступ к репозиториям и используйте SSH-URL-адреса для доступа "
+"к ним (см. :ref:`ssh-repos`)."
 
 #: vcs.rst:90
 msgid "SSH repositories"
 msgstr "Репозитории по SSH"
 
 #: vcs.rst:92
-#, fuzzy
-#| msgid ""
-#| "The most frequently used method to access private repositories is based "
-#| "on SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) "
-#| "to access the upstream repository this way."
 msgid ""
 "One common method to access private repositories is based on SSH. Authorize "
 "the public Weblate SSH key (see :ref:`weblate-ssh-key`) to access the "
 "upstream repository this way."
 msgstr ""
-"Наиболее часто используемый метод доступа к частным репозиториям — доступ по "
-"SSH. Чтобы дать Weblate такой доступ к вышестоящему репозиторию, авторизуйте "
-"его публичный SSH-ключ (смотрите раздел :ref:`weblate-ssh-key`)."
+"Один из распространённых методов доступа к приватным репозиториям основан на "
+"SSH. Авторизуйте публичный SSH-ключ Weblate (см. :ref:`weblate-ssh-key`) для "
+"доступа к вышестоящему репозиторию таким способом."
 
 #: vcs.rst:98
 msgid ""

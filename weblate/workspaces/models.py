@@ -70,9 +70,9 @@ class Workspace(models.Model):
         *COMPONENT_MESSAGE_SETTINGS,
     )
 
-    # Name loaded with this instance; used to detect manual name edits.
+    # Name loaded with this instance if the field is not deferred; used to detect manual name edits.
     workspace_original_name: str | Deferred
-    # Name management flag loaded with this instance.
+    # Name management flag loaded with this instance if the field is not deferred.
     workspace_original_name_managed: bool | Deferred
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)

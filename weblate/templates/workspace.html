@@ -10,6 +10,9 @@
          data-bs-toggle="tab"
          href="#">{% translate "Projects" %}</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
+    </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
       <ul class="dropdown-menu shadow">
@@ -37,6 +40,23 @@
     {% if can_manage_access %}
       <li class="nav-item">
         <a class="nav-link" data-bs-target="#access" data-bs-toggle="tab" href="#">{% translate "Access control" %}</a>
+      </li>
+    {% endif %}
+    {% if bulk_state_form or autoform %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
+        <ul class="dropdown-menu shadow">
+          {% if bulk_state_form %}
+            <li>
+              <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+            </li>
+          {% endif %}
+          {% if autoform %}
+            <li>
+              <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
+            </li>
+          {% endif %}
+        </ul>
       </li>
     {% endif %}
   </ul>
@@ -68,6 +88,39 @@
       {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=workspace.get_url_path %}">{% translate "Browse all workspace changes" %}</a>
     </div>
+
+    <div class="tab-pane" id="search">
+      <form action="{% url 'search' path=workspace.get_url_path %}"
+            method="get"
+            data-persist="search-workspace">
+        {% include "snippets/search-form.html" %}
+      </form>
+    </div>
+
+    {% if autoform %}
+      <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=workspace autoform=autoform %}</div>
+    {% endif %}
+
+    {% if bulk_state_form %}
+      <div class="tab-pane" id="bulk-edit">
+        <form action="{% url 'bulk-edit' path=workspace.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+                {% translate "Bulk edit" %}
+              </h4>
+            </div>
+            <div class="card-body">{% crispy bulk_state_form %}</div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
 
     {% if billing %}
       <div class="tab-pane" id="billing">{% include "billing/detail-content.html" %}</div>

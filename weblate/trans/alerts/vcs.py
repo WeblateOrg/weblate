@@ -8,8 +8,19 @@ from typing import TYPE_CHECKING, Any
 
 from django.utils.translation import gettext_lazy
 
-from weblate.trans.alerts.base import AlertCategory, BaseAlert, ErrorAlert
+from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.base import (
+    AlertCategory,
+    AlertSeverity,
+    BaseAlert,
+    ErrorAlert,
+)
 from weblate.trans.alerts.registry import register
+from weblate.trans.hooks.matching import (
+    HOOK_MATCH_EXACT,
+    HOOK_MATCH_FALLBACK,
+    repo_matches_exact_repos,
+)
 from weblate.vcs.base import (
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
@@ -18,6 +29,66 @@ from weblate.vcs.base import (
 if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models.component import Component
+
+
+@register
+class InexactHookMatch(BaseAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Repository hook matched inexactly.")
+    category = AlertCategory.VCS
+    severity = AlertSeverity.WARNING
+    dismissible = True
+    doc_page = "admin/continuous"
+    doc_anchor = "update-vcs"
+
+    def __init__(
+        self,
+        instance,
+        service_long_name: str = "",
+        repo_url: str = "",
+        branch: str = "",
+        full_name: str = "",
+    ) -> None:
+        super().__init__(instance)
+        self.service_long_name = service_long_name
+        self.repo_url = repo_url
+        self.branch = branch
+        self.full_name = full_name
+
+    @staticmethod
+    def get_change_details(change) -> dict[str, str]:
+        details = change.details
+        return {
+            "service_long_name": str(details.get("service_long_name") or ""),
+            "repo_url": str(details.get("repo_url") or ""),
+            "branch": str(details.get("branch") or ""),
+            "full_name": str(details.get("full_name") or ""),
+        }
+
+    @classmethod
+    def check_component(cls, component: Component) -> bool | dict | None:
+        change = (
+            component.change_set.filter(action=ActionEvents.HOOK)
+            .order_by("-id")
+            .first()
+        )
+        if change is None:
+            return False
+
+        if change.details.get("match_method") == HOOK_MATCH_EXACT:
+            return False
+        if change.details.get("match_method") == HOOK_MATCH_FALLBACK:
+            return cls.get_change_details(change)
+
+        repos = change.details.get("repos")
+        if (
+            isinstance(repos, list)
+            and all(isinstance(repo, str) for repo in repos)
+            and repo_matches_exact_repos(component.repo, repos)
+        ):
+            return False
+
+        return cls.get_change_details(change)
 
 
 @register

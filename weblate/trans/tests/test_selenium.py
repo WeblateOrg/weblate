@@ -113,6 +113,9 @@ TEST_BACKENDS = (
 )
 
 
+# The fixture repositories are known public GitHub repos; allowlisting them
+# avoids flaky runtime DNS checks while keeping the real import path covered.
+@override_settings(VCS_ALLOW_HOSTS={"github.com"})
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     _driver: WebDriver | None = None
     _driver_error: str = ""
@@ -724,6 +727,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             slug="language-names",
             project=project,
             repo="https://github.com/WeblateOrg/demo.git",
+            branch="main",
             filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
             new_base="weblate/langdata/locale/django.pot",
             file_format="po",
@@ -1097,6 +1101,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.find_element(By.ID, "id_repo").send_keys(
             "https://github.com/WeblateOrg/demo.git"
         )
+        self.driver.find_element(By.ID, "id_branch").send_keys("main")
         self.driver.find_element(By.ID, "id_repoweb").send_keys(
             "https://github.com/WeblateOrg/demo/blob/{{branch}}/{{filename}}#L{{line}}"
         )
@@ -1426,6 +1431,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.driver.find_element(By.ID, "id_repo").send_keys(
             "https://github.com/WeblateOrg/demo.git"
         )
+        self.driver.find_element(By.ID, "id_branch").send_keys("main")
         self.screenshot("user-add-component-init.png")
         with self.wait_for_page_load(timeout=1200):
             self.driver.find_element(By.ID, "id_name").submit()
@@ -1461,6 +1467,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             slug="duplicates",
             project=project,
             repo="https://github.com/WeblateOrg/test.git",
+            branch="main",
             filemask="po-duplicates/*.dpo",
             new_base="po-duplicates/hello.pot",
             file_format="po",
@@ -1483,6 +1490,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             slug="guidance",
             project=project,
             repo="https://github.com/WeblateOrg/test.git",
+            branch="main",
             filemask="po/*.po",
             file_format="po",
         )

@@ -1753,7 +1753,7 @@ and profiles for defined percentage of operations. This can be configured using
 Google Cloud Error Reporting
 ++++++++++++++++++++++++++++
 
-Weblate can report handled server errors to `Google Cloud Error Reporting <https://cloud.google.com/error-reporting/>`_.
+Weblate can report handled server errors to `Google Cloud Error Reporting`_.
 Install Weblate with the ``google-errors`` extra and configure
 :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:
 
@@ -1767,6 +1767,8 @@ Weblate automatically reports errors under the ``weblate`` service and uses the
 current Weblate version or Git revision as the reported version. These values
 can be overridden by setting ``service`` or ``version`` in
 :setting:`GOOGLE_CLOUD_ERROR_REPORTING`.
+
+.. _Google Cloud Error Reporting: https://docs.cloud.google.com/error-reporting/docs/grouping-errors
 
 OpenTelemetry
 +++++++++++++

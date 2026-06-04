@@ -364,7 +364,7 @@ class TSParamsTest(BaseFileFormatsTest):
         new_revision = self.component.repository.last_revision
         self.assertNotEqual(rev, new_revision)
         new_commit = self.component.repository.show(new_revision)
-        self.assertIn("Added translation using Weblate (German)", new_commit)
+        self.assertIn("chore(l10n): add German translation", new_commit)
         if closing_tags_active:
             self.assertIn(
                 '<location filename="main.c" line="11"></location>', new_commit
@@ -552,7 +552,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         rev3 = self.component.repository.last_revision
         commit3 = self.component.repository.show(rev3)
         self.assertNotEqual(rev2, rev3)
-        self.assertIn("Added translation using Weblate (Polish)", commit3)
+        self.assertIn("chore(l10n): add Polish translation", commit3)
         self.assertNotIn("Last-Translator: Automatically generated", commit3)
 
         # check header is present when a new language is added and parameter set to True
@@ -561,7 +561,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         rev4 = self.component.repository.last_revision
         self.assertNotEqual(rev3, rev4)
         commit4 = self.component.repository.show(rev4)
-        self.assertIn("Added translation using Weblate (French)", commit4)
+        self.assertIn("chore(l10n): add French translation", commit4)
         self.assertIn("Last-Translator: Automatically generated", commit4)
 
     def test_x_generator_header(self):

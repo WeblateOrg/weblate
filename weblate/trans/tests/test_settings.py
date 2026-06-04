@@ -15,8 +15,13 @@ from filelock import FileLock
 
 from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
+from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
-from weblate.trans.forms import ComponentSettingsForm, ProjectSettingsForm
+from weblate.trans.forms import (
+    CategorySettingsForm,
+    ComponentSettingsForm,
+    ProjectSettingsForm,
+)
 from weblate.trans.models import (
     Category,
     CommitPolicyChoices,
@@ -29,12 +34,30 @@ from weblate.trans.models import (
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.render import (
+    validate_render_addon,
+    validate_render_commit,
+    validate_render_component,
+)
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
+    def test_default_message_templates_render(self) -> None:
+        validators = (
+            (defaults.DEFAULT_COMMIT_MESSAGE, validate_render_commit),
+            (defaults.DEFAULT_ADD_MESSAGE, validate_render_commit),
+            (defaults.DEFAULT_DELETE_MESSAGE, validate_render_commit),
+            (defaults.DEFAULT_MERGE_MESSAGE, validate_render_component),
+            (defaults.DEFAULT_ADDON_MESSAGE, validate_render_addon),
+            (defaults.DEFAULT_PULL_MESSAGE, validate_render_addon),
+        )
+        for template, validator in validators:
+            with self.subTest(template=template):
+                validator(template)
+
     def consolidate_inherited_settings(self) -> None:
         migration = import_module(
             "weblate.trans.migrations.0084_consolidate_inherited_settings"
@@ -173,6 +196,36 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "Inherited value is shown")
         self.assertContains(response, 'name="license"')
         self.assertContains(response, "disabled")
+
+    @override_settings(DEFAULT_COMMIT_MESSAGE="Site default commit")
+    def test_message_setting_site_default_widget_state(self) -> None:
+        category = Category.objects.create(
+            name="Site defaults category",
+            slug="site-defaults-category",
+            project=self.project,
+        )
+
+        for form in (
+            ProjectSettingsForm(self.get_request(), instance=self.project),
+            CategorySettingsForm(self.get_request(), instance=category),
+            ComponentSettingsForm(self.get_request(), instance=self.component),
+        ):
+            with self.subTest(form=form.__class__.__name__):
+                self.assertEqual(
+                    form.fields["commit_message"].widget.attrs[
+                        "data-site-default-value"
+                    ],
+                    "Site default commit",
+                )
+
+    @override_settings(DEFAULT_COMMIT_MESSAGE="Site default commit")
+    def test_message_setting_site_default_form_rendering(self) -> None:
+        self.project.add_user(self.user, "Administration")
+
+        response = self.client.get(reverse("settings", kwargs=self.kw_component))
+
+        self.assertContains(response, 'data-site-default-value="Site default commit"')
+        self.assertContains(response, "Restore site default")
 
     def test_workspace_less_project_has_no_inheritance_wrapper(self) -> None:
         self.assertIsNone(self.project.workspace_id)

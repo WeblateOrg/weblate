@@ -563,6 +563,33 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.client.post(reverse("announcement-delete", kwargs={"pk": announcement.pk}))
         self.assertEqual(Announcement.objects.count(), 0)
 
+    def test_language_announcement(self) -> None:
+        czech = Language.objects.get(code="cs")
+        announcement = Announcement.objects.create(
+            language=czech, message="test language"
+        )
+
+        response = self.client.get(
+            reverse("show_language", kwargs={"lang": czech.code})
+        )
+        self.assertContains(response, "test language")
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Announcement.objects.count(), 1)
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.user.clear_cache()
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Announcement.objects.count(), 0)
+
 
 class AnnouncementTest(AnnouncementPermissionTestCase):
     def set_user_permissions(self) -> None:

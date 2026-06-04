@@ -19,7 +19,9 @@
     <div class="card-header">
       <h4 class="card-title">{% translate "General Terms and Conditions" %}</h4>
     </div>
-    <div class="card-body tos">{% include "legal/documents/tos.html" %}</div>
+    <div class="card-body{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
+      {% include "legal/documents/tos.html" %}
+    </div>
   </div>
 
 {% endblock content %}

@@ -1152,6 +1152,52 @@ $(function () {
     });
   });
 
+  const getControlValue = (control) => {
+    if (control.tomselect) {
+      return control.tomselect.getValue();
+    }
+    return control.value;
+  };
+  const setControlValue = (control, value) => {
+    if (control.tomselect) {
+      control.tomselect.setValue(value, true);
+    } else {
+      control.value = value;
+    }
+    control.dispatchEvent(new Event("input", { bubbles: true }));
+    control.dispatchEvent(new Event("change", { bubbles: true }));
+  };
+  const setControlDisabled = (control, disabled) => {
+    control.disabled = disabled;
+    if (!control.tomselect) {
+      return;
+    }
+    if (disabled) {
+      control.tomselect.disable();
+    } else {
+      control.tomselect.enable();
+    }
+  };
+
+  document.querySelectorAll(".site-default-field-button").forEach((button) => {
+    const container = button.closest(".mb-3");
+    const control = container?.querySelector("[data-site-default-value]");
+    if (!control) {
+      return;
+    }
+    button.addEventListener("click", () => {
+      const inheritedSetting = button.closest("[data-inherited-setting]");
+      const inheritCheckbox = inheritedSetting?.querySelector(
+        ".inherited-setting-toggle input[type=checkbox]",
+      );
+      if (inheritCheckbox?.checked) {
+        inheritCheckbox.checked = false;
+        inheritCheckbox.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      setControlValue(control, control.dataset.siteDefaultValue || "");
+    });
+  });
+
   document.querySelectorAll("[data-inherited-setting]").forEach((el) => {
     const checkbox = el.querySelector(
       ".inherited-setting-toggle input[type=checkbox]",
@@ -1167,31 +1213,6 @@ $(function () {
     if (!checkbox) {
       return;
     }
-
-    const getControlValue = (control) => {
-      if (control.tomselect) {
-        return control.tomselect.getValue();
-      }
-      return control.value;
-    };
-    const setControlValue = (control, value) => {
-      if (control.tomselect) {
-        control.tomselect.setValue(value, true);
-      } else {
-        control.value = value;
-      }
-    };
-    const setControlDisabled = (control, disabled) => {
-      control.disabled = disabled;
-      if (!control.tomselect) {
-        return;
-      }
-      if (disabled) {
-        control.tomselect.disable();
-      } else {
-        control.tomselect.enable();
-      }
-    };
 
     const updateInheritedSetting = (syncValue) => {
       const disabled = checkbox.checked;

@@ -76,6 +76,7 @@ from weblate.utils.state import (
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.tracing import start_span
 from weblate.utils.views import parse_path, parse_path_units, show_form_errors
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -824,13 +825,16 @@ def translate(request: AuthenticatedHttpRequest, path):
 @require_POST
 @login_required
 def auto_translation(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Translation, Component, Category, ProjectLanguage))
+    obj = parse_path(
+        request, path, (Translation, Component, Category, ProjectLanguage, Workspace)
+    )
     update_locked = False
     translation_id: int | None = None
     component_id: int | None = None
     category_id: int | None = None
     project_id: int | None = None
     language_id: int | None = None
+    workspace_id: str | None = None
 
     match obj:
         case Translation():
@@ -857,6 +861,15 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             update_locked = project.locked
             project_id = project.id
             language_id = obj.language.id
+        case Workspace():
+            autoform = AutoForm(obj, request.user, request.POST)
+            update_locked = not (
+                Translation.objects.filter_access(request.user)
+                .filter(component__project__workspace=obj, component__locked=False)
+                .exclude_source()
+                .exists()
+            )
+            workspace_id = str(obj.pk)
         case _:  # pragma: no cover
             msg = "Unsupported object for auto translation"
             raise PermissionDenied(msg)
@@ -876,6 +889,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             category_id=category_id,
             project_id=project_id,
             language_id=language_id,
+            workspace_id=workspace_id,
             user_id=request.user.id,
             mode=autoform.cleaned_data["mode"],
             q=autoform.cleaned_data["q"],
@@ -894,6 +908,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             category_id=category_id,
             project_id=project_id,
             language_id=language_id,
+            workspace_id=workspace_id,
             user_id=request.user.id,
             mode=autoform.cleaned_data["mode"],
             q=autoform.cleaned_data["q"],

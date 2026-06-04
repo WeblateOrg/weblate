@@ -150,6 +150,10 @@ Default commit and merge request message templates for projects and components
 in this workspace. These templates use the same markup as component message
 settings.
 
+The built-in defaults follow Conventional Commits and include
+Weblate links where available. Use :guilabel:`Restore site default` next to a
+message editor to restore the current installation default for that message.
+
 .. seealso::
 
    * :ref:`workspace-inherited-settings`

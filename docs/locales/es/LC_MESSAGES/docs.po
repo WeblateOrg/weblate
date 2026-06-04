@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-05-28 11:11+0200\n"
-"PO-Revision-Date: 2026-05-24 06:32+0000\n"
+"PO-Revision-Date: 2026-05-29 21:41+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -4683,23 +4683,17 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:358
-#, fuzzy
-#| msgid ""
-#| "When using :guilabel:`GitHub` for pull requests, the :ref:`component-"
-#| "push_branch` configuration affects the behavior: if not set, the project "
-#| "is forked and changes are pushed through a fork. If set, changes are "
-#| "pushed to the upstream repository and the chosen branch."
 msgid ""
 "The :ref:`component-push_branch` configuration affects where Weblate pushes "
 "changes before opening the merge request. If it is not set, the project is "
 "forked and changes are pushed through a fork. If it is set, changes are "
 "pushed to the upstream repository and chosen branch."
 msgstr ""
-"Al utilizar :guilabel:`GitHub` para solicitudes de extracción, la "
-"configuración :ref:`component-push_branch` afecta al comportamiento: si no "
-"se establece, el proyecto se bifurca y los cambios se envían a través de una "
-"bifurcación. Si se establece, los cambios se envían al repositorio "
-"ascendente y a la rama elegida."
+"La configuración :ref:`component-push_branch` afecta donde Weblate suba "
+"cambios antes de abrir la solicitud de fusión. Si no está establecido, el "
+"proyecto se bifurca y los cambios se envían a través de una bifurcación. Si "
+"está establecido, los cambios son subidos al repositorio en desarrollo y a "
+"la rama elegida."
 
 #: admin/code-hosting.rst:368
 msgid "Gitea, Forgejo, and Codeberg"
@@ -8876,16 +8870,6 @@ msgstr ""
 "habilitando :setting:`AUTO_UPDATE`."
 
 #: admin/continuous.rst:357
-#, fuzzy
-#| msgid ""
-#| "Each translation component can have a push URL set up "
-#| "(see :ref:`component-push`), and in that case Weblate will be able to "
-#| "push change to the remote repository. Weblate can be also be configured "
-#| "to automatically push changes on every commit (this is default, "
-#| "see :ref:`component-push_on_commit`). If you do not want changes to be "
-#| "pushed automatically, you can do that manually "
-#| "under :guilabel:`Repository maintenance` or using the API "
-#| "via :option:`wlc push`."
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
 "push`), and in that case Weblate will be able to push changes to the remote "
@@ -8893,13 +8877,10 @@ msgid ""
 "every commit, see :ref:`component-push_on_commit`."
 msgstr ""
 "Cada componente de traducción puede tener una URL de envío configurada "
-"(consulte :ref:`component-push` ), y en ese caso Weblate podrá enviar "
-"cambios al repositorio remoto . Weblate también puede configurarse para "
-"enviar cambios automáticamente en cada consignación (esto es predeterminado, "
-"consulte :ref:`component-push_on_commit`). Si no desea que los cambios se "
-"envíen automáticamente, puede hacerlo manualmente "
-"en :guilabel:`Mantenimiento del repositorio` o usando el API a través "
-"de :option:`wlc push`."
+"(consulte :ref:`component-push` ), y en ese caso Weblate podrá enviar el "
+"cambio al repositorio remoto . Weblate también puede configurarse para subir "
+"los cambios automáticamente en cada consignación, consulte :ref:`component-"
+"push_on_commit`."
 
 #: admin/continuous.rst:362
 msgid ""
@@ -21260,11 +21241,8 @@ msgid "Project creation and moves"
 msgstr "Proyecto creado"
 
 #: admin/workspaces.rst:28
-#, fuzzy
-#| msgid "Projects can be watched directly from project page."
 msgid "Projects can be created with or without a workspace:"
-msgstr ""
-"Es posible monitorizar proyectos directamente desde la página del proyecto."
+msgstr "Los proyectos pueden ser creados con o sin un pupitre:"
 
 #: admin/workspaces.rst:30
 msgid ""
@@ -21747,12 +21725,12 @@ msgstr ""
 "del :ref:`api` para categorías."
 
 #: changes.rst:9
-#, fuzzy
-#| msgid "Group ACLs can now be limited to certain permissions."
 msgid ""
 "Team memberships can now be limited to selected languages for per-user "
 "translation permissions."
-msgstr "Ahora las ACL de grupo pueden estar limitada a ciertos permisos."
+msgstr ""
+"Membresía de equipo ahora puede estar limitada para idiomas seleccionados "
+"para permisos de traducción por usuario."
 
 #: changes.rst:10
 #, fuzzy
@@ -21939,15 +21917,11 @@ msgid ""
 msgstr ""
 
 #: changes.rst:39
-#, fuzzy
-#| msgid ""
-#| "Extended the conflicting repository setup alert to direct Git pushes, "
-#| "see :ref:`alerts`."
 msgid ""
 "Conflicting repository setup alerts now allow same-branch direct pushes."
 msgstr ""
-"Se ha ampliado la alerta de configuración de repositorio conflictiva a las "
-"subidas directas de Git, consulte :ref:`alerts`."
+"Configuración de repositorio en conflicto alerta ahora concede subida "
+"directa en la misma ramificación."
 
 #: changes.rst:40
 msgid ""
@@ -39788,10 +39762,8 @@ msgid ""
 msgstr ""
 
 #: contributing/frontend.rst:26
-#, fuzzy
-#| msgid "Weblate frontend"
 msgid "When changing the frontend:"
-msgstr "Interfaz de Weblate"
+msgstr "Cuando cambie el primer plano:"
 
 #: contributing/frontend.rst:28
 msgid "Make all interactive controls reachable and usable with a keyboard."
@@ -41537,15 +41509,11 @@ msgid "Local testing of Weblate"
 msgstr "Pruebas locales de Weblate"
 
 #: contributing/tests.rst:56
-#, fuzzy
-#| msgid ""
-#| "Before running test, please ensure test dependencies are installed. This "
-#| "can be done by ``pip install -e .[test]``."
 msgid ""
 "Before running tests, please ensure development dependencies are installed:"
 msgstr ""
-"Antes de ejecutar la prueba, asegúrese probar que estén instaladas las "
-"dependencias. Puede hacerse esto con ``pip install -e.[test]``."
+"Antes de ejecutar pruebas, asegúrese que estén instaladas las dependencias "
+"del desarrollo:"
 
 #: contributing/tests.rst:63
 msgid "Testing using pytest"
@@ -49322,12 +49290,6 @@ msgid "Software Bill of Material"
 msgstr "Cargo del Material de Software"
 
 #: security/dependencies.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a Software Bill of Material (SBOM) in the source core "
-#| "as :file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can "
-#| "be used to review the dependencies for security issues or license "
-#| "compliance."
 msgid ""
 "Weblate publishes a Software Bill of Material (SBOM) using the CycloneDX "
 "format for released versions. The SBOM is available as a versioned ``weblate-"
@@ -49336,10 +49298,13 @@ msgid ""
 "can be used to review the dependencies for security issues or license "
 "compliance."
 msgstr ""
-"Weblate incluye una Lista de Materiales de Software (SBOM) en el código "
-"fuente como :file:`docs/specs/sbom/sbom.json` en formato CycloneDX. Esta se "
-"puede usar para revisar las dependencias en busca de incidencias de "
-"seguridad o cumplimiento de licencias."
+"Weblate sube un Cargo de Software de Material (SBOM) utilizando el formato "
+"CycloneDX para versiones de liberación. El SBOM está disponible como una "
+"archivo versionado en ``weblate-<version>-sbom.cdx.json`` en el `GitHub "
+"release assets`_ y también se adjunta a la procedencia de la versión "
+"mediante las certificaciones de artefactos de GitHub. Esto puede ser "
+"utilizado para revisar las dependencias para incidencias de seguridad o "
+"cumplimiento de licencias."
 
 #: security/dependencies.rst:16
 msgid ""
@@ -51950,10 +51915,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:244
-#, fuzzy
-#| msgid "Merge Weblate changes to the upstream repository."
 msgid "What Weblate does to its host:"
-msgstr "Fusiona los cambios de Weblate para el repositorio en desarrollo."
+msgstr "Qué hace Weblate a su host:"
 
 #: security/threat-model.rst:246
 msgid ""
@@ -52472,10 +52435,8 @@ msgid "Restrict shell access to trusted operators. *(maintainer)*"
 msgstr ""
 
 #: security/threat-model.rst:406
-#, fuzzy
-#| msgid "Site wide options"
 msgid "Size and rate assumptions:"
-msgstr "Opciones para todo el sitio"
+msgstr "Tamaño y tipo de asunciones:"
 
 #: security/threat-model.rst:408
 msgid ""
@@ -65608,10 +65569,8 @@ msgid "Number of assigned source strings."
 msgstr "*Número de cadenas sugeridas*"
 
 #: user/search.rst:285
-#, fuzzy
-#| msgid "Search in screenshots."
 msgid "Search for screenshots having attributes:"
-msgstr "Buscar en capturas de pantalla."
+msgstr "Buscar capturas de pantalla que tengan atributos:"
 
 #: user/search.rst:288
 #, fuzzy
