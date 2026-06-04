@@ -11,9 +11,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-05-29 23:00-0500\n"
-"PO-Revision-Date: 2026-05-30 06:52+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-05 07:59+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -22,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.6\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1722,14 +1721,8 @@ msgid "Translation files CDN"
 msgstr "Prevodilačke datoteke"
 
 #: weblate/addons/cdn.py:271
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Objavljuje prijevode u mrežu za isporuku sadržaja (CDN) za upotrebu u "
-"JavaScriptu ili HTML lokalizaciji."
+msgstr "Objavljuje prevodilačke datoteke u mrežu za isporuku sadržaja (CDN)."
 
 #: weblate/addons/cdn.py:308
 #, fuzzy
@@ -2126,10 +2119,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "Komponenta mora definirati POT datoteku datoteka za nove prijevode."
+msgstr "Komponenta mora definirati gettext predložak za nove prijevode."
 
 #: weblate/addons/forms.py:448
 #, fuzzy
@@ -2760,10 +2751,8 @@ msgid "Updates the gettext template using Meson gettext conventions."
 msgstr "Aktualizira gettext predložak koristeći Meson xgettext konvencije."
 
 #: weblate/addons/gettext.py:1517
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "Aktualiziraj POT datoteku (Django)"
+msgstr "Aktualiziraj gettext predložak (Django)"
 
 #: weblate/addons/gettext.py:1519
 msgid ""
@@ -6132,16 +6121,14 @@ msgid "Plural form metadata in CSV file requires source_plural_form."
 msgstr ""
 
 #: weblate/formats/ttkit.py:2478
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "U datoteci je pronađen dupli izraz."
+msgstr "Duplikat oblika množine ciljanog jezika u CSV datoteci: %s"
 
 #: weblate/formats/ttkit.py:2487
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "Kodiranje za CSV datoteke"
+msgstr "Konflktni oblik množine izvornog jezika u CSV datoteci: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2667
@@ -6388,10 +6375,8 @@ msgid "No language limit"
 msgstr "Maks. broj jezika"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Repeated language code"
 msgid "Enter a valid language code."
-msgstr "Ponavljajući jezični kodovi"
+msgstr "Upiši jedan ispravan jezični kod."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -7558,13 +7543,12 @@ msgid "Source has been removed."
 msgstr "Izvor je uklonjen."
 
 #: weblate/screenshots/views.py:534
-#, fuzzy, python-format
-#| msgid "No matching strings found."
+#, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "Nije pronađen nijedan poklapajući izraz."
-msgstr[1] "Nije pronađen nijedan poklapajući izraz."
-msgstr[2] "Nije pronađen nijedan poklapajući izraz."
+msgstr[0] "Pronađen je %(count)s poklapajući izvorni izraz."
+msgstr[1] "Pronađena su %(count)s poklapajuća izvorna izraza."
+msgstr[2] "Pronađeno je %(count)s poklapajućih izvornih izraza."
 
 #: weblate/screenshots/views.py:539
 msgid "No new matching source strings found."
@@ -8045,10 +8029,9 @@ msgid "Read the docs"
 msgstr ""
 
 #: weblate/templates/accounts/contact.html:131
-#, fuzzy, python-format
-#| msgid "Contact server administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "Kontaktiraj administratore poslužitelja"
+msgstr "Pitanje za administratore %(site_title)s web-stanice"
 
 #: weblate/templates/accounts/contact.html:133
 #, fuzzy
@@ -11874,10 +11857,8 @@ msgstr ""
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "Račun će se deaktivirati nakon isteka."
+msgstr "Za neaktivne projekte će se ponavljajuća naplata deaktivirati"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -12315,10 +12296,8 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s je završen"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "Filtar za kvalitetu prijevoda"
+msgstr "Aktivnost prevođenja u ovom razdoblju:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
 #, fuzzy
@@ -12908,10 +12887,9 @@ msgid "Clear"
 msgstr "Izbriši"
 
 #: weblate/templates/manage/workspaces.html:60
-#, fuzzy, python-format
-#| msgid "Billing admins"
+#, python-format
 msgid "Billing #%(id)s"
-msgstr "Administratori za naplate"
+msgstr "Naplata broj %(id)s"
 
 #: weblate/templates/manage/workspaces.html:71
 #, fuzzy
@@ -13567,10 +13545,8 @@ msgid "Clone to translation"
 msgstr "Kopiraj u prijevod"
 
 #: weblate/templates/snippets/embed-units.html:13
-#, fuzzy
-#| msgid "CSS selector"
 msgid "Select"
-msgstr "CSS selektor"
+msgstr "Odaberi"
 
 #: weblate/templates/snippets/embed-units.html:52 weblate/utils/views.py:228
 msgid "Target string"
@@ -15501,10 +15477,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/project-access-team-form.html:45
-#, fuzzy
-#| msgid "Not available"
 msgid "No teams are available."
-msgstr "Nije dostupno"
+msgstr "Nema timova."
 
 #: weblate/templates/trans/project-access.html:103
 msgid "Clean up user contributions"
@@ -17057,14 +17031,9 @@ msgstr ""
 "%(target)s."
 
 #: weblate/trans/change_display.py:262
-#, fuzzy, python-format
-#| msgid ""
-#| "The license of the \"%(component)s\" component was changed from %(old)s "
-#| "to %(target)s."
+#, python-format
 msgid "%(setting)s changed from \"%(old)s\" to \"%(target)s\"."
-msgstr ""
-"Licenca za komponentu „%(component)s” promijenjena je iz %(old)s u "
-"%(target)s."
+msgstr "Postavka %(setting)s je promijenjena iz „%(old)s” u „%(target)s”."
 
 #: weblate/trans/change_display.py:272
 #, fuzzy
@@ -17079,14 +17048,9 @@ msgid "No workspace"
 msgstr ""
 
 #: weblate/trans/change_display.py:296
-#, fuzzy, python-format
-#| msgid ""
-#| "The license of the \"%(component)s\" component was changed from %(old)s "
-#| "to %(target)s."
+#, python-format
 msgid "Project moved from \"%(old)s\" to \"%(target)s\"."
-msgstr ""
-"Licenca za komponentu „%(component)s” promijenjena je iz %(old)s u "
-"%(target)s."
+msgstr "Projekt je premješten iz „%(old)s” u „%(target)s”."
 
 #: weblate/trans/change_display.py:372
 msgid "Original revision: {}"
@@ -17893,10 +17857,8 @@ msgid "Sort order"
 msgstr "Redoslijed"
 
 #: weblate/trans/forms.py:1644
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "Nastavi"
+msgstr "Modus brojanja"
 
 #: weblate/trans/forms.py:1646
 msgid ""
@@ -17905,16 +17867,12 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:1652
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "Nedovršeni izrazi"
+msgstr "Jedinstveni izrazi"
 
 #: weblate/trans/forms.py:1656
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "Svi jezici"
+msgstr "Sve promjene"
 
 #: weblate/trans/forms.py:1695
 msgid "Search filter"
@@ -17927,10 +17885,8 @@ msgid "Base rate"
 msgstr "Raspon datuma"
 
 #: weblate/trans/forms.py:1699
-#, fuzzy
-#| msgid "Number of source words"
 msgid "Price per source word."
-msgstr "Broj izvornih riječi"
+msgstr "Cijena po izvornoj riječi."
 
 #: weblate/trans/forms.py:1706
 #, fuzzy
@@ -19270,11 +19226,9 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "Ova se postavka nasljeđuje od projekta ako se ostavi prazno."
 
 #: weblate/trans/models/component.py:1077
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the category or project."
-msgstr "U projektu ili komponenti definiran sekundarni jezik"
+msgstr ""
+"Koristi sekundarni jezik koji je konfiguriran u kategoriji ili projektu."
 
 #: weblate/trans/models/component.py:2126
 msgid ""
