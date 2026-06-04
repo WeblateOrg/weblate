@@ -151,8 +151,25 @@
       },
     });
 
-    if (input.id && ts.control_input) {
-      ts.control_input.id = `${input.id}-ts-input`;
+    if (ts.control_input) {
+      if (input.id) {
+        ts.control_input.id = `${input.id}-ts-input`;
+        // Re-point the field label at the visible TomSelect control
+        const selector =
+          typeof CSS !== "undefined" && CSS.escape
+            ? `label[for="${CSS.escape(input.id)}"]`
+            : `label[for="${input.id}"]`;
+        for (const label of document.querySelectorAll(selector)) {
+          label.htmlFor = ts.control_input.id;
+        }
+      }
+      // Carry over accessibility metadata
+      for (const attr of ["aria-label", "aria-labelledby", "aria-describedby"]) {
+        const value = input.getAttribute(attr);
+        if (value) {
+          ts.control_input.setAttribute(attr, value);
+        }
+      }
     }
 
     ts.on("change", () => {
