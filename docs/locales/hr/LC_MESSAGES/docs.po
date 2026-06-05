@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-05 07:59+0000\n"
+"PO-Revision-Date: 2026-06-06 04:22+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hr/>\n"
@@ -4062,10 +4062,8 @@ msgid "Use the SSH URL shown by Azure Repos for the repository."
 msgstr ""
 
 #: admin/code-hosting.rst:563
-#, fuzzy
-#| msgid "Sending digest notifications."
 msgid "Azure Repos notifications"
-msgstr "Slanje sažetih obavijesti."
+msgstr "Azure Repos obavijesti"
 
 #: admin/code-hosting.rst:565
 msgid ""
@@ -14177,10 +14175,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Kratki pregled uvjeta usluge i pravila privatnosti"
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Save addon state information."
 msgid "Subcontractor information"
-msgstr "Spremi podatke stanja dodatka."
+msgstr "Podaci ugovornog podpartnera"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -14281,6 +14277,12 @@ msgid ""
 "``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` "
 "or :setting:`PRIVACY_URL` when configured, otherwise the link is omitted."
 msgstr ""
+"Koristi :setting:`LEGAL_HIDDEN_DOCUMENTS` za skrivanje opcionalnih pravnih "
+"stranica, kao što su ugovorni podpartneri iz pravnog izbornika. Skrivene "
+"stranice vraćaju odgovor 404 kada se izravno zatraže. Ako su ``terms`` ili "
+"``privacy`` skriveni, poveznice koje koriste ``terms_url`` ili "
+"``privacy_url`` vraćaju postavke :setting:`LEGAL_URL` ili "
+":setting:`PRIVACY_URL` kada su konfigurirane, inače se poveznica izostavlja."
 
 #: admin/optionals.rst:234
 msgid ""
@@ -14356,10 +14358,8 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:288
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disable directory listing."
-msgstr "Deaktiviraj otkrivanje"
+msgstr "Deaktiviraj izradu popisa direktorija."
 
 #: admin/optionals.rst:289
 msgid "Use HTTPS and make the CDN host read-only from the web server."
@@ -35137,10 +35137,8 @@ msgid ""
 msgstr ""
 
 #: contributing/issues.rst:18
-#, fuzzy
-#| msgid "Accountability issues."
 msgid "Accessibility issues"
-msgstr "Problemi s odgovornošću."
+msgstr "Problemi s pristupačnosti"
 
 #: contributing/issues.rst:20
 msgid ""
@@ -43491,6 +43489,8 @@ msgid ""
 "Translators may be contractors, volunteers, or agencies with varying levels "
 "of vetting."
 msgstr ""
+"Prevoditelji mogu biti ugovorni partneri, volonteri ili agencije s "
+"različitim razinama provjere."
 
 #: security/localization-threat.rst:9
 #, fuzzy
@@ -44023,6 +44023,10 @@ msgid ""
 "subcontractor information using :ref:`legal`, or link externally "
 "using :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`."
 msgstr ""
+"Administratori mogu objaviti politiku privatnosti, uvjete korištenja, "
+"informacije o kolačićima i informacije o podizvođačima koristeći "
+":ref:`legal` ili povezati eksterne stranice koristeći :setting:`LEGAL_URL` i "
+":setting:`PRIVACY_URL`."
 
 #: security/privacy-compliance.rst:54
 msgid ""
@@ -44093,10 +44097,10 @@ msgid "Data retention and deletion"
 msgstr "Zadržavanje i brisanje podataka"
 
 #: security/privacy-compliance.rst:87
-#, fuzzy
-#| msgid "Characters configured using :setting:`SPECIAL_CHARS`"
 msgid "Audit-log retention is configured using :setting:`AUDITLOG_EXPIRY`."
-msgstr "Znakovi koji su konfigurirani pomoću :setting:`SPECIAL_CHARS`"
+msgstr ""
+"Čuvanje audit-log datoteke je konfigurirano koristeći "
+":setting:`AUDITLOG_EXPIRY`."
 
 #: security/privacy-compliance.rst:88
 msgid ""
@@ -44269,6 +44273,10 @@ msgid ""
 "information through :ref:`legal`, and update :setting:`LEGAL_TOS_DATE` when "
 "users must accept changed terms."
 msgstr ""
+"**Obavijesti i pristanak:** Pruži informacije o privatnosti, kolačićima, "
+"podizvođačima i uvjetima korištenja putem :ref:`legal`, te aktualiziraj "
+":setting:`LEGAL_TOS_DATE` kada korisnici moraju prihvatiti promijenjene "
+"uvjete."
 
 #: security/privacy-compliance.rst:159
 msgid ""
@@ -44453,10 +44461,8 @@ msgid "Webhooks"
 msgstr "Webhook"
 
 #: security/threat-model.rst:61
-#, fuzzy
-#| msgid ":ref:`project` (:ref:`project-check_flags`)."
 msgid ":ref:`hooks`, project :ref:`project-enable_hooks`"
-msgstr ":ref:`project` (:ref:`project-check_flags`)."
+msgstr ":ref:`hooks`, projekt :ref:`project-enable_hooks`"
 
 #: security/threat-model.rst:62
 msgid "Background task scheduling and VCS repository updates"
@@ -45140,11 +45146,11 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:333
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid ""
 "Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)"
-msgstr "Dodana podrška za preraspoređivanje spremljenih promjena."
+msgstr ""
+"Dozvoli prilagođene SSH opcije. *(dokumentirano)* (izvor: "
+":setting:`SSH_EXTRA_ARGS`)"
 
 #: security/threat-model.rst:334
 msgid ""
@@ -45367,12 +45373,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:394
-#, fuzzy
-#| msgid "Machine translation services are now configurable per project."
 msgid "Machine translation and external service configuration"
-msgstr ""
-"Usluge strojnog prevođenja se sada mogu konfigurirati za svaki projekt "
-"zasebno."
+msgstr "Konfiguracija strojnog prevođenja i eksterne usluge"
 
 #: security/threat-model.rst:395
 msgid "Provider URLs, credentials, model or service settings"
@@ -45453,10 +45455,8 @@ msgid "Out-of-scope capabilities"
 msgstr ""
 
 #: security/threat-model.rst:428
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "Unauthenticated internet client"
-msgstr "Bilo koji autorizirani korisnik može doprinijeti."
+msgstr "Neautorizirani internetski klijent"
 
 #: security/threat-model.rst:429
 msgid ""
@@ -45662,10 +45662,8 @@ msgstr ""
 #: security/threat-model.rst:495 security/threat-model.rst:501
 #: security/threat-model.rst:506 security/threat-model.rst:512
 #: security/threat-model.rst:517 security/threat-model.rst:555
-#, fuzzy
-#| msgid "Security"
 msgid "Security-critical."
-msgstr "Sigurnost"
+msgstr "Kritično za sigurnost."
 
 #: security/threat-model.rst:496
 msgid ""
@@ -52930,10 +52928,9 @@ msgid "Update language team header"
 msgstr "Postavi redak za „Language-Team” u zaglavlju"
 
 #: snippets/file-format-parameters.rst:134
-#, fuzzy
-#| msgid "Set \"Language-Team\" header"
 msgid "Lets Weblate update the \"Language-Team\" file header."
-msgstr "Postavi redak za „Language-Team” u zaglavlju"
+msgstr ""
+"Dopušta da Weblate aktualizira redak za „Language-Team” u zaglavlju datoteke."
 
 #: snippets/file-format-parameters.rst:137
 #, fuzzy
@@ -53753,19 +53750,13 @@ msgstr "Odredi ime osnovne jednojezične datoteke"
 #: snippets/format-features/resourcedictionary-features.rst:27
 #: snippets/format-features/strings-features.rst:27
 #: snippets/format-features/stringsdict-features.rst:27
-#, fuzzy
-#| msgid ""
-#| "List of checks which can not be ignored, see :ref:`enforcing-checks`."
 msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
-msgstr ""
-"Popis provjera koje se ne mogu zanemariti, pogledaj :ref:`enforcing-checks`."
+msgstr "Provjeri oznake koje je dodao ovaj format :ref:`ⓘ <custom-checks>`"
 
 #: snippets/format-features/asciidoc-features.rst:28
 #: snippets/format-features/html-features.rst:28
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid ":ref:`check-safe-html`, ``strict-same``"
-msgstr "Preskoči provjeru :ref:`check-safe-html`."
+msgstr ":ref:`check-safe-html`, ``strict-same``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -57467,10 +57458,8 @@ msgid "There are many options to order the strings according to your needs:"
 msgstr ""
 
 #: user/search.rst:251
-#, fuzzy
-#| msgid "Search in screenshots."
 msgid "Searching for screenshots"
-msgstr "Traži u snimkama ekrana."
+msgstr "snimke ekrana"
 
 #: user/search.rst:253
 msgid ""
@@ -57545,10 +57534,8 @@ msgid "Timestamp for when the screenshot was added to Weblate."
 msgstr "Vremenska oznaka kada je izraz dodan u Weblate."
 
 #: user/search.rst:283
-#, fuzzy
-#| msgid "*Number of suggested strings*"
 msgid "Number of assigned source strings."
-msgstr "*Broj predloženih izraza*"
+msgstr "Broj dodijeljenih izvornih izraza."
 
 #: user/search.rst:285
 #, fuzzy
@@ -59478,10 +59465,10 @@ msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 #: wlc.rst:309
-#, fuzzy
-#| msgid "User configuration file on Windows in the local profile."
 msgid "Global configuration file on Windows in the local profile."
-msgstr "Korisnička datoteka konfiguracije u Windowsu u lokalnom profilu."
+msgstr ""
+"Globalna konfiguracijska datoteka u lokalnom korisničkom profilu u Windows "
+"sustavu."
 
 #: wlc.rst:310
 msgid ":file:`~/.config/weblate`"
@@ -59489,13 +59476,11 @@ msgstr ":file:`~/.config/weblate`"
 
 #: wlc.rst:311
 msgid "Global configuration file on Unix-like systems."
-msgstr ""
+msgstr "Globalna konfiguracijska datoteka u Unixovim sustavima."
 
 #: wlc.rst:313
-#, fuzzy
-#| msgid "System wide configuration file."
 msgid "System-wide fallback configuration file."
-msgstr "Datoteka konfiguracije sustava."
+msgstr "Rezervna sustavska konfiguracijska datoteka."
 
 #: wlc.rst:315
 msgid ""
@@ -59521,16 +59506,16 @@ msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: wlc.rst:326
-#, fuzzy
-#| msgid "Configuration file placed in the project directory."
 msgid "Project configuration file placed in the repository."
-msgstr "Datoteka konfiguracije smještena u direktoriju projekta."
+msgstr "Konfiguracijska datoteka smještena u repzitoriju."
 
 #: wlc.rst:328
 msgid ""
 "Only the closest project configuration file is loaded. Configuration files "
 "in farther parent directories are ignored."
 msgstr ""
+"Učitava se samo konfiguracijska datoteka najbližeg projekta. Konfiguracijske "
+"datoteke u udaljenijim nadređenim direktorijima se zanemaruju."
 
 #: wlc.rst:331
 msgid ""
@@ -59548,11 +59533,11 @@ msgstr ""
 
 #: wlc.rst:342
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
-msgstr ""
+msgstr "API server URL, standardno ``http://127.0.0.1:8000/api/``."
 
 #: wlc.rst:346
 msgid "Path to the default translation - component or project."
-msgstr ""
+msgstr "Staza do standardnog prijevoda – komponente ili projekta."
 
 #: wlc.rst:350
 msgid ""
