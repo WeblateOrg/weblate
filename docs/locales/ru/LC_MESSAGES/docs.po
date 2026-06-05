@@ -52,8 +52,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-04 11:38+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-05 07:59+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -1897,19 +1897,14 @@ msgid ""
 msgstr "Показываются внутри проекта, включая все его компоненты и переводы."
 
 #: admin/announcements.rst:39
-#, fuzzy
-#| msgid "Project specified"
 msgid "Project and language specified"
-msgstr "Указан проект"
+msgstr "Указаны проект и язык"
 
 #: admin/announcements.rst:41
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the project for the specified language, including all its "
 "translations."
-msgstr "Показываются внутри проекта, включая все его компоненты и переводы."
+msgstr "Показывается в проекте для указанного языка, включая все его переводы."
 
 #: admin/announcements.rst:44
 msgid "Category specified"
@@ -2545,10 +2540,14 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"Некоторые поставщики удостоверений (например, Microsoft Entra ID с "
+"многофакторной аутентификацией) требуют отключения значения по умолчанию "
+"``requestedAuthnContext`` в конфигурации безопасности SAML:"
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
 msgstr ""
+"В Docker вместо этого установите :envvar:`WEBLATE_SAML_SECURITY_CONFIG`."
 
 #: admin/auth.rst:584
 msgid ""
@@ -6130,6 +6129,13 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"Встроенные значения по умолчанию следуют соглашению Conventional Commits и "
+"включают ссылки на Weblate там, где это возможно. Изменение этих настроек "
+"влияет на вновь создаваемые значения по умолчанию; существующие шаблоны "
+"сообщений можно сбросить в формах настроек с помощью :guilabel:`Восстановить "
+"общесайтовое значение по умолчанию`. Для наследуемых значений восстановление "
+"общесайтового значения по умолчанию также отключает наследование для этого "
+"сообщения."
 
 #: admin/config.rst:729
 msgid "Default add-ons to install for every created component."
@@ -6224,6 +6230,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"Встроенное значение по умолчанию следует соглашению Conventional Commits и "
+"включает ссылки на Weblate и статус перевода."
 
 #: admin/config.rst:876
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6675,7 +6683,7 @@ msgstr "По умолчанию -1."
 
 #: admin/config.rst:1334
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "CSS-класс, добавляемый к обёрткам шаблонов юридических документов."
 
 #: admin/config.rst:1336
 msgid ""
@@ -6683,16 +6691,23 @@ msgid ""
 "and spacing rules. Set this to an empty string to render legal documents "
 "without the built-in numbering."
 msgstr ""
+"По умолчанию используется ``\"tos\"``, что включает встроенную нумерацию "
+"юридических документов и правила интервалов. Установите пустую строку, чтобы "
+"отображать юридические документы без встроенной нумерации."
 
 #: admin/config.rst:1355
 msgid "List of legal document page identifiers to hide from the legal module."
 msgstr ""
+"Список идентификаторов страниц юридических документов, скрываемых из "
+"юридического модуля."
 
 #: admin/config.rst:1357
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"Страница ``index`` всегда видна. Поддерживаемые идентификаторы документов: "
+"``terms``, ``cookies``, ``privacy`` и ``contracts``."
 
 #: admin/config.rst:1360
 msgid ""
@@ -6700,6 +6715,9 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"Скрытые страницы удаляются из юридического меню и возвращают ответ 404 при "
+"прямом запросе. Скрытие ``terms`` или ``privacy`` не рекомендуется, если "
+"включено подтверждение условий обслуживания."
 
 #: admin/config.rst:1364
 msgid ""
@@ -6708,6 +6726,10 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"Когда ``terms`` или ``privacy`` скрыты, ссылки, доступные через переменные "
+"шаблона ``terms_url`` и ``privacy_url``, используют :setting:`LEGAL_URL` и "
+":setting:`PRIVACY_URL` в качестве запасных вариантов, если они настроены. "
+"Если запасной URL-адрес не настроен, соответствующая ссылка опускается."
 
 #: admin/config.rst:1369
 msgid ""
@@ -6716,6 +6738,10 @@ msgid ""
 "external terms document instead of embedding :file:`legal/documents/"
 "tos.html`."
 msgstr ""
+"При включённом подтверждении условий обслуживания скрытие ``terms`` и "
+"установка :setting:`LEGAL_URL` заставляет страницу подтверждения ссылаться "
+"на внешний документ с условиями вместо встраивания :file:`legal/documents/"
+"tos.html`."
 
 #: admin/config.rst:1373
 msgid ""
@@ -6723,6 +6749,9 @@ msgid ""
 "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the "
 "API schema terms link uses the same fallback."
 msgstr ""
+"В развёртываниях не в Docker определите :setting:`LEGAL_HIDDEN_DOCUMENTS` и "
+":setting:`LEGAL_URL` до создания ``SPECTACULAR_SETTINGS``, чтобы ссылка на "
+"условия в схеме API использовала тот же запасной вариант."
 
 #: admin/config.rst:1394
 msgid "You need :ref:`legal` installed to make this work."
@@ -6743,18 +6772,14 @@ msgstr ""
 "документы."
 
 #: admin/config.rst:1414
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate. Please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate instead of using "
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
-"Полезно, если вы размещаете свои юридические документы вне Weblate для их "
-"встраивания в Weblate. Пожалуйста, проверьте :ref:`legal` для получения "
-"подробной информации."
+"Полезно, если вы размещаете свои юридические документы вне Weblate вместо "
+"использования модуля :ref:`legal`. Когда юридический модуль включён, Weblate "
+"по умолчанию ссылается на внутренние юридические страницы."
 
 #: admin/config.rst:1433
 msgid "Additional licenses to include in the license choices."
@@ -6944,6 +6969,9 @@ msgid ""
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"Полезно, если вы размещаете свою политику конфиденциальности вне Weblate "
+"вместо использования модуля :ref:`legal`. Когда юридический модуль включён, "
+"Weblate по умолчанию ссылается на внутренние юридические страницы."
 
 #: admin/config.rst:1678
 msgid ""
@@ -11719,21 +11747,15 @@ msgid "Google Cloud Error Reporting"
 msgstr "Отчёт об ошибках Google Cloud"
 
 #: admin/install.rst:1756
-#, fuzzy
-#| msgid ""
-#| "Weblate can report handled server errors to `Google Cloud Error Reporting "
-#| "<https://cloud.google.com/error-reporting/>`_. Install Weblate with the "
-#| "``google-errors`` extra and "
-#| "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgid ""
 "Weblate can report handled server errors to `Google Cloud Error Reporting`_. "
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
-"Weblate может сообщать об обработанных серверных ошибках в `Отчёт об ошибках "
-"Google Cloud <https://cloud.google.com/error-reporting/>`_. Установите "
-"Weblate с дополнительным компонентом ``google-errors`` и "
-"настройте :setting:`GOOGLE_CLOUD_ERROR_REPORTING` в :file:`settings.py`:"
+"Weblate может сообщать об обработанных серверных ошибках в `Google Cloud "
+"Error Reporting`_. Установите Weblate с дополнительным компонентом ``google-"
+"errors`` и настройте :setting:`GOOGLE_CLOUD_ERROR_REPORTING` в "
+":file:`settings.py`:"
 
 #: admin/install.rst:1766
 msgid ""
@@ -12953,29 +12975,38 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Пересоздайте контейнер Docker после изменения этой переменной окружения, "
+"например, с помощью :program:`docker compose up -d`. Перезапуск "
+"существующего контейнера не применяет изменённые значения окружения."
 
 #: admin/install/docker.rst:929
 msgid ""
 "Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Настраивает :setting:`LEGAL_DOCUMENT_CSS_CLASS` в развёртываниях Docker с "
+"включённым :envvar:`WEBLATE_LEGAL_INTEGRATION`."
 
 #: admin/install/docker.rst:932
 msgid ""
 "Set this to an empty string to disable the built-in legal document numbering."
 msgstr ""
+"Установите пустую строку, чтобы отключить встроенную нумерацию юридических "
+"документов."
 
 #: admin/install/docker.rst:944
 msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Настраивает :setting:`LEGAL_HIDDEN_DOCUMENTS` в развёртываниях Docker с "
+"включённым :envvar:`WEBLATE_LEGAL_INTEGRATION`."
 
 #: admin/install/docker.rst:947
-#, fuzzy
-#| msgid "Expects a comma-separated list of trusted project slugs."
 msgid "Provide a comma-separated list of legal document page identifiers."
-msgstr "Ожидает список доверенных плашек проектов, разделённых запятыми."
+msgstr ""
+"Укажите разделённый запятыми список идентификаторов страниц юридических "
+"документов."
 
 #: admin/install/docker.rst:958
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -13625,14 +13656,19 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"Конфигурация безопасности SAML в виде JSON-объекта, передаваемая в "
+"``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. Например, чтобы отключить "
+"``requestedAuthnContext`` (требуется для некоторых поставщиков "
+"удостоверений, таких как Microsoft Entra ID с многофакторной аутентификацией)"
+":"
 
 #: admin/install/docker.rst:1783
-#, fuzzy
-#| msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
 msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
 "saml#settings>`_"
-msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
+msgstr ""
+"`настройки безопасности python3-saml <https://github.com/SAML-Toolkits/"
+"python3-saml#settings>`_"
 
 #: admin/install/docker.rst:1794
 msgid "SAML attributes mapping."
@@ -17613,10 +17649,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Краткий обзор условий обслуживания и политики конфиденциальности"
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Save add-on state information."
 msgid "Subcontractor information"
-msgstr "Сохранить информацию о состоянии надстройки."
+msgstr "Информация о субподрядчиках"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -17627,6 +17661,12 @@ msgid ""
 "module is not enabled. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"Юридический модуль встраивает эти шаблоны в Weblate и использует "
+":file:`legal/documents/tos.html` для подтверждения условий обслуживания. Это "
+"отдельно от :setting:`LEGAL_URL` и :setting:`PRIVACY_URL`, которые "
+"предназначены для ссылок на внешние юридические документы из нижнего "
+"колонтитула, когда юридический модуль не включён. Когда юридический модуль "
+"включён, Weblate по умолчанию ссылается на внутренние юридические страницы."
 
 #: admin/optionals.rst:151
 msgid ""
@@ -17701,6 +17741,9 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Пересоздайте контейнер Docker после изменения переменных окружения, "
+"например, с помощью :program:`docker compose up -d`. Перезапуск "
+"существующего контейнера не применяет изменённые значения окружения."
 
 #: admin/optionals.rst:212
 msgid ""
@@ -17716,6 +17759,10 @@ msgid ""
 "translated only when you use Django translation tags such as ``{% translate "
 "%}`` or ``{% blocktranslate %}``; plain HTML text is shown as written."
 msgstr ""
+"Шаблоны юридических документов — это обычные шаблоны Django. Текст "
+"переводится только при использовании тегов перевода Django, таких как ``{% "
+"translate %}`` или ``{% blocktranslate %}``; обычный HTML-текст отображается "
+"как есть."
 
 #: admin/optionals.rst:218
 msgid ""
@@ -17723,6 +17770,9 @@ msgid ""
 "and ``privacy_url`` variables for linking to the terms of service and "
 "privacy policy documents."
 msgstr ""
+"Юридические страницы и обзор входа в систему и регистрации предоставляют "
+"переменные ``terms_url`` и ``privacy_url`` для ссылки на документы с "
+"условиями обслуживания и политикой конфиденциальности."
 
 #: admin/optionals.rst:222
 msgid ""
@@ -17733,6 +17783,12 @@ msgid ""
 "set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an empty string to disable this "
 "styling."
 msgstr ""
+"По умолчанию обёртки юридических документов используют CSS-класс ``tos``. "
+"Этот класс автоматически нумерует заголовки ``h2``, абзацы с классами "
+"``item``, ``subitem`` или ``subsubitem``, а также элементы нумерованных "
+"списков верхнего уровня. Если ваш юридический текст уже содержит нумерацию, "
+"установите :setting:`LEGAL_DOCUMENT_CSS_CLASS` в пустую строку, чтобы "
+"отключить этот стиль."
 
 #: admin/optionals.rst:228
 msgid ""
@@ -17742,6 +17798,13 @@ msgid ""
 "``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` "
 "or :setting:`PRIVACY_URL` when configured, otherwise the link is omitted."
 msgstr ""
+"Используйте :setting:`LEGAL_HIDDEN_DOCUMENTS`, чтобы скрыть необязательные "
+"юридические страницы, такие как информация о субподрядчиках, из юридического "
+"меню. Скрытые страницы возвращают ответ 404 при прямом запросе. Если "
+"``terms`` или ``privacy`` скрыты, ссылки, использующие ``terms_url`` или "
+"``privacy_url``, используют запасные варианты :setting:`LEGAL_URL` или "
+":setting:`PRIVACY_URL`, если они настроены, в противном случае ссылка "
+"опускается."
 
 #: admin/optionals.rst:234
 msgid ""
@@ -17751,6 +17814,11 @@ msgid ""
 "confirmation page then links to those external documents without requiring "
 "a :file:`legal/documents/tos.html` template override."
 msgstr ""
+"Чтобы использовать внешние юридические документы с подтверждением условий, "
+"настройте :setting:`LEGAL_HIDDEN_DOCUMENTS` для скрытия ``terms`` и "
+"``privacy`` и установите :setting:`LEGAL_URL` и :setting:`PRIVACY_URL`. "
+"Затем страница подтверждения будет ссылаться на эти внешние документы без "
+"необходимости переопределения шаблона :file:`legal/documents/tos.html`."
 
 #: admin/optionals.rst:243
 msgid "Avatars"
@@ -18396,24 +18464,17 @@ msgid "Translation license"
 msgstr "Лицензия перевода"
 
 #: admin/projects.rst:174
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid "Default translation license for components in this project."
-msgstr "Создаёт компоненты перевода в указанном проекте."
+msgstr "Лицензия перевода по умолчанию для компонентов в этом проекте."
 
 #: admin/projects.rst:186
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for components in this project. "
 "Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Текст, описывающий процесс локализации в проекте, и любая другая информация, "
-"полезная для переводчиков. Для форматирования текста или вставки ссылок "
-"можно использовать Markdown."
+"Лицензионное соглашение участника по умолчанию для компонентов в этом "
+"проекте. Для форматирования текста или вставки ссылок можно использовать "
+"Markdown."
 
 #: admin/projects.rst:197
 msgid "Use shared translation memory"
@@ -18623,28 +18684,24 @@ msgid "Adding new translation"
 msgstr "Добавление нового перевода"
 
 #: admin/projects.rst:348
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid ""
 "Default behavior for requests to create new translations in components in "
 "this project."
-msgstr "Возвращает список компонентов перевода в указанном проекте."
+msgstr ""
+"Поведение по умолчанию для запросов на создание новых переводов в "
+"компонентах этого проекта."
 
 #: admin/projects.rst:359 admin/projects.rst:934 admin/workspaces.rst:102
 msgid "Language code style"
 msgstr "Стиль кода языка"
 
 #: admin/projects.rst:361
-#, fuzzy
-#| msgid ""
-#| "Customize language code used to generate the filename for translations "
-#| "created by Weblate."
 msgid ""
 "Default language code style for translations created by Weblate in "
 "components in this project."
 msgstr ""
-"Настройте код языка, используемый для генерации имени файла для переводов, "
-"созданных Weblate."
+"Стиль кода языка по умолчанию для переводов, создаваемых Weblate в "
+"компонентах этого проекта."
 
 #: admin/projects.rst:372 admin/projects.rst:1187 admin/workspaces.rst:115
 msgid "Secondary language"
@@ -18679,12 +18736,9 @@ msgstr ""
 "раздел :ref:`custom-checks`."
 
 #: admin/projects.rst:395 admin/projects.rst:824
-#, fuzzy
-#| msgid ""
-#| "Extended API with project, component and translation removal and creation."
 msgid "Workspace, project, component, and translation flags are merged."
 msgstr ""
-"API расширен методами удаления и создания проекта, компонента и перевода."
+"Флаги рабочего пространства, проекта, компонента и перевода объединяются."
 
 #: admin/projects.rst:409 admin/projects.rst:1026 admin/workspaces.rst:147
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -18697,18 +18751,18 @@ msgid ""
 "Default commit and merge request message templates for components in this "
 "project."
 msgstr ""
+"Шаблоны сообщений коммитов и запросов на слияние по умолчанию для "
+"компонентов в этом проекте."
 
 #: admin/projects.rst:414
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed "
-#| "by :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 msgid ""
 "The default values can be changed "
 "by :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"Значение по умолчанию можно изменить с "
-"помощью :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
+"Значения по умолчанию можно изменить с помощью "
+":setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, "
+":setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, "
+":setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 
 #: admin/projects.rst:419 admin/projects.rst:1035
 msgid ""
@@ -18717,6 +18771,12 @@ msgid ""
 "editor to restore the current installation default for that message; for "
 "inherited values, this also disables inheritance for that message."
 msgstr ""
+"Встроенные значения по умолчанию следуют соглашению Conventional Commits и "
+"включают ссылки на Weblate там, где это возможно. Используйте "
+":guilabel:`Восстановить общесайтовое значение по умолчанию` рядом с "
+"редактором сообщений, чтобы восстановить текущее значение по умолчанию для "
+"установки для этого сообщения; для наследуемых значений это также отключает "
+"наследование для этого сообщения."
 
 #: admin/projects.rst:433 devel/sphinx.rst:30
 msgid "Component configuration"
@@ -19981,10 +20041,8 @@ msgstr ""
 "через интерфейс Weblate."
 
 #: admin/projects.rst:1197
-#, fuzzy
-#| msgid "This setting is inherited from the project if left empty."
 msgid "This setting can be inherited from the project."
-msgstr "Если оставить этот параметр пустым, он будет унаследован из проекта."
+msgstr "Этот параметр может быть унаследован из проекта."
 
 #: admin/projects.rst:1208
 msgid "Priority"
@@ -20153,10 +20211,8 @@ msgstr ""
 "можете вкладывать их, чтобы получить более сложную структуру."
 
 #: admin/projects.rst:1308
-#, fuzzy
-#| msgid "Container settings"
 msgid "Category settings"
-msgstr "Параметры контейнера"
+msgstr "Настройки категории"
 
 #: admin/projects.rst:1310
 msgid ""
@@ -20164,6 +20220,9 @@ msgid ""
 "components, including translation license, contributor agreement, adding new "
 "translations, secondary language, translation flags, and commit messages."
 msgstr ""
+"Категории могут переопределять те же наследуемые настройки, что и проекты и "
+"компоненты, включая лицензию перевода, лицензионное соглашение участника, "
+"добавление новых переводов, второй язык, флаги перевода и сообщения коммитов."
 
 #: admin/projects.rst:1314
 msgid ""
@@ -20171,6 +20230,9 @@ msgid ""
 "categories inherit from the project. Components in a category inherit from "
 "that category by default."
 msgstr ""
+"Вложенные категории по умолчанию наследуют от своей родительской категории. "
+"Категории верхнего уровня наследуют от проекта. Компоненты в категории по "
+"умолчанию наследуют от этой категории."
 
 #: admin/projects.rst:1327
 msgid "Template markup"
@@ -21517,37 +21579,34 @@ msgid ""
 "Workspace settings define workspace identity and defaults inherited by "
 "projects and components."
 msgstr ""
+"Настройки рабочего пространства определяют идентификацию рабочего "
+"пространства и значения по умолчанию, наследуемые проектами и компонентами."
 
 #: admin/workspaces.rst:57
 msgid "Workspace name"
 msgstr "Название рабочего пространства"
 
 #: admin/workspaces.rst:59
-#, fuzzy
-#| msgid "Verbose project name, used to display the project name."
 msgid ""
 "Verbose workspace name used in workspace listings and project organization."
-msgstr "Более подробное наименование проекта для отображения."
+msgstr ""
+"Полное название рабочего пространства, используемое в списках рабочих "
+"пространств и организации проектов."
 
 #: admin/workspaces.rst:66
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid ""
 "Default translation license for projects and components in this workspace."
-msgstr "Добавление проектов и компонентов перевода"
+msgstr ""
+"Лицензия перевода по умолчанию для проектов и компонентов в этом рабочем "
+"пространстве."
 
 #: admin/workspaces.rst:78
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for projects and components in this "
 "workspace. Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Текст, описывающий процесс локализации в проекте, и любая другая информация, "
-"полезная для переводчиков. Для форматирования текста или вставки ссылок "
+"Лицензионное соглашение участника по умолчанию для проектов и компонентов в "
+"этом рабочем пространстве. Для форматирования текста или вставки ссылок "
 "можно использовать Markdown."
 
 #: admin/workspaces.rst:91
@@ -21555,37 +21614,32 @@ msgid ""
 "Default behavior for requests to create new translations in projects and "
 "components in this workspace."
 msgstr ""
+"Поведение по умолчанию для запросов на создание новых переводов в проектах и "
+"компонентах этого рабочего пространства."
 
 #: admin/workspaces.rst:104
-#, fuzzy
-#| msgid ""
-#| "Customize language code used to generate the filename for translations "
-#| "created by Weblate, see :ref:`new-translations` for more details."
 msgid ""
 "Default language code style for translations created by Weblate in projects "
 "and components in this workspace."
 msgstr ""
-"Настраивает код языка, используемый для генерации имени файла для переводов, "
-"созданных Weblate, за более подробной информацией обратитесь к "
-"разделу :ref:`new-translations`."
+"Стиль кода языка по умолчанию для переводов, создаваемых Weblate в проектах "
+"и компонентах этого рабочего пространства."
 
 #: admin/workspaces.rst:117
-#, fuzzy
-#| msgid ""
-#| "Additional language to show together with the source language while "
-#| "translating."
 msgid ""
 "Default secondary language to show together with the source language while "
 "translating projects and components in this workspace."
 msgstr ""
-"Дополнительный язык, который будет отображаться вместе с языком оригинала "
-"при переводе."
+"Второй язык по умолчанию, отображаемый вместе с исходным языком при переводе "
+"проектов и компонентов этого рабочего пространства."
 
 #: admin/workspaces.rst:131
 msgid ""
 "Workspace-level translation flags. These are merged with project, component, "
 "and translation flags instead of being inherited as a replacement."
 msgstr ""
+"Флаги перевода на уровне рабочего пространства. Они объединяются с флагами "
+"проекта, компонента и перевода вместо того, чтобы наследоваться как замена."
 
 #: admin/workspaces.rst:149
 msgid ""
@@ -21593,6 +21647,9 @@ msgid ""
 "components in this workspace. These templates use the same markup as "
 "component message settings."
 msgstr ""
+"Шаблоны сообщений коммитов и запросов на слияние по умолчанию для проектов и "
+"компонентов в этом рабочем пространстве. Эти шаблоны используют ту же "
+"разметку, что и настройки сообщений компонентов."
 
 #: admin/workspaces.rst:153
 msgid ""
@@ -21600,42 +21657,51 @@ msgid ""
 "where available. Use :guilabel:`Restore site default` next to a message "
 "editor to restore the current installation default for that message."
 msgstr ""
+"Встроенные значения по умолчанию следуют соглашению Conventional Commits и "
+"включают ссылки на Weblate там, где это возможно. Используйте "
+":guilabel:`Восстановить общесайтовое значение по умолчанию` рядом с "
+"редактором сообщений, чтобы восстановить текущее значение по умолчанию для "
+"установки для этого сообщения."
 
 #: admin/workspaces.rst:166
-#, fuzzy
-#| msgid "Starting newline"
 msgid "Settings inheritance"
-msgstr "Пустая строка в начале"
+msgstr "Наследование настроек"
 
 #: admin/workspaces.rst:168
 msgid ""
 "Settings inheritance lets common defaults be configured once and reused in "
 "lower scopes:"
 msgstr ""
+"Наследование настроек позволяет настроить общие значения по умолчанию один "
+"раз и повторно использовать их в нижестоящих областях:"
 
 #: admin/workspaces.rst:171
-#, fuzzy
-#| msgid "Can add projects to the workspace."
 msgid "Workspaces define defaults for projects in the workspace."
-msgstr "Могут добавлять проекты в рабочее пространство."
+msgstr ""
+"Рабочие пространства определяют значения по умолчанию для проектов в рабочем "
+"пространстве."
 
 #: admin/workspaces.rst:172
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid "Projects define defaults for categories and components in the project."
-msgstr "Возвращает список компонентов перевода в указанном проекте."
+msgstr ""
+"Проекты определяют значения по умолчанию для категорий и компонентов в "
+"проекте."
 
 #: admin/workspaces.rst:173
 msgid ""
 "Categories define defaults for nested categories and components in the "
 "category."
 msgstr ""
+"Категории определяют значения по умолчанию для вложенных категорий и "
+"компонентов в категории."
 
 #: admin/workspaces.rst:175
 msgid ""
 "Components use the effective value from the nearest inherited scope unless "
 "inheritance is disabled for that setting."
 msgstr ""
+"Компоненты используют действующее значение из ближайшей наследуемой области, "
+"если для этого параметра не отключено наследование."
 
 #: admin/workspaces.rst:178
 msgid ""
@@ -21643,6 +21709,9 @@ msgid ""
 "adding new translations, language code style, secondary language, and commit "
 "message templates."
 msgstr ""
+"Это доступно для лицензии перевода, лицензионного соглашения участника, "
+"добавления новых переводов, стиля кода языка, второго языка и шаблонов "
+"сообщений коммитов."
 
 #: admin/workspaces.rst:182
 msgid ""
@@ -21652,6 +21721,12 @@ msgid ""
 "inherited value is shown in the settings form; disable inheritance and save "
 "to edit the stored override value."
 msgstr ""
+"Настройки проекта, категории и компонента отображают флажки "
+":guilabel:`Наследовать из рабочего пространства`, :guilabel:`Наследовать из "
+"проекта` или :guilabel:`Наследовать из категории` для этих значений. Когда "
+"наследование включено, наследуемое значение отображается в форме настроек; "
+"отключите наследование и сохраните, чтобы изменить сохранённое "
+"переопределённое значение."
 
 #: admin/workspaces.rst:188
 msgid ""
@@ -21659,6 +21734,9 @@ msgid ""
 "component, and translation flags are merged, so each level can add flags "
 "without replacing the lower levels."
 msgstr ""
+"Флаги перевода обрабатываются иначе. Флаги рабочего пространства, проекта, "
+"категории, компонента и перевода объединяются, поэтому каждый уровень может "
+"добавлять флаги без замены нижестоящих уровней."
 
 #: admin/workspaces.rst:192
 msgid ""
@@ -21666,12 +21744,19 @@ msgid ""
 "installation defaults. Later changes to installation defaults do not update "
 "existing workspaces."
 msgstr ""
+"При создании рабочего пространства эти значения по умолчанию копируются из "
+"текущих значений по умолчанию установки. Последующие изменения значений по "
+"умолчанию установки не обновляют существующие рабочие пространства."
 
 #: admin/workspaces.rst:196
 msgid ""
 "Workspace-less projects also store their own defaults when created and do "
 "not inherit from a workspace unless moved into one and configured to inherit."
 msgstr ""
+"Проекты без рабочего пространства также сохраняют свои собственные значения "
+"по умолчанию при создании и не наследуют из рабочего пространства, если "
+"только они не были перемещены в рабочее пространство и настроены на "
+"наследование."
 
 #: admin/workspaces.rst:199
 msgid ""
@@ -21683,6 +21768,14 @@ msgid ""
 "overrides can be consolidated to the category. Differing values remain "
 "configured directly on the lower scope."
 msgstr ""
+"При обновлении существующих установок Weblate консолидирует соответствующие "
+"настройки: если все компоненты в проекте используют одно и то же значение, "
+"значение перемещается в проект, и эти компоненты наследуют его. Та же "
+"консолидация затем применяется от проектов к рабочим пространствам. "
+"Настройки категории инициализируются для наследования от родительской "
+"категории, и соответствующие явные переопределения дочерних элементов могут "
+"быть консолидированы в категорию. Различающиеся значения остаются "
+"настроенными непосредственно на нижестоящем уровне."
 
 #: admin/workspaces.rst:217
 msgid ""
@@ -22122,10 +22215,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.7"
-msgstr "Weblate 2026.6"
+msgstr "Weblate 2026.7"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -22165,6 +22256,8 @@ msgid ""
 "Management interface access control is now more fine-grained with dedicated "
 "site-wide permissions."
 msgstr ""
+"Управление доступом к интерфейсу управления теперь более детализировано "
+"благодаря выделенным общесайтовым разрешениям."
 
 #: changes.rst:11
 msgid ""
@@ -22172,12 +22265,17 @@ msgid ""
 "Commits, and settings forms can restore installation defaults for individual "
 "message templates."
 msgstr ""
+"Шаблоны сообщений коммитов и запросов на слияние по умолчанию теперь "
+"используют соглашение Conventional Commits, а формы настроек могут "
+"восстанавливать значения по умолчанию для отдельных шаблонов сообщений."
 
 #: changes.rst:12
 msgid ""
 "Documented :ref:`legal` customizations and added options to hide legal pages "
 "or disable document numbering."
 msgstr ""
+"Документированы настройки :ref:`legal` и добавлены опции для скрытия "
+"юридических страниц или отключения нумерации документов."
 
 #: changes.rst:15 changes.rst:36 changes.rst:73 changes.rst:136
 #: changes/v5.rst:36 changes/v5.rst:144 changes/v5.rst:213 changes/v5.rst:248
@@ -22207,6 +22305,8 @@ msgid ""
 "Webhook target fallback matching is now stricter and reported in component "
 "diagnostics."
 msgstr ""
+"Сопоставление запасных вариантов целевых веб-обработчиков теперь более "
+"строгое и отображается в диагностике компонентов."
 
 #: changes.rst:19 changes.rst:152 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -22295,49 +22395,36 @@ msgid "Contributors"
 msgstr "Участники"
 
 #: changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "66?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/166?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/66?"
-"closed=1>`__."
+"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/"
+"166?closed=1>`__."
 
 #: changes.rst:31
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.6.1"
-msgstr "Weblate 2026.6"
+msgstr "Weblate 2026.6.1"
 
 #: changes.rst:33 changes.rst:52
-#, fuzzy
-#| msgid "*Released on June 1st 2018.*"
 msgid "*Released on June 1st 2026.*"
-msgstr "*Выпущено 1 июня 2018 года.*"
+msgstr "*Выпущено 1 июня 2026 года.*"
 
 #: changes.rst:37
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Language-wide :doc:`/admin/announcements` no longer break language overview "
 "pages."
 msgstr ""
-":doc:`/admin/announcements` можно опубликовать в project/language scope."
+":doc:`/admin/announcements` для всего языка больше не нарушают страницы "
+"обзора языка."
 
 #: changes.rst:47
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "69?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/169?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/69?"
-"closed=1>`__."
+"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/"
+"169?closed=1>`__."
 
 #: changes.rst:50
 msgid "Weblate 2026.6"
@@ -22365,24 +22452,16 @@ msgstr ""
 "Добавлены :ref:`оценки стоимости <cost-estimate>` в отчёты по переводам."
 
 #: changes.rst:59
-#, fuzzy
-#| msgid ""
-#| "Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` "
-#| "support for handled server errors."
 msgid ""
 "Added optional :ref:`OpenTelemetry tracing <collecting-errors>` for backend "
 "requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-"
 "errors>` for handled server errors."
 msgstr ""
-"Добавлена опциональная поддержка :ref:`Google Cloud Error Reporting "
+"Добавлена опциональная поддержка :ref:`трассировки OpenTelemetry <collecting-"
+"errors>` для серверных запросов и задач и :ref:`Google Cloud Error Reporting "
 "<collecting-errors>` для обработанных серверных ошибок."
 
 #: changes.rst:60
-#, fuzzy
-#| msgid ""
-#| "Added :doc:`/admin/workspaces` to group related projects, with workspace "
-#| "project listings, workspace-scoped teams and project creation "
-#| "permissions, and billing details when available."
 msgid ""
 "Added :doc:`/admin/workspaces` to group related projects, with workspace "
 "project listings, workspace-scoped teams and project creation permissions, "
@@ -22391,21 +22470,21 @@ msgid ""
 msgstr ""
 "Добавлены :doc:`/admin/workspaces` для группировки связанных проектов, со "
 "списками проектов рабочего пространства, командами с областью действия "
-"рабочего пространства и разрешениями на создание проектов, а также деталями "
-"тарификации, когда они доступны."
+"рабочего пространства и разрешениями на создание проектов, наследуемыми "
+"значениями по умолчанию рабочего пространства, проекта и категории для "
+"выбранных настроек компонентов, а также деталями тарификации, когда они "
+"доступны."
 
 #: changes.rst:64
-#, fuzzy
-#| msgid ""
-#| "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
-#| "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgid ""
 "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
 "to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` "
 "using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"Контейнеры Docker теперь могут настраивать :setting:`WEBLATE_FORMATS`. "
-"Используйте :envvar:`WEBLATE_ADD_FORMATS` и :envvar:`WEBLATE_REMOVE_FORMATS`."
+"Контейнеры Docker теперь могут настраивать "
+":envvar:`WEBLATE_SAML_SECURITY_CONFIG` для изменения параметров безопасности "
+"SAML и настраивать :setting:`WEBLATE_FORMATS` с помощью "
+":envvar:`WEBLATE_ADD_FORMATS` и :envvar:`WEBLATE_REMOVE_FORMATS`."
 
 #: changes.rst:65
 msgid ""
@@ -22425,19 +22504,17 @@ msgstr ""
 "всех изменений."
 
 #: changes.rst:67
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/continuous` now explains why squash merging Weblate conflict-"
-#| "resolution pull requests can require a repository reset."
 msgid ""
 ":doc:`/admin/code-hosting` now documents HTTPS access-token URLs and "
 "dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/"
 "continuous` now explains why squash merging Weblate conflict-resolution pull "
 "requests can require a repository reset."
 msgstr ""
-":doc:`/admin/continuous` теперь объясняет, почему склеивающее слияние "
-"запросов на извлечение, разрешающих конфликты Weblate, может потребовать "
-"сброса репозитория."
+":doc:`/admin/code-hosting` теперь документирует URL-адреса доступа HTTPS с "
+"токенами и SSH-URL-адреса с выделенным пользователем для доступа к "
+"репозиториям, а :doc:`/admin/continuous` теперь объясняет, почему "
+"склеивающее слияние запросов на извлечение, разрешающих конфликты Weblate, "
+"может потребовать сброса репозитория."
 
 #: changes.rst:68
 msgid ""
@@ -22467,23 +22544,20 @@ msgstr ""
 "CISA 2025."
 
 #: changes.rst:74
-#, fuzzy
-#| msgid "Outbound URL validation now rejects additional non-public targets."
 msgid ""
 "Outbound URL validation now rejects additional non-public targets "
 "(:ghsa:`vmfc-9982-2m45`)."
 msgstr ""
 "Проверка исходящих URL-адресов теперь отклоняет дополнительные непубличные "
-"цели."
+"цели (:ghsa:`vmfc-9982-2m45`)."
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Project-language :doc:`/admin/announcements` no longer appear across the "
 "whole project."
 msgstr ""
-":doc:`/admin/announcements` можно опубликовать в project/language scope."
+":doc:`/admin/announcements` для языка проекта больше не отображаются по "
+"всему проекту."
 
 #: changes.rst:76
 msgid ""
@@ -22581,6 +22655,8 @@ msgid ""
 "Translation pages for workspace projects no longer crash when workspace "
 "fields are deferred."
 msgstr ""
+"Страницы перевода для проектов рабочего пространства больше не падают, когда "
+"поля рабочего пространства отложены."
 
 #: changes.rst:93
 msgid ""
@@ -22591,14 +22667,10 @@ msgstr ""
 "``weblate.workspaces``."
 
 #: changes.rst:94
-#, fuzzy
-#| msgid ""
-#| "The database migration make take hours on larger instances due to "
-#| "recreating some of the indexes."
 msgid "The database migrations might take longer on larger instances."
 msgstr ""
-"Миграция базы данных на более крупных экземплярах занимает несколько часов "
-"из-за воссоздания некоторых индексов."
+"Миграции базы данных на более крупных экземплярах могут занять больше "
+"времени."
 
 #: changes.rst:100
 msgid ""
@@ -23103,6 +23175,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
 "Kunc, felixfon"
 msgstr ""
+"Михал Чигарж, Карен Кону, Weblate CI, Башир Радман, michael-smt, Кристиан "
+"Кунц, felixfon"
 
 #: changes/contributors/2026.6.rst:10
 msgid ""
@@ -23116,12 +23190,19 @@ msgid ""
 "libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
 "Public, Andi Chandler, Burak SDN, ojppe"
 msgstr ""
+"Михал Чигарж, VfBFan, 大王叫我来巡山, Emin Tufan Çetin, Basheer Radman, 為什"
+"麼不加空格, Peter Vančo, Christian Wia, Любомир Василев, Matthaiks, Andrei "
+"Stepanov, Libre, Besnik Bleta, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Balázs Meskó, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, Dick Groskamp, Arif Budiman, Mickaël "
+"Binos, Ryo Nakano, hoanghuy309, Pierfrancesco Passerini, Alefsander Ribeiro "
+"Nascimento, Massimo Pissarello, justcontributor, 이정희, Cabdi Waaxid "
+"Siciid, Yaron Shahrabani, User2068, Kyotaro Iijima, pan93412, jernejp21, "
+"libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
+"Public, Andi Chandler, Burak SDN, ojppe"
 
 #: changes/contributors/2026.6.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
-msgstr "Михал Чигарж, Gersona, Карен Коноу, michael-smt"
+msgstr "Михал Чигарж, VfBFan, Башир Радман, Weblate CI, michael-smt, felixfon"
 
 #: changes/contributors/2026.6.1.rst:5 changes/contributors/2026.6.1.rst:10
 #: changes/contributors/5.10.4.rst:5 changes/contributors/5.10.4.rst:15
@@ -64036,10 +64117,8 @@ msgid "Use management interface"
 msgstr "Использование интерфейса управления"
 
 #: snippets/permissions.rst:337
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Настройка Weblate"
+msgstr "Управление общесайтовой конфигурацией"
 
 #: snippets/permissions.rst:339
 msgid "Add new projects"
