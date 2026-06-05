@@ -184,12 +184,6 @@ def matomo(request: AuthenticatedHttpRequest):
 def flag_choices(request: AuthenticatedHttpRequest):
     """
     Return the catalog of known translation flags as JSON.
-
-    The active language is taken from the ``lang`` query parameter so the
-    browser cache key naturally varies per language. Without this, browser
-    and proxy caches keyed only on the URL would serve a stale response in
-    the wrong language (Weblate's UI language comes from the user profile,
-    not from ``Accept-Language``, so varying on that header is insufficient).
     """
     requested = request.GET.get("lang")
     valid_languages = {code for code, _ in settings.LANGUAGES}
