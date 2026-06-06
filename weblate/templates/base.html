@@ -217,9 +217,13 @@
                                  href="{% url 'checks' path=projectlanguage.get_url_path %}">{% blocktranslate %}Failing checks in {{ project }} — {{ language }}{% endblocktranslate %}</a>
                             </li>
                           {% endfor %}
-                          {% if languages|length > 1 %}<li role="separator" class="divider"></li>{% endif %}
+                          {% if languages|length > 1 %}
+                            <li role="separator" class="divider"></li>
+                          {% endif %}
                         {% endfor %}
-                        {% if languages|length == 1 %}<li role="separator" class="divider"></li>{% endif %}
+                        {% if languages|length == 1 %}
+                          <li role="separator" class="divider"></li>
+                        {% endif %}
                       {% endif %}
                       {% for project in watched_projects %}
                         <li>
