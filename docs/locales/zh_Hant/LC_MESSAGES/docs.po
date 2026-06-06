@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-05 07:59+0000\n"
+"PO-Revision-Date: 2026-06-07 14:01+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -15135,6 +15135,9 @@ msgid ""
 "(see :ref:`custom-module` or :ref:`docker-python-override`) and add fully "
 "qualified class name to :setting:`WEBLATE_MACHINERY`."
 msgstr ""
+"您也可以使用幾行 Python 程式碼來實作自己的機器翻譯服務。將程式碼放在 Weblate "
+"可以匯入的模組中 （請參閱 :ref:`custom-module` 或 :ref:`docker-python-"
+"override`） 並新增完整限定類別名稱至 :setting:`WEBLATE_MACHINERY`。"
 
 #: admin/management.rst:4 security/threat-model.rst:99
 #: security/threat-model.rst:400
@@ -15167,6 +15170,7 @@ msgid "Invoking management commands"
 msgstr "呼叫管理指令"
 
 #: admin/management.rst:20
+#, fuzzy
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr "如上面所提到的，以用依賴於您如何安裝 Weblate。"
 
@@ -15235,7 +15239,7 @@ msgstr "新增了翻譯模式參數。"
 
 #: admin/management.rst:108
 msgid "Performs automatic translation based on other component translations."
-msgstr "根據其他組件翻譯進行自動翻譯。"
+msgstr "基於其他組件翻譯執行自動翻譯。"
 
 #: admin/management.rst:163
 msgid ""
@@ -15385,9 +15389,8 @@ msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
 msgstr "透過 :wladmin:`importuserdata` 將 userdata 傾印至檔案供以後使用。"
 
 #: admin/management.rst:402
-#, fuzzy
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr "這在遷移或合併 Weblate 事例是會很方便。"
+msgstr "這在遷移或合併 Weblate 實例時非常有用。"
 
 #: admin/management.rst:411
 #, fuzzy
@@ -15400,14 +15403,12 @@ msgstr ""
 "Celery 已先啟用在執行此指令前。"
 
 #: admin/management.rst:414
-#, fuzzy
 msgid "This can be useful when developing Weblate."
-msgstr "這在開發 Weblate 時會有用。"
+msgstr "這在開發 Weblate 時可能很有用。"
 
 #: admin/management.rst:431
-#, fuzzy
 msgid "Batch import of components based on JSON data."
-msgstr "根據 JSON 資料批量匯入組件。"
+msgstr "基於 JSON 資料批次匯入組件。"
 
 #: admin/management.rst:433
 #, fuzzy
@@ -15907,11 +15908,9 @@ msgid "Automatically imported past translations."
 msgstr "自動匯入了過去的翻譯。"
 
 #: admin/memory.rst:13
-#, fuzzy
-#| msgid "Content in the translation memory can be applied one of two ways:"
 msgid ""
 "Content in the translation memory can be applied to strings in several ways:"
-msgstr "翻譯記憶中的內容可以以兩種方式之一來應用："
+msgstr "翻譯記憶中的內容可以透過多種方式套用於字串："
 
 #: admin/memory.rst:15
 #, fuzzy
@@ -15971,18 +15970,13 @@ msgid "Imported translation memory"
 msgstr "已匯入的翻譯記憶"
 
 #: admin/memory.rst:34
-#, fuzzy
-#| msgid ""
-#| "Importing arbitrary translation memory data using "
-#| "the :djadmin:`import_memory` command makes memory content available to "
-#| "all users and projects."
 msgid ""
 "Importing arbitrary translation memory data using "
 "the :wladmin:`import_memory` command makes memory content available to all "
 "users and projects."
 msgstr ""
-"使用 :djadmin:`import_memory` 指令匯入任意翻譯記憶資料，使記憶的內容可用於所"
-"有的使用者和專案。"
+"使用 :wladmin:`import_memory` 指令匯入任意翻譯記憶資料會使記憶內容可用於所有"
+"使用者與專案。"
 
 #: admin/memory.rst:38
 msgid "Per-user translation memory"
@@ -16182,15 +16176,13 @@ msgid ""
 msgstr ""
 
 #: admin/memory.rst:157
-#, fuzzy
-#| msgid ""
-#| "Translation memory in JSON can be imported into Weblate, TMX is provided "
-#| "for interoperability with other tools."
 msgid ""
 "Translation memories in various formats can be imported into Weblate. The "
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, and CSV."
-msgstr "JSON的翻譯記憶可以匯入 Weblate，提供了 TMX 與其他工具進行互操作。"
+msgstr ""
+"Weblate 可以匯入各種格式的翻譯記憶。TMX 格式是為了與其他工具進行互通而提供的"
+"。所有支援格式為 TMX 、 JSON 、 XLIFF 、 PO 與 CSV。"
 
 #: admin/memory.rst:161
 msgid ""
@@ -16199,12 +16191,10 @@ msgid ""
 msgstr ""
 
 #: admin/memory.rst:170
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid ""
 "You can search translation memory while editing strings from "
 "the :ref:`machine-translation` tab."
-msgstr "使用機器翻譯的巨量翻譯記憶。"
+msgstr "您可以在搜尋翻譯記憶的同時編輯來自 :ref:`machine-translation` 分頁的字串。"
 
 #: admin/memory.rst:174
 msgid "Admin interface"
@@ -20665,14 +20655,13 @@ msgid ""
 msgstr ""
 
 #: api.rst:3410
+#, fuzzy
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`維基百科上的 RSS <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.7"
-msgstr "Weblate 2026.6"
+msgstr "Weblate 2026.7"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -20840,20 +20829,14 @@ msgid "Contributors"
 msgstr "貢獻者"
 
 #: changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "66?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/166?"
 "closed=1>`__."
 msgstr ""
-"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/66?"
-"closed=1>`__."
+"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/166?closed=1>"
+"`__."
 
 #: changes.rst:31
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.6.1"
 msgstr "Weblate 2026.6"
 
@@ -20870,16 +20853,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:47
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "69?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/169?"
 "closed=1>`__."
 msgstr ""
-"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/69?"
-"closed=1>`__."
+"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/169?closed=1>"
+"`__."
 
 #: changes.rst:50
 msgid "Weblate 2026.6"
@@ -20919,17 +20898,14 @@ msgid ""
 msgstr ""
 
 #: changes.rst:64
-#, fuzzy
-#| msgid ""
-#| "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
-#| "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgid ""
 "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
 "to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` "
 "using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"Docker 容器現在可以調整 :setting:`WEBLATE_FORMATS`。請使"
-"用 :envvar:`WEBLATE_ADD_FORMATS` 與 :envvar:`WEBLATE_REMOVE_FORMATS`。"
+"Docker 容器現在可以配置 :envvar:`WEBLATE_SAML_SECURITY_CONFIG` 以自訂 SAML 安"
+"全設定，並透過 :envvar:`WEBLATE_ADD_FORMATS` 與 "
+":envvar:`WEBLATE_REMOVE_FORMATS` 來調整 :setting:`WEBLATE_FORMATS`。"
 
 #: changes.rst:65
 msgid ""
@@ -20968,7 +20944,7 @@ msgstr ""
 #: changes.rst:70
 msgid ""
 ":ref:`sbom` release artifacts now include CISA 2025 document-level metadata."
-msgstr ""
+msgstr ":ref:`sbom` 發行成品現在包含 CISA 2025 文件級別詮釋資料。"
 
 #: changes.rst:74
 #, fuzzy
@@ -20988,7 +20964,7 @@ msgstr ""
 msgid ""
 "Hardened :http:post:`/api/screenshots/` access checks against private "
 "project enumeration."
-msgstr ""
+msgstr "加固了 :http:post:`/api/screenshots/` 存取檢查以對抗私人專案列舉。"
 
 #: changes.rst:77
 msgid ""
@@ -21238,6 +21214,9 @@ msgid ""
 "against XSS, and stopped exposing database error details in upload failures "
 "(:cve:`2026-45106` / :ghsa:`6wxc-8mgq-w26m`)."
 msgstr ""
+"加固了搜尋預覽與 :ref:`machine-translation` 建議源頭以對抗 XSS 攻擊，並停止了"
+"在上傳失敗中曝露資料庫錯誤詳細資訊 （:cve:`2026-45106` / :ghsa:`6wxc-8mgq-"
+"w26m`）。"
 
 #: changes.rst:138
 msgid ""
@@ -31526,6 +31505,8 @@ msgid ""
 "Hardened project-level :ref:`machine-translation` against SSRF "
 "(:cve:`2026-34244` / :ghsa:`xrwr-fcw6-fmq8`)."
 msgstr ""
+"加固了專案級別 :ref:`machine-translation` 以對抗 SSRF 攻擊 （:cve:`2026-"
+"34244` / :ghsa:`xrwr-fcw6-fmq8`）。"
 
 #: changes/v5.rst:136
 msgid ""
@@ -31544,6 +31525,8 @@ msgid ""
 "Hardened :ref:`addon-weblate.webhook.webhook` "
 "(:cve:`2026-39845` / :ghsa:`f8hv-g549-hwg2`)."
 msgstr ""
+"加固了 :ref:`addon-weblate.webhook.webhook` （:cve:`2026-39845` / "
+":ghsa:`f8hv-g549-hwg2`）。"
 
 #: changes/v5.rst:139
 msgid ""
@@ -31588,7 +31571,7 @@ msgstr ""
 msgid ""
 "Hardened Git branch handling to reject invalid branch names before "
 "repository operations."
-msgstr ""
+msgstr "加固了 Git 分支處理以在儲存庫操作之前拒絕無效分支名稱。"
 
 #: changes/v5.rst:149
 msgid ""
