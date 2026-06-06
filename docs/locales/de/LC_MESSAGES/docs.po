@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-06 04:22+0000\n"
+"PO-Revision-Date: 2026-06-07 14:01+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -3925,9 +3925,9 @@ msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
-"Im Allgemeinen heißt die Regel ``ignore-*`` für jede Qualitätsprüfung, wobei "
-"ihr Bezeichner verwendet wird, sodass Sie dies auch für Ihre "
-"benutzerdefinierten Qualitätsprüfungen verwenden können."
+"Im Allgemeinen lautet die Regel ``ignore-*`` für jede Qualitätsprüfung unter "
+"Verwendung ihrer Kennung, sodass Sie dies auch für Ihre benutzerdefinierten "
+"Qualitätsprüfungen verwenden können."
 
 #: admin/checks.rst:87
 msgid ""
@@ -4105,7 +4105,7 @@ msgstr ""
 #: admin/checks.rst:176
 msgid "Defines font group to use by specifying its identifier."
 msgstr ""
-"Definiert die zu verwendende Schriftartgruppe durch Angabe ihres Bezeichners."
+"Definiert die zu verwendende Schriftartgruppe durch Angabe ihrer Kennung."
 
 #: admin/checks.rst:178
 msgid "Defines font size in pixels."
@@ -6739,6 +6739,8 @@ msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"Die ``index``-Seite ist immer sichtbar. Unterstützte Dokumentenkennungen "
+"sind ``terms``, ``cookies``, ``privacy``, und ``contracts``."
 
 #: admin/config.rst:1360
 msgid ""
@@ -6746,6 +6748,10 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"Versteckte Seiten werden aus dem Menü „Rechtliche Grundlagen“ entfernt und "
+"geben bei direkter Aufrufe eine 404-Fehlermeldung zurück. Es wird nicht "
+"empfohlen, die Seiten ``terms`` oder ``privacy`` zu verbergen, wenn die "
+"Bestätigung der Nutzungsbedingungen aktiviert ist."
 
 #: admin/config.rst:1364
 msgid ""
@@ -6754,6 +6760,11 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"Wenn ``terms`` oder ``privacy`` ausgeblendet ist, verwenden Links, die über "
+"die Vorlagenvariablen ``terms_url`` und ``privacy_url`` angezeigt werden, "
+"bei entsprechender Konfiguration :setting:`LEGAL_URL` und "
+":setting:`PRIVACY_URL` als Fallbacks. Ist keine Ersatz-URL konfiguriert, "
+"wird der zugehörige Link weggelassen."
 
 #: admin/config.rst:1369
 msgid ""
@@ -33270,9 +33281,9 @@ msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 msgstr ""
-"Der Projektsicherungsimport überprüft jetzt die URLs der Komponenten-"
-"Repositorys vor dem Wiederherstellen einer Sicherung "
-"(:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
+"Der Projektsicherungsimport überprüft jetzt die Komponenten-Repository-URLs "
+"vor dem Wiederherstellen einer Sicherung (:cve:`2026-41654` / :ghsa:`cwcx-"
+"382v-8m9g`)."
 
 #: changes/v5.rst:40
 msgid ""
@@ -49513,7 +49524,8 @@ msgstr ""
 "analysiert, das obige Beispiel zeigt all das, obwohl nur die Schriftfamilie "
 "erforderlich ist. Jedes Leerzeichen in der Schriftfamilie wird in einen "
 "Unterstrich umgewandelt, so wird ``Source Sans Pro`` zu ``Source_Sans_Pro``, "
-"bitte beachten Sie dies beim Benennen der Schriftgruppe (siehe :ref:`fonts`)."
+"bitte beachten Sie dies beim Benennen der Schriftartgruppe (siehe "
+":ref:`fonts`)."
 
 #: formats/xliff.rst:116
 msgid ""
@@ -63779,10 +63791,8 @@ msgid "Use management interface"
 msgstr "Verwaltungsoberfläche verwenden"
 
 #: snippets/permissions.rst:337
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Weblate-Konfiguration"
+msgstr "Plattformkonfiguration verwalten"
 
 #: snippets/permissions.rst:339
 msgid "Add new projects"
