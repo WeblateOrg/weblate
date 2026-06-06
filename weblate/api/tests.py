@@ -10163,6 +10163,69 @@ class ChangeAPITest(APIBaseTest):
         )
         self.assertIn("translation", response.data)
 
+    def test_change_api_message(self) -> None:
+        """Test that the API exposes the user-provided message on change records."""
+        self.authenticate(superuser=True)
+        unit = self.component.source_translation.unit_set.all()[0]
+
+        # Clean changes and create a change with message
+        Change.objects.all().delete()
+        Change.objects.create(
+            unit=unit,
+            action=ActionEvents.CHANGE,
+            user=self.user,
+            author=self.user,
+            target="A",
+            old="B",
+            message="REST API message check",
+        )
+
+        # GET changes list
+        response = self.client.get(reverse("api:change-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(
+            response.data["results"][0]["message"], "REST API message check"
+        )
+
+        # GET change detail
+        change_pk = Change.objects.first().pk
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change_pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["message"], "REST API message check")
+
+    def test_unit_patch_with_message(self) -> None:
+        """Test that translating a unit via PATCH request with a message stores it."""
+        self.authenticate(superuser=True)
+
+        # Fetch cs translation unit to avoid read-only checks
+        unit = Unit.objects.filter(
+            translation__language_code="cs",
+            translation__component=self.component,
+        ).first()
+        self.assertIsNotNone(unit)
+
+        # Force unit to empty state to allow translation edit
+        unit.state = STATE_EMPTY
+        unit.save()
+
+        # Send PATCH request to unit endpoint with a message
+        patch_data = {
+            "state": STATE_TRANSLATED,
+            "target": ["API slovak translation"],
+            "message": "Changed unit via REST API PATCH",
+        }
+        url = reverse("api:unit-detail", kwargs={"pk": unit.pk})
+        response = self.client.patch(url, patch_data, format="json")
+        self.assertEqual(response.status_code, 200)
+
+        # Check resulting Change record
+        latest_change = Change.objects.order_by("-timestamp").first()
+        self.assertIsNotNone(latest_change)
+        self.assertEqual(latest_change.message, "Changed unit via REST API PATCH")
+
 
 class MetricsAPITest(APIBaseTest):
     def test_metrics(self) -> None:

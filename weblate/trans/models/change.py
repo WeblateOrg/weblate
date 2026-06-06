@@ -29,6 +29,11 @@ from weblate.trans.actions import (
     ACTIONS_SHOW_CONTENT,
     ActionEvents,
 )
+from weblate.trans.change_messages import (
+    CHANGE_MESSAGE_LABEL,
+    CHANGE_MESSAGE_MAX_LENGTH,
+    normalize_change_message,
+)
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
@@ -607,6 +612,12 @@ class Change(models.Model, UserDisplayMixin):
     )
     target = models.TextField(default="", blank=True)
     old = models.TextField(default="", blank=True)
+    message = models.CharField(
+        max_length=CHANGE_MESSAGE_MAX_LENGTH,
+        default="",
+        blank=True,
+        verbose_name=CHANGE_MESSAGE_LABEL,
+    )
     details = models.JSONField(default=dict)
 
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
@@ -700,6 +711,10 @@ class Change(models.Model, UserDisplayMixin):
 
     def save(self, *args, **kwargs) -> None:
         self.fixup_references()
+
+        # Ensure stored messages are always normalized regardless of the code
+        # path that created the change (forms, API, add-ons, or internal calls).
+        self.message = normalize_change_message(self.message)
 
         super().save(*args, **kwargs)
 

@@ -5,6 +5,8 @@ Weblate 2026.7
 
 .. rubric:: New features
 
+* Translators can now attach optional explanatory messages (change reasons) when saving translation edits, bulk edits, or search and replace actions. These are surfaced in translation history, CSV exports, and the REST API.
+
 .. rubric:: Improvements
 
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.

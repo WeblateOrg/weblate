@@ -59,6 +59,7 @@ from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup
+from weblate.trans.change_messages import ChangeMessageField
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -556,6 +557,7 @@ class TranslationForm(UnitForm):
         max_length=1000,
         required=False,
     )
+    message = ChangeMessageField()
 
     def __init__(self, user: User, unit: Unit, *args, **kwargs) -> None:
         translation = unit.translation
@@ -624,6 +626,7 @@ class TranslationForm(UnitForm):
             Field("translationsum"),
             InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
+            Field("message"),
         )
         if user_can_review or not user_can_edit:
             self.fields["fuzzy"].widget = forms.HiddenInput()
@@ -3578,6 +3581,7 @@ class ReplaceForm(forms.Form):
         required=True,
         strip=False,
     )
+    message = ChangeMessageField()
 
     def __init__(self, obj: URLMixin, data: dict | None = None) -> None:
         path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
@@ -3589,6 +3593,7 @@ class ReplaceForm(forms.Form):
             Field("path"),
             Field("search"),
             Field("replacement"),
+            Field("message"),
             Div(template="snippets/replace-help.html"),
         )
 
@@ -3870,6 +3875,7 @@ class BulkEditForm(forms.Form):
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
+    message = ChangeMessageField()
 
     def __init__(
         self,
@@ -3935,6 +3941,7 @@ class BulkEditForm(forms.Form):
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
+        self.helper.layout.append(Field("message"))
 
 
 class ContributorAgreementForm(forms.Form):

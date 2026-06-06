@@ -123,6 +123,7 @@ def search_replace(request: AuthenticatedHttpRequest, path):
                     ],
                     unit.state,
                     change_action=ActionEvents.REPLACE,
+                    message=form.cleaned_data.get("message", ""),
                 )
                 updated += 1
 
@@ -252,6 +253,7 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
         remove_labels=form.cleaned_data["remove_labels"],
         project=context.get("project"),
         components=context["components"],
+        message=form.cleaned_data.get("message", ""),
     )
 
     import_message(

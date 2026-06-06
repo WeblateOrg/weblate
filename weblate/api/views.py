@@ -3260,7 +3260,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
         # Handle translate
         if do_translate:
-            unit.translate(user, new_target, new_state)
+            unit.translate(
+                user,
+                new_target,
+                new_state,
+                message=data.get("message", ""),
+            )
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation unit."""
@@ -3507,10 +3512,18 @@ class ChangeFilter(filters.FilterSet):
     timestamp = filters.IsoDateTimeFromToRangeFilter()
     action = filters.MultipleChoiceFilter(choices=ActionEvents.choices)
     user = filters.CharFilter(field_name="user__username")
+    message = filters.CharFilter(
+        field_name="message",
+        lookup_expr="icontains",
+        help_text=gettext_lazy(
+            "Return only changes whose user-provided message contains this text "
+            "(case-insensitive)."
+        ),
+    )
 
     class Meta:
         model = Change
-        fields = ("action", "user", "timestamp")
+        fields = ("action", "user", "timestamp", "message")
 
 
 class ChangesFilterBackend(filters.DjangoFilterBackend):

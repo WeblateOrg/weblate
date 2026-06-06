@@ -15,6 +15,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils import feedgenerator
+from django.utils.html import format_html
 from django.utils.translation import activate, get_language, gettext, pgettext
 from django.views.generic.list import ListView
 
@@ -249,7 +250,7 @@ class ChangesCSVView(ChangesView):
 
         # Add header
         writer.writerow(
-            ("timestamp", "action", "user", "url", "target", "edit_distance")
+            ("timestamp", "action", "user", "url", "target", "edit_distance", "message")
         )
 
         for change in object_list:
@@ -261,6 +262,7 @@ class ChangesCSVView(ChangesView):
                     get_site_url(change.get_absolute_url()),
                     change.target,
                     change.get_distance(),
+                    change.message,
                 )
             )
 
@@ -353,4 +355,19 @@ def show_change(request: AuthenticatedHttpRequest, pk: int):
         )
         content = notification.render_template(".html", context, digest=bool(others))
 
-    return HttpResponse(content_type="text/html; charset=utf-8", content=content)
+    # If the change carries a user-provided message, surface it prominently
+    # at the top of the detail view so reviewers cannot miss it.
+    message_html = ""
+    if change.message:
+        message_html = format_html(
+            '<div class="alert alert-info change-user-message" role="alert">'
+            '<span class="fw-semibold">{label}</span> {message}'
+            "</div>",
+            label=gettext("Note:"),
+            message=change.message,
+        )
+
+    return HttpResponse(
+        content_type="text/html; charset=utf-8",
+        content=str(message_html) + content,
+    )

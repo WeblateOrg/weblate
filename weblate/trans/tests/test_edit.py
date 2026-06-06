@@ -95,6 +95,39 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(self.already_translated + 1)
 
+    def test_edit_with_message(self) -> None:
+        """Test editing a single unit using web interface with a custom message."""
+        # 1. Test valid message
+        message_text = "Translation update explaining the reason behind edit."
+        response = self.edit_unit(self.source, self.target, message=message_text)
+        self.assert_redirects_offset(response, self.translate_url, 2)
+        unit = self.get_unit(source=self.source)
+        self.assertEqual(unit.target, self.target)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+        # Retrieve the change history and verify the last change message
+        latest_change = unit.change_set.order_by("-timestamp").first()
+        self.assertIsNotNone(latest_change)
+        self.assertEqual(latest_change.message, message_text)
+
+        # 2. Test form validation limits: too long message (> 500 characters)
+        too_long_message = "x" * 501
+        response = self.edit_unit(
+            self.source, self.second_target, message=too_long_message
+        )
+        # Should not redirect, but return 200 with form error
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Ensure this value has at most 500 characters")
+
+        # 3. Test empty message
+        response = self.edit_unit(self.source, self.second_target, message="")
+        self.assert_redirects_offset(response, self.translate_url, 2)
+        unit = self.get_unit(source=self.source)
+        self.assertEqual(unit.target, self.second_target)
+        latest_change = unit.change_set.order_by("-timestamp").first()
+        self.assertIsNotNone(latest_change)
+        self.assertEqual(latest_change.message, "")
+
     def test_plurals(self) -> None:
         """Test plural editing."""
         if not self.has_plurals:
