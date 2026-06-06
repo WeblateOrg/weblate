@@ -27,14 +27,15 @@
 # syl <syl@gresille.org>, 2026.
 # MrZwave <polkadragon76@gmail.com>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
+# "Gaël TISSERAND (Gtisseran)" <gaeltisserand68@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
-"PO-Revision-Date: 2026-06-06 04:22+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-07 14:01+0000\n"
+"Last-Translator: \"Gaël TISSERAND (Gtisseran)\" <gaeltisserand68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -603,6 +604,7 @@ msgstr ""
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
 msgstr ""
+"Compte créé en dehors du site weblate.org pour accéder aux services achetés."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
@@ -3980,6 +3982,7 @@ msgstr ""
 #: weblate/auth/models.py:322
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
+"Une équipe peut être associée soit à un projet, soit à un espace de travail."
 
 #: weblate/auth/models.py:375 weblate/auth/models.py:1715
 msgid "Limit languages"
@@ -4353,7 +4356,7 @@ msgstr "Désactivation des paiements récurrents programmés"
 
 #: weblate/billing/models.py:403
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "L'espace de travail de facturation ne peut pas être modifié."
 
 #: weblate/billing/models.py:414 weblate/billing/models.py:1185
 #: weblate/templates/accounts/user.html:191
@@ -4369,15 +4372,15 @@ msgstr "Facturation"
 
 #: weblate/billing/models.py:458
 msgid "Billing needs to be saved before assigning projects."
-msgstr ""
+msgstr "Il faut enregistrer la facturation avant d'attribuer les projets."
 
 #: weblate/billing/models.py:466
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "Le projet appartient déjà à un autre espace de travail."
 
 #: weblate/billing/models.py:469
 msgid "Project needs to be saved before assigning it to billing."
-msgstr ""
+msgstr "Il faut enregistrer le projet avant de l'affecter à la facturation."
 
 #: weblate/billing/models.py:530
 msgid "Changes in last month"
@@ -10406,7 +10409,7 @@ msgstr "%(used)s utilisé sur %(total)s"
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "Rétablir les paramètres par défaut du site"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -10716,6 +10719,9 @@ msgid ""
 "Estimates translation costs based on source words, repetitions, needs-"
 "editing strings, and translation memory matches."
 msgstr ""
+"Estime les coûts de traduction en fonction du nombre de mots de la source, "
+"des répétitions, des chaînes nécessitant une révision et des correspondances "
+"dans la mémoire de traduction."
 
 #: weblate/templates/check_list.html:36 weblate/trans/views/reports.py:313
 msgid "Total"
@@ -12367,6 +12373,8 @@ msgid ""
 "Weblate.org has created this Hosted Weblate sign-in account so you can "
 "access purchased Weblate services."
 msgstr ""
+"Weblate.org a créé ce compte de connexion Weblate hébergé afin que vous "
+"puissiez accéder aux services Weblate que vous avez achetés."
 
 #: weblate/templates/mail/reset.html:9
 #, fuzzy
@@ -15080,6 +15088,9 @@ msgid ""
 "The last webhook update for this component used fallback repository matching "
 "instead of an exact repository URL match."
 msgstr ""
+"La dernière mise à jour du webhook pour ce composant utilisait une "
+"correspondance de dépôt de secours au lieu d'une correspondance exacte de "
+"l'URL du dépôt."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:8
 msgid ""
@@ -15087,6 +15098,10 @@ msgid ""
 "repository URL sent by the webhook, or when Weblate does not yet understand "
 "the repository URL format in the webhook payload."
 msgstr ""
+"Cela peut se produire lorsque l'URL du référentiel de composants ne "
+"correspond pas à celle envoyée par le webhook, ou lorsque Weblate ne "
+"reconnaît pas encore le format de l'URL du référentiel dans la charge utile "
+"du webhook."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:12
 msgid ""
@@ -15094,6 +15109,10 @@ msgid ""
 "issue to Weblate with the webhook service name, configured component "
 "repository URL, branch, and repository URLs from the webhook payload."
 msgstr ""
+"Vérifiez d'abord l'URL du référentiel de composants. Si l'URL est correcte, "
+"signalez le problème à Weblate en indiquant le nom du service de webhook, "
+"l'URL du référentiel de composants configurée, la branche et les URL des "
+"référentiels figurant dans la charge utile du webhook."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:16
 #, python-format
@@ -15101,6 +15120,9 @@ msgid ""
 "Inexact webhook matching is currently scheduled for removal in Weblate "
 "2026.9, see <a href=\"%(issue_url)s\">issue #19855</a>."
 msgstr ""
+"La correspondance approximative des webhooks devrait être supprimée dans la "
+"version Weblate 2026.9 ; voir <a href=\"%(issue_url)s\">le ticket n° 19855</"
+"a>."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:24
 msgid "Service"
@@ -15120,7 +15142,7 @@ msgstr "Dépôt fusionné"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:42
 msgid "Branch"
-msgstr ""
+msgstr "Agence"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:52
 #, fuzzy
@@ -15206,12 +15228,16 @@ msgstr "Il n’y a aucune traduction dans ce composant."
 #: weblate/templates/trans/alert/nomaskmatches.html:6
 msgid "This is okay when the repository does not contain translations yet."
 msgstr ""
+"Cela ne pose pas de problème tant que le référentiel ne contient pas encore "
+"de traductions."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 msgid ""
 "The alert will disappear once translations are added in Weblate or committed "
 "to the repository."
 msgstr ""
+"L'alerte disparaîtra dès que les traductions auront été ajoutées dans "
+"Weblate ou validées dans le dépôt."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:12
 msgid ""
@@ -17198,6 +17224,8 @@ msgid ""
 "Automatic translation skipped some translations because selected source "
 "components use a different source language."
 msgstr ""
+"La traduction automatique a ignoré certaines traductions car les éléments "
+"source sélectionnés utilisent une langue source différente."
 
 #: weblate/trans/autotranslate.py:686
 #, fuzzy
@@ -17985,7 +18013,7 @@ msgstr "Composant introuvable !"
 
 #: weblate/trans/forms.py:1206
 msgid "Enter component ID or project/component slug."
-msgstr ""
+msgstr "Saisissez l'identifiant du composant ou le slug du projet/composant."
 
 #: weblate/trans/forms.py:1223
 msgid "Source component needs to have same source language as target one."
@@ -18131,7 +18159,7 @@ msgstr "Extraire le front matter"
 
 #: weblate/trans/forms.py:1740
 msgid "Fuzzy match rate"
-msgstr ""
+msgstr "Taux de correspondance approximative"
 
 #: weblate/trans/forms.py:1747
 msgid "Repetition rate"
@@ -18144,12 +18172,14 @@ msgstr "Vous n’avez pas le droit d’accéder à ce composant."
 #: weblate/trans/forms.py:1837
 #, python-format
 msgid "Inherit from %(scope)s"
-msgstr ""
+msgstr "Hériter de %(scope)s"
 
 #: weblate/trans/forms.py:1856
 msgid ""
 "Inherited value is shown. Disable inheritance to edit the stored override."
 msgstr ""
+"La valeur héritée s'affiche. Désactivez l'héritage pour modifier la "
+"redéfinition enregistrée."
 
 #: weblate/trans/forms.py:2034
 msgid "This submission has been identified as spam!"
@@ -18290,12 +18320,18 @@ msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects."
 msgstr ""
+"Saisissez l'UUID d'un espace de travail pour lequel vous disposez des droits "
+"nécessaires pour modifier les paramètres et ajouter des projets."
 
 #: weblate/trans/forms.py:3433
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects, or leave empty to move the project out of a workspace."
 msgstr ""
+"Saisissez l'UUID d'un espace de travail dans lequel vous disposez des "
+"autorisations nécessaires pour modifier les paramètres et ajouter des "
+"projets, ou laissez ce champ vide pour retirer le projet de cet espace de "
+"travail."
 
 #: weblate/trans/forms.py:3456
 #, fuzzy
@@ -18801,6 +18837,8 @@ msgstr "Style de code-langue"
 msgid ""
 "Use the language code style configured in the parent category or project."
 msgstr ""
+"Utilisez le style de code de langage défini dans la catégorie ou le projet "
+"parent."
 
 #: weblate/trans/models/category.py:185 weblate/trans/models/component.py:1063
 #: weblate/trans/models/project.py:343 weblate/workspaces/models.py:126
@@ -18866,6 +18904,8 @@ msgid ""
 "Use the commit message when translating configured in the parent category or "
 "project."
 msgstr ""
+"Utilisez le message de commit défini dans la catégorie ou le projet parent "
+"lors de la traduction."
 
 #: weblate/trans/models/category.py:219 weblate/trans/models/component.py:870
 #: weblate/trans/models/project.py:448 weblate/workspaces/models.py:155
@@ -18884,6 +18924,8 @@ msgid ""
 "Use the commit message when adding translation configured in the parent "
 "category or project."
 msgstr ""
+"Utilisez le message de commit défini dans la catégorie ou le projet parent "
+"lors de l'ajout d'une traduction."
 
 #: weblate/trans/models/category.py:235 weblate/trans/models/component.py:886
 #: weblate/trans/models/project.py:464 weblate/workspaces/models.py:164
@@ -18902,6 +18944,8 @@ msgid ""
 "Use the commit message when removing translation configured in the parent "
 "category or project."
 msgstr ""
+"Utilisez le message de commit lorsque vous supprimez une traduction "
+"configurée dans la catégorie ou le projet parent."
 
 #. Translators: The commit message, for when merging the translation
 #: weblate/trans/models/category.py:252 weblate/trans/models/component.py:903
@@ -18921,6 +18965,8 @@ msgid ""
 "Use the commit message when merging translation configured in the parent "
 "category or project."
 msgstr ""
+"Utilisez le message de validation défini dans la catégorie ou le projet "
+"parent lors de la fusion de la traduction."
 
 #: weblate/trans/models/category.py:268 weblate/trans/models/component.py:919
 #: weblate/trans/models/project.py:497 weblate/workspaces/models.py:183
@@ -18939,6 +18985,8 @@ msgid ""
 "Use the commit message when add-on makes a change configured in the parent "
 "category or project."
 msgstr ""
+"Utilisez le message de validation lorsque l'extension apporte une "
+"modification configurée dans la catégorie ou le projet parent."
 
 #: weblate/trans/models/category.py:284 weblate/trans/models/component.py:935
 #: weblate/trans/models/project.py:513 weblate/workspaces/models.py:192
@@ -18956,6 +19004,8 @@ msgstr "Message de demande de fusion"
 msgid ""
 "Use the merge request message configured in the parent category or project."
 msgstr ""
+"Utilisez le message de demande de fusion défini dans la catégorie ou le "
+"projet parent."
 
 #: weblate/trans/models/category.py:417
 msgid "Too deep nesting of categories!"
@@ -19297,6 +19347,7 @@ msgstr ""
 #: weblate/trans/models/component.py:829
 msgid "Use the language code style configured in the category or project."
 msgstr ""
+"Utilisez le style de code de langage défini dans la catégorie ou le projet."
 
 #: weblate/trans/models/component.py:833
 msgid "Manage strings"
@@ -19329,6 +19380,8 @@ msgid ""
 "Use the commit message when translating configured in the category or "
 "project."
 msgstr ""
+"Utilisez le message de commit défini dans la catégorie ou le projet lors de "
+"la traduction."
 
 #: weblate/trans/models/component.py:882
 #, fuzzy
@@ -19365,6 +19418,8 @@ msgstr "Message de commit lorsqu’une extension effectue une modification"
 #: weblate/trans/models/component.py:947
 msgid "Use the merge request message configured in the category or project."
 msgstr ""
+"Utilisez le message de demande de fusion défini dans la catégorie ou le "
+"projet."
 
 #: weblate/trans/models/component.py:951
 msgid "Push on commit"
@@ -19988,6 +20043,8 @@ msgstr "Directives de traduction"
 #: weblate/trans/models/project.py:260
 msgid "Workspace this project belongs to. Standalone projects do not need one."
 msgstr ""
+"Espace de travail auquel appartient ce projet. Les projets autonomes n'en "
+"ont pas besoin."
 
 #: weblate/trans/models/project.py:265
 msgid "Use shared translation memory"
@@ -20101,10 +20158,13 @@ msgstr "L'accord de licence du contributeur a été modifié"
 #: weblate/trans/models/project.py:403
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
+"Utilisez le paramètre d'ajout de nouvelles traductions configuré dans "
+"l'espace de travail."
 
 #: weblate/trans/models/project.py:421
 msgid "Use the language code style configured in the workspace."
 msgstr ""
+"Utilisez le style de code de langage configuré dans l'espace de travail."
 
 #: weblate/trans/models/project.py:428
 #, fuzzy
@@ -20151,6 +20211,7 @@ msgstr "Message de commit lorsqu’une extension effectue une modification"
 #: weblate/trans/models/project.py:525
 msgid "Use the merge request message configured in the workspace."
 msgstr ""
+"Utilisez le message de demande de fusion configuré dans l'espace de travail."
 
 #: weblate/trans/models/project.py:1245
 msgid ""
