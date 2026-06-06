@@ -21,8 +21,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
-"PO-Revision-Date: 2026-06-06 04:21+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-06 11:54+0000\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -3428,10 +3428,8 @@ msgstr "Użyj interfejsu zarządzania"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Konfiguracja Weblate"
+msgstr "Zarządzaj konfiguracją strony"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -6606,10 +6604,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "Musisz zaakceptować Warunki korzystania z usługi"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "Przeczytaj poniższą umowę licencyjną dla współtwórców:"
+msgstr "Przeczytaj poniższe dokumenty prawne:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -6628,8 +6624,6 @@ msgid "Privacy Policy"
 msgstr "Polityka prywatności"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "Przeczytaj następujący dokument Warunków korzystania z usługi:"
 
@@ -10235,7 +10229,7 @@ msgstr "Użyte %(used)s z %(total)s"
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "Przywróć domyślne strony"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -14859,6 +14853,9 @@ msgid ""
 "The last webhook update for this component used fallback repository matching "
 "instead of an exact repository URL match."
 msgstr ""
+"Ostatnia aktualizacja webhooka dla tego komponentu wykorzystała dopasowanie "
+"zapasowego repozytorium zamiast dokładnego dopasowania adresu URL "
+"repozytorium."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:8
 msgid ""
@@ -14866,6 +14863,9 @@ msgid ""
 "repository URL sent by the webhook, or when Weblate does not yet understand "
 "the repository URL format in the webhook payload."
 msgstr ""
+"Może się tak zdarzyć, gdy adres URL repozytorium komponentów nie jest zgodny "
+"z adresem URL repozytorium przesłanym przez webhook lub gdy Weblate nie "
+"rozumie jeszcze formatu adresu URL repozytorium w treści webhooka."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:12
 msgid ""
@@ -14873,6 +14873,10 @@ msgid ""
 "issue to Weblate with the webhook service name, configured component "
 "repository URL, branch, and repository URLs from the webhook payload."
 msgstr ""
+"Najpierw sprawdź adres URL repozytorium komponentów. Jeśli adres URL jest "
+"poprawny, zgłoś problem do Weblate, podając nazwę usługi webhook, "
+"skonfigurowany adres URL repozytorium komponentów, gałąź oraz adresy URL "
+"repozytorium z treści webhooka."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:16
 #, python-format
@@ -14880,32 +14884,28 @@ msgid ""
 "Inexact webhook matching is currently scheduled for removal in Weblate "
 "2026.9, see <a href=\"%(issue_url)s\">issue #19855</a>."
 msgstr ""
+"Niedokładne dopasowywanie webhooków ma zostać usunięte w Weblate 2026.9; "
+"zobacz <a href=\"%(issue_url)s\">zgłoszenie nr 19855</a>."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:24
 msgid "Service"
 msgstr "Usługa"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:30
-#, fuzzy
-#| msgid "repository URL"
 msgid "Repository URL"
 msgstr "URL repozytorium"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:36
-#, fuzzy
-#| msgid "Repository merged"
 msgid "Repository name"
-msgstr "Scalono repozytorium"
+msgstr "Nazwa repozytorium"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:42
 msgid "Branch"
-msgstr ""
+msgstr "Gałąź"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:52
-#, fuzzy
-#| msgid "Create component"
 msgid "Configure component"
-msgstr "Utwórz komponent"
+msgstr "Skonfiguruj komponent"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:58
 msgid "Report issue"
@@ -16868,10 +16868,8 @@ msgstr "Nieistniejące pliki."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:37
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository hook matched inexactly."
-msgstr "Zarządzanie repozytorium"
+msgstr "Hook repozytorium dopasowany niedokładnie."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:97
