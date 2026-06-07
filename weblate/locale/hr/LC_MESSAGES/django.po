@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
-"PO-Revision-Date: 2026-06-07 14:01+0000\n"
+"PO-Revision-Date: 2026-06-08 19:01+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -11845,13 +11845,11 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
-msgstr "Održavateljima projekta je poslan zahtjev za novim prijevodom."
+msgstr ""
+"Weblate sadrži promjene prijevoda na čekanju za ove projekte, od %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
@@ -11864,9 +11862,7 @@ msgstr ""
 #| "Weblate should now be able to see updated repository and you can unlock "
 #| "it."
 msgid "Weblate has been unable to push repository changes since %(date)s."
-msgstr ""
-"Weblate bi sada trebao biti u stanju vidjeti aktualizirani repozitorij i "
-"možeš ga otključati."
+msgstr "Weblate nije mogao objaviti promjene u repozitoriju od %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
@@ -19400,8 +19396,8 @@ msgid ""
 "File synchronization could not recreate %(file)s before committing pending "
 "translations. Pending changes were kept."
 msgstr ""
-"Repozitorij je resetiran, ali nije moguće ponovo stvoriti prijevode na "
-"čekanju. Promjene na čekanju su sačuvane."
+"Sinkronizacija datoteka nije uspjela ponovo stvoriti %(file)s prije "
+"commitanja prijevoda na čekanju. Promjene na čekanju su sačuvane."
 
 #: weblate/trans/models/component.py:2915
 #, python-format
@@ -19427,14 +19423,14 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Repozitorij je resetiran, ali nije moguće ponovo stvoriti prijevode na "
-"čekanju. Promjene na čekanju su sačuvane."
+"Sinkronizacija datoteka nije uspjela ponovo stvoriti datoteke %(files)s "
+"prije commitanja prijevoda na čekanju. Promjene na čekanju su sačuvane."
 msgstr[1] ""
-"Repozitorij je resetiran, ali nije moguće ponovo stvoriti prijevode na "
-"čekanju. Promjene na čekanju su sačuvane."
+"Sinkronizacija datoteka nije uspjela ponovo stvoriti ove datoteke prije "
+"commitanja prijevoda na čekanju: %(files)s. Promjene na čekanju su sačuvane."
 msgstr[2] ""
-"Repozitorij je resetiran, ali nije moguće ponovo stvoriti prijevode na "
-"čekanju. Promjene na čekanju su sačuvane."
+"Sinkronizacija datoteka nije uspjela ponovo stvoriti ove datoteke prije "
+"commitanja prijevoda na čekanju: %(files)s. Promjene na čekanju su sačuvane."
 
 #: weblate/trans/models/component.py:2935
 msgid ""
@@ -20036,7 +20032,7 @@ msgstr "Nije bilo moguće obraditi prenesenu datotku kao {file_format}: {error}"
 #: weblate/trans/models/translation.py:1875
 #, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Nije bilo moguće analizirati prenešenu datoeku: %s"
+msgstr "Nije bilo moguće analizirati prenesenu datoeku: %s"
 
 #: weblate/trans/models/translation.py:2518
 #, python-format
@@ -20654,22 +20650,18 @@ msgid "Changes in %s"
 msgstr "Promjene u jeziku %s"
 
 #: weblate/trans/views/changes.py:87
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes in workspace"
 msgid "Changes in %s"
-msgstr "Promjene u prijevodu za %s"
+msgstr "Promjene u radnom prostoru %s"
 
 #: weblate/trans/views/create.py:84
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr "Dostavljena konfiguracija je neispravna. Provjeri greške u nastavku."
 
 #: weblate/trans/views/create.py:125
-#, fuzzy
-#| msgid "Fetching VCS repository from %s is not allowed."
 msgid "Creating a project without a workspace is not allowed."
-msgstr "Dohvaćanje VCS repozitorija od %s nije dozvoljeno."
+msgstr "Stvaranje projekta bez radnog prostora nije dozvoljeno."
 
 #: weblate/trans/views/create.py:250
 msgid "Project backup import in progress"
@@ -21544,10 +21536,10 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Nije bilo moguće evaluirati formulu za množinu: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Nije bilo moguće evaluirati formulu za množinu: {}"
+msgstr ""
+"Nije bilo moguće evaluirati formulu za množinu za zbroj {count}: {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
