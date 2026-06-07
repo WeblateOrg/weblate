@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
-"PO-Revision-Date: 2026-06-06 04:22+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-07 14:01+0000\n"
+"Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
 "Language: sk\n"
@@ -3381,10 +3381,8 @@ msgstr "Použiť správcovské rozhranie"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Konfigurácia Weblate"
+msgstr "Spravovať konfiguráciu stránky"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -6545,10 +6543,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "Musíte súhlasiť s Všeobecnými obchodnými podmienkami"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "Prosím, prečítajte si nasledujúcu licenčnú zmluvu prispievateľa:"
+msgstr "Prosím, prečítajte si nasledujúce právne dokumenty:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -6567,8 +6563,6 @@ msgid "Privacy Policy"
 msgstr "Politika súkromia"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr ""
 "Prosím, prečítajte si nasledujúci dokument Všeobecné obchodné podmienky:"
@@ -10146,7 +10140,7 @@ msgstr "Použité %(used)s z %(total)s"
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "Obnoviť predvolené nastavenie stránky"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -14729,6 +14723,8 @@ msgid ""
 "The last webhook update for this component used fallback repository matching "
 "instead of an exact repository URL match."
 msgstr ""
+"Posledná aktualizácia webhooku pre tento komponent použila náhradné "
+"párovanie repozitára namiesto presného párovania URL repozitára."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:8
 msgid ""
@@ -14736,6 +14732,9 @@ msgid ""
 "repository URL sent by the webhook, or when Weblate does not yet understand "
 "the repository URL format in the webhook payload."
 msgstr ""
+"Toto sa môže stať, ak URL repozitára komponentu nezodpovedá URL repozitára "
+"odoslanému webhookom, alebo ak Weblate zatiaľ nerozumie formátu URL "
+"repozitára v údajoch webhooku."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:12
 msgid ""
@@ -14743,6 +14742,9 @@ msgid ""
 "issue to Weblate with the webhook service name, configured component "
 "repository URL, branch, and repository URLs from the webhook payload."
 msgstr ""
+"Najprv skontrolujte URL repozitára komponentu. Ak je URL správna, nahláste "
+"problém Weblate spolu s názvom služby webhooku, nakonfigurovanou URL "
+"repozitára komponentu, vetvou a URL repozitára z údajov webhooku."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:16
 #, python-format
@@ -14750,32 +14752,28 @@ msgid ""
 "Inexact webhook matching is currently scheduled for removal in Weblate "
 "2026.9, see <a href=\"%(issue_url)s\">issue #19855</a>."
 msgstr ""
+"Neúplné párovanie webhookov je momentálne naplánované na odstránenie vo "
+"Weblate 2026.9, pozrite <a href=\"%(issue_url)s\">issue #19855</a>."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:24
 msgid "Service"
 msgstr "Služba"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:30
-#, fuzzy
-#| msgid "repository URL"
 msgid "Repository URL"
-msgstr "repozitár URL"
+msgstr "Repozitár URL"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:36
-#, fuzzy
-#| msgid "Repository merged"
 msgid "Repository name"
-msgstr "Repozitár zlúčený"
+msgstr "Názov repozitára"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:42
 msgid "Branch"
-msgstr ""
+msgstr "Vetva"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:52
-#, fuzzy
-#| msgid "Create component"
 msgid "Configure component"
-msgstr "Vytvoriť komponent"
+msgstr "Konfigurovať komponent"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:58
 msgid "Report issue"
@@ -16734,10 +16732,8 @@ msgstr "Neexistujúce súbory."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:37
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository hook matched inexactly."
-msgstr "Údržba repozitára"
+msgstr "Hook repozitára bol spárovaný nepresne."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:97
