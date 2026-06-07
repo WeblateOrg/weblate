@@ -14,8 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-04 11:38+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-07 14:01+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -1878,21 +1878,16 @@ msgstr ""
 "aistriúcháin go léir."
 
 #: admin/announcements.rst:39
-#, fuzzy
-#| msgid "Project specified"
 msgid "Project and language specified"
-msgstr "Tionscadal sonraithe"
+msgstr "Tionscadal agus teanga shonraithe"
 
 #: admin/announcements.rst:41
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the project for the specified language, including all its "
 "translations."
 msgstr ""
-"Taispeántar sa tionscadal, lena n-áirítear a chuid comhpháirteanna agus "
-"aistriúcháin go léir."
+"Taispeántar laistigh den tionscadal don teanga shonraithe, lena n-áirítear a "
+"haistriúcháin uile."
 
 #: admin/announcements.rst:44
 msgid "Category specified"
@@ -2532,10 +2527,13 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"Éilíonn roinnt soláthraithe aitheantais (amhail Microsoft Entra ID le "
+"fíordheimhniú ilfhachtóireach) go ndíchumasófar an ``requestedAuthnContext`` "
+"réamhshocraithe i gcumraíocht slándála SAML:"
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
-msgstr ""
+msgstr "In Docker, socraigh :envvar:`WEBLATE_SAML_SECURITY_CONFIG` ina ionad."
 
 #: admin/auth.rst:584
 msgid ""
@@ -6119,6 +6117,13 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"Leanann na réamhshocruithe ionsuite Tiomantas Traidisiúnta agus áirítear "
+"naisc Weblate iontu nuair is féidir. Bíonn tionchar ag athrú na socruithe "
+"seo ar réamhshocruithe nua-chruthaithe; is féidir teimpléid teachtaireachtaí "
+"atá ann cheana a athshocrú sna foirmeacha socruithe le "
+":guilabel:`Athchóirigh réamhshocrú an tsuímh`. I gcás luachanna oidhreachta, "
+"díchumasaíonn athchóiriú réamhshocraithe an tsuímh oidhreacht don "
+"teachtaireacht sin freisin."
 
 #: admin/config.rst:729
 msgid "Default add-ons to install for every created component."
@@ -6215,6 +6220,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"Leanann an réamhshocrú ionsuite Tiomantas Traidisiúnta agus áirítear leis "
+"naisc Weblate agus stádas aistriúcháin."
 
 #: admin/config.rst:876
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6673,6 +6680,8 @@ msgstr "Réamhshocrú go -1."
 #: admin/config.rst:1334
 msgid "CSS class added to the wrappers around legal document templates."
 msgstr ""
+"Cuireadh rang CSS leis na fillteáin timpeall ar theimpléid doiciméad "
+"dlíthiúil."
 
 #: admin/config.rst:1336
 msgid ""
@@ -6680,16 +6689,25 @@ msgid ""
 "and spacing rules. Set this to an empty string to render legal documents "
 "without the built-in numbering."
 msgstr ""
+"Is é ``\"tos\"`` an réamhshocrú, rud a chuireann ar chumas na rialacha "
+"uimhrithe agus spásála doiciméad dlíthiúil ionsuite. Socraigh seo go "
+"teaghrán folamh chun doiciméid dhlíthiúla a rindreáil gan an uimhriú "
+"ionsuite."
 
 #: admin/config.rst:1355
 msgid "List of legal document page identifiers to hide from the legal module."
 msgstr ""
+"Liosta d'aitheantóirí leathanaigh doiciméad dlíthiúil le cur i bhfolach ón "
+"modúl dlíthiúil."
 
 #: admin/config.rst:1357
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"Bíonn an leathanach ``innéacs`` le feiceáil i gcónaí. Is iad ``téarmaí``, "
+"``fianáin``, ``príobháideacht``, agus ``conradh`` na haitheantóirí doiciméad "
+"a dtacaítear leo."
 
 #: admin/config.rst:1360
 msgid ""
@@ -6697,6 +6715,10 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"Baintear leathanaigh fholaithe den roghchlár dlí agus tugann siad freagra "
+"404 ar ais nuair a iarrtar go díreach iad. Ní mholtar ``téarmaí`` nó "
+"``príobháideacht`` a cheilt nuair a bhíonn deimhniú téarmaí seirbhíse "
+"cumasaithe."
 
 #: admin/config.rst:1364
 msgid ""
@@ -6705,6 +6727,11 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"Nuair a bhíonn ``terms`` nó ``privacy`` i bhfolach, úsáideann naisc a "
+"nochtar trí na hathróga teimpléid ``terms_url`` agus ``privacy_url`` "
+":setting:`LEGAL_URL` agus :setting:`PRIVACY_URL` mar roghanna cúltaca nuair "
+"a bhíonn siad cumraithe. Mura bhfuil aon URL cúltaca cumraithe, fágtar an "
+"nasc gaolmhar ar lár."
 
 #: admin/config.rst:1369
 msgid ""
@@ -6713,6 +6740,10 @@ msgid ""
 "external terms document instead of embedding :file:`legal/documents/"
 "tos.html`."
 msgstr ""
+"Agus dearbhú téarmaí seirbhíse cumasaithe, má chuirtear ``terms`` i bhfolach "
+"agus má shocraítear :setting:`LEGAL_URL` nascfar an leathanach dearbhaithe "
+"leis an doiciméad téarmaí seachtrach in ionad :file:`legal/documents/"
+"tos.html` a leabú isteach ann."
 
 #: admin/config.rst:1373
 msgid ""
@@ -6720,6 +6751,10 @@ msgid ""
 "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the "
 "API schema terms link uses the same fallback."
 msgstr ""
+"I gcás imscaradh nach imscaradh Docker é, sainmhínigh "
+":setting:`LEGAL_HIDDEN_DOCUMENTS` agus :setting:`LEGAL_URL` sula "
+"gcruthaítear ``SPECTACULAR_SETTINGS`` ionas go n-úsáideann nasc téarmaí "
+"scéime API an rogha chéanna."
 
 #: admin/config.rst:1394
 msgid "You need :ref:`legal` installed to make this work."
@@ -6739,18 +6774,15 @@ msgid "URL where your Weblate instance shows its legal documents."
 msgstr "URL a thaispeánann do shampla Weblate a dhoiciméid dlí."
 
 #: admin/config.rst:1414
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate. Please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate instead of using "
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
-"Tá sé úsáideach má óstaíonn tú do dhoiciméid dlí lasmuigh de Weblate chun "
-"iad a leabú laistigh de Weblate. Seiceáil le do thoil :ref:`legal` le "
-"haghaidh sonraí."
+"Úsáideach má óstálann tú do dhoiciméid dhlíthiúla lasmuigh de Weblate "
+"seachas an modúl :ref:`legal` a úsáid. Nuair a bhíonn an modúl dlíthiúil "
+"cumasaithe, nascann Weblate leis na leathanaigh dhlíthiúla inmheánacha de "
+"réir réamhshocraithe."
 
 #: admin/config.rst:1433
 msgid "Additional licenses to include in the license choices."
@@ -6939,6 +6971,10 @@ msgid ""
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"Úsáideach má óstálann tú do pholasaí príobháideachais lasmuigh de Weblate "
+"seachas an modúl :ref:`legal` a úsáid. Nuair a bhíonn an modúl dlí "
+"cumasaithe, nascann Weblate leis na leathanaigh dlí inmheánacha de réir "
+"réamhshocraithe."
 
 #: admin/config.rst:1678
 msgid ""
@@ -11737,21 +11773,15 @@ msgid "Google Cloud Error Reporting"
 msgstr "Tuairisciú Earráide Google Cloud"
 
 #: admin/install.rst:1756
-#, fuzzy
-#| msgid ""
-#| "Weblate can report handled server errors to `Google Cloud Error Reporting "
-#| "<https://cloud.google.com/error-reporting/>`_. Install Weblate with the "
-#| "``google-errors`` extra and "
-#| "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgid ""
 "Weblate can report handled server errors to `Google Cloud Error Reporting`_. "
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
 "Is féidir le Weblate earráidí freastalaí láimhseáilte a thuairisciú chuig "
-"`Google Cloud Error Reporting <https://cloud.google.com/error-reporting/>`_. "
-"Suiteáil Weblate leis an mbreiseán ``google-errors`` agus "
-"cumraigh :setting:`GOOGLE_CLOUD_ERROR_REPORTING` i :file:`settings.py`:"
+"`Google Cloud Error Reporting`_. Suiteáil Weblate leis an mbreiseán ``google-"
+"errors`` agus cumraigh :setting:`GOOGLE_CLOUD_ERROR_REPORTING` i "
+":file:`settings.py`:"
 
 #: admin/install.rst:1766
 msgid ""
@@ -12971,30 +13001,39 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Athchruthaigh an coimeádán Docker tar éis an athróg timpeallachta seo a "
+"athrú, mar shampla ag baint úsáide as :program:`docker compose up -d`. Ní "
+"chuireann atosú coimeádáin atá ann cheana luachanna timpeallachta athraithe "
+"i bhfeidhm."
 
 #: admin/install/docker.rst:929
 msgid ""
 "Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Cumraíonn sé :setting:`LEGAL_DOCUMENT_CSS_CLASS` in imscaradh Docker le "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` cumasaithe."
 
 #: admin/install/docker.rst:932
 msgid ""
 "Set this to an empty string to disable the built-in legal document numbering."
 msgstr ""
+"Socraigh seo go teaghrán folamh chun uimhriú doiciméad dlíthiúil ionsuite a "
+"dhíchumasú."
 
 #: admin/install/docker.rst:944
 msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Cumraíonn sé :setting:`LEGAL_HIDDEN_DOCUMENTS` in imscaradh Docker le "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` cumasaithe."
 
 #: admin/install/docker.rst:947
-#, fuzzy
-#| msgid "Expects a comma-separated list of trusted project slugs."
 msgid "Provide a comma-separated list of legal document page identifiers."
 msgstr ""
-"Ag súil le liosta de shlugaí tionscadail iontaofa atá scartha le camóga."
+"Cuir liosta d’aitheantóirí leathanaigh doiciméad dlíthiúil ar fáil, scartha "
+"le camóga."
 
 #: admin/install/docker.rst:958
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -13640,14 +13679,19 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"Cumraíocht slándála SAML mar réad JSON, curtha chuig "
+"``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. Mar shampla, chun an "
+"``requestedAuthnContext`` a dhíchumasú (atá riachtanach do roinnt "
+"soláthraithe aitheantais amhail Microsoft Entra ID le fíordheimhniú "
+"ilfhachtóireach):"
 
 #: admin/install/docker.rst:1783
-#, fuzzy
-#| msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
 msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
 "saml#settings>`_"
-msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
+msgstr ""
+"`socruithe slándála python3-saml <https://github.com/SAML-Toolkits/python3-"
+"saml#settings>`_"
 
 #: admin/install/docker.rst:1794
 msgid "SAML attributes mapping."
@@ -17678,10 +17722,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Forbhreathnú gairid ar théarmaí seirbhíse agus polasaí príobháideachta"
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Save add-on state information."
 msgid "Subcontractor information"
-msgstr "Sábháil faisnéis stáit an bhreiseáin."
+msgstr "Faisnéis faoin bhfochonraitheoir"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -17692,6 +17734,13 @@ msgid ""
 "module is not enabled. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"Leabaíonn an modúl dlí na teimpléid seo taobh istigh de Weblate agus "
+"úsáideann sé :file:`legal/documents/tos.html` chun téarmaí seirbhíse a "
+"dhearbhú. Tá sé seo ar leithligh ó :setting:`LEGAL_URL` agus "
+":setting:`PRIVACY_URL`, atá ceaptha chun nascadh le doiciméid dhlíthiúla atá "
+"á óstáil go seachtrach ón mbunleathanach nuair nach bhfuil an modúl "
+"dlíthiúil cumasaithe. Nuair a bhíonn an modúl dlíthiúil cumasaithe, nascann "
+"Weblate leis na leathanaigh dhlíthiúla inmheánacha de réir réamhshocraithe."
 
 #: admin/optionals.rst:151
 msgid ""
@@ -17765,6 +17814,9 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Athchruthaigh an coimeádán Docker tar éis athróga comhshaoil a athrú, mar "
+"shampla ag baint úsáide as :program:`docker compose up -d`. Ní chuireann "
+"atosú coimeádáin atá ann cheana luachanna comhshaoil athraithe i bhfeidhm."
 
 #: admin/optionals.rst:212
 msgid ""
@@ -17780,6 +17832,10 @@ msgid ""
 "translated only when you use Django translation tags such as ``{% translate "
 "%}`` or ``{% blocktranslate %}``; plain HTML text is shown as written."
 msgstr ""
+"Is teimpléid rialta Django iad na teimpléid doiciméad dlíthiúla. Ní "
+"aistrítear téacs ach amháin nuair a úsáideann tú clibeanna aistriúcháin "
+"Django ar nós ``{% translate %}`` nó ``{% blocktranslate %}``; taispeántar "
+"téacs HTML simplí mar atá scríofa."
 
 #: admin/optionals.rst:218
 msgid ""
@@ -17787,6 +17843,9 @@ msgid ""
 "and ``privacy_url`` variables for linking to the terms of service and "
 "privacy policy documents."
 msgstr ""
+"Cuireann leathanaigh dhlíthiúla agus an forbhreathnú ar shíniú isteach agus "
+"clárú athróga ``terms_url`` agus ``privacy_url`` ar fáil chun nascadh leis "
+"na doiciméid téarmaí seirbhíse agus beartais phríobháideachais."
 
 #: admin/optionals.rst:222
 msgid ""
@@ -17797,6 +17856,12 @@ msgid ""
 "set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an empty string to disable this "
 "styling."
 msgstr ""
+"De réir réamhshocraithe, úsáideann fillteáin doiciméad dlíthiúil an rang CSS "
+"``tos``. Uimhríonn an rang seo ceannteidil ``h2``, míreanna le ranganna "
+"``item``, ``subitem``, nó ``subsubitem``, agus míreanna liosta ordaithe "
+"barrleibhéil go huathoibríoch. Má tá uimhriú i do théacs dlíthiúil cheana "
+"féin, socraigh :setting:`LEGAL_DOCUMENT_CSS_CLASS` go teaghrán folamh chun "
+"an stíliú seo a dhíchumasú."
 
 #: admin/optionals.rst:228
 msgid ""
@@ -17806,6 +17871,13 @@ msgid ""
 "``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` "
 "or :setting:`PRIVACY_URL` when configured, otherwise the link is omitted."
 msgstr ""
+"Úsáid :setting:`LEGAL_HIDDEN_DOCUMENTS` chun leathanaigh dhlíthiúla "
+"roghnacha amhail fochonraitheoirí a cheilt ón roghchlár dlí. Tugann "
+"leathanaigh fholaithe freagra 404 ar ais nuair a iarrtar go díreach iad. Má "
+"tá ``terms`` nó ``privacy`` i bhfolach, titeann naisc a úsáideann "
+"``terms_url`` nó ``privacy_url`` ar ais go :setting:`LEGAL_URL` nó "
+":setting:`PRIVACY_URL` nuair a bhíonn siad cumraithe, nó fágtar an nasc ar "
+"lár."
 
 #: admin/optionals.rst:234
 msgid ""
@@ -17815,6 +17887,12 @@ msgid ""
 "confirmation page then links to those external documents without requiring "
 "a :file:`legal/documents/tos.html` template override."
 msgstr ""
+"Chun doiciméid dhlíthiúla atá á n-óstáil go seachtrach a úsáid le deimhniú "
+"téarmaí, cumraigh :setting:`LEGAL_HIDDEN_DOCUMENTS` chun ``terms`` agus "
+"``privacy`` a cheilt agus socraigh :setting:`LEGAL_URL` agus "
+":setting:`PRIVACY_URL`. Ansin, nascann an leathanach deimhnithe leis na "
+"doiciméid sheachtracha sin gan gá le sárú teimpléid :file:`legal/documents/"
+"tos.html`."
 
 #: admin/optionals.rst:243
 msgid "Avatars"
@@ -18457,24 +18535,18 @@ msgid "Translation license"
 msgstr "Ceadúnas aistriúcháin"
 
 #: admin/projects.rst:174
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid "Default translation license for components in this project."
-msgstr "Cruthaíonn comhpháirteanna aistriúcháin sa tionscadal tugtha."
+msgstr ""
+"Ceadúnas aistriúcháin réamhshocraithe do chomhpháirteanna sa tionscadal seo."
 
 #: admin/projects.rst:186
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for components in this project. "
 "Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Téacs a chuireann síos ar an bpróiseas logánaithe sa tionscadal, agus aon "
-"eolas eile atá úsáideach d’aistritheoirí. Is féidir Markdown a úsáid le "
-"haghaidh formáidiú téacs nó naisc a chur isteach."
+"Comhaontú ceadúnais réamhshocraithe rannpháirtí do chomhpháirteanna sa "
+"tionscadal seo. Is féidir Markdown a úsáid le haghaidh formáidiú téacs nó "
+"naisc a chur isteach."
 
 #: admin/projects.rst:197
 msgid "Use shared translation memory"
@@ -18685,29 +18757,24 @@ msgid "Adding new translation"
 msgstr "Aistriúchán nua á chur leis"
 
 #: admin/projects.rst:348
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid ""
 "Default behavior for requests to create new translations in components in "
 "this project."
 msgstr ""
-"Seol ar ais liosta de na comhpháirteanna aistriúcháin sa tionscadal ar leith."
+"Iompar réamhshocraithe le haghaidh iarratais chun aistriúcháin nua a chruthú "
+"i gcomhpháirteanna sa tionscadal seo."
 
 #: admin/projects.rst:359 admin/projects.rst:934 admin/workspaces.rst:102
 msgid "Language code style"
 msgstr "Stíl cód teanga"
 
 #: admin/projects.rst:361
-#, fuzzy
-#| msgid ""
-#| "Customize language code used to generate the filename for translations "
-#| "created by Weblate."
 msgid ""
 "Default language code style for translations created by Weblate in "
 "components in this project."
 msgstr ""
-"Saincheap an cód teanga a úsáidtear chun an comhadainm le haghaidh "
-"aistriúcháin cruthaithe ag Weblate a ghiniúint."
+"Stíl chód teanga réamhshocraithe le haghaidh aistriúcháin a chruthaigh "
+"Weblate i gcomhpháirteanna sa tionscadal seo."
 
 #: admin/projects.rst:372 admin/projects.rst:1187 admin/workspaces.rst:115
 msgid "Secondary language"
@@ -18741,13 +18808,10 @@ msgstr ""
 "féach :ref:`custom-checks`."
 
 #: admin/projects.rst:395 admin/projects.rst:824
-#, fuzzy
-#| msgid ""
-#| "Extended API with project, component and translation removal and creation."
 msgid "Workspace, project, component, and translation flags are merged."
 msgstr ""
-"API leathnaithe le baint agus cruthú tionscadail, comhpháirte agus "
-"aistriúcháin."
+"Cuirtear bratacha spáis oibre, tionscadail, comhpháirte agus aistriúcháin le "
+"chéile."
 
 #: admin/projects.rst:409 admin/projects.rst:1026 admin/workspaces.rst:147
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -18760,18 +18824,18 @@ msgid ""
 "Default commit and merge request message templates for components in this "
 "project."
 msgstr ""
+"Teimpléid réamhshocraithe teachtaireachtaí iarratais tiomantais agus cumaisc "
+"do chomhpháirteanna sa tionscadal seo."
 
 #: admin/projects.rst:414
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed "
-#| "by :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 msgid ""
 "The default values can be changed "
 "by :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 msgstr ""
-"Is féidir an luach réamhshocraithe a athrú "
-"trí :setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
+"Is féidir na luachanna réamhshocraithe a athrú trí "
+":setting:`DEFAULT_ADD_MESSAGE`, :setting:`DEFAULT_ADDON_MESSAGE`, "
+":setting:`DEFAULT_COMMIT_MESSAGE`, :setting:`DEFAULT_DELETE_MESSAGE`, "
+":setting:`DEFAULT_MERGE_MESSAGE`, :setting:`DEFAULT_PULL_MESSAGE`."
 
 #: admin/projects.rst:419 admin/projects.rst:1035
 msgid ""
@@ -18780,6 +18844,11 @@ msgid ""
 "editor to restore the current installation default for that message; for "
 "inherited values, this also disables inheritance for that message."
 msgstr ""
+"Leanann na réamhshocruithe ionsuite Tiomantas Traidisiúnta agus áirítear "
+"naisc Weblate nuair is féidir. Úsáid :guilabel:`Athchóirigh réamhshocrú "
+"suímh` in aice le heagarthóir teachtaireachtaí chun an réamhshocrú suiteála "
+"reatha a athbhunú don teachtaireacht sin; i gcás luachanna oidhreachta, "
+"díchumasaíonn sé seo oidhreacht don teachtaireacht sin freisin."
 
 #: admin/projects.rst:433 devel/sphinx.rst:30
 msgid "Component configuration"
@@ -20054,11 +20123,8 @@ msgstr ""
 "a chur in eagar, i gcomhéadan Weblate."
 
 #: admin/projects.rst:1197
-#, fuzzy
-#| msgid "This setting is inherited from the project if left empty."
 msgid "This setting can be inherited from the project."
-msgstr ""
-"Faightear an socrú seo mar oidhreacht ón tionscadal má fhágtar folamh é."
+msgstr "Is féidir an socrú seo a oidhreacht ón tionscadal."
 
 #: admin/projects.rst:1208
 msgid "Priority"
@@ -20236,10 +20302,8 @@ msgstr ""
 "amach."
 
 #: admin/projects.rst:1308
-#, fuzzy
-#| msgid "Container settings"
 msgid "Category settings"
-msgstr "Socruithe coimeádán"
+msgstr "Socruithe catagóire"
 
 #: admin/projects.rst:1310
 msgid ""
@@ -20247,6 +20311,10 @@ msgid ""
 "components, including translation license, contributor agreement, adding new "
 "translations, secondary language, translation flags, and commit messages."
 msgstr ""
+"Is féidir le catagóirí na socruithe oidhreachta céanna a shárú le "
+"tionscadail agus comhpháirteanna, lena n-áirítear ceadúnas aistriúcháin, "
+"comhaontú rannpháirtí, aistriúcháin nua a chur leis, teanga thánaisteach, "
+"bratacha aistriúcháin, agus teachtaireachtaí tiomantais."
 
 #: admin/projects.rst:1314
 msgid ""
@@ -20254,6 +20322,9 @@ msgid ""
 "categories inherit from the project. Components in a category inherit from "
 "that category by default."
 msgstr ""
+"Oidhreacht óna gcatagóir tuismitheora de réir réamhshocraithe. Oidhreacht ón "
+"tionscadal a bheidh ag catagóirí barrleibhéil. Oidhreacht ón gcatagóir sin a "
+"bheidh ag comhpháirteanna i gcatagóir de réir réamhshocraithe."
 
 #: admin/projects.rst:1327
 msgid "Template markup"
@@ -21611,39 +21682,34 @@ msgid ""
 "Workspace settings define workspace identity and defaults inherited by "
 "projects and components."
 msgstr ""
+"Sainmhíníonn socruithe spáis oibre céannacht an spáis oibre agus "
+"réamhshocruithe a fhaigheann tionscadail agus comhpháirteanna mar oidhreacht."
 
 #: admin/workspaces.rst:57
 msgid "Workspace name"
 msgstr "Ainm an spáis oibre"
 
 #: admin/workspaces.rst:59
-#, fuzzy
-#| msgid "Verbose project name, used to display the project name."
 msgid ""
 "Verbose workspace name used in workspace listings and project organization."
 msgstr ""
-"Ainm an tionscadail briathra, a úsáidtear chun ainm an tionscadail a "
-"thaispeáint."
+"Ainm spás oibre focalach a úsáidtear i liostaí spás oibre agus in eagrú "
+"tionscadal."
 
 #: admin/workspaces.rst:66
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid ""
 "Default translation license for projects and components in this workspace."
-msgstr "Tionscadail agus comhpháirteanna aistriúcháin a chur leis"
+msgstr ""
+"Ceadúnas aistriúcháin réamhshocraithe do thionscadail agus do "
+"chomhpháirteanna sa spás oibre seo."
 
 #: admin/workspaces.rst:78
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for projects and components in this "
 "workspace. Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Téacs a chuireann síos ar an bpróiseas logánaithe sa tionscadal, agus aon "
-"eolas eile atá úsáideach d’aistritheoirí. Is féidir Markdown a úsáid le "
+"Comhaontú ceadúnais réamhshocraithe rannpháirtí do thionscadail agus do "
+"chomhpháirteanna sa spás oibre seo. Is féidir marcáil síos a úsáid le "
 "haghaidh formáidiú téacs nó naisc a chur isteach."
 
 #: admin/workspaces.rst:91
@@ -21651,30 +21717,34 @@ msgid ""
 "Default behavior for requests to create new translations in projects and "
 "components in this workspace."
 msgstr ""
+"Iompar réamhshocraithe le haghaidh iarratais chun aistriúcháin nua a chruthú "
+"i dtionscadail agus i gcomhpháirteanna sa spás oibre seo."
 
 #: admin/workspaces.rst:104
 msgid ""
 "Default language code style for translations created by Weblate in projects "
 "and components in this workspace."
 msgstr ""
+"Stíl chód teanga réamhshocraithe le haghaidh aistriúcháin a chruthaíonn "
+"Weblate i dtionscadail agus i gcomhpháirteanna sa spás oibre seo."
 
 #: admin/workspaces.rst:117
-#, fuzzy
-#| msgid ""
-#| "Additional language to show together with the source language while "
-#| "translating."
 msgid ""
 "Default secondary language to show together with the source language while "
 "translating projects and components in this workspace."
 msgstr ""
-"Teanga bhreise le taispeáint in éineacht leis an teanga foinse agus an t-"
-"aistriúchán á dhéanamh."
+"An teanga thánaisteach réamhshocraithe le taispeáint in éineacht leis an "
+"teanga foinse agus tionscadail agus comhpháirteanna á n-aistriú sa spás "
+"oibre seo."
 
 #: admin/workspaces.rst:131
 msgid ""
 "Workspace-level translation flags. These are merged with project, component, "
 "and translation flags instead of being inherited as a replacement."
 msgstr ""
+"Bratacha aistriúcháin ar leibhéal an spáis oibre. Déantar iad seo a chumasc "
+"le bratacha tionscadail, comhpháirte agus aistriúcháin seachas iad a fháil "
+"mar oidhreacht mar ionadaithe."
 
 #: admin/workspaces.rst:149
 msgid ""
@@ -21682,6 +21752,9 @@ msgid ""
 "components in this workspace. These templates use the same markup as "
 "component message settings."
 msgstr ""
+"Teimpléid réamhshocraithe teachtaireachtaí iarrata tiomantais agus cumaisc "
+"do thionscadail agus do chomhpháirteanna sa spás oibre seo. Úsáideann na "
+"teimpléid seo an marcáil chéanna le socruithe teachtaireachta comhpháirte."
 
 #: admin/workspaces.rst:153
 msgid ""
@@ -21689,43 +21762,49 @@ msgid ""
 "where available. Use :guilabel:`Restore site default` next to a message "
 "editor to restore the current installation default for that message."
 msgstr ""
+"Leanann na socruithe réamhshocraithe ionsuite Tiomantas Traidisiúnta agus "
+"áirítear naisc Weblate nuair is féidir. Úsáid :guilabel:`Athchóirigh "
+"réamhshocrú suímh` in aice le heagarthóir teachtaireachtaí chun an "
+"réamhshocrú suiteála reatha don teachtaireacht sin a athbhunú."
 
 #: admin/workspaces.rst:166
-#, fuzzy
-#| msgid "Starting newline"
 msgid "Settings inheritance"
-msgstr "Líne nua a thosú"
+msgstr "Oidhreacht socruithe"
 
 #: admin/workspaces.rst:168
 msgid ""
 "Settings inheritance lets common defaults be configured once and reused in "
 "lower scopes:"
 msgstr ""
+"Ligeann oidhreacht socruithe do réamhshocruithe coitianta a chumrú uair "
+"amháin agus a athúsáid i raonta níos ísle:"
 
 #: admin/workspaces.rst:171
-#, fuzzy
-#| msgid "Can add projects to the workspace."
 msgid "Workspaces define defaults for projects in the workspace."
-msgstr "Is féidir tionscadail a chur leis an spás oibre."
+msgstr ""
+"Sainmhíníonn spásanna oibre réamhshocruithe do thionscadail sa spás oibre."
 
 #: admin/workspaces.rst:172
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid "Projects define defaults for categories and components in the project."
 msgstr ""
-"Seol ar ais liosta de na comhpháirteanna aistriúcháin sa tionscadal ar leith."
+"Sainmhíníonn tionscadail réamhshocruithe do chatagóirí agus do "
+"chomhpháirteanna sa tionscadal."
 
 #: admin/workspaces.rst:173
 msgid ""
 "Categories define defaults for nested categories and components in the "
 "category."
 msgstr ""
+"Sainmhíníonn catagóirí réamhshocruithe do chatagóirí agus comhpháirteanna "
+"neadaithe sa chatagóir."
 
 #: admin/workspaces.rst:175
 msgid ""
 "Components use the effective value from the nearest inherited scope unless "
 "inheritance is disabled for that setting."
 msgstr ""
+"Úsáideann comhpháirteanna an luach éifeachtach ón raon feidhme oidhreachta "
+"is gaire mura bhfuil oidhreacht díchumasaithe don socrú sin."
 
 #: admin/workspaces.rst:178
 msgid ""
@@ -21733,6 +21812,9 @@ msgid ""
 "adding new translations, language code style, secondary language, and commit "
 "message templates."
 msgstr ""
+"Tá sé seo ar fáil le haghaidh ceadúnas aistriúcháin, comhaontú ceadúnais "
+"rannpháirtí, aistriúcháin nua a chur leis, stíl chód teanga, teanga "
+"thánaisteach, agus teimpléid teachtaireachtaí tiomantais."
 
 #: admin/workspaces.rst:182
 msgid ""
@@ -21742,6 +21824,12 @@ msgid ""
 "inherited value is shown in the settings form; disable inheritance and save "
 "to edit the stored override value."
 msgstr ""
+"Nochtann socruithe tionscadail, catagóire agus comhpháirteanna na boscaí "
+"seiceála :guilabel:`Oidhreacht ón spás oibre`, :guilabel:`Oidhreacht ón "
+"tionscadal`, nó :guilabel:`Oidhreacht ón gcatagóir` do na luachanna seo. "
+"Nuair a bhíonn oidhreacht cumasaithe, taispeántar an luach oidhreachta sa "
+"bhfoirm socruithe; díchumasaigh oidhreacht agus sábháil chun an luach "
+"sáraithe stóráilte a chur in eagar."
 
 #: admin/workspaces.rst:188
 msgid ""
@@ -21749,6 +21837,10 @@ msgid ""
 "component, and translation flags are merged, so each level can add flags "
 "without replacing the lower levels."
 msgstr ""
+"Déileáiltear le bratacha aistriúcháin ar bhealaí difriúla. Cuirtear bratacha "
+"spáis oibre, tionscadail, catagóire, comhpháirte agus aistriúcháin le "
+"chéile, ionas gur féidir le gach leibhéal bratacha a chur leis gan na "
+"leibhéil níos ísle a athsholáthar."
 
 #: admin/workspaces.rst:192
 msgid ""
@@ -21756,12 +21848,18 @@ msgid ""
 "installation defaults. Later changes to installation defaults do not update "
 "existing workspaces."
 msgstr ""
+"Nuair a chruthaítear spás oibre, déantar na réamhshocruithe seo a chóipeáil "
+"ó na réamhshocruithe suiteála reatha. Ní dhéanann athruithe níos déanaí ar "
+"réamhshocruithe suiteála spásanna oibre atá ann cheana a nuashonrú."
 
 #: admin/workspaces.rst:196
 msgid ""
 "Workspace-less projects also store their own defaults when created and do "
 "not inherit from a workspace unless moved into one and configured to inherit."
 msgstr ""
+"Stórálann tionscadail gan spás oibre a réamhshocruithe féin nuair a "
+"chruthaítear iad agus ní fhaigheann siad oidhreacht ó spás oibre mura "
+"mbogtar isteach i gceann iad agus mura cumraítear iad le hoidhreacht."
 
 #: admin/workspaces.rst:199
 msgid ""
@@ -21773,6 +21871,14 @@ msgid ""
 "overrides can be consolidated to the category. Differing values remain "
 "configured directly on the lower scope."
 msgstr ""
+"Agus suiteálacha atá ann cheana á n-uasghrádú, comhdhlúthaíonn Weblate "
+"socruithe meaitseála: má úsáideann gach comhpháirt i dtionscadal an luach "
+"céanna, aistrítear an luach chuig an tionscadal agus faigheann na "
+"comhpháirteanna sin oidhreacht air. Cuirtear an comhdhlúthú céanna i "
+"bhfeidhm ansin ó thionscadail chuig spásanna oibre. Déantar socruithe "
+"catagóire a thosú chun oidhreacht a fháil óna dtuismitheoir agus is féidir "
+"sáruithe sainráite linbh a chomhdhlúthú leis an gcatagóir. Fanann luachanna "
+"difriúla cumraithe go díreach ar an raon feidhme níos ísle."
 
 #: admin/workspaces.rst:217
 msgid ""
@@ -22212,10 +22318,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.7"
-msgstr "Weblate 2026.6"
+msgstr "Weblate 2026.7"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -22255,6 +22359,8 @@ msgid ""
 "Management interface access control is now more fine-grained with dedicated "
 "site-wide permissions."
 msgstr ""
+"Tá rialú rochtana ar chomhéadan bainistíochta níos míne anois le ceadanna "
+"tiomnaithe ar fud an tsuímh."
 
 #: changes.rst:11
 msgid ""
@@ -22262,12 +22368,18 @@ msgid ""
 "Commits, and settings forms can restore installation defaults for individual "
 "message templates."
 msgstr ""
+"Úsáideann teimpléid réamhshocraithe teachtaireachtaí iarratas tiomantais "
+"agus cumaisc Tiomantas Traidisiúnta anois, agus is féidir le foirmeacha "
+"socruithe réamhshocruithe suiteála a athbhunú do theimpléid teachtaireachtaí "
+"aonair."
 
 #: changes.rst:12
 msgid ""
 "Documented :ref:`legal` customizations and added options to hide legal pages "
 "or disable document numbering."
 msgstr ""
+"Saincheaptha :ref:`legal` doiciméadaithe agus roghanna breise chun "
+"leathanaigh dhlíthiúla a cheilt nó uimhriú doiciméad a dhíchumasú."
 
 #: changes.rst:15 changes.rst:36 changes.rst:73 changes.rst:136
 #: changes/v5.rst:36 changes/v5.rst:144 changes/v5.rst:213 changes/v5.rst:248
@@ -22297,6 +22409,8 @@ msgid ""
 "Webhook target fallback matching is now stricter and reported in component "
 "diagnostics."
 msgstr ""
+"Tá meaitseáil chúltaca sprice Webhook níos déine anois agus tuairiscítear í "
+"i ndiagnóisic comhpháirteanna."
 
 #: changes.rst:19 changes.rst:152 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -22385,50 +22499,36 @@ msgid "Contributors"
 msgstr "Rannpháirtithe"
 
 #: changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "66?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/166?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/66?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"166?closed=1>`__."
 
 #: changes.rst:31
-#, fuzzy
-#| msgid "Weblate 2026.6"
 msgid "Weblate 2026.6.1"
-msgstr "Weblate 2026.6"
+msgstr "Weblate 2026.6.1"
 
 #: changes.rst:33 changes.rst:52
-#, fuzzy
-#| msgid "*Released on June 1st 2018.*"
 msgid "*Released on June 1st 2026.*"
-msgstr "*Eisithe ar 1 Meitheamh 2018.*"
+msgstr "*Scaoilte ar an 1 Meitheamh 2026.*"
 
 #: changes.rst:37
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Language-wide :doc:`/admin/announcements` no longer break language overview "
 "pages."
 msgstr ""
-"Is féidir :doc:`/admin/announcements` a phostáil ar raon feidhme an "
-"tionscadail/teanga."
+"Ní bhriseann :doc:`/admin/announcements` leathanaigh forbhreathnaithe teanga "
+"a thuilleadh."
 
 #: changes.rst:47
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "69?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/169?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/69?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"169?closed=1>`__."
 
 #: changes.rst:50
 msgid "Weblate 2026.6"
@@ -22457,24 +22557,17 @@ msgstr ""
 "aistriúcháin."
 
 #: changes.rst:59
-#, fuzzy
-#| msgid ""
-#| "Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` "
-#| "support for handled server errors."
 msgid ""
 "Added optional :ref:`OpenTelemetry tracing <collecting-errors>` for backend "
 "requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-"
 "errors>` for handled server errors."
 msgstr ""
-"Cuireadh tacaíocht roghnach :ref:`Google Cloud Earráid Reporting <collecting-"
-"errors>` leis le haghaidh earráidí freastalaí a láimhseáiltear."
+"Cuireadh :ref:`OpenTelemetry tracing <collecting-errors>` roghnach leis le "
+"haghaidh iarratais agus tascanna cúil, agus :ref:`Google Cloud Earráid "
+"Tuairiscithe <collecting-errors>` le haghaidh earráidí freastalaí a "
+"láimhseáileadh."
 
 #: changes.rst:60
-#, fuzzy
-#| msgid ""
-#| "Added :doc:`/admin/workspaces` to group related projects, with workspace "
-#| "project listings, workspace-scoped teams and project creation "
-#| "permissions, and billing details when available."
 msgid ""
 "Added :doc:`/admin/workspaces` to group related projects, with workspace "
 "project listings, workspace-scoped teams and project creation permissions, "
@@ -22482,23 +22575,21 @@ msgid ""
 "settings, and billing details when available."
 msgstr ""
 "Cuireadh :doc:`/admin/workspaces` leis chun tionscadail ghaolmhara a "
-"ghrúpáil, le liostaí tionscadal spás oibre, foirne de réir raon feidhme spás "
-"oibre agus ceadanna cruthaithe tionscadal, agus sonraí billeála nuair a "
-"bhíonn siad ar fáil."
+"ghrúpáil, le liostaí tionscadal spás oibre, foirne de réir raon feidhme agus "
+"ceadanna cruthaithe tionscadal, réamhshocruithe oidhreachta don spás oibre, "
+"don tionscadal, agus do na catagóirí le haghaidh socruithe comhpháirteanna "
+"roghnaithe, agus sonraí billeála nuair a bhíonn siad ar fáil."
 
 #: changes.rst:64
-#, fuzzy
-#| msgid ""
-#| "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
-#| "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgid ""
 "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
 "to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` "
 "using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"Is féidir le coimeádáin Docker :setting:`WEBLATE_FORMATS` a choigeartú "
-"anois. Bain úsáid as :envvar:`WEBLATE_ADD_FORMATS` "
-"agus :envvar:`WEBLATE_REMOVE_FORMATS`."
+"Is féidir le coimeádáin Docker :envvar:`WEBLATE_SAML_SECURITY_CONFIG` a "
+"chumrú anois chun socruithe slándála SAML a shaincheapadh, agus "
+":setting:`WEBLATE_FORMATS` a choigeartú ag baint úsáide as "
+":envvar:`WEBLATE_ADD_FORMATS` agus :envvar:`WEBLATE_REMOVE_FORMATS`."
 
 #: changes.rst:65
 msgid ""
@@ -22518,19 +22609,17 @@ msgstr ""
 "chun gach athrú a chomhaireamh."
 
 #: changes.rst:67
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/continuous` now explains why squash merging Weblate conflict-"
-#| "resolution pull requests can require a repository reset."
 msgid ""
 ":doc:`/admin/code-hosting` now documents HTTPS access-token URLs and "
 "dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/"
 "continuous` now explains why squash merging Weblate conflict-resolution pull "
 "requests can require a repository reset."
 msgstr ""
-"Míníonn :doc:`/admin/continuous` anois cén fáth gur féidir go mbeadh "
-"athshocrú stórais ag teastáil ó iarratais tarraingthe réitigh coinbhleachta "
-"Weblate chun iad a chumasc le chéile."
+"Doiciméadaíonn :doc:`/admin/code-hosting` anois URLanna comhartha rochtana "
+"HTTPS agus URLanna SSH úsáideora tiomnaithe chun rochtain a fháil ar "
+"stórtha, agus míníonn :doc:`/admin/continuous` anois cén fáth gur féidir go "
+"mbeadh athshocrú stórtha ag teastáil le haghaidh iarratais tarraingthe "
+"réitigh coinbhleachta Weblate a chumasc."
 
 #: changes.rst:68
 msgid ""
@@ -22560,23 +22649,20 @@ msgstr ""
 "eisiúna :ref:`sbom`."
 
 #: changes.rst:74
-#, fuzzy
-#| msgid "Outbound URL validation now rejects additional non-public targets."
 msgid ""
 "Outbound URL validation now rejects additional non-public targets "
 "(:ghsa:`vmfc-9982-2m45`)."
 msgstr ""
-"Diúltaíonn bailíochtú URL amach do spriocanna neamhphoiblí breise anois."
+"Diúltaíonn bailíochtú URL amach do spriocanna neamhphoiblí breise anois "
+"(:ghsa:`vmfc-9982-2m45`)."
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Project-language :doc:`/admin/announcements` no longer appear across the "
 "whole project."
 msgstr ""
-"Is féidir :doc:`/admin/announcements` a phostáil ar raon feidhme an "
-"tionscadail/teanga."
+"Ní fheictear :doc:`/admin/announcements` i dteanga an tionscadail a "
+"thuilleadh."
 
 #: changes.rst:76
 msgid ""
@@ -22673,6 +22759,8 @@ msgid ""
 "Translation pages for workspace projects no longer crash when workspace "
 "fields are deferred."
 msgstr ""
+"Ní thuairteálann leathanaigh aistriúcháin do thionscadail spáis oibre a "
+"thuilleadh nuair a chuirtear réimsí spáis oibre siar."
 
 #: changes.rst:93
 msgid ""
@@ -22683,14 +22771,10 @@ msgstr ""
 "a chur leis."
 
 #: changes.rst:94
-#, fuzzy
-#| msgid ""
-#| "The database migration make take hours on larger instances due to "
-#| "recreating some of the indexes."
 msgid "The database migrations might take longer on larger instances."
 msgstr ""
-"Tógann an t-aistriú bunachar sonraí uaireanta ar chásanna níos mó mar gheall "
-"ar roinnt de na hinnéacsanna a athchruthú."
+"D’fhéadfadh sé go dtógfadh imirce an bhunachair shonraí níos faide ar "
+"chásanna níos mó."
 
 #: changes.rst:100
 msgid ""
@@ -23199,6 +23283,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
 "Kunc, felixfon"
 msgstr ""
+"Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
+"Kunc, felixfon"
 
 #: changes/contributors/2026.6.rst:10
 msgid ""
@@ -23212,12 +23298,19 @@ msgid ""
 "libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
 "Public, Andi Chandler, Burak SDN, ojppe"
 msgstr ""
+"Michal Čihař, VfBFan, 大王叫我来巡山, Emin Tufan Çetin, Basheer Radman, 為什"
+"麼不加空格, Peter Vančo, Christian Wia, Любомир Василев, Matthaiks, Andrei "
+"Stepanov, Libre, Besnik Bleta, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Balázs Meskó, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, Dick Groskamp, Arif Budiman, Mickaël "
+"Binos, Ryo Nakano, hoanghuy309, Pierfrancesco Passerini, Alefsander Ribeiro "
+"Nascimento, Massimo Pissarello, justcontributor, 이정희, Cabdi Waaxid "
+"Siciid, Yaron Shahrabani, User2068, Kyotaro Iijima, pan93412, jernejp21, "
+"libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
+"Public, Andi Chandler, Burak SDN, ojppe"
 
 #: changes/contributors/2026.6.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
 
 #: changes/contributors/2026.6.1.rst:5 changes/contributors/2026.6.1.rst:10
 #: changes/contributors/5.10.4.rst:5 changes/contributors/5.10.4.rst:15
@@ -64308,10 +64401,8 @@ msgid "Use management interface"
 msgstr "Bain úsáid as comhéadan bainistíochta"
 
 #: snippets/permissions.rst:337
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Cumraíocht Weblate"
+msgstr "Bainistigh cumraíocht an tsuímh"
 
 #: snippets/permissions.rst:339
 msgid "Add new projects"
