@@ -24,8 +24,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
-"PO-Revision-Date: 2026-06-06 04:22+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-07 14:01+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -3487,10 +3487,8 @@ msgstr "Verwaltungsoberfläche verwenden"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Weblate-Konfiguration"
+msgstr "Plattformkonfiguration verwalten"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -5799,8 +5797,8 @@ msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
-"Bezeichner, den Sie in Qualitätsprüfungen verwenden werden, um diese "
-"Schriftartgruppe auszuwählen. Vermeiden Sie Leerzeichen und Sonderzeichen."
+"Kennung, die Sie bei Qualitätsprüfungen verwenden, um diese Schriftartgruppe "
+"auszuwählen. Vermeiden Sie Leerzeichen und Sonderzeichen."
 
 #: weblate/fonts/models.py:115 weblate/templates/fonts/font_list.html:42
 #: weblate/templates/fonts/fontgroup_detail.html:29
@@ -6724,10 +6722,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "Sie müssen den allgemeinen Geschäftsbedingungen zustimmen"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "Bitte lesen Sie die folgende Mitwirkungsvereinbarung:"
+msgstr "Bitte lesen Sie die folgenden Rechtsdokumente:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -6746,8 +6742,6 @@ msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr ""
 "Bitte lesen Sie das folgende Dokument mit den allgemeinen "
@@ -10378,7 +10372,7 @@ msgstr "%(used)s von %(total)s verwendet"
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "Plattformstandard wiederherstellen"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -15033,6 +15027,9 @@ msgid ""
 "The last webhook update for this component used fallback repository matching "
 "instead of an exact repository URL match."
 msgstr ""
+"Bei der letzten Webhook-Aktualisierung für diese Komponente wurde anstelle "
+"einer exakten Übereinstimmung der Repository-URL ein Fallback-Repository-"
+"Abgleich verwendet."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:8
 msgid ""
@@ -15040,6 +15037,9 @@ msgid ""
 "repository URL sent by the webhook, or when Weblate does not yet understand "
 "the repository URL format in the webhook payload."
 msgstr ""
+"Dies kann passieren, wenn die Komponenten-Repository-URL nicht mit der vom "
+"Webhook übermittelten Repository-URL übereinstimmt oder wenn Weblate das "
+"Format der Repository-URL in den Webhook-Nutzdaten noch nicht erkennt."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:12
 msgid ""
@@ -15047,6 +15047,10 @@ msgid ""
 "issue to Weblate with the webhook service name, configured component "
 "repository URL, branch, and repository URLs from the webhook payload."
 msgstr ""
+"Überprüfen Sie zunächst die Komponenten-Repository-URL. Wenn die URL korrekt "
+"ist, melden Sie das Problem an Weblate und geben Sie dabei den Namen des "
+"Webhook-Dienstes, die konfigurierte Komponenten-Repository-URL, den Branch "
+"sowie die Repository-URLs aus den Webhook-Nutzdaten an."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:16
 #, python-format
@@ -15054,32 +15058,28 @@ msgid ""
 "Inexact webhook matching is currently scheduled for removal in Weblate "
 "2026.9, see <a href=\"%(issue_url)s\">issue #19855</a>."
 msgstr ""
+"Der ungenaue Webhook-Abgleich soll derzeit in Weblate 2026.9 entfernt "
+"werden, siehe <a href=\"%(issue_url)s\">issue #19855</a>."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:24
 msgid "Service"
 msgstr "Dienst"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:30
-#, fuzzy
-#| msgid "repository URL"
 msgid "Repository URL"
 msgstr "Repository-URL"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:36
-#, fuzzy
-#| msgid "Repository merged"
 msgid "Repository name"
-msgstr "Repository zusammengeführt"
+msgstr "Repository-Name"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:42
 msgid "Branch"
-msgstr ""
+msgstr "Branch"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:52
-#, fuzzy
-#| msgid "Create component"
 msgid "Configure component"
-msgstr "Komponente erstellen"
+msgstr "Komponente konfigurieren"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:58
 msgid "Report issue"
@@ -17066,10 +17066,8 @@ msgstr "Nicht vorhandene Dateien."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:37
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository hook matched inexactly."
-msgstr "Repository-Wartung"
+msgstr "Der Repository-Hook stimmt nicht genau überein."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:97
