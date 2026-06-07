@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # 이정희 <daemul72@gmail.com>, 2023, 2024, 2025, 2026.
-# Hoseok Seo <ddinghoya@gmail.com>, 2023, 2024.
+# Hoseok Seo <ddinghoya@gmail.com>, 2023, 2024, 2026.
 # simmon <simmon@nplob.com>, 2024.
 # 김인수 <simmon@nplob.com>, 2025.
 # 안정언 <me@jeongeon.net>, 2025.
@@ -20,7 +20,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
 "PO-Revision-Date: 2026-06-07 14:01+0000\n"
-"Last-Translator: 이정희 <daemul72@gmail.com>\n"
+"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -3310,10 +3310,8 @@ msgstr "관리 인터페이스 사용"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Weblate 구성"
+msgstr "사이트 구성 관리"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -6426,10 +6424,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "일반 이용 약관에 동의해야 합니다"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "다음 기여자 라이선스 계약을 읽어주세요:"
+msgstr "다음 법률 문서를 읽어 보세요:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -6448,10 +6444,8 @@ msgid "Privacy Policy"
 msgstr "개인정보 처리방침"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
-msgstr "다음 일반 이용 약관 문서를 읽어보세요:"
+msgstr "다음 일반 이용 약관 문서를 읽어 보세요:"
 
 #: weblate/legal/templates/legal/confirm.html:41
 #: weblate/templates/contributor-agreement.html:33
@@ -9868,7 +9862,7 @@ msgstr "%(total)s 중 %(used)s 사용됨"
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "사이트 기본값 복원"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -14296,6 +14290,8 @@ msgid ""
 "The last webhook update for this component used fallback repository matching "
 "instead of an exact repository URL match."
 msgstr ""
+"이 구성 요소에 대한 마지막 웹훅 업데이트는 정확한 저장소 URL 일치 대신 대체 "
+"저장소 일치 방식을 사용했습니다."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:8
 msgid ""
@@ -14303,6 +14299,9 @@ msgid ""
 "repository URL sent by the webhook, or when Weblate does not yet understand "
 "the repository URL format in the webhook payload."
 msgstr ""
+"이는 컴포넌트 저장소 URL이 웹훅에서 전송된 저장소 URL과 일치하지 않거나, "
+"Weblate가 웹훅 페이로드의 저장소 URL 형식을 아직 이해하지 못한 경우에 발생할 "
+"수 있습니다."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:12
 msgid ""
@@ -14310,6 +14309,9 @@ msgid ""
 "issue to Weblate with the webhook service name, configured component "
 "repository URL, branch, and repository URLs from the webhook payload."
 msgstr ""
+"먼저 컴포넌트 저장소 URL을 확인하세요. URL이 올바르면 웹훅 서비스 이름, "
+"구성된 컴포넌트 저장소 URL, 브랜치 및 웹훅 페이로드에 포함된 저장소 URL을 "
+"Weblate에 보고하새요."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:16
 #, python-format
@@ -14317,32 +14319,28 @@ msgid ""
 "Inexact webhook matching is currently scheduled for removal in Weblate "
 "2026.9, see <a href=\"%(issue_url)s\">issue #19855</a>."
 msgstr ""
+"정확하지 않은 웹훅 일치 기능은 현재 Weblate 2026.9에서 제거될 예정입니다. "
+"자세한 내용은 <a href=\"%(issue_url)s\">이슈 #19855</a>를 참조하세요."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:24
 msgid "Service"
 msgstr "서비스"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:30
-#, fuzzy
-#| msgid "repository URL"
 msgid "Repository URL"
 msgstr "저장소 URL"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:36
-#, fuzzy
-#| msgid "Repository merged"
 msgid "Repository name"
-msgstr "저장소 병합됨"
+msgstr "저장소 이름"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:42
 msgid "Branch"
-msgstr ""
+msgstr "브랜치"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:52
-#, fuzzy
-#| msgid "Create component"
 msgid "Configure component"
-msgstr "구성요소 만들기"
+msgstr "구성 요소"
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:58
 msgid "Report issue"
