@@ -182,9 +182,7 @@ def matomo(request: AuthenticatedHttpRequest):
 
 @cache_control(max_age=3600, private=True)
 def flag_choices(request: AuthenticatedHttpRequest):
-    """
-    Return the catalog of known translation flags as JSON.
-    """
+    """Return the catalog of known translation flags as JSON."""
     requested = request.GET.get("lang")
     valid_languages = {code for code, _ in settings.LANGUAGES}
     if requested and requested in valid_languages:
