@@ -64,7 +64,7 @@ from weblate.trans.views.changes import (
     ChangesView,
     show_change,
 )
-from weblate.trans.views.hooks import ServiceHookView
+from weblate.trans.views.hooks import IntegrationHookView, ServiceHookView
 from weblate.utils.version import VERSION
 
 handler400 = weblate.trans.views.error.bad_request
@@ -710,6 +710,11 @@ real_patterns = [
     ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks
+    path(
+        "hooks/integrations/<uuid:integration_token>/",
+        IntegrationHookView.as_view(),
+        name="integration-webhook",
+    ),
     path(
         "hooks/<slug:service>/",
         ServiceHookView.as_view(),

@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import logging
 import secrets
+import uuid
 from urllib.parse import urlencode
 
 from django.contrib.auth.decorators import login_required
@@ -119,25 +120,17 @@ def _get_install_link(
     )
 
 
-def _get_installable_configs() -> dict[str, dict[str, str]]:
-    return {
-        hostname: config
-        for hostname, config in get_github_app_configurations().items()
-        if config["webhook_secret"]
-    }
-
-
 def _get_install_choices(next_url: str, workspace: Workspace) -> list[dict[str, str]]:
     install_url = reverse("github-app-install")
     result = []
-    for hostname, config in sorted(_get_installable_configs().items()):
+    for hostname, config in sorted(get_github_app_configurations().items()):
         query = urlencode(
             {"next": next_url, "host": hostname, "workspace": workspace.pk}
         )
         result.append(
             {
                 "hostname": hostname,
-                "app_slug": config["app_slug"],
+                "app_slug": config.app_slug,
                 "install_url": f"{install_url}?{query}",
             }
         )
@@ -213,30 +206,22 @@ class GitHubInstallationListView(View):
             )
 
         configurations = get_github_app_configurations()
-        db_credentials = {
-            row.hostname: row
-            for row in GitHubAppCredentials.objects.order_by("hostname")
-        }
         apps = []
         for hostname in sorted(configurations):
             config = configurations[hostname]
-            credentials = db_credentials.get(hostname)
             host_installations = installations_by_host.get(hostname, [])
             apps.append(
                 {
                     "hostname": hostname,
-                    "app_id": config.get("app_id"),
-                    "app_slug": config.get("app_slug"),
-                    "html_url": credentials.html_url if credentials else "",
-                    "is_db_managed": credentials is not None,
-                    "credentials_pk": credentials.pk if credentials else None,
+                    "app_id": config.app_id,
+                    "app_slug": config.app_slug,
+                    "html_url": config.html_url,
+                    "credentials_pk": config.pk,
                     "installations": host_installations,
                     "install_url": _get_install_link(
                         request,
                         reverse("manage-github-accounts"),
-                    )
-                    if config.get("webhook_secret")
-                    else None,
+                    ),
                 }
             )
 
@@ -330,7 +315,7 @@ def github_app_install(request):
     _require_github_app_access(request)
 
     next_url = _get_next_url(request)
-    configs = _get_installable_configs()
+    configs = get_github_app_configurations()
     if not configs:
         messages.error(
             request,
@@ -449,7 +434,7 @@ def github_app_setup(request):
         return redirect(next_url)
     try:
         installation, is_new_install = GitHubInstallation.objects.connect_workspace(
-            config["hostname"], installation_id, workspace
+            config.hostname, installation_id, workspace
         )
     except Exception:
         report_error("Failed to connect GitHub account to workspace")
@@ -528,18 +513,38 @@ def github_app_repository_list(request):
     )
 
 
-def _build_register_state(request, hostname: str) -> str:
+def _get_register_webhook_token(request) -> str:
+    """
+    Return a stable webhook token for the in-progress registration.
+
+    The token is baked into the App's webhook URL at manifest-build time and
+    persisted on the credentials row once GitHub returns them, so it must stay
+    constant between the preview, the submitted manifest and the callback.
+    """
+    token = request.session.get("github_app_register_webhook_token")
+    if not token:
+        token = str(uuid.uuid4())
+        request.session["github_app_register_webhook_token"] = token
+    return token
+
+
+def _build_register_state(request, hostname: str, webhook_token: str) -> str:
     nonce = request.session.get("github_app_register_nonce")
     if not nonce:
         nonce = secrets.token_urlsafe(16)
         request.session["github_app_register_nonce"] = nonce
     return signing.dumps(
-        {"user": request.user.pk, "nonce": nonce, "host": hostname},
+        {
+            "user": request.user.pk,
+            "nonce": nonce,
+            "host": hostname,
+            "webhook_token": webhook_token,
+        },
         salt=_GITHUB_APP_REGISTER_SALT,
     )
 
 
-def _load_register_state(request, state: str) -> str:
+def _load_register_state(request, state: str) -> tuple[str, str]:
     payload = signing.loads(
         state,
         salt=_GITHUB_APP_REGISTER_SALT,
@@ -555,7 +560,11 @@ def _load_register_state(request, state: str) -> str:
     if not isinstance(hostname, str) or not hostname:
         msg = "State host missing"
         raise BadSignature(msg)
-    return normalize_github_app_hostname(hostname)
+    webhook_token = payload.get("webhook_token", "")
+    if not isinstance(webhook_token, str) or not webhook_token:
+        msg = "State webhook token missing"
+        raise BadSignature(msg)
+    return normalize_github_app_hostname(hostname), webhook_token
 
 
 def _default_register_name(request) -> str:
@@ -564,15 +573,17 @@ def _default_register_name(request) -> str:
 
 
 def _build_manifest_for_request(
-    request, *, hostname: str, name: str, public: bool
+    request, *, hostname: str, name: str, public: bool, webhook_token: str
 ) -> tuple[dict[str, object], str]:
     """Build the manifest JSON and the webhook URL used by the form."""
     base_url = get_site_url()
     redirect_url = get_site_url(reverse("github-app-register-callback"))
     setup_url = get_site_url(reverse("github-app-setup"))
-    webhook_url = get_site_url(reverse("webhook", kwargs={"service": "github-app"}))
-    if hostname != "github.com":
-        webhook_url = f"{webhook_url}?host={hostname}"
+    # The per-integration hook URL embeds an opaque token so deliveries are
+    # authenticated against exactly one App secret without guessing the host.
+    webhook_url = get_site_url(
+        reverse("integration-webhook", kwargs={"integration_token": webhook_token})
+    )
 
     manifest = build_github_app_manifest(
         name=name,
@@ -606,8 +617,13 @@ def github_app_register(request):
     """Render the GitHub App registration form (editable host/org/name)."""
     hostname, org, name, public = _read_register_fields(request)
 
+    webhook_token = _get_register_webhook_token(request)
     manifest, webhook_url = _build_manifest_for_request(
-        request, hostname=hostname, name=name, public=public
+        request,
+        hostname=hostname,
+        name=name,
+        public=public,
+        webhook_token=webhook_token,
     )
 
     existing_hosts = list(
@@ -653,10 +669,15 @@ def github_app_register_submit(request):
         )
         return redirect("manage-github-accounts")
 
+    webhook_token = _get_register_webhook_token(request)
     manifest, _webhook_url = _build_manifest_for_request(
-        request, hostname=hostname, name=name, public=public
+        request,
+        hostname=hostname,
+        name=name,
+        public=public,
+        webhook_token=webhook_token,
     )
-    state = _build_register_state(request, hostname)
+    state = _build_register_state(request, hostname, webhook_token)
     action_url = (
         f"{get_github_app_manifest_new_url(hostname, org or None)}"
         f"?{urlencode({'state': state})}"
@@ -720,7 +741,9 @@ def github_app_register_callback(request):
         return redirect(accounts_url)
 
     try:
-        hostname = _load_register_state(request, request.GET.get("state", ""))
+        hostname, webhook_token = _load_register_state(
+            request, request.GET.get("state", "")
+        )
     except (BadSignature, SignatureExpired):
         messages.error(
             request,
@@ -763,10 +786,12 @@ def github_app_register_callback(request):
             "app_slug": app_slug,
             "private_key": pem,
             "webhook_secret": webhook_secret,
+            "webhook_token": webhook_token,
             "html_url": data.get("html_url", "").strip(),
         },
     )
     request.session.pop("github_app_register_nonce", None)
+    request.session.pop("github_app_register_webhook_token", None)
     logger.info(
         "Registered Weblate GitHub App %s for %s (new=%s)",
         credentials.app_slug,

@@ -1429,45 +1429,9 @@ Or the path to a file containing the Python dictionary:
 
        :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
-GitHub App credentials can be configured using dedicated environment
-variables for one GitHub host:
-
-.. code-block:: shell
-
-   WEBLATE_GITHUB_APP_HOST=github.example.com
-   WEBLATE_GITHUB_APP_ID=12345
-   WEBLATE_GITHUB_APP_SLUG=weblate-enterprise-app
-   WEBLATE_GITHUB_APP_PRIVATE_KEY_FILE=/run/secrets/github-app-private-key
-   WEBLATE_GITHUB_APP_WEBHOOK_SECRET=webhook-secret
-
-When configuring the GitHub App webhook URL, include the same host:
-
-.. code-block:: text
-
-   https://weblate.example.com/hooks/github/?host=github.example.com
-
-Alternatively the Python dictionary can be provided as a string or file for
-multiple GitHub hosts:
-
-.. code-block:: shell
-
-   WEBLATE_GITHUB_APP_CREDENTIALS_FILE=/path/to/github-app-credentials
-
-.. envvar:: WEBLATE_GITHUB_APP_HOST
-.. envvar:: WEBLATE_GITHUB_APP_ID
-.. envvar:: WEBLATE_GITHUB_APP_SLUG
-.. envvar:: WEBLATE_GITHUB_APP_PRIVATE_KEY
-.. envvar:: WEBLATE_GITHUB_APP_PRIVATE_KEY_FILE
-.. envvar:: WEBLATE_GITHUB_APP_WEBHOOK_SECRET
-.. envvar:: WEBLATE_GITHUB_APP_CREDENTIALS
-.. envvar:: WEBLATE_GITHUB_APP_CREDENTIALS_FILE
-
-    Configures :ref:`code-hosting-github-notifications` by changing
-    :setting:`GITHUB_APP_CREDENTIALS`.
-
-    .. seealso::
-
-       :setting:`GITHUB_APP_CREDENTIALS`
+GitHub Apps are registered through the in-app manifest flow and stored in the
+database, so there are no GitHub App environment variables to configure. See
+:ref:`code-hosting-github-notifications`.
 
 .. envvar:: WEBLATE_GITLAB_USERNAME
 .. envvar:: WEBLATE_GITLAB_TOKEN

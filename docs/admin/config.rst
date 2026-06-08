@@ -1071,60 +1071,6 @@ List for credentials for GitHub servers.
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-.. setting:: GITHUB_APP_CREDENTIALS
-
-GITHUB_APP_CREDENTIALS
-----------------------
-
-List of Weblate GitHub App credentials for GitHub.com and GitHub Enterprise
-Server hosts.
-
-.. code-block:: python
-
-    GITHUB_APP_CREDENTIALS = {
-        "github.com": {
-            "app_id": "12345",
-            "app_slug": "weblate-app",
-            "private_key": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----",
-            "webhook_secret": "your-webhook-secret",
-        },
-        "github.example.com": {
-            "app_id": "67890",
-            "app_slug": "weblate-enterprise-app",
-            "private_key": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----",
-            "webhook_secret": "your-enterprise-webhook-secret",
-        },
-    }
-
-The dictionary keys are GitHub web hostnames. Use ``github.com`` for
-GitHub.com and the web hostname, not the API URL, for GitHub Enterprise
-Server.
-
-Use the :guilabel:`App ID` from the GitHub App settings as ``app_id``, the
-slug from the app URL as ``app_slug``, a generated private key PEM as
-``private_key``, and the configured app webhook secret as ``webhook_secret``.
-GitHub only offers accounts where the signed-in GitHub user can install or
-request the app. If an organization is not shown during the install flow, check
-the user's organization role and the organization's GitHub App installation
-restrictions. On GitHub.com, public apps can be installed on other accounts;
-private apps can only be installed on the account that owns the app.
-
-Each connected GitHub account is associated with one Weblate project. Project
-managers can then add components from repositories exposed by that app
-installation.
-
-The :guilabel:`Webhook URL` configured in the GitHub App should use the
-GitHub App hook endpoint and include the matching host when Weblate is
-configured with multiple GitHub hosts:
-
-.. code-block:: text
-
-    https://weblate.example.com/hooks/github-app/?host=github.example.com
-
-.. seealso::
-
-   * :ref:`code-hosting-github-notifications`
-
 .. setting:: BITBUCKETSERVER_CREDENTIALS
 
 BITBUCKETSERVER_CREDENTIALS

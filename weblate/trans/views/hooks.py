@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
+from functools import partial
 from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 from urllib.parse import quote, urlparse
 
@@ -43,14 +44,14 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 from weblate.vcs.github import (
+    GitHubAppCredentials,
     GitHubInstallation,
-    get_github_app_configurations,
     get_github_app_settings,
-    normalize_github_app_hostname,
     verify_webhook_signature,
 )
 
 if TYPE_CHECKING:
+    import uuid
     from collections.abc import Generator
 
     from django.db.models import QuerySet
@@ -436,87 +437,6 @@ def bitbucket_hook_helper(data, request: Request | None) -> HandlerResponse | No
     }
 
 
-def _match_github_signature_hostname(
-    request: Request | None,
-    body: bytes,
-    configured_hosts: Mapping[str, dict[str, str]],
-) -> str | None:
-    """Return the configured GitHub host whose webhook secret matches."""
-    if request is None:
-        return None
-
-    signature = request.headers.get("x-hub-signature-256", "")
-    if not signature:
-        return None
-
-    matches = [
-        hostname
-        for hostname, config in configured_hosts.items()
-        if config["webhook_secret"]
-        and verify_webhook_signature(body, signature, config["webhook_secret"])
-    ]
-    if len(matches) == 1:
-        return matches[0]
-    return None
-
-
-def _resolve_github_installation_hostname(
-    request: Request | None, data: dict, body: bytes = b""
-) -> str | None:
-    """Resolve the GitHub hostname for a webhook delivery."""
-    installation = data.get("installation") or {}
-    installation_id = str(installation.get("id", ""))
-    configured_hosts = get_github_app_configurations()
-
-    def get_known_hostname(candidate: str | None) -> str | None:
-        if not candidate:
-            return None
-        hostname = normalize_github_app_hostname(candidate)
-        if hostname in configured_hosts:
-            return hostname
-        if (
-            installation_id
-            and GitHubInstallation.objects.filter(
-                hostname=hostname,
-                installation_id=installation_id,
-            ).exists()
-        ):
-            return hostname
-        return None
-
-    if request is not None and (
-        hostname := get_known_hostname(request.query_params.get("host", "").strip())
-    ):
-        return hostname
-
-    app_id = str(installation.get("app_id", "")).strip()
-    if app_id:
-        matches = [
-            hostname
-            for hostname, config in configured_hosts.items()
-            if config["app_id"] == app_id
-        ]
-        if len(matches) == 1:
-            return matches[0]
-
-    if installation_id:
-        matches = list(
-            GitHubInstallation.objects.filter(installation_id=installation_id)
-            .values_list("hostname", flat=True)
-            .distinct()
-        )
-        if len(matches) == 1:
-            return matches[0]
-
-    if hostname := _match_github_signature_hostname(request, body, configured_hosts):
-        return hostname
-
-    if installation_id and len(configured_hosts) == 1:
-        return next(iter(configured_hosts))
-
-    return None
-
-
 def _lookup_github_installation(data: dict, hostname: str | None = None):
     """Return the GitHubInstallation referenced by the webhook payload, if any."""
     installation_id = (data.get("installation") or {}).get("id")
@@ -534,56 +454,6 @@ def _lookup_github_installation(data: dict, hostname: str | None = None):
     if len(matches) == 1:
         return matches[0]
     return None
-
-
-def _authenticate_github_app_webhook(
-    request: Request, data: dict, *, require_signature: bool = False
-):
-    """
-    Resolve and authenticate a Weblate GitHub app webhook delivery.
-
-    The webhook secret is read from ``settings.GITHUB_APP_CREDENTIALS`` for the
-    delivery's host. App-scoped events (those carrying an ``installation`` in
-    the payload) are rejected when the host has no configured App, since
-    nothing can authenticate them. Plain push deliveries from non-App webhooks
-    fall through with no installation context.
-    """
-    body = request.body
-    hostname = _resolve_github_installation_hostname(request, data, body)
-    installation = _lookup_github_installation(data, hostname)
-    if hostname is None and installation is not None:
-        hostname = installation.hostname
-    config = get_github_app_settings(hostname) if hostname is not None else None
-
-    payload = data.get("installation") or {}
-    is_app_event = bool(payload.get("id"))
-    if (is_app_event or require_signature) and config is None:
-        LOGGER.warning(
-            "Rejected Weblate GitHub app webhook for unconfigured host %s (installation %s)",
-            hostname,
-            payload.get("id"),
-        )
-        msg = "Weblate GitHub app webhook host is not configured"
-        raise PermissionDenied(msg)
-
-    if require_signature and config is not None and not config["webhook_secret"]:
-        LOGGER.warning(
-            "Rejected Weblate GitHub app webhook for host %s without configured secret",
-            hostname,
-        )
-        msg = "Weblate GitHub app webhook secret is not configured"
-        raise PermissionDenied(msg)
-
-    if config is not None and config["webhook_secret"]:
-        signature = request.headers.get("x-hub-signature-256", "")
-        if not verify_webhook_signature(body, signature, config["webhook_secret"]):
-            LOGGER.warning(
-                "Rejected Weblate GitHub app webhook with invalid signature for %s",
-                installation or payload,
-            )
-            msg = "Invalid webhook signature"
-            raise PermissionDenied(msg)
-    return installation, hostname
 
 
 def _refresh_github_installations(installations) -> None:
@@ -617,7 +487,7 @@ def _handle_github_installation_event(  # noqa: C901
     hostname = (
         installation.hostname
         if installation is not None
-        else config["hostname"]
+        else config.hostname
         if config is not None
         else None
     )
@@ -785,7 +655,7 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     if request:
         event = request.headers.get("x-github-event", "")
         if data.get("installation"):
-            msg = "GitHub App webhooks must use /hooks/github-app/"
+            msg = "GitHub App webhooks must use the per-integration hook URL"
             raise PermissionDenied(msg)
         if event != "push":
             return None
@@ -793,19 +663,42 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     return _github_push_hook_response(data)
 
 
-def github_app_hook_helper(
-    data: dict, request: Request | None
+def github_integration_hook_helper(
+    data: dict, request: Request | None, *, integration_token: str
 ) -> HandlerResponse | None:
-    """Parse signed GitHub App hooks."""
+    """
+    Parse a signed webhook delivered to a single GitHub App integration.
+
+    The integration is identified by the ``integration_token`` embedded in the
+    hook URL.
+    """
     if request is None:
         msg = "GitHub App webhooks require a request"
         raise PermissionDenied(msg)
 
+    try:
+        config = GitHubAppCredentials.objects.get(webhook_token=integration_token)
+    except GitHubAppCredentials.DoesNotExist:
+        LOGGER.warning(
+            "Rejected GitHub App webhook for unknown integration token %s",
+            integration_token,
+        )
+        msg = "Unknown GitHub App integration"
+        raise PermissionDenied(msg) from None
+
+    signature = request.headers.get("x-hub-signature-256", "")
+    if not verify_webhook_signature(request.body, signature, config.webhook_secret):
+        LOGGER.warning(
+            "Rejected GitHub App webhook with invalid signature for %s",
+            config.hostname,
+        )
+        msg = "Invalid webhook signature"
+        raise PermissionDenied(msg)
+
+    hostname = config.hostname
     event = request.headers.get("x-github-event", "")
-    installation, hostname = _authenticate_github_app_webhook(
-        request, data, require_signature=True
-    )
     if event in {"installation", "installation_repositories"}:
+        installation = _lookup_github_installation(data, hostname)
         _handle_github_installation_event(data, installation, hostname)
         return None
     if event != "push":
@@ -819,7 +712,7 @@ def github_app_hook_helper(
 
     installation_id = str((data.get("installation") or {}).get("id", ""))
     project_ids: list[int] = []
-    if hostname is not None and installation_id:
+    if installation_id:
         workspace_ids = list(
             GitHubInstallation.objects.filter_for_installation(
                 hostname, installation_id
@@ -843,9 +736,6 @@ def github_app_hook_helper(
         exact_match=True,
         project_ids=project_ids,
     )
-
-
-HOOK_HANDLERS["github-app"] = github_app_hook_helper
 
 
 def _gitea_like_hook_helper(
@@ -1005,20 +895,7 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
     }
 
 
-# ServiceHookView is defined after all @register_hook calls so the OpenAPI
-# service enum is derived automatically from HOOK_HANDLERS.
-@extend_schema(
-    responses=HookResponseSerializer,
-    request=HookRequestSerializer,
-    parameters=[
-        OpenApiParameter(
-            "service",
-            enum=sorted(HOOK_HANDLERS.keys()),
-            location=OpenApiParameter.PATH,
-        ),
-    ],
-)
-class ServiceHookView(APIView):
+class BaseHookView(APIView):
     # ruff: ignore[mutable-class-default]
     authentication_classes = []
     # ruff: ignore[mutable-class-default]
@@ -1052,23 +929,18 @@ class ServiceHookView(APIView):
         )
         return Response(serializer.data, status=status)
 
-    def post(self, request: Request, service: str) -> Response:
-        """Process incoming webhook from a code hosting site."""
+    def run_hook(
+        self, request: Request, hook_helper: HandlerType, service: str
+    ) -> Response:
+        """Validate the payload, dispatch to ``hook_helper`` and trigger updates."""
         # We support only post methods
         if not settings.ENABLE_HOOKS:
             msg = "POST"
             raise MethodNotAllowed(msg)
 
-        # Get service helper
-        try:
-            hook_helper = HOOK_HANDLERS[service]
-        except KeyError as exc:
-            msg = f"Hook {service} not supported"
-            raise NotFound(msg) from exc
-
         # Cache the raw request body before DRF's parser consumes the input
         # stream, so webhook signature verification can read the unparsed
-        # bytes later in :func:`_authenticate_github_app_webhook`.
+        # bytes later (e.g. in :func:`github_integration_hook_helper`).
         _ = request.body
 
         request_data = extract_request_data(request.content_type, request.data)
@@ -1177,3 +1049,40 @@ class ServiceHookView(APIView):
             match_status=match_status,
             updated_components=updated_components,
         )
+
+
+# ServiceHookView is defined after all @register_hook calls so the OpenAPI
+# service enum is derived automatically from HOOK_HANDLERS.
+@extend_schema(
+    responses=HookResponseSerializer,
+    request=HookRequestSerializer,
+    parameters=[
+        OpenApiParameter(
+            "service",
+            enum=sorted(HOOK_HANDLERS.keys()),
+            location=OpenApiParameter.PATH,
+        ),
+    ],
+)
+class ServiceHookView(BaseHookView):
+    def post(self, request: Request, service: str) -> Response:
+        """Process incoming webhook from a code hosting site."""
+        try:
+            hook_helper = HOOK_HANDLERS[service]
+        except KeyError as exc:
+            msg = f"Hook {service} not supported"
+            raise NotFound(msg) from exc
+        return self.run_hook(request, hook_helper, service)
+
+
+@extend_schema(exclude=True)
+class IntegrationHookView(BaseHookView):
+    """Authenticated webhook endpoint for a single registered integration."""
+
+    def post(self, request: Request, integration_token: uuid.UUID) -> Response:
+        """Process a signed webhook addressed to one integration token."""
+        hook_helper = partial(
+            github_integration_hook_helper,
+            integration_token=str(integration_token),
+        )
+        return self.run_hook(request, hook_helper, "github-integration")

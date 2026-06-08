@@ -40,10 +40,23 @@ from weblate.vcs.github import (
     validate_private_key,
     verify_webhook_signature,
 )
+from weblate.vcs.models import VCS_REGISTRY
 
 SETTINGS_PRIVATE_KEY = (
     "-----BEGIN RSA PRIVATE KEY-----\ntest\n-----END RSA PRIVATE KEY-----"
 )
+
+
+def create_app_credentials(hostname: str = "github.com", **overrides):
+    """Create a GitHubAppCredentials row for tests."""
+    defaults = {
+        "app_id": "12345",
+        "app_slug": "weblate-app",
+        "private_key": SETTINGS_PRIVATE_KEY,
+        "webhook_secret": "secret",
+    }
+    defaults.update(overrides)
+    return GitHubAppCredentials.objects.create(hostname=hostname, **defaults)
 
 
 def _generate_test_key() -> str:
@@ -112,69 +125,43 @@ class TestGetGitHubApiBase(SimpleTestCase):
         )
 
 
-class TestGitHubAppSettings(GitHubAppTestBase):
-    @override_settings(
-        GITHUB_APP_CREDENTIALS={
-            "github.example.com": {
-                "app_id": "12345",
-                "app_slug": "weblate-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "secret",
-            }
-        }
-    )
-    def test_settings_loaded(self):
+class TestGitHubAppSettings(TestCase):
+    def test_db_loaded(self):
+        create_app_credentials(hostname="github.example.com")
         config = get_github_app_settings()
         self.assertIsNotNone(config)
-        self.assertEqual(config["app_id"], "12345")
-        self.assertEqual(config["app_slug"], "weblate-app")
-        self.assertEqual(config["hostname"], "github.example.com")
+        self.assertEqual(config.app_id, "12345")
+        self.assertEqual(config.app_slug, "weblate-app")
+        self.assertEqual(config.hostname, "github.example.com")
         self.assertTrue(github_app_is_configured())
 
-    @override_settings(
-        GITHUB_APP_CREDENTIALS={
-            "github.com": {
-                "app_id": "12345",
-                "app_slug": "weblate-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "secret",
-            }
-        }
-    )
     def test_install_url(self):
+        create_app_credentials(hostname="github.com")
         self.assertEqual(
             get_github_app_install_url("signed-state"),
             "https://github.com/apps/weblate-app/installations/select_target?state=signed-state",
         )
 
-    @override_settings(
-        GITHUB_APP_CREDENTIALS={
-            "api.github.com": {
-                "app_id": "12345",
-                "app_slug": "weblate-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "secret",
-            },
-            "github.example.com": {
-                "app_id": "67890",
-                "app_slug": "weblate-enterprise-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "enterprise-secret",
-            },
-        }
-    )
     def test_multiple_hosts_require_explicit_selection(self):
+        # ``api.github.com`` is normalized to ``github.com`` on save.
+        create_app_credentials(hostname="api.github.com")
+        create_app_credentials(
+            hostname="github.example.com",
+            app_id="67890",
+            app_slug="weblate-enterprise-app",
+            webhook_secret="enterprise-secret",
+        )
         self.assertIsNone(get_github_app_settings())
         self.assertEqual(
-            get_github_app_configurations()["github.com"]["app_slug"],
+            get_github_app_configurations()["github.com"].app_slug,
             "weblate-app",
         )
         self.assertEqual(
-            get_github_app_settings("github.example.com")["app_slug"],
+            get_github_app_settings("github.example.com").app_slug,
             "weblate-enterprise-app",
         )
         self.assertEqual(
-            get_github_app_settings("api.github.com")["hostname"],
+            get_github_app_settings("api.github.com").hostname,
             "github.com",
         )
         self.assertEqual(
@@ -424,18 +411,8 @@ class TestGitHubAppManifestHelpers(SimpleTestCase):
         )
 
 
-class TestDatabaseCredentialsPrecedence(TestCase):
-    @override_settings(
-        GITHUB_APP_CREDENTIALS={
-            "github.com": {
-                "app_id": "fromsettings",
-                "app_slug": "weblate-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "settings-secret",
-            }
-        }
-    )
-    def test_db_overrides_settings(self):
+class TestDatabaseCredentials(TestCase):
+    def test_configurations_loaded_from_db(self):
         GitHubAppCredentials.objects.create(
             hostname="github.com",
             app_id="fromdb",
@@ -445,22 +422,28 @@ class TestDatabaseCredentialsPrecedence(TestCase):
         )
 
         configs = get_github_app_configurations()
-        self.assertEqual(configs["github.com"]["app_id"], "fromdb")
-        self.assertEqual(configs["github.com"]["webhook_secret"], "db-secret")
+        self.assertEqual(configs["github.com"].app_id, "fromdb")
+        self.assertEqual(configs["github.com"].webhook_secret, "db-secret")
 
-    @override_settings(
-        GITHUB_APP_CREDENTIALS={
-            "github.com": {
-                "app_id": "fromsettings",
-                "app_slug": "weblate-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "settings-secret",
-            }
-        }
-    )
-    def test_settings_kept_when_no_db_row(self):
-        configs = get_github_app_configurations()
-        self.assertEqual(configs["github.com"]["app_id"], "fromsettings")
+    def test_no_configuration_without_db_row(self):
+        self.assertEqual(get_github_app_configurations(), {})
+        self.assertFalse(github_app_is_configured())
+
+    def test_backend_always_registered(self):
+        """
+        The backend must stay in the cached VCS registry regardless of config.
+
+        App credentials live in the database, so gating registry membership on
+        them would hide the backend until a worker restart (see the import
+        button preselecting the wrong VCS).
+        """
+        self.assertTrue(GithubAppRepository.is_configured())
+        # Reload the registry with no App configured.
+        VCS_REGISTRY.__dict__.pop("data", None)
+        try:
+            self.assertIn("github-app", VCS_REGISTRY.keys())
+        finally:
+            VCS_REGISTRY.__dict__.pop("data", None)
 
 
 class TestVerifyWebhookSignature(SimpleTestCase):

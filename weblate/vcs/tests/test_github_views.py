@@ -7,14 +7,14 @@ from __future__ import annotations
 from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse
 
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from django.urls import reverse
 
 from weblate.auth.models import User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import create_another_user
 from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 SETTINGS_PRIVATE_KEY = (
@@ -31,22 +31,41 @@ def _ensure_workspace(project: Project, name: str = "Test Workspace") -> Workspa
     return workspace
 
 
-@override_settings(
-    GITHUB_APP_CREDENTIALS={
-        "github.com": {
-            "app_id": "99999",
-            "app_slug": "weblate-app",
-            "private_key": SETTINGS_PRIVATE_KEY,
-            "webhook_secret": "s3cret",
-        }
+def _repo_entry(full_name: str, **overrides) -> dict:
+    """Build a cached repository entry matching the GitHub API shape."""
+    entry = {
+        "full_name": full_name,
+        "clone_url": f"https://github.com/{full_name}.git",
+        "ssh_url": f"git@github.com:{full_name}.git",
+        "html_url": f"https://github.com/{full_name}",
+        "default_branch": "main",
+        "private": False,
+        "description": "",
     }
-)
+    entry.update(overrides)
+    return entry
+
+
+def _make_credentials(
+    hostname: str = "github.com", **overrides
+) -> GitHubAppCredentials:
+    defaults = {
+        "app_id": "99999",
+        "app_slug": "weblate-app",
+        "private_key": SETTINGS_PRIVATE_KEY,
+        "webhook_secret": "s3cret",
+    }
+    defaults.update(overrides)
+    return GitHubAppCredentials.objects.create(hostname=hostname, **defaults)
+
+
 class GitHubInstallationViewTest(ViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.user.is_superuser = True
         self.user.save()
         self.workspace = _ensure_workspace(self.project)
+        _make_credentials()
 
     def _start_install(self, next_url: str | None = None) -> str:
         url = reverse("github-app-install")
@@ -65,23 +84,13 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(parsed.path, "/apps/weblate-app/installations/select_target")
         self.assertIn("state", parse_qs(parsed.query))
 
-    @override_settings(
-        GITHUB_APP_CREDENTIALS={
-            "github.com": {
-                "app_id": "99999",
-                "app_slug": "weblate-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "s3cret",
-            },
-            "github.example.com": {
-                "app_id": "11111",
-                "app_slug": "weblate-enterprise-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "enterprise-secret",
-            },
-        }
-    )
     def test_install_requires_host_selection_with_multiple_configs(self):
+        _make_credentials(
+            "github.example.com",
+            app_id="11111",
+            app_slug="weblate-enterprise-app",
+            webhook_secret="enterprise-secret",
+        )
         response = self.client.get(
             reverse("github-app-install"),
             {
@@ -94,23 +103,13 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "github.com")
         self.assertContains(response, "github.example.com")
 
-    @override_settings(
-        GITHUB_APP_CREDENTIALS={
-            "github.com": {
-                "app_id": "99999",
-                "app_slug": "weblate-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "s3cret",
-            },
-            "github.example.com": {
-                "app_id": "11111",
-                "app_slug": "weblate-enterprise-app",
-                "private_key": SETTINGS_PRIVATE_KEY,
-                "webhook_secret": "enterprise-secret",
-            },
-        }
-    )
     def test_install_redirects_to_selected_host(self):
+        _make_credentials(
+            "github.example.com",
+            app_id="11111",
+            app_slug="weblate-enterprise-app",
+            webhook_secret="enterprise-secret",
+        )
         response = self.client.get(
             reverse("github-app-install"),
             {
@@ -174,7 +173,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(response["Location"], next_url)
 
     def test_repository_list_uses_workspace_scope(self):
-        user = create_another_user()
+        user = self.anotheruser
         self.project.add_user(user, "Administration")
         self.client.force_login(user)
         other_project = Project.objects.create(
@@ -190,20 +189,40 @@ class GitHubInstallationViewTest(ViewTestCase):
             target_type="Organization",
             target_login="test-org",
             workspace=self.workspace,
-            repositories=[{"full_name": "test-org/repo1"}],
+            repositories=[_repo_entry("test-org/repo1")],
         )
         GitHubInstallation.objects.create(
             installation_id="67890",
             target_type="Organization",
             target_login="other-org",
             workspace=other_workspace,
-            repositories=[{"full_name": "other-org/repo2"}],
+            repositories=[_repo_entry("other-org/repo2")],
         )
 
         response = self.client.get(reverse("github-app-repositories"))
 
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "other-org/repo2")
+
+    def test_import_preselects_github_app_vcs(self):
+        """The Import button must land on the create page with github-app chosen."""
+        # Simulate a worker whose VCS registry was loaded before any App existed.
+        VCS_REGISTRY.__dict__.pop("data", None)
+        try:
+            response = self.client.get(
+                reverse("create-component-vcs"),
+                {
+                    "repo": "https://github.com/test-org/repo1.git",
+                    "branch": "main",
+                    "vcs": "github-app",
+                    "project": self.project.pk,
+                },
+            )
+            form = response.context["form"]
+            self.assertEqual(form["vcs"].value(), "github-app")
+            self.assertIn("github-app", dict(form.fields["vcs"].choices))
+        finally:
+            VCS_REGISTRY.__dict__.pop("data", None)
 
     def test_remove_installation(self):
         installation = GitHubInstallation.objects.create(
@@ -340,8 +359,9 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(response.context["hostname"], "github.example.com")
         self.assertEqual(response.context["org"], "acme")
         self.assertEqual(response.context["name"], "Custom")
-        # GHE webhook URL must carry the host hint
-        self.assertIn("?host=github.example.com", response.context["webhook_url"])
+        # The webhook URL identifies the integration by an opaque token, so the
+        # host need not be guessed from the payload.
+        self.assertIn("/hooks/integrations/", response.context["webhook_url"])
 
     def _post_register(self, **fields):
         return self.client.post(reverse("github-app-register-submit"), fields)

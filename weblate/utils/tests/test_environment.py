@@ -14,7 +14,6 @@ from weblate.utils.environment import (
     get_email_config,
     get_env_bool,
     get_env_credentials,
-    get_env_github_app_credentials,
     get_env_int,
     get_env_int_or_none,
     get_env_json,
@@ -296,56 +295,6 @@ class EnvTest(SimpleTestCase):
         )
 
         del os.environ["WEBLATE_TEST_CREDENTIALS"]
-
-    def test_get_env_github_app_credentials(self) -> None:
-        os.environ["WEBLATE_GITHUB_APP_ID"] = "12345"
-        os.environ["WEBLATE_GITHUB_APP_SLUG"] = "weblate-app"
-        os.environ["WEBLATE_GITHUB_APP_PRIVATE_KEY"] = "pem"
-        with self.assertRaises(ImproperlyConfigured):
-            get_env_github_app_credentials()
-
-        os.environ["WEBLATE_GITHUB_APP_HOST"] = "github.example.com"
-        self.assertEqual(
-            get_env_github_app_credentials(),
-            {
-                "github.example.com": {
-                    "app_id": "12345",
-                    "app_slug": "weblate-app",
-                    "private_key": "pem",
-                    "webhook_secret": "",
-                }
-            },
-        )
-
-        del os.environ["WEBLATE_GITHUB_APP_ID"]
-        with self.assertRaises(ImproperlyConfigured):
-            get_env_github_app_credentials()
-
-        del os.environ["WEBLATE_GITHUB_APP_SLUG"]
-        del os.environ["WEBLATE_GITHUB_APP_PRIVATE_KEY"]
-        del os.environ["WEBLATE_GITHUB_APP_HOST"]
-
-        os.environ["WEBLATE_GITHUB_APP_CREDENTIALS"] = "{invalid-syntax}"
-        with self.assertRaises(ImproperlyConfigured):
-            get_env_github_app_credentials()
-
-        os.environ["WEBLATE_GITHUB_APP_CREDENTIALS"] = (
-            '{"github.com": {"app_id": "12345", "app_slug": "weblate-app", '
-            '"private_key": "pem", "webhook_secret": "secret"}}'
-        )
-        self.assertEqual(
-            get_env_github_app_credentials(),
-            {
-                "github.com": {
-                    "app_id": "12345",
-                    "app_slug": "weblate-app",
-                    "private_key": "pem",
-                    "webhook_secret": "secret",
-                }
-            },
-        )
-
-        del os.environ["WEBLATE_GITHUB_APP_CREDENTIALS"]
 
     def test_get_env_ratelimit(self) -> None:
         os.environ["RATELIMIT_ANON"] = "1/hour"

@@ -9,11 +9,12 @@ from __future__ import annotations
 from unittest.mock import patch
 
 from django.db import IntegrityError, transaction
-from django.test import TestCase, override_settings
+from django.test import TestCase
 
-from weblate.vcs.git import GithubRepository
 from weblate.vcs.github import (
+    GitHubAppCredentials,
     GitHubAppNotConfiguredError,
+    GithubAppRepository,
     GitHubInstallation,
 )
 from weblate.workspaces.models import Workspace
@@ -22,14 +23,18 @@ SETTINGS_PRIVATE_KEY = (
     "-----BEGIN RSA PRIVATE KEY-----\nsettings\n-----END RSA PRIVATE KEY-----"
 )
 
-GITHUB_COM_CREDENTIALS = {
-    "github.com": {
+
+def _make_credentials(
+    hostname: str = "github.com", **overrides
+) -> GitHubAppCredentials:
+    defaults = {
         "app_id": "99999",
         "app_slug": "weblate-app",
         "private_key": SETTINGS_PRIVATE_KEY,
-        "webhook_secret": "settings-secret",
+        "webhook_secret": "credentials-secret",
     }
-}
+    defaults.update(overrides)
+    return GitHubAppCredentials.objects.create(hostname=hostname, **defaults)
 
 
 def _make_workspace(name: str = "github-workspace") -> Workspace:
@@ -77,25 +82,25 @@ class TestGitHubInstallation(TestCase):
     def test_has_repository_empty(self):
         self.assertFalse(self.installation.has_repository("test-org/repo1"))
 
-    @override_settings(GITHUB_APP_CREDENTIALS=GITHUB_COM_CREDENTIALS)
-    def test_get_webhook_secret_uses_settings(self):
-        self.assertEqual(self.installation.get_webhook_secret(), "settings-secret")
+    def test_get_webhook_secret_uses_credentials(self):
+        _make_credentials()
+        self.assertEqual(self.installation.get_webhook_secret(), "credentials-secret")
 
-    def test_get_webhook_secret_without_settings(self):
+    def test_get_webhook_secret_without_credentials(self):
         self.assertEqual(self.installation.get_webhook_secret(), "")
 
-    @override_settings(GITHUB_APP_CREDENTIALS=GITHUB_COM_CREDENTIALS)
-    def test_app_id_from_settings(self):
+    def test_app_id_from_credentials(self):
+        _make_credentials()
         self.assertEqual(self.installation.app_id, "99999")
 
-    def test_app_id_without_settings(self):
+    def test_app_id_without_credentials(self):
         self.assertEqual(self.installation.app_id, "")
 
-    def test_get_access_token_requires_settings(self):
+    def test_get_access_token_requires_credentials(self):
         with self.assertRaises(GitHubAppNotConfiguredError):
             self.installation.get_access_token()
 
-    def test_refresh_repositories_requires_settings(self):
+    def test_refresh_repositories_requires_credentials(self):
         with self.assertRaises(GitHubAppNotConfiguredError):
             self.installation.refresh_repositories()
 
@@ -177,9 +182,9 @@ class TestGitHubInstallationManager(TestCase):
             self.installation,
         )
 
-    @override_settings(GITHUB_APP_CREDENTIALS=GITHUB_COM_CREDENTIALS)
     @patch("weblate.vcs.github.get_app_installation")
     def test_sync_from_api(self, mock_get_installation):
+        _make_credentials()
         mock_get_installation.return_value = {
             "id": 24680,
             "app_id": 99999,
@@ -193,7 +198,7 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(installation.target_login, "synced-org")
         self.assertEqual(installation.app_id, "99999")
 
-    def test_sync_from_api_requires_settings(self):
+    def test_sync_from_api_requires_credentials(self):
         with self.assertRaises(GitHubAppNotConfiguredError):
             GitHubInstallation.objects.sync_from_api(
                 "github.com",
@@ -201,11 +206,10 @@ class TestGitHubInstallationManager(TestCase):
                 workspace=_make_workspace("sync-missing-workspace"),
             )
 
-    @override_settings(GITHUB_APP_CREDENTIALS=GITHUB_COM_CREDENTIALS)
     @patch.object(GitHubInstallation, "get_access_token", return_value="ghs_test")
     def test_github_repository_auth_args_use_installation_token(self, mock_token):
         args = list(
-            GithubRepository._get_auth_args(  # noqa: SLF001
+            GithubAppRepository._get_auth_args(  # noqa: SLF001
                 "https://github.com/test-org/repo1.git"
             )
         )

@@ -2862,6 +2862,20 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     )
     instance: Component  # type: ignore[assignment]
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        # The GitHub App backend is always registered, but should only be
+        # offered once an App is actually configured. This is checked per
+        # request because App credentials live in the database.
+        from weblate.vcs.github import github_app_is_configured  # noqa: PLC0415
+
+        if not github_app_is_configured():
+            self.fields["vcs"].choices = [
+                choice
+                for choice in self.fields["vcs"].choices
+                if choice[0] != "github-app"
+            ]
+
     def clean_instance(self, data) -> None:
         params = copy.copy(data)
         for field in ("detected_license", "discovery", "source_component"):

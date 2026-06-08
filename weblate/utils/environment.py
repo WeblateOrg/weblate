@@ -218,48 +218,6 @@ def get_env_credentials(
     return credentials
 
 
-def get_env_github_app_credentials() -> dict[str, dict[str, str]]:
-    """Get Weblate GitHub app credentials from environment."""
-    if found_env_credentials := get_env_str("WEBLATE_GITHUB_APP_CREDENTIALS"):
-        try:
-            return ast.literal_eval(found_env_credentials)
-        except (SyntaxError, ValueError) as error:
-            msg = f"Could not parse GITHUB_APP_CREDENTIALS: {error}"
-            raise ImproperlyConfigured(msg) from error
-
-    host = get_env_str("WEBLATE_GITHUB_APP_HOST")
-    app_id = get_env_str("WEBLATE_GITHUB_APP_ID", "")
-    app_slug = get_env_str("WEBLATE_GITHUB_APP_SLUG", "")
-    private_key = get_env_str("WEBLATE_GITHUB_APP_PRIVATE_KEY", "")
-    webhook_secret = get_env_str("WEBLATE_GITHUB_APP_WEBHOOK_SECRET", "")
-
-    if not host:
-        if app_id or app_slug or private_key or webhook_secret:
-            msg = (
-                "Incomplete GITHUB_APP_CREDENTIALS configuration: "
-                "missing WEBLATE_GITHUB_APP_HOST"
-            )
-            raise ImproperlyConfigured(msg)
-        return {}
-
-    if not app_id or not app_slug or not private_key:
-        msg = (
-            "Incomplete GITHUB_APP_CREDENTIALS configuration: "
-            "WEBLATE_GITHUB_APP_ID, WEBLATE_GITHUB_APP_SLUG, and "
-            "WEBLATE_GITHUB_APP_PRIVATE_KEY are required"
-        )
-        raise ImproperlyConfigured(msg)
-
-    return {
-        host: {
-            "app_id": app_id,
-            "app_slug": app_slug,
-            "private_key": private_key,
-            "webhook_secret": webhook_secret,
-        }
-    }
-
-
 def get_env_ratelimit(name: str, default: str) -> str:
     value = get_env_str(name, default)
 

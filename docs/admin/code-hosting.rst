@@ -237,11 +237,12 @@ access to the repository. To push changes back, you still need to add
 the Hosted Weblate :guilabel:`weblate` GitHub user as a collaborator with write
 access, see :ref:`hosted-push`.
 
-For self-hosted Weblate, you can either use the in-app registration flow to
-create the GitHub App with one click (recommended), or create the App manually
-on each GitHub host you want Weblate to connect to and configure
-:setting:`GITHUB_APP_CREDENTIALS` with the app ID, app slug, private key, and
-webhook secret from that app.
+For self-hosted Weblate, register the GitHub App using the in-app registration
+flow described below. Weblate generates the App manifest, GitHub returns the
+credentials, and they are stored in the database - there is no settings-based
+configuration.
+
+.. _code-hosting-github-app-register:
 
 Registering the GitHub App from Weblate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -263,66 +264,11 @@ manifest with the correct permissions, events, and webhook URL pre-filled:
    database. The :guilabel:`Connect GitHub account` button is available
    immediately afterwards.
 
-Database-stored credentials always take precedence over values in
-:setting:`GITHUB_APP_CREDENTIALS`, so the in-app flow can be used to update
-credentials on a Weblate instance that originally configured the App through
-settings.
-
-Registering the GitHub App manually
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Open :guilabel:`Settings → Developer settings → GitHub Apps → New GitHub App`
-on the GitHub host where the app should live, and fill in the following:
-
-* :guilabel:`GitHub App name` — for example ``Weblate``.
-* :guilabel:`Homepage URL` — your Weblate instance URL.
-* :guilabel:`Callback URL` —
-  ``https://weblate.example.com/integrations/github/setup/``. This is where
-  GitHub sends users after they pick the account to install on; without it,
-  GitHub leaves them on the GitHub installation settings page.
-* :guilabel:`Redirect on update` — check this so updates to an existing
-  installation also redirect to the callback URL above and refresh the cached
-  repository list in Weblate.
-* :guilabel:`Setup URL (optional)` — same value as the callback URL.
-* :guilabel:`Webhook URL` — ``https://weblate.example.com/hooks/github-app/``.
-  For multiple GitHub hosts add ``?host=github.example.com`` (see the
-  :ref:`webhook section <code-hosting-github-app-webhook>` below).
-* :guilabel:`Webhook secret` — a long random string. Store the same value as
-  ``webhook_secret`` in :setting:`GITHUB_APP_CREDENTIALS`.
-
-Required :guilabel:`Repository permissions`:
-
-* :guilabel:`Contents` — :guilabel:`Read and write` (clone, push translation
-  branches).
-* :guilabel:`Metadata` — :guilabel:`Read-only` (mandatory baseline).
-* :guilabel:`Pull requests` — :guilabel:`Read and write` (open translation
-  pull requests).
-* :guilabel:`Workflows` — :guilabel:`Read and write` (only required if any of
-  the synced repositories contain GitHub Actions workflow files; otherwise
-  pushes to those paths are rejected).
-
-Required :guilabel:`Subscribe to events`:
-
-* :guilabel:`Installation target` and :guilabel:`Meta` (account/app lifecycle).
-* :guilabel:`Push` (translation source updates).
-
-Choose :guilabel:`Any account` if you want the app to be installable on other
-accounts, or :guilabel:`Only on this account` to restrict it.
-
-After registering, generate a private key, copy :guilabel:`App ID` and the slug
-from the app URL, and feed all four values into
-:setting:`GITHUB_APP_CREDENTIALS`:
-
-.. code-block:: python
-
-   GITHUB_APP_CREDENTIALS = {
-       "github.com": {
-           "app_id": "12345",
-           "app_slug": "your-app-slug",
-           "private_key": "-----BEGIN RSA PRIVATE KEY-----\n...",
-           "webhook_secret": "the same secret you set in the app",
-       },
-   }
+The manifest requests the permissions and event subscriptions Weblate needs
+(``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
+``Workflows`` read/write, and the ``Installation target``, ``Meta`` and
+``Push`` events), and sets the callback, setup and per-integration webhook
+URLs automatically, so no manual GitHub App configuration is required.
 
 GitHub only offers accounts where the signed-in GitHub user can install or
 request the app. If an organization is not shown during the install flow, check
@@ -351,27 +297,12 @@ credentials from being redirected to an unrelated repository.
 App webhook URL
 ^^^^^^^^^^^^^^^
 
-In the GitHub App webhook settings, enable webhooks and use the Weblate
-GitHub App hook URL as the :guilabel:`Webhook URL`. When Weblate is configured
-for multiple GitHub hosts, include the GitHub host in the URL query string:
+Each registered GitHub App integration has its own webhook URL containing an
+opaque token that uniquely identifies a single integration:
 
 .. code-block:: text
 
-   https://weblate.example.com/hooks/github-app/?host=github.example.com
-
-The ``host`` value has to match the host key in :setting:`GITHUB_APP_CREDENTIALS`.
-Use ``github.com`` for GitHub.com and the web hostname for GitHub Enterprise
-Server. The query parameter is not added by GitHub; it is part of the webhook
-URL you configure in the GitHub App.
-
-The host is needed because GitHub App IDs and installation IDs are scoped to a
-single GitHub host. If the same Weblate instance handles GitHub.com and one or
-more GitHub Enterprise Server instances, the same numeric ID can exist on more
-than one host. The host value lets Weblate choose the correct app credentials
-before validating the webhook signature and before creating or updating the
-stored installation. If the parameter is omitted, Weblate tries to infer the
-host from a unique app ID, an existing installation, or a matching webhook
-secret, but an explicit host keeps the first delivery unambiguous.
+   https://weblate.example.com/hooks/integrations/<webhook_token>/
 
 If you are not using a GitHub App, add the Weblate webhook in the repository
 settings (:guilabel:`Webhooks`) to receive notifications on every push to a
@@ -389,8 +320,6 @@ types and consumes just the :guilabel:`push` event.
 .. seealso::
 
    * :http:post:`/hooks/github/`
-   * :http:post:`/hooks/github-app/`
-   * :setting:`GITHUB_APP_CREDENTIALS`
    * :ref:`hosted-push`
 
 .. _code-hosting-github-pull-requests:

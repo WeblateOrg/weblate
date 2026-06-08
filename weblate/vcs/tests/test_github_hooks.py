@@ -11,54 +11,42 @@ import hmac
 import json
 from unittest.mock import patch
 
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from rest_framework.test import APIClient
 
-from weblate.vcs.github import GitHubInstallation
+from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
 from weblate.workspaces.models import Workspace
 
 SETTINGS_PRIVATE_KEY = (
     "-----BEGIN RSA PRIVATE KEY-----\nsettings\n-----END RSA PRIVATE KEY-----"
 )
 
-GITHUB_COM_CREDENTIALS = {
-    "github.com": {
-        "app_id": "99999",
-        "app_slug": "weblate-app",
-        "private_key": SETTINGS_PRIVATE_KEY,
-        "webhook_secret": "s3cret",
-    }
-}
+# Opaque webhook tokens identify which integration a delivery belongs to. They
+# are part of the hook URL, so the host is known without guessing the payload.
+GITHUB_COM_TOKEN = "11111111-1111-1111-1111-111111111111"
+ENTERPRISE_TOKEN = "22222222-2222-2222-2222-222222222222"
 
-ENTERPRISE_CREDENTIALS = {
-    "github.com": {
-        "app_id": "99999",
-        "app_slug": "weblate-app",
-        "private_key": SETTINGS_PRIVATE_KEY,
-        "webhook_secret": "s3cret",
-    },
-    "github.example.com": {
-        "app_id": "11111",
-        "app_slug": "weblate-enterprise-app",
-        "private_key": SETTINGS_PRIVATE_KEY,
-        "webhook_secret": "enterprise-secret",
-    },
-}
 
-SHARED_APP_ID_CREDENTIALS = {
-    "github.com": {
-        "app_id": "99999",
-        "app_slug": "weblate-app",
-        "private_key": SETTINGS_PRIVATE_KEY,
-        "webhook_secret": "s3cret",
-    },
-    "github.example.com": {
-        "app_id": "99999",
-        "app_slug": "weblate-enterprise-app",
-        "private_key": SETTINGS_PRIVATE_KEY,
-        "webhook_secret": "enterprise-secret",
-    },
-}
+def _make_credentials(
+    hostname: str,
+    webhook_token: str,
+    *,
+    webhook_secret: str,
+    app_id: str = "99999",
+    app_slug: str = "weblate-app",
+) -> GitHubAppCredentials:
+    return GitHubAppCredentials.objects.create(
+        hostname=hostname,
+        app_id=app_id,
+        app_slug=app_slug,
+        private_key=SETTINGS_PRIVATE_KEY,
+        webhook_secret=webhook_secret,
+        webhook_token=webhook_token,
+    )
+
+
+def _integration_url(token: str) -> str:
+    return f"/hooks/integrations/{token}/"
 
 
 def _sign(body: str, secret: str) -> str:
@@ -70,15 +58,15 @@ def _sign(body: str, secret: str) -> str:
     )
 
 
-@override_settings(GITHUB_APP_CREDENTIALS=GITHUB_COM_CREDENTIALS)
 class TestGitHubAppWebhookEvents(TestCase):
-    WEBHOOK_URL = "/hooks/github-app/"
+    WEBHOOK_URL = _integration_url(GITHUB_COM_TOKEN)
 
     def setUp(self):
         self.client = APIClient()
         self.workspace = Workspace.objects.create(name="Hook Workspace")
+        _make_credentials("github.com", GITHUB_COM_TOKEN, webhook_secret="s3cret")
 
-    def _post(self, event_type, data, *, secret="s3cret"):  # noqa: S107
+    def _post(self, event_type, data, *, secret="s3cret", url=None):  # noqa: S107
         body = json.dumps(data)
         headers = {
             "HTTP_X_GITHUB_EVENT": event_type,
@@ -86,7 +74,7 @@ class TestGitHubAppWebhookEvents(TestCase):
         }
         if secret is not None:
             headers["HTTP_X_HUB_SIGNATURE_256"] = _sign(body, secret)
-        return self.client.post(self.WEBHOOK_URL, data=body, **headers)
+        return self.client.post(url or self.WEBHOOK_URL, data=body, **headers)
 
     def _create_installation(self, **overrides) -> GitHubInstallation:
         defaults = {
@@ -169,19 +157,23 @@ class TestGitHubAppWebhookEvents(TestCase):
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
 
-    def test_installation_event_for_unconfigured_host_is_rejected(self):
-        """Without settings configured, the App webhook cannot be authenticated."""
-        with override_settings(GITHUB_APP_CREDENTIALS={}):
-            data = {
-                "action": "created",
-                "installation": {
-                    "id": 99999,
-                    "app_id": 12345,
-                    "account": {"login": "stranger", "type": "User"},
-                },
-            }
-            response = self._post("installation", data, secret=None)
-            self.assertEqual(response.status_code, 403)
+    def test_unknown_integration_token_is_rejected(self):
+        """A delivery to an unknown integration token cannot be authenticated."""
+        data = {
+            "action": "created",
+            "installation": {
+                "id": 99999,
+                "app_id": 12345,
+                "account": {"login": "stranger", "type": "User"},
+            },
+        }
+        response = self._post(
+            "installation",
+            data,
+            secret=None,
+            url=_integration_url("33333333-3333-3333-3333-333333333333"),
+        )
+        self.assertEqual(response.status_code, 403)
 
     # --- repository changes ---------------------------------------------
 
@@ -208,8 +200,14 @@ class TestGitHubAppWebhookEvents(TestCase):
         self.assertIn("test-org/existing", names)
         self.assertIn("test-org/new-repo", names)
 
-    @override_settings(GITHUB_APP_CREDENTIALS=ENTERPRISE_CREDENTIALS)
     def test_repositories_added_uses_installation_hostname(self):
+        _make_credentials(
+            "github.example.com",
+            ENTERPRISE_TOKEN,
+            webhook_secret="enterprise-secret",
+            app_id="11111",
+            app_slug="weblate-enterprise-app",
+        )
         installation = self._create_installation(
             hostname="github.example.com",
             repositories=[],
@@ -221,7 +219,10 @@ class TestGitHubAppWebhookEvents(TestCase):
             "repositories_removed": [],
         }
         response = self._post(
-            "installation_repositories", data, secret="enterprise-secret"
+            "installation_repositories",
+            data,
+            secret="enterprise-secret",
+            url=_integration_url(ENTERPRISE_TOKEN),
         )
         self.assertEqual(response.status_code, 201)
         installation.refresh_from_db()
@@ -252,7 +253,7 @@ class TestGitHubAppWebhookEvents(TestCase):
     # --- webhook signature enforcement ----------------------------------
 
     def test_signature_required_when_secret_configured(self):
-        """An App webhook on a configured host requires a valid signature."""
+        """An App webhook on a configured integration requires a valid signature."""
         self._create_installation()
         data = {
             "action": "deleted",
@@ -293,9 +294,15 @@ class TestGitHubAppWebhookEvents(TestCase):
             GitHubInstallation.objects.get(installation_id="12345").enabled
         )
 
-    @override_settings(GITHUB_APP_CREDENTIALS=ENTERPRISE_CREDENTIALS)
-    def test_other_host_secret_does_not_authorize(self):
-        """A signature valid for one host must not authorize another host's installation."""
+    def test_other_integration_secret_does_not_authorize(self):
+        """Signing with another integration's secret must be rejected."""
+        _make_credentials(
+            "github.example.com",
+            ENTERPRISE_TOKEN,
+            webhook_secret="enterprise-secret",
+            app_id="11111",
+            app_slug="weblate-enterprise-app",
+        )
         self._create_installation(
             installation_id="12345", hostname="github.example.com"
         )
@@ -309,12 +316,18 @@ class TestGitHubAppWebhookEvents(TestCase):
                 },
             },
         }
-        # Sign with the wrong host's secret (github.com instead of enterprise)
-        response = self._post("installation", data, secret="s3cret")
+        # Deliver to the enterprise integration URL but sign with github.com's
+        # secret; only the enterprise secret may authenticate this endpoint.
+        response = self._post(
+            "installation",
+            data,
+            secret="s3cret",
+            url=_integration_url(ENTERPRISE_TOKEN),
+        )
         self.assertEqual(response.status_code, 403)
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
-    # --- non-app events --------------------------------------------------
+    # --- push deliveries -------------------------------------------------
 
     def test_push_event_signed_by_configured_app(self):
         """Signed pushes from connected accounts are accepted."""
@@ -334,7 +347,7 @@ class TestGitHubAppWebhookEvents(TestCase):
         self.assertIn(response.status_code, (200, 202))
 
     def test_push_event_without_app_signature(self):
-        """GitHub App deliveries require the configured App secret."""
+        """GitHub App deliveries require the integration secret."""
         data = {
             "ref": "refs/heads/main",
             "installation": {"id": 12345, "app_id": 99999},
@@ -356,7 +369,6 @@ class TestGitHubAppWebhookEvents(TestCase):
         self.assertEqual(response.status_code, 201)
 
 
-@override_settings(GITHUB_APP_CREDENTIALS=GITHUB_COM_CREDENTIALS)
 class TestGitHubLegacyWebhookEvents(TestCase):
     WEBHOOK_URL = "/hooks/github/"
 
@@ -373,7 +385,6 @@ class TestGitHubLegacyWebhookEvents(TestCase):
             headers["HTTP_X_HUB_SIGNATURE_256"] = _sign(body, secret)
         return self.client.post(self.WEBHOOK_URL, data=body, **headers)
 
-    @override_settings(GITHUB_APP_CREDENTIALS={})
     def test_push_event_without_app_configured(self):
         """Plain repo-level webhook deliveries still work when no App is set up."""
         data = {
@@ -407,7 +418,7 @@ class TestGitHubLegacyWebhookEvents(TestCase):
         self.assertIn(response.status_code, (200, 202))
 
     def test_app_delivery_rejected_on_generic_endpoint(self):
-        """GitHub App deliveries must use the App-specific endpoint."""
+        """GitHub App deliveries must use the per-integration endpoint."""
         data = {
             "ref": "refs/heads/main",
             "installation": {"id": 12345, "app_id": 99999},

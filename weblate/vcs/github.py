@@ -11,12 +11,12 @@ import hashlib
 import hmac
 import logging
 import time
+import uuid
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import urlencode, urlparse
 
 import jwt
 import requests
-from django.conf import settings
 from django.core.cache import cache
 from django.db import models
 from django.utils import timezone
@@ -66,65 +66,25 @@ def normalize_github_app_hostname(hostname: str) -> str:
     return normalized
 
 
-def _settings_github_app_configurations() -> dict[str, dict[str, str]]:
-    """Return GitHub app configurations declared in Django settings."""
-    raw_configs = getattr(settings, "GITHUB_APP_CREDENTIALS", {})
-    if raw_configs:
-        configs = {}
-        for hostname, config in raw_configs.items():
-            normalized = normalize_github_app_hostname(hostname)
-            configs[normalized] = {
-                "app_id": str(config.get("app_id", "")).strip(),
-                "app_slug": str(config.get("app_slug", "")).strip(),
-                "private_key": str(config.get("private_key", "")).strip(),
-                "webhook_secret": str(config.get("webhook_secret", "")).strip(),
-                "hostname": normalized,
-            }
-        return configs
+def get_github_app_configurations() -> dict[str, GitHubAppCredentials]:
+    """
+    Return configured Weblate GitHub app credentials keyed by normalized hostname.
 
-    app_hostname = normalize_github_app_hostname(
-        getattr(settings, "GITHUB_APP_HOSTNAME", "github.com")
-    )
-    app_id = str(getattr(settings, "GITHUB_APP_ID", "")).strip()
-    app_slug = str(getattr(settings, "GITHUB_APP_SLUG", "")).strip()
-    private_key = str(getattr(settings, "GITHUB_APP_PRIVATE_KEY", "")).strip()
-    webhook_secret = str(getattr(settings, "GITHUB_APP_WEBHOOK_SECRET", "")).strip()
-    if not app_id or not app_slug or not private_key:
-        return {}
-
-    return {
-        app_hostname: {
-            "app_id": app_id,
-            "app_slug": app_slug,
-            "private_key": private_key,
-            "webhook_secret": webhook_secret,
-            "hostname": app_hostname,
-        }
-    }
-
-
-def _db_github_app_configurations() -> dict[str, dict[str, str]]:
-    """Return GitHub app configurations registered via the manifest flow."""
+    GitHub Apps are registered through the manifest flow and stored in the
+    database (:class:`GitHubAppCredentials`); there is no settings-based
+    configuration.
+    """
     try:
         rows = list(GitHubAppCredentials.objects.all())
     except Exception:
         # Database may not be migrated yet (e.g. during initial setup or
         # when this is called outside a request).
         return {}
-    return {row.hostname: row.as_config() for row in rows}
+    return {row.hostname: row for row in rows}
 
 
-def get_github_app_configurations() -> dict[str, dict[str, str]]:
-    """Return configured Weblate GitHub app settings keyed by normalized hostname."""
-    configs = _settings_github_app_configurations()
-    # Database-registered credentials take precedence over settings so that
-    # apps registered through the manifest flow are immediately usable.
-    configs.update(_db_github_app_configurations())
-    return configs
-
-
-def get_github_app_settings(hostname: str | None = None) -> dict[str, str] | None:
-    """Return the configured Weblate GitHub app settings for one host, if available."""
+def get_github_app_settings(hostname: str | None = None) -> GitHubAppCredentials | None:
+    """Return the configured Weblate GitHub app credentials for one host, if any."""
     configs = get_github_app_configurations()
     if hostname is not None:
         return configs.get(normalize_github_app_hostname(hostname))
@@ -136,11 +96,8 @@ def get_github_app_settings(hostname: str | None = None) -> dict[str, str] | Non
 def github_app_is_configured(hostname: str | None = None) -> bool:
     """Return whether the Weblate GitHub app is configured for installs on the host."""
     if hostname is not None:
-        config = get_github_app_settings(hostname)
-        return config is not None and bool(config["webhook_secret"])
-    return any(
-        config["webhook_secret"] for config in get_github_app_configurations().values()
-    )
+        return get_github_app_settings(hostname) is not None
+    return bool(get_github_app_configurations())
 
 
 def get_github_app_install_url(state: str, hostname: str | None = None) -> str:
@@ -153,9 +110,9 @@ def get_github_app_install_url(state: str, hostname: str | None = None) -> str:
     # The documented ``installations/new`` URL can send returning users straight
     # to an existing installation settings page. ``select_target`` keeps the
     # account or organization picker in the connect flow.
-    app_path = "apps" if config["hostname"] == "github.com" else "github-apps"
+    app_path = "apps" if config.hostname == "github.com" else "github-apps"
     return (
-        f"https://{config['hostname']}/{app_path}/{config['app_slug']}"
+        f"https://{config.hostname}/{app_path}/{config.app_slug}"
         f"/installations/select_target?{urlencode({'state': state})}"
     )
 
@@ -395,10 +352,8 @@ class GitHubAppCredentials(models.Model):
     """
     Per-host Weblate GitHub App credentials stored in the database.
 
-    Rows in this table are typically created by the manifest registration flow
-    in :mod:`weblate.vcs.views`. They take precedence over
-    ``settings.GITHUB_APP_CREDENTIALS`` so admins can register an App through
-    the UI without editing settings.
+    Rows in this table are created by the manifest registration flow in
+    :mod:`weblate.vcs.views`; this is the only way GitHub Apps are configured.
     """
 
     hostname = models.CharField(
@@ -411,6 +366,16 @@ class GitHubAppCredentials(models.Model):
     private_key = models.TextField(verbose_name=gettext_lazy("Private key (PEM)"))
     webhook_secret = models.CharField(
         max_length=255, verbose_name=gettext_lazy("Webhook secret")
+    )
+    # Opaque identifier embedded in the App's webhook URL
+    # (``/hooks/integrations/<webhook_token>/``). It lets an incoming delivery be
+    # tied to exactly one integration so its secret can be verified without
+    # guessing the host from the payload.
+    webhook_token = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        editable=False,
+        verbose_name=gettext_lazy("Webhook token"),
     )
     html_url = models.URLField(blank=True, verbose_name=gettext_lazy("App URL"))
     created = models.DateTimeField(auto_now_add=True)
@@ -426,15 +391,6 @@ class GitHubAppCredentials(models.Model):
     def save(self, *args, **kwargs) -> None:
         self.hostname = normalize_github_app_hostname(self.hostname)
         super().save(*args, **kwargs)
-
-    def as_config(self) -> dict[str, str]:
-        return {
-            "app_id": self.app_id,
-            "app_slug": self.app_slug,
-            "private_key": self.private_key,
-            "webhook_secret": self.webhook_secret,
-            "hostname": self.hostname,
-        }
 
 
 class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
@@ -529,8 +485,8 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             raise GitHubAppNotConfiguredError(msg)
 
         data = get_app_installation(
-            config["app_id"],
-            config["private_key"],
+            config.app_id,
+            config.private_key,
             installation_id,
             hostname,
         )
@@ -568,8 +524,8 @@ class GitHubInstallation(models.Model):
     Per-workspace rows store the GitHub-issued ``installation_id``, the account
     it was installed on, and a cached repository list. App-level credentials
     (App ID, private key, webhook secret) live in
-    ``settings.GITHUB_APP_CREDENTIALS`` and are looked up by hostname so a
-    single configured App can serve every connected account on that host.
+    :class:`GitHubAppCredentials` and are looked up by hostname so a single
+    registered App can serve every connected account on that host.
     """
 
     installation_id = models.CharField(
@@ -632,7 +588,7 @@ class GitHubInstallation(models.Model):
     def api_base(self) -> str:
         return get_github_api_base(self.hostname)
 
-    def _require_app_settings(self) -> dict[str, str]:
+    def _require_app_settings(self) -> GitHubAppCredentials:
         config = get_github_app_settings(self.hostname)
         if config is None:
             msg = f"Weblate GitHub app is not configured for {self.hostname}"
@@ -642,13 +598,13 @@ class GitHubInstallation(models.Model):
     @property
     def app_id(self) -> str:
         config = get_github_app_settings(self.hostname)
-        return config["app_id"] if config is not None else ""
+        return config.app_id if config is not None else ""
 
     def get_access_token(self) -> str:
         config = self._require_app_settings()
         return get_installation_token(
-            config["app_id"],
-            config["private_key"],
+            config.app_id,
+            config.private_key,
             self.installation_id,
             self.hostname,
         )
@@ -656,8 +612,8 @@ class GitHubInstallation(models.Model):
     def refresh_repositories(self) -> list[dict]:
         config = self._require_app_settings()
         repos = get_app_repositories(
-            config["app_id"],
-            config["private_key"],
+            config.app_id,
+            config.private_key,
             self.installation_id,
             self.hostname,
         )
@@ -679,7 +635,7 @@ class GitHubInstallation(models.Model):
         config = get_github_app_settings(self.hostname)
         if config is None:
             return ""
-        return config["webhook_secret"]
+        return config.webhook_secret
 
 
 class GithubAppRepository(GithubRepository):
@@ -701,7 +657,12 @@ class GithubAppRepository(GithubRepository):
 
     @classmethod
     def is_configured(cls) -> bool:
-        return github_app_is_configured()
+        # Always register this backend. App availability is configured in the
+        # database (per host/installation) and resolved per repository at clone
+        # time, so it must not be gated by the process-wide cached VCS registry
+        # (which would otherwise hide it until a worker restart). Whether to
+        # offer it in the UI is decided dynamically via github_app_is_configured.
+        return True
 
     @classmethod
     def get_credentials_configuration(cls):
