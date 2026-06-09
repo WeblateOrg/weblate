@@ -17,8 +17,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
-"PO-Revision-Date: 2026-06-06 04:21+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-09 22:01+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -7668,12 +7668,11 @@ msgid "Source has been removed."
 msgstr "A fonte foi removida."
 
 #: weblate/screenshots/views.py:534
-#, fuzzy, python-format
-#| msgid "No matching source strings found."
+#, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "Sem entradas fonte coincidentes."
-msgstr[1] "Sem entradas fonte coincidentes."
+msgstr[0] "Encontrada %(count)s cadeia de carateres fonte correspondente."
+msgstr[1] "Encontradas %(count)s cadeias de carateres fonte correspondentes."
 
 #: weblate/screenshots/views.py:539
 msgid "No new matching source strings found."
@@ -12451,10 +12450,8 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s foi concluída"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "Filtro de qualidade de tradução"
+msgstr "Atividade da tradução neste período:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
 #, fuzzy
@@ -14816,10 +14813,8 @@ msgstr ""
 "serviço, mas é recomendável que atualize o plano de faturação."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:3
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Weblate could not validate the repository browser URL:"
-msgstr "Não foi possível atualizar o repositório."
+msgstr "Weblate não conseguiu validar o URL do navegador do repositório:"
 
 #. Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user.
 #: weblate/templates/trans/alert/brokenbrowserurl.html:14
@@ -14839,11 +14834,8 @@ msgstr ""
 "referências para uma diretoria fonte, ou está absoluta."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
 msgid "Weblate could not validate the project website URL:"
-msgstr ""
-"Weblate não conseguiu submeter as alterações para o repositório principal."
+msgstr "Weblate não conseguiu validar o URL do ''site'' da Web do projeto:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:3
 msgid "Weblate CDN add-on could not parse the HTML files."
@@ -19624,10 +19616,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/trans/models/component.py:2925
-#, fuzzy, python-format
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -19635,11 +19624,12 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
-"quaisquer alterações pendentes no Weblate."
+"A sincronização de ficheiro não conseguiu recriar %(files)s antes de "
+"submeter as traduções pendentes. As alterações pendentes foram mantidas."
 msgstr[1] ""
-"Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
-"quaisquer alterações pendentes no Weblate."
+"A sincronização de ficheiro não conseguiu recriar estes ficheiros antes de "
+"submeter as traduções pendentes:  %(files)s. As alterações pendentes foram "
+"mantidas."
 
 #: weblate/trans/models/component.py:2935
 #, fuzzy
