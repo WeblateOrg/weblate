@@ -27,6 +27,7 @@ from weblate.trans.views.create import CreateComponentSelection
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.git import GitRepository
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
@@ -377,6 +378,33 @@ class CreateTest(ViewTestCase):
             response = self.client.post(reverse("create-component-vcs"), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, "po/*.po")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_preselects_github_app_vcs(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        # Simulate a worker whose VCS registry was loaded before any App existed.
+        VCS_REGISTRY.__dict__.pop("data", None)
+        try:
+            response = self.client.get(
+                reverse("create-component-vcs"),
+                {
+                    "repo": "https://github.com/test-org/repo1.git",
+                    "branch": "main",
+                    "vcs": "github-app",
+                    "project": self.project.pk,
+                },
+            )
+            form = response.context["form"]
+            self.assertEqual(
+                form["repo"].value(), "https://github.com/test-org/repo1.git"
+            )
+            self.assertEqual(form["branch"].value(), "main")
+            self.assertEqual(form["vcs"].value(), "github-app")
+            self.assertIn("github-app", dict(form.fields["vcs"].choices))
+        finally:
+            VCS_REGISTRY.__dict__.pop("data", None)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_wizard_discovery_file_format_params(self) -> None:

@@ -290,6 +290,7 @@ class CreateComponent(BaseCreateView):
             for field in ComponentCreateForm.CREATE_INHERITABLE_SETTINGS
         ),
     )
+    initial_fields = (*basic_fields, "branch", *passthrough_fields)
     empty_form = False
     form_class: type[ComponentProjectForm] = ComponentInitCreateForm
     origin = "vcs"
@@ -461,7 +462,7 @@ class CreateComponent(BaseCreateView):
         session_data = {}
         if SESSION_CREATE_KEY in request.GET and SESSION_CREATE_KEY in request.session:
             session_data = request.session[SESSION_CREATE_KEY]
-        for field in (*self.basic_fields, *self.passthrough_fields):
+        for field in self.initial_fields:
             if field in session_data:
                 self.initial[field] = session_data[field]
             elif field in request.GET:

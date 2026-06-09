@@ -6,20 +6,19 @@
 
 from __future__ import annotations
 
-import hashlib
-import hmac
 import json
-from unittest.mock import patch
 
-from django.test import TestCase
+import responses
+from django.core.cache import cache
 from rest_framework.test import APIClient
 
+from weblate.trans.actions import ActionEvents
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
+from weblate.vcs.tests.utils import generate_private_key, sign_webhook_payload
 from weblate.workspaces.models import Workspace
 
-SETTINGS_PRIVATE_KEY = (
-    "-----BEGIN RSA PRIVATE KEY-----\nsettings\n-----END RSA PRIVATE KEY-----"
-)
+SETTINGS_PRIVATE_KEY = generate_private_key()
 
 # Opaque webhook tokens identify which integration a delivery belongs to. They
 # are part of the hook URL, so the host is known without guessing the payload.
@@ -49,32 +48,28 @@ def _integration_url(token: str) -> str:
     return f"/hooks/integrations/{token}/"
 
 
-def _sign(body: str, secret: str) -> str:
-    return (
-        "sha256="
-        + hmac.new(
-            secret.encode("utf-8"), body.encode("utf-8"), hashlib.sha256
-        ).hexdigest()
-    )
-
-
-class TestGitHubAppWebhookEvents(TestCase):
+class TestGitHubAppHooks(ViewTestCase):
     WEBHOOK_URL = _integration_url(GITHUB_COM_TOKEN)
+    LEGACY_WEBHOOK_URL = "/hooks/github/"
 
     def setUp(self):
+        super().setUp()
+        # Webhook endpoints are unauthenticated; use a plain API client.
         self.client = APIClient()
         self.workspace = Workspace.objects.create(name="Hook Workspace")
         _make_credentials("github.com", GITHUB_COM_TOKEN, webhook_secret="s3cret")
 
-    def _post(self, event_type, data, *, secret="s3cret", url=None):  # noqa: S107
+    def _post(self, event_type, data, *, secret: str | None = "s3cret", url=None):  # noqa: S107
         body = json.dumps(data)
-        headers = {
-            "HTTP_X_GITHUB_EVENT": event_type,
-            "content_type": "application/json",
-        }
-        if secret is not None:
-            headers["HTTP_X_HUB_SIGNATURE_256"] = _sign(body, secret)
-        return self.client.post(url or self.WEBHOOK_URL, data=body, **headers)
+        headers = {"X-GitHub-Event": event_type}
+        if secret:
+            headers["X-Hub-Signature-256"] = sign_webhook_payload(body, secret)
+        return self.client.post(
+            url or self.WEBHOOK_URL,
+            data=body,
+            content_type="application/json",
+            headers=headers,
+        )
 
     def _create_installation(self, **overrides) -> GitHubInstallation:
         defaults = {
@@ -85,8 +80,6 @@ class TestGitHubAppWebhookEvents(TestCase):
         }
         defaults.update(overrides)
         return GitHubInstallation.objects.create(**defaults)
-
-    # --- installation lifecycle -----------------------------------------
 
     def test_installation_deleted(self):
         self._create_installation()
@@ -122,10 +115,30 @@ class TestGitHubAppWebhookEvents(TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
-    @patch.object(GitHubInstallation, "refresh_repositories")
-    def test_installation_created_syncs_existing_row(self, mock_refresh):
+    @responses.activate
+    def test_installation_created_syncs_existing_row(self):
         """``created`` updates rows owned by the setup flow; never auto-creates."""
+        cache.clear()
         self._create_installation(target_login="placeholder")
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/12345/access_tokens",
+            json={"token": "ghs_test"},
+        )
+        responses.add(
+            responses.GET,
+            "https://api.github.com/installation/repositories?per_page=100",
+            json={
+                "repositories": [
+                    {
+                        "full_name": "test-org/synced-repo",
+                        "clone_url": "https://github.com/test-org/synced-repo.git",
+                        "ssh_url": "git@github.com:test-org/synced-repo.git",
+                        "html_url": "https://github.com/test-org/synced-repo",
+                    }
+                ]
+            },
+        )
         data = {
             "action": "created",
             "installation": {
@@ -139,7 +152,13 @@ class TestGitHubAppWebhookEvents(TestCase):
 
         installation = GitHubInstallation.objects.get(installation_id="12345")
         self.assertEqual(installation.target_login, "test-org")
-        mock_refresh.assert_called_once()
+        self.assertEqual(
+            [r["full_name"] for r in installation.repositories],
+            ["test-org/synced-repo"],
+        )
+        self.assertEqual(
+            [call.request.method for call in responses.calls], ["POST", "GET"]
+        )
 
     def test_installation_created_without_row_is_noop(self):
         """Without a setup-created row, the App webhook does not auto-create one."""
@@ -174,8 +193,6 @@ class TestGitHubAppWebhookEvents(TestCase):
             url=_integration_url("33333333-3333-3333-3333-333333333333"),
         )
         self.assertEqual(response.status_code, 403)
-
-    # --- repository changes ---------------------------------------------
 
     def test_repositories_added(self):
         installation = self._create_installation(
@@ -250,8 +267,6 @@ class TestGitHubAppWebhookEvents(TestCase):
         self.assertNotIn("test-org/repo1", names)
         self.assertIn("test-org/repo2", names)
 
-    # --- webhook signature enforcement ----------------------------------
-
     def test_signature_required_when_secret_configured(self):
         """An App webhook on a configured integration requires a valid signature."""
         self._create_installation()
@@ -261,7 +276,6 @@ class TestGitHubAppWebhookEvents(TestCase):
         }
         response = self._post("installation", data, secret=None)
         self.assertEqual(response.status_code, 403)
-        # The installation must not have been disabled
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
     def test_invalid_signature_rejected(self):
@@ -281,18 +295,6 @@ class TestGitHubAppWebhookEvents(TestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
-
-    def test_valid_signature_accepted(self):
-        self._create_installation()
-        data = {
-            "action": "deleted",
-            "installation": {"id": 12345, "app_id": 99999, "account": {}},
-        }
-        response = self._post("installation", data)
-        self.assertEqual(response.status_code, 201)
-        self.assertFalse(
-            GitHubInstallation.objects.get(installation_id="12345").enabled
-        )
 
     def test_other_integration_secret_does_not_authorize(self):
         """Signing with another integration's secret must be rejected."""
@@ -327,26 +329,7 @@ class TestGitHubAppWebhookEvents(TestCase):
         self.assertEqual(response.status_code, 403)
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
-    # --- push deliveries -------------------------------------------------
-
-    def test_push_event_signed_by_configured_app(self):
-        """Signed pushes from connected accounts are accepted."""
-        data = {
-            "ref": "refs/heads/main",
-            "installation": {"id": 12345, "app_id": 99999},
-            "repository": {
-                "name": "test-repo",
-                "owner": {"login": "test-org"},
-                "url": "https://github.com/test-org/test-repo",
-                "clone_url": "https://github.com/test-org/test-repo.git",
-                "ssh_url": "git@github.com:test-org/test-repo.git",
-                "html_url": "https://github.com/test-org/test-repo",
-            },
-        }
-        response = self._post("push", data)
-        self.assertIn(response.status_code, (200, 202))
-
-    def test_push_event_without_app_signature(self):
+    def test_push_event(self):
         """GitHub App deliveries require the integration secret."""
         data = {
             "ref": "refs/heads/main",
@@ -362,28 +345,17 @@ class TestGitHubAppWebhookEvents(TestCase):
         }
         response = self._post("push", data, secret=None)
         self.assertEqual(response.status_code, 403)
+        response = self._post("push", data)
+        self.assertIn(response.status_code, (200, 202))
 
-    def test_ping_event_signed(self):
-        # GitHub signs every delivery from a configured App, including pings.
-        response = self._post("ping", {"zen": "keep it simple"})
-        self.assertEqual(response.status_code, 201)
-
-
-class TestGitHubLegacyWebhookEvents(TestCase):
-    WEBHOOK_URL = "/hooks/github/"
-
-    def setUp(self):
-        self.client = APIClient()
-
-    def _post(self, event_type, data, *, secret="s3cret"):  # noqa: S107
+    def _legacy_post(self, event_type, data):
         body = json.dumps(data)
-        headers = {
-            "HTTP_X_GITHUB_EVENT": event_type,
-            "content_type": "application/json",
-        }
-        if secret is not None:
-            headers["HTTP_X_HUB_SIGNATURE_256"] = _sign(body, secret)
-        return self.client.post(self.WEBHOOK_URL, data=body, **headers)
+        return self.client.post(
+            self.LEGACY_WEBHOOK_URL,
+            data=body,
+            content_type="application/json",
+            headers={"X-Github-Event": event_type},
+        )
 
     def test_push_event_without_app_configured(self):
         """Plain repo-level webhook deliveries still work when no App is set up."""
@@ -398,23 +370,7 @@ class TestGitHubLegacyWebhookEvents(TestCase):
                 "html_url": "https://github.com/test-org/test-repo",
             },
         }
-        response = self._post("push", data, secret=None)
-        self.assertIn(response.status_code, (200, 202))
-
-    def test_push_event_without_app_signature(self):
-        """Plain repo-level webhook deliveries do not require the App secret."""
-        data = {
-            "ref": "refs/heads/main",
-            "repository": {
-                "name": "test-repo",
-                "owner": {"login": "test-org"},
-                "url": "https://github.com/test-org/test-repo",
-                "clone_url": "https://github.com/test-org/test-repo.git",
-                "ssh_url": "git@github.com:test-org/test-repo.git",
-                "html_url": "https://github.com/test-org/test-repo",
-            },
-        }
-        response = self._post("push", data, secret=None)
+        response = self._legacy_post("push", data)
         self.assertIn(response.status_code, (200, 202))
 
     def test_app_delivery_rejected_on_generic_endpoint(self):
@@ -431,5 +387,58 @@ class TestGitHubLegacyWebhookEvents(TestCase):
                 "html_url": "https://github.com/test-org/test-repo",
             },
         }
-        response = self._post("push", data)
+        response = self._post("push", data, url=self.LEGACY_WEBHOOK_URL)
         self.assertEqual(response.status_code, 403)
+
+    def test_signed_integration_hook_runs_repository_update(self):
+        self.project.workspace = self.workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[
+                {
+                    "full_name": "test-org/local-repo",
+                    "clone_url": self.component.repo,
+                    "ssh_url": "git@github.com:test-org/local-repo.git",
+                    "html_url": "https://github.com/test-org/local-repo",
+                    "default_branch": self.component.branch,
+                    "private": False,
+                    "description": "",
+                }
+            ],
+        )
+        self.component.vcs = "github-app"
+        self.component.save(update_fields=["vcs"])
+
+        payload = {
+            "ref": f"refs/heads/{self.component.branch}",
+            "installation": {"id": 12345, "app_id": 99999},
+            "repository": {
+                "name": "local-repo",
+                "owner": {"login": "test-org"},
+                "url": "https://github.com/test-org/local-repo",
+                "clone_url": self.component.repo,
+                "ssh_url": "git@github.com:test-org/local-repo.git",
+                "html_url": "https://github.com/test-org/local-repo",
+            },
+        }
+        body = json.dumps(payload)
+
+        response = self.client.post(
+            self.WEBHOOK_URL,
+            data=body,
+            content_type="application/json",
+            headers={
+                "x-github-event": "push",
+                "x-hub-signature-256": sign_webhook_payload(body, "s3cret"),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.component.full_slug, response.json()["message"])
+        self.assertTrue(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )

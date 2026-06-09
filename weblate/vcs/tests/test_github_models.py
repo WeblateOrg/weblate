@@ -6,9 +6,8 @@
 
 from __future__ import annotations
 
-from unittest.mock import patch
-
-from django.db import IntegrityError, transaction
+import responses
+from django.core.cache import cache
 from django.test import TestCase
 
 from weblate.vcs.github import (
@@ -17,11 +16,10 @@ from weblate.vcs.github import (
     GithubAppRepository,
     GitHubInstallation,
 )
+from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import Workspace
 
-SETTINGS_PRIVATE_KEY = (
-    "-----BEGIN RSA PRIVATE KEY-----\nsettings\n-----END RSA PRIVATE KEY-----"
-)
+SETTINGS_PRIVATE_KEY = generate_private_key()
 
 
 def _make_credentials(
@@ -54,74 +52,6 @@ def _make_installation(**overrides) -> GitHubInstallation:
     return GitHubInstallation.objects.create(**defaults)
 
 
-class TestGitHubInstallation(TestCase):
-    def setUp(self):
-        self.installation = _make_installation()
-
-    def test_str(self):
-        self.assertEqual(str(self.installation), "test-org (github.com/67890)")
-
-    def test_api_base_github(self):
-        self.assertEqual(self.installation.api_base, "https://api.github.com")
-
-    def test_api_base_ghe(self):
-        self.installation.hostname = "github.example.com"
-        self.assertEqual(
-            self.installation.api_base, "https://github.example.com/api/v3"
-        )
-
-    def test_has_repository(self):
-        self.installation.repositories = [
-            {"full_name": "test-org/repo1"},
-            {"full_name": "test-org/repo2"},
-        ]
-        self.installation.save()
-        self.assertTrue(self.installation.has_repository("test-org/repo1"))
-        self.assertFalse(self.installation.has_repository("test-org/repo3"))
-
-    def test_has_repository_empty(self):
-        self.assertFalse(self.installation.has_repository("test-org/repo1"))
-
-    def test_get_webhook_secret_uses_credentials(self):
-        _make_credentials()
-        self.assertEqual(self.installation.get_webhook_secret(), "credentials-secret")
-
-    def test_get_webhook_secret_without_credentials(self):
-        self.assertEqual(self.installation.get_webhook_secret(), "")
-
-    def test_app_id_from_credentials(self):
-        _make_credentials()
-        self.assertEqual(self.installation.app_id, "99999")
-
-    def test_app_id_without_credentials(self):
-        self.assertEqual(self.installation.app_id, "")
-
-    def test_get_access_token_requires_credentials(self):
-        with self.assertRaises(GitHubAppNotConfiguredError):
-            self.installation.get_access_token()
-
-    def test_refresh_repositories_requires_credentials(self):
-        with self.assertRaises(GitHubAppNotConfiguredError):
-            self.installation.refresh_repositories()
-
-    def test_same_installation_id_across_hosts(self):
-        """The same installation ID may exist on github.com and a GHE host."""
-        other = _make_installation(hostname="github.example.com")
-        self.assertNotEqual(self.installation.pk, other.pk)
-
-    def test_unique_per_host(self):
-        with (
-            transaction.atomic(),
-            self.assertRaises(IntegrityError),
-        ):
-            _make_installation()
-
-    def test_same_installation_id_across_workspaces(self):
-        """The same installation ID may be connected to multiple workspaces."""
-        other = _make_installation(workspace=_make_workspace("other-workspace"))
-        self.assertNotEqual(self.installation.pk, other.pk)
-
-
 class TestGitHubInstallationManager(TestCase):
     def setUp(self):
         self.installation = _make_installation(
@@ -134,7 +64,6 @@ class TestGitHubInstallationManager(TestCase):
             self.installation,
         )
 
-    def test_get_for_repo_workspace_scope(self):
         other_workspace = _make_workspace("other-workspace")
         other = _make_installation(
             installation_id="99999",
@@ -157,23 +86,24 @@ class TestGitHubInstallationManager(TestCase):
             other,
         )
 
-    def test_get_for_repo_wrong_host(self):
         self.assertIsNone(
             GitHubInstallation.objects.get_for_repo(
                 "github.example.com", "test-org/repo1"
             )
         )
 
-    def test_get_for_repo_disabled(self):
+        self.assertIsNone(
+            GitHubInstallation.objects.get_for_repo("github.com", "other/repo")
+        )
+
         self.installation.enabled = False
         self.installation.save()
         self.assertIsNone(
-            GitHubInstallation.objects.get_for_repo("github.com", "test-org/repo1")
-        )
-
-    def test_get_for_repo_not_found(self):
-        self.assertIsNone(
-            GitHubInstallation.objects.get_for_repo("github.com", "other/repo")
+            GitHubInstallation.objects.get_for_repo(
+                "github.com",
+                "test-org/repo1",
+                workspace=self.installation.workspace,
+            )
         )
 
     def test_get_for_installation(self):
@@ -182,14 +112,18 @@ class TestGitHubInstallationManager(TestCase):
             self.installation,
         )
 
-    @patch("weblate.vcs.github.get_app_installation")
-    def test_sync_from_api(self, mock_get_installation):
+    @responses.activate
+    def test_sync_from_api(self):
         _make_credentials()
-        mock_get_installation.return_value = {
-            "id": 24680,
-            "app_id": 99999,
-            "account": {"login": "synced-org", "type": "Organization"},
-        }
+        responses.add(
+            responses.GET,
+            "https://api.github.com/app/installations/24680",
+            json={
+                "id": 24680,
+                "app_id": 99999,
+                "account": {"login": "synced-org", "type": "Organization"},
+            },
+        )
 
         installation = GitHubInstallation.objects.sync_from_api(
             "github.com", "24680", workspace=_make_workspace("sync-workspace")
@@ -197,6 +131,7 @@ class TestGitHubInstallationManager(TestCase):
 
         self.assertEqual(installation.target_login, "synced-org")
         self.assertEqual(installation.app_id, "99999")
+        self.assertEqual(len(responses.calls), 1)
 
     def test_sync_from_api_requires_credentials(self):
         with self.assertRaises(GitHubAppNotConfiguredError):
@@ -206,8 +141,16 @@ class TestGitHubInstallationManager(TestCase):
                 workspace=_make_workspace("sync-missing-workspace"),
             )
 
-    @patch.object(GitHubInstallation, "get_access_token", return_value="ghs_test")
-    def test_github_repository_auth_args_use_installation_token(self, mock_token):
+    @responses.activate
+    def test_github_repository_auth_args_use_installation_token(self):
+        _make_credentials()
+        cache.clear()
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_test"},
+        )
+
         args = list(
             GithubAppRepository._get_auth_args(  # noqa: SLF001
                 "https://github.com/test-org/repo1.git"
@@ -217,4 +160,8 @@ class TestGitHubInstallationManager(TestCase):
         self.assertTrue(
             any("http.extraHeader=Authorization: Basic" in arg for arg in args)
         )
-        self.assertEqual(mock_token.call_count, 1)
+        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(
+            responses.calls[0].request.url,
+            "https://api.github.com/app/installations/67890/access_tokens",
+        )

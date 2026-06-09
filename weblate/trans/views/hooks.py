@@ -112,6 +112,9 @@ class HandlerResponse(TypedDict):
     full_name: str | None
     exact_match: NotRequired[bool]
     project_ids: NotRequired[list[int]]
+    component_vcs: NotRequired[str]
+    exclude_component_vcs: NotRequired[list[str]]
+    require_project_hooks: NotRequired[bool]
 
 
 HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
@@ -158,11 +161,17 @@ def get_hook_components(
     *,
     exact_match: bool = False,
     project_ids: list[int] | None = None,
+    component_vcs: str | None = None,
+    exclude_component_vcs: list[str] | None = None,
 ) -> tuple[QuerySet[Component], str]:
     """Return hook target components and repository match method."""
     components = Component.objects.all()
     if project_ids is not None:
         components = components.filter(project_id__in=project_ids)
+    if component_vcs is not None:
+        components = components.filter(vcs=component_vcs)
+    if exclude_component_vcs is not None:
+        components = components.exclude(vcs__in=exclude_component_vcs)
 
     repo_components = components.filter(
         exact_repositories_filter(repos, include_variants=not exact_match)
@@ -608,6 +617,8 @@ def _github_push_hook_response(
     repos: list[str] | None = None,
     exact_match: bool = False,
     project_ids: list[int] | None = None,
+    component_vcs: str | None = None,
+    require_project_hooks: bool = True,
 ) -> HandlerResponse:
     # Parse owner, branch and repository name
     repository = require_mapping(data.get("repository"), "repository")
@@ -646,6 +657,10 @@ def _github_push_hook_response(
         response["exact_match"] = True
     if project_ids is not None:
         response["project_ids"] = project_ids
+    if component_vcs is not None:
+        response["component_vcs"] = component_vcs
+    if not require_project_hooks:
+        response["require_project_hooks"] = False
     return response
 
 
@@ -660,7 +675,9 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
         if event != "push":
             return None
 
-    return _github_push_hook_response(data)
+    response = _github_push_hook_response(data)
+    response["exclude_component_vcs"] = ["github-app"]
+    return response
 
 
 def github_integration_hook_helper(
@@ -735,6 +752,8 @@ def github_integration_hook_helper(
         repos=[repo_url],
         exact_match=True,
         project_ids=project_ids,
+        component_vcs="github-app",
+        require_project_hooks=False,
     )
 
 
@@ -909,6 +928,7 @@ class BaseHookView(APIView):
         parsers.MultiPartParser,
         parsers.FormParser,
     )
+    default_exclude_component_vcs: tuple[str, ...] = ()
 
     def hook_response(
         self,
@@ -972,6 +992,19 @@ class BaseHookView(APIView):
         if service_data is None:
             return self.hook_response("Hook working", status=201)
 
+        if self.default_exclude_component_vcs and "component_vcs" not in service_data:
+            service_data = {
+                **service_data,
+                "exclude_component_vcs": [
+                    *service_data.get("exclude_component_vcs", []),
+                    *(
+                        vcs
+                        for vcs in self.default_exclude_component_vcs
+                        if vcs not in service_data.get("exclude_component_vcs", [])
+                    ),
+                ],
+            }
+
         # Log data
         service_long_name = service_data["service_long_name"]
         repo_url = service_data["repo_url"]
@@ -989,6 +1022,8 @@ class BaseHookView(APIView):
             full_name,
             exact_match=service_data.get("exact_match", False),
             project_ids=service_data.get("project_ids"),
+            component_vcs=service_data.get("component_vcs"),
+            exclude_component_vcs=service_data.get("exclude_component_vcs"),
         )
 
         if branch is not None:
@@ -998,7 +1033,9 @@ class BaseHookView(APIView):
 
         all_components_count = all_components.count()
         repo_components_count = repo_components.count()
-        enabled_components = all_components.filter(project__enable_hooks=True)
+        enabled_components = all_components
+        if service_data.get("require_project_hooks", True):
+            enabled_components = enabled_components.filter(project__enable_hooks=True)
 
         LOGGER.info(
             "received %s notification on repository %s, URL %s, branch %s, "
@@ -1065,6 +1102,8 @@ class BaseHookView(APIView):
     ],
 )
 class ServiceHookView(BaseHookView):
+    default_exclude_component_vcs = ("github-app",)
+
     def post(self, request: Request, service: str) -> Response:
         """Process incoming webhook from a code hosting site."""
         try:
