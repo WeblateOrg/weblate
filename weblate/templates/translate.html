@@ -1139,9 +1139,10 @@
             <div class="modal-body">
               <div id="screenshot-form-container">{{ screenshot_form|crispy }}</div>
               <input type="hidden" name="source" value="{{ unit.pk }}" />
+              <input type="hidden" name="next" value="{{ this_unit_url }}" />
             </div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
+              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
             </div>
           </div>
           <!-- /.modal-content -->

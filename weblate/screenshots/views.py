@@ -14,7 +14,7 @@ from django.db.models import Count
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.utils.http import urlencode
+from django.utils.http import url_has_allowed_host_and_scheme, urlencode
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
@@ -406,6 +406,11 @@ class ScreenshotList(PathViewMixin, ListView):  # type: ignore[misc]
                     "Search for source strings or find strings in the image."
                 ),
             )
+            next_url = request.POST.get("next") or request.GET.get("next")
+            if next_url and url_has_allowed_host_and_scheme(
+                url=next_url, allowed_hosts={request.get_host()}
+            ):
+                return redirect(next_url)
             return redirect(obj)
         messages.error(
             request, gettext("Could not upload screenshot, please fix errors below.")
