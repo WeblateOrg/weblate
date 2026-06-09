@@ -144,16 +144,18 @@
     EditorBase.prototype.init.call(this);
 
     /* Minimal height for side-by-side editor */
+    const getContentHeight = (el) =>
+      Number.parseFloat(getComputedStyle(el).height) || 0;
     for (const translator of document.querySelectorAll(
       ".zen-horizontal .translator",
     )) {
-      const tdHeight = translator.getBoundingClientRect().height;
+      const tdHeight = getContentHeight(translator);
       const form = translator.querySelector("form");
-      const contentHeight = form ? form.getBoundingClientRect().height : 0;
+      const contentHeight = form ? getContentHeight(form) : 0;
       const editors = translator.querySelectorAll(".translation-editor");
       let editorHeight = 0;
       for (const editor of editors) {
-        editorHeight += editor.getBoundingClientRect().height;
+        editorHeight += getContentHeight(editor);
       }
       /* There is 10px padding */
       const minHeight =

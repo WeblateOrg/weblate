@@ -213,6 +213,7 @@ WLT.Editor = (() => {
       WLT.Utils.markFuzzy(this.closest("form"));
       WLT.Utils.indicateChanges(e);
       e.preventDefault();
+      e.stopPropagation();
     });
 
     /* Direction toggling */
