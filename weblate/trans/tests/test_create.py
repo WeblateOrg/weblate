@@ -27,7 +27,9 @@ from weblate.trans.views.create import CreateComponentSelection
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.git import GitRepository
+from weblate.vcs.github import GitHubAppCredentials
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
@@ -383,6 +385,14 @@ class CreateTest(ViewTestCase):
     def test_create_component_preselects_github_app_vcs(self) -> None:
         self.user.is_superuser = True
         self.user.save()
+
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="99999",
+            app_slug="weblate-app",
+            private_key=generate_private_key(),
+            webhook_secret="secret",
+        )
 
         # Simulate a worker whose VCS registry was loaded before any App existed.
         VCS_REGISTRY.__dict__.pop("data", None)
