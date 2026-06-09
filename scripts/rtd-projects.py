@@ -117,7 +117,7 @@ while result["next"]:
 # Create missing ones
 for language in LOCALES:
     print(f"Creating {language}")
-    payload = {
+    payload: dict[str, str | dict[str, str]] = {
         "language": language,
         "name": f"Weblate ({language})",
         "repository": {

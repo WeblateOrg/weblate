@@ -416,7 +416,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
             return True
-        if not isinstance(exc, HTTPError):
+        if not isinstance(exc, HTTPError) or exc.response is None:
             return False
         # Apply rate limiting for following status codes:
         # HTTP 456 Client Error: Quota Exceeded (DeepL)
