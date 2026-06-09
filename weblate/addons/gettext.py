@@ -61,7 +61,7 @@ POT_PLACEHOLDER_COMMENTS = (
 )
 POT_BLANK_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\)(?: [0-9– -]*)?$")
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator
+    from collections.abc import Callable, Generator, Iterator
 
     from weblate.addons.base import CompatDict
     from weblate.formats.ttkit import PoFormat
@@ -139,22 +139,28 @@ class UpdateLinguasAddon(GettextBaseAddon):
     )
 
     @staticmethod
-    def get_linguas_path(component: Component) -> str:
-        base = component.get_new_base_filename()
-        if not base:
-            base = os.path.join(
-                component.full_path, component.filemask.replace("*", "x")
-            )
-        return os.path.join(os.path.dirname(base), "LINGUAS")
+    def get_linguas_paths(component: Component) -> Iterator[str]:
+        # First look at the POT file location
+        try:
+            base = component.get_new_base_filename()
+        except ValidationError:
+            base = None
+        if base:
+            yield os.path.join(os.path.dirname(base), "LINGUAS")
+        # Fallback to PO file location
+        base = os.path.join(component.full_path, component.filemask.replace("*", "x"))
+        yield os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
     def get_validated_linguas_path(cls, component: Component) -> str | None:
-        try:
-            path = cls.get_linguas_path(component)
-            component.check_file_is_valid(path)
-        except ValidationError:
-            return None
-        return path
+        for path in cls.get_linguas_paths(component):
+            try:
+                component.check_file_is_valid(path)
+            except ValidationError:
+                continue
+            if os.path.exists(path):
+                return path
+        return None
 
     @classmethod
     def can_install(
@@ -171,7 +177,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         if component is None:
             return True
         path = cls.get_validated_linguas_path(component)
-        return path is not None and os.path.exists(path)
+        return path is not None
 
     @staticmethod
     def update_linguas(lines: list[str], codes: set[str]) -> tuple[bool, list[str]]:
