@@ -420,21 +420,25 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     if request and request.headers.get("x-github-event") != "push":
         return None
     # Parse owner, branch and repository name
-    o_data = data["repository"]["owner"]
-    owner = o_data["login"] if "login" in o_data else o_data["name"]
-    slug = data["repository"]["name"]
+    repository = require_mapping(data.get("repository"), "repository")
+    o_data = require_mapping(repository.get("owner"), "repository.owner")
+    owner = optional_string(o_data.get("login"), "repository.owner.login")
+    if owner is None:
+        owner = require_string(o_data.get("name"), "repository.owner.name")
+    slug = require_string(repository.get("name"), "repository.name")
+    repo_url = require_string(repository.get("url"), "repository.url")
     branch = normalize_branch_ref(data.get("ref"))
 
     params = {"owner": owner, "slug": slug}
 
-    if "clone_url" not in data["repository"]:
+    if "clone_url" not in repository:
         # Construct possible repository URLs
         repos = [repo % params for repo in GITHUB_REPOS]
     else:
         repos = []
         keys = ["clone_url", "git_url", "ssh_url", "svn_url", "html_url", "url"]
         for key in keys:
-            url = data["repository"].get(key)
+            url = optional_string(repository.get(key), f"repository.{key}")
             if not url:
                 continue
             repos.append(url)
@@ -443,7 +447,7 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
 
     return {
         "service_long_name": "GitHub",
-        "repo_url": data["repository"]["url"],
+        "repo_url": repo_url,
         "repos": sorted(set(repos)),
         "branch": branch,
         "full_name": f"{owner}/{slug}",
