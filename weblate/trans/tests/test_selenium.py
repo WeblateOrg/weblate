@@ -262,6 +262,37 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             f"Missing label text {label_text!r} for #{htmlid}",
         )
 
+    def wait_for_ajax_tab(
+        self, tab_target: str, expected_text: str, timeout: int = 30
+    ) -> None:
+        """Wait for AJAX-loaded tab content to be rendered."""
+        WebDriverWait(self.driver, timeout).until(
+            lambda driver: driver.execute_script(
+                """
+                const tabTarget = arguments[0];
+                const expectedText = arguments[1];
+                const tab = Array.from(
+                    document.querySelectorAll(
+                        '[data-bs-toggle="tab"][data-bs-target]',
+                    ),
+                ).find(
+                    (element) =>
+                        element.getAttribute("data-bs-target") === tabTarget,
+                );
+                const content = document.querySelector(tabTarget);
+                if (!tab || !content || typeof window.jQuery === "undefined") {
+                    return false;
+                }
+                const text = content.textContent || "";
+                return Boolean(window.jQuery(tab).data("loaded")) &&
+                    !text.includes("Loading") &&
+                    text.includes(expectedText);
+                """,
+                tab_target,
+                expected_text,
+            )
+        )
+
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
         self.scroll_top()
@@ -1257,7 +1288,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Repository
         self.click("Operations")
         self.click("Repository maintenance")
-        time.sleep(0.2)
+        self.wait_for_ajax_tab("#repository", "Repository status")
         self.click("Operations")
         self.screenshot("component-repository.png")
 
