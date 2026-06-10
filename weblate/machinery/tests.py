@@ -3182,6 +3182,17 @@ class LLMBasicMachineryFormTest(TestCase):
             str(form.errors["language_instructions"]),
         )
 
+    def test_language_instructions_accept_language_code_variant(self) -> None:
+        self.assertTrue(Language.objects.filter(code="pt_BR").exists())
+
+        form = self.get_form({"pt-rBR": "Use Brazilian Portuguese."})
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(
+            form.cleaned_data["language_instructions"],
+            {"pt-rBR": "Use Brazilian Portuguese."},
+        )
+
     def test_language_instructions_reject_long_instruction(self) -> None:
         form = self.get_form({"fr": "x" * (LLM_LANGUAGE_INSTRUCTION_LENGTH + 1)})
 
@@ -3671,7 +3682,8 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         with (
             patch(
-                "weblate.machinery.llm.fetch_glossary_terms", new=lambda _units: None
+                "weblate.machinery.llm.fetch_glossary_terms",
+                new=lambda _units, **_kwargs: None,
             ),
             patch(
                 "weblate.machinery.llm.get_glossary_terms",
@@ -3688,6 +3700,61 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             )
 
         self.assertEqual(translation[unit.source][0]["text"], "Ouvrir un compte")
+
+    def test_llm_glossary_cache_fetches_without_variants(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: ""),
+            patch("weblate.machinery.llm.fetch_glossary_terms") as fetch_terms,
+            patch("weblate.machinery.llm.get_glossary_terms", return_value=[]),
+        ):
+            machine.get_translation_cache_parts(
+                typed_unit,
+                "en",
+                "fr",
+                typed_unit.source,
+                75,
+                {},
+            )
+
+        fetch_terms.assert_called_once_with([typed_unit], include_variants=False)
+
+    def test_translate_reuses_cached_llm_glossary_terms(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Unique glossary cache source.")
+        typed_unit = cast("Unit", unit)
+        fetch_calls: list[tuple[list[Unit], dict[str, object]]] = []
+
+        def fetch_terms(units: list[Unit], **kwargs: object) -> None:
+            fetch_calls.append((list(units), kwargs))
+            for fetched_unit in units:
+                fetched_unit.glossary_terms = []
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: ""),
+            patch(
+                "weblate.machinery.llm.fetch_glossary_terms", side_effect=fetch_terms
+            ),
+            patch.object(
+                machine,
+                "fetch_llm_translations",
+                return_value=json.dumps(["Source de cache de glossaire unique."]),
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(typed_unit.source, typed_unit)],
+            )
+
+        self.assertEqual(
+            translation[typed_unit.source][0]["text"],
+            "Source de cache de glossaire unique.",
+        )
+        self.assertEqual(fetch_calls, [([typed_unit], {"include_variants": False})])
 
     def test_translation_cache_uses_stable_check_id(self) -> None:
         machine = self.get_machine()

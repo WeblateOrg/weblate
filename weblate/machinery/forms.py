@@ -492,7 +492,7 @@ class LLMBasicMachineryForm(BaseMachineryForm):
                     % language
                 ) from error
 
-            if not Language.objects.filter(code=language).exists():
+            if Language.objects.fuzzy_get_strict(language) is None:
                 raise ValidationError(
                     gettext(
                         'Language-specific instructions contain unknown language code "%s".'

@@ -479,7 +479,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
     def get_llm_glossary_cache_part(self, unit: Unit) -> str:
         try:
-            fetch_glossary_terms([unit])
+            fetch_glossary_terms([unit], include_variants=False)
             entries = self._get_glossary_entries([unit])
         except (AttributeError, TypeError, ValueError):
             return ""
@@ -824,7 +824,11 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
         units = [unit for _text, unit in sources if unit is not None]
         if units:
-            fetch_glossary_terms(units)
+            missing_glossary_terms = [
+                unit for unit in units if getattr(unit, "glossary_terms", None) is None
+            ]
+            if missing_glossary_terms:
+                fetch_glossary_terms(missing_glossary_terms, include_variants=False)
             glossary = self._get_glossary_entries(units)
 
         inputs = []
