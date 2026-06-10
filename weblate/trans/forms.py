@@ -134,8 +134,8 @@ from weblate.utils.validators import (
     validate_translation_upload_size,
 )
 from weblate.utils.views import get_sort_name
-from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.git import GitMergeRequestBase
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -2050,7 +2050,6 @@ class ProjectAntispamMixin(SpamCheckMixin):
 
 def get_vcs_push_categories() -> str:
     """Return JSON mapping of VCS identifier to push behavior category."""
-
     categories: dict[str, str] = {}
     for identifier, cls in VCS_REGISTRY.items():
         if issubclass(cls, GitMergeRequestBase):
