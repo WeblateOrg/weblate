@@ -127,6 +127,17 @@ class CreateProject(BaseCreateView):
             return self.form_invalid(form)
         for field in INHERITABLE_COMPONENT_FLAGS:
             setattr(form.instance, field, workspace is not None)
+        license_code = form.cleaned_data.get("license")
+        if workspace is None:
+            form.instance.inherit_license = False
+        elif license_code:
+            if not workspace.license:
+                workspace.license = license_code
+                workspace.acting_user = self.request.user
+                workspace.save(update_fields=["license"])
+                form.instance.inherit_license = True
+            else:
+                form.instance.inherit_license = workspace.license == license_code
         result = super().form_valid(form)
         billing = self.get_billing(workspace)
         self.object.post_create(self.request.user, billing)
