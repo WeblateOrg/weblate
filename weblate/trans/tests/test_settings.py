@@ -649,6 +649,34 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(second_project.license, "GPL-3.0-or-later")
         self.assertEqual(workspace.license, "MIT")
 
+    def test_license_repair_keeps_workspace_license_with_inheriting_project(
+        self,
+    ) -> None:
+        workspace = Workspace.objects.create(
+            name="License repair workspace", license="proprietary"
+        )
+        second_project = self.create_project(
+            name="License repair second project",
+            slug="license-repair-second-project",
+            workspace=workspace,
+            license="GPL-3.0-or-later",
+            inherit_license=True,
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace, license="MIT", inherit_license=True
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        second_project.refresh_from_db()
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.license, "proprietary")
+        self.assertTrue(self.project.inherit_license)
+        self.assertTrue(second_project.inherit_license)
+        self.assertEqual(self.project.license, "MIT")
+        self.assertEqual(second_project.license, "GPL-3.0-or-later")
+
     def test_license_repair_keeps_explicit_workspace_license(self) -> None:
         workspace = Workspace.objects.create(
             name="License repair workspace", license="GPL-3.0-or-later"

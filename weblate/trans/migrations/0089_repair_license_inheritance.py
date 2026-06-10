@@ -57,6 +57,11 @@ def repair_project_licenses(project, component) -> None:
 
 
 def repair_workspace_licenses(project, workspace) -> None:
+    inherited_workspace_ids = set(
+        project.objects.filter(workspace_id__isnull=False, inherit_license=True)
+        .values_list("workspace_id", flat=True)
+        .distinct()
+    )
     workspace_licenses: dict[int, str] = {}
     for workspace_id, license_code in (
         project.objects.filter(workspace_id__isnull=False)
@@ -65,6 +70,8 @@ def repair_workspace_licenses(project, workspace) -> None:
         .values_list("workspace_id", "license")
         .iterator(chunk_size=2000)
     ):
+        if workspace_id in inherited_workspace_ids:
+            continue
         workspace_licenses.setdefault(workspace_id, license_code)
 
     workspace_updates = []
