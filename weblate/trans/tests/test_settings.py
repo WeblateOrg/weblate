@@ -631,6 +631,25 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(second_project.license, "GPL-3.0-or-later")
         self.assertEqual(workspace.license, "MIT")
 
+    def test_license_repair_keeps_explicit_workspace_license(self) -> None:
+        workspace = Workspace.objects.create(
+            name="License repair workspace", license="GPL-3.0-or-later"
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace, license="proprietary", inherit_license=True
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            license="MIT", inherit_license=False
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        workspace.refresh_from_db()
+        self.assertEqual(self.project.license, "MIT")
+        self.assertFalse(self.project.inherit_license)
+        self.assertEqual(workspace.license, "GPL-3.0-or-later")
+
     def test_profile_agreement_links_open_agreement_view(self) -> None:
         workspace = Workspace.objects.create(
             name="Settings workspace", agreement="Workspace agreement"

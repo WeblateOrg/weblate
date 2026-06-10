@@ -56,7 +56,7 @@ def repair_project_licenses(project, component) -> None:
 
 
 def repair_workspace_licenses(project, workspace) -> None:
-    workspace_licenses = {}
+    workspace_licenses: dict[int, str] = {}
     for workspace_id, license_code in (
         project.objects.filter(workspace_id__isnull=False)
         .exclude(license="")
@@ -68,7 +68,9 @@ def repair_workspace_licenses(project, workspace) -> None:
 
     workspace_updates = []
     for item in (
-        workspace.objects.filter(id__in=workspace_licenses)
+        workspace.objects.filter(
+            id__in=workspace_licenses, license__in=PROJECT_FALLBACK_LICENSES
+        )
         .only("id", "license")
         .iterator(chunk_size=2000)
     ):
