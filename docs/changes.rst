@@ -13,6 +13,7 @@ Weblate 2026.7
 
 .. rubric:: Bug fixes
 
+* TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
 
 .. rubric:: Compatibility

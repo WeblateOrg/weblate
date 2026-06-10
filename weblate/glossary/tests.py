@@ -9,6 +9,7 @@ from __future__ import annotations
 import csv
 import json
 from io import StringIO
+from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
@@ -21,7 +22,7 @@ from weblate.glossary.tasks import (
     sync_terminology,
 )
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
+from weblate.trans.models import PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.hash import calculate_hash
@@ -421,6 +422,55 @@ class GlossaryTest(ViewTestCase):
     def test_add_duplicate(self) -> None:
         self.do_add_unit()
         self.do_add_unit()
+
+    def test_duplicate_pending_add_entries_commit_once(self) -> None:
+        self.do_add_unit(context="")
+        pending = PendingUnitChange.objects.get(
+            unit__translation=self.glossary, unit__source="source"
+        )
+        self.assertEqual(pending.unit.context, "")
+
+        PendingUnitChange.objects.create(
+            unit=pending.unit,
+            author=pending.author,
+            target=pending.target,
+            explanation=pending.explanation,
+            source_unit_explanation=pending.source_unit_explanation,
+            state=pending.state,
+            add_unit=True,
+        )
+
+        self.glossary_component.commit_pending("test", None)
+
+        filename = self.glossary.get_filename()
+        if filename is None:
+            self.fail("Glossary translation file is missing")
+        file_content = Path(filename).read_text(encoding="utf-8")
+        self.assertEqual(file_content.count("<term>source</term>"), 1)
+        self.assertEqual(file_content.count("<term>překlad</term>"), 1)
+
+    def test_pending_add_replay_commits_once(self) -> None:
+        self.do_add_unit(context="")
+        pending = PendingUnitChange.objects.get(
+            unit__translation=self.glossary, unit__source="source"
+        )
+        self.assertEqual(pending.unit.context, "")
+
+        # Simulate a retry after the pending add was already written to the file,
+        # but the pending row was not deleted yet.
+        self.glossary.update_units(
+            [pending], self.glossary.store, self.user.get_author_name()
+        )
+        self.glossary.drop_store_cache()
+
+        self.glossary_component.commit_pending("test", None)
+
+        filename = self.glossary.get_filename()
+        if filename is None:
+            self.fail("Glossary translation file is missing")
+        file_content = Path(filename).read_text(encoding="utf-8")
+        self.assertEqual(file_content.count("<term>source</term>"), 1)
+        self.assertEqual(file_content.count("<term>překlad</term>"), 1)
 
     def test_add_locked(self) -> None:
         unit = self.get_unit("Thank you for using Weblate.")
