@@ -3633,6 +3633,41 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         self.assertEqual(translation[unit.source][0]["text"], "Olá, mundo!")
 
+    def test_language_instructions_match_fuzzy_language_code(self) -> None:
+        machine = OpenAITranslation(
+            {
+                **self.CONFIGURATION,
+                "language_instructions": {"pt-rBR": "Use Brazilian Portuguese."},
+            }
+        )
+        unit = make_unit(code="pt_BR", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertNotIn("instructions", payload)
+            self.assertIn(
+                "Target-language project instructions:\nUse Brazilian Portuguese.",
+                prompt,
+            )
+            return json.dumps(["Olá, mundo!"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "pt_BR",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Olá, mundo!")
+
     def test_translate_sends_structured_glossary_entries(self) -> None:
         machine = self.get_machine()
         unit = make_unit(code="fr", source="Open an account")

@@ -23,7 +23,7 @@ from weblate.glossary.models import (
     fetch_glossary_terms,
     get_glossary_terms,
 )
-from weblate.lang.models import PluralMapper
+from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.base import (
     MACHINERY_DEFAULT_THRESHOLD,
     BatchMachineTranslation,
@@ -37,7 +37,7 @@ from weblate.utils.translation import pgettext_noop
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
-    from weblate.lang.models import Language, Plural
+    from weblate.lang.models import Plural
     from weblate.trans.models import Component, Translation, Unit
 
     from .base import (
@@ -419,6 +419,16 @@ class BaseLLMTranslation(BatchMachineTranslation):
         ):
             text = instructions.get(language)
             if isinstance(text, str) and (text := text.strip()):
+                return text
+
+        target = Language.objects.fuzzy_get_strict(target_language)
+        if target is None:
+            return ""
+        for language, text in instructions.items():
+            if not isinstance(language, str) or not isinstance(text, str):
+                continue
+            matched_language = Language.objects.fuzzy_get_strict(language)
+            if matched_language == target and (text := text.strip()):
                 return text
         return ""
 
