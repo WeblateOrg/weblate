@@ -10,9 +10,10 @@ import os
 import time
 import warnings
 from contextlib import contextmanager
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING, Literal, cast, overload
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core import mail
@@ -58,7 +59,7 @@ from weblate.trans.tests.utils import (
     social_core_override_settings,
 )
 from weblate.vcs.ssh import get_key_data
-from weblate.wladmin.models import ConfigurationError, SupportStatus
+from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -1601,24 +1602,39 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("font-group-list.png")
 
     def test_backup(self) -> None:
+        fixed_timestamp = datetime(2026, 1, 6, 12, 0, tzinfo=UTC)
+        display_repository = "ssh://weblate@backup.example.com/backups"
+        display_passphrase = "example-backup-passphrase-for-screenshot-2026"
+
         self.create_temp()
         self.addCleanup(self.remove_temp)
-        self.open_manage()
-        with self.wait_for_page_load():
-            self.click("Backups")
-        element = self.driver.find_element(By.ID, "id_repository")
-        element.send_keys(self.tempdir)
-        with self.wait_for_page_load():
-            element.submit()
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.NAME, "trigger"))
-        self.click(
-            self.driver.find_element(
-                By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
+        with patch("django.utils.timezone.now", return_value=fixed_timestamp):
+            self.open_manage()
+            with self.wait_for_page_load():
+                self.click("Backups")
+            element = self.driver.find_element(By.ID, "id_repository")
+            element.send_keys(self.tempdir)
+            with self.wait_for_page_load():
+                element.submit()
+            with self.wait_for_page_load():
+                self.click(self.driver.find_element(By.NAME, "trigger"))
+
+            service = BackupService.objects.get()
+            service.repository = display_repository
+            service.passphrase = display_passphrase
+            service.timestamp = fixed_timestamp
+            service.save(update_fields=("repository", "passphrase", "timestamp"))
+            service.backuplog_set.update(timestamp=fixed_timestamp)
+
+            with self.wait_for_page_load():
+                self.driver.refresh()
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
+                )
             )
-        )
-        time.sleep(0.2)
-        self.screenshot("backups.png")
+            time.sleep(0.2)
+            self.screenshot("backups.png")
         SupportStatus.objects.create(secret="123", name="community")
         with self.wait_for_page_load():
             self.click("Weblate status")
