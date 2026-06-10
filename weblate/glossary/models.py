@@ -31,6 +31,22 @@ NON_WORD_RE = re.compile(r"\W")
 CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
+def cleanup_glossary_term(text: str) -> str:
+    """
+    Clean up the provided glossary term by removing unwanted characters.
+
+    - Translates and removes control characters.
+    - Strips leading and trailing whitespace.
+    - Removes prohibited leading characters.
+    """
+    text = text.translate(CONTROLCHARS_TRANS)
+    prohibited_initial_chars_pattern = (
+        f"^({'|'.join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS)})*"
+    )
+
+    return re.sub(prohibited_initial_chars_pattern, "", text).strip()
+
+
 def get_glossary_sources(component):
     # Fetch list of terms defined in a translation
     return list(
@@ -246,21 +262,6 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
     from weblate.trans.models import Component, Project  # noqa: PLC0415
     from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
-    def cleanup(text):
-        """
-        Clean up the provided text by removing unwanted characters.
-
-        - Translates and removes control characters using CONTROLCHARS_TRANS.
-        - Strips leading and trailing whitespace.
-        - Removes leading characters from PROHIBITED_INITIAL_CHARS if present.
-        """
-        text = text.translate(CONTROLCHARS_TRANS)
-        prohibited_initial_chars_pattern = (
-            f"^({'|'.join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS)})*"
-        )
-
-        return re.sub(prohibited_initial_chars_pattern, "", text).strip()
-
     # We can get list or iterator as well
     if hasattr(units, "prefetch_related"):
         units = units.prefetch_related(
@@ -287,8 +288,12 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
             continue
 
         # Cleanup strings
-        source = cleanup(unit.source)
-        target = source if "read-only" in unit.all_flags else cleanup(unit.target)
+        source = cleanup_glossary_term(unit.source)
+        target = (
+            source
+            if "read-only" in unit.all_flags
+            else cleanup_glossary_term(unit.target)
+        )
 
         # Skip blanks and duplicates
         if not source or not target or source in included:
