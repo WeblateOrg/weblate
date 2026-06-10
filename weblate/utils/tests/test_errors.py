@@ -107,6 +107,35 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
         client.report_exception.assert_called_once_with()
         client.report.assert_not_called()
 
+    @override_settings(SENTRY_DSN="https://public@example.com/1")
+    def test_report_error_reports_sentry_message_without_exception(self) -> None:
+        sentry_sdk = MagicMock()
+
+        with (
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
+            patch("weblate.utils.errors.record_error"),
+        ):
+            errors.report_error("Handled error", level="error")
+
+        sentry_sdk.capture_message.assert_called_once_with("Handled error")
+        sentry_sdk.capture_exception.assert_not_called()
+
+    @override_settings(SENTRY_DSN="https://public@example.com/1")
+    def test_report_error_reports_sentry_exception(self) -> None:
+        sentry_sdk = MagicMock()
+
+        with (
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
+            patch("weblate.utils.errors.record_error"),
+        ):
+            try:
+                raise_broken_error()
+            except ValueError:
+                errors.report_error("Handled error", level="error")
+
+        sentry_sdk.capture_exception.assert_called_once_with()
+        sentry_sdk.capture_message.assert_not_called()
+
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_message(self) -> None:
         client = MagicMock()
@@ -114,6 +143,17 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
 
         with patch("weblate.utils.errors.record_error"):
             errors.report_error("Handled error", level="error", message=True)
+
+        client.report.assert_called_once_with("Handled error")
+        client.report_exception.assert_not_called()
+
+    @override_settings(SENTRY_DSN=None)
+    def test_report_error_reports_google_message_without_exception(self) -> None:
+        client = MagicMock()
+        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+
+        with patch("weblate.utils.errors.record_error"):
+            errors.report_error("Handled error", level="error")
 
         client.report.assert_called_once_with("Handled error")
         client.report_exception.assert_not_called()

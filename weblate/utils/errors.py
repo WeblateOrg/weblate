@@ -81,6 +81,7 @@ def report_error(
     __traceback_hide__ = True  # noqa: F841
     error = sys.exc_info()[1]
     locale = get_language()
+    report_as_message = message or error is None
 
     if not skip_error_reporting:
         if hasattr(settings, "ROLLBAR"):
@@ -94,14 +95,14 @@ def report_error(
                 sentry_sdk.set_tag("project", project.slug)
             sentry_sdk.set_tag("user.locale", locale)
             sentry_sdk.set_level(level)
-            if message:
+            if report_as_message:
                 sentry_sdk.capture_message(cause)
             else:
                 sentry_sdk.capture_exception()
 
         google_client = _STATE["google_cloud_error_reporting_client"]
         if google_client is not None:
-            if message or error is None:
+            if report_as_message:
                 google_client.report(cause)
             else:
                 google_client.report_exception()
@@ -109,7 +110,7 @@ def report_error(
         record_error(
             cause,
             level=level,
-            exception=None if message else error,
+            exception=None if report_as_message else error,
             attributes={
                 "weblate.project": None if project is None else project.slug,
                 "weblate.user_locale": locale,
