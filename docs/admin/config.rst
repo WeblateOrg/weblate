@@ -118,6 +118,8 @@ Configures size limit for fetching or uploading assets into Weblate. Defaults to
 
 .. seealso::
 
+   * :ref:`screenshots`
+   * :ref:`fonts`
    * :setting:`ALLOWED_ASSET_DOMAINS`
 
 .. setting:: ASSET_PRIVATE_ALLOWLIST
