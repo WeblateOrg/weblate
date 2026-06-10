@@ -407,8 +407,10 @@ class ScreenshotList(PathViewMixin, ListView):  # type: ignore[misc]
                 ),
             )
             next_url = request.POST.get("next") or request.GET.get("next")
-            if next_url and url_has_allowed_host_and_scheme(
-                url=next_url, allowed_hosts={request.get_host()}
+            if (
+                next_url
+                and next_url.startswith("/")
+                and url_has_allowed_host_and_scheme(url=next_url, allowed_hosts=None)
             ):
                 return redirect(next_url)
             return redirect(obj)
