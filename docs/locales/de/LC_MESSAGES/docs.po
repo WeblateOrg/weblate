@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-05 07:59+0000\n"
+"PO-Revision-Date: 2026-06-07 14:01+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -2540,10 +2540,14 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"Bei einigen Identitätsanbietern (wie beispielsweise Microsoft Entra ID mit "
+"Multi-Faktor-Authentifizierung) muss das standardmäßige "
+"``requestedAuthnContext`` in der SAML-Sicherheitskonfiguration deaktiviert "
+"werden:"
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
-msgstr ""
+msgstr "In Docker stattdessen :envvar:`WEBLATE_SAML_SECURITY_CONFIG` setzen."
 
 #: admin/auth.rst:584
 msgid ""
@@ -3921,9 +3925,9 @@ msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
-"Im Allgemeinen heißt die Regel ``ignore-*`` für jede Qualitätsprüfung, wobei "
-"ihr Bezeichner verwendet wird, sodass Sie dies auch für Ihre "
-"benutzerdefinierten Qualitätsprüfungen verwenden können."
+"Im Allgemeinen lautet die Regel ``ignore-*`` für jede Qualitätsprüfung unter "
+"Verwendung ihrer Kennung, sodass Sie dies auch für Ihre benutzerdefinierten "
+"Qualitätsprüfungen verwenden können."
 
 #: admin/checks.rst:87
 msgid ""
@@ -4101,7 +4105,7 @@ msgstr ""
 #: admin/checks.rst:176
 msgid "Defines font group to use by specifying its identifier."
 msgstr ""
-"Definiert die zu verwendende Schriftartgruppe durch Angabe ihres Bezeichners."
+"Definiert die zu verwendende Schriftartgruppe durch Angabe ihrer Kennung."
 
 #: admin/checks.rst:178
 msgid "Defines font size in pixels."
@@ -6158,6 +6162,13 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"Die integrierten Standardeinstellungen folgen Conventional Commits und "
+"enthalten Weblate-Links, sofern vorhanden. Eine Änderung dieser "
+"Einstellungen wirkt sich auf neu erstellte Standardwerte aus; bestehende "
+"Nachrichtenvorlagen können in den Einstellungsformularen mit "
+":guilabel:`Restore site default` zurückgesetzt werden. Bei vererbten Werten "
+"wird durch das Wiederherstellen der Standardwerte auch die Vererbung für "
+"diese Nachricht deaktiviert."
 
 #: admin/config.rst:729
 msgid "Default add-ons to install for every created component."
@@ -6250,6 +6261,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"Die integrierten Standardeinstellungen folgen Conventional Commits und "
+"enthalten Weblate-Links und Übersetzungsstatus."
 
 #: admin/config.rst:876
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6702,7 +6715,7 @@ msgstr "Der Standardwert ist -1."
 
 #: admin/config.rst:1334
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "CSS-Klasse, die zu den Wrappern für Rechtsdokumente hinzugefügt wurde."
 
 #: admin/config.rst:1336
 msgid ""
@@ -6710,16 +6723,24 @@ msgid ""
 "and spacing rules. Set this to an empty string to render legal documents "
 "without the built-in numbering."
 msgstr ""
+"Der Standardwert ist ``\"tos\"``, der die integrierten Regeln für die "
+"Nummerierung und die Abstände von Rechtsdokumenten aktiviert. Setzen Sie "
+"dies auf eine leere Zeichenkette, um Rechtsdokumente ohne die integrierte "
+"Nummerierung darzustellen."
 
 #: admin/config.rst:1355
 msgid "List of legal document page identifiers to hide from the legal module."
 msgstr ""
+"Liste der Seitenkennungen für Rechtsdokumente, die im Rechtsmodul "
+"ausgeblendet werden sollen."
 
 #: admin/config.rst:1357
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"Die ``index``-Seite ist immer sichtbar. Unterstützte Dokumentenkennungen "
+"sind ``terms``, ``cookies``, ``privacy``, und ``contracts``."
 
 #: admin/config.rst:1360
 msgid ""
@@ -6727,6 +6748,10 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"Versteckte Seiten werden aus dem Menü „Rechtliche Grundlagen“ entfernt und "
+"geben bei direkter Aufrufe eine 404-Fehlermeldung zurück. Es wird nicht "
+"empfohlen, die Seiten ``terms`` oder ``privacy`` zu verbergen, wenn die "
+"Bestätigung der Nutzungsbedingungen aktiviert ist."
 
 #: admin/config.rst:1364
 msgid ""
@@ -6735,6 +6760,11 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"Wenn ``terms`` oder ``privacy`` ausgeblendet ist, verwenden Links, die über "
+"die Vorlagenvariablen ``terms_url`` und ``privacy_url`` angezeigt werden, "
+"bei entsprechender Konfiguration :setting:`LEGAL_URL` und "
+":setting:`PRIVACY_URL` als Fallbacks. Ist keine Ersatz-URL konfiguriert, "
+"wird der zugehörige Link weggelassen."
 
 #: admin/config.rst:1369
 msgid ""
@@ -6766,22 +6796,18 @@ msgstr ""
 
 #: admin/config.rst:1410
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
-"URL, unter der Ihre Weblate-Instanz ihre rechtlichen Dokumente anzeigt."
+msgstr "URL, unter der Ihre Weblate-Instanz ihre Rechtsdokumente anzeigt."
 
 #: admin/config.rst:1414
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate. Please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate instead of using "
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
-"Nützlich, wenn Sie Ihre rechtlichen Dokumente außerhalb von Weblate hosten, "
-"um sie in Weblate einzubetten. Bitte schauen Sie sich :ref:`legal` für "
-"Details an."
+"Dies ist nützlich, wenn Sie Ihre Rechtsdokumente außerhalb von Weblate "
+"hosten, anstatt das :ref:`legal` zu verwenden. Wenn das Rechtsmodul "
+"aktiviert ist, verlinkt Weblate standardmäßig auf die internen Seiten mit "
+"den Rechtsdokumenten."
 
 #: admin/config.rst:1433
 msgid "Additional licenses to include in the license choices."
@@ -11795,22 +11821,15 @@ msgid "Google Cloud Error Reporting"
 msgstr "Google-Cloud-Fehlerberichterstattung"
 
 #: admin/install.rst:1756
-#, fuzzy
-#| msgid ""
-#| "Weblate can report handled server errors to `Google Cloud Error Reporting "
-#| "<https://cloud.google.com/error-reporting/>`_. Install Weblate with the "
-#| "``google-errors`` extra and "
-#| "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgid ""
 "Weblate can report handled server errors to `Google Cloud Error Reporting`_. "
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
-"Weblate kann behandelte Serverfehler an `Google-Cloud-"
-"Fehlerberichterstattung <https://cloud.google.com/error-reporting/>`_ "
+"Weblate kann behandelte Serverfehler an `Google Cloud Error Reporting`_ "
 "melden. Installieren Sie Weblate mit dem Zusatzmodul ``google-errors`` und "
-"konfigurieren Sie :setting:`GOOGLE_CLOUD_ERROR_REPORTING` "
-"in :file:`settings.py`:"
+"konfigurieren Sie :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in "
+":file:`settings.py`:"
 
 #: admin/install.rst:1766
 msgid ""
@@ -13014,7 +13033,7 @@ msgid ""
 "services operated by Weblate s.r.o. and are not intended for general use."
 msgstr ""
 "``wllegal``, um dieselbe Integration zu ermöglichen und zusätzlich die "
-"gehosteten rechtlichen Dokumentenvorlagen von ``wllegal`` zu laden. Diese "
+"gehosteten Vorlagen für Rechtsdokumente von ``wllegal`` zu laden. Diese "
 "Vorlagen werden von den von Weblate s.r.o. betriebenen Diensten verwendet, "
 "und sind nicht für den allgemeinen Gebrauch bestimmt."
 
@@ -13024,9 +13043,9 @@ msgid ""
 "in :file:`/app/data/python/customize/templates/legal/documents`, "
 "see :ref:`docker-static-override`."
 msgstr ""
-"Um Ihre eigenen rechtlichen Dokumente in Docker bereitzustellen, "
-"überschreiben Sie die Vorlagen in :file:`/app/data/python/customize/"
-"templates/legal/documents`, siehe :ref:`docker-static-override`."
+"Um Ihre eigenen Rechtsdokumente in Docker bereitzustellen, überschreiben Sie "
+"die Vorlagen in :file:`/app/data/python/customize/templates/legal/"
+"documents`, siehe :ref:`docker-static-override`."
 
 #: admin/install/docker.rst:911
 msgid ""
@@ -13051,6 +13070,8 @@ msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Konfiguriert :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker-Bereitstellungen, "
+"bei denen :envvar:`WEBLATE_LEGAL_INTEGRATION` aktiviert ist."
 
 #: admin/install/docker.rst:947
 #, fuzzy
@@ -13710,12 +13731,12 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:1783
-#, fuzzy
-#| msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
 msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
 "saml#settings>`_"
-msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
+msgstr ""
+"`python3-saml-Sicherheitseinstellungen <https://github.com/SAML-Toolkits/python3-"
+"saml#settings>`_"
 
 #: admin/install/docker.rst:1794
 msgid "SAML attributes mapping."
@@ -17749,7 +17770,7 @@ msgid ""
 "are expected to fill out the following templates in the documents:"
 msgstr ""
 "Dies wird auf `Hosted Weblate <https://weblate.org/hosting/>`_ verwendet, um "
-"die erforderlichen rechtlichen Dokumente bereitzustellen. Es wird mit leeren "
+"die erforderlichen Rechtsdokumente bereitzustellen. Es wird mit leeren "
 "Dokumenten geliefert, und es wird erwartet, dass Sie die folgenden Vorlagen "
 "in den Dokumenten ausfüllen:"
 
@@ -17766,10 +17787,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Kurze Übersicht über die Nutzungsbedingungen und Datenschutzerklärung"
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Save add-on state information."
 msgid "Subcontractor information"
-msgstr "Informationen über den Status der Erweiterung speichern."
+msgstr "Informationen zum Unterauftragsverarbeiter"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -17797,7 +17816,7 @@ msgid ""
 "are available in this Git repository: <https://github.com/WeblateOrg/wllegal/"
 "tree/main/wllegal/templates/legal/documents>."
 msgstr ""
-"Rechtliche Dokumente für den Hosted-Weblate-Dienst, der von Weblate s.r.o. "
+"Rechtsdokumente für den Hosted-Weblate-Dienst, der von Weblate s.r.o. "
 "betrieben wird, sind in diesem Git-Repository: <https://github.com/"
 "WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents> verfügbar."
 
@@ -17807,10 +17826,10 @@ msgid ""
 "that service and are not intended for general use. They might still come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
-"Die beigefügten Nutzungsbedingungen und zugehörigen rechtlichen Dokumente "
-"beziehen sich speziell auf diesen Dienst und sind nicht für den allgemeinen "
-"Gebrauch bestimmt. Sie können dennoch als Ausgangspunkt dienen, wenn Sie sie "
-"an Ihre Bedürfnisse anpassen."
+"Die beigefügten Nutzungsbedingungen und zugehörigen Rechtsdokumente beziehen "
+"sich speziell auf diesen Dienst und sind nicht für den allgemeinen Gebrauch "
+"bestimmt. Sie können dennoch als Ausgangspunkt dienen, wenn Sie sie an Ihre "
+"Bedürfnisse anpassen."
 
 #: admin/optionals.rst:168
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -17838,12 +17857,12 @@ msgid ""
 "python/customize/templates/legal/documents`, see :ref:`docker-static-"
 "override`."
 msgstr ""
-"Aktivieren Sie in Docker-Bereitstellungen das Rechtsmodul "
-"mit :envvar:`WEBLATE_LEGAL_INTEGRATION`, anstatt :file:`settings.py` zu "
+"Aktivieren Sie in Docker-Bereitstellungen das Rechtsmodul mit "
+":envvar:`WEBLATE_LEGAL_INTEGRATION`, anstatt :file:`settings.py` zu "
 "bearbeiten. Verwenden Sie ``tos-confirm``, um das Rechtsmodul und die "
 "Durchsetzung der Nutzungsbedingungen zu aktivieren, oder ``wllegal``, um "
-"zusätzlich die gehosteten rechtlichen Dokumentenvorlagen zu laden, die von "
-"den von Weblate s.r.o. betriebenen Diensten verwendet werden. Diese Vorlagen "
+"zusätzlich die gehosteten Vorlagen für Rechtsdokumente zu laden, die von den "
+"von Weblate s.r.o. betriebenen Diensten verwendet werden. Diese Vorlagen "
 "sind nicht für den allgemeinen Gebrauch bestimmt. Um Ihre eigenen Vorlagen "
 "in Docker bereitzustellen, legen Sie diese in :file:`/app/data/python/"
 "customize/templates/legal/documents` ab, siehe :ref:`docker-static-override`."
@@ -18848,13 +18867,10 @@ msgstr ""
 "siehe :ref:`custom-checks`."
 
 #: admin/projects.rst:395 admin/projects.rst:824
-#, fuzzy
-#| msgid ""
-#| "Extended API with project, component and translation removal and creation."
 msgid "Workspace, project, component, and translation flags are merged."
 msgstr ""
-"API erweitert, um Projekte, Komponenten und Übersetzungen zu entfernen/"
-"erstellen."
+"Arbeitsbereichs-, Projekt-, Komponenten- und Übersetzungsmarkierungen werden "
+"zusammengeführt."
 
 #: admin/projects.rst:409 admin/projects.rst:1026 admin/workspaces.rst:147
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -18885,6 +18901,12 @@ msgid ""
 "editor to restore the current installation default for that message; for "
 "inherited values, this also disables inheritance for that message."
 msgstr ""
+"Die integrierten Standardeinstellungen folgen Conventional Commits und "
+"enthalten Weblate-Links, sofern vorhanden. Verwenden Sie :guilabel:`Restore "
+"site default` neben einem Nachrichteneditor, um die aktuellen "
+"Installationsstandardwerte für diese Nachricht wiederherzustellen; bei "
+"vererbten Werten wird dadurch auch die Vererbung für diese Nachricht "
+"deaktiviert."
 
 #: admin/projects.rst:433 devel/sphinx.rst:30
 msgid "Component configuration"
@@ -22672,26 +22694,16 @@ msgid ""
 msgstr ""
 
 #: changes.rst:93
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS`; "
-#| "``weblate.metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; "
 "``weblate.workspaces`` should be added."
 msgstr ""
 "Es gibt eine Änderung in :setting:`django:INSTALLED_APPS`; "
-"``weblate.metrics`` sollte hinzugefügt werden."
+"``weblate.workspaces`` sollte hinzugefügt werden."
 
 #: changes.rst:94
-#, fuzzy
-#| msgid ""
-#| "The database migration make take hours on larger instances due to "
-#| "recreating some of the indexes."
 msgid "The database migrations might take longer on larger instances."
-msgstr ""
-"Die Datenbankmigration kann bei größeren Instanzen Stunden dauern, da einige "
-"der Indizes neu erstellt werden müssen."
+msgstr "Die Datenbankmigrationen können bei größeren Instanzen länger dauern."
 
 #: changes.rst:100
 msgid ""
@@ -33269,9 +33281,9 @@ msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 msgstr ""
-"Der Projektsicherungsimport überprüft jetzt die URLs der Komponenten-"
-"Repositorys vor dem Wiederherstellen einer Sicherung "
-"(:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
+"Der Projektsicherungsimport überprüft jetzt die Komponenten-Repository-URLs "
+"vor dem Wiederherstellen einer Sicherung (:cve:`2026-41654` / :ghsa:`cwcx-"
+"382v-8m9g`)."
 
 #: changes/v5.rst:40
 msgid ""
@@ -49512,7 +49524,8 @@ msgstr ""
 "analysiert, das obige Beispiel zeigt all das, obwohl nur die Schriftfamilie "
 "erforderlich ist. Jedes Leerzeichen in der Schriftfamilie wird in einen "
 "Unterstrich umgewandelt, so wird ``Source Sans Pro`` zu ``Source_Sans_Pro``, "
-"bitte beachten Sie dies beim Benennen der Schriftgruppe (siehe :ref:`fonts`)."
+"bitte beachten Sie dies beim Benennen der Schriftartgruppe (siehe "
+":ref:`fonts`)."
 
 #: formats/xliff.rst:116
 msgid ""
@@ -63778,10 +63791,8 @@ msgid "Use management interface"
 msgstr "Verwaltungsoberfläche verwenden"
 
 #: snippets/permissions.rst:337
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Weblate-Konfiguration"
+msgstr "Plattformkonfiguration verwalten"
 
 #: snippets/permissions.rst:339
 msgid "Add new projects"

@@ -936,6 +936,24 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
 
+    def test_update_linguas_uses_po_path_when_new_base_elsewhere(self) -> None:
+        translation = self.get_translation()
+        pot_path = Path(self.component.full_path) / "pot" / "hello.pot"
+        pot_path.parent.mkdir()
+        source_path = cast("str", self.component.get_new_base_filename())
+        shutil.copy(source_path, pot_path)
+        self.component.new_base = "pot/hello.pot"
+        self.component.save(update_fields=["new_base"])
+
+        self.assertTrue(UpdateLinguasAddon.can_install(component=self.component))
+        addon = UpdateLinguasAddon.create(component=self.component)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("po/LINGUAS", commit)
+        self.assertIn("\n+cs\n", commit)
+
+        addon.post_add(translation)
+        self.assertEqual(translation.addon_commit_files, [])
+
     def test_update_linguas_rejects_symlink(self) -> None:
         translation = self.get_translation()
         addon = UpdateLinguasAddon.create(component=translation.component)
@@ -960,7 +978,7 @@ class GettextAddonTest(ViewTestCase):
             Path(handle.name).read_text(encoding="utf-8"), "outside repository\n"
         )
 
-    def test_update_linguas_invalid_new_base_returns_false(self) -> None:
+    def test_update_linguas_invalid_new_base_uses_po_path(self) -> None:
         translation = self.get_translation()
         addon = UpdateLinguasAddon.create(component=self.component)
 
@@ -972,7 +990,12 @@ class GettextAddonTest(ViewTestCase):
         os.unlink(new_base_path)
         os.symlink(handle.name, new_base_path)
 
-        self.assertFalse(UpdateLinguasAddon.can_install(component=self.component))
+        linguas_path = os.path.join(self.component.full_path, "po", "LINGUAS")
+        self.assertEqual(
+            UpdateLinguasAddon.get_validated_linguas_path(self.component),
+            linguas_path,
+        )
+        self.assertTrue(UpdateLinguasAddon.can_install(component=self.component))
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
 

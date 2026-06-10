@@ -153,11 +153,19 @@ def get_other_units(unit):
         else:
             return result
 
-        base = (
+        matches = query
+        if unit.target:
+            target_matches = Q(target__lower__md5=MD5(Lower(Value(unit.target)))) & Q(
+                state__gte=STATE_TRANSLATED
+            )
+            matches = query | target_matches
+
+        units = (
             Unit.objects.filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
+            .filter(matches)
             .alias(
                 matches_current=Case(
                     When(match, then=Value(1)),
@@ -169,13 +177,6 @@ def get_other_units(unit):
             .prefetch_source()
             .order_by("-matches_current")
         )
-
-        units = base.filter(query)
-        if unit.target:
-            units |= base.filter(
-                Q(target__lower__md5=MD5(Lower(Value(unit.target))))
-                & Q(state__gte=STATE_TRANSLATED)
-            )
 
         # Use memory_db for the query in case it exists. This is supposed
         # to be a read-only replica for offloading expensive translation

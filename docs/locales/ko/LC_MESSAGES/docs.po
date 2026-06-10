@@ -5,7 +5,7 @@
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Minseo Lee <itoupluk427@gmail.com>, 2023.
 # simmon <simmon@nplob.com>, 2024.
-# Hoseok Seo <ddinghoya@gmail.com>, 2024.
+# Hoseok Seo <ddinghoya@gmail.com>, 2024, 2026.
 # Uijong Wei <ujcsi@naver.com>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
 # 김인수 <simmon@nplob.com>, 2025.
@@ -22,8 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-04 11:38+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-10 12:22+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
 "Language: ko\n"
@@ -390,12 +390,12 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
-"동일한 유형의 초대를 :guilabel:`Users` 탭의 :ref:`관리 인터페이스 "
+"동일한 유형의 초대를 :guilabel:`사용자` 탭의 :ref:`관리 인터페이스 "
 "<management-interface>` 에서 사이트 전체에 대해 사용할 수 있습니다. 프로젝트 "
-"관리자와 사이트 관리자 모두 공백으로 구분된 이메일 주소를 붙여넣어 여러 사용"
-"자를 한 번에 초대할 수 있습니다. 한 번의 일괄 작업으로 생성된 모든 초대에는 "
-"선택한 팀이 사용되며, 사이트 전체 일괄 초대에는 선택한 슈퍼유저 플래그도 적용"
-"됩니다."
+"관리자와 사이트 관리자 모두 공백으로 구분된 이메일 주소를 붙여넣어 여러 "
+"사용자를 한 번에 초대할 수 있습니다. 한 번의 일괄 작업으로 생성된 모든 "
+"초대에는 선택한 팀이 사용되며, 사이트 전체 일괄 초대에는 선택한 슈퍼유저 "
+"플래그도 적용됩니다."
 
 #: admin/access.rst:193
 msgid ""
@@ -659,7 +659,7 @@ msgstr ""
 
 #: admin/access.rst:323
 msgid "Group `Users`"
-msgstr "그룹 `Users`"
+msgstr "그룹 `사용자`"
 
 #: admin/access.rst:326 admin/access.rst:340
 msgid "Language selection"
@@ -976,8 +976,8 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
-"이 기능의 가장 일반적인 사용 사례는 모든 새 사용자를 기본 팀에 배정하는 것입"
-"니다. 이 동작은 기본 `Users` 및 `Guest` 팀에 사용됩니다 (:ref:`default-"
+"이 기능의 가장 일반적인 사용 사례는 모든 새 사용자를 기본 팀에 배정하는 "
+"것입니다. 이 동작은 기본 `사용자` 및 `게스트` 팀에 사용됩니다 (:ref:`default-"
 "teams` 참조). 모든 사용자와 일치시키려면 정규식 ``^.*$`` 를 사용하세요."
 
 #: admin/access.rst:489
@@ -1748,19 +1748,14 @@ msgid ""
 msgstr "프로젝트 내의 모든 구성요소와 번역을 포함하여 표시됩니다."
 
 #: admin/announcements.rst:39
-#, fuzzy
-#| msgid "Project specified"
 msgid "Project and language specified"
-msgstr "프로젝트 지정"
+msgstr "프로젝트 및 언어 지정됨"
 
 #: admin/announcements.rst:41
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the project for the specified language, including all its "
 "translations."
-msgstr "프로젝트 내의 모든 구성요소와 번역을 포함하여 표시됩니다."
+msgstr "지정된 언어에 대한 프로젝트 내에서 해당 언어와 그 모든 번역본이 표시됩니다."
 
 #: admin/announcements.rst:44
 msgid "Category specified"
@@ -2361,10 +2356,13 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"일부 ID 공급자(예: multi-factor authentication을 지원하는 Microsoft Entra ID)"
+"는 SAML 보안 구성에서 기본값인 ``requestedAuthnContext`` 를 비활성화해야 "
+"합니다."
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
-msgstr ""
+msgstr "Docker 환경에서는 대신 :envvar:`WEBLATE_SAML_SECURITY_CONFIG` 를 지정하세요."
 
 #: admin/auth.rst:584
 msgid ""
@@ -2636,9 +2634,10 @@ msgid ""
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
 "이는 프로젝트 ( :ref:`project-enforced_2fa` 참조) 또는 팀 수준에서 사용자에 "
-"대해 강제할 수 있습니다. 사이트 전체 배포에서는 기본 :guilabel:`Users` 팀에"
-"서 활성화하여 모든 사용자에 대해 2단계 인증을 강제할 수도 있습니다. 이 팀"
-"은 :ref:`자동 팀 할당 <autoteam>` 에 의해 새 사용자에게 자동으로 배정됩니다."
+"대해 강제할 수 있습니다. 사이트 전체 배포에서는 기본 :guilabel:`사용자` "
+"팀에서 활성화하여 모든 사용자에 대해 2단계 인증을 강제할 수도 있습니다. 이 "
+"팀은 :ref:`자동 팀 할당 <autoteam>` 에 의해 새 사용자에게 자동으로 "
+"배정됩니다."
 
 #: admin/auth.rst:862
 msgid ""
@@ -5724,6 +5723,11 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"기본 설정은 Conventional Commits를 따르며, 가능한 경우 Weblate 링크를 "
+"포함합니다. 이러한 설정을 변경하면 새로 생성되는 기본값에 적용되며, 기존 "
+"메시지 템플릿은 설정 양식에서 :guilabel:`사이트 기본값 복원` 을 사용하여 "
+"재설정할 수 있습니다. 상속된 값의 경우, 사이트 기본값을 복원하면 해당 "
+"메시지에 대한 상속도 비활성화됩니다."
 
 #: admin/config.rst:729
 msgid "Default add-ons to install for every created component."
@@ -5812,6 +5816,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"기본 설정은 Conventional Commits 방식을 따르며, Weblate 링크와 번역 상태를 "
+"포함합니다."
 
 #: admin/config.rst:876
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -5960,8 +5966,8 @@ msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
-"포크를 사용하려고 하며 원본 저장소가 공개되지 않은 경"
-"우 :guilabel:`Administration` 도 필요할 수 있습니다."
+"포크를 사용하려고 하며 원본 저장소가 공개되지 않은 경우 :guilabel:`관리` 도 "
+"필요할 수 있습니다."
 
 #: admin/config.rst:1061
 msgid "Use ``api.github.com`` as an API host for https://github.com/."
@@ -6241,7 +6247,7 @@ msgstr "기본값은 -1."
 
 #: admin/config.rst:1334
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "법률 문서 템플릿을 감싸는 요소에 CSS 클래스가 추가되었습니다."
 
 #: admin/config.rst:1336
 msgid ""
@@ -6249,16 +6255,21 @@ msgid ""
 "and spacing rules. Set this to an empty string to render legal documents "
 "without the built-in numbering."
 msgstr ""
+"기본값은 ``\"tos\"`` 이며, 법률 문서에 대한 번호 매기기 및 간격 규칙이 "
+"자동으로 적용됩니다. 빈 문자열로 설정하면 번호 매기기 없이 법률 문서를 "
+"렌더링합니다."
 
 #: admin/config.rst:1355
 msgid "List of legal document page identifiers to hide from the legal module."
-msgstr ""
+msgstr "법률 모듈에서 숨길 법률 문서 페이지 식별자 목록입니다."
 
 #: admin/config.rst:1357
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"``index`` 페이지는 항상 표시됩니다. 지원되는 문서 식별자는 ``terms``, "
+"``cookies``, ``privacy``, 및 ``contracts`` 입니다."
 
 #: admin/config.rst:1360
 msgid ""
@@ -6266,6 +6277,9 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"숨겨진 페이지는 법률 메뉴에서 제거되며 직접 요청 시 404 오류를 반환합니다. "
+"서비스 약관 확인이 활성화된 경우 ``terms`` 또는 ``privacy`` 페이지를 숨기는 "
+"것은 권장되지 않습니다."
 
 #: admin/config.rst:1364
 msgid ""
@@ -10959,22 +10973,15 @@ msgid "Google Cloud Error Reporting"
 msgstr "Google Cloud Error Reporting"
 
 #: admin/install.rst:1756
-#, fuzzy
-#| msgid ""
-#| "Weblate can report handled server errors to `Google Cloud Error Reporting "
-#| "<https://cloud.google.com/error-reporting/>`_. Install Weblate with the "
-#| "``google-errors`` extra and "
-#| "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgid ""
 "Weblate can report handled server errors to `Google Cloud Error Reporting`_. "
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
-"Weblate는 처리된 서버 오류를 `Google Cloud Error Reporting <https://"
-"cloud.google.com/error-reporting/>`_ 에 보고할 수 있습니다. ``google-"
-"errors`` extra와 함께 Weblate를 설치하"
-"고 :setting:`GOOGLE_CLOUD_ERROR_REPORTING` 을 :file:`settings.py` 에서 구성하"
-"세요:"
+"Weblate는 처리된 서버 오류를 `Google Cloud Error Reporting`_ 에 보고할 수 "
+"있습니다. ``google-errors`` 확장 기능을 사용하여 Weblate를 설치하고, "
+":file:`settings.py` 파일에서 :setting:`GOOGLE_CLOUD_ERROR_REPORTING` 을 "
+"구성하세요:"
 
 #: admin/install.rst:1766
 msgid ""
@@ -16376,9 +16383,9 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
-"기본적으로 :guilabel:`Users` 그룹의 구성원과 익명 사용자는 :guilabel:`저장소 "
-"접근` 및 :guilabel:`파워 사용자` 역할을 통해 공개 프로젝트의 저장소에 접근할 "
-"수 있습니다."
+"기본적으로 :guilabel:`사용자` 그룹의 구성원과 익명 사용자는 "
+":guilabel:`저장소 접근` 및 :guilabel:`파워 사용자` 역할을 통해 공개 "
+"프로젝트의 저장소에 접근할 수 있습니다."
 
 #: admin/optionals.rst:71 admin/workspaces.rst:239
 msgid "Billing"
@@ -16519,10 +16526,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "서비스 약관 및 개인정보 처리방침의 간략한 개요"
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Save add-on state information."
 msgid "Subcontractor information"
-msgstr "애드온 상태 정보를 저장합니다."
+msgstr "하청업체 정보"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -17504,11 +17509,8 @@ msgstr ""
 "조)."
 
 #: admin/projects.rst:395 admin/projects.rst:824
-#, fuzzy
-#| msgid ""
-#| "Extended API with project, component and translation removal and creation."
 msgid "Workspace, project, component, and translation flags are merged."
-msgstr "프로젝트, 구성요소 및 번역의 삭제 및 생성으로 API가 확장되었습니다."
+msgstr "작업공간, 프로젝트, 구성 요소 및 번역 플래그가 병합됩니다."
 
 #: admin/projects.rst:409 admin/projects.rst:1026 admin/workspaces.rst:147
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -20195,11 +20197,9 @@ msgid ""
 msgstr "프로젝트 이름을 표시하는 데 사용되는 상세 프로젝트 이름입니다."
 
 #: admin/workspaces.rst:66
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid ""
 "Default translation license for projects and components in this workspace."
-msgstr "번역 프로젝트 및 구성요소 추가"
+msgstr "이 작업 공간의 프로젝트 및 구성 요소에 대한 기본 번역 라이선스."
 
 #: admin/workspaces.rst:78
 #, fuzzy
@@ -21001,17 +21001,14 @@ msgid "Added :ref:`cost estimates <cost-estimate>` to translation reports."
 msgstr "번역 보고서에 :ref:`비용 예상 <cost-estimate>` 이 추가되었습니다."
 
 #: changes.rst:59
-#, fuzzy
-#| msgid ""
-#| "Added optional :ref:`Google Cloud Error Reporting <collecting-errors>` "
-#| "support for handled server errors."
 msgid ""
 "Added optional :ref:`OpenTelemetry tracing <collecting-errors>` for backend "
 "requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-"
 "errors>` for handled server errors."
 msgstr ""
-"처리된 서버 오류를 위한 선택적 :ref:`Google Cloud Error Reporting "
-"<collecting-errors>` 지원이 추가되었습니다."
+"백엔드 요청 및 태스크에 대한 :ref:`OpenTelemetry 추적 <collecting-errors>` "
+"기능을, 처리된 서버 오류에 대한 :ref:`Google Cloud 오류 보고 <collecting-"
+"errors>` 기능을 선택 사항으로 추가했습니다."
 
 #: changes.rst:60
 #, fuzzy
@@ -21030,18 +21027,15 @@ msgstr ""
 "세부 정보를 포함합니다."
 
 #: changes.rst:64
-#, fuzzy
-#| msgid ""
-#| "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
-#| "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgid ""
 "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
 "to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` "
 "using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"Docker 컨테이너에서 이제 :setting:`WEBLATE_FORMATS` 를 조정할 수 있습니"
-"다. :envvar:`WEBLATE_ADD_FORMATS` 및 :envvar:`WEBLATE_REMOVE_FORMATS` 를 사용"
-"하세요."
+"이제 Docker 컨테이너에서 :envvar:`WEBLATE_SAML_SECURITY_CONFIG` 를 설정하여 "
+"SAML 보안 설정을 사용자 정의할 수 있으며, :envvar:`WEBLATE_ADD_FORMATS` 및 "
+":envvar:`WEBLATE_REMOVE_FORMATS` 를 사용하여 :setting:`WEBLATE_FORMATS` 를 "
+"조정할 수 있습니다."
 
 #: changes.rst:65
 msgid ""
@@ -21059,18 +21053,16 @@ msgstr ""
 "중복 제거하며, 모든 변경사항을 계산하는 옵션을 제공합니다."
 
 #: changes.rst:67
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/continuous` now explains why squash merging Weblate conflict-"
-#| "resolution pull requests can require a repository reset."
 msgid ""
 ":doc:`/admin/code-hosting` now documents HTTPS access-token URLs and "
 "dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/"
 "continuous` now explains why squash merging Weblate conflict-resolution pull "
 "requests can require a repository reset."
 msgstr ""
-"이제 :doc:`/admin/continuous` 는 Weblate 충돌 해결 풀 리퀘스트를 스쿼시 병합"
-"하면 저장소 재설정이 필요할 수 있는 이유를 설명합니다."
+":doc:`/admin/code-hosting` 페이지에는 이제 저장소에 액세스하기 위한 HTTPS "
+"액세스 토큰 URL과 전용 사용자 SSH URL에 대한 설명이 추가되었으며, :doc:`/"
+"admin/continuous` 페이지에는 Weblate 충돌 해결 풀 리퀘스트를 스쿼시 병합할 "
+"때 저장소 재설정이 필요할 수 있는 이유가 설명되어 있습니다."
 
 #: changes.rst:68
 msgid ""
@@ -21099,12 +21091,12 @@ msgstr ""
 "다."
 
 #: changes.rst:74
-#, fuzzy
-#| msgid "Outbound URL validation now rejects additional non-public targets."
 msgid ""
 "Outbound URL validation now rejects additional non-public targets "
 "(:ghsa:`vmfc-9982-2m45`)."
-msgstr "발신 URL 유효성 검사가 이제 추가 비공개 대상을 거부합니다."
+msgstr ""
+"아웃바운드 URL 유효성 검사에서 이제 추가적인 비공개 대상(:ghsa:`vmfc-9982-"
+"2m45`)을 거부합니다."
 
 #: changes.rst:75
 #, fuzzy
@@ -60530,10 +60522,8 @@ msgid "Use management interface"
 msgstr "관리 인터페이스 사용"
 
 #: snippets/permissions.rst:337
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Weblate 구성"
+msgstr "사이트 구성 관리"
 
 #: snippets/permissions.rst:339
 msgid "Add new projects"

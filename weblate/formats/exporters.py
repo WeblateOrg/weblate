@@ -164,6 +164,13 @@ class TBXExporter(XMLExporter):
     verbose = gettext_lazy("TBX")
     storage_class = tbxfile
 
+    def add(self, unit, word) -> None:
+        if self.source_language.code.replace("_", "-").lower() == (
+            self.language.code.replace("_", "-").lower()
+        ):
+            return
+        super().add(unit, word)
+
 
 class TMXExporter(XMLExporter):
     name = "tmx"

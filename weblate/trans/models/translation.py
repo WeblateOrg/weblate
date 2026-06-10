@@ -1131,6 +1131,21 @@ class Translation(
         pounit.set_explanation(pending_change.explanation)
         pounit.set_source_explanation(pending_change.source_unit_explanation)
 
+    def find_or_add_pending_store_unit(
+        self, store: TranslationFormat, unit: Unit
+    ) -> TranslationUnit:
+        try:
+            pounit, add = store.find_unit(unit.context, unit.source)
+        except UnitNotFoundError:
+            return store.new_unit(
+                unit.context,
+                unit.get_source_plurals(),
+                unit.get_target_plurals(),
+            )
+        if add:
+            store.add_unit(pounit)
+        return pounit
+
     @property
     def count_pending_units(self):
         """Return count of units with pending changes."""
@@ -1221,11 +1236,15 @@ class Translation(
             unit.target = pending_change.target
 
             if pending_change.add_unit:
-                pounit = store.new_unit(
-                    unit.context, unit.get_source_plurals(), unit.get_target_plurals()
-                )
-                pounit.set_explanation(pending_change.explanation)
-                pounit.set_source_explanation(pending_change.source_unit_explanation)
+                pounit = self.find_or_add_pending_store_unit(store, unit)
+                try:
+                    self.update_pending_store_unit(pounit, unit, pending_change)
+                except Exception as error:
+                    self._log_unit_update_failure(unit, error)
+                    self._store_failed_unit_update(unit, pending_change, error)
+                    # this should be kept as pending, so that the changes are not lost
+                    changes_status[pending_change.pk] = False
+                    continue
                 # Check if context has changed while adding to storage
                 if pounit.context != unit.context:
                     if self.is_source:

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import os
-from contextlib import suppress
+from contextlib import nullcontext, suppress
 from pathlib import Path
 from typing import TYPE_CHECKING
 from zipfile import BadZipfile
@@ -333,7 +333,12 @@ class CreateComponent(BaseCreateView):
     @transaction.atomic
     def form_valid(self, form):
         if self.stage == "create":
-            with form.instance.repository.lock:
+            lock = (
+                nullcontext()
+                if form.instance.is_repo_link
+                else form.instance.repository.lock
+            )
+            with lock:
                 for field in INHERITABLE_COMPONENT_FLAGS:
                     setattr(form.instance, field, True)
                 for field in ("license", "new_lang", "language_code_style"):

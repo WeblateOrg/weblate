@@ -2,12 +2,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.db import models
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.flags import Flags
 from weblate.utils.colors import ColorChoices
+
+
+class LabelQuerySet(models.QuerySet["Label", "Label"]):
+    def order(self):
+        return self.order_by("name")
 
 
 class Label(models.Model):
@@ -28,6 +35,8 @@ class Label(models.Model):
         max_length=250,
         blank=True,
     )
+
+    objects = LabelQuerySet.as_manager()
 
     class Meta:
         app_label = "trans"
