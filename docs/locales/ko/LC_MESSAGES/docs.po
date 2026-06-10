@@ -22,8 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-07 14:01+0000\n"
-"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
+"PO-Revision-Date: 2026-06-10 12:22+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
 "Language: ko\n"
@@ -390,12 +390,12 @@ msgid ""
 "the selected team, and site-wide bulk invites also apply the selected "
 "superuser flag."
 msgstr ""
-"동일한 유형의 초대를 :guilabel:`Users` 탭의 :ref:`관리 인터페이스 "
+"동일한 유형의 초대를 :guilabel:`사용자` 탭의 :ref:`관리 인터페이스 "
 "<management-interface>` 에서 사이트 전체에 대해 사용할 수 있습니다. 프로젝트 "
-"관리자와 사이트 관리자 모두 공백으로 구분된 이메일 주소를 붙여넣어 여러 사용"
-"자를 한 번에 초대할 수 있습니다. 한 번의 일괄 작업으로 생성된 모든 초대에는 "
-"선택한 팀이 사용되며, 사이트 전체 일괄 초대에는 선택한 슈퍼유저 플래그도 적용"
-"됩니다."
+"관리자와 사이트 관리자 모두 공백으로 구분된 이메일 주소를 붙여넣어 여러 "
+"사용자를 한 번에 초대할 수 있습니다. 한 번의 일괄 작업으로 생성된 모든 "
+"초대에는 선택한 팀이 사용되며, 사이트 전체 일괄 초대에는 선택한 슈퍼유저 "
+"플래그도 적용됩니다."
 
 #: admin/access.rst:193
 msgid ""
@@ -659,7 +659,7 @@ msgstr ""
 
 #: admin/access.rst:323
 msgid "Group `Users`"
-msgstr "그룹 `Users`"
+msgstr "그룹 `사용자`"
 
 #: admin/access.rst:326 admin/access.rst:340
 msgid "Language selection"
@@ -976,8 +976,8 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
-"이 기능의 가장 일반적인 사용 사례는 모든 새 사용자를 기본 팀에 배정하는 것입"
-"니다. 이 동작은 기본 `Users` 및 `Guest` 팀에 사용됩니다 (:ref:`default-"
+"이 기능의 가장 일반적인 사용 사례는 모든 새 사용자를 기본 팀에 배정하는 "
+"것입니다. 이 동작은 기본 `사용자` 및 `게스트` 팀에 사용됩니다 (:ref:`default-"
 "teams` 참조). 모든 사용자와 일치시키려면 정규식 ``^.*$`` 를 사용하세요."
 
 #: admin/access.rst:489
@@ -1748,19 +1748,14 @@ msgid ""
 msgstr "프로젝트 내의 모든 구성요소와 번역을 포함하여 표시됩니다."
 
 #: admin/announcements.rst:39
-#, fuzzy
-#| msgid "Project specified"
 msgid "Project and language specified"
-msgstr "프로젝트 지정"
+msgstr "프로젝트 및 언어 지정됨"
 
 #: admin/announcements.rst:41
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the project for the specified language, including all its "
 "translations."
-msgstr "프로젝트 내의 모든 구성요소와 번역을 포함하여 표시됩니다."
+msgstr "지정된 언어에 대한 프로젝트 내에서 해당 언어와 그 모든 번역본이 표시됩니다."
 
 #: admin/announcements.rst:44
 msgid "Category specified"
@@ -2361,10 +2356,13 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"일부 ID 공급자(예: multi-factor authentication을 지원하는 Microsoft Entra ID)"
+"는 SAML 보안 구성에서 기본값인 ``requestedAuthnContext`` 를 비활성화해야 "
+"합니다."
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
-msgstr ""
+msgstr "Docker 환경에서는 대신 :envvar:`WEBLATE_SAML_SECURITY_CONFIG` 를 지정하세요."
 
 #: admin/auth.rst:584
 msgid ""
@@ -2636,9 +2634,10 @@ msgid ""
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
 "이는 프로젝트 ( :ref:`project-enforced_2fa` 참조) 또는 팀 수준에서 사용자에 "
-"대해 강제할 수 있습니다. 사이트 전체 배포에서는 기본 :guilabel:`Users` 팀에"
-"서 활성화하여 모든 사용자에 대해 2단계 인증을 강제할 수도 있습니다. 이 팀"
-"은 :ref:`자동 팀 할당 <autoteam>` 에 의해 새 사용자에게 자동으로 배정됩니다."
+"대해 강제할 수 있습니다. 사이트 전체 배포에서는 기본 :guilabel:`사용자` "
+"팀에서 활성화하여 모든 사용자에 대해 2단계 인증을 강제할 수도 있습니다. 이 "
+"팀은 :ref:`자동 팀 할당 <autoteam>` 에 의해 새 사용자에게 자동으로 "
+"배정됩니다."
 
 #: admin/auth.rst:862
 msgid ""
@@ -5724,6 +5723,11 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"기본 설정은 Conventional Commits를 따르며, 가능한 경우 Weblate 링크를 "
+"포함합니다. 이러한 설정을 변경하면 새로 생성되는 기본값에 적용되며, 기존 "
+"메시지 템플릿은 설정 양식에서 :guilabel:`사이트 기본값 복원` 을 사용하여 "
+"재설정할 수 있습니다. 상속된 값의 경우, 사이트 기본값을 복원하면 해당 "
+"메시지에 대한 상속도 비활성화됩니다."
 
 #: admin/config.rst:729
 msgid "Default add-ons to install for every created component."
@@ -5812,6 +5816,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"기본 설정은 Conventional Commits 방식을 따르며, Weblate 링크와 번역 상태를 "
+"포함합니다."
 
 #: admin/config.rst:876
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -5960,8 +5966,8 @@ msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
-"포크를 사용하려고 하며 원본 저장소가 공개되지 않은 경"
-"우 :guilabel:`Administration` 도 필요할 수 있습니다."
+"포크를 사용하려고 하며 원본 저장소가 공개되지 않은 경우 :guilabel:`관리` 도 "
+"필요할 수 있습니다."
 
 #: admin/config.rst:1061
 msgid "Use ``api.github.com`` as an API host for https://github.com/."
@@ -6241,7 +6247,7 @@ msgstr "기본값은 -1."
 
 #: admin/config.rst:1334
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "법률 문서 템플릿을 감싸는 요소에 CSS 클래스가 추가되었습니다."
 
 #: admin/config.rst:1336
 msgid ""
@@ -6249,16 +6255,21 @@ msgid ""
 "and spacing rules. Set this to an empty string to render legal documents "
 "without the built-in numbering."
 msgstr ""
+"기본값은 ``\"tos\"`` 이며, 법률 문서에 대한 번호 매기기 및 간격 규칙이 "
+"자동으로 적용됩니다. 빈 문자열로 설정하면 번호 매기기 없이 법률 문서를 "
+"렌더링합니다."
 
 #: admin/config.rst:1355
 msgid "List of legal document page identifiers to hide from the legal module."
-msgstr ""
+msgstr "법률 모듈에서 숨길 법률 문서 페이지 식별자 목록입니다."
 
 #: admin/config.rst:1357
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"``index`` 페이지는 항상 표시됩니다. 지원되는 문서 식별자는 ``terms``, "
+"``cookies``, ``privacy``, 및 ``contracts`` 입니다."
 
 #: admin/config.rst:1360
 msgid ""
@@ -6266,6 +6277,9 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"숨겨진 페이지는 법률 메뉴에서 제거되며 직접 요청 시 404 오류를 반환합니다. "
+"서비스 약관 확인이 활성화된 경우 ``terms`` 또는 ``privacy`` 페이지를 숨기는 "
+"것은 권장되지 않습니다."
 
 #: admin/config.rst:1364
 msgid ""
@@ -16369,9 +16383,9 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
-"기본적으로 :guilabel:`Users` 그룹의 구성원과 익명 사용자는 :guilabel:`저장소 "
-"접근` 및 :guilabel:`파워 사용자` 역할을 통해 공개 프로젝트의 저장소에 접근할 "
-"수 있습니다."
+"기본적으로 :guilabel:`사용자` 그룹의 구성원과 익명 사용자는 "
+":guilabel:`저장소 접근` 및 :guilabel:`파워 사용자` 역할을 통해 공개 "
+"프로젝트의 저장소에 접근할 수 있습니다."
 
 #: admin/optionals.rst:71 admin/workspaces.rst:239
 msgid "Billing"
