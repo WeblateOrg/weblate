@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n translations %}
+{% load crispy_forms_tags i18n static translations %}
+
+{% block extra_script %}
+  <script defer
+          data-cfasync="false"
+          src="{% static 'js/vcs-push-help.js' %}{{ cache_param }}"></script>
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
