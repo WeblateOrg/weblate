@@ -114,7 +114,7 @@ ALLOWED_ASSET_SIZE
 
 .. versionadded:: 5.14
 
-Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
+Configures size limit in bytes for fetching assets in Weblate. Defaults to 10 MB.
 
 .. seealso::
 
