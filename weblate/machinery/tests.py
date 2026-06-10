@@ -3637,7 +3637,10 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         machine = OpenAITranslation(
             {
                 **self.CONFIGURATION,
-                "language_instructions": {"pt-rBR": "Use Brazilian Portuguese."},
+                "language_instructions": {
+                    "pt": "Prefer generic Portuguese.",
+                    "pt-rBR": "Use Brazilian Portuguese.",
+                },
             }
         )
         unit = make_unit(code="pt_BR", source="Hello, world!")
@@ -3655,6 +3658,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 "Target-language project instructions:\nUse Brazilian Portuguese.",
                 prompt,
             )
+            self.assertNotIn("Prefer generic Portuguese.", prompt)
             return json.dumps(["Olá, mundo!"])
 
         with patch.object(

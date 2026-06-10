@@ -413,23 +413,27 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if not isinstance(instructions, dict):
             return ""
 
-        for language in (
-            target_language,
-            self._get_language_base_code(target_language),
-        ):
-            text = instructions.get(language)
-            if isinstance(text, str) and (text := text.strip()):
-                return text
+        text = instructions.get(target_language)
+        if isinstance(text, str) and (text := text.strip()):
+            return text
 
         target = Language.objects.fuzzy_get_strict(target_language)
-        if target is None:
-            return ""
-        for language, text in instructions.items():
-            if not isinstance(language, str) or not isinstance(text, str):
-                continue
-            matched_language = Language.objects.fuzzy_get_strict(language)
-            if matched_language == target and (text := text.strip()):
-                return text
+        base_language = self._get_language_base_code(target_language)
+        if target is not None:
+            for language, text in instructions.items():
+                if (
+                    not isinstance(language, str)
+                    or language == base_language
+                    or not isinstance(text, str)
+                ):
+                    continue
+                matched_language = Language.objects.fuzzy_get_strict(language)
+                if matched_language == target and (text := text.strip()):
+                    return text
+
+        text = instructions.get(base_language)
+        if isinstance(text, str) and (text := text.strip()):
+            return text
         return ""
 
     @classmethod
