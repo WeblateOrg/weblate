@@ -456,8 +456,11 @@ class LLMBasicMachineryForm(BaseMachineryForm):
             "Language-specific instructions",
         ),
         widget=forms.Textarea,
-        help_text=gettext_lazy(
-            "JSON object mapping existing target language codes to extra instructions, up to 1000 characters each."
+        help_text=(
+            gettext_lazy(
+                "JSON object mapping existing target language codes to extra instructions, up to %(limit)d characters each."
+            )
+            % {"limit": LLM_LANGUAGE_INSTRUCTION_LENGTH}
         ),
         required=False,
     )
