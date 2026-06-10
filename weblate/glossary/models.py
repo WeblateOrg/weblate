@@ -28,6 +28,9 @@ if TYPE_CHECKING:
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
+PROHIBITED_INITIAL_CHARS_RE = re.compile(
+    f"^({'|'.join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS)})*"
+)
 CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
@@ -40,11 +43,7 @@ def cleanup_glossary_term(text: str) -> str:
     - Removes prohibited leading characters.
     """
     text = text.translate(CONTROLCHARS_TRANS)
-    prohibited_initial_chars_pattern = (
-        f"^({'|'.join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS)})*"
-    )
-
-    return re.sub(prohibited_initial_chars_pattern, "", text).strip()
+    return PROHIBITED_INITIAL_CHARS_RE.sub("", text).strip()
 
 
 def get_glossary_sources(component):
