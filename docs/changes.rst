@@ -10,10 +10,13 @@ Weblate 2026.7
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
 * Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
+* :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
 
 .. rubric:: Bug fixes
 
+* TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
+* Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
 
 .. rubric:: Compatibility
 
