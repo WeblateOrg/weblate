@@ -112,6 +112,8 @@ TEST_BACKENDS = (
     "weblate.accounts.auth.WeblateUserBackend",
 )
 
+SCREENSHOT_SITE_DOMAIN = "weblate.example.com"
+
 
 # The fixture repositories are known public GitHub repos; allowlisting them
 # avoids flaky runtime DNS checks while keeping the real import path covered.
@@ -271,6 +273,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Get screenshot
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
+        )
+
+    def use_live_server_widget_preview(self) -> None:
+        """Load widget preview from the live server while displaying public URLs."""
+        protocol = "https" if settings.ENABLE_HTTPS else "http"
+        display_site_url = f"{protocol}://{SCREENSHOT_SITE_DOMAIN}"
+        self.driver.execute_script(
+            """
+            const image = document.getElementById("widget-image");
+            if (image !== null) {
+                image.src = image.src.replace(arguments[0], arguments[1]);
+            }
+            """,
+            display_site_url,
+            self.live_server_url,
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                """
+                const image = document.getElementById("widget-image");
+                return image === null || (image.complete && image.naturalWidth > 0);
+                """
+            )
         )
 
     def click(self, element: WebElement | str = "", htmlid: str | None = None) -> None:
@@ -1208,12 +1233,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("WeblateOrg")
 
         # Engage page
+        project = Project.objects.get(slug="weblateorg")
         self.click("Community")
+        with override_settings(SITE_DOMAIN=SCREENSHOT_SITE_DOMAIN):
+            with self.wait_for_page_load():
+                self.click("Status widgets")
+            self.use_live_server_widget_preview()
+            self.screenshot("promote.png")
         with self.wait_for_page_load():
-            self.click("Status widgets")
-        self.screenshot("promote.png")
-        with self.wait_for_page_load():
-            self.click(htmlid="engage-link")
+            self.driver.get(
+                f"{self.live_server_url}"
+                f"{reverse('engage', kwargs={'path': project.get_url_path()})}"
+            )
         self.screenshot("engage.png")
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
