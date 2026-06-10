@@ -53,6 +53,17 @@ class LabelTest(FixtureTestCase):
         )
         self.assertEqual(self.project.label_set.filter(name="Test label").count(), 1)
 
+    def test_list_order(self) -> None:
+        for name in ("Zulu label", "Alpha label", "Middle label"):
+            self.project.label_set.create(name=name, color="orange")
+
+        response = self.client.get(self.labels_url)
+
+        self.assertEqual(
+            [label.name for label in response.context["labels"]],
+            ["Alpha label", "Middle label", "Zulu label"],
+        )
+
     def test_edit_name(self) -> None:
         self.test_create()
         label = self.project.label_set.get()

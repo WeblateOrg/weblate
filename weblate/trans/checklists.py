@@ -115,7 +115,7 @@ class TranslationChecklistMixin:
         result.add_if(self.stats, "comments", "")
 
         # Include labels
-        labels = self.project.label_set.order_by("name")
+        labels = self.project.label_set.order()
         if labels:
             has_label = False
             for label in labels:
