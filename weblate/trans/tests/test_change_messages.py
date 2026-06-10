@@ -1,5 +1,8 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
+# SPDX-FileCopyrightText: 2026 Samuel Gomes <samuel.esteves.gomes@tecnico.ulisboa.pt>
+# SPDX-FileCopyrightText: 2026 Dinis Sales <dinis.sales@tecnico.ulisboa.pt>
+#
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for user-provided change message helpers."""

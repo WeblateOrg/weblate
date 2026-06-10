@@ -957,7 +957,6 @@ class BulkEditTest(ViewTestCase):
 
     def test_bulk_edit_with_message(self) -> None:
         """Test bulk edit with user-provided message."""
-        # 1. Post bulk edit with custom message
         custom_message = "Refining bulk translations for fuzzy strings."
         response = self.client.post(
             reverse("bulk-edit", kwargs=self.kw_translation),
@@ -969,24 +968,17 @@ class BulkEditTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.assertTrue(Change.objects.filter(message=custom_message).exists())
 
-        # Verify that changes created during bulk edit carry the message
-        changes = Change.objects.filter(message=custom_message)
-        self.assertGreater(changes.count(), 0)
-        for change in changes:
-            self.assertEqual(change.message, custom_message)
-
-        # 2. Post bulk edit with too-long message (validation error check)
-        too_long_message = "y" * 501
+        # A too-long message is rejected by form validation
         response = self.client.post(
             reverse("bulk-edit", kwargs=self.kw_translation),
             {
                 "q": "state:needs-editing",
                 "state": STATE_TRANSLATED,
-                "message": too_long_message,
+                "message": "y" * 501,
             },
             follow=True,
         )
-        # Should not process correctly, instead return 200 with form error
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Ensure this value has at most 500 characters")

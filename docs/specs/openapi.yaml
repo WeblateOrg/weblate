@@ -32765,16 +32765,10 @@ components:
       description: |-
         Serializer for updating a translation unit.
 
-        The optional ``message`` field lets API clients attach a free-text note
-        explaining **why** a change was made.  The note is stored on the resulting
-        :class:`~weblate.trans.models.Change` record and surfaces in:
-
-        * the change-history list and detail views
-        * ``GET /api/changes/`` (the ``message`` field)
-        * the CSV export
-
-        The field is write-only in this serializer — use
-        ``GET /api/changes/`` to read stored messages.
+        The optional write-only ``message`` field lets clients attach a free-text
+        note explaining why a change was made. It is stored on the resulting
+        :class:`~weblate.trans.models.Change` record; read it back via
+        ``GET /api/changes/``.
       properties:
         target:
           type: array
@@ -32800,9 +32794,8 @@ components:
           type: string
           writeOnly: true
           default: ''
-          description: Optional note explaining why this translation was changed.
-            Stored on the resulting change record and visible in the change history.
-            Leave blank if no explanation is needed.
+          description: Optional note explaining why the translation was changed, stored
+            on the resulting change record.
           maxLength: 500
     PendingUnits:
       type: object
@@ -34356,16 +34349,10 @@ components:
       description: |-
         Serializer for updating a translation unit.
 
-        The optional ``message`` field lets API clients attach a free-text note
-        explaining **why** a change was made.  The note is stored on the resulting
-        :class:`~weblate.trans.models.Change` record and surfaces in:
-
-        * the change-history list and detail views
-        * ``GET /api/changes/`` (the ``message`` field)
-        * the CSV export
-
-        The field is write-only in this serializer — use
-        ``GET /api/changes/`` to read stored messages.
+        The optional write-only ``message`` field lets clients attach a free-text
+        note explaining why a change was made. It is stored on the resulting
+        :class:`~weblate.trans.models.Change` record; read it back via
+        ``GET /api/changes/``.
       properties:
         target:
           type: array
@@ -34391,9 +34378,8 @@ components:
           type: string
           writeOnly: true
           default: ''
-          description: Optional note explaining why this translation was changed.
-            Stored on the resulting change record and visible in the change history.
-            Leave blank if no explanation is needed.
+          description: Optional note explaining why the translation was changed, stored
+            on the resulting change record.
           maxLength: 500
       required:
       - labels

@@ -2367,16 +2367,10 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
     """
     Serializer for updating a translation unit.
 
-    The optional ``message`` field lets API clients attach a free-text note
-    explaining **why** a change was made.  The note is stored on the resulting
-    :class:`~weblate.trans.models.Change` record and surfaces in:
-
-    * the change-history list and detail views
-    * ``GET /api/changes/`` (the ``message`` field)
-    * the CSV export
-
-    The field is write-only in this serializer — use
-    ``GET /api/changes/`` to read stored messages.
+    The optional write-only ``message`` field lets clients attach a free-text
+    note explaining why a change was made. It is stored on the resulting
+    :class:`~weblate.trans.models.Change` record; read it back via
+    ``GET /api/changes/``.
     """
 
     target = PluralField()
@@ -2384,9 +2378,8 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
     message = serializers.CharField(
         label=gettext_lazy("Message"),
         help_text=gettext_lazy(
-            "Optional note explaining why this translation was changed. "
-            "Stored on the resulting change record and visible in the "
-            "change history. Leave blank if no explanation is needed."
+            "Optional note explaining why the translation was changed, "
+            "stored on the resulting change record."
         ),
         max_length=CHANGE_MESSAGE_MAX_LENGTH,
         required=False,

@@ -306,7 +306,6 @@ class ChangesTest(ViewTestCase):
 
         response = self.client.get(reverse("show_change", kwargs={"pk": change.pk}))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'class="alert alert-info change-user-message"')
         self.assertContains(response, custom_message)
 
         # 2. Test change list / last changes displays the message (change-message.html snippet)

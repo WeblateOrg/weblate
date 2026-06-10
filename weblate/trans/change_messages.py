@@ -1,17 +1,16 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
+# SPDX-FileCopyrightText: 2026 Samuel Gomes <samuel.esteves.gomes@tecnico.ulisboa.pt>
+# SPDX-FileCopyrightText: 2026 Dinis Sales <dinis.sales@tecnico.ulisboa.pt>
+#
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """
 Helpers for user-provided messages attached to :class:`~weblate.trans.models.Change`.
 
-A change message is a short, optional, free-text note a translator or reviewer
-can supply when editing strings, performing a bulk edit, or running a search and
-replace. It explains *why* a change was made, complementing the automatic audit
-trail that records *what* changed.
-
-This module centralizes the constants, normalization, and validation used across
-forms, models, the REST API, and templates so the behaviour stays consistent.
+A change message is an optional free-text note explaining *why* a change was made.
+The constants, normalization, and validation live here so forms, models, and the
+API stay consistent.
 """
 
 from __future__ import annotations
@@ -22,64 +21,32 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
 
-__all__ = [
-    "CHANGE_MESSAGE_LABEL",
-    "CHANGE_MESSAGE_MAX_LENGTH",
-    "CHANGE_MESSAGE_PLACEHOLDER",
-    "ChangeMessageField",
-    "normalize_change_message",
-    "validate_change_message",
-]
-
 #: Maximum number of characters allowed in a change message.
 CHANGE_MESSAGE_MAX_LENGTH = 500
-
-#: Placeholder shown in the message input widgets.
-CHANGE_MESSAGE_PLACEHOLDER = gettext_lazy("Reason for this change (optional)")
 
 #: Human-readable label for the message field.
 CHANGE_MESSAGE_LABEL = gettext_lazy("Message")
 
-#: Matches control characters that must never be stored in a message. Tabs and
-#: newlines are intentionally excluded here because they are collapsed to spaces
-#: during normalization rather than rejected outright.
+#: Control characters rejected outright. Whitespace is collapsed, not rejected.
 _CONTROL_CHARACTERS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
-
-#: Matches any run of whitespace (including tabs and newlines) for collapsing.
 _WHITESPACE_RUN = re.compile(r"\s+")
 
 
 def normalize_change_message(message: str | None) -> str:
-    """
-    Normalize a raw change message into its canonical stored form.
-
-    The normalization performs the following, in order:
-
-    * Treats ``None`` as an empty string.
-    * Collapses every run of whitespace (spaces, tabs, newlines) into a single
-      space so the message renders predictably on a single line.
-    * Strips leading and trailing whitespace.
-
-    The result is safe to store directly on a model instance. It does *not*
-    enforce the maximum length; use :func:`validate_change_message` for that.
-    """
+    """Collapse whitespace and strip a message into its canonical stored form."""
     if not message:
         return ""
-    collapsed = _WHITESPACE_RUN.sub(" ", message)
-    return collapsed.strip()
+    return _WHITESPACE_RUN.sub(" ", message).strip()
 
 
 def validate_change_message(message: str | None) -> str:
     """
     Validate and normalize a user-provided change message.
 
-    Returns the normalized message when it is acceptable. Raises
-    :class:`django.core.exceptions.ValidationError` when the message contains
-    disallowed control characters or exceeds
-    :data:`CHANGE_MESSAGE_MAX_LENGTH` characters after normalization.
-
-    An empty or missing message is valid and normalizes to an empty string,
-    preserving the optional nature of the field.
+    Returns the normalized message, or raises
+    :class:`~django.core.exceptions.ValidationError` when it contains control
+    characters or exceeds :data:`CHANGE_MESSAGE_MAX_LENGTH` after normalization.
+    An empty or missing message is valid and normalizes to an empty string.
     """
     if message and _CONTROL_CHARACTERS.search(message):
         raise ValidationError(
@@ -100,19 +67,7 @@ def validate_change_message(message: str | None) -> str:
 
 
 class ChangeMessageField(forms.CharField):
-    """
-    Form field for an optional user-provided change message.
-
-    Bundles everything a change-message input needs so the three forms that
-    expose it (single edit, search and replace, and bulk edit) stay consistent:
-
-    * a single-line text widget pre-populated with the shared placeholder,
-    * the shared maximum length,
-    * normalization and validation via :func:`validate_change_message`.
-
-    The field is always optional; an omitted value cleans to an empty string,
-    leaving the existing workflow untouched.
-    """
+    """Optional change-message field shared by the edit, replace, and bulk forms."""
 
     def __init__(self, **kwargs) -> None:
         kwargs.setdefault("label", CHANGE_MESSAGE_LABEL)
@@ -123,7 +78,7 @@ class ChangeMessageField(forms.CharField):
             "widget",
             forms.TextInput(
                 attrs={
-                    "placeholder": CHANGE_MESSAGE_PLACEHOLDER,
+                    "placeholder": gettext_lazy("Reason for this change (optional)"),
                     "maxlength": CHANGE_MESSAGE_MAX_LENGTH,
                     "autocomplete": "off",
                 }
@@ -132,6 +87,5 @@ class ChangeMessageField(forms.CharField):
         super().__init__(**kwargs)
 
     def clean(self, value: str | None) -> str:
-        """Normalize and validate the submitted message."""
         value = super().clean(value)
         return validate_change_message(value)
