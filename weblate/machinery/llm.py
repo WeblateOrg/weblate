@@ -57,12 +57,13 @@ You are a professional translation engine specialized in structured localization
 
 {style}
 
+{language_instructions}
+
 Input is provided as JSON with the following schema:
 
 {{
     "source_language": "xx",                    // source language code (ISO, gettext or BCP)
     "target_language": "xx",                    // target language code (ISO, gettext or BCP)
-    "instructions": "extra target-language instructions", // optional
     "glossary": [                               // glossary of specific terms to use while translating
         {{
             "source": "source term",
@@ -131,7 +132,7 @@ Rules:
 18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add their contents unless they are present in source.
 19. Placeholder mappings explain what opaque placeholder tokens represent. This information may guide wording, but the output must still contain the exact placeholder tokens, not the mapped content.
 20. Failing checks describe issues to avoid or fix when improving an existing translation.
-21. Instructions contain additional requirements for the target language. Follow them unless they conflict with preserving the source meaning, placeholders, markup, or output contract.
+21. Target-language project instructions, when present above, contain additional requirements for the target language. Follow them unless they conflict with preserving the source meaning, placeholders, markup, or output contract.
 22. For translatable markup placeholders that wrap text, translate the whole text between the placeholders. Example: @@PH1@@Reset and reapply@@PH2@@ can become @@PH1@@Zurucksetzen und erneut anwenden@@PH2@@, never @@PH1@@Zurucksetzen und @@PH2@@erneut anwenden@@PH2@@.
 
 Valid placeholder and markup handling:
@@ -226,12 +227,21 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def is_supported(self, source_language, target_language) -> bool:
         return True
 
-    def format_prompt_part(self, name: Literal["style", "persona"]) -> str:
-        text = self.settings[name]
+    @staticmethod
+    def format_prompt_text(text: str) -> str:
         text = text.strip()
         if text and not text.endswith("."):
             text = f"{text}."
         return text
+
+    def format_prompt_part(self, name: Literal["style", "persona"]) -> str:
+        return self.format_prompt_text(self.settings[name])
+
+    def format_language_instructions(self, target_language: str) -> str:
+        text = self.format_prompt_text(self._get_language_instructions(target_language))
+        if not text:
+            return ""
+        return f"Target-language project instructions:\n{text}"
 
     def fetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
@@ -381,7 +391,6 @@ class BaseLLMTranslation(BatchMachineTranslation):
         target_language: str,
         texts: list[LLMStringPayload],
         glossary: list[LLMGlossaryEntry],
-        instructions: str = "",
     ) -> str:
         result = {
             "source_language": source_language,
@@ -389,8 +398,6 @@ class BaseLLMTranslation(BatchMachineTranslation):
             "glossary": glossary,
             "strings": texts,
         }
-        if instructions:
-            result["instructions"] = instructions
         return json.dumps(result)
 
     @staticmethod
@@ -855,13 +862,13 @@ class BaseLLMTranslation(BatchMachineTranslation):
             target_language,
             inputs,
             glossary,
-            self._get_language_instructions(target_language),
         )
 
-    def _get_prompt(self) -> str:
+    def _get_prompt(self, target_language: str) -> str:
         return PROMPT.format(
             persona=self.format_prompt_part("persona"),
             style=self.format_prompt_part("style"),
+            language_instructions=self.format_language_instructions(target_language),
         )
 
     @classmethod
@@ -1595,7 +1602,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
     ) -> DownloadMultipleTranslations:
         result: DownloadMultipleTranslations = defaultdict(list)
 
-        prompt = self._get_prompt()
+        prompt = self._get_prompt(target_language)
         content = self._get_message(
             source_language, target_language, sources, source_occurrences
         )

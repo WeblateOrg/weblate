@@ -3562,13 +3562,18 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         typed_unit = cast("Unit", unit)
 
         def request_callback(
-            _prompt: str,
+            prompt: str,
             content: str,
             _previous_content: str,
             _previous_response: str,
         ) -> str:
             payload = json.loads(content)
-            self.assertEqual(payload["instructions"], "Use Brazilian Portuguese.")
+            self.assertNotIn("instructions", payload)
+            self.assertIn(
+                "Target-language project instructions:\nUse Brazilian Portuguese.",
+                prompt,
+            )
+            self.assertNotIn("Prefer Brazilian Portuguese.", prompt)
             return json.dumps(["Olá, mundo!"])
 
         with patch.object(
@@ -3593,13 +3598,17 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         typed_unit = cast("Unit", unit)
 
         def request_callback(
-            _prompt: str,
+            prompt: str,
             content: str,
             _previous_content: str,
             _previous_response: str,
         ) -> str:
             payload = json.loads(content)
-            self.assertEqual(payload["instructions"], "Prefer Brazilian Portuguese.")
+            self.assertNotIn("instructions", payload)
+            self.assertIn(
+                "Target-language project instructions:\nPrefer Brazilian Portuguese.",
+                prompt,
+            )
             return json.dumps(["Olá, mundo!"])
 
         with patch.object(
