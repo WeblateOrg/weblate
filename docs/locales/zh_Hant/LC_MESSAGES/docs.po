@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-11 05:14+0200\n"
-"PO-Revision-Date: 2026-06-10 12:55+0000\n"
+"PO-Revision-Date: 2026-06-11 05:19+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -2091,6 +2091,7 @@ msgid "Facebook OAuth 2"
 msgstr "Facebook OAuth 2"
 
 #: admin/auth.rst:228
+#, fuzzy
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
@@ -2283,6 +2284,7 @@ msgstr ""
 "admin/login/``。"
 
 #: admin/auth.rst:451
+#, fuzzy
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
@@ -2392,7 +2394,7 @@ msgstr ""
 
 #: admin/auth.rst:554
 msgid "Attribute"
-msgstr "屬性值"
+msgstr "屬性"
 
 #: admin/auth.rst:554
 msgid "SAML URI reference"
@@ -2524,10 +2526,12 @@ msgstr ""
 "號登入，如果您已經建立了它 （如，通過使用:djadmin:`createadmin`）。"
 
 #: admin/auth.rst:679
+#, fuzzy
 msgid "Using bind password"
 msgstr "使用 Bind Password"
 
 #: admin/auth.rst:681
+#, fuzzy
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
@@ -2566,10 +2570,8 @@ msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr "第二步更新 Weblate，來使用 CAS 伺服器和屬性。"
 
 #: admin/auth.rst:747
-#, fuzzy
-#| msgid "To install `django-cas-ng`:"
 msgid "To install `Django CAS NG`_:"
-msgstr "安裝 `django-cas-ng`："
+msgstr "要安裝 `Django CAS NG`_："
 
 #: admin/auth.rst:753
 msgid ""
@@ -2664,7 +2666,7 @@ msgstr ""
 
 #: admin/auth.rst:842
 msgid "Authenticator apps (TOTP)"
-msgstr "身分驗證器 App (TOTP)"
+msgstr "身分驗證器應用程式 （TOTP）"
 
 #: admin/auth.rst:843
 #, fuzzy
@@ -2767,15 +2769,16 @@ msgstr ""
 "符使用者，將會指定為匿名者名稱。"
 
 #: admin/backup.rst:27
+#, fuzzy
 msgid ""
 "The generated backups are kept on the server as configured "
 "by :setting:`PROJECT_BACKUP_KEEP_DAYS` "
 "and :setting:`PROJECT_BACKUP_KEEP_COUNT` (it defaults to keep at most 3 "
 "backups for 30 days)."
 msgstr ""
-"儲存在伺服器上所產生的備份將以 :setting:`PROJECT_BACKUP_KEEP_DAYS` "
-"與 :setting:`PROJECT_BACKUP_KEEP_COUNT` 引數設定（預設將儲存近 3 個備份檔案 "
-"30 天）。"
+"儲存在伺服器上所產生的備份將以 :setting:`PROJECT_BACKUP_KEEP_DAYS` 與 "
+":setting:`PROJECT_BACKUP_KEEP_COUNT` 引數設定（預設將儲存近 3 個備份檔案 30 "
+"天）。"
 
 #: admin/backup.rst:31
 msgid ""
@@ -2854,6 +2857,7 @@ msgstr ""
 "的備份服務時產生的，您應該複製它並將其儲存在一個安全的地方。"
 
 #: admin/backup.rst:79
+#, fuzzy
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
@@ -2871,7 +2875,7 @@ msgstr "資料庫備份可透過 :setting:`DATABASE_BACKUP` 設定。"
 
 #: admin/backup.rst:90
 msgid "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
-msgstr "自訂建立備份可使用 :setting:`BORG_EXTRA_ARGS` 設定值。"
+msgstr "備份建立可以使用 :setting:`BORG_EXTRA_ARGS` 進行自訂。"
 
 #: admin/backup.rst:95
 msgid "Weblate provisioned backup storage"
@@ -37333,7 +37337,7 @@ msgstr "Weblate 貢獻者溝通指導原則"
 
 #: contributing/communication.rst:5
 msgid "GitHub Issues"
-msgstr "GitHub 議題"
+msgstr "GitHub Issues"
 
 #: contributing/communication.rst:6
 msgid ""
@@ -47570,10 +47574,8 @@ msgid "Use placeholders for sensitive fields."
 msgstr ""
 
 #: security/localization-threat.rst:80
-#, fuzzy
-#| msgid "Terms of Service"
 msgid "5. Denial of Service"
-msgstr "服務條款"
+msgstr "5. 阻斷服務"
 
 #: security/localization-threat.rst:82
 msgid "**D1. Bulk submission of junk translations.**"
@@ -47713,7 +47715,7 @@ msgstr "根據版本控制系統中的檔案變更自動加入或移除專案組
 
 #: security/localization-threat.rst:129
 msgid "Conclusion"
-msgstr ""
+msgstr "結論"
 
 #: security/localization-threat.rst:131
 msgid ""
@@ -47737,21 +47739,22 @@ msgid ""
 "Weblate uses a Django implementation to store hashed passwords; "
 "see :ref:`django:auth_password_storage`."
 msgstr ""
+"Weblate 使用 Django 的實作來儲存雜湊處理過的密碼；請參閱 "
+":ref:`django:auth_password_storage`。"
 
 #: security/passwords.rst:9
 msgid ""
 "The recommended Weblate configuration uses Argon2 with time_cost = 2, "
 "memory_cost = 102400, and parallelism = 8."
 msgstr ""
+"推薦的 Weblate 配置使用 Argon2 搭配 time_cost = 2 、 memory_cost = 102400 與 "
+"parallelism = 8。"
 
 #: security/passwords.rst:13
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password hashing can be customized "
 "using :setting:`django:PASSWORD_HASHERS`."
-msgstr "自訂建立備份可使用 :setting:`BORG_EXTRA_ARGS` 設定值。"
+msgstr "密碼雜湊可以使用 :setting:`django:PASSWORD_HASHERS` 進行自訂。"
 
 #: security/passwords.rst:16
 msgid "Password validation"
@@ -47799,13 +47802,10 @@ msgid "Password strength is optionally checked using the zxcvbn algorithm."
 msgstr ""
 
 #: security/passwords.rst:30
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password validation can be customized "
 "using :setting:`django:AUTH_PASSWORD_VALIDATORS`."
-msgstr "自訂建立備份可使用 :setting:`BORG_EXTRA_ARGS` 設定值。"
+msgstr "密碼驗證可以使用 :setting:`django:AUTH_PASSWORD_VALIDATORS` 進行自訂。"
 
 #: security/passwords.rst:33
 #, fuzzy
