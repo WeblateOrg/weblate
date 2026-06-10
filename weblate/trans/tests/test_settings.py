@@ -603,6 +603,24 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(self.project.license, "GPL-3.0-or-later")
         self.assertFalse(self.project.inherit_license)
 
+    def test_license_repair_ignores_inherited_component_license(self) -> None:
+        second_component = self.create_po(name="license-second", project=self.project)
+        Project.objects.filter(pk=self.project.pk).update(
+            license="proprietary", inherit_license=True
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            license="MIT", inherit_license=False
+        )
+        Component.objects.filter(pk=second_component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=True
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.license, "MIT")
+        self.assertFalse(self.project.inherit_license)
+
     def test_license_repair_backfills_workspace_from_corrected_project(self) -> None:
         workspace = Workspace.objects.create(
             name="License repair workspace", license="proprietary"

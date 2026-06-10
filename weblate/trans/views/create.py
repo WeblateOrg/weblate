@@ -132,10 +132,13 @@ class CreateProject(BaseCreateView):
             form.instance.inherit_license = False
         elif license_code:
             if not workspace.license:
-                workspace.license = license_code
-                workspace.acting_user = self.request.user
-                workspace.save(update_fields=["license"])
-                form.instance.inherit_license = True
+                if self.request.user.has_perm("workspace.edit", workspace):
+                    workspace.license = license_code
+                    workspace.acting_user = self.request.user
+                    workspace.save(update_fields=["license"])
+                    form.instance.inherit_license = True
+                else:
+                    form.instance.inherit_license = False
             else:
                 form.instance.inherit_license = workspace.license == license_code
         result = super().form_valid(form)

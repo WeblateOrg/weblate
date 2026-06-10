@@ -147,6 +147,30 @@ class CreateTest(ViewTestCase):
         self.assertEqual(project.get_effective_setting("license"), "MIT")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_project_without_workspace_edit_keeps_license_explicit(self) -> None:
+        workspace = Workspace.objects.create(name="Project creator license workspace")
+        project_creator = create_another_user(suffix="-workspace-license")
+        project_creator.add_team(
+            None, workspace.setup_groups()[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+        self.client.login(username=project_creator.username, password="testpassword")
+
+        self.client_create_project(
+            True,
+            name="Project Creator License Project",
+            slug="project-creator-license-project",
+            workspace=workspace.pk,
+            license="MIT",
+        )
+
+        project = Project.objects.get(slug="project-creator-license-project")
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.license, "")
+        self.assertFalse(project.inherit_license)
+        self.assertEqual(project.license, "MIT")
+        self.assertEqual(project.get_effective_setting("license"), "MIT")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_project_keeps_different_workspace_license_explicit(self) -> None:
         self.user.is_superuser = True
         self.user.save()

@@ -15,7 +15,8 @@ IGNORED_COMPONENT_LICENSES = PROJECT_FALLBACK_LICENSES
 def get_most_common_component_licenses(component) -> dict[int, str]:
     stats: dict[int, dict[str, list[int]]] = defaultdict(dict)
     for component_id, project_id, license_code in (
-        component.objects.exclude(license__in=IGNORED_COMPONENT_LICENSES)
+        component.objects.filter(inherit_license=False)
+        .exclude(license__in=IGNORED_COMPONENT_LICENSES)
         .order_by("project_id", "id")
         .values_list("id", "project_id", "license")
         .iterator(chunk_size=2000)
