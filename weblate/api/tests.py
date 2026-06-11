@@ -5321,6 +5321,55 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
 
+    def test_patch_keeps_category_when_omitted(self) -> None:
+        category = self.project.category_set.create(
+            name="API category", slug="api-category"
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        component_url = reverse(
+            "api:component-detail",
+            kwargs={
+                "project__slug": self.project.slug,
+                "slug": f"{category.slug}%2F{self.component.slug}",
+            },
+        )
+
+        response = self.do_request(
+            component_url,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": "Categorized API Name"},
+        )
+
+        self.assertEqual(response.data["name"], "Categorized API Name")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.category, category)
+
+    def test_patch_keeps_manage_units_when_omitted(self) -> None:
+        component = self.create_po_mono(
+            project=self.project, name="MonoPatch", manage_units=False
+        )
+        component_kwargs = {
+            "project__slug": component.project.slug,
+            "slug": component.slug,
+        }
+        response = self.do_request(
+            "api:component-detail",
+            component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"template": component.template},
+        )
+
+        self.assertFalse(response.data["manage_units"])
+        component.refresh_from_db()
+        self.assertFalse(component.manage_units)
+
     def test_patch_inherited_setting_disables_inheritance(self) -> None:
         Project.objects.filter(pk=self.project.pk).update(
             commit_message="Project commit"
@@ -11273,6 +11322,45 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(
             response.data["effective_commit_message"], "Patched category commit"
         )
+
+    def test_patch_keeps_parent_category_when_omitted(self) -> None:
+        parent_response = self.api_create_category()
+        child_response = self.api_create_category(
+            name="Child Category",
+            slug="child-category",
+            category=parent_response.data["url"],
+        )
+
+        response = self.do_request(
+            child_response.data["url"],
+            method="patch",
+            superuser=True,
+            request={"name": "Patched Child Category"},
+        )
+
+        self.assertEqual(response.data["name"], "Patched Child Category")
+        category = Category.objects.get(pk=child_response.data["id"])
+        self.assertEqual(category.category_id, parent_response.data["id"])
+
+    def test_patch_clears_parent_category_with_null(self) -> None:
+        parent_response = self.api_create_category()
+        child_response = self.api_create_category(
+            name="Child Category",
+            slug="child-category",
+            category=parent_response.data["url"],
+        )
+
+        response = self.do_request(
+            child_response.data["url"],
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"category": None},
+        )
+
+        self.assertIsNone(response.data["category"])
+        category = Category.objects.get(pk=child_response.data["id"])
+        self.assertIsNone(category.category_id)
 
     def test_create_nested(self) -> None:
         self.api_create_category()
