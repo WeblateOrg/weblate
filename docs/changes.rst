@@ -9,6 +9,7 @@ Weblate 2026.7
 
 .. rubric:: Improvements
 
+* :ref:`visual-keyboard` for RTL languages now includes Unicode isolate controls for better mixed-direction text editing.
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
 * Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
