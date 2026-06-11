@@ -70,6 +70,24 @@ class CheckModelTestCase(FixtureTestCase):
         )
         self.assert_png(self.client.get(url))
 
+    def test_check_order(self) -> None:
+        unit = self.get_unit()
+        Check.objects.filter(unit=unit).delete()
+        for name in ("same", "end_newline", "begin_newline"):
+            Check.objects.create(unit=unit, name=name)
+
+        expected = ["begin_newline", "end_newline", "same"]
+        self.assertEqual(
+            list(
+                Check.objects.filter(unit=unit).order().values_list("name", flat=True)
+            ),
+            expected,
+        )
+        self.assertEqual([check.name for check in unit.all_checks], expected)
+
+        prefetched = Unit.objects.filter(pk=unit.pk).prefetch_all_checks().get()
+        self.assertEqual([check.name for check in prefetched.all_checks], expected)
+
 
 class BatchCheckMixinTest(SimpleTestCase):
     def test_project_checks_lock_uses_unique_file_name(self) -> None:

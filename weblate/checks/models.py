@@ -58,6 +58,9 @@ class WeblateChecksConf(AppConf):
 
 
 class CheckQuerySet(models.QuerySet["Check", "Check"]):
+    def order(self):
+        return self.order_by("name")
+
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
