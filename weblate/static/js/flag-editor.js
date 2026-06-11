@@ -5,19 +5,20 @@
 // Tag-based editor for translation flag fields
 
 (() => {
-  let flagChoicesPromise = null;
+  const flagChoicesPromises = new Map();
 
   function loadFlagChoices(url) {
-    if (flagChoicesPromise === null) {
-      flagChoicesPromise = fetch(url, {
+    if (!flagChoicesPromises.has(url)) {
+      const promise = fetch(url, {
         credentials: "same-origin",
         headers: { Accept: "application/json" },
       })
         .then((response) => (response.ok ? response.json() : { choices: [] }))
         .then((data) => data.choices || [])
         .catch(() => []);
+        flagChoicesPromises.set(url, promise);
     }
-    return flagChoicesPromise;
+    return flagChoicesPromises.get(url);
   }
 
   /*
@@ -26,7 +27,7 @@
   function parseFlagInputValue(value) {
     const items = [];
     let current = "";
-    let inQuotes = false;
+    let quoteChar = null;
     let escaped = false;
     for (let i = 0; i < value.length; i++) {
       const ch = value[i];
@@ -40,12 +41,16 @@
         escaped = true;
         continue;
       }
-      if (ch === '"') {
-        inQuotes = !inQuotes;
-        current += ch;
-        continue;
+      if (ch === '"' || ch === "'") {
+        if (quoteChar === null) {
+          quoteChar = ch;
+        } else if (quoteChar === ch) {
+          quoteChar = null;
+        }
+      current += ch;
+      continue;
       }
-      if (ch === "," && !inQuotes) {
+      if (ch === "," && quoteChar === null) {
         const trimmed = current.trim();
         if (trimmed) items.push(trimmed);
         current = "";
