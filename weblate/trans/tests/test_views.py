@@ -1061,6 +1061,24 @@ class SourceStringsTest(ViewTestCase):
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
 
+    def test_edit_context_hides_private_unit(self) -> None:
+        private_project = self.create_project(
+            name="Private source",
+            slug="private-source",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-source"
+        )
+        private_translation = private_component.translation_set.get(language_code="cs")
+        unit = self.get_unit(translation=private_translation).source_unit
+
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": unit.pk}),
+            {"explanation": "Extra context"},
+        )
+        self.assertEqual(response.status_code, 404)
+
     def test_edit_check_flags(self) -> None:
         # Need extra power
         self.user.is_superuser = True

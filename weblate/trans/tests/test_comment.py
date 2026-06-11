@@ -8,7 +8,9 @@ from django.db import connection
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
-from weblate.trans.models import Comment
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, UserBlock
+from weblate.trans.models import Comment, Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
@@ -157,6 +159,61 @@ class CommentViewTest(FixtureTestCase):
         comment.refresh_from_db()
         self.assertTrue(comment.resolved)
         self.assertFalse(comment.unit.has_comment)
+
+    def test_comment_views_hide_private_unit_and_comment(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.user.clear_cache()
+
+        unit = self.get_unit()
+        comment = Comment.objects.create(
+            user=self.anotheruser, unit=unit, comment="Hidden comment"
+        )
+
+        response = self.client.post(
+            reverse("comment", kwargs={"pk": unit.pk}),
+            {"comment": "Probe comment", "scope": "translation"},
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("delete-comment", kwargs={"pk": comment.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("resolve-comment", kwargs={"pk": comment.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_comment_views_hide_blocked_project_for_all_projects_user(self) -> None:
+        group = Group.objects.create(
+            name="All projects comments", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        UserBlock.objects.create(user=self.user, project=self.project)
+        self.user.clear_cache()
+
+        unit = self.get_unit()
+        comment = Comment.objects.create(
+            user=self.anotheruser, unit=unit, comment="Blocked comment"
+        )
+
+        response = self.client.post(
+            reverse("comment", kwargs={"pk": unit.pk}),
+            {"comment": "Probe comment", "scope": "translation"},
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("delete-comment", kwargs={"pk": comment.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.post(
+            reverse("resolve-comment", kwargs={"pk": comment.pk})
+        )
+        self.assertEqual(response.status_code, 404)
 
     def test_translate_comment_queries_do_not_scale_with_comment_count(self) -> None:
         unit = self.get_unit()

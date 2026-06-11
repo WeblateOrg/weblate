@@ -30,6 +30,7 @@ Weblate 2026.7
 * Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
 * Project and workspace translation license defaults now follow component and project licenses more closely.
 * Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
+* Hardened HTML and AJAX object lookups against private project enumeration.
 
 .. rubric:: Compatibility
 

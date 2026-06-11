@@ -930,7 +930,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 @session_ratelimit_post("comment", logout_user=False)
 def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
-    unit = get_object_or_404(Unit, pk=pk)
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=pk)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied
@@ -954,7 +954,10 @@ def comment(request: AuthenticatedHttpRequest, pk):
 @transaction.atomic
 def delete_comment(request: AuthenticatedHttpRequest, pk):
     """Delete comment."""
-    comment_obj = get_object_or_404(Comment, pk=pk)
+    comment_obj = get_object_or_404(
+        Comment.objects.filter(unit__in=Unit.objects.filter_access(request.user)),
+        pk=pk,
+    )
 
     if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied
@@ -974,7 +977,10 @@ def delete_comment(request: AuthenticatedHttpRequest, pk):
 @transaction.atomic
 def resolve_comment(request: AuthenticatedHttpRequest, pk):
     """Resolve comment."""
-    comment_obj = get_object_or_404(Comment, pk=pk)
+    comment_obj = get_object_or_404(
+        Comment.objects.filter(unit__in=Unit.objects.filter_access(request.user)),
+        pk=pk,
+    )
 
     if not request.user.has_perm("comment.resolve", comment_obj):
         raise PermissionDenied
@@ -1181,7 +1187,7 @@ def new_unit(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     """Delete unit."""
-    unit = get_object_or_404(Unit, pk=unit_id)
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
 
     if not request.user.has_perm("unit.delete", unit):
         raise PermissionDenied

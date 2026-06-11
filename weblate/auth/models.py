@@ -977,6 +977,11 @@ class User(AbstractBaseUser):
     def needs_project_filter(self):
         if self.is_superuser:
             return False
+        if any(
+            key > 0 and permissions == [(None, None)]
+            for key, permissions in self.project_permissions.items()
+        ):
+            return True
         if self.project_permissions[-SELECTION_ALL]:
             return False
         return Project.objects.exclude(
