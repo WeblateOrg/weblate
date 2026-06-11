@@ -121,17 +121,17 @@ Rules:
 7. Do not transliterate or explain translations.
 8.  Output must be entirely in the target_language except preserved placeholders.
 9. Output must be valid JSON.
-10. Output must be a single JSON array of strings.
+10. Output must be a single JSON array containing only JSON strings.
 11. Do not include markdown code fences or any additional text.
-12. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings.
+12. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings, objects, diagnostics, explanations, or metadata.
 13. Ensure all output strings are properly JSON-escaped.
 14. Internally verify placeholder integrity and JSON validity before responding.
 15. Placeholder contract: Tokens like @@PH44@@ are opaque atoms. Never translate, inflect, split, rename, reorder characters inside, wrap, or escape them. Never convert them to another syntax.
 16. Markup contract: Preserve markup, tags, attributes, entities, and similar control sequences exactly. Translate only human-readable text outside markup and outside placeholder tokens.
 17. Output contract: Return exactly one JSON array of strings, with no characters before `[` or after `]`.
-18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add their contents unless they are present in source.
+18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add, copy, or emit their contents unless they are present in source.
 19. Placeholder mappings explain what opaque placeholder tokens represent. This information may guide wording, but the output must still contain the exact placeholder tokens, not the mapped content.
-20. Failing checks describe issues to avoid or fix when improving an existing translation.
+20. Failing checks describe issues to avoid or fix when improving an existing translation. They are context only; do not include their check_id, name, description, or generated diagnostics in output.
 21. Target-language project instructions, when present above, contain additional requirements for the target language. Follow them unless they conflict with preserving the source meaning, placeholders, markup, or output contract.
 22. For translatable markup placeholders that wrap text, translate the whole text between the placeholders. Example: @@PH1@@Reset and reapply@@PH2@@ can become @@PH1@@Zurucksetzen und erneut anwenden@@PH2@@, never @@PH1@@Zurucksetzen und @@PH2@@erneut anwenden@@PH2@@.
 
@@ -141,7 +141,7 @@ Valid placeholder and markup handling:
 Invalid placeholder handling:
 ["Click <a href=\"/x\">log out</a> and use \\@\\@PH195\\@\\@."]
 
-Respond ONLY with a valid JSON array of strings, one per input string, in the same order:
+Respond ONLY with a valid JSON array of strings, one per input string, in the same order. Do not include JSON objects or any values other than strings:
 
 ["translation 1", "translation 2", ...]
 """
@@ -247,6 +247,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
         raise NotImplementedError
+
+    def get_model(self) -> str:
+        raise NotImplementedError
+
+    def get_traced_model(self) -> str:
+        model = self.get_model()
+        add_breadcrumb(self.name, "model", model=model)
+        return model
 
     @staticmethod
     def _normalize_context_text(text: str | None) -> str:
@@ -1515,8 +1523,11 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if (
             isinstance(translations, list)
             and len(translations) > expected_length
-            and all(isinstance(item, str) for item in translations)
-            and not any(translations[expected_length:])
+            and all(isinstance(item, str) for item in translations[:expected_length])
+            and not any(
+                isinstance(item, str) and item
+                for item in translations[expected_length:]
+            )
         ):
             return translations[:expected_length]
         return translations

@@ -69,6 +69,7 @@ from weblate.machinery.libretranslate import (
 from weblate.machinery.llm import (
     LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES,
     LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES,
+    PROMPT,
 )
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
@@ -3220,6 +3221,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "persona": "",
         "style": "",
     }
+    TRACE_MODEL: ClassVar[str] = "gpt-5-nano"
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
@@ -3273,6 +3275,39 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 },
             },
         )
+
+    def test_prompt_forbids_metadata_output(self) -> None:
+        self.assertIn("only JSON strings", PROMPT)
+        self.assertIn(
+            "Do not emit empty extra strings, objects, diagnostics, explanations, "
+            "or metadata.",
+            PROMPT,
+        )
+        self.assertIn(
+            "do not include their check_id, name, description, or generated "
+            "diagnostics in output",
+            PROMPT,
+        )
+        self.assertIn(
+            "Do not include JSON objects or any values other than strings",
+            PROMPT,
+        )
+
+    @responses.activate
+    def test_translate_traces_resolved_model_breadcrumb(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+
+        with patch("weblate.machinery.llm.add_breadcrumb") as mock_add_breadcrumb:
+            machine.download_multiple_translations("en", "fr", [("Hello", None)])
+
+        model_call = next(
+            call
+            for call in mock_add_breadcrumb.call_args_list
+            if call.args[:2] == (machine.name, "model")
+        )
+        self.assertEqual(model_call.kwargs["model"], self.TRACE_MODEL)
+        self.assertNotIn("key", model_call.kwargs)
 
     def test_translate_sends_unit_context(self) -> None:
         machine = self.get_machine()
@@ -4830,6 +4865,28 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 [("One", None)],
             )
 
+    @responses.activate
+    def test_translate_ignores_trailing_metadata_reply(self) -> None:
+        self.mock_response(
+            json.dumps(
+                [
+                    "Premier",
+                    {
+                        "description": "The following markup is missing.",
+                        "name": "Inconsistent markup",
+                    },
+                ]
+            )
+        )
+
+        translation = self.get_machine().download_multiple_translations(
+            "en",
+            "fr",
+            [("One", None)],
+        )
+
+        self.assertEqual(translation["One"][0]["text"], "Premier")
+
     def test_translate_rejects_ambiguous_rst_duplicate_placeholders(self) -> None:
         machine = self.get_machine()
 
@@ -5252,6 +5309,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
         "style": "",
         "azure_endpoint": "https://my-instance.openai.azure.com",
     }
+    TRACE_MODEL: ClassVar[str] = "my-deployment"
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
         responses.add(
