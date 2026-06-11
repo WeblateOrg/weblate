@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-11 05:14+0200\n"
-"PO-Revision-Date: 2026-06-07 14:01+0000\n"
+"PO-Revision-Date: 2026-06-12 02:17+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:240
@@ -21700,28 +21700,33 @@ msgid "Project creation and moves"
 msgstr "Projekt erstellen und verschieben"
 
 #: admin/workspaces.rst:28
-#, fuzzy
-#| msgid "Projects can be watched directly from project page."
 msgid "Projects can be created with or without a workspace:"
-msgstr "Projekte können direkt von der Projektseite aus beobachtet werden."
+msgstr "Projekte können mit oder ohne Arbeitsbereich erstellt werden:"
 
 #: admin/workspaces.rst:30
 msgid ""
 "Creating a project in a workspace requires the :guilabel:`Add projects to "
 "workspace` permission for that workspace."
 msgstr ""
+"Das Erstellen eines Projekts in einem Arbeitsbereich erfordert die "
+"Berechtigung :guilabel:`Projekte zum Arbeitsbereich hinzufügen` für diesen "
+"Arbeitsbereich."
 
 #: admin/workspaces.rst:32
 msgid ""
 "Creating a project without a workspace requires the site-wide :guilabel:`Add "
 "new projects` permission."
 msgstr ""
+"Das Erstellen eines Projekts ohne Arbeitsbereich erfordert die "
+"plattformweite Berechtigung :guilabel:`Neue Projekte hinzufügen`."
 
 #: admin/workspaces.rst:35
 msgid ""
 "When creating a project with the :ref:`api`, pass the workspace UUID in the "
 "``workspace`` field."
 msgstr ""
+"Wenn Sie ein Projekt mit der :ref:`api` erstellen, geben Sie die "
+"Arbeitsbereich-UUID im Feld ``workspace`` an."
 
 #: admin/workspaces.rst:38
 msgid ""
@@ -21757,11 +21762,11 @@ msgstr ""
 "Ausführlicher Projektname, der zur Anzeige des Projektnamens verwendet wird."
 
 #: admin/workspaces.rst:66
-#, fuzzy
-#| msgid "Adding translation projects and components"
 msgid ""
 "Default translation license for projects and components in this workspace."
-msgstr "Übersetzungsprojekte und Komponenten hinzufügen"
+msgstr ""
+"Standard-Übersetzungslizenz für Projekte und Komponenten in diesem "
+"Arbeitsbereich."
 
 #: admin/workspaces.rst:78
 #, fuzzy
@@ -21822,30 +21827,25 @@ msgid ""
 msgstr ""
 
 #: admin/workspaces.rst:166
-#, fuzzy
-#| msgid "Starting newline"
 msgid "Settings inheritance"
-msgstr "Zeilenumbruch am Anfang"
+msgstr "Vererbung von Einstellungen"
 
 #: admin/workspaces.rst:168
 msgid ""
 "Settings inheritance lets common defaults be configured once and reused in "
 "lower scopes:"
 msgstr ""
+"Durch das Vererben von Einstellungen können allgemeine Standards einmalig "
+"konfiguriert und in untergeordneten Bereichen wiederverwendet werden:"
 
 #: admin/workspaces.rst:171
-#, fuzzy
-#| msgid "Workspace-scoped teams are documented in :ref:`workspace-acl`."
 msgid "Workspaces define defaults for projects in the workspace."
-msgstr ""
-"Teams auf Arbeitsbereichsebene sind unter :ref:`workspace-acl` dokumentiert."
+msgstr "Arbeitsbereiche definieren Standards für Projekte im Arbeitsbereich."
 
 #: admin/workspaces.rst:172
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid "Projects define defaults for categories and components in the project."
 msgstr ""
-"Gibt eine Liste der Übersetzungskomponenten im angegebenen Projekt zurück."
+"Projekte definieren Standards für Kategorien und Komponenten im Projekt."
 
 #: admin/workspaces.rst:173
 msgid ""
@@ -21926,10 +21926,13 @@ msgid ""
 "Can edit workspace settings, add projects to the workspace, manage workspace "
 "access, and view or pay billing plans assigned to the workspace."
 msgstr ""
+"Kann Arbeitsbereich-Einstellungen bearbeiten, Projekte zum Arbeitsbereich "
+"hinzufügen, den Arbeitsbereichszugriff verwalten und die dem Arbeitsbereich "
+"zugewiesenen Abrechnungsmodelle einsehen und bezahlen."
 
 #: admin/workspaces.rst:230
 msgid "Can add projects to the workspace."
-msgstr ""
+msgstr "Kann Projekte zum Arbeitsbereich hinzufügen."
 
 #: admin/workspaces.rst:232
 msgid ""
@@ -21955,6 +21958,8 @@ msgid ""
 "Billing is optional. Workspaces are still available when the billing module "
 "is not installed."
 msgstr ""
+"Die Abrechnung ist optional. Die Arbeitsbereiche stehen auch dann zur "
+"Verfügung, wenn das Abrechnungsmodul nicht installiert ist."
 
 #: admin/workspaces.rst:251
 msgid "Upgrading from billing owners"
@@ -22377,15 +22382,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.git.squash` better handle commits applied upstream."
 msgid ""
 ":ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file "
 "presence."
 msgstr ""
-":ref:`addon-weblate.git.squash` verarbeitet Commits die Upstream angewendet "
-"werden besser."
+":ref:`addon-weblate.gettext.linguas` erkennt das Vorhandensein von "
+"``LINGUAS``-Dateien besser."
 
 #: changes.rst:14
 msgid ""
@@ -52701,10 +52703,8 @@ msgid "Default or documented posture"
 msgstr "*Voreingestellte Auflistung der Komponenten*"
 
 #: security/threat-model.rst:269
-#, fuzzy
-#| msgid "Weblate threat model"
 msgid "Effect on the model"
-msgstr "Weblate-Bedrohungsmodell"
+msgstr "Auswirkungen auf das Modell"
 
 #: security/threat-model.rst:270
 #, fuzzy
@@ -52873,15 +52873,11 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:333
-#, fuzzy
-#| msgid ""
-#| "Added support for customizing SSH invocation "
-#| "via :setting:`SSH_EXTRA_ARGS`."
 msgid ""
 "Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)"
 msgstr ""
-"Unterstützung für die Anpassung des SSH-Aufrufs "
-"über :setting:`SSH_EXTRA_ARGS` hinzugefügt."
+"Ermöglicht benutzerdefinierte SSH-Optionen. *(dokumentiert)* (Quelle: "
+":setting:`SSH_EXTRA_ARGS`)"
 
 #: security/threat-model.rst:334
 msgid ""
@@ -65680,11 +65676,11 @@ msgstr "``read-only`` oder ``readonly``"
 
 #: user/search.rst:61
 msgid "Read-only strings, same as ``state:read-only``."
-msgstr "Schreibgeschützte Zeichenketten, wie ``state:read-only``."
+msgstr "Schreibgeschützte Zeichenketten, gleich wie ``state:read-only``."
 
 #: user/search.rst:63
 msgid "Approved strings, same as ``state:approved``."
-msgstr "Genehmigte Zeichenketten, wie ``state:approved``."
+msgstr "Genehmigte Zeichenketten, gleich wie ``state:approved``."
 
 #: user/search.rst:64
 msgid "``needs-editing`` or ``fuzzy``"
@@ -65695,16 +65691,16 @@ msgid ""
 "Needing editing/checking/rewriting strings, same as ``state:needs-editing OR "
 "state:needs-rewriting OR state:needs-checking``."
 msgstr ""
-"Zeichenketten müssen bearbeitet/überprüft/umgeschrieben werden, wie "
+"Zeichenketten müssen bearbeitet/überprüft/umgeschrieben werden, gleich wie "
 "``state:needs-editing OR state:needs-rewriting OR state:needs-checking``."
 
 #: user/search.rst:67
 msgid "Translated strings, same as ``state:>translated``."
-msgstr "Übersetzte Zeichenketten, wie ``state:>translated``."
+msgstr "Übersetzte Zeichenketten, gleich wie ``state:>translated``."
 
 #: user/search.rst:69
 msgid "Untranslated strings, same as ``state:<translated``."
-msgstr "Nicht übersetzte Zeichenketten, wie ``state:<translated``."
+msgstr "Nicht übersetzte Zeichenketten, gleich wie ``state:<translated``."
 
 #: user/search.rst:71
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
@@ -65750,6 +65746,10 @@ msgid ""
 "search for strings with at least one content change without a recorded "
 "author."
 msgstr ""
+"Zeichenkette wurde vom Autor mit dem angegebenen Benutzername geändert. "
+"``changed_by:\"\"`` verwenden, um nach Zeichenketten zu suchen, bei denen "
+"mindestens eine inhaltliche Änderung vorgenommen wurde, ohne dass ein Autor "
+"vermerkt ist."
 
 #: user/search.rst:86
 msgid ""
@@ -65794,6 +65794,9 @@ msgid ""
 "When combining ``changed_by``, ``changed``, ``change_time``, and "
 "``change_action`` filters, the filters apply to the same change event."
 msgstr ""
+"Wenn die Filter ``changed_by``, ``changed``, ``change_time`` und "
+"``change_action`` kombiniert werden, beziehen sich diese Filter auf dasselbe "
+"Änderungsereignis."
 
 #: user/search.rst:101
 msgid ""
@@ -66036,7 +66039,7 @@ msgstr ""
 
 #: user/search.rst:219
 msgid "Regular expressions"
-msgstr "reguläre Ausdrücke"
+msgstr "Reguläre Ausdrücke"
 
 #: user/search.rst:221
 msgid ""
@@ -66100,86 +66103,68 @@ msgid "Searching for screenshots"
 msgstr "Nach Bildschirmfotos suchen"
 
 #: user/search.rst:253
-#, fuzzy
-#| msgid ""
-#| "Advanced queries using boolean operations, parentheses, or field specific "
-#| "lookup can be used to find the strings you want."
 msgid ""
 "The screenshot listing in a component accepts advanced queries using boolean "
 "operations, parentheses, or field specific lookup."
 msgstr ""
-"Erweiterte Abfragen mit booleschen Operationen, Klammern oder "
-"feldspezifischen Suchanfragen können verwendet werden, um die gewünschten "
-"Zeichenketten zu finden."
+"Die Auflistung der Bildschirmfotos in einer Komponente nimmt erweiterte "
+"Abfragen unter Verwendung von booleschen Operationen, Klammern oder "
+"feldspezifischen Suchanfragen an."
 
 #: user/search.rst:256
-#, fuzzy
-#| msgid ""
-#| "When no field is defined, the lookup happens on source, target, and "
-#| "context strings."
 msgid ""
 "When no field is defined, the lookup happens on the screenshot name, "
 "repository path, screenshot language, assigned source string, assigned "
 "context, and assigned location."
 msgstr ""
-"Wenn kein Feld definiert ist, erfolgt die Suche anhand von Ausgangs-, Ziel- "
-"und Kontextzeichenketten."
+"Wenn kein Feld definiert ist, erfolgt die Suche anhand des Bildschirmfoto-"
+"Namens, des Repository-Pfads, der Bildschirmfoto-Sprache, der zugewiesenen "
+"Ausgangszeichenkette, des zugewiesenen Kontexts und des zugewiesenen Orts."
 
 #: user/search.rst:261
 msgid "Screenshot fields"
 msgstr "Bildschirmfoto-Felder"
 
 #: user/search.rst:264
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Screenshot name case-insensitive search."
 msgstr ""
-"In Ausgangszeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
-"suchen."
+"Bildschirmfoto-Name ohne Berücksichtigung der Groß-/Kleinschreibung suchen."
 
 #: user/search.rst:266
-#, fuzzy
-#| msgid "Location string case-insensitive search."
 msgid "Repository path to screenshot case-insensitive search."
 msgstr ""
-"In Standortzeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
-"suchen."
+"Repository-Pfad zum Bildschirmfoto ohne Berücksichtigung der Groß-/"
+"Kleinschreibung suchen."
 
 #: user/search.rst:268
 msgid ""
 "Repository path to screenshot case-insensitive search, same as ``path:TEXT``."
 msgstr ""
+"Repository-Pfad zum Bildschirmfoto ohne Berücksichtigung der Groß-/"
+"Kleinschreibung suchen, gleich wie ``path:TEXT``."
 
 #: user/search.rst:271
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Screenshot language code or language name case-insensitive search."
 msgstr ""
-"In Ausgangszeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
-"suchen."
+"Bildschirmfoto-Sprachcode oder -Sprachenname ohne Berücksichtigung der Groß-/"
+"Kleinschreibung suchen."
 
 #: user/search.rst:273
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Assigned source string case-insensitive search."
 msgstr ""
-"In Ausgangszeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
-"suchen."
+"Zugewiesene Ausgangszeichenkette ohne Berücksichtigung der Groß-/"
+"Kleinschreibung suchen."
 
 #: user/search.rst:275
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Assigned source string context case-insensitive search."
 msgstr ""
-"In Ausgangszeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
-"suchen."
+"Im Kontext der zugewiesenen Ausgangszeichenkette ohne Berücksichtigung der "
+"Groß-/Kleinschreibung suchen."
 
 #: user/search.rst:277
-#, fuzzy
-#| msgid "Source string description case-insensitive search."
 msgid "Assigned source string location case-insensitive search."
 msgstr ""
-"In Beschreibung der Ausgangszeichenkette ohne Berücksichtigung der Groß-/"
+"Im Ort der zugewiesenen Ausgangszeichenkette ohne Berücksichtigung der Groß-/"
 "Kleinschreibung suchen."
 
 #: user/search.rst:279
@@ -66195,99 +66180,76 @@ msgid "Number of assigned source strings."
 msgstr "Anzahl der zugewiesenen Ausgangszeichenketten."
 
 #: user/search.rst:285
-#, fuzzy
-#| msgid "Search in screenshots."
 msgid "Search for screenshots having attributes:"
-msgstr "In Bildschirmfotos suchen."
+msgstr "Nach Bildschirmfotos mit folgenden Attributen suchen:"
 
 #: user/search.rst:288
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Screenshot assigned to at least one source string."
 msgstr ""
-"Bildschirmfotos verwalten (hinzufügen, entfernen und zu "
-"Ausgangszeichenketten zuordnen)."
+"Bildschirmfoto, das mindestens einer Ausgangszeichenkette zugewiesen ist."
 
 #: user/search.rst:290
-#, fuzzy
-#| msgid "Managing screenshots from the repository"
 msgid "Screenshot with a repository path."
-msgstr "Bildschirmfotos aus dem Repository verwalten"
+msgstr "Bildschirmfoto mit einem Repository-Pfad."
 
 #: user/search.rst:292
-#, fuzzy
-#| msgid "Screenshots updated from the repository have proper history."
 msgid "Screenshot with a repository path, same as ``repository``."
-msgstr ""
-"Bildschirmfotos, die aus dem Repository aktualisiert werden, haben einen "
-"korrekten Verlauf."
+msgstr "Bildschirmfoto mit einem Repository-Pfad, gleich wie ``repository``."
 
 #: user/search.rst:295
-#, fuzzy
-#| msgid "Screenshot removed"
 msgid "Screenshot search examples"
-msgstr "Bildschirmfoto entfernt"
+msgstr "Bildschirmfoto-Suchbeispiele"
 
 #: user/search.rst:298
 msgid ""
 "Search for screenshots matching ``login`` in any default screenshot field."
 msgstr ""
+"Nach Bildschirmfotos, die ``login`` in einem beliebigen Standard-"
+"Bildschirmfoto-Feld enthalten suchen."
 
 #: user/search.rst:300
 msgid "Search for screenshots with ``login`` in the screenshot name."
-msgstr ""
+msgstr "Nach Bildschirmfotos, deren Name ``login`` enthält suchen."
 
 #: user/search.rst:302
 msgid "Search for screenshots in languages matching ``cs``."
-msgstr ""
+msgstr "Nach Bildschirmfotos in Sprachen, die mit ``cs`` übereinstimmen suchen."
 
 #: user/search.rst:304
 msgid ""
 "Search for screenshots assigned to source strings matching ``Save changes``."
 msgstr ""
+"Nach Bildschirmfotos, die Ausgangszeichenketten zugewiesen sind, die mit "
+"``Save changes`` übereinstimmen suchen."
 
 #: user/search.rst:307
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Search for screenshots assigned to at least one source string."
 msgstr ""
-"Bildschirmfotos verwalten (hinzufügen, entfernen und zu "
-"Ausgangszeichenketten zuordnen)."
+"Nach Bildschirmfotos, die mindestens einer Ausgangszeichenkette zugewiesen "
+"sind suchen."
 
 #: user/search.rst:309
-#, fuzzy
-#| msgid "Support for user comments for both translations and source strings."
 msgid "Search for screenshots not assigned to any source string."
 msgstr ""
-"Unterstützung für Benutzerkommentare sowohl für Übersetzungen als auch für "
-"Ausgangszeichenketten."
+"Nach Bildschirmfotos, die keiner Ausgangszeichenkette zugewiesen sind suchen."
 
 #: user/search.rst:311
-#, fuzzy
-#| msgid "Perform the renaming of the files in the repository."
 msgid "Search for screenshots with ``fastlane`` in the repository path."
-msgstr "Das Umbenennen der Dateien im Repository durchführen."
+msgstr "Nach Bildschirmfotos mit ``fastlane`` im Repository-Pfad suchen."
 
 #: user/search.rst:313
-#, fuzzy
-#| msgid ""
-#| "Manage screenshots (add, remove, and associate them to source strings)."
 msgid "Search for screenshots assigned to more than two source strings."
 msgstr ""
-"Bildschirmfotos verwalten (hinzufügen, entfernen und zu "
-"Ausgangszeichenketten zuordnen)."
+"Nach Bildschirmfotos, die mehr als zwei Ausgangszeichenketten zugewiesen "
+"sind suchen."
 
 #: user/search.rst:315
-#, fuzzy
-#| msgid "Screenshots updated from the repository have proper history."
 msgid ""
 "Search for screenshots imported from the repository that still need source "
 "string assignment."
 msgstr ""
-"Bildschirmfotos, die aus dem Repository aktualisiert werden, haben einen "
-"korrekten Verlauf."
+"Nach Bildschirmfotos, die aus dem Repository importiert wurden und die noch "
+"Ausgangszeichenketten zugewiesen werden müssen suchen."
 
 #: user/search.rst:318
 msgid ""
@@ -66295,6 +66257,9 @@ msgid ""
 "operators`, :ref:`date-search`, exact match, and regular expression syntax "
 "as string search."
 msgstr ""
+"Die Bildschirmfoto-Suche unterstützt dieselbe Syntax (:ref:`search-boolean`, "
+":ref:`search-operators`, :ref:`date-search`, genaue Übereinstimmung und "
+"reguläre Ausdrücke) wie die Zeichenkettensuche."
 
 #: user/search.rst:325
 msgid "Searching for users"
@@ -66366,7 +66331,7 @@ msgstr "Nach E-Mail-Adresse suchen."
 
 #: user/search.rst:361
 msgid "Search by audit log IP address."
-msgstr ""
+msgstr "Nach IP-Adresse im Auditprotokoll suchen."
 
 #: user/translating.rst:2
 msgid "Translating using Weblate"
@@ -68505,12 +68470,15 @@ msgstr "Konfigurationsdateien"
 msgid ""
 "When :option:`--config` is provided, :program:`wlc` loads only that file."
 msgstr ""
+"Wenn :option:`--config` angegeben wird, lädt :program:`wlc` nur diese Datei."
 
 #: wlc.rst:303
 msgid ""
 "Without :option:`--config`, :program:`wlc` first loads the discovered global "
 "configuration file from the standard platform-specific locations:"
 msgstr ""
+"Ohne :option:`--config`, lädt :program:`wlc` zunächst die erkannte globale "
+"Konfigurationsdatei aus den standardmäßigen plattformspezifischen Orten:"
 
 #: wlc.rst:306
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Roaming\\\\weblate.ini`"
@@ -68563,6 +68531,9 @@ msgid ""
 "After loading the global configuration, :program:`wlc` loads the nearest "
 "project configuration file from the current directory or its parents:"
 msgstr ""
+"Nach dem Laden der globalen Konfiguration lädt :program:`wlc` die "
+"nächstgelegene Projekt-Konfigurationsdatei aus dem aktuellen Verzeichnis "
+"oder dessen übergeordneten Verzeichnissen:"
 
 #: wlc.rst:325
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
@@ -68577,6 +68548,9 @@ msgid ""
 "Only the closest project configuration file is loaded. Configuration files "
 "in farther parent directories are ignored."
 msgstr ""
+"Es wird nur die nächstgelegene Projekt-Konfigurationsdatei geladen. "
+"Konfigurationsdateien in weiter entfernten übergeordneten Verzeichnissen "
+"werden ignoriert."
 
 #: wlc.rst:331
 msgid ""
@@ -68647,18 +68621,16 @@ msgid ""
 msgstr ""
 
 #: wlc.rst:398
-#, fuzzy
-#| msgid "Notable configuration or dependencies changes:"
 msgid "The configuration precedence (highest to lowest) is:"
-msgstr "Nennenswerte Änderungen der Konfiguration oder der Abhängigkeiten:"
+msgstr "Die Konfigurationspriorität (von hoch nach niedrig) ist:"
 
 #: wlc.rst:400
 msgid "Command-line arguments (:option:`--url`, :option:`--key`)."
-msgstr ""
+msgstr "Befehlszeilenargumente (:option:`--url`, :option:`--key`)."
 
 #: wlc.rst:401
 msgid "Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
-msgstr ""
+msgstr "Umgebungsvariablen (:envvar:`WLC_URL`, :envvar:`WLC_KEY`)."
 
 #: wlc.rst:402
 msgid ""
@@ -68912,11 +68884,6 @@ msgstr ""
 "Die Status werden soweit möglich in den Übersetzungsdateien dargestellt."
 
 #: workflows.rst:95
-#, fuzzy
-#| msgid ""
-#| "If the file format you use does not support storing states, you might "
-#| "want to use the :ref:`addon-weblate.flags.same_edit` add-on to flag "
-#| "unchanged strings as needing editing."
 msgid ""
 "If the file format you use does not support storing states, you might want "
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
@@ -68925,7 +68892,7 @@ msgstr ""
 "Wenn das von Ihnen verwendete Dateiformat das Speichern von Status nicht "
 "unterstützt, sollten Sie die Erweiterung :ref:`addon-"
 "weblate.flags.same_edit` verwenden, um unveränderte Zeichenketten als "
-"bearbeitungsbedürftig zu markieren."
+"umzuschreibend zu markieren."
 
 #: workflows.rst:101
 #, fuzzy
