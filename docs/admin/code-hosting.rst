@@ -681,7 +681,7 @@ This can be done in :guilabel:`WebHooks` under repository
 
 .. seealso::
 
-   * `Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_
+   * `Webhooks in Gitee manual <https://help.gitee.com/webhook>`_
    * :http:post:`/hooks/gitee/`
    * :ref:`hosted-push`
 
