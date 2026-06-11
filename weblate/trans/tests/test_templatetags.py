@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
 
@@ -181,6 +182,43 @@ class LocationLinksTest(TestCase):
             </a>
             """,
         )
+
+
+class FormatTranslationTemplateTest(SimpleTestCase):
+    def test_simple_bidi_isolate(self) -> None:
+        content = render_to_string(
+            "snippets/format-translation.html",
+            {
+                "simple": True,
+                "language": Language(code="fa", direction="rtl"),
+                "wrap": False,
+                "items": [{"content": "سلام test 123"}],
+            },
+        )
+        self.assertHTMLEqual(
+            content,
+            """
+            <span lang="fa" dir="rtl" class="bidi-isolate">
+              سلام test 123
+            </span>
+            """,
+        )
+
+    def test_list_bidi_isolate(self) -> None:
+        content = render_to_string(
+            "snippets/format-translation.html",
+            {
+                "simple": False,
+                "has_content": True,
+                "language": Language(code="fa", direction="rtl"),
+                "wrap": False,
+                "items": [{"content": "سلام test 123"}],
+            },
+        )
+        self.assertIn('class="list-group-item-text bidi-isolate"', content)
+        self.assertIn('lang="fa"', content)
+        self.assertIn('dir="rtl"', content)
+        self.assertIn("سلام test 123", content)
 
 
 class TranslationFormatTestCase(FixtureComponentTestCase):
