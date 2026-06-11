@@ -11,6 +11,7 @@ Weblate 2026.7
 * Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
+* :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
 * LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
 
 .. rubric:: Bug fixes
