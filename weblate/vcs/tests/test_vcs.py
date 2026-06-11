@@ -17,7 +17,7 @@ from os import utime
 from pathlib import Path
 from time import time
 from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
-from unittest.mock import patch
+from unittest.mock import call, patch
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import responses
@@ -707,32 +707,59 @@ class GitBranchValidationTest(SimpleTestCase):
     def test_generic_git_branch_accepts_gerrit_option_delimiters(self) -> None:
         with patch.object(GitRepository, "_popen", return_value=""):
             self.assertEqual(
-                "main%submit", GitRepository.validate_branch_name("main%submit")
+                "main%topic=l10n", GitRepository.validate_branch_name("main%topic=l10n")
             )
 
-    def test_gerrit_branch_accepts_plain_name(self) -> None:
-        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
-            self.assertEqual(
-                "review-branch",
-                GitWithGerritRepository.validate_branch_name("review-branch"),
-            )
-
-    def test_gerrit_branch_rejects_magic_ref_options(self) -> None:
+    def test_gerrit_branch_accepts_review_targets(self) -> None:
         branches = (
-            "main%submit",
-            "main%l=Code-Review+2",
-            "main%topic=evil,l=Code-Review+2",
-            "main,topic",
+            "review-branch",
+            "main%topic=l10n",
+            "main%hashtag=translations",
+            "main%topic=l10n,hashtag=translations",
         )
         with patch.object(GitWithGerritRepository, "_popen", return_value=""):
             for branch in branches:
-                with (
-                    self.subTest(branch=branch),
-                    self.assertRaises(RepositoryError) as cm,
-                ):
-                    GitWithGerritRepository.validate_branch_name(branch)
+                with self.subTest(branch=branch):
+                    self.assertEqual(
+                        branch,
+                        GitWithGerritRepository.validate_review_target(branch),
+                    )
 
-                self.assertIn("review push options", str(cm.exception))
+    def test_gerrit_branch_rejects_review_target_without_base_branch(self) -> None:
+        with (
+            patch.object(GitWithGerritRepository, "_popen", return_value=""),
+            self.assertRaises(RepositoryError) as cm,
+        ):
+            GitWithGerritRepository.validate_review_target("%topic=l10n")
+
+        self.assertEqual(str(cm.exception), "'' is not a valid branch name")
+
+    def test_gerrit_branch_extracts_fetch_branch_from_review_target(self) -> None:
+        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
+            self.assertEqual(
+                "main",
+                GitWithGerritRepository.get_gerrit_branch_name(
+                    "main%topic=l10n,hashtag=translations"
+                ),
+            )
+
+    def test_gerrit_branch_validation_uses_base_review_target_branch(self) -> None:
+        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
+            self.assertEqual(
+                "main",
+                GitWithGerritRepository.validate_branch_name(
+                    "main%topic=l10n,hashtag=translations"
+                ),
+            )
+
+    def test_gerrit_remote_branch_uses_base_review_target_branch(self) -> None:
+        repo = GitWithGerritRepository(".", branch="main", local=True)
+
+        with patch.object(GitWithGerritRepository, "_popen", return_value=""):
+            self.assertEqual(
+                "origin/main",
+                repo.get_remote_branch_name("main%topic=l10n,hashtag=translations"),
+            )
 
     def test_shorthand_branch_is_rejected(self) -> None:
         with self.assertRaises(RepositoryError) as cm:
@@ -2946,6 +2973,76 @@ class VCSGerritTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_config("remote.gerrit.fetch"),
             "+refs/heads/review-branch:refs/remotes/gerrit/review-branch",
+        )
+
+    def test_push_branch_targets_gerrit_review_branch_with_options(self) -> None:
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "needs_push", return_value=True) as needs_push,
+            patch.object(self.repo, "execute") as execute,
+        ):
+            self.repo.push("review-branch%topic=l10n,hashtag=translations")
+
+        needs_push.assert_called_once_with(
+            "review-branch%topic=l10n,hashtag=translations"
+        )
+        execute.assert_called_once_with(
+            [
+                "review",
+                "--remote",
+                "gerrit",
+                "--yes",
+                "review-branch%topic=l10n,hashtag=translations",
+            ],
+            remote_op="push",
+        )
+        self.assertEqual(
+            self.repo.get_config("remote.gerrit.fetch"),
+            "+refs/heads/review-branch:refs/remotes/gerrit/review-branch",
+        )
+
+    def test_branch_targets_gerrit_review_branch_with_options(self) -> None:
+        self.repo.branch = "review-branch%topic=l10n,hashtag=translations"
+
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "needs_push", return_value=True) as needs_push,
+            patch.object(self.repo, "execute") as execute,
+        ):
+            self.repo.push("")
+
+        needs_push.assert_called_once_with("")
+        execute.assert_called_once_with(
+            [
+                "review",
+                "--remote",
+                "gerrit",
+                "--yes",
+                "review-branch%topic=l10n,hashtag=translations",
+            ],
+            remote_op="push",
+        )
+        self.assertEqual(
+            self.repo.get_config("remote.gerrit.fetch"),
+            "+refs/heads/review-branch:refs/remotes/gerrit/review-branch",
+        )
+
+    def test_remove_stale_branches_keeps_gerrit_review_target_branch(self) -> None:
+        self.repo.branch = "main%topic=l10n,hashtag=translations"
+
+        with (
+            self.repo.lock,
+            patch.object(self.repo, "list_branches", return_value=["main", "stale"]),
+            patch.object(self.repo, "execute", return_value="") as execute,
+        ):
+            self.repo.remove_stale_branches()
+
+        execute.assert_any_call(
+            ["branch", "--delete", "--force", "stale"], remote_op="none"
+        )
+        self.assertNotIn(
+            call(["branch", "--delete", "--force", "main"], remote_op="none"),
+            execute.mock_calls,
         )
 
     def test_push_branch(self) -> None:
