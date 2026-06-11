@@ -7,13 +7,6 @@ Weblate 2026.7
 
 * Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
 
-Weblate 2026.6
---------------
-
-*Not yet released.*
-
-.. rubric:: New features
-
 .. rubric:: Improvements
 
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
