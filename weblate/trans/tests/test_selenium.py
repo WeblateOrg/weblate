@@ -1757,7 +1757,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png")
 
         # Close modal dialog
-        self.driver.find_element(By.ID, "id_extra_flags").send_keys(Keys.ESCAPE)
+        self.driver.find_element(By.ID, "id_extra_flags-ts-input").send_keys(
+            Keys.ESCAPE
+        )
         time.sleep(0.2)
 
     def test_dark_theme(self) -> None:

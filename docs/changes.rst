@@ -80,6 +80,7 @@ Weblate 2026.6
 
 * Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
+* Translation flag fields now use a tag-based editor with autocompletion and grouped suggestions for all known flags.
 * :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
 * :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
 * :ref:`alerts` now include dismissible component diagnostics for community localization.
