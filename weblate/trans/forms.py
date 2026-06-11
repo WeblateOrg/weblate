@@ -1024,13 +1024,14 @@ class RevertForm(UnitForm):
         if "revert" not in self.cleaned_data:
             return None
         try:
-            self.cleaned_data["revert_change"] = Change.objects.get(
-                pk=self.cleaned_data["revert"], unit=self.unit
-            )
+            change = Change.objects.get(pk=self.cleaned_data["revert"], unit=self.unit)
         except Change.DoesNotExist as error:
             raise ValidationError(
                 gettext("Could not find the reverted change.")
             ) from error
+        if not change.can_revert():
+            raise ValidationError(gettext("Could not find the reverted change."))
+        self.cleaned_data["revert_change"] = change
         return self.cleaned_data
 
 
@@ -1435,7 +1436,7 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         kwargs["initial"] = {"labels": list(instance.all_labels)}
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
-        self.fields["labels"].queryset = project.label_set.all()
+        self.fields["labels"].queryset = project.label_set.order()
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -3485,7 +3486,10 @@ class ProjectCreateForm(
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "instructions", "workspace")
+        fields = ("name", "slug", "web", "instructions", "license", "workspace")
+        widgets = {  # noqa: RUF012
+            "license": SearchableSelect,
+        }
 
 
 class ProjectImportCreateForm(ProjectCreateForm):
@@ -3897,7 +3901,7 @@ class BulkEditForm(forms.Form):
             # Labels are project-scoped, so non-project bulk edit scopes do not
             # offer label operations to avoid applying labels across projects.
             labels = (
-                Label.objects.none() if project is None else project.label_set.all()
+                Label.objects.none() if project is None else project.label_set.order()
             )
         if labels:
             self.fields["remove_labels"].queryset = labels

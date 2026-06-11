@@ -205,10 +205,12 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             "source_unit__translation",
             models.Prefetch(
                 "source_unit__check_set",
+                queryset=Check.objects.order(),
                 to_attr="all_checks",
             ),
             models.Prefetch(
                 "check_set",
+                queryset=Check.objects.order(),
                 to_attr="all_checks",
             ),
         )
@@ -1916,7 +1918,7 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_checks(self) -> models.QuerySet[Check]:
-        result = self.check_set.all()
+        result = self.check_set.order()
         # Force fetching
         list(result)
         return result

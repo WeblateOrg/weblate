@@ -943,12 +943,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def all_repo_components(self) -> list[Component]:
         """Return list of all unique VCS components."""
-        result = list(self.component_set.with_repo().prefetch_related("alert_set"))
+        from weblate.trans.models import Alert  # noqa: PLC0415
+
+        alert_prefetch = models.Prefetch(
+            "alert_set", queryset=Alert.objects.order_component()
+        )
+        result = list(self.component_set.with_repo().prefetch_related(alert_prefetch))
         included = {component.id for component in result}
 
         linked = self.component_set.filter(
             repo__startswith="weblate:"
-        ).prefetch_related("alert_set")
+        ).prefetch_related(alert_prefetch)
         for other in linked:
             if other.linked_component_id in included:
                 continue
@@ -1002,7 +1007,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def all_active_alerts(self) -> QuerySet[Alert]:
         from weblate.trans.models import Alert  # noqa: PLC0415
 
-        result = Alert.objects.filter(component__project=self, dismissed=False)
+        result = Alert.objects.filter(component__project=self, dismissed=False).order()
         list(result)
         return result
 

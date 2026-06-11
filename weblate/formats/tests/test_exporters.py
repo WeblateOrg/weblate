@@ -315,6 +315,37 @@ class TBXExporterTest(PoExporterTest):
         # Doesn't support plurals
         return
 
+    def test_source_language_export_uses_single_langset(self) -> None:
+        language = Language.objects.get(code="en")
+        project = Project(slug="test")
+        component = Component(
+            slug="comp",
+            project=project,
+            file_format="tbx",
+            source_language=language,
+        )
+        translation = Translation(
+            language=language, component=component, plural=language.plural
+        )
+        translation.store = EmptyFormat(NamedBytesIO("", b""))
+        unit = Unit(
+            translation=translation,
+            id_hash=-1,
+            pk=-1,
+            source="hello",
+            target="hello",
+            state=STATE_TRANSLATED,
+        )
+        unit.__dict__["unresolved_comments"] = []
+        unit.__dict__["suggestions"] = []
+        unit.source_unit = unit
+
+        exporter = self.get_exporter(language, translation=translation)
+        exporter.add_unit(unit)
+        result = self.check_export(exporter)
+
+        self.assertEqual(result.count(b'<langSet xml:lang="en">'), 1)
+
 
 class MoExporterTest(PoExporterTest):
     _class = MoExporter

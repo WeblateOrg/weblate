@@ -18,9 +18,10 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
 from django.core.paginator import Paginator
+from django.db import connection
 from django.template.loader import render_to_string
 from django.test.client import RequestFactory
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import activate
 from openpyxl import load_workbook
@@ -897,6 +898,51 @@ class BasicViewTest(ViewTestCase):
         kwargs = {"path": [*self.component.get_url_path(), "it"]}
         response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, other.name)
+
+    def test_translate_other_occurrences_component_queries_do_not_scale(self) -> None:
+        unit = self.get_unit()
+
+        self.create_po(project=self.project, name="other-1")
+        baseline_queries = self.count_translate_other_occurrence_relation_queries(unit)
+
+        for index in range(2, 5):
+            self.create_po(project=self.project, name=f"other-{index}")
+
+        self.assertEqual(
+            self.count_translate_other_occurrence_relation_queries(unit),
+            baseline_queries,
+        )
+
+    def count_translate_other_occurrence_relation_queries(self, unit: Unit) -> int:
+        session = self.client.session
+        for key in list(session.keys()):
+            if key.startswith("search_"):
+                del session[key]
+        session.save()
+
+        response = self.client.get(
+            unit.translation.get_translate_url(), {"checksum": unit.checksum}
+        )
+        self.assertContains(response, "Other occurrences")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(
+                unit.translation.get_translate_url(), {"checksum": unit.checksum}
+            )
+
+        self.assertContains(response, "Other occurrences")
+
+        return sum(
+            (
+                'FROM "trans_component"' in query["sql"]
+                and 'WHERE "trans_component"."id" =' in query["sql"]
+            )
+            or (
+                'FROM "trans_project"' in query["sql"]
+                and 'WHERE "trans_project"."id" =' in query["sql"]
+            )
+            for query in queries
+        )
 
     def test_view_unit(self) -> None:
         unit = self.get_unit()

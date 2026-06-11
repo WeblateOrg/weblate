@@ -12,10 +12,14 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 
+from weblate.lang.forms import validate_language_code
+from weblate.lang.models import Language
 from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.validators import validate_machinery_hostname, validate_machinery_url
 
 from .types import SourceLanguageChoices
+
+LLM_LANGUAGE_INSTRUCTION_LENGTH = 1000
 
 
 class BaseMachineryForm(forms.Form):
@@ -92,7 +96,8 @@ class BaseMachineryForm(forms.Form):
 
     def validate_endpoint_fields(self, configuration) -> None:
         for field_name, field in self.fields.items():
-            if (value := configuration.get(field_name)) in {"", None}:
+            value = configuration.get(field_name)
+            if value is None or (isinstance(value, str) and not value):
                 continue
             if isinstance(field, WeblateServiceURLField):
                 validate_machinery_url(
@@ -445,6 +450,71 @@ class LLMBasicMachineryForm(BaseMachineryForm):
         ),
         required=False,
     )
+    language_instructions = forms.JSONField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Language-specific instructions",
+        ),
+        widget=forms.Textarea,
+        help_text=(
+            gettext_lazy(
+                "JSON object mapping existing target language codes to extra instructions, up to %(limit)d characters each."
+            )
+            % {"limit": LLM_LANGUAGE_INSTRUCTION_LENGTH}
+        ),
+        required=False,
+    )
+
+    def clean_language_instructions(self) -> dict[str, str]:
+        value = self.cleaned_data["language_instructions"]
+        if value is None or (isinstance(value, str) and not value):
+            return {}
+        if not isinstance(value, dict):
+            raise ValidationError(
+                gettext("Language-specific instructions must be a JSON object.")
+            )
+
+        result: dict[str, str] = {}
+        for key, item in value.items():
+            if not isinstance(key, str) or not isinstance(item, str):
+                raise ValidationError(
+                    gettext("Language-specific instructions must be a JSON object.")
+                )
+
+            language = key
+            try:
+                validate_language_code(language)
+            except ValidationError as error:
+                raise ValidationError(
+                    gettext(
+                        'Language-specific instructions contain invalid language code "%s".'
+                    )
+                    % language
+                ) from error
+
+            if Language.objects.fuzzy_get_strict(language) is None:
+                raise ValidationError(
+                    gettext(
+                        'Language-specific instructions contain unknown language code "%s".'
+                    )
+                    % language
+                )
+
+            instruction = item.strip()
+            if len(instruction) > LLM_LANGUAGE_INSTRUCTION_LENGTH:
+                raise ValidationError(
+                    gettext(
+                        'Language-specific instructions for "%(language)s" must be at most %(limit)d characters.'
+                    )
+                    % {
+                        "language": language,
+                        "limit": LLM_LANGUAGE_INSTRUCTION_LENGTH,
+                    }
+                )
+
+            if instruction:
+                result[language] = instruction
+        return result
 
 
 class BaseOpenAIMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):

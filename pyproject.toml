@@ -47,7 +47,7 @@ package-lint = [
   "twine==6.2.0"
 ]
 pre-commit = [
-  "prek==0.4.3"
+  "prek==0.4.4"
 ]
 pylint = [
   "pylint==4.0.5"
@@ -78,7 +78,7 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.43.22",
+  "boto3-stubs==1.43.27",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.5",
   "django-stubs[compatible-mypy]==6.0.5",
@@ -134,19 +134,19 @@ dependencies = [
   "charset-normalizer==3.4.7",
   "confusable-homoglyphs==3.3.1",
   "crispy-bootstrap5==2026.3",
-  "cryptography==48.0.0",
+  "cryptography==48.0.1",
   "cssselect==1.4.0",
   "cyrtranslit==1.2.0",
   "dateparser==1.4.0",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.194",
+  "disposable-email-domains==0.0.199",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-compressor==4.6.0",
   "django-cors-headers==4.9.0",
   "django-crispy-forms==2.6",
   "django-filter==25.2",
-  "django-otp-webauthn==0.8.0",
+  "django-otp-webauthn==0.9.0",
   "django-otp==1.7.0",
   "django-redis==7.0.0",
   "Django[argon2]==6.0.6",
@@ -156,7 +156,7 @@ dependencies = [
   "drf-spectacular[sidecar]==0.29.0",
   "drf-standardized-errors[openapi]==0.16.0",
   "fedora-messaging==3.9.0",
-  "filelock==3.29.1",
+  "filelock==3.29.3",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
   "GitPython==3.1.50",
@@ -196,7 +196,7 @@ dependencies = [
   "regex==2026.5.9",
   "requests==2.34.2",
   "ruamel.yaml==0.19.1",
-  "sentry-sdk==2.61.1",
+  "sentry-sdk==2.62.0",
   "siphashc==2.7",
   "social-auth-app-django==5.9.0",
   "social-auth-core==4.9.1",
@@ -235,7 +235,7 @@ all = [
   "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.22"
+  "boto3==1.43.27"
 ]
 gelf = [
   "logging-gelf==0.0.32"
@@ -276,7 +276,7 @@ wllegal = [
   "wllegal==2026.4"
 ]
 wsgi = [
-  "granian==2.7.5"
+  "granian==2.7.6"
 ]
 zxcvbn = [
   "django-zxcvbn-password-validator==1.6.0"
@@ -715,7 +715,7 @@ disable = [
   # Allow HTML
   "MD033"
 ]
-"weblate/trans/tests/data/*.md" = ["MD026"]
+"weblate/trans/tests/data/*" = ["MD025", "MD026"]
 
 [tool.setuptools]
 include-package-data = false

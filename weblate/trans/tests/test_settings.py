@@ -76,6 +76,12 @@ class SettingsTest(ViewTestCase):
         )
         migration.consolidate_category_settings(apps, None)
 
+    def repair_license_inheritance(self) -> None:
+        migration = import_module(
+            "weblate.trans.migrations.0089_repair_license_inheritance"
+        )
+        migration.repair_license_inheritance(apps, None)
+
     def assert_huge_inherited_settings_deferred(self, component: Component) -> None:
         for field in ("commit_message",):
             self.assertIn(field, component.get_deferred_fields())
@@ -559,6 +565,136 @@ class SettingsTest(ViewTestCase):
                 user=self.user, workspace=workspace
             ).exists()
         )
+
+    def test_license_repair_uses_most_common_component_license(self) -> None:
+        second_component = self.create_po(name="license-second", project=self.project)
+        third_component = self.create_po(name="license-third", project=self.project)
+        Project.objects.filter(pk=self.project.pk).update(
+            license="proprietary", inherit_license=True
+        )
+        Component.objects.filter(
+            pk__in=[self.component.pk, second_component.pk]
+        ).update(license="MIT", inherit_license=False)
+        Component.objects.filter(pk=third_component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.license, "MIT")
+        self.assertFalse(self.project.inherit_license)
+
+    def test_license_repair_tie_uses_earliest_component_license(self) -> None:
+        second_component = self.create_po(name="license-second", project=self.project)
+        Project.objects.filter(pk=self.project.pk).update(
+            license="proprietary", inherit_license=True
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=False
+        )
+        Component.objects.filter(pk=second_component.pk).update(
+            license="MIT", inherit_license=False
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.license, "GPL-3.0-or-later")
+        self.assertFalse(self.project.inherit_license)
+
+    def test_license_repair_ignores_inherited_component_license(self) -> None:
+        second_component = self.create_po(name="license-second", project=self.project)
+        Project.objects.filter(pk=self.project.pk).update(
+            license="proprietary", inherit_license=True
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            license="MIT", inherit_license=False
+        )
+        Component.objects.filter(pk=second_component.pk).update(
+            license="GPL-3.0-or-later", inherit_license=True
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.license, "MIT")
+        self.assertFalse(self.project.inherit_license)
+
+    def test_license_repair_backfills_workspace_from_corrected_project(self) -> None:
+        workspace = Workspace.objects.create(
+            name="License repair workspace", license="proprietary"
+        )
+        second_project = self.create_project(
+            name="License repair second project",
+            slug="license-repair-second-project",
+            workspace=workspace,
+            license="GPL-3.0-or-later",
+            inherit_license=False,
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace, license="proprietary", inherit_license=True
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            license="MIT", inherit_license=False
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        second_project.refresh_from_db()
+        workspace.refresh_from_db()
+        self.assertEqual(self.project.license, "MIT")
+        self.assertFalse(self.project.inherit_license)
+        self.assertEqual(second_project.license, "GPL-3.0-or-later")
+        self.assertEqual(workspace.license, "MIT")
+
+    def test_license_repair_keeps_workspace_license_with_inheriting_project(
+        self,
+    ) -> None:
+        workspace = Workspace.objects.create(
+            name="License repair workspace", license="proprietary"
+        )
+        second_project = self.create_project(
+            name="License repair second project",
+            slug="license-repair-second-project",
+            workspace=workspace,
+            license="GPL-3.0-or-later",
+            inherit_license=True,
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace, license="MIT", inherit_license=True
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        second_project.refresh_from_db()
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.license, "proprietary")
+        self.assertTrue(self.project.inherit_license)
+        self.assertTrue(second_project.inherit_license)
+        self.assertEqual(self.project.license, "MIT")
+        self.assertEqual(second_project.license, "GPL-3.0-or-later")
+
+    def test_license_repair_keeps_explicit_workspace_license(self) -> None:
+        workspace = Workspace.objects.create(
+            name="License repair workspace", license="GPL-3.0-or-later"
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace, license="proprietary", inherit_license=True
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            license="MIT", inherit_license=False
+        )
+
+        self.repair_license_inheritance()
+
+        self.project.refresh_from_db()
+        workspace.refresh_from_db()
+        self.assertEqual(self.project.license, "MIT")
+        self.assertFalse(self.project.inherit_license)
+        self.assertEqual(workspace.license, "GPL-3.0-or-later")
 
     def test_profile_agreement_links_open_agreement_view(self) -> None:
         workspace = Workspace.objects.create(

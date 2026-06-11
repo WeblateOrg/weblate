@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import os
-from contextlib import suppress
+from contextlib import nullcontext, suppress
 from pathlib import Path
 from typing import TYPE_CHECKING
 from zipfile import BadZipfile
@@ -127,6 +127,20 @@ class CreateProject(BaseCreateView):
             return self.form_invalid(form)
         for field in INHERITABLE_COMPONENT_FLAGS:
             setattr(form.instance, field, workspace is not None)
+        license_code = form.cleaned_data.get("license")
+        if workspace is None:
+            form.instance.inherit_license = False
+        elif license_code:
+            if not workspace.license:
+                if self.request.user.has_perm("workspace.edit", workspace):
+                    workspace.license = license_code
+                    workspace.acting_user = self.request.user
+                    workspace.save(update_fields=["license"])
+                    form.instance.inherit_license = True
+                else:
+                    form.instance.inherit_license = False
+            else:
+                form.instance.inherit_license = workspace.license == license_code
         result = super().form_valid(form)
         billing = self.get_billing(workspace)
         self.object.post_create(self.request.user, billing)
@@ -333,7 +347,12 @@ class CreateComponent(BaseCreateView):
     @transaction.atomic
     def form_valid(self, form):
         if self.stage == "create":
-            with form.instance.repository.lock:
+            lock = (
+                nullcontext()
+                if form.instance.is_repo_link
+                else form.instance.repository.lock
+            )
+            with lock:
                 for field in INHERITABLE_COMPONENT_FLAGS:
                     setattr(form.instance, field, True)
                 for field in ("license", "new_lang", "language_code_style"):

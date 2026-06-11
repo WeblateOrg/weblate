@@ -10,9 +10,10 @@ import os
 import time
 import warnings
 from contextlib import contextmanager
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING, Literal, cast, overload
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core import mail
@@ -58,7 +59,7 @@ from weblate.trans.tests.utils import (
     social_core_override_settings,
 )
 from weblate.vcs.ssh import get_key_data
-from weblate.wladmin.models import ConfigurationError, SupportStatus
+from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -111,6 +112,8 @@ TEST_BACKENDS = (
     "social_core.backends.facebook.FacebookOAuth2",
     "weblate.accounts.auth.WeblateUserBackend",
 )
+
+SCREENSHOT_SITE_DOMAIN = "weblate.example.com"
 
 
 # The fixture repositories are known public GitHub repos; allowlisting them
@@ -259,6 +262,37 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             f"Missing label text {label_text!r} for #{htmlid}",
         )
 
+    def wait_for_ajax_tab(
+        self, tab_target: str, expected_text: str, timeout: int = 30
+    ) -> None:
+        """Wait for AJAX-loaded tab content to be rendered."""
+        WebDriverWait(self.driver, timeout).until(
+            lambda driver: driver.execute_script(
+                """
+                const tabTarget = arguments[0];
+                const expectedText = arguments[1];
+                const tab = Array.from(
+                    document.querySelectorAll(
+                        '[data-bs-toggle="tab"][data-bs-target]',
+                    ),
+                ).find(
+                    (element) =>
+                        element.getAttribute("data-bs-target") === tabTarget,
+                );
+                const content = document.querySelector(tabTarget);
+                if (!tab || !content || typeof window.jQuery === "undefined") {
+                    return false;
+                }
+                const text = content.textContent || "";
+                return Boolean(window.jQuery(tab).data("loaded")) &&
+                    !text.includes("Loading") &&
+                    text.includes(expectedText);
+                """,
+                tab_target,
+                expected_text,
+            )
+        )
+
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
         self.scroll_top()
@@ -271,6 +305,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Get screenshot
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
+        )
+
+    def use_live_server_widget_preview(self) -> None:
+        """Load widget preview from the live server while displaying public URLs."""
+        protocol = "https" if settings.ENABLE_HTTPS else "http"
+        display_site_url = f"{protocol}://{SCREENSHOT_SITE_DOMAIN}"
+        self.driver.execute_script(
+            """
+            const image = document.getElementById("widget-image");
+            if (image !== null) {
+                image.src = image.src.replace(arguments[0], arguments[1]);
+            }
+            """,
+            display_site_url,
+            self.live_server_url,
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                """
+                const image = document.getElementById("widget-image");
+                return image === null || (image.complete && image.naturalWidth > 0);
+                """
+            )
         )
 
     def click(self, element: WebElement | str = "", htmlid: str | None = None) -> None:
@@ -1208,12 +1265,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("WeblateOrg")
 
         # Engage page
+        project = Project.objects.get(slug="weblateorg")
         self.click("Community")
+        with override_settings(SITE_DOMAIN=SCREENSHOT_SITE_DOMAIN):
+            with self.wait_for_page_load():
+                self.click("Status widgets")
+            self.use_live_server_widget_preview()
+            self.screenshot("promote.png")
         with self.wait_for_page_load():
-            self.click("Status widgets")
-        self.screenshot("promote.png")
-        with self.wait_for_page_load():
-            self.click(htmlid="engage-link")
+            self.driver.get(
+                f"{self.live_server_url}"
+                f"{reverse('engage', kwargs={'path': project.get_url_path()})}"
+            )
         self.screenshot("engage.png")
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
@@ -1225,7 +1288,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Repository
         self.click("Operations")
         self.click("Repository maintenance")
-        time.sleep(0.2)
+        self.wait_for_ajax_tab("#repository", "Repository status")
         self.click("Operations")
         self.screenshot("component-repository.png")
 
@@ -1570,24 +1633,39 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("font-group-list.png")
 
     def test_backup(self) -> None:
+        fixed_timestamp = datetime(2026, 1, 6, 12, 0, tzinfo=UTC)
+        display_repository = "ssh://weblate@backup.example.com/backups"
+        display_passphrase = "example-backup-passphrase-for-screenshot-2026"
+
         self.create_temp()
         self.addCleanup(self.remove_temp)
-        self.open_manage()
-        with self.wait_for_page_load():
-            self.click("Backups")
-        element = self.driver.find_element(By.ID, "id_repository")
-        element.send_keys(self.tempdir)
-        with self.wait_for_page_load():
-            element.submit()
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.NAME, "trigger"))
-        self.click(
-            self.driver.find_element(
-                By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
+        with patch("django.utils.timezone.now", return_value=fixed_timestamp):
+            self.open_manage()
+            with self.wait_for_page_load():
+                self.click("Backups")
+            element = self.driver.find_element(By.ID, "id_repository")
+            element.send_keys(self.tempdir)
+            with self.wait_for_page_load():
+                element.submit()
+            with self.wait_for_page_load():
+                self.click(self.driver.find_element(By.NAME, "trigger"))
+
+            service = BackupService.objects.get()
+            service.repository = display_repository
+            service.passphrase = display_passphrase
+            service.timestamp = fixed_timestamp
+            service.save(update_fields=("repository", "passphrase", "timestamp"))
+            service.backuplog_set.update(timestamp=fixed_timestamp)
+
+            with self.wait_for_page_load():
+                self.driver.refresh()
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
+                )
             )
-        )
-        time.sleep(0.2)
-        self.screenshot("backups.png")
+            time.sleep(0.2)
+            self.screenshot("backups.png")
         SupportStatus.objects.create(secret="123", name="community")
         with self.wait_for_page_load():
             self.click("Weblate status")
