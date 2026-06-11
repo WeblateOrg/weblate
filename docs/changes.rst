@@ -22,6 +22,7 @@ Weblate 2026.7
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
 * Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
 * Project and workspace translation license defaults now follow component and project licenses more closely.
+* Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
 
 .. rubric:: Compatibility
 

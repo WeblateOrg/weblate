@@ -1308,7 +1308,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             )
             self.populate_from_component_input_defaults(data, source_component)
         # Provide a reasonable default
-        if "manage_units" not in data and data.get("template"):
+        if "manage_units" not in data and data.get("template") and not self.partial:
             data["manage_units"] = "1"
 
         # File uploads indicate usage of a local repo
@@ -1339,7 +1339,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["project"] = self.instance.project
 
         # Workaround for https://github.com/encode/django-rest-framework/issues/7489
-        if "category" not in result:
+        if "category" not in result and not self.partial:
             result["category"] = None
 
         if source_component is not None:
@@ -2447,6 +2447,7 @@ class CategorySerializer(RemovableSerializer[Category]):
         view_name="api:category-detail",
         queryset=Category.objects.none(),
         required=False,
+        allow_null=True,
     )
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:category-statistics",
@@ -2600,7 +2601,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             result["project"] = self.instance.project
 
         # Workaround for https://github.com/encode/django-rest-framework/issues/7489
-        if "category" not in result:
+        if "category" not in result and not self.partial:
             result["category"] = None
         return result
 
