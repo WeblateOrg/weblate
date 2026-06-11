@@ -21,6 +21,7 @@ Weblate 2026.7
 
 .. rubric:: Bug fixes
 
+* Scoped team assignments can no longer be expanded through the API.
 * TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
 * :ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
