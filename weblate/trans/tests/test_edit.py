@@ -1514,6 +1514,30 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.target, "")
         self.assertEqual(unit.state, STATE_EMPTY)
 
+    def test_revert_invalid_old_state(self) -> None:
+        source = "Hello, world!\n"
+        target = "Nazdar svete!\n"
+        self.edit_unit(source, target)
+        unit = self.get_unit(source)
+        change = Change.objects.content().filter(unit=unit).order()[0]
+        change.details["old_state"] = -1
+        change.save(update_fields=["details"])
+
+        self.assertFalse(change.can_revert())
+        self.assertIsNone(change.get_revert_state())
+        self.assertFalse(change.revert(self.user))
+
+        response = self.client.get(
+            self.translate_url,
+            {"checksum": unit.checksum, "revert": change.id},
+            follow=True,
+        )
+
+        self.assertContains(response, "Could not find the reverted change.")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, target)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
     def test_revert_restores_old_state(self) -> None:
         source = "Hello, world!\n"
         original = "Nazdar svete!\n"
