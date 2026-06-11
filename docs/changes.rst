@@ -17,6 +17,7 @@ Weblate 2026.7
 * :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
 * :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
 * LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
+* Improved bidirectional text handling for RTL translation display and editor previews.
 
 .. rubric:: Bug fixes
 
