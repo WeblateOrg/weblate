@@ -509,7 +509,7 @@ def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show component alerts."""
     context = {
         "alerts": Alert.objects.filter(severity__gte=AlertSeverity.ERROR)
-        .order_by("name", "component__project__name", "component__name")
+        .order()
         .select_related("component", "component__project"),
         "no_components": Project.objects.filter(component__isnull=True),
         "menu_items": MENU,
