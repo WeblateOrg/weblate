@@ -72,6 +72,7 @@ from weblate.machinery.llm import (
     PROMPT,
 )
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
+from weblate.machinery.mistral import MistralTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
@@ -3238,10 +3239,10 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "gpt-5-nano",
+                        "id": OpenAITranslationTest.TRACE_MODEL,
                         "object": "model",
                         "created": 1686935002,
-                        "owned_by": "openai",
+                        "owned_by": "test",
                     }
                 ],
             },
@@ -5183,10 +5184,10 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "gpt-5-nano",
+                        "id": self.TRACE_MODEL,
                         "object": "model",
                         "created": 1686935002,
-                        "owned_by": "openai",
+                        "owned_by": "test",
                     }
                 ],
             },
@@ -5274,10 +5275,10 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "gpt-5-nano",
+                        "id": self.TRACE_MODEL,
                         "object": "model",
                         "created": 1686935002,
-                        "owned_by": "openai",
+                        "owned_by": "test",
                     }
                 ],
             },
@@ -5294,10 +5295,121 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 },
             ),
         ):
-            self.assertEqual(machine.get_model(), "gpt-5-nano")
+            self.assertEqual(machine.get_model(), self.TRACE_MODEL)
 
         mocked_getaddrinfo.assert_not_called()
         self.assertEqual(len(responses.calls), 1)
+
+
+class MistralTranslationTest(OpenAITranslationTest):
+    MACHINE_CLS: type[BatchMachineTranslation] = MistralTranslation
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+    }
+    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+
+    @staticmethod
+    def mock_models() -> None:
+        responses.add(
+            responses.GET,
+            "https://api.mistral.ai/v1/models",
+            json={
+                "object": "list",
+                "data": [
+                    {
+                        "id": "mistral-small-latest",
+                        "object": "model",
+                        "created": 1686935002,
+                        "owned_by": "mistral",
+                    }
+                ],
+            },
+        )
+
+    def mock_response(self, content: str = '["Ahoj světe"]') -> None:
+        self.mock_models()
+        responses.add(
+            responses.POST,
+            "https://api.mistral.ai/v1/chat/completions",
+            json={
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "mistral-small-latest",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": content,
+                        },
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 9,
+                    "completion_tokens": 12,
+                    "total_tokens": 21,
+                },
+            },
+        )
+
+
+class MistralCustomTranslationTest(OpenAICustomTranslationTest):
+    MACHINE_CLS: type[BatchMachineTranslation] = MistralTranslation
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+        "base_url": "https://custom.example.com/",
+    }
+    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+
+    def mock_response(self, content: str = '["Ahoj světe"]') -> None:
+        responses.add(
+            responses.GET,
+            "https://custom.example.com/models",
+            json={
+                "object": "list",
+                "data": [
+                    {
+                        "id": "mistral-small-latest",
+                        "object": "model",
+                        "created": 1686935002,
+                        "owned_by": "mistral",
+                    }
+                ],
+            },
+        )
+        responses.add(
+            responses.POST,
+            "https://custom.example.com/chat/completions",
+            json={
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "mistral-small-latest",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": content,
+                        },
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 9,
+                    "completion_tokens": 12,
+                    "total_tokens": 21,
+                },
+            },
+        )
 
 
 class AzureOpenAITranslationTest(OpenAITranslationTest):
@@ -6327,6 +6439,7 @@ class MachineryValidationTest(TestCase):
             LibreTranslateTranslation,
             LTEngineTranslation,
             MicrosoftCognitiveTranslation,
+            MistralTranslation,
             ModernMTTranslation,
             MyMemoryTranslation,
             NeteaseSightTranslation,
