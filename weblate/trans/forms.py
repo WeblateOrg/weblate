@@ -1469,7 +1469,7 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         kwargs["initial"] = {"labels": list(instance.all_labels)}
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
-        self.fields["labels"].queryset = project.label_set.all()
+        self.fields["labels"].queryset = project.label_set.order()
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -3523,7 +3523,10 @@ class ProjectCreateForm(
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "instructions", "workspace")
+        fields = ("name", "slug", "web", "instructions", "license", "workspace")
+        widgets = {  # noqa: RUF012
+            "license": SearchableSelect,
+        }
 
 
 class ProjectImportCreateForm(ProjectCreateForm):
@@ -3935,7 +3938,7 @@ class BulkEditForm(forms.Form):
             # Labels are project-scoped, so non-project bulk edit scopes do not
             # offer label operations to avoid applying labels across projects.
             labels = (
-                Label.objects.none() if project is None else project.label_set.all()
+                Label.objects.none() if project is None else project.label_set.order()
             )
         if labels:
             self.fields["remove_labels"].queryset = labels

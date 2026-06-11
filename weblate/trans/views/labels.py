@@ -45,7 +45,7 @@ def project_labels(request: AuthenticatedHttpRequest, project):
             "object": obj,
             "project": obj,
             "form": form,
-            "labels": obj.label_set.annotate(string_count=Count("unit__id")),
+            "labels": obj.label_set.annotate(string_count=Count("unit__id")).order(),
         },
     )
 

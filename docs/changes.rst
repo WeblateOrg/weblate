@@ -11,12 +11,15 @@ Weblate 2026.7
 * Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
+* :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
+* LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
 
 .. rubric:: Bug fixes
 
 * TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
 * Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
+* Project and workspace translation license defaults now follow component and project licenses more closely.
 
 .. rubric:: Compatibility
 
