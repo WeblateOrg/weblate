@@ -1695,34 +1695,48 @@ class GettextAddonTest(ViewTestCase):
         )
 
     def test_xgettext_without_language_omits_language_argument(self) -> None:
-        source = Path(self.component.full_path) / "src" / "messages.py"
-        source.parent.mkdir(parents=True, exist_ok=True)
-        source.write_text(
-            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
-        )
-        addon = XgettextAddon.create(
-            component=self.component,
-            run=False,
-            configuration={
+        for configuration in (
+            {
                 "interval": "weekly",
                 "update_po_files": False,
                 "language": "",
                 "source_patterns": ["src/*.py"],
             },
-        )
-
-        with (
-            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
-            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+            {
+                "interval": "weekly",
+                "update_po_files": False,
+                "source_patterns": ["src/*.py"],
+            },
         ):
-            addon.update_translations(self.component, "")
+            with self.subTest(configuration=configuration):
+                source = Path(self.component.full_path) / "src" / "messages.py"
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_text(
+                    'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+                )
+                addon = XgettextAddon.create(
+                    component=self.component,
+                    run=False,
+                    configuration=configuration,
+                )
 
-        mocked.assert_called_once()
-        command = mocked.call_args.args[1]
-        self.assertEqual(command[:3], ["xgettext", "--output", "po/hello.pot"])
-        self.assertNotIn("--language", command)
-        self.assertIn("--from-code=UTF-8", command)
-        self.assertIn("src/messages.py", command)
+                with (
+                    patch.object(
+                        XgettextAddon, "run_process", return_value=""
+                    ) as mocked,
+                    patch.object(
+                        XgettextAddon, "validate_repository_tree", return_value=True
+                    ),
+                ):
+                    addon.update_translations(self.component, "")
+
+                mocked.assert_called_once()
+                command = mocked.call_args.args[1]
+                self.assertEqual(command[:3], ["xgettext", "--output", "po/hello.pot"])
+                self.assertNotIn("--language", command)
+                self.assertIn("--from-code=UTF-8", command)
+                self.assertIn("src/messages.py", command)
+                addon.instance.delete()
 
     def test_xgettext_uses_potfiles_manifest(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"
