@@ -52,7 +52,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-11 05:14+0200\n"
-"PO-Revision-Date: 2026-06-05 07:59+0000\n"
+"PO-Revision-Date: 2026-06-12 02:17+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -62,7 +62,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:240
@@ -16206,15 +16206,6 @@ msgid "LLM translation context"
 msgstr "Контекст перевода LLM"
 
 #: admin/machine.rst:69
-#, fuzzy
-#| msgid ""
-#| "LLM-based automatic suggestion services receive additional context about "
-#| "each translated string, when available. This includes the string context "
-#| "or monolingual key, additional explanation, configured secondary-language "
-#| "translation, plural information, failing quality checks, and placeholder "
-#| "contents. The added metadata is used only to guide the generated "
-#| "suggestion; the returned translation still has to preserve the source "
-#| "placeholders and markup."
 msgid ""
 "LLM-based automatic suggestion services receive additional context about "
 "each translated string, when available. This includes the string context or "
@@ -16227,10 +16218,9 @@ msgstr ""
 "контекст о каждой переводимой строке, когда он доступен. Это включает "
 "контекст строки или одноязычный ключ, дополнительное пояснение, настроенный "
 "перевод на втором языке, информацию о множественном числе, непройденные "
-"проверки качества и содержимое заполнителей. Добавленные метаданные "
-"используются только для направления сгенерированного предложения; "
-"возвращаемый перевод по-прежнему должен сохранять исходные заполнители и "
-"разметку."
+"проверки качества и содержимое заполнителей. Соответствующие записи словаря "
+"передаются со своими пояснениями и выбранными флагами, что позволяет "
+"устранять неоднозначность дублирующихся терминов словаря."
 
 #: admin/machine.rst:76
 msgid ""
@@ -16241,6 +16231,12 @@ msgid ""
 "first looks for the exact target language code and then falls back to the "
 "base language code."
 msgstr ""
+"Вы можете добавлять инструкции для конкретного целевого языка в "
+":guilabel:`Инструкции для конкретного языка` с помощью JSON-объекта, "
+"сопоставляющего коды языков с текстом. Коды языков должны существовать в "
+"Weblate и сопоставляются точно; пробелы не игнорируются. Каждая инструкция "
+"может содержать до 1000 символов. Weblate сначала ищет точный код целевого "
+"языка, а затем использует базовый код языка."
 
 #: admin/machine.rst:83
 msgid ""
@@ -16252,6 +16248,15 @@ msgid ""
 "or language-neutral formatting examples otherwise. Existing translations for "
 "the same target language can be appended as additional examples."
 msgstr ""
+"Добавленные метаданные используются только для направления сгенерированного "
+"предложения; возвращаемый перевод по-прежнему должен сохранять исходные "
+"заполнители и разметку. Weblate также отправляет краткий предыдущий обмен "
+"сообщениями службам LLM, чтобы продемонстрировать ожидаемый формат ответа "
+"JSON. Этот обмен использует встроенные переведённые примеры, когда они "
+"доступны для пары исходный-целевой язык, или нейтральные с точки зрения "
+"языка примеры форматирования в противном случае. Существующие переводы для "
+"того же целевого языка могут быть добавлены в качестве дополнительных "
+"примеров."
 
 #: admin/machine.rst:97
 msgid "Custom machine translation"
@@ -22305,21 +22310,21 @@ msgstr ""
 "юридических страниц или отключения нумерации документов."
 
 #: changes.rst:13
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.git.squash` better handle commits applied upstream."
 msgid ""
 ":ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file "
 "presence."
 msgstr ""
-":ref:`addon-weblate.git.squash` лучше обрабатывает коммиты, применённые "
-"вышестоящим репозиторием."
+":ref:`addon-weblate.gettext.linguas` лучше определяет наличие файла "
+"``LINGUAS``."
 
 #: changes.rst:14
 msgid ""
 "LLM automatic suggestions now use translated examples, language-specific "
 "instructions, and richer glossary context for more reliable output."
 msgstr ""
+"Автоматические предложения LLM теперь используют переведённые примеры, "
+"инструкции для конкретного языка и более богатый контекст словаря для более "
+"надёжного результата."
 
 #: changes.rst:17 changes.rst:40 changes.rst:77 changes.rst:140
 #: changes/v5.rst:36 changes/v5.rst:144 changes/v5.rst:213 changes/v5.rst:248
@@ -22349,6 +22354,8 @@ msgid ""
 "TBX glossary files no longer duplicate terms when repeated pending add "
 "operations are saved."
 msgstr ""
+"Файлы словаря TBX больше не дублируют термины при сохранении повторяющихся "
+"ожидающих операций добавления."
 
 #: changes.rst:19
 msgid ""
@@ -22359,16 +22366,12 @@ msgstr ""
 "строгое и отображается в диагностике компонентов."
 
 #: changes.rst:20
-#, fuzzy
-#| msgid ""
-#| "Component updates no longer time out waiting on their own repository lock "
-#| "during validation."
 msgid ""
 "Creating components linked with ``weblate://`` no longer waits on the shared "
 "repository lock during the request."
 msgstr ""
-"Обновления компонентов больше не истекают по тайм-ауту в ожидании "
-"собственной блокировки репозитория во время проверки."
+"Создание компонентов, связанных с помощью ``weblate://``, больше не ожидает "
+"освобождения общей блокировки репозитория во время запроса."
 
 #: changes.rst:23 changes.rst:156 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -62665,10 +62668,8 @@ msgstr "Опишите стиль перевода. Например: «Испо
 #: snippets/machines-autogenerated.rst:219
 #: snippets/machines-autogenerated.rst:839
 #: snippets/machines-autogenerated.rst:931
-#, fuzzy
-#| msgid "Version-specific instructions"
 msgid "Language-specific instructions"
-msgstr "Инструкции для конкретных версий"
+msgstr "Инструкции для конкретного языка"
 
 #: snippets/machines-autogenerated.rst:78
 #: snippets/machines-autogenerated.rst:219
@@ -62678,6 +62679,8 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to 1000 characters each."
 msgstr ""
+"JSON-объект, сопоставляющий существующие коды целевого языка с "
+"дополнительными инструкциями, каждая до 1000 символов."
 
 #: snippets/machines-autogenerated.rst:82
 #: snippets/machines-autogenerated.rst:935
@@ -65349,6 +65352,9 @@ msgid ""
 "terms. LLM-based services can receive duplicates with explanations to "
 "disambiguate them."
 msgstr ""
+"Дублирующиеся исходные записи пропускаются для служб, которые требуют "
+"уникальных исходных терминов. Службы на основе LLM могут получать дубликаты "
+"с пояснениями для устранения неоднозначности."
 
 #: user/glossary.rst:154
 msgid ""
