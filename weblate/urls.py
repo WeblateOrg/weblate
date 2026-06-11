@@ -793,6 +793,11 @@ real_patterns = [
     ),
     path("js/matomo/", weblate.trans.views.js.matomo, name="js-matomo"),
     path(
+        "js/flags/",
+        weblate.trans.views.js.flag_choices,
+        name="js-flag-choices",
+    ),
+    path(
         "js/translate/<name:service>/<int:unit_id>/",
         weblate.machinery.views.translate,
         name="js-translate",

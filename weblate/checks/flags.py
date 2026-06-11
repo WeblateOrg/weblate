@@ -12,7 +12,7 @@ from functools import lru_cache
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import get_language, gettext, gettext_lazy
 from lxml import etree
 
 from weblate.checks.models import CHECKS
@@ -452,3 +452,131 @@ class FlagsValidator(Flags):
 
 
 FlagInput = str | etree._Element | Flags | FlagItems | None  # noqa: SLF001
+
+
+# Categories used by the UI flag editor
+FLAG_CATEGORY_FORMAT: StrOrPromise = gettext_lazy("Format")
+FLAG_CATEGORY_BEHAVIOR: StrOrPromise = gettext_lazy("Translation behavior")
+FLAG_CATEGORY_VALIDATION: StrOrPromise = gettext_lazy("Validation")
+FLAG_CATEGORY_RENDERING: StrOrPromise = gettext_lazy("Rendering")
+FLAG_CATEGORY_ICU: StrOrPromise = gettext_lazy("ICU MessageFormat")
+FLAG_CATEGORY_DISABLE: StrOrPromise = gettext_lazy("Disabled check")
+FLAG_CATEGORY_AUTO: StrOrPromise = gettext_lazy("Automatic detection")
+FLAG_CATEGORY_OTHER: StrOrPromise = gettext_lazy("Other")
+
+# Explicit overrides for flags whose name doesn't make the category obvious.
+_FLAG_CATEGORIES: dict[str, StrOrPromise] = {
+    "rst-text": FLAG_CATEGORY_FORMAT,
+    "md-text": FLAG_CATEGORY_FORMAT,
+    "xml-text": FLAG_CATEGORY_FORMAT,
+    "url": FLAG_CATEGORY_FORMAT,
+    "read-only": FLAG_CATEGORY_BEHAVIOR,
+    "forbidden": FLAG_CATEGORY_BEHAVIOR,
+    "terminology": FLAG_CATEGORY_BEHAVIOR,
+    "case-insensitive": FLAG_CATEGORY_BEHAVIOR,
+    "strict-same": FLAG_CATEGORY_BEHAVIOR,
+    "strict-format": FLAG_CATEGORY_BEHAVIOR,
+    "ignore-all-checks": FLAG_CATEGORY_BEHAVIOR,
+    "priority": FLAG_CATEGORY_BEHAVIOR,
+    "replacements": FLAG_CATEGORY_BEHAVIOR,
+    "variant": FLAG_CATEGORY_BEHAVIOR,
+    "fluent-type": FLAG_CATEGORY_BEHAVIOR,
+    "max-length": FLAG_CATEGORY_VALIDATION,
+    "max-size": FLAG_CATEGORY_VALIDATION,
+    "check-glossary": FLAG_CATEGORY_VALIDATION,
+    "font-family": FLAG_CATEGORY_RENDERING,
+    "font-size": FLAG_CATEGORY_RENDERING,
+    "font-weight": FLAG_CATEGORY_RENDERING,
+    "font-spacing": FLAG_CATEGORY_RENDERING,
+    "icu-flags": FLAG_CATEGORY_ICU,
+    "icu-tag-prefix": FLAG_CATEGORY_ICU,
+    DISCARD_FLAG: FLAG_CATEGORY_OTHER,
+}
+
+
+def _category_for_check_flag(name: str, *, has_value: bool) -> StrOrPromise:
+    """Pick a sensible category for a flag derived from a check."""
+    if has_value:
+        return FLAG_CATEGORY_VALIDATION
+    if name.endswith(("-format", "-text", "-interpolation", "-placeholders")):
+        return FLAG_CATEGORY_FORMAT
+    if name in {"url", "safe-html", "bbcode-text"} or name.startswith("fluent-"):
+        return FLAG_CATEGORY_FORMAT
+    return FLAG_CATEGORY_OTHER
+
+
+def _flag_choice(
+    name: str,
+    label: StrOrPromise,
+    *,
+    category: StrOrPromise,
+    has_value: bool,
+) -> dict[str, str | bool]:
+    return {
+        "name": name,
+        "label": str(label),
+        "category": str(category),
+        "has_value": has_value,
+    }
+
+
+@lru_cache(maxsize=16)
+def _get_flag_choices_for_language(
+    language: str | None,
+) -> tuple[dict[str, str | bool], ...]:
+    """Build the flag catalog with labels resolved in the current language."""
+    choices: list[dict[str, str | bool]] = []
+    seen: set[str] = set()
+    enable_strings = {check.enable_string for check in CHECKS.values()}
+
+    def add(
+        name: str, label: StrOrPromise, category: StrOrPromise, has_value: bool
+    ) -> None:
+        if name in seen:
+            return
+        seen.add(name)
+        choices.append(
+            _flag_choice(name, label, category=category, has_value=has_value)
+        )
+
+    for name, label in PLAIN_FLAGS.items():
+        if name in _FLAG_CATEGORIES:
+            category: StrOrPromise = _FLAG_CATEGORIES[name]
+        elif name in enable_strings:
+            category = _category_for_check_flag(name, has_value=False)
+        else:
+            category = FLAG_CATEGORY_AUTO
+        add(name, label, category, has_value=False)
+
+    for name, label in TYPED_FLAGS.items():
+        if name in _FLAG_CATEGORIES:
+            category = _FLAG_CATEGORIES[name]
+        elif name in enable_strings:
+            category = _category_for_check_flag(name, has_value=True)
+        else:
+            category = FLAG_CATEGORY_OTHER
+        add(name, label, category, has_value=True)
+
+    for check in CHECKS.values():
+        add(check.ignore_string, check.name, FLAG_CATEGORY_DISABLE, has_value=False)
+    for ignore_string in AUTOFIXES.get_ignore_strings():
+        add(ignore_string, ignore_string, FLAG_CATEGORY_DISABLE, has_value=False)
+
+    return tuple(choices)
+
+
+def get_flag_choices() -> tuple[dict[str, str | bool], ...]:
+    """
+    Return catalog of all known flags for the UI flag editor.
+
+    The result is cached per active language so that ``gettext_lazy`` labels
+    and category names are resolved against the caller's locale rather than
+    whichever language happened to be active on the first call.
+
+    Each entry contains:
+    - ``name``: the actual flag identifier as used in the flag string
+    - ``label``: human-readable description
+    - ``category``: localized category for grouping in the UI
+    - ``has_value``: ``True`` when the flag requires a colon-separated value
+    """
+    return _get_flag_choices_for_language(get_language())
