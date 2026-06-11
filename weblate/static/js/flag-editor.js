@@ -16,7 +16,7 @@
         .then((response) => (response.ok ? response.json() : { choices: [] }))
         .then((data) => data.choices || [])
         .catch(() => []);
-        flagChoicesPromises.set(url, promise);
+      flagChoicesPromises.set(url, promise);
     }
     return flagChoicesPromises.get(url);
   }
@@ -47,8 +47,8 @@
         } else if (quoteChar === ch) {
           quoteChar = null;
         }
-      current += ch;
-      continue;
+        current += ch;
+        continue;
       }
       if (ch === "," && quoteChar === null) {
         const trimmed = current.trim();
