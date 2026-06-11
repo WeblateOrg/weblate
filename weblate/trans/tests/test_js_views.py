@@ -6,6 +6,7 @@
 
 from django.urls import reverse
 
+from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
@@ -39,3 +40,14 @@ class JSViewsTest(FixtureTestCase):
         response = self.client.get(reverse("js-flag-choices"), {"lang": "cs"})
         self.assertEqual(response.status_code, 200)
         self.assertIn("private", response.get("Cache-Control", ""))
+
+    def test_get_unit_translations_hides_private_unit(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.user.clear_cache()
+
+        unit = self.get_unit()
+        response = self.client.get(
+            reverse("js-unit-translations", kwargs={"unit_id": unit.id})
+        )
+        self.assertEqual(response.status_code, 404)

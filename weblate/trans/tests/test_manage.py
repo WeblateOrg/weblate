@@ -603,7 +603,31 @@ class AnnouncementTest(AnnouncementPermissionTestCase):
 
     def test_delete_deny(self) -> None:
         message = Announcement.objects.create(message="test")
-        self.client.post(reverse("announcement-delete", kwargs={"pk": message.pk}))
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": message.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Announcement.objects.count(), 1)
+
+    def test_delete_hides_private_announcement(self) -> None:
+        private_project = self.create_project(
+            name="Private announcement",
+            slug="private-announcement",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-announcement"
+        )
+        announcement = Announcement.objects.create(
+            project=private_project,
+            component=private_component,
+            message="Hidden announcement",
+        )
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 404)
         self.assertEqual(Announcement.objects.count(), 1)
 
 

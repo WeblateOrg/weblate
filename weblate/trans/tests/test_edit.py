@@ -15,7 +15,8 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
-from weblate.auth.models import setup_project_groups
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, UserBlock, setup_project_groups
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
@@ -404,6 +405,51 @@ class EditTest(ViewTestCase):
 
         unit = self.get_unit(self.source)
         self.assertTrue(unit.automatically_translated)
+
+
+class EditAccessTest(ViewTestCase):
+    def assert_unit_action_urls_not_found(self, unit: Unit) -> None:
+        check = Check.objects.create(unit=unit, name="same")
+
+        urls = (
+            reverse("js-dismiss-automatically-translated", kwargs={"unit_id": unit.pk}),
+            reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk}),
+            reverse("js-ignore-check", kwargs={"check_id": check.pk}),
+            reverse("js-ignore-check-source", kwargs={"check_id": check.pk}),
+        )
+        for url in urls:
+            response = self.client.post(url)
+            self.assertEqual(response.status_code, 404)
+
+    def test_private_unit_actions_return_not_found(self) -> None:
+        private_project = self.create_project(
+            name="Private edit",
+            slug="private-edit",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(project=private_project, name="private-edit")
+        private_translation = private_component.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=private_translation)
+
+        self.assert_unit_action_urls_not_found(unit)
+
+    def test_blocked_project_unit_actions_return_not_found(self) -> None:
+        group = Group.objects.create(
+            name="All projects edit", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        private_project = self.create_project(
+            name="Blocked edit",
+            slug="blocked-edit",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(project=private_project, name="blocked-edit")
+        private_translation = private_component.translation_set.get(language_code="cs")
+        unit = self.get_unit("Hello, world!\n", translation=private_translation)
+        UserBlock.objects.create(user=self.user, project=private_project)
+        self.user.clear_cache()
+
+        self.assert_unit_action_urls_not_found(unit)
 
 
 class EditValidationTest(ViewTestCase):
