@@ -795,8 +795,9 @@ class GitRepository(Repository):
                 remote_op="pull",
             )
         # Remove possible stale branches
+        local_branch = self.get_local_branch_name()
         for branch in self.list_branches():
-            if branch != self.branch:
+            if branch != local_branch:
                 self.execute(
                     ["branch", "--delete", "--force", branch], remote_op="none"
                 )
@@ -824,6 +825,9 @@ class GitRepository(Repository):
             line.split("\t", 1)[1].removeprefix("refs/heads/").strip()
             for line in branches.splitlines()
         ]
+
+    def get_local_branch_name(self) -> str:
+        return self.branch
 
     def update_remote(self) -> None:
         """Update remote repository."""
@@ -884,7 +888,6 @@ class GitWithGerritRepository(GitRepository):
         "This will push changes to Gerrit for a review."
     )
     pushes_to_different_location: ClassVar[bool] = True
-    BRANCH_OPTION_DELIMITERS: ClassVar[frozenset[str]] = frozenset({"%", ","})
 
     _version: ClassVar[str | None] = None
 
@@ -894,18 +897,22 @@ class GitWithGerritRepository(GitRepository):
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
     @classmethod
+    def validate_review_target(cls, branch: str) -> str:
+        """Validate Gerrit review target, including optional push options."""
+        review_target = super().validate_branch_name(branch)
+        super().validate_branch_name(review_target.split("%", 1)[0])
+        return review_target
+
+    @classmethod
     def validate_branch_name(cls, branch: str) -> str:
-        branch = super().validate_branch_name(branch)
-        if cls.BRANCH_OPTION_DELIMITERS.intersection(branch):
-            raise RepositoryError(
-                0,
-                gettext(
-                    "Gerrit branch names cannot contain %(chars)s because Gerrit "
-                    "interprets them as review push options."
-                )
-                % {"chars": "'%' or ','"},
-            )
-        return branch
+        """Validate Gerrit branch name without optional push options."""
+        review_target = cls.validate_review_target(branch)
+        return super().validate_branch_name(review_target.split("%", 1)[0])
+
+    @classmethod
+    def get_gerrit_branch_name(cls, branch: str) -> str:
+        """Return actual branch name from Gerrit review target."""
+        return cls.validate_branch_name(branch)
 
     def get_username_from_url(self, url) -> str:
         if url is not None:
@@ -919,11 +926,26 @@ class GitWithGerritRepository(GitRepository):
         return ""
 
     def get_gerrit_fetch_refspec(self, branch: str) -> str:
-        branch = self.validate_branch_name(branch)
+        branch = self.get_gerrit_branch_name(branch)
         return dumps(
             f"+refs/heads/{branch}:refs/remotes/gerrit/{branch}",
             ensure_ascii=False,
         )
+
+    def get_remote_branch_name(self, branch: str | None = None) -> str:
+        branch_name = self.get_gerrit_branch_name(branch or self.branch)
+        return f"origin/{branch_name}"
+
+    def get_local_branch_name(self) -> str:
+        return self.get_gerrit_branch_name(self.branch)
+
+    def checkout_with_temp_cleanup(self, branch: str) -> None:
+        super().checkout_with_temp_cleanup(self.get_gerrit_branch_name(branch))
+
+    def configure_branch(self, branch) -> None:
+        review_target = self.validate_review_target(branch)
+        super().configure_branch(branch)
+        self.branch = review_target
 
     def configure_gerrit_target_branch(self, branch: str) -> None:
         self.config_update(
@@ -932,7 +954,7 @@ class GitWithGerritRepository(GitRepository):
         )
 
     def push(self, branch) -> None:
-        target_branch = self.validate_branch_name(branch or self.branch)
+        target_branch = self.validate_review_target(branch or self.branch)
         if self.needs_push(branch):
             self.configure_gerrit_target_branch(target_branch)
             try:
