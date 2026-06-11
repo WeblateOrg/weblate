@@ -3345,7 +3345,7 @@ update individual repositories; see
 
         :ref:`Gitee notifications <code-hosting-gitee-notifications>`
             For instruction on setting up Gitee integration
-        https://gitee.com/help/categories/40
+        https://help.gitee.com/webhook
             Generic information about Gitee Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
