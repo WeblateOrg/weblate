@@ -148,7 +148,9 @@ please consult their documentation in :doc:`/admin/machine` to see the support.
 
 The glossary is processed before exposed to the service:
 
-* Duplicate source entries are not allowed, any additional entries with the same source are skipped.
+* Duplicate source entries are skipped for services that require unique source
+  terms. LLM-based services can receive duplicates with explanations to
+  disambiguate them.
 * Any control characters and leading and trailing whitespace are stripped.
 * :ref:`glossary-forbidden` are skipped.
 

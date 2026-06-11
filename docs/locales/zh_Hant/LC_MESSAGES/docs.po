@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-04 05:45+0200\n"
-"PO-Revision-Date: 2026-06-10 07:54+0000\n"
+"PO-Revision-Date: 2026-06-10 12:55+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -31053,6 +31053,8 @@ msgid ""
 "toasts, with higher-contrast dark theme colors for Bootstrap subtle and "
 "emphasis variants."
 msgstr ""
+"JavaScript 觸發的用戶端彈出通知現已改用 Bootstrap Toasts，並為 Bootstrap 的 "
+"subtle 與 emphasis 樣式變體採用對比度更高的深色主題配色。"
 
 #: changes/v5.rst:32
 msgid ""
@@ -31108,7 +31110,7 @@ msgstr "略過“ Markdown 引用”品質檢查。"
 msgid ""
 "The :ref:`addons-api` now validates required add-on configuration when "
 "installing add-ons."
-msgstr ":ref:`addons-api` 現在會於安裝附加元件時驗證其需要的配置。"
+msgstr ":ref:`addons-api` 現在會於安裝時驗證其需要的配置。"
 
 #: changes/v5.rst:44
 msgid ""
@@ -31117,12 +31119,10 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:45
-#, fuzzy
-#| msgid "Skip the \"Punctuation spacing\" quality check."
 msgid ""
 ":ref:`check-punctuation-spacing` check no longer triggers false positives "
 "for placeholders."
-msgstr "略過“標點間距”品質檢查。"
+msgstr ":ref:`check-punctuation-spacing` 不再對佔位字元觸發誤報。"
 
 #: changes/v5.rst:46
 msgid ""
@@ -31153,7 +31153,7 @@ msgstr ""
 msgid ""
 ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
 "PostgreSQL searches."
-msgstr ":ref:`mt-weblate-translation-memory` 自動翻譯避免大範圍 PostgreSQL 搜尋。"
+msgstr ":ref:`mt-weblate-translation-memory` 自動翻譯避免了大範圍 PostgreSQL 搜尋。"
 
 #: changes/v5.rst:51
 msgid "Malformed IPv6 repository URLs no longer crash SSH host key detection."
@@ -31249,6 +31249,8 @@ msgid ""
 "reject URLs whose hostnames cannot be resolved during validation unless the "
 "host is explicitly allowed."
 msgstr ""
+":setting:`VCS_RESTRICT_PRIVATE` 與 :setting:`WEBHOOK_RESTRICT_PRIVATE` 現在會"
+"拒絕驗證期間無法被解析的主機名稱，除非主機被明確允許。"
 
 #: changes/v5.rst:69
 msgid ""
@@ -47117,16 +47119,14 @@ msgid ""
 msgstr ""
 
 #: security/index.rst:2
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Security, privacy and compliance"
-msgstr "安全政策"
+msgstr "安全 、 隱私與法規遵循"
 
 #: security/index.rst:6
 msgid ""
 "At Weblate, security maintains an environment that values the privacy of our "
 "users."
-msgstr "Weblate 以安全為根本，努力維護重視使用者隱私的環境。"
+msgstr "Weblate 致力於維護安全，打造重視使用者隱私的環境。"
 
 #: security/index.rst:8
 #, fuzzy
@@ -47142,7 +47142,7 @@ msgstr ""
 
 #: security/index.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
-msgstr "在 Weblate 發現安全問題？請閱讀 :ref:`security`。"
+msgstr "在 Weblate 中發現了安全問題？請閱讀 :ref:`security`。"
 
 #: security/index.rst:17
 msgid "Security updates"
@@ -47156,6 +47156,9 @@ msgid ""
 "benefit from the latest security improvements. Learn more "
 "about :ref:`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
+"Weblate 提供安全更新以應對漏洞並強化應用程式的安全態勢。僅最新版本保證會接收"
+"安全更新。我們建議使用者保持 Weblate 為最新版本，以享有最新的安全改進。瞭解更"
+"多關於 :ref:`Weblate 的發行與版本生命週期 <release-cycle>`。"
 
 #: security/index.rst:26
 msgid "Security policies"
@@ -47163,7 +47166,7 @@ msgstr "安全政策"
 
 #: security/index.rst:36
 msgid "Compliance"
-msgstr "遵守"
+msgstr "法規遵循"
 
 #: security/index.rst:45
 msgid "Terms of service and privacy policy"
@@ -47203,7 +47206,7 @@ msgstr "報告安全問題"
 msgid ""
 "Please read :ref:`ai-issues` in case you have used AI to discover a security "
 "issue in Weblate."
-msgstr ""
+msgstr "如果您曾使用 AI 發現 Weblate 的安全問題，請閱讀 :ref:`ai-issues`。"
 
 #: security/issues.rst:13
 msgid ""
@@ -47264,6 +47267,7 @@ msgstr ""
 "接報告給相應的專案。"
 
 #: security/issues.rst:47
+#, fuzzy
 msgid "Some of these are:"
 msgstr "這些中的一些是："
 
@@ -47351,7 +47355,7 @@ msgstr ""
 
 #: security/localization-threat.rst:17
 msgid "1. Spoofing"
-msgstr ""
+msgstr "1. 欺騙"
 
 #: security/localization-threat.rst:19
 msgid "**S1. Fake translator accounts impersonating legitimate contributors.**"
@@ -47381,11 +47385,11 @@ msgstr "給翻譯者提供情境"
 
 #: security/localization-threat.rst:26
 msgid "Use role-based access to limit project scope; see :ref:`acl`."
-msgstr ""
+msgstr "使用基於角色的存取控制來限制專案範圍；請參閱 :ref:`acl`。"
 
 #: security/localization-threat.rst:29
 msgid "2. Tampering"
-msgstr ""
+msgstr "2. 竄改"
 
 #: security/localization-threat.rst:31
 msgid "**T1. Malicious translations embedding harmful payloads.**"
