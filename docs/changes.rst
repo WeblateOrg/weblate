@@ -5,6 +5,8 @@ Weblate 2026.7
 
 .. rubric:: New features
 
+* Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
+
 .. rubric:: Improvements
 
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
