@@ -686,6 +686,25 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, workspace.get_absolute_url())
         self.assertContains(response, ">1<")
 
+    def test_alerts_are_ordered(self) -> None:
+        zulu_project = self.create_project(name="Zulu", slug="zulu")
+        zulu = self.create_json(project=zulu_project, name="Zulu")
+        alpha_project = self.create_project(name="Alpha", slug="alpha")
+        alpha = self.create_json(project=alpha_project, name="Alpha")
+
+        zulu.add_alert("MissingLicense")
+        alpha.add_alert("MissingLicense")
+
+        response = self.client.get(reverse("manage-alerts"))
+        content = response.content.decode()
+
+        self.assertContains(response, alpha.get_absolute_url())
+        self.assertContains(response, zulu.get_absolute_url())
+        self.assertLess(
+            content.index(alpha.get_absolute_url()),
+            content.index(zulu.get_absolute_url()),
+        )
+
     def test_workspaces_search(self) -> None:
         workspace = Workspace.objects.create(name="Localization workspace")
         Workspace.objects.create(name="Documentation workspace")
