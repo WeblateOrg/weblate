@@ -1018,7 +1018,7 @@ class XgettextAddon(ExtractPotBaseAddon):
         }
 
     def get_language(self) -> str | None:
-        return self.instance.configuration["language"]
+        return self.instance.configuration.get("language", "")
 
     def get_comment_mode(self) -> str:
         return str(self.instance.configuration.get("comment_mode", "off"))
