@@ -20,6 +20,7 @@ from django.core import mail
 from django.core.files import File
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 from selenium import webdriver
 from selenium.common.exceptions import (
@@ -1562,7 +1563,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def test_alerts(self) -> None:
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
-        Component.objects.create(
+        duplicates = Component.objects.create(
             name="Duplicates",
             slug="duplicates",
             project=project,
@@ -1572,6 +1573,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             new_base="po-duplicates/hello.pot",
             file_format="po",
         )
+        alert_timestamp = timezone.now() - timedelta(minutes=1)
+        duplicates.alert_set.update(timestamp=alert_timestamp, updated=alert_timestamp)
         self.do_login(superuser=True)
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
