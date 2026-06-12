@@ -35,6 +35,7 @@ from weblate.trans.models import (
     ComponentLink,
     ComponentList,
     Project,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
@@ -784,6 +785,29 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
+
+    def test_view_project_preloads_workflow_settings(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            translation_review=True,
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Czech")
+        workflow_queries = [
+            query for query in queries if '"trans_workflowsetting"' in query["sql"]
+        ]
+        self.assertLessEqual(
+            len(workflow_queries),
+            1,
+            "\n".join(query["sql"] for query in workflow_queries),
+        )
 
     def test_project_component_listing_shows_inherited_license_badge(self) -> None:
         self.project.license = "MIT"
