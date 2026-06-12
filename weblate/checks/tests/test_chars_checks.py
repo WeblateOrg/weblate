@@ -65,6 +65,7 @@ class AcceleratorKeyCheckTest(CheckTestCase):
         # "___" is commonly used for a literal underscore plus an accelerator marker.
         self.do_test(False, ("___File", "___File", "accelerators"))
 
+
 class BeginNewlineCheckTest(CheckTestCase):
     check = BeginNewlineCheck()
 
