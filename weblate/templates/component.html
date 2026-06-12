@@ -220,8 +220,15 @@
             <div class="card-body">{% render_alert alert %}</div>
             <form action="{% url "dismiss-alert" path=object.get_url_path %}" method="post">
               <div class="card-footer">
-                {% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
-                {% blocktranslate with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktranslate %}
+                {% with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}
+                  {% if first == last %}
+                    {% comment %}Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago{% endcomment %}
+                    {% blocktranslate %}Appeared {{ first }}{% endblocktranslate %}
+                  {% else %}
+                    {% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
+                    {% blocktranslate with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktranslate %}
+                  {% endif %}
+                {% endwith %}
                 {% if user_can_edit_component and alert.obj.dismissible %}
                   {% csrf_token %}
                   <input type="hidden" value="{{ alert.name }}" name="dismiss" />
