@@ -9,10 +9,12 @@ import os
 from contextlib import ExitStack
 from datetime import timedelta
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.apps import apps
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.test import TestCase
@@ -24,6 +26,10 @@ from translate.storage.fluent import FluentContentError
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
+from weblate.glossary.models import (
+    clear_glossary_automaton_cache,
+    get_glossary_automaton,
+)
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
@@ -158,6 +164,50 @@ class ProjectTest(RepoTestCase):
             )
             with self.assertRaises(ValidationError):
                 blocked.full_clean()
+
+    def test_glossary_automaton_cache_invalidation(self) -> None:
+        project = self.create_project()
+        project.__dict__["glossaries"] = [
+            SimpleNamespace(glossary_sources=["hello"], glossary_sources_key="test")
+        ]
+        clear_glossary_automaton_cache()
+        cache.delete(project.glossary_automaton_cache_key)
+
+        with patch(
+            "weblate.trans.models.component.prefetch_glossary_terms"
+        ) as prefetch:
+            first = get_glossary_automaton(project)
+            second = get_glossary_automaton(project)
+            self.assertIs(first, second)
+            self.assertEqual(prefetch.call_count, 1)
+
+            project.invalidate_glossary_cache()
+            third = get_glossary_automaton(project)
+            self.assertIsNot(first, third)
+            self.assertEqual(prefetch.call_count, 2)
+
+    def test_glossary_automaton_cache_version_avoids_recreated_key_collision(
+        self,
+    ) -> None:
+        project = self.create_project()
+        project.__dict__["glossaries"] = [
+            SimpleNamespace(glossary_sources=["hello"], glossary_sources_key="test")
+        ]
+        clear_glossary_automaton_cache()
+        cache.delete(project.glossary_automaton_cache_key)
+
+        with (
+            patch("weblate.trans.models.project.time.time_ns", side_effect=[100, 200]),
+            patch("weblate.trans.models.component.prefetch_glossary_terms") as prefetch,
+        ):
+            first = get_glossary_automaton(project)
+            cache.delete(project.glossary_automaton_cache_key)
+            del project.__dict__["glossary_automaton_cache_version"]
+
+            second = get_glossary_automaton(project)
+
+        self.assertIsNot(first, second)
+        self.assertEqual(prefetch.call_count, 2)
 
     def test_actual_project_removal_batches_linked_alert_updates(self) -> None:
         self.component = self.create_po()
