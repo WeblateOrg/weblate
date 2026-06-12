@@ -788,6 +788,45 @@ class CreateTest(ViewTestCase):
         change = new_component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "vcs")
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_component_rejects_inaccessible_source_component(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.project.add_user(self.user, "Administration")
+
+        private_project = self.create_project(
+            name="Private source",
+            slug="private-source",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="Private source"
+        )
+        private_component.file_format_params = {"po_line_wrap": "-1"}
+        private_component.save(update_fields=["file_format_params"])
+
+        request = self.factory.get("/", {"source_component": str(private_component.pk)})
+        request.user = self.user
+        form = ComponentCreateForm(
+            request,
+            initial={"project": self.project.pk, "file_format": "po"},
+        )
+        self.assertNotEqual(
+            form.initial.get("file_format_params", {}).get("po_line_wrap"), "-1"
+        )
+
+        response = self.client.get(
+            f"{reverse('create-component')}?component={private_component.pk}#existing"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, private_component.name)
+
+        response = self.client_create_component(
+            False, source_component=private_component.pk
+        )
+        self.assertIn("source_component", response.context["form"].errors)
+        self.assertFalse(Component.objects.filter(slug="create-component").exists())
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_branch_fail(self) -> None:
         # Make superuser

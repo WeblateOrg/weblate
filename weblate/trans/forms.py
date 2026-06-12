@@ -2441,31 +2441,43 @@ class ComponentCreateForm(
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+        source_component = None
         if (
             source_component_text := request.GET.get("source_component")
         ) and "file_format" in kwargs["initial"]:
-            source_component = Component.objects.get(pk=int(source_component_text))
-            if source_component.file_format_params:
-                supported_params = {
-                    param.get_identifier()
-                    for param in get_params_for_file_format(
-                        kwargs["initial"]["file_format"]
-                    )
-                }
-                source_file_format_params = {
-                    k: v
-                    for k, v in source_component.file_format_params.items()
-                    if k in supported_params
-                }
-                initial_file_format_params = kwargs["initial"].get(
-                    "file_format_params", {}
+            try:
+                source_component_id = int(source_component_text)
+            except (TypeError, ValueError):
+                source_component_id = None
+            if source_component_id is not None:
+                source_component = (
+                    Component.objects.filter_access(request.user)
+                    .filter(pk=source_component_id)
+                    .first()
                 )
-                if not isinstance(initial_file_format_params, dict):
-                    initial_file_format_params = {}
-                kwargs["initial"]["file_format_params"] = {
-                    **source_file_format_params,
-                    **initial_file_format_params,
-                }
+        if (
+            source_component is not None
+            and "file_format" in kwargs["initial"]
+            and source_component.file_format_params
+        ):
+            supported_params = {
+                param.get_identifier()
+                for param in get_params_for_file_format(
+                    kwargs["initial"]["file_format"]
+                )
+            }
+            source_file_format_params = {
+                k: v
+                for k, v in source_component.file_format_params.items()
+                if k in supported_params
+            }
+            initial_file_format_params = kwargs["initial"].get("file_format_params", {})
+            if not isinstance(initial_file_format_params, dict):
+                initial_file_format_params = {}
+            kwargs["initial"]["file_format_params"] = {
+                **source_file_format_params,
+                **initial_file_format_params,
+            }
         super().__init__(request, *args, **kwargs)
         self.setup_create_inherited_settings()
         self.helper.layout = Layout(

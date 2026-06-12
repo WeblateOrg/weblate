@@ -416,11 +416,12 @@ class CreateComponent(BaseCreateView):
                     category_field.initial = self.selected_category
         self.empty_form = False
         if "source_component" in form.fields and self.duplicate_existing_component:
-            self.components = Component.objects.filter(
+            components = Component.objects.filter_access(self.request.user).filter(
                 pk=self.duplicate_existing_component
             )
-            form.fields["source_component"].queryset = self.components
-            form.initial["source_component"] = self.duplicate_existing_component
+            if components.exists():
+                form.fields["source_component"].queryset = components
+                form.initial["source_component"] = self.duplicate_existing_component
         return form
 
     def get_context_data(self, **kwargs):
@@ -616,13 +617,14 @@ class CreateComponentSelection(CreateComponent):
             self.duplicate_existing_component = None
         self.initial = {}
         if self.duplicate_existing_component:
-            source_component = Component.objects.get(
+            source_component = self.components.filter(
                 pk=self.duplicate_existing_component
-            )
-            self.initial |= {
-                "component": source_component,
-                "is_glossary": source_component.is_glossary,
-            }
+            ).first()
+            if source_component is not None:
+                self.initial |= {
+                    "component": source_component,
+                    "is_glossary": source_component.is_glossary,
+                }
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
