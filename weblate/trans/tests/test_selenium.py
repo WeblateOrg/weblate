@@ -66,7 +66,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
-from weblate.vcs.ssh import get_key_data
+from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
 
@@ -122,6 +122,11 @@ TEST_BACKENDS = (
 )
 
 SCREENSHOT_SITE_DOMAIN = "weblate.example.com"
+SELENIUM_GPG_KEY_ID = "B17C8337FA04DF8D4D3569AF882B2A22730AAF03"
+SELENIUM_SSH_KEY_FIXTURES = (
+    ("id_rsa.pub", "selenium-keys/id_rsa.pub"),
+    ("id_ed25519.pub", "selenium-keys/id_ed25519.pub"),
+)
 
 
 # The fixture repositories are known public GitHub repos; allowlisting them
@@ -255,6 +260,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             text,
             self.driver.find_element(By.CSS_SELECTOR, css_selector).text,
         )
+
+    def install_selenium_ssh_keys(self) -> None:
+        """Install deterministic display-only SSH keys for screenshots."""
+        for filename, fixture in SELENIUM_SSH_KEY_FIXTURES:
+            path = ssh_file(filename)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(
+                Path(get_test_file(fixture)).read_text(encoding="utf-8"),
+                encoding="utf-8",
+            )
 
     def count_elements(self, css_selector: str) -> int:
         """Return the count of elements matching css_selector on the current page."""
@@ -751,28 +766,44 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @override_settings(WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>")
     def test_gpg(self) -> None:
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.ID, "footer-about-link"))
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Keys"))
-        self.screenshot("about-gpg.png")
+        self.install_selenium_ssh_keys()
+        gpg_key = Path(get_test_file("selenium-keys/weblate-public.asc")).read_text(
+            encoding="utf-8"
+        )
+        with (
+            patch(
+                "weblate.trans.views.about.get_gpg_public_key",
+                return_value=gpg_key,
+            ),
+            patch(
+                "weblate.trans.views.about.get_gpg_sign_key",
+                return_value=SELENIUM_GPG_KEY_ID,
+            ),
+        ):
+            with self.wait_for_page_load():
+                self.click(self.driver.find_element(By.ID, "footer-about-link"))
+            with self.wait_for_page_load():
+                self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Keys"))
+            self.screenshot("about-gpg.png")
 
     def test_ssh(self) -> None:
         """Test SSH admin interface."""
+        self.install_selenium_ssh_keys()
         self.open_manage()
 
         # Open SSH page
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{reverse('manage-ssh')}")
 
-        # Generate SSH key
-        if get_key_data() is None:
-            with self.wait_for_page_load():
-                self.click(htmlid="generate-ssh-button")
-
         # Add SSH host key
-        self.driver.find_element(By.ID, "id_host").send_keys("github.com")
-        with self.wait_for_page_load():
+        self.driver.find_element(By.ID, "id_host").send_keys("example.com")
+        with (
+            patch.dict(
+                os.environ,
+                {"PATH": f"{get_test_file('')}:{os.environ.get('PATH', '')}"},
+            ),
+            self.wait_for_page_load(),
+        ):
             self.click(htmlid="ssh-add-button")
 
         self.screenshot("ssh-keys-added.png")
