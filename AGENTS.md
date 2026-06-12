@@ -78,6 +78,18 @@ For application-developer workflows and broader product integration guidance, us
 - Minor fixes and fixes for features that have not been released yet do not
   need a changelog entry.
 
+## GitHub discussions
+
+- GitHub organization discussion URLs such as
+  `https://github.com/orgs/WeblateOrg/discussions/19794` can still belong to the
+  `WeblateOrg/weblate` repository. When working with these URLs, resolve the
+  discussion through `WeblateOrg/weblate` repository discussions instead of
+  treating the URL as an issue, pull request, or organization-only object.
+- Use GitHub discussion-aware tooling, such as `gh api graphql` against
+  `repository(owner: "WeblateOrg", name: "weblate") { discussion(number: ...) }`,
+  when the regular GitHub issue or pull request connectors do not expose the
+  discussion.
+
 ## Testing and linting instructions
 
 - Install the development dependencies first using
