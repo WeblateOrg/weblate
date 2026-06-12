@@ -591,6 +591,25 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         self.assertIsNone(addon.render_repo_filename("stats/cs.json", translation))
         self.assertFalse(outside_target.exists())
 
+    def test_render_repo_filename_rejects_symlinked_parent_outside_repository(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "stats")
+
+        component = self.build_fake_component(repository_dir, new_base="messages.pot")
+        addon = self.build_fake_addon(BaseAddon, component)
+        translation = SimpleNamespace(component=component)
+
+        self.assertIsNone(addon.render_repo_filename("stats/new/cs.json", translation))
+        self.assertFalse((Path(outside_dir) / "new").exists())
+
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
         if not hasattr(os, "symlink"):
             self.skipTest("symlinks are not supported")
