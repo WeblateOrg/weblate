@@ -18,6 +18,7 @@ Weblate 2026.7
 * :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
 * LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
 * Improved bidirectional text handling for RTL translation display and editor previews.
+* Meta descriptions now better match single-project and self-hosted installations.
 
 .. rubric:: Bug fixes
 
