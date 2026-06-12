@@ -36,6 +36,14 @@ also executed manually, but they require several environment variables, mostly
 defining Django settings file to use and test database connection. The example
 definition of that is in :file:`scripts/test-database.sh`:
 
+The Selenium screenshot tests in :file:`weblate/trans/tests/test_selenium.py`
+serve two purposes. They generate images for visual change testing in CI, and
+the same images are converted into documentation screenshots by
+:command:`make -C docs update-screenshots`. Keep screenshot fixtures close to
+real rendered pages so CI catches UI regressions. When a screenshot includes
+volatile runtime data, prefer deterministic server-side test inputs over
+post-render DOM changes.
+
 .. literalinclude:: ../../scripts/test-database.sh
    :language: sh
 
