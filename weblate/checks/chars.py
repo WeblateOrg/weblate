@@ -52,10 +52,23 @@ class AcceleratorKeyCheck(TargetCheck):
     default_disabled = True
     version_added = "2026.7"
 
-    def _check_accelerator(self, source: str, target: str, key: str) -> bool:
-        return target.count(key) > 1 or source.count(key) != target.count(key)
+    def _count_accelerators(self, text: str, key: str) -> int:
+        # HTML/XML entities start with '&' but are not accelerator markers.
+        if key == "&":
+            text = strip_entities(text)
+            # Qt/Windows escape a literal ampersand as "&&".
+            text = text.replace("&&", "")
+        elif key == "_":
+            # GTK escapes a literal underscore as "__".
+            text = text.replace("__", "")
+        return text.count(key)
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def _check_accelerator(self, source: str, target: str, key: str) -> bool:
+        src_count = self._count_accelerators(source, key)
+        tgt_count = self._count_accelerators(target, key)
+        return tgt_count > 1 or src_count != tgt_count
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         return self._check_accelerator(source, target, "&") or self._check_accelerator(
             source, target, "_"
         )
