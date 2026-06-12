@@ -17,9 +17,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-05 22:27-0500\n"
-"PO-Revision-Date: 2026-06-10 12:55+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-12 18:21+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -27,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -392,10 +391,8 @@ msgid "Team"
 msgstr "Equipa"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Adicionar o utilizador a uma equipa"
+msgstr "Adicionar a uma equipa"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -578,6 +575,8 @@ msgstr ""
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
 msgstr ""
+"Conta criada externamente a partir de weblate.org para aceder aos serviços "
+"comprados."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
@@ -606,11 +605,11 @@ msgstr ""
 "O utilizador foi adicionado à equipa geral do site {team} por {username}."
 
 #: weblate/accounts/models.py:344
-#, fuzzy, python-brace-format
-#| msgid "User was added to the site-wide {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"O utilizador foi adicionado à equipa geral do site {team} por {username}."
+"O acesso do utilizador à equipa {team} em todo o ''site'' foi alterado por "
+"{username}."
 
 #: weblate/accounts/models.py:348
 #, python-brace-format
@@ -640,10 +639,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "O utilizador foi adicionado à equipa {team} por {username}."
 
 #: weblate/accounts/models.py:360
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "O utilizador foi adicionado à equipa {team} por {username}."
+msgstr "O acesso do utilizador à equipa {team} foi alterado por {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:363
@@ -737,52 +735,39 @@ msgstr ""
 "Por favor, contacte os gestores do projeto se achar que isto é inapropriado."
 
 #: weblate/accounts/models.py:429 weblate/accounts/models.py:433
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Se foi você, por favor, utilize uma redefinição de palavra-passe para "
-"recuperar o acesso à sua conta."
+"Se foi você, redefina a sua palavra-passe para recuperar o acesso à sua "
+"conta."
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:464
 msgctxt "User agent device type"
 msgid "PC"
-msgstr ""
+msgstr "PC"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:466
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "User agent device type"
 msgid "Other"
-msgstr "Outros"
+msgstr "Outro"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:468
-#, fuzzy
-#| msgid "Generate"
 msgctxt "User agent device type"
 msgid "Generic Smartphone"
-msgstr "Gerar"
+msgstr "Telemóvel Genérico"
 
 #: weblate/accounts/models.py:471
-#, fuzzy
-#| msgid "Generic presets"
 msgctxt "User agent device type"
 msgid "Generic Feature Phone"
-msgstr "Pré-ajustes genéricos"
+msgstr "Telefone de Funcionalidades Genéricas"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:474
-#, fuzzy
-#| msgid "Service"
 msgctxt "User agent device type"
 msgid "iOS-Device"
-msgstr "Serviço"
+msgstr "Dispositivo iOS"
 
 #: weblate/accounts/models.py:610 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:309
@@ -1134,11 +1119,9 @@ msgid "Strings are available for translation"
 msgstr "As cadeias de carateres estão disponíveis para tradução"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Resumo da tradução"
+msgstr "Resumo da atividade de tradução"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1757,26 +1740,16 @@ msgstr ""
 "tradução de JavaScript ou HTML."
 
 #: weblate/addons/cdn.py:269
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Ficheiros de tradução"
+msgstr "Ficheiros de tradução CDN"
 
 #: weblate/addons/cdn.py:271
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"Publica as traduções numa rede de distribuição de conteúdo para utilizar na "
-"tradução de JavaScript ou HTML."
+msgstr "Publica os ficheiros de tradução numa rede de distribuição de conteúdo."
 
 #: weblate/addons/cdn.py:308
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "O idioma base da tradução não pode ser editado."
+msgstr "O extra CDN dos ficheiros de tradução não pode publicar weblate.js."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -2188,22 +2161,16 @@ msgstr ""
 "ficheiro meson.build e os ficheiros POTFILES ou POTFILES.in."
 
 #: weblate/addons/forms.py:440
-#, fuzzy
-#| msgid "The component has to define a POT file for new translations."
 msgid "The component has to define a gettext template for new translations."
-msgstr "O componente tem que definir um ficheiro POT para novas traduções."
+msgstr "O componente tem que definir um modelo gettext para as novas traduções."
 
 #: weblate/addons/forms.py:448
-#, fuzzy
-#| msgid ""
-#| "The Django add-on expects the template for new translations to be named "
-#| "\"django.pot\" or \"djangojs.pot\"."
 msgid ""
 "The Django add-on expects the template for new translations to be named "
 "\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 msgstr ""
-"O complemento Django espera que o modelo para novas traduções seja chamado "
-"\"django.pot\" ou \"djangojs.pot\"."
+"O extra Django espera que o modelo para as novas traduções seja chamado de "
+"\"django.pot\", \"djangojs.pot\", \"django.po\", or \"djangojs.po\"."
 
 #: weblate/addons/forms.py:458
 msgid "Filtering"
@@ -2309,14 +2276,13 @@ msgid "Voting threshold"
 msgstr "Limites de votação"
 
 #: weblate/addons/forms.py:633
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Limite para a remoção. Este campo não tem efeito com os votos desativados."
+"Limite para a remoção. Deixe em branco para remover as sugestões "
+"independentemente dos votos. Este campo não tem qualquer efeito com a "
+"votação desligada."
 
 #: weblate/addons/forms.py:643
 msgid "I confirm the above actions look correct"
@@ -2805,10 +2771,8 @@ msgid "Updates the gettext template using Meson gettext conventions."
 msgstr "Atualiza o modelo gettext usando as convenções xgettext do Meson."
 
 #: weblate/addons/gettext.py:1517
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "Atualizar ficheiro POT (Django)"
+msgstr "Atualizar modelo gettext (Django)"
 
 #: weblate/addons/gettext.py:1519
 msgid ""
@@ -3028,13 +2992,11 @@ msgstr "Não foi possível alterar isto numa equipa existente."
 
 #: weblate/api/serializers.py:726
 msgid "Choose either a project or a workspace."
-msgstr ""
+msgstr "Escolha um projeto ou um espaço de trabalho."
 
 #: weblate/api/serializers.py:747 weblate/auth/models.py:335
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A team with this name already exists in this workspace."
-msgstr "Já existe um utilizador com esse nome de utilizador."
+msgstr "Já existe uma equipa com este nome neste espaço de trabalho."
 
 #: weblate/api/serializers.py:1902 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3129,17 +3091,15 @@ msgstr ""
 
 #: weblate/api/views.py:781
 msgid "Expected an object."
-msgstr ""
+msgstr "Esperado um objeto."
 
 #: weblate/api/views.py:811 weblate/trans/forms.py:4276
 msgid "At least one team is required for a project token."
 msgstr "É necessário pelo menos uma equipa para obter um token de projeto."
 
 #: weblate/api/views.py:1045
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "This role cannot be assigned to this team."
-msgstr "O nome de ficheiro não pode ser um caminho absoluto."
+msgstr "Esta função não pode ser atribuída a esta equipa."
 
 #: weblate/api/views.py:3012 weblate/trans/models/translation.py:2550
 msgid "This string seems to already exist."
@@ -3479,24 +3439,18 @@ msgstr "Eliminar anúncios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Editar cadeias de carateres fonte"
+msgstr "Editar as definições do espaço de trabalho"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
-#, fuzzy
-#| msgid "Add a project message"
 msgid "Add projects to workspace"
-msgstr "Adicionar uma mensagem de projeto"
+msgstr "Adicionar projetos ao espaço de trabalho"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Gerir acesso do projeto"
+msgstr "Gerir o acesso do espaço de trabalho"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
@@ -3505,10 +3459,8 @@ msgstr "Utilizar a interface de gestão"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Configuração do Weblate"
+msgstr "Gerir a configuração do ''site''"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -3517,10 +3469,8 @@ msgstr "Adicionar novos projetos"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
-#, fuzzy
-#| msgid "Add new word"
 msgid "Add new workspaces"
-msgstr "Adicionar nova palavra"
+msgstr "Adicionar novos espaços de trabalho"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
@@ -3669,18 +3619,14 @@ msgid "Manage repository"
 msgstr "Gerir repositório"
 
 #: weblate/auth/data.py:272
-#, fuzzy
-#| msgid "Revoke administration"
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr "Revogar administração"
+msgstr "Administração do espaço de trabalho"
 
 #: weblate/auth/data.py:280
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "Adicionar novos projetos"
+msgstr "Adicionar projetos do espaço de trabalho"
 
 #: weblate/auth/data.py:284
 msgctxt "Access-control role"
@@ -3980,12 +3926,12 @@ msgstr ""
 #: weblate/auth/models.py:322
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
+"A equipa pode ser encaminhada tanto para um projeto como para um espaço de "
+"trabalho."
 
 #: weblate/auth/models.py:375 weblate/auth/models.py:1715
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Limit languages"
-msgstr "Línguas de Bihari"
+msgstr "Limitar idiomas"
 
 #: weblate/auth/models.py:378 weblate/auth/models.py:1718
 msgid ""
@@ -3994,6 +3940,10 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Limite as permissões desta equipa para estes idiomas. As permissões para "
+"todo o projeto, componente e globais desta equipa não são concedidas quando "
+"é definido um limite de idioma. A seleção vazia utiliza a seleção do idioma "
+"da equipa sem limite adicional."
 
 #: weblate/auth/models.py:656 weblate/utils/forms.py:88
 #: weblate/utils/validators.py:269
@@ -4234,18 +4184,16 @@ msgstr ""
 "fonte."
 
 #: weblate/auth/utils.py:97
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "O nome de ficheiro não pode ser um caminho absoluto."
+msgstr "O utilizador anónimo não pode ser atribuído às equipas."
 
 #: weblate/auth/utils.py:100
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "Os utilizadores inativos não podem ser atribuídos às equipas."
 
 #: weblate/auth/utils.py:103
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "Os códigos de projeto não podem ser atribuídos às equipas aqui."
 
 #: weblate/auth/views.py:166
 msgid "Cannot remove built-in team!"
@@ -4281,14 +4229,11 @@ msgstr "Plano de faturação"
 #: weblate/trans/forms.py:3444 weblate/trans/forms.py:3474
 #: weblate/trans/models/project.py:254
 msgid "Workspace"
-msgstr ""
+msgstr "Espaço de Trabalho"
 
 #: weblate/billing/models.py:243 weblate/templates/billing/status.html:19
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgid "Customer name"
-msgstr "Nome do modelo personalizado"
+msgstr "Nome do cliente"
 
 #: weblate/billing/models.py:248 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:12
@@ -4325,42 +4270,32 @@ msgid "In limits"
 msgstr "Dentro dos limites"
 
 #: weblate/billing/models.py:279
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "Terminar pagamento recorrente"
+msgstr "Notificação de pagamento recorrente inativa"
 
 #: weblate/billing/models.py:284
-#, fuzzy
-#| msgid "Last remote commit"
 msgid "Latest upstream commit"
-msgstr "Última submissão remota"
+msgstr "Submissão ''upstream'' mais recente"
 
 #: weblate/billing/models.py:289
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "Submeter alterações pendentes"
+msgstr "Alteração mais antiga pendente de Weblate"
 
 #: weblate/billing/models.py:294
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "Alterações do repositório"
+msgstr "Alerta de alterações do repositório"
 
 #: weblate/billing/models.py:299
 msgid "Push failure alert"
-msgstr ""
+msgstr "Alerta de falha de submissão"
 
 #: weblate/billing/models.py:304
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "Terminar pagamento recorrente"
+msgstr "Incapacidade de pagamento recorrente agendado"
 
 #: weblate/billing/models.py:403
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "O espaço de trabalho de faturação não pode ser alterado."
 
 #: weblate/billing/models.py:414 weblate/billing/models.py:1185
 #: weblate/templates/accounts/user.html:191
@@ -4376,15 +4311,15 @@ msgstr "Faturação"
 
 #: weblate/billing/models.py:458
 msgid "Billing needs to be saved before assigning projects."
-msgstr ""
+msgstr "A faturação precisa de ser guardada antes de atribuir projetos."
 
 #: weblate/billing/models.py:466
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "O projeto já pertence a outro espaço de trabalho."
 
 #: weblate/billing/models.py:469
 msgid "Project needs to be saved before assigning it to billing."
-msgstr ""
+msgstr "O projeto precisa de ser guardado antes de o atribuir à faturação."
 
 #: weblate/billing/models.py:530
 msgid "Changes in last month"
@@ -4865,60 +4800,44 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Parâmetros em falta para o marcador de tradução: \"%s\""
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"A referência Fluent em {sequence} pode expandir-se numa etiqueta HTML. Pode "
-"usar {suggestion}."
+"A referência Fluent em {sequence} pode expandir-se numa etiqueta HTML. "
+"Talvez utilizar {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
 "A referência Fluent em {sequence} pode expandir-se numa referência de "
-"carácter HTML. Pode usar {suggestion}."
+"caráter HTML. Talvez utilizar {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
-"A sequência {sequence} começa com uma etiqueta de fechamento HTML, mas o "
-"nome ou sintaxe não é válido. Se não quiser uma etiqueta de fechamento, use "
-"{suggestion}."
+"A sequência {sequence} começa com uma etiqueta de encerramento HTML, mas o "
+"nome ou a sintaxe não é válido. Se não quiser uma etiqueta de encerramento, "
+"utilize {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
 "A sequência {sequence} começa com uma etiqueta HTML, mas o nome não é "
-"válido. Se não quiser iniciar uma etiqueta HTML, use {suggestion}."
+"válido. Se não quiser iniciar uma etiqueta HTML, utilize {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
@@ -4935,11 +4854,7 @@ msgstr ""
 "HTML interno Fluent não deve incluir {sequence}. Pode usar {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
@@ -4947,7 +4862,7 @@ msgid ""
 msgstr ""
 "A sequência {sequence} começa com uma etiqueta HTML, mas a sequência "
 "{attribute} não é um atributo válido com um valor. Se não quiser iniciar uma "
-"etiqueta HTML, use {suggestion}."
+"etiqueta HTML, utilize {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:246
 #, python-brace-format
@@ -4994,18 +4909,14 @@ msgstr ""
 "A etiqueta HTML {tag} não tem uma etiqueta final correspondente: {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
-"A sequência {sequence} iniciará uma referência de carácter HTML, mas não "
-"termina com {semicolon}. Se não quiser uma referência de carácter, use "
+"A sequência {sequence} iniciará uma referência de caráter HTML, mas não "
+"termina com {semicolon}. Se não quiser uma referência de caráter, utilize "
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:360
@@ -5022,16 +4933,12 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "A fonte Fluent deveria ser HTML interno válido."
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "O valor Fluent não possui uma etiqueta HTML {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
@@ -5608,8 +5515,6 @@ msgid "Markdown syntax does not match source."
 msgstr "A sintaxe de Marcação não coincide com a fonte."
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "A tradução não contém um URL."
 
@@ -5901,10 +5806,8 @@ msgstr "Ficheiro Markdown"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:474
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "Ficheiro DTD"
+msgstr "Ficheiro MDX"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:555
@@ -6014,7 +5917,7 @@ msgstr "Ficheiro CSV multivalor"
 #: weblate/formats/ttkit.py:223
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
-msgstr ""
+msgstr "Metadados de formulário plural inválidos no ficheiro CSV: %s"
 
 #: weblate/formats/ttkit.py:155 weblate/formats/ttkit.py:2371
 #, python-format
@@ -6022,17 +5925,18 @@ msgid ""
 "Plural form metadata in CSV file is out of range: %(value)s (maximum: "
 "%(maximum)s)"
 msgstr ""
+"Os metadados do formulário plural no ficheiro CSV estão fora do intervalo: %"
+"(value)s (máximo: %(maximum)s)"
 
 #: weblate/formats/ttkit.py:180 weblate/formats/ttkit.py:186
 #: weblate/formats/ttkit.py:191 weblate/formats/ttkit.py:197
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "Marcador de tradução inválido: \"%s\""
+msgstr "Metadados de id_hash inválidos no ficheiro CSV: %s"
 
 #: weblate/formats/ttkit.py:210 weblate/formats/ttkit.py:2403
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "Metadados de formulário plural num ficheiro CSV requerem id_hash."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1671
@@ -6202,26 +6106,30 @@ msgstr "Ficheiro CSV"
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
 msgstr ""
+"Os metadados do formulário plural no ficheiro CSV estão em falta do "
+"formulário %d."
 
 #: weblate/formats/ttkit.py:2450
 msgid "Plural form metadata in CSV file requires target_plural_form."
 msgstr ""
+"Os metadados de formulário plural num ficheiro CSV requerem "
+"target_plural_form."
 
 #: weblate/formats/ttkit.py:2459
 msgid "Plural form metadata in CSV file requires source_plural_form."
 msgstr ""
+"Os metadados de formulário plural num ficheiro CSV requerem "
+"source_plural_form."
 
 #: weblate/formats/ttkit.py:2480
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "Cadeia duplicada encontrada no ficheiro."
+msgstr "Forma plural de destino duplicada no ficheiro CSV: %s"
 
 #: weblate/formats/ttkit.py:2489
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "Codificação utilizada para os ficheiros CSV"
+msgstr "Forma plural fonte incompatível no ficheiro CSV: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2669
@@ -6457,25 +6365,21 @@ msgstr "Três"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Deixe em branco para utilizar a seleção de idioma da equipa sem limites "
+"adicionais."
 
 #: weblate/lang/forms.py:86 weblate/templates/auth/team.html:127
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
 msgstr "Limite de idiomas"
 
 #: weblate/lang/forms.py:93
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "Limite de idiomas"
+msgstr "Sem limite de idiomas"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "Idioma escolhido inválido!"
+msgstr "Insira um código do idioma válido."
 
 #: weblate/lang/models.py:996 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -6747,10 +6651,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "Tem de concordar com os Termos Gerais e Condições"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "Por favor, leia o seguinte acordo de licença de colaborador:"
+msgstr "Por favor, leia os seguintes documentos legais:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -6769,10 +6671,8 @@ msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
-msgstr "Por favor, leia o documento dos Termos Gerais e Condições:"
+msgstr "Por favor, leia o seguinte documento dos «Termos Gerais e Condições»:"
 
 #: weblate/legal/templates/legal/confirm.html:41
 #: weblate/templates/contributor-agreement.html:33
@@ -6889,6 +6789,9 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"A tradução automática ao nível do projeto não pode utilizar endereços "
+"internos ou não públicos. Contacte o administrador do ''site'' se este "
+"serviço deverá ser configurado para todo o ''site'' ou listado de permitidos."
 
 #: weblate/machinery/forms.py:109 weblate/machinery/forms.py:136
 #: weblate/machinery/forms.py:153 weblate/machinery/forms.py:160
@@ -7373,10 +7276,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "Não foi possível analisar o ficheiro TMX: %s"
 
 #: weblate/memory/models.py:421
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "Idioma de origem não definido no ficheiro TMX!"
+msgstr "Cabeçalho em falta no ficheiro TMX!"
 
 #: weblate/memory/models.py:426
 msgid "Source language not defined in the TMX file!"
@@ -7544,10 +7445,8 @@ msgid "Timestamp"
 msgstr "Data e hora"
 
 #: weblate/screenshots/forms.py:201
-#, fuzzy
-#| msgid "Assigned source strings"
 msgid "Assigned strings"
-msgstr "Cadeias originais atribuídas"
+msgstr "Cadeias de carateres atribuídas"
 
 #: weblate/screenshots/forms.py:210 weblate/templates/base.html:135
 #: weblate/templates/category-language.html:20
@@ -7571,10 +7470,8 @@ msgstr "Procurar"
 
 #: weblate/screenshots/forms.py:214
 #: weblate/templates/screenshots/screenshot_list.html:92
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Search screenshots"
-msgstr "Capturas de ecrã"
+msgstr "Procurar por capturas de ecrã"
 
 #: weblate/screenshots/forms.py:219 weblate/trans/forms.py:1601
 msgid "Sort by"
@@ -7604,10 +7501,8 @@ msgid "Upload image up to 2000x2000 pixels."
 msgstr "Carregar imagem de até 2.000x2.000 pixels."
 
 #: weblate/screenshots/views.py:272
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "All screenshots"
-msgstr "Adicionar captura de ecrã"
+msgstr "Todas as capturas de ecrã"
 
 #: weblate/screenshots/views.py:273
 #: weblate/templates/snippets/embed-units.html:69
@@ -7616,22 +7511,16 @@ msgstr "Capturas de ecrã atribuídas"
 
 #: weblate/screenshots/views.py:274
 #: weblate/templates/screenshots/screenshot_list.html:62
-#, fuzzy
-#| msgid "Assigned screenshots"
 msgid "Unassigned screenshots"
-msgstr "Capturas de ecrã atribuídas"
+msgstr "Capturas de ecrã não atribuídas"
 
 #: weblate/screenshots/views.py:275
-#, fuzzy
-#| msgid "Repository path to screenshot"
 msgid "Repository screenshots"
-msgstr "Caminho do repositório para a captura de ecrã"
+msgstr "Capturas de ecrã do repositório"
 
 #: weblate/screenshots/views.py:277
-#, fuzzy
-#| msgid "Assigned screenshots"
 msgid "Unassigned repository screenshots"
-msgstr "Capturas de ecrã atribuídas"
+msgstr "Capturas de ecrã do repositório não atribuídas"
 
 #: weblate/screenshots/views.py:338
 #: weblate/templates/snippets/query-field.html:12
@@ -7639,15 +7528,12 @@ msgid "Filters"
 msgstr "Filtros"
 
 #: weblate/screenshots/views.py:405
-#, fuzzy
-#| msgid ""
-#| "Screenshot has been uploaded, you can now assign it to source strings."
 msgid ""
 "Screenshot has been uploaded. Search for source strings or find strings in "
 "the image."
 msgstr ""
-"A captura do ecrã foi enviada, agora pode atribuí-la às cadeias de carateres "
-"fonte."
+"A captura de ecrã foi enviada. Procure por cadeias de carateres ou encontre "
+"cadeias de carateres na imagem."
 
 #: weblate/screenshots/views.py:411
 msgid "Could not upload screenshot, please fix errors below."
@@ -7981,7 +7867,8 @@ msgstr "Autenticação de segundo fator"
 #: weblate/templates/accounts/2fa.html:25
 msgid "Please complete your sign-in using second factor credential."
 msgstr ""
-"Por favor, conclua a sua autenticação usando a credencial do segundo fator."
+"Por favor, conclua a sua autenticação utilizando a credencial de segundo "
+"fator."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:7
@@ -8018,23 +7905,20 @@ msgid "Contact server administrators"
 msgstr "Contactar os administradores do servidor"
 
 #: weblate/templates/accounts/contact.html:25
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s server here."
+#, python-format
 msgid "Use this form to reach the administrators of %(site_title)s."
-msgstr "Só pode contactar os administradores do servidor %(site_title)s aqui."
+msgstr ""
+"Utilize este formulário para contactar os administradores de %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:27
-#, fuzzy
-#| msgid "You can only contact administrators of the whole server here."
 msgid "Use this form to reach the administrators of this server."
-msgstr "Só contactar os administradores de todo o servidor aqui."
+msgstr ""
+"Utilize este formulário para contactar os administradores deste servidor."
 
 #: weblate/templates/accounts/contact.html:34
 #: weblate/templates/accounts/user_profile_link.html:35
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "Cópias de Segurança"
+msgstr "Copiar"
 
 #: weblate/templates/accounts/contact.html:35
 #: weblate/templates/manage/tools.html:29
@@ -8045,89 +7929,62 @@ msgstr "Enviar"
 
 #: weblate/templates/accounts/contact.html:44
 msgid "How can we help?"
-msgstr ""
+msgstr "Como é que nós pudemos ajudar?"
 
 #: weblate/templates/accounts/contact.html:47
 msgid "Select one of the options below to get help."
-msgstr ""
+msgstr "Selecione uma das opções em baixo para obter ajuda."
 
 #: weblate/templates/accounts/contact.html:56
-#, fuzzy
-#| msgid "Import translation project"
 msgid "Question about a translation project"
-msgstr "Importar Projeto de Tradução"
+msgstr "Questão sobre um projeto de tradução"
 
 #: weblate/templates/accounts/contact.html:60
-#, fuzzy
-#| msgid ""
-#| "For questions about a specific translation project, don’t use this form. "
-#| "Refer to the project’s Info tab and contact its maintainers."
 msgid ""
 "Find a specific translation project, refer to the project's Overview tab and "
 "contact its maintainers directly."
 msgstr ""
-"Para questões sobre um projeto de tradução específico, não utilize este "
-"formulário. Consulte o separador da informação do projeto e contacte os seus "
-"gestores."
+"Encontre um projeto de tradução específico, consulte o separador 'Sinopse' "
+"do projeto e contacte diretamente os seus gestores."
 
 #: weblate/templates/accounts/contact.html:64
-#, fuzzy
-#| msgid "Browse all projects"
 msgid "Browse projects"
-msgstr "Explorar Todos os Projetos"
+msgstr "Explorar Projetos"
 
 #: weblate/templates/accounts/contact.html:72
-#, fuzzy
-#| msgid "Weblate project"
 msgid "Weblate product feedback"
-msgstr "Projeto Weblate"
+msgstr "Comentário do produto do Weblate"
 
 #: weblate/templates/accounts/contact.html:76
-#, fuzzy
-#| msgid ""
-#| "Weblate development ideas and questions can be sent to the %"
-#| "(link_start)sWeblate issue tracker%(link_end)s."
 msgid ""
 "Share Weblate development ideas, feature requests, or report bugs in the "
 "upstream issue tracker."
 msgstr ""
-"Ideias e perguntas sobre desenvolvimento do Weblate podem ser enviadas para "
-"o %(link_start)srastreador de problemas do Weblate%(link_end)s."
+"Partilhe ideias sobre o desenvolvimento do Weblate, pedidos de "
+"funcionalidade, ou reporte erros no rastreador de problemas ''upstream''."
 
 #: weblate/templates/accounts/contact.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "Open issue"
-#| msgid_plural "Open issues"
 msgid "Open issue tracker"
-msgstr "Problema aberto"
+msgstr "Abrir Rastreador de Problemas"
 
 #: weblate/templates/accounts/contact.html:92
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support for another Weblate server"
-msgstr "Apoiar o Weblate"
+msgstr "Apoio para outro servidor do Weblate"
 
 #: weblate/templates/accounts/contact.html:96
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for any other Weblate deployment than %(site_title)s, "
-#| "please check support offerings at %(weblate_link)s or use this form on "
-#| "the correct server."
+#, python-format
 msgid ""
 "If you seek support for any other Weblate deployment than %(site_title)s, "
 "check the available support offerings, or use the contact form on the "
 "correct server."
 msgstr ""
-"Se procura apoio para qualquer outra implementação do Weblate que não seja "
-"%(site_title)s, por favor, verifique as ofertas de apoio em %(weblate_link)s "
-"ou utilize este formulário no servidor correto."
+"Se procura apoio para qualquer outra implementação do Weblate que não seja %"
+"(site_title)s, verifique as ofertas de apoio disponíveis, ou utilize o "
+"formulário de contacto no servidor correto."
 
 #: weblate/templates/accounts/contact.html:103
-#, fuzzy
-#| msgid "View source string"
 msgid "View support offerings"
-msgstr "Ver cadeia fonte"
+msgstr "Ver Ofertas de Apoio"
 
 #: weblate/templates/accounts/contact.html:112 weblate/templates/base.html:436
 #: weblate/templates/base.html:438 weblate/templates/footer.html:45
@@ -8151,34 +8008,33 @@ msgid ""
 "Browse the Weblate documentation for guides on translating, administration, "
 "and configuration."
 msgstr ""
+"Explore a documentação do Weblate para guias sobre a tradução, "
+"administração, e configuração."
 
 #: weblate/templates/accounts/contact.html:121
 msgid "Read the docs"
-msgstr ""
+msgstr "Ler os Documentos"
 
 #: weblate/templates/accounts/contact.html:131
-#, fuzzy, python-format
-#| msgid "Contact site administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "Contactar administradores do ''site''"
+msgstr "Questão para os administradores de %(site_title)s"
 
 #: weblate/templates/accounts/contact.html:133
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Question for the server administrators"
-msgstr "Contactar os administradores do servidor"
+msgstr "Questão para os administradores do servidor"
 
 #: weblate/templates/accounts/contact.html:139
 msgid ""
 "Reach out to the administrators of this server about account, registration, "
 "or server-wide questions that don't fit the topics above."
 msgstr ""
+"Contacte os administradores deste servidor para sobre a conta, registo, ou "
+"questões em todo o servidor que não se enquadrem nos tópicos em cima."
 
 #: weblate/templates/accounts/contact.html:143
-#, fuzzy
-#| msgid "Use contact form"
 msgid "Open contact form"
-msgstr "Use o formulário de contacto"
+msgstr "Abrir Formulário de Contacto"
 
 #: weblate/templates/accounts/email-sent.html:7
 #: weblate/templates/accounts/register.html:7
@@ -8192,16 +8048,16 @@ msgstr "Redefinição da palavra-passe quase concluída"
 
 #: weblate/templates/accounts/email-sent.html:22
 msgid "Account removal almost complete"
-msgstr "Remoção de conta quase concluída"
+msgstr "Remoção da conta quase concluída"
 
 #: weblate/templates/accounts/email-sent.html:24
 msgid "Registration almost complete"
-msgstr "Registo quase completo"
+msgstr "Registo quase concluído"
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
-"Siga as instruções de recuperação de palavra-passe enviadas para a caixa de "
+"Siga as instruções de recuperação da palavra-passe enviadas para a caixa de "
 "entrada das suas mensagens."
 
 #: weblate/templates/accounts/email-sent.html:32
@@ -8223,40 +8079,38 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:39
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
-"Por favor, se não a encontrar na sua caixa de entrada verifique a sua pasta "
-"de spam."
+"Por favor, veja a sua pasta de lixo eletrónico se não a encontrar na sua "
+"caixa de entrada."
 
 #: weblate/templates/accounts/email-sent.html:43
 #: weblate/templates/mail/shared-registration.html:12
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] ""
-"A hiperligaçãode de confirmação irá expirar dentro de %(count)s hora."
-msgstr[1] ""
-"A hiperligaçãode de confirmação irá expirar dentro de %(count)s horas."
+msgstr[0] "A hiperligação de confirmação irá expirar dentro de %(count)s hora."
+msgstr[1] "A hiperligação de confirmação irá expirar dentro de %(count)s horas."
 
 #: weblate/templates/accounts/email-sent.html:45
 msgid "Request a new confirmation link if it expires."
-msgstr "Solicite um novo link de confirmação se ele expirar."
+msgstr "Solicite uma nova hiperligação de confirmação se esta expirar."
 
 #: weblate/templates/accounts/email-sent.html:47
 msgid "Register again if the confirmation link expires."
-msgstr "Registe-se novamente se o link de confirmação expirar."
+msgstr "Registe-se novamente se a hiperligação de confirmação expirar."
 
 #: weblate/templates/accounts/email-sent.html:52
 msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
-"O ''e-mail'' nem sempre é uma tecnologia instantânea. Por favor, aguarde "
-"pelo menos 30 minutos pela mensagem de confirmação antes de nos contactar "
-"sobre os problemas."
+"O ''e-mail'' não é uma tecnologia instantânea. Por favor, aguarde pelo menos "
+"30 minutos pela mensagem de confirmação antes de nos contactar sobre os "
+"problemas."
 
 #: weblate/templates/accounts/email-sent.html:57
 #: weblate/templates/mail/shared-registration.html:33
 msgid "If there is a problem with your registration, please contact us."
-msgstr "Se existe algum problema com o seu registo, por favor contacte-nos."
+msgstr "Se existe um problema com o seu registo, por favor, contacte-nos."
 
 #: weblate/templates/accounts/email.html:9
 #: weblate/templates/accounts/register.html:25
@@ -8545,7 +8399,7 @@ msgstr "Aplicações de Autenticação (TOTP)"
 
 #: weblate/templates/accounts/profile.html:320
 msgid "No authenticator apps registered yet."
-msgstr "Ainda sem nenhuma aplicação de autenticação registada."
+msgstr "Ainda não existem aplicações de autenticação registadas."
 
 #: weblate/templates/accounts/profile.html:336
 #: weblate/templates/accounts/totp.html:10
@@ -8561,7 +8415,7 @@ msgstr "Códigos de recuperação"
 
 #: weblate/templates/accounts/profile.html:342
 msgid "No recovery codes generated yet."
-msgstr "Ainda sem códigos de recuperação gerados."
+msgstr "Ainda não foram gerados códigos de recuperação."
 
 #: weblate/templates/accounts/profile.html:346
 #: weblate/templates/accounts/recovery-codes.html:49
@@ -9248,10 +9102,8 @@ msgid "Disable password"
 msgstr "Desativar palavra-passe"
 
 #: weblate/templates/accounts/user.html:449
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contribution cleanup"
-msgstr "Colaboradores no comentário"
+msgstr "Limpeza de contribuição"
 
 #: weblate/templates/accounts/user.html:452
 #, python-format
@@ -9259,12 +9111,12 @@ msgid ""
 "Clean up translations, suggestions, and comments from %(user)s across all "
 "projects."
 msgstr ""
+"Limpe as traduções, sugestões, e comentários de %(user)s em todos os "
+"projetos."
 
 #: weblate/templates/accounts/user.html:457
 #: weblate/templates/accounts/user.html:483
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Clean up"
 msgstr "Limpeza"
 
@@ -9309,12 +9161,13 @@ msgid "Close"
 msgstr "Fechar"
 
 #: weblate/templates/accounts/user.html:477
-#, fuzzy, python-format
-#| msgid "This will delete the team <b>%(name)s</b> from this project."
+#, python-format
 msgid ""
 "Choose which contributions by <b>%(user)s</b> to clean up across all "
 "projects."
-msgstr "Isto irá eliminar a equipa <b>%(name)s</b> deste projeto."
+msgstr ""
+"Escolha quais as contribuições por <b>%(user)s</b> para limpar em todos os "
+"projetos."
 
 #: weblate/templates/accounts/user.html:493
 msgid "Account removal deletes all user private data."
@@ -9351,15 +9204,17 @@ msgstr "Isto irá remover o <b>%(user)s</b> do Weblate."
 #, python-format
 msgid "You are leaving Weblate to open a profile link provided by %(user)s."
 msgstr ""
+"Está a sair do Weblate para abrir uma hiperligação de perfil fornecida por %"
+"(user)s."
 
 #: weblate/templates/accounts/user_profile_link.html:26
 #, python-format
 msgid "Destination: %(link)s"
-msgstr ""
+msgstr "Destino: %(link)s"
 
 #: weblate/templates/accounts/user_profile_link.html:28
 msgid "Only continue if you trust this destination."
-msgstr ""
+msgstr "Só continue se confiar neste destino."
 
 #: weblate/templates/accounts/user_profile_link.html:34
 #: weblate/templates/trans/component_create.html:78
@@ -9404,7 +9259,7 @@ msgstr "Esta extensão não tem definições."
 #: weblate/templates/addons/addon_detail.html:65
 #: weblate/templates/addons/addon_list.html:69
 msgid "Run now"
-msgstr ""
+msgstr "Executar agora"
 
 #: weblate/templates/addons/addon_detail.html:69
 #: weblate/templates/addons/addon_list.html:72
@@ -9591,10 +9446,8 @@ msgstr ""
 "Os elementos traduzíveis têm de corresponder ao seletor de CSS configurado."
 
 #: weblate/templates/addons/discovery_presets.html:5
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Guided presets"
-msgstr "Projetos faturados"
+msgstr "Pré-ajustes guiados"
 
 #: weblate/templates/addons/discovery_presets.html:7
 msgid ""
@@ -9607,16 +9460,12 @@ msgid "Examples:"
 msgstr "Exemplos:"
 
 #: weblate/templates/addons/discovery_presets.html:47
-#, fuzzy
-#| msgid "Protected"
 msgid "Detected"
-msgstr "Protegido"
+msgstr "Detetado"
 
 #: weblate/templates/addons/discovery_presets.html:49
-#, fuzzy
-#| msgid "Generate"
 msgid "Generic"
-msgstr "Gerar"
+msgstr "Genérico"
 
 #: weblate/templates/addons/discovery_preview.html:8
 msgid "Matched files"
@@ -9624,7 +9473,7 @@ msgstr "Ficheiros correspondentes"
 
 #: weblate/templates/addons/discovery_preview.html:14
 msgid "The following errors were found"
-msgstr "Os erros a seguir foram encontrados"
+msgstr "Foram encontrados os seguintes erros"
 
 #: weblate/templates/addons/discovery_preview.html:27
 #: weblate/templates/addons/discovery_preview.html:67
@@ -9648,7 +9497,7 @@ msgstr "Máscara de ficheiro"
 
 #: weblate/templates/addons/discovery_preview.html:44
 msgid "The following components would be deleted"
-msgstr "Os componentes seguintes seriam apagados"
+msgstr "Os componentes seguintes seriam eliminados"
 
 #: weblate/templates/addons/discovery_preview.html:58
 msgid "The following components would be created"
@@ -9656,7 +9505,7 @@ msgstr "Os componentes seguintes seriam criados"
 
 #: weblate/templates/addons/discovery_preview.html:82
 msgid "The following components matched existing ones"
-msgstr "Os componentes seguintes correspondem a já existentes"
+msgstr "Os componentes seguintes correspondem aos já existentes"
 
 #: weblate/templates/addons/discovery_preview.html:106
 msgid "The following components could not be created"
@@ -9664,15 +9513,15 @@ msgstr "Não foi possível criar os componentes seguintes"
 
 #: weblate/templates/addons/discovery_preview.html:136
 msgid "No matching components were found!"
-msgstr "Nenhum componente correspondente foi encontrado!"
+msgstr "Não foi encontrado nenhum componente correspondente!"
 
 #: weblate/templates/addons/generate_help.html:5
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
-"Pode usar modelos de markup Django no nome e no conteúdo do ficheiro, por "
-"exemplo:"
+"Por exemplo, pode utilizar os modelos de marcação Django no nome e conteúdo "
+"do ficheiro:"
 
 #: weblate/templates/addons/generate_help.html:36
 msgid "Percents translated"
@@ -9705,10 +9554,8 @@ msgid "Project URL slug"
 msgstr "URL semântico do projeto"
 
 #: weblate/templates/addons/language_consistency_preview.html:4
-#, fuzzy
-#| msgid "Review strings"
 msgid "Review before installing"
-msgstr "Rever cadeias de carateres"
+msgstr "Rever antes da instalar"
 
 #: weblate/templates/addons/language_consistency_preview.html:9
 #, python-format
@@ -9783,34 +9630,28 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/addons/language_consistency_preview.html:49
-#, fuzzy
-#| msgid "Language added"
 msgid "Languages to add"
-msgstr "Idioma adicionado"
+msgstr "Idiomas a adicionar"
 
 #: weblate/templates/addons/language_consistency_preview.html:50
-#, fuzzy
-#| msgid "File format"
 msgid "Files to create"
-msgstr "Formato de ficheiro"
+msgstr "Ficheiros a criar"
 
 #: weblate/templates/addons/language_consistency_preview.html:80
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Skipped additions"
-msgstr "Adições recentes"
+msgstr "Adições ignoradas"
 
 #: weblate/templates/addons/language_consistency_preview.html:93
 msgid "No missing language files would be created."
-msgstr ""
+msgstr "Não seriam criados ficheiros de idioma em falta."
 
 #: weblate/templates/addons/pseudolocale.html:4
 msgid "Generated strings"
-msgstr "Cadeias geradas"
+msgstr "Cadeias de carateres geradas"
 
 #: weblate/templates/addons/pseudolocale.html:6
 msgid "The strings will be generated using following pattern:"
-msgstr "As cadeias serão geradas segundo o padrão:"
+msgstr "As cadeias de carateres serão geradas utilizando o seguinte padrão:"
 
 #: weblate/templates/addons/pseudolocale.html:11
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -9821,21 +9662,23 @@ msgstr "As cadeias serão geradas segundo o padrão:"
 #: weblate/templates/translate.html:99 weblate/trans/forms.py:3710
 #: weblate/utils/views.py:227
 msgid "Source string"
-msgstr "Cadeia fonte"
+msgstr "Cadeia de caráter fonte"
 
 #: weblate/templates/addons/squash_help.html:3
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "Compromissos Weblate de componentes deste repositório serão esmagados."
+msgstr ""
+"As implementações do Weblate de componentes deste repositório serão "
+"comprimidas."
 
 #: weblate/templates/addons/squash_help.html:5
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" is selected or the commit message is customized to include it."
 msgstr ""
-"As mensagens originais de compromissos são mantidas, mas perdem o autor, a "
-"menos que esteja marcado \"Por autor\" ou a mensagem de compromisso esteja "
-"personalizada para o incluir."
+"As mensagens de implementação originais são mantidas, mas perdem o autor, a "
+"menos que esteja selecionado \"Por autor\" ou a mensagem de implementação "
+"está personalizada para o incluir."
 
 #: weblate/templates/addons/webhook_log.html:10
 msgid "HTTP Response"
@@ -9896,7 +9739,7 @@ msgstr ""
 
 #: weblate/templates/auth/team.html:106
 msgid "Add automatic assignment"
-msgstr "Adicionar tarefa automática"
+msgstr "Adicionar atribuição automática"
 
 #: weblate/templates/auth/team.html:128
 #: weblate/templates/trans/project-access.html:63
@@ -14187,7 +14030,7 @@ msgstr "Ordenar esta coluna"
 
 #: weblate/templates/snippets/list-objects.html:80
 msgid "Unreviewed"
-msgstr "Não revisado"
+msgstr "Por rever"
 
 #: weblate/templates/snippets/list-objects.html:99
 msgid "Unfinished words"
@@ -16273,7 +16116,7 @@ msgid ""
 "translation"
 msgstr ""
 "Todas as cadeias de carateres, ficheiros convertidos enriquecidos com "
-"comentários; adequado para a tradução off-line"
+"comentários; adequado para a tradução ''off-line''"
 
 #: weblate/templates/translation.html:323
 msgid ""
