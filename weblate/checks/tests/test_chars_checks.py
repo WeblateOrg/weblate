@@ -51,7 +51,7 @@ class AcceleratorKeyCheckTest(CheckTestCase):
         self.do_test(True, ("File", "_File", "accelerators"))
 
     def test_literal_ampersand(self) -> None:
-        # A balanced, literal ampersand is not treated as an accelerator key.
+        # A literal ampersand present in both source and translation should not trigger this check.
         self.do_test(False, ("Walter & Sons", "Walter & Sons", "accelerators"))
         # Escaped/literal ampersands (Qt/Windows "&&") should not count as accelerators.
         self.do_test(False, ("Save && Exit", "Save && Exit", "accelerators"))
