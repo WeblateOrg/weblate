@@ -5,16 +5,19 @@
 """Sphinx plugins for Weblate documentation."""
 
 import re
+from urllib.parse import quote
 
 from docutils import nodes
 from docutils.nodes import literal
 from sphinx import addnodes
 from sphinx.domains.std import Cmdoption
+from sphinx.util.nodes import split_explicit_title
 
 # RE for option descriptions without a '--' prefix
 simple_option_desc_re = re.compile(r"([-_a-zA-Z0-9]+)(\s*.*?)(?=,\s+(?:/|-|--)|$)")
 
 GHSSA_URL = "https://github.com/WeblateOrg/weblate/security/advisories/{}"
+PYPI_URL = "https://pypi.org/project/{}/"
 
 
 class WeblateCommandLiteral(literal):
@@ -28,6 +31,20 @@ def ghsa_link(name, rawtext, text, lineno, inliner, options={}, content=[]):  # 
     fullname = f"GHSA-{text}"
     url = GHSSA_URL.format(fullname)
     node = nodes.reference(rawtext, fullname, refuri=url, **options)
+    return [node], []
+
+
+def pypi_link(name, rawtext, text, lineno, inliner, options=None, content=None):
+    options = options or {}
+    has_explicit_title, title, target = split_explicit_title(text)
+    package = target.strip()
+    title = title.strip() if has_explicit_title else package
+    if not package:
+        msg = inliner.reporter.error("PyPI package name is empty", line=lineno)
+        return [inliner.problematic(rawtext, rawtext, msg)], [msg]
+    node = nodes.reference(
+        rawtext, title, refuri=PYPI_URL.format(quote(package, safe="")), **options
+    )
     return [node], []
 
 
@@ -50,6 +67,7 @@ def setup(app) -> None:
         parse_node=parse_django_admin_node,
     )
     app.add_role("ghsa", ghsa_link)
+    app.add_role("pypi", pypi_link)
     return {
         "parallel_read_safe": True,
         "parallel_write_safe": True,
