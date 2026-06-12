@@ -252,6 +252,19 @@ def _register_opentelemetry_after_fork() -> None:
     _STATE["opentelemetry_at_fork_registered"] = True
 
 
+def validate_opentelemetry_settings() -> None:
+    """Validate OpenTelemetry settings which can fail application startup."""
+    if (
+        not settings.OPENTELEMETRY_ENABLED
+        or not settings.OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+    ):
+        return
+    sample_rate = settings.OPENTELEMETRY_TRACES_SAMPLE_RATE
+    if sample_rate < 0 or sample_rate > 1:
+        msg = "OPENTELEMETRY_TRACES_SAMPLE_RATE has to be between 0 and 1"
+        raise ImproperlyConfigured(msg)
+
+
 def init_opentelemetry() -> None:
     """Initialize OpenTelemetry tracing."""
     from weblate.utils.tracing import configure_opentelemetry_tracer  # noqa: PLC0415
@@ -266,10 +279,8 @@ def init_opentelemetry() -> None:
         configure_opentelemetry_tracer(None)
         return
 
+    validate_opentelemetry_settings()
     sample_rate = settings.OPENTELEMETRY_TRACES_SAMPLE_RATE
-    if sample_rate < 0 or sample_rate > 1:
-        msg = "OPENTELEMETRY_TRACES_SAMPLE_RATE has to be between 0 and 1"
-        raise ImproperlyConfigured(msg)
     if sample_rate == 0:
         configure_opentelemetry_tracer(None)
         return
@@ -349,7 +360,23 @@ def init_rollbar() -> None:
     LOGGER.info("configured Rollbar error collection")
 
 
+def validate_error_collection_settings() -> None:
+    """Validate configured error collection backends before serving requests."""
+    if settings.SENTRY_DSN:
+        get_sentry_sdk()
+
+    if settings.GOOGLE_CLOUD_ERROR_REPORTING is not None:
+        get_google_cloud_error_reporting()
+
+    validate_opentelemetry_settings()
+
+    if hasattr(settings, "ROLLBAR"):
+        get_rollbar()
+
+
 def init_error_collection(celery=False) -> None:
+    validate_error_collection_settings()
+
     if settings.SENTRY_DSN:
         init_sentry()
 
