@@ -100,6 +100,9 @@ For application-developer workflows and broader product integration guidance, us
 - Prefer `uv run prek run --all-files` as the primary linting/formatting command because
   it runs the repository's configured pre-commit framework checks.
 - `prek` is a third-party reimplementation of the `pre-commit` tool.
+- Prefer `prek` for Ruff checks and formatting; `uv run ruff ...` is not
+  guaranteed to work in this environment because Ruff can be provided only
+  through the pre-commit hook environment.
 - Use `pytest` to run the test suite: `uv run pytest`. On a fresh checkout,
   first follow the local test setup in `docs/contributing/tests.rst`
   (`DJANGO_SETTINGS_MODULE=weblate.settings_test`, `collectstatic`, and test
