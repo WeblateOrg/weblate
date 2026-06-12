@@ -1751,7 +1751,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Edit context
         self.click(htmlid="edit-context")
-        time.sleep(0.2)
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                "return document.activeElement?.id === 'id_explanation';"
+            )
+        )
+        self.driver.execute_script(
+            "document.getElementById('context-edit-form').focus({preventScroll: true});"
+        )
         self.screenshot("source-review-edit.png")
 
         # Close modal dialog
