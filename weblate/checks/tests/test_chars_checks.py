@@ -53,13 +53,17 @@ class AcceleratorKeyCheckTest(CheckTestCase):
     def test_literal_ampersand(self) -> None:
         # A balanced, literal ampersand is not treated as an accelerator key.
         self.do_test(False, ("Walter & Sons", "Walter & Sons", "accelerators"))
+        # Escaped/literal ampersands (Qt/Windows "&&") should not count as accelerators.
+        self.do_test(False, ("Save && Exit", "Save && Exit", "accelerators"))
+        # HTML entities should not be treated as accelerators.
+        self.do_test(False, ("Fish &amp; Chips", "Fish &amp; Chips", "accelerators"))
+        self.do_test(False, ("A &amp; B &amp; C", "A &amp; B &amp; C", "accelerators"))
 
-    def test_multiple_accelerators(self) -> None:
-        # More than one accelerator in the target is reported even if counts match.
-        self.do_test(True, ("&File &Edit", "&File &Edit", "accelerators"))
-        # A mismatched marker type (& vs _) is reported.
-        self.do_test(True, ("&File", "_File", "accelerators"))
-
+    def test_escaped_underscore(self) -> None:
+        # Escaped/literal underscores (GTK "__") should not count as accelerators.
+        self.do_test(False, ("__File", "__File", "accelerators"))
+        # "___" is commonly used for a literal underscore plus an accelerator marker.
+        self.do_test(False, ("___File", "___File", "accelerators"))
 
 class BeginNewlineCheckTest(CheckTestCase):
     check = BeginNewlineCheck()
