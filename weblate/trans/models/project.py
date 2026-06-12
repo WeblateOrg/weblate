@@ -101,10 +101,12 @@ class ProjectLanguageFactory(UserDict):
     def preload(self) -> list[ProjectLanguage]:
         return [self[language] for language in self._project.languages]
 
-    def preload_workflow_settings(self) -> None:
+    def preload_workflow_settings(
+        self, instances: Iterable[ProjectLanguage] | None = None
+    ) -> None:
         from weblate.trans.models.workflow import WorkflowSetting  # noqa: PLC0415
 
-        instances = self.preload()
+        instances = self.preload() if instances is None else list(instances)
 
         pending = {instance.language.id: instance for instance in instances}
 

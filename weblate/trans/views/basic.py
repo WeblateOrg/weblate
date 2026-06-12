@@ -506,6 +506,8 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     language_stats = sort_unicode(
         language_stats, user.profile.get_translation_orderer(request)
     )
+    language_objects = [stat.obj or stat for stat in language_stats]
+    obj.project_languages.preload_workflow_settings(language_objects)
 
     components = prefetch_tasks(all_components)
 
@@ -522,7 +524,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
             "reports_form": ReportsForm({"project": obj}),
             "reports_count_form": CountsReportsForm({"project": obj}),
             "reports_cost_form": CostEstimateReportsForm({"project": obj}),
-            "language_stats": [stat.obj or stat for stat in language_stats],
+            "language_stats": language_objects,
             "search_form": SearchForm(
                 request=request,
                 initial=SearchForm.get_initial(request),
