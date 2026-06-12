@@ -386,6 +386,7 @@ linkcheck_ignore = [
     "http://ftp.pwg.org/",
     # Times out in CI
     "https://ai.youdao.com/product-fanyi-text.s",
+    "https://help.gitee.com/webhook",
     # 403
     "https://openai.com/",
     "https://platform.openai.com/api-keys",
