@@ -97,6 +97,8 @@ Import methods
 
 These are the choices presented when uploading translation files:
 
+.. image:: /screenshots/file-import-methods.webp
+
 Add as translation (``translate``)
     Imported strings are added as translations to existing strings. This is the most common usecase, and
     the default behavior.

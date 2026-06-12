@@ -850,6 +850,8 @@ Recovery codes
 
    Keep your recovery codes as safe as your password. We recommend saving them with a password manager such as Bitwarden, 1Password, Authy, or Keeper.
 
+.. image:: /screenshots/authentication.webp
+
 Each user can configure this in :ref:`profile-account` and second factor will
 be required to sign in addition to the existing authentication method.
 

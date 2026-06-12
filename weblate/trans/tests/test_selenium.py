@@ -39,7 +39,7 @@ from selenium.webdriver.support.expected_conditions import (
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 import weblate.machinery.models
-from weblate.auth.models import User
+from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.lang.models import Language
@@ -48,7 +48,15 @@ from weblate.machinery.dummy import DummyTranslation
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Project, Unit
+from weblate.trans.models import (
+    Announcement,
+    Change,
+    Component,
+    ComponentList,
+    ContributorAgreement,
+    Project,
+    Unit,
+)
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -751,14 +759,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def test_ssh(self) -> None:
         """Test SSH admin interface."""
-        self.open_admin()
-
-        time.sleep(0.2)
-        self.screenshot("admin.png")
+        self.open_manage()
 
         # Open SSH page
         with self.wait_for_page_load():
-            self.click("SSH keys")
+            self.driver.get(f"{self.live_server_url}{reverse('manage-ssh')}")
 
         # Generate SSH key
         if get_key_data() is None:
@@ -816,6 +821,55 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(htmlid="return-to-weblate")
 
+    def open_project(self, project: Project | str = "WeblateOrg") -> None:
+        """Open project dashboard from the global project menu."""
+        project_name = project.name if isinstance(project, Project) else project
+        self.click(htmlid="projects-menu")
+        with self.wait_for_page_load():
+            self.click("Browse all projects")
+        with self.wait_for_page_load():
+            self.click(project_name)
+
+    def open_component(
+        self,
+        component: Component | str = "Language names",
+        project: Project | str = "WeblateOrg",
+    ) -> None:
+        """Open component dashboard from a project dashboard."""
+        component_name = (
+            component.name if isinstance(component, Component) else component
+        )
+        self.open_project(project)
+        self.click("Components")
+        with self.wait_for_page_load():
+            self.click(component_name)
+
+    def open_translation(
+        self,
+        language: str = "Czech",
+        component: str = "Django",
+        project: Project | str = "WeblateOrg",
+    ) -> None:
+        """Open a translation dashboard from a project dashboard."""
+        self.open_project(project)
+        with self.wait_for_page_load():
+            self.click(language)
+        self.click("Components")
+        with self.wait_for_page_load():
+            self.click(component)
+
+    def create_android_component(self, project: Project) -> Component:
+        """Create Android component used by translation screenshots."""
+        return Component.objects.create(
+            name="Android",
+            slug="android",
+            project=project,
+            repo="weblate://weblateorg/language-names",
+            filemask="app/src/main/res/values-*/strings.xml",
+            template="app/src/main/res/values/strings.xml",
+            file_format="aresource",
+        )
+
     def test_dashboard(self) -> None:
         self.do_login()
         # Generate nice changes data
@@ -846,22 +900,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(htmlid="settings-button")
         self.click("Account")
         self.screenshot("authentication.png")
+        self.assert_text_contains(".second-factor", "Security keys")
 
     def test_screenshot_filemask_repository_filename(self) -> None:
         """Test of mask of files to allow discovery/update of screenshots."""
         self.create_component()
         self.do_login(superuser=True)
-        self.click(htmlid="projects-menu")
-        with self.wait_for_page_load():
-            self.click("Browse all projects")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
-        self.click("Components")
-        with self.wait_for_page_load():
-            self.click("Django")
+        self.open_component("Django")
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Screenshots")
+        self.click("Add screenshot")
+        self.assert_text_contains("#screenshots-add", "Repository path to screenshot")
         self.screenshot("screenshot-filemask-repository-filename.png")
 
     def test_screenshots(self) -> None:
@@ -973,74 +1023,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         capture_unit("screenshot-context.png", "toggle-machinery")
 
     def test_admin(self) -> None:
-        """Test admin interface."""
+        """Test admin dashboard and announcements."""
         ConfigurationError.objects.create(
             name="test", message="Testing configuration error"
         )
         self.do_login(superuser=True)
         self.screenshot("admin-wrench.png")
-        self.create_component()
-        # Open admin page
-        self.open_admin(login=False)
-
-        # Component list
-        with self.wait_for_page_load():
-            self.click("Component lists")
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
-        element = self.driver.find_element(By.ID, "id_name")
-        element.send_keys("All components")
-        self.click("Add another Automatic component list assignment")
-        element = self.driver.find_element(
-            By.ID, "id_autocomponentlist_set-0-project_match"
+        project = self.create_component()
+        language = Language.objects.get(code="cs")
+        Announcement.objects.create(
+            project=project,
+            message="Translations will be used only if they reach 60%.",
         )
-        element.clear()
-        element.send_keys("^.*$")
-        element = self.driver.find_element(
-            By.ID, "id_autocomponentlist_set-0-component_match"
+        Announcement.objects.create(
+            language=language, message="Czech translators rock!"
         )
-        element.clear()
-        element.send_keys("^.*$")
-        self.screenshot("componentlist-add.png")
-        with self.wait_for_page_load():
-            element.submit()
-
-        # Ensure the component list is there
-        with self.wait_for_page_load():
-            self.click("All components")
-
-        # Announcement
-        with self.wait_for_page_load():
-            self.click("Weblate translations")
-        with self.wait_for_page_load():
-            self.click("Announcements")
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
-        Select(self.driver.find_element(By.ID, "id_project")).select_by_visible_text(
-            "WeblateOrg"
-        )
-        element = self.driver.find_element(By.ID, "id_message")
-        element.send_keys("Translations will be used only if they reach 60%.")
-        self.screenshot("announcement.png")
-        with self.wait_for_page_load():
-            element.submit()
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
-        Select(self.driver.find_element(By.ID, "id_language")).select_by_visible_text(
-            "Czech"
-        )
-        element = self.driver.find_element(By.ID, "id_message")
-        element.send_keys("Czech translators rock!")
-        with self.wait_for_page_load():
-            element.submit()
 
         # Announcement display
-        self.view_site()
-        self.click(htmlid="projects-menu")
-        with self.wait_for_page_load():
-            self.click("Browse all projects")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
+        self.open_project(project)
         self.assert_text_contains(".announcement", "60%")
         self.click("Operations")
         self.click("Post announcement")
@@ -1122,100 +1122,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains("#access", "Project creators")
         self.screenshot("workspace-access.png")
 
-    def test_weblate(self) -> None:  # noqa: PLR0915
-        user = self.open_admin()
-        language_regex = "^(cs|he|hu)$"
-
-        # Add project
-        with self.wait_for_page_load():
-            self.click("Projects")
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
-        self.driver.find_element(By.ID, "id_name").send_keys("WeblateOrg")
-        Select(self.driver.find_element(By.ID, "id_access_control")).select_by_value(
-            "1"
-        )
-        self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
-        self.driver.find_element(By.ID, "id_instructions").send_keys(
-            "https://weblate.org/contribute/"
-        )
-        self.screenshot("add-project.png")
-        with self.wait_for_page_load():
-            self.driver.find_element(By.ID, "id_name").submit()
-
-        # Add bilingual component
-        with self.wait_for_page_load():
-            self.click("Home")
-        with self.wait_for_page_load():
-            self.click("Components")
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
-
-        self.driver.find_element(By.ID, "id_name").send_keys("Language names")
-        Select(self.driver.find_element(By.ID, "id_project")).select_by_visible_text(
-            "WeblateOrg"
-        )
-        self.driver.find_element(By.ID, "id_repo").send_keys(
-            "https://github.com/WeblateOrg/demo.git"
-        )
-        self.driver.find_element(By.ID, "id_branch").send_keys("main")
-        self.driver.find_element(By.ID, "id_repoweb").send_keys(
-            "https://github.com/WeblateOrg/demo/blob/{{branch}}/{{filename}}#L{{line}}"
-        )
-        self.driver.find_element(By.ID, "id_filemask").send_keys(
-            "weblate/langdata/locale/*/LC_MESSAGES/django.po"
-        )
-        self.driver.find_element(By.ID, "id_new_base").send_keys(
-            "weblate/langdata/locale/django.pot"
-        )
-        Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
-        self.select_component_license("GPL-3.0-or-later")
-        element = self.driver.find_element(By.ID, "id_language_regex")
-        element.clear()
-        element.send_keys(language_regex)
-        self.screenshot("add-component.png")
-        # This takes long
-        with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element(By.ID, "id_name").submit()
-        with self.wait_for_page_load():
-            self.click("Language names")
-
-        # Add monolingual component
-        with self.wait_for_page_load():
-            self.click("Components")
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
-        self.driver.find_element(By.ID, "id_name").send_keys("Android")
-        Select(self.driver.find_element(By.ID, "id_project")).select_by_visible_text(
-            "WeblateOrg"
-        )
-        self.driver.find_element(By.ID, "id_repo").send_keys(
-            "weblate://weblateorg/language-names"
-        )
-        self.driver.find_element(By.ID, "id_filemask").send_keys(
-            "app/src/main/res/values-*/strings.xml"
-        )
-        self.driver.find_element(By.ID, "id_template").send_keys(
-            "app/src/main/res/values/strings.xml"
-        )
-        Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value(
-            "aresource"
-        )
-        self.select_component_license("MIT")
-        self.screenshot("add-component-mono.png")
-        # This takes long
-        with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element(By.ID, "id_name").submit()
-        with self.wait_for_page_load():
-            self.click("Android")
-
-        # Load Weblate project page
-        self.view_site()
-        self.click(htmlid="projects-menu")
-        with self.wait_for_page_load():
-            self.click("Browse all projects")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
+    def test_project_operations(self) -> None:
+        """Test project-level screenshots."""
+        project = self.create_component()
+        self.do_login(superuser=True)
+        self.open_project(project)
 
         self.screenshot("project-overview.png")
 
@@ -1240,18 +1151,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Access control")
         self.screenshot("manage-users.png")
         self.assertGreater(self.count_elements("table.table-striped tbody tr"), 0)
+
         # Automatic suggestions
-        self.click(htmlid="projects-menu")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
+        self.open_project(project)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Automatic suggestions")
         self.screenshot("project-machinery.png")
+
         # Access control settings
-        self.click(htmlid="projects-menu")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
+        self.open_project(project)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
@@ -1259,13 +1168,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("project-access.png")
         self.click("Workflow")
         self.screenshot("project-workflow.png")
-        # The project is now watched
-        self.click(htmlid="projects-menu")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
 
         # Engage page
-        project = Project.objects.get(slug="weblateorg")
+        self.open_project(project)
         self.click("Community")
         with override_settings(SITE_DOMAIN=SCREENSHOT_SITE_DOMAIN):
             with self.wait_for_page_load():
@@ -1281,9 +1186,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
 
-        self.click("Components")
-        with self.wait_for_page_load():
-            self.click("Language names")
+    def test_component_operations(self) -> None:
+        """Test component operation screenshots."""
+        language_regex = "^(cs|he|hu)$"
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        self.do_login(superuser=True)
+        self.open_component(component, project)
 
         # Repository
         self.click("Operations")
@@ -1333,7 +1242,30 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Insights")
         self.screenshot("reporting.png")
 
+        # Component tools
+        self.open_component(component, project)
+        self.click("Operations")
+        self.click("Search and replace")
+        self.assert_text_contains("#replace", "Search and replace")
+        self.screenshot("search-replace.png")
+        self.click("Operations")
+        self.click("Bulk edit")
+        self.assert_text_contains("#bulk-edit", "Bulk edit")
+        self.screenshot("bulk-edit.png")
+
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}"
+                f"{reverse('matrix', kwargs={'path': component.get_url_path()})}"
+                "?lang=cs&lang=he"
+            )
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located((By.CSS_SELECTOR, ".matrix tbody tr"))
+        )
+        self.screenshot("matrix-view.png")
+
         # Contributor license agreement
+        self.open_component(component, project)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Settings")
@@ -1357,11 +1289,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             element.submit()
 
-        # Translation page
-        with self.wait_for_page_load():
-            self.click("Czech")
-        with self.wait_for_page_load():
-            self.click("Django")
+    def test_translation_workflow(self) -> None:
+        """Test translation workflow screenshots."""
+        project = self.create_component()
+        user = self.do_login(superuser=True)
+        self.open_translation(project=project)
         self.screenshot("strings-to-check.png")
         count_text = self.driver.find_element(By.CSS_SELECTOR, ".card th.number").text
         self.assertGreater(int(count_text.replace(",", "")), 0)
@@ -1369,6 +1301,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Upload translation")
         self.click("Files")
         self.screenshot("file-upload.png")
+        self.assert_text_contains("#upload", "File upload mode")
+        self.screenshot("file-import-methods.png")
         self.click("Customize download")
         self.click("Files")
         self.screenshot("file-download.png")
@@ -1440,6 +1374,49 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "All strings"))
         self.screenshot("visual-keyboard.png")
 
+        translation = Component.objects.get(
+            project=project, slug="django"
+        ).translation_set.get(language__code="he")
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}"
+                f"{reverse('zen', kwargs={'path': translation.get_url_path()})}"
+                "?q=word"
+            )
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located((By.CSS_SELECTOR, ".zen-unit"))
+        )
+        self.screenshot("zen-mode.png")
+
+    def test_profile_dashboard(self) -> None:
+        """Test profile and dashboard screenshots."""
+        project = self.create_component()
+        components = project.component_set.all()
+        components.update(license="GPL-3.0-or-later", inherit_license=False)
+        language_names = components.get(slug="language-names")
+        django = components.get(slug="django")
+        language_names.agreement = (
+            "Translations are contributed under the project license."
+        )
+        language_names.inherit_agreement = False
+        language_names.save(update_fields=["agreement", "inherit_agreement"])
+        user = self.do_login(superuser=True)
+
+        languages = Language.objects.filter(code__in=("cs", "he", "hu"))
+        user.profile.languages.set(languages)
+        user.profile.watched.add(project)
+        ContributorAgreement.objects.create(user=user, component=language_names)
+        for translation in django.translation_set.filter(language__in=languages):
+            Change.objects.create(
+                action=ActionEvents.CHANGE,
+                user=user,
+                author=user,
+                project=project,
+                component=django,
+                translation=translation,
+                language=translation.language,
+            )
+
         # Profile
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
@@ -1456,6 +1433,35 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Dashboard")
         time.sleep(0.2)
         self.screenshot("your-translations.png")
+
+    def test_team_management(self) -> None:
+        """Test team management screenshots."""
+        project = self.create_component()
+        component_list = ComponentList.objects.create(
+            name="Website components", slug="website-components"
+        )
+        component_list.components.set(project.component_set.all())
+        team = Group.objects.create(name="Spanish Admin-Reviewers")
+        team.roles.set(Role.objects.without_global_permissions()[:2])
+        team.projects.set([project])
+        team.componentlists.set([component_list])
+        team.languages.set(Language.objects.filter(code__in=("cs", "he")))
+        AutoGroup.objects.create(group=team, match=r".*@example\.org$")
+
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{team.get_absolute_url()}")
+        self.assert_text_contains("#basic", "Project selection")
+        self.screenshot("team-scope.png")
+
+        self.click("Automatic assignments")
+        self.assertEqual(
+            self.driver.find_element(By.ID, "id_autogroup_set-0-match").get_attribute(
+                "value"
+            ),
+            r".*@example\.org$",
+        )
+        self.screenshot("team-automatic-assignments.png")
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:
@@ -1683,15 +1689,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def test_explanation(self) -> None:
         project = self.create_component()
-        Component.objects.create(
-            name="Android",
-            slug="android",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="app/src/main/res/values-*/strings.xml",
-            template="app/src/main/res/values/strings.xml",
-            file_format="aresource",
-        )
+        self.create_android_component(project)
 
         self.do_login(superuser=True)
         self.click(htmlid="projects-menu")
@@ -1764,15 +1762,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def test_dark_theme(self) -> None:
         project = self.create_component()
-        Component.objects.create(
-            name="Android",
-            slug="android",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="app/src/main/res/values-*/strings.xml",
-            template="app/src/main/res/values/strings.xml",
-            file_format="aresource",
-        )
+        self.create_android_component(project)
         self.do_login()
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
