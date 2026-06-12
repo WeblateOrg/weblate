@@ -15,6 +15,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db.models import Q
 from django.test import SimpleTestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
@@ -743,6 +744,18 @@ class MemoryViewTest(FixtureTestCase):
                 data,
                 follow=True,
             )
+
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_upload_too_big(self) -> None:
+        handle = BytesIO(b"xx")
+        handle.name = "memory.tmx"
+        response = self.client.post(
+            reverse("memory-upload"),
+            {"file": handle},
+            follow=True,
+        )
+
+        self.assertContains(response, "Uploaded translation file is too big.")
 
     def test_memory(
         self, match="Number of your entries", fail=False, prefix: str = "", **kwargs

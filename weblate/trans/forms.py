@@ -2767,7 +2767,7 @@ class ComponentZipCreateForm(ComponentProjectForm):
 class ComponentDocCreateForm(ComponentProjectForm):
     docfile = forms.FileField(
         label=gettext_lazy("Document to translate"),
-        validators=[validate_file_extension],
+        validators=[validate_translation_upload_size, validate_file_extension],
     )
 
     target_language = forms.ModelChoiceField(
