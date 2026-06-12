@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from types import SimpleNamespace
+
+from django.core.cache import cache
 from django.test import SimpleTestCase, override_settings
 from translate.misc.multistring import multistring
 from translate.storage.base import ParseError
@@ -12,6 +15,7 @@ from weblate.trans.util import (
     cleanup_path,
     cleanup_repo_url,
     count_words,
+    get_project_description,
     get_string,
     join_plural,
     sanitize_backend_error_message,
@@ -112,6 +116,56 @@ class CleanupPathTest(SimpleTestCase):
 
     def test_double_slash(self) -> None:
         self.assertEqual(cleanup_path("foo//*.po"), "foo/*.po")
+
+
+class ProjectDescriptionProject:
+    id = 12345
+    stats = SimpleNamespace(languages=25)
+
+    def __str__(self) -> str:
+        return "Software"
+
+
+class ProjectDescriptionTest(SimpleTestCase):
+    def setUp(self) -> None:
+        cache.delete("project-lang-count-12345")
+        self.project = ProjectDescriptionProject()
+
+    def tearDown(self) -> None:
+        cache.delete("project-lang-count-12345")
+
+    @override_settings(OFFER_HOSTING=True, SINGLE_PROJECT=False)
+    def test_hosted_description(self) -> None:
+        self.assertEqual(
+            get_project_description(self.project),
+            "Software is being translated into 25 languages using Weblate. "
+            "Join the translation or start translating your own project.",
+        )
+
+    @override_settings(OFFER_HOSTING=False, SINGLE_PROJECT=False)
+    def test_self_hosted_description(self) -> None:
+        self.assertEqual(
+            get_project_description(self.project),
+            "Software is being translated into 25 languages using Weblate. "
+            "Join the translation.",
+        )
+
+    @override_settings(OFFER_HOSTING=True, SINGLE_PROJECT=True)
+    def test_single_project_description(self) -> None:
+        self.assertEqual(
+            get_project_description(self.project),
+            "Software is being translated into 25 languages using Weblate. "
+            "Join the translation.",
+        )
+
+    @override_settings(OFFER_HOSTING=False, SINGLE_PROJECT=False)
+    def test_single_language_description(self) -> None:
+        self.project.stats = SimpleNamespace(languages=1)
+        self.assertEqual(
+            get_project_description(self.project),
+            "Software is being translated into 1 language using Weblate. "
+            "Join the translation.",
+        )
 
 
 class BackendErrorSanitizationTest(SimpleTestCase):
