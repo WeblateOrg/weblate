@@ -47,6 +47,7 @@ import weblate.machinery.models
 from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
+from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
@@ -71,6 +72,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
+from weblate.utils.stats import GlobalStats
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
@@ -339,6 +341,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 expected_text,
             )
         )
+
+    def get_stable_naturaltime_timestamp(self) -> datetime:
+        """Return a recent timestamp that renders consistently in screenshots."""
+        return timezone.now() - timedelta(minutes=1)
+
+    def stabilize_global_stats_timestamp(self) -> None:
+        """Freeze global stats cache timestamp for activity screenshots."""
+        stats = GlobalStats()
+        stats.calculate_basic()
+        data = stats.get_data()
+        data["stats_timestamp"] = time.time() - 60
+        cache.set(stats.cache_key, data, 30 * 86400)
+
+    def use_screenshot_site_domain_for_git_export(self, component: Component) -> None:
+        """Store the displayed Git export URL with the screenshot domain."""
+        with override_settings(SITE_DOMAIN=SCREENSHOT_SITE_DOMAIN, ENABLE_HTTPS=False):
+            component.git_export = get_export_url(component)
+            component.save(update_fields=("git_export",))
 
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
@@ -1015,6 +1035,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Insights")
         with self.wait_for_page_load():
             self.click("Statistics")
+        self.stabilize_global_stats_timestamp()
+        with self.wait_for_page_load():
+            self.driver.refresh()
         self.screenshot("activity.png")
 
     @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
@@ -1132,6 +1155,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains(".tab-content", "fastlane")
         self.screenshot("screenshot-listing.png")
 
+        Screenshot.objects.update(timestamp=self.get_stable_naturaltime_timestamp())
         with self.wait_for_page_load():
             self.click("Automatic translation")
 
@@ -1319,6 +1343,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         language_regex = "^(cs|he|hu)$"
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")
+        self.use_screenshot_site_domain_for_git_export(component)
         self.do_login(superuser=True)
         self.open_component(component, project)
 
@@ -1669,7 +1694,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             new_base="po-duplicates/hello.pot",
             file_format="po",
         )
-        alert_timestamp = timezone.now() - timedelta(minutes=1)
+        alert_timestamp = self.get_stable_naturaltime_timestamp()
         duplicates.alert_set.update(timestamp=alert_timestamp, updated=alert_timestamp)
         self.do_login(superuser=True)
         self.click(htmlid="projects-menu")
@@ -1795,12 +1820,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
             with self.wait_for_page_load():
                 self.driver.refresh()
-            self.click(
-                self.driver.find_element(
-                    By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
+            credentials = self.driver.find_element(
+                By.CSS_SELECTOR, 'button[aria-controls$="-credentials"]'
+            )
+            credentials_id = cast("str", credentials.get_attribute("aria-controls"))
+            self.click(credentials)
+            WebDriverWait(self.driver, 5).until(
+                lambda driver: (
+                    "show"
+                    in driver.find_element(By.ID, credentials_id).get_attribute("class")
                 )
             )
-            time.sleep(0.2)
             self.screenshot("backups.png")
         SupportStatus.objects.create(secret="123", name="community")
         with self.wait_for_page_load():
