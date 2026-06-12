@@ -1678,8 +1678,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("support-discovery.png")
 
     def test_manage(self) -> None:
-        self.open_manage()
-        self.screenshot("support.png")
+        with (
+            patch("weblate.wladmin.views.GIT_LINK", None),
+            patch("weblate.wladmin.views.GIT_REVISION", None),
+        ):
+            self.open_manage()
+            self.screenshot("support.png")
         with self.wait_for_page_load():
             self.click("Appearance")
         self.screenshot("appearance-settings.png")
