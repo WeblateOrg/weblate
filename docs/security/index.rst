@@ -38,24 +38,16 @@ Compliance
 .. include:: /snippets/compliance-warning.rst
 
 * :doc:`privacy-compliance`
+* :doc:`data-residency`
 * :doc:`us-compliance`
 * :doc:`/contributing/license`
 
 Terms of service and privacy policy
 -----------------------------------
 
-.. note::
+.. include:: /snippets/hosted-legal-documents.rst
 
-    These documents apply to Weblate deployments operated by Weblate s.r.o., such as Hosted Weblate and Weblate Cloud.
-
-* `General terms and conditions`_
-* `Privacy policy`_
-* The data processing agreement can be obtained in the `Customer area`_.
 * :doc:`/security/data-residency`
-
-.. _General terms and conditions: https://weblate.org/terms/
-.. _Privacy policy: https://weblate.org/privacy/
-.. _Customer area: https://weblate.org/user/
 
 Guidelines
 ----------

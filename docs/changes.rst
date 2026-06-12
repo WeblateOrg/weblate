@@ -13,6 +13,7 @@ Weblate 2026.7
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
 * Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
+* Expanded :doc:`/security/data-residency` with EU cloud sovereignty guidance.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
 * :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
 * :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
