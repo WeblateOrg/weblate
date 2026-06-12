@@ -13,6 +13,7 @@ from weblate.lang.models import Language
 from weblate.memory.models import SUPPORTED_FORMATS
 from weblate.utils.forms import SortedSelect
 from weblate.utils.html import format_html_join_comma, list_to_tuples
+from weblate.utils.validators import validate_translation_upload_size
 
 
 class UploadForm(forms.Form):
@@ -20,7 +21,10 @@ class UploadForm(forms.Form):
 
     file = forms.FileField(
         label=gettext_lazy("File"),
-        validators=[FileExtensionValidator(allowed_extensions=SUPPORTED_FORMATS)],
+        validators=[
+            validate_translation_upload_size,
+            FileExtensionValidator(allowed_extensions=SUPPORTED_FORMATS),
+        ],
     )
     source_language = forms.ModelChoiceField(
         widget=SortedSelect,

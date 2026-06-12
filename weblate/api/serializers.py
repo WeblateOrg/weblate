@@ -75,6 +75,7 @@ from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
     validate_bitmap,
     validate_component_zip_upload_size,
+    validate_file_extension,
     validate_plural_formula_range,
     validate_translation_upload_size,
 )
@@ -1121,7 +1122,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
     zipfile = serializers.FileField(
         required=False, validators=[validate_component_zip_upload_size]
     )
-    docfile = serializers.FileField(required=False)
+    docfile = serializers.FileField(
+        required=False,
+        validators=[validate_translation_upload_size, validate_file_extension],
+    )
     from_component = ComponentReferenceField(required=False, write_only=True)
     disable_autoshare = serializers.BooleanField(required=False)
 

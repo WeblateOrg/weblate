@@ -3983,6 +3983,47 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["filemask"], "local-project-temp/*.html")
         self.assertEqual(Component.objects.count(), 3)
 
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_create_component_docfile_too_big(self) -> None:
+        handle = BytesIO(b"xx")
+        handle.name = "cs.html"
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "docfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "file_format": "html",
+                "new_lang": "add",
+                "edit_template": "0",
+            },
+        )
+        self.assertIn("Uploaded translation file is too big.", str(response.data))
+
+    def test_create_component_docfile_unsupported_extension(self) -> None:
+        handle = BytesIO(b"safe contents")
+        handle.name = "translate.exe"
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "docfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "file_format": "html",
+                "new_lang": "add",
+                "edit_template": "0",
+            },
+        )
+        self.assertIn("Unsupported file format.", str(response.data))
+
     def test_create_component_docfile_mask(self) -> None:
         with open(TEST_DOC, "rb") as handle:
             response = self.do_request(

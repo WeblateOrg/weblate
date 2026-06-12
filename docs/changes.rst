@@ -33,6 +33,7 @@ Weblate 2026.7
 * Project and workspace translation license defaults now follow component and project licenses more closely.
 * Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
 * Hardened HTML and AJAX object lookups against private project enumeration.
+* Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 
 .. rubric:: Compatibility
 

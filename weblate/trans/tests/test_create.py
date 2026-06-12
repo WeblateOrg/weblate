@@ -1014,6 +1014,25 @@ class CreateTest(ViewTestCase):
             self.assertEqual(change.details["origin"], "document")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_create_doc_too_big(self) -> None:
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.user.is_superuser = True
+            self.user.save()
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "docfile": SimpleUploadedFile("cs.html", b"xx"),
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "source_language": get_default_lang(),
+                },
+            )
+
+        self.assertContains(response, "Uploaded translation file is too big.")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_doc_category(self) -> None:
         self.user.is_superuser = True
         self.user.save()
