@@ -47,7 +47,6 @@ Terms of service and privacy policy
 
 .. include:: /snippets/hosted-legal-documents.rst
 
-* :doc:`/security/data-residency`
 
 Guidelines
 ----------
