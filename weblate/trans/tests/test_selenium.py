@@ -12,12 +12,16 @@ import warnings
 from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, Literal, cast, overload
 from unittest.mock import patch
 
 from django.conf import settings
 from django.core import mail
+from django.core.cache import cache
 from django.core.files import File
+from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpRequest
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -127,6 +131,25 @@ SELENIUM_SSH_KEY_FIXTURES = (
     ("id_rsa.pub", "selenium-keys/id_rsa.pub"),
     ("id_ed25519.pub", "selenium-keys/id_ed25519.pub"),
 )
+PERFORMANCE_REPORT_DISK_USAGE = SimpleNamespace(
+    total=1024 * 1024 * 1024 * 1024,
+    used=400 * 1024 * 1024 * 1024,
+    free=624 * 1024 * 1024 * 1024,
+)
+PERFORMANCE_REPORT_HEADERS = {
+    "Host": SCREENSHOT_SITE_DOMAIN,
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": "Selenium screenshot browser",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-User": "?1",
+    "Sec-Fetch-Dest": "document",
+    "Referer": f"http://{SCREENSHOT_SITE_DOMAIN}/",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Accept-Language": "en,en-US;q=0.9",
+}
 
 
 # The fixture repositories are known public GitHub repos; allowlisting them
@@ -352,6 +375,79 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 """
             )
         )
+
+    @contextmanager
+    def stable_performance_report_inputs(self) -> Iterator[None]:
+        """Use deterministic server-side values for the performance screenshot."""
+        original_wsgi_request_init = WSGIRequest.__init__
+        missing = object()
+        original_celery_encoding = cache.get("celery_encoding", missing)
+        original_celery_latency = cache.get("celery_latency", missing)
+        cache.set("celery_encoding", ("utf-8", "utf-8"))
+        cache.set("celery_latency", 3)
+
+        def wsgi_request_init(request, environ) -> None:
+            original_wsgi_request_init(request, environ)
+            request.META["REMOTE_ADDR"] = "127.0.0.1"
+
+        def get_host(_request) -> str:
+            return SCREENSHOT_SITE_DOMAIN
+
+        def is_secure(_request) -> bool:
+            return False
+
+        def measure_database_latency() -> int:
+            return 5
+
+        def measure_cache_latency() -> int:
+            return 1
+
+        try:
+            with (
+                override_settings(
+                    SITE_DOMAIN=SCREENSHOT_SITE_DOMAIN, ENABLE_HTTPS=False
+                ),
+                patch.object(WSGIRequest, "__init__", wsgi_request_init),
+                patch.object(
+                    HttpRequest,
+                    "headers",
+                    new=property(lambda _: PERFORMANCE_REPORT_HEADERS.copy()),
+                ),
+                patch.object(HttpRequest, "get_host", get_host),
+                patch.object(HttpRequest, "is_secure", is_secure),
+                patch(
+                    "weblate.wladmin.views.disk_usage",
+                    return_value=PERFORMANCE_REPORT_DISK_USAGE,
+                ),
+                patch(
+                    "weblate.wladmin.views.get_queue_stats",
+                    return_value={
+                        "backup": 0,
+                        "celery": 0,
+                        "memory": 0,
+                        "notify": 0,
+                        "translate": 0,
+                    },
+                ),
+                patch(
+                    "weblate.wladmin.views.measure_database_latency",
+                    measure_database_latency,
+                ),
+                patch(
+                    "weblate.wladmin.views.measure_cache_latency",
+                    measure_cache_latency,
+                ),
+            ):
+                yield
+        finally:
+            if original_celery_encoding is missing:
+                cache.delete("celery_encoding")
+            else:
+                cache.set("celery_encoding", original_celery_encoding)
+            if original_celery_latency is missing:
+                cache.delete("celery_latency")
+            else:
+                cache.set("celery_latency", original_celery_latency)
 
     def click(self, element: WebElement | str = "", htmlid: str | None = None) -> None:
         """Click on element and scroll it into view."""
@@ -1714,9 +1810,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Appearance")
         self.screenshot("appearance-settings.png")
-        with self.wait_for_page_load():
-            self.click("Performance report")
-        self.screenshot("performance-report.png")
+        with self.stable_performance_report_inputs():
+            with self.wait_for_page_load():
+                self.click("Performance report")
+            self.screenshot("performance-report.png")
 
     def test_explanation(self) -> None:
         project = self.create_component()
