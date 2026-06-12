@@ -14,7 +14,7 @@ Accelerator key
 
 .. versionadded:: 2026.7
 
-:Summary: Source and translation do not both contain an accelerator key.
+:Summary: Source and translation contain inconsistent accelerator keys.
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.AcceleratorKeyCheck``
 :Check identifier: ``accelerators``
