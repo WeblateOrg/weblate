@@ -639,6 +639,7 @@ class TranslationForm(UnitForm):
                 )
             ]
             self.fields["review"].disabled = True
+        self.user_can_edit = user_can_edit
         self.user = user
         self.fields["target"].widget.profile = user.profile
         # Avoid failing validation on untranslated string
@@ -730,16 +731,18 @@ class TranslationForm(UnitForm):
 class ZenTranslationForm(TranslationForm):
     checksum = ChecksumField(required=True)
 
-    def __init__(self, user: User, unit, *args, **kwargs) -> None:
+    def __init__(
+        self, user: User, unit, *args, form_action: str | None = None, **kwargs
+    ) -> None:
         super().__init__(user, unit, *args, **kwargs)
-        self.helper.form_action = reverse(
+        self.helper.form_action = form_action or reverse(
             "save_zen", kwargs={"path": unit.translation.get_url_path()}
         )
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
         self.fields["target"].widget.attrs["zen-mode"] = True
-        if not user.has_perm("unit.edit", unit):
+        if not self.user_can_edit:
             for field in ["target", "fuzzy", "review"]:
                 self.fields[field].widget.attrs["disabled"] = 1
 

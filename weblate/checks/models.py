@@ -88,6 +88,13 @@ class Check(models.Model):
         unique_together = [  # noqa: RUF012
             ("unit", "name"),
         ]
+        indexes = [  # noqa: RUF012
+            models.Index(
+                fields=["unit"],
+                condition=Q(dismissed=False),
+                name="checks_active_unit_idx",
+            ),
+        ]
         verbose_name = "Quality check"
         verbose_name_plural = "Quality checks"
 

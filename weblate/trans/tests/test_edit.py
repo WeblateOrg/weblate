@@ -19,12 +19,21 @@ from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.models import (
+    Change,
+    Comment,
+    Component,
+    Project,
+    Suggestion,
+    Translation,
+    Unit,
+)
+from weblate.trans.templatetags.translations import unit_state_title
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import format_newly_failing_checks_message
 from weblate.utils.docs import get_doc_url
-from weblate.utils.hash import hash_to_checksum
+from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -1135,6 +1144,32 @@ class EditTSMonoTest(EditTest):
 
 
 class ZenViewTest(ViewTestCase):
+    def create_zen_unit(self, position: int) -> Unit:
+        source = f"Zen source {position}\n"
+        id_hash = calculate_hash(source, "")
+        source_unit = Unit(
+            translation=self.component.source_translation,
+            id_hash=id_hash,
+            source=source,
+            target=source,
+            state=STATE_TRANSLATED,
+            original_state=STATE_TRANSLATED,
+            position=position,
+        )
+        source_unit.save(run_checks=False)
+        unit = Unit(
+            translation=self.translation,
+            id_hash=id_hash,
+            source=source,
+            target=f"Zen target {position}\n",
+            state=STATE_TRANSLATED,
+            original_state=STATE_TRANSLATED,
+            position=position,
+            source_unit=source_unit,
+        )
+        unit.save(run_checks=False)
+        return unit
+
     def test_zen(self) -> None:
         response = self.client.get(reverse("zen", kwargs=self.kw_translation))
         self.assertContains(response, "Thank you for using Weblate.")
@@ -1167,6 +1202,38 @@ class ZenViewTest(ViewTestCase):
             {"offset": "bug"},
         )
         self.assertContains(response, "Hello, world")
+
+    def test_load_zen_deep_offset(self) -> None:
+        for position in range(5, 27):
+            self.create_zen_unit(position)
+
+        response = self.client.get(
+            reverse("load_zen", kwargs=self.kw_translation),
+            {"offset": "21"},
+        )
+
+        self.assertNotContains(response, "Hello, world")
+        self.assertContains(response, "Zen source 21")
+        self.assertContains(response, "Zen source 26")
+        self.assertContains(response, "The translation has come to an end.")
+
+    def test_zen_stores_full_search_ids(self) -> None:
+        for position in range(5, 27):
+            self.create_zen_unit(position)
+
+        response = self.client.get(reverse("zen", kwargs=self.kw_translation))
+
+        session = self.client.session
+        session_keys = list(session.keys())
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        self.assertEqual(response.context["filter_count"], 26)
+        self.assertEqual(len(session[search_key]["ids"]), 26)
+
+    def test_zen_skips_glossary_fetch_without_glossaries(self) -> None:
+        with patch("weblate.trans.views.edit.fetch_glossary_terms") as fetch_terms:
+            self.client.get(reverse("zen", kwargs=self.kw_translation))
+
+        fetch_terms.assert_not_called()
 
     def test_save_zen(self) -> None:
         unit = self.get_unit()
@@ -1378,6 +1445,127 @@ class EditComplexTest(ViewTestCase):
             f'href="{translate_url}?checksum={unit.checksum}&amp;revert={change.id}"',
         )
 
+    def test_translate_get_search_uses_lightweight_state(self) -> None:
+        Check.objects.all().delete()
+        unit = self.get_unit(source="Thank you for using Weblate.")
+        Check.objects.get_or_create(unit=unit, name="end_stop")
+
+        response = self.client.get(self.translate_url, {"q": "has:check"})
+
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        self.assertEqual(response.context["filter_count"], 1)
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        self.assertNotIn("ids", session[search_key])
+        self.assertEqual(session[search_key]["last_viewed_unit_id"], unit.pk)
+
+    def test_translate_checksum_search_stores_full_ids(self) -> None:
+        unit = self.get_unit(source="Thank you for using Weblate.")
+
+        self.client.get(self.translate_url, {"checksum": unit.checksum, "offset": 1})
+
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        self.assertIn("ids", session[search_key])
+        self.assertIn(unit.pk, session[search_key]["ids"])
+
+    def test_translate_filtered_search_keeps_stable_navigation(self) -> None:
+        first = self.get_unit()
+
+        response = self.client.get(self.translate_url, {"q": "state:<translated"})
+        self.assertEqual(response.context["unit"].pk, first.pk)
+
+        params = {
+            "checksum": first.checksum,
+            "contentsum": hash_to_checksum(first.content_hash),
+            "translationsum": hash_to_checksum(first.get_target_hash()),
+            "target_0": "Translated first string",
+            "review": "20",
+        }
+        response = self.client.post(
+            f"{self.translate_url}?q=state:%3Ctranslated&offset=1",
+            params,
+        )
+        self.assert_redirects_offset(response, self.translate_url, 2)
+
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        expected_unit_id = session[search_key]["ids"][1]
+
+        response = self.client.get(
+            self.translate_url, {"q": "state:<translated", "offset": 2}
+        )
+        self.assertEqual(response.context["unit"].pk, expected_unit_id)
+
+    def test_nearby_embed_prefetches_state_relations(self) -> None:
+        unit = self.get_unit(source="Thank you for using Weblate.")
+        Check.objects.get_or_create(unit=unit, name="end_stop")
+        Comment.objects.create(unit=unit, user=self.user, comment="Needs work")
+        Suggestion.objects.create(unit=unit, user=self.user, target="Suggested")
+
+        nearby = unit.nearby(1)
+        nearby_unit = next(item for item in nearby if item.pk == unit.pk)
+
+        with self.assertNumQueries(0):
+            self.assertTrue(nearby_unit.active_checks)
+            self.assertTrue(nearby_unit.has_comment)
+            self.assertTrue(nearby_unit.has_suggestion)
+            self.assertIn("Failing checks:", unit_state_title(nearby_unit))
+
+    def test_translate_keeps_addterm_form_behind_project_permission(self) -> None:
+        self.create_po(
+            name="Glossary",
+            project=self.project,
+            is_glossary=True,
+            manage_units=True,
+        )
+        user_class = type(self.user)
+        has_perm = user_class.has_perm
+
+        def has_project_glossary_permission(user, permission, obj=None):
+            if permission == "glossary.add":
+                return False
+            return has_perm(user, permission, obj)
+
+        with (
+            patch.object(
+                user_class,
+                "has_perm",
+                autospec=True,
+                side_effect=has_project_glossary_permission,
+            ),
+            patch("weblate.trans.views.edit.TermForm") as term_form,
+        ):
+            response = self.client.get(self.translate_url)
+
+        term_form.assert_not_called()
+        self.assertIsNone(response.context["addterm_form"])
+        self.assertNotContains(response, "Add term to glossary")
+
+    def test_translate_addterm_form_uses_addable_glossary(self) -> None:
+        self.make_manager()
+        self.create_po(
+            name="Glossary",
+            project=self.project,
+            is_glossary=True,
+            manage_units=True,
+        )
+
+        response = self.client.get(self.translate_url)
+
+        self.assertIsNotNone(response.context["addterm_form"])
+        self.assertContains(response, "Add term to glossary")
+
+    def test_translate_skips_glossary_fetch_without_glossaries(self) -> None:
+        with patch("weblate.trans.views.edit.fetch_glossary_terms") as fetch_terms:
+            response = self.client.get(self.translate_url)
+
+        fetch_terms.assert_not_called()
+        self.assertEqual(response.context["glossary"], [])
+
     def test_project_language_warns_when_switching_component(self) -> None:
         Component.objects.filter(pk=self.component.pk).update(priority=120)
         high_component = self.create_po(name="High", priority=80, project=self.project)
@@ -1413,7 +1601,22 @@ class EditComplexTest(ViewTestCase):
             "component,-priority",
         )
 
-    def test_project_language_submitted_search_keeps_component_order(self) -> None:
+    def test_project_language_get_search_uses_lightweight_state(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(priority=120)
+        self.create_po(name="High", locked=True, priority=80, project=self.project)
+        translate_url = ProjectLanguage(
+            self.project, self.translation.language
+        ).get_translate_url()
+
+        self.client.get(translate_url, {"sort_by": "component,-priority", "offset": 1})
+
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        self.assertNotIn("ids", session[search_key])
+        self.assertIn("last_viewed_unit_id", session[search_key])
+
+    def test_project_language_checksum_search_keeps_component_order(self) -> None:
         Component.objects.filter(pk=self.component.pk).update(priority=120)
         high_component = self.create_po(
             name="High", locked=True, priority=80, project=self.project
@@ -1424,8 +1627,15 @@ class EditComplexTest(ViewTestCase):
         translate_url = ProjectLanguage(
             self.project, self.translation.language
         ).get_translate_url()
+        unit = high_translation.unit_set.order_by("position")[0]
 
-        self.client.get(translate_url, {"sort_by": "component,-priority", "offset": 1})
+        self.client.get(
+            translate_url,
+            {
+                "sort_by": "component,-priority",
+                "checksum": unit.checksum,
+            },
+        )
 
         session = self.client.session
         session_keys = session.keys()

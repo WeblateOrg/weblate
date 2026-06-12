@@ -20,6 +20,8 @@ Weblate 2026.7
 * LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
 * Improved bidirectional text handling for RTL translation display and editor previews.
 * Meta descriptions now better match single-project and self-hosted installations.
+* Zen mode now loads large search results and glossary-heavy projects more efficiently.
+* Translate pages with filtered searches and nearby strings now load more efficiently.
 
 .. rubric:: Bug fixes
 
