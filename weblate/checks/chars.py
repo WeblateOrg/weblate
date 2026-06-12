@@ -47,7 +47,7 @@ class AcceleratorKeyCheck(TargetCheck):
     check_id = "accelerators"
     name = gettext_lazy("Accelerator key")
     description = gettext_lazy(
-        "Source and translation do not both contain an accelerator key."
+        "Source and translation contain inconsistent accelerator keys."
     )
     default_disabled = True
     version_added = "2026.7"
