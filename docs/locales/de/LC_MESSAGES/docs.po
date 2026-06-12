@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-11 05:14+0200\n"
-"PO-Revision-Date: 2026-06-12 09:48+0000\n"
+"PO-Revision-Date: 2026-06-12 18:21+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -6165,10 +6165,10 @@ msgstr ""
 "Die integrierten Standardeinstellungen folgen Conventional Commits und "
 "enthalten Weblate-Links, sofern vorhanden. Eine Änderung dieser "
 "Einstellungen wirkt sich auf neu erstellte Standardwerte aus; bestehende "
-"Nachrichtenvorlagen können in den Einstellungsformularen "
-"mit :guilabel:`Restore site default` zurückgesetzt werden. Bei vererbten "
-"Werten wird durch das Wiederherstellen der Standardwerte auch die Vererbung "
-"für diese Nachricht deaktiviert."
+"Nachrichtenvorlagen können in den Einstellungsformularen mit "
+":guilabel:`Plattformstandard wiederherstellen` zurückgesetzt werden. Bei "
+"vererbten Werten wird durch das Wiederherstellen der Standardwerte auch die "
+"Vererbung für diese Nachricht deaktiviert."
 
 #: admin/config.rst:729
 msgid "Default add-ons to install for every created component."
@@ -17814,10 +17814,10 @@ msgstr ""
 "Arbeitsbereich das Projekt angelegt werden soll. Projekte, die in einem "
 "Arbeitsbereich mit Abrechnung erstellt werden, werden auf das diesem "
 "Arbeitsbereich zugewiesenen Abrechnungsmodell angerechnet. Benutzer mit der "
-"Berechtigung :guilabel:`Arbeitsbereich-Einstellungen bearbeiten` können das "
+"Berechtigung :guilabel:`Arbeitsbereicheinstellungen bearbeiten` können das "
 "Abrechnungsmodell einsehen und bezahlen; an diese Benutzer werden "
-"Benachrichtigungs-E-Mails für die Abrechnung verschickt. "
-"Siehe :ref:`workspace-billing` für weitere Informationen."
+"Benachrichtigungs-E-Mails für die Abrechnung verschickt. Siehe "
+":ref:`workspace-billing` für weitere Informationen."
 
 #: admin/optionals.rst:129
 msgid "Legal module"
@@ -18014,6 +18014,12 @@ msgid ""
 "confirmation page then links to those external documents without requiring "
 "a :file:`legal/documents/tos.html` template override."
 msgstr ""
+"Um extern gehostete Rechtsdokumente mit Bestätigungsaufforderung zu "
+"verwenden, konfigurieren Sie :setting:`LEGAL_HIDDEN_DOCUMENTS`, um ``terms`` "
+"und ``privacy`` auszublenden, und setzen sie :setting:`LEGAL_URL` und "
+":setting:`PRIVACY_URL`. Die Bestätigungsseite verlinkt dann auf diese "
+"externen Dokumente, ohne dass eine Überschreibung der Vorlage :file:`legal/"
+"documents/tos.html` erforderlich ist."
 
 #: admin/optionals.rst:243
 msgid "Avatars"
@@ -18666,32 +18672,24 @@ msgid ""
 "or inserting links."
 msgstr ""
 "Text, der den Lokalisierungsprozess im Projekt beschreibt, sowie alle "
-"anderen für Übersetzer nützlichen Informationen. Markdown kann zur "
-"Textformatierung oder zum Einfügen von Links verwendet werden."
+"anderen für Übersetzer nützlichen Informationen. Markdown kann zum "
+"Formatieren von Text oder zum Einfügen von Links verwendet werden."
 
 #: admin/projects.rst:172 admin/projects.rst:844 admin/workspaces.rst:64
 msgid "Translation license"
 msgstr "Übersetzungslizenz"
 
 #: admin/projects.rst:174
-#, fuzzy
-#| msgid "Creates translation components in the given project."
 msgid "Default translation license for components in this project."
-msgstr "Erstellt Übersetzungskomponenten im angegebenen Projekt."
+msgstr "Standard-Übersetzungslizenz für Komponenten in diesem Projekt."
 
 #: admin/projects.rst:186
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for components in this project. "
 "Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Text, der den Lokalisierungsprozess im Projekt beschreibt, sowie alle "
-"anderen für Übersetzer nützlichen Informationen. Markdown kann zur "
-"Textformatierung oder zum Einfügen von Links verwendet werden."
+"Standard-Mitwirkungsvereinbarung für Komponenten in diesem Projekt. Markdown "
+"kann zum Formatieren von Text oder zum Einfügen von Links verwendet werden."
 
 #: admin/projects.rst:197
 msgid "Use shared translation memory"
@@ -18901,29 +18899,24 @@ msgid "Adding new translation"
 msgstr "Neue Übersetzung hinzufügen"
 
 #: admin/projects.rst:348
-#, fuzzy
-#| msgid "Returns a list of translation components in the given project."
 msgid ""
 "Default behavior for requests to create new translations in components in "
 "this project."
 msgstr ""
-"Gibt eine Liste der Übersetzungskomponenten im angegebenen Projekt zurück."
+"Standardverhalten für Anfragen zum Erstellen neuer Übersetzungen in "
+"Komponenten in diesem Projekt."
 
 #: admin/projects.rst:359 admin/projects.rst:934 admin/workspaces.rst:102
 msgid "Language code style"
 msgstr "Stil des Sprachcodes"
 
 #: admin/projects.rst:361
-#, fuzzy
-#| msgid ""
-#| "Customize language code used to generate the filename for translations "
-#| "created by Weblate."
 msgid ""
 "Default language code style for translations created by Weblate in "
 "components in this project."
 msgstr ""
-"Anpassen des Sprachcodes, der zur Generierung des Dateinamens für von "
-"Weblate erstellte Übersetzungen verwendet wird."
+"Standardstil des Sprachcodes bei Übersetzungen, die von Weblate in "
+"Komponenten in diesem Projekt erstellt werden."
 
 #: admin/projects.rst:372 admin/projects.rst:1187 admin/workspaces.rst:115
 msgid "Secondary language"
@@ -18973,6 +18966,8 @@ msgid ""
 "Default commit and merge request message templates for components in this "
 "project."
 msgstr ""
+"Standardvorlagen für Commit- und Merge-Request-Nachrichten für Komponenten "
+"in diesem Projekt."
 
 #: admin/projects.rst:414
 msgid ""
@@ -18991,11 +18986,11 @@ msgid ""
 "inherited values, this also disables inheritance for that message."
 msgstr ""
 "Die integrierten Standardeinstellungen folgen Conventional Commits und "
-"enthalten Weblate-Links, sofern vorhanden. Verwenden Sie :guilabel:`Restore "
-"site default` neben einem Nachrichteneditor, um die aktuellen "
-"Installationsstandardwerte für diese Nachricht wiederherzustellen; bei "
-"vererbten Werten wird dadurch auch die Vererbung für diese Nachricht "
-"deaktiviert."
+"enthalten Weblate-Links, sofern vorhanden. Verwenden Sie "
+":guilabel:`Plattformstandard wiederherstellen` neben einem "
+"Nachrichteneditor, um die aktuellen Installationsstandardwerte für diese "
+"Nachricht wiederherzustellen; bei vererbten Werten wird dadurch auch die "
+"Vererbung für diese Nachricht deaktiviert."
 
 #: admin/projects.rst:433 devel/sphinx.rst:30
 msgid "Component configuration"
@@ -20461,6 +20456,10 @@ msgid ""
 "components, including translation license, contributor agreement, adding new "
 "translations, secondary language, translation flags, and commit messages."
 msgstr ""
+"Kategorien können dieselben vererbten Einstellungen wie Projekte und "
+"Komponenten überschreiben, einschließlich Übersetzungslizenz, "
+"Mitwirkungsvereinbarung, Hinzufügen neuer Übersetzungen, Zweitsprache, "
+"Übersetzungsmarkierungen und Commit-Nachrichten."
 
 #: admin/projects.rst:1314
 msgid ""
@@ -20468,6 +20467,10 @@ msgid ""
 "categories inherit from the project. Components in a category inherit from "
 "that category by default."
 msgstr ""
+"Verschachtelte Kategorien übernehmen standardmäßig die Eigenschaften ihrer "
+"übergeordneten Kategorie. Kategorien der obersten Ebene übernehmen die "
+"Eigenschaften des Projekts. Komponenten in einer Kategorie übernehmen "
+"standardmäßig die Eigenschaften dieser Kategorie."
 
 #: admin/projects.rst:1327
 msgid "Template markup"
@@ -21262,6 +21265,15 @@ msgid ""
 "screenshots, or ``repository:fastlane`` to review screenshots discovered "
 "from repository paths."
 msgstr ""
+"Nutzen Sie die Suche in der Auflistung der Bildschirmfotos, um "
+"Bildschirmfotos nach Name, Repository-Pfad, Sprache, zugewiesener "
+"Ausgangszeichenkette, Kontext oder Ort der Ausgangszeichenkette zu finden. "
+"Die Suche akzeptiert sowohl einfachen Text als auch erweiterte "
+"Bildschirmfoto-Abfragen, siehe :ref:`search-screenshots`. Verwenden Sie "
+"beispielsweise ``NOT has:string``, um nicht zugewiesene Bildschirmfotos zu "
+"finden, ``has:string``, um zugewiesene Bildschirmfotos zu finden, oder "
+"``repository:fastlane``, um Bildschirmfotos zu überprüfen, die über "
+"Repository-Pfade gefunden wurden."
 
 #: admin/translating.rst:170
 msgid ""
@@ -21333,32 +21345,34 @@ msgstr ""
 
 #: admin/translating.rst:198
 msgid "For application projects, a practical workflow is:"
-msgstr ""
+msgstr "Für Anwendungsprojekte empfiehlt sich folgender Ablauf:"
 
 #: admin/translating.rst:200
 msgid ""
 "Capture source-language screenshots for the most visible user interface."
 msgstr ""
+"Bildschirmfotos der Ausgangssprache für die am besten sichtbaren Bereiche "
+"der Bedienoberfläche erstellen."
 
 #: admin/translating.rst:201
 msgid ""
 "Store them in a stable repository path, for example below :file:`fastlane/"
 "metadata/android/en-US/images/phoneScreenshots/`."
 msgstr ""
+"Diese in einem festen Repository-Pfad speichern, zum Beispiel unter "
+":file:`fastlane/metadata/android/en-US/bilder/phoneScreenshots/`."
 
 #: admin/translating.rst:203
-#, fuzzy
-#| msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
 msgid "Configure :ref:`component-screenshot_filemask` for that path."
-msgstr ""
-":ref:`component-repo` konfigurieren, damit Weblate das Repository klonen "
-"kann."
+msgstr ":ref:`component-screenshot_filemask` für diesen Pfad konfigurieren."
 
 #: admin/translating.rst:204
 msgid ""
 "Update the component repository so Weblate discovers or refreshes the "
 "screenshots."
 msgstr ""
+"Das Komponenten-Repository aktualisieren, damit Weblate die Bildschirmfotos "
+"erkennt oder aktualisiert."
 
 #: admin/translating.rst:206
 msgid ""
@@ -21366,6 +21380,10 @@ msgid ""
 "strings, and review the :guilabel:`Source strings without screenshots` "
 "counter for important strings still missing visual context."
 msgstr ""
+"OCR oder die Suche nach Ausgangszeichenketten verwenden, um Bildschirmfotos "
+"den entsprechenden Ausgangszeichenketten zuzuweisen, und überprüfen Sie den "
+"Zähler :guilabel:`Ausgangszeichenketten ohne Bildschirmfotos`, um "
+"festzustellen, bei welchen wichtigen Texten noch der visuelle Kontext fehlt."
 
 #: admin/translating.rst:217
 msgid "Managing screenshots through the API"
@@ -21738,6 +21756,10 @@ msgid ""
 "provide a shared place for project listings, workspace-scoped access "
 "control, and billing details when the billing module is enabled."
 msgstr ""
+"Arbeitsbereiche fassen zugehörige Übersetzungsprojekte zusammen. Sie sind "
+"den Projekten übergeordnet und bieten einen gemeinsamen Ort für "
+"Projektlisten, eine auf den Arbeitsbereich beschränkte Zugriffssteuerung "
+"sowie Details zur Abrechnung, sofern das Abrechnungsmodul aktiviert ist."
 
 #: admin/workspaces.rst:10
 msgid ""
@@ -21745,17 +21767,25 @@ msgid ""
 "in the workspace. Project access is still controlled by the project access "
 "control settings and project teams, see :ref:`acl`."
 msgstr ""
+"Die Mitgliedschaft in einem Arbeitsbereich gewährt keinen Zugriff auf die "
+"Übersetzung oder Verwaltung von Projekten in diesem Arbeitsbereich. Der "
+"Projektzugriff wird weiterhin durch die Einstellungen der "
+"Projektzugriffssteuerung und die Projektteams geregelt, siehe :ref:`acl`."
 
 #: admin/workspaces.rst:14
 msgid ""
 "The workspace page lists projects in that workspace that you can access."
 msgstr ""
+"Auf der Seite des Arbeitsbereichs werden die Projekte in diesem "
+"Arbeitsbereich aufgelistet, auf die Sie Zugriff haben."
 
 #: admin/workspaces.rst:18
 msgid ""
 "You can list all workspaces in the management interface "
 "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgstr ""
+"Sie können alle Arbeitsbereiche in der Verwaltungsoberfläche unter "
+":guilabel:`Verwalten` ↓ :guilabel:`Arbeitsbereiche` auflisten."
 
 #: admin/workspaces.rst:26
 msgid "Project creation and moves"
@@ -21800,6 +21830,15 @@ msgid ""
 "workspace` permission. Moving a project out of a workspace also requires the "
 "site-wide :guilabel:`Add new projects` permission."
 msgstr ""
+"Bestehende Projekte können über den Reiter :guilabel:`Organisieren` des "
+"Projekts oder durch Ändern des Feldes ``workspace`` über die :ref:`api` "
+"zwischen Arbeitsbereichen verschoben werden. Zum Verschieben eines Projekts "
+"sind die Berechtigung zum Bearbeiten des Projekts sowie die Berechtigung "
+":guilabel:`Arbeitsbereicheinstellungen bearbeiten` für den Quell- und den "
+"Ziel-Arbeitsbereich erforderlich. Der Ziel-Arbeitsbereich benötigt zudem die "
+"Berechtigung :guilabel:`Projekte zum Arbeitsbereich hinzufügen`. Das "
+"Verschieben eines Projekts aus einem Arbeitsbereich erfordert außerdem die "
+"plattformweite Berechtigung :guilabel:`Neue Projekte hinzufügen`."
 
 #: admin/workspaces.rst:49
 msgid "Workspace settings"
@@ -21810,18 +21849,19 @@ msgid ""
 "Workspace settings define workspace identity and defaults inherited by "
 "projects and components."
 msgstr ""
+"Arbeitsbereicheinstellungen legen die Kennung sowie die Standardwerte fest, "
+"die von Projekten und Komponenten übernommen werden."
 
 #: admin/workspaces.rst:57
 msgid "Workspace name"
 msgstr "Arbeitsbereichsname"
 
 #: admin/workspaces.rst:59
-#, fuzzy
-#| msgid "Verbose project name, used to display the project name."
 msgid ""
 "Verbose workspace name used in workspace listings and project organization."
 msgstr ""
-"Ausführlicher Projektname, der zur Anzeige des Projektnamens verwendet wird."
+"Ausführlicher Arbeitsbereichsname, der in Arbeitsbereichslisten und bei der "
+"Projektorganisation verwendet wird."
 
 #: admin/workspaces.rst:66
 msgid ""
@@ -21831,48 +21871,46 @@ msgstr ""
 "Arbeitsbereich."
 
 #: admin/workspaces.rst:78
-#, fuzzy
-#| msgid ""
-#| "Text describing localization process in the project, and any other "
-#| "information useful for translators. Markdown can be used for text "
-#| "formatting or inserting links."
 msgid ""
 "Default contributor license agreement for projects and components in this "
 "workspace. Markdown can be used for text formatting or inserting links."
 msgstr ""
-"Text, der den Lokalisierungsprozess im Projekt beschreibt, sowie alle "
-"anderen für Übersetzer nützlichen Informationen. Markdown kann zur "
-"Textformatierung oder zum Einfügen von Links verwendet werden."
+"Standard-Mitwirkungsvereinbarung für Projekte und Komponenten in diesem "
+"Arbeitsbereich. Markdown kann zum Formatieren von Text oder zum Einfügen von "
+"Links verwendet werden."
 
 #: admin/workspaces.rst:91
 msgid ""
 "Default behavior for requests to create new translations in projects and "
 "components in this workspace."
 msgstr ""
+"Standardverhalten für Anfragen zum Erstellen neuer Übersetzungen in "
+"Projekten und Komponenten in diesem Arbeitsbereich."
 
 #: admin/workspaces.rst:104
 msgid ""
 "Default language code style for translations created by Weblate in projects "
 "and components in this workspace."
 msgstr ""
+"Standardstil des Sprachcodes bei Übersetzungen, die von Weblate in Projekten "
+"und Komponenten in diesem Arbeitsbereich erstellt werden."
 
 #: admin/workspaces.rst:117
-#, fuzzy
-#| msgid ""
-#| "Additional language to show together with the source language while "
-#| "translating."
 msgid ""
 "Default secondary language to show together with the source language while "
 "translating projects and components in this workspace."
 msgstr ""
-"Zusätzliche Sprache, die beim Übersetzen zusammen mit der Ausgangssprache "
-"angezeigt wird."
+"Standard-Zweitsprache, die beim Übersetzen von Projekten und Komponenten in "
+"diesem Arbeitsbereich zusammen mit der Ausgangssprache angezeigt werden soll."
 
 #: admin/workspaces.rst:131
 msgid ""
 "Workspace-level translation flags. These are merged with project, component, "
 "and translation flags instead of being inherited as a replacement."
 msgstr ""
+"Übersetzungsmarkierungen auf Arbeitsbereichsebene. Diese werden mit den "
+"Projekt-, Komponenten- und Übersetzungsmarkierungen zusammengeführt, anstatt "
+"als Ersatz vererbt zu werden."
 
 #: admin/workspaces.rst:149
 msgid ""
@@ -21880,6 +21918,9 @@ msgid ""
 "components in this workspace. These templates use the same markup as "
 "component message settings."
 msgstr ""
+"Standardvorlagen für Commit- und Merge-Request-Nachrichten für Projekte und "
+"Komponenten in diesem Arbeitsbereich. Diese Vorlagen verwenden dieselbe "
+"Auszeichnung wie die Nachrichteneinstellungen für Komponenten."
 
 #: admin/workspaces.rst:153
 msgid ""
@@ -21887,6 +21928,11 @@ msgid ""
 "where available. Use :guilabel:`Restore site default` next to a message "
 "editor to restore the current installation default for that message."
 msgstr ""
+"Die integrierten Standardeinstellungen folgen Conventional Commits und "
+"enthalten Weblate-Links, sofern vorhanden. Verwenden Sie "
+":guilabel:`Plattformstandard wiederherstellen` neben einem "
+"Nachrichteneditor, um die aktuellen Installationsstandardwerte für diese "
+"Nachricht wiederherzustellen."
 
 #: admin/workspaces.rst:166
 msgid "Settings inheritance"
@@ -21914,12 +21960,16 @@ msgid ""
 "Categories define defaults for nested categories and components in the "
 "category."
 msgstr ""
+"Kategorien definieren Standards für verschachtelte Kategorien und "
+"Komponenten in der Kategorie."
 
 #: admin/workspaces.rst:175
 msgid ""
 "Components use the effective value from the nearest inherited scope unless "
 "inheritance is disabled for that setting."
 msgstr ""
+"Komponenten verwenden den effektiven Wert aus dem nächstgelegenen vererbten "
+"Bereich, sofern die Vererbung für diese Einstellung nicht deaktiviert ist."
 
 #: admin/workspaces.rst:178
 msgid ""
@@ -21927,6 +21977,9 @@ msgid ""
 "adding new translations, language code style, secondary language, and commit "
 "message templates."
 msgstr ""
+"Dies ist für Übersetzungslizenz, Mitwirkungsvereinbarung, Hinzufügen neuer "
+"Übersetzungen, Stil des Sprachcodes, Zweitsprache und Commit-Nachrichten-"
+"Vorlagen verfügbar."
 
 #: admin/workspaces.rst:182
 msgid ""
@@ -21936,6 +21989,13 @@ msgid ""
 "inherited value is shown in the settings form; disable inheritance and save "
 "to edit the stored override value."
 msgstr ""
+"In Projekt-, Kategorie- und Komponenteneinstellungen stehen für diese Werte "
+"die Kontrollkästchen :guilabel:`Von Arbeitsbereich übernehmen`, "
+":guilabel:`Von Projekt übernehmen` oder :guilabel:`Von Kategorie übernehmen` "
+"zur Verfügung. Wenn die Vererbung aktiviert ist, wird der vererbte Wert im "
+"Einstellungsformular angezeigt; deaktivieren Sie die Vererbung und speichern "
+"Sie die Einstellungen, um den gespeicherten Überschreibungswert zu "
+"bearbeiten."
 
 #: admin/workspaces.rst:188
 msgid ""
@@ -21943,6 +22003,10 @@ msgid ""
 "component, and translation flags are merged, so each level can add flags "
 "without replacing the lower levels."
 msgstr ""
+"Übersetzungsmarkierungen werden anders behandelt. Arbeitsbereichs-, Projekt-"
+", Kategorien-, Komponenten- und Übersetzungsmarkierungen werden "
+"zusammengeführt, sodass auf jeder Ebene Markierungen hinzugefügt werden "
+"können, ohne die darunterliegenden Ebenen zu überschreiben."
 
 #: admin/workspaces.rst:192
 msgid ""
@@ -21950,12 +22014,20 @@ msgid ""
 "installation defaults. Later changes to installation defaults do not update "
 "existing workspaces."
 msgstr ""
+"Beim Erstellen eines Arbeitsbereichs werden diese Standardeinstellungen aus "
+"den aktuellen Installationsstandards übernommen. Spätere Änderungen an den "
+"Installationsstandards wirken sich nicht auf bereits vorhandene "
+"Arbeitsbereiche aus."
 
 #: admin/workspaces.rst:196
 msgid ""
 "Workspace-less projects also store their own defaults when created and do "
 "not inherit from a workspace unless moved into one and configured to inherit."
 msgstr ""
+"Projekte ohne Arbeitsbereich speichern bei ihrer Erstellung ebenfalls ihre "
+"eigenen Standardeinstellungen und übernehmen keine Einstellungen aus einem "
+"Arbeitsbereich, es sei denn, sie werden in einen Arbeitsbereich verschoben "
+"und so konfiguriert, dass sie Einstellungen übernehmen."
 
 #: admin/workspaces.rst:199
 msgid ""
@@ -21967,6 +22039,15 @@ msgid ""
 "overrides can be consolidated to the category. Differing values remain "
 "configured directly on the lower scope."
 msgstr ""
+"Beim Aktualisieren bestehender Installationen konsolidiert Weblate "
+"übereinstimmende Einstellungen: Wenn alle Komponenten in einem Projekt "
+"denselben Wert verwenden, wird dieser Wert auf das Projekt übertragen, und "
+"die Komponenten übernehmen ihn. Dieselbe Konsolidierung wird anschließend "
+"von den Projekten auf die Arbeitsbereiche angewendet. Kategorieeinstellungen "
+"werden so initialisiert, dass sie von ihrer übergeordneten Ebene übernommen "
+"werden, und übereinstimmende explizite Überschreibungen auf untergeordneter "
+"Ebene können in die Kategorie übernommen werden. Abweichende Werte bleiben "
+"direkt auf der untergeordneten Ebene konfiguriert."
 
 #: admin/workspaces.rst:217
 msgid ""
@@ -21974,6 +22055,10 @@ msgid ""
 "actions only; they do not grant translation access to the projects in the "
 "workspace."
 msgstr ""
+"Arbeitsbereiche verfügen über Teams, die auf den jeweiligen Arbeitsbereich "
+"beschränkt sind. Diese Teams können nur Aktionen auf Arbeitsbereichsebene "
+"steuern; sie gewähren keinen Übersetzungszugriff auf die Projekte im "
+"Arbeitsbereich."
 
 #: admin/workspaces.rst:223
 msgid "The default workspace teams are:"
@@ -21988,7 +22073,7 @@ msgid ""
 "Can edit workspace settings, add projects to the workspace, manage workspace "
 "access, and view or pay billing plans assigned to the workspace."
 msgstr ""
-"Kann Arbeitsbereich-Einstellungen bearbeiten, Projekte zum Arbeitsbereich "
+"Kann Arbeitsbereicheinstellungen bearbeiten, Projekte zum Arbeitsbereich "
 "hinzufügen, den Arbeitsbereichszugriff verwalten und die dem Arbeitsbereich "
 "zugewiesenen Abrechnungsmodelle einsehen und bezahlen."
 
@@ -22002,18 +22087,29 @@ msgid ""
 "project in that workspace. This does not grant billing access or permission "
 "to add more projects."
 msgstr ""
+"Benutzer können eine Arbeitsbereichsseite weiterhin aufrufen, solange sie "
+"Zugriff auf mindestens ein Projekt in diesem Arbeitsbereich haben. Dies "
+"gewährt jedoch weder Zugriff auf die Abrechnungsfunktionen noch die "
+"Berechtigung, weitere Projekte hinzuzufügen."
 
 #: admin/workspaces.rst:241
 msgid ""
 "When :ref:`billing` is enabled, a billing plan is assigned to a workspace. "
 "Projects in that workspace count against the workspace billing plan."
 msgstr ""
+"Wenn :ref:`billing` aktiviert ist, wird einem Arbeitsbereich ein "
+"Abrechnungsmodell zugewiesen. Projekte in diesem Arbeitsbereich werden auf "
+"das Abrechnungsmodell des Arbeitsbereichs angerechnet."
 
 #: admin/workspaces.rst:244
 msgid ""
 "Users with :guilabel:`Edit workspace settings` permission can view and pay "
 "the billing plan. Billing notification e-mails are sent to these users."
 msgstr ""
+"Benutzer mit der Berechtigung :guilabel:`Arbeitsbereicheinstellungen "
+"bearbeiten` können das Abrechnungsmodell einsehen und bezahlen. "
+"Benachrichtigungs-E-Mails für die Abrechnung werden an diese Benutzer "
+"gesendet."
 
 #: admin/workspaces.rst:247
 msgid ""
@@ -22025,7 +22121,7 @@ msgstr ""
 
 #: admin/workspaces.rst:251
 msgid "Upgrading from billing owners"
-msgstr ""
+msgstr "Upgrade von Rechnungsempfängern"
 
 #: admin/workspaces.rst:253
 msgid ""
@@ -22033,6 +22129,10 @@ msgid ""
 "These users are migrated to the workspace :guilabel:`Owners` team for the "
 "workspace covered by the billing plan."
 msgstr ""
+"In älteren Weblate-Versionen wurden die Rechnungsempfänger direkt in den "
+"Abrechnungsmodellen gespeichert. Diese Benutzer werden in das Team "
+":guilabel:`Besitzer` des Arbeitsbereichs migriert, auf den sich das "
+"Abrechnungsmodell bezieht."
 
 #: api.rst:8
 msgid "Weblate's REST API"
@@ -31931,6 +32031,7 @@ msgid "Extended search capabilities for changes in history."
 msgstr "Suchmöglichkeiten für Änderungen im Verlauf erweitert."
 
 #: changes/v4.rst:920
+#, fuzzy
 msgid "Improved billing detail pages and Libre hosting workflow."
 msgstr ""
 "Verbesserte Abrechnungsdetailseiten und verbesserter Arbeitsablauf für "
@@ -63894,7 +63995,7 @@ msgstr "Mitteilungen löschen"
 
 #: snippets/permissions.rst:327
 msgid "Edit workspace settings"
-msgstr "Arbeitsbereich-Einstellungen bearbeiten"
+msgstr "Arbeitsbereicheinstellungen bearbeiten"
 
 #: snippets/permissions.rst:327 snippets/permissions.rst:329
 #: snippets/permissions.rst:333
@@ -64262,7 +64363,7 @@ msgstr ":guilabel:`Projekte zum Arbeitsbereich hinzufügen`"
 
 #: snippets/roles.rst:200
 msgid ":guilabel:`Edit workspace settings`"
-msgstr ":guilabel:`Arbeitsbereich-Einstellungen bearbeiten`"
+msgstr ":guilabel:`Arbeitsbereicheinstellungen bearbeiten`"
 
 #: snippets/roles.rst:201
 msgid ":guilabel:`Manage workspace access`"
