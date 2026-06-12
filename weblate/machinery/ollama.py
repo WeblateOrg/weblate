@@ -32,8 +32,9 @@ class OllamaTranslation(BaseLLMTranslation):
     def fetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
+        model = self.get_traced_model()
         payload = {
-            "model": self.get_model(),
+            "model": model,
             "messages": [
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": previous_content},

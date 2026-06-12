@@ -5,16 +5,18 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils import translation
 from django.utils.http import urlencode
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
-from weblate.checks.flags import Flags
+from weblate.checks.flags import Flags, get_flag_choices
 from weblate.checks.models import Check
 from weblate.trans.models import (
     Change,
@@ -176,3 +178,16 @@ def matomo(request: AuthenticatedHttpRequest):
     return render(
         request, "js/matomo.js", content_type='text/javascript; charset="utf-8"'
     )
+
+
+@cache_control(max_age=3600, private=True)
+def flag_choices(request: AuthenticatedHttpRequest):
+    """Return the catalog of known translation flags as JSON."""
+    requested = request.GET.get("lang")
+    valid_languages = {code for code, _ in settings.LANGUAGES}
+    if requested and requested in valid_languages:
+        with translation.override(requested):
+            choices = list(get_flag_choices())
+    else:
+        choices = list(get_flag_choices())
+    return JsonResponse({"choices": choices})

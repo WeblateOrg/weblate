@@ -44,11 +44,12 @@ class BaseOpenAITranslation(BaseLLMTranslation):
             {"role": "user", "content": content},
         ]
         self.validate_runtime_url(self.get_runtime_base_url())
+        model = self.get_traced_model()
         response = self.request(
             "post",
             self.get_chat_completions_url(),
             json={
-                "model": self.get_model(),
+                "model": model,
                 "messages": messages,
             },
         )

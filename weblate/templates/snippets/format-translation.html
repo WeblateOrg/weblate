@@ -3,7 +3,7 @@
 {% if simple %}
   <span lang="{{ language.code }}"
         dir="{{ language.direction }}"
-        {% if wrap and items.0.content|length > 25 %}class="wrap-text"{% endif %}>{{ items.0.content }}</span>
+        class="bidi-isolate{% if wrap and items.0.content|length > 25 %} wrap-text{% endif %}">{{ items.0.content }}</span>
 {% elif has_content %}
   <div class="list-group">
     {% for item in items %}
@@ -13,7 +13,7 @@
             <strong>{{ item.title }}</strong>
           </h5>
         {% endif %}
-        <div class="list-group-item-text"
+        <div class="list-group-item-text bidi-isolate"
              lang="{{ language.code }}"
              dir="{{ language.direction }}">
           {% if unit and item.copy %}

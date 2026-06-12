@@ -27,6 +27,7 @@ DEFAULT_WEBLATE_MACHINERY: tuple[str, ...] = (
     "weblate.machinery.youdao.YoudaoTranslation",
     "weblate.machinery.systran.SystranTranslation",
     "weblate.machinery.openai.OpenAITranslation",
+    "weblate.machinery.mistral.MistralTranslation",
     "weblate.machinery.ollama.OllamaTranslation",
     "weblate.machinery.openai.AzureOpenAITranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",

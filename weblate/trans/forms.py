@@ -37,7 +37,7 @@ from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import normalize_newlines, slugify
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import get_language, gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
@@ -250,8 +250,39 @@ class ChecksumField(forms.CharField):
             raise ValidationError(gettext("Invalid checksum specified!")) from error
 
 
+class FlagEditorWidget(forms.TextInput):
+    """Text input for interactive flag editor."""
+
+    def __init__(self, attrs=None) -> None:
+        attrs = {**(attrs or {})}
+        existing = attrs.get("class", "").split()
+        if "flag-editor" not in existing:
+            existing.append("flag-editor")
+        attrs["class"] = " ".join(existing)
+        attrs.setdefault("autocomplete", "off")
+        attrs.setdefault("autocapitalize", "off")
+        attrs.setdefault("spellcheck", "false")
+        super().__init__(attrs)
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        # Embed active language in the URL so the browser cache key varies on it
+        language = get_language() or ""
+        url = reverse("js-flag-choices")
+        if language:
+            url = f"{url}?{urlencode({'lang': language})}"
+        context["widget"]["attrs"].setdefault("data-flag-choices-url", url)
+        return context
+
+
 class FlagField(forms.CharField):
     default_validators = [validate_check_flags]  # noqa: RUF012
+    widget = FlagEditorWidget
+
+    def __init__(self, *args, **kwargs) -> None:
+        # Force the tag-based editor widget
+        kwargs["widget"] = FlagEditorWidget()
+        super().__init__(*args, **kwargs)
 
 
 class PluralTextarea(forms.Textarea):
@@ -1024,13 +1055,14 @@ class RevertForm(UnitForm):
         if "revert" not in self.cleaned_data:
             return None
         try:
-            self.cleaned_data["revert_change"] = Change.objects.get(
-                pk=self.cleaned_data["revert"], unit=self.unit
-            )
+            change = Change.objects.get(pk=self.cleaned_data["revert"], unit=self.unit)
         except Change.DoesNotExist as error:
             raise ValidationError(
                 gettext("Could not find the reverted change.")
             ) from error
+        if not change.can_revert():
+            raise ValidationError(gettext("Could not find the reverted change."))
+        self.cleaned_data["revert_change"] = change
         return self.cleaned_data
 
 
@@ -1421,6 +1453,9 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
             "labels": forms.CheckboxSelectMultiple(),
             "explanation": MarkdownTextarea,
         }
+        field_classes = {  # noqa: RUF012
+            "extra_flags": FlagField,
+        }
 
     doc_links: ClassVar[dict[str, tuple[str, str]]] = {
         "explanation": ("admin/translating", "additional-explanation"),
@@ -1435,7 +1470,7 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         kwargs["initial"] = {"labels": list(instance.all_labels)}
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
-        self.fields["labels"].queryset = project.label_set.all()
+        self.fields["labels"].queryset = project.label_set.order()
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -2128,6 +2163,7 @@ class ComponentSettingsForm(
         field_classes = {  # noqa: RUF012
             "enforced_checks": SelectChecksField,
             "file_format_params": FormParamsField,
+            "check_flags": FlagField,
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
@@ -3161,6 +3197,9 @@ class ProjectSettingsForm(
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
         }
+        field_classes = {  # noqa: RUF012
+            "check_flags": FlagField,
+        }
 
     def get_unlicensed_components(self, project_license: str) -> list[Component]:
         categories_by_id = {
@@ -3485,7 +3524,10 @@ class ProjectCreateForm(
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "instructions", "workspace")
+        fields = ("name", "slug", "web", "instructions", "license", "workspace")
+        widgets = {  # noqa: RUF012
+            "license": SearchableSelect,
+        }
 
 
 class ProjectImportCreateForm(ProjectCreateForm):
@@ -3897,7 +3939,7 @@ class BulkEditForm(forms.Form):
             # Labels are project-scoped, so non-project bulk edit scopes do not
             # offer label operations to avoid applying labels across projects.
             labels = (
-                Label.objects.none() if project is None else project.label_set.all()
+                Label.objects.none() if project is None else project.label_set.order()
             )
         if labels:
             self.fields["remove_labels"].queryset = labels

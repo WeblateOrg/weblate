@@ -6,16 +6,29 @@ Weblate 2026.7
 .. rubric:: New features
 
 * Added the :ref:`check-accelerators` quality check, which verifies that accelerator keys are used consistently between the source and the translation. Enable it with the ``accelerators`` flag.
+* Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 
 .. rubric:: Improvements
 
+* :ref:`visual-keyboard` for RTL languages now includes Unicode isolate controls for better mixed-direction text editing.
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
 * Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
+* :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
+* :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
+* :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
+* LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
+* Improved bidirectional text handling for RTL translation display and editor previews.
 
 .. rubric:: Bug fixes
 
+* Scoped team assignments can no longer be expanded through the API.
+* TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
+* :ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
+* Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
+* Project and workspace translation license defaults now follow component and project licenses more closely.
+* Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
 
 .. rubric:: Compatibility
 
@@ -65,6 +78,7 @@ Weblate 2026.6
 
 * Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
+* Translation flag fields now use a tag-based editor with autocompletion and grouped suggestions for all known flags.
 * :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
 * :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
 * :ref:`alerts` now include dismissible component diagnostics for community localization.
@@ -73,7 +87,7 @@ Weblate 2026.6
 
 .. rubric:: Bug fixes
 
-* Outbound URL validation now rejects additional non-public targets (:ghsa:`vmfc-9982-2m45`).
+* Outbound URL validation now rejects additional non-public targets (:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`).
 * Project-language :doc:`/admin/announcements` no longer appear across the whole project.
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Registration-attempt account activity e-mails now link to password reset to help users finish account setup.

@@ -736,6 +736,12 @@ Generic settings
 
    Expects a comma-separated list of trusted hostnames or domains.
 
+.. envvar:: WEBLATE_ALLOWED_ASSET_SIZE
+
+   .. versionadded:: 2025.7
+
+   Configures :setting:`ALLOWED_ASSET_SIZE`.
+
 .. envvar:: WEBLATE_ASSET_RESTRICT_PRIVATE
 
    .. versionadded:: 2025.5

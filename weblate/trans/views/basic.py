@@ -741,7 +741,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
             ),
             "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
-            else obj.alert_set.all(),
+            else obj.all_alerts.values(),
             "user_can_add_translation": user_can_add_translation,
             "component_links_formset": _get_component_links_formset(obj, user),
             "component_link_add_form": _get_component_link_add_form(request, obj, user),

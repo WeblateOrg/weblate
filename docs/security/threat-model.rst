@@ -376,7 +376,8 @@ Input assumptions
      - Hook enablement only where needed, request limits, and monitoring.
        *(maintainer)*
    * - Repository configuration
-     - Repository URLs, branches, push URLs, credentials, add-on settings
+     - Repository URLs, branches, push URLs, credentials, Gerrit review push
+       options, add-on settings
      - Trusted to users with corresponding management permissions.
        *(documented)* (source: :doc:`/admin/access`, :doc:`/admin/continuous`)
      - Assign VCS and project management permissions only to trusted users.
@@ -684,6 +685,10 @@ Known non-findings
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)
+* A report that a project manager can configure Gerrit review push options is
+  not a vulnerability by itself. Gerrit interprets these options as the
+  configured Weblate Gerrit account and enforces Gerrit-side permissions.
+  *(documented)* (source: :ref:`component-push_branch`)
 * A report against third-party add-on behavior is not a Weblate core
   vulnerability unless the report shows Weblate's permission or installation
   boundaries are bypassed. *(maintainer)*

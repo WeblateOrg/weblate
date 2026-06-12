@@ -4,6 +4,7 @@
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
+from django.utils.translation import override
 from lxml import etree
 
 from weblate.checks.flags import (
@@ -12,6 +13,7 @@ from weblate.checks.flags import (
     Flags,
     FlagsValidator,
     get_auto_flag_names,
+    get_flag_choices,
 )
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoFormat
@@ -333,3 +335,36 @@ class FlagTest(SimpleTestCase):
         # test md-text flag for MDX
         content = f'{PO_HEADER}#: ../../path/file.mdx:24 ../../path/file.mdx:52msgid "Hello, world!"msgstr "Nazdar svete!"'
         check_location_flags(content, {"md-text"})
+
+    def test_get_flag_choices(self) -> None:
+        choices = get_flag_choices()
+        # Catalog is non-empty and every entry has the expected keys
+        self.assertGreater(len(choices), 0)
+        for entry in choices:
+            self.assertIn("name", entry)
+            self.assertIn("label", entry)
+            self.assertIn("category", entry)
+            self.assertIn("has_value", entry)
+        names = {entry["name"] for entry in choices}
+        # A few representative flags from each category are exposed
+        self.assertIn("read-only", names)
+        self.assertIn("max-length", names)
+        self.assertIn("md-text", names)
+        # Typed flags are marked as such
+        max_length = next(e for e in choices if e["name"] == "max-length")
+        self.assertTrue(max_length["has_value"])
+        read_only = next(e for e in choices if e["name"] == "read-only")
+        self.assertFalse(read_only["has_value"])
+        # Names are unique (no duplicates across categories)
+        self.assertEqual(len(names), len(choices))
+
+    def test_get_flag_choices_per_language(self) -> None:
+        with override("en"):
+            en_choices = get_flag_choices()
+        with override("cs"):
+            cs_choices = get_flag_choices()
+        with override("en"):
+            en_choices_again = get_flag_choices()
+
+        self.assertIsNot(en_choices, cs_choices)
+        self.assertIs(en_choices, en_choices_again)

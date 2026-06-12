@@ -74,6 +74,9 @@
               src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
       <script defer
               data-cfasync="false"
+              src="{% static 'js/flag-editor.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
               src="{% static 'js/keyboard-shortcuts.js' %}{{ cache_param }}"></script>
       <script defer data-cfasync="false" src="{% static 'js/urls.js' %}{{ cache_param }}"></script>
       <script defer
@@ -217,9 +220,13 @@
                                  href="{% url 'checks' path=projectlanguage.get_url_path %}">{% blocktranslate %}Failing checks in {{ project }} — {{ language }}{% endblocktranslate %}</a>
                             </li>
                           {% endfor %}
-                          {% if languages|length > 1 %}<li role="separator" class="divider"></li>{% endif %}
+                          {% if languages|length > 1 %}
+                            <li role="separator" class="divider"></li>
+                          {% endif %}
                         {% endfor %}
-                        {% if languages|length == 1 %}<li role="separator" class="divider"></li>{% endif %}
+                        {% if languages|length == 1 %}
+                          <li role="separator" class="divider"></li>
+                        {% endif %}
                       {% endif %}
                       {% for project in watched_projects %}
                         <li>
@@ -500,9 +507,11 @@
         {% include 'snippets/menu.html' %}
       {% endif %}
 
-      {% block nav_pills %}{% endblock %}
+      {% block nav_pills %}
+      {% endblock nav_pills %}
 
-      {% block content %}{% endblock %}
+      {% block content %}
+      {% endblock content %}
 
     </div>
     <form id="link-post" method="post">

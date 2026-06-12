@@ -15,7 +15,7 @@ from translation_finder import DiscoveryResult
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ComponentCreateForm
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -23,6 +23,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
 )
 from weblate.utils.views import get_form_data
+from weblate.vcs.base import RepositoryLock
 from weblate.vcs.git import GitRepository
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
@@ -115,6 +116,123 @@ class CreateTest(ViewTestCase):
         self.client_create_project(True)
         self.client_create_project(True, name="p2", slug="p2")
 
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_project_asks_for_license(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.get(reverse("create-project"))
+
+        self.assertContains(response, 'name="license"')
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_project_sets_blank_workspace_license(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(name="Blank license workspace")
+
+        self.client_create_project(
+            True,
+            name="Workspace License Project",
+            slug="workspace-license-project",
+            workspace=workspace.pk,
+            license="MIT",
+        )
+
+        project = Project.objects.get(slug="workspace-license-project")
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.license, "MIT")
+        self.assertTrue(project.inherit_license)
+        self.assertEqual(project.license, "MIT")
+        self.assertEqual(project.get_effective_setting("license"), "MIT")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_project_without_workspace_edit_keeps_license_explicit(self) -> None:
+        workspace = Workspace.objects.create(name="Project creator license workspace")
+        project_creator = create_another_user(suffix="-workspace-license")
+        project_creator.add_team(
+            None, workspace.setup_groups()[WORKSPACE_PROJECT_CREATORS_GROUP]
+        )
+        self.client.login(username=project_creator.username, password="testpassword")
+
+        self.client_create_project(
+            True,
+            name="Project Creator License Project",
+            slug="project-creator-license-project",
+            workspace=workspace.pk,
+            license="MIT",
+        )
+
+        project = Project.objects.get(slug="project-creator-license-project")
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.license, "")
+        self.assertFalse(project.inherit_license)
+        self.assertEqual(project.license, "MIT")
+        self.assertEqual(project.get_effective_setting("license"), "MIT")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_project_keeps_different_workspace_license_explicit(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(
+            name="Existing license workspace", license="GPL-3.0-or-later"
+        )
+
+        self.client_create_project(
+            True,
+            name="Explicit License Project",
+            slug="explicit-license-project",
+            workspace=workspace.pk,
+            license="MIT",
+        )
+
+        project = Project.objects.get(slug="explicit-license-project")
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.license, "GPL-3.0-or-later")
+        self.assertFalse(project.inherit_license)
+        self.assertEqual(project.license, "MIT")
+        self.assertEqual(project.get_effective_setting("license"), "MIT")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_project_inherits_matching_workspace_license(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        workspace = Workspace.objects.create(
+            name="Matching license workspace", license="MIT"
+        )
+
+        self.client_create_project(
+            True,
+            name="Inherited License Project",
+            slug="inherited-license-project",
+            workspace=workspace.pk,
+            license="MIT",
+        )
+
+        project = Project.objects.get(slug="inherited-license-project")
+        workspace.refresh_from_db()
+        self.assertEqual(workspace.license, "MIT")
+        self.assertTrue(project.inherit_license)
+        self.assertEqual(project.license, "MIT")
+        self.assertEqual(project.get_effective_setting("license"), "MIT")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_standalone_project_keeps_license_explicit(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        self.client_create_project(
+            True,
+            name="Standalone License Project",
+            slug="standalone-license-project",
+            license="MIT",
+        )
+
+        project = Project.objects.get(slug="standalone-license-project")
+        self.assertFalse(project.inherit_license)
+        self.assertEqual(project.license, "MIT")
+        self.assertEqual(project.get_effective_setting("license"), "MIT")
+
     def assert_create_component(self, result) -> None:
         response = self.client.get(reverse("create-component-vcs"))
         match = "not have permission to create component"
@@ -182,6 +300,54 @@ class CreateTest(ViewTestCase):
         self.assert_create_component(True)
         self.client_create_component(True)
         self.client_create_component(True, name="c2", slug="c2")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_create_linked_component_skips_repository_lock(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        with patch.object(
+            RepositoryLock,
+            "__enter__",
+            autospec=True,
+            side_effect=AssertionError(
+                "Linked component creation should not lock the repository"
+            ),
+        ):
+            self.client_create_component(True)
+
+        component = Component.objects.get(slug="create-component")
+        self.assertTrue(component.is_repo_link)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_create_git_component_keeps_repository_lock(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        project = Project.objects.create(name="Other", slug="other")
+
+        original_lock_enter = RepositoryLock.__enter__
+
+        def record_lock_enter(lock):
+            return original_lock_enter(lock)
+
+        with patch.object(
+            RepositoryLock,
+            "__enter__",
+            autospec=True,
+            side_effect=record_lock_enter,
+        ) as lock_enter:
+            self.client_create_component(
+                True,
+                project=project.pk,
+                repo=self.component.repo,
+                branch=self.component.branch,
+            )
+
+        lock_enter.assert_called()
+        component = Component.objects.get(slug="create-component")
+        self.assertFalse(component.is_repo_link)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_wizard(self) -> None:

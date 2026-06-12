@@ -1004,6 +1004,21 @@ class GroupViewSet(viewsets.ModelViewSet):
         ):
             self.permission_denied(request, "Can not manage groups")
 
+    def scoped_assignment_check(
+        self, group: Group, field_name: str, message: str
+    ) -> None:
+        if (
+            group.defining_project_id is not None
+            or group.defining_workspace_id is not None
+        ):
+            raise ValidationError({field_name: message})
+
+    def workspace_assignment_check(
+        self, group: Group, field_name: str, message: str
+    ) -> None:
+        if group.defining_workspace_id is not None:
+            raise ValidationError({field_name: message})
+
     def update(self, request: Request, *args, **kwargs):
         """Change the group parameters."""
         self.perm_check(request, self.get_object())
@@ -1127,6 +1142,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     def projects(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj, "project_id", gettext("Cannot change projects on a scoped team.")
+        )
 
         if "project_id" not in request.data:
             msg = "Missing project_id parameter"
@@ -1152,6 +1170,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     def delete_projects(self, request: Request, id, project_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj, "project_id", gettext("Cannot change projects on a scoped team.")
+        )
 
         try:
             project = obj.projects.get(pk=project_id)
@@ -1168,6 +1189,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     def componentlists(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj,
+            "component_list_id",
+            gettext("Cannot change component lists on a scoped team."),
+        )
 
         if "component_list_id" not in request.data:
             msg = "Missing component_list_id parameter"
@@ -1204,6 +1230,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     ):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj,
+            "component_list_id",
+            gettext("Cannot change component lists on a scoped team."),
+        )
         try:
             component_list = obj.componentlists.get(pk=component_list_id)
         except ComponentList.DoesNotExist as error:
@@ -1220,15 +1251,22 @@ class GroupViewSet(viewsets.ModelViewSet):
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "component_id",
+            gettext("Cannot change components on a workspace team."),
+        )
         if "component_id" not in request.data:
             msg = "Missing component_id parameter"
             raise ValidationError({"component_id": msg})
 
         field_name = "component_id"
+        if obj.defining_project_id is not None:
+            component_queryset = obj.defining_project.component_set
+        else:
+            component_queryset = Component.objects
         try:
-            component = Component.objects.filter_access(request.user).get(
-                pk=int(request.data[field_name])
-            )
+            component = component_queryset.get(pk=int(request.data[field_name]))
         except (TypeError, ValueError) as error:
             raise invalid_integer_error(field_name) from error
         except Component.DoesNotExist as error:
@@ -1246,9 +1284,17 @@ class GroupViewSet(viewsets.ModelViewSet):
     def delete_components(self, request: Request, id, component_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "component_id",
+            gettext("Cannot change components on a workspace team."),
+        )
 
+        components = obj.components
+        if obj.defining_project_id is not None:
+            components = components.filter(project_id=obj.defining_project_id)
         try:
-            component = obj.components.get(pk=component_id)
+            component = components.get(pk=component_id)
         except Component.DoesNotExist as error:
             msg = "Component"
             raise not_found_http404(msg) from error

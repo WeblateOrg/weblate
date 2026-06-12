@@ -2482,16 +2482,18 @@ class InvalidBackendTest(SimpleTestCase):
         # GitHub handler checks 'login' first, falls back to 'name'
         # GITHUB_PAYLOAD has only 'name', so deleting it leaves no valid field
         del payload["repository"]["owner"]["name"]
-        with self.assertRaises(KeyError):
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Invalid repository.owner.name in payload", str(cm.exception))
 
     def test_github_missing_repository_name(self) -> None:
         """Test GitHub handler with missing repository name."""
         handler = HOOK_HANDLERS["github"]
         payload = json.loads(GITHUB_PAYLOAD)
         del payload["repository"]["name"]
-        with self.assertRaises(KeyError):
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Invalid repository.name in payload", str(cm.exception))
 
     def test_github_missing_ref(self) -> None:
         """Test GitHub handler with missing ref."""
@@ -3030,7 +3032,47 @@ class InvalidPayloadTest(ViewTestCase):
             {"payload": json.dumps(payload)},
             headers={"x-github-event": "push"},
         )
-        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_minimal_repository_payload(self) -> None:
+        """Test GitHub webhook with incomplete repository data."""
+        payload = {
+            "repository": {
+                "clone_url": "https://github.com/EURid/eurid-translations.git",
+                "full_name": "EURid/eurid-translations",
+            }
+        }
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository.owner in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_missing_repository_url(self) -> None:
+        """Test GitHub webhook with missing repository URL."""
+        payload = json.loads(GITHUB_PAYLOAD)
+        del payload["repository"]["url"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository.url in payload",
+            status_code=400,
+        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_gitlab_missing_project_key(self) -> None:
@@ -3107,7 +3149,11 @@ class InvalidPayloadTest(ViewTestCase):
             {"payload": json.dumps(payload)},
             headers={"x-github-event": "push"},
         )
-        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository.owner.name in payload",
+            status_code=400,
+        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_azure_missing_resource_key(self) -> None:
