@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test.utils import modify_settings, override_settings
+from django.db import connection
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from translation_finder import DiscoveryResult
 
@@ -22,6 +23,7 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     get_test_file,
 )
+from weblate.trans.views.create import CreateComponentSelection
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.git import GitRepository
@@ -836,6 +838,47 @@ class CreateTest(ViewTestCase):
         )
         change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "branch")
+
+    def test_component_branch_data_uses_bulk_existing_branch_lookup(self) -> None:
+        repo_a = "https://example.com/repo-a.git"
+        repo_b = "https://example.com/repo-b.git"
+        Component.objects.filter(pk=self.component.pk).update(repo=repo_a)
+        self.component.refresh_from_db()
+        second = self.create_po(project=self.project, name="Second")
+        third = self.create_android(project=self.project, name="Third")
+        Component.objects.filter(pk=second.pk).update(repo=repo_a, branch="stable")
+        Component.objects.filter(pk=third.pk).update(repo=repo_b)
+
+        view = CreateComponentSelection()
+        view.components = Component.objects.filter(
+            pk__in=(self.component.pk, second.pk, third.pk)
+        ).order_project()
+
+        with (
+            patch(
+                "weblate.vcs.git.GitRepository.list_remote_branches",
+                return_value=["main", "stable", "feature", "new"],
+            ) as list_remote_branches,
+            CaptureQueriesContext(connection) as queries,
+        ):
+            branch_data = view.branch_data
+
+        self.assertEqual(list_remote_branches.call_count, 2)
+        self.assertEqual(branch_data[self.component.pk], ["feature", "new"])
+        self.assertEqual(branch_data[second.pk], ["feature", "new"])
+        self.assertEqual(branch_data[third.pk], ["stable", "feature", "new"])
+
+        component_queries = "\n".join(
+            query["sql"]
+            for query in queries.captured_queries
+            if 'FROM "trans_component"' in query["sql"]
+        )
+        self.assertEqual(
+            component_queries.count('"trans_component"."repo" IN'),
+            1,
+            component_queries,
+        )
+        self.assertNotIn('"trans_component"."repo" =', component_queries)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_invalid_zip(self) -> None:

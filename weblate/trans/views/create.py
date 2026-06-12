@@ -559,10 +559,6 @@ class CreateFromDoc(CreateComponent):
         return self.get(self.request)
 
 
-def component_branches(repo: str) -> set[str]:
-    return set(Component.objects.filter(repo=repo).values_list("branch", flat=True))
-
-
 class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
@@ -573,20 +569,28 @@ class CreateComponentSelection(CreateComponent):
     @cached_property
     def branch_data(self):
         result = {}
-        existing_branches: dict[str, set[str]] = {}
-        for component in self.components:
+        components = list(self.components)
+        repos = {component.repo for component in components}
+        existing_branches: dict[str, set[str]] = {repo: set() for repo in repos}
+        remote_branches: dict[str, list[str]] = {}
+
+        for repo, branch in Component.objects.filter(repo__in=repos).values_list(
+            "repo", "branch"
+        ):
+            existing_branches[repo].add(branch)
+
+        for component in components:
             repo = component.repo
-            if repo not in existing_branches:
-                existing_branches[repo] = component_branches(repo)
-            try:
-                remote_branches = component.repository.list_remote_branches()
-            except RepositoryError:
-                # Ignore error, use no branches
-                remote_branches = []
+            if repo not in remote_branches:
+                try:
+                    remote_branches[repo] = component.repository.list_remote_branches()
+                except RepositoryError:
+                    # Ignore error, use no branches
+                    remote_branches[repo] = []
 
             branches = [
                 branch
-                for branch in remote_branches
+                for branch in remote_branches[repo]
                 if branch != component.branch and branch not in existing_branches[repo]
             ]
             if branches:

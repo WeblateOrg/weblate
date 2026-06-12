@@ -1096,6 +1096,7 @@ class Component(  # noqa: PLR0904
         verbose_name_plural = "Components"
         indexes = [  # noqa: RUF012
             models.Index(fields=["project", "allow_translation_propagation"]),
+            models.Index(fields=["repo", "branch"], name="trans_comp_repo_branch_idx"),
         ]
         constraints = [  # noqa: RUF012
             models.UniqueConstraint(
