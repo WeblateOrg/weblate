@@ -23,6 +23,7 @@ Weblate 2026.7
 * Zen mode now loads large search results and glossary-heavy projects more efficiently.
 * Translate pages with filtered searches and nearby strings now load more efficiently.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
+* Large component imports now avoid duplicate translation-memory processing.
 
 .. rubric:: Bug fixes
 

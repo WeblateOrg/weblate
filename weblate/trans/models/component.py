@@ -1172,7 +1172,10 @@ class Component(  # noqa: PLR0904
         if self.key_filter and not self.has_template():
             self.key_filter = ""
 
-        update_tm = self.contribute_project_tm
+        # Newly imported units update translation memory as part of the import
+        # loop. A full component TM import is only needed when contribution is
+        # enabled later for units that already exist.
+        update_tm = False
 
         if self.id:
             old = Component.objects.get(pk=self.id)
@@ -1226,7 +1229,7 @@ class Component(  # noqa: PLR0904
 
             create = False
 
-            # detect if the component had TM contribution disabled but changed to enabled
+            # Detect if the component had TM contribution disabled but changed to enabled.
             update_tm = self.contribute_project_tm and not old.contribute_project_tm
         elif self.is_glossary:
             # Creating new glossary

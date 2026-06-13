@@ -443,6 +443,32 @@ msgstr "Nazdar svete!\n"
         # 2 translations X 2 (project and shared memory) = total 7
         self.assertEqual(Memory.objects.count(), 7)
 
+    def test_component_project_tm_import_scheduled_only_when_reenabled(self) -> None:
+        with patch(
+            "weblate.trans.models.component.import_memory.delay_on_commit"
+        ) as mocked_import:
+            component = self._create_component(
+                "po", "po/*.po", name="memory", project=self.project
+            )
+
+        mocked_import.assert_not_called()
+
+        component.contribute_project_tm = False
+        with patch(
+            "weblate.trans.models.component.import_memory.delay_on_commit"
+        ) as mocked_import:
+            component.save()
+
+        mocked_import.assert_not_called()
+
+        component.contribute_project_tm = True
+        with patch(
+            "weblate.trans.models.component.import_memory.delay_on_commit"
+        ) as mocked_import:
+            component.save()
+
+        mocked_import.assert_called_once_with(self.project.id, component.pk)
+
     def test_import_unit(self) -> None:
         unit = self.get_unit()
         self.handle_unit_translation_change_with_callbacks(unit, self.user)
