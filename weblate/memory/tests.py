@@ -469,6 +469,29 @@ msgstr "Nazdar svete!\n"
 
         mocked_import.assert_called_once_with(self.project.id, component.pk)
 
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_component_batched_project_tm_update(self) -> None:
+        unit = self.get_unit()
+        self.translate_with_callbacks(unit, self.user, "Nazdar", STATE_TRANSLATED)
+        Memory.objects.all().delete()
+        unit.refresh_from_db()
+        component = unit.translation.component
+
+        component.start_batched_memory()
+        unit.update_translation_memory(needs_user_check=False)
+        unit.update_translation_memory(needs_user_check=False)
+        self.assertEqual(Memory.objects.count(), 0)
+
+        component.run_batched_memory()
+        self.assertEqual(Memory.objects.filter(project=self.project).count(), 1)
+        self.assertEqual(Memory.objects.filter(shared=True).count(), 1)
+        self.assertEqual(Memory.objects.count(), 2)
+
+        component.start_batched_memory()
+        unit.update_translation_memory(needs_user_check=False)
+        component.run_batched_memory()
+        self.assertEqual(Memory.objects.count(), 2)
+
     def test_import_unit(self) -> None:
         unit = self.get_unit()
         self.handle_unit_translation_change_with_callbacks(unit, self.user)

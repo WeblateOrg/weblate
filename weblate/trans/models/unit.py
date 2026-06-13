@@ -25,7 +25,10 @@ from weblate.auth.results import PermissionResult
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
-from weblate.memory.tasks import handle_unit_translation_change
+from weblate.memory.tasks import (
+    get_unit_memory_update,
+    schedule_memory_update,
+)
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
@@ -2650,7 +2653,13 @@ class Unit(models.Model, LoggerMixin):
             and not component.is_glossary
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):
-            handle_unit_translation_change(self, user)
+            payload = get_unit_memory_update(self, user, component)
+            if payload is None:
+                return
+            if user is None and component.batch_memory:
+                component.add_batched_memory_update(payload)
+            else:
+                schedule_memory_update(payload)
 
     @property
     def has_pending_changes(self) -> bool:
