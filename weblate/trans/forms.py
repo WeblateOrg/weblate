@@ -1128,6 +1128,13 @@ class AutoForm(forms.Form):
         """Generate choices for other components in the same project."""
         auto_id = kwargs.pop("auto_id", "id_auto_%s")
         super().__init__(*args, auto_id=auto_id, **kwargs)
+        if (
+            self.is_bound
+            and self.data.get("auto_source") == "mt"
+            and self.data.get("component")
+        ):
+            self.data = self.data.copy()
+            self.data["component"] = ""
         self.obj = obj
         self.project: Project | None = None
         machinery_settings = {}
@@ -1203,7 +1210,7 @@ class AutoForm(forms.Form):
             (engine.get_identifier(), engine.name) for engine in engines
         ]
         if "weblate" in engine_ids:
-            self.fields["engines"].initial = "weblate"
+            self.fields["engines"].initial = ["weblate"]
 
         if "q" not in self.initial:
             self.initial["q"] = "state:<translated"
@@ -1227,6 +1234,8 @@ class AutoForm(forms.Form):
         )
 
     def clean_component(self):
+        if self.cleaned_data.get("auto_source") == "mt":
+            return None
         component = self.cleaned_data["component"]
         if not component:
             return None

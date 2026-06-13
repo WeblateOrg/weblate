@@ -19,6 +19,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language, Plural
 from weblate.machinery.dummy import DummyTranslation
 from weblate.trans.actions import ActionEvents
+from weblate.trans.forms import AutoForm
 from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
@@ -906,6 +907,66 @@ class AutoTranslationMtTest(ViewTestCase):
         translation = self.component3.translation_set.get(language_code="cs")
         translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, expected)
+
+    def test_form_uses_list_initial_for_default_engine(self) -> None:
+        form = AutoForm(self.component3, self.user)
+
+        self.assertEqual(form.fields["engines"].initial, ["weblate"])
+
+    def test_form_ignores_component_in_machine_translation_mode(self) -> None:
+        form = AutoForm(
+            self.component3,
+            self.user,
+            {
+                "auto_source": "mt",
+                "component": "missing-component",
+                "engines": ["weblate"],
+                "threshold": "80",
+                "q": "state:empty",
+                "mode": "fuzzy",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertIsNone(form.cleaned_data["component"])
+
+    def test_invalid_form_shows_field_errors(self) -> None:
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        response = self.client.post(
+            reverse("auto_translation", kwargs=path_params),
+            {
+                "auto_source": "mt",
+                "engines": ["invalid"],
+                "threshold": "80",
+                "q": "state:empty",
+                "mode": "fuzzy",
+            },
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
+        self.assertContains(response, "Error in parameter engines")
+        self.assertNotContains(response, "Could not process form!")
+
+    def test_locked_target_shows_specific_error(self) -> None:
+        self.component3.locked = True
+        self.component3.save(update_fields=["locked"])
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        response = self.client.post(
+            reverse("auto_translation", kwargs=path_params),
+            {
+                "auto_source": "mt",
+                "engines": ["weblate"],
+                "threshold": "80",
+                "q": "state:empty",
+                "mode": "fuzzy",
+            },
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
+        self.assertContains(response, "This translation is currently locked.")
+        self.assertNotContains(response, "Could not process form!")
 
     def test_different(self) -> None:
         """Test for automatic translation with different content."""
