@@ -45,7 +45,12 @@ from weblate.checks.models import CHECKS
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
-from weblate.memory.tasks import import_memory
+from weblate.memory.tasks import (
+    MemoryUpdatePayload,
+    import_memory,
+    schedule_memory_updates,
+    update_memory_bulk,
+)
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.alerts.registry import (
@@ -1133,6 +1138,8 @@ class Component(  # noqa: PLR0904
         self.removal_batch: RemovalBatch | None = None
         self.batch_checks = False
         self.batched_checks: set[str] = set()
+        self.batch_memory = False
+        self.batched_memory: list[MemoryUpdatePayload] = []
         self.needs_variants_update = False
         self._invalidate_scheduled = False
         self._alerts_scheduled = False
@@ -3851,6 +3858,7 @@ class Component(  # noqa: PLR0904
         self.updated_sources = set()
         self.alerts_trigger = {}
         self.start_batched_checks()
+        self.start_batched_memory()
         was_change = False
         translations = {}
         languages = {}
@@ -3944,6 +3952,7 @@ class Component(  # noqa: PLR0904
                         state=STATE_TRANSLATED
                     )
                 self.progress_step()
+            self.run_batched_memory()
 
         # Delete possibly no longer existing translations
         if langs is None:
@@ -4003,6 +4012,8 @@ class Component(  # noqa: PLR0904
             self.schedule_sync_terminology()
 
         self.unload_sources()
+        self.run_batched_memory()
+        self.batch_memory = False
         self.run_batched_checks()
 
         # Update last processed revision
@@ -4023,6 +4034,26 @@ class Component(  # noqa: PLR0904
     def start_batched_checks(self) -> None:
         self.batch_checks = True
         self.batched_checks = set()
+
+    def start_batched_memory(self) -> None:
+        self.batch_memory = True
+        self.batched_memory = []
+
+    def add_batched_memory_update(self, payload: MemoryUpdatePayload) -> None:
+        self.batched_memory.append(payload)
+
+    def run_batched_memory(self) -> None:
+        payloads = self.batched_memory
+
+        self.batched_memory = []
+
+        if not payloads:
+            return
+
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            update_memory_bulk(payloads)
+        else:
+            schedule_memory_updates(payloads)
 
     def run_batched_checks(self) -> None:
         source_unit_ids = list(self.updated_sources)
