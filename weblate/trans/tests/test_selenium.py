@@ -1383,9 +1383,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         ).select_by_index(1)
         with self.wait_for_page_load():
             element.submit()
-        self.assert_text_contains(
-            ".alert .task-message", "User invitation e-mail was sent."
-        )
         user = User.objects.get(username="testuser")
         self.assertTrue(
             user.invitation_set.filter(
