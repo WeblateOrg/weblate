@@ -478,9 +478,7 @@ class AlertQueryPrefetchTest(ViewTestCase):
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
     @staticmethod
     def clear_vcs_registry_cache() -> None:
-
-        for key in ("data", "merge_request_based", "git_based"):
-            VCS_REGISTRY.__dict__.pop(key, None)
+        VCS_REGISTRY.clear_cache()
 
     def create_component(self):
         return self.create_po()

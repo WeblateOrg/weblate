@@ -7,6 +7,7 @@ from __future__ import annotations
 import time
 from pathlib import Path
 from unittest.mock import Mock, patch
+from weakref import WeakSet
 
 from django.conf import settings
 from django.core.cache import cache
@@ -83,25 +84,27 @@ class ClassLoaderCheckTestCase(SimpleTestCase):
     @override_settings(TEST_ADDONS="weblate.addons.cleanup.CleanupAddon")
     def test_invalid(self) -> None:
         old_instances = ClassLoader.instances
-        ClassLoader.instances = {}  # type: ignore[assignment]
+        ClassLoader.instances = WeakSet()
         try:
-            ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
+            loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
             # This operates on ClassLoader.instances
             errors = list(check_class_loader(app_configs=None, databases=None))
             self.assertEqual(len(errors), 1)
+            self.assertIn(loader, ClassLoader.instances)
         finally:
             ClassLoader.instances = old_instances
 
     @override_settings(TEST_ADDONS=("weblate.addons.not_found",))
     def test_not_found(self) -> None:
         old_instances = ClassLoader.instances
-        ClassLoader.instances = {}  # type: ignore[assignment]
+        ClassLoader.instances = WeakSet()
         try:
-            ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
+            loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
             # This operates on ClassLoader.instances
             errors = list(check_class_loader(app_configs=None, databases=None))
             self.assertEqual(len(errors), 1)
             self.assertIn("does not define a 'not_found' class", errors[0].msg)
+            self.assertIn(loader, ClassLoader.instances)
         finally:
             ClassLoader.instances = old_instances
 
