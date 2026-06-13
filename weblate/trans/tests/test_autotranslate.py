@@ -4,6 +4,7 @@
 
 """Test for automatic translation."""
 
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test.utils import override_settings
@@ -17,7 +18,6 @@ from weblate.auth.models import Group, Role, TeamMembership, User
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language, Plural
 from weblate.machinery.dummy import DummyTranslation
-from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
 from weblate.trans.tasks import auto_translate, auto_translate_component
@@ -457,6 +457,12 @@ class AutoTranslationTest(ViewTestCase):
             translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, 1)
 
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.machinery.dummy.DummyTranslation",
+        )
+    )
     def test_autotranslate_workspace_project_machinery_settings(self) -> None:
         workspace = Workspace.objects.create(name="Automatic translation workspace")
         self.project.workspace = workspace
@@ -467,22 +473,17 @@ class AutoTranslationTest(ViewTestCase):
         self.component2.project.save(update_fields=["workspace"])
         Setting.objects.filter(category=SettingCategory.MT, name=identifier).delete()
 
-        original_service = MACHINERY.get(identifier)
-        MACHINERY[identifier] = DummyTranslation
-
-        def restore_dummy_machinery() -> None:
-            if original_service is None:
-                MACHINERY.data.pop(identifier, None)
-            else:
-                MACHINERY[identifier] = original_service
-
-        self.addCleanup(restore_dummy_machinery)
-
         response = self.client.get(workspace.get_absolute_url())
 
         self.assertContains(response, f'value="{identifier}"')
         self.assertContains(response, "Dummy")
 
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.machinery.dummy.DummyTranslation",
+        )
+    )
     def test_autotranslate_workspace_machine_translation(self) -> None:
         workspace = Workspace.objects.create(name="Automatic translation workspace")
         project = Project.objects.create(
@@ -495,17 +496,6 @@ class AutoTranslationTest(ViewTestCase):
         identifier = DummyTranslation.get_identifier()
         project.machinery_settings[identifier] = {}
         project.save(update_fields=["machinery_settings"])
-
-        original_service = MACHINERY.get(identifier)
-        MACHINERY[identifier] = DummyTranslation
-
-        def restore_dummy_machinery() -> None:
-            if original_service is None:
-                MACHINERY.data.pop(identifier, None)
-            else:
-                MACHINERY[identifier] = original_service
-
-        self.addCleanup(restore_dummy_machinery)
 
         result = auto_translate(
             workspace_id=str(workspace.pk),

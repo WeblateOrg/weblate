@@ -18,6 +18,7 @@ from urllib.parse import parse_qs, urlparse
 
 import responses
 from botocore.stub import ANY, Stubber
+from django.conf import settings as django_settings
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -36,7 +37,6 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
-import weblate.machinery.models
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -95,7 +95,6 @@ from weblate.trans.tests.test_views import (
 )
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
-from weblate.utils.classloader import load_class
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 from .types import SourceLanguageChoices
@@ -109,6 +108,12 @@ if TYPE_CHECKING:
         BatchMachineTranslation,
         SettingsDict,
     )
+
+
+class InternalTestTranslation(InternalMachineTranslation):
+    name = "Test Internal"
+    settings_form = BaseMachineryForm
+
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
@@ -5998,13 +6003,17 @@ class ViewsTest(FixtureTestCase):
         "to a third-party provider."
     )
 
-    @staticmethod
-    def ensure_dummy_mt():
+    def ensure_dummy_mt(self):
         """Ensure we have dummy mt installed."""
-        name = "weblate.machinery.dummy.DummyTranslation"
-        service = load_class(name, "TEST")
-        if service.get_identifier() not in weblate.machinery.models.MACHINERY:
-            weblate.machinery.models.MACHINERY[service.get_identifier()] = service
+        machinery_override = override_settings(
+            WEBLATE_MACHINERY=(
+                *django_settings.WEBLATE_MACHINERY,
+                "weblate.machinery.dummy.DummyTranslation",
+            )
+        )
+        machinery_override.enable()
+        self.addCleanup(machinery_override.disable)
+        service = DummyTranslation
         Setting.objects.create(
             category=SettingCategory.MT, name=service.get_identifier(), value={}
         )
@@ -6149,21 +6158,19 @@ class ViewsTest(FixtureTestCase):
         self.assertContains(response, self.THIRD_PARTY_WARNING)
 
     def test_configure_global_no_third_party_warning_for_internal(self) -> None:
-        class TestInternalTranslation(InternalMachineTranslation):
-            name = "Test Internal"
-            settings_form = BaseMachineryForm
-
-        identifier = TestInternalTranslation.get_identifier()
-        weblate.machinery.models.MACHINERY[identifier] = TestInternalTranslation
+        identifier = InternalTestTranslation.get_identifier()
         self.user.is_superuser = True
         self.user.save()
 
-        try:
+        with override_settings(
+            WEBLATE_MACHINERY=(
+                *django_settings.WEBLATE_MACHINERY,
+                "weblate.machinery.tests.InternalTestTranslation",
+            )
+        ):
             response = self.client.get(
                 reverse("machinery-edit", kwargs={"machinery": identifier})
             )
-        finally:
-            weblate.machinery.models.MACHINERY.data.pop(identifier, None)
 
         self.assertNotContains(response, self.THIRD_PARTY_WARNING)
 

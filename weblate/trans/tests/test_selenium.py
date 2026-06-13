@@ -43,7 +43,6 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
-import weblate.machinery.models
 from weblate.auth.models import AutoGroup, Group, Role, User
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.fonts.tests.utils import FONT, FONT_SOURCE
@@ -711,20 +710,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             [],
         )
 
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.trans.tests.test_selenium.SeleniumDummyTranslation",
+        )
+    )
     def test_machinery_hotkeys_use_current_results(self) -> None:
         """Test that machinery hotkeys use current result rows."""
         identifier = SeleniumDummyTranslation.get_identifier()
-        original_service = weblate.machinery.models.MACHINERY.data.get(identifier)
-        weblate.machinery.models.MACHINERY[identifier] = SeleniumDummyTranslation
-
-        def restore_dummy_machinery() -> None:
-            if original_service is None:
-                weblate.machinery.models.MACHINERY.data.pop(identifier, None)
-            else:
-                weblate.machinery.models.MACHINERY[identifier] = original_service
-
-        self.addCleanup(restore_dummy_machinery)
-
         project = self.create_component()
         project.machinery_settings = dict.fromkeys(
             Setting.objects.get_settings_dict(SettingCategory.MT)
@@ -1307,9 +1301,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Automatic suggestions
         self.open_project(project)
         self.click("Operations")
-        with self.wait_for_page_load():
-            self.click("Automatic suggestions")
-        self.screenshot("project-machinery.png")
+        hidden_machinery_services = {
+            "weblate.machinery.dummy.DummyTranslation",
+            "weblate.trans.tests.test_selenium.SeleniumDummyTranslation",
+        }
+        machinery_services = tuple(
+            path
+            for path in settings.WEBLATE_MACHINERY
+            if path not in hidden_machinery_services
+        )
+        with override_settings(WEBLATE_MACHINERY=machinery_services):
+            with self.wait_for_page_load():
+                self.click("Automatic suggestions")
+            self.screenshot("project-machinery.png")
 
         # Access control settings
         self.open_project(project)

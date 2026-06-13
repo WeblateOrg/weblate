@@ -683,7 +683,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_push()
 
         # force reload VCS list to include github
-        del VCS_REGISTRY.data
+        VCS_REGISTRY.clear_cache()
 
         component.vcs = "github"
 
