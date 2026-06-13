@@ -9,7 +9,7 @@ import math
 import os
 import time
 import warnings
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
@@ -806,6 +806,88 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ),
             "current replacement 2",
         )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.machinery.dummy.DummyTranslation",
+        )
+    )
+    def test_auto_translate_mt_ignores_persisted_component(self) -> None:
+        """Test MT auto-translation with persisted component form state."""
+        identifier = DummyTranslation.get_identifier()
+
+        def clear_auto_translation_storage() -> None:
+            with suppress(WebDriverException):
+                self.driver.execute_script(
+                    'window.localStorage.removeItem("auto-translation");'
+                )
+
+        self.addCleanup(clear_auto_translation_storage)
+
+        project = self.create_component()
+        project.machinery_settings = dict.fromkeys(
+            Setting.objects.get_settings_dict(SettingCategory.MT)
+        )
+        project.machinery_settings[identifier] = {}
+        project.save(update_fields=["machinery_settings"])
+
+        target_component = project.component_set.get(slug="django")
+        for index in range(28):
+            Component.objects.create(
+                name=f"Extra {index}",
+                slug=f"extra-{index}",
+                project=project,
+                repo="weblate://weblateorg/language-names",
+                filemask=f"extra/{index}/*.po",
+                new_base=f"extra/{index}/django.pot",
+                file_format="po",
+                source_language=target_component.source_language,
+            )
+
+        self.do_login(superuser=True)
+        self.driver.execute_script(
+            """
+            window.localStorage.setItem(
+                "auto-translation",
+                JSON.stringify({component: "missing-component"}),
+            );
+            """
+        )
+
+        self.open_component(component=target_component, project=project)
+        self.click("Operations")
+        self.click("Batch automatic translation")
+        self.click(htmlid="id_auto_auto_source_1")
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                """
+                const engines = document.getElementById("id_auto_engines");
+                return Boolean(engines && engines.tomselect);
+                """
+            )
+        )
+        self.driver.execute_script(
+            """
+            const engines = document.getElementById("id_auto_engines");
+            engines.tomselect.addItem(arguments[0]);
+            engines.dispatchEvent(new Event("change", {bubbles: true}));
+            """,
+            identifier,
+        )
+        query = self.driver.find_element(By.ID, "id_auto_q")
+        query.clear()
+        query.send_keys("state:empty")
+
+        with self.wait_for_page_load():
+            self.driver.find_element(
+                By.CSS_SELECTOR, 'form[data-persist="auto-translation"]'
+            ).submit()
+
+        body = self.driver.find_element(By.TAG_NAME, "body").text
+        self.assertIn("Automatic translation completed", body)
+        self.assertNotIn("Error in parameter component", body)
+        self.assertNotIn("Could not process form!", body)
 
     def test_login(self) -> None:
         # Do proper login with new user

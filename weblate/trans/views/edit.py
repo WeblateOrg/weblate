@@ -1118,11 +1118,24 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             msg = "Unsupported object for auto translation"
             raise PermissionDenied(msg)
 
-    if not request.user.has_perm("translation.auto", obj):
+    permission = request.user.has_perm("translation.auto", obj)
+    if not permission:
+        reason = getattr(permission, "reason", "")
+        if update_locked and reason:
+            messages.error(request, reason)
+            return redirect(obj)
         raise PermissionDenied
 
-    if update_locked or not autoform.is_valid():
-        messages.error(request, gettext("Could not process form!"))
+    if update_locked:
+        messages.error(
+            request,
+            gettext(
+                "Automatic translation cannot be started because the target is locked."
+            ),
+        )
+        return redirect(obj)
+
+    if not autoform.is_valid():
         show_form_errors(request, autoform)
         return redirect(obj)
 
