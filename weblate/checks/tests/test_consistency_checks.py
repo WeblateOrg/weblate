@@ -26,7 +26,7 @@ from weblate.trans.tests.test_views import (
     ComponentTestCase,
     FixtureTestCase,
 )
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
 class PluralsCheckTest(TestCase):
@@ -113,6 +113,27 @@ class TranslatedCheckTest(FixtureTestCase):
             self.check.get_description(check),
             'Previous translation was "Nazdar svete!\n".',
         )
+
+    def test_run_checks_untranslated(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.edit_unit("Hello, world!\n", "")
+        unit = self.get_unit()
+        Check.objects.filter(unit=unit).delete()
+        unit.clear_checks_cache()
+
+        unit.run_checks()
+
+        self.assertEqual(unit.state, STATE_EMPTY)
+        self.assertIn("translated", unit.all_checks_names)
+
+    def test_run_checks_untranslated_removes_stale_check(self) -> None:
+        unit = self.get_unit()
+        self.assertEqual(unit.state, STATE_EMPTY)
+        Check.objects.create(unit=unit, name="same")
+
+        unit.run_checks()
+
+        self.assertNotIn("same", unit.all_checks_names)
 
 
 class ReusedCheckGuardTest(SimpleTestCase):
@@ -272,6 +293,14 @@ class ConsistencyCheckTest(ComponentTestCase):
         self.add_unit(self.translation_2, "one", "One", "", increment=False)
 
         self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_consistency_empty_target_run_checks(self) -> None:
+        self.add_unit(self.translation_1, "one", "One", "Jeden")
+        unit = self.add_unit(self.translation_2, "one", "One", "", increment=False)
+
+        unit.run_checks()
+
+        self.assertEqual(unit.all_checks_names, {"inconsistent"})
 
     def test_consistency_query_uses_min_max_targets(self) -> None:
         check = ConsistencyCheck()

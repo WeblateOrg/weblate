@@ -447,6 +447,8 @@ the following rules:
    Use :guilabel:`Language selection` or :guilabel:`Project selection`
    to automate inclusion of all languages or projects.
 
+.. image:: /screenshots/team-scope.webp
+
 **Example:**
 
    A project ``foo`` with the components: ``foo/bar`` and
@@ -485,6 +487,8 @@ e-mail addresses. This assignment only happens upon account creation.
 The most common use-case for the feature is to assign all new users to some
 default team. This behavior is used for the default `Users` and `Guest` teams
 (see :ref:`default-teams`). Use regular expression ``^.*$`` to match all users.
+
+.. image:: /screenshots/team-automatic-assignments.webp
 
 Another use-case for this option might be to
 give some additional privileges to employees of your company by default.

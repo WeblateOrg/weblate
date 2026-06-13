@@ -47,3 +47,35 @@ Installing from sources
    .. note::
 
          This step should be repeated whenever you update the repository.
+
+.. _distribution-packaging:
+
+Packaging Weblate for distributions
+-----------------------------------
+
+The dependency versions in :file:`pyproject.toml` describe the runtime
+environment tested by the Weblate project. They are intentionally strict for
+installs from PyPI and for the Weblate release process, because Weblate cannot
+validate every dependency-version combination covered by wider version ranges.
+
+Distribution packages can replace those Python packages with versions from the
+distribution package set. When doing so, run Weblate's test suite against the
+packaged dependency set and treat passing tests as the compatibility signal for
+the distribution package.
+
+Keep Weblate's tightly coupled companion packages in sync with the Weblate
+release:
+
+* :pypi:`weblate-fonts`
+* :pypi:`weblate-schemas`
+* :pypi:`weblate-language-data`
+* :pypi:`translation-finder`
+* :pypi:`translate-toolkit`
+
+Mismatched versions of these packages are more likely to break at runtime or
+during tests than other Python dependency substitutions.
+
+.. seealso::
+
+   See :ref:`local-tests` for test setup and :ref:`release-cycle` for Weblate's
+   release cadence.

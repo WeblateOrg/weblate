@@ -16,9 +16,7 @@
     {% for occurrence in occurrences %}
       <tr>
         <td>{{ occurrence.language }}</td>
-        <td>
-          {% if occurrence.unit %}{{ occurrence.unit.translation.filename }}{% endif %}
-        </td>
+        <td>{% if occurrence.unit %}{{ occurrence.unit.translation.filename }}{% endif %}</td>
         <td>
           {% if occurrence.unit %}
             <a href="{{ occurrence.unit.get_absolute_url }}">{% format_unit_source occurrence.unit %}</a>

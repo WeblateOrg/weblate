@@ -4,6 +4,7 @@
 
 """Test for automatic translation."""
 
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test.utils import override_settings
@@ -17,8 +18,8 @@ from weblate.auth.models import Group, Role, TeamMembership, User
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language, Plural
 from weblate.machinery.dummy import DummyTranslation
-from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
+from weblate.trans.forms import AutoForm
 from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
@@ -457,6 +458,12 @@ class AutoTranslationTest(ViewTestCase):
             translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, 1)
 
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.machinery.dummy.DummyTranslation",
+        )
+    )
     def test_autotranslate_workspace_project_machinery_settings(self) -> None:
         workspace = Workspace.objects.create(name="Automatic translation workspace")
         self.project.workspace = workspace
@@ -467,22 +474,17 @@ class AutoTranslationTest(ViewTestCase):
         self.component2.project.save(update_fields=["workspace"])
         Setting.objects.filter(category=SettingCategory.MT, name=identifier).delete()
 
-        original_service = MACHINERY.get(identifier)
-        MACHINERY[identifier] = DummyTranslation
-
-        def restore_dummy_machinery() -> None:
-            if original_service is None:
-                MACHINERY.data.pop(identifier, None)
-            else:
-                MACHINERY[identifier] = original_service
-
-        self.addCleanup(restore_dummy_machinery)
-
         response = self.client.get(workspace.get_absolute_url())
 
         self.assertContains(response, f'value="{identifier}"')
         self.assertContains(response, "Dummy")
 
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.machinery.dummy.DummyTranslation",
+        )
+    )
     def test_autotranslate_workspace_machine_translation(self) -> None:
         workspace = Workspace.objects.create(name="Automatic translation workspace")
         project = Project.objects.create(
@@ -495,17 +497,6 @@ class AutoTranslationTest(ViewTestCase):
         identifier = DummyTranslation.get_identifier()
         project.machinery_settings[identifier] = {}
         project.save(update_fields=["machinery_settings"])
-
-        original_service = MACHINERY.get(identifier)
-        MACHINERY[identifier] = DummyTranslation
-
-        def restore_dummy_machinery() -> None:
-            if original_service is None:
-                MACHINERY.data.pop(identifier, None)
-            else:
-                MACHINERY[identifier] = original_service
-
-        self.addCleanup(restore_dummy_machinery)
 
         result = auto_translate(
             workspace_id=str(workspace.pk),
@@ -916,6 +907,66 @@ class AutoTranslationMtTest(ViewTestCase):
         translation = self.component3.translation_set.get(language_code="cs")
         translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, expected)
+
+    def test_form_uses_list_initial_for_default_engine(self) -> None:
+        form = AutoForm(self.component3, self.user)
+
+        self.assertEqual(form.fields["engines"].initial, ["weblate"])
+
+    def test_form_ignores_component_in_machine_translation_mode(self) -> None:
+        form = AutoForm(
+            self.component3,
+            self.user,
+            {
+                "auto_source": "mt",
+                "component": "missing-component",
+                "engines": ["weblate"],
+                "threshold": "80",
+                "q": "state:empty",
+                "mode": "fuzzy",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertIsNone(form.cleaned_data["component"])
+
+    def test_invalid_form_shows_field_errors(self) -> None:
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        response = self.client.post(
+            reverse("auto_translation", kwargs=path_params),
+            {
+                "auto_source": "mt",
+                "engines": ["invalid"],
+                "threshold": "80",
+                "q": "state:empty",
+                "mode": "fuzzy",
+            },
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
+        self.assertContains(response, "Error in parameter engines")
+        self.assertNotContains(response, "Could not process form!")
+
+    def test_locked_target_shows_specific_error(self) -> None:
+        self.component3.locked = True
+        self.component3.save(update_fields=["locked"])
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        response = self.client.post(
+            reverse("auto_translation", kwargs=path_params),
+            {
+                "auto_source": "mt",
+                "engines": ["weblate"],
+                "threshold": "80",
+                "q": "state:empty",
+                "mode": "fuzzy",
+            },
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
+        self.assertContains(response, "This translation is currently locked.")
+        self.assertNotContains(response, "Could not process form!")
 
     def test_different(self) -> None:
         """Test for automatic translation with different content."""

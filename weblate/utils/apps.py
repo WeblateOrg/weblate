@@ -355,7 +355,7 @@ def check_class_loader(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
-    for instance in ClassLoader.instances.values():
+    for instance in ClassLoader.instances:
         try:
             instance.load_data()
         except ImproperlyConfigured as error:

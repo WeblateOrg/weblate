@@ -50,6 +50,7 @@ class SettingsDict(TypedDict, total=False):
     model: str
     persona: str
     style: str
+    language_instructions: dict[str, str]
     custom_model: str
     bucket_name: str
     context_vector: str

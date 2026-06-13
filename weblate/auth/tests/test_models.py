@@ -604,6 +604,19 @@ class ModelTest(FixtureComponentTestCase):
         with self.assertNumQueries(0):
             self.assertFalse(self.user.needs_project_filter)
 
+    def test_needs_project_filter_all_projects_with_block_query(self) -> None:
+        group = Group.objects.create(
+            name="All projects", project_selection=SELECTION_ALL
+        )
+        self.user.groups.add(group)
+        UserBlock.objects.create(user=self.user, project=self.project)
+        self.user.clear_cache()
+
+        self.assertIn(-SELECTION_ALL, self.user.project_permissions)
+        self.assertEqual(self.user.project_permissions[self.project.pk], [(None, None)])
+        with self.assertNumQueries(0):
+            self.assertTrue(self.user.needs_project_filter)
+
     def test_needs_project_filter_avoids_count_query(self) -> None:
         self.assertNotIn(-SELECTION_ALL, self.user.project_permissions)
 

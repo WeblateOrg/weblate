@@ -18,9 +18,10 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
 from django.core.paginator import Paginator
+from django.db import connection
 from django.template.loader import render_to_string
 from django.test.client import RequestFactory
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import activate
 from openpyxl import load_workbook
@@ -34,6 +35,7 @@ from weblate.trans.models import (
     ComponentLink,
     ComponentList,
     Project,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
@@ -784,6 +786,29 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
 
+    def test_view_project_preloads_workflow_settings(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            translation_review=True,
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Czech")
+        workflow_queries = [
+            query for query in queries if '"trans_workflowsetting"' in query["sql"]
+        ]
+        self.assertLessEqual(
+            len(workflow_queries),
+            1,
+            "\n".join(query["sql"] for query in workflow_queries),
+        )
+
     def test_project_component_listing_shows_inherited_license_badge(self) -> None:
         self.project.license = "MIT"
         self.project.save(update_fields=["license"])
@@ -898,6 +923,51 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, other.name)
 
+    def test_translate_other_occurrences_component_queries_do_not_scale(self) -> None:
+        unit = self.get_unit()
+
+        self.create_po(project=self.project, name="other-1")
+        baseline_queries = self.count_translate_other_occurrence_relation_queries(unit)
+
+        for index in range(2, 5):
+            self.create_po(project=self.project, name=f"other-{index}")
+
+        self.assertEqual(
+            self.count_translate_other_occurrence_relation_queries(unit),
+            baseline_queries,
+        )
+
+    def count_translate_other_occurrence_relation_queries(self, unit: Unit) -> int:
+        session = self.client.session
+        for key in list(session.keys()):
+            if key.startswith("search_"):
+                del session[key]
+        session.save()
+
+        response = self.client.get(
+            unit.translation.get_translate_url(), {"checksum": unit.checksum}
+        )
+        self.assertContains(response, "Other occurrences")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(
+                unit.translation.get_translate_url(), {"checksum": unit.checksum}
+            )
+
+        self.assertContains(response, "Other occurrences")
+
+        return sum(
+            (
+                'FROM "trans_component"' in query["sql"]
+                and 'WHERE "trans_component"."id" =' in query["sql"]
+            )
+            or (
+                'FROM "trans_project"' in query["sql"]
+                and 'WHERE "trans_project"."id" =' in query["sql"]
+            )
+            for query in queries
+        )
+
     def test_view_unit(self) -> None:
         unit = self.get_unit()
         response = self.client.get(unit.get_absolute_url())
@@ -990,6 +1060,24 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit().source_unit
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
+
+    def test_edit_context_hides_private_unit(self) -> None:
+        private_project = self.create_project(
+            name="Private source",
+            slug="private-source",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-source"
+        )
+        private_translation = private_component.translation_set.get(language_code="cs")
+        unit = self.get_unit(translation=private_translation).source_unit
+
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": unit.pk}),
+            {"explanation": "Extra context"},
+        )
+        self.assertEqual(response.status_code, 404)
 
     def test_edit_check_flags(self) -> None:
         # Need extra power

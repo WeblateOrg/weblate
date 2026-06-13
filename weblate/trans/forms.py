@@ -37,7 +37,7 @@ from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.text import normalize_newlines, slugify
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import get_language, gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
 from weblate.accounts.models import AuditLog
@@ -251,8 +251,39 @@ class ChecksumField(forms.CharField):
             raise ValidationError(gettext("Invalid checksum specified!")) from error
 
 
+class FlagEditorWidget(forms.TextInput):
+    """Text input for interactive flag editor."""
+
+    def __init__(self, attrs=None) -> None:
+        attrs = {**(attrs or {})}
+        existing = attrs.get("class", "").split()
+        if "flag-editor" not in existing:
+            existing.append("flag-editor")
+        attrs["class"] = " ".join(existing)
+        attrs.setdefault("autocomplete", "off")
+        attrs.setdefault("autocapitalize", "off")
+        attrs.setdefault("spellcheck", "false")
+        super().__init__(attrs)
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        # Embed active language in the URL so the browser cache key varies on it
+        language = get_language() or ""
+        url = reverse("js-flag-choices")
+        if language:
+            url = f"{url}?{urlencode({'lang': language})}"
+        context["widget"]["attrs"].setdefault("data-flag-choices-url", url)
+        return context
+
+
 class FlagField(forms.CharField):
     default_validators = [validate_check_flags]  # noqa: RUF012
+    widget = FlagEditorWidget
+
+    def __init__(self, *args, **kwargs) -> None:
+        # Force the tag-based editor widget
+        kwargs["widget"] = FlagEditorWidget()
+        super().__init__(*args, **kwargs)
 
 
 class PluralTextarea(forms.Textarea):
@@ -609,6 +640,7 @@ class TranslationForm(UnitForm):
                 )
             ]
             self.fields["review"].disabled = True
+        self.user_can_edit = user_can_edit
         self.user = user
         self.fields["target"].widget.profile = user.profile
         # Avoid failing validation on untranslated string
@@ -700,16 +732,18 @@ class TranslationForm(UnitForm):
 class ZenTranslationForm(TranslationForm):
     checksum = ChecksumField(required=True)
 
-    def __init__(self, user: User, unit, *args, **kwargs) -> None:
+    def __init__(
+        self, user: User, unit, *args, form_action: str | None = None, **kwargs
+    ) -> None:
         super().__init__(user, unit, *args, **kwargs)
-        self.helper.form_action = reverse(
+        self.helper.form_action = form_action or reverse(
             "save_zen", kwargs={"path": unit.translation.get_url_path()}
         )
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
         self.fields["target"].widget.attrs["zen-mode"] = True
-        if not user.has_perm("unit.edit", unit):
+        if not self.user_can_edit:
             for field in ["target", "fuzzy", "review"]:
                 self.fields[field].widget.attrs["disabled"] = 1
 
@@ -1025,13 +1059,14 @@ class RevertForm(UnitForm):
         if "revert" not in self.cleaned_data:
             return None
         try:
-            self.cleaned_data["revert_change"] = Change.objects.get(
-                pk=self.cleaned_data["revert"], unit=self.unit
-            )
+            change = Change.objects.get(pk=self.cleaned_data["revert"], unit=self.unit)
         except Change.DoesNotExist as error:
             raise ValidationError(
                 gettext("Could not find the reverted change.")
             ) from error
+        if not change.can_revert():
+            raise ValidationError(gettext("Could not find the reverted change."))
+        self.cleaned_data["revert_change"] = change
         return self.cleaned_data
 
 
@@ -1094,6 +1129,13 @@ class AutoForm(forms.Form):
         """Generate choices for other components in the same project."""
         auto_id = kwargs.pop("auto_id", "id_auto_%s")
         super().__init__(*args, auto_id=auto_id, **kwargs)
+        if (
+            self.is_bound
+            and self.data.get("auto_source") == "mt"
+            and self.data.get("component")
+        ):
+            self.data = self.data.copy()
+            self.data["component"] = ""
         self.obj = obj
         self.project: Project | None = None
         machinery_settings = {}
@@ -1169,7 +1211,7 @@ class AutoForm(forms.Form):
             (engine.get_identifier(), engine.name) for engine in engines
         ]
         if "weblate" in engine_ids:
-            self.fields["engines"].initial = "weblate"
+            self.fields["engines"].initial = ["weblate"]
 
         if "q" not in self.initial:
             self.initial["q"] = "state:<translated"
@@ -1193,6 +1235,8 @@ class AutoForm(forms.Form):
         )
 
     def clean_component(self):
+        if self.cleaned_data.get("auto_source") == "mt":
+            return None
         component = self.cleaned_data["component"]
         if not component:
             return None
@@ -1422,6 +1466,9 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
             "labels": forms.CheckboxSelectMultiple(),
             "explanation": MarkdownTextarea,
         }
+        field_classes = {  # noqa: RUF012
+            "extra_flags": FlagField,
+        }
 
     doc_links: ClassVar[dict[str, tuple[str, str]]] = {
         "explanation": ("admin/translating", "additional-explanation"),
@@ -1436,7 +1483,7 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         kwargs["initial"] = {"labels": list(instance.all_labels)}
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
-        self.fields["labels"].queryset = project.label_set.all()
+        self.fields["labels"].queryset = project.label_set.order()
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -2142,6 +2189,7 @@ class ComponentSettingsForm(
         field_classes = {  # noqa: RUF012
             "enforced_checks": SelectChecksField,
             "file_format_params": FormParamsField,
+            "check_flags": FlagField,
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
@@ -2420,31 +2468,43 @@ class ComponentCreateForm(
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+        source_component = None
         if (
             source_component_text := request.GET.get("source_component")
         ) and "file_format" in kwargs["initial"]:
-            source_component = Component.objects.get(pk=int(source_component_text))
-            if source_component.file_format_params:
-                supported_params = {
-                    param.get_identifier()
-                    for param in get_params_for_file_format(
-                        kwargs["initial"]["file_format"]
-                    )
-                }
-                source_file_format_params = {
-                    k: v
-                    for k, v in source_component.file_format_params.items()
-                    if k in supported_params
-                }
-                initial_file_format_params = kwargs["initial"].get(
-                    "file_format_params", {}
+            try:
+                source_component_id = int(source_component_text)
+            except (TypeError, ValueError):
+                source_component_id = None
+            if source_component_id is not None:
+                source_component = (
+                    Component.objects.filter_access(request.user)
+                    .filter(pk=source_component_id)
+                    .first()
                 )
-                if not isinstance(initial_file_format_params, dict):
-                    initial_file_format_params = {}
-                kwargs["initial"]["file_format_params"] = {
-                    **source_file_format_params,
-                    **initial_file_format_params,
-                }
+        if (
+            source_component is not None
+            and "file_format" in kwargs["initial"]
+            and source_component.file_format_params
+        ):
+            supported_params = {
+                param.get_identifier()
+                for param in get_params_for_file_format(
+                    kwargs["initial"]["file_format"]
+                )
+            }
+            source_file_format_params = {
+                k: v
+                for k, v in source_component.file_format_params.items()
+                if k in supported_params
+            }
+            initial_file_format_params = kwargs["initial"].get("file_format_params", {})
+            if not isinstance(initial_file_format_params, dict):
+                initial_file_format_params = {}
+            kwargs["initial"]["file_format_params"] = {
+                **source_file_format_params,
+                **initial_file_format_params,
+            }
         super().__init__(request, *args, **kwargs)
         self.setup_create_inherited_settings()
         self.helper.layout = Layout(
@@ -2738,7 +2798,7 @@ class ComponentZipCreateForm(ComponentProjectForm):
 class ComponentDocCreateForm(ComponentProjectForm):
     docfile = forms.FileField(
         label=gettext_lazy("Document to translate"),
-        validators=[validate_file_extension],
+        validators=[validate_translation_upload_size, validate_file_extension],
     )
 
     target_language = forms.ModelChoiceField(
@@ -3183,6 +3243,9 @@ class ProjectSettingsForm(
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
         }
+        field_classes = {  # noqa: RUF012
+            "check_flags": FlagField,
+        }
 
     def get_unlicensed_components(self, project_license: str) -> list[Component]:
         categories_by_id = {
@@ -3507,7 +3570,10 @@ class ProjectCreateForm(
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "instructions", "workspace")
+        fields = ("name", "slug", "web", "instructions", "license", "workspace")
+        widgets = {  # noqa: RUF012
+            "license": SearchableSelect,
+        }
 
 
 class ProjectImportCreateForm(ProjectCreateForm):
@@ -3919,7 +3985,7 @@ class BulkEditForm(forms.Form):
             # Labels are project-scoped, so non-project bulk edit scopes do not
             # offer label operations to avoid applying labels across projects.
             labels = (
-                Label.objects.none() if project is None else project.label_set.all()
+                Label.objects.none() if project is None else project.label_set.order()
             )
         if labels:
             self.fields["remove_labels"].queryset = labels

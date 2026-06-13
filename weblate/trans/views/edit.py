@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 import time
 from math import ceil
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, NamedTuple, Protocol
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -83,11 +83,28 @@ if TYPE_CHECKING:
     from weblate.trans.models import (
         Project,
     )
+    from weblate.trans.models.unit import UnitQuerySet
 
 SESSION_SEARCH_CACHE_TTL = 1800
+ZEN_PAGE_SIZE = 20
+SearchResult = dict[str, Any]
 DELETE_UNIT_LOCKED_MESSAGE = gettext_lazy(
     "Could not remove the string because another background operation is in progress. Please try again later."
 )
+
+
+class _SearchBase(Protocol):
+    @property
+    def cache_key(self) -> str: ...
+
+    def get_absolute_url(self) -> str: ...
+
+
+class TranslateUnitResult(NamedTuple):
+    search_result: SearchResult
+    num_results: int
+    offset: int
+    unit: Unit
 
 
 def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None:
@@ -153,11 +170,19 @@ def get_other_units(unit):
         else:
             return result
 
-        base = (
+        matches = query
+        if unit.target:
+            target_matches = Q(target__lower__md5=MD5(Lower(Value(unit.target)))) & Q(
+                state__gte=STATE_TRANSLATED
+            )
+            matches = query | target_matches
+
+        units = (
             Unit.objects.filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
+            .filter(matches)
             .alias(
                 matches_current=Case(
                     When(match, then=Value(1)),
@@ -169,13 +194,6 @@ def get_other_units(unit):
             .prefetch_source()
             .order_by("-matches_current")
         )
-
-        units = base.filter(query)
-        if unit.target:
-            units |= base.filter(
-                Q(target__lower__md5=MD5(Lower(Value(unit.target))))
-                & Q(state__gte=STATE_TRANSLATED)
-            )
 
         # Use memory_db for the query in case it exists. This is supposed
         # to be a read-only replica for offloading expensive translation
@@ -253,13 +271,13 @@ def cleanup_session(session, delete_all: bool = False) -> None:
 
 
 def search(
-    base,
+    base: _SearchBase,
     project: Project,
-    unit_set,
-    request,
+    unit_set: UnitQuerySet,
+    request: AuthenticatedHttpRequest,
     blank: bool = False,
     use_cache: bool = True,
-):
+) -> HttpResponse | SearchResult:
     """Perform search or returns cached search results."""
     now = int(time.time())
     # Possible new search
@@ -294,7 +312,12 @@ def search(
         cleanup_session(request.session)
 
         session_data = request.session.get(session_key)
-        if use_cache and session_data and "offset" in request.GET:
+        if (
+            use_cache
+            and session_data
+            and "offset" in request.GET
+            and "ids" in session_data
+        ):
             search_result.update(request.session[session_key])
             request.session[session_key]["ttl"] = now + SESSION_SEARCH_CACHE_TTL
             return search_result
@@ -327,6 +350,139 @@ def search(
 
         search_result.update(store_result)
         return search_result
+
+
+def search_page(
+    base: _SearchBase,
+    project: Project,
+    unit_set: UnitQuerySet,
+    request: AuthenticatedHttpRequest,
+    *,
+    blank: bool = False,
+    include_count: bool = False,
+    page_size: int = ZEN_PAGE_SIZE,
+) -> HttpResponse | SearchResult:
+    """Perform search and return only one page of unit IDs."""
+    # Possible new search
+    form = PositionSearchForm(
+        request=request, data=request.GET, show_builder=False, obj=base
+    )
+
+    # Process form
+    form_valid = form.is_valid()
+    if form_valid:
+        cleaned_data = form.cleaned_data
+        search_url = form.urlencode()
+        search_query = form.cleaned_data["q"]
+        name = form.get_name()
+        search_items = form.items()
+    else:
+        cleaned_data = {}
+        show_form_errors(request, form)
+        search_url = ""
+        search_query = ""
+        name = ""
+        search_items = ()
+
+    with start_span(op="unit.search", name=search_url):
+        search_result = {
+            "form": form,
+            "offset": cleaned_data.get("offset", 1),
+        }
+        session_key = f"search_{base.cache_key}_{search_url}"
+
+        # Reuse full-ID snapshots when available to keep navigation stable after
+        # edits which remove units from filtered searches.
+        cleanup_session(request.session)
+
+        session_data = request.session.get(session_key)
+        if session_data and "offset" in request.GET and "ids" in session_data:
+            unit_ids = session_data["ids"]
+            total = len(unit_ids) if include_count else None
+            if search_result["offset"] < 1:
+                search_result["offset"] = max(len(unit_ids) - page_size + 1, 1)
+            offset = search_result["offset"] - 1
+            page_ids = unit_ids[offset : offset + page_size + 1]
+            session_data["ttl"] = int(time.time()) + SESSION_SEARCH_CACHE_TTL
+            request.session[session_key] = session_data
+            search_result.update(
+                {
+                    "query": session_data.get("query", search_query),
+                    "url": session_data.get("url", search_url),
+                    "items": session_data.get("items", search_items),
+                    "key": session_key,
+                    "name": session_data.get("name", str(name)),
+                    "ids": page_ids[:page_size],
+                    "total": total,
+                    "ttl": session_data["ttl"],
+                    "last_viewed_unit_id": session_data.get("last_viewed_unit_id"),
+                    "last_section": len(page_ids) <= page_size,
+                }
+            )
+            return search_result
+
+        query_string = cleaned_data.get("q", "")
+        ordered_units = unit_set.search(query_string, project=project).order_by_request(
+            cleaned_data, base
+        )
+
+        total = None
+        if include_count or search_result["offset"] < 1:
+            total = ordered_units.count()
+            if not total and not blank:
+                messages.warning(request, gettext("No strings found!"))
+                return redirect(f"{base.get_absolute_url()}?q={query_string}#search")
+            if search_result["offset"] < 1:
+                search_result["offset"] = max(total - page_size + 1, 1)
+
+        offset = search_result["offset"] - 1
+        unit_ids = list(
+            ordered_units.values_list("id", flat=True)[offset : offset + page_size + 1]
+        )
+        if not unit_ids and search_result["offset"] <= 1 and not blank:
+            messages.warning(request, gettext("No strings found!"))
+            return redirect(f"{base.get_absolute_url()}?q={query_string}#search")
+
+        search_result.update(
+            {
+                "query": search_query,
+                "url": search_url,
+                "items": search_items,
+                "key": session_key,
+                "name": str(name),
+                "ids": unit_ids[:page_size],
+                "total": total,
+                "ttl": int(time.time()) + SESSION_SEARCH_CACHE_TTL,
+                "last_viewed_unit_id": None,
+                "last_section": len(unit_ids) <= page_size,
+            }
+        )
+        return search_result
+
+
+def search_unit(
+    base: _SearchBase,
+    project: Project,
+    unit_set: UnitQuerySet,
+    request: AuthenticatedHttpRequest,
+) -> HttpResponse | SearchResult:
+    """Perform search and return only the current unit ID."""
+    search_result = search_page(
+        base,
+        project,
+        unit_set,
+        request,
+        include_count=True,
+        page_size=1,
+    )
+    if isinstance(search_result, HttpResponse):
+        return search_result
+
+    session_key = f"search_{base.cache_key}_{search_result['url']}"
+    search_result["key"] = session_key
+    session_result = request.session.get(session_key, {})
+    search_result["last_viewed_unit_id"] = session_result.get("last_viewed_unit_id")
+    return search_result
 
 
 def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
@@ -646,32 +802,83 @@ def handle_component_shift_notice(
             )
 
     search_result["last_viewed_unit_id"] = unit.id
-    session_key = search_result["key"]
-    if session_key in request.session:
-        session_result = request.session[session_key]
-        session_result["last_viewed_unit_id"] = unit.id
-        request.session[session_key] = session_result
+    session_key = search_result.get("key")
+    if not session_key:
+        return
+    session_result = request.session.get(
+        session_key, {"ttl": int(time.time()) + SESSION_SEARCH_CACHE_TTL}
+    )
+    session_result["last_viewed_unit_id"] = unit.id
+    session_result["ttl"] = int(time.time()) + SESSION_SEARCH_CACHE_TTL
+    request.session[session_key] = session_result
 
 
-@transaction.atomic
-def translate(request: AuthenticatedHttpRequest, path):
-    """Translate, suggest and search view."""
-    obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+def get_addable_glossaries(unit, user):
+    """Return visible and addable glossaries for the unit."""
+    if unit.translation.component.hide_glossary_matches:
+        return [], []
+
+    glossaries = list(unit.translation.get_glossaries())
+    if not user.has_perm("glossary.add", unit.translation.component.project):
+        return glossaries, []
+
+    addable_ids = [
+        glossary.pk
+        for glossary in glossaries
+        if glossary.component.manage_units and user.has_perm("unit.add", glossary)
+    ]
+    return glossaries, addable_ids
+
+
+def get_addterm_glossaries(addable_ids):
+    """Return glossary queryset for the add-term form."""
+    return (
+        Translation.objects.filter(pk__in=addable_ids, component__manage_units=True)
+        .prefetch()
+        .order()
     )
 
-    project = context["project"]
-    user = request.user
 
-    # Search results
-    search_result = search(obj, project, unit_set, request)
+def prepare_glossary_terms(
+    units: list[Unit], project: Project, *, full: bool = False
+) -> None:
+    """Prepare glossary terms for units if glossary matching is useful."""
+    if (
+        units
+        and project.glossaries
+        and any(not unit.translation.component.hide_glossary_matches for unit in units)
+    ):
+        fetch_glossary_terms(units, full=full)
+    else:
+        for unit in units:
+            unit.glossary_terms = []
+
+
+def get_translate_unit(
+    request: AuthenticatedHttpRequest,
+    obj: _SearchBase,
+    project: Project,
+    unit_set: UnitQuerySet,
+) -> HttpResponse | TranslateUnitResult:
+    """Resolve search results and current unit for the translate view."""
+    use_fast_search = (
+        request.method == "GET"
+        and not request.GET.get("checksum")
+        and "revert" not in request.GET
+    )
+    if use_fast_search:
+        search_result = search_unit(obj, project, unit_set, request)
+    else:
+        search_result = search(obj, project, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
         return search_result
 
     # Get number of results
-    num_results = len(search_result["ids"])
+    num_results = (
+        search_result["total"] if use_fast_search else len(search_result["ids"])
+    )
 
     # Search offset
     offset = search_result["offset"]
@@ -696,16 +903,39 @@ def translate(request: AuthenticatedHttpRequest, path):
         if not 0 < offset <= num_results:
             messages.info(request, gettext("The translation has come to an end."))
             # Delete search
-            del request.session[search_result["key"]]
+            if search_result["key"] in request.session:
+                del request.session[search_result["key"]]
             return redirect(obj)
 
         # Grab actual unit
         try:
-            unit = unit_set.get(pk=search_result["ids"][offset - 1])
+            unit_id = search_result["ids"][0 if use_fast_search else offset - 1]
+            unit = unit_set.get(pk=unit_id)
         except Unit.DoesNotExist:
             # Can happen when using SID for other translation
             messages.error(request, gettext("Invalid search string!"))
             return redirect(obj)
+
+    return TranslateUnitResult(search_result, num_results, offset, unit)
+
+
+@transaction.atomic
+def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponse:
+    """Translate, suggest and search view."""
+    obj, unit_set, context = parse_path_units(
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    )
+
+    project = context["project"]
+    user = request.user
+
+    search_data = get_translate_unit(request, obj, project, unit_set)
+    if isinstance(search_data, HttpResponse):
+        return search_data
+    search_result = search_data.search_result
+    num_results = search_data.num_results
+    offset = search_data.offset
+    unit = search_data.unit
 
     handle_component_shift_notice(request, unit_set, search_result, unit)
 
@@ -756,6 +986,18 @@ def translate(request: AuthenticatedHttpRequest, path):
             unit.translation.component, initial={"translation": unit.translation}
         )
 
+    glossaries, addable_glossary_ids = get_addable_glossaries(unit, user)
+    addterm_form = None
+    if addable_glossary_ids:
+        addterm_form = TermForm(
+            unit,
+            user,
+            glossaries=get_addterm_glossaries(addable_glossary_ids),
+            filter_permissions=False,
+        )
+    other_languages_count = max(unit.source_unit.unit_set.count() - 1, 0)
+    prepare_glossary_terms([unit], project, full=True)
+
     return render(
         request,
         "translate.html",
@@ -794,8 +1036,10 @@ def translate(request: AuthenticatedHttpRequest, path):
             "secondary": secondary,
             "locked": unit.translation.component.locked,
             "glossary": get_glossary_terms(unit, full=True),
-            "addterm_form": TermForm(unit, user),
+            "glossaries": glossaries,
+            "addterm_form": addterm_form,
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
+            "other_languages_count": other_languages_count,
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
             ).order(),
@@ -874,11 +1118,24 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             msg = "Unsupported object for auto translation"
             raise PermissionDenied(msg)
 
-    if not request.user.has_perm("translation.auto", obj):
+    permission = request.user.has_perm("translation.auto", obj)
+    if not permission:
+        reason = getattr(permission, "reason", "")
+        if update_locked and reason:
+            messages.error(request, reason)
+            return redirect(obj)
         raise PermissionDenied
 
-    if update_locked or not autoform.is_valid():
-        messages.error(request, gettext("Could not process form!"))
+    if update_locked:
+        messages.error(
+            request,
+            gettext(
+                "Automatic translation cannot be started because the target is locked."
+            ),
+        )
+        return redirect(obj)
+
+    if not autoform.is_valid():
         show_form_errors(request, autoform)
         return redirect(obj)
 
@@ -929,7 +1186,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 @session_ratelimit_post("comment", logout_user=False)
 def comment(request: AuthenticatedHttpRequest, pk):
     """Add new comment."""
-    unit = get_object_or_404(Unit, pk=pk)
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=pk)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied
@@ -953,7 +1210,10 @@ def comment(request: AuthenticatedHttpRequest, pk):
 @transaction.atomic
 def delete_comment(request: AuthenticatedHttpRequest, pk):
     """Delete comment."""
-    comment_obj = get_object_or_404(Comment, pk=pk)
+    comment_obj = get_object_or_404(
+        Comment.objects.filter(unit__in=Unit.objects.filter_access(request.user)),
+        pk=pk,
+    )
 
     if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied
@@ -973,7 +1233,10 @@ def delete_comment(request: AuthenticatedHttpRequest, pk):
 @transaction.atomic
 def resolve_comment(request: AuthenticatedHttpRequest, pk):
     """Resolve comment."""
-    comment_obj = get_object_or_404(Comment, pk=pk)
+    comment_obj = get_object_or_404(
+        Comment.objects.filter(unit__in=Unit.objects.filter_access(request.user)),
+        pk=pk,
+    )
 
     if not request.user.has_perm("comment.resolve", comment_obj):
         raise PermissionDenied
@@ -986,7 +1249,9 @@ def resolve_comment(request: AuthenticatedHttpRequest, pk):
     return redirect_next(request.POST.get("next"), fallback_url)
 
 
-def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
+def get_zen_unitdata(
+    obj, project, unit_set, request: AuthenticatedHttpRequest, *, include_count=False
+):
     """Load unit data for zen mode."""
     # Search results
     search_result = search(obj, project, unit_set, request)
@@ -996,13 +1261,28 @@ def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
         return search_result, None
 
     offset = search_result["offset"] - 1
-    search_result["last_section"] = offset + 20 >= len(search_result["ids"])
 
-    units = unit_set.prefetch_full().get_ordered(
-        search_result["ids"][offset : offset + 20]
-    )
+    page_ids = search_result["ids"][offset : offset + ZEN_PAGE_SIZE]
+    search_result["last_section"] = offset + ZEN_PAGE_SIZE >= len(search_result["ids"])
+    if include_count:
+        search_result["total"] = len(search_result["ids"])
+
+    units = unit_set.prefetch_full().get_ordered(page_ids)
     fill_in_source_translation(units)
-    fetch_glossary_terms(units)
+    prepare_glossary_terms(units, project)
+
+    form_actions = {}
+
+    def get_form_action(unit):
+        try:
+            return form_actions[unit.translation_id]
+        except KeyError:
+            form_action = reverse(
+                "save_zen",
+                kwargs={"path": unit.translation.get_url_path()},
+            )
+            form_actions[unit.translation_id] = form_action
+            return form_action
 
     unitdata = [
         {
@@ -1013,7 +1293,11 @@ def get_zen_unitdata(obj, project, unit_set, request: AuthenticatedHttpRequest):
                 and request.user.profile.secondary_in_zen
                 else None
             ),
-            "form": ZenTranslationForm(request.user, unit),
+            "form": ZenTranslationForm(
+                request.user,
+                unit,
+                form_action=get_form_action(unit),
+            ),
             "offset": offset + pos + 1,
             "glossary": get_glossary_terms(unit),
         }
@@ -1030,7 +1314,9 @@ def zen(request: AuthenticatedHttpRequest, path):
     )
     project = context["project"]
 
-    search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
+    search_result, unitdata = get_zen_unitdata(
+        obj, project, unit_set, request, include_count=True
+    )
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -1046,7 +1332,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
-            "filter_count": len(search_result["ids"]),
+            "filter_count": search_result["total"],
             "filter_pos": search_result["offset"],
             "last_section": search_result["last_section"],
             "search_url": search_result["url"],
@@ -1180,7 +1466,7 @@ def new_unit(request: AuthenticatedHttpRequest, path):
 @transaction.atomic
 def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     """Delete unit."""
-    unit = get_object_or_404(Unit, pk=unit_id)
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
 
     if not request.user.has_perm("unit.delete", unit):
         raise PermissionDenied

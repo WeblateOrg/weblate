@@ -6,6 +6,10 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
+from unittest.mock import patch
+
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
 
@@ -17,6 +21,7 @@ from weblate.trans.templatetags.translations import (
     format_translation,
     get_location_links,
     naturaltime,
+    same_naturaltime,
     translation_progress_render,
 )
 from weblate.trans.templatetags.upload_methods import get_upload_method_help
@@ -33,6 +38,38 @@ class NaturalTimeTest(SimpleTestCase):
         self.assertIn('title="', result)
         self.assertIn('data-datetime="', result)
         self.assertIn('class="naturaltime"', result)
+
+    def test_same_naturaltime_just_now(self) -> None:
+        timestamp = timezone.now().replace(microsecond=0)
+        with patch(
+            "weblate.trans.templatetags.translations.timezone.now",
+            return_value=timestamp,
+        ):
+            self.assertTrue(
+                same_naturaltime(timestamp, timestamp - timedelta(seconds=1))
+            )
+            self.assertFalse(
+                same_naturaltime(timestamp, timestamp - timedelta(seconds=2))
+            )
+
+    def test_same_naturaltime_minute(self) -> None:
+        timestamp = timezone.now().replace(microsecond=0)
+        with patch(
+            "weblate.trans.templatetags.translations.timezone.now",
+            return_value=timestamp,
+        ):
+            self.assertTrue(
+                same_naturaltime(
+                    timestamp - timedelta(seconds=65),
+                    timestamp - timedelta(seconds=70),
+                )
+            )
+            self.assertFalse(
+                same_naturaltime(
+                    timestamp - timedelta(seconds=65),
+                    timestamp - timedelta(seconds=125),
+                )
+            )
 
 
 class LocationLinksTest(TestCase):
@@ -181,6 +218,43 @@ class LocationLinksTest(TestCase):
             </a>
             """,
         )
+
+
+class FormatTranslationTemplateTest(SimpleTestCase):
+    def test_simple_bidi_isolate(self) -> None:
+        content = render_to_string(
+            "snippets/format-translation.html",
+            {
+                "simple": True,
+                "language": Language(code="fa", direction="rtl"),
+                "wrap": False,
+                "items": [{"content": "سلام test 123"}],
+            },
+        )
+        self.assertHTMLEqual(
+            content,
+            """
+            <span lang="fa" dir="rtl" class="bidi-isolate">
+              سلام test 123
+            </span>
+            """,
+        )
+
+    def test_list_bidi_isolate(self) -> None:
+        content = render_to_string(
+            "snippets/format-translation.html",
+            {
+                "simple": False,
+                "has_content": True,
+                "language": Language(code="fa", direction="rtl"),
+                "wrap": False,
+                "items": [{"content": "سلام test 123"}],
+            },
+        )
+        self.assertIn('class="list-group-item-text bidi-isolate"', content)
+        self.assertIn('lang="fa"', content)
+        self.assertIn('dir="rtl"', content)
+        self.assertIn("سلام test 123", content)
 
 
 class TranslationFormatTestCase(FixtureComponentTestCase):

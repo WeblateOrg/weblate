@@ -9,6 +9,7 @@ import pathlib
 import subprocess  # noqa: S404
 import tempfile
 from base64 import b64encode
+from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
@@ -21,6 +22,7 @@ from weblate.auth.models import Permission, Role
 from weblate.gitexport.models import get_export_url
 from weblate.gitexport.views import (
     MAX_PRECHECK_PKT_LINES,
+    GitHTTPBackendWrapper,
     authenticate,
     format_backend_error,
     get_wanted_revisions,
@@ -184,6 +186,50 @@ class GitExportTest(ViewTestCase):
     def test_git_receive_error(self) -> None:
         response = self.git_receive(HTTP_X_WEBLATE_NO_EXPORT="1")
         self.assertEqual(404, response.status_code)
+
+    def test_fetch_headers_waits_for_complete_header_block(self) -> None:
+        class ChunkReader:
+            def __init__(self, chunks: list[bytes]) -> None:
+                self.chunks = chunks
+
+            def read(self, _size: int = -1) -> bytes:
+                return self.chunks.pop(0) if self.chunks else b""
+
+        class FakeProcess:
+            def __init__(self) -> None:
+                self.stdin = SimpleNamespace()
+                self.stdout = ChunkReader(
+                    [b"Content-Type: text/plain\r\n", b"\r\nbody"]
+                )
+                self.stderr = ChunkReader([])
+
+            def poll(self) -> None:
+                return None
+
+        class FakeSelector:
+            def select(self, timeout: int) -> list[tuple[SimpleNamespace, None]]:
+                if timeout != 1:
+                    raise AssertionError(timeout)
+                return [(SimpleNamespace(data=True), None)]
+
+        request = self.get_request()
+        request.method = "GET"
+        process = FakeProcess()
+
+        with (
+            patch("weblate.gitexport.views.find_git_http_backend", return_value="git"),
+            patch("weblate.gitexport.views.subprocess.Popen", return_value=process),
+        ):
+            wrapper = GitHTTPBackendWrapper(self.component, request, "info/refs")
+        wrapper.selector = FakeSelector()  # type: ignore[assignment]
+
+        wrapper.fetch_headers()
+
+        self.assertEqual(
+            wrapper._headers,  # noqa: SLF001
+            b"Content-Type: text/plain",
+        )
+        self.assertEqual(wrapper._stdout, [b"body"])  # noqa: SLF001
 
     def enable_acl(self) -> None:
         self.project.access_control = Project.ACCESS_PRIVATE

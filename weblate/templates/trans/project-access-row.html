@@ -7,7 +7,9 @@
     </td>
   {% endif %}
   <td>{{ user.full_name }}</td>
-  {% if not user.is_bot and can_edit_user %}<td>{{ user.email }}</td>{% endif %}
+  {% if not user.is_bot and can_edit_user %}
+    <td>{{ user.email }}</td>
+  {% endif %}
   <td>
     {% if user.is_bot %}
       {{ user.date_expires|naturaltime }}
