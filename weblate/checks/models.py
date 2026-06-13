@@ -41,6 +41,10 @@ class ChecksLoader(ClassLoader[BaseCheck]):
         return {k: v for k, v in self.items() if v.target}
 
     @cached_property
+    def target_untranslated(self):
+        return {k: v for k, v in self.target.items() if not v.ignore_untranslated}
+
+    @cached_property
     def glossary(self):
         return {k: v for k, v in self.items() if v.glossary}
 
