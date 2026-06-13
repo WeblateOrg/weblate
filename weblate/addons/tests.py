@@ -7141,6 +7141,9 @@ class GitSquashAddonTest(ViewTestCase):
         self.component.commit_pending("test", None)
         self.assertEqual(self.component.repository.count_outgoing(), 3)
 
+    def test_author_language(self) -> None:
+        self.test_squash("author-language", 4)
+
     def test_multiple_authors_on_same_file(self) -> None:
         self.test_squash("author", 3, repeated=True)
 
