@@ -1652,6 +1652,7 @@ $(function () {
         return match ? match[1] : "";
       },
       trigger: (query) => query.length >= 2,
+      submit: true,
       resultsList: {
         class: "autoComplete dropdown-menu shadow mention-dropdown",
       },
@@ -1695,7 +1696,14 @@ $(function () {
     editor.addEventListener(
       "keydown",
       (event) => {
-        if (event.key !== "Escape" || !mentionAutoComplete.isOpen) {
+        if (!mentionAutoComplete.isOpen) {
+          return;
+        }
+        if (event.key === "Enter" && mentionAutoComplete.cursor >= 0) {
+          event.preventDefault();
+          return;
+        }
+        if (event.key !== "Escape") {
           return;
         }
         event.stopImmediatePropagation();
