@@ -1301,6 +1301,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         ).select_by_index(1)
         with self.wait_for_page_load():
             element.submit()
+        self.assert_text_contains(
+            ".alert .task-message", "User invitation e-mail was sent."
+        )
         user = User.objects.get(username="testuser")
         self.assertTrue(
             user.invitation_set.filter(
@@ -1308,7 +1311,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ).exists()
         )
         with self.wait_for_page_load():
-            self.click("Access control")
+            self.driver.get(
+                f"{self.live_server_url}{reverse('manage-access', kwargs={'project': project.slug})}"
+            )
+        self.assertNotIn(
+            "User invitation e-mail was sent.",
+            self.driver.find_element(By.TAG_NAME, "body").text,
+        )
         self.screenshot("manage-users.png")
         self.assertGreater(self.count_elements("table.table-striped tbody tr"), 0)
 
