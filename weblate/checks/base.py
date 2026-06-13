@@ -123,6 +123,11 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Generator[bool | MissingExtraDict]:
         """Check single unit, handling plurals."""
+        # Singular units do not need plural metadata or PluralMapper.
+        if len(sources) == 1 and len(targets) == 1:
+            yield self.check_single(sources[0], targets[0], unit)
+            return
+
         from weblate.lang.models import PluralMapper  # noqa: PLC0415
 
         source_plural = unit.translation.component.source_language.plural
@@ -139,6 +144,9 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> bool:
         """Check single unit, handling plurals."""
+        # Avoid creating a generator for the common singular case.
+        if len(sources) == 1 and len(targets) == 1:
+            return bool(self.check_single(sources[0], targets[0], unit))
         return any(self.check_target_generator(sources, targets, unit))
 
     def check_single(
@@ -152,6 +160,22 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         if self.should_skip(unit):
             return False
         return self.check_source_unit(sources, unit)
+
+    def check_source_with_flags(
+        self, sources: list[str], unit: Unit, all_flags: Flags
+    ) -> bool:
+        """Check source strings with precomputed flags."""
+        # Only inline the base skip logic for checks that did not override it.
+        # Custom should_skip() methods can inspect arbitrary unit state.
+        if self.__class__.should_skip is BaseCheck.should_skip:
+            if self.is_ignored(all_flags):
+                return False
+            if self.default_disabled and not all_flags.has_any(
+                {self.enable_string, *self.extra_enable_strings}
+            ):
+                return False
+            return self.check_source_unit(sources, unit)
+        return self.check_source(sources, unit)
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""
