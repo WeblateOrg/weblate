@@ -774,6 +774,40 @@ def naturaltime(value: float | datetime, microseconds: bool = False) -> SafeStri
     )
 
 
+def _get_naturaltime_bucket(
+    value: float | datetime, now: datetime
+) -> tuple[str, int | str] | None:
+    """Return the relative-time display bucket used by JavaScript."""
+    if isinstance(value, float):
+        value = datetime.fromtimestamp(value, tz=timezone.get_current_timezone())
+    if not isinstance(value, datetime):
+        return None
+
+    value = timezone.localtime(value).replace(microsecond=0)
+    difference = (timezone.localtime(now) - value).total_seconds()
+    if abs(difference) < 2:
+        return ("now", 0)
+    if difference > 0:
+        if difference < 60:
+            return ("seconds", int(difference))
+        if difference < 60 * 60:
+            return ("minutes", int(difference / 60))
+        if difference < 60 * 60 * 24:
+            return ("hours", int(difference / (60 * 60)))
+    return ("date", value.isoformat())
+
+
+@register.filter
+def same_naturaltime(value: float | datetime, other: float | datetime) -> bool:
+    """Return whether two values render to the same relative-time label."""
+    now = timezone.now()
+    first = _get_naturaltime_bucket(value, now)
+    second = _get_naturaltime_bucket(other, now)
+    if first is None or second is None:
+        return value == other
+    return first == second
+
+
 def get_stats(obj):
     if isinstance(obj, BaseStats):
         return obj
