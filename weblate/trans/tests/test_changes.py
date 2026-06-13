@@ -13,7 +13,7 @@ from django.utils.http import urlencode
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.feeds import TranslationChangesFeed
-from weblate.trans.models import Change, Unit
+from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.utils.xml import parse_xml
 
@@ -141,6 +141,70 @@ class ChangesTest(ViewTestCase):
             reverse("changes", kwargs={"path": ["testx", "test", "cs"]})
         )
         self.assertEqual(response.status_code, 404)
+
+    def test_show_change_hides_private_change(self) -> None:
+        private_project = self.create_project(
+            name="Private changes",
+            slug="private-changes",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-changes"
+        )
+        hidden_change = Change.objects.create(
+            action=ActionEvents.LOCK,
+            project=private_project,
+            component=private_component,
+            user=self.anotheruser,
+        )
+
+        response = self.client.get(
+            reverse("show_change", kwargs={"pk": hidden_change.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.get(reverse("show_change", kwargs={"pk": 999999}))
+        self.assertEqual(response.status_code, 404)
+
+    def test_show_change_ignores_private_other_changes(self) -> None:
+        visible_change = Change.objects.create(
+            action=ActionEvents.CREATE_PROJECT,
+            project=self.project,
+            user=self.user,
+        )
+        private_project = self.create_project(
+            name="Private other changes",
+            slug="private-other-changes",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-other-changes"
+        )
+        hidden_change = Change.objects.create(
+            action=ActionEvents.LOCK,
+            project=private_project,
+            component=private_component,
+            user=self.anotheruser,
+        )
+
+        response = self.client.get(
+            reverse("show_change", kwargs={"pk": visible_change.pk}),
+            {"other": hidden_change.pk},
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_show_change_ignores_invalid_other_values(self) -> None:
+        visible_change = Change.objects.create(
+            action=ActionEvents.CREATE_PROJECT,
+            project=self.project,
+            user=self.user,
+        )
+
+        response = self.client.get(
+            reverse("show_change", kwargs={"pk": visible_change.pk}),
+            {"other": ["invalid", str(visible_change.pk)]},
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_string(self) -> None:
         response = self.client.get(

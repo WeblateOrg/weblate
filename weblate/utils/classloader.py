@@ -6,10 +6,12 @@ from __future__ import annotations
 
 from importlib import import_module
 from typing import TYPE_CHECKING, Protocol, TypeVar
-from weakref import WeakValueDictionary
+from weakref import WeakSet
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.dispatch import receiver
+from django.test.signals import setting_changed
 from django.utils.functional import cached_property
 
 if TYPE_CHECKING:
@@ -49,7 +51,7 @@ T = TypeVar("T", bound=ClassLoaderProtocol)
 class ClassLoader[T: ClassLoaderProtocol]:
     """Dict like object to lazy load list of classes."""
 
-    instances: WeakValueDictionary[str, ClassLoader] = WeakValueDictionary()
+    instances: WeakSet[ClassLoader] = WeakSet()
 
     def __init__(
         self,
@@ -64,9 +66,7 @@ class ClassLoader[T: ClassLoaderProtocol]:
         self.collect_errors = collect_errors
         self.errors: dict[str, str | Exception] = {}
         self.base_class: type = base_class
-        obj = self.instances.get(name)
-        if obj is None:
-            self.instances[name] = self
+        self.instances.add(self)
 
     def get_settings(self):
         result = getattr(settings, self.name)
@@ -104,6 +104,14 @@ class ClassLoader[T: ClassLoaderProtocol]:
     @cached_property
     def data(self) -> dict[str, T]:
         return self.load_data()
+
+    def clear_cache(self) -> None:
+        """Clear cached data loaded from settings."""
+        self.errors.clear()
+        for cls in type(self).mro():
+            for name, attr in vars(cls).items():
+                if isinstance(attr, cached_property):
+                    self.__dict__.pop(name, None)
 
     def __getitem__(self, key: str) -> T:
         return self.data.__getitem__(key)
@@ -154,3 +162,12 @@ class ClassLoader[T: ClassLoaderProtocol]:
         if empty:
             result.insert(0, ("", ""))
         return result
+
+
+@receiver(setting_changed)
+def reset_class_loader_cache(sender, setting: str, **_kwargs) -> None:
+    """Invalidate class loader data after setting overrides."""
+    del sender
+    for instance in list(ClassLoader.instances):
+        if instance.name == setting:
+            instance.clear_cache()

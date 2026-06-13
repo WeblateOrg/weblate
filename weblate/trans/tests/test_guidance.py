@@ -34,8 +34,9 @@ from weblate.trans.alerts.community import (
     RecommendedSphinxAddon,
     RecommendedXgettextAddon,
 )
-from weblate.trans.alerts.config import UnusedScreenshot
+from weblate.trans.alerts.config import MissingLicense, UnusedScreenshot
 from weblate.trans.alerts.registry import get_alert_class, update_alerts
+from weblate.trans.alerts.vcs import RepositoryOutdated
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import component_alerts
 from weblate.trans.tests.test_views import ViewTestCase
@@ -226,6 +227,38 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         )
         response = self.client.get(f"{self.component.get_absolute_url()}?alerts=1")
         self.assertContains(response, "Unused screenshot")
+
+    def test_component_diagnostics_are_ordered(self) -> None:
+        self.component.add_alert(RepositoryOutdated.__name__)
+        self.component.add_alert(UnusedScreenshot.__name__)
+        self.component.add_alert(MissingLicense.__name__)
+
+        alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
+        alert.dismissed = True
+        alert.save(update_fields=["dismissed"])
+
+        response = self.client.get(self.component.get_absolute_url())
+        alert_names = [alert.name for alert in response.context["alerts"]]
+
+        self.assertContains(response, "License info missing.")
+        self.assertContains(response, "Repository outdated.")
+        self.assertNotContains(response, "Unused screenshot")
+        self.assertEqual(
+            alert_names,
+            [MissingLicense.__name__, RepositoryOutdated.__name__],
+        )
+
+        response = self.client.get(f"{self.component.get_absolute_url()}?alerts=1")
+        alert_names = [alert.name for alert in response.context["alerts"]]
+
+        self.assertEqual(
+            alert_names,
+            [
+                MissingLicense.__name__,
+                RepositoryOutdated.__name__,
+                UnusedScreenshot.__name__,
+            ],
+        )
 
     def test_guidance_alert_removed_when_passing(self) -> None:
         alert_name = MissingTranslationInstructions.__name__

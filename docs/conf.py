@@ -384,10 +384,9 @@ linkcheck_ignore = [
     "https://my-instance.openai.azure.com",
     # These are PDF and fails with Unicode decode error
     "http://ftp.pwg.org/",
-    # Access to our service has been temporarily blocked
-    "https://yandex.com/dev/translate/",
     # Times out in CI
     "https://ai.youdao.com/product-fanyi-text.s",
+    "https://help.gitee.com/webhook",
     # 403
     "https://openai.com/",
     "https://platform.openai.com/api-keys",

@@ -84,7 +84,8 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
             .values_list("unit__translation", flat=True)
             .distinct()
         )
-        return related.count() >= 2
+        # We only need to know whether two translations are affected.
+        return len(related[:2]) >= 2
 
     def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit  # noqa: PLC0415
@@ -165,17 +166,36 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
         if unit.timestamp > timezone.now() - timedelta(days=90):
             return False
 
+        component = unit.translation.component
+        component_stats = component.stats
+        if component_stats.is_loaded:
+            component_translated_percent = component_stats.translated_percent
+        else:
+            stats_data = component_stats.load()
+            if {"all", "translated"} <= stats_data.keys():
+                component_stats.set_data(stats_data)
+                component_translated_percent = component_stats.translated_percent
+            else:
+                # Avoid rebuilding full component stats just for this check.
+                component_data = self.get_component_translated_percent(component)
+                component_total = component_data["total"] or 0
+                component_translated_percent = (
+                    100
+                    * (component_total - (component_data["not_translated"] or 0))
+                    / component_total
+                    if component_total
+                    else 0
+                )
+        if component_translated_percent <= 0:
+            return False
+
         states = list(unit.unit_set.values_list("state", flat=True))
         total = len(states)
         not_translated = states.count(STATE_EMPTY) + sum(
             states.count(state) for state in FUZZY_STATES
         )
         translated_percent = 100 * (total - not_translated) / total
-        return (
-            total
-            and 2 * translated_percent
-            < unit.translation.component.stats.translated_percent
-        )
+        return total and 2 * translated_percent < component_translated_percent
 
     @staticmethod
     def get_component_translated_percent(component: Component):

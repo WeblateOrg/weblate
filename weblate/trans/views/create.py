@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import json
 import os
-from contextlib import suppress
+from contextlib import nullcontext, suppress
 from pathlib import Path
 from typing import TYPE_CHECKING
 from zipfile import BadZipfile
@@ -127,6 +127,20 @@ class CreateProject(BaseCreateView):
             return self.form_invalid(form)
         for field in INHERITABLE_COMPONENT_FLAGS:
             setattr(form.instance, field, workspace is not None)
+        license_code = form.cleaned_data.get("license")
+        if workspace is None:
+            form.instance.inherit_license = False
+        elif license_code:
+            if not workspace.license:
+                if self.request.user.has_perm("workspace.edit", workspace):
+                    workspace.license = license_code
+                    workspace.acting_user = self.request.user
+                    workspace.save(update_fields=["license"])
+                    form.instance.inherit_license = True
+                else:
+                    form.instance.inherit_license = False
+            else:
+                form.instance.inherit_license = workspace.license == license_code
         result = super().form_valid(form)
         billing = self.get_billing(workspace)
         self.object.post_create(self.request.user, billing)
@@ -333,7 +347,12 @@ class CreateComponent(BaseCreateView):
     @transaction.atomic
     def form_valid(self, form):
         if self.stage == "create":
-            with form.instance.repository.lock:
+            lock = (
+                nullcontext()
+                if form.instance.is_repo_link
+                else form.instance.repository.lock
+            )
+            with lock:
                 for field in INHERITABLE_COMPONENT_FLAGS:
                     setattr(form.instance, field, True)
                 for field in ("license", "new_lang", "language_code_style"):
@@ -397,11 +416,12 @@ class CreateComponent(BaseCreateView):
                     category_field.initial = self.selected_category
         self.empty_form = False
         if "source_component" in form.fields and self.duplicate_existing_component:
-            self.components = Component.objects.filter(
+            components = Component.objects.filter_access(self.request.user).filter(
                 pk=self.duplicate_existing_component
             )
-            form.fields["source_component"].queryset = self.components
-            form.initial["source_component"] = self.duplicate_existing_component
+            if components.exists():
+                form.fields["source_component"].queryset = components
+                form.initial["source_component"] = self.duplicate_existing_component
         return form
 
     def get_context_data(self, **kwargs):
@@ -540,10 +560,6 @@ class CreateFromDoc(CreateComponent):
         return self.get(self.request)
 
 
-def component_branches(repo: str) -> set[str]:
-    return set(Component.objects.filter(repo=repo).values_list("branch", flat=True))
-
-
 class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
@@ -554,20 +570,28 @@ class CreateComponentSelection(CreateComponent):
     @cached_property
     def branch_data(self):
         result = {}
-        existing_branches: dict[str, set[str]] = {}
-        for component in self.components:
+        components = list(self.components)
+        repos = {component.repo for component in components}
+        existing_branches: dict[str, set[str]] = {repo: set() for repo in repos}
+        remote_branches: dict[str, list[str]] = {}
+
+        for repo, branch in Component.objects.filter(repo__in=repos).values_list(
+            "repo", "branch"
+        ):
+            existing_branches[repo].add(branch)
+
+        for component in components:
             repo = component.repo
-            if repo not in existing_branches:
-                existing_branches[repo] = component_branches(repo)
-            try:
-                remote_branches = component.repository.list_remote_branches()
-            except RepositoryError:
-                # Ignore error, use no branches
-                remote_branches = []
+            if repo not in remote_branches:
+                try:
+                    remote_branches[repo] = component.repository.list_remote_branches()
+                except RepositoryError:
+                    # Ignore error, use no branches
+                    remote_branches[repo] = []
 
             branches = [
                 branch
-                for branch in remote_branches
+                for branch in remote_branches[repo]
                 if branch != component.branch and branch not in existing_branches[repo]
             ]
             if branches:
@@ -593,13 +617,14 @@ class CreateComponentSelection(CreateComponent):
             self.duplicate_existing_component = None
         self.initial = {}
         if self.duplicate_existing_component:
-            source_component = Component.objects.get(
+            source_component = self.components.filter(
                 pk=self.duplicate_existing_component
-            )
-            self.initial |= {
-                "component": source_component,
-                "is_glossary": source_component.is_glossary,
-            }
+            ).first()
+            if source_component is not None:
+                self.initial |= {
+                    "component": source_component,
+                    "is_glossary": source_component.is_glossary,
+                }
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)

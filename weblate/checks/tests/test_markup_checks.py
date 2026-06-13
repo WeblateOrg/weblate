@@ -1112,6 +1112,40 @@ class RSTSyntaxCheckTest(CheckTestCase):
             ),
         )
 
+    def test_wrapped_role(self) -> None:
+        self.do_test(
+            True,
+            (
+                "set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an empty string",
+                "setzen Sie ` :setting:`LEGAL_DOCUMENT_CSS_CLASS` ` auf eine leere Zeichenkette",  # codespell:ignore
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "set `LEGAL_DOCUMENT_CSS_CLASS`:setting: to an empty string",
+                "setzen Sie ` `LEGAL_DOCUMENT_CSS_CLASS`:setting: ` auf eine leere Zeichenkette",  # codespell:ignore
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Users` :ref:`default team <default-teams>` `Teams`",
+                "`Benutzer` :ref:`Standardteam <default-teams>` `Teams`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Users` `default-teams`:ref: `Teams`",
+                "`Benutzer` `default-teams`:ref: `Teams`",
+                "rst-text",
+            ),
+        )
+
     def test_admindocs_tags(self) -> None:
         # admindocs registers own parsers which fail without specific settings
         self.assertTrue(docutils_is_available)

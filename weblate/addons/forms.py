@@ -280,10 +280,11 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
     )
     language = forms.CharField(
         label=gettext_lazy("xgettext language"),
-        required=True,
-        initial="Python",
+        required=False,
+        initial="",
         help_text=gettext_lazy(
-            "Programming language passed to xgettext, for example Python or C."
+            "Programming language passed to xgettext, for example Python or C. "
+            "Leave blank to let xgettext guess the language from file extensions."
         ),
     )
     source_patterns = forms.CharField(

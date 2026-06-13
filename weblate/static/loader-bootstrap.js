@@ -1155,6 +1155,7 @@ $(function () {
       persist: false,
       create: false,
       allowEmptyOption: true,
+      maxOptions: null,
     });
   });
 

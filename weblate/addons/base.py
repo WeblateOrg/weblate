@@ -730,15 +730,22 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         # Absolute path
         filename = os.path.join(component.full_path, filename)
 
-        # Check if parent directory exists
         dirname = os.path.dirname(filename)
-        if not os.path.lexists(dirname):
-            os.makedirs(dirname)
 
-        # Validate if there is not a symlink out of the tree
+        # Validate before and after directory creation to avoid following a
+        # symlinked parent outside the repository.
         try:
             component.repository.resolve_symlinks(dirname)
             component.repository.resolve_symlinks(filename)
+        except ValueError:
+            component.log_error("refused to write out of repository: %s", filename)
+            return None
+
+        if not os.path.lexists(dirname):
+            os.makedirs(dirname, exist_ok=True)
+
+        try:
+            component.repository.resolve_symlinks(dirname)
         except ValueError:
             component.log_error("refused to write out of repository: %s", filename)
             return None

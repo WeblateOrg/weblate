@@ -15,14 +15,15 @@ from operator import itemgetter
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict, TypeGuard
 
 from django.utils.html import strip_tags
-from django.utils.translation import override
+from django.utils.translation import override, pgettext
 
 from weblate.checks.utils import highlight_string
 from weblate.glossary.models import (
+    cleanup_glossary_term,
     fetch_glossary_terms,
     get_glossary_terms,
-    get_glossary_tuples,
 )
+from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.base import (
     MACHINERY_DEFAULT_THRESHOLD,
     BatchMachineTranslation,
@@ -31,11 +32,12 @@ from weblate.machinery.base import (
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.translation import pgettext_noop
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
-    from weblate.lang.models import Language, Plural
+    from weblate.lang.models import Plural
     from weblate.trans.models import Component, Translation, Unit
 
     from .base import (
@@ -55,14 +57,22 @@ You are a professional translation engine specialized in structured localization
 
 {style}
 
+{language_instructions}
+
 Input is provided as JSON with the following schema:
 
 {{
     "source_language": "xx",                    // source language code (ISO, gettext or BCP)
     "target_language": "xx",                    // target language code (ISO, gettext or BCP)
-    "glossary": {{                              // glossary of specific terms to use while translating
-        "source term": "target term",
-    }},
+    "glossary": [                               // glossary of specific terms to use while translating
+        {{
+            "source": "source term",
+            "target": "target term",
+            "source_explanation": "source meaning or usage",       // optional
+            "target_explanation": "target meaning or usage",       // optional
+            "flags": ["read-only", "terminology"]                  // optional
+        }}
+    ],
     "strings": [                                // strings to translate
         {{
             "source": "source @@PH1@@string",   // text to translate with a non-translatable placeable
@@ -105,24 +115,25 @@ Rules:
 1. Translate each string in "strings" in order, producing one output per input string.
 2. Placeholders matching the regular expression @@PH\\d+@@ must be preserved exactly (byte-identical). They may be reordered if required by target language grammar, but must not be modified, duplicated, or removed.
 3. If a string has a "translation" field, use it as the base. Correct errors and improve fluency/style, but stay close to its meaning. Do not re-translate from source unless the existing translation is fundamentally wrong.
-4. Apply glossary terms as written; inflect only when target language grammar requires it. Preserve original capitalization pattern unless the glossary specifies exact casing. Do not partially apply glossary entries.
+4. Apply glossary terms as written; inflect only when target language grammar requires it. Use glossary explanations and flags to disambiguate duplicate source terms. Preserve original capitalization pattern unless the glossary specifies exact casing. Do not partially apply glossary entries.
 5. Preserve tone, register, formatting, whitespace, and line breaks.
 6. Do not add, omit, reinterpret, summarize, or expand content.
 7. Do not transliterate or explain translations.
 8.  Output must be entirely in the target_language except preserved placeholders.
 9. Output must be valid JSON.
-10. Output must be a single JSON array of strings.
+10. Output must be a single JSON array containing only JSON strings.
 11. Do not include markdown code fences or any additional text.
-12. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings.
+12. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings, objects, diagnostics, explanations, or metadata.
 13. Ensure all output strings are properly JSON-escaped.
 14. Internally verify placeholder integrity and JSON validity before responding.
 15. Placeholder contract: Tokens like @@PH44@@ are opaque atoms. Never translate, inflect, split, rename, reorder characters inside, wrap, or escape them. Never convert them to another syntax.
 16. Markup contract: Preserve markup, tags, attributes, entities, and similar control sequences exactly. Translate only human-readable text outside markup and outside placeholder tokens.
 17. Output contract: Return exactly one JSON array of strings, with no characters before `[` or after `]`.
-18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add their contents unless they are present in source.
+18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add, copy, or emit their contents unless they are present in source.
 19. Placeholder mappings explain what opaque placeholder tokens represent. This information may guide wording, but the output must still contain the exact placeholder tokens, not the mapped content.
-20. Failing checks describe issues to avoid or fix when improving an existing translation.
-21. For translatable markup placeholders that wrap text, translate the whole text between the placeholders. Example: @@PH1@@Reset and reapply@@PH2@@ can become @@PH1@@Zurucksetzen und erneut anwenden@@PH2@@, never @@PH1@@Zurucksetzen und @@PH2@@erneut anwenden@@PH2@@.
+20. Failing checks describe issues to avoid or fix when improving an existing translation. They are context only; do not include their check_id, name, description, or generated diagnostics in output.
+21. Target-language project instructions, when present above, contain additional requirements for the target language. Follow them unless they conflict with preserving the source meaning, placeholders, markup, or output contract.
+22. For translatable markup placeholders that wrap text, translate the whole text between the placeholders. Example: @@PH1@@Reset and reapply@@PH2@@ can become @@PH1@@Zurucksetzen und erneut anwenden@@PH2@@, never @@PH1@@Zurucksetzen und @@PH2@@erneut anwenden@@PH2@@.
 
 Valid placeholder and markup handling:
 ["Click <a href=\"/x\">log out</a> and use @@PH195@@."]
@@ -130,7 +141,7 @@ Valid placeholder and markup handling:
 Invalid placeholder handling:
 ["Click <a href=\"/x\">log out</a> and use \\@\\@PH195\\@\\@."]
 
-Respond ONLY with a valid JSON array of strings, one per input string, in the same order:
+Respond ONLY with a valid JSON array of strings, one per input string, in the same order. Do not include JSON objects or any values other than strings:
 
 ["translation 1", "translation 2", ...]
 """
@@ -138,6 +149,32 @@ Respond ONLY with a valid JSON array of strings, one per input string, in the sa
 LLM_PLACEHOLDER_RE = re.compile(r"@@PH(?P<id>\d+)@@")
 RECOVERABLE_LLM_PLACEHOLDER_RE = re.compile(r"@@PH(?P<id>\d+) *@ *@")
 ESCAPED_LLM_PLACEHOLDER_RE = re.compile(r"(?:\\@){2}PH(?P<id>\d+) *\\@ *\\@")
+LANGUAGE_CODE_PART_RE = re.compile(r"[-_@]")
+LLM_PREVIOUS_EXAMPLE_LIMIT = 4
+LLM_GLOSSARY_FLAGS = ("read-only", "terminology")
+LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES = (
+    pgettext_noop("LLM translation example", "Hello, @@PH1@@!"),
+    pgettext_noop("LLM translation example", 'Click <a href="/x">Save</a>.'),
+    pgettext_noop("LLM translation example", "@@PH1@@ failed checks"),
+)
+LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES = (
+    "@@PH1@@",
+    "Weblate",
+    "<code>API</code> @@PH2@@",
+)
+
+
+class LLMGlossaryEntry(TypedDict, total=False):
+    source: str
+    target: str
+    source_explanation: str
+    target_explanation: str
+    flags: list[str]
+
+
+class LLMPreviousExample(TypedDict):
+    source: str
+    target: str
 
 
 class LLMSecondaryContext(TypedDict):
@@ -190,17 +227,34 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def is_supported(self, source_language, target_language) -> bool:
         return True
 
-    def format_prompt_part(self, name: Literal["style", "persona"]) -> str:
-        text = self.settings[name]
+    @staticmethod
+    def format_prompt_text(text: str) -> str:
         text = text.strip()
         if text and not text.endswith("."):
             text = f"{text}."
         return text
 
+    def format_prompt_part(self, name: Literal["style", "persona"]) -> str:
+        return self.format_prompt_text(self.settings[name])
+
+    def format_language_instructions(self, target_language: str) -> str:
+        text = self.format_prompt_text(self._get_language_instructions(target_language))
+        if not text:
+            return ""
+        return f"Target-language project instructions:\n{text}"
+
     def fetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
         raise NotImplementedError
+
+    def get_model(self) -> str:
+        raise NotImplementedError
+
+    def get_traced_model(self) -> str:
+        model = self.get_model()
+        add_breadcrumb(self.name, "model", model=model)
+        return model
 
     @staticmethod
     def _normalize_context_text(text: str | None) -> str:
@@ -258,6 +312,19 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if language_id := getattr(obj, f"{field}_id", None):
             return language_id
         return BaseLLMTranslation._get_language_id(getattr(obj, field, None))
+
+    @staticmethod
+    def _get_effective_secondary_language(
+        component: Component | None,
+    ) -> Language | None:
+        if component is None:
+            return None
+        try:
+            return component.effective_secondary_language
+        except AttributeError:
+            return getattr(component, "secondary_language", None) or getattr(
+                getattr(component, "project", None), "secondary_language", None
+            )
 
     @staticmethod
     def _is_monolingual_unit(unit: Unit) -> bool:
@@ -331,7 +398,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         source_language: str,
         target_language: str,
         texts: list[LLMStringPayload],
-        glossary: dict[str, str],
+        glossary: list[LLMGlossaryEntry],
     ) -> str:
         result = {
             "source_language": source_language,
@@ -340,6 +407,105 @@ class BaseLLMTranslation(BatchMachineTranslation):
             "strings": texts,
         }
         return json.dumps(result)
+
+    @staticmethod
+    def _get_language_base_code(language: str) -> str:
+        return LANGUAGE_CODE_PART_RE.split(language, 1)[0]
+
+    @classmethod
+    def _is_english_language(cls, language: str) -> bool:
+        return cls._get_language_base_code(language).lower() == "en"
+
+    def _get_language_instructions(self, target_language: str) -> str:
+        instructions = self.settings.get("language_instructions") or {}
+        if not isinstance(instructions, dict):
+            return ""
+
+        text = instructions.get(target_language)
+        if isinstance(text, str) and (text := text.strip()):
+            return text
+
+        target = Language.objects.fuzzy_get_strict(target_language)
+        base_language = self._get_language_base_code(target_language)
+        if target is not None:
+            for language, text in instructions.items():
+                if (
+                    not isinstance(language, str)
+                    or language == base_language
+                    or not isinstance(text, str)
+                ):
+                    continue
+                matched_language = Language.objects.fuzzy_get_strict(language)
+                if matched_language == target and (text := text.strip()):
+                    return text
+
+        text = instructions.get(base_language)
+        if isinstance(text, str) and (text := text.strip()):
+            return text
+        return ""
+
+    @classmethod
+    def _get_glossary_entry(cls, unit: Unit) -> LLMGlossaryEntry | None:
+        flags = unit.all_flags
+        if "forbidden" in flags:
+            return None
+
+        if not unit.translated and "read-only" not in flags:
+            return None
+
+        source = cleanup_glossary_term(unit.source)
+        target = source if "read-only" in flags else cleanup_glossary_term(unit.target)
+        if not source or not target:
+            return None
+
+        entry: LLMGlossaryEntry = {
+            "source": source,
+            "target": target,
+        }
+
+        source_unit = getattr(unit, "source_unit", None)
+        if source_explanation := cls._normalize_context_text(
+            getattr(source_unit, "explanation", "")
+        ):
+            entry["source_explanation"] = source_explanation
+
+        if target_explanation := cls._normalize_context_text(
+            getattr(unit, "explanation", "")
+        ):
+            entry["target_explanation"] = target_explanation
+
+        glossary_flags = [flag for flag in LLM_GLOSSARY_FLAGS if flag in flags]
+        if glossary_flags:
+            entry["flags"] = glossary_flags
+
+        return entry
+
+    @classmethod
+    def _get_glossary_entries(cls, units: list[Unit]) -> list[LLMGlossaryEntry]:
+        result: list[LLMGlossaryEntry] = []
+        included: set[str] = set()
+        for term in chain.from_iterable(
+            get_glossary_terms(unit, include_variants=False) for unit in units
+        ):
+            entry = cls._get_glossary_entry(term)
+            if entry is None:
+                continue
+
+            cache_key = json.dumps(entry, sort_keys=True)
+            if cache_key in included:
+                continue
+
+            included.add(cache_key)
+            result.append(entry)
+        return result
+
+    def get_llm_glossary_cache_part(self, unit: Unit) -> str:
+        try:
+            fetch_glossary_terms([unit], include_variants=False)
+            entries = self._get_glossary_entries([unit])
+        except (AttributeError, TypeError, ValueError):
+            return ""
+        return hash_to_checksum(calculate_hash(json.dumps(entries, sort_keys=True)))
 
     @classmethod
     def _get_placeholder_context(
@@ -431,7 +597,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
         language_code = source_language
         try:
-            secondary_candidates = (component.effective_secondary_language,)
+            secondary_candidates: tuple[Language | None, ...] = (
+                component.effective_secondary_language,
+            )
         except AttributeError:
             secondary_candidates = (
                 getattr(component, "secondary_language", None),
@@ -487,14 +655,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if translation is None or component is None:
             return None
 
-        try:
-            secondary_language = component.effective_secondary_language
-        except AttributeError:
-            secondary_language = getattr(
-                component, "secondary_language", None
-            ) or getattr(
-                getattr(component, "project", None), "secondary_language", None
-            )
+        secondary_language = self._get_effective_secondary_language(component)
         if secondary_language is None:
             return None
 
@@ -649,6 +810,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
     ) -> tuple[str, ...]:
         result = (
             self.get_glossary_cache_part(unit),
+            self.get_llm_glossary_cache_part(unit),
             *super().get_translation_cache_parts(
                 unit,
                 source_language,
@@ -680,19 +842,16 @@ class BaseLLMTranslation(BatchMachineTranslation):
         sources: list[tuple[str, Unit | None]],
         source_occurrences: list[int] | None = None,
     ) -> str:
-        glossary: dict[str, str] = {}
+        glossary: list[LLMGlossaryEntry] = []
 
         units = [unit for _text, unit in sources if unit is not None]
         if units:
-            fetch_glossary_terms(units)
-            glossary = dict(
-                get_glossary_tuples(
-                    chain.from_iterable(
-                        get_glossary_terms(unit, include_variants=False)
-                        for unit in units
-                    )
-                )
-            )
+            missing_glossary_terms = [
+                unit for unit in units if getattr(unit, "glossary_terms", None) is None
+            ]
+            if missing_glossary_terms:
+                fetch_glossary_terms(missing_glossary_terms, include_variants=False)
+            glossary = self._get_glossary_entries(units)
 
         inputs = []
         occurrence_counts: dict[tuple[int | None, str], int] = defaultdict(int)
@@ -724,12 +883,223 @@ class BaseLLMTranslation(BatchMachineTranslation):
             else:
                 inputs.append(payload)
 
-        return self._build_message(source_language, target_language, inputs, glossary)
+        return self._build_message(
+            source_language,
+            target_language,
+            inputs,
+            glossary,
+        )
 
-    def _get_prompt(self) -> str:
+    def _get_prompt(self, target_language: str) -> str:
         return PROMPT.format(
             persona=self.format_prompt_part("persona"),
             style=self.format_prompt_part("style"),
+            language_instructions=self.format_language_instructions(target_language),
+        )
+
+    @classmethod
+    def _get_project_example_source_plurals(
+        cls, unit: Unit, source_language: str
+    ) -> list[str]:
+        translation = getattr(unit, "translation", None)
+        component = getattr(translation, "component", None)
+        target_plural = getattr(translation, "plural", None)
+        component_source_language = getattr(component, "source_language", None)
+        if getattr(component_source_language, "code", None) == source_language:
+            source_plural = getattr(component_source_language, "plural", None)
+            if source_plural is not None and target_plural is not None:
+                return PluralMapper(source_plural, target_plural).map(unit)
+            return unit.get_source_plurals()
+
+        secondary_language = cls._get_effective_secondary_language(component)
+        if getattr(secondary_language, "code", None) != source_language:
+            return []
+
+        source_unit = getattr(unit, "source_unit", None) or unit
+        unit_set = getattr(source_unit, "unit_set", None)
+        if unit_set is None:
+            return []
+
+        try:
+            secondary_unit = cls._get_secondary_unit(
+                unit_set,
+                unit,
+                secondary_language,
+                cls._get_language_id(secondary_language),
+            )
+        except (AttributeError, TypeError, ValueError):
+            return []
+
+        if secondary_unit is None:
+            return []
+
+        source_plural = getattr(secondary_language, "plural", None)
+        if source_plural is not None and target_plural is not None:
+            return PluralMapper(source_plural, target_plural).map(unit, secondary_unit)
+        return secondary_unit.get_target_plurals()
+
+    def _get_project_previous_examples(
+        self,
+        source_language: str,
+        sources: list[tuple[str, Unit | None]],
+    ) -> list[LLMPreviousExample]:
+        units = [unit for _text, unit in sources if unit is not None]
+        if not units:
+            return []
+
+        translation = getattr(units[0], "translation", None)
+        unit_set = getattr(translation, "unit_set", None)
+        if unit_set is None:
+            return []
+
+        current_unit_ids = [
+            unit_id
+            for unit in units
+            if (unit_id := getattr(unit, "pk", None)) is not None
+        ]
+
+        try:
+            candidates = unit_set.filter(
+                state__gte=STATE_TRANSLATED,
+                state__lt=STATE_READONLY,
+            ).exclude(target="")
+            if current_unit_ids:
+                candidates = candidates.exclude(pk__in=current_unit_ids)
+            candidates = candidates.order_by("-last_updated")[
+                : LLM_PREVIOUS_EXAMPLE_LIMIT * 4
+            ]
+        except (AttributeError, TypeError, ValueError):
+            return []
+
+        examples: list[LLMPreviousExample] = []
+        for unit in candidates:
+            source_plurals = self._get_project_example_source_plurals(
+                unit, source_language
+            )
+            if not source_plurals:
+                continue
+            previous_plural_map = unit.plural_map
+            unit.plural_map = source_plurals
+            try:
+                for source, target in zip(
+                    source_plurals, unit.get_target_plurals(), strict=False
+                ):
+                    if not source or not target:
+                        continue
+                    cleaned_source, _replacements = self.cleanup_text(source, unit)
+                    if not cleaned_source:
+                        continue
+                    cleaned_target = self._placeholderize_existing_translation(
+                        target, cleaned_source, unit
+                    )
+                    if cleaned_target is None:
+                        continue
+                    if self._extract_placeholders(
+                        cleaned_source
+                    ) != self._extract_placeholders(cleaned_target):
+                        continue
+
+                    examples.append(
+                        {
+                            "source": cleaned_source,
+                            "target": cleaned_target,
+                        }
+                    )
+                    break
+            finally:
+                unit.plural_map = previous_plural_map
+            if len(examples) >= LLM_PREVIOUS_EXAMPLE_LIMIT:
+                break
+
+        return examples
+
+    @classmethod
+    def _get_curated_previous_examples(
+        cls, source_language: str, target_language: str
+    ) -> list[LLMPreviousExample]:
+        with override(source_language):
+            sources = [
+                cls._normalize_context_text(pgettext("LLM translation example", source))
+                for source in LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES
+            ]
+
+        with override(target_language):
+            targets = [
+                cls._normalize_context_text(pgettext("LLM translation example", source))
+                for source in LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES
+            ]
+
+        if not cls._is_english_language(source_language) and any(
+            not example_source or example_source == source
+            for source, example_source in zip(
+                LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES, sources, strict=True
+            )
+        ):
+            return []
+
+        if not cls._is_english_language(target_language) and any(
+            not target or target == source
+            for source, target in zip(
+                LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES, targets, strict=True
+            )
+        ):
+            return []
+
+        examples: list[LLMPreviousExample] = []
+        for original_source, example_source, target in zip(
+            LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES, sources, targets, strict=True
+        ):
+            if cls._extract_placeholders(original_source) != cls._extract_placeholders(
+                example_source
+            ):
+                return []
+            if cls._extract_placeholders(original_source) != cls._extract_placeholders(
+                target
+            ):
+                return []
+            examples.append({"source": example_source, "target": target})
+        return examples
+
+    @staticmethod
+    def _get_neutral_previous_examples() -> list[LLMPreviousExample]:
+        return [
+            {"source": source, "target": source}
+            for source in LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES
+        ]
+
+    def _build_previous_messages_from_examples(
+        self,
+        source_language: str,
+        target_language: str,
+        examples: list[LLMPreviousExample],
+    ) -> tuple[str, str]:
+        return (
+            self._build_message(
+                source_language,
+                target_language,
+                [{"source": example["source"]} for example in examples],
+                [],
+            ),
+            json.dumps([example["target"] for example in examples]),
+        )
+
+    def _get_previous_messages(
+        self,
+        source_language: str,
+        target_language: str,
+        sources: list[tuple[str, Unit | None]],
+    ) -> tuple[str, str]:
+        project_examples = self._get_project_previous_examples(source_language, sources)
+        curated_examples = self._get_curated_previous_examples(
+            source_language, target_language
+        )
+        if curated_examples:
+            examples = [*curated_examples, *project_examples]
+        else:
+            examples = [*self._get_neutral_previous_examples(), *project_examples]
+
+        return self._build_previous_messages_from_examples(
+            source_language, target_language, examples
         )
 
     @staticmethod
@@ -985,6 +1355,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
             placeholder_tokens = {token for _start, _end, token in placeholder_matches}
             if not placeholder_tokens.issubset(source_placeholders):
                 return None
+            if unit is None:
+                return None
             translation_highlights = cls._iter_translation_highlights(
                 translation, unit, placeholder_matches
             )
@@ -1151,8 +1523,11 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if (
             isinstance(translations, list)
             and len(translations) > expected_length
-            and all(isinstance(item, str) for item in translations)
-            and not any(translations[expected_length:])
+            and all(isinstance(item, str) for item in translations[:expected_length])
+            and not any(
+                isinstance(item, str) and item
+                for item in translations[expected_length:]
+            )
         ):
             return translations[:expected_length]
         return translations
@@ -1256,37 +1631,12 @@ class BaseLLMTranslation(BatchMachineTranslation):
     ) -> DownloadMultipleTranslations:
         result: DownloadMultipleTranslations = defaultdict(list)
 
-        prompt = self._get_prompt()
+        prompt = self._get_prompt(target_language)
         content = self._get_message(
             source_language, target_language, sources, source_occurrences
         )
-
-        # Build previous messages for better anchoring assistant responses
-        # TODO: This might use existing translations instead of hard-coded example
-        previous_content = self._build_message(
-            "en",
-            "cs",
-            [
-                {
-                    "source": f"Hello, {self.format_replacement(2, 2, '', None)}, how are you?"
-                },
-                {
-                    "source": f"{self.format_replacement(1, 12, '', None)} failing checks"
-                },
-                {"source": "Good morning"},
-                {
-                    "source": f'To continue, click <a href="/x">log out</a> and use {self.format_replacement(195, 195, "", None)}.'
-                },
-            ],
-            {"Hello": "Nazdar"},
-        )
-        previous_response = json.dumps(
-            [
-                f"Nazdar {self.format_replacement(2, 2, '', None)}, jak se máš?",
-                f"{self.format_replacement(1, 12, '', None)} selhavších kontrol",
-                "Dobré ráno",
-                f'Chcete-li pokračovat, klikněte na <a href="/x">odhlásit se</a> a použijte {self.format_replacement(195, 195, "", None)}.',
-            ],
+        previous_content, previous_response = self._get_previous_messages(
+            source_language, target_language, sources
         )
         add_breadcrumb(self.name, "prompt", prompt=prompt)
         add_breadcrumb(self.name, "chat", content=content)

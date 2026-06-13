@@ -481,7 +481,9 @@ def announcement(request: AuthenticatedHttpRequest, path):
 @login_required
 @require_POST
 def announcement_delete(request: AuthenticatedHttpRequest, pk):
-    announcement = get_object_or_404(Announcement, pk=pk)
+    announcement = get_object_or_404(
+        Announcement.objects.filter_access(request.user), pk=pk
+    )
 
     if not request.user.has_perm("announcement.delete", announcement):
         raise PermissionDenied

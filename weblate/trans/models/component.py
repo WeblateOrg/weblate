@@ -372,7 +372,9 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
             project_workspace = "project__workspace"
             linked_component_project_workspace = "linked_component__project__workspace"
         if alerts:
-            result = result.prefetch_related("alert_set")
+            result = result.prefetch_related(
+                models.Prefetch("alert_set", queryset=Alert.objects.order_component())
+            )
 
         return result.prefetch_related(
             project,
@@ -1094,6 +1096,7 @@ class Component(  # noqa: PLR0904
         verbose_name_plural = "Components"
         indexes = [  # noqa: RUF012
             models.Index(fields=["project", "allow_translation_propagation"]),
+            models.Index(fields=["repo", "branch"], name="trans_comp_repo_branch_idx"),
         ]
         constraints = [  # noqa: RUF012
             models.UniqueConstraint(
@@ -3588,9 +3591,20 @@ class Component(  # noqa: PLR0904
         except (TimeoutError, regex.error):
             return False
 
+    @staticmethod
+    def _sort_alerts(alerts: Iterable[Alert]) -> list[Alert]:
+        return sorted(
+            alerts, key=lambda alert: (-alert.severity, alert.name, alert.pk or 0)
+        )
+
+    def _ordered_alerts(self) -> Iterable[Alert]:
+        if "alert_set" in getattr(self, "_prefetched_objects_cache", {}):
+            return self._sort_alerts(self.alert_set.all())
+        return self.alert_set.order_component()
+
     @cached_property
     def all_active_alerts(self) -> list[Alert]:
-        return [alert for alert in self.alert_set.all() if not alert.dismissed]
+        return [alert for alert in self._ordered_alerts() if not alert.dismissed]
 
     @cached_property
     def all_problem_alerts(self) -> list[Alert]:
@@ -3598,9 +3612,13 @@ class Component(  # noqa: PLR0904
 
     @cached_property
     def all_alerts(self) -> dict[str, Alert]:
-        return {alert.name: alert for alert in self.alert_set.all()}
+        return {alert.name: alert for alert in self._ordered_alerts()}
 
     def update_alert_caches(self) -> None:
+        if "all_alerts" in self.__dict__:
+            self.__dict__["all_alerts"] = {
+                item.name: item for item in self._sort_alerts(self.all_alerts.values())
+            }
         if "all_active_alerts" in self.__dict__:
             self.__dict__["all_active_alerts"] = [
                 item for item in self.all_alerts.values() if not item.dismissed

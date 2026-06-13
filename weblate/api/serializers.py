@@ -32,6 +32,7 @@ from rest_framework.exceptions import PermissionDenied
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
+from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
@@ -74,6 +75,7 @@ from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
     validate_bitmap,
     validate_component_zip_upload_size,
+    validate_file_extension,
     validate_plural_formula_range,
     validate_translation_upload_size,
 )
@@ -475,6 +477,25 @@ class DefiningProjectField(serializers.HyperlinkedRelatedField):
             raise
 
 
+class DefiningWorkspaceField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        request = self.context.get("request")
+        if request is None:
+            return Workspace.objects.none()
+        if request.user.has_perm("group.edit"):
+            return Workspace.objects.all()
+        return request.user.workspaces_with_perm("workspace.edit_members")
+
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            request = self.context.get("request")
+            if request is not None and not request.user.has_perm("group.edit"):
+                raise PermissionDenied from None
+            raise
+
+
 class RoleSerializer(serializers.ModelSerializer[Role]):
     permissions = PermissionSerializer(many=True)
 
@@ -653,9 +674,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         lookup_field="slug",
         required=False,
     )
-    defining_workspace = serializers.PrimaryKeyRelatedField(
-        queryset=Workspace.objects.all(), required=False, allow_null=True
-    )
+    defining_workspace = DefiningWorkspaceField(required=False, allow_null=True)
     admins = serializers.HyperlinkedRelatedField(
         view_name="api:user-detail",
         lookup_field="username",
@@ -748,18 +767,36 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
                     )
                 }
             )
-        request = self.context.get("request")
         if (
             self.instance is not None
-            and self.instance.defining_project is not None
+            and (
+                self.instance.defining_project is not None
+                or self.instance.defining_workspace is not None
+            )
             and (
                 "project_selection" in attrs
                 and attrs["project_selection"] != self.instance.project_selection
             )
-            and (request is None or not request.user.has_perm("group.edit"))
         ):
-            raise PermissionDenied
+            raise serializers.ValidationError(
+                {
+                    "project_selection": gettext_lazy(
+                        "Cannot change this on a scoped team."
+                    )
+                }
+            )
         return attrs
+
+    def create(self, validated_data):
+        defining_project = validated_data.get("defining_project")
+        defining_workspace = validated_data.get("defining_workspace")
+        if defining_project is not None or defining_workspace is not None:
+            validated_data["project_selection"] = SELECTION_MANUAL
+
+        group = super().create(validated_data)
+        if defining_project is not None:
+            group.projects.add(defining_project)
+        return group
 
 
 class ProjectSerializer(serializers.ModelSerializer[Project]):
@@ -1085,7 +1122,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
     zipfile = serializers.FileField(
         required=False, validators=[validate_component_zip_upload_size]
     )
-    docfile = serializers.FileField(required=False)
+    docfile = serializers.FileField(
+        required=False,
+        validators=[validate_translation_upload_size, validate_file_extension],
+    )
     from_component = ComponentReferenceField(required=False, write_only=True)
     disable_autoshare = serializers.BooleanField(required=False)
 
@@ -1308,7 +1348,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             )
             self.populate_from_component_input_defaults(data, source_component)
         # Provide a reasonable default
-        if "manage_units" not in data and data.get("template"):
+        if "manage_units" not in data and data.get("template") and not self.partial:
             data["manage_units"] = "1"
 
         # File uploads indicate usage of a local repo
@@ -1339,7 +1379,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["project"] = self.instance.project
 
         # Workaround for https://github.com/encode/django-rest-framework/issues/7489
-        if "category" not in result:
+        if "category" not in result and not self.partial:
             result["category"] = None
 
         if source_component is not None:
@@ -2447,6 +2487,7 @@ class CategorySerializer(RemovableSerializer[Category]):
         view_name="api:category-detail",
         queryset=Category.objects.none(),
         required=False,
+        allow_null=True,
     )
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:category-statistics",
@@ -2600,7 +2641,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             result["project"] = self.instance.project
 
         # Workaround for https://github.com/encode/django-rest-framework/issues/7489
-        if "category" not in result:
+        if "category" not in result and not self.partial:
             result["category"] = None
         return result
 

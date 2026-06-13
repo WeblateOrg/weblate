@@ -1153,6 +1153,39 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(change.user, self.user)
         self.assertEqual(change.get_details_display(), self.second_user.username)
 
+    def test_revert_user_edits_task_invalid_old_state(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        unit = self.get_unit()
+        self.change_unit("Ahoj svete!\n", user=self.user)
+        self.change_unit("Nazdar svete!\n", user=self.second_user)
+        self.change_unit("Cus svete!\n", user=self.second_user)
+        change = Change.objects.filter(unit=unit, user=self.second_user).order_by(
+            "-timestamp", "-pk"
+        )[0]
+        change.details["old_state"] = -1
+        change.save(update_fields=["details"])
+
+        result = revert_user_edits_task(
+            target_user_id=self.second_user.id,
+            acting_user_id=self.user.id,
+            project_id=self.project.id,
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "reverted": 0,
+                "skipped": 1,
+                "skipped_newer": 0,
+                "skipped_failed": 1,
+            },
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Cus svete!\n")
+        self.assertFalse(
+            Change.objects.filter(action=ActionEvents.USER_REVERT).exists()
+        )
+
     def test_block_user_revert_edits_skips_newer_changes(self) -> None:
         self.project.add_user(self.user, "Administration")
         unit = self.get_unit()

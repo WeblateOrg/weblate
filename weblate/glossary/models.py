@@ -5,9 +5,10 @@
 from __future__ import annotations
 
 import re
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from copy import copy
 from itertools import chain
+from threading import Lock
 from typing import TYPE_CHECKING, cast
 
 import ahocorasick_rs
@@ -28,7 +29,27 @@ if TYPE_CHECKING:
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
+PROHIBITED_INITIAL_CHARS_RE = re.compile(
+    f"^({'|'.join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS)})*"
+)
 CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
+GLOSSARY_AUTOMATON_CACHE_SIZE = 16
+GLOSSARY_AUTOMATON_CACHE: OrderedDict[tuple[int, int], ahocorasick_rs.AhoCorasick] = (
+    OrderedDict()
+)
+GLOSSARY_AUTOMATON_CACHE_LOCK = Lock()
+
+
+def cleanup_glossary_term(text: str) -> str:
+    """
+    Clean up the provided glossary term by removing unwanted characters.
+
+    - Translates and removes control characters.
+    - Strips leading and trailing whitespace.
+    - Removes prohibited leading characters.
+    """
+    text = text.translate(CONTROLCHARS_TRANS)
+    return PROHIBITED_INITIAL_CHARS_RE.sub("", text).strip()
 
 
 def get_glossary_sources(component):
@@ -40,10 +61,27 @@ def get_glossary_sources(component):
     )
 
 
+def clear_glossary_automaton_cache(project_id: int | None = None) -> None:
+    """Clear process-local glossary automatons."""
+    with GLOSSARY_AUTOMATON_CACHE_LOCK:
+        if project_id is None:
+            GLOSSARY_AUTOMATON_CACHE.clear()
+        else:
+            for cache_key in list(GLOSSARY_AUTOMATON_CACHE):
+                if cache_key[0] == project_id:
+                    del GLOSSARY_AUTOMATON_CACHE[cache_key]
+
+
 def get_glossary_automaton(project: Project) -> ahocorasick_rs.AhoCorasick:
     from weblate.trans.models.component import prefetch_glossary_terms  # noqa: PLC0415
 
     with start_span(op="glossary.automaton", name=project.slug):
+        cache_key = (project.pk, project.glossary_automaton_cache_version)
+        with GLOSSARY_AUTOMATON_CACHE_LOCK:
+            if cache_key in GLOSSARY_AUTOMATON_CACHE:
+                GLOSSARY_AUTOMATON_CACHE.move_to_end(cache_key)
+                return GLOSSARY_AUTOMATON_CACHE[cache_key]
+
         # Chain terms
         prefetch_glossary_terms(project.glossaries)
         terms = set(
@@ -54,11 +92,17 @@ def get_glossary_automaton(project: Project) -> ahocorasick_rs.AhoCorasick:
         # Remove blank string as that is not really reasonable to match
         terms.discard("")
         # Build automaton for efficient Aho-Corasick search
-        return ahocorasick_rs.AhoCorasick(
+        result = ahocorasick_rs.AhoCorasick(
             terms,
             implementation=ahocorasick_rs.Implementation.ContiguousNFA,
             store_patterns=False,
         )
+        with GLOSSARY_AUTOMATON_CACHE_LOCK:
+            GLOSSARY_AUTOMATON_CACHE[cache_key] = result
+            GLOSSARY_AUTOMATON_CACHE.move_to_end(cache_key)
+            while len(GLOSSARY_AUTOMATON_CACHE) > GLOSSARY_AUTOMATON_CACHE_SIZE:
+                GLOSSARY_AUTOMATON_CACHE.popitem(last=False)
+        return result
 
 
 def get_glossary_units(project, source_language, target_language):
@@ -246,21 +290,6 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
     from weblate.trans.models import Component, Project  # noqa: PLC0415
     from weblate.workspaces.models import Workspace  # noqa: PLC0415
 
-    def cleanup(text):
-        """
-        Clean up the provided text by removing unwanted characters.
-
-        - Translates and removes control characters using CONTROLCHARS_TRANS.
-        - Strips leading and trailing whitespace.
-        - Removes leading characters from PROHIBITED_INITIAL_CHARS if present.
-        """
-        text = text.translate(CONTROLCHARS_TRANS)
-        prohibited_initial_chars_pattern = (
-            f"^({'|'.join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS)})*"
-        )
-
-        return re.sub(prohibited_initial_chars_pattern, "", text).strip()
-
     # We can get list or iterator as well
     if hasattr(units, "prefetch_related"):
         units = units.prefetch_related(
@@ -287,8 +316,12 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
             continue
 
         # Cleanup strings
-        source = cleanup(unit.source)
-        target = source if "read-only" in unit.all_flags else cleanup(unit.target)
+        source = cleanup_glossary_term(unit.source)
+        target = (
+            source
+            if "read-only" in unit.all_flags
+            else cleanup_glossary_term(unit.target)
+        )
 
         # Skip blanks and duplicates
         if not source or not target or source in included:

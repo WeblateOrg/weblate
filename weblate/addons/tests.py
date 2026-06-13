@@ -25,6 +25,7 @@ import jsonschema.exceptions
 import requests
 import responses
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -117,7 +118,7 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon, AddonActivityLog, Event, handle_addon_event
+from .models import Addon, AddonActivityLog, Event, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -227,19 +228,18 @@ class ManualResultAddon(BaseAddon):
 class TestAddonMixin:
     def setUp(self) -> None:
         super().setUp()
-        ADDONS.data[NoOpAddon.name] = NoOpAddon
-        ADDONS.data[ExampleAddon.name] = ExampleAddon
-        ADDONS.data[CrashAddon.name] = CrashAddon
-        ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
-        ADDONS.data[ManualResultAddon.name] = ManualResultAddon
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        del ADDONS.data[NoOpAddon.name]
-        del ADDONS.data[ExampleAddon.name]
-        del ADDONS.data[CrashAddon.name]
-        del ADDONS.data[ExamplePreAddon.name]
-        del ADDONS.data[ManualResultAddon.name]
+        addons_override = override_settings(
+            WEBLATE_ADDONS=(
+                *settings.WEBLATE_ADDONS,
+                "weblate.addons.tests.NoOpAddon",
+                "weblate.addons.tests.ExampleAddon",
+                "weblate.addons.tests.CrashAddon",
+                "weblate.addons.tests.ExamplePreAddon",
+                "weblate.addons.tests.ManualResultAddon",
+            )
+        )
+        addons_override.enable()
+        self.addCleanup(addons_override.disable)
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
@@ -591,6 +591,25 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         self.assertIsNone(addon.render_repo_filename("stats/cs.json", translation))
         self.assertFalse(outside_target.exists())
 
+    def test_render_repo_filename_rejects_symlinked_parent_outside_repository(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "stats")
+
+        component = self.build_fake_component(repository_dir, new_base="messages.pot")
+        addon = self.build_fake_addon(BaseAddon, component)
+        translation = SimpleNamespace(component=component)
+
+        self.assertIsNone(addon.render_repo_filename("stats/new/cs.json", translation))
+        self.assertFalse((Path(outside_dir) / "new").exists())
+
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
         if not hasattr(os, "symlink"):
             self.skipTest("symlinks are not supported")
@@ -936,6 +955,24 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
 
+    def test_update_linguas_uses_po_path_when_new_base_elsewhere(self) -> None:
+        translation = self.get_translation()
+        pot_path = Path(self.component.full_path) / "pot" / "hello.pot"
+        pot_path.parent.mkdir()
+        source_path = cast("str", self.component.get_new_base_filename())
+        shutil.copy(source_path, pot_path)
+        self.component.new_base = "pot/hello.pot"
+        self.component.save(update_fields=["new_base"])
+
+        self.assertTrue(UpdateLinguasAddon.can_install(component=self.component))
+        addon = UpdateLinguasAddon.create(component=self.component)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("po/LINGUAS", commit)
+        self.assertIn("\n+cs\n", commit)
+
+        addon.post_add(translation)
+        self.assertEqual(translation.addon_commit_files, [])
+
     def test_update_linguas_rejects_symlink(self) -> None:
         translation = self.get_translation()
         addon = UpdateLinguasAddon.create(component=translation.component)
@@ -960,7 +997,7 @@ class GettextAddonTest(ViewTestCase):
             Path(handle.name).read_text(encoding="utf-8"), "outside repository\n"
         )
 
-    def test_update_linguas_invalid_new_base_returns_false(self) -> None:
+    def test_update_linguas_invalid_new_base_uses_po_path(self) -> None:
         translation = self.get_translation()
         addon = UpdateLinguasAddon.create(component=self.component)
 
@@ -972,7 +1009,12 @@ class GettextAddonTest(ViewTestCase):
         os.unlink(new_base_path)
         os.symlink(handle.name, new_base_path)
 
-        self.assertFalse(UpdateLinguasAddon.can_install(component=self.component))
+        linguas_path = os.path.join(self.component.full_path, "po", "LINGUAS")
+        self.assertEqual(
+            UpdateLinguasAddon.get_validated_linguas_path(self.component),
+            linguas_path,
+        )
+        self.assertTrue(UpdateLinguasAddon.can_install(component=self.component))
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
 
@@ -1071,6 +1113,31 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
         self.assertEqual(form.cleaned_data["keyword"], "")
+
+    def test_xgettext_form_accepts_blank_language(self) -> None:
+        form = XgettextAddon.get_add_form(None, component=self.component)
+
+        self.assertFalse(form.fields["language"].required)
+        self.assertEqual(form.fields["language"].initial, "")
+
+        for language in ("", "   "):
+            with self.subTest(language=language):
+                form = XgettextAddon.get_add_form(
+                    None,
+                    component=self.component,
+                    data={
+                        "interval": "weekly",
+                        "normalize_header": True,
+                        "update_po_files": True,
+                        "input_mode": "patterns",
+                        "language": language,
+                        "source_patterns": "src/*.py\n",
+                        "potfiles_path": "",
+                    },
+                )
+                self.assertTrue(form.is_valid(), form.errors)
+                self.assertEqual(form.cleaned_data["language"], "")
+                self.assertEqual(form.serialize_form()["language"], "")
 
     def test_xgettext_form_tagged_comments_require_tag(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -1645,6 +1712,50 @@ class GettextAddonTest(ViewTestCase):
             os.path.join(self.component.full_path, "po/hello.pot"),
             addon.extra_files,
         )
+
+    def test_xgettext_without_language_omits_language_argument(self) -> None:
+        for configuration in (
+            {
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "",
+                "source_patterns": ["src/*.py"],
+            },
+            {
+                "interval": "weekly",
+                "update_po_files": False,
+                "source_patterns": ["src/*.py"],
+            },
+        ):
+            with self.subTest(configuration=configuration):
+                source = Path(self.component.full_path) / "src" / "messages.py"
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_text(
+                    'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+                )
+                addon = XgettextAddon.create(
+                    component=self.component,
+                    run=False,
+                    configuration=configuration,
+                )
+
+                with (
+                    patch.object(
+                        XgettextAddon, "run_process", return_value=""
+                    ) as mocked,
+                    patch.object(
+                        XgettextAddon, "validate_repository_tree", return_value=True
+                    ),
+                ):
+                    addon.update_translations(self.component, "")
+
+                mocked.assert_called_once()
+                command = mocked.call_args.args[1]
+                self.assertEqual(command[:3], ["xgettext", "--output", "po/hello.pot"])
+                self.assertNotIn("--language", command)
+                self.assertIn("--from-code=UTF-8", command)
+                self.assertIn("src/messages.py", command)
+                addon.instance.delete()
 
     def test_xgettext_uses_potfiles_manifest(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"

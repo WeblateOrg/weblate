@@ -18,6 +18,7 @@ from urllib.parse import parse_qs, urlparse
 
 import responses
 from botocore.stub import ANY, Stubber
+from django.conf import settings as django_settings
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -36,7 +37,6 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
-import weblate.machinery.models
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -54,7 +54,11 @@ from weblate.machinery.base import (
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
-from weblate.machinery.forms import BaseMachineryForm
+from weblate.machinery.forms import (
+    LLM_LANGUAGE_INSTRUCTION_LENGTH,
+    BaseMachineryForm,
+    LLMBasicMachineryForm,
+)
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
@@ -62,7 +66,13 @@ from weblate.machinery.libretranslate import (
     LibreTranslateTranslation,
     LTEngineTranslation,
 )
+from weblate.machinery.llm import (
+    LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES,
+    LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES,
+    PROMPT,
+)
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
+from weblate.machinery.mistral import MistralTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
@@ -85,7 +95,6 @@ from weblate.trans.tests.test_views import (
 )
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
-from weblate.utils.classloader import load_class
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 from .types import SourceLanguageChoices
@@ -99,6 +108,12 @@ if TYPE_CHECKING:
         BatchMachineTranslation,
         SettingsDict,
     )
+
+
+class InternalTestTranslation(InternalMachineTranslation):
+    name = "Test Internal"
+    settings_form = BaseMachineryForm
+
 
 AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
@@ -3126,6 +3141,80 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
 
+class LLMBasicMachineryFormTest(TestCase):
+    class DummyLLMTranslation:
+        def __init__(self, configuration: SettingsDict) -> None:
+            self.settings = configuration
+
+        def validate_settings(self) -> None:
+            pass
+
+    def get_form(self, language_instructions: object) -> LLMBasicMachineryForm:
+        return LLMBasicMachineryForm(
+            self.DummyLLMTranslation,
+            {"language_instructions": language_instructions},
+        )
+
+    def test_language_instructions_trim_instruction_text(self) -> None:
+        form = self.get_form(
+            {
+                "fr": "  Use non-breaking spaces before punctuation.  ",
+                "cs": "",
+            }
+        )
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(
+            form.cleaned_data["language_instructions"],
+            {"fr": "Use non-breaking spaces before punctuation."},
+        )
+
+    def test_language_instructions_reject_invalid_language_code(self) -> None:
+        form = self.get_form({" fr ": "Use formal language."})
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "invalid language code",
+            str(form.errors["language_instructions"]),
+        )
+
+    def test_language_instructions_reject_unknown_language_code(self) -> None:
+        self.assertFalse(Language.objects.filter(code="zz_LLM").exists())
+
+        form = self.get_form({"zz_LLM": "Use formal language."})
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "unknown language code",
+            str(form.errors["language_instructions"]),
+        )
+
+    def test_language_instructions_accept_language_code_variant(self) -> None:
+        self.assertTrue(Language.objects.filter(code="pt_BR").exists())
+
+        form = self.get_form({"pt-rBR": "Use Brazilian Portuguese."})
+
+        self.assertTrue(form.is_valid())
+        self.assertEqual(
+            form.cleaned_data["language_instructions"],
+            {"pt-rBR": "Use Brazilian Portuguese."},
+        )
+
+    def test_language_instructions_reject_long_instruction(self) -> None:
+        form = self.get_form({"fr": "x" * (LLM_LANGUAGE_INSTRUCTION_LENGTH + 1)})
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            f"at most {LLM_LANGUAGE_INSTRUCTION_LENGTH} characters",
+            str(form.errors["language_instructions"]),
+        )
+
+    def test_language_instructions_accept_length_limit(self) -> None:
+        form = self.get_form({"fr": "x" * LLM_LANGUAGE_INSTRUCTION_LENGTH})
+
+        self.assertTrue(form.is_valid())
+
+
 class OpenAITranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS: type[BatchMachineTranslation] = OpenAITranslation
     EXPECTED_LEN = 1
@@ -3138,6 +3227,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "persona": "",
         "style": "",
     }
+    TRACE_MODEL: ClassVar[str] = "gpt-5-nano"
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
@@ -3154,10 +3244,10 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "gpt-5-nano",
+                        "id": OpenAITranslationTest.TRACE_MODEL,
                         "object": "model",
                         "created": 1686935002,
-                        "owned_by": "openai",
+                        "owned_by": "test",
                     }
                 ],
             },
@@ -3191,6 +3281,39 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 },
             },
         )
+
+    def test_prompt_forbids_metadata_output(self) -> None:
+        self.assertIn("only JSON strings", PROMPT)
+        self.assertIn(
+            "Do not emit empty extra strings, objects, diagnostics, explanations, "
+            "or metadata.",
+            PROMPT,
+        )
+        self.assertIn(
+            "do not include their check_id, name, description, or generated "
+            "diagnostics in output",
+            PROMPT,
+        )
+        self.assertIn(
+            "Do not include JSON objects or any values other than strings",
+            PROMPT,
+        )
+
+    @responses.activate
+    def test_translate_traces_resolved_model_breadcrumb(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+
+        with patch("weblate.machinery.llm.add_breadcrumb") as mock_add_breadcrumb:
+            machine.download_multiple_translations("en", "fr", [("Hello", None)])
+
+        model_call = next(
+            call
+            for call in mock_add_breadcrumb.call_args_list
+            if call.args[:2] == (machine.name, "model")
+        )
+        self.assertEqual(model_call.kwargs["model"], self.TRACE_MODEL)
+        self.assertNotIn("key", model_call.kwargs)
 
     def test_translate_sends_unit_context(self) -> None:
         machine = self.get_machine()
@@ -3256,6 +3379,462 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         self.assertEqual(translation[cleaned_source][0]["text"], "Bonjour @@PH7@@!")
         self.assertEqual(label_languages, ["en", "en"])
+
+    def test_translate_uses_neutral_previous_messages_without_czech(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            _prompt: str,
+            _content: str,
+            previous_content: str,
+            previous_response: str,
+        ) -> str:
+            previous_payload = json.loads(previous_content)
+            self.assertEqual(previous_payload["source_language"], "en")
+            self.assertEqual(previous_payload["target_language"], "fr")
+            self.assertEqual(
+                [item["source"] for item in previous_payload["strings"]],
+                list(LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES),
+            )
+            self.assertEqual(
+                json.loads(previous_response),
+                list(LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES),
+            )
+            self.assertNotIn("Nazdar", previous_content)
+            self.assertNotIn("Nazdar", previous_response)
+            self.assertNotIn("Dobré ráno", previous_response)
+            return json.dumps(["Bonjour le monde!"])
+
+        with (
+            patch.object(machine, "_get_project_previous_examples", return_value=[]),
+            patch.object(machine, "_get_curated_previous_examples", return_value=[]),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Bonjour le monde!")
+
+    def test_translate_uses_curated_previous_messages_for_target_language(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+        curated_translations = {
+            "Hello, @@PH1@@!": "Bonjour, @@PH1@@!",
+            'Click <a href="/x">Save</a>.': ('Cliquez <a href="/x">Enregistrer</a>.'),
+            "@@PH1@@ failed checks": "@@PH1@@ vérifications échouées",
+        }
+
+        def request_callback(
+            _prompt: str,
+            _content: str,
+            previous_content: str,
+            previous_response: str,
+        ) -> str:
+            previous_payload = json.loads(previous_content)
+            self.assertEqual(previous_payload["source_language"], "en")
+            self.assertEqual(previous_payload["target_language"], "fr")
+            self.assertEqual(
+                [item["source"] for item in previous_payload["strings"]],
+                list(LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES),
+            )
+            self.assertEqual(
+                json.loads(previous_response),
+                [
+                    curated_translations[source]
+                    for source in LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES
+                ],
+            )
+            return json.dumps(["Bonjour le monde!"])
+
+        with (
+            patch.object(machine, "_get_project_previous_examples", return_value=[]),
+            patch(
+                "weblate.machinery.llm.pgettext",
+                side_effect=lambda _context, source: (
+                    curated_translations[source] if get_language() == "fr" else source
+                ),
+            ),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Bonjour le monde!")
+
+    def test_translate_uses_curated_previous_messages_for_source_language(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Ahoj, světe!")
+        typed_unit = cast("Unit", unit)
+        curated_sources = {
+            "Hello, @@PH1@@!": "Ahoj, @@PH1@@!",
+            'Click <a href="/x">Save</a>.': 'Klikněte <a href="/x">Uložit</a>.',
+            "@@PH1@@ failed checks": "@@PH1@@ neúspěšných kontrol",
+        }
+        curated_translations = {
+            "Hello, @@PH1@@!": "Bonjour, @@PH1@@!",
+            'Click <a href="/x">Save</a>.': ('Cliquez <a href="/x">Enregistrer</a>.'),
+            "@@PH1@@ failed checks": "@@PH1@@ vérifications échouées",
+        }
+
+        def request_callback(
+            _prompt: str,
+            _content: str,
+            previous_content: str,
+            previous_response: str,
+        ) -> str:
+            previous_payload = json.loads(previous_content)
+            self.assertEqual(previous_payload["source_language"], "cs")
+            self.assertEqual(previous_payload["target_language"], "fr")
+            self.assertEqual(
+                [item["source"] for item in previous_payload["strings"]],
+                [
+                    curated_sources[source]
+                    for source in LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES
+                ],
+            )
+            self.assertEqual(
+                json.loads(previous_response),
+                [
+                    curated_translations[source]
+                    for source in LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES
+                ],
+            )
+            return json.dumps(["Bonjour le monde!"])
+
+        def get_curated_translation(_context: str, source: str) -> str:
+            if get_language() == "cs":
+                return curated_sources[source]
+            if get_language() == "fr":
+                return curated_translations[source]
+            return source
+
+        with (
+            patch.object(machine, "_get_project_previous_examples", return_value=[]),
+            patch(
+                "weblate.machinery.llm.pgettext",
+                side_effect=get_curated_translation,
+            ),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "cs",
+                "fr",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Bonjour le monde!")
+
+    def test_translate_keeps_curated_previous_messages_with_project_examples(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+        curated_translations = {
+            "Hello, @@PH1@@!": "Bonjour, @@PH1@@!",
+            'Click <a href="/x">Save</a>.': ('Cliquez <a href="/x">Enregistrer</a>.'),
+            "@@PH1@@ failed checks": "@@PH1@@ vérifications échouées",
+        }
+        project_examples = [{"source": "Project source", "target": "Cible locale"}]
+
+        def request_callback(
+            _prompt: str,
+            _content: str,
+            previous_content: str,
+            previous_response: str,
+        ) -> str:
+            previous_payload = json.loads(previous_content)
+            previous_sources = [item["source"] for item in previous_payload["strings"]]
+            self.assertEqual(previous_payload["source_language"], "en")
+            self.assertEqual(previous_payload["target_language"], "fr")
+            self.assertEqual(
+                previous_sources,
+                [*LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES, "Project source"],
+            )
+            self.assertEqual(
+                json.loads(previous_response),
+                [
+                    *[
+                        curated_translations[source]
+                        for source in LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES
+                    ],
+                    "Cible locale",
+                ],
+            )
+            return json.dumps(["Bonjour le monde!"])
+
+        with (
+            patch.object(
+                machine, "_get_project_previous_examples", return_value=project_examples
+            ),
+            patch(
+                "weblate.machinery.llm.pgettext",
+                side_effect=lambda _context, source: (
+                    curated_translations[source] if get_language() == "fr" else source
+                ),
+            ),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Bonjour le monde!")
+
+    def test_translate_sends_language_instructions(self) -> None:
+        machine = OpenAITranslation(
+            {
+                **self.CONFIGURATION,
+                "language_instructions": {
+                    "pt": "Prefer Brazilian Portuguese.",
+                    "pt-BR": "Use Brazilian Portuguese.",
+                },
+            }
+        )
+        unit = make_unit(code="pt_BR", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertNotIn("instructions", payload)
+            self.assertIn(
+                "Target-language project instructions:\nUse Brazilian Portuguese.",
+                prompt,
+            )
+            self.assertNotIn("Prefer Brazilian Portuguese.", prompt)
+            return json.dumps(["Olá, mundo!"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "pt-BR",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Olá, mundo!")
+
+    def test_language_instructions_fall_back_to_base_language(self) -> None:
+        machine = OpenAITranslation(
+            {
+                **self.CONFIGURATION,
+                "language_instructions": {"pt": "Prefer Brazilian Portuguese."},
+            }
+        )
+        unit = make_unit(code="pt_BR", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertNotIn("instructions", payload)
+            self.assertIn(
+                "Target-language project instructions:\nPrefer Brazilian Portuguese.",
+                prompt,
+            )
+            return json.dumps(["Olá, mundo!"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "pt-BR",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Olá, mundo!")
+
+    def test_language_instructions_match_fuzzy_language_code(self) -> None:
+        machine = OpenAITranslation(
+            {
+                **self.CONFIGURATION,
+                "language_instructions": {
+                    "pt": "Prefer generic Portuguese.",
+                    "pt-rBR": "Use Brazilian Portuguese.",
+                },
+            }
+        )
+        unit = make_unit(code="pt_BR", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+
+        def request_callback(
+            prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            payload = json.loads(content)
+            self.assertNotIn("instructions", payload)
+            self.assertIn(
+                "Target-language project instructions:\nUse Brazilian Portuguese.",
+                prompt,
+            )
+            self.assertNotIn("Prefer generic Portuguese.", prompt)
+            return json.dumps(["Olá, mundo!"])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "pt_BR",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Olá, mundo!")
+
+    def test_translate_sends_structured_glossary_entries(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Open an account")
+        typed_unit = cast("Unit", unit)
+        bank_account = make_unit(
+            code="fr",
+            source="account",
+            target="compte bancaire",
+            flags="terminology",
+        )
+        bank_account.source_unit.explanation = "A bank account."
+        bank_account.explanation = "Financial account."
+        user_account = make_unit(
+            code="fr",
+            source="account",
+            target="compte utilisateur",
+        )
+        user_account.source_unit.explanation = "A user account."
+        user_account.explanation = "Application sign-in account."
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            glossary = json.loads(content)["glossary"]
+            self.assertEqual(
+                glossary,
+                [
+                    {
+                        "source": "account",
+                        "target": "compte bancaire",
+                        "source_explanation": "A bank account.",
+                        "target_explanation": "Financial account.",
+                        "flags": ["terminology"],
+                    },
+                    {
+                        "source": "account",
+                        "target": "compte utilisateur",
+                        "source_explanation": "A user account.",
+                        "target_explanation": "Application sign-in account.",
+                    },
+                ],
+            )
+            return json.dumps(["Ouvrir un compte"])
+
+        with (
+            patch(
+                "weblate.machinery.llm.fetch_glossary_terms",
+                new=lambda _units, **_kwargs: None,
+            ),
+            patch(
+                "weblate.machinery.llm.get_glossary_terms",
+                return_value=[bank_account, user_account],
+            ),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(unit.source, typed_unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Ouvrir un compte")
+
+    def test_llm_glossary_cache_fetches_without_variants(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Hello, world!")
+        typed_unit = cast("Unit", unit)
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: ""),
+            patch("weblate.machinery.llm.fetch_glossary_terms") as fetch_terms,
+            patch("weblate.machinery.llm.get_glossary_terms", return_value=[]),
+        ):
+            machine.get_translation_cache_parts(
+                typed_unit,
+                "en",
+                "fr",
+                typed_unit.source,
+                75,
+                {},
+            )
+
+        fetch_terms.assert_called_once_with([typed_unit], include_variants=False)
+
+    def test_translate_reuses_cached_llm_glossary_terms(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="fr", source="Unique glossary cache source.")
+        typed_unit = cast("Unit", unit)
+        fetch_calls: list[tuple[list[Unit], dict[str, object]]] = []
+
+        def fetch_terms(units: list[Unit], **kwargs: object) -> None:
+            fetch_calls.append((list(units), kwargs))
+            for fetched_unit in units:
+                fetched_unit.glossary_terms = []
+
+        with (
+            patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: ""),
+            patch(
+                "weblate.machinery.llm.fetch_glossary_terms", side_effect=fetch_terms
+            ),
+            patch.object(
+                machine,
+                "fetch_llm_translations",
+                return_value=json.dumps(["Source de cache de glossaire unique."]),
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "fr",
+                [(typed_unit.source, typed_unit)],
+            )
+
+        self.assertEqual(
+            translation[typed_unit.source][0]["text"],
+            "Source de cache de glossaire unique.",
+        )
+        self.assertEqual(fetch_calls, [([typed_unit], {"include_variants": False})])
 
     def test_translation_cache_uses_stable_check_id(self) -> None:
         machine = self.get_machine()
@@ -3862,21 +4441,16 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
             previous_payload = json.loads(previous_content)
             previous_sources = [item["source"] for item in previous_payload["strings"]]
-            self.assertTrue(
-                any(
-                    '<a href="/x">log out</a>' in source and "@@PH195@@" in source
-                    for source in previous_sources
-                )
+            self.assertIn(
+                "<code>API</code> @@PH2@@",
+                previous_sources,
             )
             self.assertNotIn("[X", previous_content)
 
             previous_translations = json.loads(previous_response)
-            self.assertTrue(
-                any(
-                    '<a href="/x">odhlásit se</a>' in translation
-                    and "@@PH195@@" in translation
-                    for translation in previous_translations
-                )
+            self.assertIn(
+                "<code>API</code> @@PH2@@",
+                previous_translations,
             )
 
             return json.dumps([f"Bonjour {placeholder.group()}! <<foo>>"])
@@ -4297,6 +4871,28 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 [("One", None)],
             )
 
+    @responses.activate
+    def test_translate_ignores_trailing_metadata_reply(self) -> None:
+        self.mock_response(
+            json.dumps(
+                [
+                    "Premier",
+                    {
+                        "description": "The following markup is missing.",
+                        "name": "Inconsistent markup",
+                    },
+                ]
+            )
+        )
+
+        translation = self.get_machine().download_multiple_translations(
+            "en",
+            "fr",
+            [("One", None)],
+        )
+
+        self.assertEqual(translation["One"][0]["text"], "Premier")
+
     def test_translate_rejects_ambiguous_rst_duplicate_placeholders(self) -> None:
         machine = self.get_machine()
 
@@ -4406,6 +5002,131 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
 
 class OpenAILLMContextTest(FixtureComponentTestCase):
+    def test_translate_uses_project_previous_messages_for_target_language(self) -> None:
+        self.change_unit(
+            "Orangutan má %d banán.\n",
+            source="Orangutan has %d banana.\n",
+            language="cs",
+        )
+
+        unit = self.get_unit(language="cs")
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+            }
+        )
+
+        def request_callback(
+            _prompt: str,
+            _content: str,
+            previous_content: str,
+            previous_response: str,
+        ) -> str:
+            previous_payload = json.loads(previous_content)
+            previous_sources = [item["source"] for item in previous_payload["strings"]]
+            previous_translations = json.loads(previous_response)
+            self.assertEqual(previous_payload["source_language"], "en")
+            self.assertEqual(previous_payload["target_language"], "cs")
+            self.assertEqual(
+                previous_sources[: len(LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES)],
+                list(LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES),
+            )
+            self.assertEqual(
+                previous_translations[: len(LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES)],
+                list(LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES),
+            )
+            self.assertTrue(
+                any(
+                    source.startswith("Orangutan has") and "@@PH" in source
+                    for source in previous_sources
+                )
+            )
+            self.assertTrue(
+                any(
+                    translation.startswith("Orangutan má") and "@@PH" in translation
+                    for translation in previous_translations
+                )
+            )
+            return json.dumps(["Ahoj světe!\n"])
+
+        with (
+            patch.object(machine, "_get_curated_previous_examples", return_value=[]),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "en",
+                "cs",
+                [(unit.source, unit)],
+            )
+
+        self.assertEqual(translation[unit.source][0]["text"], "Ahoj světe!\n")
+
+    def test_translate_uses_secondary_source_project_previous_messages(self) -> None:
+        language = Language.objects.get(code="de")
+        if not self.component.translation_set.filter(language=language).exists():
+            self.component.add_new_language(language, None)
+
+        self.change_unit("Hallo Welt\n", language="de")
+        self.change_unit(
+            "Danke, dass Weblate verwendet wird.",
+            source="Thank you for using Weblate.",
+            language="de",
+        )
+        self.change_unit(
+            "Díky za použití Weblate.",
+            source="Thank you for using Weblate.",
+            language="cs",
+        )
+        self.component.inherit_secondary_language = True
+        self.component.save(update_fields=["inherit_secondary_language"])
+        self.project.secondary_language = language
+        self.project.save(update_fields=["secondary_language"])
+
+        unit = self.get_unit(language="cs")
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+            }
+        )
+
+        def request_callback(
+            _prompt: str,
+            _content: str,
+            previous_content: str,
+            previous_response: str,
+        ) -> str:
+            previous_payload = json.loads(previous_content)
+            previous_sources = [item["source"] for item in previous_payload["strings"]]
+            previous_translations = json.loads(previous_response)
+            self.assertEqual(previous_payload["source_language"], "de")
+            self.assertEqual(previous_payload["target_language"], "cs")
+            self.assertIn("Danke, dass Weblate verwendet wird.", previous_sources)
+            self.assertNotIn("Thank you for using Weblate.", previous_sources)
+            self.assertIn("Díky za použití Weblate.", previous_translations)
+            return json.dumps(["Ahoj světe\n"])
+
+        with (
+            patch.object(machine, "_get_curated_previous_examples", return_value=[]),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+        ):
+            translation = machine.download_multiple_translations(
+                "de",
+                "cs",
+                [("Hallo Welt\n", unit)],
+            )
+
+        self.assertEqual(translation["Hallo Welt\n"][0]["text"], "Ahoj světe\n")
+
     def test_translate_sends_configured_secondary_language(self) -> None:
         language = Language.objects.get(code="de")
         if not self.component.translation_set.filter(language=language).exists():
@@ -4468,10 +5189,10 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "gpt-5-nano",
+                        "id": self.TRACE_MODEL,
                         "object": "model",
                         "created": 1686935002,
-                        "owned_by": "openai",
+                        "owned_by": "test",
                     }
                 ],
             },
@@ -4559,10 +5280,10 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "gpt-5-nano",
+                        "id": self.TRACE_MODEL,
                         "object": "model",
                         "created": 1686935002,
-                        "owned_by": "openai",
+                        "owned_by": "test",
                     }
                 ],
             },
@@ -4579,10 +5300,121 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 },
             ),
         ):
-            self.assertEqual(machine.get_model(), "gpt-5-nano")
+            self.assertEqual(machine.get_model(), self.TRACE_MODEL)
 
         mocked_getaddrinfo.assert_not_called()
         self.assertEqual(len(responses.calls), 1)
+
+
+class MistralTranslationTest(OpenAITranslationTest):
+    MACHINE_CLS: type[BatchMachineTranslation] = MistralTranslation
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+    }
+    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+
+    @staticmethod
+    def mock_models() -> None:
+        responses.add(
+            responses.GET,
+            "https://api.mistral.ai/v1/models",
+            json={
+                "object": "list",
+                "data": [
+                    {
+                        "id": "mistral-small-latest",
+                        "object": "model",
+                        "created": 1686935002,
+                        "owned_by": "mistral",
+                    }
+                ],
+            },
+        )
+
+    def mock_response(self, content: str = '["Ahoj světe"]') -> None:
+        self.mock_models()
+        responses.add(
+            responses.POST,
+            "https://api.mistral.ai/v1/chat/completions",
+            json={
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "mistral-small-latest",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": content,
+                        },
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 9,
+                    "completion_tokens": 12,
+                    "total_tokens": 21,
+                },
+            },
+        )
+
+
+class MistralCustomTranslationTest(OpenAICustomTranslationTest):
+    MACHINE_CLS: type[BatchMachineTranslation] = MistralTranslation
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "x",
+        "model": "auto",
+        "persona": "",
+        "style": "",
+        "base_url": "https://custom.example.com/",
+    }
+    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+
+    def mock_response(self, content: str = '["Ahoj světe"]') -> None:
+        responses.add(
+            responses.GET,
+            "https://custom.example.com/models",
+            json={
+                "object": "list",
+                "data": [
+                    {
+                        "id": "mistral-small-latest",
+                        "object": "model",
+                        "created": 1686935002,
+                        "owned_by": "mistral",
+                    }
+                ],
+            },
+        )
+        responses.add(
+            responses.POST,
+            "https://custom.example.com/chat/completions",
+            json={
+                "id": "chatcmpl-123",
+                "object": "chat.completion",
+                "created": 1677652288,
+                "model": "mistral-small-latest",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": content,
+                        },
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 9,
+                    "completion_tokens": 12,
+                    "total_tokens": 21,
+                },
+            },
+        )
 
 
 class AzureOpenAITranslationTest(OpenAITranslationTest):
@@ -4594,6 +5426,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
         "style": "",
         "azure_endpoint": "https://my-instance.openai.azure.com",
     }
+    TRACE_MODEL: ClassVar[str] = "my-deployment"
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
         responses.add(
@@ -5170,13 +6003,17 @@ class ViewsTest(FixtureTestCase):
         "to a third-party provider."
     )
 
-    @staticmethod
-    def ensure_dummy_mt():
+    def ensure_dummy_mt(self):
         """Ensure we have dummy mt installed."""
-        name = "weblate.machinery.dummy.DummyTranslation"
-        service = load_class(name, "TEST")
-        if service.get_identifier() not in weblate.machinery.models.MACHINERY:
-            weblate.machinery.models.MACHINERY[service.get_identifier()] = service
+        machinery_override = override_settings(
+            WEBLATE_MACHINERY=(
+                *django_settings.WEBLATE_MACHINERY,
+                "weblate.machinery.dummy.DummyTranslation",
+            )
+        )
+        machinery_override.enable()
+        self.addCleanup(machinery_override.disable)
+        service = DummyTranslation
         Setting.objects.create(
             category=SettingCategory.MT, name=service.get_identifier(), value={}
         )
@@ -5321,21 +6158,19 @@ class ViewsTest(FixtureTestCase):
         self.assertContains(response, self.THIRD_PARTY_WARNING)
 
     def test_configure_global_no_third_party_warning_for_internal(self) -> None:
-        class TestInternalTranslation(InternalMachineTranslation):
-            name = "Test Internal"
-            settings_form = BaseMachineryForm
-
-        identifier = TestInternalTranslation.get_identifier()
-        weblate.machinery.models.MACHINERY[identifier] = TestInternalTranslation
+        identifier = InternalTestTranslation.get_identifier()
         self.user.is_superuser = True
         self.user.save()
 
-        try:
+        with override_settings(
+            WEBLATE_MACHINERY=(
+                *django_settings.WEBLATE_MACHINERY,
+                "weblate.machinery.tests.InternalTestTranslation",
+            )
+        ):
             response = self.client.get(
                 reverse("machinery-edit", kwargs={"machinery": identifier})
             )
-        finally:
-            weblate.machinery.models.MACHINERY.data.pop(identifier, None)
 
         self.assertNotContains(response, self.THIRD_PARTY_WARNING)
 
@@ -5611,6 +6446,7 @@ class MachineryValidationTest(TestCase):
             LibreTranslateTranslation,
             LTEngineTranslation,
             MicrosoftCognitiveTranslation,
+            MistralTranslation,
             ModernMTTranslation,
             MyMemoryTranslation,
             NeteaseSightTranslation,

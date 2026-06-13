@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import time
 from collections import UserDict
 from typing import TYPE_CHECKING, ClassVar, Self, cast
 
@@ -101,10 +102,12 @@ class ProjectLanguageFactory(UserDict):
     def preload(self) -> list[ProjectLanguage]:
         return [self[language] for language in self._project.languages]
 
-    def preload_workflow_settings(self) -> None:
+    def preload_workflow_settings(
+        self, instances: Iterable[ProjectLanguage] | None = None
+    ) -> None:
         from weblate.trans.models.workflow import WorkflowSetting  # noqa: PLC0415
 
-        instances = self.preload()
+        instances = self.preload() if instances is None else list(instances)
 
         pending = {instance.language.id: instance for instance in instances}
 
@@ -943,12 +946,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def all_repo_components(self) -> list[Component]:
         """Return list of all unique VCS components."""
-        result = list(self.component_set.with_repo().prefetch_related("alert_set"))
+        from weblate.trans.models import Alert  # noqa: PLC0415
+
+        alert_prefetch = models.Prefetch(
+            "alert_set", queryset=Alert.objects.order_component()
+        )
+        result = list(self.component_set.with_repo().prefetch_related(alert_prefetch))
         included = {component.id for component in result}
 
         linked = self.component_set.filter(
             repo__startswith="weblate:"
-        ).prefetch_related("alert_set")
+        ).prefetch_related(alert_prefetch)
         for other in linked:
             if other.linked_component_id in included:
                 continue
@@ -1002,7 +1010,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def all_active_alerts(self) -> QuerySet[Alert]:
         from weblate.trans.models import Alert  # noqa: PLC0415
 
-        result = Alert.objects.filter(component__project=self, dismissed=False)
+        result = Alert.objects.filter(component__project=self, dismissed=False).order()
         list(result)
         return result
 
@@ -1141,8 +1149,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     def invalidate_glossary_cache(self) -> None:
+        from weblate.glossary.models import (  # noqa: PLC0415
+            clear_glossary_automaton_cache,
+        )
+
         if "glossary_automaton" in self.__dict__:
             del self.__dict__["glossary_automaton"]
+        if "glossary_automaton_cache_version" in self.__dict__:
+            del self.__dict__["glossary_automaton_cache_version"]
+        clear_glossary_automaton_cache(self.pk)
+        try:
+            cache.incr(self.glossary_automaton_cache_key)
+        except ValueError:
+            cache.set(self.glossary_automaton_cache_key, time.time_ns(), None)
         tsv_cache_keys = [
             self.get_glossary_tsv_cache_key(source_language, language)
             for source_language in Language.objects.filter(
@@ -1157,6 +1176,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         from weblate.glossary.models import get_glossary_automaton  # noqa: PLC0415
 
         return get_glossary_automaton(self)
+
+    @cached_property
+    def glossary_automaton_cache_key(self) -> str:
+        return f"project-glossary-automaton-{self.pk}"
+
+    @cached_property
+    def glossary_automaton_cache_version(self) -> int:
+        version = cache.get(self.glossary_automaton_cache_key)
+        if version is None:
+            version = time.time_ns()
+            cache.add(self.glossary_automaton_cache_key, version, None)
+            version = cache.get(self.glossary_automaton_cache_key, version)
+        return version
 
     def get_machinery_settings(self) -> dict[str, SettingsDict]:
         mt_settings = cast(

@@ -41,6 +41,8 @@ Machine translation engines
      - LTEngine
    * - ``libretranslate``
      - LibreTranslate
+   * - ``mistral``
+     - Mistral
    * - ``modernmt``
      - ModernMT
    * - ``mymemory``

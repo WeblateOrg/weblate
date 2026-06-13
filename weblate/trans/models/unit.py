@@ -205,10 +205,12 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             "source_unit__translation",
             models.Prefetch(
                 "source_unit__check_set",
+                queryset=Check.objects.order(),
                 to_attr="all_checks",
             ),
             models.Prefetch(
                 "check_set",
+                queryset=Check.objects.order(),
                 to_attr="all_checks",
             ),
         )
@@ -223,6 +225,25 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             .prefetch_related(
                 "labels",
                 "source_unit__labels",
+                models.Prefetch(
+                    "suggestion_set",
+                    queryset=Suggestion.objects.order(),
+                    to_attr="suggestions",
+                ),
+                models.Prefetch(
+                    "comment_set",
+                    queryset=Comment.objects.filter(resolved=False),
+                    to_attr="unresolved_comments",
+                ),
+            )
+        )
+
+    def prefetch_embed(self):
+        """Prefetch relations needed by snippets/embed-units.html."""
+        return (
+            self.prefetch_all_checks()
+            .prefetch_source()
+            .prefetch_related(
                 models.Prefetch(
                     "suggestion_set",
                     queryset=Suggestion.objects.order(),
@@ -432,7 +453,8 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
 
     def get_ordered(self, ids):
         """Return list of units ordered by ID."""
-        return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
+        order = {unit_id: pos for pos, unit_id in enumerate(ids)}
+        return sorted(self.filter(id__in=ids), key=lambda unit: order[unit.id])
 
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> UnitQuerySet:  # type: ignore[override]
@@ -1916,7 +1938,7 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_checks(self) -> models.QuerySet[Check]:
-        result = self.check_set.all()
+        result = self.check_set.order()
         # Force fetching
         list(result)
         return result
@@ -1927,6 +1949,8 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def all_checks_names(self) -> set[str]:
+        if "all_checks" not in self.__dict__:
+            return set(self.check_set.values_list("name", flat=True))
         return {check.name for check in self.all_checks}
 
     @property
@@ -1970,29 +1994,32 @@ class Unit(models.Model, LoggerMixin):
             return len(self._prefetched_objects_cache["labels"])
         return self.labels.count()
 
-    def run_checks(  # noqa: C901
+    def run_checks(  # noqa: C901, PLR0912
         self, *, force_propagate: bool = False, skip_propagate: bool = False
     ) -> None:
         """Update checks for this unit."""
-        src = self.get_source_plurals()
-        tgt = self.get_target_plurals()
-
         old_checks = self.all_checks_names
         create = []
 
-        args: tuple[list[str], Unit] | tuple[list[str], list[str], Unit]
-        if self.is_source:
-            checks = CHECKS.source
-            meth = "check_source"
-            args = src, self
-        else:
-            checks = {} if self.readonly else CHECKS.target
-            meth = "check_target"
-            args = src, tgt, self
-        if self.translation.component.is_glossary:
+        component = self.translation.component
+        if component.is_glossary:
             checks = CHECKS.glossary
-            meth = "check_target"
-            args = src, tgt, self
+            target_checks = True
+        elif self.is_source:
+            checks = CHECKS.source
+            target_checks = False
+        elif self.readonly:
+            checks = {}
+            target_checks = False
+        elif self.state:
+            checks = CHECKS.target
+            target_checks = True
+        else:
+            # Most target checks ignore untranslated units in check_target().
+            # Keep checks that opt into untranslated handling so stale checks are
+            # removed and existing untranslated behavior is preserved.
+            checks = CHECKS.target_untranslated
+            target_checks = True
 
         # Initial propagation setup
         propagation: set[Literal["source", "target"]] = set()
@@ -2000,18 +2027,37 @@ class Unit(models.Model, LoggerMixin):
             propagation.add("source")
 
         # Run all checks
-        for check, check_obj in checks.items():
-            # Does the check fire?
-            if getattr(check_obj, meth)(*args):
-                if check in old_checks:
-                    # We already have this check
-                    old_checks.remove(check)
-                    # Propagation is handled later in this method
-                else:
-                    # Create new check
-                    create.append(Check(unit=self, dismissed=False, name=check))
-                    if check_obj.propagates and not skip_propagate:
-                        propagation.add(check_obj.propagates)
+        if checks:
+            src = self.get_source_plurals()
+            if target_checks:
+                tgt = self.get_target_plurals()
+                for check, check_obj in checks.items():
+                    # Does the check fire?
+                    if check_obj.check_target(src, tgt, self):
+                        if check in old_checks:
+                            # We already have this check
+                            old_checks.remove(check)
+                            # Propagation is handled later in this method
+                        else:
+                            # Create new check
+                            create.append(Check(unit=self, dismissed=False, name=check))
+                            if check_obj.propagates and not skip_propagate:
+                                propagation.add(check_obj.propagates)
+            else:
+                # Source checks mostly use the base skip logic; compute flags once.
+                all_flags = self.all_flags
+                for check, check_obj in checks.items():
+                    # Does the check fire?
+                    if check_obj.check_source_with_flags(src, self, all_flags):
+                        if check in old_checks:
+                            # We already have this check
+                            old_checks.remove(check)
+                            # Propagation is handled later in this method
+                        else:
+                            # Create new check
+                            create.append(Check(unit=self, dismissed=False, name=check))
+                            if check_obj.propagates and not skip_propagate:
+                                propagation.add(check_obj.propagates)
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
@@ -2100,7 +2146,7 @@ class Unit(models.Model, LoggerMixin):
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (
-                self.translation.unit_set.prefetch_full()
+                self.translation.unit_set.prefetch_embed()
                 .order_by("position")
                 .filter(
                     position__gte=self.position - count,
@@ -2127,7 +2173,7 @@ class Unit(models.Model, LoggerMixin):
             nearby = key_list[max(offset - count, 0) : offset + count]
             return (
                 unit_set.filter(id__in=nearby)
-                .prefetch_full()
+                .prefetch_embed()
                 .order_by("context")
                 .fill_in_source_translation()
             )

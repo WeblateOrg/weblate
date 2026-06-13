@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast, overload
+from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
 
 from django.conf import settings
@@ -837,11 +837,18 @@ class Change(models.Model, UserDisplayMixin):
         return (
             self.unit is not None
             and self.action in ACTIONS_REVERTABLE
-            and "old_state" in self.details
+            and self.get_revert_state() is not None
         )
 
-    def get_revert_state(self) -> StringState:
-        return StringState(self.details["old_state"])
+    @staticmethod
+    def parse_revert_state(details: dict[str, Any]) -> StringState | None:
+        try:
+            return StringState(details["old_state"])
+        except (KeyError, TypeError, ValueError):
+            return None
+
+    def get_revert_state(self) -> StringState | None:
+        return self.parse_revert_state(self.details)
 
     def get_latest_user_revert_target(self) -> tuple[str, StringState] | None:
         if self.unit_id is None or self.user_id is None:
@@ -859,10 +866,10 @@ class Change(models.Model, UserDisplayMixin):
                 return None
             if user_id != self.user_id:
                 break
-            if "old_state" not in details:
+            boundary_state = self.parse_revert_state(details)
+            if boundary_state is None:
                 return None
             boundary_old = old
-            boundary_state = StringState(details["old_state"])
 
         if boundary_old is None or boundary_state is None:
             return None
@@ -914,13 +921,14 @@ class Change(models.Model, UserDisplayMixin):
 
         unit = cast("Unit", self.unit)
         locked_unit = unit.__class__.objects.select_for_update().get(pk=unit.pk)
-        if "old_state" not in self.details:
+        state = self.get_revert_state()
+        if state is None:
             return False
 
         return locked_unit.translate(
             user,
             split_plural(self.old),
-            self.get_revert_state(),
+            state,
             change_action=change_action,
             author=author,
             request=request,

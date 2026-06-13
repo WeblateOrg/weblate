@@ -24,15 +24,18 @@
         <div class="card-header">
           <h4 class="card-title">Merge billing {{ billing.pk }} into {{ other.pk }}</h4>
         </div>
-        <div class="card-body">
-          <p>
-            Billing <a href="{{ billing.get_absolute_url }}">{{ billing }}</a> will be merged into <a href="{{ other.get_absolute_url }}">{{ other }}</a>.
-          </p>
-          {% crispy merge_form %}
-        </div>
-        <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Confirm merge" %}">
-        </div>
+        <form method="post" action="{% url 'billing-merge' pk=billing.pk %}">
+          {% csrf_token %}
+          <div class="card-body">
+            <p>
+              Billing <a href="{{ billing.get_absolute_url }}">{{ billing }}</a> will be merged into <a href="{{ other.get_absolute_url }}">{{ other }}</a>.
+            </p>
+            {% crispy merge_form %}
+          </div>
+          <div class="card-footer">
+            <input type="submit" class="btn btn-primary" value="{% translate "Confirm merge" %}">
+          </div>
+        </form>
       </div>
     </div>
 
