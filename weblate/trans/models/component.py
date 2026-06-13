@@ -1787,8 +1787,11 @@ class Component(  # noqa: PLR0904
                 change.action = ActionEvents.NEW_SOURCE_REPO
             changes.append(change)
 
-        # Update source unit in the database
-        Unit.objects.bulk_update(units, fields=["source_unit"])
+        # Set the self-referencing source_unit in one SQL expression instead
+        # of building a large per-row CASE statement via bulk_update().
+        Unit.objects.filter(pk__in=[unit.pk for unit in units]).update(
+            source_unit_id=F("id")
+        )
 
         # Store changes in the database
         Change.objects.bulk_create(changes)
