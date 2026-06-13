@@ -15,6 +15,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Literal, cast, overload
 from unittest.mock import patch
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.core import mail
@@ -84,6 +85,7 @@ if TYPE_CHECKING:
 
     from weblate.machinery.types import DownloadTranslations
     from weblate.trans.models import Translation
+    from weblate.utils.stats import BaseStats
 
 
 class SeleniumDummyTranslation(DummyTranslation):
@@ -128,6 +130,7 @@ TEST_BACKENDS = (
 )
 
 SCREENSHOT_SITE_DOMAIN = "weblate.example.com"
+SCREENSHOT_DATE = datetime(2026, 1, 15, 12, 0, tzinfo=UTC)
 SELENIUM_GPG_KEY_ID = "B17C8337FA04DF8D4D3569AF882B2A22730AAF03"
 SELENIUM_SSH_KEY_FIXTURES = (
     ("id_rsa.pub", "selenium-keys/id_rsa.pub"),
@@ -345,13 +348,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Return a recent timestamp that renders consistently in screenshots."""
         return timezone.now() - timedelta(minutes=1)
 
-    def stabilize_global_stats_timestamp(self) -> None:
-        """Freeze global stats cache timestamp for activity screenshots."""
-        stats = GlobalStats()
+    def stabilize_stats_timestamp(self, stats: BaseStats) -> None:
+        """Rebuild a stats cache entry with a stable screenshot timestamp."""
+        stats.clear()
         stats.calculate_basic()
         data = stats.get_data()
-        data["stats_timestamp"] = time.time() - 60
+        data["stats_timestamp"] = self.get_stable_naturaltime_timestamp().timestamp()
+        stats.set_data(data)
         cache.set(stats.cache_key, data, 30 * 86400)
+
+    def stabilize_global_stats_timestamp(self) -> None:
+        """Freeze global stats cache timestamp for activity screenshots."""
+        self.stabilize_stats_timestamp(GlobalStats())
+
+    def refresh_project_stats(self, project: Project) -> None:
+        """Refresh project dashboard stats through the normal invalidation path."""
+        for component in project.component_set.all():
+            component.invalidate_cache()
 
     def use_screenshot_site_domain_for_git_export(self, component: Component) -> None:
         """Store the displayed Git export URL with the screenshot domain."""
@@ -1034,6 +1047,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.refresh()
         self.screenshot("activity.png")
 
+    @override_settings(PRIVATE_COMMIT_NAME_TEMPLATE="{site_title} user")
     @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self) -> None:
         user = self.do_login()
@@ -1624,67 +1638,77 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_add_component(self) -> None:
         """Test user adding project and component."""
         user = self.do_login()
-        create_test_billing(user)
+        with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
+            billing = create_test_billing(user, invoice=False)
+            billing.invoice_set.create(
+                amount=19,
+                start=SCREENSHOT_DATE.date() - timedelta(days=1),
+                end=SCREENSHOT_DATE.date() + timedelta(days=1),
+            )
 
-        # Open billing page
-        self.click(htmlid="user-dropdown")
-        with self.wait_for_page_load():
-            self.click(htmlid="billing-button")
-        self.screenshot("user-billing.png")
+            # Open billing page
+            self.click(htmlid="user-dropdown")
+            with self.wait_for_page_load():
+                self.click(htmlid="billing-button")
+            self.screenshot("user-billing.png")
 
-        # Click on add project
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.CLASS_NAME, "billing-add-project"))
+            # Click on add project
+            with self.wait_for_page_load():
+                self.click(
+                    self.driver.find_element(By.CLASS_NAME, "billing-add-project")
+                )
 
-        # Add project
-        self.driver.find_element(By.ID, "id_name").send_keys("WeblateOrg")
-        self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
-        self.driver.find_element(By.ID, "id_instructions").send_keys(
-            "https://weblate.org/contribute/"
-        )
-        self.screenshot("user-add-project.png")
-        with self.wait_for_page_load():
-            self.driver.find_element(By.ID, "id_name").submit()
-        self.screenshot("user-add-project-done.png")
-        self.assertIn("WeblateOrg", self.driver.title)
+            # Add project
+            self.driver.find_element(By.ID, "id_name").send_keys("WeblateOrg")
+            self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
+            self.driver.find_element(By.ID, "id_instructions").send_keys(
+                "https://weblate.org/contribute/"
+            )
+            self.screenshot("user-add-project.png")
+            with self.wait_for_page_load():
+                self.driver.find_element(By.ID, "id_name").submit()
+            self.screenshot("user-add-project-done.png")
+            self.assertIn("WeblateOrg", self.driver.title)
 
-        # Click on add component
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.ID, "list-add-button"))
+            # Click on add component
+            with self.wait_for_page_load():
+                self.click(self.driver.find_element(By.ID, "list-add-button"))
 
-        # Add component
-        self.driver.find_element(By.ID, "id_name").send_keys("Language names")
-        self.driver.find_element(By.ID, "id_repo").send_keys(
-            "https://github.com/WeblateOrg/demo.git"
-        )
-        self.driver.find_element(By.ID, "id_branch").send_keys("main")
-        self.screenshot("user-add-component-init.png")
-        with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element(By.ID, "id_name").submit()
+            # Add component
+            self.driver.find_element(By.ID, "id_name").send_keys("Language names")
+            self.driver.find_element(By.ID, "id_repo").send_keys(
+                "https://github.com/WeblateOrg/demo.git"
+            )
+            self.driver.find_element(By.ID, "id_branch").send_keys("main")
+            self.screenshot("user-add-component-init.png")
+            with self.wait_for_page_load(timeout=1200):
+                self.driver.find_element(By.ID, "id_name").submit()
 
-        self.screenshot("user-add-component-discovery.png")
-        discovery_choice = WebDriverWait(self.driver, 30).until(
-            element_to_be_clickable((By.ID, "id_discovery_1"))
-        )
-        discovery_choice.click()
-        with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element(By.ID, "id_name").submit()
+            self.screenshot("user-add-component-discovery.png")
+            discovery_choice = WebDriverWait(self.driver, 30).until(
+                element_to_be_clickable((By.ID, "id_discovery_1"))
+            )
+            discovery_choice.click()
+            with self.wait_for_page_load(timeout=1200):
+                self.driver.find_element(By.ID, "id_name").submit()
 
-        self.driver.find_element(By.ID, "id_repoweb").send_keys(
-            "https://github.com/WeblateOrg/demo/blob/{{branch}}/{{filename}}#L{{line}}"
-        )
-        self.driver.find_element(By.ID, "id_filemask").send_keys(
-            "weblate/langdata/locale/*/LC_MESSAGES/django.po"
-        )
-        self.driver.find_element(By.ID, "id_new_base").send_keys(
-            "weblate/langdata/locale/django.pot"
-        )
-        Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
-        self.select_component_license("GPL-3.0-or-later")
-        element = self.driver.find_element(By.ID, "id_language_regex")
-        element.clear()
-        element.send_keys("^(cs|he|hu)$")
-        self.screenshot("user-add-component.png")
+            self.driver.find_element(By.ID, "id_repoweb").send_keys(
+                "https://github.com/WeblateOrg/demo/blob/{{branch}}/{{filename}}#L{{line}}"
+            )
+            self.driver.find_element(By.ID, "id_filemask").send_keys(
+                "weblate/langdata/locale/*/LC_MESSAGES/django.po"
+            )
+            self.driver.find_element(By.ID, "id_new_base").send_keys(
+                "weblate/langdata/locale/django.pot"
+            )
+            Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value(
+                "po"
+            )
+            self.select_component_license("GPL-3.0-or-later")
+            element = self.driver.find_element(By.ID, "id_language_regex")
+            element.clear()
+            element.send_keys("^(cs|he|hu)$")
+            self.screenshot("user-add-component.png")
 
     def test_alerts(self) -> None:
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
@@ -1939,6 +1963,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_dark_theme(self) -> None:
         project = self.create_component()
         self.create_android_component(project)
+        self.refresh_project_stats(project)
         self.do_login()
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
@@ -1986,7 +2011,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_date_range_picker(self) -> None:
         """Test date range picker."""
         self.do_login()
-        self.driver.get(f"{self.live_server_url}{reverse('changes')}")
+        start_date = SCREENSHOT_DATE.date()
+        end_date = start_date + timedelta(days=6)
+        period = f"{start_date:%m/%d/%Y} - {end_date:%m/%d/%Y}"
+        self.driver.get(
+            f"{self.live_server_url}{reverse('changes')}?{urlencode({'period': period})}"
+        )
 
         period_input = self.driver.find_element(By.NAME, "period")
         picker = self.driver.find_element(By.CSS_SELECTOR, ".datepicker")
