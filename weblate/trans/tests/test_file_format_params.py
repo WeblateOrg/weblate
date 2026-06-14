@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Unpack
 from unittest.mock import patch
 
+from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
@@ -26,6 +27,13 @@ from weblate.utils.views import get_form_data
 
 if TYPE_CHECKING:
     from weblate.trans.file_format_params import FileFormatParams
+
+
+class FileFormatParamsTest(SimpleTestCase):
+    def test_po_mono_remove_obsolete_default(self) -> None:
+        self.assertEqual(
+            get_default_params_for_file_format("po-mono")["po_remove_obsolete"], False
+        )
 
 
 class BaseFileFormatsTest(ViewTestCase):
@@ -130,7 +138,10 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
 
     def test_create_component_from_existing(self) -> None:
         self.update_component_file_params(
-            po_line_wrap=-1, po_keep_previous=False, po_fuzzy_matching=False
+            po_line_wrap=-1,
+            po_keep_previous=False,
+            po_remove_obsolete=True,
+            po_fuzzy_matching=False,
         )
 
         response = self.client.post(
@@ -178,6 +189,7 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         new_component = Component.objects.get(slug="create-component-from-existing")
         self.assertEqual(new_component.file_format_params["po_line_wrap"], "-1")
         self.assertEqual(new_component.file_format_params["po_keep_previous"], False)
+        self.assertEqual(new_component.file_format_params["po_remove_obsolete"], True)
         self.assertEqual(new_component.file_format_params["po_fuzzy_matching"], False)
 
     def test_universal_file_format_parameters(self) -> None:
@@ -386,6 +398,28 @@ class GettextParamsTest(BaseFileFormatsTest):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
+    def remove_thank_you_from_template(self) -> None:
+        template = Path(self.component.get_new_base_filename())
+        content = template.read_text(encoding="utf-8")
+        for line in ("14", "15"):
+            content = content.replace(
+                f"\n#: main.c:{line}\n"
+                'msgid "Thank you for using Weblate."\n'
+                'msgstr ""\n',
+                "\n",
+            )
+        template.write_text(content, encoding="utf-8")
+
+    def translate_thank_you(self) -> None:
+        translation = Path(self.get_translation().get_filename())
+        translation.write_text(
+            translation.read_text(encoding="utf-8").replace(
+                'msgid "Thank you for using Weblate."\nmsgstr ""',
+                'msgid "Thank you for using Weblate."\nmsgstr "Dekuji"',
+            ),
+            encoding="utf-8",
+        )
+
     def test_msgmerge(self, wrapped=True) -> None:
         self.assertTrue(MsgmergeAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
@@ -432,6 +466,31 @@ class GettextParamsTest(BaseFileFormatsTest):
             ).exists()
         )
 
+    def test_msgmerge_removes_obsolete(self) -> None:
+        self.update_component_file_params(po_remove_obsolete=True)
+        addon = MsgmergeAddon.create(component=self.component, run=False)
+        self.translate_thank_you()
+        self.remove_thank_you_from_template()
+
+        addon.post_update(self.component, "", False)
+
+        content = Path(self.get_translation().get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn("#~ msgid", content)
+
+    def test_msgmerge_keeps_obsolete_by_default(self) -> None:
+        addon = MsgmergeAddon.create(component=self.component, run=False)
+        self.translate_thank_you()
+        self.remove_thank_you_from_template()
+
+        addon.post_update(self.component, "", False)
+
+        content = Path(self.get_translation().get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('#~ msgid "Thank you for using Weblate."', content)
+
     def test_store(self) -> None:
         self.update_component_file_params(
             po_line_wrap=-1, po_fuzzy_matching=False, po_keep_previous=False
@@ -444,6 +503,22 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertIn(
             "Last-Translator: Weblate Test <weblate@example.org>\\nLanguage", commit
         )
+
+    def test_store_removes_obsolete(self) -> None:
+        self.update_component_file_params(po_remove_obsolete=True)
+        translation = self.get_translation()
+        filename = Path(translation.get_filename())
+        filename.write_text(
+            filename.read_text(encoding="utf-8")
+            + '\n#~ msgid "Obsolete string"\n#~ msgstr "Zastaraly retezec"\n',
+            encoding="utf-8",
+        )
+        translation.drop_store_cache()
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        translation.commit_pending("test", None)
+
+        self.assertNotIn("#~ msgid", filename.read_text(encoding="utf-8"))
 
     def test_msgmerge_no_location(self) -> None:
         self.update_component_file_params(po_no_location=True)

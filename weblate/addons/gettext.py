@@ -441,7 +441,11 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 continue
             try:
                 file_format_cls.update_bilingual(
-                    filename, template, args=args, repo_temp_dir=repo_temp_dir
+                    filename,
+                    template,
+                    args=args,
+                    file_format_params=component.file_format_params,
+                    repo_temp_dir=repo_temp_dir,
                 )
             except UpdateError as error:
                 self.alerts.append(

@@ -24,6 +24,7 @@ Weblate 2026.7
 * Translate pages with filtered searches and nearby strings now load more efficiently.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
 * Large component imports now avoid duplicate translation-memory processing.
+* :ref:`gettext` files can now be configured to remove obsolete strings on save.
 
 .. rubric:: Bug fixes
 

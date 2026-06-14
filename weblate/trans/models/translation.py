@@ -1700,6 +1700,7 @@ class Translation(
                         filename,
                         temp.name,
                         args=args,
+                        file_format_params=component.file_format_params,
                         repo_temp_dir=repo_temp_dir,
                     )
                     filenames.append(filename)
