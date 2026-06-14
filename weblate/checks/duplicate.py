@@ -73,13 +73,16 @@ class DuplicateCheck(TargetCheck):
         source_code = unit.translation.component.source_language.base_code
         lang_code = unit.translation.language.base_code
 
-        source_groups, source_words = self.extract_groups(
-            replace_highlighted(source, unit, placeholder_replacement),
-            source_code,
-        )
         target_groups, target_words = self.extract_groups(
             replace_highlighted(target, unit, placeholder_replacement),
             lang_code,
+        )
+        if not target_groups:
+            return {}
+
+        source_groups, source_words = self.extract_groups(
+            replace_highlighted(source, unit, placeholder_replacement),
+            source_code,
         )
 
         # The same groups in source and target

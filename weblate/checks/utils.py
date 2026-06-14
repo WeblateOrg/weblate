@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from types import FunctionType
 from typing import TYPE_CHECKING
 
 from weblate.checks.models import CHECKS
@@ -96,8 +97,23 @@ def replace_highlighted(
     highlight_syntax: bool = False,
 ) -> str:
     """Replace highlighted ranges in source string."""
+    replacement_key = get_replacement_cache_key(replacement)
+    use_cache = unit is not None and replacement_key is not None
+    if use_cache:
+        cache_key = (
+            source,
+            replacement_key,
+            highlight_syntax,
+            get_highlight_cache_context(unit),
+        )
+        cache = unit.__dict__.setdefault("_replace_highlighted_cache", {})
+        if cache_key in cache:
+            return cache[cache_key]
+
     highlights = highlight_string(source, unit, highlight_syntax=highlight_syntax)
     if not highlights:
+        if use_cache:
+            cache[cache_key] = source
         return source
 
     result = []
@@ -113,7 +129,26 @@ def replace_highlighted(
             result.append(replacement)
         last_end = end
     result.append(source[last_end:])
-    return "".join(result)
+    replaced = "".join(result)
+    if use_cache:
+        cache[cache_key] = replaced
+    return replaced
+
+
+def get_replacement_cache_key(replacement: str | Callable[[int], str]) -> object | None:
+    if isinstance(replacement, str):
+        return replacement
+    if (
+        isinstance(replacement, FunctionType)
+        and replacement.__name__ != "<lambda>"
+        and "<locals>" not in replacement.__qualname__
+    ):
+        return replacement
+    return None
+
+
+def get_highlight_cache_context(unit: Unit) -> str:
+    return unit.all_flags.format()
 
 
 def placeholder_replacement(start_index: int) -> str:
