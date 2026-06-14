@@ -602,7 +602,8 @@ class BatchMachineTranslation(DocVersionsMixin):
         return hash_to_checksum(calculate_hash(tsv)) if tsv else ""
 
     def get_glossary_cache_part(self, unit: Unit) -> str:
-        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import get_glossary_tsv
 
         return self.tsv_checksum(get_glossary_tsv(unit.translation))
 
@@ -966,7 +967,8 @@ class BatchMachineTranslation(DocVersionsMixin):
 
     def signed_salt(self, appid, secret, text):
         """Generate salt and sign as used by Chinese services."""
-        salt = str(random.randint(0, 10000000000))  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        salt = str(random.randint(0, 10000000000))
 
         payload = appid + text + salt + secret
         digest = md5(payload.encode(), usedforsecurity=False).hexdigest()
@@ -1042,7 +1044,8 @@ class BatchMachineTranslation(DocVersionsMixin):
     @cached_property
     def user(self):
         """Weblate user used to track changes by this engine."""
-        from weblate.auth.models import User  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         return User.objects.get_or_create_bot(
             scope="mt",
@@ -1204,7 +1207,8 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
-        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import get_glossary_tsv
 
         if unit is None:
             return None

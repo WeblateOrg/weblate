@@ -138,9 +138,7 @@ def list_backups(project_id: Project | int | str) -> list[BackupListDict]:
             "name": entry.name,
             "path": entry.as_posix(),
             "timestamp": make_aware(
-                datetime.fromtimestamp(  # noqa: DTZ006
-                    int(entry.name.split(".")[0])
-                )
+                datetime.fromtimestamp(int(entry.name.split(".")[0]))  # ruff: ignore[call-datetime-fromtimestamp]
             ),
             "size": entry.stat().st_size,
         }
@@ -604,7 +602,10 @@ class ProjectBackup:
             self.log_backup_billing(project, billing)
 
     def log_backup_billing(self, project: Project, billing: Billing) -> None:
-        from weblate.billing.models import BillingEvent  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import (
+            BillingEvent,
+        )
 
         billing.billinglog_set.create(
             event=BillingEvent.PROJECT_BACKUP,

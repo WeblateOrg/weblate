@@ -95,7 +95,10 @@ def orders_units_by_component(obj: object) -> bool:
     if isinstance(obj, (Project, Category)):
         return True
 
-    from weblate.utils.stats import CategoryLanguage, ProjectLanguage  # noqa: PLC0415
+    from weblate.utils.stats import (  # ruff: ignore[import-outside-top-level]
+        CategoryLanguage,
+        ProjectLanguage,
+    )
 
     return isinstance(obj, (ProjectLanguage, CategoryLanguage))
 
@@ -122,8 +125,15 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
     def prefetch(self):
-        from weblate.trans.models.component import Component  # noqa: PLC0415
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import (
+            Component,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import (
+            Workspace,
+        )
 
         return self.prefetch_related(
             "translation",
@@ -168,8 +178,15 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         )
 
     def prefetch_source(self):
-        from weblate.trans.models.component import Component  # noqa: PLC0415
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import (
+            Component,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import (
+            Workspace,
+        )
 
         return self.prefetch_related(
             "source_unit",
@@ -266,7 +283,10 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
 
     def search(self, query, **context) -> UnitQuerySet:
         """High level wrapper for searching."""
-        from weblate.utils.search import parse_query  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.search import (
+            parse_query,
+        )
 
         filters, annotations = parse_query(query, **context)
         result = self.annotate(**annotations).filter(filters)
@@ -586,10 +606,10 @@ class Unit(models.Model, LoggerMixin):
 
     class Meta:
         app_label = "trans"
-        unique_together = [("translation", "id_hash")]  # noqa: RUF012
+        unique_together = [("translation", "id_hash")]  # ruff: ignore[mutable-class-default]
         verbose_name = "string"
         verbose_name_plural = "strings"
-        indexes = [  # noqa: RUF012
+        indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
                 MD5(Lower("source")), "translation", name="trans_unit_source_md5"
             ),
@@ -1178,7 +1198,7 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": unit.is_automatically_translated(),
         }
 
-    def update_from_unit(  # noqa: C901,PLR0914
+    def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals]
         self,
         *,
         user: User | None = None,
@@ -1997,7 +2017,7 @@ class Unit(models.Model, LoggerMixin):
             return len(self._prefetched_objects_cache["labels"])
         return self.labels.count()
 
-    def run_checks(  # noqa: C901, PLR0912
+    def run_checks(  # ruff: ignore[complex-structure, too-many-branches]
         self, *, force_propagate: bool = False, skip_propagate: bool = False
     ) -> None:
         """Update checks for this unit."""
@@ -2449,7 +2469,10 @@ class Unit(models.Model, LoggerMixin):
         Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.
         """
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import (
+            get_anonymous,
+        )
 
         try:
             change = self.recent_content_changes[0]

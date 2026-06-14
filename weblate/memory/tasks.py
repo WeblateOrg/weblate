@@ -46,7 +46,8 @@ type MemoryGroupEntry = tuple[int, MemoryKey, MemoryUpdatePayload, int]
 
 @app.task(trail=False)
 def import_memory(project_id: int, component_id: int | None = None) -> None:
-    from weblate.trans.models import Project, Unit  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Project, Unit
 
     project = Project.objects.get(pk=project_id)
 
@@ -165,7 +166,8 @@ def update_memory(
     project_id: int,
     unit_state: int,
 ) -> None:
-    from weblate.trans.models import Project  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Project
 
     project = Project.objects.get(pk=project_id)
     check_matching = True
@@ -395,7 +397,8 @@ def create_missing_memory_entries(
 
 @app.task(trail=False)
 def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
-    from weblate.trans.models import Project  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Project
 
     if not entries:
         return

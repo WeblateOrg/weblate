@@ -35,7 +35,8 @@ class XlsxFormat(CSVFormat):
         return "utf-8"
 
     def write_cell(self, worksheet, column: int, row: int, value: str):
-        from openpyxl.cell.cell import TYPE_STRING  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from openpyxl.cell.cell import TYPE_STRING
 
         cell = worksheet.cell(column=column, row=row)
         cell.value = value
@@ -44,7 +45,8 @@ class XlsxFormat(CSVFormat):
         return cell
 
     def get_title(self, fallback: str = "Weblate"):
-        from openpyxl.workbook.child import INVALID_TITLE_REGEX  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from openpyxl.workbook.child import INVALID_TITLE_REGEX
 
         title = self.store.targetlanguage
         if title is None:
@@ -56,7 +58,8 @@ class XlsxFormat(CSVFormat):
         return title
 
     def save_content(self, handle) -> None:
-        from openpyxl import Workbook  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from openpyxl import Workbook
 
         workbook = Workbook()
         worksheet = workbook.active
@@ -92,7 +95,8 @@ class XlsxFormat(CSVFormat):
 
     # pylint: disable-next=arguments-differ
     def parse_store(self, storefile):
-        from openpyxl import load_workbook  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from openpyxl import load_workbook
 
         # try to load the given file via openpyxl
         # catch at least the BadZipFile exception if an unsupported

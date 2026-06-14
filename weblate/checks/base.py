@@ -128,7 +128,10 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
             yield self.check_single(sources[0], targets[0], unit)
             return
 
-        from weblate.lang.models import PluralMapper  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.lang.models import (
+            PluralMapper,
+        )
 
         source_plural = unit.translation.component.source_language.plural
         target_plural = unit.translation.plural
@@ -267,8 +270,15 @@ class BatchCheckMixin(BaseCheck):
             self._perform_batch(component)
 
     def _perform_batch(self, component: Component) -> None:
-        from weblate.checks.models import Check  # noqa: PLC0415
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.models import (
+            Check,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
 
         handled = set()
         create = []
@@ -331,7 +341,10 @@ class TargetCheck(BaseCheck):
         raise NotImplementedError
 
     def format_value(self, value: str) -> StrOrPromise:
-        from weblate.trans.templatetags.translations import Formatter  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.templatetags.translations import (
+            Formatter,
+        )
 
         fmt = Formatter(0, value, None, None, None, None, None)
         fmt.parse()
@@ -398,7 +411,7 @@ class SourceCheck(BaseCheck):
 class ParametrizedCheck(BaseCheck):
     default_disabled = True
 
-    def get_value(self, unit: Unit) -> Any:  # noqa: ANN401
+    def get_value(self, unit: Unit) -> Any:  # ruff: ignore[any-type]
         return unit.all_flags.get_value(self.enable_string)
 
     def has_value(self, unit: Unit) -> bool:
@@ -435,7 +448,7 @@ class TargetCheckParametrized(ParametrizedCheck, TargetCheck):
         sources: list[str],
         targets: list[str],
         unit: Unit,
-        value: Any,  # noqa: ANN401
+        value: Any,  # ruff: ignore[any-type]
     ) -> bool:
         raise NotImplementedError
 

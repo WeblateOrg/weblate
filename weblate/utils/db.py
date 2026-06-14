@@ -145,7 +145,8 @@ def re_escape(pattern: str) -> str:
 
 
 def measure_database_latency() -> float:
-    from weblate.trans.models import Project  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Project
 
     start = time.monotonic()
     Project.objects.exists()

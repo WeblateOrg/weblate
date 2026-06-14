@@ -7,7 +7,7 @@ from __future__ import annotations
 import gzip
 import os
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import time
 from importlib import import_module
 from pathlib import Path
@@ -151,7 +151,8 @@ def run_database_backup() -> None:
         env["PGPASSWORD"] = cast("str", database["PASSWORD"])
 
         try:
-            subprocess.run(  # noqa: S603
+            # ruff: ignore[subprocess-without-shell-equals-true]
+            subprocess.run(
                 cmd,  # type: ignore[arg-type]
                 env=env,
                 capture_output=True,

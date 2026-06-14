@@ -56,8 +56,10 @@ class WeblateBuild(build):
     """Override the default build with new subcommands."""
 
     # The build_mo has to be before build_data
-    sub_commands = [  # noqa: RUF012
-        ("build_mo", lambda self: True),  # noqa: ARG005
+    # ruff: ignore[mutable-class-default]
+    sub_commands = [
+        # ruff: ignore[unused-lambda-argument]
+        ("build_mo", lambda self: True),
         *build.sub_commands,
     ]
 

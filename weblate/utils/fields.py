@@ -35,9 +35,11 @@ class UsernameField(CaseInsensitiveField):
 
 
 class EmailField(CaseInsensitiveField):
-    default_validators = [validate_email]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    default_validators = [validate_email]
     description = gettext_lazy("E-mail")
-    default_error_messages = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    default_error_messages = {
         "unique": gettext_lazy("A user with this e-mail already exists."),
     }
 

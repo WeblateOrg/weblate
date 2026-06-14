@@ -404,7 +404,8 @@ def check_upload_method_permissions(
     user: User, translation: Translation, method: str
 ) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
-    from weblate.formats.base import BilingualUpdateMixin  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.formats.base import BilingualUpdateMixin
 
     if method == "source":
         if not translation.is_source:

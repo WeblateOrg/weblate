@@ -6,7 +6,8 @@
 
 from __future__ import annotations
 
-import subprocess  # noqa: S404
+# ruff: ignore[suspicious-subprocess-import]
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -155,9 +156,12 @@ files = [
     FALLBACK_STATS_FILE,
     version_contributors.as_posix(),
 ]
-subprocess.run(["git", "add", version_contributors.as_posix()], check=True)  # noqa: S603, S607
-subprocess.run(  # noqa: S603
-    [  # noqa: S607
+# ruff: ignore[subprocess-without-shell-equals-true, start-process-with-partial-path]
+subprocess.run(["git", "add", version_contributors.as_posix()], check=True)
+# ruff: ignore[subprocess-without-shell-equals-true]
+subprocess.run(
+    # ruff: ignore[start-process-with-partial-path]
+    [
         "uv",
         "run",
         "--only-group",
@@ -169,7 +173,9 @@ subprocess.run(  # noqa: S603
     ],
     check=False,
 )
-subprocess.run(  # noqa: S603
-    ["git", "commit", "-m", f"chore: setting version to {version}", *files],  # noqa: S607
+# ruff: ignore[subprocess-without-shell-equals-true]
+subprocess.run(
+    # ruff: ignore[start-process-with-partial-path]
+    ["git", "commit", "-m", f"chore: setting version to {version}", *files],
     check=True,
 )

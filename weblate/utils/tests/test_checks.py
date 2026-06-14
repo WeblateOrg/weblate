@@ -28,7 +28,8 @@ from weblate.utils.unittest import tempdir_setting
 
 
 class CeleryQueueTest(SimpleTestCase):
-    databases = {"default"}  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    databases = {"default"}
 
     @staticmethod
     def set_cache(value) -> None:

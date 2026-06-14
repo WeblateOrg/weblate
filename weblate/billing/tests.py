@@ -384,7 +384,8 @@ class BillingTest(BaseTestCase):
             slug="database-project",
             workspace_id=UUID("00000000-0000-0000-0000-000000000001"),
         )
-        project._state.db = "other"  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        project._state.db = "other"
 
         with patch.object(Billing.objects, "db_manager") as db_manager:
             manager = db_manager.return_value

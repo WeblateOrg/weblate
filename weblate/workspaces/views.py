@@ -46,7 +46,8 @@ def get_billing_context(
     if billing is None or not request.user.has_perm("meta:billing.view", billing):
         return {}
 
-    from weblate.billing.forms import (  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.forms import (
         BillingMergeForm,
         HostingForm,
     )

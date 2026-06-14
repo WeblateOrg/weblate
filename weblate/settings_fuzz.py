@@ -5,7 +5,8 @@
 
 from __future__ import annotations
 
-from weblate.settings_test import *  # noqa: F403
+# ruff: ignore[undefined-local-with-import-star]
+from weblate.settings_test import *
 
 for app in (
     "django.contrib.admin",

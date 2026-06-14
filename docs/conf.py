@@ -326,7 +326,8 @@ elif language in {"zh_TW", "ta"}:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/latest/"
 
 if language != "en":
-    tags.add("i18n")  # noqa: F821
+    # ruff: ignore[undefined-name]
+    tags.add("i18n")
 
 
 # Configuration for intersphinx

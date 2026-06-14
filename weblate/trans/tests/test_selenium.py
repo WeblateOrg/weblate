@@ -497,7 +497,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             if isinstance(element, str):
                 element = self.driver.find_element(By.LINK_TEXT, element)
         except NoSuchElementException:
-            print(self.driver.page_source)  # noqa: T201
+            # ruff: ignore[print]
+            print(self.driver.page_source)
             raise
 
         try:

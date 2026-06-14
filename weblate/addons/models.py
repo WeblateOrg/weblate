@@ -309,7 +309,10 @@ class Addon(models.Model):
             msg = "Cannot schedule a manual run for an unsaved add-on."
             raise ValueError(msg)
 
-        from weblate.addons.tasks import run_addon_manually  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.addons.tasks import (
+            run_addon_manually,
+        )
 
         run_addon_manually.delay_on_commit(self.pk)
 
@@ -339,7 +342,10 @@ class Addon(models.Model):
         ).delete()
 
     def _clear_recommendation_guidance_alerts(self) -> None:
-        from weblate.trans.alerts.registry import ALERTS, load_alerts  # noqa: PLC0415
+        from weblate.trans.alerts.registry import (  # ruff: ignore[import-outside-top-level]
+            ALERTS,
+            load_alerts,
+        )
 
         load_alerts()
         alert_names = [
@@ -419,7 +425,7 @@ class Event(models.Model):
     event = models.IntegerField(choices=AddonEvent.choices)
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        unique_together = [  # ruff: ignore[mutable-class-default]
             ("addon", "event"),
         ]
         verbose_name = "add-on event"
@@ -818,7 +824,10 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
 @disable_for_loaddata
 def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
     """Handle Change bulk create signal."""
-    from weblate.addons.tasks import addon_change  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.addons.tasks import (
+        addon_change,
+    )
 
     # Filter out events that have a subscriber
     # It currently also includes all project and site-wide events as there is currently
@@ -857,9 +866,7 @@ class AddonActivityLog(models.Model):
     class Meta:
         verbose_name = "add-on activity log"
         verbose_name_plural = "add-on activity logs"
-        ordering = [  # noqa: RUF012
-            "-created"
-        ]
+        ordering = ["-created"]  # ruff: ignore[mutable-class-default]
 
     def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()} at {self.created}"

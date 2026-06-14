@@ -519,7 +519,8 @@ if SOCIAL_AUTH_FEDORA_OIDC_KEY:
     SOCIAL_AUTH_FEDORA_OIDC_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_SECRET", required=True
     )
-    SOCIAL_AUTH_FEDORA_OIDC_TOKEN_ENDPOINT_AUTH_METHOD = "client_secret_post"  # noqa: S105
+    # ruff: ignore[hardcoded-password-string]
+    SOCIAL_AUTH_FEDORA_OIDC_TOKEN_ENDPOINT_AUTH_METHOD = "client_secret_post"
 
     AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenIdConnect",)
 
@@ -1630,4 +1631,4 @@ if ADDITIONAL_CONFIG.exists():
         ADDITIONAL_CONFIG.read_text(encoding="utf-8"), ADDITIONAL_CONFIG, "exec"
     )
     # pylint: disable-next=exec-used
-    exec(code)  # noqa: S102
+    exec(code)  # ruff: ignore[exec-builtin]

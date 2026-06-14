@@ -27,7 +27,8 @@ class WeblateCommandLiteral(literal):
         super().__init__(rawsource, text, *children, **attributes)
 
 
-def ghsa_link(name, rawtext, text, lineno, inliner, options={}, content=[]):  # noqa:B006
+# ruff: ignore[mutable-argument-default]
+def ghsa_link(name, rawtext, text, lineno, inliner, options={}, content=[]):
     fullname = f"GHSA-{text}"
     url = GHSSA_URL.format(fullname)
     node = nodes.reference(rawtext, fullname, refuri=url, **options)

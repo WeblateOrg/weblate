@@ -326,8 +326,15 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
         project_workspace: str | models.Prefetch
         linked_component_project_workspace: str | models.Prefetch
         if defer:
-            from weblate.trans.models import Category, Project  # noqa: PLC0415
-            from weblate.workspaces.models import Workspace  # noqa: PLC0415
+            from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+                Category,
+                Project,
+            )
+
+            # ruff: ignore[import-outside-top-level]
+            from weblate.workspaces.models import (
+                Workspace,
+            )
 
             result = result.defer_huge()
             linked_component = models.Prefetch(
@@ -498,7 +505,7 @@ class OldComponentSettings(TypedDict):
 OldComponentSetting = TypeVar("OldComponentSetting")
 
 
-class Component(  # noqa: PLR0904
+class Component(  # ruff: ignore[too-many-public-methods]
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
@@ -1099,11 +1106,11 @@ class Component(  # noqa: PLR0904
         app_label = "trans"
         verbose_name = "Component"
         verbose_name_plural = "Components"
-        indexes = [  # noqa: RUF012
+        indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(fields=["project", "allow_translation_propagation"]),
             models.Index(fields=["repo", "branch"], name="trans_comp_repo_branch_idx"),
         ]
-        constraints = [  # noqa: RUF012
+        constraints = [  # ruff: ignore[mutable-class-default]
             models.UniqueConstraint(
                 name="component_slug_unique",
                 fields=["project", "category", "slug"],
@@ -1153,7 +1160,10 @@ class Component(  # noqa: PLR0904
 
         It updates the back-end repository and regenerates translation data.
         """
-        from weblate.trans.tasks import component_after_save  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import (
+            component_after_save,
+        )
 
         seed_source_component_id = getattr(self, "seed_source_component_id", None)
         copy_seed_addons = getattr(self, "copy_seed_addons", False)
@@ -1471,7 +1481,10 @@ class Component(  # noqa: PLR0904
 
     def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""
-        from weblate.addons.models import ADDONS  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.addons.models import (
+            ADDONS,
+        )
 
         for name, configuration in chain(
             self.file_format_cls.autoaddon.items(), settings.DEFAULT_ADDONS.items()
@@ -2420,7 +2433,10 @@ class Component(  # noqa: PLR0904
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.do_push(None, force_commit=False, do_update=do_update)
         else:
-            from weblate.trans.tasks import perform_push  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.tasks import (
+                perform_push,
+            )
 
             self.log_info("scheduling push")
             self.queue_background_task(
@@ -2528,7 +2544,10 @@ class Component(  # noqa: PLR0904
         # Prefetch addons for linked children to avoid N+1 queries
         linked_children_list = list(self.linked_children)
         if linked_children_list:
-            from weblate.addons.models import Addon  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.addons.models import (
+                Addon,
+            )
 
             Addon.objects.prefetch_for_components(linked_children_list)
 
@@ -2623,7 +2642,10 @@ class Component(  # noqa: PLR0904
         keep_changes: bool = False,
     ) -> bool:
         """Reset repo to match remote."""
-        from weblate.trans.tasks import perform_commit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import (
+            perform_commit,
+        )
 
         user = request.user if request else self.acting_user
         try:
@@ -2995,8 +3017,15 @@ class Component(  # noqa: PLR0904
         do_commit: bool = True,
         store_disk_state: bool = True,
     ) -> bool:
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
-        from weblate.trans.tasks import perform_commit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import (
+            get_anonymous,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import (
+            perform_commit,
+        )
 
         pending: list[PendingUnitChange] = []
         units_to_update: list[Unit] = []
@@ -3144,11 +3173,11 @@ class Component(  # noqa: PLR0904
         return translation
 
     @perform_on_link
-    def commit_pending(  # noqa: C901
+    def commit_pending(  # ruff: ignore[complex-structure]
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if user is None:
             user = User.objects.get_or_create_bot(
@@ -3201,7 +3230,7 @@ class Component(  # noqa: PLR0904
                     # Validate template is valid
                     if component.has_template():
                         try:
-                            component.template_store  # noqa: B018
+                            component.template_store  # ruff: ignore[useless-expression]
                         except FileParseError as error:
                             if not is_expected_parse_error(error):
                                 report_error(
@@ -3218,7 +3247,7 @@ class Component(  # noqa: PLR0904
                     components[component.pk] = component
                 with self.start_tracing_span("commit_pending"):
                     pending_changes_pk = changes_by_translation[translation.pk]
-                    translation_changed = translation._commit_pending(  # noqa: SLF001
+                    translation_changed = translation._commit_pending(  # ruff: ignore[private-member-access]
                         reason, user, pending_changes_pk
                     )
                 was_changed |= translation_changed
@@ -3757,7 +3786,10 @@ class Component(  # noqa: PLR0904
                 change=change,
             )
 
-        from weblate.trans.tasks import perform_load  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import (
+            perform_load,
+        )
 
         self.log_info("scheduling update in background")
         self.queue_background_task(
@@ -3825,7 +3857,7 @@ class Component(  # noqa: PLR0904
         if self.lock.is_locked:
             self.lock.reacquire()
 
-    def _create_translations(  # noqa: C901,PLR0915
+    def _create_translations(  # ruff: ignore[complex-structure, too-many-statements]
         self,
         *,
         force: bool = False,
@@ -3837,7 +3869,10 @@ class Component(  # noqa: PLR0904
         change: int | None = None,
     ) -> bool:
         """Load translations from VCS."""
-        from weblate.trans.tasks import update_enforced_checks  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import (
+            update_enforced_checks,
+        )
 
         self.store_background_task()
 
@@ -4004,7 +4039,10 @@ class Component(  # noqa: PLR0904
 
         # Schedule background cleanup if needed
         if self.needs_cleanup and not self.template:
-            from weblate.trans.tasks import cleanup_component  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.tasks import (
+                cleanup_component,
+            )
 
             cleanup_component.delay_on_commit(self.id)
 
@@ -4070,7 +4108,10 @@ class Component(  # noqa: PLR0904
         if not source_unit_ids and not batched_checks:
             return
 
-        from weblate.checks.tasks import finalize_component_checks  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.tasks import (
+            finalize_component_checks,
+        )
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             finalize_component_checks(
@@ -4107,7 +4148,10 @@ class Component(  # noqa: PLR0904
 
     @cached_property
     def glossary_sources(self):
-        from weblate.glossary.models import get_glossary_sources  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import (
+            get_glossary_sources,
+        )
 
         result = cache.get(self.glossary_sources_key)
         if result is None:
@@ -4749,7 +4793,7 @@ class Component(  # noqa: PLR0904
         copy_seed_addons: bool = False,
         seed_author: str | None = None,
     ) -> None:
-        from weblate.trans.component_copy import (  # noqa: PLC0415
+        from weblate.trans.component_copy import (  # ruff: ignore[import-outside-top-level]
             clone_component_addons,
             seed_component_from_source,
         )
@@ -5488,7 +5532,10 @@ class Component(  # noqa: PLR0904
     def get_lock_change(
         self, *, user: User | None, lock: bool = True, auto: bool = False
     ) -> Change:
-        from weblate.trans.tasks import perform_commit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import (
+            perform_commit,
+        )
 
         change = Change(
             component=self,
@@ -5532,7 +5579,10 @@ class Component(  # noqa: PLR0904
 
     @cached_property
     def addons_cache(self) -> AddonCache:
-        from weblate.addons.models import Addon  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.addons.models import (
+            Addon,
+        )
 
         # Use prefetch_for_components to populate the cache
         Addon.objects.prefetch_for_components([self])
@@ -5544,7 +5594,7 @@ class Component(  # noqa: PLR0904
 
     def schedule_sync_terminology(self) -> None:
         """Trigger terminology sync in the background."""
-        from weblate.glossary.tasks import (  # noqa: PLC0415
+        from weblate.glossary.tasks import (  # ruff: ignore[import-outside-top-level]
             sync_glossary_languages,
             sync_terminology,
         )
@@ -5561,7 +5611,7 @@ class Component(  # noqa: PLR0904
             transaction.on_commit(self._schedule_sync_terminology)
 
     def _schedule_sync_terminology(self) -> None:
-        from weblate.glossary.tasks import (  # noqa: PLC0415
+        from weblate.glossary.tasks import (  # ruff: ignore[import-outside-top-level]
             sync_glossary_languages,
             sync_terminology,
         )
@@ -5742,7 +5792,10 @@ class Component(  # noqa: PLR0904
         return f"component-update-checks-{self.pk}"
 
     def schedule_update_checks(self, update_state: bool = False) -> None:
-        from weblate.trans.tasks import update_checks  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import (
+            update_checks,
+        )
 
         update_token = get_random_identifier()
         cache.set(self.update_checks_key, update_token)
@@ -5808,7 +5861,7 @@ class Component(  # noqa: PLR0904
 @receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
 def change_component_link(sender, instance, **kwargs) -> None:
-    from weblate.trans.models import Project  # noqa: PLC0415
+    from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
 
     with suppress(Project.DoesNotExist):
         project = Project.objects.get(pk=instance.project_id)

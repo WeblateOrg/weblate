@@ -377,7 +377,8 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
             pass
 
 
-def ensure_valid(  # noqa: PLR0917
+# ruff: ignore[too-many-positional-arguments]
+def ensure_valid(
     strategy,
     backend,
     user: User,

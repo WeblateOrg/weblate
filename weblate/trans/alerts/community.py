@@ -216,7 +216,8 @@ class MissingScreenshots(ChecklistAlert):
 
     @classmethod
     def is_passing(cls, component: Component) -> bool:
-        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.screenshots.models import Screenshot
 
         return Screenshot.objects.filter(translation__component=component).exists()
 

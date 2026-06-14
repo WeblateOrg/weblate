@@ -742,8 +742,10 @@ msgstr "Nazdar svete!\n"
             self.approve_translation(unit2, "Hello with context")
 
         suggestions = machine_translation.search(unit, unit.source, None)
-        with_context = [s for s in suggestions if "Hello with context" in s["text"]][0]  # noqa: RUF015
-        no_context = [s for s in suggestions if "Hello no context" in s["text"]][0]  # noqa: RUF015
+        # ruff: ignore[unnecessary-iterable-allocation-for-first-element]
+        with_context = [s for s in suggestions if "Hello with context" in s["text"]][0]
+        # ruff: ignore[unnecessary-iterable-allocation-for-first-element]
+        no_context = [s for s in suggestions if "Hello no context" in s["text"]][0]
         self.assertLess(with_context["quality"], no_context["quality"])
 
         # check that memory with different context is not affected by autoclean

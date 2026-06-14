@@ -107,14 +107,18 @@ class BatchCheckMixinTest(SimpleTestCase):
                 origin=project.full_slug,
             )
 
-        self.assertNotEqual(project_lock._name, component_lock._name)  # noqa: SLF001
-        self.assertEqual(Path(project_lock._name).parent, Path(temp_dir, "locks"))  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        self.assertNotEqual(project_lock._name, component_lock._name)
+        # ruff: ignore[private-member-access]
+        self.assertEqual(Path(project_lock._name).parent, Path(temp_dir, "locks"))
         self.assertEqual(
-            Path(project_lock._name).name,  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            Path(project_lock._name).name,
             "project%3Achecks-1.lock",
         )
         self.assertEqual(
-            Path(component_lock._name).name,  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            Path(component_lock._name).name,
             "component%3Achecks-1.lock",
         )
 
@@ -128,7 +132,8 @@ class BatchCheckMixinTest(SimpleTestCase):
             project.__dict__["full_path"] = lock_path
             project_lock = project.checks_lock
 
-        self.assertEqual(project_lock._timeout, 30)  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        self.assertEqual(project_lock._timeout, 30)
 
     def test_component_checks_lock_uses_key_in_file_name(self) -> None:
         with (
@@ -151,13 +156,16 @@ class BatchCheckMixinTest(SimpleTestCase):
                 origin="project/shared",
             )
 
-        self.assertNotEqual(first_lock._name, second_lock._name)  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        self.assertNotEqual(first_lock._name, second_lock._name)
         self.assertEqual(
-            Path(first_lock._name).name,  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            Path(first_lock._name).name,
             "component%3Achecks-1.lock",
         )
         self.assertEqual(
-            Path(second_lock._name).name,  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            Path(second_lock._name).name,
             "component%3Achecks-2.lock",
         )
 
