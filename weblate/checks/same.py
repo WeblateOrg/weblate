@@ -191,8 +191,8 @@ class SameCheck(TargetCheck):
         if len(source) <= 1 and len(target) <= 1:
             return False
 
-        # Check for ignoring
-        if self.should_ignore(source, unit):
+        if source != target:
             return False
 
-        return source == target
+        # Check for ignoring
+        return not self.should_ignore(source, unit)
