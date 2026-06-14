@@ -33,7 +33,6 @@ def get_gpg_errors() -> dict[str, str]:
 
 def generate_gpg_key() -> str | None:
     try:
-        # ruff: ignore[subprocess-without-shell-equals-true]
         subprocess.run(
             # ruff: ignore[start-process-with-partial-path]
             [
@@ -62,7 +61,6 @@ def generate_gpg_key() -> str | None:
 
 def get_gpg_key(silent=False) -> str | None:
     try:
-        # ruff: ignore[subprocess-without-shell-equals-true]
         result = subprocess.run(
             # ruff: ignore[start-process-with-partial-path]
             [
@@ -114,7 +112,6 @@ def get_gpg_public_key() -> str | None:
     data = cache.get(cache_key)
     if not data:
         try:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             result = subprocess.run(
                 # ruff: ignore[start-process-with-partial-path]
                 ["gpg", "--batch", "-armor", "--export", key],

@@ -219,7 +219,6 @@ def generate_ssh_key(
     pubkeyfile = ssh_file(key_info["public"])
     try:
         # Actually generate the key
-        # ruff: ignore[subprocess-without-shell-equals-true]
         subprocess.run(
             # ruff: ignore[start-process-with-partial-path]
             [
@@ -378,7 +377,6 @@ def add_host_key(
             cmdline.extend(["-p", str(port)])
         cmdline.append(host)
         try:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             result = subprocess.run(
                 cmdline,
                 env=get_clean_env(),

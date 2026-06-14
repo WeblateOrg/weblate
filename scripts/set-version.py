@@ -156,9 +156,8 @@ files = [
     FALLBACK_STATS_FILE,
     version_contributors.as_posix(),
 ]
-# ruff: ignore[subprocess-without-shell-equals-true, start-process-with-partial-path]
+# ruff: ignore[start-process-with-partial-path]
 subprocess.run(["git", "add", version_contributors.as_posix()], check=True)
-# ruff: ignore[subprocess-without-shell-equals-true]
 subprocess.run(
     # ruff: ignore[start-process-with-partial-path]
     [
@@ -173,7 +172,6 @@ subprocess.run(
     ],
     check=False,
 )
-# ruff: ignore[subprocess-without-shell-equals-true]
 subprocess.run(
     # ruff: ignore[start-process-with-partial-path]
     ["git", "commit", "-m", f"chore: setting version to {version}", *files],

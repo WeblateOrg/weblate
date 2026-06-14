@@ -1703,7 +1703,6 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise ValueError(msg)
 
         try:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             result = subprocess.run(
                 cmd,
                 env=get_clean_env(),

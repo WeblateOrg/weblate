@@ -151,7 +151,6 @@ def run_database_backup() -> None:
         env["PGPASSWORD"] = cast("str", database["PASSWORD"])
 
         try:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             subprocess.run(
                 cmd,  # type: ignore[arg-type]
                 env=env,

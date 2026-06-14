@@ -73,7 +73,6 @@ def run_cache_exec_probe(cache_dir: Path) -> subprocess.CompletedProcess[bytes]:
         probe = Path(tempdir) / "probe"
         probe.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
         probe.chmod(0o755)
-        # ruff: ignore[subprocess-without-shell-equals-true]
         return subprocess.run(
             [probe.as_posix()],
             check=False,
