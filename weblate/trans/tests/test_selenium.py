@@ -231,6 +231,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         else:
             # Increase webdriver timeout to avoid occasional errors in CI
             cls._driver.command_executor.client_config.timeout = 300
+            # The screenshot browser is reused across tests while several
+            # fixtures use identical slugs. Avoid cached widget images showing
+            # status badges from an earlier fixture.
+            cls._driver.execute_cdp_cmd(
+                "Network.setCacheDisabled", {"cacheDisabled": True}
+            )
+            cls._driver.execute_cdp_cmd("Network.clearBrowserCache", {})
 
         # Restore custom fontconfig settings
         if backup_fc is not None:
