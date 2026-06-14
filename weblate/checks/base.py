@@ -119,6 +119,33 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         )
         return result
 
+    def check_target_with_flags(
+        self, sources: list[str], targets: list[str], unit: Unit, all_flags: Flags
+    ) -> bool:
+        """Check target strings with precomputed flags."""
+        # Only inline the base target-check flow for checks that did not
+        # override it. Custom should_skip() and check_target() methods can
+        # inspect arbitrary unit state.
+        if (
+            self.__class__.should_skip is BaseCheck.should_skip
+            and self.__class__.check_target is BaseCheck.check_target
+        ):
+            if self.ignore_state(unit):
+                return False
+            if self.is_ignored(all_flags):
+                return False
+            if self.default_disabled and not all_flags.has_any(
+                {self.enable_string, *self.extra_enable_strings}
+            ):
+                return False
+            if self.check_id in unit.check_cache:
+                return unit.check_cache[self.check_id]
+            unit.check_cache[self.check_id] = result = self.check_target_unit(
+                sources, targets, unit
+            )
+            return result
+        return self.check_target(sources, targets, unit)
+
     def check_target_generator(
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Generator[bool | MissingExtraDict]:
@@ -252,9 +279,14 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
 
 
 class BatchCheckMixin(BaseCheck):
+    def unit_has_check(self, unit: Unit) -> bool:
+        if hasattr(unit, "has_check"):
+            return unit.has_check(self.check_id)
+        return self.check_id in unit.all_checks_names
+
     def handle_batch(self, unit: Unit, component: Component) -> bool:
         component.batched_checks.add(self.check_id)
-        return self.check_id in unit.all_checks_names
+        return self.unit_has_check(unit)
 
     def check_component(self, component: Component) -> Iterable[Unit]:
         raise NotImplementedError
@@ -280,7 +312,7 @@ class BatchCheckMixin(BaseCheck):
             handled.add(unit.pk)
 
             # Check is already there
-            if self.check_id in unit.all_checks_names:
+            if self.unit_has_check(unit):
                 continue
 
             create.append(Check(unit=unit, dismissed=False, name=self.check_id))

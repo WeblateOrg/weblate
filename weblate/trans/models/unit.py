@@ -1949,12 +1949,28 @@ class Unit(models.Model, LoggerMixin):
     def clear_checks_cache(self) -> None:
         if "all_checks" in self.__dict__:
             del self.__dict__["all_checks"]
+        if "_all_checks_names_cache" in self.__dict__:
+            del self.__dict__["_all_checks_names_cache"]
+        if "_replace_highlighted_cache" in self.__dict__:
+            del self.__dict__["_replace_highlighted_cache"]
+
+    def _all_checks_names(self) -> frozenset[str]:
+        try:
+            return self.__dict__["_all_checks_names_cache"]
+        except KeyError:
+            if "all_checks" not in self.__dict__:
+                result = frozenset(self.check_set.values_list("name", flat=True))
+            else:
+                result = frozenset(check.name for check in self.all_checks)
+            self.__dict__["_all_checks_names_cache"] = result
+            return result
 
     @property
     def all_checks_names(self) -> set[str]:
-        if "all_checks" not in self.__dict__:
-            return set(self.check_set.values_list("name", flat=True))
-        return {check.name for check in self.all_checks}
+        return set(self._all_checks_names())
+
+    def has_check(self, name: str) -> bool:
+        return name in self._all_checks_names()
 
     @property
     def dismissed_checks(self) -> list[Check]:
@@ -2034,9 +2050,11 @@ class Unit(models.Model, LoggerMixin):
             src = self.get_source_plurals()
             if target_checks:
                 tgt = self.get_target_plurals()
+                # Target checks mostly use the base skip logic; compute flags once.
+                all_flags = self.all_flags
                 for check, check_obj in checks.items():
                     # Does the check fire?
-                    if check_obj.check_target(src, tgt, self):
+                    if check_obj.check_target_with_flags(src, tgt, self, all_flags):
                         if check in old_checks:
                             # We already have this check
                             old_checks.remove(check)
