@@ -14,7 +14,7 @@ from django.test import SimpleTestCase
 from django.urls import reverse
 from django.utils.html import format_html
 
-from weblate.checks.base import BatchCheckMixin
+from weblate.checks.base import BatchCheckMixin, TargetCheck
 from weblate.checks.consistency import ConsistencyCheck
 from weblate.checks.models import CHECKS, Check
 from weblate.checks.tasks import finalize_component_checks
@@ -32,6 +32,29 @@ class CheckLintTestCase(SimpleTestCase):
                 check.description.endswith("."),
                 f"{check.__class__.__name__} description does not have a stop: {check.description}",
             )
+
+
+class CheckTargetFastPathTest(SimpleTestCase):
+    def test_custom_check_target_is_called(self) -> None:
+        class CustomTargetCheck(TargetCheck):
+            check_id = "custom"
+
+            def check_target(self, sources, targets, unit) -> bool:
+                unit.check_target_called = True
+                return True
+
+            def check_target_unit(self, sources, targets, unit) -> bool:
+                msg = "check_target() override was bypassed"
+                raise AssertionError(msg)
+
+        unit: Any = SimpleNamespace(check_target_called=False)
+
+        self.assertTrue(
+            CustomTargetCheck().check_target_with_flags(
+                ["source"], ["target"], unit, set()
+            )
+        )
+        self.assertTrue(unit.check_target_called)
 
 
 class CheckModelTestCase(FixtureTestCase):
