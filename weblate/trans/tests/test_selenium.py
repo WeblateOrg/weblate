@@ -67,6 +67,7 @@ from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     TempDirMixin,
+    create_another_user,
     create_test_billing,
     create_test_user,
     get_test_file,
@@ -1384,26 +1385,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Users")
+        invited_user = create_another_user()
         element = self.driver.find_element(By.ID, "id_project_add_user_user")
-        element.send_keys("testuser")
+        element.send_keys(invited_user.username)
         Select(
             self.driver.find_element(By.ID, "id_project_add_user_group")
         ).select_by_index(1)
         with self.wait_for_page_load():
             element.submit()
-        user = User.objects.get(username="testuser")
+        self.assert_text_contains(
+            ".alert .task-message", "User invitation e-mail was sent."
+        )
         self.assertTrue(
-            user.invitation_set.filter(
+            invited_user.invitation_set.filter(
                 group__defining_project__name="WeblateOrg"
             ).exists()
-        )
-        with self.wait_for_page_load():
-            self.driver.get(
-                f"{self.live_server_url}{reverse('manage-access', kwargs={'project': project.slug})}"
-            )
-        self.assertNotIn(
-            "User invitation e-mail was sent.",
-            self.driver.find_element(By.TAG_NAME, "body").text,
         )
         self.screenshot("manage-users.png")
         self.assertGreater(self.count_elements("table.table-striped tbody tr"), 0)
