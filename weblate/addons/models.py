@@ -578,7 +578,6 @@ def execute_addon_event(
                     )
 
 
-@transaction.atomic
 def handle_addon_event(
     event: AddonEvent,
     method: str,
@@ -602,8 +601,12 @@ def handle_addon_event(
     if addon_queryset is None:
         addon_queryset = Addon.objects.filter_event(component, event)
 
-    for addon in addon_queryset:
-        execute_addon_event(addon, component, scope, event, method, args)
+    if not addon_queryset:
+        return
+
+    with transaction.atomic():
+        for addon in addon_queryset:
+            execute_addon_event(addon, component, scope, event, method, args)
 
 
 @transaction.atomic
@@ -764,24 +767,42 @@ def post_remove(sender, translation: Translation, **kwargs) -> None:
     )
 
 
+def handle_unit_addon_event(
+    event: AddonEvent, method: str, args: tuple, unit: Unit
+) -> None:
+    translation = unit.translation
+    # Unit signals fire for every imported string; use the cached event list
+    # before entering the generic add-on dispatcher.
+    addon_queryset = translation.component.addons_cache.get_event(event)
+    if not addon_queryset:
+        return
+    handle_addon_event(
+        event,
+        method,
+        args,
+        translation=translation,
+        addon_queryset=addon_queryset,
+    )
+
+
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit: Unit, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_PRE_CREATE,
         "unit_pre_create",
         (unit,),
-        translation=unit.translation,
+        unit,
     )
 
 
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance: Unit, created, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_POST_SAVE,
         "unit_post_save",
         (instance, created),
-        translation=instance.translation,
+        instance,
     )
 
 
@@ -815,11 +836,11 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
 
 @receiver(unit_post_sync)
 def unit_post_sync_handler(sender, unit: Unit, updated_attr: str, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_POST_SYNC,
         "unit_post_sync",
         (unit, updated_attr),
-        translation=unit.translation,
+        unit,
     )
 
 
