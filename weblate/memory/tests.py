@@ -32,6 +32,7 @@ from weblate.memory.models import (
     load_memory_tmx_store,
 )
 from weblate.memory.tasks import (
+    get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
 )
@@ -95,6 +96,66 @@ class MemoryParserTest(SimpleTestCase):
                 ),
                 origin="missing-header.tmx",
             )
+
+    def test_bulk_matching_memory_uses_exact_pairs(self) -> None:
+        entries = [
+            (
+                0,
+                ("origin", 1, 2, "source 1", "target 1"),
+                {"source": "source 1", "target": "target 1"},
+                Memory.STATUS_ACTIVE,
+            ),
+            (
+                1,
+                ("origin", 1, 2, "source 2", "target 2"),
+                {"source": "source 2", "target": "target 2"},
+                Memory.STATUS_ACTIVE,
+            ),
+        ]
+        statuses = {key: status for _, key, _, status in entries}
+        exact_match = MagicMock(
+            origin="origin",
+            source_language_id=1,
+            target_language_id=2,
+            source="source 1",
+            target="target 1",
+            status=Memory.STATUS_PENDING,
+            user_id=None,
+            project_id=1,
+            shared=False,
+        )
+
+        with patch.object(
+            Memory.objects, "filter", return_value=[exact_match]
+        ) as filter_mock:
+            existing, to_update = get_group_matching_memory(
+                ("origin", 1, 2), entries, statuses
+            )
+
+        args, kwargs = filter_mock.call_args
+        self.assertNotIn("source__in", kwargs)
+        self.assertNotIn("target__in", kwargs)
+        self.assertEqual(
+            kwargs,
+            {
+                "from_file": False,
+                "origin": "origin",
+                "source_language_id": 1,
+                "target_language_id": 2,
+            },
+        )
+        self.assertEqual(
+            self.get_query_pairs(args[0]),
+            {("source 1", "target 1"), ("source 2", "target 2")},
+        )
+        self.assertEqual(
+            existing["origin", 1, 2, "source 1", "target 1"], {("project", 1)}
+        )
+        self.assertEqual(to_update, [exact_match])
+
+    def get_query_pairs(self, query: Q) -> set[tuple[str, str]]:
+        children = query.children if query.connector == "OR" else [query]
+        return {tuple(value for _, value in child.children) for child in children}
 
 
 class MemoryModelTest(FixtureTestCase):
