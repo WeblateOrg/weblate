@@ -1181,7 +1181,8 @@ merges those changes into all language PO files, ensuring that:
 * Modified strings are marked as needing review (fuzzy)
 
 Most msgmerge command-line options can be set up through file format parameters
-configuration.
+configuration. Enable the ``po_remove_obsolete`` parameter to remove obsolete
+``#~`` entries when PO files are saved.
 
 .. seealso::
 

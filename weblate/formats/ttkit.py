@@ -77,6 +77,7 @@ from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
 from weblate.trans.file_format_params import (
     GettextLastTranslator,
+    GettextRemoveObsolete,
     GettextXGenerator,
     get_encoding_param,
 )
@@ -1666,6 +1667,17 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
             self.store.removeunit(old_unit)
         super().add_unit(unit)
 
+    def remove_obsolete_units(self) -> None:
+        """Remove obsolete units from the underlying store."""
+        for unit in list(self.store.units):
+            if unit.isobsolete():
+                self.store.removeunit(unit)
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        if GettextRemoveObsolete.get_value(self.file_format_params):
+            self.remove_obsolete_units()
+        super().save_content(handle)
+
 
 class PoFormat(BasePoFormat, BilingualUpdateMixin):
     # Translators: File format name
@@ -1690,6 +1702,7 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
 
         Wrapper around msgmerge.
         """
+        file_format_params = kwargs.pop("file_format_params", None)
         cmd = [
             "msgmerge",
             *kwargs.pop("args", ["--previous"]),
@@ -1737,6 +1750,11 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             errors.append(line)
         if errors:
             raise UpdateError(" ".join(cmd), "\n".join(errors))
+        if GettextRemoveObsolete.get_value(file_format_params):
+            cls(
+                out_file,
+                file_format_params=file_format_params,
+            ).save()
 
 
 class PoMonoFormat(BasePoFormat):

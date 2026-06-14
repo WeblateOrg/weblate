@@ -962,6 +962,22 @@ class PoFormatTest(BaseFormatTest):
         self.assertIn('\nmsgid "Hello, world!\\n"', content)
         self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
 
+    def test_remove_obsolete_on_save(self) -> None:
+        test_file = os.path.join(self.tempdir, "obsolete.po")
+        Path(test_file).write_text(
+            Path(TEST_PO).read_text(encoding="utf-8")
+            + '\n#~ msgid "Obsolete string"\n#~ msgstr "Zastaraly retezec"\n',
+            encoding="utf-8",
+        )
+
+        storage = self.format_class(
+            test_file, file_format_params={"po_remove_obsolete": True}
+        )
+        storage.save()
+
+        content = Path(test_file).read_text(encoding="utf-8")
+        self.assertNotIn("#~ msgid", content)
+
     def test_new_unit_plural(self) -> None:
         # Read test content
         testdata = Path(self.FILE).read_bytes()
