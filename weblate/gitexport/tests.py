@@ -540,7 +540,6 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         return ["git", "-c", "maintenance.auto=0", "-c", "gc.auto=0", *args]
 
     def clone_export(self, testdir: str) -> tuple[int, str]:
-        # ruff: ignore[subprocess-without-shell-equals-true]
         with subprocess.Popen(
             self.git_command("clone", self.get_export_url()),
             cwd=testdir,
@@ -598,20 +597,17 @@ class GitCloneShallowTest(GitCloneTest):
 
     def advance_upstream_history(self, commit_count: int = 40) -> None:
         with tempfile.TemporaryDirectory() as testdir:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             subprocess.check_call(
                 self.git_command("clone", self.component.repo, "upstream"),
                 cwd=testdir,
                 shell=False,
             )
             upstream_dir = os.path.join(testdir, "upstream")
-            # ruff: ignore[subprocess-without-shell-equals-true]
             subprocess.check_call(
                 self.git_command("config", "user.name", "Test"),
                 cwd=upstream_dir,
                 shell=False,
             )
-            # ruff: ignore[subprocess-without-shell-equals-true]
             subprocess.check_call(
                 self.git_command("config", "user.email", "test@example.com"),
                 cwd=upstream_dir,
@@ -629,20 +625,17 @@ class GitCloneShallowTest(GitCloneTest):
                     f"{previous}{number}\n",
                     encoding="utf-8",
                 )
-                # ruff: ignore[subprocess-without-shell-equals-true]
                 subprocess.check_call(
                     self.git_command("add", history_path.name),
                     cwd=upstream_dir,
                     shell=False,
                 )
-                # ruff: ignore[subprocess-without-shell-equals-true]
                 subprocess.check_call(
                     self.git_command("commit", "-m", f"upstream {number}"),
                     cwd=upstream_dir,
                     shell=False,
                 )
 
-            # ruff: ignore[subprocess-without-shell-equals-true]
             subprocess.check_call(
                 self.git_command("push", "origin", self.component.branch),
                 cwd=upstream_dir,
@@ -655,20 +648,17 @@ class GitCloneShallowTest(GitCloneTest):
         self.advance_upstream_history()
 
         with tempfile.TemporaryDirectory() as testdir:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             subprocess.check_call(
                 self.git_command("clone", self.component.repo, "existing"),
                 cwd=testdir,
                 shell=False,
             )
             existing_dir = os.path.join(testdir, "existing")
-            # ruff: ignore[subprocess-without-shell-equals-true]
             subprocess.check_call(
                 self.git_command("remote", "add", "weblate", self.get_export_url()),
                 cwd=existing_dir,
                 shell=False,
             )
-            # ruff: ignore[subprocess-without-shell-equals-true]
             with subprocess.Popen(
                 self.git_command("fetch", "weblate"),
                 cwd=existing_dir,
@@ -680,7 +670,6 @@ class GitCloneShallowTest(GitCloneTest):
             ) as process:
                 output = process.communicate()[0]
                 retcode = process.poll()
-            # ruff: ignore[subprocess-without-shell-equals-true]
             fetched_revision = subprocess.check_output(
                 self.git_command("rev-parse", "FETCH_HEAD"),
                 cwd=existing_dir,

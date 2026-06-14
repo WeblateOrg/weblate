@@ -658,7 +658,6 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             output = subprocess.check_output(
                 cmd,
                 env=get_clean_env(env),

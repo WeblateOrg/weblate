@@ -117,7 +117,6 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> BorgResult:
     with backup_lock():
         SSH_WRAPPER.create()
         try:
-            # ruff: ignore[subprocess-without-shell-equals-true]
             result = subprocess.run(
                 # ruff: ignore[start-process-with-partial-path]
                 ["borg", "--rsh", get_borg_rsh(), *cmd],

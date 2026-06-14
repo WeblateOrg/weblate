@@ -382,7 +382,7 @@ class GitHTTPBackendWrapper:
 
         # Invoke Git HTTP backend
         # pylint: disable-next=consider-using-with
-        self.process = subprocess.Popen(  # ruff: ignore[subprocess-without-shell-equals-true]
+        self.process = subprocess.Popen(
             [git_http_backend],
             env=self.get_env(),
             stdin=subprocess.PIPE,
