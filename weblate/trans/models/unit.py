@@ -763,7 +763,15 @@ class Unit(models.Model, LoggerMixin):
             or self.context != self.old_unit["context"]
             or force_insert
         ):
-            self.update_variants()
+            component = self.translation.component
+            # Newly created units cannot have stale variant links; skip the
+            # many-to-many lookup unless this unit can create variant links.
+            if (
+                not was_created
+                or component.variant_regex
+                or self.all_flags.has_value("variant")
+            ):
+                self.update_variants()
 
         # Update terminology
         if sync_terminology:
