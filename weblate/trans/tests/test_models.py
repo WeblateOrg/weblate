@@ -466,7 +466,7 @@ class TranslationTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
 
         report_error.assert_not_called()
 
@@ -482,7 +482,7 @@ class TranslationTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
 
         report_error.assert_called_once_with(
             "Translation parse error",
@@ -619,7 +619,8 @@ class TranslationTest(RepoTestCase):
         all_changes = list(
             PendingUnitChange.objects.for_translation(translation).order_by("timestamp")
         )
-        groups = Translation._group_changes_by_author(all_changes)  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        groups = Translation._group_changes_by_author(all_changes)
         self.assertEqual(len(groups), 3)
 
         author, changes = groups[0]
@@ -655,7 +656,8 @@ class TranslationTest(RepoTestCase):
         all_changes = list(
             PendingUnitChange.objects.for_translation(translation).order_by("timestamp")
         )
-        groups = Translation._group_changes_by_author(all_changes)  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        groups = Translation._group_changes_by_author(all_changes)
         self.assertEqual(len(groups), 1)
 
         author, changes = groups[0]

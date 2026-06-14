@@ -2,7 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import subprocess  # noqa: S404
+# ruff: ignore[suspicious-subprocess-import]
+import subprocess
 
 from django.core.cache import cache
 from django.test import TestCase
@@ -29,7 +30,8 @@ class GPGTest(TestCase):
         super().setUpClass()
         try:
             result = subprocess.run(
-                ["gpg", "--version"],  # noqa: S607
+                # ruff: ignore[start-process-with-partial-path]
+                ["gpg", "--version"],
                 check=True,
                 text=True,
                 capture_output=True,

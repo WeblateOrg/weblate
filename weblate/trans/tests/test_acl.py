@@ -220,7 +220,8 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         language = Language.objects.get(code="cs")
         field = LimitLanguagesField(Language.objects.filter(pk=language.pk))
 
-        language_code_field = Language._meta.get_field("code")  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        language_code_field = Language._meta.get_field("code")
         with patch.object(language_code_field, "clean") as clean:
             validate_language_code(language.code)
         clean.assert_called_once_with(language.code, None)

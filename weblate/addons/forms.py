@@ -51,20 +51,25 @@ if TYPE_CHECKING:
         AutoTranslateAddon,
         AutoTranslateAddonStoredConfiguration,
     )
-    from weblate.addons.cdn import CDNFilesAddon, CDNJSAddon  # noqa: F401
-    from weblate.addons.consistency import LanguageConsistencyAddon  # noqa: F401
+    from weblate.addons.cdn import (  # ruff: ignore[unused-import]
+        CDNFilesAddon,
+        CDNJSAddon,
+    )
+    from weblate.addons.consistency import (
+        LanguageConsistencyAddon,  # ruff: ignore[unused-import]
+    )
     from weblate.addons.generate import (
-        GenerateFileAddon,  # noqa: F401
+        GenerateFileAddon,  # ruff: ignore[unused-import]
         GenerateFileAddonConfiguration,
     )
     from weblate.addons.gettext import MesonAddon
     from weblate.addons.git import (
-        GitSquashAddon,  # noqa: F401
+        GitSquashAddon,  # ruff: ignore[unused-import]
         GitSquashAddonStoredConfiguration,
     )
     from weblate.addons.models import Addon
     from weblate.addons.properties import (
-        PropertiesSortAddon,  # noqa: F401
+        PropertiesSortAddon,  # ruff: ignore[unused-import]
         PropertiesSortAddonStoredConfiguration,
     )
     from weblate.auth.models import User
@@ -1492,7 +1497,7 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
         required=True,
     )
 
-    field_order = [  # noqa: RUF012
+    field_order = [  # ruff: ignore[mutable-class-default]
         "webhook_url",
         "events",
     ]
@@ -1517,7 +1522,7 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
         ),
     )
 
-    field_order = [  # noqa: RUF012
+    field_order = [  # ruff: ignore[mutable-class-default]
         "webhook_url",
         "secret",
         "events",
@@ -1557,7 +1562,10 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
     )
 
     def clean(self) -> None:
-        from .fedora_messaging import FedoraMessagingAddon  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from .fedora_messaging import (
+            FedoraMessagingAddon,
+        )
 
         amqp_ssl = self.cleaned_data.get("amqp_ssl")
         if amqp_ssl is not None:

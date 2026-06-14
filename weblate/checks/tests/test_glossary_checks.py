@@ -128,7 +128,8 @@ class ProhibitedInitialCharacterCheckTest(ComponentTestCase):
         )
 
     def get_term(self) -> str:
-        char = choice(list(PROHIBITED_INITIAL_CHARS))  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        char = choice(list(PROHIBITED_INITIAL_CHARS))
         return f"{char} glossary term"
 
     def test_prohibited_initial_character(self) -> None:

@@ -203,10 +203,12 @@ class DateRangeField(forms.CharField):
             return None
         try:
             start, end = value.split(" - ")
-            start_date = datetime.strptime(start, "%m/%d/%Y").replace(  # noqa: DTZ007
+            # ruff: ignore[call-datetime-strptime-without-zone]
+            start_date = datetime.strptime(start, "%m/%d/%Y").replace(
                 hour=0, minute=0, second=0, microsecond=0
             )
-            end_date = datetime.strptime(end, "%m/%d/%Y").replace(  # noqa: DTZ007
+            # ruff: ignore[call-datetime-strptime-without-zone]
+            end_date = datetime.strptime(end, "%m/%d/%Y").replace(
                 hour=23, minute=59, second=59, microsecond=999999
             )
             return {
@@ -276,7 +278,8 @@ class FlagEditorWidget(forms.TextInput):
 
 
 class FlagField(forms.CharField):
-    default_validators = [validate_check_flags]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    default_validators = [validate_check_flags]
     widget = FlagEditorWidget
 
     def __init__(self, *args, **kwargs) -> None:
@@ -305,7 +308,8 @@ class PluralTextarea(forms.Textarea):
                     name,
                     format_html(
                         'data-value="{}"',
-                        mark_safe(  # noqa: S308
+                        # ruff: ignore[suspicious-mark-safe-usage]
+                        mark_safe(
                             value.encode("ascii", "xmlcharrefreplace").decode("ascii")
                         ),
                     ),
@@ -377,7 +381,8 @@ class PluralTextarea(forms.Textarea):
                     name,
                     format_html(
                         'data-value="{}" tabindex="-1"',
-                        mark_safe(  # noqa: S308
+                        # ruff: ignore[suspicious-mark-safe-usage]
+                        mark_safe(
                             value.encode("ascii", "xmlcharrefreplace").decode("ascii")
                         ),
                     ),
@@ -1461,11 +1466,13 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
     class Meta:
         model = Unit
         fields = ("explanation", "labels", "extra_flags")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "labels": forms.CheckboxSelectMultiple(),
             "explanation": MarkdownTextarea,
         }
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "extra_flags": FlagField,
         }
 
@@ -1827,7 +1834,8 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
 
     class Meta:
         model = Component
-        fields = []  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = []
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -2165,14 +2173,16 @@ class ComponentSettingsForm(
             "is_glossary",
             "glossary_color",
         )
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "enforced_checks": SelectChecksWidget,
             "source_language": SortedSelect,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
         }
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "enforced_checks": SelectChecksField,
             "file_format_params": FormParamsField,
             "check_flags": FlagField,
@@ -2411,7 +2421,8 @@ class ComponentCreateForm(
 
     class Meta:
         model = Component
-        fields = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = [
             "project",
             "category",
             "name",
@@ -2440,12 +2451,14 @@ class ComponentCreateForm(
             "source_language",
             "is_glossary",
         ]
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "source_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
         }
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "file_format_params": FormParamsField,
         }
 
@@ -2761,7 +2774,8 @@ class ComponentZipCreateForm(ComponentProjectForm):
         widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
     )
 
-    field_order = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    field_order = [
         "zipfile",
         "project",
         "name",
@@ -2786,7 +2800,8 @@ class ComponentDocCreateForm(ComponentProjectForm):
         queryset=Language.objects.all(),
         required=False,
     )
-    field_order = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    field_order = [
         "docfile",
         "project",
         "name",
@@ -2956,7 +2971,8 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
 
     class Meta:
         model = Component
-        fields = ["name", "slug", "project", "category"]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = ["name", "slug", "project", "category"]
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -3041,7 +3057,8 @@ class CategoryRenameForm(SettingsBaseForm):
 
     class Meta:
         model = Category
-        fields = ["name", "slug", "project", "category"]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = ["name", "slug", "project", "category"]
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -3054,7 +3071,8 @@ class CategoryRenameForm(SettingsBaseForm):
 class AddCategoryForm(SettingsBaseForm):
     class Meta:
         model = Category
-        fields = ["name", "slug"]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = ["name", "slug"]
 
     def __init__(
         self, request: AuthenticatedHttpRequest, parent, *args, **kwargs
@@ -3107,7 +3125,8 @@ class CategorySettingsForm(
             "inherit_pull_message",
             "pull_message",
         )
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
@@ -3213,7 +3232,8 @@ class ProjectSettingsForm(
             "inherit_pull_message",
             "pull_message",
         )
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
             "language_aliases": forms.TextInput,
@@ -3221,7 +3241,8 @@ class ProjectSettingsForm(
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
         }
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "check_flags": FlagField,
         }
 
@@ -3269,7 +3290,8 @@ class ProjectSettingsForm(
         if (
             "access_control" not in data
             or data["access_control"] is None
-            or data["access_control"] == ""  # noqa: PLC1901
+            # ruff: ignore[compare-to-empty-string]
+            or data["access_control"] == ""
         ):
             data["access_control"] = self.instance.access_control
         access = data["access_control"]
@@ -3460,7 +3482,8 @@ class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
 
     class Meta:
         model = Project
-        fields = ["name", "slug"]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = ["name", "slug"]
 
 
 class ProjectMoveForm(forms.Form):
@@ -3549,7 +3572,8 @@ class ProjectCreateForm(
     class Meta:
         model = Project
         fields = ("name", "slug", "web", "instructions", "license", "workspace")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "license": SearchableSelect,
         }
 
@@ -4120,8 +4144,10 @@ class AnnouncementForm(forms.ModelForm):
 
     class Meta:
         model = Announcement
-        fields = ["message", "severity", "expiry", "notify"]  # noqa: RUF012
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = ["message", "severity", "expiry", "notify"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "expiry": WeblateDateInput(),
             "message": MarkdownTextarea,
         }
@@ -4178,7 +4204,8 @@ class LabelForm(forms.ModelForm):
     class Meta:
         model = Label
         fields = ("name", "description", "color", "project")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "color": ColorWidget(),
             "project": forms.HiddenInput(),
         }
@@ -4198,8 +4225,10 @@ class LabelForm(forms.ModelForm):
 class ProjectTokenCreateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["full_name", "date_expires"]  # noqa: RUF012
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = ["full_name", "date_expires"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "date_expires": WeblateDateInput(),
         }
 
@@ -4362,7 +4391,8 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
 
     class Meta:
         model = WorkflowSetting
-        fields = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = [
             "translation_review",
             "enable_suggestions",
             "suggestion_voting",

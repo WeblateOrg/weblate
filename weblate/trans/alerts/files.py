@@ -68,7 +68,8 @@ class DuplicateFilemask(BaseAlert):
 
     @staticmethod
     def get_translations(component: Component) -> TranslationQuerySet:
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
 
         return Translation.objects.filter(
             Q(component=component) | Q(component__linked_component=component)

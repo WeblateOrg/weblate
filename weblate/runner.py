@@ -10,7 +10,8 @@ from contextlib import suppress
 def main(argv=None, developer_mode: bool = False) -> None:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
-    from weblate.utils.management.utility import (  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.management.utility import (
         WeblateManagementUtility,
     )
 
@@ -22,7 +23,8 @@ def main(argv=None, developer_mode: bool = False) -> None:
         utility.execute()
     except Exception:
         with suppress(ImportError):
-            from weblate.utils.errors import report_error  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.utils.errors import report_error
 
             report_error("Command failed")
         raise

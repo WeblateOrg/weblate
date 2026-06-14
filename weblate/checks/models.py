@@ -89,10 +89,12 @@ class Check(models.Model):
     objects = CheckQuerySet.as_manager()
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [
             ("unit", "name"),
         ]
-        indexes = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        indexes = [
             models.Index(
                 fields=["unit"],
                 condition=Q(dismissed=False),

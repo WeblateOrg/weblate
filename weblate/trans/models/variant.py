@@ -20,7 +20,8 @@ class Variant(models.Model):
     )
 
     class Meta:
-        constraints = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        constraints = [
             models.UniqueConstraint(
                 MD5("key"),
                 "component",

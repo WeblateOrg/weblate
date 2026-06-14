@@ -49,7 +49,8 @@ def format_html_code(
     }
     if safe_kwargs:
         return format_html(escape(format_string), **safe_kwargs)
-    return mark_safe(escape(format_string))  # noqa: S308
+    # ruff: ignore[suspicious-mark-safe-usage]
+    return mark_safe(escape(format_string))
 
 
 def format_html_error_list(errors: Iterable[str]) -> SafeString:
@@ -168,7 +169,8 @@ class FluentPatterns:
                     else:
                         # Remove the leading "\u" or "\U" and convert hex
                         # sequence to a number.
-                        unicode_point = int(chars[2:], 16)  # noqa: FURB166
+                        # ruff: ignore[int-on-sliced-str]
+                        unicode_point = int(chars[2:], 16)
                         try:
                             # Try unescape the unicode sequence.
                             literal += chr(unicode_point)

@@ -27,7 +27,8 @@ class Setting(models.Model):
     objects = SettingQuerySet.as_manager()
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [
             ("category", "name"),
         ]
         verbose_name = "Setting"

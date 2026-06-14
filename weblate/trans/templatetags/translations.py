@@ -165,7 +165,7 @@ class Formatter:
         if self.diff:
             self.parse_diff()
 
-    def parse_diff(self) -> None:  # noqa: C901
+    def parse_diff(self) -> None:  # ruff: ignore[complex-structure]
         """Highlights diff, including extra whitespace."""
         diff = self.differ.compare(self.value, self.diff[self.idx])
         offset = 0
@@ -501,7 +501,7 @@ class Formatter:
     def format(self):
         # Safe to mark because format_generator escapes raw string content inline
         # and only emits formatter-controlled markup for diffs/highlights/tooltips.
-        return mark_safe("".join(self.format_generator()))  # noqa: S308
+        return mark_safe("".join(self.format_generator()))  # ruff: ignore[suspicious-mark-safe-usage]
 
 
 @register.inclusion_tag("snippets/format-translation.html")
@@ -1348,7 +1348,7 @@ def percent_format(number: float) -> str:
         percent = 99
     else:
         percent = int(number)
-    return mark_safe(  # noqa: S308
+    return mark_safe(  # ruff: ignore[suspicious-mark-safe-usage]
         # Translators: Formatting of the translation percent, insert non-breakable space if
         # your language expects it before the percent sign.
         pgettext("Translated percents", "%(percent)s%%")
@@ -1419,9 +1419,7 @@ def any_unit_has_context(units: Iterable[Unit]) -> bool:
 def urlize_ugc(value: str, autoescape: bool = True) -> str:
     """Convert URLs in plain text into clickable links."""
     html = urlize(value, nofollow=True, autoescape=autoescape)
-    return mark_safe(  # noqa: S308
-        html.replace('rel="nofollow"', 'rel="ugc" target="_blank"')
-    )
+    return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))  # ruff: ignore[suspicious-mark-safe-usage]
 
 
 @register.simple_tag
@@ -1435,7 +1433,7 @@ def get_glossary_badge(component: Component | GhostStats) -> StrOrPromise:
     return ""
 
 
-def get_breadcrumbs(  # noqa: C901
+def get_breadcrumbs(  # ruff: ignore[complex-structure]
     path_object, *, flags: bool = True, only_names: bool = False
 ) -> Generator[str | tuple[str, str]]:
     def with_url(
@@ -1651,7 +1649,7 @@ def list_objects_percent(
 
 
 @register.inclusion_tag("snippets/info.html", takes_context=True)
-def show_info(  # noqa: PLR0913
+def show_info(  # ruff: ignore[too-many-arguments]
     context: Context,
     *,
     project: Project | None = None,
@@ -1691,9 +1689,7 @@ def show_info(  # noqa: PLR0913
 
 @register.filter(is_safe=True)
 def format_json(value: dict) -> str:
-    return mark_safe(  # noqa: S308
-        linebreaks(json.dumps(value, indent=4), autoescape=True)
-    )
+    return mark_safe(linebreaks(json.dumps(value, indent=4), autoescape=True))  # ruff: ignore[suspicious-mark-safe-usage]
 
 
 @register.filter(is_safe=True)
@@ -1716,7 +1712,10 @@ def format_last_changes_content(
 
     This is a simplified version of the prepare_last_changes_context function.
     """
-    from weblate.trans.change_display import get_change_history_context  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.change_display import (
+        get_change_history_context,
+    )
 
     if isinstance(user, str):  # e.g in email digest
         user = AnonymousUser()

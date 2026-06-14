@@ -299,7 +299,7 @@ class BasicLanguagesTest(TestCase):
 
 class LanguageTestSequenceMeta(type):
     # pylint: disable-next=redefined-builtin
-    def __new__(mcs, name, bases, dict):  # noqa: A002
+    def __new__(mcs, name, bases, dict):  # ruff: ignore[builtin-argument-shadowing]
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
                 self.run_create(original, expected, direction, plural, name, create)

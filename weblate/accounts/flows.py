@@ -8,12 +8,18 @@ from django.conf import settings
 from django.core import signing
 from django.core.signing import BadSignature, SignatureExpired
 
-PASSWORD_RESET_EMAIL_SESSION = "password_reset_email"  # noqa: S105
-PASSWORD_RESET_SCOPE_SESSION = "password_reset_scope"  # noqa: S105
-PASSWORD_RESET_SCOPE_TOKEN_PARAM = "password_reset_scope"  # noqa: S105
-PASSWORD_RESET_SCOPE_TOKEN_SESSION = "password_reset_scope_token"  # noqa: S105
-PASSWORD_RESET_SCOPE_SIGNING_SALT = "weblate.accounts.password-reset-scope"  # noqa: S105
-PASSWORD_RESET_SCOPE_WEBLATE_SERVICES = "weblate-services"  # noqa: S105
+# ruff: ignore[hardcoded-password-string]
+PASSWORD_RESET_EMAIL_SESSION = "password_reset_email"
+# ruff: ignore[hardcoded-password-string]
+PASSWORD_RESET_SCOPE_SESSION = "password_reset_scope"
+# ruff: ignore[hardcoded-password-string]
+PASSWORD_RESET_SCOPE_TOKEN_PARAM = "password_reset_scope"
+# ruff: ignore[hardcoded-password-string]
+PASSWORD_RESET_SCOPE_TOKEN_SESSION = "password_reset_scope_token"
+# ruff: ignore[hardcoded-password-string]
+PASSWORD_RESET_SCOPE_SIGNING_SALT = "weblate.accounts.password-reset-scope"
+# ruff: ignore[hardcoded-password-string]
+PASSWORD_RESET_SCOPE_WEBLATE_SERVICES = "weblate-services"
 PASSWORD_RESET_SCOPES = frozenset({PASSWORD_RESET_SCOPE_WEBLATE_SERVICES})
 
 

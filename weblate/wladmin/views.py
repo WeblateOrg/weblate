@@ -665,7 +665,8 @@ def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_permission_required("billing.manage")
 def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
-    from weblate.billing.models import Billing  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.models import Billing
 
     trial = []
     pending = []

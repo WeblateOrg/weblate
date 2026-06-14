@@ -720,7 +720,8 @@ def store_auto_translate_activity_log(
     if activity_log_id is None:
         return result
 
-    from weblate.addons.tasks import update_addon_activity_log  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.addons.tasks import update_addon_activity_log
 
     update_addon_activity_log(activity_log_id, result, pending=False)
     return result
@@ -760,7 +761,8 @@ def get_auto_translate_target(
             "language": project_language.language.id,
         }
     if workspace_id is not None:
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
 
         workspace = Workspace.objects.get(pk=workspace_id)
         return workspace, {"workspace": str(workspace.pk)}
@@ -777,7 +779,8 @@ def get_auto_translate_target(
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def auto_translate(  # noqa: PLR0913
+# ruff: ignore[too-many-arguments]
+def auto_translate(
     *,
     user_id: int | None,
     mode: str,
@@ -975,7 +978,8 @@ def daily_update_checks() -> None:
 
 @app.task(trail=False)
 def cleanup_project_backups() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX
 
     # This intentionally does not use Project objects to remove stale backups
     # for removed projects as well.
@@ -996,7 +1000,8 @@ def cleanup_project_backups() -> None:
                 (
                     path,
                     make_aware(
-                        datetime.fromtimestamp(int(path.split(".")[0]))  # noqa: DTZ006
+                        # ruff: ignore[call-datetime-fromtimestamp]
+                        datetime.fromtimestamp(int(path.split(".")[0]))
                     ),
                 )
                 for path in os.listdir(projectdir)
@@ -1016,7 +1021,8 @@ def cleanup_project_backups() -> None:
 
 @app.task(trail=False)
 def create_project_backup(pk: int, uid: int | None = None) -> None:
-    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.backups import ProjectBackup
 
     project = Project.objects.get(pk=pk)
     user = User.objects.get(pk=uid) if uid else None
@@ -1042,18 +1048,21 @@ def restore_project_backup(
     billing_id: int | None,
     workspace_id: str | None = None,
 ) -> Project:
-    from weblate.trans.backups import ProjectBackup  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.backups import ProjectBackup
 
     report_task_progress(5)
     user = User.objects.get(pk=user_id)
     billing = None
     if billing_id is not None:
-        from weblate.billing.models import Billing  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
 
         billing = Billing.objects.get(pk=billing_id)
     workspace = None
     if workspace_id is not None:
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
 
         workspace = Workspace.objects.get(pk=workspace_id)
     restore = ProjectBackup(filename)
@@ -1108,7 +1117,8 @@ def remove_project_backup_download(name: str) -> None:
 
 @app.task(trail=False)
 def cleanup_project_backup_download() -> None:
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.backups import PROJECTBACKUP_PREFIX
 
     if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
         return

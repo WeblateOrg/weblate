@@ -670,7 +670,8 @@ def hosting(request: AuthenticatedHttpRequest):
     if not settings.OFFER_HOSTING:
         return redirect("home")
 
-    from weblate.billing.models import Billing  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.models import Billing
 
     billings = (
         Billing.objects.for_user(request.user)
@@ -711,7 +712,8 @@ def trial(request: AuthenticatedHttpRequest):
         return redirect(f"{reverse('contact')}?t=trial")
 
     if request.method == "POST":
-        from weblate.billing.models import Billing, BillingEvent, Plan  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing, BillingEvent, Plan
 
         AuditLog.objects.create(request.user, request, "trial")
         billing = Billing.objects.create(
@@ -923,7 +925,8 @@ class UserPage(UpdateView):
         context["page_user_groups"] = page_user_groups
         context["page_user_billings"] = []
         if "weblate.billing" in settings.INSTALLED_APPS:
-            from weblate.billing.models import Billing  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.billing.models import Billing
 
             context["page_user_billings"] = list(
                 Billing.objects.filter(
@@ -1154,7 +1157,8 @@ class WeblateLogoutView(TemplateView):
     - login_required decorator
     """
 
-    http_method_names = ["post", "options"]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    http_method_names = ["post", "options"]
     template_name = "registration/logged_out.html"
     request: AuthenticatedHttpRequest
 
@@ -2269,7 +2273,8 @@ class TOTPView(FormView):
     @property
     def totp_svg(self):
         image = qrcode.make(self.totp_url, image_factory=qrcode.image.svg.SvgPathImage)
-        return mark_safe(image.to_string(encoding="unicode"))  # noqa: S308
+        # ruff: ignore[suspicious-mark-safe-usage]
+        return mark_safe(image.to_string(encoding="unicode"))
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""

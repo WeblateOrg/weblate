@@ -495,8 +495,15 @@ class XMLClosingTags(BaseFileFormatParam):
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
-        from weblate.formats.models import FILE_FORMATS  # noqa: PLC0415
-        from weblate.formats.ttkit import TTKitFormat  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.models import (
+            FILE_FORMATS,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.ttkit import (
+            TTKitFormat,
+        )
 
         result = []
         for file_format, format_class in FILE_FORMATS.items():

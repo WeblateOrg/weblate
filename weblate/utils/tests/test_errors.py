@@ -108,7 +108,8 @@ class ErrorCollectionSettingsTest(SimpleTestCase):
 
 class GoogleCloudErrorReportingTest(SimpleTestCase):
     def tearDown(self) -> None:
-        errors._STATE["google_cloud_error_reporting_client"] = None  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = None
         super().tearDown()
 
     @override_settings(GOOGLE_CLOUD_ERROR_REPORTING={})
@@ -126,7 +127,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
 
         reporting.Client.assert_called_once_with(service="weblate", version="revision")
         self.assertEqual(
-            errors._STATE["google_cloud_error_reporting_client"],  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            errors._STATE["google_cloud_error_reporting_client"],
             reporting.Client.return_value,
         )
 
@@ -186,7 +188,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_exception(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error"):
             try:
@@ -229,7 +232,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_message(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error"):
             errors.report_error("Handled error", level="error", message=True)
@@ -240,7 +244,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_message_without_exception(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error"):
             errors.report_error("Handled error", level="error")
@@ -251,7 +256,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_skip_error_reporting_skips_google(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error") as record_error:
             errors.report_error(

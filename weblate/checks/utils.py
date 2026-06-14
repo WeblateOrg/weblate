@@ -21,8 +21,11 @@ def highlight_pygments(source: str, unit: Unit) -> Generator[tuple[int, int, str
     This is not really a full syntax highlighting, we're only interested in
     non-translatable strings.
     """
-    from pygments.lexers.markup import RstLexer  # noqa: PLC0415
-    from pygments.token import Token  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from pygments.lexers.markup import RstLexer
+
+    # ruff: ignore[import-outside-top-level]
+    from pygments.token import Token
 
     if "rst-text" in unit.all_flags:
         lexer = RstLexer(stripnl=False)

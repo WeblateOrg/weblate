@@ -4,7 +4,7 @@
 
 import os
 import shlex
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from contextlib import nullcontext
 from typing import cast
 from unittest.mock import patch

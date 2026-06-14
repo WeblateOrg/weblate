@@ -1402,7 +1402,7 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         with self.assertRaises(ValidationError):
             self.component.clean()
@@ -1412,7 +1412,7 @@ class ComponentErrorTest(RepoTestCase):
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1423,7 +1423,7 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1435,7 +1435,7 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             self.component.clean()
 
@@ -1450,7 +1450,7 @@ class ComponentErrorTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         report_error.assert_not_called()
 
@@ -1467,7 +1467,7 @@ class ComponentErrorTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         report_error.assert_called_once_with(
             "Template parse error", project=self.component.project

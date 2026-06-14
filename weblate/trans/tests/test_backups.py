@@ -229,7 +229,8 @@ class BackupsTest(ViewTestCase):
         self.assertFalse(os.path.exists(temp_name))
 
     def test_import_task_unlinks_file_when_billing_lookup_fails(self) -> None:
-        from weblate.billing.models import Billing  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name

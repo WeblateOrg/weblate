@@ -21,15 +21,21 @@ class TracingTest(SimpleTestCase):
     def setUp(self) -> None:
         super().setUp()
         tracing.configure_opentelemetry_tracer(None)
-        errors._STATE["opentelemetry_at_fork_registered"] = False  # noqa: SLF001
-        errors._STATE["opentelemetry_initialized_pid"] = None  # noqa: SLF001
-        errors._STATE["opentelemetry_provider"] = None  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_at_fork_registered"] = False
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_initialized_pid"] = None
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_provider"] = None
 
     def tearDown(self) -> None:
         tracing.configure_opentelemetry_tracer(None)
-        errors._STATE["opentelemetry_at_fork_registered"] = False  # noqa: SLF001
-        errors._STATE["opentelemetry_initialized_pid"] = None  # noqa: SLF001
-        errors._STATE["opentelemetry_provider"] = None  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_at_fork_registered"] = False
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_initialized_pid"] = None
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_provider"] = None
         super().tearDown()
 
     @override_settings(SENTRY_DSN=None)
@@ -257,7 +263,8 @@ class TracingTest(SimpleTestCase):
         tracer_provider.return_value.get_tracer.assert_called_once()
         configure_tracer.assert_called_once_with("tracer")
         register_at_fork.assert_called_once_with(
-            after_in_child=errors._init_opentelemetry_after_fork  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            after_in_child=errors._init_opentelemetry_after_fork
         )
         for instrumentor in (django, celery, redis, requests, psycopg):
             instrumentor.return_value.instrument.assert_called_once_with(
@@ -265,14 +272,19 @@ class TracingTest(SimpleTestCase):
             )
 
     def test_init_opentelemetry_after_fork_resets_state(self) -> None:
-        errors._STATE["opentelemetry_initialized_pid"] = 100  # noqa: SLF001
-        errors._STATE["opentelemetry_provider"] = object()  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_initialized_pid"] = 100
+        # ruff: ignore[private-member-access]
+        errors._STATE["opentelemetry_provider"] = object()
 
         with patch("weblate.utils.errors.init_opentelemetry") as init_opentelemetry:
-            errors._init_opentelemetry_after_fork()  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            errors._init_opentelemetry_after_fork()
 
-        self.assertIsNone(errors._STATE["opentelemetry_initialized_pid"])  # noqa: SLF001
-        self.assertIsNone(errors._STATE["opentelemetry_provider"])  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        self.assertIsNone(errors._STATE["opentelemetry_initialized_pid"])
+        # ruff: ignore[private-member-access]
+        self.assertIsNone(errors._STATE["opentelemetry_provider"])
         init_opentelemetry.assert_called_once_with()
 
     @override_settings(
@@ -318,7 +330,8 @@ class TracingTest(SimpleTestCase):
 
         self.assertEqual(tracer_provider.call_count, 2)
         register_at_fork.assert_called_once_with(
-            after_in_child=errors._init_opentelemetry_after_fork  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            after_in_child=errors._init_opentelemetry_after_fork
         )
         first_provider.shutdown.assert_called_once_with()
         second_provider.shutdown.assert_not_called()

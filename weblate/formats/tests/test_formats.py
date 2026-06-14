@@ -133,10 +133,14 @@ class DummyBilingualUpdate(BilingualUpdateMixin):
     @classmethod
     def do_bilingual_update(
         cls,
-        in_file: str,  # noqa: ARG003
-        out_file: str,  # noqa: ARG003
-        template: str,  # noqa: ARG003
-        **kwargs,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        in_file: str,
+        # ruff: ignore[unused-class-method-argument]
+        out_file: str,
+        # ruff: ignore[unused-class-method-argument]
+        template: str,
+        # ruff: ignore[unused-class-method-argument]
+        **kwargs,
     ) -> None:
         return
 
@@ -2719,7 +2723,8 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         )
         self.assertFalse(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        translation_data.all_units[index]._unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:
@@ -2838,7 +2843,8 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        translation_data.all_units[index]._unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:

@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# ruff: noqa: S105
+# ruff: file-ignore[hardcoded-password-string]
 
 from __future__ import annotations
 
@@ -288,7 +288,8 @@ class Flags:
             return ()
         if isinstance(flags, str):
             return parse_flags_text(flags)
-        if isinstance(flags, etree._Element):  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        if isinstance(flags, etree._Element):
             return tuple(parse_flags_xml(flags))
         if isinstance(flags, Flags):
             return tuple(flags.items())
@@ -336,10 +337,12 @@ class Flags:
             raise KeyError(msg)
         return item[1:]
 
-    def get_value(self, key: str) -> Any:  # noqa: ANN401
+    # ruff: ignore[any-type]
+    def get_value(self, key: str) -> Any:
         return TYPED_FLAGS_ARGS[key](self.get_value_raw(key))
 
-    def get_value_fallback(self, key: str, fallback: Any) -> Any:  # noqa: ANN401
+    # ruff: ignore[any-type]
+    def get_value_fallback(self, key: str, fallback: Any) -> Any:
         try:
             value = self.get_value_raw(key)
         except KeyError:
@@ -451,7 +454,8 @@ class FlagsValidator(Flags):
     _apply_discard: ClassVar[bool] = False
 
 
-FlagInput = str | etree._Element | Flags | FlagItems | None  # noqa: SLF001
+# ruff: ignore[private-member-access]
+FlagInput = str | etree._Element | Flags | FlagItems | None
 
 
 # Categories used by the UI flag editor

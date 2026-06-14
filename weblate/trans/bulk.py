@@ -35,7 +35,8 @@ EDITABLE_STATES = {
 }
 
 
-def bulk_perform(  # noqa: C901
+# ruff: ignore[complex-structure]
+def bulk_perform(
     user: User | None,
     unit_set: UnitQuerySet,
     *,

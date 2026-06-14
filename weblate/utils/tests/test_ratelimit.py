@@ -111,7 +111,8 @@ class RateLimitTest(SimpleTestCase):
         request = self.get_request()
 
         limiter = session_ratelimit_post("test")(
-            lambda request: "RESPONSE"  # noqa: ARG005
+            # ruff: ignore[unused-lambda-argument]
+            lambda request: "RESPONSE"
         )
 
         # First attempt should work

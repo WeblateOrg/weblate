@@ -89,6 +89,7 @@ class YandexV2Translation(MachineTranslation):
         if isinstance(exc, RequestException):
             try:
                 return exc.response.json()["message"]
-            except Exception:  # noqa: S110
+            # ruff: ignore[try-except-pass]
+            except Exception:
                 pass
         return super().get_error_message(exc)

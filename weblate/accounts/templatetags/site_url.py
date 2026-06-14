@@ -44,6 +44,4 @@ def add_site_url(content):
     ]
     if body.text:
         parts.insert(0, escape(body.text))
-    return mark_safe(  # noqa: S308
-        "".join(parts)
-    )
+    return mark_safe("".join(parts))  # ruff: ignore[suspicious-mark-safe-usage]

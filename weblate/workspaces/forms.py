@@ -32,7 +32,8 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
             "addon_message",
             "pull_message",
         )
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "license": SearchableSelect,
             "language_code_style": SortedSelect,
             "secondary_language": SortedSelect,

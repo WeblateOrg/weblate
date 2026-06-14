@@ -11,7 +11,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
 from datetime import timedelta
@@ -178,9 +178,12 @@ class CrashAddon(UpdateBaseAddon):
     def can_install(
         cls,
         *,
-        component: Component | None = None,  # noqa: ARG003
-        category: Category | None = None,  # noqa: ARG003
-        project: Project | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        component: Component | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        category: Category | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        project: Project | None = None,
     ) -> bool:
         return False
 

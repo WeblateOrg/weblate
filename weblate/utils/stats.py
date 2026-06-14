@@ -159,15 +159,18 @@ def get_non_glossary_stats(
     }
 
     if isinstance(stats_obj, ProjectLanguageStats):
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
 
         glossaries = Translation.objects.filter(
             language=stats_obj.language, component__in=stats_obj.project.glossaries
         ).prefetch()
     elif isinstance(stats_obj, ProjectStats):
-        glossaries = stats_obj._object.glossaries  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        glossaries = stats_obj._object.glossaries
     elif isinstance(stats_obj, GlobalStats):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
 
         glossaries = Component.objects.filter(is_glossary=True)
     else:
@@ -551,7 +554,8 @@ class TranslationStats(BaseStats):
         return self._object.is_source
 
     def save(self, update_parents: bool = True) -> None:
-        from weblate.utils.tasks import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import (
             update_translation_stats_parents,
         )
 
@@ -720,7 +724,8 @@ class TranslationStats(BaseStats):
             self.save(update_parents=False)
             return True
 
-    def _calculate_basic(self) -> None:  # noqa: PLR0914
+    # ruff: ignore[too-many-locals]
+    def _calculate_basic(self) -> None:
         values = (
             "state",
             "num_words",
@@ -929,7 +934,8 @@ class TranslationStats(BaseStats):
         self.store("stats_timestamp", time.time())
 
     def get_last_change_obj(self):
-        from weblate.trans.models import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Change
 
         # This is set in Change.save
         if self.last_change_cache is not None:
@@ -1070,7 +1076,8 @@ class AggregatingStats(BaseStats):
 
         # Ensure all objects have data available so that we can use _dict directly
         for stats_obj in all_stats:
-            if "all" not in stats_obj._data:  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            if "all" not in stats_obj._data:
                 stats_obj.calculate_basic()
                 stats_obj.save()
 
@@ -1182,7 +1189,8 @@ class ComponentStats(AggregatingStats):
         self.update_parents(extra_objects=chain.from_iterable(extras))
 
     def update_language_stats(self) -> None:
-        from weblate.utils.tasks import update_language_stats_parents  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_language_stats_parents
 
         # Update languages
         for translation in prefetch_stats(self.get_child_objects()):
@@ -1346,7 +1354,8 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @cached_property
     def workflow_settings(self):
-        from weblate.trans.models.workflow import WorkflowSetting  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.workflow import WorkflowSetting
 
         workflow_settings = WorkflowSetting.objects.filter(
             Q(project=None) | Q(project=self.project),
@@ -1488,7 +1497,8 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @cached_property
     def translation_set(self):
-        from weblate.trans.models.component import ComponentLink  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import ComponentLink
 
         shared_component_ids = ComponentLink.objects.filter(
             category=self.category
@@ -1537,7 +1547,8 @@ class CategoryLanguageStats(ChecklistStats):
         ]
 
     def get_child_objects(self):
-        from weblate.trans.models.component import ComponentLink  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import ComponentLink
 
         shared_component_ids = ComponentLink.objects.filter(
             category=self.category
@@ -1560,7 +1571,8 @@ class CategoryStats(ParentAggregatingStats):
             yield from self._object.project.stats.get_update_objects()
 
     def get_child_objects(self):
-        from weblate.trans.models.component import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import (
             Component,
             ComponentLink,
         )
@@ -1623,7 +1635,8 @@ class GlobalStats(ParentAggregatingStats):
         super().__init__(None)
 
     def get_child_objects(self):
-        from weblate.trans.models import Project  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Project
 
         return Project.objects.only("id", "slug")
 
@@ -1649,42 +1662,50 @@ class GlobalStats(ParentAggregatingStats):
         return Language.objects.count()
 
     def get_users(self):
-        from weblate.auth.models import User  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         return User.objects.count()
 
     def get_projects(self):
-        from weblate.trans.models import Project  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Project
 
         return Project.objects.count()
 
     def get_components(self):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
 
         return Component.objects.count()
 
     def get_translations(self):
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
 
         return Translation.objects.count()
 
     def get_checks(self):
-        from weblate.checks.models import Check  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.models import Check
 
         return Check.objects.count()
 
     def get_configuration_errors(self):
-        from weblate.wladmin.models import ConfigurationError  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.wladmin.models import ConfigurationError
 
         return ConfigurationError.objects.filter(ignored=False).count()
 
     def get_suggestions(self):
-        from weblate.trans.models import Suggestion  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Suggestion
 
         return Suggestion.objects.count()
 
     def get_celery_queues(self):
-        from weblate.utils.celery import get_queue_stats  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.celery import get_queue_stats
 
         return get_queue_stats()
 

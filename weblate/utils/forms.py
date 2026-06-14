@@ -47,8 +47,14 @@ class QueryField(forms.CharField):
         super().__init__(**kwargs)
 
     def clean(self, value):
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
-        from weblate.utils.search import SearchQueryError, parse_query  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import (
+            get_anonymous,
+        )
+        from weblate.utils.search import (  # ruff: ignore[import-outside-top-level]
+            SearchQueryError,
+            parse_query,
+        )
 
         if not value:
             if self.required:
@@ -66,7 +72,7 @@ class QueryField(forms.CharField):
 
 
 class UsernameField(forms.CharField):
-    default_validators = [validate_username]  # noqa: RUF012
+    default_validators = [validate_username]  # ruff: ignore[mutable-class-default]
 
     def __init__(
         self,
@@ -124,7 +130,7 @@ class UserField(forms.CharField):
         return attrs
 
     def clean(self, value):
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not value:
             if self.required:
@@ -149,7 +155,7 @@ class EmailField(forms.EmailField):
     We block some additional local parts and customize error messages.
     """
 
-    default_validators = [validate_email]  # noqa: RUF012
+    default_validators = [validate_email]  # ruff: ignore[mutable-class-default]
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs.setdefault("max_length", EMAIL_LENGTH)
@@ -338,7 +344,7 @@ class CachedModelMultipleChoiceField(
 
 
 class WeblateServiceURLField(forms.URLField):
-    default_validators = [WeblateServiceURLValidator()]  # noqa: RUF012
+    default_validators = [WeblateServiceURLValidator()]  # ruff: ignore[mutable-class-default]
 
 
 class NormalizedNewlineCharField(forms.CharField):

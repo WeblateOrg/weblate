@@ -69,7 +69,8 @@ class ScreenshotImageValidationMixin(BaseForm):
         ):
             # download from image_url only if image is not provided and not updated
             cleaned_data["image"] = self.download_image(image_url)
-            image_field = Screenshot._meta.get_field("image")  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            image_field = Screenshot._meta.get_field("image")
             image_field.run_validators(cleaned_data["image"])
 
         cleaned_data.pop("image_url", None)
@@ -129,10 +130,12 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
     class Meta:
         model = Screenshot
         fields = ("name", "image", "image_url", "repository_filename")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "image": ScreenshotInput,
         }
-        field_classes = {"image": AssetImageField}  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {"image": AssetImageField}
 
     def clean(self):
         cleaned_data = super().clean()
@@ -157,11 +160,13 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
     class Meta:
         model = Screenshot
         fields = ("name", "repository_filename", "image", "image_url", "translation")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "translation": SortedSelect,
             "image": ScreenshotInput,
         }
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "image": AssetImageField,
             "translation": LanguageChoiceField,
         }

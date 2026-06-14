@@ -12,10 +12,12 @@ from fuzzing import sentry
 
 class FuzzingSentryTest(TestCase):
     def setUp(self) -> None:
-        sentry._STATE["initialized"] = False  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        sentry._STATE["initialized"] = False
 
     def tearDown(self) -> None:
-        sentry._STATE["initialized"] = False  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        sentry._STATE["initialized"] = False
 
     def test_wrap_target_reports_exception(self) -> None:
         def callback(_data: bytes) -> None:
@@ -108,8 +110,10 @@ class FuzzingSentryTest(TestCase):
 
         scope = Scope()
         with patch("fuzzing.sentry.MAX_INPUT_ATTACHMENT_BYTES", 4):
-            sentry._attach_fuzz_input(scope, "backup/import", b"payload")  # noqa: SLF001
-            context = sentry._input_context("backup/import", b"payload")  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            sentry._attach_fuzz_input(scope, "backup/import", b"payload")
+            # ruff: ignore[private-member-access]
+            context = sentry._input_context("backup/import", b"payload")
 
         self.assertEqual(
             scope.attachments,

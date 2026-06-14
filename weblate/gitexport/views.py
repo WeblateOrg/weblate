@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os.path
 import re
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from base64 import b64decode
 from contextlib import suppress
 from email import message_from_string
@@ -382,7 +382,7 @@ class GitHTTPBackendWrapper:
 
         # Invoke Git HTTP backend
         # pylint: disable-next=consider-using-with
-        self.process = subprocess.Popen(  # noqa: S603
+        self.process = subprocess.Popen(  # ruff: ignore[subprocess-without-shell-equals-true]
             [git_http_backend],
             env=self.get_env(),
             stdin=subprocess.PIPE,
