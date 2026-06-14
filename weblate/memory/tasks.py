@@ -8,6 +8,8 @@ from operator import itemgetter
 from typing import TYPE_CHECKING, TypedDict
 
 from django.db import transaction
+from django.db.models import Q, Value
+from django.db.models.functions import MD5
 
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
@@ -294,16 +296,18 @@ def get_group_matching_memory(
     statuses: dict[MemoryKey, int],
 ) -> tuple[dict[MemoryKey, set[MemoryCategory]], list[Memory]]:
     origin, source_language_id, target_language_id = group_key
-    sources = {entry["source"] for _, _, entry, _ in group_entries}
-    targets = {entry["target"] for _, _, entry, _ in group_entries}
     expected_keys = {key for _, key, _, _ in group_entries}
+    matching_pairs = Q()
+    for _, _, _, source, target in expected_keys:
+        matching_pairs |= Q(
+            source__md5=MD5(Value(source)), target__md5=MD5(Value(target))
+        )
     existing = defaultdict(set)
     to_update = []
 
     for matching in Memory.objects.filter(
+        matching_pairs,
         from_file=False,
-        source__in=sources,
-        target__in=targets,
         origin=origin,
         source_language_id=source_language_id,
         target_language_id=target_language_id,

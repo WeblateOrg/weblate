@@ -8,12 +8,13 @@ import json
 import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import MagicMock, call, patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db.models import Q
+from django.db.models.functions import MD5
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -32,6 +33,7 @@ from weblate.memory.models import (
     load_memory_tmx_store,
 )
 from weblate.memory.tasks import (
+    get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
 )
@@ -40,6 +42,11 @@ from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.memory.tasks import (
+        MemoryGroupEntry,
+    )
 
 
 def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
@@ -95,6 +102,104 @@ class MemoryParserTest(SimpleTestCase):
                 ),
                 origin="missing-header.tmx",
             )
+
+    def test_bulk_matching_memory_uses_exact_md5_pairs(self) -> None:
+        entries: list[MemoryGroupEntry] = [
+            (
+                0,
+                ("origin", 1, 2, "source 1", "target 1"),
+                {
+                    "source_language_id": 1,
+                    "target_language_id": 2,
+                    "source": "source 1",
+                    "context": "",
+                    "target": "target 1",
+                    "origin": "origin",
+                    "add_shared": False,
+                    "add_project": True,
+                    "add_user": False,
+                    "user_id": None,
+                    "project_id": 1,
+                    "unit_state": STATE_TRANSLATED,
+                },
+                Memory.STATUS_ACTIVE,
+            ),
+            (
+                1,
+                ("origin", 1, 2, "source 2", "target 2"),
+                {
+                    "source_language_id": 1,
+                    "target_language_id": 2,
+                    "source": "source 2",
+                    "context": "",
+                    "target": "target 2",
+                    "origin": "origin",
+                    "add_shared": False,
+                    "add_project": True,
+                    "add_user": False,
+                    "user_id": None,
+                    "project_id": 1,
+                    "unit_state": STATE_TRANSLATED,
+                },
+                Memory.STATUS_ACTIVE,
+            ),
+        ]
+        statuses = {key: status for _, key, _, status in entries}
+        exact_match = MagicMock(
+            origin="origin",
+            source_language_id=1,
+            target_language_id=2,
+            source="source 1",
+            target="target 1",
+            status=Memory.STATUS_PENDING,
+            user_id=None,
+            project_id=1,
+            shared=False,
+        )
+
+        with patch.object(
+            Memory.objects, "filter", return_value=[exact_match]
+        ) as filter_mock:
+            existing, to_update = get_group_matching_memory(
+                ("origin", 1, 2), entries, statuses
+            )
+
+        args, kwargs = filter_mock.call_args
+        self.assertNotIn("source__in", kwargs)
+        self.assertNotIn("target__in", kwargs)
+        self.assertEqual(
+            kwargs,
+            {
+                "from_file": False,
+                "origin": "origin",
+                "source_language_id": 1,
+                "target_language_id": 2,
+            },
+        )
+        self.assertEqual(
+            self.get_query_pairs(args[0]),
+            {("source 1", "target 1"), ("source 2", "target 2")},
+        )
+        self.assertEqual(
+            existing["origin", 1, 2, "source 1", "target 1"], {("project", 1)}
+        )
+        self.assertEqual(to_update, [exact_match])
+
+    def get_query_pairs(self, query: Q) -> set[tuple[str, str]]:
+        children = query.children if query.connector == "OR" else [query]
+        pairs = set()
+        for child in children:
+            self.assertIsInstance(child, Q)
+            lookups = dict(cast("Any", child).children)
+            self.assertEqual(set(lookups), {"source__md5", "target__md5"})
+            source = lookups["source__md5"]
+            target = lookups["target__md5"]
+            self.assertIsInstance(source, MD5)
+            self.assertIsInstance(target, MD5)
+            pairs.add(
+                (source.source_expressions[0].value, target.source_expressions[0].value)
+            )
+        return pairs
 
 
 class MemoryModelTest(FixtureTestCase):
