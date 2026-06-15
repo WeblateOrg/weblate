@@ -3543,6 +3543,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         user: User | None,
         parse_after_update: bool = False,
     ) -> None:
+        changed_files = self.repository.get_changed_files(compare_to=previous_head)
         vcs_post_update.send(
             sender=self.__class__,
             component=self,
@@ -3550,6 +3551,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             skip_push=skip_push,
             user=user,
             parse_after_update=parse_after_update,
+            changed_files=changed_files,
         )
         for component in self.linked_children:
             vcs_post_update.send(
@@ -3559,6 +3561,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 skip_push=skip_push,
                 user=user,
                 parse_after_update=parse_after_update,
+                changed_files=changed_files,
             )
 
     def get_mask_matches(self, *, raise_on_timeout: bool = False) -> list[str]:

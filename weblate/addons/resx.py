@@ -101,7 +101,9 @@ class ResxUpdateAddon(BaseCleanupAddon):
 
         return result
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         index, intermediate = self.build_indexes(component)
 
         if previous_head:

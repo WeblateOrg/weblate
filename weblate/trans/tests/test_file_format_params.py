@@ -426,9 +426,9 @@ class GettextParamsTest(BaseFileFormatsTest):
         addon = MsgmergeAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, rev, False)
+        addon.post_update(self.component, rev, False, [self.component.new_base])
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
@@ -449,7 +449,7 @@ class GettextParamsTest(BaseFileFormatsTest):
             encoding="utf-8",
         )
 
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
 
         self.assertTrue(
             Unit.objects.filter(
@@ -472,7 +472,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.translate_thank_you()
         self.remove_thank_you_from_template()
 
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
 
         content = Path(self.get_translation().get_filename()).read_text(
             encoding="utf-8"
@@ -484,7 +484,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.translate_thank_you()
         self.remove_thank_you_from_template()
 
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
 
         content = Path(self.get_translation().get_filename()).read_text(
             encoding="utf-8"
@@ -528,7 +528,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         addon = MsgmergeAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, rev, False)
+        addon.post_update(self.component, rev, False, [self.component.new_base])
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
