@@ -457,6 +457,8 @@ def get_search_session_snapshot(
             offset = max(len(unit_ids) - page_size + 1, 1)
         page_offset = offset - 1
         page_ids = unit_ids[page_offset : page_offset + page_size + 1]
+        if not page_ids:
+            return None
         return SearchSnapshot(
             ids=page_ids,
             offset=offset,
