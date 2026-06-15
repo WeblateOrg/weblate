@@ -9,6 +9,16 @@
   ],
   "packageRules": [
     {
+      "description": "Disable lock file maintenance on stable",
+      "matchBaseBranches": [
+        "stable"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Only security updates on stable",
       "matchBaseBranches": [
         "stable"
