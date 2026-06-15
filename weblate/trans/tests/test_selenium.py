@@ -1388,6 +1388,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         invited_user = create_another_user()
         element = self.driver.find_element(By.ID, "id_project_add_user_user")
         element.send_keys(invited_user.username)
+        # Typing starts an autocomplete request using the same session; let it
+        # finish before submitting so it can not race one-shot flash messages.
+        user_choice = WebDriverWait(self.driver, 5).until(
+            lambda driver: next(
+                (
+                    result
+                    for result in driver.find_elements(
+                        By.CSS_SELECTOR, ".autoComplete_result"
+                    )
+                    if invited_user.username in result.text
+                ),
+                None,
+            )
+        )
+        self.click(user_choice)
         Select(
             self.driver.find_element(By.ID, "id_project_add_user_group")
         ).select_by_index(1)
