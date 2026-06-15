@@ -3996,15 +3996,32 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Delete possibly no longer existing translations
         if langs is None:
-            todelete = self.translation_set.exclude(id__in=translations.keys())
-            if todelete.exists():
+            todelete = list(
+                self.translation_set.exclude(id__in=translations.keys()).select_related(
+                    "language"
+                )
+            )
+            if todelete:
                 self.needs_cleanup = True
                 with transaction.atomic():
                     self.log_info(
                         "removing stale translations: %s",
                         ",".join(trans.language.code for trans in todelete),
                     )
-                    todelete.delete()
+                    user = self.acting_user or (request.user if request else None)
+                    Change.objects.bulk_create(
+                        Change(
+                            component=self,
+                            action=ActionEvents.REMOVE_TRANSLATION,
+                            target=translation.filename,
+                            user=user,
+                            author=user,
+                        )
+                        for translation in todelete
+                    )
+                    Translation.objects.filter(
+                        id__in=[translation.id for translation in todelete]
+                    ).delete()
                     # Indicate a change to invalidate stats
                     was_change = True
 
