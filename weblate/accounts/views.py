@@ -138,6 +138,7 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_TOTP,
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
+    adjust_session_expiry,
     get_key_name,
     lock_user,
     remove_user,
@@ -1100,6 +1101,9 @@ class BaseLoginView(LoginView):
             )
             return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
         auth_login(self.request, user)
+        adjust_session_expiry(
+            request=self.request, user=user, is_login=False, force=True
+        )
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -2325,6 +2329,12 @@ class SecondFactorMixin(View):
             auth_login(self.request, user)
             # Perform OTP login
             otp_login(self.request, device)
+            adjust_session_expiry(
+                request=self.request,
+                user=user,
+                is_login=False,
+                force=True,
+            )
         else:
             self.request.session[DEVICE_ID_SESSION_KEY] = device.persistent_id
             # This is completed in social_complete after completing social login
