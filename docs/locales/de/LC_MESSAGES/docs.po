@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-11 05:14+0200\n"
-"PO-Revision-Date: 2026-06-14 02:01+0000\n"
+"PO-Revision-Date: 2026-06-15 13:56+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1930,7 +1930,7 @@ msgstr ""
 
 #: admin/announcements.rst:57
 msgid "This is how it looks on the language overview page:"
-msgstr "So sieht es auf der Übersichtsseite der Sprachen aus:"
+msgstr "So sieht es auf der Sprachübersichtsseite aus:"
 
 #: admin/announcements.rst:59
 msgid ""
@@ -22529,6 +22529,8 @@ msgid ""
 "Management interface access control is now more fine-grained with dedicated "
 "site-wide permissions."
 msgstr ""
+"Die Zugriffssteuerung für die Verwaltungsoberfläche lässt sich nun dank "
+"plattformweiter Berechtigungen noch detaillierter steuern."
 
 #: changes.rst:11
 msgid ""
@@ -22536,12 +22538,18 @@ msgid ""
 "Commits, and settings forms can restore installation defaults for individual "
 "message templates."
 msgstr ""
+"Die Standardvorlagen für Commit- und Merge-Request-Nachrichten verwenden nun "
+"Conventional Commits, und über die Einstellungsformulare können die "
+"Installationsstandards für einzelne Vorlagen wiederhergestellt werden."
 
 #: changes.rst:12
 msgid ""
 "Documented :ref:`legal` customizations and added options to hide legal pages "
 "or disable document numbering."
 msgstr ""
+"Dokumentierte :ref:`legal`-Anpassungen und zusätzliche Optionen zum "
+"Ausblenden der Rechtsdokumente oder zum Deaktivieren der "
+"Dokumentennummerierung."
 
 #: changes.rst:13
 msgid ""
@@ -22556,6 +22564,9 @@ msgid ""
 "LLM automatic suggestions now use translated examples, language-specific "
 "instructions, and richer glossary context for more reliable output."
 msgstr ""
+"Die automatischen Vorschläge von LLMs nutzen nun übersetzte Beispiele, "
+"sprachspezifische Anweisungen und einen umfangreicheren Kontext des "
+"Glossars, um zuverlässigere Ergebnisse zu liefern."
 
 #: changes.rst:17 changes.rst:40 changes.rst:77 changes.rst:140
 #: changes/v5.rst:36 changes/v5.rst:144 changes/v5.rst:213 changes/v5.rst:248
@@ -22585,24 +22596,25 @@ msgid ""
 "TBX glossary files no longer duplicate terms when repeated pending add "
 "operations are saved."
 msgstr ""
+"In TBX-Glossardateien werden Begriffe nicht mehr doppelt aufgeführt, wenn "
+"wiederholte, noch ausstehende Hinzufügungsvorgänge gespeichert werden."
 
 #: changes.rst:19
 msgid ""
 "Webhook target fallback matching is now stricter and reported in component "
 "diagnostics."
 msgstr ""
+"Die Überprüfung des Webhook-Ziel-Fallbacks ist nun strenger und wird in der "
+"Komponentendiagnose gemeldet."
 
 #: changes.rst:20
-#, fuzzy
-#| msgid ""
-#| "Component updates no longer time out waiting on their own repository lock "
-#| "during validation."
 msgid ""
 "Creating components linked with ``weblate://`` no longer waits on the shared "
 "repository lock during the request."
 msgstr ""
-"Komponentenaktualisierungen warten während der Validierung nicht mehr auf "
-"ihre eigene Repository-Sperre."
+"Beim Erstellen von Komponenten, die mit ``weblate://`` verlinkt sind, wird "
+"während der Anfrage nicht mehr auf die Sperre des gemeinsam genutzten "
+"Repositorys gewartet."
 
 #: changes.rst:23 changes.rst:156 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -22707,14 +22719,12 @@ msgid "*Released on June 1st 2026.*"
 msgstr "*Veröffentlicht am 1. Juni 2026.*"
 
 #: changes.rst:41
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Language-wide :doc:`/admin/announcements` no longer break language overview "
 "pages."
 msgstr ""
-":doc:`/admin/announcements` können im Projekt-/Sprachbereich veröffentlicht "
-"werden."
+"Sprachübergreifende :doc:`/admin/announcements` führen nicht mehr zu Fehlern "
+"auf den Sprachübersichtsseiten."
 
 #: changes.rst:51
 msgid ""
@@ -22745,11 +22755,9 @@ msgstr ""
 "benutzerspezifische Übersetzungsberechtigungen beschränkt werden."
 
 #: changes.rst:62
-#, fuzzy
-#| msgid "Added :ref:`mt-systran` automatic translation support."
 msgid "Added :ref:`cost estimates <cost-estimate>` to translation reports."
 msgstr ""
-"Unterstützung für automatische Übersetzungen von :ref:`mt-systran` "
+":ref:`Kostenschätzungen <cost-estimate>` zu Übersetzungsberichten "
 "hinzugefügt."
 
 #: changes.rst:63
@@ -22758,6 +22766,9 @@ msgid ""
 "requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-"
 "errors>` for handled server errors."
 msgstr ""
+"Optionales :ref:`OpenTelemetry-Tracing <collecting-errors>` für Backend-"
+"Anfragen und -Aufgaben sowie :ref:`Google-Cloud-Fehlerberichterstattung "
+"<collecting-errors>` für behandelte Serverfehler hinzugefügt."
 
 #: changes.rst:64
 msgid ""
@@ -42999,7 +43010,7 @@ msgstr ""
 
 #: devel/alerts.rst:4
 msgid "Translation component diagnostics"
-msgstr "Übersetzungskomponente-Diagnose"
+msgstr "Übersetzungskomponentendiagnose"
 
 #: devel/alerts.rst:6
 msgid ""
@@ -62905,8 +62916,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
-"Geben Sie den Namen des Google-Cloud-Storage-Buckets ein, in dem die Glossar-"
-"Dateien gespeichert werden."
+"Geben Sie den Namen des Google-Cloud-Storage-Buckets ein, in dem die "
+"Glossardateien gespeichert werden."
 
 #: snippets/machines-autogenerated.rst:480
 msgid ""
