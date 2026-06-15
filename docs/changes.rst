@@ -24,11 +24,8 @@ Weblate 2026.7
 * Translate pages with filtered searches and nearby strings now load more efficiently.
 * Translation form submissions now avoid loading complete search result sets when saving strings.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
-* Documented :ref:`release-artifact-inventory` for Weblate release and deployment artifacts.
-* Added :doc:`/security/releases` with release, security-update, and upgrade support lifecycle details.
-* Documented release artifact signatures, attestations, SBOMs, and checksum verification coverage.
-* Organized release lifecycle, release artifact verification, and dependency security documentation into separate security pages.
-* Filled repository-backed security metadata and removed unsupported empty placeholders.
+* Expanded security documentation for release artifacts, supported versions, security updates, release verification, SBOMs, and dependency handling.
+* Clarified security metadata, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
 * Large component imports now avoid duplicate translation-memory processing.
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
@@ -44,7 +41,6 @@ Weblate 2026.7
 * Project and workspace translation license defaults now follow component and project licenses more closely.
 * Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
 * Hardened HTML and AJAX object lookups against private project enumeration.
-* Out-of-range cached search offsets no longer cause translate form submissions to fail.
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
