@@ -12,7 +12,7 @@ import importlib
 import inspect
 import os
 import re
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from copy import copy
 from io import StringIO
 from pathlib import Path
@@ -77,6 +77,7 @@ from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
 from weblate.trans.file_format_params import (
     GettextLastTranslator,
+    GettextRemoveObsolete,
     GettextXGenerator,
     get_encoding_param,
 )
@@ -423,7 +424,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
         template_store: TranslationFormat | None,
     ) -> S:
         """Load file using defined loader."""
-        from weblate.trans.file_format_params import (  # noqa: PLC0415
+        from weblate.trans.file_format_params import (  # ruff: ignore[import-outside-top-level]
             get_params_for_file_format,
         )
 
@@ -493,7 +494,8 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
         else:
             unit = self.store.UnitClass(source, **self.get_unit_class_kwargs())
         # Needed by some formats (Android) to set target
-        unit._store = self.store  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        unit._store = self.store
         return unit
 
     def create_unit_key(
@@ -1665,6 +1667,17 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
             self.store.removeunit(old_unit)
         super().add_unit(unit)
 
+    def remove_obsolete_units(self) -> None:
+        """Remove obsolete units from the underlying store."""
+        for unit in list(self.store.units):
+            if unit.isobsolete():
+                self.store.removeunit(unit)
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        if GettextRemoveObsolete.get_value(self.file_format_params):
+            self.remove_obsolete_units()
+        super().save_content(handle)
+
 
 class PoFormat(BasePoFormat, BilingualUpdateMixin):
     # Translators: File format name
@@ -1675,7 +1688,8 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
     unit_class = PoUnit
 
     @classmethod
-    def get_new_file_content(cls, encoding: str | None = None) -> bytes:  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def get_new_file_content(cls, encoding: str | None = None) -> bytes:
         """Empty PO file content."""
         return b""
 
@@ -1688,6 +1702,7 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
 
         Wrapper around msgmerge.
         """
+        file_format_params = kwargs.pop("file_format_params", None)
         cmd = [
             "msgmerge",
             *kwargs.pop("args", ["--previous"]),
@@ -1701,7 +1716,7 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise ValueError(msg)
 
         try:
-            result = subprocess.run(  # noqa: S603
+            result = subprocess.run(
                 cmd,
                 env=get_clean_env(),
                 cwd=os.path.dirname(out_file),
@@ -1734,6 +1749,11 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             errors.append(line)
         if errors:
             raise UpdateError(" ".join(cmd), "\n".join(errors))
+        if GettextRemoveObsolete.get_value(file_format_params):
+            cls(
+                out_file,
+                file_format_params=file_format_params,
+            ).save()
 
 
 class PoMonoFormat(BasePoFormat):
@@ -2960,7 +2980,8 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
             if unit.has_content() and not unit.has_unit():
                 # Materialize missing units before saving to avoid passing None
                 # into Translate Toolkit's addunit() implementation.
-                unit._unit = copy(unit.mainunit)  # noqa: SLF001
+                # ruff: ignore[private-member-access]
+                unit._unit = copy(unit.mainunit)
                 unit.unit.target = unit.mainunit.source
                 unit.unit.missing = True
             elif unit.has_content() and unit.unit.missing:
@@ -2971,7 +2992,8 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
             # if the unit was only a comment, we take back the original source file unit
             # to avoid any change.
             elif not unit.has_content():
-                unit._unit = unit.mainunit  # noqa: SLF001
+                # ruff: ignore[private-member-access]
+                unit._unit = unit.mainunit
             self.add_unit(unit)
 
         self.store.serialize(handle)
@@ -3019,9 +3041,11 @@ class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
             if note:
                 notes.append(note)
 
-        for node in self.unit._getnotenodes(origin="definition"):  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        for node in self.unit._getnotenodes(origin="definition"):
             if self._is_usage_node(node):
-                notes.append(self.unit._getnodetext(node))  # noqa: SLF001
+                # ruff: ignore[private-member-access]
+                notes.append(self.unit._getnodetext(node))
                 break
 
         return "\n".join(notes)
@@ -3048,10 +3072,13 @@ class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
     def source_explanation(self) -> str:
         seen_notes = set()
         notes = []
-        for node in self.unit._getnotenodes(origin="definition"):  # noqa: SLF001
-            if self._is_usage_node(node) or self.unit._is_translation_needed_node(node):  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        for node in self.unit._getnotenodes(origin="definition"):
+            # ruff: ignore[private-member-access]
+            if self._is_usage_node(node) or self.unit._is_translation_needed_node(node):
                 continue
-            note = self.unit._getnodetext(node)  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            note = self.unit._getnodetext(node)
             if note not in seen_notes:
                 notes.append(note)
                 seen_notes.add(note)
@@ -3062,12 +3089,15 @@ class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
     def flags(self):
         flags = super().flags
 
-        for node in self.unit._getnotenodes(origin="pos"):  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        for node in self.unit._getnotenodes(origin="pos"):
             # each tig in the two langsets in the termEntry can have the
             # <termNote type="administrativeStatus">, consider forbidden
             # if either of the two is forbidden/obsolete
-            if self.unit._is_administrative_status_term_node(node):  # noqa: SLF001
-                if self.unit._getnodetext(node).strip().lower() in {  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            if self.unit._is_administrative_status_term_node(node):
+                # ruff: ignore[private-member-access]
+                if self.unit._getnodetext(node).strip().lower() in {
                     "forbidden",
                     "obsolete",
                 }:

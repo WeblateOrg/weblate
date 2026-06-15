@@ -11,7 +11,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
 from datetime import timedelta
@@ -25,6 +25,7 @@ import jsonschema.exceptions
 import requests
 import responses
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -117,7 +118,7 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon, AddonActivityLog, Event, handle_addon_event
+from .models import Addon, AddonActivityLog, Event, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -177,9 +178,12 @@ class CrashAddon(UpdateBaseAddon):
     def can_install(
         cls,
         *,
-        component: Component | None = None,  # noqa: ARG003
-        category: Category | None = None,  # noqa: ARG003
-        project: Project | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        component: Component | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        category: Category | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        project: Project | None = None,
     ) -> bool:
         return False
 
@@ -227,19 +231,18 @@ class ManualResultAddon(BaseAddon):
 class TestAddonMixin:
     def setUp(self) -> None:
         super().setUp()
-        ADDONS.data[NoOpAddon.name] = NoOpAddon
-        ADDONS.data[ExampleAddon.name] = ExampleAddon
-        ADDONS.data[CrashAddon.name] = CrashAddon
-        ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
-        ADDONS.data[ManualResultAddon.name] = ManualResultAddon
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        del ADDONS.data[NoOpAddon.name]
-        del ADDONS.data[ExampleAddon.name]
-        del ADDONS.data[CrashAddon.name]
-        del ADDONS.data[ExamplePreAddon.name]
-        del ADDONS.data[ManualResultAddon.name]
+        addons_override = override_settings(
+            WEBLATE_ADDONS=(
+                *settings.WEBLATE_ADDONS,
+                "weblate.addons.tests.NoOpAddon",
+                "weblate.addons.tests.ExampleAddon",
+                "weblate.addons.tests.CrashAddon",
+                "weblate.addons.tests.ExamplePreAddon",
+                "weblate.addons.tests.ManualResultAddon",
+            )
+        )
+        addons_override.enable()
+        self.addCleanup(addons_override.disable)
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
@@ -590,6 +593,25 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
 
         self.assertIsNone(addon.render_repo_filename("stats/cs.json", translation))
         self.assertFalse(outside_target.exists())
+
+    def test_render_repo_filename_rejects_symlinked_parent_outside_repository(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "stats")
+
+        component = self.build_fake_component(repository_dir, new_base="messages.pot")
+        addon = self.build_fake_addon(BaseAddon, component)
+        translation = SimpleNamespace(component=component)
+
+        self.assertIsNone(addon.render_repo_filename("stats/new/cs.json", translation))
+        self.assertFalse((Path(outside_dir) / "new").exists())
 
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
         if not hasattr(os, "symlink"):
@@ -1695,34 +1717,48 @@ class GettextAddonTest(ViewTestCase):
         )
 
     def test_xgettext_without_language_omits_language_argument(self) -> None:
-        source = Path(self.component.full_path) / "src" / "messages.py"
-        source.parent.mkdir(parents=True, exist_ok=True)
-        source.write_text(
-            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
-        )
-        addon = XgettextAddon.create(
-            component=self.component,
-            run=False,
-            configuration={
+        for configuration in (
+            {
                 "interval": "weekly",
                 "update_po_files": False,
                 "language": "",
                 "source_patterns": ["src/*.py"],
             },
-        )
-
-        with (
-            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
-            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+            {
+                "interval": "weekly",
+                "update_po_files": False,
+                "source_patterns": ["src/*.py"],
+            },
         ):
-            addon.update_translations(self.component, "")
+            with self.subTest(configuration=configuration):
+                source = Path(self.component.full_path) / "src" / "messages.py"
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_text(
+                    'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+                )
+                addon = XgettextAddon.create(
+                    component=self.component,
+                    run=False,
+                    configuration=configuration,
+                )
 
-        mocked.assert_called_once()
-        command = mocked.call_args.args[1]
-        self.assertEqual(command[:3], ["xgettext", "--output", "po/hello.pot"])
-        self.assertNotIn("--language", command)
-        self.assertIn("--from-code=UTF-8", command)
-        self.assertIn("src/messages.py", command)
+                with (
+                    patch.object(
+                        XgettextAddon, "run_process", return_value=""
+                    ) as mocked,
+                    patch.object(
+                        XgettextAddon, "validate_repository_tree", return_value=True
+                    ),
+                ):
+                    addon.update_translations(self.component, "")
+
+                mocked.assert_called_once()
+                command = mocked.call_args.args[1]
+                self.assertEqual(command[:3], ["xgettext", "--output", "po/hello.pot"])
+                self.assertNotIn("--language", command)
+                self.assertIn("--from-code=UTF-8", command)
+                self.assertIn("src/messages.py", command)
+                addon.instance.delete()
 
     def test_xgettext_uses_potfiles_manifest(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"

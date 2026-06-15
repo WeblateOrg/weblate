@@ -16,6 +16,7 @@ from django.template.loader import render_to_string
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
+from lxml import html
 
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.billing.models import (
@@ -383,7 +384,8 @@ class BillingTest(BaseTestCase):
             slug="database-project",
             workspace_id=UUID("00000000-0000-0000-0000-000000000001"),
         )
-        project._state.db = "other"  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        project._state.db = "other"
 
         with patch.object(Billing.objects, "db_manager") as db_manager:
             manager = db_manager.return_value
@@ -1206,6 +1208,18 @@ class BillingTest(BaseTestCase):
             {"other": other.pk},
         )
         self.assertContains(response, "Confirm merge")
+        merge_url = reverse("billing-merge", kwargs={"pk": self.billing.pk})
+        forms = html.fromstring(response.content).xpath(
+            f'//form[@method="post" and @action="{merge_url}"]'
+        )
+        self.assertEqual(len(forms), 1)
+        form = forms[0]
+        self.assertEqual(form.xpath('.//input[@name="other"]/@value'), [str(other.pk)])
+        self.assertTrue(form.xpath('.//input[@name="csrfmiddlewaretoken"]'))
+        self.assertTrue(form.xpath('.//input[@name="confirm"]'))
+        self.assertTrue(
+            form.xpath('.//input[@type="submit" and @value="Confirm merge"]')
+        )
 
         response = self.client.post(
             reverse("billing-merge", kwargs={"pk": self.billing.pk}),

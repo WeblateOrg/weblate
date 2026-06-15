@@ -35,7 +35,8 @@ class PlanAdmin(WeblateModelAdmin):
         "change_access_control",
     )
     ordering = ("name",)
-    prepopulated_fields = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    prepopulated_fields = {
         "slug": ("name",),
     }
     list_filter = ("public", "change_access_control")

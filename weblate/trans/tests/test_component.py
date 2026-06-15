@@ -683,7 +683,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_push()
 
         # force reload VCS list to include github
-        del VCS_REGISTRY.data
+        VCS_REGISTRY.clear_cache()
 
         component.vcs = "github"
 
@@ -1389,6 +1389,11 @@ class ComponentErrorTest(RepoTestCase):
         with self.component.repository.lock:
             self.component.repository.commit("test", files=["README.md"])
         self.assertFalse(self.component.do_push(None))
+        change = self.component.change_set.get(action=ActionEvents.FAILED_PUSH)
+        self.assertIsNotNone(change.user)
+        self.assertEqual(change.user.username, "weblate:push")
+        self.assertTrue(change.user.is_bot)
+        self.assertEqual(change.user.full_name, "Background push")
 
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
@@ -1402,7 +1407,7 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         with self.assertRaises(ValidationError):
             self.component.clean()
@@ -1412,7 +1417,7 @@ class ComponentErrorTest(RepoTestCase):
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1423,7 +1428,7 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1435,7 +1440,7 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             self.component.clean()
 
@@ -1450,7 +1455,7 @@ class ComponentErrorTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         report_error.assert_not_called()
 
@@ -1467,7 +1472,7 @@ class ComponentErrorTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         report_error.assert_called_once_with(
             "Template parse error", project=self.component.project

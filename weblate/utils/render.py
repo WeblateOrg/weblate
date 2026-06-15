@@ -41,7 +41,11 @@ class RestrictedEngine(Engine):
 
 def render_template(template: str, **kwargs):
     """Render string template with Weblate context."""
-    from weblate.trans.models import Component, Project, Translation  # noqa: PLC0415
+    from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+        Component,
+        Project,
+        Translation,
+    )
 
     translation = kwargs.get("translation")
     component = kwargs.get("component")
@@ -113,9 +117,17 @@ def validate_render(value: str, **kwargs) -> str:
 
 
 def validate_render_mock(value: str, *, translation: bool = False, **kwargs) -> str:
-    from weblate.lang.models import Language  # noqa: PLC0415
-    from weblate.trans.models import Component, Project, Translation  # noqa: PLC0415
-    from weblate.utils.stats import DummyTranslationStats  # noqa: PLC0415
+    from weblate.lang.models import Language  # ruff: ignore[import-outside-top-level, unsorted-imports]
+    from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+        Component,
+        Project,
+        Translation,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.stats import (
+        DummyTranslationStats,
+    )
 
     project = Project(name="project", slug="project", id=-1)
     project.stats = DummyTranslationStats(project)  # type: ignore[assignment]

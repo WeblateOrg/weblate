@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test.utils import modify_settings, override_settings
+from django.db import connection
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from translation_finder import DiscoveryResult
 
@@ -22,6 +23,7 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     get_test_file,
 )
+from weblate.trans.views.create import CreateComponentSelection
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.git import GitRepository
@@ -786,6 +788,45 @@ class CreateTest(ViewTestCase):
         change = new_component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "vcs")
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_create_component_rejects_inaccessible_source_component(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.project.add_user(self.user, "Administration")
+
+        private_project = self.create_project(
+            name="Private source",
+            slug="private-source",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="Private source"
+        )
+        private_component.file_format_params = {"po_line_wrap": "-1"}
+        private_component.save(update_fields=["file_format_params"])
+
+        request = self.factory.get("/", {"source_component": str(private_component.pk)})
+        request.user = self.user
+        form = ComponentCreateForm(
+            request,
+            initial={"project": self.project.pk, "file_format": "po"},
+        )
+        self.assertNotEqual(
+            form.initial.get("file_format_params", {}).get("po_line_wrap"), "-1"
+        )
+
+        response = self.client.get(
+            f"{reverse('create-component')}?component={private_component.pk}#existing"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, private_component.name)
+
+        response = self.client_create_component(
+            False, source_component=private_component.pk
+        )
+        self.assertIn("source_component", response.context["form"].errors)
+        self.assertFalse(Component.objects.filter(slug="create-component").exists())
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_branch_fail(self) -> None:
         # Make superuser
@@ -836,6 +877,47 @@ class CreateTest(ViewTestCase):
         )
         change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "branch")
+
+    def test_component_branch_data_uses_bulk_existing_branch_lookup(self) -> None:
+        repo_a = "https://example.com/repo-a.git"
+        repo_b = "https://example.com/repo-b.git"
+        Component.objects.filter(pk=self.component.pk).update(repo=repo_a)
+        self.component.refresh_from_db()
+        second = self.create_po(project=self.project, name="Second")
+        third = self.create_android(project=self.project, name="Third")
+        Component.objects.filter(pk=second.pk).update(repo=repo_a, branch="stable")
+        Component.objects.filter(pk=third.pk).update(repo=repo_b)
+
+        view = CreateComponentSelection()
+        view.components = Component.objects.filter(
+            pk__in=(self.component.pk, second.pk, third.pk)
+        ).order_project()
+
+        with (
+            patch(
+                "weblate.vcs.git.GitRepository.list_remote_branches",
+                return_value=["main", "stable", "feature", "new"],
+            ) as list_remote_branches,
+            CaptureQueriesContext(connection) as queries,
+        ):
+            branch_data = view.branch_data
+
+        self.assertEqual(list_remote_branches.call_count, 2)
+        self.assertEqual(branch_data[self.component.pk], ["feature", "new"])
+        self.assertEqual(branch_data[second.pk], ["feature", "new"])
+        self.assertEqual(branch_data[third.pk], ["stable", "feature", "new"])
+
+        component_queries = "\n".join(
+            query["sql"]
+            for query in queries.captured_queries
+            if 'FROM "trans_component"' in query["sql"]
+        )
+        self.assertEqual(
+            component_queries.count('"trans_component"."repo" IN'),
+            1,
+            component_queries,
+        )
+        self.assertNotIn('"trans_component"."repo" =', component_queries)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_invalid_zip(self) -> None:
@@ -969,6 +1051,25 @@ class CreateTest(ViewTestCase):
             component = Component.objects.get(slug="create-component")
             change = component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
             self.assertEqual(change.details["origin"], "document")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_create_doc_too_big(self) -> None:
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.user.is_superuser = True
+            self.user.save()
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "docfile": SimpleUploadedFile("cs.html", b"xx"),
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                    "source_language": get_default_lang(),
+                },
+            )
+
+        self.assertContains(response, "Uploaded translation file is too big.")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_doc_category(self) -> None:

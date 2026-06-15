@@ -40,7 +40,8 @@ class SuggestionManager(models.Manager["Suggestion"]):
         raise_exception: bool = True,
     ):
         """Create new suggestion for this unit."""
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import get_anonymous
 
         # Apply fixups
         fixups: list[str] = []
@@ -137,7 +138,8 @@ class Suggestion(models.Model, UserDisplayMixin):
         app_label = "trans"
         verbose_name = "string suggestion"
         verbose_name_plural = "string suggestions"
-        indexes = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        indexes = [
             postgres_indexes.GinIndex(
                 postgres_indexes.OpClass(models.F("target"), name="gin_trgm_ops"),
                 models.F("unit"),
@@ -271,7 +273,8 @@ class Vote(models.Model):
     NEGATIVE = -1
 
     class Meta:
-        unique_together = [("suggestion", "user")]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [("suggestion", "user")]
         app_label = "trans"
         verbose_name = "suggestion vote"
         verbose_name_plural = "suggestion votes"

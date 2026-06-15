@@ -283,14 +283,23 @@ class Workspace(models.Model):
         return False
 
     def schedule_component_check_updates(self) -> None:
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
 
         for component in Component.objects.filter(project__workspace=self).iterator():
             component.schedule_update_checks(update_state=True)
 
     def setup_groups(self) -> dict[str, Group]:
-        from weblate.auth.data import SELECTION_MANUAL  # noqa: PLC0415
-        from weblate.auth.models import Group, Role  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.data import (
+            SELECTION_MANUAL,
+        )
+        from weblate.auth.models import (  # ruff: ignore[import-outside-top-level]
+            Group,
+            Role,
+        )
 
         result = {}
         for group_name, roles in WORKSPACE_GROUPS.items():
@@ -315,7 +324,7 @@ class Workspace(models.Model):
         user.add_team(request, self.get_owners_group())
 
     def users_with_permission(self, permission: str) -> QuerySet[User, User]:
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         return (
             User.objects.filter(
@@ -332,7 +341,10 @@ class Workspace(models.Model):
     def generate_changes(
         self, old: Workspace, update_fields: Collection[str] | None = None
     ) -> None:
-        from weblate.trans.models.audit import log_setting_changes  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.audit import (
+            log_setting_changes,
+        )
 
         log_setting_changes(
             self,

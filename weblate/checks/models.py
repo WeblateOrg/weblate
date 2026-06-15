@@ -41,6 +41,10 @@ class ChecksLoader(ClassLoader[BaseCheck]):
         return {k: v for k, v in self.items() if v.target}
 
     @cached_property
+    def target_untranslated(self):
+        return {k: v for k, v in self.target.items() if not v.ignore_untranslated}
+
+    @cached_property
     def glossary(self):
         return {k: v for k, v in self.items() if v.glossary}
 
@@ -85,8 +89,17 @@ class Check(models.Model):
     objects = CheckQuerySet.as_manager()
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [
             ("unit", "name"),
+        ]
+        # ruff: ignore[mutable-class-default]
+        indexes = [
+            models.Index(
+                fields=["unit"],
+                condition=Q(dismissed=False),
+                name="checks_active_unit_idx",
+            ),
         ]
         verbose_name = "Quality check"
         verbose_name_plural = "Quality checks"

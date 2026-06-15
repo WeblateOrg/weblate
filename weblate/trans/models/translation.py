@@ -159,7 +159,10 @@ class TranslationManager(models.Manager):
 
 class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
     def prefetch(self, *, defer_huge: bool = True):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
 
         component_prefetch: str | models.Prefetch
         component_project: str | models.Prefetch
@@ -171,8 +174,15 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         grandparent_category_project: str | models.Prefetch
         component_project_workspace: str | models.Prefetch
         if defer_huge:
-            from weblate.trans.models import Category, Project  # noqa: PLC0415
-            from weblate.workspaces.models import Workspace  # noqa: PLC0415
+            from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+                Category,
+                Project,
+            )
+
+            # ruff: ignore[import-outside-top-level]
+            from weblate.workspaces.models import (
+                Workspace,
+            )
 
             component_prefetch = models.Prefetch(
                 "component", queryset=Component.objects.defer_huge()
@@ -232,8 +242,15 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         ).prefetch_meta()
 
     def prefetch_meta(self):
-        from weblate.trans.models import Component, Project  # noqa: PLC0415
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+            Component,
+            Project,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import (
+            Workspace,
+        )
 
         return self.prefetch_related(
             "language",
@@ -316,7 +333,7 @@ class Translation(
 
     class Meta:
         app_label = "trans"
-        unique_together = [("component", "language")]  # noqa: RUF012
+        unique_together = [("component", "language")]  # ruff: ignore[mutable-class-default]
         verbose_name = "translation"
         verbose_name_plural = "translations"
 
@@ -527,7 +544,7 @@ class Translation(
         )
         return newunit
 
-    def update_units_from_store(  # noqa: C901
+    def update_units_from_store(  # ruff: ignore[complex-structure]
         self, *, user: User | None, author: User | None
     ) -> tuple[dict[int, Unit], dict[int, Unit]]:
         store = self.store
@@ -843,7 +860,7 @@ class Translation(
         """Return last author of change done in Weblate."""
         if not self.stats.last_author:
             return None
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
@@ -1683,6 +1700,7 @@ class Translation(
                         filename,
                         temp.name,
                         args=args,
+                        file_format_params=component.file_format_params,
                         repo_temp_dir=repo_temp_dir,
                     )
                     filenames.append(filename)
@@ -1931,7 +1949,7 @@ class Translation(
         fuzzy: Literal["", "process", "approve"] = "",
     ) -> UploadResult:
         """Top level handler for file uploads."""
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         component = self.component
 
@@ -2043,7 +2061,10 @@ class Translation(
     @transaction.atomic
     def remove(self, user: User) -> None:
         """Remove translation from the Database and VCS."""
-        from weblate.glossary.tasks import cleanup_stale_glossaries  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.tasks import (
+            cleanup_stale_glossaries,
+        )
 
         author = user.get_author_name()
         # Log
@@ -2187,7 +2208,7 @@ class Translation(
             )
 
     @transaction.atomic
-    def _add_unit_locked(  # noqa: C901, PLR0914, PLR0915, PLR0912
+    def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches]
         self,
         request: AuthenticatedHttpRequest | None,
         context: str,
@@ -2361,7 +2382,7 @@ class Translation(
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
-                component._sources[id_hash] = unit  # noqa: SLF001
+                component._sources[id_hash] = unit  # ruff: ignore[private-member-access]
             if translation == self:
                 result = unit
             unit_ids.append(unit.pk)
@@ -2399,7 +2420,10 @@ class Translation(
 
     @transaction.atomic
     def delete_unit(self, request: AuthenticatedHttpRequest | None, unit: Unit) -> None:
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import (
+            get_anonymous,
+        )
 
         component = self.component
         user = request.user if request else get_anonymous()
@@ -2478,7 +2502,7 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self) -> None:
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not self.is_source or not self.component.manage_units:
             return

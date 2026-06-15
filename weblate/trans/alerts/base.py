@@ -48,19 +48,19 @@ class BaseAlert:
         self.instance = instance
 
     @classmethod
-    def get_description(cls, component) -> StrOrPromise:  # noqa: ARG003
+    def get_description(cls, component) -> StrOrPromise:  # ruff: ignore[unused-class-method-argument]
         return cls.verbose
 
     @classmethod
-    def get_url(cls, component) -> str:  # noqa: ARG003
+    def get_url(cls, component) -> str:  # ruff: ignore[unused-class-method-argument]
         return ""
 
     @classmethod
-    def get_doc_url(cls, component, user: User | None = None) -> str:  # noqa: ARG003
+    def get_doc_url(cls, component, user: User | None = None) -> str:  # ruff: ignore[unused-class-method-argument]
         return ""
 
     @classmethod
-    def is_relevant(cls, component) -> bool:  # noqa: ARG003
+    def is_relevant(cls, component) -> bool:  # ruff: ignore[unused-class-method-argument]
         return True
 
     @classmethod
@@ -90,7 +90,7 @@ class BaseAlert:
         return render_to_string(template_name, self.get_context(user))
 
     @staticmethod
-    def check_component(component) -> bool | dict | None:  # noqa: ARG004
+    def check_component(component) -> bool | dict | None:  # ruff: ignore[unused-static-method-argument]
         return None
 
 
@@ -121,8 +121,11 @@ class MultiAlert(BaseAlert):
     def process_occurrences(
         self, occurrences: list[dict[str, str]]
     ) -> list[dict[str, Any]]:
-        from weblate.lang.models import Language  # noqa: PLC0415
-        from weblate.trans.models import Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.lang.models import (
+            Language,
+        )
+        from weblate.trans.models import Unit  # ruff: ignore[import-outside-top-level]
 
         processors = (
             ("language_code", "language", Language.objects.all(), "code"),

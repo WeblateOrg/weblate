@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import csv
 import os
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
@@ -460,7 +460,7 @@ class XlsxExporterTest(PoExporterTest):
         pass
 
     def test_plural_rows(self) -> None:
-        from openpyxl import load_workbook  # noqa: PLC0415
+        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         output = self.check_unit(
             source="%(count)s file\x1e\x1e%(count)s files",
@@ -486,7 +486,7 @@ class XlsxExporterTest(PoExporterTest):
         )
 
     def test_multivalue_units_are_not_exported_as_plural_rows(self) -> None:
-        from openpyxl import load_workbook  # noqa: PLC0415
+        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         output = self.check_unit(
             nplurals=1,
@@ -656,18 +656,22 @@ class MultiCSVExporterTest(PoExporterTest):
 
             # Initialize git repository
 
-            subprocess.run(["git", "init"], cwd=git_dir, check=True)  # noqa: S607
+            # ruff: ignore[start-process-with-partial-path]
+            subprocess.run(["git", "init"], cwd=git_dir, check=True)
             subprocess.run(
-                ["git", "config", "user.name", "Test User"],  # noqa: S607
+                # ruff: ignore[start-process-with-partial-path]
+                ["git", "config", "user.name", "Test User"],
                 cwd=git_dir,
                 check=True,
             )
             subprocess.run(
-                ["git", "config", "user.email", "test@example.com"],  # noqa: S607
+                # ruff: ignore[start-process-with-partial-path]
+                ["git", "config", "user.email", "test@example.com"],
                 cwd=git_dir,
                 check=True,
             )
-            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)  # noqa: S607
+            # ruff: ignore[start-process-with-partial-path]
+            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)
 
             # Create the CSV file with real data
             csv_content = '''"source","target","context","developer_comments"
@@ -680,9 +684,11 @@ class MultiCSVExporterTest(PoExporterTest):
             Path(csv_file_path).write_text(csv_content, encoding="utf-8")
 
             # Add and commit the file
-            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)  # noqa: S607
+            # ruff: ignore[start-process-with-partial-path]
+            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)
             subprocess.run(
-                ["git", "commit", "-m", "Initial commit"],  # noqa: S607
+                # ruff: ignore[start-process-with-partial-path]
+                ["git", "commit", "-m", "Initial commit"],
                 cwd=git_dir,
                 check=True,
             )

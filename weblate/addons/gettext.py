@@ -8,7 +8,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
 from datetime import date, timedelta
@@ -441,7 +441,11 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 continue
             try:
                 file_format_cls.update_bilingual(
-                    filename, template, args=args, repo_temp_dir=repo_temp_dir
+                    filename,
+                    template,
+                    args=args,
+                    file_format_params=component.file_format_params,
+                    repo_temp_dir=repo_temp_dir,
                 )
             except UpdateError as error:
                 self.alerts.append(
@@ -532,7 +536,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         ]
 
     def ensure_msgmerge_addon(self) -> bool:
-        from weblate.addons.models import Addon  # noqa: PLC0415
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         install_msgmerge = self.instance.configuration.get("_install_msgmerge", False)
         if not install_msgmerge:
@@ -735,7 +739,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     ) -> str | None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            output = subprocess.check_output(  # noqa: S603
+            output = subprocess.check_output(
                 cmd,
                 env=get_clean_env(env, extra_path),
                 cwd=component.full_path if cwd is None else cwd,
@@ -1018,7 +1022,7 @@ class XgettextAddon(ExtractPotBaseAddon):
         }
 
     def get_language(self) -> str | None:
-        return self.instance.configuration["language"]
+        return self.instance.configuration.get("language", "")
 
     def get_comment_mode(self) -> str:
         return str(self.instance.configuration.get("comment_mode", "off"))

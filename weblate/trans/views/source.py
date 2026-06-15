@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 @login_required
 @transaction.atomic
 def edit_context(request: AuthenticatedHttpRequest, pk):
-    unit = get_object_or_404(Unit, pk=pk)
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=pk)
     if not unit.is_source and not unit.translation.component.is_glossary:
         msg = "Non source unit!"
         raise Http404(msg)

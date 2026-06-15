@@ -15,7 +15,7 @@ from weblate.trans.models import Translation, Unit
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
-    from weblate.trans.models.translation import NewUnitParams
+    from weblate.trans.models.translation import NewUnitParams, TranslationQuerySet
 
 
 class CommaSeparatedIntegerField(forms.Field):
@@ -41,38 +41,50 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
 
     class Meta:
         model = Unit
-        fields = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = [
             "context",
             "source",
             "target",
             "translation",
             "explanation",
         ]
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "context": forms.TextInput,
             "source": forms.TextInput,
             "target": forms.TextInput,
             "explanation": forms.TextInput,
         }
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "translation": GlossaryModelChoiceField,
         }
 
-    def __init__(self, unit: Unit, user: User, data: dict | None = None) -> None:
+    def __init__(
+        self,
+        unit: Unit,
+        user: User,
+        data: dict | None = None,
+        glossaries: TranslationQuerySet | None = None,
+        filter_permissions: bool = True,
+    ) -> None:
         self.unit = unit
         translation = unit.translation
-        self.glossaries = Translation.objects.filter(
-            language=translation.language,
-            component__in=translation.component.project.glossaries,
-            component__manage_units=True,
-        ).prefetch()
-        exclude = [
-            glossary.pk
-            for glossary in self.glossaries
-            if not user.has_perm("unit.add", glossary)
-        ]
-        if exclude:
-            self.glossaries = self.glossaries.exclude(pk__in=exclude)
+        if glossaries is None:
+            glossaries = Translation.objects.filter(
+                language=translation.language,
+                component__in=translation.component.project.glossaries,
+            ).prefetch()
+        self.glossaries = glossaries.filter(component__manage_units=True)
+        if filter_permissions:
+            exclude = [
+                glossary.pk
+                for glossary in self.glossaries
+                if not user.has_perm("unit.add", glossary)
+            ]
+            if exclude:
+                self.glossaries = self.glossaries.exclude(pk__in=exclude)
 
         super().__init__(
             translation=translation,

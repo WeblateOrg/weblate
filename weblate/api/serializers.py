@@ -32,6 +32,7 @@ from rest_framework.exceptions import PermissionDenied
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
+from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
@@ -74,6 +75,7 @@ from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
     validate_bitmap,
     validate_component_zip_upload_size,
+    validate_file_extension,
     validate_plural_formula_range,
     validate_translation_upload_size,
 )
@@ -193,7 +195,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         self.lookup_field = lookup_field
 
     # pylint: disable-next=redefined-builtin
-    def get_url(self, obj, view_name, request: AuthenticatedHttpRequest, format):  # noqa: A002
+    def get_url(self, obj, view_name, request: AuthenticatedHttpRequest, format):  # ruff: ignore[builtin-argument-shadowing]
         """
         Given an object, return the URL that hyperlinks to the object.
 
@@ -273,7 +275,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
             "url",
             "statistics_url",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:language-detail", "lookup_field": "code"},
             "code": {"validators": [validate_language_code]},
         }
@@ -402,7 +404,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "date_joined",
             "last_login",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
 
@@ -421,7 +423,7 @@ class SelfUserSerializer(serializers.ModelSerializer[User]):
             "username",
         )
         # Self-service PUT must accept the fields returned by the basic self view.
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "email": {"required": False},
         }
 
@@ -475,6 +477,25 @@ class DefiningProjectField(serializers.HyperlinkedRelatedField):
             raise
 
 
+class DefiningWorkspaceField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        request = self.context.get("request")
+        if request is None:
+            return Workspace.objects.none()
+        if request.user.has_perm("group.edit"):
+            return Workspace.objects.all()
+        return request.user.workspaces_with_perm("workspace.edit_members")
+
+    def to_internal_value(self, data):
+        try:
+            return super().to_internal_value(data)
+        except serializers.ValidationError:
+            request = self.context.get("request")
+            if request is not None and not request.user.has_perm("group.edit"):
+                raise PermissionDenied from None
+            raise
+
+
 class RoleSerializer(serializers.ModelSerializer[Role]):
     permissions = PermissionSerializer(many=True)
 
@@ -486,7 +507,7 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
             "permissions",
             "url",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:role-detail", "lookup_field": "id"},
         }
 
@@ -653,9 +674,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         lookup_field="slug",
         required=False,
     )
-    defining_workspace = serializers.PrimaryKeyRelatedField(
-        queryset=Workspace.objects.all(), required=False, allow_null=True
-    )
+    defining_workspace = DefiningWorkspaceField(required=False, allow_null=True)
     admins = serializers.HyperlinkedRelatedField(
         view_name="api:user-detail",
         lookup_field="username",
@@ -681,7 +700,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "enforced_2fa",
             "admins",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:group-detail", "lookup_field": "id"},
         }
         validators = ()
@@ -748,18 +767,36 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
                     )
                 }
             )
-        request = self.context.get("request")
         if (
             self.instance is not None
-            and self.instance.defining_project is not None
+            and (
+                self.instance.defining_project is not None
+                or self.instance.defining_workspace is not None
+            )
             and (
                 "project_selection" in attrs
                 and attrs["project_selection"] != self.instance.project_selection
             )
-            and (request is None or not request.user.has_perm("group.edit"))
         ):
-            raise PermissionDenied
+            raise serializers.ValidationError(
+                {
+                    "project_selection": gettext_lazy(
+                        "Cannot change this on a scoped team."
+                    )
+                }
+            )
         return attrs
+
+    def create(self, validated_data):
+        defining_project = validated_data.get("defining_project")
+        defining_workspace = validated_data.get("defining_workspace")
+        if defining_project is not None or defining_workspace is not None:
+            validated_data["project_selection"] = SELECTION_MANUAL
+
+        group = super().create(validated_data)
+        if defining_project is not None:
+            group.projects.add(defining_project)
+        return group
 
 
 class ProjectSerializer(serializers.ModelSerializer[Project]):
@@ -879,7 +916,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "locked",
             "announcements_url",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
 
@@ -984,7 +1021,7 @@ class RelatedTaskField(serializers.HyperlinkedRelatedField):
         return instance
 
     # pylint: disable-next=redefined-builtin
-    def get_url(self, obj, view_name, request: Request, format):  # noqa: A002
+    def get_url(self, obj, view_name, request: Request, format):  # ruff: ignore[builtin-argument-shadowing]
         if not obj.in_progress():
             return None
         return super().get_url(obj, view_name, request, format)
@@ -1085,7 +1122,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
     zipfile = serializers.FileField(
         required=False, validators=[validate_component_zip_upload_size]
     )
-    docfile = serializers.FileField(required=False)
+    docfile = serializers.FileField(
+        required=False,
+        validators=[validate_translation_upload_size, validate_file_extension],
+    )
     from_component = ComponentReferenceField(required=False, write_only=True)
     disable_autoshare = serializers.BooleanField(required=False)
 
@@ -1247,7 +1287,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "linked_component",
             "locked",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {
                 "view_name": "api:component-detail",
                 "lookup_field": ("project__slug", "slug"),
@@ -1308,7 +1348,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             )
             self.populate_from_component_input_defaults(data, source_component)
         # Provide a reasonable default
-        if "manage_units" not in data and data.get("template"):
+        if "manage_units" not in data and data.get("template") and not self.partial:
             data["manage_units"] = "1"
 
         # File uploads indicate usage of a local repo
@@ -1339,7 +1379,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["project"] = self.instance.project
 
         # Workaround for https://github.com/encode/django-rest-framework/issues/7489
-        if "category" not in result:
+        if "category" not in result and not self.partial:
             result["category"] = None
 
         if source_component is not None:
@@ -1712,7 +1752,7 @@ class TranslationSerializer(RemovableSerializer[Translation]):
             "units_list_url",
             "announcements_url",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {
                 "view_name": "api:translation-detail",
                 "lookup_field": (
@@ -2354,7 +2394,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "last_updated",
             "automatically_translated",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:unit-detail"},
         }
 
@@ -2447,6 +2487,7 @@ class CategorySerializer(RemovableSerializer[Category]):
         view_name="api:category-detail",
         queryset=Category.objects.none(),
         required=False,
+        allow_null=True,
     )
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:category-statistics",
@@ -2516,7 +2557,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             "inherit_pull_message",
             "effective_pull_message",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:category-detail"},
         }
 
@@ -2600,7 +2641,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             result["project"] = self.instance.project
 
         # Workaround for https://github.com/encode/django-rest-framework/issues/7489
-        if "category" not in result:
+        if "category" not in result and not self.partial:
             result["category"] = None
         return result
 
@@ -2633,9 +2674,7 @@ class ScreenshotSerializer(RemovableSerializer[Screenshot]):
             "units",
             "url",
         )
-        extra_kwargs = {  # noqa: RUF012
-            "url": {"view_name": "api:screenshot-detail"}
-        }
+        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}  # ruff: ignore[mutable-class-default]
 
 
 class ScreenshotCreateSerializer(ScreenshotSerializer):
@@ -2650,9 +2689,7 @@ class ScreenshotCreateSerializer(ScreenshotSerializer):
             "url",
             "image",
         )
-        extra_kwargs = {  # noqa: RUF012
-            "url": {"view_name": "api:screenshot-detail"}
-        }
+        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}  # ruff: ignore[mutable-class-default]
 
 
 class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
@@ -2661,9 +2698,7 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
     class Meta:
         model = Screenshot
         fields = ("image",)
-        extra_kwargs = {  # noqa: RUF012
-            "url": {"view_name": "api:screenshot-file"}
-        }
+        extra_kwargs = {"url": {"view_name": "api:screenshot-file"}}  # ruff: ignore[mutable-class-default]
 
 
 class ChangeSerializer(RemovableSerializer[Change]):
@@ -2709,9 +2744,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "action_name",
             "url",
         )
-        extra_kwargs = {  # noqa: RUF012
-            "url": {"view_name": "api:change-detail"}
-        }
+        extra_kwargs = {"url": {"view_name": "api:change-detail"}}  # ruff: ignore[mutable-class-default]
 
 
 class AutoComponentListSerializer(serializers.ModelSerializer[AutoComponentList]):
@@ -2745,7 +2778,7 @@ class ComponentListSerializer(serializers.ModelSerializer[ComponentList]):
             "auto_assign",
             "url",
         )
-        extra_kwargs = {  # noqa: RUF012
+        extra_kwargs = {  # ruff: ignore[mutable-class-default]
             "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
         }
 
@@ -2781,9 +2814,7 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             "configuration",
             "url",
         )
-        extra_kwargs = {  # noqa: RUF012
-            "url": {"view_name": "api:addon-detail"}
-        }
+        extra_kwargs = {"url": {"view_name": "api:addon-detail"}}  # ruff: ignore[mutable-class-default]
 
     @staticmethod
     def check_addon(name, queryset) -> None:

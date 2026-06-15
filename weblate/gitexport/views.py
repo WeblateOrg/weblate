@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os.path
 import re
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from base64 import b64decode
 from contextlib import suppress
 from email import message_from_string
@@ -370,7 +370,7 @@ class GitHTTPBackendWrapper:
         self.obj = obj
         self.request = request
         self.selector = DefaultSelector()
-        self._headers: bytes = b""
+        self._headers: bytes | None = None
         self._stderr: list[bytes] = []
         self._stdout: list[bytes] = []
 
@@ -382,7 +382,7 @@ class GitHTTPBackendWrapper:
 
         # Invoke Git HTTP backend
         # pylint: disable-next=consider-using-with
-        self.process = subprocess.Popen(  # noqa: S603
+        self.process = subprocess.Popen(
             [git_http_backend],
             env=self.get_env(),
             stdin=subprocess.PIPE,
@@ -421,18 +421,19 @@ class GitHTTPBackendWrapper:
         while True:
             for key, _mask in self.selector.select(timeout=1):
                 if key.data:
-                    self._stdout.append(
-                        self.process.stdout.read(1024)  # type: ignore[union-attr]
-                    )
+                    chunk = self.process.stdout.read(1024)  # type: ignore[union-attr]
+                    if chunk:
+                        self._stdout.append(chunk)
                     headers = b"".join(self._stdout)
                     if b"\r\n\r\n" in headers:
                         self._headers, body = headers.split(b"\r\n\r\n", 1)
                         self._stdout = [body]
+                        return
                 else:
-                    self._stderr.append(
-                        self.process.stderr.read()  # type: ignore[union-attr]
-                    )
-            if self.process.poll() is not None or self._headers is not None:
+                    chunk = self.process.stderr.read(1024)  # type: ignore[union-attr]
+                    if chunk:
+                        self._stderr.append(chunk)
+            if self.process.poll() is not None:
                 break
 
     def stream(self) -> Iterator[bytes]:
@@ -476,6 +477,16 @@ class GitHTTPBackendWrapper:
 
         # Handle failure
         if retcode is not None and retcode != 0:
+            return response_text(
+                format_backend_error(
+                    self.obj,
+                    output_err,
+                    can_view=bool(self.request.user.has_perm("vcs.view", self.obj)),
+                ),
+                status=500,
+            )
+
+        if self._headers is None:
             return response_text(
                 format_backend_error(
                     self.obj,

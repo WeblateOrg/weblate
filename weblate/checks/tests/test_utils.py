@@ -5,7 +5,14 @@
 from django.test import SimpleTestCase
 
 from weblate.checks.utils import highlight_string, replace_highlighted
-from weblate.trans.tests.factories import make_unit
+from weblate.trans.tests.factories import make_unit, set_unit_flags
+
+REPLACEMENT_CALLS: list[int] = []
+
+
+def marker_replacement(start: int) -> str:
+    REPLACEMENT_CALLS.append(start)
+    return f"marker-{start}"
 
 
 class HighlightTestCase(SimpleTestCase):
@@ -177,6 +184,62 @@ class HighlightTestCase(SimpleTestCase):
                 lambda start: f"x-weblate-{start}",
             ),
             "simple x-weblate-7 x-weblate-16 string",
+        )
+
+    def test_replace_highlighted_callable_not_cached(self) -> None:
+        unit = make_unit(
+            source="simple {format} string",
+            flags="python-brace-format",
+        )
+        calls = []
+
+        def replace_first(start):
+            calls.append(("first", start))
+            return "first"
+
+        def replace_second(start):
+            calls.append(("second", start))
+            return "second"
+
+        self.assertEqual(
+            replace_highlighted(unit.source, unit, replace_first),
+            "simple first string",
+        )
+        self.assertNotIn("_replace_highlighted_cache", unit.__dict__)
+        self.assertEqual(
+            replace_highlighted(unit.source, unit, replace_second),
+            "simple second string",
+        )
+        self.assertEqual(calls, [("first", 7), ("second", 7)])
+
+    def test_replace_highlighted_module_function_cached(self) -> None:
+        unit = make_unit(
+            source="simple {format} string",
+            flags="python-brace-format",
+        )
+        REPLACEMENT_CALLS.clear()
+
+        self.assertEqual(
+            replace_highlighted(unit.source, unit, marker_replacement),
+            "simple marker-7 string",
+        )
+        self.assertEqual(
+            replace_highlighted(unit.source, unit, marker_replacement),
+            "simple marker-7 string",
+        )
+        self.assertEqual(REPLACEMENT_CALLS, [7])
+
+    def test_replace_highlighted_cache_uses_current_flags(self) -> None:
+        unit = make_unit(source="simple {format} string", flags="")
+
+        self.assertEqual(
+            replace_highlighted(unit.source, unit),
+            "simple {format} string",
+        )
+        set_unit_flags(unit, "python-brace-format")
+        self.assertEqual(
+            replace_highlighted(unit.source, unit),
+            "simple  string",
         )
 
     def test_replace_highlighted_rst_without_syntax(self) -> None:

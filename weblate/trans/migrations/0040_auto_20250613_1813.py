@@ -13,7 +13,8 @@ def migrate_changes(apps, schema_editor) -> None:
     PendingUnitChange = apps.get_model("trans", "PendingUnitChange")
     Unit = apps.get_model("trans", "Unit")
 
-    User = apps.get_model(*settings.AUTH_USER_MODEL.split("."))  # noqa: N806
+    # ruff: ignore[non-lowercase-variable-in-function]
+    User = apps.get_model(*settings.AUTH_USER_MODEL.split("."))
     anonymous_user = None
 
     pending_units = Unit.objects.filter(pending=True)

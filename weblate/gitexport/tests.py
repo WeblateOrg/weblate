@@ -6,9 +6,10 @@ from __future__ import annotations
 
 import os.path
 import pathlib
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from base64 import b64encode
+from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
@@ -21,6 +22,7 @@ from weblate.auth.models import Permission, Role
 from weblate.gitexport.models import get_export_url
 from weblate.gitexport.views import (
     MAX_PRECHECK_PKT_LINES,
+    GitHTTPBackendWrapper,
     authenticate,
     format_backend_error,
     get_wanted_revisions,
@@ -184,6 +186,52 @@ class GitExportTest(ViewTestCase):
     def test_git_receive_error(self) -> None:
         response = self.git_receive(HTTP_X_WEBLATE_NO_EXPORT="1")
         self.assertEqual(404, response.status_code)
+
+    def test_fetch_headers_waits_for_complete_header_block(self) -> None:
+        class ChunkReader:
+            def __init__(self, chunks: list[bytes]) -> None:
+                self.chunks = chunks
+
+            def read(self, _size: int = -1) -> bytes:
+                return self.chunks.pop(0) if self.chunks else b""
+
+        class FakeProcess:
+            def __init__(self) -> None:
+                self.stdin = SimpleNamespace()
+                self.stdout = ChunkReader(
+                    [b"Content-Type: text/plain\r\n", b"\r\nbody"]
+                )
+                self.stderr = ChunkReader([])
+
+            def poll(self) -> None:
+                return None
+
+        class FakeSelector:
+            def select(self, timeout: int) -> list[tuple[SimpleNamespace, None]]:
+                if timeout != 1:
+                    raise AssertionError(timeout)
+                return [(SimpleNamespace(data=True), None)]
+
+        request = self.get_request()
+        request.method = "GET"
+        process = FakeProcess()
+
+        with (
+            patch("weblate.gitexport.views.find_git_http_backend", return_value="git"),
+            patch("weblate.gitexport.views.subprocess.Popen", return_value=process),
+        ):
+            wrapper = GitHTTPBackendWrapper(self.component, request, "info/refs")
+        wrapper.selector = FakeSelector()  # type: ignore[assignment]
+
+        wrapper.fetch_headers()
+
+        self.assertEqual(
+            # ruff: ignore[private-member-access]
+            wrapper._headers,
+            b"Content-Type: text/plain",
+        )
+        # ruff: ignore[private-member-access]
+        self.assertEqual(wrapper._stdout, [b"body"])
 
     def enable_acl(self) -> None:
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -492,7 +540,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         return ["git", "-c", "maintenance.auto=0", "-c", "gc.auto=0", *args]
 
     def clone_export(self, testdir: str) -> tuple[int, str]:
-        with subprocess.Popen(  # noqa: S603
+        with subprocess.Popen(
             self.git_command("clone", self.get_export_url()),
             cwd=testdir,
             stdout=subprocess.PIPE,
@@ -549,18 +597,18 @@ class GitCloneShallowTest(GitCloneTest):
 
     def advance_upstream_history(self, commit_count: int = 40) -> None:
         with tempfile.TemporaryDirectory() as testdir:
-            subprocess.check_call(  # noqa: S603
+            subprocess.check_call(
                 self.git_command("clone", self.component.repo, "upstream"),
                 cwd=testdir,
                 shell=False,
             )
             upstream_dir = os.path.join(testdir, "upstream")
-            subprocess.check_call(  # noqa: S603
+            subprocess.check_call(
                 self.git_command("config", "user.name", "Test"),
                 cwd=upstream_dir,
                 shell=False,
             )
-            subprocess.check_call(  # noqa: S603
+            subprocess.check_call(
                 self.git_command("config", "user.email", "test@example.com"),
                 cwd=upstream_dir,
                 shell=False,
@@ -577,18 +625,18 @@ class GitCloneShallowTest(GitCloneTest):
                     f"{previous}{number}\n",
                     encoding="utf-8",
                 )
-                subprocess.check_call(  # noqa: S603
+                subprocess.check_call(
                     self.git_command("add", history_path.name),
                     cwd=upstream_dir,
                     shell=False,
                 )
-                subprocess.check_call(  # noqa: S603
+                subprocess.check_call(
                     self.git_command("commit", "-m", f"upstream {number}"),
                     cwd=upstream_dir,
                     shell=False,
                 )
 
-            subprocess.check_call(  # noqa: S603
+            subprocess.check_call(
                 self.git_command("push", "origin", self.component.branch),
                 cwd=upstream_dir,
                 shell=False,
@@ -600,18 +648,18 @@ class GitCloneShallowTest(GitCloneTest):
         self.advance_upstream_history()
 
         with tempfile.TemporaryDirectory() as testdir:
-            subprocess.check_call(  # noqa: S603
+            subprocess.check_call(
                 self.git_command("clone", self.component.repo, "existing"),
                 cwd=testdir,
                 shell=False,
             )
             existing_dir = os.path.join(testdir, "existing")
-            subprocess.check_call(  # noqa: S603
+            subprocess.check_call(
                 self.git_command("remote", "add", "weblate", self.get_export_url()),
                 cwd=existing_dir,
                 shell=False,
             )
-            with subprocess.Popen(  # noqa: S603
+            with subprocess.Popen(
                 self.git_command("fetch", "weblate"),
                 cwd=existing_dir,
                 stdout=subprocess.PIPE,
@@ -622,7 +670,7 @@ class GitCloneShallowTest(GitCloneTest):
             ) as process:
                 output = process.communicate()[0]
                 retcode = process.poll()
-            fetched_revision = subprocess.check_output(  # noqa: S603
+            fetched_revision = subprocess.check_output(
                 self.git_command("rev-parse", "FETCH_HEAD"),
                 cwd=existing_dir,
                 shell=False,

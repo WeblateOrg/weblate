@@ -89,6 +89,13 @@ The code should follow :pep:`8` coding guidelines and should be formatted using
 To check the code quality, you can use :program:`ruff`, its configuration is
 stored in :file:`pyproject.toml`.
 
+When suppressing a :program:`ruff` diagnostic, prefer
+``# ruff: ignore[rule-name]`` with the human-readable rule name. Place the
+comment on the line above the logical statement or block when that does not
+broaden the suppression scope. Keep the comment inline when moving it would
+change the scope, affect import sorting, or get between another tool's
+``disable-next`` comment and the code it targets.
+
 The easiest approach to enforce all this is to install :program:`prek`. This is
 a third-party reimplementation of the `pre-commit`_ tool used by Weblate. It is
 included in the development dependencies declared in :file:`pyproject.toml`, so

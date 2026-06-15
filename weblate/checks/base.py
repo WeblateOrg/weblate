@@ -119,11 +119,46 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         )
         return result
 
+    def check_target_with_flags(
+        self, sources: list[str], targets: list[str], unit: Unit, all_flags: Flags
+    ) -> bool:
+        """Check target strings with precomputed flags."""
+        # Only inline the base target-check flow for checks that did not
+        # override it. Custom should_skip() and check_target() methods can
+        # inspect arbitrary unit state.
+        if (
+            self.__class__.should_skip is BaseCheck.should_skip
+            and self.__class__.check_target is BaseCheck.check_target
+        ):
+            if self.ignore_state(unit):
+                return False
+            if self.is_ignored(all_flags):
+                return False
+            if self.default_disabled and not all_flags.has_any(
+                {self.enable_string, *self.extra_enable_strings}
+            ):
+                return False
+            if self.check_id in unit.check_cache:
+                return unit.check_cache[self.check_id]
+            unit.check_cache[self.check_id] = result = self.check_target_unit(
+                sources, targets, unit
+            )
+            return result
+        return self.check_target(sources, targets, unit)
+
     def check_target_generator(
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Generator[bool | MissingExtraDict]:
         """Check single unit, handling plurals."""
-        from weblate.lang.models import PluralMapper  # noqa: PLC0415
+        # Singular units do not need plural metadata or PluralMapper.
+        if len(sources) == 1 and len(targets) == 1:
+            yield self.check_single(sources[0], targets[0], unit)
+            return
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.lang.models import (
+            PluralMapper,
+        )
 
         source_plural = unit.translation.component.source_language.plural
         target_plural = unit.translation.plural
@@ -139,6 +174,9 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> bool:
         """Check single unit, handling plurals."""
+        # Avoid creating a generator for the common singular case.
+        if len(sources) == 1 and len(targets) == 1:
+            return bool(self.check_single(sources[0], targets[0], unit))
         return any(self.check_target_generator(sources, targets, unit))
 
     def check_single(
@@ -152,6 +190,22 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         if self.should_skip(unit):
             return False
         return self.check_source_unit(sources, unit)
+
+    def check_source_with_flags(
+        self, sources: list[str], unit: Unit, all_flags: Flags
+    ) -> bool:
+        """Check source strings with precomputed flags."""
+        # Only inline the base skip logic for checks that did not override it.
+        # Custom should_skip() methods can inspect arbitrary unit state.
+        if self.__class__.should_skip is BaseCheck.should_skip:
+            if self.is_ignored(all_flags):
+                return False
+            if self.default_disabled and not all_flags.has_any(
+                {self.enable_string, *self.extra_enable_strings}
+            ):
+                return False
+            return self.check_source_unit(sources, unit)
+        return self.check_source(sources, unit)
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""
@@ -228,9 +282,14 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
 
 
 class BatchCheckMixin(BaseCheck):
+    def unit_has_check(self, unit: Unit) -> bool:
+        if hasattr(unit, "has_check"):
+            return unit.has_check(self.check_id)
+        return self.check_id in unit.all_checks_names
+
     def handle_batch(self, unit: Unit, component: Component) -> bool:
         component.batched_checks.add(self.check_id)
-        return self.check_id in unit.all_checks_names
+        return self.unit_has_check(unit)
 
     def check_component(self, component: Component) -> Iterable[Unit]:
         raise NotImplementedError
@@ -243,8 +302,15 @@ class BatchCheckMixin(BaseCheck):
             self._perform_batch(component)
 
     def _perform_batch(self, component: Component) -> None:
-        from weblate.checks.models import Check  # noqa: PLC0415
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.models import (
+            Check,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
 
         handled = set()
         create = []
@@ -256,7 +322,7 @@ class BatchCheckMixin(BaseCheck):
             handled.add(unit.pk)
 
             # Check is already there
-            if self.check_id in unit.all_checks_names:
+            if self.unit_has_check(unit):
                 continue
 
             create.append(Check(unit=unit, dismissed=False, name=self.check_id))
@@ -307,7 +373,10 @@ class TargetCheck(BaseCheck):
         raise NotImplementedError
 
     def format_value(self, value: str) -> StrOrPromise:
-        from weblate.trans.templatetags.translations import Formatter  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.templatetags.translations import (
+            Formatter,
+        )
 
         fmt = Formatter(0, value, None, None, None, None, None)
         fmt.parse()
@@ -374,7 +443,7 @@ class SourceCheck(BaseCheck):
 class ParametrizedCheck(BaseCheck):
     default_disabled = True
 
-    def get_value(self, unit: Unit) -> Any:  # noqa: ANN401
+    def get_value(self, unit: Unit) -> Any:  # ruff: ignore[any-type]
         return unit.all_flags.get_value(self.enable_string)
 
     def has_value(self, unit: Unit) -> bool:
@@ -411,7 +480,7 @@ class TargetCheckParametrized(ParametrizedCheck, TargetCheck):
         sources: list[str],
         targets: list[str],
         unit: Unit,
-        value: Any,  # noqa: ANN401
+        value: Any,  # ruff: ignore[any-type]
     ) -> bool:
         raise NotImplementedError
 

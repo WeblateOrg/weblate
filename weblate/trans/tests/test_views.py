@@ -35,6 +35,7 @@ from weblate.trans.models import (
     ComponentLink,
     ComponentList,
     Project,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
@@ -190,7 +191,8 @@ class ComponentTestCase(RepoTestCase):
         request.user = user or self.user
         request.session = "session"
         messages = FallbackStorage(request)
-        request._messages = messages  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        request._messages = messages
         return request
 
     def get_translation(self, language: str = "cs") -> Translation:
@@ -785,6 +787,29 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
 
+    def test_view_project_preloads_workflow_settings(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            translation_review=True,
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Czech")
+        workflow_queries = [
+            query for query in queries if '"trans_workflowsetting"' in query["sql"]
+        ]
+        self.assertLessEqual(
+            len(workflow_queries),
+            1,
+            "\n".join(query["sql"] for query in workflow_queries),
+        )
+
     def test_project_component_listing_shows_inherited_license_badge(self) -> None:
         self.project.license = "MIT"
         self.project.save(update_fields=["license"])
@@ -1036,6 +1061,24 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit().source_unit
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
+
+    def test_edit_context_hides_private_unit(self) -> None:
+        private_project = self.create_project(
+            name="Private source",
+            slug="private-source",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-source"
+        )
+        private_translation = private_component.translation_set.get(language_code="cs")
+        unit = self.get_unit(translation=private_translation).source_unit
+
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": unit.pk}),
+            {"explanation": "Extra context"},
+        )
+        self.assertEqual(response.status_code, 404)
 
     def test_edit_check_flags(self) -> None:
         # Need extra power

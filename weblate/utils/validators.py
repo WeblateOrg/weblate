@@ -372,7 +372,8 @@ def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
 
 def validate_backup_path(value: str) -> None:
     # Lazily import borg as it pulls quite a lot of memory usage
-    from borg.helpers import Location  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from borg.helpers import Location
 
     try:
         loc = Location(value)
@@ -518,7 +519,8 @@ def validate_webhook_secret_string(value: str) -> None:
 class WeblateURLValidator(URLValidator):
     """Validator for http and https URLs only."""
 
-    schemes: list[str] = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    schemes: list[str] = [
         "http",
         "https",
     ]
@@ -825,7 +827,8 @@ def validate_webhook_url(value: str) -> None:
 
 
 class WeblateEditorURLValidator(WeblateURLValidator):
-    schemes: list[str] = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    schemes: list[str] = [
         "editor",
         "netbeans",
         "txmt",

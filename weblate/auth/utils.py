@@ -48,9 +48,11 @@ def get_ordered_membership_limit_languages(
 
 
 def prefetch_membership_limit_languages() -> Prefetch:
-    from django.db.models import Prefetch  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from django.db.models import Prefetch
 
-    from weblate.lang.models import Language  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.lang.models import Language
 
     return Prefetch("limit_languages", queryset=Language.objects.order_by("code"))
 
@@ -58,7 +60,8 @@ def prefetch_membership_limit_languages() -> Prefetch:
 def format_membership_limit_language_codes(
     membership: TeamMembership | Invitation,
 ) -> SafeString:
-    from weblate.utils.html import format_html_join_comma  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.html import format_html_join_comma
 
     return format_html_join_comma(
         "{}",

@@ -254,7 +254,8 @@ class RenderSettingChange(BaseDetailsRenderStrategy):
         try:
             field = cast(
                 "models.Field",
-                obj._meta.get_field(details["field"]),  # noqa: SLF001
+                # ruff: ignore[private-member-access]
+                obj._meta.get_field(details["field"]),
             )
         except FieldDoesNotExist:
             return change.get_action_display()
@@ -499,7 +500,8 @@ class BaseChangeHistoryContext:
         return render_to_string("snippets/format-translation.html", context)
 
     def make_distance_badge(self, count: int) -> str:
-        """Create a badge for the Damerau–Levenshtein distance."""  # noqa: RUF002
+        # ruff: ignore[ambiguous-unicode-character-docstring]
+        """Create a badge for the Damerau–Levenshtein distance."""
         return npgettext(
             "Number of edits on a change in Damerau–Levenshtein distance",
             "%(count)d character edited",

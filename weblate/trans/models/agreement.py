@@ -38,9 +38,20 @@ class ContributorAgreementManager(models.Manager):
         return super().create(user=user, **dict(owner_lookup), **kwargs)
 
     def get_owner_lookup(self, component: Component) -> AgreementOwnerLookup:
-        from weblate.trans.models.category import Category  # noqa: PLC0415
-        from weblate.trans.models.project import Project  # noqa: PLC0415
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.category import (
+            Category,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import (
+            Project,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import (
+            Workspace,
+        )
 
         owner = component.get_effective_setting_owner("agreement")
         if isinstance(owner, Workspace):
@@ -103,7 +114,7 @@ class ContributorAgreement(models.Model):
     class Meta:
         verbose_name = "contributor license agreement"
         verbose_name_plural = "contributor license agreements"
-        constraints = [  # noqa: RUF012
+        constraints = [  # ruff: ignore[mutable-class-default]
             models.CheckConstraint(
                 condition=(
                     models.Q(component__isnull=False)

@@ -96,7 +96,8 @@ class ParsedQueryClause:
         if self.change_query is None:
             return self.query
 
-        from weblate.trans.models import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Change
 
         return self.query & Q(
             Exists(Change.objects.filter(self.change_query, unit_id=OuterRef("pk")))
@@ -373,7 +374,8 @@ class BaseTermExpr:
         microsecond=None,
     ):
         # Lazily import as this can be expensive
-        from dateparser.date import DateDataParser  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from dateparser.date import DateDataParser
 
         # Custom RELATIVE_BASE allows basing "1 day ago" from midnight instead
         # of the current time
@@ -500,7 +502,8 @@ class BaseTermExpr:
         return result
 
     def convert_change_action(self, text: str) -> int:
-        from weblate.trans.models import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Change
 
         try:
             return Change.ACTION_NAMES[text]
@@ -541,7 +544,8 @@ class BaseTermExpr:
     def build_field_query(
         self,
         field: str,
-        match: Any,  # noqa: ANN401
+        # ruff: ignore[any-type]
+        match: Any,
         field_name: Callable[[str, str | None], str] | None = None,
     ) -> Q:
         if field_name is None:
@@ -549,7 +553,8 @@ class BaseTermExpr:
 
         if isinstance(match, RegexExpr):
             # Regular expression
-            from weblate.trans.models import Unit  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Unit
 
             with transaction.atomic():
                 try:
@@ -608,7 +613,8 @@ class BaseTermExpr:
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         return {}
 
-    def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
+    # ruff: ignore[any-type]
+    def field_extra(self, field: str, query: Q, match: Any) -> Q:
         return query
 
     def is_field(self, text: str, context: dict) -> Q:
@@ -698,7 +704,8 @@ class UnitTermExpr(BaseTermExpr):
             query = self.build_field_query(field, match, self.change_field_name)
 
         if field in self.CHANGE_CONTENT_FIELDS:
-            from weblate.trans.models import Change  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Change
 
             query &= Q(action__in=Change.ACTIONS_CONTENT)
         return query
@@ -731,7 +738,8 @@ class UnitTermExpr(BaseTermExpr):
 
         return super().is_field(text, context)
 
-    def has_field(self, text: str, context: dict) -> Q:  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def has_field(self, text: str, context: dict) -> Q:
         if text == "plural":
             return Q(source__trgm_search=PLURAL_SEPARATOR)
         if text == "suggestion":
@@ -870,7 +878,8 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on a reverse ForeignKey relation
         with AND using exists ensures each check condition gets its own subquery.
         """
-        from weblate.checks.models import Check  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.models import Check
 
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         return Q(
@@ -888,7 +897,8 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on a reverse ForeignKey relation
         with AND using exists ensures each check condition gets its own subquery.
         """
-        from weblate.checks.models import Check  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.checks.models import Check
 
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         return Q(
@@ -906,7 +916,8 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on ManyToMany relations
         with AND using exists ensures each screenshot condition gets its own subquery.
         """
-        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.screenshots.models import Screenshot
 
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         screenshot_query = Screenshot.objects.filter(**{lookup: text})
@@ -936,7 +947,8 @@ class UnitTermExpr(BaseTermExpr):
     def convert_labels_count(self, text: str) -> int:
         return self.convert_int(text)
 
-    def field_extra(self, field: str, query: Q, match: Any) -> Q:  # noqa: ANN401
+    # ruff: ignore[any-type]
+    def field_extra(self, field: str, query: Q, match: Any) -> Q:
         if field == "comment":
             return query & Q(comment__resolved=False)
         if field == "resolved_comment":

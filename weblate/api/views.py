@@ -1004,6 +1004,21 @@ class GroupViewSet(viewsets.ModelViewSet):
         ):
             self.permission_denied(request, "Can not manage groups")
 
+    def scoped_assignment_check(
+        self, group: Group, field_name: str, message: str
+    ) -> None:
+        if (
+            group.defining_project_id is not None
+            or group.defining_workspace_id is not None
+        ):
+            raise ValidationError({field_name: message})
+
+    def workspace_assignment_check(
+        self, group: Group, field_name: str, message: str
+    ) -> None:
+        if group.defining_workspace_id is not None:
+            raise ValidationError({field_name: message})
+
     def update(self, request: Request, *args, **kwargs):
         """Change the group parameters."""
         self.perm_check(request, self.get_object())
@@ -1057,7 +1072,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     @action(detail=True, methods=["delete"], url_path="roles/(?P<role_id>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def delete_roles(self, request: Request, id, role_id):  # noqa: A002
+    def delete_roles(self, request: Request, id, role_id):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
 
@@ -1107,7 +1122,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
     # pylint: disable-next=redefined-builtin
-    def delete_languages(self, request: Request, id, language_code):  # noqa: A002
+    def delete_languages(self, request: Request, id, language_code):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
 
@@ -1127,6 +1142,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     def projects(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj, "project_id", gettext("Cannot change projects on a scoped team.")
+        )
 
         if "project_id" not in request.data:
             msg = "Missing project_id parameter"
@@ -1149,9 +1167,12 @@ class GroupViewSet(viewsets.ModelViewSet):
     @extend_schema(description="Delete a project from a group.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def delete_projects(self, request: Request, id, project_id):  # noqa: A002
+    def delete_projects(self, request: Request, id, project_id):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj, "project_id", gettext("Cannot change projects on a scoped team.")
+        )
 
         try:
             project = obj.projects.get(pk=project_id)
@@ -1168,6 +1189,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     def componentlists(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj,
+            "component_list_id",
+            gettext("Cannot change component lists on a scoped team."),
+        )
 
         if "component_list_id" not in request.data:
             msg = "Missing component_list_id parameter"
@@ -1199,11 +1225,16 @@ class GroupViewSet(viewsets.ModelViewSet):
         self,
         request: Request,
         # pylint: disable-next=redefined-builtin
-        id,  # noqa: A002
+        id,  # ruff: ignore[builtin-argument-shadowing]
         component_list_id,
     ):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.scoped_assignment_check(
+            obj,
+            "component_list_id",
+            gettext("Cannot change component lists on a scoped team."),
+        )
         try:
             component_list = obj.componentlists.get(pk=component_list_id)
         except ComponentList.DoesNotExist as error:
@@ -1220,15 +1251,22 @@ class GroupViewSet(viewsets.ModelViewSet):
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "component_id",
+            gettext("Cannot change components on a workspace team."),
+        )
         if "component_id" not in request.data:
             msg = "Missing component_id parameter"
             raise ValidationError({"component_id": msg})
 
         field_name = "component_id"
+        if obj.defining_project_id is not None:
+            component_queryset = obj.defining_project.component_set
+        else:
+            component_queryset = Component.objects
         try:
-            component = Component.objects.filter_access(request.user).get(
-                pk=int(request.data[field_name])
-            )
+            component = component_queryset.get(pk=int(request.data[field_name]))
         except (TypeError, ValueError) as error:
             raise invalid_integer_error(field_name) from error
         except Component.DoesNotExist as error:
@@ -1243,12 +1281,20 @@ class GroupViewSet(viewsets.ModelViewSet):
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
     # pylint: disable-next=redefined-builtin
-    def delete_components(self, request: Request, id, component_id):  # noqa: A002
+    def delete_components(self, request: Request, id, component_id):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "component_id",
+            gettext("Cannot change components on a workspace team."),
+        )
 
+        components = obj.components
+        if obj.defining_project_id is not None:
+            components = components.filter(project_id=obj.defining_project_id)
         try:
-            component = obj.components.get(pk=component_id)
+            component = components.get(pk=component_id)
         except Component.DoesNotExist as error:
             msg = "Component"
             raise not_found_http404(msg) from error
@@ -1258,7 +1304,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @extend_schema(description="Make user a group admin.", methods=["post"])
     @action(detail=True, methods=["post"], url_path="admins")
     # pylint: disable-next=redefined-builtin
-    def grant_admin(self, request: Request, id):  # noqa: A002
+    def grant_admin(self, request: Request, id):  # ruff: ignore[builtin-argument-shadowing]
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
             self.perm_check(request, group)
@@ -1280,7 +1326,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def revoke_admin(self, request: Request, id, user_pk):  # noqa: A002
+    def revoke_admin(self, request: Request, id, user_pk):  # ruff: ignore[builtin-argument-shadowing]
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
             self.perm_check(request, group)
@@ -1764,7 +1810,8 @@ class ProjectViewSet(
             if "weblate.billing" in settings.INSTALLED_APPS and hasattr(
                 workspace, "billing"
             ):
-                from weblate.billing.models import Billing  # noqa: PLC0415
+                # ruff: ignore[import-outside-top-level]
+                from weblate.billing.models import Billing
 
                 if not (
                     Billing.objects.filter(pk=workspace.billing.pk)
@@ -3185,7 +3232,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return result
 
     @transaction.atomic
-    def perform_update(self, serializer) -> None:  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def perform_update(self, serializer) -> None:
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
         do_source = "extra_flags" in data or "explanation" in data or "labels" in data
@@ -3721,7 +3769,7 @@ class Metrics(APIView):
     serializer_class = MetricsSerializer
 
     # pylint: disable-next=redefined-builtin
-    def get(self, request: Request, format=None):  # noqa: A002
+    def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return server metrics."""
         stats = GlobalStats()
         serializer = self.serializer_class(stats)
@@ -3754,7 +3802,7 @@ class Search(APIView):
         responses=SearchResultSerializer(many=True),
     )
     # pylint: disable-next=redefined-builtin
-    def get(self, request: Request, format=None):  # noqa: A002
+    def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return site-wide search results as a list."""
         user = request.user
         projects = user.allowed_projects

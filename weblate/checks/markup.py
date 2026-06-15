@@ -128,6 +128,11 @@ RST_ROLE_RE = [
 ]
 
 RST_LIST_START = ("- ", "* ", "+ ")
+RST_WRAPPED_ROLE_RE = re.compile(
+    r"(?<!\S)`\s+"
+    r"(?P<role>(?::[^`\s]+:`[^`]+`|`[^`]+`:[^`\s]+:))"
+    r"\s+`(?!`)"
+)
 RST_HIGHLIGHT_WHOLE = "whole"
 RST_HIGHLIGHT_ROLE_SYNTAX = "role-syntax"
 RST_HIGHLIGHT_ROLE_TARGET = "role-target"
@@ -883,6 +888,15 @@ class RSTSyntaxCheck(RSTBaseCheck):
         _errors, source_roles = validate_rst_snippet(source)
         rst_errors, _target_roles = validate_rst_snippet(target, source_roles)
         errors = list(rst_errors)
+
+        errors.extend(
+            (
+                gettext(
+                    "The reStructuredText role should not be wrapped in backticks: {role}"
+                ).format(role=match.group("role"))
+            )
+            for match in RST_WRAPPED_ROLE_RE.finditer(target)
+        )
 
         # This is valid RST, but might mess up the document
         if not source.startswith(RST_LIST_START) and target.startswith(RST_LIST_START):

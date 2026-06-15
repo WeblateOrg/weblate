@@ -251,7 +251,8 @@ class UnusedScreenshot(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.screenshots.models import Screenshot
 
         return (
             Screenshot.objects.filter(translation__component=component)

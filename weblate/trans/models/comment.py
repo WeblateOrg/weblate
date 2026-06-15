@@ -121,7 +121,8 @@ class Comment(models.Model, UserDisplayMixin):
         app_label = "trans"
         verbose_name = "string comment"
         verbose_name_plural = "string comments"
-        indexes = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        indexes = [
             postgres_indexes.GinIndex(
                 postgres_indexes.OpClass(models.F("comment"), name="gin_trgm_ops"),
                 models.F("unit"),

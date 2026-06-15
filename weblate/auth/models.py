@@ -265,7 +265,8 @@ class Group(models.Model):
     class Meta:
         verbose_name = "Group"
         verbose_name_plural = "Groups"
-        constraints = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        constraints = [
             models.CheckConstraint(
                 condition=(
                     Q(defining_project__isnull=True)
@@ -386,7 +387,8 @@ class TeamMembership(models.Model):
 
     class Meta:
         db_table = "weblate_auth_user_groups"
-        constraints = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        constraints = [
             UniqueConstraint(
                 fields=("user", "group"),
                 name="weblate_auth_user_groups_user_id_group_id_16cfc05b_uniq",
@@ -532,7 +534,8 @@ class UserQuerySet(models.QuerySet["User", "User"]):
         fallback: User | None,
         request: AuthenticatedHttpRequest,
     ) -> User | None:
-        from weblate.accounts.models import AuditLog  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import AuditLog
 
         if author_email and (fallback is None or not fallback.has_email(author_email)):
             author, created = User.objects.get_or_create(
@@ -553,7 +556,8 @@ class UserQuerySet(models.QuerySet["User", "User"]):
     def get_or_create(
         self,
         defaults: Mapping[str, Any] | None = None,
-        **kwargs: Any,  # noqa: ANN401
+        # ruff: ignore[any-type]
+        **kwargs: Any,
     ) -> tuple[User, bool]:
         filtered: dict[str, Any] | None
         extra: dict[str, Any]
@@ -717,13 +721,15 @@ class User(AbstractBaseUser):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "full_name"]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    REQUIRED_FIELDS = ["email", "full_name"]
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
-        constraints = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        constraints = [
             UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
             UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
         ]
@@ -732,7 +738,8 @@ class User(AbstractBaseUser):
         return self.full_name
 
     def save(self, *args, **kwargs) -> None:
-        from weblate.accounts.models import AuditLog  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import AuditLog
 
         original = None
         if self.pk:
@@ -977,6 +984,11 @@ class User(AbstractBaseUser):
     def needs_project_filter(self):
         if self.is_superuser:
             return False
+        if any(
+            key > 0 and permissions == [(None, None)]
+            for key, permissions in self.project_permissions.items()
+        ):
+            return True
         if self.project_permissions[-SELECTION_ALL]:
             return False
         return Project.objects.exclude(
@@ -1219,7 +1231,8 @@ class User(AbstractBaseUser):
 
     def workspace_ids_with_perm(self, perm: str) -> set[uuid.UUID]:
         if self.is_superuser:
-            from weblate.workspaces.models import Workspace  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.workspaces.models import Workspace
 
             return set(Workspace.objects.values_list("pk", flat=True))
         return {
@@ -1229,7 +1242,8 @@ class User(AbstractBaseUser):
         }
 
     def workspaces_with_perm(self, perm: str):
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
 
         if self.is_superuser:
             return Workspace.objects.order()
@@ -1318,7 +1332,8 @@ class User(AbstractBaseUser):
         previous_is_superuser: bool,
         actor: User | None = None,
     ) -> None:
-        from weblate.accounts.models import AuditLog  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import AuditLog
 
         if previous_is_superuser == self.is_superuser:
             return
@@ -1394,7 +1409,8 @@ class User(AbstractBaseUser):
         actor: User | None = None,
         **params: object,
     ) -> None:
-        from weblate.accounts.models import AuditLog  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import AuditLog
 
         AuditLog.objects.create(
             user=self,
@@ -1470,7 +1486,8 @@ class UserBlock(models.Model):
     class Meta:
         verbose_name = "Blocked user"
         verbose_name_plural = "Blocked users"
-        unique_together = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [
             ("user", "project"),
         ]
 
@@ -1497,7 +1514,8 @@ def create_groups(update) -> None:
         AutoGroup.objects.create(group=group, match="^.*$")
 
     if "weblate.workspaces" in settings.INSTALLED_APPS:
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
 
         for workspace in Workspace.objects.iterator():
             workspace.setup_groups()
@@ -1742,7 +1760,8 @@ class Invitation(models.Model):
         return bool(self.email and user.has_email(self.email))
 
     def send_email(self) -> None:
-        from weblate.accounts.notifications import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.notifications import (
             send_notification_email,
         )
 
@@ -1765,7 +1784,8 @@ class Invitation(models.Model):
         )
 
     def accept(self, request: AuthenticatedHttpRequest | None, user: User) -> None:
-        from weblate.accounts.models import AuditLog  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import AuditLog
 
         if self.is_expired():
             msg = "Invitation expired on accept!"

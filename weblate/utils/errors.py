@@ -78,7 +78,7 @@ def report_error(
     handling error gracefully and giving user cleaner message.
     """
     # pylint: disable-next=unused-variable
-    __traceback_hide__ = True  # noqa: F841
+    __traceback_hide__ = True  # ruff: ignore[unused-variable]
     error = sys.exc_info()[1]
     locale = get_language()
     report_as_message = message or error is None
@@ -147,7 +147,7 @@ def _log_error(
             log("%s: %s", cause, extra_log)
     if print_tb:
         # This is called from an exception handler
-        LOGGER.exception(cause)  # noqa: LOG004
+        LOGGER.exception(cause)  # ruff: ignore[log-exception-outside-except-handler]
 
 
 def log_handled_exception(
@@ -179,10 +179,25 @@ def celery_base_data_hook(request: AuthenticatedHttpRequest, data) -> None:
 
 def init_sentry() -> None:
     sentry_sdk = get_sentry_sdk()
-    from sentry_sdk.integrations.celery import CeleryIntegration  # noqa: PLC0415
-    from sentry_sdk.integrations.django import DjangoIntegration  # noqa: PLC0415
-    from sentry_sdk.integrations.logging import ignore_logger  # noqa: PLC0415
-    from sentry_sdk.integrations.redis import RedisIntegration  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from sentry_sdk.integrations.celery import (
+        CeleryIntegration,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from sentry_sdk.integrations.django import (
+        DjangoIntegration,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from sentry_sdk.integrations.logging import (
+        ignore_logger,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from sentry_sdk.integrations.redis import (
+        RedisIntegration,
+    )
 
     integrations = [
         CeleryIntegration(monitor_beat_tasks=settings.SENTRY_MONITOR_BEAT_TASKS),
@@ -252,9 +267,25 @@ def _register_opentelemetry_after_fork() -> None:
     _STATE["opentelemetry_at_fork_registered"] = True
 
 
+def validate_opentelemetry_settings() -> None:
+    """Validate OpenTelemetry settings which can fail application startup."""
+    if (
+        not settings.OPENTELEMETRY_ENABLED
+        or not settings.OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+    ):
+        return
+    sample_rate = settings.OPENTELEMETRY_TRACES_SAMPLE_RATE
+    if sample_rate < 0 or sample_rate > 1:
+        msg = "OPENTELEMETRY_TRACES_SAMPLE_RATE has to be between 0 and 1"
+        raise ImproperlyConfigured(msg)
+
+
 def init_opentelemetry() -> None:
     """Initialize OpenTelemetry tracing."""
-    from weblate.utils.tracing import configure_opentelemetry_tracer  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.tracing import (
+        configure_opentelemetry_tracer,
+    )
 
     current_pid = os.getpid()
     if _STATE["opentelemetry_initialized_pid"] == current_pid:
@@ -266,34 +297,52 @@ def init_opentelemetry() -> None:
         configure_opentelemetry_tracer(None)
         return
 
+    validate_opentelemetry_settings()
     sample_rate = settings.OPENTELEMETRY_TRACES_SAMPLE_RATE
-    if sample_rate < 0 or sample_rate > 1:
-        msg = "OPENTELEMETRY_TRACES_SAMPLE_RATE has to be between 0 and 1"
-        raise ImproperlyConfigured(msg)
     if sample_rate == 0:
         configure_opentelemetry_tracer(None)
         return
 
-    from opentelemetry.exporter.otlp.proto.http.trace_exporter import (  # noqa: PLC0415
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import (  # ruff: ignore[import-outside-top-level]
         OTLPSpanExporter,
     )
-    from opentelemetry.instrumentation.celery import (  # noqa: PLC0415
+    from opentelemetry.instrumentation.celery import (  # ruff: ignore[import-outside-top-level]
         CeleryInstrumentor,
     )
-    from opentelemetry.instrumentation.django import (  # noqa: PLC0415
+    from opentelemetry.instrumentation.django import (  # ruff: ignore[import-outside-top-level]
         DjangoInstrumentor,
     )
-    from opentelemetry.instrumentation.psycopg import (  # noqa: PLC0415
+    from opentelemetry.instrumentation.psycopg import (  # ruff: ignore[import-outside-top-level]
         PsycopgInstrumentor,
     )
-    from opentelemetry.instrumentation.redis import RedisInstrumentor  # noqa: PLC0415
-    from opentelemetry.instrumentation.requests import (  # noqa: PLC0415
+
+    # ruff: ignore[import-outside-top-level]
+    from opentelemetry.instrumentation.redis import (
+        RedisInstrumentor,
+    )
+    from opentelemetry.instrumentation.requests import (  # ruff: ignore[import-outside-top-level]
         RequestsInstrumentor,
     )
-    from opentelemetry.sdk.resources import Resource  # noqa: PLC0415
-    from opentelemetry.sdk.trace import TracerProvider  # noqa: PLC0415
-    from opentelemetry.sdk.trace.export import BatchSpanProcessor  # noqa: PLC0415
-    from opentelemetry.sdk.trace.sampling import TraceIdRatioBased  # noqa: PLC0415
+
+    # ruff: ignore[import-outside-top-level]
+    from opentelemetry.sdk.resources import (
+        Resource,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from opentelemetry.sdk.trace import (
+        TracerProvider,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from opentelemetry.sdk.trace.export import (
+        BatchSpanProcessor,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from opentelemetry.sdk.trace.sampling import (
+        TraceIdRatioBased,
+    )
 
     previous_provider = _STATE["opentelemetry_provider"]
     if previous_provider is not None:
@@ -349,7 +398,23 @@ def init_rollbar() -> None:
     LOGGER.info("configured Rollbar error collection")
 
 
+def validate_error_collection_settings() -> None:
+    """Validate configured error collection backends before serving requests."""
+    if settings.SENTRY_DSN:
+        get_sentry_sdk()
+
+    if settings.GOOGLE_CLOUD_ERROR_REPORTING is not None:
+        get_google_cloud_error_reporting()
+
+    validate_opentelemetry_settings()
+
+    if hasattr(settings, "ROLLBAR"):
+        get_rollbar()
+
+
 def init_error_collection(celery=False) -> None:
+    validate_error_collection_settings()
+
     if settings.SENTRY_DSN:
         init_sentry()
 

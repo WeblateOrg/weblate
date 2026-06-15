@@ -151,7 +151,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         headers=None,
         skip: set[str] | None = None,
         # pylint: disable-next=redefined-builtin
-        format: str = "multipart",  # noqa: A002
+        format: str = "multipart",  # ruff: ignore[builtin-argument-shadowing]
     ):
         if authenticated:
             self.authenticate(superuser)
@@ -1246,6 +1246,8 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(Group.objects.count(), 8)
         group = Group.objects.get(name="Group")
         self.assertEqual(group.defining_project, self.component.project)
+        self.assertEqual(group.project_selection, SELECTION_MANUAL)
+        self.assertTrue(group.projects.filter(pk=self.component.project.pk).exists())
 
         admin = User.objects.create_user("admin", "admin@example.com")
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
@@ -1274,14 +1276,31 @@ class GroupAPITest(APIBaseTest):
             format="json",
             request={
                 "name": "Group Project",
+                "project_selection": SELECTION_ALL,
                 "defining_project": reverse(
                     "api:project-detail", kwargs=self.project_kwargs
                 ),
             },
         )
         self.assertEqual(Group.objects.count(), 9)
+        group = Group.objects.get(name="Group Project")
+        self.assertEqual(group.defining_project, self.component.project)
+        self.assertEqual(group.project_selection, SELECTION_MANUAL)
+        self.assertTrue(group.projects.filter(pk=self.component.project.pk).exists())
 
         other_component = self.create_acl()
+        group.roles.add(Role.objects.get(name="Administration"))
+        admin.groups.add(group)
+        admin.clear_cache()
+        self.assertNotIn(other_component.project, admin.allowed_projects)
+        self.assertFalse(admin.has_perm("project.permissions", other_component.project))
+        self.do_request(
+            "api:project-detail",
+            kwargs={"slug": other_component.project.slug},
+            method="get",
+            authenticated=False,
+            code=404,
+        )
         self.do_request(
             "api:group-list",
             method="post",
@@ -1331,6 +1350,81 @@ class GroupAPITest(APIBaseTest):
                 "defining_project": reverse(
                     "api:project-detail", kwargs=self.project_kwargs
                 ),
+            },
+        )
+
+    def test_create_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Workspace")
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Group Workspace",
+                "project_selection": SELECTION_ALL,
+                "language_selection": SELECTION_ALL,
+                "defining_workspace": str(workspace.pk),
+            },
+        )
+        group = Group.objects.get(name="Group Workspace")
+        self.assertEqual(group.defining_workspace, workspace)
+        self.assertEqual(group.project_selection, SELECTION_MANUAL)
+        self.assertEqual(group.language_selection, SELECTION_ALL)
+
+        admin = User.objects.create_user("workspace_admin", "admin@example.com")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=403,
+            authenticated=False,
+            format="json",
+            request={"name": "Group Workspace Missing", "defining_workspace": 0},
+        )
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=403,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Workspace Unauthorized",
+                "defining_workspace": str(workspace.pk),
+            },
+        )
+
+        workspace.add_owner(admin)
+        admin.clear_cache()
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=201,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Workspace Admin",
+                "project_selection": SELECTION_ALL,
+                "language_selection": SELECTION_ALL,
+                "defining_workspace": str(workspace.pk),
+            },
+        )
+        group = Group.objects.get(name="Group Workspace Admin")
+        self.assertEqual(group.defining_workspace, workspace)
+        self.assertEqual(group.project_selection, SELECTION_MANUAL)
+        self.assertEqual(group.language_selection, SELECTION_ALL)
+
+        other_workspace = Workspace.objects.create(name="Other Workspace")
+        self.do_request(
+            "api:group-list",
+            method="post",
+            code=403,
+            authenticated=False,
+            format="json",
+            request={
+                "name": "Group Workspace Other",
+                "defining_workspace": str(other_workspace.pk),
             },
         )
 
@@ -1430,6 +1524,30 @@ class GroupAPITest(APIBaseTest):
             code=200,
             request={"component_id": self.component.pk},
         )
+        private_component = self.create_acl()
+        global_admin = User.objects.create_user(
+            "component_admin", "component@example.com"
+        )
+        permission = Permission.objects.get(codename="group.edit")
+        role = Role.objects.create(name="Global component group edit")
+        role.permissions.add(permission)
+        team = Group.objects.create(name="Global component group editors")
+        team.roles.add(role)
+        global_admin.groups.add(team)
+        global_admin.clear_cache()
+        self.assertNotIn(private_component.project, global_admin.allowed_projects)
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {global_admin.auth_token.key}"
+        )
+        self.do_request(
+            "api:group-components",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            authenticated=False,
+            code=200,
+            request={"component_id": private_component.pk},
+        )
 
     def test_remove_component(self) -> None:
         self.do_request(
@@ -1496,6 +1614,146 @@ class GroupAPITest(APIBaseTest):
             code=200,
             request={"project_id": Project.objects.get(slug="test").pk},
         )
+        private_project = self.create_acl().project
+        global_admin = User.objects.create_user("group_admin", "group@example.com")
+        permission = Permission.objects.get(codename="group.edit")
+        role = Role.objects.create(name="Global group edit")
+        role.permissions.add(permission)
+        team = Group.objects.create(name="Global group editors")
+        team.roles.add(role)
+        global_admin.groups.add(team)
+        global_admin.clear_cache()
+        self.assertNotIn(private_project, global_admin.allowed_projects)
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {global_admin.auth_token.key}"
+        )
+        self.do_request(
+            "api:group-projects",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            authenticated=False,
+            code=200,
+            request={"project_id": private_project.pk},
+        )
+
+    def test_project_team_projects_cannot_be_changed(self) -> None:
+        admin = User.objects.create_user("project_admin", "admin@example.com")
+        self.component.project.add_user(admin, "Administration")
+        group = Group.objects.create(
+            name="Project Team",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+            defining_project=self.component.project,
+        )
+        group.projects.add(self.component.project)
+        private_component = self.create_acl()
+        private_project = private_component.project
+        private_project.add_user(admin, "Administration")
+        component_list = ComponentList.objects.create(name="Name", slug="name")
+        component_list.components.add(private_component)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
+        response = self.do_request(
+            "api:group-projects",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=400,
+            request={"project_id": private_project.pk},
+        )
+
+        self.assertContains(
+            response, "Cannot change projects on a scoped team.", status_code=400
+        )
+        response = self.do_request(
+            "api:group-projects",
+            kwargs={"id": group.id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"project_id": self.component.project.pk},
+        )
+        self.assertContains(
+            response, "Cannot change projects on a scoped team.", status_code=400
+        )
+        response = self.do_request(
+            "api:group-delete-projects",
+            kwargs={"id": group.id, "project_id": self.component.project.pk},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.assertContains(
+            response, "Cannot change projects on a scoped team.", status_code=400
+        )
+        response = self.do_request(
+            "api:group-componentlists",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=400,
+            request={"component_list_id": component_list.pk},
+        )
+        self.assertContains(
+            response,
+            "Cannot change component lists on a scoped team.",
+            status_code=400,
+        )
+        group.componentlists.add(component_list)
+        response = self.do_request(
+            "api:group-delete-componentlists",
+            kwargs={"id": group.id, "component_list_id": component_list.pk},
+            method="delete",
+            authenticated=False,
+            code=400,
+        )
+        self.assertContains(
+            response,
+            "Cannot change component lists on a scoped team.",
+            status_code=400,
+        )
+        self.do_request(
+            "api:group-components",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=200,
+            request={"component_id": self.component.pk},
+        )
+        response = self.do_request(
+            "api:group-components",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=400,
+            request={"component_id": private_component.pk},
+        )
+        self.assertContains(response, "Component not found.", status_code=400)
+        self.do_request(
+            "api:group-delete-components",
+            kwargs={"id": group.id, "component_id": self.component.pk},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="patch",
+            superuser=True,
+            code=400,
+            request={"project_selection": SELECTION_ALL},
+        )
+        self.assertContains(
+            response, "Cannot change this on a scoped team.", status_code=400
+        )
+
+        self.assertFalse(group.projects.filter(pk=private_project.pk).exists())
+        group.refresh_from_db()
+        self.assertEqual(group.project_selection, SELECTION_MANUAL)
+        self.assertTrue(group.projects.filter(pk=self.component.project.pk).exists())
+        self.assertFalse(group.components.filter(pk=private_component.pk).exists())
 
     def test_remove_project(self) -> None:
         self.do_request(
@@ -1635,6 +1893,32 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=200,
             request={"component_list_id": ComponentList.objects.get().pk},
+        )
+        private_component = self.create_acl()
+        private_list = ComponentList.objects.create(name="Private", slug="private")
+        private_list.components.add(private_component)
+        global_admin = User.objects.create_user(
+            "component_list_admin", "component-list@example.com"
+        )
+        permission = Permission.objects.get(codename="group.edit")
+        role = Role.objects.create(name="Global component list group edit")
+        role.permissions.add(permission)
+        team = Group.objects.create(name="Global component list group editors")
+        team.roles.add(role)
+        global_admin.groups.add(team)
+        global_admin.clear_cache()
+        self.assertNotIn(private_component.project, global_admin.allowed_projects)
+
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {global_admin.auth_token.key}"
+        )
+        self.do_request(
+            "api:group-componentlists",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            authenticated=False,
+            code=200,
+            request={"component_list_id": private_list.pk},
         )
 
     def test_remove_componentlist(self) -> None:
@@ -1918,6 +2202,95 @@ class GroupAPITest(APIBaseTest):
             request={"role_id": role.id},
         )
         self.assertTrue(group.roles.filter(pk=role.id).exists())
+        response = self.do_request(
+            "api:group-projects",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=400,
+            request={"project_id": self.component.project.pk},
+        )
+        self.assertContains(
+            response, "Cannot change projects on a scoped team.", status_code=400
+        )
+        component_list = ComponentList.objects.create(
+            name="Workspace", slug="workspace"
+        )
+        component_list.components.add(self.component)
+        response = self.do_request(
+            "api:group-componentlists",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=400,
+            request={"component_list_id": component_list.pk},
+        )
+        self.assertContains(
+            response,
+            "Cannot change component lists on a scoped team.",
+            status_code=400,
+        )
+        group.componentlists.add(component_list)
+        response = self.do_request(
+            "api:group-delete-componentlists",
+            kwargs={"id": group.id, "component_list_id": component_list.pk},
+            method="delete",
+            authenticated=False,
+            code=400,
+        )
+        self.assertContains(
+            response,
+            "Cannot change component lists on a scoped team.",
+            status_code=400,
+        )
+        response = self.do_request(
+            "api:group-components",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=400,
+            request={"component_id": self.component.pk},
+        )
+        self.assertContains(
+            response, "Cannot change components on a workspace team.", status_code=400
+        )
+        group.components.add(self.component)
+        response = self.do_request(
+            "api:group-delete-components",
+            kwargs={"id": group.id, "component_id": self.component.pk},
+            method="delete",
+            authenticated=False,
+            code=400,
+        )
+        self.assertContains(
+            response, "Cannot change components on a workspace team.", status_code=400
+        )
+        response = self.do_request(
+            "api:group-languages",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=200,
+            request={"language_code": "cs"},
+        )
+        self.assertTrue(group.languages.filter(code="cs").exists())
+        self.do_request(
+            "api:group-delete-languages",
+            kwargs={"id": group.id, "language_code": "cs"},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="patch",
+            authenticated=False,
+            code=200,
+            request={"language_selection": SELECTION_MANUAL},
+        )
+        group.refresh_from_db()
+        self.assertEqual(group.language_selection, SELECTION_MANUAL)
         self.do_request(
             "api:group-delete-roles",
             kwargs={"id": group.id, "role_id": role.id},
@@ -1989,7 +2362,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": group.id},
             method="patch",
             authenticated=False,
-            code=403,
+            code=400,
             format="json",
             request={"project_selection": SELECTION_ALL},
         )
@@ -2905,7 +3278,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     # pylint: disable-next=redefined-builtin
-    def test_create_with_source_language_string(self, format="json") -> None:  # noqa: A002
+    def test_create_with_source_language_string(self, format="json") -> None:  # ruff: ignore[builtin-argument-shadowing]
         payload = {
             "name": "API project",
             "slug": "api-project",
@@ -3609,6 +3982,47 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(response.data["filemask"], "local-project-temp/*.html")
         self.assertEqual(Component.objects.count(), 3)
+
+    @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
+    def test_create_component_docfile_too_big(self) -> None:
+        handle = BytesIO(b"xx")
+        handle.name = "cs.html"
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "docfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "file_format": "html",
+                "new_lang": "add",
+                "edit_template": "0",
+            },
+        )
+        self.assertIn("Uploaded translation file is too big.", str(response.data))
+
+    def test_create_component_docfile_unsupported_extension(self) -> None:
+        handle = BytesIO(b"safe contents")
+        handle.name = "translate.exe"
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "docfile": handle,
+                "name": "Local project",
+                "slug": "local-project",
+                "file_format": "html",
+                "new_lang": "add",
+                "edit_template": "0",
+            },
+        )
+        self.assertIn("Unsupported file format.", str(response.data))
 
     def test_create_component_docfile_mask(self) -> None:
         with open(TEST_DOC, "rb") as handle:
@@ -4361,7 +4775,8 @@ class ProjectAPITest(APIBaseTest):
     def test_install_machinery(self, mocked_getaddrinfo, mocked_get_peer) -> None:
         """Test the machinery settings API endpoint for various scenarios."""
         # Deep import to avoid running these as tests
-        from weblate.machinery.tests import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.machinery.tests import (
             AlibabaTranslationTest,
             DeepLTranslationTest,
         )
@@ -4947,6 +5362,55 @@ class ComponentAPITest(APIBaseTest):
             request={"name": "New Name"},
         )
         self.assertEqual(response.data["name"], "New Name")
+
+    def test_patch_keeps_category_when_omitted(self) -> None:
+        category = self.project.category_set.create(
+            name="API category", slug="api-category"
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        component_url = reverse(
+            "api:component-detail",
+            kwargs={
+                "project__slug": self.project.slug,
+                "slug": f"{category.slug}%2F{self.component.slug}",
+            },
+        )
+
+        response = self.do_request(
+            component_url,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": "Categorized API Name"},
+        )
+
+        self.assertEqual(response.data["name"], "Categorized API Name")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.category, category)
+
+    def test_patch_keeps_manage_units_when_omitted(self) -> None:
+        component = self.create_po_mono(
+            project=self.project, name="MonoPatch", manage_units=False
+        )
+        component_kwargs = {
+            "project__slug": component.project.slug,
+            "slug": component.slug,
+        }
+        response = self.do_request(
+            "api:component-detail",
+            component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"template": component.template},
+        )
+
+        self.assertFalse(response.data["manage_units"])
+        component.refresh_from_db()
+        self.assertFalse(component.manage_units)
 
     def test_patch_inherited_setting_disables_inheritance(self) -> None:
         Project.objects.filter(pk=self.project.pk).update(
@@ -8419,7 +8883,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 4)
 
     # pylint: disable-next=redefined-builtin
-    def test_autotranslate(self, format: str = "multipart") -> None:  # noqa: A002
+    def test_autotranslate(self, format: str = "multipart") -> None:  # ruff: ignore[builtin-argument-shadowing]
         self.do_request(
             "api:translation-autotranslate",
             self.translation_kwargs,
@@ -10900,6 +11364,45 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(
             response.data["effective_commit_message"], "Patched category commit"
         )
+
+    def test_patch_keeps_parent_category_when_omitted(self) -> None:
+        parent_response = self.api_create_category()
+        child_response = self.api_create_category(
+            name="Child Category",
+            slug="child-category",
+            category=parent_response.data["url"],
+        )
+
+        response = self.do_request(
+            child_response.data["url"],
+            method="patch",
+            superuser=True,
+            request={"name": "Patched Child Category"},
+        )
+
+        self.assertEqual(response.data["name"], "Patched Child Category")
+        category = Category.objects.get(pk=child_response.data["id"])
+        self.assertEqual(category.category_id, parent_response.data["id"])
+
+    def test_patch_clears_parent_category_with_null(self) -> None:
+        parent_response = self.api_create_category()
+        child_response = self.api_create_category(
+            name="Child Category",
+            slug="child-category",
+            category=parent_response.data["url"],
+        )
+
+        response = self.do_request(
+            child_response.data["url"],
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"category": None},
+        )
+
+        self.assertIsNone(response.data["category"])
+        category = Category.objects.get(pk=child_response.data["id"])
+        self.assertIsNone(category.category_id)
 
     def test_create_nested(self) -> None:
         self.api_create_category()

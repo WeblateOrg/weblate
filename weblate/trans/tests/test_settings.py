@@ -1180,7 +1180,8 @@ class SettingsTest(ViewTestCase):
         self.component.inherit_license = True
         self.component.save(update_fields=["license", "inherit_license"])
 
-        field = Component._meta.get_field("license")  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        field = Component._meta.get_field("license")
         old_blank = field.blank
         field.blank = False
         try:

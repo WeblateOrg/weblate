@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 
 def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
     """Return unit's other translations."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
     user = request.user
     user.check_access_component(unit.translation.component)
 
@@ -58,7 +58,9 @@ def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
 @login_required
 @transaction.atomic
 def ignore_check(request: AuthenticatedHttpRequest, check_id):
-    obj = get_object_or_404(Check.objects.select_for_update(), pk=int(check_id))
+    obj = get_object_or_404(
+        Check.objects.filter_access(request.user).select_for_update(), pk=int(check_id)
+    )
 
     if not request.user.has_perm("unit.check", obj):
         raise PermissionDenied
@@ -73,7 +75,7 @@ def ignore_check(request: AuthenticatedHttpRequest, check_id):
 @login_required
 @transaction.atomic
 def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
-    obj = get_object_or_404(Check, pk=int(check_id))
+    obj = get_object_or_404(Check.objects.filter_access(request.user), pk=int(check_id))
     unit = obj.unit.source_unit
 
     if not request.user.has_perm("unit.check", obj) or not request.user.has_perm(
@@ -106,7 +108,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
 @login_required
 @transaction.atomic
 def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id):
-    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=int(unit_id))
     if not request.user.has_perm("unit.edit", unit):
         raise PermissionDenied
 

@@ -309,7 +309,10 @@ class Addon(models.Model):
             msg = "Cannot schedule a manual run for an unsaved add-on."
             raise ValueError(msg)
 
-        from weblate.addons.tasks import run_addon_manually  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.addons.tasks import (
+            run_addon_manually,
+        )
 
         run_addon_manually.delay_on_commit(self.pk)
 
@@ -339,7 +342,10 @@ class Addon(models.Model):
         ).delete()
 
     def _clear_recommendation_guidance_alerts(self) -> None:
-        from weblate.trans.alerts.registry import ALERTS, load_alerts  # noqa: PLC0415
+        from weblate.trans.alerts.registry import (  # ruff: ignore[import-outside-top-level]
+            ALERTS,
+            load_alerts,
+        )
 
         load_alerts()
         alert_names = [
@@ -419,7 +425,7 @@ class Event(models.Model):
     event = models.IntegerField(choices=AddonEvent.choices)
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        unique_together = [  # ruff: ignore[mutable-class-default]
             ("addon", "event"),
         ]
         verbose_name = "add-on event"
@@ -578,7 +584,6 @@ def execute_addon_event(
                     )
 
 
-@transaction.atomic
 def handle_addon_event(
     event: AddonEvent,
     method: str,
@@ -602,8 +607,12 @@ def handle_addon_event(
     if addon_queryset is None:
         addon_queryset = Addon.objects.filter_event(component, event)
 
-    for addon in addon_queryset:
-        execute_addon_event(addon, component, scope, event, method, args)
+    if not addon_queryset:
+        return
+
+    with transaction.atomic():
+        for addon in addon_queryset:
+            execute_addon_event(addon, component, scope, event, method, args)
 
 
 @transaction.atomic
@@ -764,24 +773,42 @@ def post_remove(sender, translation: Translation, **kwargs) -> None:
     )
 
 
+def handle_unit_addon_event(
+    event: AddonEvent, method: str, args: tuple, unit: Unit
+) -> None:
+    translation = unit.translation
+    # Unit signals fire for every imported string; use the cached event list
+    # before entering the generic add-on dispatcher.
+    addon_queryset = translation.component.addons_cache.get_event(event)
+    if not addon_queryset:
+        return
+    handle_addon_event(
+        event,
+        method,
+        args,
+        translation=translation,
+        addon_queryset=addon_queryset,
+    )
+
+
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit: Unit, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_PRE_CREATE,
         "unit_pre_create",
         (unit,),
-        translation=unit.translation,
+        unit,
     )
 
 
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance: Unit, created, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_POST_SAVE,
         "unit_post_save",
         (instance, created),
-        translation=instance.translation,
+        instance,
     )
 
 
@@ -797,7 +824,10 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
 @disable_for_loaddata
 def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
     """Handle Change bulk create signal."""
-    from weblate.addons.tasks import addon_change  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.addons.tasks import (
+        addon_change,
+    )
 
     # Filter out events that have a subscriber
     # It currently also includes all project and site-wide events as there is currently
@@ -815,11 +845,11 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
 
 @receiver(unit_post_sync)
 def unit_post_sync_handler(sender, unit: Unit, updated_attr: str, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_POST_SYNC,
         "unit_post_sync",
         (unit, updated_attr),
-        translation=unit.translation,
+        unit,
     )
 
 
@@ -836,9 +866,7 @@ class AddonActivityLog(models.Model):
     class Meta:
         verbose_name = "add-on activity log"
         verbose_name_plural = "add-on activity logs"
-        ordering = [  # noqa: RUF012
-            "-created"
-        ]
+        ordering = ["-created"]  # ruff: ignore[mutable-class-default]
 
     def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()} at {self.created}"

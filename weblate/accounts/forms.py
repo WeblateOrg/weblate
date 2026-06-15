@@ -136,7 +136,8 @@ class UniqueUsernameField(UsernameField):
 
 
 class FullNameField(forms.CharField):
-    default_validators = [validate_fullname]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    default_validators = [validate_fullname]
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs["max_length"] = FULLNAME_LENGTH
@@ -173,7 +174,8 @@ class LanguagesForm(ProfileBaseForm):
     class Meta:
         model = Profile
         fields = ("language", "languages", "secondary_languages")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "language": SortedSelect,
             "languages": SortedSelectMultiple,
             "secondary_languages": SortedSelectMultiple,
@@ -311,7 +313,8 @@ class SubscriptionForm(ProfileBaseForm):
             "auto_watch",
             "watched",
         )
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "watched": forms.SelectMultiple,
         }
 
@@ -363,7 +366,8 @@ class DashboardSettingsForm(ProfileBaseForm):
     class Meta:
         model = Profile
         fields = ("dashboard_view", "dashboard_component_list")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "dashboard_view": forms.RadioSelect,
             "dashboard_component_list": forms.HiddenInput,
         }
@@ -426,7 +430,8 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("username", "full_name", "email")
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "username": UniqueUsernameField,
             "full_name": FullNameField,
         }
@@ -651,7 +656,8 @@ class ContactForm(CaptchaForm):
         widget=forms.Textarea,
     )
 
-    field_order = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    field_order = [
         "subject",
         "name",
         "email",
@@ -672,7 +678,8 @@ class EmailForm(CaptchaForm, UniqueEmailMixin):
         help_text=gettext_lazy("An e-mail with a confirmation link will be sent here."),
     )
 
-    field_order = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    field_order = [
         "email",
         "captcha",
         "altcha",
@@ -823,7 +830,8 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=254, label=gettext_lazy("Username or e-mail"))
     password = PasswordField(label=gettext_lazy("Password"))
 
-    error_messages = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    error_messages = {
         "invalid_login": gettext_lazy(
             "Please enter the correct username and password."
         ),
@@ -1203,7 +1211,8 @@ class TOTPDeviceForm(forms.Form):
         ),
     )
 
-    error_messages = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    error_messages = {
         "invalid_token": gettext_lazy("The entered token is not valid."),
     }
 
@@ -1298,7 +1307,8 @@ class OTPTokenForm(DjangoOTPTokenForm):
         return None
 
     @staticmethod
-    def device_choices(user):  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def device_choices(user):
         # Not needed as we do not support challenge/response devices
         # Also this is incompatible with WebAuthn
         return []

@@ -321,7 +321,8 @@ class FlagTest(SimpleTestCase):
     def test_automatic_location_flags(self) -> None:
         def check_location_flags(content: str, expected_flags: set[str]) -> None:
             fileformat = PoFormat(NamedBytesIO("", content.encode()))
-            flags = list(fileformat.all_units)[0].flags  # noqa: RUF015
+            # ruff: ignore[unnecessary-iterable-allocation-for-first-element]
+            flags = list(fileformat.all_units)[0].flags
             self.assertEqual(set(flags), expected_flags)
 
         # test rst-text flag

@@ -11,7 +11,8 @@ from weblate.utils.files import should_skip
 class Command(BaseCommand):
     # We just remove --format-check as it just complicates things
     # for some translations
-    program_options = []  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    program_options = []
 
     def compile_messages(self, locations) -> None:
         # Avoid compiling po files in DATA_DIR

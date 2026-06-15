@@ -35,8 +35,8 @@ def preload_url_patterns() -> list[URLPattern | URLResolver]:
     This avoids expensive load with a first request and makes memory sharing work
     better between uwsgi workers.
     """
-    from django.conf import settings  # noqa: PLC0415
-    from django.urls import get_resolver  # noqa: PLC0415
+    from django.conf import settings  # ruff: ignore[import-outside-top-level, unsorted-imports]
+    from django.urls import get_resolver  # ruff: ignore[import-outside-top-level]
 
     return get_resolver(settings.ROOT_URLCONF).url_patterns
 

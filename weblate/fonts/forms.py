@@ -16,7 +16,8 @@ class FontForm(forms.ModelForm):
     class Meta:
         model = Font
         fields = ("font",)
-        field_classes = {"font": AssetFileField}  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {"font": AssetFileField}
 
 
 class FontGroupForm(forms.ModelForm):

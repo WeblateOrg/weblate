@@ -306,7 +306,8 @@ class Category(
         app_label = "trans"
         verbose_name = "Category"
         verbose_name_plural = "Categories"
-        constraints = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        constraints = [
             models.UniqueConstraint(
                 name="category_slug_unique",
                 fields=["project", "category", "slug"],
@@ -385,7 +386,8 @@ class Category(
     def _get_children_depth(self):
         return 1 + max(
             (
-                child._get_children_depth()  # noqa: SLF001
+                # ruff: ignore[private-member-access]
+                child._get_children_depth()
                 for child in self.category_set.all()
             ),
             default=0,
@@ -449,7 +451,8 @@ class Category(
 
     def get_child_components_access(self, user: User):
         """List child components, including shared components linked to this category."""
-        from weblate.trans.models.component import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import (
             Component,
             ComponentLink,
         )
@@ -547,7 +550,8 @@ class Category(
     @cached_property
     def languages(self):
         """Return list of all languages used in category, including shared components."""
-        from weblate.trans.models.component import ComponentLink  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import ComponentLink
 
         shared_ids = ComponentLink.objects.filter(
             Q(category=self)
@@ -565,7 +569,8 @@ class Category(
 
     @cached_property
     def all_components(self) -> ComponentQuerySet:
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
 
         return Component.objects.filter(
             Q(category=self)
