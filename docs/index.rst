@@ -153,6 +153,8 @@ Learn more about :ref:`contributing`.
    :hidden:
 
    security/index
+   security/product-information
+   security/governance
    security/releases
    security/release-artifacts
    security/dependencies

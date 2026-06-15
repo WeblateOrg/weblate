@@ -74,6 +74,7 @@ repository:
     contributing-guide: https://docs.weblate.org/en/latest/contributing/index.html
     review-policy: https://docs.weblate.org/en/latest/contributing/code.html
     security-policy: https://docs.weblate.org/en/latest/security/index.html
+    governance: https://docs.weblate.org/en/latest/security/governance.html
     dependency-management-policy: https://docs.weblate.org/en/latest/security/dependencies.html
   release:
     changelog: https://docs.weblate.org/en/latest/changes.html
@@ -111,6 +112,8 @@ repository:
     tools:
     - name: GitHub CodeQL
       type: SAST
+      rulesets:
+      - default
       results:
         ci:
           name: GitHub code scanning
@@ -122,6 +125,8 @@ repository:
         release: false
     - name: GitHub dependency review
       type: SCA
+      rulesets:
+      - default
       results:
         ci:
           name: Dependency review workflow
@@ -133,6 +138,8 @@ repository:
         release: false
     - name: FOSSA
       type: SCA
+      rulesets:
+      - default
       results:
         ci:
           name: FOSSA workflow
@@ -144,6 +151,8 @@ repository:
         release: false
     - name: OpenSSF Scorecard
       type: Supply-chain security
+      rulesets:
+      - default
       results:
         ci:
           name: Scorecard workflow
