@@ -26,6 +26,7 @@ Weblate 2026.7
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
 * Large component imports now avoid duplicate translation-memory processing.
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
+* Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
 
 .. rubric:: Bug fixes
 
