@@ -4869,7 +4869,7 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             request={
                 "service": "deepl",
-                "configuration": '{"key": "x", "url": "https://api.deepl.com/v2/"}',
+                "configuration": '{"key": "x", "url": "https://api.deepl.com/"}',
             },
         )
 
@@ -4903,7 +4903,7 @@ class ProjectAPITest(APIBaseTest):
                 "service": "deepl",
                 "configuration": {
                     "key": "deepl-key-v1",
-                    "url": "https://api.deepl.com/v2/",
+                    "url": "https://api.deepl.com/",
                 },
             },
             format="json",
@@ -4920,7 +4920,7 @@ class ProjectAPITest(APIBaseTest):
                 "service": "deepl",
                 "configuration": {
                     "key": "deepl-key-v2",
-                    "url": "https://api.deepl.com/v2/",
+                    "url": "https://api.deepl.com/",
                 },
             },
             format="json",
@@ -4967,7 +4967,7 @@ class ProjectAPITest(APIBaseTest):
             code=400,
             superuser=True,
             request={
-                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/"},
                 "unknown": {"key": "alibaba-key-invalid"},
             },
             format="json",
@@ -4981,7 +4981,7 @@ class ProjectAPITest(APIBaseTest):
             code=400,
             superuser=True,
             request={
-                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/"},
                 "alibaba": {"key": "alibaba-key-invalid"},
             },
             format="json",
@@ -4989,7 +4989,7 @@ class ProjectAPITest(APIBaseTest):
 
         # replace all configurations
         new_config = {
-            "deepl": {"key": "deepl-key-v3", "url": "https://api.deepl.com/v2/"},
+            "deepl": {"key": "deepl-key-v3", "url": "https://api.deepl.com/"},
             "alibaba": {
                 "key": "alibaba-key-v2",
                 "secret": "alibaba-secret",
