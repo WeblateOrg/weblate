@@ -341,7 +341,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
                 *(base_event_args),
                 AddonEvent.EVENT_POST_UPDATE,
                 "post_update",
-                (component, "", False, True),
+                (component, "", False, [], True),
             )
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
@@ -474,6 +474,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> dict | None:
@@ -486,6 +487,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
                                changes upstream. Usually you can pass this to
                                underlying methods as ``commit_and_push`` or
                                ``commit_pending``.
+        :param list[str] changed_files: Files changed by the repository update.
         """
         # To be implemented in a subclass
 
@@ -882,7 +884,9 @@ class UpdateBaseAddon(BaseAddon):
             if not translation.is_source or component.intermediate:
                 yield translation
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         raise NotImplementedError
 
     def post_update(
@@ -890,13 +894,14 @@ class UpdateBaseAddon(BaseAddon):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with component.repository.lock:
             with suppress(FileParseError):
-                self.update_translations(component, previous_head)
+                self.update_translations(component, previous_head, changed_files)
             self.commit_and_push(
                 component,
                 skip_push=skip_push,

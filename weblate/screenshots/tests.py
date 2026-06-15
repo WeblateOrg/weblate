@@ -1126,6 +1126,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             "intermediate/*.json",
             screenshot_filemask="*.png",
         )
+        self.project = self.component.project
 
         # Add a screenshot linked to the component
         shot = Screenshot.objects.create(
@@ -1201,6 +1202,22 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             repository_filename="test-update.png",
         )[0].image.size
         self.assertNotEqual(existing_ss_size, updated_ss_size)
+
+    def test_linked_screenshots_reuse_changed_files(self) -> None:
+        repository = self.component.repository
+        last_revision = repository.last_revision
+        self.create_link_existing()
+
+        with patch.object(
+            repository, "get_changed_files", return_value=["test-update.png"]
+        ) as get_changed_files:
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        get_changed_files.assert_called_once_with(compare_to=last_revision)
 
     def test_update_screenshots_from_repo_rejects_symlinked_directory(self) -> None:
         repository = self.component.repository

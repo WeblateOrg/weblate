@@ -516,6 +516,10 @@ def execute_addon_event(
         args = ()
     if kwargs is None:
         kwargs = {}
+    else:
+        kwargs = kwargs.copy()
+        if "changed_files" in kwargs:
+            kwargs["changed_files"] = list(kwargs["changed_files"])
 
     activity_log = AddonActivityLog.objects.create(
         addon=addon,
@@ -612,7 +616,7 @@ def handle_addon_event(
 
     with transaction.atomic():
         for addon in addon_queryset:
-            execute_addon_event(addon, component, scope, event, method, args)
+            execute_addon_event(addon, component, scope, event, method, args, kwargs)
 
 
 @transaction.atomic
@@ -699,6 +703,7 @@ def post_update(
     sender,
     component: Component,
     previous_head: str,
+    changed_files: list[str],
     skip_push: bool = False,
     parse_after_update: bool = False,
     **kwargs,
@@ -706,7 +711,8 @@ def post_update(
     handle_addon_event(
         AddonEvent.EVENT_POST_UPDATE,
         "post_update",
-        (component, previous_head, skip_push, parse_after_update),
+        (component, previous_head, skip_push),
+        {"changed_files": changed_files, "parse_after_update": parse_after_update},
         component=component,
     )
 
