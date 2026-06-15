@@ -22,6 +22,7 @@ Weblate 2026.7
 * Meta descriptions now better match single-project and self-hosted installations.
 * Zen mode now loads large search results and glossary-heavy projects more efficiently.
 * Translate pages with filtered searches and nearby strings now load more efficiently.
+* Translation form submissions now avoid loading complete search result sets when saving strings.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
 * Large component imports now avoid duplicate translation-memory processing.
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.

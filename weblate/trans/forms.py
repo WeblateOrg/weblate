@@ -569,6 +569,7 @@ class FuzzyField(forms.BooleanField):
 class TranslationForm(UnitForm):
     """Form used for translation of single string."""
 
+    checksum = ChecksumField(required=True)
     contentsum = ChecksumField(required=True)
     translationsum = ChecksumField(required=True)
     target = PluralField(required=False)
@@ -657,6 +658,7 @@ class TranslationForm(UnitForm):
         self.helper.layout = Layout(
             Field("target"),
             Field("fuzzy"),
+            Field("checksum"),
             Field("contentsum"),
             Field("translationsum"),
             InlineRadios("review", css_class="review_radio"),
@@ -734,8 +736,6 @@ class TranslationForm(UnitForm):
 
 
 class ZenTranslationForm(TranslationForm):
-    checksum = ChecksumField(required=True)
-
     def __init__(
         self, user: User, unit, *args, form_action: str | None = None, **kwargs
     ) -> None:
@@ -745,7 +745,6 @@ class ZenTranslationForm(TranslationForm):
         )
         self.helper.form_tag = True
         self.helper.disable_csrf = False
-        self.helper.layout.append(Field("checksum"))
         self.fields["target"].widget.attrs["zen-mode"] = True
         if not self.user_can_edit:
             for field in ["target", "fuzzy", "review"]:

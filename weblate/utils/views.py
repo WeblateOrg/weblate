@@ -378,7 +378,8 @@ def parse_path(
         raise UnsupportedPathObjectError(msg)
 
     translation = get_object_or_404(
-        cast("Component", current).translation_set, language__code=path.pop(0)
+        cast("Component", current).translation_set.select_related("language", "plural"),
+        language__code=path.pop(0),
     )
     if not path:
         check_type(Translation)
