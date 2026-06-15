@@ -8,6 +8,8 @@ from operator import itemgetter
 from typing import TYPE_CHECKING, TypedDict
 
 from django.db import transaction
+from django.db.models import Q, Value
+from django.db.models.functions import MD5
 
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
@@ -21,6 +23,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Component, Project, Unit
 
 MEMORY_UPDATE_BATCH_SIZE = 1000
+MEMORY_UPDATE_LOOKUP_CHUNK_SIZE = 50
 
 
 class MemoryUpdatePayload(TypedDict):
@@ -296,35 +299,43 @@ def get_group_matching_memory(
     statuses: dict[MemoryKey, int],
 ) -> tuple[dict[MemoryKey, set[MemoryCategory]], list[Memory]]:
     origin, source_language_id, target_language_id = group_key
-    sources = {entry["source"] for _, _, entry, _ in group_entries}
-    targets = {entry["target"] for _, _, entry, _ in group_entries}
-    expected_keys = {key for _, key, _, _ in group_entries}
+    expected_keys = sorted({key for _, key, _, _ in group_entries})
+    expected_key_set = set(expected_keys)
     existing = defaultdict(set)
     to_update = []
 
-    for matching in Memory.objects.filter(
-        from_file=False,
-        source__in=sources,
-        target__in=targets,
-        origin=origin,
-        source_language_id=source_language_id,
-        target_language_id=target_language_id,
-    ):
-        key = (
-            matching.origin,
-            matching.source_language_id,
-            matching.target_language_id,
-            matching.source,
-            matching.target,
-        )
-        if key not in expected_keys:
-            continue
-        if matching.status != statuses[key]:
-            matching.status = statuses[key]
-            to_update.append(matching)
-        category = get_memory_category(matching)
-        if category is not None:
-            existing[key].add(category)
+    for offset in range(0, len(expected_keys), MEMORY_UPDATE_LOOKUP_CHUNK_SIZE):
+        matching_pairs = Q()
+        for _, _, _, source, target in expected_keys[
+            offset : offset + MEMORY_UPDATE_LOOKUP_CHUNK_SIZE
+        ]:
+            matching_pairs |= Q(
+                source__md5=MD5(Value(source)),
+                target__md5=MD5(Value(target)),
+            )
+
+        for matching in Memory.objects.filter(
+            matching_pairs,
+            from_file=False,
+            origin__md5=MD5(Value(origin)),
+            source_language_id=source_language_id,
+            target_language_id=target_language_id,
+        ):
+            key = (
+                matching.origin,
+                matching.source_language_id,
+                matching.target_language_id,
+                matching.source,
+                matching.target,
+            )
+            if key not in expected_key_set:
+                continue
+            if matching.status != statuses[key]:
+                matching.status = statuses[key]
+                to_update.append(matching)
+            category = get_memory_category(matching)
+            if category is not None:
+                existing[key].add(category)
 
     return existing, to_update
 
