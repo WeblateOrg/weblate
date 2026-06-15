@@ -533,8 +533,6 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
     profile = user.profile
     component = unit.translation.component
     project = component.project
-    # Remember old checks
-    oldchecks = unit.all_checks_names
     # Alternative translations handling
     add_alternative = "add_alternative" in request.POST
 
@@ -587,6 +585,9 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
         )
 
     # Get new set of checks
+    oldchecks = unit.updated_old_checks_names
+    if oldchecks is None:
+        oldchecks = unit.all_checks_names
     newchecks = unit.all_checks_names
 
     # Did we introduce any new failures?

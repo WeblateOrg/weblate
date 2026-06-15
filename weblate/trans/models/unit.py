@@ -688,6 +688,7 @@ class Unit(models.Model, LoggerMixin):
         self.unit_attributes: UnitAttributesDict | None = None
         # To handle pending update for enforced checks
         self.pending_unit_change: PendingUnitChange | None = None
+        self.updated_old_checks_names: set[str] | None = None
         # Avoid loading self-referencing source unit from the database
         # Skip this when deferred fields are present to avoid database access
         if (
@@ -2045,7 +2046,9 @@ class Unit(models.Model, LoggerMixin):
         self, *, force_propagate: bool = False, skip_propagate: bool = False
     ) -> None:
         """Update checks for this unit."""
-        old_checks = self.all_checks_names
+        existing_checks = self.all_checks_names
+        self.updated_old_checks_names = set(existing_checks)
+        old_checks = set(existing_checks)
         create = []
 
         component = self.translation.component
@@ -2181,8 +2184,13 @@ class Unit(models.Model, LoggerMixin):
             else:
                 self.source_unit.run_checks()
 
+        current_checks = (existing_checks - old_checks) | {
+            check.name for check in create
+        }
+
         # This is always preset as it is used in top of this method
         self.clear_checks_cache()
+        self.__dict__["_all_checks_names_cache"] = frozenset(current_checks)
 
         if not self.is_batch_update and (create or old_checks):
             self.translation.invalidate_cache()
