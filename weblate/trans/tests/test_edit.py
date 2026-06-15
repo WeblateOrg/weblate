@@ -102,6 +102,7 @@ class SearchSessionTest(TestCase):
                 {"partial_ids": [10, 11], "partial_offset": 3}, 2, 1
             )
         )
+        self.assertIsNone(get_search_session_snapshot({"ids": [1, 2, 3]}, 5, 1))
 
     def test_search_session_snapshot_rejects_malformed_ids(self) -> None:
         self.assertIsNone(get_search_session_snapshot({"ids": ["invalid"]}, 1, 1))
