@@ -86,6 +86,26 @@ class AnalyzeTranslatorWorkTest(ComponentTestCase):
         self.assertIn("User days: 2 included, 0 excluded", result)
         self.assertIn("  median: 3", result)
 
+    def test_component_filter_uses_full_path(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        for _unused in range(3):
+            self.create_change(self.user, self.user)
+
+        output = StringIO()
+        call_command(
+            "analyze_translator_work",
+            component="/".join(self.component.get_url_path()),
+            days=1,
+            min_changes=1,
+            stdout=output,
+        )
+
+        result = output.getvalue()
+        self.assertIn("User days: 1 included, 0 excluded", result)
+        self.assertIn("  median: 3", result)
+
 
 class ImportProjectTest(RepoTestCase):
     def do_import(self, path=None, **kwargs) -> None:

@@ -14,7 +14,7 @@ from django.utils import timezone
 from django.utils.dateparse import parse_date
 
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Component
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
@@ -144,12 +144,13 @@ class Command(BaseCommand):
         if options["project"]:
             queryset = queryset.filter(project__slug=options["project"])
         if options["component"]:
-            try:
-                project, component = cast("str", options["component"]).split("/", 1)
-            except ValueError as error:
-                msg = "Component must be specified as project/component."
-                raise CommandError(msg) from error
-            queryset = queryset.filter(project__slug=project, component__slug=component)
+            components = Component.objects.filter_by_path(
+                cast("str", options["component"])
+            )
+            if not components.exists():
+                msg = "No matching component found."
+                raise CommandError(msg)
+            queryset = queryset.filter(component__in=components)
         if options["language"]:
             queryset = queryset.filter(language__code=options["language"])
         return queryset
