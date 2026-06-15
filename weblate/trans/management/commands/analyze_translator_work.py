@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 from statistics import mean, median
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, cast
 
 from django.core.management.base import CommandError
 from django.db.models import Count, Sum
@@ -80,7 +80,7 @@ class Command(BaseCommand):
             help="Maximum translated source words per user day to include",
         )
 
-    def handle(self, *args: Any, **options: Any) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         since = self.get_since(options)
         until = self.get_until(options)
         if since >= until:
@@ -92,16 +92,19 @@ class Command(BaseCommand):
         )
         rows = list(
             base.annotate(day=TruncDate("timestamp"))
-            .values("day", "user_id", "user__username")
+            .values("day", "author_id", "author__username")
             .annotate(strings=Count("id"), words=Sum("unit__num_words"))
-            .order_by("day", "user__username")
+            .order_by("day", "author__username")
         )
 
+        min_changes = cast("int", options["min_changes"])
+        max_changes = cast("int", options["max_changes"])
+        max_words = cast("int", options["max_words"])
         included = [
             row
             for row in rows
-            if options["min_changes"] <= row["strings"] <= options["max_changes"]
-            and (row["words"] or 0) <= options["max_words"]
+            if min_changes <= row["strings"] <= max_changes
+            and (row["words"] or 0) <= max_words
         ]
         excluded = len(rows) - len(included)
 
@@ -115,8 +118,8 @@ class Command(BaseCommand):
         )
         self.stdout.write(
             "Filtering: active human users, unit-backed changes, "
-            f"{options['min_changes']}..{options['max_changes']} strings/day, "
-            f"up to {options['max_words']} words/day"
+            f"{min_changes}..{max_changes} strings/day, "
+            f"up to {max_words} words/day"
         )
         self.stdout.write(f"User days: {len(included)} included, {excluded} excluded")
 
@@ -130,19 +133,19 @@ class Command(BaseCommand):
         self.write_metric("Translated strings per day", strings)
         self.write_metric("Source words per day", words)
 
-    def get_queryset(self, options: dict[str, Any]) -> QuerySet[Change]:
+    def get_queryset(self, options: dict[str, object]) -> QuerySet[Change]:
         queryset = Change.objects.filter(
             action__in=TRANSLATOR_ACTIONS,
             unit__isnull=False,
-            user__isnull=False,
-            user__is_active=True,
-            user__is_bot=False,
+            author__isnull=False,
+            author__is_active=True,
+            author__is_bot=False,
         )
         if options["project"]:
             queryset = queryset.filter(project__slug=options["project"])
         if options["component"]:
             try:
-                project, component = options["component"].split("/", 1)
+                project, component = cast("str", options["component"]).split("/", 1)
             except ValueError as error:
                 msg = "Component must be specified as project/component."
                 raise CommandError(msg) from error
@@ -151,18 +154,18 @@ class Command(BaseCommand):
             queryset = queryset.filter(language__code=options["language"])
         return queryset
 
-    def get_since(self, options: dict[str, Any]) -> datetime:
+    def get_since(self, options: dict[str, object]) -> datetime:
         if options["since"]:
-            parsed = parse_date(options["since"])
+            parsed = parse_date(cast("str", options["since"]))
             if parsed is None:
                 msg = "--since must use YYYY-MM-DD format."
                 raise CommandError(msg)
             return timezone.make_aware(datetime.combine(parsed, datetime.min.time()))
-        return timezone.now() - timedelta(days=options["days"])
+        return timezone.now() - timedelta(days=cast("int", options["days"]))
 
-    def get_until(self, options: dict[str, Any]) -> datetime:
+    def get_until(self, options: dict[str, object]) -> datetime:
         if options["until"]:
-            parsed = parse_date(options["until"])
+            parsed = parse_date(cast("str", options["until"]))
             if parsed is None:
                 msg = "--until must use YYYY-MM-DD format."
                 raise CommandError(msg)
