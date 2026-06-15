@@ -27,6 +27,7 @@ Weblate 2026.7
 * Large component imports now avoid duplicate translation-memory processing.
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
+* :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
 
 .. rubric:: Bug fixes
 
