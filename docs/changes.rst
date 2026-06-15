@@ -24,6 +24,11 @@ Weblate 2026.7
 * Translate pages with filtered searches and nearby strings now load more efficiently.
 * Translation form submissions now avoid loading complete search result sets when saving strings.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
+* Documented :ref:`release-artifact-inventory` for Weblate release and deployment artifacts.
+* Added :doc:`/security/releases` with release, security-update, and upgrade support lifecycle details.
+* Documented release artifact signatures, attestations, SBOMs, and checksum verification coverage.
+* Organized release lifecycle, release artifact verification, and dependency security documentation into separate security pages.
+* Filled repository-backed security metadata and removed unsupported empty placeholders.
 * Large component imports now avoid duplicate translation-memory processing.
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.

@@ -365,24 +365,11 @@ with development files and GObject introspection data.
 
 .. include:: install/steps/hw.rst
 
-.. _verify:
+Verifying release artifacts
+---------------------------
 
-Verifying release signatures
-----------------------------
-
-Weblate release are cryptographically signed using `Sigstore signatures
-<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub
-release.
-
-The verification can be performed using :pypi:`sigstore package <sigstore>`.
-The following example verifies signature of the 5.4 release:
-
-.. code-block:: sh
-
-   sigstore verify github \
-      --cert-identity https://github.com/WeblateOrg/weblate/.github/workflows/setup.yml@refs/tags/weblate-5.4 \
-      --bundle Weblate-5.4-py3-none-any.whl.sigstore \
-      Weblate-5.4-py3-none-any.whl
+Release archives can be verified using the signatures, attestations, and SBOMs
+published with GitHub release assets. See :ref:`verify`.
 
 .. _file-permissions:
 
