@@ -326,15 +326,11 @@ class ComponentQuerySet(models.QuerySet["Component", "Component"]):
         project_workspace: str | models.Prefetch
         linked_component_project_workspace: str | models.Prefetch
         if defer:
-            from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
-                Category,
-                Project,
-            )
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Category, Project
 
             # ruff: ignore[import-outside-top-level]
-            from weblate.workspaces.models import (
-                Workspace,
-            )
+            from weblate.workspaces.models import Workspace
 
             result = result.defer_huge()
             linked_component = models.Prefetch(
@@ -1161,9 +1157,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         It updates the back-end repository and regenerates translation data.
         """
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import (
-            component_after_save,
-        )
+        from weblate.trans.tasks import component_after_save
 
         seed_source_component_id = getattr(self, "seed_source_component_id", None)
         copy_seed_addons = getattr(self, "copy_seed_addons", False)
@@ -1482,9 +1476,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.addons.models import (
-            ADDONS,
-        )
+        from weblate.addons.models import ADDONS
 
         for name, configuration in chain(
             self.file_format_cls.autoaddon.items(), settings.DEFAULT_ADDONS.items()
@@ -2434,17 +2426,33 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.do_push(None, force_commit=False, do_update=do_update)
         else:
             # ruff: ignore[import-outside-top-level]
-            from weblate.trans.tasks import (
-                perform_push,
-            )
+            from weblate.trans.tasks import perform_push
 
             self.log_info("scheduling push")
             self.queue_background_task(
                 perform_push, self.pk, None, force_commit=False, do_update=do_update
             )
 
+    def get_push_user(self, request: AuthenticatedHttpRequest | None) -> User:
+        """Return user to credit for push events."""
+        user = request.user if request else self.acting_user
+        if user is not None:
+            return user
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
+
+        return User.objects.get_or_create_bot(
+            scope="weblate", name="push", verbose="Background push"
+        )
+
     @perform_on_link
-    def push_repo(self, request: AuthenticatedHttpRequest, retry: bool = True):
+    def push_repo(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        user: User,
+        retry: bool = True,
+    ):
         """Push repository changes upstream."""
         with self.repository.lock:
             self.log_info("pushing to remote repo")
@@ -2460,13 +2468,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.change_set.create(
                     action=ActionEvents.FAILED_PUSH,
                     target=error_text,
-                    user=request.user if request else self.acting_user,
+                    user=user,
                 )
                 if retry:
                     if should_auto_add_ssh_host_key(error_text):
                         # Try adding SSH key and retry
                         self.add_ssh_host_key()
-                        return self.push_repo(request, retry=False)
+                        return self.push_repo(request, user, retry=False)
                     if "fetch first" in error_text:
                         # Upstream has moved, try additional update via calling do_push
                         return self.do_push(request, retry=False)
@@ -2483,7 +2491,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                                 skip_error_reporting=not settings.DEBUG,
                             )
                         else:
-                            return self.push_repo(request, retry=False)
+                            return self.push_repo(request, user, retry=False)
                 messages.error(
                     request,
                     gettext("Could not push %(component)s: %(error_text)s")
@@ -2545,9 +2553,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         linked_children_list = list(self.linked_children)
         if linked_children_list:
             # ruff: ignore[import-outside-top-level]
-            from weblate.addons.models import (
-                Addon,
-            )
+            from weblate.addons.models import Addon
 
             Addon.objects.prefetch_for_components(linked_children_list)
 
@@ -2556,14 +2562,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for component in linked_children_list:
             vcs_pre_push.send(sender=component.__class__, component=component)
 
+        user = self.get_push_user(request)
+
         # Do actual push
-        result = self.push_repo(request, retry=retry)
+        result = self.push_repo(request, user, retry=retry)
         if not result:
             return False
 
         self.change_set.create(
             action=ActionEvents.PUSH,
-            user=request.user if request else self.acting_user,
+            user=user,
         )
 
         vcs_post_push.send(sender=self.__class__, component=self)
@@ -2643,9 +2651,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> bool:
         """Reset repo to match remote."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import (
-            perform_commit,
-        )
+        from weblate.trans.tasks import perform_commit
 
         user = request.user if request else self.acting_user
         try:
@@ -3018,14 +3024,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         store_disk_state: bool = True,
     ) -> bool:
         # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import (
-            get_anonymous,
-        )
+        from weblate.auth.models import get_anonymous
 
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import (
-            perform_commit,
-        )
+        from weblate.trans.tasks import perform_commit
 
         pending: list[PendingUnitChange] = []
         units_to_update: list[Unit] = []
@@ -3177,7 +3179,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
-        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         if user is None:
             user = User.objects.get_or_create_bot(
@@ -3787,9 +3790,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
 
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import (
-            perform_load,
-        )
+        from weblate.trans.tasks import perform_load
 
         self.log_info("scheduling update in background")
         self.queue_background_task(
@@ -3870,9 +3871,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> bool:
         """Load translations from VCS."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import (
-            update_enforced_checks,
-        )
+        from weblate.trans.tasks import update_enforced_checks
 
         self.store_background_task()
 
@@ -4040,9 +4039,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Schedule background cleanup if needed
         if self.needs_cleanup and not self.template:
             # ruff: ignore[import-outside-top-level]
-            from weblate.trans.tasks import (
-                cleanup_component,
-            )
+            from weblate.trans.tasks import cleanup_component
 
             cleanup_component.delay_on_commit(self.id)
 
@@ -4109,9 +4106,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return
 
         # ruff: ignore[import-outside-top-level]
-        from weblate.checks.tasks import (
-            finalize_component_checks,
-        )
+        from weblate.checks.tasks import finalize_component_checks
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             finalize_component_checks(
@@ -4149,9 +4144,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @cached_property
     def glossary_sources(self):
         # ruff: ignore[import-outside-top-level]
-        from weblate.glossary.models import (
-            get_glossary_sources,
-        )
+        from weblate.glossary.models import get_glossary_sources
 
         result = cache.get(self.glossary_sources_key)
         if result is None:
@@ -4793,7 +4786,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         copy_seed_addons: bool = False,
         seed_author: str | None = None,
     ) -> None:
-        from weblate.trans.component_copy import (  # ruff: ignore[import-outside-top-level]
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.component_copy import (
             clone_component_addons,
             seed_component_from_source,
         )
@@ -5533,9 +5527,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self, *, user: User | None, lock: bool = True, auto: bool = False
     ) -> Change:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import (
-            perform_commit,
-        )
+        from weblate.trans.tasks import perform_commit
 
         change = Change(
             component=self,
@@ -5580,9 +5572,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @cached_property
     def addons_cache(self) -> AddonCache:
         # ruff: ignore[import-outside-top-level]
-        from weblate.addons.models import (
-            Addon,
-        )
+        from weblate.addons.models import Addon
 
         # Use prefetch_for_components to populate the cache
         Addon.objects.prefetch_for_components([self])
@@ -5594,10 +5584,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def schedule_sync_terminology(self) -> None:
         """Trigger terminology sync in the background."""
-        from weblate.glossary.tasks import (  # ruff: ignore[import-outside-top-level]
-            sync_glossary_languages,
-            sync_terminology,
-        )
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
 
         if settings.CELERY_TASK_ALWAYS_EAGER:
             # Execute directly to avoid locking issues
@@ -5611,10 +5599,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             transaction.on_commit(self._schedule_sync_terminology)
 
     def _schedule_sync_terminology(self) -> None:
-        from weblate.glossary.tasks import (  # ruff: ignore[import-outside-top-level]
-            sync_glossary_languages,
-            sync_terminology,
-        )
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.tasks import sync_glossary_languages, sync_terminology
 
         if self.is_glossary:
             sync_terminology.delay_on_commit(self.pk)
@@ -5793,9 +5779,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def schedule_update_checks(self, update_state: bool = False) -> None:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import (
-            update_checks,
-        )
+        from weblate.trans.tasks import update_checks
 
         update_token = get_random_identifier()
         cache.set(self.update_checks_key, update_token)
@@ -5861,7 +5845,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 @receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
 def change_component_link(sender, instance, **kwargs) -> None:
-    from weblate.trans.models import Project  # ruff: ignore[import-outside-top-level]
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Project
 
     with suppress(Project.DoesNotExist):
         project = Project.objects.get(pk=instance.project_id)

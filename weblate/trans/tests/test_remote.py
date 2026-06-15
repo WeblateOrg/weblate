@@ -109,6 +109,26 @@ class MultiRepoTest(ViewTestCase):
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
+    def test_background_push_uses_bot_user(self) -> None:
+        unit = self.get_unit()
+        unit.translate(self.user, ["Background push\n"], STATE_TRANSLATED)
+
+        self.assertTrue(
+            self.component.commit_pending("test", self.user, skip_push=True)
+        )
+        self.assertTrue(self.component.repo_needs_push())
+        self.assertTrue(
+            self.component.do_push(None, force_commit=False, do_update=False)
+        )
+
+        change = self.component.change_set.filter(action=ActionEvents.PUSH).latest(
+            "timestamp"
+        )
+        self.assertIsNotNone(change.user)
+        self.assertEqual(change.user.username, "weblate:push")
+        self.assertTrue(change.user.is_bot)
+        self.assertEqual(change.user.full_name, "Background push")
+
     def do_update_with_callbacks(self, translation) -> bool:
         translation = type(translation).objects.get(pk=translation.pk)
         with self.captureOnCommitCallbacks(execute=True):

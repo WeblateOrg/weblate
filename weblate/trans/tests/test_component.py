@@ -1389,6 +1389,11 @@ class ComponentErrorTest(RepoTestCase):
         with self.component.repository.lock:
             self.component.repository.commit("test", files=["README.md"])
         self.assertFalse(self.component.do_push(None))
+        change = self.component.change_set.get(action=ActionEvents.FAILED_PUSH)
+        self.assertIsNotNone(change.user)
+        self.assertEqual(change.user.username, "weblate:push")
+        self.assertTrue(change.user.is_bot)
+        self.assertEqual(change.user.full_name, "Background push")
 
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
