@@ -369,10 +369,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Freeze global stats cache timestamp for activity screenshots."""
         self.stabilize_stats_timestamp(GlobalStats())
 
-    def refresh_project_stats(self, project: Project) -> None:
-        """Refresh project dashboard stats through the normal invalidation path."""
+    def stabilize_project_stats(self, project: Project) -> None:
+        """Rebuild project dashboard stats for reproducible screenshots."""
         for component in project.component_set.all():
-            component.invalidate_cache()
+            for translation in component.translation_set.all():
+                self.stabilize_stats_timestamp(translation.stats)
+            self.stabilize_stats_timestamp(component.stats)
+        for language_stats in project.stats.get_language_stats():
+            self.stabilize_stats_timestamp(language_stats)
+        self.stabilize_stats_timestamp(project.stats)
 
     def use_screenshot_site_domain_for_git_export(self, component: Component) -> None:
         """Store the displayed Git export URL with the screenshot domain."""
@@ -2055,7 +2060,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_dark_theme(self) -> None:
         project = self.create_component()
         self.create_android_component(project)
-        self.refresh_project_stats(project)
+        self.stabilize_project_stats(project)
         self.do_login()
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
