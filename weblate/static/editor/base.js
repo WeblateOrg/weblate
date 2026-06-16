@@ -104,7 +104,7 @@ WLT.Utils = (() => ({
       return;
     }
     const next = target.nextElementSibling;
-    if (next && next.classList.contains("text-warning")) {
+    if (next?.classList.contains("text-warning")) {
       return;
     }
     const warning = document.createElement("div");
