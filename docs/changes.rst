@@ -44,6 +44,7 @@ Weblate 2026.7
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
+* :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 
 .. rubric:: Compatibility
 

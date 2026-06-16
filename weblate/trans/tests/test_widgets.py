@@ -13,6 +13,7 @@ from django.test import SimpleTestCase
 from django.urls import reverse
 
 from weblate.trans.checklists import TranslationChecklistMixin
+from weblate.trans.filter import FILTERS
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
@@ -54,9 +55,12 @@ class EngageTaskChecklistTest(SimpleTestCase):
             [(task.url, task.total) for task in tasks],
             [
                 ("/translate/?q=state:empty", 1),
-                ("/translate/?q=state:needs-editing", 2),
+                ("/translate/?q=is:needs-editing", 2),
             ],
         )
+
+    def test_fuzzy_filter_query_matches_fuzzy_states(self) -> None:
+        self.assertEqual(FILTERS.get_filter_query("fuzzy"), "is:needs-editing")
 
     def test_engage_tasks_hide_empty_review(self) -> None:
         tasks = self.get_engage_tasks(enable_review=True)
@@ -135,7 +139,7 @@ class WidgetsTest(FixtureTestCase):
         )
         self.assertContains(response, "row engage-task-list justify-content-center")
         self.assertContains(response, "?q=state:empty")
-        self.assertNotContains(response, "?q=state:needs-editing")
+        self.assertNotContains(response, "?q=is:needs-editing")
         self.assertNotContains(response, "?q=has:check%20AND%20state:%3E=translated")
         self.assertNotContains(response, '?q=has:check"')
         self.assertNotContains(response, "?q=has:suggestion#suggestions")
