@@ -357,27 +357,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         return timezone.now() - timedelta(minutes=1)
 
     def stabilize_stats_timestamp(self, stats: BaseStats) -> None:
-        """Rebuild a stats cache entry with a stable screenshot timestamp."""
-        stats.clear()
-        stats.calculate_basic()
-        data = stats.get_data()
+        """Freeze an existing stats cache timestamp for screenshots."""
+        data = stats.load().copy()
+        if not data:
+            return
         data["stats_timestamp"] = self.get_stable_naturaltime_timestamp().timestamp()
         stats.set_data(data)
-        cache.set(stats.cache_key, data, 30 * 86400)
+        stats.save(update_parents=False)
 
     def stabilize_global_stats_timestamp(self) -> None:
         """Freeze global stats cache timestamp for activity screenshots."""
         self.stabilize_stats_timestamp(GlobalStats())
-
-    def stabilize_project_stats(self, project: Project) -> None:
-        """Rebuild project dashboard stats for reproducible screenshots."""
-        for component in project.component_set.all():
-            for translation in component.translation_set.all():
-                self.stabilize_stats_timestamp(translation.stats)
-            self.stabilize_stats_timestamp(component.stats)
-        for language_stats in project.stats.get_language_stats():
-            self.stabilize_stats_timestamp(language_stats)
-        self.stabilize_stats_timestamp(project.stats)
 
     def use_screenshot_site_domain_for_git_export(self, component: Component) -> None:
         """Store the displayed Git export URL with the screenshot domain."""
@@ -1034,26 +1024,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
-        project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
-        Component.objects.create(
-            name="Language names",
-            slug="language-names",
-            project=project,
-            repo="https://github.com/WeblateOrg/demo.git",
-            branch="main",
-            filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
-            new_base="weblate/langdata/locale/django.pot",
-            file_format="po",
-        )
-        Component.objects.create(
-            name="Django",
-            slug="django",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="weblate/locale/*/LC_MESSAGES/django.po",
-            new_base="weblate/locale/django.pot",
-            file_format="po",
-        )
+        with override_settings(STATS_LAZY=False):
+            project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
+            Component.objects.create(
+                name="Language names",
+                slug="language-names",
+                project=project,
+                repo="https://github.com/WeblateOrg/demo.git",
+                branch="main",
+                filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
+                new_base="weblate/langdata/locale/django.pot",
+                file_format="po",
+            )
+            Component.objects.create(
+                name="Django",
+                slug="django",
+                project=project,
+                repo="weblate://weblateorg/language-names",
+                filemask="weblate/locale/*/LC_MESSAGES/django.po",
+                new_base="weblate/locale/django.pot",
+                file_format="po",
+            )
         return project
 
     def create_glossary(
@@ -1111,15 +1102,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        return Component.objects.create(
-            name="Android",
-            slug="android",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="app/src/main/res/values-*/strings.xml",
-            template="app/src/main/res/values/strings.xml",
-            file_format="aresource",
-        )
+        with override_settings(STATS_LAZY=False):
+            return Component.objects.create(
+                name="Android",
+                slug="android",
+                project=project,
+                repo="weblate://weblateorg/language-names",
+                filemask="app/src/main/res/values-*/strings.xml",
+                template="app/src/main/res/values/strings.xml",
+                file_format="aresource",
+            )
 
     def test_dashboard(self) -> None:
         self.do_login()
@@ -2075,7 +2067,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_dark_theme(self) -> None:
         project = self.create_component()
         self.create_android_component(project)
-        self.stabilize_project_stats(project)
         self.do_login()
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
