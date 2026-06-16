@@ -76,11 +76,13 @@ class ChangeMessageField(forms.CharField):
         kwargs.setdefault("initial", "")
         kwargs.setdefault(
             "widget",
-            forms.TextInput(
+            forms.Textarea(
                 attrs={
                     "placeholder": gettext_lazy("Reason for this change (optional)"),
                     "maxlength": CHANGE_MESSAGE_MAX_LENGTH,
                     "autocomplete": "off",
+                    "rows": 2,
+                    "class": "change-message-input",
                 }
             ),
         )

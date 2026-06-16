@@ -619,6 +619,18 @@ class TranslationForm(UnitForm):
         self.helper.form_method = "post"
         self.helper.form_tag = False
         self.helper.disable_csrf = True
+        has_message = False
+        if self.is_bound:
+            has_message = bool(self.data.get("message") or self.errors.get("message"))
+        else:
+            has_message = bool(self.initial.get("message"))
+
+        collapse_class = "collapse show" if has_message else "collapse"
+        aria_expanded = "true" if has_message else "false"
+        toggle_class = "btn btn-sm btn-link change-message-toggle px-0"
+        if not has_message:
+            toggle_class += " collapsed"
+
         self.helper.layout = Layout(
             Field("target"),
             Field("fuzzy"),
@@ -626,7 +638,17 @@ class TranslationForm(UnitForm):
             Field("translationsum"),
             InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
-            Field("message"),
+            Div(
+                HTML(
+                    f'<p class="mb-2"><a class="{toggle_class}" data-bs-toggle="collapse" href="#collapse-msg-{unit.checksum}" role="button" aria-expanded="{aria_expanded}" aria-controls="collapse-msg-{unit.checksum}">{gettext("Add a note…")}</a></p>'
+                ),
+                Div(
+                    Field("message"),
+                    css_class=collapse_class,
+                    id=f"collapse-msg-{unit.checksum}",
+                ),
+                css_class="change-message-container",
+            ),
         )
         if user_can_review or not user_can_edit:
             self.fields["fuzzy"].widget = forms.HiddenInput()

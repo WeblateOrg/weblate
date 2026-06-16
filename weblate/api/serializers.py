@@ -2386,7 +2386,6 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
         allow_blank=True,
         default="",
         write_only=True,
-        validators=[validate_change_message],
     )
 
     class Meta:
@@ -2399,6 +2398,9 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
             "labels",
             "message",
         )
+
+    def validate_message(self, value: str) -> str:
+        return validate_change_message(value)
 
     def to_internal_value(self, data):
         # Allow blank target for untranslated strings

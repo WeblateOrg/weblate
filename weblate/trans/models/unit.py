@@ -1900,6 +1900,8 @@ class Unit(models.Model, LoggerMixin):
         }
         if change_details:
             details.update(change_details)
+        if message:
+            details["message"] = message
 
         change = Change(
             unit=self,
@@ -1909,7 +1911,6 @@ class Unit(models.Model, LoggerMixin):
             target=self.target if target is None else target,
             old=self.old_unit["target"] if old is None else old,
             details=details,
-            message=message,
         )
         if save:
             change.save(force_insert=True)

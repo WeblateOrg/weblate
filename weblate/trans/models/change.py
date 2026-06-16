@@ -30,8 +30,6 @@ from weblate.trans.actions import (
     ActionEvents,
 )
 from weblate.trans.change_messages import (
-    CHANGE_MESSAGE_LABEL,
-    CHANGE_MESSAGE_MAX_LENGTH,
     normalize_change_message,
 )
 from weblate.trans.mixins import UserDisplayMixin
@@ -290,6 +288,10 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         objs = list(objs)
         for change in objs:
             change.fixup_references()
+            if change.details and "message" in change.details:
+                change.details["message"] = normalize_change_message(
+                    change.details["message"]
+                )
 
         changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
             objs,  # type: ignore[arg-type]
@@ -612,13 +614,22 @@ class Change(models.Model, UserDisplayMixin):
     )
     target = models.TextField(default="", blank=True)
     old = models.TextField(default="", blank=True)
-    message = models.CharField(
-        max_length=CHANGE_MESSAGE_MAX_LENGTH,
-        default="",
-        blank=True,
-        verbose_name=CHANGE_MESSAGE_LABEL,
-    )
     details = models.JSONField(default=dict)
+
+    @property
+    def message(self) -> str:
+        if not self.details:
+            return ""
+        return self.details.get("message", "")
+
+    @message.setter
+    def message(self, value: str) -> None:
+        if self.details is None:
+            self.details = {}
+        if value:
+            self.details["message"] = value
+        else:
+            self.details.pop("message", None)
 
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
