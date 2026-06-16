@@ -1843,7 +1843,7 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
         self.helper.form_tag = False
 
 
-class InheritedSettingsFormMixin:
+class InheritedSettingsFormMixin(forms.ModelForm):
     _inherited_setting_fields: set[str]
     _inherited_setting_restore_values: dict[str, Any]
 
