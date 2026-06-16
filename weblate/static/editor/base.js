@@ -134,8 +134,8 @@ WLT.Editor = (() => {
     const translationAreaSelector = ".translation-editor";
 
     this.editors = document.querySelectorAll(".js-editor");
-    /* Only insert actual translation editor, not a popup for adding variant */
-    this.translationArea = document.querySelector(
+    /* Only insert actual translation editor, not a popup for adding variant. */
+    this.translationArea = document.querySelectorAll(
       ".translator .translation-editor",
     );
 
@@ -267,7 +267,7 @@ WLT.Editor = (() => {
     this.initHighlight();
     this.init();
 
-    this.translationArea?.focus();
+    this.translationArea[0]?.focus();
 
     // Show confirmation dialog if changes have been made
     // when leaving the page

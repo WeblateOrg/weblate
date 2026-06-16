@@ -7,8 +7,6 @@
 
   const _tmServiceName = "weblate-translation-memory";
 
-  const $window = $(window);
-
   // Shared two-step keyboard sequence state.
   // Only one sequence can be pending at a time — starting a new one cancels
   // the previous.
@@ -31,10 +29,25 @@
     return false;
   }
 
+  // Machinery rows store their raw payload as JSON in a data attribute so that
+  // it survives DOM operations without relying on jQuery's data cache.
+  function setRawData(row, data) {
+    row.dataset.raw = JSON.stringify(data);
+  }
+
+  function getRawData(row) {
+    return row?.dataset.raw ? JSON.parse(row.dataset.raw) : undefined;
+  }
+
+  // Direct `<tr>` children of an element (equivalent to jQuery `.children("tr")`).
+  function childRows(el) {
+    return Array.from(el.children).filter((child) => child.matches("tr"));
+  }
+
   function FullEditor() {
     EditorBase.call(this);
 
-    this.csrfToken = $("#link-post").find("input").val();
+    this.csrfToken = document.querySelector("#link-post input")?.value;
 
     this.initTranslationForm();
     this.initTabs();
@@ -42,73 +55,76 @@
     this.initGlossary();
     this.initSuggestions();
 
-    /* Copy machinery results */
-    this.$editor.on("click", ".js-copy-machinery", (e) => {
-      const $el = $(e.target);
-      const raw = $el.parent().parent().data("raw");
+    const copyMachinery = (row, mark) => {
+      const raw = getRawData(row);
+      if (!raw) {
+        return;
+      }
+      for (const pluralForm of raw.plural_forms) {
+        const area = this.translationArea[pluralForm];
+        if (area) {
+          replaceValue(area, raw.text);
+        }
+      }
+      mark(this.translationForm);
+    };
 
-      raw.plural_forms.forEach((pluralForm) => {
-        $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
-      });
-      WLT.Utils.markFuzzy(this.$translationForm);
+    /* Copy machinery results */
+    delegate(this.editors, "click", ".js-copy-machinery", (e) => {
+      copyMachinery(e.target.closest("tr"), WLT.Utils.markFuzzy);
     });
 
     /* Copy and save machinery results */
-    this.$editor.on("click", ".js-copy-save-machinery", (e) => {
-      const $el = $(e.target);
-      const raw = $el.parent().parent().data("raw");
-
-      raw.plural_forms.forEach((pluralForm) => {
-        $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
-      });
-      WLT.Utils.markTranslated(this.$translationForm);
-      submitForm({ target: this.$translationArea });
+    delegate(this.editors, "click", ".js-copy-save-machinery", (e) => {
+      copyMachinery(e.target.closest("tr"), WLT.Utils.markTranslated);
+      submitForm({ target: this.translationArea[0] });
     });
 
     /* Copy, approve and save machinery results */
-    this.$editor.on("click", ".js-copy-approve-save-machinery", (e) => {
-      const $el = $(e.target);
-      const raw = $el.parent().parent().data("raw");
-
-      raw.plural_forms.forEach((pluralForm) => {
-        $(this.$translationArea.get(pluralForm)).replaceValue(raw.text);
-      });
-      WLT.Utils.markApproved(this.$translationForm);
-      submitForm({ target: this.$translationArea });
+    delegate(this.editors, "click", ".js-copy-approve-save-machinery", (e) => {
+      copyMachinery(e.target.closest("tr"), WLT.Utils.markApproved);
+      submitForm({ target: this.translationArea[0] });
     });
 
     /* Delete machinery results */
-    this.$editor.on("click", ".js-delete-machinery", (e) => {
-      const $el = $(e.target);
+    delegate(this.editors, "click", ".js-delete-machinery", (e) => {
+      const deleteButton = e.target.closest(".js-delete-machinery");
+      const self = this;
 
       /* Delete Url dialog */
-      let $deleteEntriesDialog = null;
-      this.$editor.on("shown.bs.modal", "#delete-url-modal", (e) => {
-        $deleteEntriesDialog = $(e.currentTarget);
-        $deleteEntriesDialog.find(".modal-body").html("");
-        const text = $el.parent().parent().data("raw").text;
-        const modalBody = this.machinery.renderDeleteUrls(text);
-        $deleteEntriesDialog.find(".modal-body").append(modalBody);
+      let deleteEntriesDialog = null;
+      delegate(
+        self.editors,
+        "shown.bs.modal",
+        "#delete-url-modal",
+        function () {
+          deleteEntriesDialog = this;
+          const modalBody = deleteEntriesDialog.querySelector(".modal-body");
+          modalBody.replaceChildren();
+          const text = getRawData(deleteButton.closest("tr")).text;
+          modalBody.append(self.machinery.renderDeleteUrls(text));
+        },
+      );
+
+      delegate(self.editors, "hidden.bs.modal", "#delete-url-modal", () => {
+        deleteEntriesDialog = null;
       });
 
-      this.$editor.on("hidden.bs.modal", "#delete-url-modal", (_e) => {
-        $deleteEntriesDialog = null;
-      });
-
-      this.$editor.on("submit", ".delete-url-form", (e) => {
-        const $form = $(e.currentTarget);
-        const $deleteEntries = $form.find("input.form-check-input:checked");
-        if ($deleteEntriesDialog === null) {
-          return false;
+      delegate(self.editors, "submit", ".delete-url-form", function (ev) {
+        ev.preventDefault();
+        const deleteEntries = this.querySelectorAll(
+          "input.form-check-input:checked",
+        );
+        if (deleteEntriesDialog === null) {
+          return;
         }
-        $deleteEntriesDialog.modal("hide");
+        bootstrap.Modal.getInstance(deleteEntriesDialog)?.hide();
 
-        Object.entries($deleteEntries).forEach(([_, entry]) => {
-          if (typeof entry.id !== "undefined") {
-            this.removeTranslationEntry(entry.id);
+        for (const entry of deleteEntries) {
+          if (entry.id) {
+            self.removeTranslationEntry(entry.id);
           }
-        });
-        return false;
+        }
       });
     });
 
@@ -159,7 +175,7 @@
       return submitForm(e, null, 'button[name="suggest"]');
     });
     hotkeys("ctrl+e,command+e", () => {
-      this.$translationArea.get(0).focus();
+      this.translationArea[0]?.focus();
       return false;
     });
     hotkeys("ctrl+s,command+s", () => {
@@ -185,30 +201,32 @@
   FullEditor.prototype.constructor = FullEditor;
 
   FullEditor.prototype.initTranslationForm = function () {
-    this.$translationForm = $(".translation-form");
+    this.translationForm = document.querySelector(".translation-form");
 
     /* Report source bug */
-    this.$translationForm.on("click", ".bug-comment", () => {
+    delegate(this.translationForm, "click", ".bug-comment", () => {
       bootstrap.Tab.getOrCreateInstance(
-        $('.translation-tabs a[data-bs-target="#comments"]'),
+        document.querySelector(
+          '.translation-tabs a[data-bs-target="#comments"]',
+        ),
       ).show();
-      $("#id_scope").val("report");
-      $([document.documentElement, document.body]).animate(
-        {
-          scrollTop: $("#comment-form").offset().top,
-        },
-        1000,
-      );
-      $("#id_comment").focus();
+      const scope = document.getElementById("id_scope");
+      if (scope) {
+        scope.value = "report";
+      }
+      document
+        .getElementById("comment-form")
+        ?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById("id_comment")?.focus();
     });
 
-    this.$translationForm.on("click", ".add-alternative-post", () => {
-      const elm = $("<input>")
-        .attr("type", "hidden")
-        .attr("name", "add_alternative")
-        .attr("value", "1");
-      this.$translationForm.append(elm);
-      this.$translationForm.submit();
+    delegate(this.translationForm, "click", ".add-alternative-post", () => {
+      const elm = document.createElement("input");
+      elm.type = "hidden";
+      elm.name = "add_alternative";
+      elm.value = "1";
+      this.translationForm.append(elm);
+      this.translationForm.requestSubmit();
       return false;
     });
 
@@ -228,37 +246,34 @@
       localStorage.removeItem(restoreKey);
     }
 
-    this.$editor.on("submit", ".auto-save-translation", () => {
-      const data = this.$translationArea.map(function () {
-        const $this = $(this);
+    delegate(this.editors, "submit", ".auto-save-translation", () => {
+      const data = Array.from(this.translationArea, (area) => ({
+        id: area.id,
+        value: area.value,
+      }));
 
-        return {
-          id: $this.attr("id"),
-          value: $this.val(),
-        };
-      });
-
-      localStorage.setItem(restoreKey, JSON.stringify(data.get()));
+      localStorage.setItem(restoreKey, JSON.stringify(data));
     });
   };
 
   FullEditor.prototype.initTabs = function () {
     /* Store active tab in a local storage */
-    $('.translation-tabs a[data-bs-toggle="tab"]').on(
-      "shown.bs.tab",
-      function () {
+    for (const tab of document.querySelectorAll(
+      '.translation-tabs a[data-bs-toggle="tab"]',
+    )) {
+      tab.addEventListener("shown.bs.tab", function () {
         const current = localStorage.getItem("translate-tab");
-        const desired = $(this).attr("data-bs-target");
+        const desired = this.getAttribute("data-bs-target");
 
         if (current !== desired) {
           localStorage.setItem("translate-tab", desired);
         }
-      },
-    );
+      });
+    }
 
     /* Machinery */
     this.isMachineryLoaded = false;
-    this.$editor.on("show.bs.tab", '[data-load="machinery"]', () => {
+    delegate(this.editors, "show.bs.tab", '[data-load="machinery"]', () => {
       if (this.isMachineryLoaded) {
         return;
       }
@@ -271,31 +286,37 @@
     this.machinery = new Machinery();
     this.initMachineryHotkeys();
 
-    $("#js-translate")
-      .data("services")
-      .forEach((serviceName) => {
-        increaseLoading("machinery");
-        this.fetchMachinery(serviceName);
-      });
+    const services = JSON.parse(
+      document.getElementById("js-translate").dataset.services,
+    );
+    services.forEach((serviceName) => {
+      increaseLoading("machinery");
+      this.fetchMachinery(serviceName);
+    });
 
-    this.$editor.on("submit", "#memory-search", (e) => {
-      const $form = $(e.currentTarget);
+    delegate(this.editors, "submit", "#memory-search", (e) => {
+      const form = e.target.closest("#memory-search");
+      e.preventDefault();
 
       increaseLoading("machinery");
       this.machinery.setState({ translations: [] });
-      $("#machinery-translations").empty();
-      $.ajax({
-        type: "POST",
-        url: $form.attr("action"),
-        data: $form.serialize(),
-        dataType: "json",
-        success: (data) => {
+      document.getElementById("machinery-translations").replaceChildren();
+      fetch(form.getAttribute("action"), {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          Accept: "application/json",
+        },
+        body: new URLSearchParams(new FormData(form)),
+      })
+        .then((response) => response.json())
+        .then((data) => {
           this.processMachineryResults(data);
-        },
-        error: (jqXhr, textStatus, errorThrown) => {
-          this.processMachineryError(jqXhr, textStatus, errorThrown);
-        },
-      });
+        })
+        .catch((error) => {
+          this.processMachineryError(error);
+        });
       return false;
     });
   };
@@ -311,65 +332,67 @@
         return;
       }
 
-      const $copyButton = $("#machinery-translations")
-        .children("tr")
-        .filter(function () {
-          return this.dataset.machineryKey === e.key;
-        })
-        .first()
-        .find(".js-copy-machinery");
-
-      if ($copyButton.length > 0) {
-        $copyButton.click();
-        return false;
+      const rows = childRows(document.getElementById("machinery-translations"));
+      for (const row of rows) {
+        if (row.dataset.machineryKey === e.key) {
+          const copyButton = row.querySelector(".js-copy-machinery");
+          if (copyButton) {
+            copyButton.click();
+            return false;
+          }
+          break;
+        }
       }
     });
   };
 
   FullEditor.prototype.removeTranslationEntry = function (deleteUrl) {
-    $.ajax({
-      type: "DELETE",
-      url: deleteUrl,
+    fetch(deleteUrl, {
+      method: "DELETE",
+      credentials: "same-origin",
       headers: { "X-CSRFToken": this.csrfToken },
-      success: () => {
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
         addAlert(gettext("Translation memory entry removed."), "success");
-      },
-      error: (_jqXhr, _textStatus, errorThrown) => {
-        addAlert(errorThrown);
-      },
-    });
+      })
+      .catch((error) => {
+        addAlert(error.message);
+      });
   };
 
   FullEditor.prototype.fetchMachinery = function (serviceName) {
-    $.ajax({
-      type: "POST",
-      url: $("#js-translate").attr("href").replace("__service__", serviceName),
-      success: (data) => {
+    const url = document
+      .getElementById("js-translate")
+      .getAttribute("href")
+      .replace("__service__", serviceName);
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        Accept: "application/json",
+      },
+      body: new URLSearchParams({ csrfmiddlewaretoken: this.csrfToken }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
         this.processMachineryResults(data);
-      },
-      error: (jqXhr, textStatus, errorThrown) => {
-        this.processMachineryError(jqXhr, textStatus, errorThrown);
-      },
-      dataType: "json",
-      data: {
-        csrfmiddlewaretoken: this.csrfToken,
-      },
-    });
+      })
+      .catch((error) => {
+        this.processMachineryError(error);
+      });
   };
 
-  FullEditor.prototype.processMachineryError = (
-    jqXhr,
-    textStatus,
-    errorThrown,
-  ) => {
+  FullEditor.prototype.processMachineryError = (error) => {
     decreaseLoading("machinery");
-    if (jqXhr.state() !== "rejected") {
-      addAlert(
-        `${gettext(
-          "The request for machine translation has failed:",
-        )} ${textStatus}: ${errorThrown}`,
-      );
-    }
+    addAlert(
+      `${gettext("The request for machine translation has failed:")} ${
+        error.message
+      }`,
+    );
   };
 
   FullEditor.prototype.processMachineryResults = function (data) {
@@ -395,9 +418,12 @@
     });
     this.machinery.render(data.translations);
 
-    const $translationRows = $("#machinery-translations").children("tr");
+    const translationRows = childRows(
+      document.getElementById("machinery-translations"),
+    );
 
-    $translationRows.each(function (idx) {
+    translationRows.forEach((row, idx) => {
+      const numberEl = row.querySelector(".machinery-number");
       if (idx < 10) {
         const key = String(WLT.Utils.getNumericKey(idx));
 
@@ -407,15 +433,18 @@
         } else {
           title = interpolate(gettext("Ctrl+M then %s"), [key]);
         }
-        $(this)
-          .attr("data-machinery-key", key)
-          .find(".machinery-number")
-          .html($("<kbd/>").attr("title", title).text(key));
+        row.setAttribute("data-machinery-key", key);
+        if (numberEl) {
+          const kbd = document.createElement("kbd");
+          kbd.setAttribute("title", title);
+          kbd.textContent = key;
+          numberEl.replaceChildren(kbd);
+        }
       } else {
-        $(this)
-          .removeAttr("data-machinery-key")
-          .find(".machinery-number")
-          .html("");
+        row.removeAttribute("data-machinery-key");
+        if (numberEl) {
+          numberEl.replaceChildren();
+        }
       }
     });
   };
@@ -423,98 +452,133 @@
   FullEditor.prototype.initChecks = function () {
     /* Clicking links (e.g. comments, suggestions)
      * This is inside things to checks, but not a check-item */
-    this.$editor.on("click", '.check [data-bs-toggle="tab"]', function (e) {
-      const target = $(this).attr("data-bs-target");
+    delegate(
+      this.editors,
+      "click",
+      '.check [data-bs-toggle="tab"]',
+      function (e) {
+        const target = this.getAttribute("data-bs-target");
 
-      e.preventDefault();
-      $(`.nav [data-bs-target="${target}"]`).click();
-      $window.scrollTop($(".translation-tabs").offset().top);
-    });
+        e.preventDefault();
+        document.querySelector(`.nav [data-bs-target="${target}"]`)?.click();
+        const tabs = document.querySelector(".translation-tabs");
+        if (tabs) {
+          window.scrollTo(0, tabs.getBoundingClientRect().top + window.scrollY);
+        }
+      },
+    );
 
-    const $checks = $(".check-item");
-    if ($checks.length === 0) {
+    const checks = document.querySelectorAll(".check-item");
+    if (checks.length === 0) {
       return;
     }
 
     /* Check ignoring */
-    this.$editor.on("click", ".check-dismiss", (e) => {
-      const $el = $(e.currentTarget);
-      let url = $el.attr("href");
-      const $check = $el.closest(".check");
-      const dismissAll = $check.find("input").prop("checked");
+    delegate(this.editors, "click", ".check-dismiss", (e) => {
+      const el = e.target.closest(".check-dismiss");
+      let url = el.getAttribute("href");
+      const check = el.closest(".check");
+      const dismissAll = check.querySelector("input")?.checked;
       if (dismissAll) {
-        url = $el.data("dismiss-all");
+        url = el.dataset.dismissAll;
       }
 
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: {
-          csrfmiddlewaretoken: this.csrfToken,
+      fetch(url, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          Accept: "application/json",
         },
-        error: (_jqXhr, _textStatus, errorThrown) => {
-          addAlert(errorThrown);
-        },
-        success: (data) => {
+        body: new URLSearchParams({ csrfmiddlewaretoken: this.csrfToken }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
           if (dismissAll) {
             const { extra_flags, all_flags } = data;
-            $("#id_extra_flags").val(extra_flags);
-            $("#unit_all_flags").html(all_flags).addClass("flags-updated");
+            const extraFlags = document.getElementById("id_extra_flags");
+            if (extraFlags) {
+              extraFlags.value = extra_flags;
+            }
+            const allFlags = document.getElementById("unit_all_flags");
+            if (allFlags) {
+              allFlags.innerHTML = all_flags;
+              allFlags.classList.add("flags-updated");
+            }
           }
-        },
-      });
+        })
+        .catch((error) => {
+          addAlert(error.message);
+        });
       if (dismissAll) {
-        $check.remove();
+        check.remove();
       } else {
-        $check.toggleClass("check-dismissed");
+        check.classList.toggle("check-dismissed");
       }
       return false;
     });
 
     /* Automatically translated dismissal */
-    this.$editor.on("click", ".dismiss-automatically-translated", (e) => {
-      const $el = $(e.currentTarget);
-      const url = $el.attr("href");
-      const $check = $el.closest(".check");
+    delegate(
+      this.editors,
+      "click",
+      ".dismiss-automatically-translated",
+      (e) => {
+        const el = e.target.closest(".dismiss-automatically-translated");
+        const url = el.getAttribute("href");
+        const check = el.closest(".check");
 
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: {
-          csrfmiddlewaretoken: this.csrfToken,
-        },
-        error: (_jqXhr, _textStatus, errorThrown) => {
-          addAlert(errorThrown);
-        },
-        success: () => {
-          const $listGroup = $check.closest(".list-group");
-          $check.remove();
+        fetch(url, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            Accept: "application/json",
+          },
+          body: new URLSearchParams({ csrfmiddlewaretoken: this.csrfToken }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP ${response.status}`);
+            }
+            const listGroup = check.closest(".list-group");
+            check.remove();
 
-          // Hide the entire "Things to check" panel if no checks remain
-          if ($listGroup.children(".list-group-item").length === 0) {
-            $listGroup.closest(".panel").remove();
-          }
-        },
-      });
-      return false;
-    });
+            // Hide the entire "Things to check" panel if no checks remain
+            if (
+              listGroup &&
+              listGroup.querySelectorAll(".list-group-item").length === 0
+            ) {
+              listGroup.closest(".panel")?.remove();
+            }
+          })
+          .catch((error) => {
+            addAlert(error.message);
+          });
+        return false;
+      },
+    );
 
     /* Check fix */
-    this.$editor.on("click", "[data-check-fixup]", (e) => {
-      const $el = $(e.currentTarget);
-      const fixups = $el.data("check-fixup");
-      this.$translationArea.each(function (plural) {
-        const $this = $(this);
-        $.each(fixups, (_idx, value) => {
+    delegate(this.editors, "click", "[data-check-fixup]", (e) => {
+      const el = e.target.closest("[data-check-fixup]");
+      const fixups = JSON.parse(el.dataset.checkFixup);
+      this.translationArea.forEach((area, plural) => {
+        for (const value of fixups) {
           if (value[0] === "regex") {
             const re = new RegExp(value[1], value[3]);
-            $this.replaceValue($this.val().replace(re, value[2]));
+            replaceValue(area, area.value.replace(re, value[2]));
           } else if (value[0] === "plurals") {
-            $this.replaceValue(value[1][plural]);
+            replaceValue(area, value[1][plural]);
           } else {
             addAlert(`Unknown fixup: ${value}`);
           }
-        });
+        }
       });
       return false;
     });
@@ -523,8 +587,8 @@
     // Two-step sequence: Ctrl/Cmd+I then a digit key dismisses a check
     const checkActions = {};
 
-    $checks.each(function (idx) {
-      const numberEl = this.querySelector(".check-number");
+    checks.forEach((check, idx) => {
+      const numberEl = check.querySelector(".check-number");
 
       if (idx < 10) {
         if (!numberEl) {
@@ -549,7 +613,7 @@
         numberEl.replaceChildren(kbd);
 
         checkActions[key] = () => {
-          this.querySelector(".check-dismiss-single")?.click();
+          check.querySelector(".check-dismiss-single")?.click();
         };
       } else {
         if (numberEl) numberEl.textContent = "";
@@ -571,16 +635,17 @@
 
   FullEditor.prototype.initGlossary = function () {
     /* Copy from glossary */
-    this.$editor.on("click", ".glossary-embed", (e) => {
+    delegate(this.editors, "click", ".glossary-embed", (e) => {
+      const currentTarget = e.target.closest(".glossary-embed");
       /* Avoid copy when clicked on a link */
-      if ($(e.target).parents("a").length > 0) {
+      const link = e.target.closest("a");
+      if (link && link !== currentTarget) {
         return;
       }
 
-      const target = $(e.currentTarget);
-      let text = target.find(".target").text();
-      if (target.hasClass("warning")) {
-        text = target.find(".source").text();
+      let text = currentTarget.querySelector(".target")?.textContent ?? "";
+      if (currentTarget.classList.contains("warning")) {
+        text = currentTarget.querySelector(".source")?.textContent ?? "";
       }
 
       this.insertIntoTranslation(text.trim());
@@ -588,8 +653,8 @@
     });
 
     /* Glossary dialog */
-    const $glossaryDialog = $("#add-glossary-form");
-    $glossaryDialog.on("show.bs.modal", (e) => {
+    const glossaryDialog = document.getElementById("add-glossary-form");
+    glossaryDialog?.addEventListener("show.bs.modal", (e) => {
       /* Prefill adding to glossary with current string */
       if (e.target.hasAttribute("data-shown")) {
         return;
@@ -617,63 +682,75 @@
       }
       e.target.setAttribute("data-shown", true);
     });
-    this.$editor.on("hidden.bs.modal", "#add-glossary-form", () => {
-      this.$translationArea.first().focus();
+    delegate(this.editors, "hidden.bs.modal", "#add-glossary-form", () => {
+      this.translationArea[0]?.focus();
     });
 
     /* Inline glossary adding */
-    $(".add-dict-inline").on("submit", (e) => {
-      const $form = $(e.currentTarget);
+    delegate(document, "submit", ".add-dict-inline", (e) => {
+      const form = e.target.closest(".add-dict-inline");
 
       increaseLoading("glossary-add");
-      $glossaryDialog.modal("hide");
-      $.ajax({
-        type: "POST",
-        url: $form.attr("action"),
-        data: $form.serialize(),
-        dataType: "json",
-        success: (data) => {
+      bootstrap.Modal.getOrCreateInstance(glossaryDialog)?.hide();
+      fetch(form.getAttribute("action"), {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          Accept: "application/json",
+        },
+        body: new URLSearchParams(new FormData(form)),
+      })
+        .then((response) => response.json())
+        .then((data) => {
           decreaseLoading("glossary-add");
           if (data.responseCode === 200) {
-            $("#glossary-terms").html(data.results);
-            $form.find("[name=terms]").attr("value", data.terms);
-            $form.trigger("reset");
+            const terms = document.getElementById("glossary-terms");
+            if (terms) {
+              terms.innerHTML = data.results;
+            }
+            const termsInput = form.querySelector("[name=terms]");
+            if (termsInput) {
+              termsInput.setAttribute("value", data.terms);
+            }
+            form.reset();
           } else {
             addAlert(data.responseDetails);
           }
-        },
-        error: (_xhr, _textStatus, errorThrown) => {
-          addAlert(errorThrown);
+        })
+        .catch((error) => {
+          addAlert(error.message);
           decreaseLoading("glossary-add");
-        },
-      });
+        });
+      e.preventDefault();
       return false;
     });
   };
 
   FullEditor.prototype.initSuggestions = function () {
     /* Clone suggestion to translation */
-    this.$editor.on("click", ".js-copy-suggestion", (e) => {
+    delegate(this.editors, "click", ".js-copy-suggestion", (e) => {
       e.preventDefault();
-      const $btn = $(e.currentTarget);
-      const $areas = this.$translationArea;
+      const btn = e.target.closest(".js-copy-suggestion");
 
       // Inject data into translation fields (plural-aware)
-      $areas.each((i, el) => {
-        const text = $btn.attr(`data-text-${i}`);
+      this.translationArea.forEach((el, i) => {
+        const text = btn.getAttribute(`data-text-${i}`);
 
         // Prevent overwriting with empty/undefined data
-        if (text !== undefined && text !== "") {
-          $(el).replaceValue(text);
+        if (text !== null && text !== "") {
+          replaceValue(el, text);
         }
       });
 
-      $areas.first().focus();
+      this.translationArea[0]?.focus();
     });
   };
 
   FullEditor.prototype.insertIntoTranslation = function (text) {
-    this.$translationArea.insertAtCaret(text.trim());
+    for (const area of this.translationArea) {
+      insertAtCaret(area, text.trim());
+    }
   };
 
   class Machinery {
@@ -692,77 +769,89 @@
 
     renderTranslation(el, service) {
       el.plural_forms = [el.plural_form];
-      const row = $("<tr/>").data("raw", el);
-      row.append(
-        $("<td/>")
-          .attr("class", "target machinery-text")
-          .attr("lang", this.state.lang)
-          .attr("dir", this.state.dir)
-          .html(el.html),
-      );
-      row.append($("<td>").attr("class", "machinery-text").html(el.diff));
-      row.append(
-        $("<td/>").attr("class", "machinery-text").html(el.source_diff),
-      );
+      const row = document.createElement("tr");
+      setRawData(row, el);
+
+      const target = document.createElement("td");
+      target.className = "target machinery-text";
+      target.setAttribute("lang", this.state.lang);
+      target.setAttribute("dir", this.state.dir);
+      target.innerHTML = el.html;
+      row.append(target);
+
+      const diff = document.createElement("td");
+      diff.className = "machinery-text";
+      diff.innerHTML = el.diff;
+      row.append(diff);
+
+      const sourceDiff = document.createElement("td");
+      sourceDiff.className = "machinery-text";
+      sourceDiff.innerHTML = el.source_diff;
+      row.append(sourceDiff);
+
       row.append(service);
 
       /* Quality score as bar with the text */
-      const qualityCell = $("<td class='number'></td>");
+      const qualityCell = document.createElement("td");
+      qualityCell.className = "number";
       if (el.show_quality) {
-        qualityCell.html(`<strong>${el.quality}</strong> %`);
+        qualityCell.innerHTML = `<strong>${el.quality}</strong> %`;
       }
       row.append(qualityCell);
+
       /* Translators: Verb for copy operation */
-      row.append(
-        $(
-          `<td><a class="js-copy-machinery btn btn-warning">${gettext(
-            "Clone to translation",
-          )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-info">${gettext(
-            "Accept",
-          )}</a></td>`,
-        ),
+      row.insertAdjacentHTML(
+        "beforeend",
+        `<td><a class="js-copy-machinery btn btn-warning">${gettext(
+          "Clone to translation",
+        )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-info">${gettext(
+          "Accept",
+        )}</a></td>`,
       );
 
       if (WLT.Config.HAS_REVIEW_WORKFLOW) {
-        row.append(
-          $(
-            `<td><a class="js-copy-approve-save-machinery btn btn-warning">${gettext(
-              "Accept and approve",
-            )}</a></td>`,
-          ),
+        row.insertAdjacentHTML(
+          "beforeend",
+          `<td><a class="js-copy-approve-save-machinery btn btn-warning">${gettext(
+            "Accept and approve",
+          )}</a></td>`,
         );
       } else {
-        row.append($("<td></td>"));
+        row.insertAdjacentHTML("beforeend", "<td></td>");
       }
 
       if (this.state.weblateTranslationMemory.has(el.text)) {
-        row.append(
-          $(
-            `<td><a class="js-delete-machinery btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-url-modal">${gettext(
-              "Delete entry",
-            )}</a></td>`,
-          ),
+        row.insertAdjacentHTML(
+          "beforeend",
+          `<td><a class="js-delete-machinery btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-url-modal">${gettext(
+            "Delete entry",
+          )}</a></td>`,
         );
       } else {
-        row.append($("<td></td>"));
+        row.insertAdjacentHTML("beforeend", "<td></td>");
       }
 
       return row;
     }
 
     renderService(el) {
-      const service = $("<td/>").text(el.service);
+      const service = document.createElement("td");
+      service.textContent = el.service;
       if (typeof el.origin !== "undefined") {
         service.append(" (");
         let origin;
         if (typeof el.origin_detail !== "undefined") {
-          origin = $("<abbr/>").text(el.origin).attr("title", el.origin_detail);
+          origin = document.createElement("abbr");
+          origin.textContent = el.origin;
+          origin.setAttribute("title", el.origin_detail);
         } else if (typeof el.origin_url !== "undefined") {
           const originUrl = WLT.URLs.getHttpUrl(el.origin_url);
           if (originUrl === null) {
             origin = document.createTextNode(String(el.origin));
           } else {
-            origin = $("<a/>").text(el.origin).attr("href", originUrl);
+            origin = document.createElement("a");
+            origin.textContent = el.origin;
+            origin.setAttribute("href", originUrl);
           }
         } else {
           origin = document.createTextNode(String(el.origin));
@@ -778,26 +867,26 @@
 
     renderDeleteUrls(text) {
       const translations = this.state.translations;
-      const modalBody = $("<label>").text("");
+      const modalBody = document.createElement("label");
 
       translations.forEach((translation) => {
         if (
           text === translation.text &&
           typeof translation.delete_url !== "undefined"
         ) {
-          const inputElement = $("<input>")
-            .attr("class", "form-check-input")
-            .attr("type", "checkbox")
-            .attr("value", "")
-            .attr("id", translation.delete_url)
-            .attr("checked", true);
-          const labelElement = $("<label>")
-            .attr("class", "form-check-label")
-            .attr("for", translation.delete_url)
-            .text(translation.origin);
-          const divElement = $("<div>")
-            .attr("class", "form-check")
-            .append(inputElement, labelElement);
+          const inputElement = document.createElement("input");
+          inputElement.className = "form-check-input";
+          inputElement.type = "checkbox";
+          inputElement.value = "";
+          inputElement.id = translation.delete_url;
+          inputElement.checked = true;
+          const labelElement = document.createElement("label");
+          labelElement.className = "form-check-label";
+          labelElement.setAttribute("for", translation.delete_url);
+          labelElement.textContent = translation.origin;
+          const divElement = document.createElement("div");
+          divElement.className = "form-check";
+          divElement.append(inputElement, labelElement);
           modalBody.append(divElement);
         }
       });
@@ -805,16 +894,15 @@
     }
 
     render(translations) {
-      const $translations = $("#machinery-translations");
+      const translationsEl = document.getElementById("machinery-translations");
       translations.forEach((translation) => {
         const service = this.renderService(translation);
         let insertBefore = null;
         let done = false;
 
         /* This is the merging and insert sort logic */
-        $translations.children("tr").each(function (_idx) {
-          const $this = $(this);
-          const base = $this.data("raw");
+        for (const row of childRows(translationsEl)) {
+          const base = getRawData(row);
           if (
             base.text === translation.text &&
             base.source === translation.source
@@ -822,32 +910,33 @@
             // Add plural
             if (!base.plural_forms.includes(translation.plural_form)) {
               base.plural_forms.push(translation.plural_form);
+              setRawData(row, base);
             }
             // Add origin to current ones
-            const current = $this.children("td:nth-child(4)");
+            const current = row.querySelector("td:nth-child(4)");
             if (base.quality < translation.quality) {
-              service.append("<br/>");
-              service.append(current.html());
-              $this.remove();
-              return false;
+              service.insertAdjacentHTML("beforeend", "<br/>");
+              service.insertAdjacentHTML("beforeend", current.innerHTML);
+              row.remove();
+              break;
             }
-            current.append($("<br/>"));
-            current.append(service.html());
+            current.insertAdjacentHTML("beforeend", "<br/>");
+            current.insertAdjacentHTML("beforeend", service.innerHTML);
             done = true;
-            return false;
+            break;
           }
           if (base.quality <= translation.quality && !insertBefore) {
             // Insert match before lower quality one
-            insertBefore = $this;
+            insertBefore = row;
           }
-        });
+        }
 
         if (!done) {
           const newRow = this.renderTranslation(translation, service);
           if (insertBefore) {
             insertBefore.before(newRow);
           } else {
-            $translations.append(newRow);
+            translationsEl.append(newRow);
           }
         }
       });
