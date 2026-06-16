@@ -690,12 +690,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertNotContains(response, "onsubmit=")
         self.assertContains(
             response,
-            'action="{}"'.format(
-                reverse(
-                    "manage-github-app-remove",
-                    kwargs={"pk": credentials.pk},
-                )
-            ),
+            f'action="{reverse("manage-github-app-remove", kwargs={"pk": credentials.pk})}"',
         )
 
     def test_credentials_page_lists_registered_apps(self):

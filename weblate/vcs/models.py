@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from importlib import import_module
 from typing import ClassVar
 
 from appconf import AppConf
@@ -103,9 +104,7 @@ class Installation(models.Model):
 # Import provider-specific proxies so Django registers them with the VCS app
 # during app loading, regardless of backend-registry import order.  Placed after
 # Installation so github.py can import it back without a circular-import failure.
-from .github import (  # noqa: E402
-    GitHubInstallation as GitHubInstallation,  # noqa: PLC0414
-)
+import_module("weblate.vcs.github")
 
 
 class VCSConf(AppConf):
