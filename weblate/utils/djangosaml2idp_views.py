@@ -25,7 +25,8 @@ LOGGER = logging.getLogger(__name__)
 @require_http_methods(["GET", "POST"])
 def sso_entry(request: HttpRequest, *args, **kwargs) -> HttpResponse:
     """Wrap the upstream SSO entrypoint to normalize malformed requests."""
-    from djangosaml2idp.views import (  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from djangosaml2idp.views import (
         sso_entry as djangosaml2idp_sso_entry,
     )
 

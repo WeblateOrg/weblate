@@ -189,14 +189,18 @@ def validate_screenshot_image(component: Component, filename: str) -> str | None
 
 @receiver(vcs_post_update)
 def sync_screenshots_from_repo(
-    sender, component: Component, previous_head: str, user: User | None, **kwargs
+    sender,
+    component: Component,
+    previous_head: str,
+    user: User | None,
+    changed_files: list[str],
+    **kwargs,
 ) -> None:
     if user is None:
         user = User.objects.get_or_create_bot(
             scope="weblate", name="screenshots", verbose="Screenshots from repository"
         )
-    repository = component.repository
-    changed_files = repository.get_changed_files(compare_to=previous_head)
+    changed_files = list(changed_files)
 
     screenshots = Screenshot.objects.filter(
         translation__component=component, repository_filename__in=changed_files

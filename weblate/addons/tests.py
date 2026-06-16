@@ -11,7 +11,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
 from datetime import timedelta
@@ -169,7 +169,9 @@ class CrashAddon(UpdateBaseAddon):
     verbose = "Crash test add-on"
     description = "Crash test add-on"
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         if previous_head:
             msg = "Test error"
             raise CrashAddonError(msg)
@@ -178,9 +180,12 @@ class CrashAddon(UpdateBaseAddon):
     def can_install(
         cls,
         *,
-        component: Component | None = None,  # noqa: ARG003
-        category: Category | None = None,  # noqa: ARG003
-        project: Project | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        component: Component | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        category: Category | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        project: Project | None = None,
     ) -> bool:
         return False
 
@@ -665,7 +670,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         )
         addon = self.build_fake_addon(DjangoAddon, component)
 
-        result = addon.execute_update(component, "")
+        result = addon.execute_update(component, "", [])
 
         self.assertFalse(result)
         self.assertEqual(
@@ -709,7 +714,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
             patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            result = addon.execute_update(component, "")
+            result = addon.execute_update(component, "", [])
 
         self.assertTrue(result, addon.alerts)
         self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
@@ -738,7 +743,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon = self.build_fake_addon(DjangoAddon, component)
 
         with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
-            result = addon.execute_update(component, "")
+            result = addon.execute_update(component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -779,7 +784,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
             patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            result = addon.execute_update(component, "")
+            result = addon.execute_update(component, "", [])
 
         self.assertTrue(result, addon.alerts)
         self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
@@ -877,6 +882,29 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
 
+    def test_update_passes_changed_files(self) -> None:
+        changed_files = ["po/cs.po"]
+        MsgmergeAddon.create(component=self.component)
+
+        with (
+            patch.object(
+                self.component.repository,
+                "get_changed_files",
+                return_value=changed_files,
+            ),
+            patch.object(
+                MsgmergeAddon, "post_update", autospec=True, return_value=None
+            ) as post_update,
+        ):
+            self.component.trigger_post_update(
+                previous_head=self.component.repository.last_revision,
+                skip_push=False,
+                user=None,
+            )
+
+        post_update.assert_called_once()
+        self.assertEqual(post_update.call_args.kwargs["changed_files"], changed_files)
+
     def test_crash(self) -> None:
         self.assertEqual([], self.component.addons_cache.names)
 
@@ -885,7 +913,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
 
         with self.assertRaises(CrashAddonError):
-            addon.post_update(self.component, "head", False)
+            addon.post_update(self.component, "head", False, [])
 
         # The crash should be handled here and addon uninstalled
         self.component.trigger_post_update(
@@ -1697,7 +1725,7 @@ class GettextAddonTest(ViewTestCase):
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         mocked.assert_called_once()
         command = mocked.call_args.args[1]
@@ -1747,7 +1775,7 @@ class GettextAddonTest(ViewTestCase):
                         XgettextAddon, "validate_repository_tree", return_value=True
                     ),
                 ):
-                    addon.update_translations(self.component, "")
+                    addon.update_translations(self.component, "", [])
 
                 mocked.assert_called_once()
                 command = mocked.call_args.args[1]
@@ -1780,7 +1808,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("src/messages.py", command)
@@ -1831,7 +1859,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -1867,7 +1895,7 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["README.md"],
         ):
-            addon.update_translations(self.component, "old-revision")
+            addon.update_translations(self.component, "old-revision", [])
 
         self.assertTrue(self.component.alert_set.filter(name=addon.alert).exists())
 
@@ -1889,7 +1917,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--", command)
@@ -1968,7 +1996,7 @@ class GettextAddonTest(ViewTestCase):
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--no-location", command)
@@ -1999,7 +2027,7 @@ class GettextAddonTest(ViewTestCase):
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--from-code=UTF-8", command)
@@ -2032,7 +2060,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(MesonAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(command[:3], ["xgettext", "--output", "po/messages.pot"])
@@ -2074,7 +2102,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(MesonAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--from-code=UTF-8", command)
@@ -2140,7 +2168,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["po/POTFILES"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_meson_potfiles_skip_excludes_entries(self) -> None:
         gettext_dir = Path(self.component.full_path) / "po"
@@ -2191,7 +2221,7 @@ class GettextAddonTest(ViewTestCase):
             ),
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
         ):
-            addon.update_translations(self.component, "old-revision")
+            addon.update_translations(self.component, "old-revision", [])
 
         mocked.assert_not_called()
 
@@ -2224,7 +2254,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["po/POTFILES.in"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_potfiles_change_detection_tracks_manifest_entries(self) -> None:
         addon = XgettextAddon.create(
@@ -2255,7 +2287,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["src/messages.py"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_potfiles_change_detection_tracks_skip_manifest(self) -> None:
         addon = XgettextAddon.create(
@@ -2287,7 +2321,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["po/POTFILES.skip"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_ignores_symlinked_source_directory(self) -> None:
         if not hasattr(os, "symlink"):
@@ -2314,7 +2350,7 @@ class GettextAddonTest(ViewTestCase):
             )
 
             with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-                result = addon.execute_update(self.component, "")
+                result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -2387,7 +2423,7 @@ class GettextAddonTest(ViewTestCase):
         ) as mocked:
             addon.post_configure_run_component(self.component)
 
-        mocked.assert_called_once_with(self.component, "")
+        mocked.assert_called_once_with(self.component, "", [])
 
     def test_extract_pot_manual_bypasses_schedule(self) -> None:
         addon = XgettextAddon.create(
@@ -2413,7 +2449,7 @@ class GettextAddonTest(ViewTestCase):
         ) as mocked:
             addon.manual_component(self.component)
 
-        mocked.assert_called_once_with(self.component, "")
+        mocked.assert_called_once_with(self.component, "", [])
         self.assertNotIn("_force_run", addon.get_component_state(self.component))
 
     def test_extract_pot_manual_commits_pending_changes(self) -> None:
@@ -2608,7 +2644,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["src/messages.py"],
         ) as mocked:
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
         mocked.assert_called_once_with(
             self.component.repository.ref_to_remote.format("stored-revision")
@@ -2636,7 +2674,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             side_effect=RepositoryError(1, "bad revision"),
         ) as mocked:
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
         mocked.assert_called_once_with(
             self.component.repository.ref_to_remote.format("stored-revision")
@@ -2663,7 +2703,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["src/nested/messages.py"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_change_detection_is_evaluated_once_per_refresh(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"
@@ -2694,7 +2736,7 @@ class GettextAddonTest(ViewTestCase):
             ) as mocked,
             patch.object(XgettextAddon, "run_process", return_value=""),
         ):
-            addon.update_translations(self.component, "previous-head")
+            addon.update_translations(self.component, "previous-head", [])
 
         mocked.assert_called_once_with(
             self.component.repository.ref_to_remote.format("stored-revision")
@@ -2726,7 +2768,9 @@ class GettextAddonTest(ViewTestCase):
             return ""
 
         with patch.object(XgettextAddon, "run_process", side_effect=run_process):
-            addon.post_update(self.component, revision_before, True)
+            addon.post_update(
+                self.component, revision_before, True, ["src/messages.py"]
+            )
 
         revision_after = self.component.repository.last_revision
         self.assertNotEqual(revision_before, revision_after)
@@ -2765,7 +2809,9 @@ class GettextAddonTest(ViewTestCase):
             ),
             self.assertRaisesRegex(RuntimeError, "push failed"),
         ):
-            addon.post_update(self.component, revision_before, True)
+            addon.post_update(
+                self.component, revision_before, True, ["src/messages.py"]
+            )
 
         self.assertNotIn(
             "last_revision",
@@ -2794,7 +2840,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["README.md"],
         ) as mocked:
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
         mocked.assert_not_called()
 
@@ -3030,7 +3078,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(
@@ -3068,7 +3116,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         template = Path(self.component.full_path) / self.component.new_base
         self.assertTrue(template.exists())
@@ -3101,7 +3149,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3132,7 +3180,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3165,7 +3213,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3198,7 +3246,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--no-location", command)
@@ -3225,7 +3273,7 @@ msgstr ""
             )
             mocked_tmp.return_value.__enter__.return_value = tempdir
             mocked_tmp.return_value.__exit__.return_value = False
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         self.assertEqual(mocked.call_args.args[1][-2], ".")
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3344,7 +3392,7 @@ msgstr ""
         with patch.object(
             DjangoAddon, "validate_django_repository_tree", return_value=True
         ):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result)
         generated = (
@@ -3393,7 +3441,7 @@ msgstr ""
             patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
             patch.object(SphinxAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result)
         command = mocked.call_args.args[1]
@@ -3441,7 +3489,7 @@ msgstr ""
             source_dir.symlink_to(outside_dir, target_is_directory=True)
 
             with patch.object(SphinxAddon, "run_process", return_value="") as mocked:
-                result = addon.execute_update(self.component, "")
+                result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -3484,7 +3532,7 @@ msgstr ""
         )
 
         with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
         if result:
@@ -3527,7 +3575,7 @@ msgstr ""
         )
 
         with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result, addon.alerts)
         generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
@@ -3651,7 +3699,7 @@ msgstr ""
         )
 
         with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result, addon.alerts)
         generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
@@ -3681,7 +3729,7 @@ msgstr ""
             )
 
             with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
-                result = addon.execute_update(self.component, "")
+                result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -3846,7 +3894,7 @@ msgstr ""
             patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         mocked.assert_called_once()
         self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
@@ -3881,7 +3929,7 @@ msgstr ""
                 return_value=["src/messages.py"],
             ),
         ):
-            addon.update_translations(self.component, "old-revision")
+            addon.update_translations(self.component, "old-revision", [])
 
         mocked.assert_called_once()
         self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
@@ -3912,7 +3960,7 @@ msgstr ""
             patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         mocked.assert_called_once()
         self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
@@ -4213,9 +4261,9 @@ class AppStoreAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("cs/changelogs/100000.txt", commit)
 
@@ -4230,9 +4278,9 @@ class AndroidAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("android-not-synced/values-cs/strings.xml", commit)
         self.assertIn('\n-    <string name="hello">Ahoj svete</string>', commit)
@@ -4248,9 +4296,9 @@ class WindowsRCAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("winrc/cs-CZ.rc", commit)
         self.assertIn("\n-IDS_MSG5", commit)
@@ -4266,9 +4314,9 @@ class IntermediateAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         # It should remove string not present in the English file
         self.assertIn("intermediate/cs.json", commit)
@@ -4290,7 +4338,7 @@ class ResxAddonTest(ComponentTestCase):
                 remote_op="pull",
             )
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4307,7 +4355,7 @@ class ResxAddonTest(ComponentTestCase):
                 remote_op="pull",
             )
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4323,7 +4371,7 @@ class CSVAddonTest(ComponentTestCase):
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4334,7 +4382,7 @@ class CSVAddonTest(ComponentTestCase):
         rev = self.component.repository.last_revision
         addon = RemoveBlankAddon.create(component=self.component)
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4351,7 +4399,7 @@ class JsonAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
@@ -4362,7 +4410,7 @@ class JsonAddonTest(ComponentTestCase):
         addon = RemoveBlankAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
@@ -4782,9 +4830,9 @@ class PropertiesAddonTest(ViewTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(init_rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
         self.component.do_reset()
@@ -5000,7 +5048,7 @@ class DiscoveryTest(ViewTestCase):
             )
         self.assertEqual(Component.objects.filter(repo=link).count(), 4)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            addon.post_update(self.component, "", False)
+            addon.post_update(self.component, "", False, [])
         self.assertEqual(Component.objects.filter(repo=link).count(), 4)
 
     def test_form(self) -> None:
@@ -5932,7 +5980,7 @@ class LanguageConsistencyTest(ComponentTestCase):
         )
 
         # Trigger post update signal, should do nothing
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(Translation.objects.count(), 15)
 
     def test_language_consistency_missing_activity_log_after_component_delete(
@@ -6961,7 +7009,7 @@ class CDNJSAddonTest(ViewTestCase):
             run=False,
         )
 
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
 
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 14
@@ -7322,7 +7370,7 @@ class CDNFilesAddonTest(ViewTestCase):
         self.assertIsNotNone(filename)
 
         Path(filename).write_bytes(b'{"hello": "updated"}\n')
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
 
         self.assertEqual(
             Path(addon.cdn_path("cs.json")).read_bytes(), Path(filename).read_bytes()

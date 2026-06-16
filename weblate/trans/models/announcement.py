@@ -105,7 +105,8 @@ class AnnouncementManager(models.Manager["Announcement"]):
         return base.filter(project=None, category=None, component=None, language=None)
 
     def create(self, user=None, **kwargs):
-        from weblate.trans.models.change import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.change import Change
 
         if kwargs.get("category") is not None and kwargs.get("component") is None:
             kwargs["project"] = None

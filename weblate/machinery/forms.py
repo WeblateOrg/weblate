@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import re
+from urllib.parse import urlsplit
 
 from django import forms
 from django.conf import settings
@@ -376,7 +377,7 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
 class DeepLMachineryForm(KeyURLMachineryForm):
     url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
-        initial="https://api.deepl.com/v2/",
+        initial="https://api.deepl.com/",
     )
     formality = forms.CharField(
         label=pgettext_lazy("Automatic suggestion service configuration", "Formality"),
@@ -414,6 +415,12 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         ),
         required=False,
     )
+
+    def clean_url(self) -> str:
+        url = self.cleaned_data["url"]
+        if urlsplit(url).path.rstrip("/").endswith("/v1"):
+            raise ValidationError(gettext("DeepL API v1 is no longer supported."))
+        return url
 
 
 class LLMBasicMachineryForm(BaseMachineryForm):

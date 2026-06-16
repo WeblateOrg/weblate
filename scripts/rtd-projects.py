@@ -6,7 +6,8 @@
 
 """Synchronizes Read the Docs projects for all languages."""
 
-import subprocess  # noqa: S404
+# ruff: ignore[suspicious-subprocess-import]
+import subprocess
 from pathlib import Path
 
 import requests
@@ -35,7 +36,8 @@ def get_update(new_value):
 
 
 git_tag = subprocess.run(
-    ["git", "describe", "--tags", "--abbrev=0"],  # noqa: S607
+    # ruff: ignore[start-process-with-partial-path]
+    ["git", "describe", "--tags", "--abbrev=0"],
     capture_output=True,
     text=True,
     check=True,
@@ -117,7 +119,7 @@ while result["next"]:
 # Create missing ones
 for language in LOCALES:
     print(f"Creating {language}")
-    payload = {
+    payload: dict[str, str | dict[str, str]] = {
         "language": language,
         "name": f"Weblate ({language})",
         "repository": {

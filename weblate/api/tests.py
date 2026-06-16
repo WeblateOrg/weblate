@@ -151,7 +151,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         headers=None,
         skip: set[str] | None = None,
         # pylint: disable-next=redefined-builtin
-        format: str = "multipart",  # noqa: A002
+        format: str = "multipart",  # ruff: ignore[builtin-argument-shadowing]
     ):
         if authenticated:
             self.authenticate(superuser)
@@ -3278,7 +3278,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     # pylint: disable-next=redefined-builtin
-    def test_create_with_source_language_string(self, format="json") -> None:  # noqa: A002
+    def test_create_with_source_language_string(self, format="json") -> None:  # ruff: ignore[builtin-argument-shadowing]
         payload = {
             "name": "API project",
             "slug": "api-project",
@@ -4775,7 +4775,8 @@ class ProjectAPITest(APIBaseTest):
     def test_install_machinery(self, mocked_getaddrinfo, mocked_get_peer) -> None:
         """Test the machinery settings API endpoint for various scenarios."""
         # Deep import to avoid running these as tests
-        from weblate.machinery.tests import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.machinery.tests import (
             AlibabaTranslationTest,
             DeepLTranslationTest,
         )
@@ -4868,7 +4869,7 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             request={
                 "service": "deepl",
-                "configuration": '{"key": "x", "url": "https://api.deepl.com/v2/"}',
+                "configuration": '{"key": "x", "url": "https://api.deepl.com/"}',
             },
         )
 
@@ -4902,7 +4903,7 @@ class ProjectAPITest(APIBaseTest):
                 "service": "deepl",
                 "configuration": {
                     "key": "deepl-key-v1",
-                    "url": "https://api.deepl.com/v2/",
+                    "url": "https://api.deepl.com/",
                 },
             },
             format="json",
@@ -4919,7 +4920,7 @@ class ProjectAPITest(APIBaseTest):
                 "service": "deepl",
                 "configuration": {
                     "key": "deepl-key-v2",
-                    "url": "https://api.deepl.com/v2/",
+                    "url": "https://api.deepl.com/",
                 },
             },
             format="json",
@@ -4966,7 +4967,7 @@ class ProjectAPITest(APIBaseTest):
             code=400,
             superuser=True,
             request={
-                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/"},
                 "unknown": {"key": "alibaba-key-invalid"},
             },
             format="json",
@@ -4980,7 +4981,7 @@ class ProjectAPITest(APIBaseTest):
             code=400,
             superuser=True,
             request={
-                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/v2/"},
+                "deepl": {"key": "deepl-key-valid", "url": "https://api.deepl.com/"},
                 "alibaba": {"key": "alibaba-key-invalid"},
             },
             format="json",
@@ -4988,7 +4989,7 @@ class ProjectAPITest(APIBaseTest):
 
         # replace all configurations
         new_config = {
-            "deepl": {"key": "deepl-key-v3", "url": "https://api.deepl.com/v2/"},
+            "deepl": {"key": "deepl-key-v3", "url": "https://api.deepl.com/"},
             "alibaba": {
                 "key": "alibaba-key-v2",
                 "secret": "alibaba-secret",
@@ -8882,7 +8883,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 4)
 
     # pylint: disable-next=redefined-builtin
-    def test_autotranslate(self, format: str = "multipart") -> None:  # noqa: A002
+    def test_autotranslate(self, format: str = "multipart") -> None:  # ruff: ignore[builtin-argument-shadowing]
         self.do_request(
             "api:translation-autotranslate",
             self.translation_kwargs,

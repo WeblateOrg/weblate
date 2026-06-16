@@ -37,7 +37,8 @@ def get_mention_users(text):
 class SkipHtmlSpan(span_token.HtmlSpan):
     """A token that strips HTML tags from the content."""
 
-    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")  # noqa: SLF001
+    # ruff: ignore[private-member-access]
+    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")
     parse_inner = False
     content: str
 
@@ -152,7 +153,9 @@ def render_markdown(text: str) -> str:
     text = "".join(parts)
     try:
         with MARKDOWN_LOCK, SaferWeblateHtmlRenderer() as renderer:
-            return mark_safe(renderer.render(mistletoe.Document(text)))  # noqa: S308
+            # ruff: ignore[suspicious-mark-safe-usage]
+            return mark_safe(renderer.render(mistletoe.Document(text)))
     except Exception:
         report_error("Markdown rendering failed")
-        return mark_safe(linebreaks(original_text, autoescape=True))  # noqa: S308
+        # ruff: ignore[suspicious-mark-safe-usage]
+        return mark_safe(linebreaks(original_text, autoescape=True))

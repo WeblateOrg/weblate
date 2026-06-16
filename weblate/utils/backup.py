@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import string
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from dataclasses import dataclass
 from pathlib import Path
 from random import SystemRandom
@@ -117,8 +117,9 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> BorgResult:
     with backup_lock():
         SSH_WRAPPER.create()
         try:
-            result = subprocess.run(  # noqa: S603
-                ["borg", "--rsh", get_borg_rsh(), *cmd],  # noqa: S607
+            result = subprocess.run(
+                # ruff: ignore[start-process-with-partial-path]
+                ["borg", "--rsh", get_borg_rsh(), *cmd],
                 check=False,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,

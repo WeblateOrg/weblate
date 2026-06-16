@@ -1101,7 +1101,8 @@ class SubversionRepository(GitRepository):
         cls,
         source: str,
         target: str,
-        branch: str,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        branch: str,
     ) -> None:
         """Clone svn repository with git-svn."""
         args, revision = cls.get_remote_args(source, target)
@@ -1748,7 +1749,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             raise RepositoryError(0, str(error)) from error
 
     def get_random_suffix(self) -> str:
-        return str(random.randint(1000, 9999))  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        return str(random.randint(1000, 9999))
 
 
 class AzureDevOpsRepository(GitMergeRequestBase):
@@ -2320,7 +2322,8 @@ class LocalRepository(GitRepository):
         return
 
     @classmethod
-    def get_remote_branch(cls, repo: str):  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def get_remote_branch(cls, repo: str):
         return cls.default_branch
 
     @classmethod
@@ -2338,9 +2341,11 @@ class LocalRepository(GitRepository):
     @classmethod
     def _clone(
         cls,
-        source: str,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        source: str,
         target: str,
-        branch: str,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        branch: str,
     ) -> None:
         if not os.path.exists(target):
             os.makedirs(target)

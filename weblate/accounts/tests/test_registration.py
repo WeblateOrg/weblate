@@ -1515,7 +1515,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_saml(self) -> None:
         try:
             # pylint: disable-next=unused-import
-            import xmlsec  # noqa: F401,PLC0415
+            import xmlsec  # ruff: ignore[unused-import, import-outside-top-level]
         except Exception as error:
             if "CI_SKIP_SAML" in os.environ:
                 self.skipTest(f"xmlsec error: {error}")

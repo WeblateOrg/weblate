@@ -36,8 +36,14 @@ class RemovalBatch:
             self.linked_components_to_refresh.add(component_id)
 
     def flush(self) -> None:
-        from weblate.trans.models import Component  # noqa: PLC0415
-        from weblate.utils.stats import GlobalStats, ProjectStats  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
+        from weblate.utils.stats import (  # ruff: ignore[import-outside-top-level]
+            GlobalStats,
+            ProjectStats,
+        )
 
         regular_stats: list[BaseStats] = []
         project_stats: list[BaseStats] = []

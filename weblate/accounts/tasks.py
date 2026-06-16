@@ -54,7 +54,10 @@ def get_registration_attempt_password_reset_url(activity: str) -> str | None:
     if settings.PASSWORD_RESET_URL:
         return settings.PASSWORD_RESET_URL
 
-    from weblate.auth.utils import get_auth_keys  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.utils import (
+        get_auth_keys,
+    )
 
     if "email" in get_auth_keys():
         return reverse("password_reset")
@@ -75,7 +78,10 @@ def cleanup_social_auth() -> None:
 @app.task(trail=False)
 def cleanup_auditlog() -> None:
     """Cleanup old auditlog entries."""
-    from weblate.accounts.models import AuditLog  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.models import (
+        AuditLog,
+    )
 
     timestamp = now()
 
@@ -105,7 +111,7 @@ class NotificationFactory:
         self.instances: dict[str, Notification] = {}
 
     def for_action(self, action: int) -> Generator[Notification]:
-        from weblate.accounts.notifications import (  # noqa: PLC0415
+        from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
             NOTIFICATIONS_ACTIONS,
         )
 
@@ -128,7 +134,7 @@ class NotificationFactory:
 @app.task(trail=False)
 @transaction.atomic
 def notify_changes(change_ids: list[int]) -> None:
-    from weblate.trans.models import Change  # noqa: PLC0415
+    from weblate.trans.models import Change  # ruff: ignore[import-outside-top-level]
 
     changes = Change.objects.prefetch_for_render().filter(pk__in=change_ids)
     factory = NotificationFactory()
@@ -142,7 +148,10 @@ def notify_changes(change_ids: list[int]) -> None:
 
 @transaction.atomic
 def notify_digest(method: str) -> None:
-    from weblate.accounts.notifications import NOTIFICATIONS  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.notifications import (
+        NOTIFICATIONS,
+    )
 
     outgoing: list[OutgoingEmail] = []
     for notification_cls in NOTIFICATIONS:
@@ -169,8 +178,15 @@ def notify_monthly() -> None:
 
 @app.task(trail=False)
 def notify_auditlog(log_id: int, email: str) -> None:
-    from weblate.accounts.models import AuditLog  # noqa: PLC0415
-    from weblate.accounts.notifications import send_notification_email  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.models import (
+        AuditLog,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.notifications import (
+        send_notification_email,
+    )
 
     audit = AuditLog.objects.get(pk=log_id)
     send_notification_email(

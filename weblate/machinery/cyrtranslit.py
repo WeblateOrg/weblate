@@ -101,7 +101,8 @@ class CyrTranslitTranslation(MachineTranslation):
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
         """Download list of possible translations from a service."""
-        import cyrtranslit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        import cyrtranslit
 
         target_language, script = target_language.split("@")
 

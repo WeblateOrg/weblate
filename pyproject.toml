@@ -47,10 +47,10 @@ package-lint = [
   "twine==6.2.0"
 ]
 pre-commit = [
-  "prek==0.4.4"
+  "prek==0.4.5"
 ]
 pylint = [
-  "pylint==4.0.5"
+  "pylint==4.0.6"
 ]
 sbom = [
   "packaging==26.2"
@@ -72,9 +72,9 @@ test = [
   "pytest-github-actions-annotate-failures==0.4.0",
   "pytest-profiling==1.8.1",
   "pytest-xdist==3.8.0",
-  "pytest==9.0.3",
+  "pytest==9.1.0",
   "responses==0.26.1",
-  "selenium==4.44.0",
+  "selenium==4.45.0",
   "standardwebhooks==1.0.1"
 ]
 types = [
@@ -92,7 +92,6 @@ types = [
   "types-openpyxl==3.1.5.20260518",
   "types-python-dateutil==2.9.0.20260518",
   "types-regex==2026.5.9.20260518",
-  "types-requests==2.33.0.20260518",
   "types-setuptools==82.0.0.20260518"
 ]
 
@@ -137,7 +136,7 @@ dependencies = [
   "cryptography==49.0.0",
   "cssselect==1.4.0",
   "cyrtranslit==1.2.0",
-  "dateparser==1.4.0",
+  "dateparser==1.4.1",
   "diff-match-patch==20241021",
   "disposable-email-domains==0.0.201",
   "django-appconf==1.2.0",
@@ -156,7 +155,7 @@ dependencies = [
   "drf-spectacular[sidecar]==0.29.0",
   "drf-standardized-errors[openapi]==0.16.0",
   "fedora-messaging==3.9.0",
-  "filelock==3.29.3",
+  "filelock==3.29.4",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
   "GitPython==3.1.50",
@@ -279,7 +278,7 @@ wsgi = [
   "granian==2.7.6"
 ]
 zxcvbn = [
-  "django-zxcvbn-password-validator==1.6.0"
+  "django-zxcvbn-password-validator==1.7.0"
 ]
 
 [project.readme]
@@ -651,6 +650,7 @@ ignore = [
   "PT",  # CONFIG: pytest-style rules are not enforced
   "PTH",  # TODO: Not using pathlib
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
+  "S603",  # CONFIG: we do not want to use shell on subprocess
   "TD002",  # CONFIG: no detailed TODO documentation is required
   "TD003",  # CONFIG: no detailed TODO documentation is required
   "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class

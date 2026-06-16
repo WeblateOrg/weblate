@@ -191,7 +191,8 @@ class ComponentTestCase(RepoTestCase):
         request.user = user or self.user
         request.session = "session"
         messages = FallbackStorage(request)
-        request._messages = messages  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        request._messages = messages
         return request
 
     def get_translation(self, language: str = "cs") -> Translation:

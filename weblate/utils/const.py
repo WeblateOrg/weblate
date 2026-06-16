@@ -6,4 +6,5 @@ from uuid import UUID
 SUPPORT_STATUS_CACHE_KEY = "weblate:support:status:4"
 HEARTBEAT_FREQUENCY = 120
 WEBLATE_UUID_NAMESPACE = UUID("465608fb-166b-4112-8cef-ebbc518d8722")
-WEBHOOKS_SECRET_PREFIX: str = "whsec_"  # noqa: S105
+# ruff: ignore[hardcoded-password-string]
+WEBHOOKS_SECRET_PREFIX: str = "whsec_"

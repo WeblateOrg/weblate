@@ -10,7 +10,8 @@ import os
 import warnings
 from tempfile import TemporaryDirectory
 
-from weblate.settings_example import *  # noqa: F403
+# ruff: ignore[undefined-local-with-import-star]
+from weblate.settings_example import *
 
 default_user = "postgres"
 default_name = "weblate"
@@ -26,7 +27,8 @@ DATABASES["default"]["PORT"] = os.environ.get("CI_DB_PORT", "")
 ADMINS = ("Weblate test <noreply@weblate.org>",)
 
 # The secret key is needed for tests
-SECRET_KEY = "secret key used for tests only"  # noqa: S105
+# ruff: ignore[hardcoded-password-string]
+SECRET_KEY = "secret key used for tests only"
 
 SITE_DOMAIN = "example.com"
 OTP_WEBAUTHN_RP_NAME = SITE_DOMAIN

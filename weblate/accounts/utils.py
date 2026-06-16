@@ -5,12 +5,14 @@
 from __future__ import annotations
 
 import os
+import time
 from typing import TYPE_CHECKING, Literal
 
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext
+from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp_webauthn.helpers import WebAuthnHelper
@@ -34,8 +36,19 @@ SESSION_SECOND_FACTOR_USER = "weblate:second_factor:user"
 SESSION_SECOND_FACTOR_TIMESTAMP = "weblate:second_factor:timestamp"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
 SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_key"
+SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
+SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
+SESSION_EXPIRY_REFRESHED = "weblate:session_expiry_refreshed"
+SESSION_EXPIRY_SCOPE_SAML = "saml"
+SESSION_EXPIRY_SCOPE_2FA = "2fa"
+SESSION_EXPIRY_SCOPE_LOGIN = "login"
+SESSION_EXPIRY_SCOPE_AUTHENTICATED = "authenticated"
+SESSION_EXPIRY_REFRESH_MIN_SECONDS = 60
+SESSION_EXPIRY_REFRESH_MAX_SECONDS = 86_400
+SESSION_EXPIRY_SAML_SECONDS = 60
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
+SessionExpiryScope = Literal["saml", "2fa", "login", "authenticated"]
 
 
 def create_api_token(user: User) -> Token:
@@ -180,11 +193,92 @@ def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:
     update_session_auth_hash(request, user)
 
 
+def get_session_expiry_refresh_seconds(expiry_age: int) -> int:
+    """Return how often authenticated session expiry should be refreshed."""
+    if expiry_age <= 1:
+        return 0
+    if expiry_age <= SESSION_EXPIRY_REFRESH_MIN_SECONDS:
+        return max(expiry_age // 2, 1)
+    return min(
+        expiry_age - SESSION_EXPIRY_REFRESH_MIN_SECONDS,
+        expiry_age // 2,
+        SESSION_EXPIRY_REFRESH_MAX_SECONDS,
+    )
+
+
+def get_session_expiry_scope(
+    *,
+    request: AuthenticatedHttpRequest,
+    user: User,
+    is_login: bool,
+) -> SessionExpiryScope:
+    """Return the session expiry scope for current authentication state."""
+    saml_only = bool(request.session.get("saml_only", False))
+    if is_login:
+        next_url = request.POST.get("next", request.GET.get("next"))
+        if next_url == "/idp/login/process/":
+            saml_only = True
+            if request.session.get("saml_only") is not True:
+                request.session["saml_only"] = True
+
+    if saml_only:
+        return SESSION_EXPIRY_SCOPE_SAML
+
+    if (
+        user.profile.has_2fa
+        and DEVICE_ID_SESSION_KEY not in request.session
+        and not user.is_verified()
+    ):
+        return SESSION_EXPIRY_SCOPE_2FA
+
+    if is_login:
+        return SESSION_EXPIRY_SCOPE_LOGIN
+
+    return SESSION_EXPIRY_SCOPE_AUTHENTICATED
+
+
+def get_session_expiry_age(scope: SessionExpiryScope) -> int:
+    """Return session expiry age for a session scope."""
+    if scope == SESSION_EXPIRY_SCOPE_SAML:
+        return SESSION_EXPIRY_SAML_SECONDS
+    if scope == SESSION_EXPIRY_SCOPE_2FA:
+        return settings.SESSION_COOKIE_AGE_2FA
+    if scope == SESSION_EXPIRY_SCOPE_LOGIN:
+        return settings.SESSION_COOKIE_AGE
+    return settings.SESSION_COOKIE_AGE_AUTHENTICATED
+
+
+def should_update_session_expiry(
+    *,
+    request: AuthenticatedHttpRequest,
+    scope: SessionExpiryScope,
+    expiry_age: int,
+    now: int,
+    force: bool,
+) -> bool:
+    """Return whether session expiry metadata should be updated."""
+    if force:
+        return True
+    if request.session.get(SESSION_EXPIRY_SCOPE) != scope:
+        return True
+    if request.session.get(SESSION_EXPIRY_AGE) != expiry_age:
+        return True
+    if scope != SESSION_EXPIRY_SCOPE_AUTHENTICATED:
+        return False
+
+    refreshed = request.session.get(SESSION_EXPIRY_REFRESHED)
+    if not isinstance(refreshed, (int, float)):
+        return True
+    return now - refreshed >= get_session_expiry_refresh_seconds(expiry_age)
+
+
 def adjust_session_expiry(
     *,
     request: AuthenticatedHttpRequest,
     user: User,
     is_login: bool = True,
+    scope: SessionExpiryScope | None = None,
+    force: bool = False,
 ) -> None:
     """
     Adjust session expiry based on scope.
@@ -192,28 +286,27 @@ def adjust_session_expiry(
     - Set longer expiry for authenticated users.
     - Set short lived session for SAML authentication flow.
     """
-    is_2fa = False
-    if user.profile.has_2fa and not user.is_verified():
-        # Still in second factor view
-        is_2fa = True
+    if scope is None:
+        scope = get_session_expiry_scope(
+            request=request,
+            user=user,
+            is_login=is_login,
+        )
+    expiry_age = get_session_expiry_age(scope)
+    now = int(time.time())
+    if not should_update_session_expiry(
+        request=request,
+        scope=scope,
+        expiry_age=expiry_age,
+        now=now,
+        force=force or is_login,
+    ):
+        return
 
-    if "saml_only" not in request.session:
-        if is_login:
-            next_url = request.POST.get("next", request.GET.get("next"))
-            request.session["saml_only"] = next_url == "/idp/login/process/"
-        else:
-            request.session["saml_only"] = False
-
-    if request.session["saml_only"]:
-        # Short lived session for SAML authentication only
-        request.session.set_expiry(60)
-    elif is_2fa:
-        request.session.set_expiry(settings.SESSION_COOKIE_AGE_2FA)
-    elif is_login:
-        # Using default expiry for login flow
-        request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-    else:
-        request.session.set_expiry(settings.SESSION_COOKIE_AGE_AUTHENTICATED)
+    request.session.set_expiry(expiry_age)
+    request.session[SESSION_EXPIRY_SCOPE] = scope
+    request.session[SESSION_EXPIRY_AGE] = expiry_age
+    request.session[SESSION_EXPIRY_REFRESHED] = now
 
 
 def get_key_name(device: Device) -> str:

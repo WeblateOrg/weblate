@@ -11,15 +11,15 @@
 # "Filipe Mota (BlackSpirits)" <blackspirits@gmail.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
+# António Oliveira <antonio.oliveira5487@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-12 18:49+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-14 02:04+0000\n"
+"Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -2102,13 +2102,13 @@ msgid "xgettext language"
 msgstr "Linguagem de xgettext"
 
 #: weblate/addons/forms.py:286
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
 msgstr ""
-"Linguagem de programação passado para o xgettext, por exemplo Python ou C."
+"Linguagem de programação passado para o xgettext, por exemplo Python ou C. "
+"Deixe em branco para deixar o xgettext adivinhar a linguagem a partir das "
+"extensões dos ficheiros."
 
 #: weblate/addons/forms.py:295
 msgid ""
@@ -3006,10 +3006,8 @@ msgid "A team with this name already exists in this workspace."
 msgstr "Já existe uma equipa com este nome neste espaço de trabalho."
 
 #: weblate/api/serializers.py:784
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "Não foi possível alterar isto numa equipa existente."
+msgstr "Não foi possível alterar isto numa equipa dedicada."
 
 #: weblate/api/serializers.py:1942 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3115,22 +3113,16 @@ msgid "This role cannot be assigned to this team."
 msgstr "Esta função não pode ser atribuída a esta equipa."
 
 #: weblate/api/views.py:1146 weblate/api/views.py:1174
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "Não foi possível alterar isto numa equipa existente."
+msgstr "Não foi possível alterar projetos numa equipa dedicada."
 
 #: weblate/api/views.py:1195 weblate/api/views.py:1236
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "Não foi possível alterar isto numa equipa existente."
+msgstr "Não foi possível alterar lista de componentes numa equipa dedicada."
 
 #: weblate/api/views.py:1257 weblate/api/views.py:1290
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "Não foi possível alterar isto numa equipa existente."
+msgstr "Não foi possível alterar componentes numa equipa do espaço de trabalho."
 
 #: weblate/api/views.py:3058 weblate/trans/models/translation.py:2569
 msgid "This string seems to already exist."
@@ -4831,52 +4823,34 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Parâmetros em falta para o marcador de tradução: \"%s\""
 
 #: weblate/checks/flags.py:458
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Formalidade"
+msgstr "Formato"
 
 #: weblate/checks/flags.py:459
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Memória de tradução"
+msgstr "Comportamento de tradução"
 
 #: weblate/checks/flags.py:460
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Tradução"
+msgstr "Validação"
 
 #: weblate/checks/flags.py:461
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Rever cadeias de carateres"
+msgstr "Renderização"
 
 #: weblate/checks/flags.py:462 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
 msgstr "MessageFormat do ICU"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgid "Disabled check"
-msgstr "Verificações falhadas"
+msgstr "Verificação desativada"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgid "Automatic detection"
-msgstr "Seleção automática"
+msgstr "Deteção automática"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgctxt "User agent device type"
-#| msgid "Other"
 msgid "Other"
 msgstr "Outro"
 
@@ -5631,6 +5605,7 @@ msgstr "Erro de sintaxe reStructuredText na tradução."
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
 msgstr ""
+"O cargo reStructuredText não deve ser envolvido em aspas invertidas: {role}"
 
 #: weblate/checks/markup.py:904
 msgid "The translation should not start with a list marker."
@@ -7156,11 +7131,9 @@ msgid ""
 msgstr "Descreva o estilo de tradução. Por exemplo: “Use linguagem informal.”"
 
 #: weblate/machinery/forms.py:456
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Instruções para a integração"
+msgstr "Instruções especificas ao idioma"
 
 #: weblate/machinery/forms.py:461
 #, python-format
@@ -7168,20 +7141,25 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"Mapeamento de objeto JSON ao usar códigos de idiomas para instruções "
+"adicionais, até %(limit)d caracteres cada."
 
 #: weblate/machinery/forms.py:474 weblate/machinery/forms.py:481
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Instruções específicas de idioma devem ser um objeto JSON."
 
 #: weblate/machinery/forms.py:490
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
 msgstr ""
+"Instruções específicas de idioma contêm código de idioma inválido \"%s\"."
 
 #: weblate/machinery/forms.py:498
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
 msgstr ""
+"Instruções específicas de idioma contêm código de linguagem desconhecido "
+"\"%s\"."
 
 #: weblate/machinery/forms.py:507
 #, python-format
@@ -7189,6 +7167,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"Instruções específicas de idioma para \"%(language)s\" têm que ter no máximo "
+"%(limit)d caracteres."
 
 #: weblate/machinery/forms.py:527
 msgctxt "OpenAI model selection"
@@ -7237,48 +7217,30 @@ msgid "Choose custom model here to enable it."
 msgstr "Escolha o modelo personalizado aqui para habilitá-lo."
 
 #: weblate/machinery/forms.py:591
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Seleção automática"
 
 #: weblate/machinery/forms.py:595
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Modelo personalizado"
 
 #: weblate/machinery/forms.py:600
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "URL base da API da OpenAI"
+msgstr "URL base da API da Mistral"
 
 #: weblate/machinery/forms.py:604
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "URL base da API do OpenAI, se for diferente do URL padrão do OpenAI"
+msgstr "URL base da API da Mistral, se for diferente do URL padrão da Mistral"
 
 #: weblate/machinery/forms.py:611
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Modelo personalizado"
+msgstr "Modelo Mistral"
 
 #: weblate/machinery/forms.py:619
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgctxt "Mistral model selection"
 msgid "Custom model name"
 msgstr "Nome do modelo personalizado"
@@ -7370,20 +7332,17 @@ msgstr "O número máximo de códigos para gerar na resposta."
 #: weblate/machinery/llm.py:156
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Olá, @@PH1@@!"
 
 #: weblate/machinery/llm.py:157
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Clique <a href=\"/x\">Guardar</a>."
 
 #: weblate/machinery/llm.py:158
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "Verificações falhadas"
+msgstr "@@PH1@@ verificações falhadas"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -9617,10 +9576,14 @@ msgstr "Instruções para a integração"
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
 msgstr ""
+"Ficheiros de traduções publicadas são disponíveis a partir do URL da CDN "
+"base:"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
 msgstr ""
+"Ficheiros usam nomes de código de linguagem com a extensão de ficheiro "
+"original."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
@@ -9640,6 +9603,8 @@ msgid ""
 "Fill the form from a detected or generic repository layout, then edit the "
 "populated values as needed."
 msgstr ""
+"Preencha o formulário a partir de um layout de um repositório genérico, "
+"depois preencha os valores preenchidos conforme preciso."
 
 #: weblate/templates/addons/discovery_presets.html:42
 msgid "Examples:"
@@ -9754,7 +9719,14 @@ msgid_plural ""
 "    The preview below shows %(action_count)s translation files.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    A pré-visualização abaixo mostra %(action_count)s ficheiro de tradução.\n"
+"  "
 msgstr[1] ""
+"\n"
+"    A pré-visualização abaixo mostra %(action_count)s ficheiros de "
+"tradução.\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:14
 #, python-format
@@ -9767,7 +9739,13 @@ msgid_plural ""
 "    It affects %(component_count)s components.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    Afeta %(component_count)s componente.\n"
+"  "
 msgstr[1] ""
+"\n"
+"    Afeta %(component_count)s componentes.\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:20
 #, python-format
@@ -9782,7 +9760,15 @@ msgid_plural ""
 "component settings.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      %(failure_count)s adição mostrada não pode ser criada com as "
+"definições de componente atuais.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      %(failure_count)s adições mostradas não pode ser criada com as "
+"definições de componente atuais.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:30
 #, python-format

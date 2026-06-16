@@ -822,7 +822,8 @@ def build_envelope(event: dict[str, Any], dsn: str) -> tuple[str, bytes]:
 def send_sentry_event(event: dict[str, Any], dsn: str) -> None:
     parsed = parse_dsn(dsn)
     _public_key, envelope = build_envelope(event, dsn)
-    request = Request(  # noqa: S310
+    # ruff: ignore[suspicious-url-open-usage]
+    request = Request(
         parsed.endpoint,
         data=envelope,
         headers={
@@ -836,7 +837,8 @@ def send_sentry_event(event: dict[str, Any], dsn: str) -> None:
         },
         method="POST",
     )
-    with urlopen(request, timeout=10) as response:  # noqa: S310
+    # ruff: ignore[suspicious-url-open-usage]
+    with urlopen(request, timeout=10) as response:
         response.read()
 
 

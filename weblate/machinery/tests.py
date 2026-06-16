@@ -19,6 +19,7 @@ from urllib.parse import parse_qs, urlparse
 import responses
 from botocore.stub import ANY, Stubber
 from django.conf import settings as django_settings
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -254,16 +255,49 @@ MODERNMT_RESPONSE = {
 }
 
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
-DEEPL_SOURCE_LANG_RESPONSE = [
-    {"language": "EN", "name": "English"},
-    {"language": "DE", "name": "Deutsch", "supports_formality": True},
-    {"language": "PT", "name": "Portuguese"},
-]
-DEEPL_TARGET_LANG_RESPONSE = [
-    {"language": "EN-GB", "name": "English (British)"},
-    {"language": "DE", "name": "Deutsch", "supports_formality": True},
-    {"language": "PT-BR", "name": "Portuguese (Brasilian)"},
-    {"language": "PT-PT", "name": "Portuguese (European)", "supports_formality": True},
+DEEPL_LANG_RESPONSE = [
+    {
+        "lang": "en",
+        "name": "English",
+        "features": {"glossary": True},
+        "usable_as_source": True,
+        "usable_as_target": False,
+    },
+    {
+        "lang": "en-GB",
+        "name": "English (British)",
+        "features": {"glossary": True},
+        "usable_as_source": False,
+        "usable_as_target": True,
+    },
+    {
+        "lang": "de",
+        "name": "Deutsch",
+        "features": {"formality": True, "glossary": True},
+        "usable_as_source": True,
+        "usable_as_target": True,
+    },
+    {
+        "lang": "pt",
+        "name": "Portuguese",
+        "features": {"glossary": True},
+        "usable_as_source": True,
+        "usable_as_target": False,
+    },
+    {
+        "lang": "pt-BR",
+        "name": "Portuguese (Brasilian)",
+        "features": {"glossary": True},
+        "usable_as_source": False,
+        "usable_as_target": True,
+    },
+    {
+        "lang": "pt-PT",
+        "name": "Portuguese (European)",
+        "features": {"formality": True, "glossary": True},
+        "usable_as_source": False,
+        "usable_as_target": True,
+    },
 ]
 
 LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": ["¡Hola, Mundo!"]}
@@ -327,10 +361,10 @@ class BaseMachineTranslationTest(TestCase):
     EXPECTED_LEN = 2
     CONFIGURATION: ClassVar[SettingsDict] = {}
 
-    def get_machine(self, cache=False):
+    def get_machine(self, *, use_cache: bool = False):
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
-        machine.cache_translations = cache
+        machine.cache_translations = use_cache
         return machine
 
     @responses.activate
@@ -359,14 +393,15 @@ class BaseMachineTranslationTest(TestCase):
         lang: str,
         word: str,
         expected_len: int,
+        *,
         machine: BatchMachineTranslation | None = None,
-        cache: bool = False,
+        use_cache: bool = False,
         unit_args=None,
     ):
         if unit_args is None:
             unit_args = {}
         if machine is None:
-            machine = self.get_machine(cache=cache)
+            machine = self.get_machine(use_cache=use_cache)
         translation = machine.translate(make_unit(code=lang, source=word, **unit_args))
         self.assertIsInstance(translation, list)
         if expected_len:
@@ -545,7 +580,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(len(translation[0]), self.EXPECTED_LEN)
 
     def test_cached_translation_uses_current_original_source(self) -> None:
-        machine_translation = self.get_machine(cache=True)
+        machine_translation = self.get_machine(use_cache=True)
         unit1 = make_unit(code="cs", source="Hello, %s!", flags="c-format")
         unit2 = make_unit(code="cs", source="Hello, %d!", flags="c-format")
 
@@ -872,7 +907,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(render_glossary_units_tsv([unit]), ":foo\t:bar")
 
     def test_glossary_changes_invalidates_result_cache(self) -> None:
-        machine = self.get_machine(cache=True)
+        machine = self.get_machine(use_cache=True)
         source_text = "Hello, world!"
         unit = make_unit(code="cs", source=source_text, target="")
 
@@ -2241,7 +2276,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     NOTSUPPORTED = "CS"
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "KEY",
-        "url": "https://api.deepl.com/v2/",
+        "url": "https://api.deepl.com/",
     }
 
     def mock_empty(self) -> NoReturn:
@@ -2250,7 +2285,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def mock_error(self) -> None:
         responses.add(
             responses.GET,
-            "https://api.deepl.com/v2/languages",
+            "https://api.deepl.com/v3/languages",
             status=500,
         )
         responses.add(
@@ -2263,23 +2298,13 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def mock_languages() -> None:
         responses.add(
             responses.GET,
-            "https://api.deepl.com/v2/languages?type=source",
-            json=DEEPL_SOURCE_LANG_RESPONSE,
+            "https://api.deepl.com/v3/languages?resource=translate_text",
+            json=DEEPL_LANG_RESPONSE,
         )
         responses.add(
             responses.GET,
-            "https://api.deepl.com/v2/languages?type=target",
-            json=DEEPL_TARGET_LANG_RESPONSE,
-        )
-        responses.add(
-            responses.GET,
-            "https://api.deepl.com/v2/glossary-language-pairs",
-            json={
-                "supported_languages": [
-                    {"source_lang": "de", "target_lang": "en"},
-                    {"source_lang": "en", "target_lang": "de"},
-                ]
-            },
+            "https://api.deepl.com/v3/languages?resource=glossary",
+            json=DEEPL_LANG_RESPONSE,
         )
 
     @classmethod
@@ -2355,6 +2380,24 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             self.assertIn("glossary_id", payload)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
+        def glossary_create_callback(request: PreparedRequest):
+            payload = json.loads(request.body)
+            self.assertEqual(
+                payload,
+                {
+                    "name": "weblate:1:EN:DE:9e250d830c11d70f",
+                    "dictionaries": [
+                        {
+                            "source_lang": "en",
+                            "target_lang": "de",
+                            "entries": "foo\tbar",
+                            "entries_format": "tsv",
+                        }
+                    ],
+                },
+            )
+            return (200, {}, "{}")
+
         machine = self.MACHINE_CLS(self.CONFIGURATION)
         machine.delete_cache()
         self.mock_languages()
@@ -2365,16 +2408,17 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         responses.add(
             responses.GET,
-            "https://api.deepl.com/v2/glossaries",
+            "https://api.deepl.com/v3/glossaries",
             json={"glossaries": []},
         )
-        responses.add(
+        responses.add_callback(
             responses.POST,
-            "https://api.deepl.com/v2/glossaries",
+            "https://api.deepl.com/v3/glossaries",
+            callback=glossary_create_callback,
         )
         responses.add(
             responses.GET,
-            "https://api.deepl.com/v2/glossaries",
+            "https://api.deepl.com/v3/glossaries",
             json={
                 "glossaries": [
                     {
@@ -2393,9 +2437,125 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
 
     @responses.activate
+    def test_glossary_languages_ignores_legacy_cache(self) -> None:
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        old_cache_key = machine.get_cache_key("glossary_languages")
+        new_cache_key = machine.get_glossary_languages_cache_key()
+        self.assertNotEqual(old_cache_key, new_cache_key)
+
+        cache.set(
+            old_cache_key,
+            {("EN", "DE"), ("EN", "FR"), ("DE", "EN")},
+            24 * 3600,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v3/languages?resource=glossary",
+            json=DEEPL_LANG_RESPONSE,
+        )
+
+        self.assertTrue(machine.is_glossary_supported("EN", "DE"))
+        self.assertEqual(len(responses.calls), 1)
+        self.assertIsNotNone(cache.get(new_cache_key))
+        self.assertEqual(
+            cache.get(old_cache_key), {("EN", "DE"), ("EN", "FR"), ("DE", "EN")}
+        )
+
+    @responses.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
-    def test_glossary_with_failed_delete(self) -> None:
-        """Test handling of glossary deletion failure scenario."""
+    def test_glossary_with_regional_target(self) -> None:
+        def request_callback(request: PreparedRequest):
+            payload = json.loads(request.body)
+            self.assertEqual(payload["target_lang"], "PT-BR")
+            self.assertEqual(
+                payload["glossary_id"], "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
+            )
+            return (200, {}, json.dumps(DEEPL_RESPONSE))
+
+        def glossary_create_callback(request: PreparedRequest):
+            payload = json.loads(request.body)
+            self.assertEqual(
+                payload,
+                {
+                    "name": "weblate:1:EN:PT-BR:9e250d830c11d70f",
+                    "dictionaries": [
+                        {
+                            "source_lang": "en",
+                            "target_lang": "pt",
+                            "entries": "foo\tbar",
+                            "entries_format": "tsv",
+                        }
+                    ],
+                },
+            )
+            return (200, {}, "{}")
+
+        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v3/glossaries",
+            json={"glossaries": []},
+        )
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v3/glossaries",
+            callback=glossary_create_callback,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.deepl.com/v3/glossaries",
+            json={
+                "glossaries": [
+                    {
+                        "glossary_id": "def3a26b-3e84-45b3-84ae-0c0aaf3525f7",
+                        "name": "weblate:1:EN:PT-BR:9e250d830c11d70f",
+                        "ready": True,
+                        "source_lang": "EN",
+                        "target_lang": "PT",
+                        "creation_time": "2021-08-03T14:16:18.329Z",
+                        "entry_count": 1,
+                    }
+                ]
+            },
+        )
+        self.assert_translate("PT-BR", self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+
+    @responses.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    def test_glossary_updates_stale_glossary(self) -> None:
+        """Test handling of glossary update scenario."""
+
+        def glossary_replace_callback(request: PreparedRequest):
+            payload = json.loads(request.body)
+            self.assertEqual(
+                payload,
+                {
+                    "source_lang": "en",
+                    "target_lang": "de",
+                    "entries": "foo\tbar",
+                    "entries_format": "tsv",
+                },
+            )
+            return (200, {}, "{}")
+
+        def glossary_rename_callback(request: PreparedRequest):
+            payload = json.loads(request.body)
+            self.assertEqual(
+                payload,
+                {
+                    "name": "weblate:1:EN:DE:9e250d830c11d70f",
+                },
+            )
+            return (200, {}, "{}")
+
         with patch(
             "weblate.machinery.deepl.DeepLTranslation.glossary_count_limit",
             new=1,
@@ -2403,7 +2563,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             self.mock_languages()
             # list glossaries to find matching name
             responses.get(
-                "https://api.deepl.com/v2/glossaries",
+                "https://api.deepl.com/v3/glossaries",
                 json={
                     "glossaries": [
                         {
@@ -2418,34 +2578,21 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
                     ]
                 },
             )
-            # list glossaries before deleting
-            responses.get(
-                "https://api.deepl.com/v2/glossaries",
-                json={
-                    "glossaries": [
-                        {
-                            "glossary_id": "8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
-                            "name": "weblate:1:EN:DE:4a8f2d980d32c9a5",
-                            "ready": True,
-                            "source_lang": "EN",
-                            "target_lang": "DE",
-                            "creation_time": "2021-08-02T14:16:18.329Z",
-                            "entry_count": 1,
-                        }
-                    ]
-                },
+            # replace stale glossary dictionary
+            responses.add_callback(
+                responses.PUT,
+                "https://api.deepl.com/v3/glossaries/8f54a21b-475f-42c2-bf8d-1a0a9f6543e2/dictionaries",
+                callback=glossary_replace_callback,
             )
-            # delete oldest glossary
-            responses.delete(
-                "https://api.deepl.com/v2/glossaries/8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
-                json={"message": "Invalid or missing glossary id"},
-                status=400,
+            # rename stale glossary to the new checksum
+            responses.add_callback(
+                responses.PATCH,
+                "https://api.deepl.com/v3/glossaries/8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+                callback=glossary_rename_callback,
             )
-            # create new glossary
-            responses.post("https://api.deepl.com/v2/glossaries")
             # list glossaries with new entry
             responses.get(
-                "https://api.deepl.com/v2/glossaries",
+                "https://api.deepl.com/v3/glossaries",
                 json={
                     "glossaries": [
                         {
@@ -2464,6 +2611,21 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             responses.post("https://api.deepl.com/v2/translate", json=DEEPL_RESPONSE)
             self.assert_translate(
                 self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+            )
+            calls = [
+                (call.request.method, call.request.url) for call in responses.calls
+            ]
+            replace_call = (
+                "PUT",
+                "https://api.deepl.com/v3/glossaries/8f54a21b-475f-42c2-bf8d-1a0a9f6543e2/dictionaries",
+            )
+            rename_call = (
+                "PATCH",
+                "https://api.deepl.com/v3/glossaries/8f54a21b-475f-42c2-bf8d-1a0a9f6543e2",
+            )
+            self.assertLess(calls.index(replace_call), calls.index(rename_call))
+            self.assertFalse(
+                any(call.request.method == "DELETE" for call in responses.calls)
             )
 
     @responses.activate
@@ -2515,13 +2677,12 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
-        self.assertEqual(len(responses.calls), 4)
+        self.assertEqual(len(responses.calls), 3)
         self.assertEqual(
             [(call.request.method, call.request.url) for call in responses.calls],
             [
-                ("GET", "https://api.deepl.com/v2/languages?type=source"),
-                ("GET", "https://api.deepl.com/v2/languages?type=target"),
-                ("GET", "https://api.deepl.com/v2/glossary-language-pairs"),
+                ("GET", "https://api.deepl.com/v3/languages?resource=translate_text"),
+                ("GET", "https://api.deepl.com/v3/languages?resource=glossary"),
                 ("POST", "https://api.deepl.com/v2/translate"),
             ],
         )
@@ -2535,28 +2696,103 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_api_url(self) -> None:
-        self.assertEqual(
-            self.MACHINE_CLS(self.CONFIGURATION).api_base_url,
-            "https://api.deepl.com/v2",
+        test_cases = (
+            {
+                "name": "paid base without version",
+                "key": "KEY",
+                "url": "https://api.deepl.com/",
+                "base_url": "https://api.deepl.com",
+                "glossary_count_limit": 1000,
+            },
+            {
+                "name": "paid legacy v2",
+                "key": "KEY",
+                "url": "https://api.deepl.com/v2/",
+                "base_url": "https://api.deepl.com",
+                "glossary_count_limit": 1000,
+            },
+            {
+                "name": "free inferred without version",
+                "key": "KEY:fx",
+                "url": "https://api.deepl.com/",
+                "base_url": "https://api-free.deepl.com",
+                "glossary_count_limit": 1,
+            },
+            {
+                "name": "free inferred legacy v2",
+                "key": "KEY:fx",
+                "url": "https://api.deepl.com/v2/",
+                "base_url": "https://api-free.deepl.com",
+                "glossary_count_limit": 1,
+            },
+            {
+                "name": "free explicit without version",
+                "key": "KEY:fx",
+                "url": "https://api-free.deepl.com/",
+                "base_url": "https://api-free.deepl.com",
+                "glossary_count_limit": 1,
+            },
+            {
+                "name": "free explicit legacy v2",
+                "key": "KEY:fx",
+                "url": "https://api-free.deepl.com/v2/",
+                "base_url": "https://api-free.deepl.com",
+                "glossary_count_limit": 1,
+            },
+            {
+                "name": "custom base without version",
+                "key": "KEY:fx",
+                "url": "https://example.com/",
+                "base_url": "https://example.com",
+                "glossary_count_limit": 1000,
+            },
+            {
+                "name": "custom base legacy v2",
+                "key": "KEY:fx",
+                "url": "https://example.com/v2/",
+                "base_url": "https://example.com",
+                "glossary_count_limit": 1000,
+            },
+            {
+                "name": "custom path legacy v2",
+                "key": "KEY",
+                "url": "https://example.com/deepl/v2/",
+                "base_url": "https://example.com/deepl",
+                "glossary_count_limit": 1000,
+            },
         )
-        self.assertEqual(
-            self.MACHINE_CLS(
-                {
-                    "key": "KEY:fx",
-                    "url": "https://api.deepl.com/v2",
-                }
-            ).api_base_url,
-            "https://api-free.deepl.com/v2",
-        )
-        self.assertEqual(
-            self.MACHINE_CLS(
-                {
-                    "key": "KEY:fx",
-                    "url": "https://example.com/v2",
-                }
-            ).api_base_url,
-            "https://example.com/v2",
-        )
+        for test_case in test_cases:
+            with self.subTest(test_case["name"]):
+                machine = self.MACHINE_CLS(
+                    {
+                        "key": test_case["key"],
+                        "url": test_case["url"],
+                    }
+                )
+                self.assertEqual(machine.api_base_url, test_case["base_url"])
+                self.assertEqual(
+                    machine.get_api_url("v2", "translate"),
+                    f"{test_case['base_url']}/v2/translate",
+                )
+                self.assertEqual(
+                    machine.get_api_url("v3", "glossaries"),
+                    f"{test_case['base_url']}/v3/glossaries",
+                )
+                self.assertEqual(
+                    machine.get_glossary_count_limit(),
+                    test_case["glossary_count_limit"],
+                )
+
+        for url in (
+            "https://api.deepl.com/v1/",
+            "https://api-free.deepl.com/v1/",
+            "https://example.com/v1/",
+            "https://example.com/deepl/v1/",
+        ):
+            with self.subTest(url):
+                machine = self.MACHINE_CLS({"key": "KEY", "url": url})
+                with self.assertRaises(MachineTranslationError):
+                    _ = machine.api_base_url
 
     @responses.activate
     def test_languages_map(self) -> None:
@@ -4205,7 +4441,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     def test_translate_disambiguates_duplicate_plural_sources(self) -> None:
-        machine = self.get_machine(cache=True)
+        machine = self.get_machine(use_cache=True)
         unit = make_unit(
             code="fr",
             source=["fish", "fish"],
@@ -4242,7 +4478,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     def test_duplicate_plural_cache_tracks_occurrence_context(self) -> None:
-        machine = self.get_machine(cache=True)
+        machine = self.get_machine(use_cache=True)
         unit = make_unit(
             code="fr",
             source=["fish", "fish"],
@@ -6489,6 +6725,24 @@ class MachineryValidationTest(TestCase):
         self.assertIn("site administrator", str(form.errors["__all__"]))
         self.assertIn("site-wide or allowlisted", str(form.errors["__all__"]))
 
+    def test_deepl_rejects_v1_url(self) -> None:
+        for url in (
+            "https://api.deepl.com/v1/",
+            "https://api-free.deepl.com/v1/",
+            "https://example.com/v1/",
+            "https://example.com/deepl/v1/",
+        ):
+            with self.subTest(url):
+                form = DeepLTranslation.settings_form(
+                    DeepLTranslation,
+                    data={"key": "x", "url": url},
+                )
+
+                self.assertFalse(form.is_valid())
+                self.assertIn(
+                    "DeepL API v1 is no longer supported.", form.errors["url"]
+                )
+
     @override_settings(OFFER_HOSTING=True)
     def test_project_machinery_rejects_private_url_on_hosted_site(self) -> None:
         form = DeepLTranslation.settings_form(
@@ -6527,7 +6781,7 @@ class MachineryValidationTest(TestCase):
         )
         response.url = "https://api.deepl.com/v2/translate"
         response.json.return_value = {"message": "Auth key is invalid."}
-        machine = DeepLTranslation({"key": "x", "url": "https://api.deepl.com/v2/"})
+        machine = DeepLTranslation({"key": "x", "url": "https://api.deepl.com/"})
 
         with self.assertRaises(HTTPError) as raised:
             machine.check_failure(response)
@@ -6543,7 +6797,7 @@ class MachineryValidationTest(TestCase):
         response.text = "Rate limit exceeded."
         response.json.side_effect = JSONDecodeError("Expecting value", "", 0)
         machine = DeepLTranslation(
-            {"key": "x", "url": "https://api.deepl.com/v2/", "_project": Mock()}
+            {"key": "x", "url": "https://api.deepl.com/", "_project": Mock()}
         )
 
         with self.assertRaises(HTTPError) as raised:
@@ -6688,7 +6942,7 @@ class MachineryValidationTest(TestCase):
     ) -> None:
         form = DeepLTranslation.settings_form(
             DeepLTranslation,
-            data={"key": "x", "url": "https://api.deepl.com/v2/"},
+            data={"key": "x", "url": "https://api.deepl.com/"},
             allow_private_targets=False,
         )
 
@@ -6792,7 +7046,7 @@ class CommandTest(FixtureComponentTestCase):
             "--service",
             "deepl",
             "--configuration",
-            '{"key": "x1", "url": "https://api.deepl.com/v2/"}',
+            '{"key": "x1", "url": "https://api.deepl.com/"}',
             stdout=output,
             stderr=output,
         )
@@ -6806,16 +7060,14 @@ class CommandTest(FixtureComponentTestCase):
             "--service",
             "deepl",
             "--configuration",
-            '{"key": "x2", "url": "https://api.deepl.com/v2/"}',
+            '{"key": "x2", "url": "https://api.deepl.com/"}',
             "--update",
             stdout=output,
             stderr=output,
         )
 
         setting = Setting.objects.get(category=SettingCategory.MT, name="deepl")
-        self.assertEqual(
-            setting.value, {"key": "x2", "url": "https://api.deepl.com/v2/"}
-        )
+        self.assertEqual(setting.value, {"key": "x2", "url": "https://api.deepl.com/"})
 
 
 class SourceLanguageTranslateTestCase(FixtureTestCase):

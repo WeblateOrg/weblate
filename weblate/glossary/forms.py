@@ -41,20 +41,23 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
 
     class Meta:
         model = Unit
-        fields = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = [
             "context",
             "source",
             "target",
             "translation",
             "explanation",
         ]
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "context": forms.TextInput,
             "source": forms.TextInput,
             "target": forms.TextInput,
             "explanation": forms.TextInput,
         }
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "translation": GlossaryModelChoiceField,
         }
 

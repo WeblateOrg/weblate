@@ -232,7 +232,8 @@ class RepositoryTest(SimpleTestCase):
         self.assertTrue(GitNoVersionRepository.is_supported())
 
     def test_parse_commit_date_normalizes_naive_datetime(self) -> None:
-        parsed = parse_commit_date(datetime(2026, 5, 7, 12, 30))  # noqa: DTZ001
+        # ruff: ignore[call-datetime-without-tzinfo]
+        parsed = parse_commit_date(datetime(2026, 5, 7, 12, 30))
         self.assertTrue(timezone.is_aware(parsed))
 
     def test_parse_commit_date_normalizes_naive_string(self) -> None:
@@ -271,7 +272,8 @@ class RepositoryTest(SimpleTestCase):
             patch("weblate.vcs.base.subprocess.run", side_effect=error),
             self.assertRaises(RepositoryCommandError) as context,
         ):
-            GitRepository._popen(["status"], cwd=cwd)  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            GitRepository._popen(["status"], cwd=cwd)
 
         self.assertIs(context.exception.__cause__, error)
         self.assertEqual(context.exception.retcode, 2)
@@ -2929,7 +2931,7 @@ class VCSGerritTest(VCSGitUpstreamTest):
         # to create one
         hook = os.path.join(repo.path, ".git", "hooks", "commit-msg")
         Path(hook).write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
-        os.chmod(hook, 0o755)  # noqa: S103, nosec
+        os.chmod(hook, 0o755)  # ruff: ignore[bad-file-permissions]  # nosec
         if isinstance(repo, GitWithGerritRepository):
             repo.config_update(('remote "gerrit"', "url", self.get_remote_repo_url()))
 

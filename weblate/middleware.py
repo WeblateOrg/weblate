@@ -216,10 +216,12 @@ class RedirectMiddleware:
         """
         return project.has_language(language)
 
-    def process_exception(  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def process_exception(
         self, request: AuthenticatedHttpRequest, exception
     ) -> HttpResponse | None:
-        from weblate.utils.views import UnsupportedPathObjectError  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.views import UnsupportedPathObjectError
 
         if not isinstance(exception, Http404):
             return None
@@ -449,9 +451,11 @@ class CSPBuilder:
                     # Handle SAML redirect flow
                     elif hasattr(backend, "get_idp"):
                         # Lazily import here to avoid pulling in xmlsec
-                        from social_core.backends.saml import SAMLAuth  # noqa: PLC0415
+                        # ruff: ignore[import-outside-top-level]
+                        from social_core.backends.saml import SAMLAuth
 
-                        assert issubclass(backend, SAMLAuth)  # noqa: S101
+                        # ruff: ignore[assert]
+                        assert issubclass(backend, SAMLAuth)
 
                         saml_auth = backend(social_strategy)
                         urls = [

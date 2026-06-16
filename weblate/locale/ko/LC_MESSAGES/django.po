@@ -19,8 +19,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-07 14:01+0000\n"
-"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>\n"
+"PO-Revision-Date: 2026-06-15 13:56+0000\n"
+"Last-Translator: justcontributor <kty5663@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1999,12 +1999,12 @@ msgid "xgettext language"
 msgstr "xgettext 언어"
 
 #: weblate/addons/forms.py:286
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
-msgstr "xgettext에 전달되는 프로그래밍 언어입니다. 예: Python 또는 C."
+msgstr ""
+"xgettext에 전달되는 프로그래밍 언어입니다. 예: Python 또는 C. xgettext가 "
+"확장자로 언어를 추정하도록 하려면 비워 두세요."
 
 #: weblate/addons/forms.py:295
 msgid ""
@@ -4640,11 +4640,8 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "번역 플래그의 매개변수가 누락되었습니다: \"%s\""
 
 #: weblate/checks/flags.py:458
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "격식"
+msgstr "형식"
 
 #: weblate/checks/flags.py:459
 #, fuzzy
@@ -4659,10 +4656,8 @@ msgid "Validation"
 msgstr "번역"
 
 #: weblate/checks/flags.py:461
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "문자열 검토"
+msgstr "렌더링"
 
 #: weblate/checks/flags.py:462 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
@@ -4676,16 +4671,10 @@ msgid "Disabled check"
 msgstr "실패한 검사"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgid "Automatic detection"
-msgstr "자동 선택"
+msgstr "자동 감지"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgctxt "User agent device type"
-#| msgid "Other"
 msgid "Other"
 msgstr "기타"
 
@@ -6989,48 +6978,30 @@ msgid "Choose custom model here to enable it."
 msgstr "여기에서 사용자 정의 모델을 선택하여 활성화하세요."
 
 #: weblate/machinery/forms.py:591
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "자동 선택"
 
 #: weblate/machinery/forms.py:595
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "사용자 정의 모델"
 
 #: weblate/machinery/forms.py:600
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "OpenAI API 기본 URL"
+msgstr "Mistral API 기본 URL"
 
 #: weblate/machinery/forms.py:604
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "OpenAI 기본 URL과 다른 경우 OpenAI API의 기본 URL"
+msgstr "Mistral 기본 URL과 다른 경우 Mistral API의 기본 URL"
 
 #: weblate/machinery/forms.py:611
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "사용자 정의 모델"
+msgstr "Mistral 모델"
 
 #: weblate/machinery/forms.py:619
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgctxt "Mistral model selection"
 msgid "Custom model name"
 msgstr "사용자 정의 모델 이름"
@@ -19629,30 +19600,19 @@ msgid "File upload has failed: %s"
 msgstr "파일 업로드에 실패했습니다: %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "<strong>%(count)s개 언어로</strong> 번역되고 있습니다."
+msgstr[0] "{project}이(가) Weblate를 사용하여 {count}개 언어로 번역되고 있습니다."
 
 #: weblate/trans/util.py:292
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
-msgstr ""
-"{0}이(가) Weblate를 사용하여 {1}개 언어로 번역되고 있습니다. 번역에 참여하거"
-"나 직접 프로젝트 번역을 시작하세요."
+msgstr "번역에 참여하거나 직접 프로젝트 번역을 시작하세요."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "번역으로 복제"
+msgstr "번역에 참여하세요."
 
 #: weblate/trans/util.py:412
 msgid "Source upload is only supported on the source language."

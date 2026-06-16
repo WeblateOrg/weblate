@@ -53,8 +53,15 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
             hours: Optional fixed hours threshold (overrides per-component commit_pending_age)
 
         """
-        from weblate.trans.models import Component  # noqa: PLC0415
-        from weblate.trans.models.project import CommitPolicyChoices  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import (
+            CommitPolicyChoices,
+        )
 
         pending_changes = self.all()
 
@@ -273,7 +280,10 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         and includes all changes up to that point. This ensures we commit changes in
         chronological order and don't skip intermediate changes.
         """
-        from weblate.trans.models.project import CommitPolicyChoices  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import (
+            CommitPolicyChoices,
+        )
 
         if commit_policy == CommitPolicyChoices.ALL:
             return qs
@@ -305,7 +315,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
 
     def detailed_count(self, obj: Project | Component | Translation) -> dict[str, int]:
         """Count total, skipped and eligible units pending and eligible for commit for the given object."""
-        from weblate.trans.models import (  # noqa: PLC0415
+        from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
             Component,
             Project,
             Translation,

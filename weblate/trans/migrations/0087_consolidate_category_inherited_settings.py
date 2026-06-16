@@ -96,7 +96,8 @@ def promote_agreements(
     )
 
 
-def consolidate_category_settings(apps, schema_editor) -> None:  # noqa: C901, PLR0914
+# ruff: ignore[complex-structure, too-many-locals]
+def consolidate_category_settings(apps, schema_editor) -> None:
     Category = apps.get_model("trans", "Category")
     Component = apps.get_model("trans", "Component")
     ContributorAgreement = apps.get_model("trans", "ContributorAgreement")

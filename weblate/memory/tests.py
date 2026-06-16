@@ -8,12 +8,13 @@ import json
 import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import MagicMock, call, patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.db.models import Q
+from django.db.models.functions import MD5
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -32,6 +33,8 @@ from weblate.memory.models import (
     load_memory_tmx_store,
 )
 from weblate.memory.tasks import (
+    MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
+    get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
 )
@@ -40,6 +43,9 @@ from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.memory.tasks import MemoryGroupEntry
 
 
 def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
@@ -95,6 +101,129 @@ class MemoryParserTest(SimpleTestCase):
                 ),
                 origin="missing-header.tmx",
             )
+
+    def test_bulk_matching_memory_uses_exact_md5_pairs(self) -> None:
+        entries = [
+            self.get_memory_group_entry(0, "source 1", "target 1"),
+            self.get_memory_group_entry(1, "source 2", "target 2"),
+        ]
+        statuses = {key: status for _, key, _, status in entries}
+        exact_match = self.get_matching_memory("source 1", "target 1")
+        cross_pair = self.get_matching_memory("source 1", "target 2")
+
+        with patch.object(
+            Memory.objects, "filter", return_value=[exact_match, cross_pair]
+        ) as filter_mock:
+            existing, to_update = get_group_matching_memory(
+                ("origin", 1, 2), entries, statuses
+            )
+
+        args, kwargs = filter_mock.call_args
+        self.assertNotIn("source__in", kwargs)
+        self.assertNotIn("target__in", kwargs)
+        self.assertEqual(
+            set(kwargs),
+            {
+                "from_file",
+                "origin__md5",
+                "source_language_id",
+                "target_language_id",
+            },
+        )
+        self.assertEqual(kwargs["from_file"], False)
+        self.assertEqual(kwargs["source_language_id"], 1)
+        self.assertEqual(kwargs["target_language_id"], 2)
+        self.assert_md5_value(kwargs["origin__md5"], "origin")
+        self.assertEqual(
+            self.get_query_pairs(args[0]),
+            {("source 1", "target 1"), ("source 2", "target 2")},
+        )
+        self.assertEqual(
+            existing["origin", 1, 2, "source 1", "target 1"], {("project", 1)}
+        )
+        self.assertNotIn(
+            ("project", 1), existing["origin", 1, 2, "source 1", "target 2"]
+        )
+        self.assertEqual(to_update, [exact_match])
+
+    def test_bulk_matching_memory_chunks_exact_md5_pairs(self) -> None:
+        entries = [
+            self.get_memory_group_entry(position, f"source {position}", "target")
+            for position in range(MEMORY_UPDATE_LOOKUP_CHUNK_SIZE + 1)
+        ]
+        statuses = {key: status for _, key, _, status in entries}
+
+        with patch.object(Memory.objects, "filter", return_value=[]) as filter_mock:
+            get_group_matching_memory(("origin", 1, 2), entries, statuses)
+
+        self.assertEqual(filter_mock.call_count, 2)
+        first_args, first_kwargs = filter_mock.call_args_list[0]
+        second_args, second_kwargs = filter_mock.call_args_list[1]
+        self.assertEqual(
+            len(self.get_query_pairs(first_args[0])), MEMORY_UPDATE_LOOKUP_CHUNK_SIZE
+        )
+        self.assertEqual(len(self.get_query_pairs(second_args[0])), 1)
+        self.assert_md5_value(first_kwargs["origin__md5"], "origin")
+        self.assert_md5_value(second_kwargs["origin__md5"], "origin")
+
+    def get_memory_group_entry(
+        self, position: int, source: str, target: str
+    ) -> MemoryGroupEntry:
+        return (
+            position,
+            ("origin", 1, 2, source, target),
+            {
+                "source_language_id": 1,
+                "target_language_id": 2,
+                "source": source,
+                "context": "",
+                "target": target,
+                "origin": "origin",
+                "add_shared": False,
+                "add_project": True,
+                "add_user": False,
+                "user_id": None,
+                "project_id": 1,
+                "unit_state": STATE_TRANSLATED,
+            },
+            Memory.STATUS_ACTIVE,
+        )
+
+    def get_matching_memory(self, source: str, target: str) -> MagicMock:
+        return MagicMock(
+            origin="origin",
+            source_language_id=1,
+            target_language_id=2,
+            source=source,
+            target=target,
+            status=Memory.STATUS_PENDING,
+            user_id=None,
+            project_id=1,
+            shared=False,
+        )
+
+    def get_query_pairs(self, query: Q) -> set[tuple[str, str]]:
+        children = query.children if query.connector == "OR" else [query]
+        pairs = set()
+        for child in children:
+            self.assertIsInstance(child, Q)
+            lookups = dict(cast("Any", child).children)
+            self.assertEqual(set(lookups), {"source__md5", "target__md5"})
+            self.assertIsInstance(lookups["source__md5"], MD5)
+            self.assertIsInstance(lookups["target__md5"], MD5)
+            source = cast("MD5", lookups["source__md5"])
+            target = cast("MD5", lookups["target__md5"])
+            pairs.add(
+                (
+                    cast("Any", source.source_expressions[0]).value,
+                    cast("Any", target.source_expressions[0]).value,
+                )
+            )
+        return pairs
+
+    def assert_md5_value(self, expression: MD5, value: str) -> None:
+        self.assertIsInstance(expression, MD5)
+        self.assertEqual(cast("Any", expression.source_expressions[0]).value, value)
 
 
 class MemoryModelTest(FixtureTestCase):
@@ -443,6 +572,55 @@ msgstr "Nazdar svete!\n"
         # 2 translations X 2 (project and shared memory) = total 7
         self.assertEqual(Memory.objects.count(), 7)
 
+    def test_component_project_tm_import_scheduled_only_when_reenabled(self) -> None:
+        with patch(
+            "weblate.trans.models.component.import_memory.delay_on_commit"
+        ) as mocked_import:
+            component = self._create_component(
+                "po", "po/*.po", name="memory", project=self.project
+            )
+
+        mocked_import.assert_not_called()
+
+        component.contribute_project_tm = False
+        with patch(
+            "weblate.trans.models.component.import_memory.delay_on_commit"
+        ) as mocked_import:
+            component.save()
+
+        mocked_import.assert_not_called()
+
+        component.contribute_project_tm = True
+        with patch(
+            "weblate.trans.models.component.import_memory.delay_on_commit"
+        ) as mocked_import:
+            component.save()
+
+        mocked_import.assert_called_once_with(self.project.id, component.pk)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_component_batched_project_tm_update(self) -> None:
+        unit = self.get_unit()
+        self.translate_with_callbacks(unit, self.user, "Nazdar", STATE_TRANSLATED)
+        Memory.objects.all().delete()
+        unit.refresh_from_db()
+        component = unit.translation.component
+
+        component.start_batched_memory()
+        unit.update_translation_memory(needs_user_check=False)
+        unit.update_translation_memory(needs_user_check=False)
+        self.assertEqual(Memory.objects.count(), 0)
+
+        component.run_batched_memory()
+        self.assertEqual(Memory.objects.filter(project=self.project).count(), 1)
+        self.assertEqual(Memory.objects.filter(shared=True).count(), 1)
+        self.assertEqual(Memory.objects.count(), 2)
+
+        component.start_batched_memory()
+        unit.update_translation_memory(needs_user_check=False)
+        component.run_batched_memory()
+        self.assertEqual(Memory.objects.count(), 2)
+
     def test_import_unit(self) -> None:
         unit = self.get_unit()
         self.handle_unit_translation_change_with_callbacks(unit, self.user)
@@ -693,8 +871,10 @@ msgstr "Nazdar svete!\n"
             self.approve_translation(unit2, "Hello with context")
 
         suggestions = machine_translation.search(unit, unit.source, None)
-        with_context = [s for s in suggestions if "Hello with context" in s["text"]][0]  # noqa: RUF015
-        no_context = [s for s in suggestions if "Hello no context" in s["text"]][0]  # noqa: RUF015
+        # ruff: ignore[unnecessary-iterable-allocation-for-first-element]
+        with_context = [s for s in suggestions if "Hello with context" in s["text"]][0]
+        # ruff: ignore[unnecessary-iterable-allocation-for-first-element]
+        no_context = [s for s in suggestions if "Hello no context" in s["text"]][0]
         self.assertLess(with_context["quality"], no_context["quality"])
 
         # check that memory with different context is not affected by autoclean

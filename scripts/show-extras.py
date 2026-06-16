@@ -31,10 +31,7 @@ for section, data in toml_dict["project"]["optional-dependencies"].items():
     print(f"{indent}* - ``{section}``")
     # Actual dependencies
     dependencies = [re.split(r"[;<>=[]", dependency)[0].strip() for dependency in data]
-    dependencies_links = [
-        f"| `{dependency} <https://pypi.org/project/{dependency}>`_"
-        for dependency in dependencies
-    ]
+    dependencies_links = [f"| :pypi:`{dependency}`" for dependency in dependencies]
     dependencies_str = f"\n{indent}    ".join(dependencies_links)
     print(f"{indent}  - {dependencies_str}")
     # Placeholder for description

@@ -1072,7 +1072,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     @action(detail=True, methods=["delete"], url_path="roles/(?P<role_id>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def delete_roles(self, request: Request, id, role_id):  # noqa: A002
+    def delete_roles(self, request: Request, id, role_id):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
 
@@ -1122,7 +1122,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
     # pylint: disable-next=redefined-builtin
-    def delete_languages(self, request: Request, id, language_code):  # noqa: A002
+    def delete_languages(self, request: Request, id, language_code):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
 
@@ -1167,7 +1167,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @extend_schema(description="Delete a project from a group.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def delete_projects(self, request: Request, id, project_id):  # noqa: A002
+    def delete_projects(self, request: Request, id, project_id):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
         self.scoped_assignment_check(
@@ -1225,7 +1225,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         self,
         request: Request,
         # pylint: disable-next=redefined-builtin
-        id,  # noqa: A002
+        id,  # ruff: ignore[builtin-argument-shadowing]
         component_list_id,
     ):
         obj = self.get_object()
@@ -1281,7 +1281,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
     # pylint: disable-next=redefined-builtin
-    def delete_components(self, request: Request, id, component_id):  # noqa: A002
+    def delete_components(self, request: Request, id, component_id):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
         self.workspace_assignment_check(
@@ -1304,7 +1304,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @extend_schema(description="Make user a group admin.", methods=["post"])
     @action(detail=True, methods=["post"], url_path="admins")
     # pylint: disable-next=redefined-builtin
-    def grant_admin(self, request: Request, id):  # noqa: A002
+    def grant_admin(self, request: Request, id):  # ruff: ignore[builtin-argument-shadowing]
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
             self.perm_check(request, group)
@@ -1326,7 +1326,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
     # pylint: disable-next=redefined-builtin
-    def revoke_admin(self, request: Request, id, user_pk):  # noqa: A002
+    def revoke_admin(self, request: Request, id, user_pk):  # ruff: ignore[builtin-argument-shadowing]
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
             self.perm_check(request, group)
@@ -1810,7 +1810,8 @@ class ProjectViewSet(
             if "weblate.billing" in settings.INSTALLED_APPS and hasattr(
                 workspace, "billing"
             ):
-                from weblate.billing.models import Billing  # noqa: PLC0415
+                # ruff: ignore[import-outside-top-level]
+                from weblate.billing.models import Billing
 
                 if not (
                     Billing.objects.filter(pk=workspace.billing.pk)
@@ -3231,7 +3232,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return result
 
     @transaction.atomic
-    def perform_update(self, serializer) -> None:  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def perform_update(self, serializer) -> None:
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
         do_source = "extra_flags" in data or "explanation" in data or "labels" in data
@@ -3767,7 +3769,7 @@ class Metrics(APIView):
     serializer_class = MetricsSerializer
 
     # pylint: disable-next=redefined-builtin
-    def get(self, request: Request, format=None):  # noqa: A002
+    def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return server metrics."""
         stats = GlobalStats()
         serializer = self.serializer_class(stats)
@@ -3800,7 +3802,7 @@ class Search(APIView):
         responses=SearchResultSerializer(many=True),
     )
     # pylint: disable-next=redefined-builtin
-    def get(self, request: Request, format=None):  # noqa: A002
+    def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return site-wide search results as a list."""
         user = request.user
         projects = user.allowed_projects

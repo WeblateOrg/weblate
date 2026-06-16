@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-12 02:39+0000\n"
+"PO-Revision-Date: 2026-06-14 02:03+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -4206,7 +4206,7 @@ msgstr "Rencana tagihan"
 #: weblate/trans/forms.py:3498 weblate/trans/forms.py:3528
 #: weblate/trans/models/project.py:257
 msgid "Workspace"
-msgstr "Workspace"
+msgstr "Ruang kerja"
 
 #: weblate/billing/models.py:243 weblate/templates/billing/status.html:19
 msgid "Customer name"
@@ -4807,11 +4807,8 @@ msgid "Disabled check"
 msgstr "Pemeriksaan gagal"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgid "Automatic detection"
-msgstr "Pemilihan otomatis"
+msgstr "Deteksi otomatis"
 
 #: weblate/checks/flags.py:465
 #, fuzzy
@@ -5567,7 +5564,7 @@ msgstr "Galat sintaksis reStructuredText dalam terjemahan."
 #: weblate/checks/markup.py:895
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
-msgstr ""
+msgstr "Peran reStructuredText tidak harus dibungkus dengan backtick: {role}"
 
 #: weblate/checks/markup.py:904
 msgid "The translation should not start with a list marker."
@@ -7089,20 +7086,22 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"Objek JSON memetakan kode bahasa target ada ke instruksi ekstra, hingga "
+"setiap %(limit)d karakter."
 
 #: weblate/machinery/forms.py:474 weblate/machinery/forms.py:481
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Instruksi khusus bahasa harus berupa objek JSON."
 
 #: weblate/machinery/forms.py:490
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
-msgstr ""
+msgstr "Instruksi khusus bahasa berisi kode bahasa tidak valid \"%s\"."
 
 #: weblate/machinery/forms.py:498
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr ""
+msgstr "Instruksi khusus bahasa berisi kode bahasa tidak diketahui \"%s\"."
 
 #: weblate/machinery/forms.py:507
 #, python-format
@@ -7110,6 +7109,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"Instruksi khusus bahasa untuk \"%(language)s\" harus paling banyak %(limit)d "
+"karakter."
 
 #: weblate/machinery/forms.py:527
 msgctxt "OpenAI model selection"
@@ -7195,9 +7196,6 @@ msgid "Mistral model"
 msgstr "Model kustom"
 
 #: weblate/machinery/forms.py:619
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgctxt "Mistral model selection"
 msgid "Custom model name"
 msgstr "Nama model kustom"
@@ -7285,12 +7283,12 @@ msgstr "Jumlah maksimum token yang akan dihasilkan dalam respons."
 #: weblate/machinery/llm.py:156
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Halo, @@PH1@@!"
 
 #: weblate/machinery/llm.py:157
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Klik <a href=\"/x\">Simpan</a>."
 
 #: weblate/machinery/llm.py:158
 #, fuzzy
@@ -10704,10 +10702,9 @@ msgstr "dihilangkan, dibuang"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:226
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "Muncul %(first)s, terakhir terlihat %(last)s"
+msgstr "Muncul %(first)s"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:229
@@ -17964,7 +17961,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:3339
 msgid "workspace"
-msgstr "workspace"
+msgstr "ruang kerja"
 
 #: weblate/trans/forms.py:3377
 msgid "Access"
@@ -20194,14 +20191,12 @@ msgid "File upload has failed: %s"
 msgstr "Unggahan berkas telah gagal: %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Sedang diterjemahkan ke <strong>%(count)s bahasa</strong>."
+msgstr[0] ""
+"{project} sedang diterjemahkan dalam {count} bahasa menggunakan Weblate."
 
 #: weblate/trans/util.py:292
 #, fuzzy
@@ -20214,10 +20209,8 @@ msgstr ""
 "dengan terjemahan atau mulailah menerjemahkan proyek Anda sendiri."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Gandakan ke terjemahan"
+msgstr "Gabunglah terjemahan."
 
 #: weblate/trans/util.py:412
 msgid "Source upload is only supported on the source language."
