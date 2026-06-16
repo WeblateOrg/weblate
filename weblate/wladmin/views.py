@@ -109,7 +109,7 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
     ("tools", "manage-tools", gettext_lazy("Tools")),
     ("machinery", "manage-machinery", gettext_lazy("Automatic suggestions")),
     ("addons", "manage-addons", gettext_lazy("Add-ons")),
-    ("github", "manage-github-accounts", gettext_lazy("Weblate GitHub Apps")),
+    ("github", "manage-github-accounts", gettext_lazy("VCS Installations")),
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)

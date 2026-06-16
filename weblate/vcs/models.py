@@ -7,7 +7,9 @@ from __future__ import annotations
 from typing import ClassVar
 
 from appconf import AppConf
+from django.db import models
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy
 
 from weblate.utils.classloader import ClassLoader
 
@@ -30,8 +32,78 @@ from .defaults import (
     DEFAULT_VCS_RESTRICT_PRIVATE,
 )
 
-# Import GitHub models so Django registers them with the VCS app.
-from .github import (
+
+class InstallationProvider(models.TextChoices):
+    """Code-hosting providers that can own an :class:`Installation`."""
+
+    GITHUB = "github", gettext_lazy("GitHub")
+
+
+class Installation(models.Model):
+    """
+    Generic code-hosting integration connecting a workspace to a remote account.
+
+    The fields here are provider-agnostic: a provider-issued installation id, the
+    account it targets, the host it lives on, and a cached repository list.
+    Provider-specific authentication and API behaviour lives in proxy subclasses
+    such as :class:`weblate.vcs.github.GitHubInstallation`; the ``provider``
+    discriminator records which one owns each row so those proxies can scope
+    their queries.
+    """
+
+    provider = models.CharField(
+        max_length=20,
+        choices=InstallationProvider,
+        default=InstallationProvider.GITHUB,
+        verbose_name=gettext_lazy("Provider"),
+    )
+    installation_id = models.CharField(
+        max_length=50,
+        verbose_name=gettext_lazy("Installation ID"),
+    )
+    target_type = models.CharField(
+        max_length=20,
+        verbose_name=gettext_lazy("Target type"),
+        help_text=gettext_lazy("Organization or User"),
+    )
+    target_login = models.CharField(
+        max_length=255,
+        verbose_name=gettext_lazy("Target login"),
+        help_text=gettext_lazy("Hosting organization or user login"),
+    )
+    workspace = models.ForeignKey(
+        "workspaces.Workspace",
+        on_delete=models.CASCADE,
+        related_name="installations",
+        verbose_name=gettext_lazy("Workspace"),
+    )
+    hostname = models.CharField(
+        max_length=255,
+        default="github.com",
+        verbose_name=gettext_lazy("Hostname"),
+    )
+    enabled = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    repositories = models.JSONField(
+        default=list,
+        blank=True,
+        verbose_name=gettext_lazy("Available repositories"),
+    )
+    repositories_updated = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = gettext_lazy("code-hosting installation")
+        verbose_name_plural = gettext_lazy("code-hosting installations")
+        unique_together = (("provider", "hostname", "installation_id", "workspace"),)
+
+    def __str__(self) -> str:
+        return f"{self.target_login} ({self.hostname}/{self.installation_id})"
+
+
+# Import provider-specific proxies so Django registers them with the VCS app
+# during app loading, regardless of backend-registry import order.  Placed after
+# Installation so github.py can import it back without a circular-import failure.
+from .github import (  # noqa: E402
     GitHubInstallation as GitHubInstallation,  # noqa: PLC0414
 )
 

@@ -25,6 +25,7 @@ from django.utils.translation import gettext_lazy
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GithubRepository, GitRepository
+from weblate.vcs.models import Installation, InstallationProvider
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -394,6 +395,11 @@ class GitHubAppCredentials(models.Model):
 
 
 class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
+    def get_queryset(self) -> models.QuerySet[GitHubInstallation]:
+        # Scope the proxy to GitHub-owned rows so the shared installations table
+        # does not leak rows belonging to other providers.
+        return super().get_queryset().filter(provider=InstallationProvider.GITHUB)
+
     def filter_for_installation(
         self, hostname: str, installation_id: str | int
     ) -> models.QuerySet[GitHubInstallation]:
@@ -517,9 +523,9 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
         )
 
 
-class GitHubInstallation(models.Model):
+class GitHubInstallation(Installation):
     """
-    Tracks a workspace-scoped connected GitHub account for the Weblate GitHub app.
+    Workspace-scoped connected GitHub account for the Weblate GitHub app.
 
     Per-workspace rows store the GitHub-issued ``installation_id``, the account
     it was installed on, and a cached repository list. App-level credentials
@@ -528,59 +534,15 @@ class GitHubInstallation(models.Model):
     registered App can serve every connected account on that host.
     """
 
-    installation_id = models.CharField(
-        max_length=50,
-        verbose_name=gettext_lazy("GitHub installation ID"),
-    )
-
-    target_type = models.CharField(
-        max_length=20,
-        verbose_name=gettext_lazy("Target type"),
-        help_text=gettext_lazy("Organization or User"),
-    )
-    target_login = models.CharField(
-        max_length=255,
-        verbose_name=gettext_lazy("Target login"),
-        help_text=gettext_lazy("GitHub organization or user login"),
-    )
-
-    workspace = models.ForeignKey(
-        "workspaces.Workspace",
-        on_delete=models.CASCADE,
-        related_name="github_installations",
-        verbose_name=gettext_lazy("Workspace"),
-    )
-
-    hostname = models.CharField(
-        max_length=255,
-        default="github.com",
-        verbose_name=gettext_lazy("GitHub hostname"),
-        help_text=gettext_lazy(
-            "github.com for GitHub.com, or your GitHub Enterprise hostname"
-        ),
-    )
-
-    enabled = models.BooleanField(default=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    repositories = models.JSONField(
-        default=list,
-        blank=True,
-        verbose_name=gettext_lazy("Available repositories"),
-    )
-    repositories_updated = models.DateTimeField(null=True, blank=True)
-
     objects = GitHubInstallationManager()
 
     class Meta:
+        proxy = True
         verbose_name = gettext_lazy("connected GitHub account")
         verbose_name_plural = gettext_lazy("connected GitHub accounts")
-        unique_together = (("hostname", "installation_id", "workspace"),)
-
-    def __str__(self) -> str:
-        return f"{self.target_login} ({self.hostname}/{self.installation_id})"
 
     def save(self, *args, **kwargs) -> None:
+        self.provider = InstallationProvider.GITHUB
         self.hostname = normalize_github_app_hostname(self.hostname)
         super().save(*args, **kwargs)
 

@@ -16,21 +16,21 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name="githubinstallation",
+            model_name="installation",
             name="created_by",
         ),
         migrations.AddField(
-            model_name="githubinstallation",
+            model_name="installation",
             name="workspace",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="github_installations",
+                related_name="installations",
                 to="workspaces.workspace",
                 verbose_name="Workspace",
             ),
         ),
         migrations.AlterUniqueTogether(
-            name="githubinstallation",
-            unique_together={("hostname", "installation_id", "workspace")},
+            name="installation",
+            unique_together={("provider", "hostname", "installation_id", "workspace")},
         ),
     ]

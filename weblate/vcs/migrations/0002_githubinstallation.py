@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="GitHubInstallation",
+            name="Installation",
             fields=[
                 (
                     "id",
@@ -29,10 +29,17 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "installation_id",
+                    "provider",
                     models.CharField(
-                        max_length=50, verbose_name="GitHub installation ID"
+                        choices=[("github", "GitHub")],
+                        default="github",
+                        max_length=20,
+                        verbose_name="Provider",
                     ),
+                ),
+                (
+                    "installation_id",
+                    models.CharField(max_length=50, verbose_name="Installation ID"),
                 ),
                 (
                     "target_type",
@@ -45,7 +52,7 @@ class Migration(migrations.Migration):
                 (
                     "target_login",
                     models.CharField(
-                        help_text="GitHub organization or user login",
+                        help_text="Hosting organization or user login",
                         max_length=255,
                         verbose_name="Target login",
                     ),
@@ -54,9 +61,8 @@ class Migration(migrations.Migration):
                     "hostname",
                     models.CharField(
                         default="github.com",
-                        help_text="github.com for GitHub.com, or your GitHub Enterprise hostname",
                         max_length=255,
-                        verbose_name="GitHub hostname",
+                        verbose_name="Hostname",
                     ),
                 ),
                 ("enabled", models.BooleanField(default=True)),
@@ -79,9 +85,9 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={
-                "verbose_name": "connected GitHub account",
-                "verbose_name_plural": "connected GitHub accounts",
-                "unique_together": {("hostname", "installation_id")},
+                "verbose_name": "code-hosting installation",
+                "verbose_name_plural": "code-hosting installations",
+                "unique_together": {("provider", "hostname", "installation_id")},
             },
         ),
     ]
