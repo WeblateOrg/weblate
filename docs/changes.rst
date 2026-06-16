@@ -47,6 +47,7 @@ Weblate 2026.7
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * Repository reset and update progress now includes follow-up translation-file reconciliation.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
+* :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 
 .. rubric:: Compatibility
 
