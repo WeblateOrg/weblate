@@ -220,14 +220,14 @@
       document.getElementById("id_comment")?.focus();
     });
 
-    delegate(this.translationForm, "click", ".add-alternative-post", () => {
+    delegate(this.translationForm, "click", ".add-alternative-post", (e) => {
+      e.preventDefault();
       const elm = document.createElement("input");
       elm.type = "hidden";
       elm.name = "add_alternative";
       elm.value = "1";
       this.translationForm.append(elm);
       this.translationForm.requestSubmit();
-      return false;
     });
 
     /* Form persistence. Restores translation form upon comment submission */
@@ -475,6 +475,7 @@
 
     /* Check ignoring */
     delegate(this.editors, "click", ".check-dismiss", (e) => {
+      e.preventDefault();
       const el = e.target.closest(".check-dismiss");
       let url = el.getAttribute("href");
       const check = el.closest(".check");
@@ -520,7 +521,6 @@
       } else {
         check.classList.toggle("check-dismissed");
       }
-      return false;
     });
 
     /* Automatically translated dismissal */
@@ -529,6 +529,7 @@
       "click",
       ".dismiss-automatically-translated",
       (e) => {
+        e.preventDefault();
         const el = e.target.closest(".dismiss-automatically-translated");
         const url = el.getAttribute("href");
         const check = el.closest(".check");
@@ -560,7 +561,6 @@
           .catch((error) => {
             addAlert(error.message);
           });
-        return false;
       },
     );
 
