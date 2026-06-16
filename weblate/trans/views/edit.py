@@ -1364,9 +1364,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "addterm_form": addterm_form,
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "other_languages_count": other_languages_count,
-            "screenshots": (
-                unit.source_unit.screenshots.all() | unit.screenshots.all()
-            ).order(),
+            "screenshots": (unit.source_unit.screenshots.all() | unit.screenshots.all())
+            .distinct()
+            .order(),
             "display_checks": list(get_display_checks(unit)),
             "comments_to_check": unit.unresolved_comments,
             "machinery_services": json.dumps(

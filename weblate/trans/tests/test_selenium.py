@@ -1196,19 +1196,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 self.click("Dashboard")
 
-        def wait_search() -> None:
+        def wait_search(expected_pk: int | None = None) -> None:
             time.sleep(0.1)
-            WebDriverWait(self.driver, 15).until(
-                presence_of_element_located(
-                    (
-                        By.XPATH,
+            if expected_pk is None:
+                WebDriverWait(self.driver, 15).until(
+                    presence_of_element_located(
                         (
-                            '//div[@id="search-results"]'
-                            '//tbody[@class="unit-listing-body"]//tr'
-                        ),
+                            By.XPATH,
+                            (
+                                '//div[@id="search-results"]'
+                                '//tbody[@class="unit-listing-body"]//tr'
+                            ),
+                        )
                     )
                 )
-            )
+            else:
+                WebDriverWait(self.driver, 15).until(
+                    presence_of_element_located(
+                        (
+                            By.CSS_SELECTOR,
+                            f'#search-results .add-string[data-pk="{expected_pk}"]',
+                        )
+                    )
+                )
 
         capture_unit("source-information.png", "toggle-nearby")
         self.click(htmlid="projects-menu")
@@ -1230,6 +1240,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.upload_file(element, get_test_file("screenshot.png"))
         with self.wait_for_page_load():
             element.submit()
+        uploaded_screenshot = Screenshot.objects.get(name="Automatic translation")
 
         with open(get_test_file("screenshot.png"), "rb") as handle:
             listing_screenshot = Screenshot.objects.create(
@@ -1262,10 +1273,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element(By.ID, "search-input").send_keys(f"{text!r}")
+        search_input = self.driver.find_element(By.ID, "search-input")
+        search_input.clear()
+        search_input.send_keys(f"{text!r}")
         self.click(htmlid="screenshots-search")
-        wait_search()
-        self.click(self.driver.find_element(By.CLASS_NAME, "add-string"))
+        wait_search(source.pk)
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, f'#search-results .add-string[data-pk="{source.pk}"]'
+            )
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: (
+                Screenshot.objects.get(pk=uploaded_screenshot.pk)
+                .units.filter(pk=source.pk)
+                .exists()
+            )
+        )
 
         # Unit should have screenshot assigned now
         capture_unit("screenshot-context.png", "toggle-machinery")
