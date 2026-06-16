@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-15 13:56+0000\n"
+"PO-Revision-Date: 2026-06-17 01:01+0000\n"
 "Last-Translator: justcontributor <kty5663@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -2862,10 +2862,8 @@ msgid "A team with this name already exists in this workspace."
 msgstr "이 이름의 팀이 이 작업공간에 이미 있습니다."
 
 #: weblate/api/serializers.py:784
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "기존 팀에서는 이 항목을 변경할 수 없습니다."
+msgstr "범위를 지정한 팀에서는 이 항목을 변경할 수 없습니다."
 
 #: weblate/api/serializers.py:1942 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -2963,22 +2961,16 @@ msgid "This role cannot be assigned to this team."
 msgstr "이 역할은 이 팀에 할당할 수 없습니다."
 
 #: weblate/api/views.py:1146 weblate/api/views.py:1174
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "기존 팀에서는 이 항목을 변경할 수 없습니다."
+msgstr "범위를 지정한 팀에서는 프로젝트를 변경할 수 없습니다."
 
 #: weblate/api/views.py:1195 weblate/api/views.py:1236
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "기존 팀에서는 이 항목을 변경할 수 없습니다."
+msgstr "범위를 지정한 팀에서는 구성요소 목록을 변경할 수 없습니다."
 
 #: weblate/api/views.py:1257 weblate/api/views.py:1290
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "기존 팀에서는 이 항목을 변경할 수 없습니다."
+msgstr "작업공간 팀에서는 구성요소 목록을 변경할 수 없습니다."
 
 #: weblate/api/views.py:3058 weblate/trans/models/translation.py:2569
 msgid "This string seems to already exist."
@@ -4644,16 +4636,12 @@ msgid "Format"
 msgstr "형식"
 
 #: weblate/checks/flags.py:459
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "번역 메모리"
+msgstr "번역 동작"
 
 #: weblate/checks/flags.py:460
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "번역"
+msgstr "검증"
 
 #: weblate/checks/flags.py:461
 msgid "Rendering"
@@ -4664,11 +4652,8 @@ msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgid "Disabled check"
-msgstr "실패한 검사"
+msgstr "비활성화한 검사"
 
 #: weblate/checks/flags.py:464
 msgid "Automatic detection"
@@ -5405,7 +5390,7 @@ msgstr "번역에 reStructuredText 구문 오류가 있습니다."
 #: weblate/checks/markup.py:895
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
-msgstr ""
+msgstr "reStructuredText 역할은 백틱으로 감싸지 않아야 합니다: {role}"
 
 #: weblate/checks/markup.py:904
 msgid "The translation should not start with a list marker."
@@ -6899,11 +6884,9 @@ msgid ""
 msgstr "번역 스타일을 설명하세요. 예: \"비격식체를 사용하세요.\""
 
 #: weblate/machinery/forms.py:456
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "통합 안내"
+msgstr "언어별 지침"
 
 #: weblate/machinery/forms.py:461
 #, python-format
@@ -6911,27 +6894,29 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"기존의 대상 언어 코드를 추가 지침으로 매핑하는 JSON 객체로, 각각 최대 %"
+"(limit)d자여야 합니다."
 
 #: weblate/machinery/forms.py:474 weblate/machinery/forms.py:481
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "언어별 지침은 JSON 객체여야 합니다."
 
 #: weblate/machinery/forms.py:490
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
-msgstr ""
+msgstr "언어별 지침에 유효하지 않은 \"%s\" 언어 코드가 있습니다."
 
 #: weblate/machinery/forms.py:498
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr ""
+msgstr "언어별 지침에 알 수 없는 \"%s\" 언어 코드가 있습니다."
 
 #: weblate/machinery/forms.py:507
 #, python-format
 msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
-msgstr ""
+msgstr "\"%(language)s\"의 언어별 지침은 %(limit)d자 이하여야 합니다."
 
 #: weblate/machinery/forms.py:527
 msgctxt "OpenAI model selection"
@@ -10416,10 +10401,9 @@ msgstr "해결됨"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:226
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "%(first)s에 표시됨, %(last)s에 마지막으로 확인됨"
+msgstr "%(first)s에 표시됨"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:229
@@ -16617,12 +16601,8 @@ msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, 소프트웨어 프로젝트를 현지화하는 공간입니다."
 
 #: weblate/trans/context_processors.py:136
-#, fuzzy
-#| msgid "This site runs Weblate for localizing various software projects."
 msgid "This site runs Weblate for localizing a software project."
-msgstr ""
-"이 사이트는 다양한 소프트웨어 프로젝트의 현지화를 위해 Weblate를 운영하고 있"
-"습니다."
+msgstr "이 사이트는 소프트웨어 프로젝트의 현지화를 위해 Weblate를 운영하고 있습니다."
 
 #: weblate/trans/context_processors.py:140
 msgid "This site runs Weblate for localizing various software projects."
