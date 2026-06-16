@@ -105,7 +105,8 @@ class ProjectLanguageFactory(UserDict):
     def preload_workflow_settings(
         self, instances: Iterable[ProjectLanguage] | None = None
     ) -> None:
-        from weblate.trans.models.workflow import WorkflowSetting  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.workflow import WorkflowSetting
 
         instances = self.preload() if instances is None else list(instances)
 
@@ -570,7 +571,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     def save(self, *args, **kwargs) -> None:
-        from weblate.trans.tasks import component_alerts  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import component_alerts
 
         update_tm = self.contribute_shared_tm
 
@@ -648,7 +650,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             or self.access_control not in {self.ACCESS_PUBLIC, self.ACCESS_PROTECTED}
             or settings.REQUIRE_LOGIN
         ):
-            from weblate.trans.models import Alert  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Alert
 
             Alert.objects.filter(
                 component__project=self, name="MissingTranslationInstructions"
@@ -839,7 +842,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def has_language(self, language: Language) -> bool:
         """Return whether project has a translation in given language."""
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
 
         if Translation.objects.filter(
             component__project=self, language_id=language.pk
@@ -850,7 +854,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ).exists()
 
     def _get_language_ids_queryset(self) -> QuerySet:
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
 
         own = Translation.objects.filter(component__project=self).values_list(
             "language_id", flat=True
@@ -870,7 +875,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def count_pending_units(self) -> int:
         """Check whether there are any uncommitted changes."""
-        from weblate.trans.models import Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Unit
 
         return Unit.objects.filter(
             translation__component__project=self, pending_changes__isnull=False
@@ -946,7 +952,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def all_repo_components(self) -> list[Component]:
         """Return list of all unique VCS components."""
-        from weblate.trans.models import Alert  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Alert
 
         alert_prefetch = models.Prefetch(
             "alert_set", queryset=Alert.objects.order_component()
@@ -969,7 +976,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def billings(self) -> list[Billing] | QuerySet[Billing]:
         if "weblate.billing" not in settings.INSTALLED_APPS or not self.workspace_id:
             return []
-        from weblate.billing.models import Billing  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
 
         objects = Billing.objects
         if self._state.db is not None:
@@ -1008,7 +1016,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_active_alerts(self) -> QuerySet[Alert]:
-        from weblate.trans.models import Alert  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Alert
 
         result = Alert.objects.filter(component__project=self, dismissed=False).order()
         list(result)
@@ -1024,7 +1033,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_admins(self) -> QuerySet[User]:
-        from weblate.auth.models import User  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         return (
             User.objects.all_admins(self).exclude(is_bot=True).select_related("profile")
@@ -1032,7 +1042,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_reviewers(self) -> QuerySet[User]:
-        from weblate.auth.models import User  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         if not self.enable_review:
             return User.objects.none()
@@ -1149,7 +1160,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     def invalidate_glossary_cache(self) -> None:
-        from weblate.glossary.models import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import (
             clear_glossary_automaton_cache,
         )
 
@@ -1173,7 +1185,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def glossary_automaton(self) -> AhoCorasick:
-        from weblate.glossary.models import get_glossary_automaton  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import get_glossary_automaton
 
         return get_glossary_automaton(self)
 
@@ -1213,7 +1226,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @transaction.atomic
     def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
-        from weblate.trans.models.change import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.change import Change
 
         actionable = self.component_set.exclude(locked=lock)
         changes = [
@@ -1228,7 +1242,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return True
 
     def collect_label_cleanup(self, label: Label) -> None:
-        from weblate.trans.models.translation import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.translation import Translation
 
         translations = Translation.objects.filter(unit__source_unit__labels=label)
         if self.label_cleanups is None:

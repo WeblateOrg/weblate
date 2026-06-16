@@ -724,7 +724,8 @@ class AdminTest(ViewTestCase):
         self.assertNotContains(response, "Documentation workspace")
 
     def test_workspaces_search_billing_customer_name(self) -> None:
-        from weblate.billing.models import Billing, Plan  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing, Plan
 
         plan = Plan.objects.create(
             name="Workspace plan",
@@ -779,7 +780,8 @@ class AdminTest(ViewTestCase):
         self.assertEqual(len(response.context["object_list"]), 50)
 
     def test_workspaces_avoid_billing_display_queries(self) -> None:
-        from weblate.billing.models import Billing, Plan  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing, Plan
 
         plan = Plan.objects.create(
             name="Workspace plan",
@@ -798,7 +800,8 @@ class AdminTest(ViewTestCase):
             )
             billing.add_project(project)
 
-        project_table = Project._meta.db_table  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        project_table = Project._meta.db_table
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get(reverse("manage-workspaces"))
 

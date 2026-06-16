@@ -62,7 +62,8 @@ class Alert(models.Model):
     objects = AlertQuerySet.as_manager()
 
     class Meta:
-        unique_together = [("component", "name")]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [("component", "name")]
         verbose_name = "component alert"
         verbose_name_plural = "component alerts"
 

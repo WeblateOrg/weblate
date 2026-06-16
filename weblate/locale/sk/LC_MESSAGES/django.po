@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-07 14:01+0000\n"
+"PO-Revision-Date: 2026-06-15 13:56+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2045,12 +2045,12 @@ msgid "xgettext language"
 msgstr "Jazyk xgettext"
 
 #: weblate/addons/forms.py:286
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
-msgstr "Programovací jazyk odovzdaný xgettextu, napríklad Python alebo C."
+msgstr ""
+"Programovací jazyk odovzdaný xgettextu, napríklad Python alebo C. Nechajte "
+"prázdne, aby xgettext skúsil určiť jazyk podľa prípony súboru."
 
 #: weblate/addons/forms.py:295
 msgid ""
@@ -2930,10 +2930,8 @@ msgid "A team with this name already exists in this workspace."
 msgstr "Tím s týmto názvom už v tomto pracovnom priestore existuje."
 
 #: weblate/api/serializers.py:784
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "Toto sa nedá zmeniť na existujúcom tíme."
+msgstr "Toto sa nedá zmeniť na tímoch s obmedzeným prístupom."
 
 #: weblate/api/serializers.py:1942 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3034,22 +3032,16 @@ msgid "This role cannot be assigned to this team."
 msgstr "Túto rolu nie je možné priradiť tomuto tímu."
 
 #: weblate/api/views.py:1146 weblate/api/views.py:1174
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "Toto sa nedá zmeniť na existujúcom tíme."
+msgstr "Na tíme s obmedzeným prístupom sa nedajú meniť projekty."
 
 #: weblate/api/views.py:1195 weblate/api/views.py:1236
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "Toto sa nedá zmeniť na existujúcom tíme."
+msgstr "Na tíme s obmedzeným prístupom sa nedajú meniť zoznamy komponentov."
 
 #: weblate/api/views.py:1257 weblate/api/views.py:1290
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "Toto sa nedá zmeniť na existujúcom tíme."
+msgstr "Na tíme pracovného priestoru sa nedajú meniť komponenty."
 
 #: weblate/api/views.py:3058 weblate/trans/models/translation.py:2569
 msgid "This string seems to already exist."
@@ -4726,7 +4718,7 @@ msgstr "Zahodiť príznak"
 #: weblate/checks/flags.py:410
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Neplatná príznak prekladu: „%s“"
+msgstr "Neplatný príznak prekladu: „%s“"
 
 #: weblate/checks/flags.py:414
 #, python-format
@@ -4744,51 +4736,34 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Chýbajúce parametre pre príznak prekladu: „%s“"
 
 #: weblate/checks/flags.py:458
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Formalita"
+msgstr "Formát"
 
 #: weblate/checks/flags.py:459
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Prekladová pamäť"
+msgstr "Akcie prekladu"
 
 #: weblate/checks/flags.py:460
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Preklad"
+msgstr "Validácia"
 
 #: weblate/checks/flags.py:461
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Skontrolovať reťazce"
+msgstr "Renderovanie"
 
 #: weblate/checks/flags.py:462 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Disabled check"
-msgstr "Nevyhovujúce kontroly"
+msgstr "Zakázaná kontrola"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgid "Automatic detection"
-msgstr "Automatický výber"
+msgstr "Automatická detekcia"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgctxt "User agent device type"
-#| msgid "Other"
 msgid "Other"
 msgstr "Iné"
 
@@ -4798,7 +4773,7 @@ msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"Fluent referencia v {sequence} sa môže rozbaliť na HTML tag. Možno použiť "
+"Fluent referencia v {sequence} sa môže rozšíriť na HTML značku. Možno použiť "
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:144
@@ -5533,6 +5508,7 @@ msgstr "Chyba syntaxe reStructuredText v preklade."
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
 msgstr ""
+"Rola reStructuredText by nemala byť uzavretá v spätných apostrofoch: {role}"
 
 #: weblate/checks/markup.py:904
 msgid "The translation should not start with a list marker."
@@ -5909,7 +5885,7 @@ msgstr ""
 #: weblate/formats/ttkit.py:191 weblate/formats/ttkit.py:197
 #, python-format
 msgid "Invalid id_hash metadata in CSV file: %s"
-msgstr "Neplatný príznak prekladu: „%s“"
+msgstr "Neplatné metadáta id_hash v súbore CSV: %s"
 
 #: weblate/formats/ttkit.py:210 weblate/formats/ttkit.py:2403
 msgid "Plural form metadata in CSV file requires id_hash."
@@ -7042,11 +7018,9 @@ msgid ""
 msgstr "Opíšte štýl prekladu. Napríklad: „Používaj neformálny jazyk.“"
 
 #: weblate/machinery/forms.py:456
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Inštrukcie pre integráciu"
+msgstr "Jazykovo špecifické pokyny"
 
 #: weblate/machinery/forms.py:461
 #, python-format
@@ -7054,20 +7028,22 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"Objekt JSON mapujúci existujúce kódy cieľových jazykov na dodatočné pokyny, "
+"každý s maximom %(limit)d znakov."
 
 #: weblate/machinery/forms.py:474 weblate/machinery/forms.py:481
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Jazykovo špecifické pokyny musia byť objekt JSON."
 
 #: weblate/machinery/forms.py:490
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
-msgstr ""
+msgstr "Jazykovo špecifické pokyny obsahujú neplatný jazykový kód „%s“."
 
 #: weblate/machinery/forms.py:498
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr ""
+msgstr "Jazykovo špecifické pokyny obsahujú neznámy jazykový kód „%s“."
 
 #: weblate/machinery/forms.py:507
 #, python-format
@@ -7075,6 +7051,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"Jazykovo špecifické pokyny pre „%(language)s“ musia mať najviac %(limit)d "
+"znakov."
 
 #: weblate/machinery/forms.py:527
 msgctxt "OpenAI model selection"
@@ -7121,48 +7099,30 @@ msgid "Choose custom model here to enable it."
 msgstr "Vyberte vlastný model tu na jeho povolenie."
 
 #: weblate/machinery/forms.py:591
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Automatický výber"
 
 #: weblate/machinery/forms.py:595
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Vlastný model"
 
 #: weblate/machinery/forms.py:600
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "Základná URL API OpenAI"
+msgstr "Základná URL API Mistral"
 
 #: weblate/machinery/forms.py:604
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "Základná URL API OpenAI, ak sa líši od predvolenej URL OpenAI"
+msgstr "Základná URL API Mistral, ak sa líši od predvolenej URL Mistral"
 
 #: weblate/machinery/forms.py:611
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Vlastný model"
+msgstr "Model Mistral"
 
 #: weblate/machinery/forms.py:619
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgctxt "Mistral model selection"
 msgid "Custom model name"
 msgstr "Názov vlastného modelu"
@@ -7251,19 +7211,17 @@ msgstr "Maximálny počet tokenov na vygenerovanie v odpovedi."
 #: weblate/machinery/llm.py:156
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Ahoj, @@PH1@@!"
 
 #: weblate/machinery/llm.py:157
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Kliknite na <a href=\"/x\">Uložiť</a>."
 
 #: weblate/machinery/llm.py:158
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "Nevyhovujúce kontroly"
+msgstr "@@PH1@@ neprešiel kontrolami"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -10725,10 +10683,9 @@ msgstr "ignorované"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:226
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "Vyskytlo sa %(first)s, naposledy viditeľné %(last)s"
+msgstr "Vyskytlo sa %(first)s"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:229
@@ -17153,19 +17110,17 @@ msgstr "Vyžaduje kontrolu"
 
 #: weblate/trans/context_processors.py:132
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr "Hosťovaný Weblate, miesto na lokalizáciu vášho softvérového projektu."
+msgstr ""
+"Hosted Weblate na mieru, miesto pre lokalizáciu vášho softvérového projektu."
 
 #: weblate/trans/context_processors.py:136
-#, fuzzy
-#| msgid "This site runs Weblate for localizing various software projects."
 msgid "This site runs Weblate for localizing a software project."
-msgstr ""
-"Táto stránka beží na Weblate na lokalizáciu rôznych softvérových projektov."
+msgstr "Táto stránka používa Weblate na lokalizáciu softvérového projektu."
 
 #: weblate/trans/context_processors.py:140
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
-"Táto stránka beží na Weblate na lokalizáciu rôznych softvérových projektov."
+"Táto stránka používa Weblate na lokalizáciu rôznych softvérových projektov."
 
 #: weblate/trans/discovery.py:497
 msgid "Discovery configuration"
@@ -20295,32 +20250,21 @@ msgid "File upload has failed: %s"
 msgstr "Nahratie súboru zlyhalo: %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Prekladá sa do <strong>%(count)s jazyka</strong>."
-msgstr[1] "Prekladá sa do <strong>%(count)s jazykov</strong>."
-msgstr[2] "Prekladá sa do <strong>%(count)s jazykov</strong>."
+msgstr[0] "{project} sa prekladá do {count} jazyka pomocou Weblate."
+msgstr[1] "{project} sa prekladá do {count} jazykov pomocou Weblate."
+msgstr[2] "{project} sa prekladá do {count} jazykov pomocou Weblate."
 
 #: weblate/trans/util.py:292
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
-msgstr ""
-"{0} sa prekladá do {1} jazykov pomocou Weblate. Pripojte sa k prekladu alebo "
-"začnite prekladať svoj vlastný projekt."
+msgstr "Pripojte sa k prekladu alebo začnite prekladať svoj vlastný projekt."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Klonovať do prekladu"
+msgstr "Pripojiť sa k prekladu."
 
 #: weblate/trans/util.py:412
 msgid "Source upload is only supported on the source language."
@@ -20331,8 +20275,8 @@ msgid ""
 "Source upload is only supported for bilingual translations, you might want "
 "to use replace upload instead."
 msgstr ""
-"Nahrávanie zdroja je podporované iba pre dvojjazyčné preklady, možno budete "
-"chcieť namiesto toho použiť nahrávanie nahrávaním."
+"Nahrávanie zdrojových reťazcov je podporované iba pre dvojjazyčné preklady; "
+"namiesto toho môžete použiť nahrávanie s nahradením."
 
 #: weblate/trans/util.py:423
 msgid "Update source strings upload is not supported with this format."

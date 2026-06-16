@@ -86,6 +86,7 @@ class LongUntranslatedCheckTestCase(FixtureComponentTestCase):
         ).update(state=STATE_TRANSLATED)
         unit.unit_set.exclude(pk=unit.pk).update(state=STATE_EMPTY, target="")
         self.check.perform_batch(self.component)
+        unit = Unit.objects.get(pk=unit.pk)
         self.assertIn("long_untranslated", unit.all_checks_names)
 
 

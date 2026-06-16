@@ -38,7 +38,8 @@ class NeteaseSightTranslation(MachineTranslation):
 
     def get_headers(self):
         """Add authentication headers to request."""
-        nonce = str(random.randint(1000, 99999999))  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        nonce = str(random.randint(1000, 99999999))
         timestamp = str(int(1000 * time.time()))
 
         payload = self.settings["secret"] + nonce + timestamp

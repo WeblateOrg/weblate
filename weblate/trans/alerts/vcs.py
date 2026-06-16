@@ -114,7 +114,8 @@ class ConflictingRepositorySetup(BaseAlert):
         return {"repo_link": self.instance.component.get_repo_link_url()}
 
     def get_context(self, user: User) -> dict[str, Any]:
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
 
         result = super().get_context(user)
         result["analysis"]["conflicts"] = list(

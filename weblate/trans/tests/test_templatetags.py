@@ -9,6 +9,7 @@ from __future__ import annotations
 from datetime import timedelta
 from unittest.mock import patch
 
+from django.template import Context
 from django.template.loader import render_to_string
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
@@ -18,8 +19,10 @@ from weblate.checks.flags import Flags
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.templatetags.translations import (
+    PRIORITY_ICONS,
     format_translation,
     get_location_links,
+    indicate_alerts,
     naturaltime,
     same_naturaltime,
     translation_progress_render,
@@ -70,6 +73,53 @@ class NaturalTimeTest(SimpleTestCase):
                     timestamp - timedelta(seconds=125),
                 )
             )
+
+
+class IndicateAlertsPriorityTest(SimpleTestCase):
+    def test_priority_icons(self) -> None:
+        project = Project(slug="p", name="p")
+        context = Context({})
+
+        cases = [
+            (priority, svg, css, f'title="{title}"')
+            for priority, (svg, css, title) in PRIORITY_ICONS.items()
+        ]
+
+        def fake_load_icon(path: str, *, auto_prefix: bool = True) -> bytes:
+            return f'<svg data-icon="{path}"></svg>'.encode()
+
+        with (
+            patch(
+                "weblate.trans.templatetags.translations.get_alerts", return_value=[]
+            ),
+            patch(
+                "weblate.trans.templatetags.translations.load_icon",
+                side_effect=fake_load_icon,
+            ),
+        ):
+            for priority, svg, css_class, title in cases:
+                component = Component(
+                    project=project,
+                    slug="c",
+                    name="c",
+                    priority=priority,
+                    source_language=Language(),
+                )
+                html = str(indicate_alerts(context, component))
+                self.assertIn(f'data-icon="priorities/{svg}.svg"', html)
+                self.assertIn(f'class="state-icon {css_class}"', html)
+                self.assertIn(title, html)
+
+            # Default priority (100) should show no priority icon
+            default_component = Component(
+                project=project,
+                slug="c",
+                name="c",
+                priority=100,
+                source_language=Language(),
+            )
+            html = str(indicate_alerts(context, default_component))
+            self.assertNotIn('data-icon="priorities/', html)
 
 
 class LocationLinksTest(TestCase):

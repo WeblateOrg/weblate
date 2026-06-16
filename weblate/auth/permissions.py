@@ -316,7 +316,8 @@ def check_ignore_check(
     return check_permission(user, permission, check.unit.translation)
 
 
-def check_can_edit(  # noqa: C901
+# ruff: ignore[complex-structure]
+def check_can_edit(
     user: User,
     permission: str,
     obj: Translation
@@ -774,7 +775,8 @@ def check_repository_status(
 def check_team_edit(
     user: User, permission: str, obj: Group | Project | Workspace
 ) -> bool:
-    from weblate.auth.models import Group  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.models import Group
 
     return (
         check_global_permission(user, "group.edit")
@@ -803,7 +805,8 @@ def check_team_edit(
 def check_team_edit_users(
     user: User, permission: str, obj: Group | Project | Workspace
 ) -> bool | PermissionResult:
-    from weblate.auth.models import Group  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.models import Group
 
     return check_team_edit(user, permission, obj) or (
         isinstance(obj, Group) and obj.pk in user.administered_group_ids
@@ -897,7 +900,8 @@ def check_unit_flag(
 def check_memory_perms(
     user: User, permission: str, memory: Memory | Project
 ) -> bool | PermissionResult:
-    from weblate.memory.models import Memory  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.memory.models import Memory
 
     if isinstance(memory, Memory):
         if memory.user_id == user.id:

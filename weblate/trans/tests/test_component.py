@@ -25,6 +25,7 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
+    Change,
     CommitPolicyChoices,
     Component,
     PendingUnitChange,
@@ -1389,6 +1390,11 @@ class ComponentErrorTest(RepoTestCase):
         with self.component.repository.lock:
             self.component.repository.commit("test", files=["README.md"])
         self.assertFalse(self.component.do_push(None))
+        change = self.component.change_set.get(action=ActionEvents.FAILED_PUSH)
+        self.assertIsNotNone(change.user)
+        self.assertEqual(change.user.username, "weblate:push")
+        self.assertTrue(change.user.is_bot)
+        self.assertEqual(change.user.full_name, "Background push")
 
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
@@ -1402,7 +1408,7 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         with self.assertRaises(ValidationError):
             self.component.clean()
@@ -1412,7 +1418,7 @@ class ComponentErrorTest(RepoTestCase):
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1423,7 +1429,7 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1435,7 +1441,7 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             self.component.clean()
 
@@ -1450,7 +1456,7 @@ class ComponentErrorTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         report_error.assert_not_called()
 
@@ -1467,7 +1473,7 @@ class ComponentErrorTest(RepoTestCase):
             self.assertRaises(FileParseError),
         ):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         report_error.assert_called_once_with(
             "Template parse error", project=self.component.project
@@ -2295,6 +2301,17 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
 
 
 class ResetDiscardRevisionTest(ComponentTestCase):
+    def assert_removed_translation_change(self, filename: str) -> None:
+        change = Change.objects.get(
+            component=self.component,
+            action=ActionEvents.REMOVE_TRANSLATION,
+            target=filename,
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+        self.assertEqual(change.project, self.project)
+        self.assertIsNone(change.translation_id)
+
     def test_reset_updates_stored_local_revision(self) -> None:
         start_rev = self.component.repository.last_revision
 
@@ -2312,6 +2329,43 @@ class ResetDiscardRevisionTest(ComponentTestCase):
         self.assertEqual(start_rev, self.component.repository.last_revision)
         self.assertEqual(start_rev, self.component.local_revision)
 
+    def test_file_scan_removes_stale_translation_with_change(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        filename = translation.filename
+        pathlib.Path(cast("str", translation.get_filename())).unlink()
+
+        self.assertTrue(
+            self.component.create_translations_immediate(
+                force=True, request=self.get_request()
+            )
+        )
+
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+        self.assert_removed_translation_change(filename)
+        self.assertFalse(self.project.has_language(Language.objects.get(code="cs")))
+
+    def test_reset_removes_upstream_deleted_translation_with_change(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        filename = translation.filename
+
+        with self.component.repository.lock:
+            self.component.repository.remove([filename], "Remove Czech translation")
+            self.component.repository.push(self.component.push_branch)
+
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+
+        self.assertTrue(self.component.do_reset(self.get_request()))
+
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+        self.assert_removed_translation_change(filename)
+        self.assertFalse(self.project.has_language(Language.objects.get(code="cs")))
+
 
 class TranslationRemoveRevisionTest(ComponentTestCase):
     def test_remove_updates_stored_local_revision(self) -> None:
@@ -2327,6 +2381,22 @@ class TranslationRemoveRevisionTest(ComponentTestCase):
         self.assertEqual(
             self.component.local_revision, self.component.repository.last_revision
         )
+
+    def test_remove_creates_change(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        filename = translation.filename
+
+        translation.remove(self.user)
+
+        change = Change.objects.get(
+            component=self.component,
+            action=ActionEvents.REMOVE_TRANSLATION,
+            target=filename,
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+        self.assertEqual(change.project, self.project)
+        self.assertIsNone(change.translation_id)
 
 
 class LastCommitLookupTest(ComponentTestCase):

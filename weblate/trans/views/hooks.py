@@ -625,10 +625,14 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
     ],
 )
 class ServiceHookView(APIView):
-    authentication_classes = []  # noqa: RUF012
-    permission_classes = [AllowAny]  # noqa: RUF012
-    throttle_classes = []  # noqa: RUF012
-    http_method_names = ["post"]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    authentication_classes = []
+    # ruff: ignore[mutable-class-default]
+    permission_classes = [AllowAny]
+    # ruff: ignore[mutable-class-default]
+    throttle_classes = []
+    # ruff: ignore[mutable-class-default]
+    http_method_names = ["post"]
     parser_classes = (
         parsers.JSONParser,
         parsers.MultiPartParser,

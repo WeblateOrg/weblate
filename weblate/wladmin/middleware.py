@@ -70,7 +70,8 @@ class ManageMiddleware:
         ):
             # Always trigger on the performance page
             self.trigger_check()
-        elif randint(0, 100) == 1:  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        elif randint(0, 100) == 1:
             # Trigger when last check is too old
             last_run = cache.get(CHECK_CACHE_KEY)
             now = time.time()

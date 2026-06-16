@@ -113,7 +113,8 @@ def is_notificable_action(action: int) -> bool:
 
 
 def dispatch_changes_notifications(changes: Iterable[Change]) -> None:
-    from weblate.accounts.tasks import notify_changes  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.tasks import notify_changes
 
     notifiable: list[int] = [
         change.pk for change in changes if is_notificable_action(change.action)
@@ -162,7 +163,8 @@ class Notification:
         return cls.__name__
 
     def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
-        from weblate.accounts.models import Subscription  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import Subscription
 
         result = Subscription.objects.filter(notification=self.get_name())
         scopes: set[NotificationScope] = {NotificationScope.SCOPE_ALL}
@@ -722,7 +724,8 @@ class TranslationActivitySummaryNotification(Notification):
         self.notify_activity_summary(NotificationFrequency.FREQ_MONTHLY, months=1)
 
     def get_activity_change_filter(self, frequency: NotificationFrequency) -> Q:
-        from weblate.accounts.models import Subscription  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import Subscription
 
         subscriptions = Subscription.objects.filter(
             notification=self.get_name(),

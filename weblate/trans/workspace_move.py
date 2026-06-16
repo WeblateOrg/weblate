@@ -57,7 +57,8 @@ def get_project_move_billing_error(workspace: Workspace | None) -> StrOrPromise 
     if billing is None:
         return None
 
-    from weblate.billing.models import Billing  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.models import Billing
 
     billings = Billing.objects.filter(pk=billing.pk).get_valid().prefetch()
     for candidate in billings:

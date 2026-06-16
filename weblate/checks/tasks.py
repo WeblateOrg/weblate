@@ -31,7 +31,9 @@ def _run_component_checks(component: Component, unit_ids: list[int]) -> None:
         if unit_ids:
             source_translation = component.get_source_translation()
             if source_translation is not None:
-                units = source_translation.unit_set.filter(pk__in=unit_ids)
+                units = source_translation.unit_set.filter(
+                    pk__in=unit_ids
+                ).prefetch_all_checks()
                 unit_count = units.count()
                 component.log_info("running source checks for %d strings", unit_count)
                 for unit in units.iterator(chunk_size=500):

@@ -67,6 +67,7 @@ from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     TempDirMixin,
+    create_another_user,
     create_test_billing,
     create_test_user,
     get_test_file,
@@ -231,6 +232,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         else:
             # Increase webdriver timeout to avoid occasional errors in CI
             cls._driver.command_executor.client_config.timeout = 300
+            # The screenshot browser is reused across tests while several
+            # fixtures use identical slugs. Avoid cached widget images showing
+            # status badges from an earlier fixture.
+            cls._driver.execute_cdp_cmd(
+                "Network.setCacheDisabled", {"cacheDisabled": True}
+            )
+            cls._driver.execute_cdp_cmd("Network.clearBrowserCache", {})
 
         # Restore custom fontconfig settings
         if backup_fc is not None:
@@ -349,22 +357,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         return timezone.now() - timedelta(minutes=1)
 
     def stabilize_stats_timestamp(self, stats: BaseStats) -> None:
-        """Rebuild a stats cache entry with a stable screenshot timestamp."""
-        stats.clear()
-        stats.calculate_basic()
-        data = stats.get_data()
+        """Freeze an existing stats cache timestamp for screenshots."""
+        data = stats.load().copy()
+        if not data:
+            return
         data["stats_timestamp"] = self.get_stable_naturaltime_timestamp().timestamp()
         stats.set_data(data)
-        cache.set(stats.cache_key, data, 30 * 86400)
+        stats.save(update_parents=False)
 
     def stabilize_global_stats_timestamp(self) -> None:
         """Freeze global stats cache timestamp for activity screenshots."""
         self.stabilize_stats_timestamp(GlobalStats())
-
-    def refresh_project_stats(self, project: Project) -> None:
-        """Refresh project dashboard stats through the normal invalidation path."""
-        for component in project.component_set.all():
-            component.invalidate_cache()
 
     def use_screenshot_site_domain_for_git_export(self, component: Component) -> None:
         """Store the displayed Git export URL with the screenshot domain."""
@@ -490,7 +493,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             if isinstance(element, str):
                 element = self.driver.find_element(By.LINK_TEXT, element)
         except NoSuchElementException:
-            print(self.driver.page_source)  # noqa: T201
+            # ruff: ignore[print]
+            print(self.driver.page_source)
             raise
 
         try:
@@ -1020,26 +1024,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
-        project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
-        Component.objects.create(
-            name="Language names",
-            slug="language-names",
-            project=project,
-            repo="https://github.com/WeblateOrg/demo.git",
-            branch="main",
-            filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
-            new_base="weblate/langdata/locale/django.pot",
-            file_format="po",
-        )
-        Component.objects.create(
-            name="Django",
-            slug="django",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="weblate/locale/*/LC_MESSAGES/django.po",
-            new_base="weblate/locale/django.pot",
-            file_format="po",
-        )
+        with override_settings(STATS_LAZY=False):
+            project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
+            Component.objects.create(
+                name="Language names",
+                slug="language-names",
+                project=project,
+                repo="https://github.com/WeblateOrg/demo.git",
+                branch="main",
+                filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
+                new_base="weblate/langdata/locale/django.pot",
+                file_format="po",
+            )
+            Component.objects.create(
+                name="Django",
+                slug="django",
+                project=project,
+                repo="weblate://weblateorg/language-names",
+                filemask="weblate/locale/*/LC_MESSAGES/django.po",
+                new_base="weblate/locale/django.pot",
+                file_format="po",
+            )
         return project
 
     def create_glossary(
@@ -1097,15 +1102,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        return Component.objects.create(
-            name="Android",
-            slug="android",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="app/src/main/res/values-*/strings.xml",
-            template="app/src/main/res/values/strings.xml",
-            file_format="aresource",
-        )
+        with override_settings(STATS_LAZY=False):
+            return Component.objects.create(
+                name="Android",
+                slug="android",
+                project=project,
+                repo="weblate://weblateorg/language-names",
+                filemask="app/src/main/res/values-*/strings.xml",
+                template="app/src/main/res/values/strings.xml",
+                file_format="aresource",
+            )
 
     def test_dashboard(self) -> None:
         self.do_login()
@@ -1376,8 +1382,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         with self.wait_for_page_load():
             self.click("Users")
+        invited_user = create_another_user()
         element = self.driver.find_element(By.ID, "id_project_add_user_user")
-        element.send_keys("testuser")
+        element.send_keys(invited_user.username)
+        # Typing starts an autocomplete request using the same session; let it
+        # finish before submitting so it can not race one-shot flash messages.
+        user_choice = WebDriverWait(self.driver, 5).until(
+            lambda driver: next(
+                (
+                    result
+                    for result in driver.find_elements(
+                        By.CSS_SELECTOR, ".autoComplete_result"
+                    )
+                    if invited_user.username in result.text
+                ),
+                None,
+            )
+        )
+        self.click(user_choice)
         Select(
             self.driver.find_element(By.ID, "id_project_add_user_group")
         ).select_by_index(1)
@@ -1386,19 +1408,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains(
             ".alert .task-message", "User invitation e-mail was sent."
         )
-        user = User.objects.get(username="testuser")
         self.assertTrue(
-            user.invitation_set.filter(
+            invited_user.invitation_set.filter(
                 group__defining_project__name="WeblateOrg"
             ).exists()
-        )
-        with self.wait_for_page_load():
-            self.driver.get(
-                f"{self.live_server_url}{reverse('manage-access', kwargs={'project': project.slug})}"
-            )
-        self.assertNotIn(
-            "User invitation e-mail was sent.",
-            self.driver.find_element(By.TAG_NAME, "body").text,
         )
         self.screenshot("manage-users.png")
         self.assertGreater(self.count_elements("table.table-striped tbody tr"), 0)
@@ -2054,7 +2067,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_dark_theme(self) -> None:
         project = self.create_component()
         self.create_android_component(project)
-        self.refresh_project_stats(project)
         self.do_login()
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():

@@ -11,7 +11,8 @@ from weblate.utils.files import remove_tree
 
 
 # Lowercase name to be consistent with Django
-class tempdir_setting(override_settings):  # noqa: N801
+# ruff: ignore[invalid-class-name]
+class tempdir_setting(override_settings):
     def __init__(self, setting) -> None:
         kwargs = {setting: None}
         super().__init__(**kwargs)
@@ -20,7 +21,7 @@ class tempdir_setting(override_settings):  # noqa: N801
 
     def enable(self) -> None:
         self._tempdir = tempfile.mkdtemp()
-        os.chmod(self._tempdir, 0o755)  # noqa: S103, nosec
+        os.chmod(self._tempdir, 0o755)  # ruff: ignore[bad-file-permissions]  # nosec
         self.options[self._setting] = self._tempdir
         super().enable()
 

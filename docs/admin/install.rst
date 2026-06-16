@@ -210,63 +210,64 @@ Django REST Framework
        - Weblate feature
 
      * - ``amazon``
-       - | `boto3 <https://pypi.org/project/boto3>`_
+       - | :pypi:`boto3`
        - :ref:`mt-aws`
 
      * - ``gelf``
-       - | `logging-gelf <https://pypi.org/project/logging-gelf>`_
+       - | :pypi:`logging-gelf`
        - :ref:`graylog`
 
      * - ``gerrit``
-       - | `git-review <https://pypi.org/project/git-review>`_
+       - | :pypi:`git-review`
        - :ref:`code-hosting-gerrit`
 
      * - ``google``
-       - | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
-         | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
+       - | :pypi:`google-cloud-storage`
+         | :pypi:`google-cloud-translate`
        - :ref:`mt-google-translate-api-v3` with glossary support
 
      * - ``google-errors``
-       - | `google-cloud-error-reporting <https://pypi.org/project/google-cloud-error-reporting>`_
+       - | :pypi:`google-cloud-error-reporting`
        - :ref:`collecting-errors`
 
      * - ``ldap``
-       - | `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
+       - | :pypi:`django-auth-ldap`
        - :ref:`ldap-auth`
 
      * - ``mercurial``
-       - | `mercurial <https://pypi.org/project/mercurial>`_
+       - | :pypi:`mercurial`
        - :ref:`vcs-mercurial`
 
      * - ``postgres``
-       - | `psycopg <https://pypi.org/project/psycopg>`_
+       - | :pypi:`psycopg`
        - PostgreSQL, see :ref:`database-setup`
 
      * - ``rollbar``
-       - | `rollbar <https://pypi.org/project/rollbar>`__
+       - | :pypi:`rollbar`
        - :ref:`collecting-errors`
 
      * - ``saml``
-       - | `python3-saml <https://pypi.org/project/python3-saml>`_
+       - | :pypi:`python3-saml`
+         | :pypi:`xmlsec`
        - :ref:`saml-auth`
 
      * - ``saml2idp``
-       - | `djangosaml2idp2 <https://pypi.org/project/djangosaml2idp2>`_
+       - | :pypi:`djangosaml2idp2`
        - Integrating SAML 2 IDP into Weblate
      * - ``sphinx``
-       - | `Sphinx <https://pypi.org/project/Sphinx>`_
+       - | :pypi:`Sphinx`
        - Needed for :ref:`addon-weblate.gettext.sphinx`
 
      * - ``wllegal``
-       - | `wllegal <https://pypi.org/project/wllegal>`_
+       - | :pypi:`wllegal`
        - Hosted Weblate integration
 
      * - ``wsgi``
-       - | `granian <https://pypi.org/project/granian>`_
+       - | :pypi:`granian`
        - wsgi server for Weblate
 
      * - ``zxcvbn``
-       - | `django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-password-validator>`_
+       - | :pypi:`django-zxcvbn-password-validator`
        - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
@@ -327,7 +328,7 @@ The following dependencies have to be installed on the system:
 Pango, Cairo and related header files and GObject introspection data
     https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, see :ref:`pangocairo`
 ``git-review`` (optional for Gerrit support)
-    https://pypi.org/project/git-review/
+    :pypi:`git-review`
 ``git-svn`` (optional for Subversion support)
     https://git-scm.com/docs/git-svn
 ``tesseract`` (needed only if :program:`tesserocr` binary wheels are not available for your system)
@@ -364,25 +365,11 @@ with development files and GObject introspection data.
 
 .. include:: install/steps/hw.rst
 
-.. _verify:
+Verifying release artifacts
+---------------------------
 
-Verifying release signatures
-----------------------------
-
-Weblate release are cryptographically signed using `Sigstore signatures
-<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub
-release.
-
-The verification can be performed using `sigstore package
-<https://pypi.org/project/sigstore/>`_. The following example verifies
-signature of the 5.4 release:
-
-.. code-block:: sh
-
-   sigstore verify github \
-      --cert-identity https://github.com/WeblateOrg/weblate/.github/workflows/setup.yml@refs/tags/weblate-5.4 \
-      --bundle Weblate-5.4-py3-none-any.whl.sigstore \
-      Weblate-5.4-py3-none-any.whl
+Release archives can be verified using the signatures, attestations, and SBOMs
+published with GitHub release assets. See :ref:`verify`.
 
 .. _file-permissions:
 

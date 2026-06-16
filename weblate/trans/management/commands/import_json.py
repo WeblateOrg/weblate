@@ -52,7 +52,8 @@ class Command(BaseCommand):
             help="JSON file containing component definition",
         )
 
-    def handle(self, *args, **options) -> None:  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def handle(self, *args, **options) -> None:
         """Automatic import of components."""
         # Get project
         try:
@@ -85,7 +86,8 @@ class Command(BaseCommand):
 
         allfields = {
             field.name
-            for field in Component._meta.get_fields()  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            for field in Component._meta.get_fields()
             if field.editable and not field.is_relation
         }
 

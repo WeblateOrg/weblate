@@ -9,9 +9,12 @@ from __future__ import annotations
 import time
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
+from unittest import TestCase
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
@@ -32,7 +35,12 @@ from weblate.trans.models import (
 from weblate.trans.templatetags.translations import unit_state_title
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
-from weblate.trans.views.edit import format_newly_failing_checks_message
+from weblate.trans.views.edit import (
+    append_unique_ids,
+    cleanup_session,
+    format_newly_failing_checks_message,
+    get_search_session_snapshot,
+)
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -49,6 +57,63 @@ from weblate.utils.views import get_sort_name
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck
+
+
+class SearchSessionTest(TestCase):
+    def test_cleanup_session_removes_malformed_entries(self) -> None:
+        session = {
+            "search_valid": {"ttl": int(time.time()) + 60},
+            "search_expired": {"ttl": int(time.time()) - 60},
+            "search_missing_ttl": {},
+            "search_invalid_ttl": {"ttl": "invalid"},
+            "unrelated": {"ttl": "invalid"},
+        }
+
+        cleanup_session(session)
+
+        self.assertIn("search_valid", session)
+        self.assertIn("unrelated", session)
+        self.assertNotIn("search_expired", session)
+        self.assertNotIn("search_missing_ttl", session)
+        self.assertNotIn("search_invalid_ttl", session)
+
+    def test_search_session_snapshot_handles_full_and_partial_windows(self) -> None:
+        full_snapshot = get_search_session_snapshot({"ids": [1, 2, 3]}, -1, 1)
+
+        self.assertIsNotNone(full_snapshot)
+        if full_snapshot is None:
+            self.fail("Expected full search snapshot")
+        self.assertEqual(full_snapshot.ids, [3])
+        self.assertEqual(full_snapshot.offset, 3)
+        self.assertEqual(full_snapshot.total, 3)
+
+        partial_snapshot = get_search_session_snapshot(
+            {"partial_ids": [10, 11], "partial_offset": 3}, 4, 1
+        )
+
+        self.assertIsNotNone(partial_snapshot)
+        if partial_snapshot is None:
+            self.fail("Expected partial search snapshot")
+        self.assertEqual(partial_snapshot.ids, [11])
+        self.assertEqual(partial_snapshot.offset, 4)
+        self.assertIsNone(partial_snapshot.total)
+        self.assertIsNone(
+            get_search_session_snapshot(
+                {"partial_ids": [10, 11], "partial_offset": 3}, 2, 1
+            )
+        )
+        self.assertIsNone(get_search_session_snapshot({"ids": [1, 2, 3]}, 5, 1))
+
+    def test_search_session_snapshot_rejects_malformed_ids(self) -> None:
+        self.assertIsNone(get_search_session_snapshot({"ids": ["invalid"]}, 1, 1))
+        self.assertIsNone(
+            get_search_session_snapshot(
+                {"partial_ids": "invalid", "partial_offset": 1}, 1, 1
+            )
+        )
+
+    def test_append_unique_ids_preserves_order(self) -> None:
+        self.assertEqual(append_unique_ids([1, 2], [2, 3, 1, 4]), [1, 2, 3, 4])
 
 
 class EditScreenshotContextTest(ViewTestCase):
@@ -1517,6 +1582,31 @@ class EditComplexTest(ViewTestCase):
         self.assertIn("ids", session[search_key])
         self.assertIn(unit.pk, session[search_key]["ids"])
 
+    def test_translate_post_converts_full_search_session_to_partial(self) -> None:
+        unit = self.get_unit()
+
+        self.client.get(self.translate_url, {"checksum": unit.checksum, "offset": 1})
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        self.assertIn("ids", session[search_key])
+
+        params = {
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target_0": "Translated first string",
+            "review": "20",
+        }
+        response = self.client.post(f"{self.translate_url}?offset=1", params)
+
+        self.assert_redirects_offset(response, self.translate_url, 2)
+        session = self.client.session
+        session_data = session[search_key]
+        self.assertNotIn("ids", session_data)
+        self.assertEqual(session_data["partial_offset"], 1)
+        self.assertEqual(session_data["partial_ids"][0], unit.pk)
+
     def test_translate_filtered_search_keeps_stable_navigation(self) -> None:
         first = self.get_unit()
 
@@ -1539,12 +1629,149 @@ class EditComplexTest(ViewTestCase):
         session = self.client.session
         session_keys = session.keys()
         search_key = next(key for key in session_keys if key.startswith("search_"))
-        expected_unit_id = session[search_key]["ids"][1]
+        expected_unit_id = session[search_key]["partial_ids"][1]
+        self.assertNotIn("ids", session[search_key])
 
         response = self.client.get(
             self.translate_url, {"q": "state:<translated", "offset": 2}
         )
         self.assertEqual(response.context["unit"].pk, expected_unit_id)
+
+    def test_translate_post_offset_uses_limited_search_lookup(self) -> None:
+        response = self.client.get(self.translate_url, {"offset": 1})
+        unit = response.context["unit"]
+        self.assertContains(
+            response, f'name="checksum" value="{unit.checksum}"', html=False
+        )
+        params = {
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target_0": "Translated first string",
+            "review": "20",
+        }
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.post(f"{self.translate_url}?offset=1", params)
+
+        self.assert_redirects_offset(response, self.translate_url, 2)
+        unit_id_searches = [
+            query["sql"]
+            for query in queries
+            if '"trans_unit"."id" AS "id"' in query["sql"]
+            and 'FROM "trans_unit"' in query["sql"]
+            and "ORDER BY" in query["sql"]
+        ]
+        self.assertTrue(
+            any("LIMIT 2" in sql for sql in unit_id_searches),
+            "\n".join(query["sql"] for query in queries),
+        )
+        self.assertFalse(
+            any("LIMIT" not in sql for sql in unit_id_searches),
+            "\n".join(query["sql"] for query in queries),
+        )
+
+    def test_translate_consecutive_filtered_post_uses_partial_search_lookup(
+        self,
+    ) -> None:
+        def get_targets(unit: Unit) -> dict[str, str]:
+            replacements = {
+                "Hello": "Hi",
+                "Orangutan": "Monkey",
+                "Weblate": "Software",
+            }
+            targets = {}
+            sources = unit.get_source_plurals()
+            plural_count = unit.translation.plural.number if unit.is_plural else 1
+            for position in range(plural_count):
+                source = sources[min(position, len(sources) - 1)]
+                target = source
+                for old, new in replacements.items():
+                    target = target.replace(old, new)
+                if target == source:
+                    target = f"Translated {source}"
+                targets[f"target_{position}"] = target
+            return targets
+
+        response = self.client.get(
+            self.translate_url, {"q": "state:<translated", "offset": 2}
+        )
+        first = response.context["unit"]
+
+        params = {
+            "checksum": first.checksum,
+            "contentsum": hash_to_checksum(first.content_hash),
+            "translationsum": hash_to_checksum(first.get_target_hash()),
+            "review": "20",
+        }
+        params.update(get_targets(first))
+        response = self.client.post(
+            f"{self.translate_url}?q=state:%3Ctranslated&offset=2", params
+        )
+        self.assert_redirects_offset(response, self.translate_url, 3)
+
+        session = self.client.session
+        session_keys = session.keys()
+        search_key = next(key for key in session_keys if key.startswith("search_"))
+        second = Unit.objects.get(pk=session[search_key]["partial_ids"][1])
+        params = {
+            "checksum": second.checksum,
+            "contentsum": hash_to_checksum(second.content_hash),
+            "translationsum": hash_to_checksum(second.get_target_hash()),
+            "review": "20",
+        }
+        params.update(get_targets(second))
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.post(
+                f"{self.translate_url}?q=state:%3Ctranslated&offset=3", params
+            )
+
+        self.assert_redirects_offset(response, self.translate_url, 4)
+        unit_id_searches = [
+            query["sql"]
+            for query in queries
+            if '"trans_unit"."id" AS "id"' in query["sql"]
+            and 'FROM "trans_unit"' in query["sql"]
+            and "ORDER BY" in query["sql"]
+        ]
+        self.assertTrue(
+            any("LIMIT" in sql for sql in unit_id_searches),
+            "\n".join(query["sql"] for query in queries),
+        )
+        self.assertFalse(
+            any("LIMIT" not in sql for sql in unit_id_searches),
+            "\n".join(query["sql"] for query in queries),
+        )
+        session = self.client.session
+        self.assertNotIn("ids", session[search_key])
+        self.assertGreaterEqual(len(session[search_key]["partial_ids"]), 3)
+
+    def test_translate_partial_total_keeps_cached_unit_after_filter_removal(
+        self,
+    ) -> None:
+        unit = self.get_unit()
+        suggestion = Suggestion.objects.create(
+            unit=unit,
+            user=self.user,
+            target="Suggested",
+        )
+
+        response = self.client.get(self.translate_url, {"q": "has:suggestion"})
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        self.assertEqual(response.context["filter_count"], 1)
+
+        response = self.client.post(
+            f"{self.translate_url}?q=has:suggestion&offset=1",
+            {"checksum": unit.checksum, "delete": suggestion.pk},
+        )
+
+        self.assert_redirects_offset(response, self.translate_url, 1)
+        response = self.client.get(
+            self.translate_url, {"q": "has:suggestion", "offset": 1}
+        )
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        self.assertEqual(response.context["filter_count"], 1)
 
     def test_nearby_embed_prefetches_state_relations(self) -> None:
         unit = self.get_unit(source="Thank you for using Weblate.")

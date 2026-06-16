@@ -25,7 +25,8 @@ if TYPE_CHECKING:
 def validate_language_code(value: str) -> None:
     # Keep API/form validation aligned with Language.code. Existence is still
     # checked by the queryset lookup.
-    Language._meta.get_field("code").clean(value, None)  # noqa: SLF001
+    # ruff: ignore[private-member-access]
+    Language._meta.get_field("code").clean(value, None)
 
 
 class LanguageCodeChoiceField(forms.ModelChoiceField):
@@ -98,7 +99,8 @@ class LimitLanguagesField(LanguageCodeMultipleChoiceField):
 class LanguageForm(forms.ModelForm):
     class Meta:
         model = Language
-        fields = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = [
             "code",
             "name",
             "direction",
@@ -128,7 +130,8 @@ class LanguageForm(forms.ModelForm):
 class PluralForm(forms.ModelForm):
     class Meta:
         model = Plural
-        fields = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        fields = [
             "number",
             "formula",
         ]
