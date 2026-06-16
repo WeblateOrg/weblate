@@ -19,8 +19,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-14 02:03+0000\n"
-"Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
+"PO-Revision-Date: 2026-06-17 01:01+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -2968,10 +2968,8 @@ msgid "A team with this name already exists in this workspace."
 msgstr "Tim dengan nama ini sudah ada di workspace ini."
 
 #: weblate/api/serializers.py:784
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "Tidak dapat mengubah ini pada tim yang ada."
+msgstr "Tidak dapat mengubah ini pada tim terbatas."
 
 #: weblate/api/serializers.py:1942 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3074,22 +3072,16 @@ msgid "This role cannot be assigned to this team."
 msgstr "Peran ini tidak dapat ditetapkan ke tim ini."
 
 #: weblate/api/views.py:1146 weblate/api/views.py:1174
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "Tidak dapat mengubah ini pada tim yang ada."
+msgstr "Tidak dapat mengubah proyek pada tim terbatas."
 
 #: weblate/api/views.py:1195 weblate/api/views.py:1236
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "Tidak dapat mengubah ini pada tim yang ada."
+msgstr "Tidak dapat mengubah daftar komponen pada tim terbatas."
 
 #: weblate/api/views.py:1257 weblate/api/views.py:1290
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "Tidak dapat mengubah ini pada tim yang ada."
+msgstr "Tidak dapat mengubah komponen pada tim workspace."
 
 #: weblate/api/views.py:3058 weblate/trans/models/translation.py:2569
 msgid "This string seems to already exist."
@@ -4771,49 +4763,34 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Parameter yang hilang untuk penanda terjemahan: \"%s\""
 
 #: weblate/checks/flags.py:458
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Formalitas"
+msgstr "Format"
 
 #: weblate/checks/flags.py:459
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Memori terjemahan"
+msgstr "Perilaku penerjemahan"
 
 #: weblate/checks/flags.py:460
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Terjemahan"
+msgstr "Validasi"
 
 #: weblate/checks/flags.py:461
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Tinjau string"
+msgstr "Perenderan"
 
 #: weblate/checks/flags.py:462 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgid "Disabled check"
-msgstr "Pemeriksaan gagal"
+msgstr "Pemeriksaan dinonaktifkan"
 
 #: weblate/checks/flags.py:464
 msgid "Automatic detection"
 msgstr "Deteksi otomatis"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgctxt "User agent device type"
-#| msgid "Other"
 msgid "Other"
 msgstr "Lainnya"
 
@@ -7074,11 +7051,9 @@ msgstr ""
 "Deskripsikan gaya terjemahan. Misalnya: “Gunakan bahasa yang tidak formal.”"
 
 #: weblate/machinery/forms.py:456
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Petunjuk integrasi"
+msgstr "Instruksi khusus bahasa"
 
 #: weblate/machinery/forms.py:461
 #, python-format
@@ -7157,43 +7132,28 @@ msgid "Choose custom model here to enable it."
 msgstr "Pilih model kustom di sini untuk mengaktifkannya."
 
 #: weblate/machinery/forms.py:591
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Pemilihan otomatis"
 
 #: weblate/machinery/forms.py:595
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Model kustom"
 
 #: weblate/machinery/forms.py:600
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "URL dasar API OpenAI"
+msgstr "URL dasar API Mistral"
 
 #: weblate/machinery/forms.py:604
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "URL dasar API OpenAI, jika berbeda dari URL bawaan OpenAI"
+msgstr "URL dasar API Mistral, jika berbeda dari URL default Mistral"
 
 #: weblate/machinery/forms.py:611
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Model kustom"
+msgstr "Model Mistral"
 
 #: weblate/machinery/forms.py:619
 msgctxt "Mistral model selection"
@@ -7291,12 +7251,9 @@ msgid "Click <a href=\"/x\">Save</a>."
 msgstr "Klik <a href=\"/x\">Simpan</a>."
 
 #: weblate/machinery/llm.py:158
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "Pemeriksaan gagal"
+msgstr "@@PH1@@ pemeriksaan gagal"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -17067,12 +17024,8 @@ msgstr ""
 "Hosted Weblate, tempat untuk menerjemahkan proyek perangkat lunak Anda."
 
 #: weblate/trans/context_processors.py:136
-#, fuzzy
-#| msgid "This site runs Weblate for localizing various software projects."
 msgid "This site runs Weblate for localizing a software project."
-msgstr ""
-"Situs ini menjalankan Weblate untuk menerjemahkan beberapa proyek perangkat "
-"lunak."
+msgstr "Situs ini menjalankan Weblate untuk melokalkan proyek perangkat lunak."
 
 #: weblate/trans/context_processors.py:140
 msgid "This site runs Weblate for localizing various software projects."
@@ -20199,14 +20152,9 @@ msgstr[0] ""
 "{project} sedang diterjemahkan dalam {count} bahasa menggunakan Weblate."
 
 #: weblate/trans/util.py:292
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
 msgstr ""
-"{0} sedang diterjemahkan ke dalam bahasa {1} menggunakan Weblate. Gabunglah "
-"dengan terjemahan atau mulailah menerjemahkan proyek Anda sendiri."
+"Bergabunglah dalam penerjemahan atau mulai terjemahkan proyek Anda sendiri."
 
 #: weblate/trans/util.py:294
 msgid "Join the translation."
