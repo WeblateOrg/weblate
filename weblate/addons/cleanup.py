@@ -61,7 +61,9 @@ class CleanupAddon(BaseCleanupAddon):
             != TranslationFormat.cleanup_unused
         )
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_unused()
             if filenames is None:
@@ -101,7 +103,9 @@ class RemoveBlankAddon(BaseCleanupAddon):
     icon = "eraser.svg"
     version_added = "4.4"
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_blank()
             if filenames is None:
@@ -118,6 +122,7 @@ class RemoveBlankAddon(BaseCleanupAddon):
             component,
             "weblate:post-commit" if store_hash else "weblate:post-commit-no-store",
             skip_push=True,
+            changed_files=[],
         )
 
 

@@ -25,9 +25,12 @@ Weblate 2026.7
 * Translate pages with filtered searches and nearby strings now load more efficiently.
 * Translation form submissions now avoid loading complete search result sets when saving strings.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
+* Expanded security documentation for release artifacts, supported versions, security updates, release verification, SBOMs, and dependency handling.
+* Clarified security metadata, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
 * Large component imports now avoid duplicate translation-memory processing.
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
+* :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
 
 .. rubric:: Bug fixes
 
@@ -41,6 +44,7 @@ Weblate 2026.7
 * Hardened HTML and AJAX object lookups against private project enumeration.
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
+* Repository reset and update progress now includes follow-up translation-file reconciliation.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
 
 .. rubric:: Compatibility

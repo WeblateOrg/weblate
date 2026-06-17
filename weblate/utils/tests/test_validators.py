@@ -489,7 +489,7 @@ class WebsiteTest(SimpleTestCase):
 
     def test_machinery_url_validator(self) -> None:
         validate_machinery_url("http://127.0.0.1:11434", allow_private_targets=True)
-        validate_machinery_url("https://api.deepl.com/v2/", allow_private_targets=False)
+        validate_machinery_url("https://api.deepl.com/", allow_private_targets=False)
         with self.assertRaises(ValidationError):
             validate_machinery_url(
                 "http://127.0.0.1:11434", allow_private_targets=False

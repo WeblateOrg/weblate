@@ -106,6 +106,21 @@ class GitCredentials(TypedDict):
     workItemIds: NotRequired[list[str]]
 
 
+class GitAPIRequestError(RepositoryError):
+    """Error raised for failed hosting API responses without parsed errors."""
+
+    def __init__(
+        self, response: requests.Response, response_data: dict, error: str = ""
+    ) -> None:
+        self.response = response
+        self.response_data = response_data
+        self.error = error
+        message = error or f"{response.status_code} {response.reason}".strip()
+        if 500 <= response.status_code <= 599:
+            message = gettext("%(message)s Please retry later.") % {"message": message}
+        super().__init__(0, message)
+
+
 class GitRepository(Repository):
     """Repository implementation for Git."""
 
@@ -1185,6 +1200,7 @@ class GitForcePushRepository(GitRepository):
 class GitMergeRequestBase(GitForcePushRepository):
     needs_push_url: ClassVar[bool] = False
     pushes_to_different_location: ClassVar[bool] = True
+    api_service_name: ClassVar[str] = "Git hosting"
     identifier: ClassVar[str]
     API_TEMPLATE: ClassVar[str]
     REQUIRED_CONFIG: ClassVar[set[str]] = {"username", "token"}
@@ -1465,8 +1481,11 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def fork(self, credentials: GitCredentials) -> None:
         """Create fork of original repository if one doesn't exist yet."""
-        if not self.has_current_fork_remote(credentials):
-            self.create_fork(credentials)
+        try:
+            if not self.has_current_fork_remote(credentials):
+                self.create_fork(credentials)
+        except GitAPIRequestError as error:
+            self.failed_fork_request(error, credentials)
 
     def push(self, branch: str) -> None:
         """
@@ -1505,8 +1524,25 @@ class GitMergeRequestBase(GitForcePushRepository):
     def create_fork(self, credentials: GitCredentials) -> None:
         raise NotImplementedError
 
+    def failed_fork_request(
+        self, error: GitAPIRequestError, credentials: GitCredentials
+    ) -> NoReturn:
+        report_error("Could not fork repository", message=True)
+        raise RepositoryError(
+            0,
+            self.get_fork_failed_message(error.error, credentials, error.response),
+        ) from error
+
+    def add_api_retry_guidance(self, message: str, response: requests.Response) -> str:
+        if 500 <= response.status_code <= 599:
+            return gettext("%(message)s Please retry later.") % {"message": message}
+        return message
+
     def get_fork_failed_message(
-        self, error: str, credentials: GitCredentials, response: requests.Response
+        self,
+        error: str,
+        credentials: GitCredentials,
+        response: requests.Response,
     ) -> str:
         hostname = credentials["hostname"]
         username = credentials["username"]
@@ -1521,8 +1557,15 @@ class GitMergeRequestBase(GitForcePushRepository):
         if response.status_code == 404:
             error = f"Repository not found. Check whether exists and user '{username}' has access to it."
         if error.strip():
-            return f"Could not fork repository at {hostname}: {error}"
-        return f"Could not fork repository at {hostname}"
+            message = f"Could not fork repository at {hostname}: {error}"
+        elif not response.ok:
+            message = (
+                f"Could not fork repository at {hostname}: "
+                f"{self.get_response_status_message(response)}"
+            )
+        else:
+            message = f"Could not fork repository at {hostname}"
+        return self.add_api_retry_guidance(message, response)
 
     def create_pull_request(
         self,
@@ -1595,6 +1638,17 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return ", ".join(errors)
 
+    def get_response_status_message(self, response: requests.Response) -> str:
+        return f"{response.status_code} {response.reason}".strip()
+
+    def get_response_error_message(
+        self, response: requests.Response, response_data: dict
+    ) -> str:
+        error = self.get_error_message(response_data)
+        if error or response.ok:
+            return error
+        return ""
+
     def should_retry_request(
         self, response: requests.Response, response_data: dict
     ) -> bool:
@@ -1627,8 +1681,9 @@ class GitMergeRequestBase(GitForcePushRepository):
         data: dict | None,
         params: dict | None,
         json: dict | None,
-    ) -> tuple[bool, dict, requests.Response]:
+    ) -> tuple[bool, dict, requests.Response, bool]:
         do_retry = False
+        invalid_error_response = False
         with lock:
             next_api_time = cache.get(cache_id)
             now = time()
@@ -1658,13 +1713,22 @@ class GitMergeRequestBase(GitForcePushRepository):
             try:
                 response_data = {} if response.status_code == 204 else response.json()
             except JSONDecodeError as error:
-                report_error("GIT API request json decoding")
-                self.raise_for_response(response)
-                raise RepositoryError(0, str(error)) from error
+                if not response.ok:
+                    response_data = {}
+                    invalid_error_response = True
+                    self.log(
+                        "failed to parse HTTP error response as JSON: "
+                        f"{response.text[:500]!r}",
+                        level=logging.WARNING,
+                    )
+                else:
+                    report_error("GIT API request json decoding")
+                    self.raise_for_response(response)
+                    raise RepositoryError(0, str(error)) from error
 
             if self.should_retry_request(response, response_data):
                 do_retry = True
-        return do_retry, response_data, response
+        return do_retry, response_data, response, invalid_error_response
 
     def request(
         self,
@@ -1688,16 +1752,18 @@ class GitMergeRequestBase(GitForcePushRepository):
             timeout=3 * max(settings.VCS_API_DELAY, 10),
         )
         try:
-            do_retry, response_data, response = self.send_api_request(
-                method,
-                credentials,
-                url,
-                lock,
-                cache_id,
-                vcs_id,
-                data=data,
-                params=params,
-                json=json,
+            do_retry, response_data, response, invalid_error_response = (
+                self.send_api_request(
+                    method,
+                    credentials,
+                    url,
+                    lock,
+                    cache_id,
+                    vcs_id,
+                    data=data,
+                    params=params,
+                    json=json,
+                )
             )
         except WeblateLockTimeoutError:
             do_retry = True
@@ -1716,19 +1782,63 @@ class GitMergeRequestBase(GitForcePushRepository):
                 retry=retry,
             )
 
-        return response_data, response, self.get_error_message(response_data)
+        if invalid_error_response:
+            raise GitAPIRequestError(response, response_data)
+
+        return (
+            response_data,
+            response,
+            self.get_response_error_message(response, response_data),
+        )
+
+    def get_api_request_failure_message(
+        self, response: requests.Response, action: str, error: str
+    ) -> str:
+        status = response.status_code
+        status_text = f"{status} {response.reason}".strip()
+        error = error.strip()
+        if error:
+            message = gettext(
+                "%(service)s API request failed while %(action)s "
+                "(%(status)s): %(error)s"
+            ) % {
+                "service": self.api_service_name,
+                "action": action,
+                "status": status_text,
+                "error": error,
+            }
+        else:
+            message = gettext(
+                "%(service)s API request failed while %(action)s: %(status)s"
+            ) % {
+                "service": self.api_service_name,
+                "action": action,
+                "status": status_text,
+            }
+        return self.add_api_retry_guidance(message, response)
 
     def failed_pull_request(
-        self, error: str, pr_url: str, response: requests.Response, data: dict
+        self,
+        error: str,
+        pr_url: str,
+        response: requests.Response,
+        data: dict,
     ) -> NoReturn:
         status_code = response.status_code
+        response_detail: object = data
+        if not response_detail:
+            response_detail = response.text[:500]
         self.log(
-            f"Creating pull request via {pr_url} failed ({status_code}): {data!r}",
+            f"Creating pull request via {pr_url} failed ({status_code}): "
+            f"{response_detail!r}",
             level=logging.WARNING,
         )
         report_error("Could not create pull request", message=True)
         raise RepositoryError(
-            -1, f"Could not create pull request {status_code}: {error}"
+            -1,
+            self.get_api_request_failure_message(
+                response, gettext("creating a pull request"), error
+            ),
         )
 
     @classmethod
@@ -1755,6 +1865,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
 class AzureDevOpsRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Azure DevOps pull request")
+    api_service_name: ClassVar[str] = "Azure DevOps"
     identifier: ClassVar[str] = "azure_devops"
     _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
@@ -1779,14 +1890,22 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def fork(self, credentials: GitCredentials) -> None:
         if not self.has_current_fork_remote(credentials):
-            self.create_fork(credentials)
+            try:
+                self.create_fork(credentials)
+            except GitAPIRequestError as error:
+                self.failed_fork_request(error, credentials)
             return
 
         # If the fork was deleted, we just create another fork
         try:
             self.__get_forked_id(credentials, credentials["username"])
+        except GitAPIRequestError as error:
+            self.failed_fork_request(error, credentials)
         except RepositoryError:
-            self.create_fork(credentials)
+            try:
+                self.create_fork(credentials)
+            except GitAPIRequestError as error:
+                self.failed_fork_request(error, credentials)
 
     def parse_repo_url(
         self, repo: str | None = None
@@ -1870,7 +1989,8 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             "post", credentials, fork_url, json=request
         )
 
-        if "TF400948" in error:  # A Git repository with the name already exists
+        if "TF400948" in (error or ""):
+            # A Git repository with the name already exists.
             fork_name = f"{credentials['slug']}-{self.get_random_suffix()}"
 
             request["name"] = fork_name
@@ -1926,15 +2046,21 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             forked_id = self.__get_forked_id(credentials, fork_remote)
             request["forkSource"] = {"repository": {"id": forked_id}}
 
-        response_data, response, error_message = self.request(
-            "post", credentials, pr_url, json=request
-        )
+        try:
+            response_data, response, error_message = self.request(
+                "post", credentials, pr_url, json=request
+            )
+        except GitAPIRequestError as error:
+            self.failed_pull_request(
+                error.error, pr_url, error.response, error.response_data
+            )
 
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error.
         if "url" not in response_data:
+            error_text = error_message or ""
             # Gracefully handle pull request already exists
-            if "TF401179" in error_message:
+            if "TF401179" in error_text:
                 return
 
             self.failed_pull_request(error_message, pr_url, response, response_data)
@@ -1960,10 +2086,12 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         url = self.format_url("https", hostname, owner, slug)
 
         # Get repo info
-        response_data, _response, error = self.request("get", credentials, url)
+        response_data, response, error = self.request("get", credentials, url)
 
         if "id" not in response_data:
-            raise RepositoryError(0, error)
+            raise RepositoryError(
+                0, error or self.get_response_status_message(response)
+            )
 
         return response_data["id"]
 
@@ -2018,6 +2146,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
 class GithubRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("GitHub pull request")
+    api_service_name: ClassVar[str] = "GitHub"
     identifier: ClassVar[str] = "github"
     _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = "{scheme}://{host}/{suffix}repos/{owner}/{slug}"
@@ -2076,7 +2205,11 @@ class GithubRepository(GitMergeRequestBase):
         )
         if response.status_code not in {200, 204}:
             report_error("Could not disable Actions in fork", message=True)
-            raise RepositoryError(0, f"Could not disable Actions in fork: {error}")
+            raise RepositoryError(
+                0,
+                "Could not disable Actions in fork: "
+                f"{error or self.get_response_status_message(response)}",
+            )
 
     def create_fork(self, credentials: GitCredentials) -> None:
         fork_url = f"{credentials['url']}/forks"
@@ -2120,23 +2253,29 @@ class GithubRepository(GitMergeRequestBase):
             "title": title,
             "body": description,
         }
-        response_data, response, error_message = self.request(
-            "post", credentials, pr_url, json=request
-        )
+        try:
+            response_data, response, error_message = self.request(
+                "post", credentials, pr_url, json=request
+            )
+        except GitAPIRequestError as error:
+            self.failed_pull_request(
+                error.error, pr_url, error.response, error.response_data
+            )
 
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
         # doesn't return any other separate indication for a pull request existing
         # compared to other errors, checking message seems to be the only option
         if "url" not in response_data:
+            error_text = error_message or ""
             # Gracefully handle pull request already exists or nothing to merge cases
             if (
-                "A pull request already exists" in error_message
-                or "No commits between " in error_message
+                "A pull request already exists" in error_text
+                or "No commits between " in error_text
             ):
                 return
 
-            if "Validation Failed" in error_message:
+            if "Validation Failed" in error_text:
                 for error in response_data["errors"]:
                     if error.get("field") == "head" and retry_fork:
                         # This most likely indicates that Weblate repository has moved
@@ -2156,6 +2295,7 @@ class GithubRepository(GitMergeRequestBase):
 
 class GiteaRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Gitea pull request")
+    api_service_name: ClassVar[str] = "Gitea"
     identifier: ClassVar[str] = "gitea"
     _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = "{scheme}://{host}/api/v1/repos/{owner}/{slug}"
@@ -2215,7 +2355,7 @@ class GiteaRepository(GitMergeRequestBase):
         )
         if (
             "message" in response_data
-            and "repository is already forked by user" in error
+            and "repository is already forked by user" in (error or "")
         ) or response.status_code == 409:
             # we have to get the repository again if it is already forked
             fork_api_url = self.format_url(
@@ -2262,17 +2402,23 @@ class GiteaRepository(GitMergeRequestBase):
             "title": title,
             "body": description,
         }
-        response_data, response, error_message = self.request(
-            "post", credentials, pr_url, json=request
-        )
+        try:
+            response_data, response, error_message = self.request(
+                "post", credentials, pr_url, json=request
+            )
+        except GitAPIRequestError as error:
+            self.failed_pull_request(
+                error.error, pr_url, error.response, error.response_data
+            )
 
         # Check for an error. If the error has a message saying pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
         # doesn't return any other separate indication for a pull request existing
         # compared to other errors, checking message seems to be the only option
         if "url" not in response_data:
+            error_text = error_message or ""
             # Gracefully handle pull request already exists
-            if "pull request already exists for these targets" in error_message:
+            if "pull request already exists for these targets" in error_text:
                 return
 
             self.failed_pull_request(error_message, pr_url, response, response_data)
@@ -2419,6 +2565,7 @@ class LocalRepository(GitRepository):
 
 class GitLabRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("GitLab merge request")
+    api_service_name: ClassVar[str] = "GitLab"
     identifier: ClassVar[str] = "gitlab"
     _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
@@ -2493,12 +2640,15 @@ class GitLabRepository(GitMergeRequestBase):
             "snippets_access_level": "disabled",
             "pages_access_level": "disabled",
         }
-        response_data, _response, error = self.request(
+        response_data, response, error = self.request(
             "put", credentials, forked_url, json=access_level_dict
         )
         if "web_url" not in response_data:
             report_error("Could not modify fork", message=True)
-            raise RepositoryError(0, f"Could not modify fork {error}")
+            raise RepositoryError(
+                0,
+                f"Could not modify fork {error or self.get_response_status_message(response)}",
+            )
 
     def create_fork(self, credentials: GitCredentials) -> None:
         get_fork_url = f"{credentials['url']}/forks?owned=True"
@@ -2509,6 +2659,11 @@ class GitLabRepository(GitMergeRequestBase):
         # If fork already exists, set that fork as remote.
         # Else, create a new fork
         response_data, response, error = self.request("get", credentials, get_fork_url)
+        if error:
+            report_error("Could not fork repository", message=True)
+            raise RepositoryError(
+                0, self.get_fork_failed_message(error, credentials, response)
+            )
         for fork in response_data:
             # Since owned=True returns forks from both the user's repo and the forks
             # in all the groups owned by the user, hence we need the below logic
@@ -2520,9 +2675,8 @@ class GitLabRepository(GitMergeRequestBase):
             forked_repo, response, error = self.request("post", credentials, fork_url)
             # If a repo with the name of the fork already exist, append numeric
             # as suffix to name and path to use that as repo name and path.
-            if (
-                "ssh_url_to_repo" not in response_data
-                and "has already been taken" in error
+            if "ssh_url_to_repo" not in response_data and "has already been taken" in (
+                error or ""
             ):
                 fork_name = (
                     f"{credentials['url'].split('%2F')[-1]}-{self.get_random_suffix()}"
@@ -2579,9 +2733,14 @@ class GitLabRepository(GitMergeRequestBase):
             "description": description,
             "target_project_id": target_project_id,
         }
-        response_data, response, error = self.request(
-            "post", credentials, pr_url, data=request
-        )
+        try:
+            response_data, response, error = self.request(
+                "post", credentials, pr_url, data=request
+            )
+        except GitAPIRequestError as error:
+            self.failed_pull_request(
+                error.error, pr_url, error.response, error.response_data
+            )
 
         if "web_url" not in response_data and response.status_code != 409:
             self.failed_pull_request(error, pr_url, response, response_data)
@@ -2589,6 +2748,7 @@ class GitLabRepository(GitMergeRequestBase):
 
 class PagureRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Pagure merge request")
+    api_service_name: ClassVar[str] = "Pagure"
     identifier: ClassVar[str] = "pagure"
     _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = "{scheme}://{host}/api/0"
@@ -2620,10 +2780,12 @@ class PagureRepository(GitMergeRequestBase):
             _response_data, response, error = self.request(
                 "post", credentials, fork_url, data=param
             )
-            if '" cloned to "' in error or "already exists" in error:
+            error_text = error or ""
+            if '" cloned to "' in error_text or "already exists" in error_text:
                 break
 
-        if '" cloned to "' not in error and "already exists" not in error:
+        error_text = error or ""
+        if '" cloned to "' not in error_text and "already exists" not in error_text:
             report_error("Could not fork repository", message=True)
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
@@ -2659,12 +2821,26 @@ class PagureRepository(GitMergeRequestBase):
             )
 
         # List existing pull requests
-        response_data, _response, error_message = self.request(
-            "get", credentials, pr_list_url, params={"author": credentials["username"]}
-        )
+        try:
+            response_data, response, error_message = self.request(
+                "get",
+                credentials,
+                pr_list_url,
+                params={"author": credentials["username"]},
+            )
+        except GitAPIRequestError as error:
+            response = error.response
+            error_message = self.add_api_retry_guidance(
+                self.get_response_status_message(response), response
+            )
+            response_data = {}
+
         if error_message:
             report_error("Pull request listing failed", message=True)
-            raise RepositoryError(0, f"Pull request listing failed: {error_message}")
+            raise RepositoryError(
+                0,
+                f"Pull request listing failed: {error_message}",
+            )
 
         if response_data["total_requests"] > 0:
             # Open pull request from us is already there
@@ -2681,9 +2857,14 @@ class PagureRepository(GitMergeRequestBase):
             request["repo_from"] = credentials["slug"]
             request["repo_from_username"] = credentials["username"]
 
-        response_data, response, error_message = self.request(
-            "post", credentials, pr_create_url, data=request
-        )
+        try:
+            response_data, response, error_message = self.request(
+                "post", credentials, pr_create_url, data=request
+            )
+        except GitAPIRequestError as error:
+            self.failed_pull_request(
+                error.error, pr_create_url, error.response, error.response_data
+            )
 
         if "id" not in response_data:
             self.failed_pull_request(
@@ -2694,6 +2875,7 @@ class PagureRepository(GitMergeRequestBase):
 class BitbucketServerRepository(GitMergeRequestBase):
     # Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
     name: ClassVar[StrOrPromise] = gettext_lazy("Bitbucket Data Center pull request")
+    api_service_name: ClassVar[str] = "Bitbucket Data Center"
     identifier: ClassVar[str] = "bitbucketserver"
     _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
@@ -2729,7 +2911,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         # Since Bitbucket uses projectKey which can be any string (that is not
         # at all related to its name) we need to compare user's forks against
         # remote.
-        if "This repository URL is already taken." in error_message:
+        if "This repository URL is already taken." in (error_message or ""):
             page = 0
             self.bb_fork = {}
             forks_url = f"{credentials['url']}/forks"
@@ -2829,9 +3011,14 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "reviewers": self.get_default_reviewers(credentials, fork_branch),
         }
 
-        response_data, response, error_message = self.request(
-            "post", credentials, pr_url, json=request_body
-        )
+        try:
+            response_data, response, error_message = self.request(
+                "post", credentials, pr_url, json=request_body
+            )
+        except GitAPIRequestError as error:
+            self.failed_pull_request(
+                error.error, pr_url, error.response, error.response_data
+            )
 
         # Bitbucket Data Center will return an error if a PR already exists.
         # The push method in the parent class pushes changes to the correct
@@ -2842,7 +3029,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
             pr_exist_message = (
                 "Only one pull request may be open for a given source and target branch"
             )
-            if pr_exist_message in error_message:
+            if pr_exist_message in (error_message or ""):
                 return
             self.failed_pull_request(error_message, pr_url, response, response_data)
 
@@ -2851,6 +3038,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
     """Bitbucket Cloud repository implementation."""
 
     name: ClassVar[StrOrPromise] = gettext_lazy("Bitbucket Cloud merge request")
+    api_service_name: ClassVar[str] = "Bitbucket Cloud"
     identifier: ClassVar[str] = "bitbucketcloud"
     _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
@@ -2953,15 +3141,20 @@ class BitbucketCloudRepository(GitMergeRequestBase):
             ],
         }
 
-        response_data, response, error = self.request(
-            "post", credentials, pr_url, json=payload
-        )
+        try:
+            response_data, response, error = self.request(
+                "post", credentials, pr_url, json=payload
+            )
+        except GitAPIRequestError as error:
+            self.failed_pull_request(
+                error.error, pr_url, error.response, error.response_data
+            )
         # Bitbucket Cloud handles Pull request already exists
         # and just returns its data
 
-        if response_data["type"] == "error":
+        if response_data.get("type") == "error" or error:
             # gracefully handle nothing to merge case
-            if "There are no changes to be pulled" in error:
+            if "There are no changes to be pulled" in (error or ""):
                 return
 
             self.failed_pull_request(error, pr_url, response, response_data)
@@ -2992,7 +3185,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
             )
 
             # if name is already taken, append an numeric value at the end
-            if "already has a repository with this name" in error:
+            if "already has a repository with this name" in (error or ""):
                 fork_name = f"{credentials['slug']}-{self.get_random_suffix()}"
                 payload["name"] = fork_name
 
@@ -3000,7 +3193,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
                     "post", credentials, fork_url, json=payload
                 )
 
-            if response_data["type"] == "error":
+            if response_data.get("type") == "error" or error:
                 report_error("Could not fork repository", message=True)
                 raise RepositoryError(
                     0, self.get_fork_failed_message(error, credentials, response)

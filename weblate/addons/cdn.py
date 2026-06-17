@@ -246,6 +246,7 @@ class CDNJSAddon(CDNBaseAddon):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> None:
@@ -347,6 +348,7 @@ class CDNFilesAddon(CDNBaseAddon):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> None:

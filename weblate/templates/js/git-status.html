@@ -57,7 +57,7 @@
       {% if supports_push %}
         <li class="list-group-item">
           {% if user_can_push_translation %}
-            <a href=""
+            <a href="#"
                class="float-end link-post btn btn-primary"
                data-href="{% url "push" path=object.get_url_path %}"
                {% if not object.can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
@@ -74,7 +74,7 @@
       <li class="list-group-item">
         {% if user_can_update_translation %}
           <div class="btn-group float-end">
-            <a href=""
+            <a href="#"
                class="btn btn-primary link-post"
                data-href="{% url "update" path=object.get_url_path %}">{% translate "Update" %}</a>
             <button type="button"
@@ -86,17 +86,17 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
               <li>
-                <a href=""
+                <a href="#"
                    class="dropdown-item link-post"
                    data-href="{% url "update" path=object.get_url_path %}?method=merge">{% translate "Update with merge" %}</a>
               </li>
               <li>
-                <a href=""
+                <a href="#"
                    class="dropdown-item link-post"
                    data-href="{% url "update" path=object.get_url_path %}?method=rebase">{% translate "Update with rebase" %}</a>
               </li>
               <li>
-                <a href=""
+                <a href="#"
                    class="dropdown-item link-post"
                    data-href="{% url "update" path=object.get_url_path %}?method=merge_noff">{% translate "Update with merge without fast-forward" %}</a>
               </li>
@@ -112,13 +112,13 @@
         <li class="list-group-item">
           {% if user_can_lock_component %}
             {% if object.can_unlock %}
-              <a href=""
+              <a href="#"
                  class="float-end btn btn-primary link-post"
                  data-href="{% url "unlock" path=object.get_url_path %}"
                  title="{% translate "Allow changes to the Weblate repository" %}">{% translate "Unlock" %}</a>
             {% endif %}
             {% if object.can_lock %}
-              <a href=""
+              <a href="#"
                  class="float-end btn btn-primary link-post"
                  data-href="{% url "lock" path=object.get_url_path %}"
                  title="{% translate "Prevent any changes in the Weblate repository" %}">{% translate "Lock" %}</a>
@@ -160,7 +160,7 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item">
-          <a href=""
+          <a href="#"
              class="float-end link-post btn btn-danger"
              data-href="{% url "reset" path=object.get_url_path %}">{% translate "Reset and discard" %}</a>
           <h6 class="mb-1 fw-bold">{% translate "Reset all changes in the Weblate repository" %}</h6>
@@ -171,7 +171,7 @@
           </p>
         </li>
         <li class="list-group-item">
-          <a href=""
+          <a href="#"
              class="float-end link-post btn btn-danger"
              data-href="{% url "reset" path=object.get_url_path %}"
              data-params='{"keep_changes": "1"}'>{% translate "Reset and reapply" %}</a>
@@ -183,7 +183,7 @@
           </p>
         </li>
         <li class="list-group-item">
-          <a href=""
+          <a href="#"
              class="float-end link-post btn btn-danger"
              data-href="{% url "cleanup" path=object.get_url_path %}">{% translate "Cleanup" %}</a>
           <h6 class="mb-1 fw-bold">{% translate "Cleanup all untracked files in the Weblate repository" %}</h6>
@@ -194,7 +194,7 @@
           </p>
         </li>
         <li class="list-group-item">
-          <a href=""
+          <a href="#"
              class="float-end link-post btn btn-danger"
              data-href="{% url "file_sync" path=object.get_url_path %}">{% translate "Synchronize" %}</a>
           <h6 class="mb-1 fw-bold">{% translate "Force writing all translations to the Weblate repository" %}</h6>
@@ -204,7 +204,7 @@
           </p>
         </li>
         <li class="list-group-item">
-          <a href=""
+          <a href="#"
              class="float-end link-post btn btn-danger"
              data-href="{% url "file_scan" path=object.get_url_path %}">{% translate "Rescan" %}</a>
           <h6 class="mb-1 fw-bold">{% translate "Rescan all translation files in the Weblate repository" %}</h6>

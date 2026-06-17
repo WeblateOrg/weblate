@@ -95,50 +95,56 @@ function addAlert(message, kind = "danger", delay = 3000) {
   }).show();
 }
 
+// Need `bubbles` because some event listeners (like this
+// https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
+// ) are attached to the parent elements.
+function insertAtCaret(element, myValue) {
+  if (document.selection) {
+    // For browsers like Internet Explorer
+    element.focus();
+    const sel = document.selection.createRange();
+
+    sel.text = myValue;
+    element.focus();
+  } else if (element.selectionStart || element.selectionStart === 0) {
+    //For browsers like Firefox and Webkit based
+    const startPos = element.selectionStart;
+    const endPos = element.selectionEnd;
+    const scrollTop = element.scrollTop;
+
+    element.value =
+      element.value.substring(0, startPos) +
+      myValue +
+      element.value.substring(endPos, element.value.length);
+    element.focus();
+    element.selectionStart = startPos + myValue.length;
+    element.selectionEnd = startPos + myValue.length;
+    element.scrollTop = scrollTop;
+  } else {
+    element.value += myValue;
+    element.focus();
+  }
+  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function replaceValue(element, myValue) {
+  element.value = myValue;
+  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+// jQuery wrappers — removed once full.js and loader-bootstrap.js no longer
+// call these via jQuery chains.
 jQuery.fn.extend({
   insertAtCaret: function (myValue) {
     return this.each(function () {
-      if (document.selection) {
-        // For browsers like Internet Explorer
-        this.focus();
-        const sel = document.selection.createRange();
-
-        sel.text = myValue;
-        this.focus();
-      } else if (this.selectionStart || this.selectionStart === 0) {
-        //For browsers like Firefox and Webkit based
-        const startPos = this.selectionStart;
-        const endPos = this.selectionEnd;
-        const scrollTop = this.scrollTop;
-
-        this.value =
-          this.value.substring(0, startPos) +
-          myValue +
-          this.value.substring(endPos, this.value.length);
-        this.focus();
-        this.selectionStart = startPos + myValue.length;
-        this.selectionEnd = startPos + myValue.length;
-        this.scrollTop = scrollTop;
-      } else {
-        this.value += myValue;
-        this.focus();
-      }
-      // Need `bubbles` because some event listeners (like this
-      // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
-      // ) are attached to the parent elements.
-      this.dispatchEvent(new Event("input", { bubbles: true }));
-      this.dispatchEvent(new Event("change", { bubbles: true }));
+      insertAtCaret(this, myValue);
     });
   },
-
   replaceValue: function (myValue) {
     return this.each(function () {
-      this.value = myValue;
-      // Need `bubbles` because some event listeners (like this
-      // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
-      // ) are attached to the parent elements.
-      this.dispatchEvent(new Event("input", { bubbles: true }));
-      this.dispatchEvent(new Event("change", { bubbles: true }));
+      replaceValue(this, myValue);
     });
   },
 });

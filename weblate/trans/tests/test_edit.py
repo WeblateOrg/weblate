@@ -21,6 +21,7 @@ from weblate.addons.resx import ResxUpdateAddon
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, UserBlock, setup_project_groups
 from weblate.checks.models import Check
+from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -102,6 +103,7 @@ class SearchSessionTest(TestCase):
                 {"partial_ids": [10, 11], "partial_offset": 3}, 2, 1
             )
         )
+        self.assertIsNone(get_search_session_snapshot({"ids": [1, 2, 3]}, 5, 1))
 
     def test_search_session_snapshot_rejects_malformed_ids(self) -> None:
         self.assertIsNone(get_search_session_snapshot({"ids": ["invalid"]}, 1, 1))
@@ -122,6 +124,21 @@ class EditScreenshotContextTest(ViewTestCase):
         self.assertContains(
             response, get_doc_url("admin/translating", "screenshots", user=self.user)
         )
+
+    def test_screenshot_context_deduplicates_source_and_unit_links(self) -> None:
+        self.make_manager()
+        unit = self.get_unit()
+        screenshot = Screenshot.objects.create(
+            name="Shared screenshot",
+            image="screenshots/test.png",
+            translation=unit.source_unit.translation,
+            user=self.user,
+        )
+        screenshot.units.add(unit.source_unit, unit)
+
+        response = self.client.get(unit.get_absolute_url())
+
+        self.assertEqual(list(response.context["screenshots"]), [screenshot])
 
 
 class EditTest(ViewTestCase):

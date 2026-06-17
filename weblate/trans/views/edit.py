@@ -457,6 +457,8 @@ def get_search_session_snapshot(
             offset = max(len(unit_ids) - page_size + 1, 1)
         page_offset = offset - 1
         page_ids = unit_ids[page_offset : page_offset + page_size + 1]
+        if not page_ids:
+            return None
         return SearchSnapshot(
             ids=page_ids,
             offset=offset,
@@ -1362,9 +1364,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "addterm_form": addterm_form,
             "last_changes": unit.change_set.prefetch().recent(skip_preload="unit"),
             "other_languages_count": other_languages_count,
-            "screenshots": (
-                unit.source_unit.screenshots.all() | unit.screenshots.all()
-            ).order(),
+            "screenshots": (unit.source_unit.screenshots.all() | unit.screenshots.all())
+            .distinct()
+            .order(),
             "display_checks": list(get_display_checks(unit)),
             "comments_to_check": unit.unresolved_comments,
             "machinery_services": json.dumps(

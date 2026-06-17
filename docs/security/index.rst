@@ -11,24 +11,30 @@ Development of Weblate adheres to the `Best Practices of the Open Source Securit
 
    Discovered a security issue in Weblate? Please read :ref:`security`.
 
-.. _security-updates:
+Security updates and releases
+-----------------------------
 
-Security updates
-----------------
+Only the latest Weblate release is guaranteed to receive security updates.
+Learn more about :doc:`Weblate releases and supported versions <releases>`.
 
-Weblate provides security updates to address vulnerabilities and enhance the
-application’s security posture. Only the latest release is guaranteed to
-receive security updates. Users are encouraged to keep Weblate up to date to
-benefit from the latest security improvements. Learn more about :ref:`Weblate
-releases and the release life cycle <release-cycle>`.
+Release artifacts can be checked using published signatures, attestations, and
+SBOMs. See :doc:`release-artifacts`.
 
 Security policies
 -----------------
 
-* :doc:`dependencies`
+* :doc:`product-information` - product identity, contact, support, release,
+  and SBOM metadata.
+* :doc:`governance` - security governance documentation and assessment status.
+* :doc:`releases` - release cycle, security update coverage, and upgrade
+  support.
+* :doc:`release-artifacts` - release artifact inventory, SBOMs, signatures,
+  attestations, and verification.
+* :doc:`dependencies` - dependency inventory, vulnerability triage, update
+  automation, and container scanning.
+* :doc:`issues` - vulnerability reporting and disclosure.
 * :doc:`disaster-recovery-plan`
 * :doc:`incident-response-plan`
-* :doc:`issues`
 * :doc:`passwords`
 * :doc:`threat-model`
 

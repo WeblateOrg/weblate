@@ -357,27 +357,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         return timezone.now() - timedelta(minutes=1)
 
     def stabilize_stats_timestamp(self, stats: BaseStats) -> None:
-        """Rebuild a stats cache entry with a stable screenshot timestamp."""
-        stats.clear()
-        stats.calculate_basic()
-        data = stats.get_data()
+        """Freeze an existing stats cache timestamp for screenshots."""
+        data = stats.load().copy()
+        if not data:
+            return
         data["stats_timestamp"] = self.get_stable_naturaltime_timestamp().timestamp()
         stats.set_data(data)
-        cache.set(stats.cache_key, data, 30 * 86400)
+        stats.save(update_parents=False)
 
     def stabilize_global_stats_timestamp(self) -> None:
         """Freeze global stats cache timestamp for activity screenshots."""
         self.stabilize_stats_timestamp(GlobalStats())
-
-    def stabilize_project_stats(self, project: Project) -> None:
-        """Rebuild project dashboard stats for reproducible screenshots."""
-        for component in project.component_set.all():
-            for translation in component.translation_set.all():
-                self.stabilize_stats_timestamp(translation.stats)
-            self.stabilize_stats_timestamp(component.stats)
-        for language_stats in project.stats.get_language_stats():
-            self.stabilize_stats_timestamp(language_stats)
-        self.stabilize_stats_timestamp(project.stats)
 
     def use_screenshot_site_domain_for_git_export(self, component: Component) -> None:
         """Store the displayed Git export URL with the screenshot domain."""
@@ -782,10 +772,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             $translations.empty();
             ["stale replacement 1", "current replacement 2"].forEach((text, idx) => {
                 const key = String((idx + 1) % 10);
-                const $row = $("<tr/>").attr("data-machinery-key", key).data("raw", {
-                    plural_forms: [0],
-                    text: text,
-                });
+                const $row = $("<tr/>")
+                    .attr("data-machinery-key", key)
+                    .attr("data-raw", JSON.stringify({
+                        plural_forms: [0],
+                        text: text,
+                    }));
                 $row.append(
                     $("<td/>")
                         .addClass("machinery-number")
@@ -1034,26 +1026,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
-        project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
-        Component.objects.create(
-            name="Language names",
-            slug="language-names",
-            project=project,
-            repo="https://github.com/WeblateOrg/demo.git",
-            branch="main",
-            filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
-            new_base="weblate/langdata/locale/django.pot",
-            file_format="po",
-        )
-        Component.objects.create(
-            name="Django",
-            slug="django",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="weblate/locale/*/LC_MESSAGES/django.po",
-            new_base="weblate/locale/django.pot",
-            file_format="po",
-        )
+        with override_settings(STATS_LAZY=False):
+            project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
+            Component.objects.create(
+                name="Language names",
+                slug="language-names",
+                project=project,
+                repo="https://github.com/WeblateOrg/demo.git",
+                branch="main",
+                filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
+                new_base="weblate/langdata/locale/django.pot",
+                file_format="po",
+            )
+            Component.objects.create(
+                name="Django",
+                slug="django",
+                project=project,
+                repo="weblate://weblateorg/language-names",
+                filemask="weblate/locale/*/LC_MESSAGES/django.po",
+                new_base="weblate/locale/django.pot",
+                file_format="po",
+            )
         return project
 
     def create_glossary(
@@ -1111,15 +1104,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        return Component.objects.create(
-            name="Android",
-            slug="android",
-            project=project,
-            repo="weblate://weblateorg/language-names",
-            filemask="app/src/main/res/values-*/strings.xml",
-            template="app/src/main/res/values/strings.xml",
-            file_format="aresource",
-        )
+        with override_settings(STATS_LAZY=False):
+            return Component.objects.create(
+                name="Android",
+                slug="android",
+                project=project,
+                repo="weblate://weblateorg/language-names",
+                filemask="app/src/main/res/values-*/strings.xml",
+                template="app/src/main/res/values/strings.xml",
+                file_format="aresource",
+            )
 
     def test_dashboard(self) -> None:
         self.do_login()
@@ -1204,19 +1198,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 self.click("Dashboard")
 
-        def wait_search() -> None:
+        def wait_search(expected_pk: int | None = None) -> None:
             time.sleep(0.1)
-            WebDriverWait(self.driver, 15).until(
-                presence_of_element_located(
-                    (
-                        By.XPATH,
+            if expected_pk is None:
+                WebDriverWait(self.driver, 15).until(
+                    presence_of_element_located(
                         (
-                            '//div[@id="search-results"]'
-                            '//tbody[@class="unit-listing-body"]//tr'
-                        ),
+                            By.XPATH,
+                            (
+                                '//div[@id="search-results"]'
+                                '//tbody[@class="unit-listing-body"]//tr'
+                            ),
+                        )
                     )
                 )
-            )
+            else:
+                WebDriverWait(self.driver, 15).until(
+                    presence_of_element_located(
+                        (
+                            By.CSS_SELECTOR,
+                            f'#search-results .add-string[data-pk="{expected_pk}"]',
+                        )
+                    )
+                )
 
         capture_unit("source-information.png", "toggle-nearby")
         self.click(htmlid="projects-menu")
@@ -1238,6 +1242,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.upload_file(element, get_test_file("screenshot.png"))
         with self.wait_for_page_load():
             element.submit()
+        uploaded_screenshot = Screenshot.objects.get(name="Automatic translation")
 
         with open(get_test_file("screenshot.png"), "rb") as handle:
             listing_screenshot = Screenshot.objects.create(
@@ -1270,10 +1275,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element(By.ID, "search-input").send_keys(f"{text!r}")
+        search_input = self.driver.find_element(By.ID, "search-input")
+        search_input.clear()
+        search_input.send_keys(f"{text!r}")
         self.click(htmlid="screenshots-search")
-        wait_search()
-        self.click(self.driver.find_element(By.CLASS_NAME, "add-string"))
+        wait_search(source.pk)
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR, f'#search-results .add-string[data-pk="{source.pk}"]'
+            )
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: (
+                Screenshot.objects.get(pk=uploaded_screenshot.pk)
+                .units.filter(pk=source.pk)
+                .exists()
+            )
+        )
 
         # Unit should have screenshot assigned now
         capture_unit("screenshot-context.png", "toggle-machinery")
@@ -2075,7 +2093,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_dark_theme(self) -> None:
         project = self.create_component()
         self.create_android_component(project)
-        self.stabilize_project_stats(project)
         self.do_login()
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
