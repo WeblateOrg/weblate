@@ -40,6 +40,7 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
@@ -1380,6 +1381,25 @@ class ComponentErrorTest(RepoTestCase):
     def test_failed_update(self) -> None:
         self.assertFalse(self.component.do_update())
 
+    def test_update_pushes_before_reraising_parse_error(self) -> None:
+        error = FileParseError("parse failed")
+
+        with (
+            patch.object(self.component, "configure_repo"),
+            patch.object(self.component, "update_remote_branch", return_value=True),
+            patch.object(self.component, "configure_branch"),
+            patch.object(self.component, "repo_needs_merge", return_value=True),
+            patch.object(self.component, "needs_commit_upstream", return_value=False),
+            patch.object(self.component, "update_branch", return_value=True),
+            patch.object(self.component, "create_translations", side_effect=error),
+            patch.object(self.component, "push_if_needed") as push_if_needed,
+            self.assertRaises(FileParseError) as context,
+        ):
+            self.component.do_update()
+
+        self.assertIs(context.exception, error)
+        push_if_needed.assert_called_once_with(do_update=False)
+
     def test_failed_update_remote(self) -> None:
         self.assertFalse(self.component.update_remote_branch())
 
@@ -1483,6 +1503,63 @@ class ComponentErrorTest(RepoTestCase):
         self.component.source_language = Language.objects.get(code="cs")
         with self.assertRaises(ValidationError):
             self.component.clean()
+
+    def test_create_translations_queues_outside_celery_task(self) -> None:
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", None),
+            patch.object(self.component, "create_translations_immediate") as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertFalse(self.component.create_translations(force=True))
+
+        immediate.assert_not_called()
+        queue_task.assert_called_once()
+
+    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+        request = SimpleNamespace(user=None)
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(
+                self.component, "create_translations_immediate", return_value=True
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertTrue(
+                self.component.create_translations(force=True, request=request)
+            )
+
+        immediate.assert_called_once_with(
+            force=True,
+            force_scan=False,
+            langs=None,
+            request=request,
+            changed_template=False,
+            from_link=False,
+            change=None,
+        )
+        queue_task.assert_not_called()
+
+    def test_create_translations_queues_after_celery_lock_timeout(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(
+                self.component,
+                "create_translations_immediate",
+                side_effect=WeblateLockTimeoutError("locked", lock=self.component.lock),
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertFalse(self.component.create_translations(force=True))
+
+        immediate.assert_called_once()
+        queue_task.assert_called_once()
 
 
 class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
@@ -2334,17 +2411,21 @@ class ResetDiscardRevisionTest(ComponentTestCase):
         filename = translation.filename
         pathlib.Path(cast("str", translation.get_filename())).unlink()
 
-        self.assertTrue(
-            self.component.create_translations_immediate(
-                force=True, request=self.get_request()
+        with patch(
+            "weblate.glossary.tasks.cleanup_stale_glossaries.delay_on_commit"
+        ) as cleanup_stale_glossaries:
+            self.assertTrue(
+                self.component.create_translations_immediate(
+                    force=True, request=self.get_request()
+                )
             )
-        )
 
         self.assertFalse(
             self.component.translation_set.filter(language_code="cs").exists()
         )
         self.assert_removed_translation_change(filename)
         self.assertFalse(self.project.has_language(Language.objects.get(code="cs")))
+        cleanup_stale_glossaries.assert_called_once_with(self.project.id)
 
     def test_reset_removes_upstream_deleted_translation_with_change(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
