@@ -100,6 +100,26 @@ class SafeMDXCheckTest(CheckTestCase):
             "{<Icon name={`star`} count={3} />}",
             ["{<Icon name={`star`} count={3} />}"],
         )
+        # Regex following an arrow symbol
+        self.check_jsx_expression_matches(
+            "{items.filter(x => /}/.test(x)).length}",
+            ["{items.filter(x => /}/.test(x)).length}"],
+        )
+        self.check_jsx_expression_matches(
+            "{arr.map(x => /a}b/)}",
+            ["{arr.map(x => /a}b/)}"],
+        )
+        # A regex following a comparison operator >
+        self.check_jsx_expression_matches(
+            "{a > /x}y/.source.length}",
+            ["{a > /x}y/.source.length}"],
+        )
+        # ``<`` stays excluded so the ``/`` in a JSX closing tag is not misread
+        # as the start of a regex literal that would swallow the closing brace.
+        self.check_jsx_expression_matches(
+            "{cond ? <p>{a}</p> : null}",
+            ["{cond ? <p>{a}</p> : null}"],
+        )
 
     def check_jsx_expression_matches(self, text: str, expected: list[str]) -> None:
         self.assertEqual(

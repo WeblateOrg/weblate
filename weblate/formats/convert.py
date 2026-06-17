@@ -95,6 +95,17 @@ class ConvertPoUnit[U: pounit, F: "ConvertFormat"](BasePoUnit[U, F]):  # type: i
             return get_string(self.template.source)
         return get_string(self.unit.source)
 
+    def is_code_block(self) -> bool:
+        """
+        Check whether unit is a code block.
+
+        Code blocks are identified by the presence of a docpath ending with code[N]".
+        This would be true for both fenced and indented code blocks.
+        """
+        if docpath := self.mainunit.getdocpath():
+            return docpath.rsplit("/", 1)[-1].startswith("code[")
+        return False
+
 
 class ConvertXliffUnit(XliffUnit):
     remove_flags: ClassVar[list[str]] = ["xml-text"]
@@ -478,12 +489,21 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
         return "md"
 
 
+class MDXPoUnit(ConvertPoUnit):
+    def get_extra_flags(self):
+        yield from super().get_extra_flags()
+        if self.is_code_block():
+            # fenced/indented code-block contents are considered as literal text, not JSX
+            yield "ignore-safe-mdx"
+
+
 class MDXFormat(MarkdownFormat):
     # Translators: File format name
     name = gettext_lazy("MDX file")
     autoload: tuple[str, ...] = ("*.mdx",)
     format_id = "mdx"
     check_flags = ("auto-safe-html", "strict-same", "md-text", "safe-mdx")
+    unit_class = MDXPoUnit
 
     @staticmethod
     def get_parser_class() -> type[Any]:

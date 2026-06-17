@@ -24,8 +24,11 @@ _LINE_COMMENT = 4  # // ...
 _BLOCK_COMMENT = 5  # /* ... */
 _REGEX = 6  # /.../
 
-# Characters after which a ``/`` starts a regex literal
-_REGEX_PRECEDERS = frozenset("(,=:[{;!&|?+-*%~^")
+# Characters after which a ``/`` starts a regex literal. Includes ``>`` so that
+# a regex following an arrow (``=>``) or a ``>`` comparison is recognized rather
+# than parsed as division. ``<`` is intentionally excluded because ``</tag>``
+# JSX closing tags would otherwise be misread as regex literals.
+_REGEX_PRECEDERS = frozenset("(,=:[{;!&|?+-*%~^>")
 
 
 def _regex_allowed(prev: str) -> bool:

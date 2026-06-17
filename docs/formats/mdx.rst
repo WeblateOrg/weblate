@@ -10,7 +10,7 @@ MDX files
 MDX files are Markdown files with JSX syntax. Weblate extracts translatable
 Markdown text and preserves imports, exports, JSX components, and expressions.
 
-MDX units automatically get the ``md-text`` and ``auto-safe-html`` flags.
+MDX units automatically get the ``md-text``, ``auto-safe-html``, ``strict-same`` and ``safe-mdx`` flags.
 This keeps the unsafe HTML check active for plain text, standard HTML, and
 custom elements while avoiding HTML cleanup on MDX and JSX-like syntax.
 Use the explicit ``safe-html`` flag for strings that are known to contain HTML
