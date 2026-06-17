@@ -1,0 +1,33 @@
+{% load i18n permissions %}
+
+<p>{% translate "The glossary contains languages not used by any regular component in this project." %}</p>
+
+<p>{% translate "Remove the glossary language if it is no longer needed, or add matching translations to regular components if the glossary should be used." %}</p>
+
+<p>{% translate "The following occurrences were found:" %}</p>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>{% translate "Language" %}</th>
+      <th>{% translate "Language code" %}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for occurrence in occurrences %}
+      <tr>
+        <td>{{ occurrence.language }}</td>
+        <td>{{ occurrence.language_code }}</td>
+        <td>
+          {% perm "translation.delete" occurrence.translation as user_can_delete_translation %}
+          {% if user_can_delete_translation %}
+            <a href="{{ occurrence.translation.get_absolute_url }}#organize">{% translate "Remove" %}</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include "trans/alert/occurrences-limit.html" %}

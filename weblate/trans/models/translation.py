@@ -2066,7 +2066,11 @@ class Translation(
             cleanup_stale_glossaries,
         )
 
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.alerts.registry import update_alerts
+
         author = user.get_author_name()
+        component = self.component
         # Log
         self.log_info("removing %s as %s", self.filenames, author)
 
@@ -2079,22 +2083,26 @@ class Translation(
         # to ensure add-ons operate on the updated translation set
         self.delete()
         transaction.on_commit(self.stats.update_parents)
-        transaction.on_commit(self.component.schedule_update_checks)
+        transaction.on_commit(component.schedule_update_checks)
+        if component.is_glossary:
+            transaction.on_commit(
+                lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
+            )
 
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
-            with self.component.track_local_head_change():
+            with component.track_local_head_change():
                 # Notify add-ons (they may update LINGUAS, configure, etc.)
                 translation_post_remove.send(sender=self.__class__, translation=self)
 
                 # Remove files and commit together with add-on changes
-                self.component.repository.remove(
+                component.repository.remove(
                     self.filenames,
                     commit_message,
                     author,
                     extra_commit_files=self.addon_commit_files or None,
                 )
-                self.component.push_if_needed()
+                component.push_if_needed()
 
         # Remove blank directory if still present (appstore)
         filename = Path(self.get_filename())
@@ -2103,14 +2111,14 @@ class Translation(
                 filename.rmdir()
 
         # Record change
-        self.component.change_set.create(
+        component.change_set.create(
             action=ActionEvents.REMOVE_TRANSLATION,
             target=self.filename,
             user=user,
             author=user,
         )
-        if not self.component.is_glossary:
-            cleanup_stale_glossaries.delay_on_commit(self.component.project.id)
+        if not component.is_glossary:
+            cleanup_stale_glossaries.delay_on_commit(component.project.id)
 
     def handle_store_change(
         self,

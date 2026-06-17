@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db import transaction
 
 from weblate.auth.models import get_anonymous
@@ -12,6 +14,9 @@ from weblate.trans.models import Component, Project, Translation
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import prefetch_stats
+
+if TYPE_CHECKING:
+    from weblate.trans.models.translation import TranslationQuerySet
 
 
 @app.task(
@@ -49,6 +54,36 @@ def sync_glossary_languages(pk: int, component: Component | None = None) -> None
             component.create_translations_immediate(force_scan=True)
 
 
+def get_stale_glossary_translations(
+    project: Project, component: Component | None = None
+) -> TranslationQuerySet:
+    """
+    Return glossary translations for languages unused by regular components.
+
+    The source translation is excluded because it is expected to exist even if
+    there are no matching regular component translations.
+    """
+    languages_in_non_glossary_components: set[int] = set(
+        Translation.objects.filter(
+            component__project=project, component__is_glossary=False
+        ).values_list("language_id", flat=True)
+    )
+    if not languages_in_non_glossary_components:
+        return Translation.objects.none()
+
+    stale_glossaries = Translation.objects.filter(
+        component__project=project, component__is_glossary=True
+    )
+    if component is not None:
+        stale_glossaries = stale_glossaries.filter(component=component)
+
+    return (
+        stale_glossaries.prefetch()
+        .exclude(language__id__in=languages_in_non_glossary_components)
+        .exclude_source()
+    )
+
+
 @app.task(trail=False, autoretry_for=(Project.DoesNotExist, WeblateLockTimeoutError))
 def cleanup_stale_glossaries(project: int | Project) -> None:
     """
@@ -66,20 +101,7 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
     if isinstance(project, int):
         project = Project.objects.get(pk=project)
 
-    languages_in_non_glossary_components: set[int] = set(
-        Translation.objects.filter(
-            component__project=project, component__is_glossary=False
-        ).values_list("language_id", flat=True)
-    )
-
-    glossary_translations = prefetch_stats(
-        Translation.objects.filter(
-            component__project=project, component__is_glossary=True
-        )
-        .prefetch()
-        .exclude(language__id__in=languages_in_non_glossary_components)
-        .exclude_source()
-    )
+    glossary_translations = prefetch_stats(get_stale_glossary_translations(project))
 
     component_to_check = []
 
