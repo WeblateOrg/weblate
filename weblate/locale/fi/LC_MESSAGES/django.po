@@ -8,14 +8,15 @@
 # Tuukka Salminen <tuukkas@users.noreply.hosted.weblate.org>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
+# H-Media <mrlaacconen@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-14 02:01+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-17 14:34+0000\n"
+"Last-Translator: H-Media <mrlaacconen@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -94,7 +95,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:250
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Käytä nimetöntä käyttäjätiliä"
 
 #: weblate/accounts/forms.py:252
 #, fuzzy
@@ -204,6 +205,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Jätä tämä asetus käyttöön, jos haluat peruuttaa nykyisen API-avaimen ja "
+"luoda uuden. Tätä suositellaan, jos epäilet salasanasi joutuneen vääriin "
+"käsiin. Poista tämä asetus käytöstä, jos haluat pitää nykyisen API-avaimesi "
+"voimassa salasanan vaihtamisen jälkeen."
 
 #: weblate/accounts/forms.py:781
 msgid "Your password has been changed."
@@ -578,6 +583,8 @@ msgstr ""
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
 msgstr ""
+"Käyttäjätili, joka on luotu Weblate-sivuston ulkopuolella ostettujen "
+"palvelujen käyttöä varten."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
@@ -620,12 +627,12 @@ msgstr "{username} poisti käyttäjän työryhmästä {team}."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Superkäyttäjän oikeudet myönnetty."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:353
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Superkäyttäjän oikeudet on peruutettu."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:355
@@ -749,7 +756,7 @@ msgstr ""
 #: weblate/accounts/models.py:464
 msgctxt "User agent device type"
 msgid "PC"
-msgstr ""
+msgstr "PC"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:466
@@ -1026,7 +1033,7 @@ msgstr "Yritys"
 
 #: weblate/accounts/models.py:973
 msgid "Use global default"
-msgstr ""
+msgstr "Käytä yleistä oletusarvoa"
 
 #: weblate/accounts/models.py:974 weblate/trans/models/project.py:224
 msgid "Public"
@@ -1501,11 +1508,13 @@ msgstr "Ilmainen kokeilu"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"%(user)s in tekemien muokkauksien palauttaminen koko sivustolla oli "
+"suunniteltu."
 
 #: weblate/accounts/views.py:816
 #, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr ""
+msgstr "%(user)s -sivuston koko sivuston kattava puhdistus oli suunniteltu."
 
 #: weblate/accounts/views.py:823 weblate/trans/views/acl.py:340
 #, fuzzy
@@ -1637,7 +1646,7 @@ msgstr "Rekisteröidy sen sijaan sähköpostilla."
 
 #: weblate/accounts/views.py:1756
 msgid "Could not parse RelayState from SAML Identity Provider."
-msgstr ""
+msgstr "SAML-tunnistuspalvelun RelayState-tietoa ei voitu jäsentää."
 
 #: weblate/accounts/views.py:1761
 msgid "New registrations are turned off."
@@ -1820,18 +1829,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Tämä lisäosa vaikuttaa koko hankkeeseen ja saattaa luoda käännöstiedostoja "
+"useisiin komponentteihin tai arkistoihin."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Tämä lisäosa vaikuttaa koko luokkaan ja voi luoda käännöstiedostoja useisiin "
+"komponentteihin tai arkistoihin."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Tämä lisäosa vaikuttaa kaikkiin hankkeisiin ja saattaa luoda "
+"käännöstiedostoja useisiin komponentteihin tai arkistoihin."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:5279
 #, fuzzy
@@ -2147,6 +2162,8 @@ msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Valitse, lukeeko xgettext lähdetiedostot glob-kuvioiden perusteella vai "
+"POTFILES/POTFILES.in-manifestista."
 
 #: weblate/addons/forms.py:282
 #, fuzzy
@@ -2159,6 +2176,9 @@ msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
 msgstr ""
+"xgettextille annettava ohjelmointikieli, esimerkiksi Python tai C. Jätä "
+"kenttä tyhjäksi, jos haluat xgettextin päättelevän kielen "
+"tiedostotunnisteiden perusteella."
 
 #: weblate/addons/forms.py:295
 msgid ""
@@ -2176,6 +2196,10 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+"POTFILES- tai POTFILES.in-tiedostojen polku suhteessa arkistoon. Merkinnät "
+"tulkitaan suhteessa arkiston juurihakemistoon. Jos POTFILES.skip-merkintä "
+"esiintyy manifestin vieressä, se sulkee luettelossa mainitut tiedostot "
+"purkamisesta."
 
 #: weblate/addons/forms.py:368 weblate/trans/models/component.py:5765
 #, fuzzy
@@ -2185,7 +2209,7 @@ msgstr "Virheellinen linkki arkistoon!"
 
 #: weblate/addons/forms.py:379
 msgid "POTFILES path has to point to a file."
-msgstr ""
+msgstr "POTFILES-polun on osoitettava tiedostoon."
 
 #: weblate/addons/forms.py:388
 #, fuzzy
