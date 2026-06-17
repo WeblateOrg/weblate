@@ -640,7 +640,7 @@ class TranslationForm(UnitForm):
             Field("explanation"),
             Div(
                 HTML(
-                    f'<p class="mb-2"><a class="{toggle_class}" data-bs-toggle="collapse" href="#collapse-msg-{unit.checksum}" role="button" aria-expanded="{aria_expanded}" aria-controls="collapse-msg-{unit.checksum}">{gettext("Add a note…")}</a></p>'
+                    f'<p class="mb-2"><a class="{toggle_class}" data-bs-toggle="collapse" href="#collapse-msg-{unit.checksum}" role="button" aria-expanded="{aria_expanded}" aria-controls="collapse-msg-{unit.checksum}">{gettext("Add a note (optional)")}</a></p>'
                 ),
                 Div(
                     Field("message"),
