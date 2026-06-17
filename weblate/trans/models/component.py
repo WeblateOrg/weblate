@@ -4536,7 +4536,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def clean_repo(self) -> None:
         self.clean_repo_link()
 
-        # Baild out on failed repo validation
+        # Bail out on failed repo validation
         if self.repo is None:
             return
 
