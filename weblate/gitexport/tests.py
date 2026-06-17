@@ -120,8 +120,8 @@ class GitExportTest(ViewTestCase):
 
         for query in queries:
             sql = query["sql"]
-            self.assertNotIn("FROM \"trans_category\" WHERE", sql)
-            self.assertNotIn("FROM \"trans_project\" WHERE", sql)
+            self.assertNotIn('FROM "trans_category" WHERE', sql)
+            self.assertNotIn('FROM "trans_project" WHERE', sql)
 
     def test_git_root(self) -> None:
         response = self.client.get(self.get_git_url().replace("info/refs", ""))
