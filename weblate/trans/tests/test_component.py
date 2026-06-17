@@ -103,7 +103,7 @@ class ComponentTest(RepoTestCase):
 
         if component.has_template():
             self.assertEqual(component.source_translation.filename, component.template)
-        # Count units in the source languaage
+        # Count units in the source language
         self.assertEqual(component.source_translation.unit_set.count(), units)
         # Count translated units in the source language
         self.assertEqual(
