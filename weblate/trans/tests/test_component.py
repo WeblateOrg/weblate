@@ -959,7 +959,7 @@ class ComponentChangeTest(RepoTestCase):
         old_path = component.full_path
         self.assertTrue(os.path.exists(old_path))
 
-        # Crete target project
+        # Create target project
         second = Project.objects.create(
             name="Test2", slug="test2", web="https://weblate.org/"
         )
