@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-17 16:19+0000\n"
+"PO-Revision-Date: 2026-06-18 13:35+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -17510,39 +17510,39 @@ msgid "The maximum number of characters for each line in the output file."
 msgstr "Максималният брой знаци на всеки ред в резултатния файл."
 
 #: weblate/trans/file_format_params.py:671
-#, fuzzy
-#| msgid "Extract all comments"
 msgid "Extract code blocks"
-msgstr "Извличане на всички коментари"
+msgstr "Извличане на блоковете с код"
 
 #: weblate/trans/file_format_params.py:675
 msgid ""
 "Whether to extract translatable content from code blocks in Markdown and MDX "
 "files."
 msgstr ""
+"Дали да се извлича преводимо съдържание от блоковете с код във файлове "
+"Markdown и MDX."
 
 #: weblate/trans/file_format_params.py:683
-#, fuzzy
-#| msgid "Extract comments with tag"
 msgid "Extract front matter"
-msgstr "Извличане на коментарите с етикет"
+msgstr "Извличане на секциите с метаданни (front matter)"
 
 #: weblate/trans/file_format_params.py:687
 msgid ""
 "Whether to extract and translate YAML front matter blocks in Markdown and "
 "MDX files."
 msgstr ""
+"Дали да се извличат и превеждат блоковете с метаданни (front matter) от "
+"файлове Markdown и MDX."
 
 #: weblate/trans/file_format_params.py:695
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Disable placeholders"
-msgstr "Знаци „%“ за заместване"
+msgstr "Изключване на заместителите"
 
 #: weblate/trans/file_format_params.py:699
 msgid ""
 "Disables detection and processing of placeholders in Markdown and MDX files."
 msgstr ""
+"Изключва разпознаването и обработката на заместители във файлове Markdown и "
+"MDX."
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -17728,10 +17728,8 @@ msgid "Change translated and approved strings"
 msgstr "Да се променят преведените и одобрените низове"
 
 #: weblate/trans/forms.py:850
-#, fuzzy
-#| msgid "Insufficient privileges for editing source strings."
 msgid "Insufficient privileges for reviewing strings."
-msgstr "Нямате нужните правомощия за редактиране на изходни низове."
+msgstr "Нямате нужните правомощия за рецензиране на низове."
 
 #: weblate/trans/forms.py:858
 msgid "Author name"
@@ -17758,16 +17756,13 @@ msgstr ""
 "оставете празно, за да използвате всички компоненти в текущия проект."
 
 #: weblate/trans/forms.py:1080
-#, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
 msgid ""
 "Enter project and component slug or component ID to use as source, keep "
 "blank to use all components in the current workspace."
 msgstr ""
-"Въведете краткото име на компонент, който да се ползва като изходен, или "
-"оставете празно, за да използвате всички компоненти в текущия проект."
+"Въведете проект и кратко име на компонент или идентификатор на компонент, "
+"който да се ползва като изходен, или оставете празно, за да използвате "
+"всички компоненти в текущото работно пространство."
 
 #: weblate/trans/forms.py:1084
 msgid ""
@@ -17810,10 +17805,8 @@ msgid "Score threshold"
 msgstr "Граница на резултата"
 
 #: weblate/trans/forms.py:1187
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All components in current workspace"
-msgstr "Всички компоненти в текущия проект"
+msgstr "Всички компоненти в текущото работно пространство"
 
 #: weblate/trans/forms.py:1189
 msgid "All components in current project"
@@ -17842,7 +17835,7 @@ msgstr "Компонентът не е намерен!"
 
 #: weblate/trans/forms.py:1241
 msgid "Enter component ID or project/component slug."
-msgstr ""
+msgstr "Въведете идентификатор на компонент или кратко име на проект/компонент."
 
 #: weblate/trans/forms.py:1258
 msgid "Source component needs to have same source language as target one."
@@ -17921,78 +17914,60 @@ msgid "Sort order"
 msgstr "Ред на сортиране"
 
 #: weblate/trans/forms.py:1689
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "Продължаване"
+msgstr "Режим на броене"
 
 #: weblate/trans/forms.py:1691
 msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Изберете дали повторните промени на един и същ низ да се броят само веднъж "
+"или като отделни промени."
 
 #: weblate/trans/forms.py:1697
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "Незавършени низове"
+msgstr "Уникални низове"
 
 #: weblate/trans/forms.py:1701
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "Всички езици"
+msgstr "Всички промени"
 
 #: weblate/trans/forms.py:1740
 msgid "Search filter"
 msgstr "Филтър за търсене"
 
 #: weblate/trans/forms.py:1743
-#, fuzzy
-#| msgid "Date range"
 msgid "Base rate"
-msgstr "Интервал от дати"
+msgstr "Основна тарифа"
 
 #: weblate/trans/forms.py:1744
-#, fuzzy
-#| msgid "Number of source words"
 msgid "Price per source word."
-msgstr "Брой оригинални думи"
+msgstr "Цена на изходна дума."
 
 #: weblate/trans/forms.py:1751
-#, fuzzy
-#| msgid "Translation threshold"
 msgid "Translation memory threshold"
-msgstr "Граница на превода"
+msgstr "Граница на паметта за преводи"
 
 #: weblate/trans/forms.py:1757
-#, fuzzy
-#| msgid "New string added"
 msgid "New strings rate"
-msgstr "Добавен е нов низ"
+msgstr "Нова тарифа за низовете"
 
 #: weblate/trans/forms.py:1764
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs editing rate"
-msgstr "Нуждае се от редактиране"
+msgstr "Тарифа за нуждаещите се от редактиране"
 
 #: weblate/trans/forms.py:1771
-#, fuzzy
-#| msgid "Extract comments with tag"
 msgid "Exact match rate"
-msgstr "Извличане на коментарите с етикет"
+msgstr "Тарифа за точни съвпадения"
 
 #: weblate/trans/forms.py:1778
 msgid "Fuzzy match rate"
-msgstr ""
+msgstr "Тарифа за приблизителни съвпадения"
 
 #: weblate/trans/forms.py:1785
-#, fuzzy
-#| msgid "Registration date"
 msgid "Repetition rate"
-msgstr "Дата на регистрация"
+msgstr "Тарифа за повторения"
 
 #: weblate/trans/forms.py:1811
 msgid "You do not have permission to access this component."
@@ -18001,12 +17976,14 @@ msgstr "Нямате право на достъп до този компонен
 #: weblate/trans/forms.py:1875
 #, python-format
 msgid "Inherit from %(scope)s"
-msgstr ""
+msgstr "Наследяване от %(scope)s"
 
 #: weblate/trans/forms.py:1894
 msgid ""
 "Inherited value is shown. Disable inheritance to edit the stored override."
 msgstr ""
+"Показана е наследената стойност. Изключете наследяването, за да редактирате "
+"съхранената заменяща стойност."
 
 #: weblate/trans/forms.py:2072
 msgid "This submission has been identified as spam!"
@@ -18014,10 +17991,8 @@ msgstr "Това предложение е разпознато като спа�
 
 #: weblate/trans/forms.py:2175 weblate/trans/forms.py:2537
 #: weblate/trans/forms.py:3110
-#, fuzzy
-#| msgid "Category"
 msgid "category"
-msgstr "Категория"
+msgstr "категория"
 
 #: weblate/trans/forms.py:2175 weblate/trans/forms.py:2540
 #: weblate/trans/forms.py:2542 weblate/trans/forms.py:3110
@@ -18125,10 +18100,8 @@ msgstr ""
 "изключите рецензирането на преводите."
 
 #: weblate/trans/forms.py:3339
-#, fuzzy
-#| msgid "Spaces"
 msgid "workspace"
-msgstr "Интервали"
+msgstr "работно пространство"
 
 #: weblate/trans/forms.py:3377
 msgid "Access"
@@ -18145,34 +18118,34 @@ msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects."
 msgstr ""
+"Въведете UUID на работно пространство, където имате правомощие да "
+"редактиране настройките и да добавяте проекти."
 
 #: weblate/trans/forms.py:3487
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects, or leave empty to move the project out of a workspace."
 msgstr ""
+"Въведете UUID на работно пространство, където имате правомощие да "
+"редактиране настройките и да добавяте проекти, или оставете празно, за да "
+"преместите проекта извън работно пространство."
 
 #: weblate/trans/forms.py:3510
-#, fuzzy
-#| msgid "No matching user found."
 msgid "No matching workspace found."
-msgstr "Няма такъв потребител."
+msgstr "Няма такова работно пространство."
 
 #: weblate/trans/forms.py:3577
 msgid "ZIP file containing project backup"
 msgstr "Файл ZIP съдържащ резервно копие на проект"
 
 #: weblate/trans/forms.py:3606
-#, fuzzy, python-format
-#| msgid ""
-#| "Could not load project backup: The backup is from an incompatible version "
-#| "(%(version)s). Please upgrade your Weblate instance."
+#, python-format
 msgid ""
 "The backup is from an incompatible version (%(version)s). Please upgrade "
 "your Weblate instance."
 msgstr ""
-"Резервното копие на проекта не може да бъде заредено: то е от несъвместима "
-"версия (%(version)s). Моля, надградете инсталацията си на Weblate."
+"Резервното копие е от несъвместима версия (%(version)s). Моля, надградете "
+"инсталацията си на Weblate."
 
 #: weblate/trans/forms.py:3609 weblate/trans/forms.py:3613
 #, python-format
@@ -18338,10 +18311,9 @@ msgid "Expiry cannot be in the past."
 msgstr "Срокът на давност не може да бъде в миналото."
 
 #: weblate/trans/forms.py:4284
-#, fuzzy, python-format
-#| msgid "Manage %(team)s"
+#, python-format
 msgid "Limit languages for %(team)s"
-msgstr "Управление на %(team)s"
+msgstr "Ограничаване на езиците за %(team)s"
 
 #: weblate/trans/forms.py:4345
 msgid "Customize translation workflow for this language"
@@ -18507,10 +18479,8 @@ msgid "Send notification to subscribed users."
 msgstr "Изпращане на известие до абонатите."
 
 #: weblate/trans/models/announcement.py:237
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify both component and category!"
-msgstr "Не трябва да посочвате едновременно и компонент и проект!"
+msgstr "Не трябва да посочвате едновременно и компонент и категория!"
 
 #: weblate/trans/models/announcement.py:246
 msgid "Do not specify both component and project!"
@@ -18552,10 +18522,8 @@ msgstr ""
 
 #: weblate/trans/models/category.py:129 weblate/trans/models/component.py:778
 #: weblate/trans/models/project.py:373
-#, fuzzy
-#| msgid "Translation license"
 msgid "Inherit translation license"
-msgstr "Лиценз на превода"
+msgstr "Наследяване на лиценза на превода"
 
 #: weblate/trans/models/category.py:132
 #, fuzzy
