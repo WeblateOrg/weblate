@@ -772,10 +772,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             $translations.empty();
             ["stale replacement 1", "current replacement 2"].forEach((text, idx) => {
                 const key = String((idx + 1) % 10);
-                const $row = $("<tr/>").attr("data-machinery-key", key).data("raw", {
-                    plural_forms: [0],
-                    text: text,
-                });
+                const $row = $("<tr/>")
+                    .attr("data-machinery-key", key)
+                    .attr("data-raw", JSON.stringify({
+                        plural_forms: [0],
+                        text: text,
+                    }));
                 $row.append(
                     $("<td/>")
                         .addClass("machinery-number")
