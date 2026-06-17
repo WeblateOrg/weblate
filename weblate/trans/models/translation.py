@@ -140,6 +140,7 @@ class TranslationManager(models.Manager):
         path,
         force=False,
         request: AuthenticatedHttpRequest | None = None,
+        user: User | None = None,
         change=None,
     ):
         """Parse translation meta info and updates translation object."""
@@ -153,7 +154,7 @@ class TranslationManager(models.Manager):
             translation.language_code = code
             translation.save(update_fields=["filename", "language_code"])
         force |= translation.sync_readonly_check_flag()
-        translation.check_sync(force, request=request, change=change)
+        translation.check_sync(force, request=request, change=change, author=user)
         return translation
 
 
@@ -665,6 +666,7 @@ class Translation(
                         if newunit.unit_attributes is not None
                     ],
                     create_unit_change_action=self.create_unit_change_action,
+                    user=author or user,
                 )
 
         # Create/update translations
@@ -697,7 +699,7 @@ class Translation(
         with start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
                 change = ActionEvents.UPDATE
-            user = None if request is None else request.user
+            user = request.user if request is not None else author
 
             details = {
                 "filename": self.filename,
