@@ -10,16 +10,16 @@ import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from base64 import b64encode
 from types import SimpleNamespace
-from typing import TYPE_CHECKING
 from unittest.mock import patch
 
+from django.db import connection
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 
 from weblate.auth.models import Permission, Role
-from weblate.gitexport.models import get_export_url
+from weblate.gitexport.models import get_export_url, update_all_components
 from weblate.gitexport.views import (
     MAX_PRECHECK_PKT_LINES,
     GitHTTPBackendWrapper,
@@ -28,13 +28,10 @@ from weblate.gitexport.views import (
     get_wanted_revisions,
     has_missing_requested_revision,
 )
-from weblate.trans.models import Project
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
-
-if TYPE_CHECKING:
-    from weblate.trans.models import Component
 
 
 def pkt_line(payload: bytes) -> bytes:
@@ -100,6 +97,31 @@ class GitExportTest(ViewTestCase):
             component = self.component
         kwargs = {"git_request": path, "path": component.get_url_path()}
         return reverse("git-export", kwargs=kwargs)
+
+    def test_update_all_components_prefetches_url_path(self) -> None:
+        parent_category = self.create_category(self.project)
+        child_category = Category.objects.create(
+            project=self.project,
+            name="Child category",
+            slug="child-category",
+            category=parent_category,
+        )
+        self.component.category = child_category
+        self.component.save(update_fields=["category"])
+        second = self.create_po(project=self.project, name="Second")
+        second.category = child_category
+        second.save(update_fields=["category"])
+        Component.objects.filter(pk__in=[self.component.pk, second.pk]).update(
+            git_export=""
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            update_all_components()
+
+        for query in queries:
+            sql = query["sql"]
+            self.assertNotIn('FROM "trans_category" WHERE "trans_category"."id" =', sql)
+            self.assertNotIn('FROM "trans_project" WHERE "trans_project"."id" =', sql)
 
     def test_git_root(self) -> None:
         response = self.client.get(self.get_git_url().replace("info/refs", ""))
