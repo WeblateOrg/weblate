@@ -64,7 +64,7 @@ def update_project_git_export(sender, instance, **kwargs) -> None:
 def update_all_components() -> None:
     """Update git export URL for all components."""
     update_components(
-        Component.objects.select_related(
+        Component.objects.prefetch_related(
             "project",
             "category",
             "category__project",
