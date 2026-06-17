@@ -111,9 +111,11 @@ def perform_load(
     user_id: int | None = None,
 ) -> None:
     request: AuthenticatedHttpRequest | None = None
+    user: User | None = None
     if user_id:
+        user = User.objects.get(pk=user_id)
         request = AuthenticatedHttpRequest()
-        request.user = User.objects.get(pk=user_id)
+        request.user = user
     try:
         component = Component.objects.get(pk=pk)
     except Component.DoesNotExist:
@@ -127,6 +129,7 @@ def perform_load(
         from_link=from_link,
         change=change,
         request=request,
+        user=user,
     )
 
 

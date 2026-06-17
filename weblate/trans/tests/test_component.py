@@ -1537,6 +1537,7 @@ class ComponentErrorTest(RepoTestCase):
             force_scan=False,
             langs=None,
             request=request,
+            user=None,
             changed_template=False,
             from_link=False,
             change=None,

@@ -1724,13 +1724,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._sources = {}
         self._sources_prefetched = False
 
-    def _process_new_source(self, source: Unit, *, save: bool = True) -> Change:
+    def _process_new_source(
+        self, source: Unit, *, save: bool = True, user: User | None = None
+    ) -> Change:
         # Avoid fetching empty list of checks from the database
         source.all_checks = []
         source.source_updated = True
+        user = user or self.acting_user
         change = source.generate_change(
-            self.acting_user,
-            self.acting_user,
+            user,
+            user,
             ActionEvents.NEW_SOURCE,
             check_new=False,
             save=save,
@@ -1743,6 +1746,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         attributes_list: list[UnitAttributesDict],
         *,
         create_unit_change_action: ActionEvents = ActionEvents.NEW_UNIT_REPO,
+        user: User | None = None,
     ) -> None:
         """Ensure that all sources are stored in the database."""
         # Make sure we load all the sources
@@ -1792,7 +1796,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self._sources[unit.id_hash] = unit
 
             # Postprocess and create change
-            change = self._process_new_source(unit, save=False)
+            change = self._process_new_source(unit, save=False, user=user)
             if create_unit_change_action == ActionEvents.NEW_UNIT_UPLOAD:
                 change.action = ActionEvents.NEW_SOURCE_UPLOAD
             elif create_unit_change_action == ActionEvents.NEW_UNIT_REPO:
@@ -2339,6 +2343,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @perform_on_link
     def do_update(self, request: AuthenticatedHttpRequest | None = None, method=None):
         """Perform repository update."""
+        user = self.get_update_user(request)
         self.translations_progress = 0
         self.translations_count = 0
         # Hold lock all time here to avoid somebody writing between commit
@@ -2368,9 +2373,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
             # commit possible pending changes if needed
             if self.needs_commit_upstream():
-                self.commit_pending(
-                    "update", request.user if request else None, skip_push=True
-                )
+                self.commit_pending("update", user, skip_push=True)
 
             # update local branch
             try:
@@ -2379,6 +2382,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     method=method,
                     skip_push=True,
                     parse_after_update=True,
+                    user=user,
                 )
             except RepositoryError:
                 result = False
@@ -2387,7 +2391,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             # create translation objects for all files
             parse_error = None
             try:
-                self.create_translations(request=request)
+                self.create_translations(request=request, user=user)
             except FileParseError as error:
                 parse_error = error
 
@@ -2403,6 +2407,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.translations_count = None
 
         return result
+
+    def get_update_user(self, request: AuthenticatedHttpRequest | None) -> User:
+        """Return user to credit for background update events."""
+        user = request.user if request else self.acting_user
+        if user is not None:
+            return user
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
+
+        return User.objects.get_or_create_bot(
+            scope="weblate", name="update", verbose="Background update"
+        )
 
     @perform_on_link
     def push_if_needed(self, do_update=True) -> None:
@@ -3436,11 +3453,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         method: str | None = None,
         skip_push: bool = False,
         parse_after_update: bool = False,
+        user: User | None = None,
     ) -> bool:
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
-        user = request.user if request else self.acting_user
+        if user is None:
+            user = request.user if request else self.acting_user
         # run pre update hook
         vcs_pre_update.send(sender=self.__class__, component=self)
         for component in self.linked_children:
@@ -3779,6 +3798,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         force_scan: bool = False,
         langs: list[str] | None = None,
         request: AuthenticatedHttpRequest | None = None,
+        user: User | None = None,
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
@@ -3793,6 +3813,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 force_scan=force_scan,
                 langs=langs,
                 request=request,
+                user=user,
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
@@ -3807,6 +3828,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     force_scan=force_scan,
                     langs=langs,
                     request=request,
+                    user=user,
                     changed_template=changed_template,
                     from_link=from_link,
                     change=change,
@@ -3819,6 +3841,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import perform_load
 
+        load_user = user or (request.user if request is not None else None)
         self.queue_background_task(
             perform_load,
             pk=self.pk,
@@ -3828,7 +3851,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             changed_template=changed_template,
             from_link=from_link,
             change=change,
-            user_id=request.user.id if request is not None else None,
+            user_id=load_user.id if load_user is not None else None,
         )
         return False
 
@@ -3839,6 +3862,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         force_scan: bool = False,
         langs: list[str] | None = None,
         request: AuthenticatedHttpRequest | None = None,
+        user: User | None = None,
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
@@ -3859,6 +3883,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 force_scan=force_scan,
                 langs=langs,
                 request=request,
+                user=user,
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
@@ -3891,6 +3916,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         force_scan: bool = False,
         langs: list[str] | None = None,
         request: AuthenticatedHttpRequest | None = None,
+        user: User | None = None,
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
@@ -3898,6 +3924,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Load translations from VCS."""
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import update_enforced_checks
+
+        user = user or (request.user if request else self.acting_user)
 
         self.store_background_task()
 
@@ -3994,6 +4022,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         path,
                         force,
                         request=request,
+                        user=user,
                         change=change,
                     )
                 except InvalidTemplateError as error:
@@ -4031,7 +4060,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         "removing stale translations: %s",
                         ",".join(trans.language.code for trans in todelete),
                     )
-                    user = self.acting_user or (request.user if request else None)
                     Change.objects.bulk_create(
                         Change(
                             component=self,
@@ -4073,6 +4101,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     force_scan=force_scan,
                     langs=langs,
                     request=request,
+                    user=user,
                     from_link=True,
                 )
             except FileParseError as error:
