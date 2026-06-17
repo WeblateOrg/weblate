@@ -17,7 +17,7 @@ from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
 import regex
-from celery import current_task
+from celery import current_task, uuid
 from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
@@ -232,6 +232,7 @@ AZURE_REPOS_REGEXP = [
 REPOWEB_BRANCH = "{{branch}}"
 REPOWEB_FILENAME = "{{filename}}"
 REPOWEB_LINE = "{{line}}"
+BACKGROUND_TASK_TTL = 6 * 3600
 
 
 def perform_on_link(func):
@@ -269,6 +270,13 @@ class LocalHeadChange:
     def refresh_new_head(self) -> str:
         self.new_head = self.component.get_local_head_revision()
         return self.new_head
+
+
+class CommitTaskPayload(TypedDict):
+    reason: str
+    user_id: int | None
+    force_scan: bool
+    previous_head: str | None
 
 
 def prefetch_tasks(components):
@@ -1565,6 +1573,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def update_key(self) -> str:
         return f"component-update-{self.pk}"
 
+    @cached_property
+    def commit_task_key(self) -> str:
+        return f"component-commit-{self.effective_repo_component.pk}"
+
+    @cached_property
+    def commit_task_reschedule_key(self) -> str:
+        return f"component-commit-reschedule-{self.effective_repo_component.pk}"
+
     def delete_background_task(self) -> None:
         delete_task_metadata(self.background_task_id)
         cache.delete(self.update_key)
@@ -1574,13 +1590,104 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if not current_task:
                 return
             task = current_task.request
-        cache.set(self.update_key, task.id, 6 * 3600)
+        cache.set(self.update_key, task.id, BACKGROUND_TASK_TTL)
         store_task_metadata(task.id, component_id=self.pk)
 
     def queue_background_task(self, task, /, *args, **kwargs) -> None:
         transaction.on_commit(
             lambda: self.store_background_task(task.delay(*args, **kwargs))
         )
+
+    @staticmethod
+    def get_current_task_id() -> str | None:
+        if not current_task:
+            return None
+        return getattr(current_task.request, "id", None)
+
+    def delete_commit_task(
+        self, *, clear_reschedule: bool = True, require_match: bool = False
+    ) -> bool:
+        task_id = cache.get(self.commit_task_key)
+        if require_match and task_id != self.get_current_task_id():
+            return False
+        if task_id:
+            delete_task_metadata(task_id)
+        cache.delete(self.commit_task_key)
+        if clear_reschedule:
+            cache.delete(self.commit_task_reschedule_key)
+        return True
+
+    def finish_commit_task(self) -> CommitTaskPayload | None:
+        if not self.delete_commit_task(clear_reschedule=False, require_match=True):
+            return None
+        payload = cache.get(self.commit_task_reschedule_key)
+        cache.delete(self.commit_task_reschedule_key)
+        if isinstance(payload, dict):
+            return cast("CommitTaskPayload", payload)
+        return None
+
+    @perform_on_link
+    def queue_commit_pending(
+        self,
+        reason: str,
+        *,
+        user_id: int | None = None,
+        force_scan: bool = False,
+        previous_head: str | None = None,
+        deduplicate: bool = True,
+    ) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import perform_commit
+
+        def schedule_commit() -> None:
+            payload: CommitTaskPayload = {
+                "reason": reason,
+                "user_id": user_id,
+                "force_scan": force_scan,
+                "previous_head": previous_head,
+            }
+            task_kwargs = {
+                "user_id": user_id,
+                "force_scan": force_scan,
+                "previous_head": previous_head,
+            }
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                self.log_info("scheduling commit")
+                perform_commit.delay(self.pk, reason, **task_kwargs)
+                return
+
+            task_id = uuid()
+            if deduplicate:
+                task_added = cache.add(
+                    self.commit_task_key, task_id, BACKGROUND_TASK_TTL
+                )
+                if not task_added:
+                    cache.set(
+                        self.commit_task_reschedule_key,
+                        payload,
+                        BACKGROUND_TASK_TTL,
+                    )
+                    self.log_info("skipped commit scheduling: commit already scheduled")
+                    return
+            else:
+                cache.set(self.commit_task_key, task_id, BACKGROUND_TASK_TTL)
+
+            self.log_info("scheduling commit")
+            store_task_metadata(task_id, component_id=self.pk)
+            try:
+                perform_commit.apply_async(
+                    args=(self.pk, reason),
+                    kwargs=task_kwargs,
+                    task_id=task_id,
+                )
+            except Exception:
+                self.delete_commit_task()
+                raise
+
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            schedule_commit()
+        else:
+            transaction.on_commit(schedule_commit)
 
     @cached_property
     def background_task_id(self):
@@ -3198,7 +3305,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return translation
 
     @perform_on_link
-    def commit_pending(  # ruff: ignore[complex-structure]
+    def commit_pending(
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
@@ -3210,24 +3317,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 scope="weblate", name="commit", verbose="Background commit"
             )
 
-        pending_changes = list(
-            PendingUnitChange.objects.for_component(
-                self, apply_filters=True, include_linked=True
-            ).values_list("pk", "unit__translation_id")
-        )
+        pending_translation_ids = PendingUnitChange.objects.for_component(
+            self, apply_filters=True, include_linked=True
+        ).values_list("unit__translation_id", flat=True)
 
-        # Short-circuit if no committable changes remain after all filters (including blocking check)
-        # This prevents unnecessary processing when blocking changes filter out all pending changes
-        if not pending_changes:
-            return True
-
-        changes_by_translation = defaultdict(list)
-        for pending_change_pk, translation_id in pending_changes:
-            changes_by_translation[translation_id].append(pending_change_pk)
-
-        # Get all translation with pending changes, source translation first
+        # Get all translations with committable changes, source translation first.
         translations = sorted(
-            Translation.objects.filter(pk__in=list(changes_by_translation.keys()))
+            Translation.objects.filter(pk__in=pending_translation_ids)
             .distinct()
             .prefetch_related("component"),
             key=lambda translation: not translation.is_source,
@@ -3272,9 +3368,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
                     components[component.pk] = component
                 with self.start_tracing_span("commit_pending"):
-                    pending_changes_pk = changes_by_translation[translation.pk]
                     translation_changed = translation._commit_pending(  # ruff: ignore[private-member-access]
-                        reason, user, pending_changes_pk
+                        reason, user
                     )
                 was_changed |= translation_changed
                 if translation_changed and component.has_template():
@@ -5603,9 +5698,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def get_lock_change(
         self, *, user: User | None, lock: bool = True, auto: bool = False
     ) -> Change:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import perform_commit
-
         change = Change(
             component=self,
             user=user,
@@ -5613,9 +5705,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             details={"auto": auto},
         )
         if lock and not auto:
-            self.queue_background_task(
-                perform_commit, self.pk, "lock", user_id=user.id if user else None
-            )
+            self.queue_commit_pending("lock", user_id=user.id if user else None)
         return change
 
     @cached_property

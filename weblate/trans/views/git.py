@@ -7,6 +7,7 @@ from collections.abc import Callable
 from functools import wraps
 from typing import TYPE_CHECKING
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -74,6 +75,21 @@ def execute_locked(
             report_error("Repository lock timeout", project=obj.component.project)
 
     return redirect_param(obj, "#repository")
+
+
+def queue_commit(request: AuthenticatedHttpRequest, obj) -> bool:
+    """Queue commit operation for browser requests."""
+    user_id = request.user.id
+    if isinstance(obj, Project):
+        for component in obj.all_repo_components:
+            component.queue_commit_pending("commit", user_id=user_id)
+    elif isinstance(obj, Translation):
+        if not obj.needs_commit():
+            return False
+        obj.component.queue_commit_pending("commit", user_id=user_id)
+    else:
+        obj.queue_commit_pending("commit", user_id=user_id)
+    return True
 
 
 @login_required
@@ -195,6 +211,14 @@ def commit(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBa
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.commit", obj):
         raise PermissionDenied
+
+    if not settings.CELERY_TASK_ALWAYS_EAGER:
+        result = queue_commit(request, obj)
+        if result:
+            messages.success(
+                request, gettext("Pending translations are being committed.")
+            )
+        return redirect_param(obj, "#repository")
 
     return execute_locked(
         request,
