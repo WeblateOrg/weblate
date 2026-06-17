@@ -23,12 +23,15 @@ SBOMs. See :doc:`release-artifacts`.
 Security policies
 -----------------
 
+* :doc:`product-information` - product identity, contact, support, release,
+  and SBOM metadata.
+* :doc:`governance` - security governance documentation and assessment status.
 * :doc:`releases` - release cycle, security update coverage, and upgrade
   support.
 * :doc:`release-artifacts` - release artifact inventory, SBOMs, signatures,
   attestations, and verification.
-* :doc:`dependencies` - dependency monitoring and container vulnerability
-  scanning.
+* :doc:`dependencies` - dependency inventory, vulnerability triage, update
+  automation, and container scanning.
 * :doc:`issues` - vulnerability reporting and disclosure.
 * :doc:`disaster-recovery-plan`
 * :doc:`incident-response-plan`

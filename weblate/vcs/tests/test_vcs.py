@@ -2161,7 +2161,13 @@ class VCSGitHubTest(VCSGitUpstreamTest):
     _sets_push = False
     _repo_override = "https://github.com/WeblateOrg/test.git"
 
-    def mock_responses(self, pr_response, pr_status=200) -> None:
+    def mock_responses(
+        self,
+        pr_response: dict | None = None,
+        pr_status: int = 200,
+        pr_body: str | None = None,
+        pr_content_type: str | None = None,
+    ) -> None:
         """
         Mock response helper function.
 
@@ -2181,11 +2187,17 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             "https://api.github.com/repos/test/test/actions/permissions",
             status=204,
         )
+        kwargs: dict[str, object] = {"status": pr_status}
+        if pr_body is None:
+            kwargs["json"] = pr_response or {}
+        else:
+            kwargs["body"] = pr_body
+            if pr_content_type is not None:
+                kwargs["content_type"] = pr_content_type
         responses.add(
             responses.POST,
             "https://api.github.com/repos/WeblateOrg/test/pulls",
-            json=pr_response,
-            status=pr_status,
+            **kwargs,
         )
 
     def test_api_url_github_com(self) -> None:
@@ -2297,6 +2309,69 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
         mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_empty_server_error(self) -> None:
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(pr_status=500, pr_body="")
+
+            with self.assertRaises(RepositoryError) as error:
+                super().test_push("")
+
+        message = error.exception.get_message()
+        self.assertIn(
+            "GitHub API request failed while creating a pull request", message
+        )
+        self.assertIn("500 Internal Server Error", message)
+        self.assertIn("Please retry later.", message)
+        self.assertNotIn("JSONDecodeError", message)
+
+    @responses.activate
+    def test_pull_request_html_server_error(self) -> None:
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(
+                pr_status=502,
+                pr_body="<html><body>Bad gateway</body></html>",
+                pr_content_type="text/html",
+            )
+
+            with self.assertRaises(RepositoryError) as error:
+                super().test_push("")
+
+        message = error.exception.get_message()
+        self.assertIn(
+            "GitHub API request failed while creating a pull request", message
+        )
+        self.assertIn("502 Bad Gateway", message)
+        self.assertIn("Please retry later.", message)
+        self.assertNotIn("<html>", message)
+
+    @responses.activate
+    def test_pull_request_client_errors_do_not_suggest_retry(self) -> None:
+        for status in (401, 403, 404, 422):
+            with self.subTest(status=status):
+                responses.reset()
+                with patch(
+                    "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+                ) as mocked_push:
+                    mocked_push.return_value = ""
+                    self.mock_responses(
+                        pr_status=status,
+                        pr_response={"message": "Some error"},
+                    )
+
+                    with self.assertRaises(RepositoryError) as error:
+                        super().test_push("")
+
+                message = error.exception.get_message()
+                self.assertIn(
+                    "GitHub API request failed while creating a pull request", message
+                )
+                self.assertIn(str(status), message)
+                self.assertIn("Some error", message)
+                self.assertNotIn("Please retry later.", message)
 
     @responses.activate
     def test_pull_request_exists(self, branch: str = "") -> None:
@@ -2615,6 +2690,61 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             [1 for call in responses.calls if call.request.method == "POST"]
         )
         self.assertEqual(call_count, 1)
+
+    @responses.activate
+    def test_fork_listing_non_json_server_error(self, branch: str = "") -> None:
+        """Test fork discovery with non-JSON server errors."""
+        fork_list_url = (
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True"
+        )
+        fork_create_url = "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork"
+
+        for body, content_type in (
+            ("", None),
+            ("<html><body>Bad gateway</body></html>", "text/html"),
+        ):
+            with self.subTest(body=body):
+                responses.reset()
+                response_kwargs: dict[str, object] = {
+                    "body": body,
+                    "status": 502,
+                }
+                if content_type is not None:
+                    response_kwargs["content_type"] = content_type
+                responses.add(responses.GET, fork_list_url, **response_kwargs)
+                responses.add(
+                    responses.POST,
+                    fork_create_url,
+                    json={
+                        "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                        "http_url_to_repo": "https://gitlab.com/test/test.git",
+                        "_links": {
+                            "self": "https://gitlab.com/api/v4/projects/20227391"
+                        },
+                    },
+                )
+
+                with (
+                    self.assertRaises(RepositoryError) as error,
+                    patch(
+                        "weblate.vcs.git.GitMergeRequestBase.push_to_fork",
+                        return_value="",
+                    ),
+                ):
+                    super().test_push(branch)
+
+                message = error.exception.get_message()
+                self.assertIn("Could not fork repository", message)
+                self.assertIn("502 Bad Gateway", message)
+                self.assertIn("Please retry later.", message)
+                self.assertNotIn("<html>", message)
+                fork_create_calls = [
+                    call
+                    for call in responses.calls
+                    if call.request.method == "POST"
+                    and call.request.url == fork_create_url
+                ]
+                self.assertEqual(fork_create_calls, [])
 
     @responses.activate
     def test_push_duplicate_repo_name(self, branch: str = "") -> None:
@@ -3848,6 +3978,68 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
         ):
             super().test_push(branch)
+
+    @responses.activate
+    def test_pull_request_non_json_server_error(self, branch: str = "") -> None:
+        """Test pull request creation with non-JSON server errors."""
+        for body, content_type in (
+            ("", None),
+            ("<html><body>Bad gateway</body></html>", "text/html"),
+        ):
+            with self.subTest(body=body):
+                responses.reset()
+                self.mock_responses()
+                response_kwargs: dict[str, object] = {
+                    "body": body,
+                    "status": 502,
+                }
+                if content_type is not None:
+                    response_kwargs["content_type"] = content_type
+                responses.replace(
+                    responses.POST,
+                    "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
+                    **response_kwargs,
+                )
+
+                with (
+                    self.assertRaises(RepositoryError) as error,
+                    patch(
+                        "weblate.vcs.git.GitMergeRequestBase.push_to_fork",
+                        return_value="",
+                    ),
+                ):
+                    super().test_push(branch)
+
+                message = error.exception.get_message()
+                self.assertIn(
+                    "Bitbucket Cloud API request failed while creating a pull request",
+                    message,
+                )
+                self.assertIn("502 Bad Gateway", message)
+                self.assertIn("Please retry later.", message)
+                self.assertNotIn("<html>", message)
+
+    @responses.activate
+    def test_fork_non_json_server_error(self, branch: str = "") -> None:
+        """Test fork creation with a non-JSON server error."""
+        self.mock_responses()
+        responses.replace(
+            responses.POST,
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
+            body="",
+            status=502,
+        )
+
+        with (
+            self.assertRaises(RepositoryError) as error,
+            patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""),
+        ):
+            super().test_push(branch)
+
+        message = error.exception.get_message()
+        self.assertIn("Could not fork repository", message)
+        self.assertIn("502 Bad Gateway", message)
+        self.assertIn("Please retry later.", message)
 
     @responses.activate
     def test_default_reviewers_error(self, branch: str = "") -> None:

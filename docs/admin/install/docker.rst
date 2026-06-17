@@ -30,6 +30,13 @@ behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
         git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
         cd weblate-docker
 
+   .. note::
+
+      The Docker Compose files are example deployment configurations. Operators
+      typically customize them for their own deployment and maintain those local
+      changes. Weblate application updates are delivered through Docker image
+      tags; there is no release-bound update path for customized Compose files.
+
 2. Create a :file:`docker-compose.override.yml` file with your settings.
    See :ref:`docker-environment` for full list of environment variables.
 
@@ -253,8 +260,11 @@ should be no need for additional manual actions.
     calendar year. If you need to upgrade from an older release, upgrade first
     to an intermediate version listed in :ref:`version-specific-instructions`.
 
-You might also want to update the ``docker-compose`` repository, though it's
-not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
+If you use the example Compose files without local changes, you can also
+review updates in the ``docker-compose`` repository, though this is not needed
+for most Weblate upgrades. Customized Compose files need to be maintained as
+part of your deployment. See :ref:`docker-postgres-upgrade` for upgrading the
+PostgreSQL server.
 
 .. _docker-postgres-upgrade:
 

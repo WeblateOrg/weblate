@@ -1,10 +1,10 @@
 Release artifacts and verification
 ==================================
 
-This page lists Weblate release and deployment artifacts and explains how to
-verify the artifacts that include published signatures, attestations, and
-SBOMs. For supported versions and security update coverage, see
-:doc:`releases`. For dependency monitoring and container vulnerability
+This page lists Weblate release artifacts and maintained distribution channels
+and explains how to verify the artifacts that include published signatures,
+attestations, and SBOMs. For supported versions and security update coverage,
+see :doc:`releases`. For dependency monitoring and container vulnerability
 scanning, see :doc:`dependencies`.
 
 .. _release-artifact-inventory:
@@ -12,11 +12,11 @@ scanning, see :doc:`dependencies`.
 Release artifact inventory
 --------------------------
 
-Weblate releases and deployment artifacts are published through several
-channels. This inventory lists the artifacts described by this repository and
-where their publishing evidence is maintained. For artifacts maintained in
-Weblate-owned sibling repositories, the table cites the repository where the
-build and release automation lives.
+Weblate releases and maintained distribution channels are published through
+several channels. This inventory lists the artifacts described by this
+repository and where their publishing evidence is maintained. For artifacts
+maintained in Weblate-owned sibling repositories, the table cites the
+repository where the build and release automation lives.
 
 .. list-table::
    :header-rows: 1
@@ -47,15 +47,8 @@ build and release automation lives.
        :doc:`/contributing/release`, and :file:`security.yaml`
      - The workflow builds multi-architecture images, runs container tests,
        scans with Anchore and Trivy, and publishes to Docker Hub and GitHub
-       Packages. Image signing, image SBOM generation, and image provenance
-       evidence were not found in the inspected Docker workflow.
-   * - Docker Compose deployment
-     - `Weblate Docker Compose repository`_
-     - GitHub source repository
-     - :doc:`/admin/install/docker` and
-       :file:`weblate/examples/docker-compose.yml`
-     - The local Compose file is an override example; production Compose files
-       are maintained outside this repository.
+       Packages. Published image digests are signed with Cosign, and the
+       build publishes BuildKit SBOM and provenance attestations.
    * - Kubernetes Helm chart
      - `Weblate Helm repository`_
      - `Weblate Helm repository endpoint`_ and `Artifact Hub`_
@@ -78,7 +71,9 @@ build and release automation lives.
      - `Weblate Client distribution workflow`_,
        `Weblate Client metadata`_, and :doc:`/wlc`
      - The workflow builds and validates source and wheel artifacts, publishes
-       to PyPI using trusted publishing, and creates GitHub releases for tags.
+       to PyPI using trusted publishing, creates GitHub releases for tags,
+       attaches package SBOM files to GitHub releases, and creates package
+       provenance and SBOM attestations.
    * - Weblate Client Docker image
      - `Weblate Client repository`_
      - `Weblate Client Docker image`_ and `Weblate Client GHCR registry`_
@@ -86,13 +81,20 @@ build and release automation lives.
        :doc:`/wlc`
      - The workflow builds multi-architecture images, tests the command-line
        client image, scans with Anchore and Trivy, and publishes to Docker Hub
-       and GitHub Packages. Image signing, image SBOM generation, and image
-       provenance evidence were not found in the inspected client Docker
-       workflow.
+       and GitHub Packages. Published image digests are signed with Cosign,
+       CycloneDX image SBOMs are generated with Syft, and image provenance and
+       SBOM attestations are pushed to the registries.
 
 The development Docker files in :file:`dev-docker/` and the fuzzing container
 definitions in :file:`.clusterfuzzlite/` are development and testing
 infrastructure, not production release artifacts.
+
+Docker Compose files, including the `Weblate Docker Compose repository`_ and
+local override examples, are example deployment configurations rather than
+release artifacts. Operators typically adapt them for their own deployments and
+update Weblate primarily by selecting or pulling Docker image tags. They are
+not covered by the release signatures, SBOMs, or provenance statements on this
+page.
 
 .. _sbom:
 
@@ -196,9 +198,10 @@ Other release channels
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The release artifact inventory does not currently identify signatures, SBOMs,
-or provenance attestations for Docker images, Weblate Client package or Docker
-artifacts, or Helm charts. The verification instructions in this section apply
-to the Weblate Python release artifacts published by this repository.
+or provenance attestations for Helm charts. The verification instructions in
+this section apply to the Weblate Python release artifacts published by this
+repository. Docker image and Weblate Client supply-chain metadata is published
+by their owning repositories.
 
 .. _GitHub release assets: https://github.com/WeblateOrg/weblate/releases/latest
 .. _GitHub releases: https://github.com/WeblateOrg/weblate/releases

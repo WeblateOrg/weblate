@@ -25,6 +25,7 @@ Currently the following is covered:
 * Duplicate file mask used for linked components
 * Conflicting merge request repository setup
 * Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)
+* Unused glossary languages
 
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).
