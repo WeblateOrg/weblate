@@ -139,7 +139,7 @@ from weblate.utils.licenses import (
     get_license_url,
     is_libre,
 )
-from weblate.utils.lock import WeblateLock
+from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.random import get_random_identifier
 from weblate.utils.regex import (
     compile_regex,
@@ -2385,10 +2385,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if result:
             # create translation objects for all files
-            self.create_translations(request=request)
+            parse_error = None
+            try:
+                self.create_translations(request=request)
+            except FileParseError as error:
+                parse_error = error
 
             # Push after possible merge
             self.push_if_needed(do_update=False)
+            if parse_error is not None:
+                raise parse_error
 
         if not self.repo_needs_push():
             self.delete_alert("RepositoryChanges")
@@ -3792,10 +3798,27 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 change=change,
             )
 
+        # When already in a Celery repository task, scan inline so the same
+        # task tracks progress instead of finishing before a nested load task.
+        if current_task and current_task.request.id:
+            try:
+                return self.create_translations_immediate(
+                    force=force,
+                    force_scan=force_scan,
+                    langs=langs,
+                    request=request,
+                    changed_template=changed_template,
+                    from_link=from_link,
+                    change=change,
+                )
+            except WeblateLockTimeoutError:
+                self.log_info("scheduling update in background after lock timeout")
+        else:
+            self.log_info("scheduling update in background")
+
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import perform_load
 
-        self.log_info("scheduling update in background")
         self.queue_background_task(
             perform_load,
             pk=self.pk,
@@ -4022,6 +4045,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     Translation.objects.filter(
                         id__in=[translation.id for translation in todelete]
                     ).delete()
+                    if not self.is_glossary:
+                        # ruff: ignore[import-outside-top-level]
+                        from weblate.glossary.tasks import cleanup_stale_glossaries
+
+                        cleanup_stale_glossaries.delay_on_commit(self.project.id)
                     # Indicate a change to invalidate stats
                     was_change = True
 

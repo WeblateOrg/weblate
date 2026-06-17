@@ -43,6 +43,7 @@ Weblate 2026.7
 * Hardened HTML and AJAX object lookups against private project enumeration.
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
+* Repository reset and update progress now includes follow-up translation-file reconciliation.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
 
 .. rubric:: Compatibility
