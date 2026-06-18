@@ -27,7 +27,7 @@ Installation
 
 .. hint::
 
-   Git exporter is turned on in our official Docker image. To turn it of, use:
+   Git exporter is turned on in our official Docker image. To turn it off, use:
 
    .. code-block:: sh
 
