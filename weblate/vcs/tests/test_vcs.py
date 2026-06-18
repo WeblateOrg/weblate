@@ -9,6 +9,9 @@ import json
 import os.path
 import re
 import shutil
+
+# ruff: ignore[suspicious-subprocess-import]
+import subprocess
 import tempfile
 from contextlib import ExitStack
 from datetime import datetime
@@ -263,6 +266,37 @@ class RepositoryTest(SimpleTestCase):
         error = RepositoryError(-1, "Can not switch subversion URL")
 
         self.assertEqual(str(error), "Can not switch subversion URL (-1)")
+
+    def test_popen_retry_does_not_duplicate_command(self) -> None:
+        failed_process = subprocess.CompletedProcess(
+            args=["git", "reset", "--hard"],
+            returncode=1,
+            stdout="fatal: lock failed",
+            stderr=None,
+        )
+        successful_process = subprocess.CompletedProcess(
+            args=["git", "reset", "--hard"],
+            returncode=0,
+            stdout="",
+            stderr=None,
+        )
+
+        with (
+            tempfile.TemporaryDirectory() as cwd,
+            patch.object(GitRepository, "should_retry_popen", return_value=True),
+            patch(
+                "weblate.vcs.base.subprocess.run",
+                side_effect=[failed_process, successful_process],
+            ) as run,
+        ):
+            # ruff: ignore[private-member-access]
+            GitRepository._popen(["reset", "--hard"], cwd=cwd)
+
+        self.assertEqual(run.call_count, 2)
+        self.assertEqual(
+            [call.kwargs["args"] for call in run.call_args_list],
+            [["git", "reset", "--hard"], ["git", "reset", "--hard"]],
+        )
 
     def test_popen_missing_working_tree_raises_repository_error(self) -> None:
         cwd = os.path.join(tempfile.gettempdir(), "missing-working-tree")
