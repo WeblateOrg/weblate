@@ -10,14 +10,15 @@
 # Daniel Nylander <daniel@danielnylander.se>, 2025, 2026.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
+# goeran <goeran@uddeborg.se>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-14 02:03+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-19 00:02+0000\n"
+"Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -203,6 +204,10 @@ msgid ""
 "recommended if you suspect your password was compromised. Disable it to keep "
 "your current API key active after changing your password."
 msgstr ""
+"Låt detta vara aktiverat för att återkalla den nuvarande API-nyckeln och "
+"generera en ny. Detta rekommenderas om du misstänker att ditt lösenord har "
+"blivit avslöjat. Avaktivera det för att behålla din nuvarande API-nyckel "
+"aktiv efter att lösenordet bytts."
 
 #: weblate/accounts/forms.py:781
 msgid "Your password has been changed."
@@ -571,6 +576,7 @@ msgstr ""
 msgid ""
 "Account created externally from weblate.org for access to purchased services."
 msgstr ""
+"Kontot skapades externt från weblate.org för åtkomst till betalda tjänster."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:329
@@ -613,12 +619,12 @@ msgstr "Användaren togs bort från team {team} av {username}."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:351
 msgid "Superuser privileges granted."
-msgstr ""
+msgstr "Superanvändarrättigheter godkända."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:353
 msgid "Superuser privileges revoked."
-msgstr ""
+msgstr "Superanvändarrättigheter återkallade."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:355
@@ -741,7 +747,7 @@ msgstr ""
 #: weblate/accounts/models.py:464
 msgctxt "User agent device type"
 msgid "PC"
-msgstr ""
+msgstr "PC"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:466
@@ -1489,11 +1495,12 @@ msgstr "Gratis provperiod"
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"Att återkallar redigeringar av %(user)s över hela sajten har schemalagts."
 
 #: weblate/accounts/views.py:816
 #, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
-msgstr ""
+msgstr "Att rensa upp bidrag från %(user)s över hela sajten har schemalagts."
 
 #: weblate/accounts/views.py:823 weblate/trans/views/acl.py:340
 #, fuzzy
@@ -1809,18 +1816,24 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Detta tillägg påverkar hela projektet och kan skapa översättningsfiler i "
+"många komponenter eller förråd."
 
 #: weblate/addons/consistency.py:134
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Detta tillägg påverkar hela kategorin och kan skapa översättningsfiler i "
+"många komponenter eller förråd."
 
 #: weblate/addons/consistency.py:138
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Detta tillägg påverkar alla projekt och kan skapa översättningsfiler i många "
+"komponenter eller förråd."
 
 #: weblate/addons/consistency.py:244 weblate/trans/models/component.py:5279
 msgid ""
@@ -1999,14 +2012,15 @@ msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
 msgstr ""
+"Hur ofta tillägget skall uppdatera POT-filen när komponenten uppdateras."
 
 #: weblate/addons/forms.py:151
 msgid "Normalize POT header"
-msgstr ""
+msgstr "Normalisera POT-huvudet"
 
 #: weblate/addons/forms.py:155
 msgid "Updates gettext headers and replaces placeholder POT comments."
-msgstr ""
+msgstr "Uppdaterar gettext-huvuden och ersätter platshållare i POT-kommentarer."
 
 #: weblate/addons/forms.py:159
 #, fuzzy
@@ -2019,6 +2033,8 @@ msgid ""
 "Ensures the msgmerge add-on is installed and triggers it after the POT file "
 "is updated."
 msgstr ""
+"Säkerställer att tillägget msgmerg är installerat och triggar det efter att "
+"POT-filen är uppdaterad."
 
 #: weblate/addons/forms.py:189
 #, fuzzy
@@ -2102,13 +2118,15 @@ msgstr "Specialtecken"
 
 #: weblate/addons/forms.py:272
 msgid "POTFILES manifest"
-msgstr ""
+msgstr "POTFILES-förteckningen"
 
 #: weblate/addons/forms.py:277
 msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
+"Välj huruvida xgettext skall läsa källfiler från glob-mönster eller från en "
+"förteckning POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:282
 #, fuzzy
@@ -2121,16 +2139,21 @@ msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
 msgstr ""
+"Programmeringsspråk som skickas till xgettext, till exempel Python eller C. "
+"Lämna det blankt för att låta xgettext gissa språket utgående från "
+"filändelsen."
 
 #: weblate/addons/forms.py:295
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
+"Nyradsseparerade förrådsrelativa glob-mönster på filer som skall extraheras "
+"med xgettext."
 
 #: weblate/addons/forms.py:300
 msgid "POTFILES path"
-msgstr ""
+msgstr "POTFILES-sökväg"
 
 #: weblate/addons/forms.py:304
 msgid ""
