@@ -281,14 +281,15 @@ class RepositoryTest(SimpleTestCase):
         )
 
         with (
+            tempfile.TemporaryDirectory() as cwd,
             patch.object(GitRepository, "should_retry_popen", return_value=True),
             patch(
                 "weblate.vcs.base.subprocess.run",
                 side_effect=[failed_process, successful_process],
             ) as run,
         ):
-            # ruff: ignore[private-member-access, hardcoded-temp-file]
-            GitRepository._popen(["reset", "--hard"], cwd="/tmp")
+            # ruff: ignore[private-member-access]
+            GitRepository._popen(["reset", "--hard"], cwd=cwd)
 
         self.assertEqual(run.call_count, 2)
         self.assertEqual(
