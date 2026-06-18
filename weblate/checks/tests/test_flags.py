@@ -335,7 +335,7 @@ class FlagTest(SimpleTestCase):
 
         # test md-text flag for MDX
         content = f'{PO_HEADER}#: ../../path/file.mdx:24 ../../path/file.mdx:52msgid "Hello, world!"msgstr "Nazdar svete!"'
-        check_location_flags(content, {"md-text"})
+        check_location_flags(content, {"md-text", "safe-mdx"})
 
     def test_get_flag_choices(self) -> None:
         choices = get_flag_choices()

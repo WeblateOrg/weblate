@@ -10,7 +10,7 @@ Markdown files
 The translatable content is extracted from the Markdown files and offered for the translation.
 For Markdown files with JSX syntax, use :ref:`mdx`.
 
-Markdown units automatically get the ``md-text`` and ``auto-safe-html`` flags.
+Markdown units automatically get the ``md-text``, ``auto-safe-html`` and ``strict-same`` flags.
 This keeps the unsafe HTML check active for plain text, standard HTML, and
 custom elements while avoiding HTML cleanup on non-HTML angle-bracket syntax
 such as MDX or JSX-like components. Use the explicit ``safe-html`` flag for

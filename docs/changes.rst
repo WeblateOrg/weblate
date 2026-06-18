@@ -5,6 +5,7 @@ Weblate 2026.7
 
 .. rubric:: New features
 
+* Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 
 .. rubric:: Improvements
