@@ -31,6 +31,7 @@ from weblate.screenshots.forms import (
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Unit
+from weblate.trans.util import redirect_next
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
@@ -407,13 +408,7 @@ class ScreenshotList(PathViewMixin, ListView):  # type: ignore[misc]
                 ),
             )
             next_url = request.POST.get("next") or request.GET.get("next")
-            if (
-                next_url
-                and next_url.startswith("/")
-                and url_has_allowed_host_and_scheme(url=next_url, allowed_hosts=None)
-            ):
-                return redirect(next_url)
-            return redirect(obj)
+            return redirect_next(next_url, obj)
         messages.error(
             request, gettext("Could not upload screenshot, please fix errors below.")
         )
