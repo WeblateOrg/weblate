@@ -9,6 +9,7 @@ import json
 import os.path
 import re
 import shutil
+# ruff: ignore[suspicious-subprocess-import]
 import subprocess
 import tempfile
 from contextlib import ExitStack
@@ -286,7 +287,7 @@ class RepositoryTest(SimpleTestCase):
                 side_effect=[failed_process, successful_process],
             ) as run,
         ):
-            # ruff: ignore[private-member-access]
+            # ruff: ignore[private-member-access, hardcoded-temp-file]
             GitRepository._popen(["reset", "--hard"], cwd="/tmp")
 
         self.assertEqual(run.call_count, 2)
