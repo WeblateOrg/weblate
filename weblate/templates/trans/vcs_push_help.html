@@ -1,0 +1,12 @@
+{% load i18n translations %}
+
+<div class="mb-3">
+  <div id="vcs-push-help-data" data-categories='{{ vcs_push_categories }}' hidden></div>
+  <div id="vcs-push-help" class="form-text">
+    <span class="vcs-push-help-text"></span>
+    <span class="vcs-push-help-warning text-danger"></span>
+    <a href="{% documentation 'admin/code-hosting' 'code-hosting-push-options' %}"
+       target="_blank"
+       rel="noopener">{% translate "Learn more about pushing changes from Weblate." %}</a>
+  </div>
+</div>

@@ -134,6 +134,7 @@ from weblate.utils.validators import (
     validate_translation_upload_size,
 )
 from weblate.utils.views import get_sort_name
+from weblate.vcs.git import GitMergeRequestBase
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
@@ -2101,6 +2102,19 @@ class ProjectAntispamMixin(SpamCheckMixin):
     spam_fields = ("web", "instructions")
 
 
+def get_vcs_push_categories() -> str:
+    """Return JSON mapping of VCS identifier to push behavior category."""
+    categories: dict[str, str] = {}
+    for identifier, cls in VCS_REGISTRY.items():
+        if issubclass(cls, GitMergeRequestBase):
+            categories[identifier] = "merge_request"
+        elif cls.pushes_to_different_location:
+            categories[identifier] = "gerrit"
+        else:
+            categories[identifier] = "direct"
+    return json.dumps(categories)
+
+
 class ComponentSettingsForm(
     InheritedSettingsFormMixin,
     SettingsBaseForm,
@@ -2259,6 +2273,10 @@ class ComponentSettingsForm(
                         "branch",
                         "push",
                         "push_branch",
+                        ContextDiv(
+                            template="trans/vcs_push_help.html",
+                            context={"vcs_push_categories": get_vcs_push_categories()},
+                        ),
                         "repoweb",
                     ),
                     Fieldset(
@@ -2511,6 +2529,10 @@ class ComponentCreateForm(
             "branch",
             "push",
             "push_branch",
+            ContextDiv(
+                template="trans/vcs_push_help.html",
+                context={"vcs_push_categories": get_vcs_push_categories()},
+            ),
             "repoweb",
             "file_format",
             "file_format_params",
