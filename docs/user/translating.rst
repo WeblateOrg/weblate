@@ -64,7 +64,9 @@ If you have the :guilabel:`Accept suggestions` permission, you can bulk accept
 all suggestions from a specific user by clicking the account check icon next
 to their suggestion. This is useful for quickly processing suggestions from
 trusted contributors. Suggestions failing quality checks are skipped and
-remain for manual review.
+remain for manual review. Weblate shows the number of matching suggestions for
+confirmation and processes the acceptance in the background. If you can review
+the translation, you can accept and approve the suggestions in the same step.
 
 .. _user-comments:
 

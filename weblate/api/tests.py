@@ -16,6 +16,8 @@ from unittest.mock import MagicMock, call, patch
 import responses
 import yaml
 from django.conf import settings
+from django.contrib import messages as django_messages
+from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
 from django.db import DatabaseError
@@ -7329,6 +7331,86 @@ class TasksAPITest(APIBaseTest):
             response.data,
             {"completed": False, "progress": 0, "result": None, "log": ""},
         )
+
+    def test_retrieve_stores_opt_in_completion_message(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id, "translation_id": None},
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = {
+                    "message": "Task completed.",
+                    "url": "/translate/current/#suggestions",
+                    "completion_message": {
+                        "level": "warning",
+                        "text": "Completion message.",
+                    },
+                }
+                self.state = "SUCCESS"
+
+            def ready(self):
+                return True
+
+        self.client.credentials()
+        self.client.force_login(self.user)
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.client.get(
+                reverse("api:task-detail", kwargs={"pk": self.task_id})
+            )
+
+        self.assertEqual(response.status_code, 200)
+        storage = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(storage), 1)
+        self.assertEqual(storage[0].message, "Completion message.")
+        self.assertEqual(storage[0].level, django_messages.WARNING)
+        self.assertTrue(
+            response.wsgi_request.session[f"task-completion-message-{self.task_id}"]
+        )
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.client.get(
+                reverse("api:task-detail", kwargs={"pk": self.task_id})
+            )
+
+        self.assertEqual(response.status_code, 200)
+        storage = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(storage), 1)
+        self.assertEqual(storage[0].message, "Completion message.")
+
+    def test_retrieve_ignores_result_without_completion_message(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id, "translation_id": None},
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = {
+                    "message": "Task completed.",
+                    "url": "/translate/current/#suggestions",
+                }
+                self.state = "SUCCESS"
+
+            def ready(self):
+                return True
+
+        self.client.credentials()
+        self.client.force_login(self.user)
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.client.get(
+                reverse("api:task-detail", kwargs={"pk": self.task_id})
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(get_messages(response.wsgi_request)), [])
 
     def test_destroy_denies_cached_user_metadata(self) -> None:
         cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)

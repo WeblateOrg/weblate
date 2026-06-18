@@ -30,6 +30,7 @@ Weblate 2026.7
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
 * :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
+* :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.
 
 .. rubric:: Bug fixes
 
