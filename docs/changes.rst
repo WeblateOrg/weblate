@@ -48,6 +48,8 @@ Weblate 2026.7
 
 .. rubric:: Compatibility
 
+* :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, making categorized same-named components distinguishable.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

@@ -15,6 +15,7 @@ from siphashc import siphash
 from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.base import ChangeBaseAddon
+from weblate.trans.actions import get_change_action_identifier
 from weblate.trans.util import split_plural
 from weblate.utils.data import data_path
 from weblate.utils.site import get_site_url
@@ -90,15 +91,19 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         """
         Generate a topic for the change.
 
-        It is in the form weblate.<action>.<project>.<component>.<translation>
+        It is in the form
+        weblate.<action>.<project>.<category...>.<component>.<translation>
         """
-        parts = ["weblate", change.get_action_display().lower().replace(" ", "_")]
-        if change.project:
-            parts.append(change.project.slug)
-        if change.component:
-            parts.append(change.component.slug)
-        if change.translation:
-            parts.append(change.translation.language.code)
+        parts = ["weblate", get_change_action_identifier(change.get_action_display())]
+        for path_object in (
+            change.translation,
+            change.component,
+            change.category,
+            change.project,
+        ):
+            if path_object is not None:
+                parts.extend(path_object.get_url_path())
+                break
         return ".".join(parts)
 
     @staticmethod

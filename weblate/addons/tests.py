@@ -8182,6 +8182,53 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
 
+    def test_topic_scopes(self) -> None:
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_COMPONENT, component=self.component)
+            ),
+            "weblate.component_renamed.test.test",
+        )
+
+        parent_category = Category.objects.create(
+            name="Parent Category", slug="parent", project=self.project
+        )
+        child_category = Category.objects.create(
+            name="Child Category",
+            slug="child",
+            category=parent_category,
+            project=self.project,
+        )
+
+        self.component.category = child_category
+        self.component.save(update_fields=["category"])
+        translation = Translation.objects.get(pk=self.translation.pk)
+
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.PROJECT_BACKUP, project=self.project)
+            ),
+            "weblate.project_backed_up.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_CATEGORY, category=child_category)
+            ),
+            "weblate.category_renamed.test.parent.child",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_COMPONENT, component=self.component)
+            ),
+            "weblate.component_renamed.test.parent.child.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.CHANGE, translation=translation)
+            ),
+            "weblate.translation_changed.test.parent.child.test.cs",
+        )
+
     def test_body(self):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
@@ -8338,5 +8385,8 @@ class TestCommand(ComponentTestCase):
 
         self.assertIn("Common add-on parameters", parameters_content)
         self.assertIn(".. _addon-choice-engines:", parameters_content)
+        self.assertIn(".. _change-actions:", parameters_content)
+        self.assertIn("Identifier", parameters_content)
+        self.assertIn("``resource_updated``", parameters_content)
         self.assertNotIn("Built-in add-ons", parameters_content)
         self.assertNotIn("Events that trigger add-ons", parameters_content)
