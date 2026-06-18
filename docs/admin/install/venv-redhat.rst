@@ -40,7 +40,7 @@ Installing on RedHat, Fedora and CentOS
     # SMTP server
     dnf install postfix
 
-    # Gettext for the msgmerge add-on
+    # Gettext tools for gettext POT/PO update add-ons
     dnf install gettext
 
 .. include:: steps/install-uv.rst

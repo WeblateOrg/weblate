@@ -39,7 +39,7 @@ Installing on SUSE and openSUSE
     # SMTP server
     zypper install postfix
 
-    # Gettext for the msgmerge add-on
+    # Gettext tools for gettext POT/PO update add-ons
     zypper install gettext
 
 .. include:: steps/install-uv.rst
