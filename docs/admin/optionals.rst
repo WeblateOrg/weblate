@@ -27,7 +27,7 @@ Installation
 
 .. hint::
 
-   Git exporter is turned on in our official Docker image. To turn it of, use:
+   Git exporter is turned on in our official Docker image. To turn it off, use:
 
    .. code-block:: sh
 
@@ -60,7 +60,7 @@ requires an API token which can be obtained in your
 
 .. hint::
 
-   By default members or :guilabel:`Users` group and anonymous user have access
+   By default members of :guilabel:`Users` group and anonymous user have access
    to the repositories for public projects via :guilabel:`Access repository`
    and :guilabel:`Power user` roles.
 
