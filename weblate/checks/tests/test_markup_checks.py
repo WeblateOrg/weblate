@@ -469,6 +469,11 @@ class SafeHTMLCheckTest(CheckTestCase):
             ),
         )
 
+    def test_repeated_placeholder_attributes(self) -> None:
+        source = '<a href="%(url)s">link</a>' * 1000
+        self.do_test(False, (source, source, "safe-html"))
+        self.do_test(True, (source, '<a href="„%(url)s“">link</a>', "safe-html"))
+
     def test_positional_printf_placeholder_attribute(self) -> None:
         source = '<a href="%1$s">terms</a>'
         self.do_test(False, (source, source, "safe-html"))

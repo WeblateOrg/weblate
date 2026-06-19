@@ -207,26 +207,30 @@ def strip_html_attribute_wrappers(value: str) -> str:
     return stripped
 
 
-def is_wrapped_html_attribute_placeholder(placeholder: str, value: str | None) -> bool:
-    return (
-        value is not None
-        and value != placeholder
+def get_wrapped_placeholder_attribute(value: str | None) -> str | None:
+    if value is None:
+        return None
+
+    placeholder = strip_html_attribute_wrappers(value)
+    if (
+        value != placeholder
         and placeholder in value
-        and strip_html_attribute_wrappers(value) == placeholder
-    )
+        and is_html_attribute_placeholder(placeholder)
+    ):
+        return placeholder
+    return None
 
 
 def has_changed_placeholder_attributes(source: str, target: str) -> bool:
-    target_values: dict[tuple[str, str], list[str | None]] = defaultdict(list)
+    target_values: set[tuple[str, str, str]] = set()
     for attribute in extract_html_attributes(target):
-        target_values[attribute.tag, attribute.name].append(attribute.value)
+        if placeholder := get_wrapped_placeholder_attribute(attribute.value):
+            target_values.add((attribute.tag, attribute.name, placeholder))
 
     for attribute in extract_html_attributes(source):
-        if not is_html_attribute_placeholder(attribute.value):
-            continue
-        if any(
-            is_wrapped_html_attribute_placeholder(attribute.value, target_value)
-            for target_value in target_values.get((attribute.tag, attribute.name), ())
+        if (
+            is_html_attribute_placeholder(attribute.value)
+            and (attribute.tag, attribute.name, attribute.value) in target_values
         ):
             return True
     return False
