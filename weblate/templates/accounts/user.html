@@ -446,7 +446,10 @@
           </div>
           <div class="card">
             <div class="card-header text-bg-danger">
-              <h4 class="card-title">{% translate "Contribution cleanup" %}</h4>
+              <h4 class="card-title">
+                {% documentation_icon 'admin/access' 'cleanup-user-contributions' right=True %}
+                {% translate "Contribution cleanup" %}
+              </h4>
             </div>
             <div class="card-body">
               {% blocktranslate with user=page_user.username %}Clean up translations, suggestions, and comments from {{ user }} across all projects.{% endblocktranslate %}
@@ -454,8 +457,8 @@
             <div class="card-footer">
               <input type="button"
                      name="cleanup_user_contributions"
-                     value="{% translate "Clean up" %}"
-                     class="btn btn-danger red"
+                     value="{% translate "Choose cleanup actions" %}"
+                     class="btn btn-primary"
                      data-bs-toggle="modal"
                      data-bs-target="#revert_user_edits_{{ page_user.id }}">
             </div>
@@ -467,7 +470,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                  <h4 class="modal-title">{% translate "Choose cleanup actions" %}</h4>
                   <button type="button"
                           class="btn-close"
                           data-bs-dismiss="modal"
@@ -480,7 +483,7 @@
                 <div class="modal-footer">
                   <input type="submit"
                          name="cleanup_user_contributions"
-                         value="{% translate "Clean up" %}"
+                         value="{% translate "Clean up selected contributions" %}"
                          class="btn btn-danger" />
                 </div>
               </div>
