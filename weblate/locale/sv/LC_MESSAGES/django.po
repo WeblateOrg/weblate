@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-19 00:02+0000\n"
+"PO-Revision-Date: 2026-06-19 13:12+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -77,22 +77,16 @@ msgstr ""
 "när ändringarna har committats av Weblate."
 
 #: weblate/accounts/forms.py:219 weblate/accounts/models.py:978
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
-msgstr "Namn på incheckare"
+msgstr "Namn på incheckning"
 
 #: weblate/accounts/forms.py:222
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Används i versionskontrollcommits. Adressen finns kvar i arkivet för alltid "
-"när ändringarna har committats av Weblate."
+"Används i versionskontrollsincheckningar. Namnet finns kvar i arkivet för "
+"alltid, när ändringarna har checkats in av Weblate."
 
 #: weblate/accounts/forms.py:250
 msgid "Use anonymous account name"
@@ -390,10 +384,8 @@ msgid "Team"
 msgstr "Grupp"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Lägg till användare till ett team"
+msgstr "Lägg till till en grupp"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -599,10 +591,9 @@ msgid "User was disabled because the access has expired."
 msgstr "Användaren har inaktiverats eftersom åtkomsten har upphört att gälla."
 
 #: weblate/accounts/models.py:340
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
-msgstr "Användaren lades till i team {team} av {username}."
+msgstr "Användaren lades till i den webbplatsgruppen {team} av {username}."
 
 #: weblate/accounts/models.py:344
 #, fuzzy, python-brace-format
