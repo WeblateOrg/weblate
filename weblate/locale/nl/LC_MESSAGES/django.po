@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-19 08:58+0000\n"
+"PO-Revision-Date: 2026-06-19 13:12+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -10781,10 +10781,9 @@ msgstr "verworpen"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:226
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "%(first)s verschenen - %(last)s voor het laatst gezien"
+msgstr "%(first)s verschenen"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:229
@@ -14982,6 +14981,9 @@ msgid ""
 "The last webhook update for this component used fallback repository matching "
 "instead of an exact repository URL match."
 msgstr ""
+"Het laatste bijwerken van de webhook voor dit onderdeel gebruikte "
+"terugvallen op de overeenkomende opslagruimte, in plaats van een exacte "
+"overeenkomst voor de URL van de opslagruimte."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:8
 msgid ""
@@ -14989,6 +14991,10 @@ msgid ""
 "repository URL sent by the webhook, or when Weblate does not yet understand "
 "the repository URL format in the webhook payload."
 msgstr ""
+"Dat kan gebeuren als de URL voor de opslagruimte van het onderdeel niet "
+"overeenkomt met de URL voor de opslagruimte die is verzonden door de "
+"webhook, of als Weblate de indeling voor de URL van de opslagruimte niet "
+"begrijpt in de lading van de webhook."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:12
 msgid ""
@@ -14996,6 +15002,10 @@ msgid ""
 "issue to Weblate with the webhook service name, configured component "
 "repository URL, branch, and repository URLs from the webhook payload."
 msgstr ""
+"Controleer eerst de URL voor de opslagruimte van het onderdeel. Als die URL "
+"correct is, rapporteer het probleem bij Weblate met de servicenaam van de "
+"webhook, geconfigureerde URL voor de opslagruimte van het onderdeel, branch "
+"en de URL's voor de opslagruimte uit de lading van de webhook."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:16
 #, python-format
@@ -15003,6 +15013,9 @@ msgid ""
 "Inexact webhook matching is currently scheduled for removal in Weblate "
 "2026.9, see <a href=\"%(issue_url)s\">issue #19855</a>."
 msgstr ""
+"Niet exact overeenkomen van webhooks staat op de planning om te worden "
+"verwijderd in Weblate 2026.9, bekijk <a href=\"%(issue_url)s\">issue #19855</"
+"a>."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:24
 msgid "Service"
@@ -16986,10 +16999,8 @@ msgstr "Niet-bestaande bestanden."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:37
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Repository hook matched inexactly."
-msgstr "Opslagruimte-onderhoud"
+msgstr "Webhook naar opslagruimte kwam niet exact overeen."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:97
@@ -17226,12 +17237,8 @@ msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Gehoste Weblate, dé plek om uw softwareproject te vertalen."
 
 #: weblate/trans/context_processors.py:136
-#, fuzzy
-#| msgid "This site runs Weblate for localizing various software projects."
 msgid "This site runs Weblate for localizing a software project."
-msgstr ""
-"Deze website draait op Weblate om verschillende softwareprojecten te "
-"vertalen."
+msgstr "Deze website draait op Weblate om een softwareproject te vertalen."
 
 #: weblate/trans/context_processors.py:140
 msgid "This site runs Weblate for localizing various software projects."
@@ -20404,31 +20411,20 @@ msgid "File upload has failed: %s"
 msgstr "Bestand uploaden is mislukt : %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Het project wordt vertaald naar <strong>%(count)s taal</strong>."
-msgstr[1] "Het project wordt vertaald naar <strong>%(count)s talen</strong>."
+msgstr[0] "{project} wordt met Weblate vertaald naar {count} taal."
+msgstr[1] "{project} wordt met Weblate vertaald naar {count} talen."
 
 #: weblate/trans/util.py:292
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
-msgstr ""
-"{0} wordt vertaald in {1} talen met behulp van Weblate. Vertaal mee of begin "
-"met het vertalen van uw eigen project."
+msgstr "Doe mee met vertalen of begin met het vertalen van uw eigen project."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Klonen naar vertaling"
+msgstr "Doe mee met vertalen."
 
 #: weblate/trans/util.py:412
 msgid "Source upload is only supported on the source language."
