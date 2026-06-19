@@ -81,6 +81,40 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(uploaded_changes.count(), 1)
         self.assertEqual(uploaded_changes[0].user, self.user)
 
+    def test_upload_redirect_next(self) -> None:
+        self.make_manager()
+        next_url = "/projects/weblate/weblate/cs/translate/"
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.client.post(
+                reverse("screenshots", kwargs=self.kw_component),
+                {
+                    "image": handle,
+                    "name": "Obrazek",
+                    "translation": self.component.source_translation.pk,
+                    "next": next_url,
+                },
+            )
+        self.assertRedirects(response, next_url, fetch_redirect_response=False)
+        self.assertEqual(Screenshot.objects.count(), 1)
+
+    def test_upload_redirect_next_invalid(self) -> None:
+        self.make_manager()
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.client.post(
+                reverse("screenshots", kwargs=self.kw_component),
+                {
+                    "image": handle,
+                    "name": "Obrazek",
+                    "translation": self.component.source_translation.pk,
+                    "next": "https://evil.com/redirect",
+                },
+            )
+        self.assertEqual(Screenshot.objects.count(), 1)
+        screenshot = Screenshot.objects.get()
+        self.assertRedirects(
+            response, screenshot.get_absolute_url(), fetch_redirect_response=False
+        )
+
     def test_upload_fail(self) -> None:
         self.make_manager()
         response = self.do_upload(name="")
