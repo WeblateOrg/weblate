@@ -853,7 +853,7 @@ onReady(() => {
     const separator = location.hash.indexOf("__");
     if (separator !== -1) {
       activeTab = document.querySelector(
-        `.nav [data-toggle=tab][data-bs-target="${location.hash.substr(0, separator)}"]`,
+        `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substr(0, separator)}"]`,
       );
       if (activeTab !== null) {
         bootstrap.Tab.getOrCreateInstance(activeTab).show();
@@ -861,7 +861,7 @@ onReady(() => {
       }
     }
     activeTab = document.querySelector(
-      `.nav [data-toggle=tab][data-bs-target="${location.hash}"]`,
+      `.nav [data-bs-toggle=tab][data-bs-target="${location.hash}"]`,
     );
     if (activeTab !== null) {
       bootstrap.Tab.getOrCreateInstance(activeTab).show();
