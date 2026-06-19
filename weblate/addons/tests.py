@@ -4664,6 +4664,32 @@ class ViewTests(ViewTestCase):
             "whole project",
         )
 
+    def test_project_history_filters_project_addon_changes(self) -> None:
+        project_target = "project.addon.visible"
+        component_target = "component.addon.hidden"
+
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            project=self.project,
+            target=project_target,
+            user=self.user,
+        )
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            component=self.component,
+            target=component_target,
+            user=self.user,
+        )
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_project_path))
+
+        self.assertEqual(response.status_code, 200)
+        targets = {change.target for change in response.context["last_changes"]}
+        self.assertIn(project_target, targets)
+        self.assertNotIn(component_target, targets)
+        self.assertContains(response, project_target)
+        self.assertNotContains(response, component_target)
+
     def test_add_simple_category_addon(self) -> None:
         self.setup_language_consistency_preview()
         category = self.create_category(self.project)

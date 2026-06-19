@@ -661,6 +661,21 @@ class Change(models.Model, UserDisplayMixin):
                 name="trans_change_unit_idx",
             ),
             models.Index(
+                fields=["-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=True)
+                & Q(category__isnull=True)
+                & Q(component__isnull=True),
+                name="trans_change_site_addon_idx",
+            ),
+            models.Index(
+                fields=["project", "-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=False)
+                & Q(component__isnull=True),
+                name="trans_change_proj_addon_idx",
+            ),
+            models.Index(
                 fields=["user", "-timestamp", "action"],
                 name="trans_change_user_idx",
             ),
