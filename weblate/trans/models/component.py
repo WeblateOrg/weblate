@@ -189,6 +189,7 @@ from weblate.vcs.ssh import add_host_key, extract_url_host_port
 if TYPE_CHECKING:
     from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
+    from uuid import UUID
 
     from django_stubs_ext import StrOrPromise
 
@@ -512,6 +513,11 @@ OldComponentSetting = TypeVar("OldComponentSetting")
 class Component(  # ruff: ignore[too-many-public-methods]
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
+    # Transient values captured before deletion so post_delete can clean up
+    # automatic translation-memory scopes after related project data is gone.
+    memory_full_slug: str | None = None
+    memory_workspace_id: UUID | None = None
+
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "restricted",
         "enable_suggestions",
@@ -1161,7 +1167,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
         self.new_lang_error_message: str | None = None
 
-    def save(self, *args, **kwargs) -> None:
+    def save(self, *args, **kwargs) -> None:  # ruff: ignore[complex-structure]
         """
         Save wrapper.
 
@@ -1200,6 +1206,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # loop. A full component TM import is only needed when contribution is
         # enabled later for units that already exist.
         update_tm = False
+        old_full_slug = None
+        old_source_project_id = None
+        old_workspace_id = None
 
         if self.id:
             old = Component.objects.get(pk=self.id)
@@ -1212,6 +1221,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 old.__dict__["repository"] = old.build_repository(
                     lock_override=locked_repository.lock
                 )
+            old_full_slug = old.full_slug
+            old_source_project_id = old.project_id
+            old_workspace_id = old.project.workspace_id
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
@@ -1355,8 +1367,129 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for project in self.cached_links:
             project.invalidate_source_language_cache()
 
+        new_full_slug = "/".join(self.get_url_path())
+        if old_full_slug is not None and old_full_slug != new_full_slug:
+            update_tm = (
+                self.rename_automatic_memory_origin(
+                    old_full_slug,
+                    new_full_slug,
+                    old_source_project_id,
+                    old_workspace_id,
+                )
+                or update_tm
+            )
+
         if update_tm:
             import_memory.delay_on_commit(self.project.id, self.pk)
+
+    def rename_automatic_memory_origin(
+        self,
+        origin: str,
+        new_origin: str,
+        source_project_id: int | None,
+        workspace_id: UUID | None,
+    ) -> bool:
+        """Rename automatic TM entries when a component origin changes."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        if source_project_id is None:
+            return False
+
+        needs_import = source_project_id != self.project_id and (
+            self.contribute_project_tm
+            or self.project.contribute_shared_tm
+            or self.project.effective_contribute_workspace_tm
+        )
+
+        new_workspace_id = self.project.workspace_id
+        memory_ids = list(
+            Memory.objects.filter(origin=origin)
+            .filter(
+                Q(scopes__source_project_id=source_project_id)
+                | Q(scopes__project_id=source_project_id)
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
+        if not memory_ids:
+            return needs_import
+
+        memories = Memory.objects.filter(id__in=memory_ids)
+        memories.update(origin=new_origin)
+        MemoryScope.objects.filter(
+            memory_id__in=memory_ids,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project_id=source_project_id,
+        ).update(project_id=self.project_id)
+        MemoryScope.objects.filter(
+            memory_id__in=memory_ids,
+            source_project_id=source_project_id,
+        ).update(source_project_id=self.project_id)
+        if source_project_id != self.project_id:
+            # Scope rows own visibility after the TM scope migration. Keeping
+            # the old project FK on moved rows would let deleting the old
+            # project cascade memory now scoped to the new project.
+            memories.filter(legacy_project_id=source_project_id).update(
+                legacy_project=None
+            )
+        if workspace_id is not None and new_workspace_id is not None:
+            MemoryScope.objects.filter(
+                memory_id__in=memory_ids,
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+            ).update(workspace_id=new_workspace_id)
+
+        scope_query = Q()
+        if not self.contribute_project_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_PROJECT, project_id=self.project_id
+            )
+        if not self.project.contribute_shared_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_SHARED, source_project_id=self.project_id
+            )
+        if not self.project.effective_contribute_workspace_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                source_project_id=self.project_id,
+            )
+        if scope_query:
+            Memory.objects.filter(id__in=memory_ids).delete_scope(
+                scope_query, delete_legacy=False
+            )
+        return needs_import
+
+    def delete_automatic_memory_scopes(
+        self,
+        origin: str | None = None,
+        source_project_id: int | None = None,
+        workspace_id: UUID | None = None,
+    ) -> None:
+        """Remove automatic shared/workspace TM visibility for a component origin."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        if origin is None:
+            origin = self.full_slug
+        if source_project_id is None:
+            source_project_id = self.project_id
+        if workspace_id is None:
+            workspace_id = self.project.workspace_id
+
+        scope_query = Q(
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project_id=source_project_id,
+        )
+        if workspace_id is not None:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+                source_project_id=source_project_id,
+            )
+        Memory.objects.filter(origin=origin).delete_scope(
+            scope_query, delete_legacy=False
+        )
 
     def disable_inheritance_for_changed_settings(
         self, old: Component, update_fields: Collection[str] | None

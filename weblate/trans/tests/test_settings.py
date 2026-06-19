@@ -250,6 +250,27 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, 'name="license"')
         self.assertNotContains(response, 'data-inherited-setting="license"')
 
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_project_settings_mirror_workspace_tm_contribution(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+        self.assertTrue(form.fields["contribute_shared_tm"].widget.is_hidden)
+        self.assertTrue(form.fields["contribute_workspace_tm"].widget.is_hidden)
+
+        data = get_form_data(form.initial)
+        data["use_shared_tm"] = False
+        data["contribute_shared_tm"] = True
+        data["use_workspace_tm"] = True
+        data["contribute_workspace_tm"] = False
+        form = ProjectSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.project,
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertFalse(form.cleaned_data["contribute_shared_tm"])
+        self.assertTrue(form.cleaned_data["contribute_workspace_tm"])
+
     def test_checked_inherited_setting_preserves_override(self) -> None:
         self.project.license = "MIT"
         self.project.save()
@@ -986,6 +1007,8 @@ class SettingsTest(ViewTestCase):
         self.project.enable_hooks = False
         self.project.use_shared_tm = False
         self.project.contribute_shared_tm = False
+        self.project.use_workspace_tm = True
+        self.project.contribute_workspace_tm = True
         self.project.check_flags = "strict-same"
         self.project.save()
 

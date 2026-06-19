@@ -215,6 +215,28 @@ The default value can be changed by :setting:`DEFAULT_SHARED_TM`.
 
     This option is unavailable on Hosted Weblate, it is toggled together with :ref:`project-use_shared_tm`.
 
+.. _project-use-workspace-tm:
+
+Use workspace translation memory
+++++++++++++++++++++++++++++++++
+
+Whether to use translation memory shared by projects in the same workspace,
+see :ref:`memory-scopes` for more details. The workspace has to allow workspace
+translation memory as well.
+
+.. _project-contribute-workspace-tm:
+
+Contribute to workspace translation memory
+++++++++++++++++++++++++++++++++++++++++++
+
+Whether to contribute translations to the translation memory shared by
+projects in the same workspace. The workspace has to allow contribution as
+well.
+
+.. note::
+
+    This option is unavailable on Hosted Weblate, it is toggled together with :ref:`project-use-workspace-tm`.
+
 .. _project-autoclean_tm:
 
 Autoclean translation memory

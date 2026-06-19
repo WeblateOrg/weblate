@@ -4,7 +4,7 @@
 
 from django.contrib import admin
 
-from .models import Memory
+from .models import Memory, MemoryScope, MemoryScopeMigrationState
 
 
 @admin.register(Memory)
@@ -14,8 +14,8 @@ class MemoryAdmin(admin.ModelAdmin):
         "target_language",
         "source",
         "origin",
-        "from_file",
-        "shared",
+        "legacy_from_file",
+        "legacy_shared",
     )
     search_fields = (
         "source_language__code",
@@ -24,4 +24,24 @@ class MemoryAdmin(admin.ModelAdmin):
         "target",
         "origin",
     )
-    list_filter = (("project", admin.RelatedOnlyFieldListFilter), "shared", "from_file")
+    list_filter = (
+        ("legacy_project", admin.RelatedOnlyFieldListFilter),
+        "legacy_shared",
+        "legacy_from_file",
+    )
+
+
+@admin.register(MemoryScope)
+class MemoryScopeAdmin(admin.ModelAdmin):
+    list_display = ("memory", "scope", "project", "workspace", "source_project", "user")
+    list_filter = (
+        "scope",
+        ("project", admin.RelatedOnlyFieldListFilter),
+        ("workspace", admin.RelatedOnlyFieldListFilter),
+        ("source_project", admin.RelatedOnlyFieldListFilter),
+    )
+
+
+@admin.register(MemoryScopeMigrationState)
+class MemoryScopeMigrationStateAdmin(admin.ModelAdmin):
+    list_display = ("name", "last_memory_id", "completed", "updated")

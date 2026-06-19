@@ -13,6 +13,7 @@ Weblate 2026.7
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
 * Added an option to capitalize the text in status badge widgets.
+* Added :ref:`workspace translation memory <memory-scopes>` with asynchronous scope backfill for existing translation memory entries.
 
 .. rubric:: Improvements
 

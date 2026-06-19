@@ -31154,13 +31154,19 @@ components:
           type:
           - integer
           - 'null'
+          readOnly: true
         from_file:
           type: boolean
+          readOnly: true
         shared:
           type: boolean
+          readOnly: true
       required:
+      - from_file
       - id
       - origin
+      - project
+      - shared
       - source
       - source_language
       - target

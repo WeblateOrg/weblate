@@ -3272,6 +3272,8 @@ class ProjectSettingsForm(
             "instructions",
             "use_shared_tm",
             "contribute_shared_tm",
+            "use_workspace_tm",
+            "contribute_workspace_tm",
             "autoclean_tm",
             "enable_hooks",
             "language_aliases",
@@ -3357,6 +3359,7 @@ class ProjectSettingsForm(
         data = self.cleaned_data
         if settings.OFFER_HOSTING:
             data["contribute_shared_tm"] = data["use_shared_tm"]
+            data["contribute_workspace_tm"] = data["use_workspace_tm"]
 
         # ACCESS_PUBLIC = 0, so the condition can not be simplified to not data["access_control"]
         if (
@@ -3490,6 +3493,8 @@ class ProjectSettingsForm(
                     gettext("Workflow"),
                     "use_shared_tm",
                     "contribute_shared_tm",
+                    "use_workspace_tm",
+                    "contribute_workspace_tm",
                     "autoclean_tm",
                     "check_flags",
                     "enable_hooks",
@@ -3541,6 +3546,11 @@ class ProjectSettingsForm(
             self.fields["use_shared_tm"].help_text = gettext(
                 "Uses and contributes to the pool of shared translations "
                 "between projects."
+            )
+            self.fields["contribute_workspace_tm"].widget = forms.HiddenInput()
+            self.fields["use_workspace_tm"].help_text = gettext(
+                "Uses and contributes to the pool of shared translations "
+                "between projects in the workspace."
             )
             self.fields["access_control"].choices = [
                 choice
