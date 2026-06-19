@@ -445,6 +445,91 @@ class SafeHTMLCheckTest(CheckTestCase):
             ),
         )
 
+    def test_placeholder_attribute(self) -> None:
+        source = '<a href="%(terms_url)s">terms</a>'
+        self.do_test(False, (source, source, "safe-html"))
+        self.do_test(
+            True,
+            (source, '<a href="„%(terms_url)s“">terms</a>', "safe-html"),
+        )
+        self.do_test(
+            True,
+            (
+                '<a href="%(url)s">Organize</a>',
+                '<a href="\\&quot;%(url)s\\&quot;">Organize</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                '<a href="%(url)s">Organize</a>',
+                '<a href="&quot;%(url)s&quot;">Organize</a>',
+                "safe-html",
+            ),
+        )
+
+    def test_positional_printf_placeholder_attribute(self) -> None:
+        source = '<a href="%1$s">terms</a>'
+        self.do_test(False, (source, source, "safe-html"))
+        self.do_test(True, (source, '<a href="„%1$s“">terms</a>', "safe-html"))
+
+    def test_reordered_placeholder_attributes(self) -> None:
+        source = '<a href="%terms%">terms</a> and <a href="%privacy%">privacy</a>'
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="%privacy%">privacy</a> and <a href="%terms%">terms</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                source,
+                '<a href="„%privacy%“">privacy</a> and <a href="%terms%">terms</a>',
+                "safe-html",
+            ),
+        )
+
+    def test_mixed_placeholder_static_attributes(self) -> None:
+        source = '<a href="%terms%">terms</a><a href="/help">help</a>'
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="%terms%">terms</a><a href="/support">help</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="/help">help</a><a href="%terms%">terms</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="%terms%">terms</a> help',
+                "safe-html",
+            ),
+        )
+
+    def test_localizable_placeholder_attribute(self) -> None:
+        self.do_test(
+            False,
+            (
+                '<a href="/%(terms_url)s">terms</a>',
+                '<a href="/cs/%(terms_url)s">terms</a>',
+                "safe-html",
+            ),
+        )
+
     def test_auto_safe_html_plain_text(self) -> None:
         self.do_test(True, ("Plain text", "<b>Plain text</b>", "auto-safe-html"))
 

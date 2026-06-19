@@ -9,7 +9,9 @@ from django.test import SimpleTestCase
 from weblate.checks.flags import Flags
 from weblate.utils.html import (
     HTML2Text,
+    HTMLAttribute,
     HTMLSanitizer,
+    extract_html_attributes,
     extract_html_tags,
     is_auto_safe_html_source,
     list_to_tuples,
@@ -47,6 +49,16 @@ class HtmlTestCase(SimpleTestCase):
     def test_attrs(self) -> None:
         self.assertEqual(
             extract_html_tags('<a href="#">t</a>'), ({"a"}, {"a": {"href"}})
+        )
+
+    def test_extract_html_attributes(self) -> None:
+        self.assertEqual(
+            extract_html_attributes('<a href="#" title="Link">t</a><br class="x">'),
+            [
+                HTMLAttribute("a", "href", "#"),
+                HTMLAttribute("a", "title", "Link"),
+                HTMLAttribute("br", "class", "x"),
+            ],
         )
 
     def test_noclose(self) -> None:
