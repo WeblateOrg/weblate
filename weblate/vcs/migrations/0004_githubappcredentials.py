@@ -46,6 +46,16 @@ class Migration(migrations.Migration):
                     models.TextField(verbose_name="Private key (PEM)"),
                 ),
                 (
+                    "client_id",
+                    models.CharField(max_length=255, verbose_name="OAuth client ID"),
+                ),
+                (
+                    "client_secret",
+                    models.CharField(
+                        max_length=255, verbose_name="OAuth client secret"
+                    ),
+                ),
+                (
                     "webhook_secret",
                     models.CharField(max_length=255, verbose_name="Webhook secret"),
                 ),

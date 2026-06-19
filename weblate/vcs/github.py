@@ -135,6 +135,10 @@ def build_github_app_manifest(
     and forces a single-target install on the owner). This is *not* the same
     as "Marketplace listed"; the App still has to be submitted separately to
     show up in the Marketplace.
+
+    ``request_oauth_on_install=True`` sends users through user authorization during
+     installation so the post-install redirect carries an OAuth ``code`` Weblate can
+     exchange to confirm the user controls the installation they are connecting.
     """
     return {
         "name": name,
@@ -144,6 +148,7 @@ def build_github_app_manifest(
         "callback_urls": [setup_url],
         "setup_url": setup_url,
         "setup_on_update": True,
+        "request_oauth_on_install": True,
         "public": public,
         "default_permissions": dict(GITHUB_APP_MANIFEST_PERMISSIONS),
         "default_events": list(GITHUB_APP_MANIFEST_EVENTS),
@@ -365,6 +370,12 @@ class GitHubAppCredentials(models.Model):
     app_id = models.CharField(max_length=50, verbose_name=gettext_lazy("App ID"))
     app_slug = models.CharField(max_length=255, verbose_name=gettext_lazy("App slug"))
     private_key = models.TextField(verbose_name=gettext_lazy("Private key (PEM)"))
+    client_id = models.CharField(
+        max_length=255, verbose_name=gettext_lazy("OAuth client ID")
+    )
+    client_secret = models.CharField(
+        max_length=255, verbose_name=gettext_lazy("OAuth client secret")
+    )
     webhook_secret = models.CharField(
         max_length=255, verbose_name=gettext_lazy("Webhook secret")
     )
@@ -392,6 +403,58 @@ class GitHubAppCredentials(models.Model):
     def save(self, *args, **kwargs) -> None:
         self.hostname = normalize_github_app_hostname(self.hostname)
         super().save(*args, **kwargs)
+
+
+class GitHubAppOAuthError(Exception):
+    """Raised when the user-authorization step of the install flow fails."""
+
+
+def get_github_oauth_base(hostname: str) -> str:
+    """Return the base URL hosting the OAuth ``login/oauth`` endpoints."""
+    hostname = normalize_github_app_hostname(hostname)
+    return "https://github.com" if hostname == "github.com" else f"https://{hostname}"
+
+
+def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
+    """Exchange an install-time OAuth ``code`` for a user-to-server access token."""
+    response = requests.post(
+        f"{get_github_oauth_base(config.hostname)}/login/oauth/access_token",
+        data={
+            "client_id": config.client_id,
+            "client_secret": config.client_secret,
+            "code": code,
+        },
+        headers={"Accept": "application/json"},
+        timeout=30,
+    )
+    response.raise_for_status()
+    payload = response.json()
+    token = payload.get("access_token")
+    if not token:
+        msg = f"GitHub did not return a user access token: {payload.get('error')}"
+        raise GitHubAppOAuthError(msg)
+    return token
+
+
+def user_can_access_installation(
+    config: GitHubAppCredentials, user_token: str, installation_id: str | int
+) -> bool:
+    """Return whether the authenticated user can access ``installation_id``."""
+    installation_id = str(installation_id)
+    api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
+    url: str | None = f"{api_base}/user/installations?per_page=100"
+    headers = {
+        "Authorization": f"Bearer {user_token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+    while url:
+        response = requests.get(url, headers=headers, timeout=30)
+        response.raise_for_status()
+        for installation in response.json().get("installations", []):
+            if str(installation.get("id")) == installation_id:
+                return True
+        url = response.links.get("next", {}).get("url")
+    return False
 
 
 class GitHubInstallationManager(models.Manager["GitHubInstallation"]):

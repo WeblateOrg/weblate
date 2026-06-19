@@ -34,12 +34,14 @@ from weblate.vcs.github import (
     GitHubInstallation,
     build_github_app_manifest,
     exchange_github_app_manifest_code,
+    exchange_github_user_code,
     get_github_app_configurations,
     get_github_app_install_url,
     get_github_app_manifest_new_url,
     get_github_app_settings,
     github_app_is_configured,
     normalize_github_app_hostname,
+    user_can_access_installation,
 )
 from weblate.wladmin.views import MENU
 from weblate.workspaces.models import Workspace
@@ -376,6 +378,23 @@ def github_app_install(request):
 
 
 @login_required
+def _user_authorized_for_installation(request, config, code, installation_id) -> bool:
+    """
+    Confirm the current user controls ``installation_id`` via OAuth.
+
+    Exchanges the install-time ``code`` for a user-to-server token and checks
+    that the installation appears in the user's own installation list.
+    """
+    if not code:
+        return False
+    try:
+        user_token = exchange_github_user_code(config, code)
+        return user_can_access_installation(config, user_token, installation_id)
+    except Exception:
+        report_error("Failed to verify GitHub installation ownership")
+        return False
+
+
 def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
     _require_github_app_access(request)
@@ -429,6 +448,18 @@ def github_app_setup(request):
             request,
             gettext_lazy(
                 "You do not have permission to connect GitHub to this workspace."
+            ),
+        )
+        return redirect(next_url)
+
+    code = request.GET.get("code", "").strip()
+    if not _user_authorized_for_installation(request, config, code, installation_id):
+        messages.error(
+            request,
+            gettext_lazy(
+                "Weblate could not confirm that you have access to this GitHub "
+                "installation. Start the installation again and approve the "
+                "authorization request."
             ),
         )
         return redirect(next_url)
@@ -772,7 +803,16 @@ def github_app_register_callback(request):
     app_id = str(data.get("id", "")).strip()
     app_slug = data.get("slug", "").strip()
     webhook_secret = data.get("webhook_secret", "").strip()
-    if not pem or not app_id or not app_slug or not webhook_secret:
+    client_id = str(data.get("client_id", "")).strip()
+    client_secret = str(data.get("client_secret", "")).strip()
+    if (
+        not pem
+        or not app_id
+        or not app_slug
+        or not webhook_secret
+        or not client_id
+        or not client_secret
+    ):
         messages.error(
             request,
             gettext_lazy("GitHub returned an incomplete App registration response."),
@@ -787,6 +827,8 @@ def github_app_register_callback(request):
             "private_key": pem,
             "webhook_secret": webhook_secret,
             "webhook_token": webhook_token,
+            "client_id": client_id,
+            "client_secret": client_secret,
             "html_url": data.get("html_url", "").strip(),
         },
     )

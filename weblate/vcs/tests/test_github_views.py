@@ -64,9 +64,38 @@ class GitHubInstallationViewTest(ViewTestCase):
             "app_slug": "weblate-app",
             "private_key": SETTINGS_PRIVATE_KEY,
             "webhook_secret": "secret",
+            "client_id": "Iv1.testclientid",
+            "client_secret": "client-secret",
         }
         defaults.update(overrides)
         return GitHubAppCredentials.objects.create(hostname=hostname, **defaults)
+
+    def _mock_oauth(
+        self,
+        *,
+        hostname: str = "github.com",
+        accessible_ids: tuple[str, ...] = ("12345",),
+        token: str = "ghu_user",  # noqa: S107
+    ) -> None:
+        """Mock the install-time user-authorization (OAuth) verification."""
+        oauth_base = (
+            "https://github.com" if hostname == "github.com" else f"https://{hostname}"
+        )
+        api_base = (
+            "https://api.github.com"
+            if hostname == "github.com"
+            else f"https://{hostname}/api/v3"
+        )
+        responses.add(
+            responses.POST,
+            f"{oauth_base}/login/oauth/access_token",
+            json={"access_token": token, "token_type": "bearer"},
+        )
+        responses.add(
+            responses.GET,
+            f"{api_base}/user/installations?per_page=100",
+            json={"installations": [{"id": int(i)} for i in accessible_ids]},
+        )
 
     def _mock_setup_api(
         self,
@@ -155,10 +184,11 @@ class GitHubInstallationViewTest(ViewTestCase):
         install_url = self._start_install(next_url)
         state = parse_qs(urlparse(install_url).query)["state"][0]
 
+        self._mock_oauth(accessible_ids=("12345",))
         self._mock_setup_api(repositories=repositories)
         response = self.client.get(
             reverse("github-app-setup"),
-            {"installation_id": "12345", "state": state},
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
         )
 
         self.assertRedirects(response, next_url)
@@ -172,6 +202,8 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(
             [(call.request.method, call.request.url) for call in responses.calls],
             [
+                ("POST", "https://github.com/login/oauth/access_token"),
+                ("GET", "https://api.github.com/user/installations?per_page=100"),
                 ("GET", "https://api.github.com/app/installations/12345"),
                 (
                     "POST",
@@ -182,6 +214,71 @@ class GitHubInstallationViewTest(ViewTestCase):
                     "https://api.github.com/installation/repositories?per_page=100",
                 ),
             ],
+        )
+
+    def test_setup_rejects_missing_oauth_code(self):
+        # Without the install-time OAuth code there is nothing proving the user
+        # controls the installation, so the connection is refused outright.
+        install_url = self._start_install("/create/component/#github")
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="12345").exists()
+        )
+
+    @responses.activate
+    def test_setup_rejects_foreign_installation_id(self):
+        # The attacker holds a valid signed state for their own workspace and a
+        # valid OAuth code for *their* GitHub account, then swaps in another
+        # account's installation ID (67890). ``GET /user/installations`` only
+        # lists 12345, so 67890 must not be connected nor have a token minted.
+        install_url = self._start_install("/create/component/#github")
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(accessible_ids=("12345",))
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "67890", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="67890").exists()
+        )
+        # Ownership is rejected before any App-level token is minted: only the
+        # OAuth exchange and the user-installations lookup are called.
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in responses.calls],
+            [
+                ("POST", "https://github.com/login/oauth/access_token"),
+                ("GET", "https://api.github.com/user/installations?per_page=100"),
+            ],
+        )
+
+    @responses.activate
+    def test_setup_rejects_when_code_exchange_fails(self):
+        install_url = self._start_install("/create/component/#github")
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        responses.add(
+            responses.POST,
+            "https://github.com/login/oauth/access_token",
+            json={"error": "bad_verification_code"},
+        )
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "stale-code"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
 
     def test_repository_list_uses_workspace_scope(self):
@@ -325,6 +422,8 @@ class GitHubAppAccessControlTest(ViewTestCase):
             app_slug="weblate-app",
             private_key=SETTINGS_PRIVATE_KEY,
             webhook_secret="secret",
+            client_id="Iv1.testclientid",
+            client_secret="client-secret",
         )
 
         self.user = User.objects.create_user(
@@ -341,6 +440,16 @@ class GitHubAppAccessControlTest(ViewTestCase):
         )
 
     def _mock_setup_api(self, repositories: list[dict]) -> None:
+        responses.add(
+            responses.POST,
+            "https://github.com/login/oauth/access_token",
+            json={"access_token": "ghu_user", "token_type": "bearer"},
+        )
+        responses.add(
+            responses.GET,
+            "https://api.github.com/user/installations?per_page=100",
+            json={"installations": [{"id": 12345}]},
+        )
         responses.add(
             responses.GET,
             "https://api.github.com/app/installations/12345",
@@ -413,7 +522,7 @@ class GitHubAppAccessControlTest(ViewTestCase):
         self._mock_setup_api([repo])
         setup = self.client.get(
             reverse("github-app-setup"),
-            {"installation_id": "12345", "state": state},
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
         )
         self.assertRedirects(setup, reverse("github-app-repositories"))
         installation = GitHubInstallation.objects.get(
@@ -448,6 +557,8 @@ MANIFEST_RESPONSE = {
     "slug": "weblate-auto",
     "pem": "-----BEGIN RSA PRIVATE KEY-----\nmanifest\n-----END RSA PRIVATE KEY-----",
     "webhook_secret": "fresh-secret",
+    "client_id": "Iv1.manifestclientid",
+    "client_secret": "manifest-client-secret",
     "html_url": "https://github.com/apps/weblate-auto",
 }
 
@@ -514,6 +625,7 @@ class GitHubAppManifestViewTest(TestCase):
             manifest["callback_urls"], [get_site_url(reverse("github-app-setup"))]
         )
         self.assertTrue(manifest["setup_on_update"])
+        self.assertTrue(manifest["request_oauth_on_install"])
         self.assertTrue(manifest["public"])
         self.assertEqual(
             manifest["default_permissions"], dict(GITHUB_APP_MANIFEST_PERMISSIONS)
@@ -560,6 +672,8 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(credentials.app_id, "4242")
         self.assertEqual(credentials.app_slug, "weblate-auto")
         self.assertEqual(credentials.webhook_secret, "fresh-secret")
+        self.assertEqual(credentials.client_id, "Iv1.manifestclientid")
+        self.assertEqual(credentials.client_secret, "manifest-client-secret")
         self.assertIn("manifest", credentials.private_key)
 
     @responses.activate
