@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied
 from django.core.signing import BadSignature, SignatureExpired
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -23,6 +23,7 @@ from django.utils.translation import gettext_lazy
 from django.views import View
 
 from weblate.auth.decorators import management_access
+from weblate.trans.models import Project
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
@@ -39,6 +40,7 @@ from weblate.vcs.github import (
     get_github_app_install_url,
     get_github_app_manifest_new_url,
     get_github_app_settings,
+    get_github_repository_import_url,
     github_app_is_configured,
     normalize_github_app_hostname,
     user_can_access_installation,
@@ -103,6 +105,9 @@ def _get_install_workspace(request) -> Workspace | None:
     workspace_id = request.GET.get("workspace", "").strip()
     if workspace_id:
         return _get_managed_workspace(request.user, workspace_id)
+    workspaces = list(_managed_workspaces(request.user))
+    if len(workspaces) == 1:
+        return workspaces[0]
     return None
 
 
@@ -195,6 +200,36 @@ def _load_install_state(request, state: str) -> dict[str, str]:
     }
 
 
+def _get_redirect_url(request, default_url: str) -> str:
+    next_url = request.POST.get("next", "")
+    if next_url and url_has_allowed_host_and_scheme(
+        next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return next_url
+    return default_url
+
+
+def _get_installation_repository_url(installation: GitHubInstallation) -> str:
+    return (
+        f"{reverse('github-app-repositories')}?"
+        f"{urlencode({'workspace': installation.workspace_id})}"
+    )
+
+
+def _user_can_manage_installation(user, installation: GitHubInstallation) -> bool:
+    return (
+        user.has_perm("management.use")
+        or _managed_workspaces(user).filter(pk=installation.workspace_id).exists()
+    )
+
+
+def _require_installation_access(request, installation: GitHubInstallation) -> None:
+    if not _user_can_manage_installation(request.user, installation):
+        raise PermissionDenied
+
+
 @method_decorator(management_access, name="dispatch")
 class GitHubInstallationListView(View):
     def get(self, request):
@@ -242,18 +277,26 @@ class GitHubInstallationListView(View):
         )
 
 
-@method_decorator(management_access, name="dispatch")
+@method_decorator(login_required, name="dispatch")
 class GitHubInstallationDetailView(View):
     def get(self, request, pk):
         installation = get_object_or_404(
             GitHubInstallation.objects.select_related("workspace"), pk=pk
         )
+        _require_installation_access(request, installation)
+        repositories = []
+        for repo in installation.repositories:
+            if repo.get("archived", False):
+                continue
+            entry = dict(repo)
+            entry["import_url"] = get_github_repository_import_url(entry)
+            repositories.append(entry)
         return render(
             request,
             "vcs/github_installation_detail.html",
             {
                 "installation": installation,
-                "repositories": installation.repositories,
+                "repositories": repositories,
                 "github_app_install_url": _get_install_link(
                     request,
                     reverse("manage-github-account-detail", kwargs={"pk": pk}),
@@ -266,11 +309,20 @@ class GitHubInstallationDetailView(View):
         )
 
 
-@management_access
+@login_required
 def remove_installation(request, pk):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
     installation = get_object_or_404(GitHubInstallation, pk=pk)
+    _require_installation_access(request, installation)
+    next_url = _get_redirect_url(
+        request,
+        (
+            reverse("manage-github-accounts")
+            if request.user.has_perm("management.use")
+            else _get_installation_repository_url(installation)
+        ),
+    )
     target = str(installation)
     installation.delete()
     messages.success(
@@ -278,7 +330,7 @@ def remove_installation(request, pk):
         gettext_lazy("Removed connected GitHub account %(target)s.")
         % {"target": target},
     )
-    return redirect("manage-github-accounts")
+    return redirect(next_url)
 
 
 @management_access
@@ -297,18 +349,31 @@ def remove_github_app(request, pk):
     return redirect("manage-github-accounts")
 
 
-@management_access
+@login_required
 def refresh_repositories(request, pk):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
     installation = get_object_or_404(GitHubInstallation, pk=pk)
+    _require_installation_access(request, installation)
+    next_url = _get_redirect_url(
+        request,
+        _get_installation_repository_url(installation),
+    )
     try:
         repos = installation.refresh_repositories()
     except Exception:
         report_error("Failed to refresh connected GitHub account repositories")
-        return JsonResponse(
-            {"status": "error", "message": "Failed to refresh repositories"},
-            status=500,
+        messages.error(
+            request,
+            gettext_lazy("Failed to refresh repositories from GitHub."),
         )
-    return JsonResponse({"status": "success", "count": len(repos)})
+    else:
+        messages.success(
+            request,
+            gettext_lazy("Refreshed %(count)d repositories from GitHub.")
+            % {"count": len(repos)},
+        )
+    return redirect(next_url)
 
 
 @login_required
@@ -377,7 +442,6 @@ def github_app_install(request):
     return redirect(install_url)
 
 
-@login_required
 def _user_authorized_for_installation(request, config, code, installation_id) -> bool:
     """
     Confirm the current user controls ``installation_id`` via OAuth.
@@ -395,6 +459,7 @@ def _user_authorized_for_installation(request, config, code, installation_id) ->
         return False
 
 
+@login_required
 def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
     _require_github_app_access(request)
@@ -511,10 +576,26 @@ def github_app_repository_list(request):
         raise PermissionDenied
 
     selected_workspace = _get_install_workspace(request)
+    selected_project = None
+    selected_project_without_workspace = False
+    project_id = request.GET.get("project", "").strip()
+    if project_id:
+        try:
+            selected_project = request.user.managed_projects.get(pk=project_id)
+        except (Project.DoesNotExist, ValueError) as error:
+            raise PermissionDenied from error
+        if selected_project.workspace_id is None:
+            selected_project_without_workspace = True
+        else:
+            selected_workspace = selected_project.workspace
+
+    category_id = request.GET.get("category", "").strip()
     installations = GitHubInstallation.objects.filter(
         enabled=True, workspace__in=workspaces
     ).select_related("workspace")
-    if selected_workspace is not None:
+    if selected_project_without_workspace:
+        installations = installations.none()
+    elif selected_workspace is not None:
         installations = installations.filter(workspace=selected_workspace)
     installations = installations.order_by(
         "workspace__name", "target_login", "hostname"
@@ -522,11 +603,18 @@ def github_app_repository_list(request):
     all_repos = []
     for installation in installations:
         for repo in installation.repositories:
+            if repo.get("archived", False):
+                continue
             entry = dict(repo)
             entry["installation_id"] = installation.pk
-            entry["account_name"] = str(installation)
+            entry["account_name"] = installation.target_login
             entry["workspace_id"] = str(installation.workspace_id)
             entry["workspace_name"] = installation.workspace.name
+            entry["import_url"] = get_github_repository_import_url(
+                entry,
+                project_id=selected_project.pk if selected_project else None,
+                category_id=category_id,
+            )
             all_repos.append(entry)
 
     return render(
@@ -536,6 +624,8 @@ def github_app_repository_list(request):
             "repositories": all_repos,
             "installations": installations,
             "selected_workspace": selected_workspace,
+            "selected_project": selected_project,
+            "next_url": request.get_full_path(),
             "github_app_configured": github_app_is_configured(),
             "github_app_install_url": _get_install_link(
                 request, request.get_full_path(), selected_workspace

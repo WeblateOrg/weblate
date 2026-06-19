@@ -50,7 +50,11 @@ from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.base import RepositoryError
-from weblate.vcs.github import GitHubInstallation, github_app_is_configured
+from weblate.vcs.github import (
+    GitHubInstallation,
+    get_github_repository_import_url,
+    github_app_is_configured,
+)
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
@@ -679,27 +683,43 @@ class CreateComponentSelection(CreateComponent):
         repositories: list[dict] = []
         for installation in installations:
             for repo in installation.repositories:
+                if repo.get("archived", False):
+                    continue
                 entry = dict(repo)
-                entry["account_name"] = str(installation)
+                entry["account_name"] = installation.target_login
                 entry["workspace_id"] = str(installation.workspace_id)
                 entry["workspace_name"] = installation.workspace.name
+                entry["import_url"] = get_github_repository_import_url(
+                    entry,
+                    project_id=(
+                        selected_project_obj.pk
+                        if selected_project_obj is not None
+                        else None
+                    ),
+                    category_id=self.selected_category,
+                )
                 repositories.append(entry)
         kwargs["github_app_repositories"] = repositories
-        kwargs["github_app_target_project"] = (
-            selected_project_obj.pk if selected_project_obj is not None else None
-        )
-        if (
-            github_app_is_configured()
-            and selected_project_obj is not None
-            and selected_project_obj.workspace_id
-        ):
+        if github_app_is_configured() and selected_project_obj is not None:
+            if selected_project_obj.workspace_id:
+                kwargs["github_app_install_url"] = (
+                    reverse("github-app-install")
+                    + "?"
+                    + urlencode(
+                        {
+                            "next": f"{self.request.get_full_path()}#github",
+                            "workspace": selected_project_obj.workspace_id,
+                        }
+                    )
+                )
+        elif github_app_is_configured() and len(workspace_ids) == 1:
             kwargs["github_app_install_url"] = (
                 reverse("github-app-install")
                 + "?"
                 + urlencode(
                     {
                         "next": f"{self.request.get_full_path()}#github",
-                        "workspace": selected_project_obj.workspace_id,
+                        "workspace": workspace_ids[0],
                     }
                 )
             )

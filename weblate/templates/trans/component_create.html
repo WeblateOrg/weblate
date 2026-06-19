@@ -228,8 +228,7 @@
                       {% endif %}
                     </td>
                     <td>
-                      <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github-app{% if github_app_target_project %}&project={{ github_app_target_project }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}"
-                         class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                      <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
                     </td>
                   </tr>
                 {% endfor %}
@@ -239,8 +238,10 @@
             <p class="text-body-secondary">
               {% if github_app_install_url %}
                 {% translate "No repositories available yet. Install the Weblate GitHub app on a GitHub organization or user account to make repositories available here." %}
+              {% elif selected_project %}
+                {% translate "No repositories are available from connected GitHub accounts for this project workspace." %}
               {% else %}
-                {% translate "No repositories available from connected GitHub accounts." %}
+                {% translate "Select a project with a workspace to connect a GitHub account or import repositories from an existing connection." %}
               {% endif %}
             </p>
           {% endif %}

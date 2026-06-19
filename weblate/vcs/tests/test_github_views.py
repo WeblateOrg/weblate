@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlencode, urlparse
 
 import responses
 from django.core.cache import cache
@@ -31,6 +31,7 @@ SETTINGS_PRIVATE_KEY = generate_private_key()
 def _repo_entry(full_name: str, **overrides) -> dict:
     """Build a cached repository entry matching the GitHub API shape."""
     entry = {
+        "name": full_name.rsplit("/", 1)[-1],
         "full_name": full_name,
         "clone_url": f"https://github.com/{full_name}.git",
         "ssh_url": f"git@github.com:{full_name}.git",
@@ -41,6 +42,18 @@ def _repo_entry(full_name: str, **overrides) -> dict:
     }
     entry.update(overrides)
     return entry
+
+
+def _import_url(repo: dict, **overrides) -> str:
+    params = {
+        "repo": repo["clone_url"],
+        "branch": repo["default_branch"],
+        "vcs": "github-app",
+        "name": repo["name"],
+        "slug": repo["name"],
+    }
+    params.update(overrides)
+    return f"{reverse('create-component-vcs')}?{urlencode(params)}"
 
 
 class GitHubInstallationViewTest(ViewTestCase):
@@ -140,6 +153,18 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(parsed.netloc, "github.com")
         self.assertEqual(parsed.path, "/apps/weblate-app/installations/select_target")
         self.assertIn("state", parse_qs(parsed.query))
+
+    def test_management_overview_uses_single_workspace_for_install_link(self):
+        response = self.client.get(reverse("manage-github-accounts"))
+
+        params = urlencode(
+            {
+                "next": reverse("manage-github-accounts"),
+                "workspace": self.workspace.pk,
+            }
+        )
+        install_url = f"{reverse('github-app-install')}?{params}"
+        self.assertContains(response, install_url.replace("&", "&amp;"))
 
     def test_install_requires_host_selection_with_multiple_configs(self):
         self._make_credentials(
@@ -325,11 +350,30 @@ class GitHubInstallationViewTest(ViewTestCase):
 
         response = self.client.get(reverse("github-app-repositories"))
 
-        import_path = (
-            f"{reverse('create-component-vcs')}?repo={repo['clone_url']}"
-            f"&branch={repo['default_branch']}&vcs=github-app"
+        self.assertNotContains(response, "test-org (github.com/12345)")
+        import_path = _import_url(repo)
+        self.assertEqual(
+            response.context["repositories"][0]["import_url"],
+            import_path,
         )
-        self.assertContains(response, import_path)
+        self.assertContains(response, import_path.replace("&", "&amp;"))
+
+    def test_repository_list_omits_archived_repositories(self):
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[
+                _repo_entry("test-org/active"),
+                _repo_entry("test-org/archived", archived=True),
+            ],
+        )
+
+        response = self.client.get(reverse("github-app-repositories"))
+
+        self.assertContains(response, "test-org/active")
+        self.assertNotContains(response, "test-org/archived")
 
     @responses.activate
     def test_refresh_repositories_updates_installation(self):
@@ -349,14 +393,19 @@ class GitHubInstallationViewTest(ViewTestCase):
         responses.add(
             responses.GET,
             "https://api.github.com/installation/repositories?per_page=100",
-            json={"repositories": [repo]},
+            json={
+                "repositories": [
+                    repo,
+                    _repo_entry("test-org/archived", archived=True),
+                ]
+            },
         )
-        response = self.client.get(
-            reverse("manage-github-account-refresh", kwargs={"pk": installation.pk})
+        response = self.client.post(
+            reverse("manage-github-account-refresh", kwargs={"pk": installation.pk}),
+            {"next": reverse("github-app-repositories")},
         )
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"status": "success", "count": 1})
+        self.assertRedirects(response, reverse("github-app-repositories"))
         installation.refresh_from_db()
         self.assertEqual(installation.repositories, [repo])
         self.assertIsNotNone(installation.repositories_updated)
@@ -373,6 +422,20 @@ class GitHubInstallationViewTest(ViewTestCase):
                 ),
             ],
         )
+
+    def test_refresh_repositories_rejects_get(self):
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+
+        response = self.client.get(
+            reverse("manage-github-account-refresh", kwargs={"pk": installation.pk})
+        )
+
+        self.assertEqual(response.status_code, 405)
 
     def test_remove_installation(self):
         installation = GitHubInstallation.objects.create(
@@ -490,6 +553,12 @@ class GitHubAppAccessControlTest(ViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response["Location"])
 
+    def test_setup_requires_login(self):
+        self.client.logout()
+        response = self.client.get(reverse("github-app-setup"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response["Location"])
+
     def test_setup_denied_for_user_managing_a_different_workspace(self):
         # A valid signed state for ``self.workspace`` produced by its admin.
         state = self._start_install(self.user)
@@ -543,11 +612,12 @@ class GitHubAppAccessControlTest(ViewTestCase):
         self.project.add_user(self.other_user, "Administration")
         response = self.client.get(reverse("github-app-repositories"))
         self.assertContains(response, "test-org/repo1")
-        import_path = (
-            f"{reverse('create-component-vcs')}?repo={repo['clone_url']}"
-            f"&branch={repo['default_branch']}&vcs=github-app"
+        import_path = _import_url(repo)
+        self.assertEqual(
+            response.context["repositories"][0]["import_url"],
+            import_path,
         )
-        self.assertContains(response, import_path)
+        self.assertContains(response, import_path.replace("&", "&amp;"))
         create = self.client.get(import_path)
         self.assertEqual(create.status_code, 200)
 

@@ -19,7 +19,9 @@ import jwt
 import requests
 from django.core.cache import cache
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy
 
 from weblate.utils.errors import report_error
@@ -116,6 +118,39 @@ def get_github_app_install_url(state: str, hostname: str | None = None) -> str:
         f"https://{config.hostname}/{app_path}/{config.app_slug}"
         f"/installations/select_target?{urlencode({'state': state})}"
     )
+
+
+def get_github_repository_name(repo: dict) -> str:
+    """Return a display/component name for a GitHub repository API entry."""
+    name = str(repo.get("name") or "").strip()
+    if name:
+        return name
+    full_name = str(repo.get("full_name") or "").strip()
+    if "/" in full_name:
+        return full_name.rsplit("/", 1)[-1]
+    return full_name
+
+
+def get_github_repository_import_url(
+    repo: dict,
+    *,
+    project_id: str | int | None = None,
+    category_id: str | int | None = None,
+) -> str:
+    """Return the component creation URL pre-filled from a GitHub repository."""
+    name = get_github_repository_name(repo)
+    params = {
+        "repo": repo["clone_url"],
+        "branch": repo.get("default_branch", "main"),
+        "vcs": "github-app",
+        "name": name,
+        "slug": slugify(name),
+    }
+    if project_id:
+        params["project"] = str(project_id)
+    if category_id:
+        params["category"] = str(category_id)
+    return f"{reverse('create-component-vcs')}?{urlencode(params)}"
 
 
 def build_github_app_manifest(
@@ -313,6 +348,7 @@ def get_app_repositories(
 
         repositories.extend(
             {
+                "name": repo["name"],
                 "full_name": repo["full_name"],
                 "clone_url": repo["clone_url"],
                 "ssh_url": repo["ssh_url"],
@@ -322,6 +358,7 @@ def get_app_repositories(
                 "description": repo.get("description", ""),
             }
             for repo in data.get("repositories", [])
+            if not repo.get("archived", False)
         )
 
         url = None

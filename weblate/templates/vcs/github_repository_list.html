@@ -24,6 +24,48 @@
       {% if github_app_install_url %}
         {% include "vcs/github_install_help.html" %}
       {% endif %}
+      {% if installations %}
+        <h5>{% translate "Connected accounts" %}</h5>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{% translate "Account" %}</th>
+              <th>{% translate "Workspace" %}</th>
+              <th>{% translate "Repositories" %}</th>
+              <th>{% translate "Actions" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for installation in installations %}
+              <tr>
+                <td>
+                  <strong>{{ installation.target_login }}</strong>
+                  <small class="text-body-secondary">({{ installation.target_type }})</small>
+                </td>
+                <td>{{ installation.workspace }}</td>
+                <td>{{ installation.repositories|length }}</td>
+                <td>
+                  <form method="post"
+                        action="{% url 'manage-github-account-refresh' installation.pk %}"
+                        class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next_url }}" />
+                    <button type="submit" class="btn btn-outline-primary btn-sm">{% translate "Refresh" %}</button>
+                  </form>
+                  <form method="post"
+                        action="{% url 'manage-github-account-remove' installation.pk %}"
+                        class="d-inline"
+                        onsubmit="return confirm('{% translate "Remove this connected GitHub account from Weblate? The Weblate GitHub app will stay installed on GitHub." %}');">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next_url }}" />
+                    <button type="submit" class="btn btn-outline-danger btn-sm">{% translate "Remove" %}</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
       {% if repositories %}
         <p>
           {% translate "Select a repository to import. This will pre-fill the component creation form with the repository URL and branch." %}
@@ -60,8 +102,7 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github-app"
-                     class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                  <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
                 </td>
               </tr>
             {% endfor %}

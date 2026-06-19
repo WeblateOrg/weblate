@@ -7,7 +7,7 @@
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="{% url 'manage-github-accounts' %}">{% translate "Connected GitHub accounts" %}</a>
+    <a href="{% url 'manage-github-accounts' %}">{% translate "VCS Installations" %}</a>
   </li>
   <li class="breadcrumb-item">{{ installation.target_login }}</li>
 {% endblock breadcrumbs %}
@@ -22,9 +22,15 @@
           <a href="{{ github_app_install_url }}"
              class="btn btn-primary btn-sm float-end ms-2">{% translate "Add or configure account" %}</a>
         {% endif %}
-        <a href="{% url 'manage-github-account-refresh' installation.pk %}"
-           class="btn btn-outline-primary btn-sm float-end ms-2"
-           id="refresh-repos">{% translate "Refresh repositories" %}</a>
+        <form method="post"
+              action="{% url 'manage-github-account-refresh' installation.pk %}"
+              class="d-inline float-end ms-2">
+          {% csrf_token %}
+          <input type="hidden"
+                 name="next"
+                 value="{% url 'manage-github-account-detail' installation.pk %}" />
+          <button type="submit" class="btn btn-outline-primary btn-sm" id="refresh-repos">{% translate "Refresh repositories" %}</button>
+        </form>
         <form method="post"
               action="{% url 'manage-github-account-remove' installation.pk %}"
               class="d-inline float-end"
@@ -37,7 +43,7 @@
     <div class="card-body">
       {% if not app_configured %}
         <div class="alert alert-warning">
-          {% blocktranslate with hostname=installation.hostname %}Weblate GitHub app credentials are not configured for {{ hostname }}. Token refresh and webhook signature checks will not work until GITHUB_APP_CREDENTIALS is set in settings.{% endblocktranslate %}
+          {% blocktranslate with hostname=installation.hostname %}Weblate GitHub app credentials are not registered for {{ hostname }}. Token refresh and webhook signature checks will not work until the App credentials are registered again.{% endblocktranslate %}
         </div>
       {% endif %}
       {% if github_app_install_url %}
@@ -115,8 +121,7 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="{% url 'create-component-vcs' %}?repo={{ repo.clone_url }}&branch={{ repo.default_branch }}&vcs=github-app"
-                     class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                  <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
                 </td>
               </tr>
             {% endfor %}
