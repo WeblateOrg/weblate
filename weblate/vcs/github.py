@@ -120,17 +120,6 @@ def get_github_app_install_url(state: str, hostname: str | None = None) -> str:
     )
 
 
-def get_github_repository_name(repo: dict) -> str:
-    """Return a display/component name for a GitHub repository API entry."""
-    name = str(repo.get("name") or "").strip()
-    if name:
-        return name
-    full_name = str(repo.get("full_name") or "").strip()
-    if "/" in full_name:
-        return full_name.rsplit("/", 1)[-1]
-    return full_name
-
-
 def get_github_repository_import_url(
     repo: dict,
     *,
@@ -138,7 +127,7 @@ def get_github_repository_import_url(
     category_id: str | int | None = None,
 ) -> str:
     """Return the component creation URL pre-filled from a GitHub repository."""
-    name = get_github_repository_name(repo)
+    name = repo["name"]
     params = {
         "repo": repo["clone_url"],
         "branch": repo.get("default_branch", "main"),

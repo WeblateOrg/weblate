@@ -581,11 +581,13 @@ def _handle_github_installation_event(  # noqa: C901
             existing_names = {r.get("full_name") for r in repos}
 
             for repo in data.get("repositories_added") or []:
+                name = repo.get("name")
                 full_name = repo.get("full_name")
-                if not full_name or full_name in existing_names:
+                if not name or not full_name or full_name in existing_names:
                     continue
                 repos.append(
                     {
+                        "name": name,
                         "full_name": full_name,
                         "clone_url": f"https://{http_host}/{full_name}.git",
                         "ssh_url": f"git@{http_host}:{full_name}.git",

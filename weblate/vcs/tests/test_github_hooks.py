@@ -131,6 +131,7 @@ class TestGitHubAppHooks(ViewTestCase):
             json={
                 "repositories": [
                     {
+                        "name": "synced-repo",
                         "full_name": "test-org/synced-repo",
                         "clone_url": "https://github.com/test-org/synced-repo.git",
                         "ssh_url": "git@github.com:test-org/synced-repo.git",
@@ -203,6 +204,7 @@ class TestGitHubAppHooks(ViewTestCase):
             "installation": {"id": 12345},
             "repositories_added": [
                 {
+                    "name": "new-repo",
                     "full_name": "test-org/new-repo",
                     "private": False,
                     "description": "A new repo",
@@ -232,7 +234,7 @@ class TestGitHubAppHooks(ViewTestCase):
         data = {
             "action": "added",
             "installation": {"id": 12345},
-            "repositories_added": [{"full_name": "org/repo"}],
+            "repositories_added": [{"name": "repo", "full_name": "org/repo"}],
             "repositories_removed": [],
         }
         response = self._post(
