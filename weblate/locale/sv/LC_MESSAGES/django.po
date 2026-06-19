@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-19 13:12+0000\n"
+"PO-Revision-Date: 2026-06-19 15:14+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -649,10 +649,9 @@ msgstr "Åtkomst till projekt {project} blockerades."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:367
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "Ditt översättningsprojekt togs bort"
+msgstr "En projekt-token för {project} togs bort."
 
 #: weblate/accounts/models.py:370
 msgid "Two-factor authentication recovery codes were generated"
@@ -725,14 +724,10 @@ msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr "Kontakta projektansvariga om du anser att detta är felaktigt."
 
 #: weblate/accounts/models.py:429 weblate/accounts/models.py:433
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Om det var du, använd en lösenordsåterställning för att återfå åtkomst till "
-"ditt konto."
+"Om det var du, återställ ditt lösenord för att återfå åtkomst till ditt "
+"konto."
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:464
@@ -742,35 +737,26 @@ msgstr "PC"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:466
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "User agent device type"
 msgid "Other"
 msgstr "Övriga"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:468
-#, fuzzy
-#| msgid "Generate"
 msgctxt "User agent device type"
 msgid "Generic Smartphone"
-msgstr "Generera"
+msgstr "Generell smart telefon"
 
 #: weblate/accounts/models.py:471
-#, fuzzy
-#| msgid "Repository reset"
 msgctxt "User agent device type"
 msgid "Generic Feature Phone"
-msgstr "Arkivåterställning"
+msgstr "Generell funktionstelefon"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:474
-#, fuzzy
-#| msgid "Service"
 msgctxt "User agent device type"
 msgid "iOS-Device"
-msgstr "Tjänst"
+msgstr "IOS-enhet"
 
 #: weblate/accounts/models.py:610 weblate/templates/accounts/profile.html:505
 #: weblate/templates/accounts/user.html:309
@@ -778,10 +764,9 @@ msgid "Account activity"
 msgstr "Kontoaktivitet"
 
 #: weblate/accounts/models.py:627
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Inbjuden till {project} av {username}."
+msgstr "Utlöst av {username}."
 
 #: weblate/accounts/models.py:733
 msgid "Interface Language"
@@ -1116,11 +1101,9 @@ msgid "Strings are available for translation"
 msgstr "Strängar är tillgängliga för översättning"
 
 #: weblate/accounts/notifications.py:642
-#, fuzzy
-#| msgid "Translation summary:"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Översättningssammanfattning:"
+msgstr "Sammanfattning av översättningsaktivitet"
 
 #: weblate/accounts/notifications.py:908
 msgctxt "Notification name"
@@ -1328,19 +1311,15 @@ msgid "The registration link has been invalidated."
 msgstr "Registreringslänken är ogiltig."
 
 #: weblate/accounts/pipeline.py:89 weblate/accounts/pipeline.py:529
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Registreringslänken är ogiltig."
+msgstr "Inbjudningsslänken är inte längre giltig."
 
 #: weblate/accounts/pipeline.py:92 weblate/accounts/pipeline.py:437
 #: weblate/accounts/pipeline.py:513 weblate/accounts/pipeline.py:522
 #: weblate/auth/views.py:223 weblate/auth/views.py:301
 #: weblate/auth/views.py:324
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "Användarinbjudan togs bort."
+msgstr "Denna inbjudan har gått ut."
 
 #: weblate/accounts/pipeline.py:403
 msgid "You can not complete password reset while signed in."
@@ -1494,33 +1473,25 @@ msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
 msgstr "Att rensa upp bidrag från %(user)s över hela sajten har schemalagts."
 
 #: weblate/accounts/views.py:823 weblate/trans/views/acl.py:340
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No cleanup action was selected."
-msgstr "Användarinbjudan togs bort."
+msgstr "Ingen uppstädningsåtgärd valdes."
 
 #: weblate/accounts/views.py:973 weblate/templates/base.html:463
 msgid "Website"
 msgstr "Hemsida"
 
 #: weblate/accounts/views.py:975
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "Kodwebbadress"
+msgstr "Kodwebbsida"
 
 #: weblate/accounts/views.py:994
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "Tjänsten är inte längre tillgänglig"
+msgstr "Denna profil är inte längre tillgänglig."
 
 #: weblate/accounts/views.py:1006
 #: weblate/templates/accounts/user_profile_link.html:19
-#, fuzzy
-#| msgid "User profile"
 msgid "External profile link"
-msgstr "Användarprofil"
+msgstr "Extern profillänk"
 
 #: weblate/accounts/views.py:1129 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1543,10 +1514,8 @@ msgid "Register e-mail"
 msgstr "Registrera e-post"
 
 #: weblate/accounts/views.py:1308
-#, fuzzy
-#| msgid "Please complete your sign-in using second factor credential."
 msgid "Please confirm your identity using a second factor before proceeding."
-msgstr "Slutför din inloggning med hjälp av tvåfaktorsautentisering."
+msgstr "Begränsa din identitet med en andra faktor innan du går vidare."
 
 #: weblate/accounts/views.py:1324 weblate/accounts/views.py:1432
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1591,15 +1560,11 @@ msgstr ""
 "autentiseringsuppgifter."
 
 #: weblate/accounts/views.py:1716
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity, the confirmation link "
-#| "probably expired."
 msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Försök att registrera dig igen för att verifiera din identitet, "
+"Försök att återställa ditt lösenord igen för att verifiera din identitet, "
 "bekräftelselänken har förmodligen gått ut."
 
 #: weblate/accounts/views.py:1723
