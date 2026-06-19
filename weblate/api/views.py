@@ -2184,13 +2184,14 @@ class ProjectViewSet(
             status=HTTP_200_OK,
         )
 
-    @action(detail=True, methods=["get"], url_path="backups/(?P<backup>[0-9]+\\.zip)")
     @extend_schema(
         description="Download a project backup.",
         methods=["get"],
+        operation_id="api_projects_backups_download_retrieve",
         parameters=[OpenApiParameter("backup", str, OpenApiParameter.PATH)],
         responses=binary_download_response_schema("Project backup download."),
     )
+    @action(detail=True, methods=["get"], url_path="backups/(?P<backup>[0-9]+\\.zip)")
     def backups_download(self, request: Request, **kwargs):
         obj = self.get_object()
         if not request.user.has_perm("project.edit", obj):
