@@ -242,8 +242,11 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             _, extension = os.path.splitext(location.split(":")[0].strip())
             if extension == ".rst":
                 yield "rst-text"
-            elif extension in {".md", ".markdown", ".mdx"}:
+            elif extension in {".md", ".markdown"}:
                 yield "md-text"
+            elif extension == ".mdx":
+                yield "md-text"
+                yield "safe-mdx"
         yield from self.add_flags
 
     @cached_property

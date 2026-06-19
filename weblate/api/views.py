@@ -14,6 +14,7 @@ from urllib.parse import unquote
 
 from celery.result import AsyncResult
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.contrib.postgres.search import TrigramSimilarity
 from django.core.cache import cache
@@ -3902,6 +3903,33 @@ class TasksViewSet(ViewSet):
 
         return task, component
 
+    @staticmethod
+    def store_completion_message(request: Request, task: AsyncResult) -> None:
+        """Store an explicitly opted-in task completion message in the session."""
+        result = task.result
+        if not isinstance(result, dict):
+            return
+
+        completion_message = result.get("completion_message")
+        if not isinstance(completion_message, dict):
+            return
+
+        text = completion_message.get("text")
+        if not text:
+            return
+
+        session_key = f"task-completion-message-{task.id}"
+        if request.session.get(session_key):
+            return
+
+        level = {
+            "error": messages.ERROR,
+            "info": messages.INFO,
+            "warning": messages.WARNING,
+        }.get(completion_message.get("level"), messages.SUCCESS)
+        messages.add_message(request, level, str(text))
+        request.session[session_key] = True
+
     @extend_schema(
         description="Return information about a task",
         methods=["get"],
@@ -3910,6 +3938,8 @@ class TasksViewSet(ViewSet):
     def retrieve(self, request: Request, pk=None):
         task, _component = self.get_task(request, pk)
         result = task.result
+        if task.ready():
+            self.store_completion_message(request, task)
         serializer = self.serializer_class(
             {
                 "completed": task.ready(),

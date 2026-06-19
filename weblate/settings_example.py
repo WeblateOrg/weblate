@@ -791,6 +791,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.checks.markup.RSTReferencesCheck",
 #     "weblate.checks.markup.RSTSyntaxCheck",
 #     "weblate.checks.placeholders.PlaceholderCheck",
+#     "weblate.checks.mdx.SafeMDXCheck",
 #     "weblate.checks.placeholders.RegexCheck",
 #     "weblate.checks.duplicate.DuplicateCheck",
 #     "weblate.checks.source.OptionalPluralCheck",

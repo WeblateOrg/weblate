@@ -231,6 +231,11 @@ real_patterns = [
         name="addon-logs",
     ),
     path(
+        "addon/<int:pk>/components/",
+        weblate.addons.views.AddonComponents.as_view(),
+        name="addon-components",
+    ),
+    path(
         "access/<name:project>/",
         weblate.trans.views.acl.manage_access,
         name="manage-access",
@@ -816,6 +821,11 @@ real_patterns = [
         "js/translations/<int:unit_id>/",
         weblate.trans.views.js.get_unit_translations,
         name="js-unit-translations",
+    ),
+    path(
+        "js/access/<name:project>/user/<int:user_id>/groups/",
+        weblate.trans.views.acl.project_user_groups,
+        name="js-project-user-groups",
     ),
     path(
         "js/git/<object_path:path>/",

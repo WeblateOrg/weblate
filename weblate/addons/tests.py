@@ -4802,6 +4802,152 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "No add-ons currently installed")
 
 
+class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.make_manager()
+
+    def test_component_lists_inherited_addons_as_view_only(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        manual_addon = ManualResultAddon.create(
+            project=self.project, run=False
+        ).instance
+        category_addon = NoOpAddon.create(category=category, run=False).instance
+        sitewide_addon = NoOpAddon.create(run=False).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "Manual result add-on")
+        self.assertContains(response, "Test add-on")
+        self.assertContains(response, "project-wide")
+        self.assertContains(response, "category")
+        self.assertContains(response, "site-wide")
+        self.assertContains(response, "Inherited from")
+        self.assertNotContains(response, "Installed at the current scope.")
+        self.assertContains(
+            response, reverse("addon-logs", kwargs={"pk": manual_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": manual_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": category_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": sitewide_addon.pk})
+        )
+        self.assertContains(response, "Managed at a scope you do not have access to.")
+        self.assertContains(response, "Manage add-ons at Test")
+        self.assertNotContains(response, "Run now")
+        self.assertNotContains(response, "Uninstall")
+        self.assertNotContains(response, "Configure")
+
+    def test_inherited_addon_does_not_block_local_install(self) -> None:
+        NoOpAddon.create(project=self.project, run=False)
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": NoOpAddon.name, "form": "1"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 2 add-ons")
+        self.assertTrue(
+            Addon.objects.filter(component=self.component, name=NoOpAddon.name).exists()
+        )
+        self.assertTrue(
+            Addon.objects.filter(project=self.project, name=NoOpAddon.name).exists()
+        )
+
+    def test_component_repo_scope_addon_keeps_repository_badge(self) -> None:
+        GitSquashAddon.create(
+            component=self.component, run=False, configuration={"squash": "all"}
+        )
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "repository wide")
+
+    def test_repository_scope_addon_components_view(self) -> None:
+        linked_component = self.create_link_existing(name="Linked", slug="linked")
+        addon = GitSquashAddon.create(
+            component=self.component, run=False, configuration={"squash": "all"}
+        ).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(
+            response, reverse("addon-components", kwargs={"pk": addon.pk})
+        )
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        components = {row["component"] for row in response.context["component_rows"]}
+        self.assertEqual(components, {self.component, linked_component})
+
+    def test_project_addon_components_view(self) -> None:
+        self.create_ts(project=self.project, name="TS")
+        addon = NoOpAddon.create(project=self.project, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "addons/addon_components.html")
+        self.assertContains(response, self.component.name)
+        self.assertContains(response, "Compatible")
+        self.assertEqual(
+            len(response.context["component_rows"]),
+            self.project.component_set.count(),
+        )
+
+    def test_category_addon_components_view(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        outside_component = self.create_ts(project=self.project, name="Outside")
+        addon = NoOpAddon.create(category=category, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f'href="{self.component.get_absolute_url()}"')
+        self.assertContains(response, f'href="{category.get_absolute_url()}"')
+        components = {row["component"] for row in response.context["component_rows"]}
+        self.assertIn(self.component, components)
+        self.assertNotIn(outside_component, components)
+
+    def test_addon_components_view_shows_incompatible_components(self) -> None:
+        addon = Addon.objects.create(project=self.project, name=CrashAddon.name)
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Not compatible")
+
+    def test_component_addon_components_view_not_available(self) -> None:
+        addon = NoOpAddon.create(component=self.component, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_sitewide_addon_components_view_requires_management_access(self) -> None:
+        addon = NoOpAddon.create(run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+        self.assertEqual(response.status_code, 403)
+
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.component.name)
+
+
 class PropertiesAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_java()
@@ -8182,6 +8328,53 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
 
+    def test_topic_scopes(self) -> None:
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_COMPONENT, component=self.component)
+            ),
+            "weblate.component_renamed.test.test",
+        )
+
+        parent_category = Category.objects.create(
+            name="Parent Category", slug="parent", project=self.project
+        )
+        child_category = Category.objects.create(
+            name="Child Category",
+            slug="child",
+            category=parent_category,
+            project=self.project,
+        )
+
+        self.component.category = child_category
+        self.component.save(update_fields=["category"])
+        translation = Translation.objects.get(pk=self.translation.pk)
+
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.PROJECT_BACKUP, project=self.project)
+            ),
+            "weblate.project_backed_up.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_CATEGORY, category=child_category)
+            ),
+            "weblate.category_renamed.test.parent.child",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_COMPONENT, component=self.component)
+            ),
+            "weblate.component_renamed.test.parent.child.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.CHANGE, translation=translation)
+            ),
+            "weblate.translation_changed.test.parent.child.test.cs",
+        )
+
     def test_body(self):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
@@ -8338,5 +8531,8 @@ class TestCommand(ComponentTestCase):
 
         self.assertIn("Common add-on parameters", parameters_content)
         self.assertIn(".. _addon-choice-engines:", parameters_content)
+        self.assertIn(".. _change-actions:", parameters_content)
+        self.assertIn("Identifier", parameters_content)
+        self.assertIn("``resource_updated``", parameters_content)
         self.assertNotIn("Built-in add-ons", parameters_content)
         self.assertNotIn("Events that trigger add-ons", parameters_content)

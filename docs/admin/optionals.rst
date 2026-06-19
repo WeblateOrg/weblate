@@ -27,7 +27,7 @@ Installation
 
 .. hint::
 
-   Git exporter is turned on in our official Docker image. To turn it of, use:
+   Git exporter is turned on in our official Docker image. To turn it off, use:
 
    .. code-block:: sh
 
@@ -60,7 +60,7 @@ requires an API token which can be obtained in your
 
 .. hint::
 
-   By default members or :guilabel:`Users` group and anonymous user have access
+   By default members of :guilabel:`Users` group and anonymous user have access
    to the repositories for public projects via :guilabel:`Access repository`
    and :guilabel:`Power user` roles.
 
@@ -358,9 +358,15 @@ Rate limiting
 
       The rate limiting no longer applies to signed in superusers.
 
-Several operations in Weblate are rate limited. At most
-:setting:`RATELIMIT_ATTEMPTS` attempts are allowed within :setting:`RATELIMIT_WINDOW` seconds.
-The user is then blocked for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of available scopes.
+Several operations in Weblate are rate limited. Rate limits are evaluated
+independently for each scope. At most :setting:`RATELIMIT_ATTEMPTS` attempts are
+allowed within :setting:`RATELIMIT_WINDOW` seconds in one scope. That scope is
+then blocked for :setting:`RATELIMIT_LOCKOUT`; Weblate does not turn this into a
+sitewide temporary IP ban. Exceeding one scope, such as ``TRANSLATE`` or
+``SEARCH``, does not by itself block unrelated scopes such as ``LOGIN`` or
+``SECOND_FACTOR``. There are also settings specific to scopes, for example
+``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The table
+below is a full list of available scopes.
 
 The following operations are subject to rate limiting:
 
@@ -387,7 +393,8 @@ The following operations are subject to rate limiting:
 | Creating new project              | ``PROJECT``        | 5                | 600              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 
-The rate limiting is based on sessions when user is signed in and on IP address if not.
+Within each scope, the rate limiting is based on sessions when user is signed in
+and on IP address if not.
 
 If a user fails to sign in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
 

@@ -23,7 +23,7 @@ from django.db import IntegrityError, transaction
 from django.db.models import Exists, F, OuterRef
 from django.utils import timezone
 from django.utils.timezone import make_aware
-from django.utils.translation import gettext, override
+from django.utils.translation import gettext, ngettext, override
 
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
@@ -52,6 +52,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage, prefetch_stats
 from weblate.vcs.base import RepositoryError
 
@@ -60,6 +61,47 @@ if TYPE_CHECKING:
 
     from weblate.trans.models.change import RevertUserEditsResult
     from weblate.workspaces.models import Workspace
+
+
+def commit_lock_retries_exhausted() -> bool:
+    """Check whether a commit lock timeout will no longer be retried."""
+    if not current_task:
+        return True
+
+    if current_task.max_retries is None:
+        return False
+    return current_task.request.retries >= current_task.max_retries
+
+
+def schedule_deferred_commit(component: Component) -> None:
+    followup = component.finish_commit_task()
+    if followup:
+        component.queue_commit_pending(
+            followup["reason"],
+            user_id=followup["user_id"],
+            force_scan=followup["force_scan"],
+            previous_head=followup["previous_head"],
+        )
+
+
+def perform_component_commit(
+    component: Component,
+    reason: str,
+    user: User | None,
+    *,
+    force_scan: bool = False,
+    previous_head: str | None = None,
+) -> None:
+    with component.repository.lock:
+        component.commit_pending(reason, user=user)
+        if force_scan:
+            component.trigger_post_update(
+                previous_head=previous_head,
+                skip_push=False,
+                user=user,
+                parse_after_update=True,
+            )
+            component.create_translations(force=True)
 
 
 @app.task(
@@ -147,18 +189,24 @@ def perform_commit(
     force_scan: bool = False,
     previous_head: str | None = None,
 ) -> None:
-    user = User.objects.get(pk=user_id) if user_id else None
     component = Component.objects.get(pk=pk)
-    with component.repository.lock:
-        component.commit_pending(reason, user=user)
-        if force_scan:
-            component.trigger_post_update(
-                previous_head=previous_head,
-                skip_push=False,
-                user=user,
-                parse_after_update=True,
-            )
-            component.create_translations(force=True)
+    try:
+        user = User.objects.get(pk=user_id) if user_id else None
+        perform_component_commit(
+            component,
+            reason,
+            user,
+            force_scan=force_scan,
+            previous_head=previous_head,
+        )
+    except WeblateLockTimeoutError:
+        if commit_lock_retries_exhausted():
+            schedule_deferred_commit(component)
+        raise
+    except Exception:
+        component.delete_commit_task(require_match=True)
+        raise
+    schedule_deferred_commit(component)
 
 
 @app.task(
@@ -191,7 +239,7 @@ def commit_pending(
         if logger:
             logger(f"Committing {component}")
 
-        perform_commit.delay(component.pk, "commit_pending")
+        component.queue_commit_pending("commit_pending")
 
 
 @app.task(trail=False)
@@ -261,6 +309,127 @@ def cleanup_user_contributions(
         "comments": deleted_comments,
         "suggestions": rejected_suggestions,
     }
+
+
+def get_bulk_accept_user_suggestions_message(
+    *, accepted: int, failed: int, total: int, username: str
+) -> str:
+    """Build the completion message for accepting suggestions from a user."""
+    if total == 0:
+        return gettext("No suggestions found.")
+
+    if failed == 0:
+        return ngettext(
+            "Accepted %(count)d suggestion from %(user)s.",
+            "Accepted %(count)d suggestions from %(user)s.",
+            accepted,
+        ) % {
+            "count": accepted,
+            "user": username,
+        }
+
+    return ngettext(
+        "Accepted %(accepted)d of %(total)d suggestion from %(user)s. %(failed)d failed due to permissions or checks.",
+        "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d failed due to permissions or checks.",
+        total,
+    ) % {
+        "accepted": accepted,
+        "total": total,
+        "failed": failed,
+        "user": username,
+    }
+
+
+def get_bulk_accept_user_suggestions_message_level(
+    *, accepted: int, failed: int
+) -> str:
+    """Return the message level for a bulk accept result."""
+    if accepted > 0:
+        if failed == 0:
+            return "success"
+        return "warning"
+    if failed > 0:
+        return "error"
+    return "info"
+
+
+def report_bulk_accept_user_suggestions_progress(processed: int, total: int) -> None:
+    """Report bulk suggestion acceptance progress to Celery."""
+    if current_task and current_task.request.id:
+        current_task.update_state(
+            state="PROGRESS",
+            meta={"progress": 100 * processed // total if total else 100},
+        )
+
+
+@app.task(trail=False)
+def bulk_accept_user_suggestions(
+    *,
+    translation_id: int,
+    target_user_id: int,
+    user_id: int,
+    approve: bool = False,
+    return_url: str = "",
+) -> dict[str, dict[str, str] | int | str]:
+    """Accept all suggestions from a specific user for a translation."""
+    translation = Translation.objects.get(pk=translation_id)
+    target_user = User.objects.get(pk=target_user_id)
+    user = User.objects.get(pk=user_id)
+
+    request = AuthenticatedHttpRequest()
+    request.user = user
+
+    suggestions = Suggestion.objects.filter(
+        unit__translation=translation, user=target_user
+    ).select_related("unit")
+    total = suggestions.count()
+    accepted = 0
+    failed = 0
+    processed = 0
+
+    report_bulk_accept_user_suggestions_progress(processed, total)
+
+    for suggestion in suggestions.iterator(chunk_size=100):
+        processed += 1
+
+        if (
+            not user.has_perm("suggestion.accept", suggestion.unit)
+            or (approve and not user.has_perm("unit.review", suggestion.unit))
+            or list(suggestion.get_checks())
+        ):
+            failed += 1
+        else:
+            suggestion.accept(
+                request,
+                state=STATE_APPROVED if approve else STATE_TRANSLATED,
+            )
+            accepted += 1
+
+        report_bulk_accept_user_suggestions_progress(processed, total)
+
+    with override(user.profile.language if user else "en"):
+        message_level = get_bulk_accept_user_suggestions_message_level(
+            accepted=accepted, failed=failed
+        )
+        message = get_bulk_accept_user_suggestions_message(
+            accepted=accepted,
+            failed=failed,
+            total=total,
+            username=target_user.username,
+        )
+    result: dict[str, dict[str, str] | int | str] = {
+        "accepted": accepted,
+        "failed": failed,
+        "total": total,
+        "message": message,
+        "completion_message": {
+            "level": message_level,
+            "text": message,
+        },
+    }
+    if return_url:
+        result["url"] = return_url
+    return result
 
 
 @app.task(trail=False)

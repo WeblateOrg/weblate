@@ -778,4 +778,7 @@ class DocumentationCommandTest(TestCase):
     def test_list_change_events(self) -> None:
         output = StringIO()
         call_command("list_change_events", stdout=output)
-        self.assertIn("Forced synchronization of translations", output.getvalue())
+        result = output.getvalue()
+        self.assertIn("``83``", result)
+        self.assertIn("``forced_synchronization_of_translations``", result)
+        self.assertIn("Forced synchronization of translations", result)

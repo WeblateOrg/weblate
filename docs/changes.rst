@@ -5,6 +5,7 @@ Weblate 2026.7
 
 .. rubric:: New features
 
+* Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 
 .. rubric:: Improvements
@@ -16,6 +17,7 @@ Weblate 2026.7
 * Expanded :doc:`/security/data-residency` with EU cloud sovereignty guidance.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
 * :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
+* Add-ons installed at higher scopes are now shown on lower-scope add-on pages, and broad-scope add-ons can list affected components with compatibility details.
 * :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
 * LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
 * Improved bidirectional text handling for RTL translation display and editor previews.
@@ -30,6 +32,8 @@ Weblate 2026.7
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
 * :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
+* :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.
+* Committing large numbers of pending translations now queues browser requests in the background and avoids duplicate repository commit tasks.
 
 .. rubric:: Bug fixes
 
@@ -45,8 +49,12 @@ Weblate 2026.7
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * Repository reset and update progress now includes follow-up translation-file reconciliation.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
+* :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
+* Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
 
 .. rubric:: Compatibility
+
+* :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, making categorized same-named components distinguishable.
 
 .. rubric:: Upgrading
 

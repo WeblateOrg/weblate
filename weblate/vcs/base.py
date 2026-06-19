@@ -472,9 +472,8 @@ class Repository:
         """Execute the command using popen."""
         if args is None:
             raise RepositoryError(0, "Not supported functionality")
-        if not fullcmd:
-            args = [cls._cmd, *list(args)]
-        text_cmd = " ".join(args)
+        cmd = args if fullcmd else [cls._cmd, *args]
+        text_cmd = " ".join(cmd)
         # These are mutually exclusive, gevent actually checks
         # for their presence, not a value.
         kwargs: SubprocessArgs = {}
@@ -485,7 +484,7 @@ class Repository:
 
         try:
             process = subprocess.run(
-                args=args,
+                args=cmd,
                 cwd=cwd,
                 env=environment or {} if local else cls._getenv(environment, cwd=cwd),
                 stdout=subprocess.PIPE,

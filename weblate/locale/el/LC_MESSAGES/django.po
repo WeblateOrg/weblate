@@ -17,8 +17,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-14 02:03+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-18 19:35+0000\n"
+"Last-Translator: Jim Kats <jim-kats@hotmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
 "Language: el\n"
@@ -4571,10 +4571,8 @@ msgid "The following errors were found:"
 msgstr "Βρέθηκαν τα ακόλουθα περιστατικά:"
 
 #: weblate/checks/base.py:388
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "Δεν ήταν δυνατή η ανάλυση των δεικτών: %s"
+msgstr "Δεν ήταν δυνατή η ανάλυση {} δείκτη: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -4936,7 +4934,7 @@ msgstr "Τύπος Fluent"
 
 #: weblate/checks/flags.py:158
 msgid "Discard flag"
-msgstr ""
+msgstr "Απόρριψη δείκτη"
 
 #: weblate/checks/flags.py:410
 #, python-format
@@ -16450,22 +16448,26 @@ msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is not available for bilingual formats."
 msgstr ""
+"<code>%(flags)s</code> κληρονομείται από το %(object)s επειδή η επεξεργασία "
+"των κειμένων πηγής δεν είναι διαθέσιμη για δίγλωσσες μορφές."
 
 #: weblate/templates/translate.html:1055
-#, fuzzy, python-format
-#| msgid "<code>%(flags)s</code> is inherited from %(object)s."
+#, python-format
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is not available for %(format)s."
-msgstr "<code>%(flags)s</code> κληρονομείται από το %(object)s."
+msgstr ""
+"<code>%(flags)s</code> κληρονομείται από το %(object)s επειδή η επεξεργασία "
+"των κειμένων πηγής δεν είναι διαθέσιμη για %(format)s."
 
 #: weblate/templates/translate.html:1057
-#, fuzzy, python-format
-#| msgid "<code>%(flags)s</code> is inherited from %(object)s."
+#, python-format
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
-msgstr "<code>%(flags)s</code> κληρονομείται από το %(object)s."
+msgstr ""
+"<code>%(flags)s</code> κληρονομείται από το %(object)s επειδή η επεξεργασία "
+"των κειμένων πηγής είναι απενεργοποιημένη."
 
 #: weblate/templates/translate.html:1102
 #, python-format
@@ -17052,10 +17054,8 @@ msgstr "Μεταφόρτωση αρχείου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
-#, fuzzy
-#| msgid "Last updated"
 msgid "Extra flags updated"
-msgstr "Τελευταία ενημέρωση"
+msgstr "Ενημέρωση έξτρα δεικτών"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
@@ -17104,88 +17104,63 @@ msgstr "Εκκαθάριση αποθετηρίου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:184
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "Source string added in the upload"
-msgstr "Η συμβολοσειρά προστέθηκε στο ανέβασμα"
+msgstr "Η συμβολοσειρά πηγής προστέθηκε στο ανέβασμα"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:186
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Source string added in the repository"
-msgstr "Η συμβολοσειρά προστέθηκε στο αποθετήριο"
+msgstr "Η συμβολοσειρά πηγής προστέθηκε στο αποθετήριο"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:188
-#, fuzzy
-#| msgid "Project name"
 msgid "Project backed up"
-msgstr "Τίτλος εργασίας"
+msgstr "Δημιουργία αντιγράφου ασφαλείας του έργου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:190
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "Το έργο αφαιρέθηκε"
+msgstr "Αποκατάσταση του έργου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:192
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "Το στοιχείο αφαιρέθηκε"
+msgstr "Αποκατάσταση του στοιχείου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:194
-#, fuzzy
-#| msgid "User removed"
 msgid "User edit reverted"
-msgstr "Ο χρήστης αφαιρέθηκε"
+msgstr "Αναίρεση επεξεργασίας χρήστη"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:196
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Project setting changed"
-msgstr "Το κείμενο προέλευσης άλλαξε"
+msgstr "Αλλαγή ρυθμίσεων έργου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:198
-#, fuzzy
-#| msgid "Component renamed"
 msgid "Component setting changed"
-msgstr "Το στοιχείο μετονομάστηκε"
+msgstr "Αλλαγή ρυθμίσεων στοιχείου"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:200
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "License was changed"
 msgid "User access changed"
-msgstr "Η άδεια άλλαξε"
+msgstr "Αλλαγή πρόσβασης χρήστη"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created"
-msgstr "Στοιχείο δημιουργήθηκε"
+msgstr "Δημιουργία χώρου εργασίας"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:204
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Workspace setting changed"
-msgstr "Το κείμενο προέλευσης άλλαξε"
+msgstr "Αλλαγή ρυθμίσεων χώρου εργασίας"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:206
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved"
-msgstr "Το έργο αφαιρέθηκε"
+msgstr "Μετακίνηση έργου"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"

@@ -129,6 +129,8 @@
     Enables the :ref:`check-placeholders` quality check.
 ``regex``
     Enables the :ref:`check-regex` quality check.
+``safe-mdx``
+    Enables the :ref:`check-safe-mdx` quality check.
 ``safe-html``
     Enables the :ref:`check-safe-html` quality check.
 ``auto-safe-html``
@@ -272,6 +274,8 @@
     Skip the :ref:`check-rst-syntax` quality check.
 ``ignore-reused``
     Skip the :ref:`check-reused` quality check.
+``ignore-safe-mdx``
+    Skip the :ref:`check-safe-mdx` quality check.
 ``ignore-same-plurals``
     Skip the :ref:`check-same-plurals` quality check.
 ``ignore-begin-newline``

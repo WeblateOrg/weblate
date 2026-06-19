@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-14 02:04+0000\n"
+"PO-Revision-Date: 2026-06-19 02:36+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -9781,7 +9781,13 @@ msgid_plural ""
 "      Showing %(entries)s preview entries.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      A mostrar %(entries)s entrada de pré-visualização.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      A mostrar %(entries)s entradas de pré-visualização.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:35
 #, python-format
@@ -9794,12 +9800,18 @@ msgid_plural ""
 "      So far this includes %(component_count)s components.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      Até agora isto inclui %(component_count)s componente.\n"
+"    "
 msgstr[1] ""
+"\n"
+"      Até agora isto inclui %(component_count)s componentes.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:40
 msgid ""
 "There might be more affected components, languages, and translation files."
-msgstr ""
+msgstr "Podem haver mais componentes, idiomas e ficheiros de tradução afetados."
 
 #: weblate/templates/addons/language_consistency_preview.html:49
 msgid "Languages to add"
@@ -9908,6 +9920,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Isto é verificado para cada novo utilizador no site, independentemente de "
+"qual projeto eles usam."
 
 #: weblate/templates/auth/team.html:106
 msgid "Add automatic assignment"
@@ -9923,10 +9937,8 @@ msgid "Team administrator"
 msgstr "Administrador de equipa"
 
 #: weblate/templates/auth/team.html:147
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "No additional limit"
-msgstr "Editar informação adicional da cadeia de carateres"
+msgstr "Sem limite adicional"
 
 #: weblate/templates/auth/team.html:155
 #: weblate/templates/trans/project-access-row.html:20
@@ -10062,10 +10074,8 @@ msgid "Add new translation project"
 msgstr "Adicionar Novo Projeto de Tradução"
 
 #: weblate/templates/base.html:322
-#, fuzzy
-#| msgid "Add new word"
 msgid "Add new workspace"
-msgstr "Adicionar nova palavra"
+msgstr "Adicionar um novo espaço de trabalho"
 
 #: weblate/templates/base.html:328 weblate/templates/category.html:109
 #: weblate/templates/project.html:144
@@ -10396,7 +10406,7 @@ msgstr "Utilizado %(used)s de %(total)s"
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "Restaurar predefinição do site"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -10646,16 +10656,12 @@ msgstr ""
 
 #: weblate/templates/category.html:329 weblate/templates/component.html:455
 #: weblate/templates/dashboard/user.html:141 weblate/templates/project.html:431
-#, fuzzy
-#| msgid ""
-#| "You don't have permission to view reports for all users, only your "
-#| "contributions will be listed."
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
 msgstr ""
-"Não tem permissão para visualizar os relatórios de todos os utilizadores. Só "
-"serão listadas as suas contribuições."
+"Não tem permissão para visualizar os relatórios de todos os utilizadores; "
+"relatórios de colaboradores listarão apenas as suas contribuições."
 
 #: weblate/templates/category.html:341 weblate/templates/component.html:467
 #: weblate/templates/dashboard/user.html:151 weblate/templates/project.html:443
@@ -10697,7 +10703,7 @@ msgstr ""
 #: weblate/templates/category.html:385 weblate/templates/component.html:511
 #: weblate/templates/dashboard/user.html:191 weblate/templates/project.html:487
 msgid "Cost estimate"
-msgstr ""
+msgstr "Estimativa de custo"
 
 #: weblate/templates/category.html:390 weblate/templates/component.html:516
 #: weblate/templates/dashboard/user.html:196 weblate/templates/project.html:492
@@ -10705,6 +10711,9 @@ msgid ""
 "Estimates translation costs based on source words, repetitions, needs-"
 "editing strings, and translation memory matches."
 msgstr ""
+"Estima os custos de tradução baseado nas palavras fonte, repetições, cadeias "
+"de caracteres que necessitam de edição, e correspondências de memória de "
+"tradução."
 
 #: weblate/templates/check_list.html:36 weblate/trans/views/reports.py:313
 msgid "Total"
@@ -10755,7 +10764,7 @@ msgstr "Continuar após a conclusão"
 #: weblate/templates/snippets/libre-checklist.html:57
 #: weblate/wladmin/views.py:103
 msgid "Diagnostics"
-msgstr ""
+msgstr "Diagnósticos"
 
 #: weblate/templates/component.html:41 weblate/templates/project.html:46
 msgid "Download language statistics (CSV)"
@@ -10805,10 +10814,9 @@ msgstr "rejeitada"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:226
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "Apareceu em %(first)s, última presença %(last)s"
+msgstr "Apareceu em %(first)s"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:229
@@ -11139,13 +11147,15 @@ msgstr "Assim que ativar a sua conta, prossiga para a secção de tradução."
 
 #: weblate/templates/engage.html:67
 msgid "Choose what to work on"
-msgstr ""
+msgstr "Escolher em que trabalhar"
 
 #: weblate/templates/engage.html:73
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
 msgstr ""
+"Começar com cadeias de caracteres não traduzidas, continuar depois com "
+"verificações, análises, sugestões ou edição."
 
 #: weblate/templates/engage.html:97
 msgctxt "Call to action on engage page"
@@ -11415,16 +11425,12 @@ msgid "Reset and reapply"
 msgstr "Reiniciar e reaplicar"
 
 #: weblate/templates/js/git-status.html:180
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and replace upstream "
-#| "translations with the current state from Weblate."
 msgid ""
 "Resets Weblate’s repository to match upstream and reapplies pending "
 "translations onto the reset repository state."
 msgstr ""
-"Reinicia o repositório do Weblate para corresponder à fonte e substitui as "
-"traduções com o estado atual do Weblate."
+"Reinicia o repositório do Weblate para corresponder à fonte e reaplica "
+"traduções para o estado do repositório reiniciado."
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -11436,6 +11442,8 @@ msgid ""
 "Missing language files must already exist upstream or Weblate must be able "
 "to create them for the component."
 msgstr ""
+"Ficheiros de idioma em falta têm que já existir na fonte ou o Weblate tem "
+"que conseguir criá-los para o componente."
 
 #: weblate/templates/js/git-status.html:188
 msgid "Cleanup"
@@ -11718,16 +11726,12 @@ msgstr ""
 "envio."
 
 #: weblate/templates/language-project.html:259
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations within the project, until its "
-#| "given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this project language, until "
 "its given expiry, or permanently until it is deleted."
 msgstr ""
-"A mensagem é exibida para todas as traduções no projeto, até a sua expiração "
-"determinada ou permanentemente até que seja apagada."
+"A mensagem é exibida para todas as traduções dentro do idioma do projeto, "
+"até a sua expiração determinada ou permanentemente até que seja apagada."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:213 weblate/wladmin/views.py:109
@@ -11790,6 +11794,9 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Este serviço pode enviar cadeias de caracteres fonte, traduções, e contexto "
+"relacionado a um fornecedor terceiro. Reveja os termos de política de "
+"privacidade do fornecedor antes de o ativar."
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -11891,6 +11898,8 @@ msgid ""
 "Following billings have recurring payment scheduled for automatic "
 "disablement due to inactivity:"
 msgstr ""
+"As seguintes faturas têm pagamento recorrente agendado para o desativar "
+"automático devido a inatividade:"
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -11991,6 +12000,8 @@ msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
 msgstr ""
+"Pagamento anual recorrente para o seu plano de faturação será desativado em %"
+"(date)s porque os projetos abrangidos parecem abandonados."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:13
 #, python-format
@@ -11998,44 +12009,42 @@ msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
 msgstr ""
+"O último commit para o repositório fonte conhecido para estes projetos é de %"
+"(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
 msgstr ""
-"Um pedido para uma nova tradução foi enviado para os gestores do projeto."
+"O Weblate tem alterações de tradução pendentes para estes projetos desde %"
+"(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
+"O Weblate tem alterações de repositório em espera de serem enviados desde %"
+"(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate should now be able to see updated repository and you can unlock "
-#| "it."
+#, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
 msgstr ""
-"O Weblate deveria poder agora ver o repositório atualizado e pode você pode "
-"desbloqueá-lo."
+"O Weblate não conseguiu enviar as alterações do repositório desde %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
 "The projects will remain available, but the next payment will need to be "
 "made manually."
 msgstr ""
+"Os projetos permanecerão disponíveis, mas o próximo pagamento terá que ser "
+"feito manualmente."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "A conta será desativada depois de expirar."
+msgstr "Pagamento recorrente será desativado para projetos inativos"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -12144,10 +12153,8 @@ msgid "%(invitation_author)s has invited you to join"
 msgstr "%(invitation_author)s convidou-o para aderir"
 
 #: weblate/templates/mail/new_alert.html:14
-#, fuzzy
-#| msgid "View details"
 msgid "View diagnostics"
-msgstr "Ver detalhes"
+msgstr "Ver diagnósticos"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/new_alert_subject.txt:5
@@ -12348,12 +12355,13 @@ msgid ""
 "Weblate.org has created this Hosted Weblate sign-in account so you can "
 "access purchased Weblate services."
 msgstr ""
+"O Weblate.org criou esta conta de início de sessão Hosted Weblate para que "
+"possa aceder a serviços Weblate adquiridos."
 
 #: weblate/templates/mail/reset.html:9
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Please set the password for this sign-in account now."
-msgstr "Ative a autenticação por palavra-passe para proteger a sua conta."
+msgstr ""
+"Por favor defina a palavra-passe para esta conta de início de sessão agora."
 
 #: weblate/templates/mail/reset.html:11
 #, python-format
@@ -12364,7 +12372,7 @@ msgstr ""
 
 #: weblate/templates/mail/reset_subject.txt:6
 msgid "Set password for your Weblate account"
-msgstr ""
+msgstr "Defina a palavra-passe para a sua conta Weblate"
 
 #: weblate/templates/mail/reset_subject.txt:8
 #, python-format
@@ -12404,10 +12412,8 @@ msgstr ""
 "navegador para continuar."
 
 #: weblate/templates/mail/shared-registration.html:18
-#, fuzzy
-#| msgid "Set password"
 msgid "Set account password"
-msgstr "Definir palavra-passe"
+msgstr "Definir palavra-passe da conta"
 
 #: weblate/templates/mail/shared-registration.html:20
 msgid "Confirm password reset"
@@ -12476,16 +12482,12 @@ msgid "Translation activity in this period:"
 msgstr "Atividade da tradução neste período:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
-#, fuzzy
-#| msgid "Added user"
 msgid "Added"
-msgstr "Utilizador adicionado"
+msgstr "Adicionado"
 
 #: weblate/templates/mail/translation_activity_summary.html:12
-#, fuzzy
-#| msgid "Update"
 msgid "Updated"
-msgstr "Atualização"
+msgstr "Atualizado"
 
 #: weblate/templates/mail/translation_activity_summary.html:14
 #: weblate/templates/snippets/list-objects.html:61
@@ -12506,16 +12508,12 @@ msgstr "Não finalizada"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translation_activity_summary_subject.txt:5
-#, fuzzy
-#| msgid "Translation summary"
 msgid "Translation activity summary"
-msgstr "Resumo da tradução"
+msgstr "Resumo da atividade de tradução"
 
 #: weblate/templates/manage/alerts.html:10
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "Listas de componentes"
+msgstr "Diagnósticos de componentes"
 
 #: weblate/templates/manage/alerts.html:40
 msgid "Projects without components"
@@ -12553,10 +12551,8 @@ msgid "Failed with an error"
 msgstr "Falhou com um erro"
 
 #: weblate/templates/manage/backups.html:27
-#, fuzzy
-#| msgid "Completed translation"
 msgid "Completed with warnings"
-msgstr "Tradução completa"
+msgstr "Completado sem avisos"
 
 #: weblate/templates/manage/backups.html:30
 msgid "Turned off"
@@ -12583,16 +12579,12 @@ msgid "Backup service credentials"
 msgstr "Credenciais do serviço de cópias de segurança"
 
 #: weblate/templates/manage/backups.html:85
-#, fuzzy
-#| msgid "Failures"
 msgid "Failed"
-msgstr "Falhas"
+msgstr "Falhou"
 
 #: weblate/templates/manage/backups.html:87
-#, fuzzy
-#| msgid "Strings"
 msgid "Warnings"
-msgstr "Cadeias"
+msgstr "Avisos"
 
 #: weblate/templates/manage/backups.html:109
 msgid "Turn off"
@@ -13033,44 +13025,35 @@ msgstr "Verificar acesso do utilizador"
 
 #: weblate/templates/manage/workspace_form.html:11
 #: weblate/templates/manage/workspaces.html:10 weblate/wladmin/views.py:105
-#, fuzzy
-#| msgid "Spaces"
 msgid "Workspaces"
-msgstr "Espaços"
+msgstr "Espaços de trabalho"
 
 #: weblate/templates/manage/workspace_form.html:15
 #: weblate/templates/manage/workspace_form.html:25
 #: weblate/templates/manage/workspaces.html:19
 msgid "Add workspace"
-msgstr ""
+msgstr "Adicionar espaço de trabalho"
 
 #: weblate/templates/manage/workspaces.html:21
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage workspaces"
-msgstr "Gerir utilizadores"
+msgstr "Gerir espaços de trabalho"
 
 #: weblate/templates/manage/workspaces.html:25 weblate/wladmin/forms.py:87
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Search workspaces"
-msgstr "Códigos do Weblate"
+msgstr "Pesquisar espaços de trabalho"
 
 #: weblate/templates/manage/workspaces.html:30
 msgid "Clear"
 msgstr "Limpar"
 
 #: weblate/templates/manage/workspaces.html:60
-#, fuzzy, python-format
-#| msgid "Billing admins"
+#, python-format
 msgid "Billing #%(id)s"
-msgstr "Administradores de faturação"
+msgstr "A Faturar #%(id)s"
 
 #: weblate/templates/manage/workspaces.html:71
-#, fuzzy
-#| msgid "No words found!"
 msgid "No workspaces found."
-msgstr "Não foram encontradas palavras!"
+msgstr "Nenhum espaço de trabalho encontrado."
 
 #: weblate/templates/matrix-table.html:14
 msgid "String missing"
@@ -13342,10 +13325,8 @@ msgstr ""
 "Renomear o projeto também alterará os URLs de todos os seus componentes."
 
 #: weblate/templates/project.html:401
-#, fuzzy
-#| msgid "Removed project"
 msgid "Move project"
-msgstr "Projeto apagado"
+msgstr "Mover projeto"
 
 #: weblate/templates/project.html:408
 msgid "Move"
@@ -13417,18 +13398,15 @@ msgstr "Procurar cadeia fonte"
 #: weblate/templates/screenshots/screenshot_detail.html:80
 msgid "Suggests source strings by recognizing text in this screenshot."
 msgstr ""
+"Sugere cadeias de caracteres fonte ao reconhecer texto nesta captura de ecrã."
 
 #: weblate/templates/screenshots/screenshot_detail.html:81
-#, fuzzy
-#| msgid "Include strings needing editing"
 msgid "Find strings in image"
-msgstr "Incluir cadeias de carateres que precisam de edição"
+msgstr "Procurar cadeias de caracteres na imagem"
 
 #: weblate/templates/screenshots/screenshot_detail.html:85
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Add selected"
-msgstr "Adicionar captura de ecrã"
+msgstr "Adicionar selecionadas"
 
 #: weblate/templates/screenshots/screenshot_detail.html:149
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -13437,10 +13415,8 @@ msgstr ""
 "fonte associadas."
 
 #: weblate/templates/screenshots/screenshot_list.html:72
-#, fuzzy
-#| msgid "Strings with screenshots"
 msgid "Source strings with screenshots"
-msgstr "Cadeias de carateres com capturas de ecrã"
+msgstr "Cadeias de carateres fonte com capturas de ecrã"
 
 #: weblate/templates/screenshots/screenshot_list.html:82
 #, fuzzy
@@ -13479,10 +13455,8 @@ msgid "There are no assigned strings."
 msgstr "Não há cadeias de carateres atribuídas."
 
 #: weblate/templates/screenshots/screenshot_list.html:209
-#, fuzzy
-#| msgid "No suggestions found."
 msgid "No screenshots found."
-msgstr "Não foram encontradas sugestões."
+msgstr "Nenhuma captura de ecrã encontrada."
 
 #: weblate/templates/screenshots/screenshot_list.html:223
 #: weblate/templates/translate.html:1131
@@ -13495,10 +13469,8 @@ msgid "Add to screenshot"
 msgstr "Adicionar à captura do ecrã"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection.html:7
-#, fuzzy
-#| msgid "New source string"
 msgid "Select source string"
-msgstr "Nova cadeia fonte"
+msgstr "Selecionar cadeia de carateres fonte"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection_header.html:6
 #, fuzzy

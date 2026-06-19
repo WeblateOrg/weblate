@@ -7,6 +7,11 @@ from django.db.models import IntegerChoices
 from django.utils.translation import gettext_lazy, pgettext_lazy
 
 
+def get_change_action_identifier(action: object) -> str:
+    """Return action identifier used in Fedora Messaging topics."""
+    return str(action).lower().replace(" ", "_")
+
+
 class ActionEvents(IntegerChoices):
     # Translators: Name of event in the history
     UPDATE = 0, gettext_lazy("Resource updated")

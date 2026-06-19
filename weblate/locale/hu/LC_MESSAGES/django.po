@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Balázs Úr <balazs@urbalazs.hu>, 2023, 2024, 2025.
-# Balázs Meskó <meskobalazs@mailbox.org>, 2025.
+# Balázs Meskó <meskobalazs@mailbox.org>, 2025, 2026.
 # RViktor <rviktor@ivankapal.com>, 2025, 2026.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
 # therealmate <hellogaming91@gmail.com>, 2025.
@@ -14,8 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-14 02:01+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-18 13:36+0000\n"
+"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -380,10 +380,8 @@ msgid "Team"
 msgstr "Csapat"
 
 #: weblate/accounts/forms.py:1161
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "Felhasználó hozzáadása egy csapathoz"
+msgstr "Hozzáadás egy csapathoz"
 
 #: weblate/accounts/forms.py:1175
 msgid "Name your authentication app"
@@ -648,10 +646,9 @@ msgstr "A(z) {project} projekthez való hozzáférés tiltva lett."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:367
-#, fuzzy, python-brace-format
-#| msgid "Your translation project was removed"
+#, python-brace-format
 msgid "Project token for {project} was removed."
-msgstr "A fordítási projektje eltávolításra került"
+msgstr "A(z) {project} projekttokenje eltávolításra került."
 
 #: weblate/accounts/models.py:370
 msgid "Two-factor authentication recovery codes were generated"
@@ -780,10 +777,9 @@ msgid "Account activity"
 msgstr "Fióktevékenység"
 
 #: weblate/accounts/models.py:627
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "{username} meghívta a(z) {project} projektbe."
+msgstr "{username} aktiválta."
 
 #: weblate/accounts/models.py:733
 msgid "Interface Language"
@@ -1511,16 +1507,12 @@ msgid "Website"
 msgstr "Webhely"
 
 #: weblate/accounts/views.py:975
-#, fuzzy
-#| msgid "Code site URL"
 msgid "Code site"
-msgstr "Kódoldal URL"
+msgstr "Kódoldal"
 
 #: weblate/accounts/views.py:994
-#, fuzzy
-#| msgid "Service is no longer available"
 msgid "This profile link is no longer available."
-msgstr "A szolgáltatás többé nem érhető el"
+msgstr "Ez a profilhivatkozás már nem érhető el."
 
 #: weblate/accounts/views.py:1006
 #: weblate/templates/accounts/user_profile_link.html:19
@@ -1756,14 +1748,8 @@ msgid "Translation files CDN"
 msgstr "Fordítási fájlok"
 
 #: weblate/addons/cdn.py:271
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
-msgstr ""
-"A fordításokat tartalomszolgáltató hálózatra (CDN) publikálja, hogy "
-"JavaScript vagy HTML lokalizáció során felhasználhatók legyenek."
+msgstr "Tartalomszolgáltató hálózatra (CDN) publikálja a fordítási fájlokat."
 
 #: weblate/addons/cdn.py:308
 #, fuzzy
@@ -2036,10 +2022,8 @@ msgstr ""
 "frissítése után elindítja azt."
 
 #: weblate/addons/forms.py:189
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Nem sikerült hozzáadni a megjegyzést!"
+msgstr "Ne nyerje ki a megjegyzéseket"
 
 #: weblate/addons/forms.py:190
 #, fuzzy
@@ -4781,13 +4765,10 @@ msgid "Different strings are translated the same."
 msgstr "Eltérő szövegek azonos fordítást kaptak."
 
 #: weblate/checks/consistency.py:199
-#, fuzzy
-#| msgid "Other source string: %s"
-#| msgid_plural "Other source strings: %s"
 msgid "Other source string:"
 msgid_plural "Other source strings:"
-msgstr[0] "Egyéb forrásszöveg: %s"
-msgstr[1] "Egyéb forrásszövegek: %s"
+msgstr[0] "Egyéb forrásszöveg:"
+msgstr[1] "Egyéb forrásszövegek:"
 
 #: weblate/checks/consistency.py:202
 #, python-format
@@ -5401,10 +5382,8 @@ msgid "Fluent syntax error in the translation."
 msgstr "Fluent szintaktikai hiba a fordításban."
 
 #: weblate/checks/format.py:529
-#, fuzzy
-#| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "A következő formátumszövegek rossz sorrendben vannak: %s"
+msgstr "A következő formátumszövegek hibás sorrendben vannak:"
 
 #: weblate/checks/format.py:618
 msgid "Python format"
@@ -5637,22 +5616,16 @@ msgstr ""
 "üzenetformátum szövegekben."
 
 #: weblate/checks/icu.py:466
-#, fuzzy
-#| msgid "Syntax error: %s"
 msgid "Syntax error:"
-msgstr "Szintaktikai hiba: %s"
+msgstr "Szintaktikai hiba:"
 
 #: weblate/checks/icu.py:478
-#, fuzzy
-#| msgid "One or more unknown placeholders in the translation: %s"
 msgid "One or more unknown placeholders in the translation:"
-msgstr "Egy vagy több ismeretlen helykitöltő a fordításban: %s"
+msgstr "Egy vagy több ismeretlen helykitöltő a fordításban:"
 
 #: weblate/checks/icu.py:485
-#, fuzzy
-#| msgid "One or more placeholders missing in the translation: %s"
 msgid "One or more placeholders missing in the translation:"
-msgstr "Egy vagy több helykitöltő hiányzik a fordításban: %s"
+msgstr "Egy vagy több helykitöltő hiányzik a fordításban:"
 
 #: weblate/checks/icu.py:492
 #, fuzzy

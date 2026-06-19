@@ -13,10 +13,11 @@ from unittest.mock import MagicMock, call, patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.db import connection
 from django.db.models import Q
 from django.db.models.functions import MD5
 from django.test import SimpleTestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
@@ -278,6 +279,33 @@ class MemoryModelTest(FixtureTestCase):
                 }
             ],
         )
+
+    def test_machine_personal_memory_does_not_fetch_users(self) -> None:
+        unit = self.get_unit()
+        language_en = Language.objects.get(code="en")
+        language_cs = Language.objects.get(code="cs")
+        for index in range(3):
+            Memory.objects.create(
+                source_language=language_en,
+                target_language=language_cs,
+                source="Hello",
+                target=f"Ahoj {index}",
+                origin=f"test {index}",
+                user=self.user,
+                status=Memory.STATUS_ACTIVE,
+            )
+
+        machine_translation = WeblateMemory({})
+
+        with CaptureQueriesContext(connection) as queries:
+            results = machine_translation.search(unit, "Hello", self.user)
+
+        self.assertEqual(len(results), 3)
+        self.assertTrue(all(result["delete_url"] for result in results))
+        user_queries = [
+            query["sql"] for query in queries if '"weblate_auth_user"' in query["sql"]
+        ]
+        self.assertEqual(user_queries, [])
 
     def test_machine_batch(self) -> None:
         add_document()

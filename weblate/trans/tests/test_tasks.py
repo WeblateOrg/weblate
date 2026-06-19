@@ -6,12 +6,15 @@ import os
 import time
 from datetime import timedelta
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
+from django.core.cache import cache
 from django.db import connection
-from django.test.utils import CaptureQueriesContext
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 
+from weblate.auth.models import User
 from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.models import Category, Component, PendingUnitChange, Suggestion
 from weblate.trans.models.project import CommitPolicyChoices
@@ -21,11 +24,13 @@ from weblate.trans.tasks import (
     cleanup_suggestions,
     commit_pending,
     daily_update_checks,
+    perform_commit,
     update_checks,
     update_remotes,
 )
 from weblate.trans.tests.test_views import ComponentTestCase
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.tasks import (
     update_language_stats_parents,
@@ -181,9 +186,215 @@ class TasksTest(ComponentTestCase):
         commit_pending(hours=1)
         self.assertEqual(component2.count_pending_units, 0)
 
+    def test_perform_commit_keeps_commit_task_on_pending_lock_retry(self) -> None:
+        cache.set(self.component.commit_task_key, "commit-task-id")
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        task = SimpleNamespace(
+            request=SimpleNamespace(id="commit-task-id", retries=2), max_retries=3
+        )
+
+        with (
+            patch("weblate.trans.models.component.current_task", task),
+            patch("weblate.trans.tasks.current_task", task),
+            patch.object(Component, "commit_pending", side_effect=lock_timeout),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            perform_commit.run(self.component.pk, "commit")
+
+        self.assertEqual(cache.get(self.component.commit_task_key), "commit-task-id")
+        cache.delete(self.component.commit_task_key)
+
+    def test_perform_commit_clears_commit_task_on_exhausted_lock_retry(self) -> None:
+        cache.set(self.component.commit_task_key, "commit-task-id")
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        task = SimpleNamespace(
+            request=SimpleNamespace(id="commit-task-id", retries=3), max_retries=3
+        )
+
+        with (
+            patch("weblate.trans.models.component.current_task", task),
+            patch("weblate.trans.tasks.current_task", task),
+            patch.object(Component, "commit_pending", side_effect=lock_timeout),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            perform_commit.run(self.component.pk, "commit")
+
+        self.assertIsNone(cache.get(self.component.commit_task_key))
+
+    def test_perform_commit_keeps_other_commit_task_on_exhausted_lock_retry(
+        self,
+    ) -> None:
+        cache.set(self.component.commit_task_key, "commit-task-id")
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        task = SimpleNamespace(
+            request=SimpleNamespace(id="background-task-id", retries=3), max_retries=3
+        )
+
+        with (
+            patch("weblate.trans.models.component.current_task", task),
+            patch("weblate.trans.tasks.current_task", task),
+            patch.object(Component, "commit_pending", side_effect=lock_timeout),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            perform_commit.run(self.component.pk, "commit")
+
+        self.assertEqual(cache.get(self.component.commit_task_key), "commit-task-id")
+        cache.delete(self.component.commit_task_key)
+
+    def test_perform_commit_schedules_deferred_commit_on_exhausted_lock_retry(
+        self,
+    ) -> None:
+        cache.set(self.component.commit_task_key, "commit-task-id")
+        cache.set(
+            self.component.commit_task_reschedule_key,
+            {
+                "reason": "commit",
+                "user_id": self.user.id,
+                "force_scan": False,
+                "previous_head": None,
+            },
+        )
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        task = SimpleNamespace(
+            request=SimpleNamespace(id="commit-task-id", retries=3), max_retries=3
+        )
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch("weblate.trans.tasks.current_task", task),
+            patch.object(Component, "commit_pending", side_effect=lock_timeout),
+            patch("weblate.trans.models.component.uuid", return_value="next-task-id"),
+            patch.object(perform_commit, "apply_async") as apply_async,
+            self.captureOnCommitCallbacks(execute=True),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            perform_commit.run(self.component.pk, "commit")
+
+        apply_async.assert_called_once_with(
+            args=(self.component.pk, "commit"),
+            kwargs={
+                "user_id": self.user.id,
+                "force_scan": False,
+                "previous_head": None,
+            },
+            task_id="next-task-id",
+        )
+        self.assertEqual(cache.get(self.component.commit_task_key), "next-task-id")
+        self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
+        self.component.delete_commit_task()
+
+    def test_perform_commit_schedules_deferred_commit_request(self) -> None:
+        cache.set(self.component.commit_task_key, "commit-task-id")
+        cache.set(
+            self.component.commit_task_reschedule_key,
+            {
+                "reason": "commit",
+                "user_id": self.user.id,
+                "force_scan": False,
+                "previous_head": None,
+            },
+        )
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch(
+                "weblate.trans.models.component.current_task",
+                SimpleNamespace(request=SimpleNamespace(id="commit-task-id")),
+            ),
+            patch(
+                "weblate.trans.tasks.current_task",
+                SimpleNamespace(request=SimpleNamespace(id="commit-task-id")),
+            ),
+            patch.object(Component, "commit_pending", return_value=True),
+            patch("weblate.trans.models.component.uuid", return_value="next-task-id"),
+            patch.object(perform_commit, "apply_async") as apply_async,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            perform_commit.run(self.component.pk, "commit_pending")
+
+        apply_async.assert_called_once_with(
+            args=(self.component.pk, "commit"),
+            kwargs={
+                "user_id": self.user.id,
+                "force_scan": False,
+                "previous_head": None,
+            },
+            task_id="next-task-id",
+        )
+        self.assertEqual(cache.get(self.component.commit_task_key), "next-task-id")
+        self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
+        self.component.delete_commit_task()
+
+    def test_perform_commit_keeps_other_commit_task_on_success(self) -> None:
+        cache.set(self.component.commit_task_key, "commit-task-id")
+        cache.set(
+            self.component.commit_task_reschedule_key,
+            {
+                "reason": "commit",
+                "user_id": self.user.id,
+                "force_scan": False,
+                "previous_head": None,
+            },
+        )
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch(
+                "weblate.trans.models.component.current_task",
+                SimpleNamespace(request=SimpleNamespace(id="background-task-id")),
+            ),
+            patch(
+                "weblate.trans.tasks.current_task",
+                SimpleNamespace(request=SimpleNamespace(id="background-task-id")),
+            ),
+            patch.object(Component, "commit_pending", return_value=True),
+            patch.object(perform_commit, "apply_async") as apply_async,
+        ):
+            perform_commit.run(self.component.pk, "commit")
+
+        apply_async.assert_not_called()
+        self.assertEqual(cache.get(self.component.commit_task_key), "commit-task-id")
+        self.assertEqual(
+            cache.get(self.component.commit_task_reschedule_key),
+            {
+                "reason": "commit",
+                "user_id": self.user.id,
+                "force_scan": False,
+                "previous_head": None,
+            },
+        )
+        self.component.delete_commit_task()
+
+    def test_perform_commit_clears_commit_task_on_missing_user(self) -> None:
+        cache.set(self.component.commit_task_key, "commit-task-id")
+        cache.set(
+            self.component.commit_task_reschedule_key,
+            {
+                "reason": "commit",
+                "user_id": self.user.id,
+                "force_scan": False,
+                "previous_head": None,
+            },
+        )
+        task = SimpleNamespace(request=SimpleNamespace(id="commit-task-id"))
+
+        with (
+            patch("weblate.trans.models.component.current_task", task),
+            patch("weblate.trans.tasks.current_task", task),
+            patch.object(Component, "commit_pending") as commit_pending_mock,
+            self.assertRaises(User.DoesNotExist),
+        ):
+            perform_commit.run(self.component.pk, "commit", user_id=-1)
+
+        commit_pending_mock.assert_not_called()
+        self.assertIsNone(cache.get(self.component.commit_task_key))
+        self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
+
     @patch("weblate.trans.tasks.perform_commit")
     def test_commit_pending_with_ineligible_changes(self, mock_perform_commit) -> None:
         """Test that perform_commit is not called when all changes are ineligible."""
+        mock_perform_commit.delay.return_value.id = "commit-task-id"
         self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
         self.project.save()
 
@@ -266,7 +477,11 @@ class TasksTest(ComponentTestCase):
 
         commit_pending()
         mock_perform_commit.delay.assert_called_with(
-            self.component.pk, "commit_pending"
+            self.component.pk,
+            "commit_pending",
+            user_id=None,
+            force_scan=False,
+            previous_head=None,
         )
 
         # actually call commit_pending on the component to test count_pending_units is updated
