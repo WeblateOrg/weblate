@@ -160,7 +160,7 @@ PERFORMANCE_REPORT_HEADERS = {
 
 # The fixture repositories are known public GitHub repos; allowlisting them
 # avoids flaky runtime DNS checks while keeping the real import path covered.
-@override_settings(VCS_ALLOW_HOSTS={"github.com"})
+@override_settings(STATS_LAZY=False, VCS_ALLOW_HOSTS={"github.com"})
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     _driver: WebDriver | None = None
     _driver_error: str = ""
@@ -375,16 +375,150 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             component.git_export = get_export_url(component)
             component.save(update_fields=("git_export",))
 
+    def wait_for_screenshot_ready(self, timeout: int = 10) -> None:
+        """Wait for browser-side rendering that can affect screenshots."""
+        WebDriverWait(self.driver, timeout).until(self.is_page_loaded)
+        self.driver.execute_script(
+            """
+            for (const image of document.images) {
+                if (image.loading === "lazy") {
+                    image.loading = "eager";
+                }
+            }
+            """
+        )
+        self.driver.execute_async_script(
+            """
+            const done = arguments[0];
+            if (!document.fonts) {
+                done(true);
+                return;
+            }
+            document.fonts.ready.then(() => done(true), () => done(false));
+            """
+        )
+        WebDriverWait(self.driver, timeout).until(
+            lambda driver: driver.execute_script(
+                """
+                const imagesLoaded = Array.from(document.images).every((image) => {
+                    const source = image.getAttribute("src");
+                    return !source || (image.complete && image.naturalWidth > 0);
+                });
+                const ajaxIdle =
+                    typeof window.jQuery === "undefined" || window.jQuery.active === 0;
+                const loadingIdle = Array.from(
+                    document.querySelectorAll('[id^="loading-"]')
+                ).every((element) => {
+                    const style = getComputedStyle(element);
+                    return (
+                        style.display === "none" ||
+                        style.visibility === "hidden" ||
+                        Number(style.opacity) === 0 ||
+                        element.offsetParent === null
+                    );
+                });
+                const animationsIdle =
+                    !document.getAnimations ||
+                    document.getAnimations({ subtree: true }).every((animation) => {
+                        const target = animation.effect?.target;
+                        if (!(target instanceof Element)) {
+                            return true;
+                        }
+                        const style = getComputedStyle(target);
+                        if (
+                            style.display === "none" ||
+                            style.visibility === "hidden" ||
+                            Number(style.opacity) === 0
+                        ) {
+                            return true;
+                        }
+                        const timing = animation.effect.getComputedTiming();
+                        return (
+                            timing.iterations === Infinity ||
+                            !["pending", "running"].includes(animation.playState)
+                        );
+                    });
+                return imagesLoaded && ajaxIdle && loadingIdle && animationsIdle;
+                """
+            )
+        )
+        self.driver.execute_async_script(
+            """
+            const done = arguments[0];
+            let lastSnapshot = null;
+            let stableFrames = 0;
+
+            function snapshot() {
+                const body = document.body;
+                const doc = document.documentElement;
+                return [
+                    window.scrollX,
+                    window.scrollY,
+                    body?.scrollWidth,
+                    body?.scrollHeight,
+                    body?.offsetWidth,
+                    body?.offsetHeight,
+                    doc?.scrollWidth,
+                    doc?.scrollHeight,
+                    doc?.offsetWidth,
+                    doc?.offsetHeight,
+                    doc?.clientWidth,
+                    doc?.clientHeight,
+                ].join(":");
+            }
+
+            function check() {
+                const currentSnapshot = snapshot();
+                if (currentSnapshot === lastSnapshot) {
+                    stableFrames += 1;
+                } else {
+                    stableFrames = 0;
+                    lastSnapshot = currentSnapshot;
+                }
+                if (stableFrames >= 3) {
+                    done(true);
+                    return;
+                }
+                requestAnimationFrame(check);
+            }
+
+            requestAnimationFrame(check);
+            """
+        )
+
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
+        self.driver.set_window_size(1200, 1024)
         self.scroll_top()
-        # Get window and document dimensions
-        scroll_height = self.driver.execute_script("return document.body.scrollHeight")
-        scroll_width = self.driver.execute_script("return document.body.scrollWidth")
-        # Resize the window
-        self.driver.set_window_size(max(1200, scroll_width), scroll_height + 180)
-        time.sleep(0.2)
-        # Get screenshot
+        self.wait_for_screenshot_ready()
+        dimensions = self.driver.execute_script(
+            """
+            const body = document.body;
+            const doc = document.documentElement;
+            return {
+                width: Math.max(
+                    body.scrollWidth,
+                    body.offsetWidth,
+                    body.clientWidth,
+                    doc.scrollWidth,
+                    doc.offsetWidth,
+                    doc.clientWidth
+                ),
+                height: Math.max(
+                    body.scrollHeight,
+                    body.offsetHeight,
+                    doc.scrollHeight,
+                    doc.offsetHeight
+                ),
+            };
+            """
+        )
+        self.driver.set_window_size(
+            max(1200, math.ceil(dimensions["width"])),
+            math.ceil(dimensions["height"] + 180),
+        )
+        self.scroll_top()
+        self.wait_for_screenshot_ready()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
@@ -1026,27 +1160,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
-        with override_settings(STATS_LAZY=False):
-            project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
-            Component.objects.create(
-                name="Language names",
-                slug="language-names",
-                project=project,
-                repo="https://github.com/WeblateOrg/demo.git",
-                branch="main",
-                filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
-                new_base="weblate/langdata/locale/django.pot",
-                file_format="po",
-            )
-            Component.objects.create(
-                name="Django",
-                slug="django",
-                project=project,
-                repo="weblate://weblateorg/language-names",
-                filemask="weblate/locale/*/LC_MESSAGES/django.po",
-                new_base="weblate/locale/django.pot",
-                file_format="po",
-            )
+        project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
+        Component.objects.create(
+            name="Language names",
+            slug="language-names",
+            project=project,
+            repo="https://github.com/WeblateOrg/demo.git",
+            branch="main",
+            filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
+            new_base="weblate/langdata/locale/django.pot",
+            file_format="po",
+        )
+        Component.objects.create(
+            name="Django",
+            slug="django",
+            project=project,
+            repo="weblate://weblateorg/language-names",
+            filemask="weblate/locale/*/LC_MESSAGES/django.po",
+            new_base="weblate/locale/django.pot",
+            file_format="po",
+        )
         return project
 
     def create_glossary(
@@ -1104,16 +1237,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        with override_settings(STATS_LAZY=False):
-            return Component.objects.create(
-                name="Android",
-                slug="android",
-                project=project,
-                repo="weblate://weblateorg/language-names",
-                filemask="app/src/main/res/values-*/strings.xml",
-                template="app/src/main/res/values/strings.xml",
-                file_format="aresource",
-            )
+        return Component.objects.create(
+            name="Android",
+            slug="android",
+            project=project,
+            repo="weblate://weblateorg/language-names",
+            filemask="app/src/main/res/values-*/strings.xml",
+            template="app/src/main/res/values/strings.xml",
+            file_format="aresource",
+        )
 
     def test_dashboard(self) -> None:
         self.do_login()
