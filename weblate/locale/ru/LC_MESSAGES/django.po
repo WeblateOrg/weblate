@@ -38,8 +38,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-14 02:03+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-20 16:01+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -2109,12 +2109,13 @@ msgid "xgettext language"
 msgstr "Язык xgettext"
 
 #: weblate/addons/forms.py:297
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
-msgstr "Язык программирования, передаваемый в xgettext, например Python или C."
+msgstr ""
+"Язык программирования, передаваемый в xgettext, например Python или C. "
+"Оставьте пустым, чтобы xgettext попытался определить язык по расширениям "
+"файлов."
 
 #: weblate/addons/forms.py:306
 msgid ""
@@ -3062,10 +3063,8 @@ msgid "A team with this name already exists in this workspace."
 msgstr "Команда с таким именем уже существует в этом рабочем пространстве."
 
 #: weblate/api/serializers.py:784
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "Невозможно изменить это в существующей команду."
+msgstr "Невозможно изменить это в команде с ограниченной областью действия."
 
 #: weblate/api/serializers.py:1942 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3167,22 +3166,18 @@ msgid "This role cannot be assigned to this team."
 msgstr "Эту роль нельзя назначить этой команде."
 
 #: weblate/api/views.py:1147 weblate/api/views.py:1175
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "Невозможно изменить это в существующей команду."
+msgstr "Невозможно изменить проекты в команде с ограниченной областью действия."
 
 #: weblate/api/views.py:1196 weblate/api/views.py:1237
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "Невозможно изменить это в существующей команду."
+msgstr ""
+"Невозможно изменить списки компонентов в команде с ограниченной областью "
+"действия."
 
 #: weblate/api/views.py:1258 weblate/api/views.py:1291
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "Невозможно изменить это в существующей команду."
+msgstr "Невозможно изменить компоненты в команде рабочего пространства."
 
 #: weblate/api/views.py:1854
 msgid "Specify a workspace when multiple workspaces can be used."
@@ -4894,48 +4889,34 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Отсутствующие параметры для флага перевода: «%s»"
 
 #: weblate/checks/flags.py:462
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Формальность"
+msgstr "Формат"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Память переводов"
+msgstr "Поведение при переводе"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Перевод"
+msgstr "Проверка"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Рецензирование строк"
+msgstr "Отрисовка"
 
 #: weblate/checks/flags.py:466 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
 #: weblate/checks/flags.py:467
-#, fuzzy
-#| msgid "Dismissed checks"
 msgid "Disabled check"
-msgstr "Пропущенные проверки"
+msgstr "Отключённая проверка"
 
 #: weblate/checks/flags.py:468
 msgid "Automatic detection"
 msgstr "Автоматическое обнаружение"
 
 #: weblate/checks/flags.py:469
-#, fuzzy
-#| msgctxt "User agent device type"
-#| msgid "Other"
 msgid "Other"
 msgstr "Другое"
 
@@ -5688,6 +5669,7 @@ msgstr "Ошибка синтаксиса reStructuredText в переводе."
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
 msgstr ""
+"Роль reStructuredText не должна быть заключена в обратные кавычки: {role}"
 
 #: weblate/checks/markup.py:985
 msgid "The translation should not start with a list marker."
@@ -7234,20 +7216,22 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"JSON-объект, сопоставляющий существующие коды целевого языка с "
+"дополнительными инструкциями, каждая до %(limit)d символов."
 
 #: weblate/machinery/forms.py:481 weblate/machinery/forms.py:488
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Инструкции для конкретного языка должны быть JSON-объектом."
 
 #: weblate/machinery/forms.py:497
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
-msgstr ""
+msgstr "Инструкции для конкретного языка содержат недопустимый код языка «%s»."
 
 #: weblate/machinery/forms.py:505
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr ""
+msgstr "Инструкции для конкретного языка содержат неизвестный код языка «%s»."
 
 #: weblate/machinery/forms.py:514
 #, python-format
@@ -7255,6 +7239,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"Инструкции для конкретного языка для «%(language)s» должны содержать не "
+"более %(limit)d символов."
 
 #: weblate/machinery/forms.py:534
 msgctxt "OpenAI model selection"
@@ -7303,43 +7289,30 @@ msgid "Choose custom model here to enable it."
 msgstr "Выберите свою модель для её включения."
 
 #: weblate/machinery/forms.py:598
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Автоматический выбор"
 
 #: weblate/machinery/forms.py:602
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Своя модель"
 
 #: weblate/machinery/forms.py:607
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "Базовый URL API OpenAI"
+msgstr "Базовый URL-адрес API Mistral"
 
 #: weblate/machinery/forms.py:611
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "Базовый URL API OpenAI, если он отличается от URL OpenAI по умолчанию"
+msgstr ""
+"Базовый URL-адрес API Mistral, если он отличается от URL-адреса Mistral по "
+"умолчанию"
 
 #: weblate/machinery/forms.py:618
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Своя модель"
+msgstr "Модель Mistral"
 
 #: weblate/machinery/forms.py:626
 msgctxt "Mistral model selection"
@@ -7434,20 +7407,17 @@ msgstr ""
 #: weblate/machinery/llm.py:156
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Здравствуйте, @@PH1@@!"
 
 #: weblate/machinery/llm.py:157
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Нажмите <a href=\"/x\">Сохранить</a>."
 
 #: weblate/machinery/llm.py:158
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks:"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "Неудачные проверки:"
+msgstr "@@PH1@@ не прошёл проверки"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -10971,10 +10941,9 @@ msgstr "пропущено"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:227
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "Появился %(first)s, последний визит %(last)s"
+msgstr "Появилось %(first)s"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:230
@@ -17464,12 +17433,10 @@ msgstr ""
 "обеспечения."
 
 #: weblate/trans/context_processors.py:136
-#, fuzzy
-#| msgid "This site runs Weblate for localizing various software projects."
 msgid "This site runs Weblate for localizing a software project."
 msgstr ""
-"Этот сайт работает на Weblate для локализации разнообразных проектов "
-"программного обеспечения."
+"Этот сайт использует Weblate для локализации проектов программного "
+"обеспечения."
 
 #: weblate/trans/context_processors.py:140
 msgid "This site runs Weblate for localizing various software projects."
@@ -20707,32 +20674,22 @@ msgid "File upload has failed: %s"
 msgstr "Ошибка загрузки файла: %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Он переводится на <strong>%(count)s язык</strong>."
-msgstr[1] "Он переводится на <strong>%(count)s языка</strong>."
-msgstr[2] "Он переводится на <strong>%(count)s языков</strong>."
+msgstr[0] "{project} переводится на {count} язык с помощью Weblate."
+msgstr[1] "{project} переводится на {count} языка с помощью Weblate."
+msgstr[2] "{project} переводится на {count} языков с помощью Weblate."
 
 #: weblate/trans/util.py:292
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
 msgstr ""
-"{0} переводят на {1} языков с помощью Weblate. Присоединяйтесь к переводу, "
-"или начните переводить свой собственный проект."
+"Присоединяйтесь к переводу или начните переводить свой собственный проект."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Дублировать в перевод"
+msgstr "Присоединиться к переводу."
 
 #: weblate/trans/util.py:413
 msgid "Source upload is only supported on the source language."
