@@ -222,15 +222,18 @@ def get_wrapped_placeholder_attribute(value: str | None) -> str | None:
 
 
 def has_changed_placeholder_attributes(source: str, target: str) -> bool:
-    target_values: set[tuple[str, str, str]] = set()
-    for attribute in extract_html_attributes(target):
-        if placeholder := get_wrapped_placeholder_attribute(attribute.value):
-            target_values.add((attribute.tag, attribute.name, placeholder))
+    source_values: set[tuple[str, str, str]] = {
+        (attribute.tag, attribute.name, attribute.value)
+        for attribute in extract_html_attributes(source)
+        if is_html_attribute_placeholder(attribute.value)
+    }
+    if not source_values:
+        return False
 
-    for attribute in extract_html_attributes(source):
+    for attribute in extract_html_attributes(target):
         if (
-            is_html_attribute_placeholder(attribute.value)
-            and (attribute.tag, attribute.name, attribute.value) in target_values
+            (placeholder := get_wrapped_placeholder_attribute(attribute.value))
+            and (attribute.tag, attribute.name, placeholder) in source_values
         ):
             return True
     return False

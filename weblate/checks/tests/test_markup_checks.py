@@ -20,6 +20,7 @@ from weblate.checks.markup import (
     RSTReferencesCheck,
     RSTSyntaxCheck,
     SafeHTMLCheck,
+    has_changed_placeholder_attributes,
     URLCheck,
     XMLCharsAroundTagsCheck,
     XMLTagsCheck,
@@ -468,6 +469,14 @@ class SafeHTMLCheckTest(CheckTestCase):
                 "safe-html",
             ),
         )
+
+    def test_no_placeholder_attribute_skips_target_normalization(self) -> None:
+        target = f'<a title="{"„" * 1000}">link</a>'
+        with patch("weblate.checks.markup.get_wrapped_placeholder_attribute") as wrapped:
+            self.assertFalse(
+                has_changed_placeholder_attributes('<a title="plain">link</a>', target)
+            )
+        wrapped.assert_not_called()
 
     def test_repeated_placeholder_attributes(self) -> None:
         source = '<a href="%(url)s">link</a>' * 1000
