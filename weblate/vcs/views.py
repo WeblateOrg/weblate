@@ -8,11 +8,12 @@ import json
 import logging
 import secrets
 import uuid
+from collections import defaultdict
 from urllib.parse import urlencode
 
 from django.contrib.auth.decorators import login_required
 from django.core import signing
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.signing import BadSignature, SignatureExpired
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
@@ -58,8 +59,11 @@ _GITHUB_APP_REGISTER_MAX_AGE = 60 * 60
 
 
 def _managed_workspaces(user):
-    """Return workspaces the user can manage (via any managed project)."""
-    return Workspace.objects.filter(projects__in=user.managed_projects).distinct()
+    """Return workspaces the user can manage."""
+    return (
+        Workspace.objects.filter(projects__in=user.managed_projects)
+        | user.workspaces_with_perm("workspace.edit")
+    ).distinct()
 
 
 def _user_can_install_github_app(user) -> bool:
@@ -97,7 +101,7 @@ def _get_next_url(request) -> str:
 def _get_managed_workspace(user, workspace_id) -> Workspace:
     try:
         return _managed_workspaces(user).get(pk=workspace_id)
-    except (Workspace.DoesNotExist, ValueError) as error:
+    except (Workspace.DoesNotExist, ValidationError, ValueError) as error:
         raise PermissionDenied from error
 
 
@@ -218,6 +222,15 @@ def _get_installation_repository_url(installation: GitHubInstallation) -> str:
     )
 
 
+def _get_workspace_install_url(
+    next_url: str, hostname: str, workspace: Workspace
+) -> str:
+    return (
+        f"{reverse('github-app-install')}?"
+        f"{urlencode({'next': next_url, 'host': hostname, 'workspace': workspace.pk})}"
+    )
+
+
 def _user_can_manage_installation(user, installation: GitHubInstallation) -> bool:
     return (
         user.has_perm("management.use")
@@ -236,11 +249,11 @@ class GitHubInstallationListView(View):
         installations = list(
             GitHubInstallation.objects.select_related("workspace").order_by("-created")
         )
-        installations_by_host: dict[str, list[GitHubInstallation]] = {}
+        installations_by_host: defaultdict[str, list[GitHubInstallation]] = defaultdict(
+            list
+        )
         for installation in installations:
-            installations_by_host.setdefault(installation.hostname, []).append(
-                installation
-            )
+            installations_by_host[installation.hostname].append(installation)
 
         configurations = get_github_app_configurations()
         apps = []
@@ -273,6 +286,67 @@ class GitHubInstallationListView(View):
                 ),
                 "github_app_register_url": reverse("github-app-register"),
                 **_MENU_CONTEXT,
+            },
+        )
+
+
+@method_decorator(login_required, name="dispatch")
+class UserVCSIntegrationListView(View):
+    def get(self, request):
+        workspace_queryset = _managed_workspaces(request.user).order_by("name")
+        selected_workspace = None
+        workspace_id = request.GET.get("workspace", "").strip()
+        if workspace_id:
+            selected_workspace = _get_managed_workspace(request.user, workspace_id)
+            workspaces = [selected_workspace]
+        else:
+            workspaces = list(workspace_queryset)
+
+        installations = list(
+            GitHubInstallation.objects.filter(workspace__in=workspaces)
+            .select_related("workspace")
+            .order_by("hostname", "workspace__name", "target_login")
+        )
+        installations_by_host: defaultdict[str, list[GitHubInstallation]] = defaultdict(
+            list
+        )
+        for installation in installations:
+            installations_by_host[installation.hostname].append(installation)
+
+        configurations = get_github_app_configurations() if workspaces else {}
+        apps = []
+        for hostname in sorted(set(configurations) | set(installations_by_host)):
+            config = configurations.get(hostname)
+            workspace_links = []
+            if config is not None:
+                workspace_links = [
+                    {
+                        "workspace": workspace,
+                        "install_url": _get_workspace_install_url(
+                            request.get_full_path(), hostname, workspace
+                        ),
+                    }
+                    for workspace in workspaces
+                ]
+            apps.append(
+                {
+                    "hostname": hostname,
+                    "app_slug": config.app_slug if config is not None else "",
+                    "html_url": config.html_url if config is not None else "",
+                    "configured": config is not None,
+                    "installations": installations_by_host.get(hostname, []),
+                    "workspace_links": workspace_links,
+                }
+            )
+
+        return render(
+            request,
+            "vcs/account_integrations.html",
+            {
+                "apps": apps,
+                "managed_workspaces": workspaces,
+                "next_url": request.get_full_path(),
+                "selected_workspace": selected_workspace,
             },
         )
 

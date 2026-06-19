@@ -166,6 +166,151 @@ class GitHubInstallationViewTest(ViewTestCase):
         install_url = f"{reverse('github-app-install')}?{params}"
         self.assertContains(response, install_url.replace("&", "&amp;"))
 
+    def test_account_vcs_integrations_requires_login(self):
+        self.client.logout()
+
+        response = self.client.get(reverse("account-vcs"))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response["Location"])
+
+    def test_profile_links_account_vcs_integrations(self):
+        response = self.client.get(reverse("profile"))
+
+        self.assertContains(response, reverse("account-vcs"))
+        self.assertContains(response, "Manage VCS integrations")
+
+    def test_account_vcs_integrations_uses_workspace_scope(self):
+        user = self.anotheruser
+        self.project.add_user(user, "Administration")
+        other_workspace = Workspace.objects.create(name="Other Workspace")
+        other_project = Project.objects.create(
+            name="Other GitHub Project",
+            slug="other-github-project",
+            web="https://example.com/",
+            workspace=other_workspace,
+        )
+        other_project.add_user(user, "Administration")
+        hidden_workspace = Workspace.objects.create(name="Hidden Workspace")
+        hidden_project = Project.objects.create(
+            name="Hidden GitHub Project",
+            slug="hidden-github-project",
+            web="https://example.com/",
+            workspace=hidden_workspace,
+        )
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        GitHubInstallation.objects.create(
+            installation_id="67890",
+            target_type="Organization",
+            target_login="hidden-org",
+            workspace=hidden_project.workspace,
+            repositories=[_repo_entry("hidden-org/repo2")],
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        response = self.client.get(reverse("account-vcs"))
+
+        self.assertContains(response, "test-org")
+        self.assertContains(response, self.workspace.name)
+        self.assertContains(response, other_workspace.name)
+        self.assertNotContains(response, "hidden-org")
+        self.assertContains(
+            response,
+            reverse("manage-github-account-refresh", kwargs={"pk": installation.pk}),
+        )
+        self.assertContains(
+            response,
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+        for workspace in (self.workspace, other_workspace):
+            install_url = (
+                f"{reverse('github-app-install')}?"
+                f"{urlencode({'next': reverse('account-vcs'), 'host': 'github.com', 'workspace': workspace.pk})}"
+            )
+            self.assertContains(response, install_url.replace("&", "&amp;"))
+
+    def test_account_vcs_integrations_filters_selected_workspace(self):
+        user = self.anotheruser
+        self.project.add_user(user, "Administration")
+        other_workspace = Workspace.objects.create(name="Other Workspace")
+        other_project = Project.objects.create(
+            name="Other GitHub Project",
+            slug="other-github-project",
+            web="https://example.com/",
+            workspace=other_workspace,
+        )
+        other_project.add_user(user, "Administration")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        GitHubInstallation.objects.create(
+            installation_id="67890",
+            target_type="Organization",
+            target_login="other-org",
+            workspace=other_workspace,
+            repositories=[_repo_entry("other-org/repo2")],
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("account-vcs"), {"workspace": str(self.workspace.pk)}
+        )
+
+        self.assertEqual(response.context["selected_workspace"], self.workspace)
+        self.assertContains(response, "test-org")
+        self.assertContains(response, self.workspace.name)
+        self.assertNotContains(response, "other-org")
+        self.assertNotContains(response, other_workspace.name)
+        next_url = f"{reverse('account-vcs')}?workspace={self.workspace.pk}"
+        install_url = (
+            f"{reverse('github-app-install')}?"
+            f"{urlencode({'next': next_url, 'host': 'github.com', 'workspace': self.workspace.pk})}"
+        )
+        self.assertContains(response, install_url.replace("&", "&amp;"))
+
+    def test_account_vcs_integrations_accepts_workspace_owner(self):
+        owner = User.objects.create_user(
+            username="workspace owner",
+            email="workspaceowner@example.org",
+            password="testpassword",
+        )
+        self.workspace.add_owner(owner)
+        self.client.login(username=owner.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("account-vcs"), {"workspace": str(self.workspace.pk)}
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["selected_workspace"], self.workspace)
+        self.assertContains(response, "Connect GitHub account")
+
+    def test_account_vcs_integrations_shows_unregistered_apps(self):
+        GitHubInstallation.objects.create(
+            hostname="github.example.com",
+            installation_id="12345",
+            target_type="Organization",
+            target_login="stale-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("stale-org/repo1")],
+        )
+
+        response = self.client.get(reverse("account-vcs"))
+
+        self.assertContains(response, "github.example.com")
+        self.assertContains(response, "stale-org")
+        self.assertContains(response, "Not registered")
+
     def test_install_requires_host_selection_with_multiple_configs(self):
         self._make_credentials(
             hostname="github.example.com",

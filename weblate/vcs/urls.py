@@ -7,6 +7,7 @@ from django.urls import path
 from weblate.vcs.views import (
     GitHubInstallationDetailView,
     GitHubInstallationListView,
+    UserVCSIntegrationListView,
     github_app_install,
     github_app_register,
     github_app_register_callback,
@@ -20,6 +21,11 @@ from weblate.vcs.views import (
 )
 
 urlpatterns = [
+    path(
+        "accounts/integrations/",
+        UserVCSIntegrationListView.as_view(),
+        name="account-vcs",
+    ),
     path(
         "manage/integrations/",
         GitHubInstallationListView.as_view(),
