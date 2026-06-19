@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-18 02:41+0000\n"
-"PO-Revision-Date: 2026-06-19 13:50+0000\n"
+"PO-Revision-Date: 2026-06-19 15:14+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -50758,6 +50758,14 @@ msgid ""
 "application versions, and other pinned tool versions. It also configures "
 "selected package grouping, schedules, and automerge behavior."
 msgstr ""
+"De opslagruimten van Weblate breiden de gedeelde voorkeuze van Renovate in "
+"`WeblateOrg/meta`_ uit. Die voorkeuze schakelt het dashboard voor "
+"afhankelijkheden in, meldingen voor kwetsbaarheden OSV, meldingen voor "
+"kwetsbaarheden van het, commits voor semantische afhankelijkheid en Renovate "
+"aangepast beheer voor GitHub Actions, Dockerfiles, Helm chart-"
+"toepassingsversies en andere vastgezette versies voor programma's. Het "
+"configureert ook geselecteerde groepen voor pakketten, schema's en gedrag "
+"voor automatisch samenvoegen."
 
 #: security/dependencies.rst:44
 msgid ""
@@ -50766,6 +50774,11 @@ msgid ""
 "``stable``; security update coverage for Weblate releases is described "
 "in :ref:`security-updates`."
 msgstr ""
+"Deze opslagruimte voegt ``main`` en ``stable`` toe als basisbranches voor "
+"Renovate. Algemene updates voor afhankelijkheden en onderhoud voor "
+"vergrendelingsbestanden zijn uitgeschakeld op ``stable``; dekking van "
+"beveiligingsupdates voor uitgaven van Weblate wordt beschreven in "
+":ref:`security-updates`."
 
 #: security/dependencies.rst:49
 msgid ""
@@ -50773,6 +50786,10 @@ msgid ""
 "before they are merged. FOSSA runs on pushes to ``main`` and records scan "
 "and policy-test results in the FOSSA service."
 msgstr ""
+"Beoordelen van afhankelijkheden van GitHub wordt uitgevoerd op pull requests "
+"om wijzigingen in afhankelijkheden weer te geven voordat ze worden "
+"samengevoegd. FOSSA wordt uitgevoerd op pushes naar ``main`` en legt "
+"testresultaten van scan en beleid vast in de service FOSSA."
 
 #: security/dependencies.rst:54
 msgid "Dependency vulnerability triage"
@@ -50785,30 +50802,44 @@ msgid ""
 "report, maintainers evaluate whether it affects Weblate. The triage checks "
 "include:"
 msgstr ""
+"Wanneer een kwetsbaarheid voor een afhankelijkheid wordt gerapporteerd door "
+"Renovate, beoordelen van afhankelijkheid GitHub, FOSSA, een beoordeling van "
+"een SBOM voor een uitgave, een containerscan, of een kwetsbaarheidsrapport, "
+"evalueren beheerders of dat invloed heeft op Weblate. De controles voor "
+"triage omvatten:"
 
 #: security/dependencies.rst:61
 msgid ""
 "whether the affected dependency and version are used by Weblate, a published "
 "release artifact, or a maintained deployment artifact;"
 msgstr ""
+"of de betreffende afhankelijkheid en versie door Weblate wordt gebruikt, een "
+"gepubliceerd artefact voor de uitgave, of een beheerd artefact voor de "
+"uitrol;"
 
 #: security/dependencies.rst:63
 msgid ""
 "whether the vulnerable code path is reachable through supported Weblate "
 "functionality or supported deployment modes;"
 msgstr ""
+"of het codepad voor de kwetsbaarheid is te bereiken via ondersteunde "
+"functionaliteit voor Weblate of ondersteunde modi voor uitrollen;"
 
 #: security/dependencies.rst:65
 msgid ""
 "whether the issue is in Weblate's use of the dependency or should be "
 "reported to the upstream project;"
 msgstr ""
+"of het probleem ligt in het gebruik door Weblate van de afhankelijkheid of "
+"zou moeten worden gerapporteerd naar het bovenliggende project;"
 
 #: security/dependencies.rst:67
 msgid ""
 "whether a dependency update, configuration change, mitigation, advisory, or "
 "Weblate security update is needed."
 msgstr ""
+"of een update van de afhankelijkheid, wijziging in de configuratie, "
+"mitigatie, advies of beveiligingsupdate voor Weblate nodig is."
 
 #: security/dependencies.rst:72
 msgid ""
@@ -50829,6 +50860,10 @@ msgid ""
 "frontend dependency lock file and vendored frontend files are maintained by "
 "the ``yarn update`` workflow."
 msgstr ""
+"Het Python-vergrendelingsbestand wordt onderhouden door de werkstroom ``uv "
+"lock update``. Het vergendelingsbestand voor de afhankelijkheid van het "
+"frontend en merkgebonden bestanden voor frontend worden onderhouden door de "
+"werkstroom ``yarn update``."
 
 #: security/dependencies.rst:82
 msgid ""
@@ -50836,6 +50871,10 @@ msgid ""
 "patch`` workflow. That workflow applies only validated patch artifacts and "
 "limits the paths that each maintenance workflow is allowed to update."
 msgstr ""
+"Gegenereerde wijzigingen in onderhoud worden doorgegeven via de werkstroom "
+"``Apply maintenance patch``. Die werkstroom past alleen gevalideerde "
+"artefacten voor de patch toe en beperkt de paden die elke werkstroom voor "
+"onderhoud mag updaten."
 
 #: security/dependencies.rst:87
 msgid "Docker container security"
@@ -50859,53 +50898,69 @@ msgid ""
 "data. The inspected workflows also store Trivy SARIF artifacts, and the "
 "Weblate Client workflow stores Anchore SARIF artifacts."
 msgstr ""
+"De geïnspecteerde scan van werkstromen voor Weblate Docker en Weblate Client "
+"bouwt container-schijfkopieën met Anchore_ en Trivy_. Resultaten worden "
+"geüpload naar de GitHub codescannen als gegevens van :abbr:`SARIF (Static "
+"Analysis Results Interchange Format)`. De geïnspecteerde werkstromen slaan "
+"ook Trivy SARIF-artefacten op en de werkstroom Weblate Client slaat Anchore "
+"SARIF-artefacten op."
 
 #: security/dependencies.rst:100
 msgid "Known external policy details"
-msgstr ""
+msgstr "Bekende details voor extern beleid"
 
 #: security/dependencies.rst:102
 msgid ""
 "Some dependency and vulnerability-management details are maintained outside "
 "this documentation:"
 msgstr ""
+"Sommige details voor het beheren van afhankelijkheden en kwetsbaarheden "
+"worden buiten deze documentatie onderhouden:"
 
 #: security/dependencies.rst:105
 msgid ""
 "complete Renovate behavior is defined in the shared `WeblateOrg/meta`_ "
 "preset and repository platform settings;"
 msgstr ""
+"het volledige gedrag van Renovate wordt gedefinieerd in de gedeelde "
+"voorkeuze `WeblateOrg/meta`_ en instellingen voor de platform opslagruimten;"
 
 #: security/dependencies.rst:107
 msgid ""
 "GitHub dependency graph, Dependabot alert, and branch-protection state are "
 "GitHub platform configuration;"
 msgstr ""
+"GitHub afhankelijkheidsgrafiek, melding Dependabot en status voor "
+"branchbeveiliging zijn platformconfiguratie van GitHub;"
 
 #: security/dependencies.rst:109
 msgid "FOSSA result history and policy thresholds are stored in FOSSA;"
 msgstr ""
+"FOSSA geschiedenis van resultaten en drempelwaarden voor beleid worden "
+"opgeslagen in FOSSA;"
 
 #: security/dependencies.rst:110
 msgid ""
 "scanner output is stored in GitHub code scanning and workflow artifacts."
 msgstr ""
+"scanneruitvoer wordt opgeslagen GitHub codescannen en artefacten van "
+"werkstromen."
 
 #: security/dependencies.rst:115
 msgid "Renovate_"
-msgstr ""
+msgstr "Renovate_"
 
 #: security/dependencies.rst:116
 msgid "`GitHub dependency review`_"
-msgstr ""
+msgstr "`GitHub beoordeling afhankelijkheid`_"
 
 #: security/dependencies.rst:118
 msgid "Anchore_"
-msgstr ""
+msgstr "Anchore_"
 
 #: security/dependencies.rst:119
 msgid "Trivy_"
-msgstr ""
+msgstr "Trivy_"
 
 #: security/disaster-recovery-plan.rst:2
 msgid "Disaster recovery plan"
@@ -51129,7 +51184,7 @@ msgstr ""
 
 #: security/governance.rst:2
 msgid "Security governance and assessment status"
-msgstr ""
+msgstr "Beveiligingsbeheer en statusbeoordeling"
 
 #: security/governance.rst:4
 msgid ""
@@ -51138,12 +51193,18 @@ msgid ""
 "documentation index and does not claim certification, audit completion, or "
 "regulatory compliance."
 msgstr ""
+"Deze pagina geeft een overzicht van waar Weblate informatie over "
+"beveiligingsbeheer publiceert en de huidige formele beoordelingsstatus "
+"vastlegt. Het is een feitelijke documentatieindex en claimt geen "
+"certificering, voldoen aan audit of conformiteit aan regelgeving."
 
 #: security/governance.rst:9
 msgid ""
 "For product identity, contact, support, release, and SBOM identity, "
 "see :doc:`product-information`."
 msgstr ""
+"Voor identiteit van het product, contact, ondersteuning, uitgave en "
+"identiteit SBOM, bekijk :doc:`product-information`."
 
 #: security/governance.rst:13
 msgid "Governance documentation"
@@ -51154,6 +51215,8 @@ msgid ""
 "Weblate publishes security governance information in these documentation "
 "areas:"
 msgstr ""
+"Weblate publiceert informatie over beveiligingsbeheer in deze gebieden voor "
+"documentatie:"
 
 #: security/governance.rst:18
 msgid ""
@@ -51161,39 +51224,53 @@ msgid ""
 "documented in :doc:`/contributing/index`, :doc:`/contributing/code`, "
 "and :doc:`/contributing/code_of_conduct`."
 msgstr ""
+"Regels voor deelnemen, verwachtingen voor beoordelen van code en deelnemen "
+"in projecten zijn gedocumenteerd in :doc:`/contributing/index`, :doc:`/"
+"contributing/code` en :doc:`/contributing/code_of_conduct`."
 
 #: security/governance.rst:21
 msgid ""
 "Release lifecycle, security update coverage, and upgrade support are "
 "documented in :doc:`releases`."
 msgstr ""
+"Levenscyclus voor uitgave, dekking beveiligingsupdates en ondersteuning voor "
+"upgraden worden gedocumenteerd in :doc:`releases`."
 
 #: security/governance.rst:23
 msgid ""
 "Vulnerability reporting, disclosure handling, and service incident reporting "
 "are documented in :doc:`issues`."
 msgstr ""
+"Rapporteren van kwetsbaarheden, afhandelen van onthullingen en rapporteren "
+"van incidenten met services worden gedocumenteerd in :doc:`issues`."
 
 #: security/governance.rst:25
 msgid ""
 "Dependency inventory, vulnerability triage, update automation, and container "
 "scanning are documented in :doc:`dependencies`."
 msgstr ""
+"Inventarisatie van afhankelijkheden, triage voor kwetsbaarheden, "
+"automatiseren van updates en scannen van containers worden gedocumenteerd in "
+":doc:`dependencies`."
 
 #: security/governance.rst:27
 msgid ""
 "Security assumptions and boundaries are documented in :doc:`threat-model`."
 msgstr ""
+"Aannames voor beveiliging en begrenzingen worden gedocumenteerd in "
+":doc:`threat-model`."
 
 #: security/governance.rst:28
 msgid ""
 "Release artifact inventory, SBOMs, signatures, attestations, and "
 "verification are documented in :doc:`release-artifacts`."
 msgstr ""
+"Inventarisatie van artefacten voor uitgaven, SBOM's, handtekeningen, "
+"attesten en verificatie worden gedocumenteerd in :doc:`release-artifacts`."
 
 #: security/governance.rst:32
 msgid "Formal assessment status"
-msgstr ""
+msgstr "Formele beoordelingsstatus"
 
 #: security/governance.rst:34
 msgid ""
@@ -51201,6 +51278,9 @@ msgid ""
 "assessment, certification, audit report, penetration-test report, or formal "
 "self-assessment for Weblate."
 msgstr ""
+"Deze opslagruimte legt momenteel geen formele beveiligingsbeoordeling door "
+"derde partijen, certificering, auditrapport, rapport penetratietest of "
+"formele zelfbeoordeling voor Weblate vast."
 
 #: security/governance.rst:38
 msgid ""
@@ -51209,6 +51289,11 @@ msgid ""
 "scans are security evidence and automation signals. They are not formal "
 "assessments, certifications, or audit reports."
 msgstr ""
+"Geautomatiseerde beveiligingscontroles en programma's voor conformiteit, "
+"zoals CodeQL, GitHub beoordelen afhankelijkheid, FOSSA, OpenSSF Scorecard, "
+"en scans voor kwetsbaarheden van containers zijn beveiligingsbewijs en "
+"signalen voor automatisering. Het zijn formeel geen beoordelingen, "
+"certificaten of auditrapporten."
 
 #: security/governance.rst:43
 msgid ""
@@ -51216,6 +51301,9 @@ msgid ""
 "the repository security metadata should be updated with the assessment "
 "reference and date."
 msgstr ""
+"Als Weblate in de toekomst bewijs voor formele beoordeling publiceert, "
+"zullen deze pagina en de metadata voor de beveiliging van de opslagruimte "
+"worden bijgewerkt met een verwijzing naar de beoordeling en de datum."
 
 #: security/incident-response-plan.rst:2
 msgid "Incident response plan for Weblate"
@@ -51322,6 +51410,9 @@ msgid ""
 "vulnerability reporting process and :ref:`vulnerability-disclosure-policy` "
 "in :doc:`/security/issues`."
 msgstr ""
+"Als een incident een kwetsbaarheid van het product Weblate bevat, volg het "
+"proces voor het rapporteren van een kwetsbaarheid in het product en "
+":ref:`vulnerability-disclosure-policy` in :doc:`/security/issues`."
 
 #: security/incident-response-plan.rst:40
 msgid "Incident categories and severity"
@@ -51781,6 +51872,8 @@ msgid ""
 "Release artifacts can be checked using published signatures, attestations, "
 "and SBOMs. See :doc:`release-artifacts`."
 msgstr ""
+"Artefacten van uitgaven kunnen worden gecontroleerd met gepubliceerde "
+"handtekeningen, attesten en SBOM's. Bekijk :doc:`release-artifacts`."
 
 #: security/index.rst:24
 msgid "Security policies"
@@ -51791,33 +51884,42 @@ msgid ""
 ":doc:`product-information` - product identity, contact, support, release, "
 "and SBOM metadata."
 msgstr ""
+":doc:`product-information` - identiteit product, contact, ondersteuning, "
+"uitgave en metadata SBOM."
 
 #: security/index.rst:28
 msgid ""
 ":doc:`governance` - security governance documentation and assessment status."
 msgstr ""
+":doc:`governance` - documentatie beveiligingsbeheer en beoordelingsstatus."
 
 #: security/index.rst:29
 msgid ""
 ":doc:`releases` - release cycle, security update coverage, and upgrade "
 "support."
 msgstr ""
+":doc:`releases` - uitgavecyclus, dekking beveiligingsupdates en "
+"ondersteuning voor upgraden."
 
 #: security/index.rst:31
 msgid ""
 ":doc:`release-artifacts` - release artifact inventory, SBOMs, signatures, "
 "attestations, and verification."
 msgstr ""
+":doc:`release-artifacts` - inventarisatie artefacten uitgaven, SBOM's, "
+"handtekeningen, attesten en verificatie."
 
 #: security/index.rst:33
 msgid ""
 ":doc:`dependencies` - dependency inventory, vulnerability triage, update "
 "automation, and container scanning."
 msgstr ""
+":doc:`dependencies` - inventarisatie afhankelijkheden, triage voor "
+"kwetsbaarheden, automatisering update en scannen containers."
 
 #: security/index.rst:35
 msgid ":doc:`issues` - vulnerability reporting and disclosure."
-msgstr ""
+msgstr ":doc:`issues` - rapporteren en onthullen kwetsbaarheden."
 
 #: security/index.rst:42
 msgid "Compliance"
@@ -51865,6 +51967,10 @@ msgid ""
 "release artifacts, and documented Weblate security properties. They do not "
 "replace operational incident response for a particular deployment."
 msgstr ""
+"Rapporten over kwetsbaarheden in het product betreffen beveiligingsproblemen "
+"in de broncode van Weblate, artefacten van uitgaven en gedocumenteerde "
+"eigenschappen van de beveiliging van Weblate. Ze vervangen niet de "
+"beantwoording van operationele incidenten voor een bepaalde uitrol."
 
 #: security/issues.rst:21
 msgid ""
@@ -51899,6 +52005,11 @@ msgid ""
 "containment, recovery, customer notification, provider escalation, and other "
 "deployment-specific incident response remain the operator's responsibility."
 msgstr ""
+"Zelfgehoste operators zouden dit proces moeten gebruiken als ze geloven dat "
+"een incident in hun eigen uitrol wordt veroorzaakt door een kwetsbaarheid in "
+"het product Weblate. Lokale isolatie, herstellen, notificeren van "
+"gebruikers, escalatie naar provider en andere beantwoording van "
+"uitrolspecifieke incidenten blijven de verantwoordelijkheid van de operator."
 
 #: security/issues.rst:36
 msgid ""
@@ -51972,6 +52083,9 @@ msgid ""
 "deployments operated by Weblate s.r.o. are handled using :doc:`/security/"
 "incident-response-plan`."
 msgstr ""
+"Operationele incidenten die Hosted Weblate, Dedicated Weblate of andere door "
+"Weblate s.r.o. uitgevoerde uitrollen beïnvloeden, worden afgehandeld met "
+":doc:`/security/incident-response-plan`."
 
 #: security/issues.rst:73
 msgid ""
@@ -51979,6 +52093,10 @@ msgid ""
 "vulnerability report and public advisory follow the product vulnerability "
 "reporting process and :ref:`vulnerability-disclosure-policy` on this page."
 msgstr ""
+"Wanneer een dergelijk incident ook de kwetsbaarheid van een product Weblate "
+"betreft, volgen het rapport van de kwetsbaarheid en publieke adviezen het "
+"proces voor het rapporteren van een kwetsbaarheid in het product en "
+":ref:`vulnerability-disclosure-policy` op deze pagina."
 
 #: security/issues.rst:78
 msgid "Self-hosted deployment incidents"
@@ -51992,6 +52110,12 @@ msgid ""
 "incident-response-plan` can be used as a reference, but it is not a "
 "maintained incident response plan for third-party deployments."
 msgstr ""
+"Operators van zelfgehoste uitrollen van Weblate zijn verantwoordelijk voor "
+"hun lokale proces voor beantwoording van incidenten, inclusief isolatie, "
+"herstellen, notificatie en provider-specifieke escalatie. Het door Weblate "
+"gebruikte :doc:`/security/incident-response-plan` mag worden gebruikt als "
+"verwijzing, maar is niet een onderhouden plan voor beantwoording van "
+"incidenten voor uitrollen van derde partijen."
 
 #: security/issues.rst:86
 msgid ""
@@ -51999,6 +52123,9 @@ msgid ""
 "vulnerability, report it using the product vulnerability reporting process "
 "above."
 msgstr ""
+"Als een zelfgehost incident lijkt te zijn veroorzaakt door een kwetsbaarheid "
+"in het product Weblate, rapporteer dat dan met het proces voor het "
+"rapporteren van een kwetsbaarheid in het product hierboven."
 
 #: security/issues.rst:93
 msgid "Vulnerability disclosure policy"
@@ -53064,6 +53191,9 @@ msgid ""
 "and release information. It is informational and is not a regulatory "
 "declaration."
 msgstr ""
+"Deze pagina identificeert Weblate en de belangrijkste plekken voor het "
+"vinden van informatie over ondersteuning, beveiliging en uitgaven. Het is "
+"informeel en is geen regelgeving."
 
 #: security/product-information.rst:9
 msgid "Product"
@@ -53091,7 +53221,7 @@ msgstr "Broncode: https://github.com/WeblateOrg/weblate"
 
 #: security/product-information.rst:17
 msgid "License: GPL-3.0-or-later"
-msgstr ""
+msgstr "Licentie: GPL-3.0-of-later"
 
 #: security/product-information.rst:20
 msgid "Support"
@@ -53102,6 +53232,8 @@ msgid ""
 "Weblate s.r.o. provides professional support for Weblate. For support "
 "options, see :doc:`/admin/support`."
 msgstr ""
+"Weblate s.r.o. verschaft professionele ondersteuning voor Weblate. Voor "
+"opties van ondersteuning, bekijk :doc:`/admin/support`."
 
 #: security/product-information.rst:25
 msgid ""
@@ -53109,12 +53241,18 @@ msgid ""
 "in :ref:`support-contact`. Community issue reporting is described in :doc:`/"
 "contributing/issues`."
 msgstr ""
+"Abonnees kunnen contact opnemen met Weblate Care op care@weblate.org, zoals "
+"gedocumenteerd in :ref:`support-contact`. Rapporteren van problemen door de "
+"gemeenschap wordt beschreven in :doc:`/contributing/issues`."
 
 #: security/product-information.rst:32
 msgid ""
 "Report security issues using private channels documented in :doc:`/security/"
 "issues`. The primary security contact is security@weblate.org."
 msgstr ""
+"Rapporteren van problemen met beveiliging via private kanalen is "
+"gedocumenteerd in :doc:`/security/issues`. Het primaire contact voor "
+"beveiliging is security@weblate.org."
 
 #: security/product-information.rst:36
 msgid "Releases and distribution"
@@ -53128,12 +53266,20 @@ msgid ""
 "publication, Weblate Client package releases, and Weblate Client Docker "
 "images."
 msgstr ""
+"De onderhouden kanalen voor uitgaven en distributie zijn vermeld in "
+":ref:`release-artifact-inventory`. Die inventarisatie dekt bronuitgaven, "
+"GitHub uitgavedelen, het Python-pakket, Docker-schijfkopieën, de Helm-"
+"grafiek, documentatiepublicatie, uitgaven Weblate Client-pakket en Weblate "
+"Client Docker-schijfkopieën."
 
 #: security/product-information.rst:44
 msgid ""
 "Release SBOMs identify Weblate s.r.o. as the SBOM author, manufacturer, and "
 "supplier for released Weblate components. See :ref:`sbom`."
 msgstr ""
+"Release SBOM's voor uitgaven identificeren Weblate s.r.o. als de auteur van "
+"de SBOM, fabrikant en leverancier voor uitgegeven onderdelen van Weblate. "
+"Bekijk :ref:`sbom`."
 
 #: security/product-information.rst:48
 msgid "Regulatory declarations"
@@ -53145,6 +53291,9 @@ msgid ""
 "marking statement, or Cyber Resilience Act applicability decision for "
 "Weblate."
 msgstr ""
+"Deze documentatie legt momenteel geen declaratie voor conformiteit voor de "
+"EU, CE marketingstatement of beslissing voor toepasbaarheid van de Cyber "
+"Resilience Act voor Weblate vast."
 
 #: security/product-information.rst:53
 msgid ""
@@ -53153,10 +53302,15 @@ msgid ""
 "Cyber Resilience Act applicability decision, or any other regulatory "
 "conclusion."
 msgstr ""
+"Deze opmerking over de status is slechts het vastleggen van de documentatie. "
+"Het levert geen, maakt geen en impliceert niet een EU-declaratie voor "
+"conformiteit, uitspraak over markeren als CE, beslissing over de "
+"toepasbaarheid van de Cyber Resilience Act of enige andere conclusie van "
+"regelgeving."
 
 #: security/release-artifacts.rst:2
 msgid "Release artifacts and verification"
-msgstr ""
+msgstr "Artefacten en verificatie uitgaven"
 
 #: security/release-artifacts.rst:4
 msgid ""
@@ -53166,10 +53320,16 @@ msgid ""
 "update coverage, see :doc:`releases`. For dependency monitoring and "
 "container vulnerability scanning, see :doc:`dependencies`."
 msgstr ""
+"Deze pagina vermeldt artefacten in uitgaven van Weblate en onderhouden "
+"distributiekanalen en legt uit hoe de artefacten te verifiëren die "
+"gepubliceerde handtekeningen, attesten en SBOM's bevatten. Voor ondersteunde "
+"versies en dekking van beveiligingsupdates, bekijk :doc:`releases`. Voor "
+"monitoren van afhankelijkheden en scannen van kwetsbaarheden in containers, "
+"bekijk :doc:`dependencies`."
 
 #: security/release-artifacts.rst:13
 msgid "Release artifact inventory"
-msgstr ""
+msgstr "Inventarisatie artefacten uitgaven"
 
 #: security/release-artifacts.rst:15
 msgid ""
@@ -53179,10 +53339,16 @@ msgid ""
 "maintained in Weblate-owned sibling repositories, the table cites the "
 "repository where the build and release automation lives."
 msgstr ""
+"Kanalen van Weblate voor uitgaven en onderhouden distributies zijn "
+"gepubliceerd op verscheidene kanalen. Deze inventarisatie vermeldt de door "
+"deze opslagruimte beschreven artefacten en waar bewijs over hun publicatie "
+"wordt onderhouden. Voor artefacten die worden onderhouden in aan Weblate "
+"toebehorende kind-opslagruimten, vermeldt de tabel de opslagruimte waar de "
+"informatie voor bouw en uitgaveautomatisering is opgeslagen."
 
 #: security/release-artifacts.rst:24
 msgid "Artifact or channel"
-msgstr ""
+msgstr "Artefact of kanaal"
 
 #: security/release-artifacts.rst:25
 msgid "Owning repository or location"
@@ -53202,7 +53368,7 @@ msgstr "Opmerkingen"
 
 #: security/release-artifacts.rst:29
 msgid "Source releases and GitHub release assets"
-msgstr ""
+msgstr "Bronuitgaven en GitHub uitgavedelen"
 
 #: security/release-artifacts.rst:30
 msgid ":file:`WeblateOrg/weblate`"
@@ -53217,12 +53383,16 @@ msgid ""
 ":file:`.github/workflows/setup.yml`, :file:`scripts/create-"
 "release`, :file:`scripts/prepare-release`, and :doc:`/contributing/release`"
 msgstr ""
+":file:`.github/workflows/setup.yml`, :file:`scripts/create-release`, "
+":file:`scripts/prepare-release` en :doc:`/contributing/release`"
 
 #: security/release-artifacts.rst:34
 msgid ""
 "Release assets include Python distribution archives, release notes, and the "
 "release SBOM."
 msgstr ""
+"Uitgavedelen bevatten Python distributiearchieven, opmerkingen voor de "
+"uitgave en de SBOM voor de uitgave."
 
 #: security/release-artifacts.rst:36
 msgid "Python package"
