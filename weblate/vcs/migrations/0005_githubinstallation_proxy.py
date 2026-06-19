@@ -9,7 +9,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("vcs", "0005_githubappcredentials_webhook_token"),
+        ("vcs", "0004_githubappcredentials"),
     ]
 
     operations = [
