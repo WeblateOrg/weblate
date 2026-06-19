@@ -28,7 +28,7 @@ class SafeMDXCheckTest(CheckTestCase):
         self.test_failure_3 = ("Hello, {props.name.toUpperCase()}", "Ahoj", "safe-mdx")
         self.test_failure_4 = (
             '<a href="/profile">{userName}</a>',
-            '<a href={userName}>View profile</a>',
+            "<a href={userName}>View profile</a>",
             "safe-mdx",
         )
         self.test_failure_5 = (
@@ -149,7 +149,7 @@ class SafeMDXCheckTest(CheckTestCase):
         self.assertEqual(
             list(
                 self.check.get_jsx_expression_signatures(
-                    '<a href={userName}>View profile</a>'
+                    "<a href={userName}>View profile</a>"
                 )
             ),
             [("attribute", "href", ("a",), "{userName}")],
