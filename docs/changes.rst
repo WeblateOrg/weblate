@@ -25,6 +25,7 @@ Weblate 2026.7
 * Zen mode now loads large search results and glossary-heavy projects more efficiently.
 * Translate pages with filtered searches and nearby strings now load more efficiently.
 * Translation form submissions now avoid loading complete search result sets when saving strings.
+* Add-on management pages now load recent add-on history more efficiently on large sites.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
 * Expanded security documentation for release artifacts, supported versions, security updates, release verification, SBOMs, and dependency handling.
 * Clarified security metadata, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
