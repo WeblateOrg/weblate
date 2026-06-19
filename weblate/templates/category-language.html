@@ -23,7 +23,7 @@
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
       <ul class="dropdown-menu shadow">
         <li>
-          <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab"  href="#">{% translate "History" %}</a>
+          <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
         </li>
         <li>
           <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
@@ -45,7 +45,7 @@
       <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab"  href="#">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
@@ -54,9 +54,13 @@
           </li>
         {% endif %}
         {% if delete_form %}
-          <li role="separator" class="divider"></li>
+          {% if replace_form or bulk_state_form %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
           <li>
-            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab"  href="#">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
