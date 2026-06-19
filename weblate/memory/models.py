@@ -688,7 +688,7 @@ class Memory(models.Model):
     def get_origin_display(self):
         if self.project:
             text = pgettext("Translation memory category", "Project: {}")
-        elif self.user:
+        elif self.user_id:
             text = pgettext("Translation memory category", "Personal: {}")
         elif self.shared:
             text = pgettext("Translation memory category", "Shared: {}")
