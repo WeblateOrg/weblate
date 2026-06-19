@@ -26,6 +26,16 @@ class SafeMDXCheckTest(CheckTestCase):
         )
         self.test_failure_2 = ("Test {Math.PI * 100}", "Test {Math.PI*100}", "safe-mdx")
         self.test_failure_3 = ("Hello, {props.name.toUpperCase()}", "Ahoj", "safe-mdx")
+        self.test_failure_4 = (
+            '<a href="/profile">{userName}</a>',
+            '<a href={userName}>View profile</a>',
+            "safe-mdx",
+        )
+        self.test_failure_5 = (
+            "<Card title={title}>{body}</Card>",
+            "<Card title={body}>{title}</Card>",
+            "safe-mdx",
+        )
         self.test_ignore_check = (
             "Hello, {test}",
             "Ahoj, {ignore}",
@@ -125,4 +135,22 @@ class SafeMDXCheckTest(CheckTestCase):
         self.assertEqual(
             list(self.check.get_jsx_expression_matches(text)),
             expected,
+        )
+
+    def test_expression_signatures_include_context(self) -> None:
+        self.assertEqual(
+            list(
+                self.check.get_jsx_expression_signatures(
+                    '<a href="/profile">{userName}</a>'
+                )
+            ),
+            [("text", "", ("a",), "{userName}")],
+        )
+        self.assertEqual(
+            list(
+                self.check.get_jsx_expression_signatures(
+                    '<a href={userName}>View profile</a>'
+                )
+            ),
+            [("attribute", "href", ("a",), "{userName}")],
         )

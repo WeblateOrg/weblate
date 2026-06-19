@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
@@ -14,6 +15,9 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
     from weblate.trans.models import Unit
+
+_JSX_TAG_RE = re.compile(r"<(/?)([A-Za-z][\w.:-]*)(?:\s[^<>]*)?(/?)>")
+_ATTR_NAME_RE = re.compile(r"([A-Za-z_:][\w:.-]*)\s*=\s*$")
 
 # Various lexical contexts tracked while scanning a JSX expression.
 _CODE = 0
@@ -173,11 +177,52 @@ class SafeMDXCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Check the target has the same JSX expressions as the source."""
-        expected = list(self.get_jsx_expression_matches(source))
-        found = list(self.get_jsx_expression_matches(target))
-        return sorted(found) != sorted(expected)
+        expected = list(self.get_jsx_expression_signatures(source))
+        found = list(self.get_jsx_expression_signatures(target))
+        return found != expected
+
+    def get_jsx_expression_signatures(
+        self, text: str
+    ) -> Iterator[tuple[str, str, tuple[str, ...], str]]:
+        """Extract JSX expressions together with their syntactic context."""
+        for start, expression in self._iter_jsx_expressions(text):
+            yield (*self.get_jsx_expression_context(text, start), expression)
+
+    def get_jsx_expression_context(
+        self, text: str, start: int
+    ) -> tuple[str, str, tuple[str, ...]]:
+        """Return whether an expression appears in JSX text or an attribute."""
+        stack = self.get_jsx_element_stack(text[:start])
+        last_open = text.rfind("<", 0, start)
+        last_close = text.rfind(">", 0, start)
+        if last_open > last_close:
+            before_expression = text[last_open + 1 : start]
+            tag = before_expression.split(maxsplit=1)[0].lstrip("/")
+            if tag:
+                stack = (*stack, tag)
+            attr_match = _ATTR_NAME_RE.search(before_expression)
+            if attr_match:
+                return ("attribute", attr_match.group(1), stack)
+            return ("tag", "", stack)
+        return ("text", "", stack)
+
+    def get_jsx_element_stack(self, text: str) -> tuple[str, ...]:
+        """Return a best-effort stack of JSX elements open at the end of text."""
+        stack: list[str] = []
+        for match in _JSX_TAG_RE.finditer(text):
+            closing, tag, self_closing = match.groups()
+            if closing:
+                if tag in stack:
+                    del stack[stack.index(tag) :]
+            elif not self_closing:
+                stack.append(tag)
+        return tuple(stack)
 
     def get_jsx_expression_matches(self, text: str) -> Iterator[str]:
+        for _start, expression in self._iter_jsx_expressions(text):
+            yield expression
+
+    def _iter_jsx_expressions(self, text: str) -> Iterator[tuple[int, str]]:
         i = 0
         length = len(text)
         while i < length:
@@ -196,7 +241,7 @@ class SafeMDXCheck(TargetCheck):
                 # JSX expression
                 close = _scan_expression(text, i)
                 if close is not None:
-                    yield text[i : close + 1]
+                    yield i, text[i : close + 1]
                     i = close + 1
                     continue
             i += 1
