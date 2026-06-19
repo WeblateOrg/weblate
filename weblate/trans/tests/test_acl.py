@@ -11,7 +11,8 @@ from unittest.mock import patch
 from django.conf import settings
 from django.core import mail
 from django.core.exceptions import ValidationError
-from django.test.utils import modify_settings, override_settings
+from django.db import connection
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from social_django.models import UserSocialAuth
 
@@ -78,6 +79,25 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
         self.assertContains(response, ' name="save"')
+
+    def test_anonymous_translate_view_permission_memberships(self) -> None:
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        get_anonymous().clear_cache()
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.translate_url)
+
+        self.assertContains(response, ' name="save"')
+        membership_queries = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('SELECT "weblate_auth_user_groups"')
+        ]
+        self.assertTrue(membership_queries)
+        for query in membership_queries:
+            self.assertNotIn('ORDER BY "trans_project"', query)
+            self.assertNotIn('ORDER BY "workspaces_workspace"', query)
 
     def test_acl_protected(self) -> None:
         """Test ACL protected project."""

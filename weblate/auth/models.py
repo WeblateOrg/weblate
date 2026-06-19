@@ -1025,7 +1025,7 @@ class User(AbstractBaseUser):
     @cached_property
     def cached_memberships(self) -> Iterable[TeamMembership]:
         return (
-            self.team_memberships.select_related("group", "group__defining_workspace")
+            self.team_memberships.select_related("group")
             .prefetch_related(
                 Prefetch("limit_languages", queryset=Language.objects.only("id")),
                 "group__roles__permissions",
@@ -1051,11 +1051,7 @@ class User(AbstractBaseUser):
                     queryset=Language.objects.only("id", "name", "code"),
                 ),
             )
-            .order_by(
-                "group__defining_project__name",
-                "group__defining_workspace__name",
-                "group__name",
-            )
+            .order_by("group__name", "group_id")
         )
 
     def group_enforces_2fa(self) -> bool:
