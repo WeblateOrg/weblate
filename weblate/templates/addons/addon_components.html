@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  {% if object %}
+    {% path_object_breadcrumbs object %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% endif %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'addon-detail' pk=instance.pk %}">
+      {% if addon %}
+        {{ addon.verbose }}
+      {% else %}
+        {{ addon_name }}
+      {% endif %}
+    </a>
+  </li>
+  <li class="breadcrumb-item">{% translate "Components" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Components" %}</h4>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% translate "Component" %}</th>
+          <th>{% translate "Project" %}</th>
+          <th>{% translate "Category" %}</th>
+          <th>{% translate "Compatibility" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in component_rows %}
+          <tr>
+            <td>
+              <a href="{{ row.component.get_absolute_url }}">{{ row.component }}</a>
+            </td>
+            <td>
+              <a href="{{ row.component.project.get_absolute_url }}">{{ row.component.project.name }}</a>
+            </td>
+            <td>
+              {% if row.component.category %}
+                <a href="{{ row.component.category.get_absolute_url }}">{{ row.component.category }}</a>
+              {% else %}
+                <span class="help-block">{% translate "Project root" %}</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if row.compatible %}
+                <span class="badge text-bg-success">{% translate "Compatible" %}</span>
+              {% else %}
+                <span class="badge text-bg-secondary">{% translate "Not compatible" %}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="4">{% translate "No components found." %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if components.has_other_pages %}
+      <div class="card-footer">{% include "paginator.html" with page_obj=components %}</div>
+    {% endif %}
+  </div>
+
+{% endblock content %}

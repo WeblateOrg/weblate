@@ -1,18 +1,23 @@
 {% load i18n icons translations %}
 
 <h4>
-  {% if scope and scope != "component" and addon.needs_component %}
-    <span class="badge badge-danger float-end">{% translate "The add-on can only be installed on the component." %}</span>
-  {% elif addon.repo_scope %}
-    <span class="badge float-end text-bg-secondary"
-          title="{% translate "This add-on is used for all components sharing this repository." %}">{% translate "repository wide" %}</span>
+  {% if not hide_scope_badges %}
+    {% if scope_label %}
+      <span class="badge float-end text-bg-secondary"
+            {% if scope_description %}title="{{ scope_description }}"{% endif %}>{{ scope_label }}</span>
+    {% elif scope and scope != "component" and addon.needs_component %}
+      <span class="badge badge-danger float-end">{% translate "The add-on can only be installed on the component." %}</span>
+    {% elif addon.repo_scope %}
+      <span class="badge float-end text-bg-secondary"
+            title="{% translate "This add-on is used for all components sharing this repository." %}">{% translate "repository wide" %}</span>
+    {% endif %}
   {% endif %}
   {% icon addon.icon %}
   {{ addon.verbose }}
   {% documentation_icon "admin/addons" addon.doc_anchor %}
 </h4>
 <p>{{ addon.description }}</p>
-{% if addon.instance and addon.instance.pk %}
+{% if addon.instance and addon.instance.pk and show_settings %}
   {% with settings=addon.get_settings_fields %}
     {% if settings %}
       <div>

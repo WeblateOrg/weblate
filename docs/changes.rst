@@ -17,6 +17,7 @@ Weblate 2026.7
 * Expanded :doc:`/security/data-residency` with EU cloud sovereignty guidance.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
 * :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
+* Add-ons installed at higher scopes are now shown on lower-scope add-on pages, and broad-scope add-ons can list affected components with compatibility details.
 * :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
 * LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
 * Improved bidirectional text handling for RTL translation display and editor previews.
