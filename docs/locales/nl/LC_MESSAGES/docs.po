@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-18 02:41+0000\n"
-"PO-Revision-Date: 2026-06-19 13:12+0000\n"
+"PO-Revision-Date: 2026-06-19 13:50+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -22511,34 +22511,48 @@ msgid ""
 "Translate pages with filtered searches and nearby strings now load more "
 "efficiently."
 msgstr ""
+"Pagina's van vertalingen met gefilterde zoekacties en dichtbijgelegen "
+"tekenreeksen laden nu efficiënter."
 
 #: changes.rst:25
 msgid ""
 "Translation form submissions now avoid loading complete search result sets "
 "when saving strings."
 msgstr ""
+"Indieningen van vertaalformulieren vermijden nu het laden van sets met "
+"volledige zoekresultaten bij het opslaan van tekenreeksen."
 
 #: changes.rst:26
 msgid ""
 "Added :ref:`distribution-packaging` guidance for distribution maintainers."
 msgstr ""
+"Toegevoegd richtlijnen :ref:`distribution-packaging` voor onderhouders van "
+"distributies."
 
 #: changes.rst:27
 msgid ""
 "Expanded security documentation for release artifacts, supported versions, "
 "security updates, release verification, SBOMs, and dependency handling."
 msgstr ""
+"Uitgebreidere beveiligingsdocumentatie voor artefacten van uitgaven, "
+"ondersteunde versies, beveiligingsupdates, verifiëren van uitgave, SBOM's en "
+"afhandeling afhankelijkheden."
 
 #: changes.rst:28
 msgid ""
 "Clarified security metadata, vulnerability reporting, hosted-service "
 "incident response, and self-hosted operator responsibilities."
 msgstr ""
+"Verduidelijkte metadata-beveiliging, rapporteren van kwetsbaarheden, "
+"antwoorden op incidenten voor gehoste service en verantwoordelijkheden voor "
+"zelf-gehoste operator."
 
 #: changes.rst:29
 msgid ""
 "Large component imports now avoid duplicate translation-memory processing."
 msgstr ""
+"Importeren van grote onderdelen vermijdt nu het verwerken van duplicaat "
+"vertaalgeheugen."
 
 #: changes.rst:30
 msgid ""
@@ -22553,6 +22567,9 @@ msgid ""
 "Added :wladmin:`analyze_translator_work` to estimate realistic daily "
 "translator throughput from change history."
 msgstr ""
+"Toegevoegd :wladmin:`analyze_translator_work` om realistische dagelijkse "
+"verwerking voor vertalen in te schatten vanuit de geschiedenis van "
+"wijzigingen."
 
 #: changes.rst:32
 msgid ""
@@ -22560,6 +22577,9 @@ msgid ""
 "glossary management and language discovery, and no longer supports DeepL API "
 "v1."
 msgstr ""
+":ref:`mt-deepl` handelt nu DeepL API-versies intern af, gebruikt v3 voor "
+"beheer van woordenlijst en ontdekken van taal en ondersteunt niet langer "
+"DeepL API v1."
 
 #: changes.rst:35 changes.rst:67 changes.rst:105 changes.rst:168
 #: changes/v5.rst:36 changes/v5.rst:144 changes/v5.rst:213 changes/v5.rst:248
@@ -22587,12 +22607,16 @@ msgstr "Gerepareerde bugs"
 #: changes.rst:36
 msgid "Scoped team assignments can no longer be expanded through the API."
 msgstr ""
+"Toewijzigingen aan team in bereik kunnen nu niet langer worden uitgebreid "
+"via de API."
 
 #: changes.rst:37
 msgid ""
 "TBX glossary files no longer duplicate terms when repeated pending add "
 "operations are saved."
 msgstr ""
+"TBX-woordenlijst dupliceert niet langer termen als herhaalde openstaande "
+"bewerkingen voor toevoegen worden opgeslagen."
 
 #: changes.rst:38
 msgid ""
@@ -22624,12 +22648,16 @@ msgid ""
 "Project and workspace translation license defaults now follow component and "
 "project licenses more closely."
 msgstr ""
+"Standaarden voor licentie van vertalingen voor project en werkruimte volgen "
+"nu licenties voor project en onderdelen beter."
 
 #: changes.rst:42
 msgid ""
 "Component and category API ``PATCH`` requests no longer remove the category "
 "when the field is omitted."
 msgstr ""
+"Onderdeel- en categorie-API ``PATCH`` verzoekt niet langer om de categorie "
+"te verwijderen als het veld wordt weggelaten."
 
 #: changes.rst:43
 msgid ""
@@ -22644,6 +22672,9 @@ msgid ""
 "enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads "
 "validate file extensions."
 msgstr ""
+"Uploaden van document en vertaalgeheugen dwingt nu "
+":setting:`TRANSLATION_UPLOAD_MAX_SIZE` af en uploaden van API-document "
+"valideert bestandsextensies."
 
 #: changes.rst:45
 msgid ""
@@ -22657,6 +22688,8 @@ msgid ""
 "Repository reset and update progress now includes follow-up translation-file "
 "reconciliation."
 msgstr ""
+"Herstellen van opslagruimte en voortgang updaten bevatten nu opvolging voor "
+"verenigen van vertaalbestanden."
 
 #: changes.rst:47
 msgid ""
@@ -50648,35 +50681,48 @@ msgstr "Inventarisatie van afhankelijkheden"
 msgid ""
 "Weblate dependency information is maintained in several repository files:"
 msgstr ""
+"Weblate afhankelijkheidsinformatie wordt in verscheidene bestanden voor "
+"opslagruimten onderhouden:"
 
 #: security/dependencies.rst:14
 msgid ""
 "Python dependencies are declared in :file:`pyproject.toml` and resolved "
 "in :file:`uv.lock`."
 msgstr ""
+"Afhankelijkheden voor Python worden gedeclareerd in :file:`pyproject.toml` "
+"en opgelost in :file:`uv.lock`."
 
 #: security/dependencies.rst:16
 msgid ""
 "Frontend dependencies are declared in :file:`client/package.json` and "
 "resolved in :file:`client/yarn.lock`."
 msgstr ""
+"Afhankelijkheden voor frontend worden gedeclareerd in :file:`client/"
+"package.json` en opgelost in :file:`client/yarn.lock`."
 
 #: security/dependencies.rst:18
 msgid ""
 "Vendored frontend libraries and generated license data are documented "
 "in :doc:`/contributing/submodules`."
 msgstr ""
+"Bibliotheken van eigenaren voor frontend en gegenereerde licentiegegevens "
+"worden gedocumenteerd in :doc:`/contributing/submodules`."
 
 #: security/dependencies.rst:20
 msgid ""
 "Release SBOMs are published for Weblate releases as described in :ref:`sbom`."
 msgstr ""
+"SBOM's voor uitgaven worden gepubliceerd voor uitgaven van Weblate zoals "
+"wordt beschreven in :ref:`sbom`."
 
 #: security/dependencies.rst:22
 msgid ""
 "Docker image and Helm chart dependencies are maintained in the Weblate-owned "
 "Docker and Helm repositories listed in :ref:`release-artifact-inventory`."
 msgstr ""
+"Docker-schijfkopie en Helm-chart-afhankelijkheden worden onderhouden in de "
+"aan Weblate toebehorende Docker- en Helm-opslagruimten die zijn vermeld in "
+":ref:`release-artifact-inventory`."
 
 #: security/dependencies.rst:26
 msgid ""
@@ -50684,6 +50730,10 @@ msgid ""
 "runtime requirements. The lock files describe the tested dependency set used "
 "by CI and release automation."
 msgstr ""
+"De bereiken voor afhankelijkheden in :file:`pyproject.toml` beschrijven de "
+"vereisten voor de ondersteunde runtime. De vergendfelingsbestanden "
+"beschrijven de geteste set van afhankelijkheden die werd gebruikt door CI en "
+"automatisering van de uitgave."
 
 #: security/dependencies.rst:31
 msgid "Tracking dependencies for vulnerabilities"
