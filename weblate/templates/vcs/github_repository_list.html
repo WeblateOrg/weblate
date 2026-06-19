@@ -114,11 +114,13 @@
           {% if not installations %}
             {% if github_app_install_url %}
               {% translate "Install the Weblate GitHub app to connect a GitHub organization or user account." %}
+            {% elif github_app_configured %}
+              {% translate "Select a project with a workspace before connecting a GitHub account. GitHub accounts are connected to workspaces." %}
             {% else %}
-              {% translate "No connected GitHub accounts are configured." %}
+              {% translate "Weblate GitHub app is not registered on this Weblate instance." %}
             {% endif %}
           {% else %}
-            {% translate "Try refreshing the repository list in the admin panel." %}
+            {% translate "Try refreshing the repository list." %}
           {% endif %}
         </p>
       {% endif %}
