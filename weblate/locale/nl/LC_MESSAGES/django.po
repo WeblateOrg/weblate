@@ -15,8 +15,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-12 20:46-0500\n"
-"PO-Revision-Date: 2026-06-14 02:03+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-19 08:58+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -2076,12 +2076,12 @@ msgid "xgettext language"
 msgstr "xgettext taal"
 
 #: weblate/addons/forms.py:286
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
-msgstr "Aan xgettext doorgegeven programmeertaal, bijvoorbeeld Python of C."
+msgstr ""
+"Aan xgettext doorgegeven programmeertaal, bijvoorbeeld Python of C. Laat "
+"leeg om xgettext de taal te laten raden uit de bestandsextensies."
 
 #: weblate/addons/forms.py:295
 msgid ""
@@ -2977,10 +2977,8 @@ msgid "A team with this name already exists in this workspace."
 msgstr "Er bestaat al een team met deze naam in deze werkruimte."
 
 #: weblate/api/serializers.py:784
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "Kan dit niet wijzigen voor een bestaand team."
+msgstr "Kan dit niet wijzigen voor een team in het bereik."
 
 #: weblate/api/serializers.py:1942 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3084,22 +3082,16 @@ msgid "This role cannot be assigned to this team."
 msgstr "Deze rol kan niet worden toegewezen aan dit team."
 
 #: weblate/api/views.py:1146 weblate/api/views.py:1174
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "Kan dit niet wijzigen voor een bestaand team."
+msgstr "Kan dit niet wijzigen voor projecten in een bereik."
 
 #: weblate/api/views.py:1195 weblate/api/views.py:1236
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "Kan dit niet wijzigen voor een bestaand team."
+msgstr "Kan onderdelenlijst niet wijzigen voor een team in een bereik."
 
 #: weblate/api/views.py:1257 weblate/api/views.py:1290
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "Kan dit niet wijzigen voor een bestaand team."
+msgstr "Kan onderdelen niet wijzigen voor een team in een werkruimte."
 
 #: weblate/api/views.py:3058 weblate/trans/models/translation.py:2569
 msgid "This string seems to already exist."
@@ -4800,49 +4792,34 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Ontbrekende opties bij aanvullende optie: “%s”"
 
 #: weblate/checks/flags.py:458
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Formaliteit"
+msgstr "Indeling"
 
 #: weblate/checks/flags.py:459
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Vertaalgeheugen"
+msgstr "Gedrag vertaling"
 
 #: weblate/checks/flags.py:460
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Vertaling"
+msgstr "Valideren"
 
 #: weblate/checks/flags.py:461
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Tekenreeksen beoordelen"
+msgstr "Renderen"
 
 #: weblate/checks/flags.py:462 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgid "Disabled check"
-msgstr "foutmeldingen"
+msgstr "Uitgeschakelde controle"
 
 #: weblate/checks/flags.py:464
 msgid "Automatic detection"
 msgstr "Automatische detectie"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgctxt "User agent device type"
-#| msgid "Other"
 msgid "Other"
 msgstr "Andere"
 
@@ -5617,6 +5594,8 @@ msgstr "reStructuredText syntaxisfout in de vertaling."
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
 msgstr ""
+"De rol reStructuredText zou niet moeten worden omsloten door accent grave: "
+"{role}"
 
 #: weblate/checks/markup.py:904
 msgid "The translation should not start with a list marker."
@@ -6718,10 +6697,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "U dient akkoord te gaan met de algemene voorwaarden"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "Lees de volgende medewerker licentieovereenkomst:"
+msgstr "Lees de volgende juridische documenten:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -7140,11 +7117,9 @@ msgstr ""
 "Beschrijf de vertaalstijl. Voorbeeld: “Zorg voor informeel taalgebruik.”"
 
 #: weblate/machinery/forms.py:456
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Integratie-instructies"
+msgstr "Taalspecifieke instructies"
 
 #: weblate/machinery/forms.py:461
 #, python-format
@@ -7152,20 +7127,22 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"JSON-object verbindt bestaande taalcodes aan extra instructies, tot maximaal "
+"%(limit)d tekens elk."
 
 #: weblate/machinery/forms.py:474 weblate/machinery/forms.py:481
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Taalspecifieke instructies moeten een JSON-object zijn."
 
 #: weblate/machinery/forms.py:490
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
-msgstr ""
+msgstr "Taalspecifieke instructies bevatten ongeldige taalcode \"%s\"."
 
 #: weblate/machinery/forms.py:498
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr ""
+msgstr "Taalspecifieke instructies bevatten onbekende taalcode \"%s\"."
 
 #: weblate/machinery/forms.py:507
 #, python-format
@@ -7173,6 +7150,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"Taalspecifieke instructies voor \"%(language)s\" mogen ten hoogste %(limit)d "
+"tekens zijn."
 
 #: weblate/machinery/forms.py:527
 msgctxt "OpenAI model selection"
@@ -7221,45 +7200,30 @@ msgid "Choose custom model here to enable it."
 msgstr "Kies hier het aangepaste model om het in te schakelen."
 
 #: weblate/machinery/forms.py:591
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Automatische selectie"
 
 #: weblate/machinery/forms.py:595
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Aangepast model"
 
 #: weblate/machinery/forms.py:600
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "OpenAI-API basis-URL"
+msgstr "Mistral API basis-URL"
 
 #: weblate/machinery/forms.py:604
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
 msgstr ""
-"Basis-URL van de OpenAI-API, als die afwijkt van de standaard standaard-URL "
-"voor OpenAI"
+"Basis-URL van de Mistral-API, als die afwijkt van de standaard-URL voor "
+"Mistral"
 
 #: weblate/machinery/forms.py:611
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Aangepast model"
+msgstr "Mistral-model"
 
 #: weblate/machinery/forms.py:619
 msgctxt "Mistral model selection"
@@ -7352,20 +7316,17 @@ msgstr "Maximaal aantal tokens dat in het antwoord gegenereerd mag worden."
 #: weblate/machinery/llm.py:156
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Hallo, @@PH1@@!"
 
 #: weblate/machinery/llm.py:157
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Klik op <a href=\"/x\">Opslaan</a>."
 
 #: weblate/machinery/llm.py:158
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "foutmeldingen"
+msgstr "@@PH1@@ mislukte controles"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
