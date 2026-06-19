@@ -621,7 +621,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Check that the main JS bundle is active and globals are available."""
         self.assertTrue(
             self.driver.execute_script(
-                "return typeof window.jQuery !== 'undefined' && typeof window.slugify !== 'undefined' && typeof window.DateRangePicker !== 'undefined';"
+                "return typeof window.slugify !== 'undefined' && typeof window.DateRangePicker !== 'undefined';"
             )
         )
 
@@ -768,29 +768,31 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.driver.execute_script(
             """
-            const $translations = $("#machinery-translations");
-            $translations.empty();
+            const translations = document.getElementById("machinery-translations");
+            translations.replaceChildren();
             ["stale replacement 1", "current replacement 2"].forEach((text, idx) => {
                 const key = String((idx + 1) % 10);
-                const $row = $("<tr/>")
-                    .attr("data-machinery-key", key)
-                    .attr("data-raw", JSON.stringify({
-                        plural_forms: [0],
-                        text: text,
-                    }));
-                $row.append(
-                    $("<td/>")
-                        .addClass("machinery-number")
-                        .append($("<kbd/>").text(key)),
-                );
-                $row.append(
-                    $("<td/>").append(
-                        $("<a/>").addClass("js-copy-machinery").text("Clone"),
-                    ),
-                );
-                $translations.append($row);
+                const row = document.createElement("tr");
+                row.setAttribute("data-machinery-key", key);
+                row.setAttribute("data-raw", JSON.stringify({
+                    plural_forms: [0],
+                    text: text,
+                }));
+                const numberCell = document.createElement("td");
+                numberCell.className = "machinery-number";
+                const kbd = document.createElement("kbd");
+                kbd.textContent = key;
+                numberCell.appendChild(kbd);
+                row.appendChild(numberCell);
+                const cloneCell = document.createElement("td");
+                const cloneLink = document.createElement("a");
+                cloneLink.className = "js-copy-machinery";
+                cloneLink.textContent = "Clone";
+                cloneCell.appendChild(cloneLink);
+                row.appendChild(cloneCell);
+                translations.appendChild(row);
             });
-            $(".translator .translation-editor").val("");
+            document.querySelector(".translator .translation-editor").value = "";
             """
         )
 
@@ -808,7 +810,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.assertEqual(
             self.driver.execute_script(
-                'return $(".translator .translation-editor").val();'
+                'return document.querySelector(".translator .translation-editor").value;'
             ),
             "current replacement 2",
         )
