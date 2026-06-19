@@ -231,10 +231,11 @@ def has_changed_placeholder_attributes(source: str, target: str) -> bool:
         return False
 
     for attribute in extract_html_attributes(target):
-        if (
-            (placeholder := get_wrapped_placeholder_attribute(attribute.value))
-            and (attribute.tag, attribute.name, placeholder) in source_values
-        ):
+        if (placeholder := get_wrapped_placeholder_attribute(attribute.value)) and (
+            attribute.tag,
+            attribute.name,
+            placeholder,
+        ) in source_values:
             return True
     return False
 
