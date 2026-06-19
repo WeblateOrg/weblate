@@ -459,6 +459,36 @@
       {% documentation_icon 'vcs' right=True %}
     </div>
   </div>
+
+  <form action="{% url "set-groups" project=object.slug %}"
+        method="post"
+        class="inlineform">
+    {% csrf_token %}
+    <div class="modal fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="project-user-groups-modal-title"
+         id="project-user-groups-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="project-user-groups-modal-title"></h4>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate "Close" %}"></button>
+          </div>
+          <div class="modal-body"
+               data-loading-text="{% translate "Loading…" %}"
+               data-error-text="{% translate "Error while loading form:" %}"></div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
   <form method="get" id="paginator-form">
   </form>
 

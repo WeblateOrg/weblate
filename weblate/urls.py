@@ -823,6 +823,11 @@ real_patterns = [
         name="js-unit-translations",
     ),
     path(
+        "js/access/<name:project>/user/<int:user_id>/groups/",
+        weblate.trans.views.acl.project_user_groups,
+        name="js-project-user-groups",
+    ),
+    path(
         "js/git/<object_path:path>/",
         weblate.trans.views.js.git_status,
         name="git_status",
