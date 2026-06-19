@@ -51,6 +51,7 @@ Weblate 2026.7
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
 * :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
+* API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
 
 .. rubric:: Compatibility
 

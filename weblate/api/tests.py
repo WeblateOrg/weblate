@@ -3104,6 +3104,149 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
+    def test_create_with_project_add_permission(self) -> None:
+        self.grant_perm_to_user("project.add")
+
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+            },
+        )
+        project = Project.objects.get(pk=response.data["id"])
+        self.assertIsNone(project.workspace)
+
+    def test_create_with_workspace_permission(self) -> None:
+        with modify_settings(INSTALLED_APPS={"prepend": "weblate.billing"}):
+            workspace = Workspace.objects.create(name="API workspace")
+            workspace.add_owner(self.user)
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=201,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                    "workspace": str(workspace.pk),
+                },
+            )
+            project = Project.objects.get(pk=response.data["id"])
+            self.assertEqual(project.workspace_id, workspace.pk)
+
+    def test_create_with_workspace_permission_denied(self) -> None:
+        workspace = Workspace.objects.create(name="API workspace")
+
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=403,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "workspace": str(workspace.pk),
+            },
+        )
+        self.assertEqual(
+            {
+                "errors": [
+                    {
+                        "attr": None,
+                        "code": "permission_denied",
+                        "detail": "Can not create projects",
+                    }
+                ],
+                "type": "client_error",
+            },
+            response.data,
+        )
+
+    def test_create_with_invalid_billing_workspace(self) -> None:
+        with modify_settings(INSTALLED_APPS={"prepend": "weblate.billing"}):
+            billing = create_test_billing(self.user, invoice=False)
+            billing.in_limits = False
+            billing.save(update_fields=["in_limits"])
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                    "workspace": str(billing.workspace_id),
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": None,
+                            "code": "permission_denied",
+                            "detail": "No valid billing found or limit exceeded.",
+                        }
+                    ],
+                    "type": "client_error",
+                },
+                response.data,
+            )
+
+    def test_create_with_single_workspace(self) -> None:
+        with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
+            workspace = Workspace.objects.create(name="API workspace")
+            workspace.add_owner(self.user)
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=201,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            project = Project.objects.get(pk=response.data["id"])
+            self.assertEqual(project.workspace_id, workspace.pk)
+
+    def test_create_with_multiple_workspaces_requires_workspace(self) -> None:
+        with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
+            first_workspace = Workspace.objects.create(name="First API workspace")
+            first_workspace.add_owner(self.user)
+            second_workspace = Workspace.objects.create(name="Second API workspace")
+            second_workspace.add_owner(self.user)
+
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=400,
+                request={
+                    "name": "API project",
+                    "slug": "api-project",
+                    "web": "https://weblate.org/",
+                },
+            )
+            self.assertEqual(
+                {
+                    "errors": [
+                        {
+                            "attr": "workspace",
+                            "code": "invalid",
+                            "detail": "Specify a workspace when multiple workspaces can be used.",
+                        }
+                    ],
+                    "type": "validation_error",
+                },
+                response.data,
+            )
+
     def test_create_with_billing(self) -> None:
         with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
             response = self.do_request(
@@ -3165,11 +3308,11 @@ class ProjectAPITest(APIBaseTest):
                     "name": "API project",
                     "slug": "api-project",
                     "web": "https://weblate.org/",
-                    "workspace": str(billing.workspace_id),
                 },
             )
             project = Project.objects.get(pk=response.data["id"])
             self.assertEqual(project.billing, billing)
+            self.assertEqual(project.workspace_id, billing.workspace_id)
 
             response = self.do_request(
                 "api:project-list",
@@ -3179,7 +3322,6 @@ class ProjectAPITest(APIBaseTest):
                     "name": "API project 2",
                     "slug": "api-project-2",
                     "web": "https://weblate.org/",
-                    "workspace": str(billing.workspace_id),
                 },
             )
             self.assertEqual(

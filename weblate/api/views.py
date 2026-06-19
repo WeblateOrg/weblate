@@ -1570,6 +1570,20 @@ class ProjectViewSet(
     lookup_field = "slug"
     request: Request  # type: ignore[assignment]
 
+    def get_create_workspaces(self, request: Request):
+        workspaces = request.user.workspaces_with_perm("workspace.add_project")
+        if "weblate.billing" in settings.INSTALLED_APPS:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.billing.models import Billing
+
+            valid_billing_workspaces = Billing.objects.for_user_within_limits(
+                request.user
+            ).values("workspace")
+            workspaces = workspaces.filter(
+                Q(billing__isnull=True) | Q(pk__in=valid_billing_workspaces)
+            )
+        return workspaces
+
     def get_queryset(self):
         return self.request.user.allowed_projects.prefetch_related(
             "addon_set"
@@ -1801,6 +1815,7 @@ class ProjectViewSet(
     def create(self, request: Request, *args, **kwargs):
         """Create a new project."""
         workspace_id = request.data.get("workspace")
+        data = request.data
         if workspace_id:
             try:
                 workspace = get_object_or_404(Workspace, pk=workspace_id)
@@ -1823,9 +1838,31 @@ class ProjectViewSet(
                         request, "No valid billing found or limit exceeded."
                     )
         elif not request.user.has_perm("project.add"):
-            self.permission_denied(request, "Can not create projects")
+            if not request.user.workspaces_with_perm("workspace.add_project").exists():
+                self.permission_denied(request, "Can not create projects")
+
+            try:
+                workspace = self.get_create_workspaces(request).get()
+            except Workspace.DoesNotExist:
+                self.permission_denied(
+                    request, "No valid billing found or limit exceeded."
+                )
+            except Workspace.MultipleObjectsReturned as error:
+                raise ValidationError(
+                    {
+                        "workspace": gettext(
+                            "Specify a workspace when multiple workspaces can be used."
+                        )
+                    }
+                ) from error
+            data = request.data.copy()
+            data["workspace"] = str(workspace.pk)
         self.request = request
-        return super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer) -> None:
         with transaction.atomic():
