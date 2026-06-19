@@ -1386,14 +1386,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains(".tab-content", "Documentation portal")
         self.screenshot("workspace-projects.png")
 
-        self.click("Access control")
-        WebDriverWait(self.driver, 5).until(
-            lambda driver: (
-                "active" in driver.find_element(By.ID, "access").get_attribute("class")
-            )
-        )
-        self.assert_text_contains("#access", "Owners")
-        self.assert_text_contains("#access", "Project creators")
+        self.click("Operations")
+        with self.wait_for_page_load():
+            self.click("Access control")
+        self.assert_text_contains("table.table-striped", "Owners")
+        self.assert_text_contains("table.table-striped", "Project creators")
         self.screenshot("workspace-access.png")
 
     def test_project_operations(self) -> None:
@@ -1608,7 +1605,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Files")
         self.screenshot("file-download.png")
         self.click("Operations")
-        self.click("Automatic translation")
+        self.click("Batch automatic translation")
         self.click(htmlid="id_auto_auto_source_1")
         self.click("Operations")
         self.screenshot("automatic-translation.png")

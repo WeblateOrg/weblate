@@ -89,7 +89,13 @@
             <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
-        <li role="separator" class="divider"></li>
+        {% if replace_form or bulk_state_form or autoform %}
+          {% if user_can_add_translation or user_can_edit_project or announcement_form %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
+        {% endif %}
         {% if user_can_add_translation %}
           <li>
             <a class="dropdown-item" href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
@@ -126,7 +132,11 @@
           </li>
         {% endif %}
         {% if delete_form or rename_form %}
-          <li role="separator" class="divider"></li>
+          {% if replace_form or bulk_state_form or autoform or user_can_add_translation or user_can_edit_project or announcement_form %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
           <li>
             <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
           </li>
@@ -176,14 +186,14 @@
 
     <div class="tab-pane" id="history">
       {% format_last_changes_content last_changes=last_changes user=user %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all project changes" %}</a>
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all category changes" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
         {% format_last_changes_content last_changes=last_announcements user=user %}
         <a class="btn btn-primary"
-           href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
+           href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all category changes" %}</a>
       </div>
     {% endif %}
 

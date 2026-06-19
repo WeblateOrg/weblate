@@ -82,6 +82,11 @@ real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
     path("workspaces/<uuid:pk>/", weblate.workspaces.views.detail, name="workspace"),
+    path(
+        "workspaces/<uuid:pk>/access/",
+        weblate.workspaces.views.access,
+        name="workspace-access",
+    ),
     # Bulk accept all suggestions from a specific user
     path(
         "js/bulk-accept-suggestions/<object_path:path>/",

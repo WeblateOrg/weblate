@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from django.conf import settings
+from django.urls import reverse
 
 from weblate.auth.forms import ProjectTeamForm, WorkspaceTeamForm
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
@@ -121,6 +122,10 @@ class TeamsTest(FixtureTestCase):
         response = self.client.post(group.get_absolute_url(), {"delete": "1"})
 
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(
+            response["Location"],
+            reverse("workspace-access", kwargs={"pk": workspace.pk}),
+        )
         self.assertTrue(Group.objects.filter(pk=group.pk).exists())
 
     def test_add_users(self) -> None:
