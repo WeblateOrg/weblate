@@ -80,6 +80,11 @@
 
 {% block extra_script %}
   {{ block.super }}
+  {% if form.fields.event_filter %}
+    <script defer
+            data-cfasync="false"
+            src="{% static 'js/addon-events.js' %}{{ cache_param }}"></script>
+  {% endif %}
   {% if form.guided_presets %}
     <script defer
             data-cfasync="false"

@@ -17,7 +17,13 @@ from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
 from fedora_messaging.exceptions import ConfigurationException
 from lxml.cssselect import CSSSelector
 
-from weblate.addons.base import BaseAddon
+from weblate.addons.base import (
+    CHANGE_EVENT_FILTER_ALL,
+    CHANGE_EVENT_FILTER_CONTENT,
+    CHANGE_EVENT_FILTER_CUSTOM,
+    BaseAddon,
+    get_change_event_filter,
+)
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
@@ -1481,12 +1487,90 @@ class PropertiesSortAddonForm(
 class ChangeBaseAddonForm(BaseAddonForm):
     """Base form for Change-based addons."""
 
+    event_filter = forms.ChoiceField(
+        label=gettext_lazy("Change events to trigger"),
+        required=True,
+        initial=CHANGE_EVENT_FILTER_CONTENT,
+        choices=(
+            (
+                CHANGE_EVENT_FILTER_CONTENT,
+                gettext_lazy("Translation content events"),
+            ),
+            (
+                CHANGE_EVENT_FILTER_ALL,
+                gettext_lazy("All change events"),
+            ),
+            (
+                CHANGE_EVENT_FILTER_CUSTOM,
+                gettext_lazy("Selected change events"),
+            ),
+        ),
+        help_text=gettext_lazy(
+            "Choose which change events should trigger this add-on."
+        ),
+        widget=forms.RadioSelect(
+            attrs={
+                "data-addon-event-filter": "1",
+                "data-addon-custom-events-value": CHANGE_EVENT_FILTER_CUSTOM,
+            }
+        ),
+    )
     events = forms.MultipleChoiceField(
-        label=gettext_lazy("Change events"),
+        label=gettext_lazy("Selected change events"),
         required=False,
-        widget=SortedSelectMultiple(),
+        widget=SortedSelectMultiple(attrs={"data-addon-events": "1"}),
         choices=ActionEvents.choices,
     )
+
+    @staticmethod
+    def _data_has_events(data) -> bool:
+        if hasattr(data, "getlist"):
+            return bool(data.getlist("events"))
+        value = data.get("events")
+        if isinstance(value, (list, tuple, set)):
+            return bool(value)
+        return bool(value)
+
+    @classmethod
+    def _ensure_event_filter_data(cls, data, event_filter: str):
+        if data is None or "event_filter" in data:
+            return data
+        if cls._data_has_events(data):
+            event_filter = CHANGE_EVENT_FILTER_CUSTOM
+        if hasattr(data, "copy"):
+            data = data.copy()
+        if hasattr(data, "setlist"):
+            data.setlist("event_filter", [event_filter])
+        else:
+            data["event_filter"] = event_filter
+        return data
+
+    def __init__(self, user, addon, instance=None, *args, **kwargs) -> None:
+        event_filter = get_change_event_filter(addon.instance.configuration)
+        data = self._ensure_event_filter_data(kwargs.get("data"), event_filter)
+        if data is not None:
+            kwargs["data"] = data
+        super().__init__(user, addon, instance, *args, **kwargs)
+        self.fields["events"].initial = addon.instance.configuration.get("events") or []
+        if self.get_event_filter() != CHANGE_EVENT_FILTER_CUSTOM:
+            self.fields["events"].disabled = True
+
+    def get_event_filter(self) -> str:
+        if self.is_bound:
+            return str(
+                self.fields["event_filter"].widget.value_from_datadict(
+                    self.data, self.files, self.add_prefix("event_filter")
+                )
+            )
+        return get_change_event_filter(self._addon.instance.configuration)
+
+    def serialize_form(self):
+        result = dict(super().serialize_form())
+        if result["event_filter"] != CHANGE_EVENT_FILTER_CUSTOM and not result.get(
+            "events"
+        ):
+            result["events"] = self._addon.instance.configuration.get("events") or []
+        return result
 
 
 class BaseWebhooksAddonForm(ChangeBaseAddonForm):
@@ -1499,6 +1583,7 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
 
     field_order = [  # ruff: ignore[mutable-class-default]
         "webhook_url",
+        "event_filter",
         "events",
     ]
 
@@ -1525,6 +1610,7 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
     field_order = [  # ruff: ignore[mutable-class-default]
         "webhook_url",
         "secret",
+        "event_filter",
         "events",
     ]
 
@@ -1560,6 +1646,16 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         help_text=gettext_lazy("PEM encoded client SSL certificate."),
         required=False,
     )
+
+    field_order = [  # ruff: ignore[mutable-class-default]
+        "amqp_host",
+        "amqp_ssl",
+        "ca_cert",
+        "client_key",
+        "client_cert",
+        "event_filter",
+        "events",
+    ]
 
     def clean(self) -> None:
         # ruff: ignore[import-outside-top-level]

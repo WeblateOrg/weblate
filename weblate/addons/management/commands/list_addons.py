@@ -39,7 +39,7 @@ def sorted_events(events: Iterable[AddonEvent]) -> Iterable[AddonEvent]:
     return sorted(events, key=lambda event: event.label)
 
 
-SHARED_PARAMS = ("engines", "file_format", "events")
+SHARED_PARAMS = ("engines", "file_format", "event_filter", "events")
 
 
 class Command(DocGeneratorCommand):
@@ -159,7 +159,7 @@ class Command(DocGeneratorCommand):
                     field = form.fields[name]
                     if field.widget.is_hidden:
                         continue
-                    choices = list(field.choices)
+                    choices = list(getattr(field, "choices", ()))
                     if name == "engines":
                         choices.extend(
                             [
