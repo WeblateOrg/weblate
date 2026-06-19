@@ -71,6 +71,7 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    BackupSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
     BilingualUnitSerializer,
@@ -133,6 +134,7 @@ from weblate.memory.models import MEMORY_LOOKUP_LIMIT, Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.backups import list_backups
 from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
@@ -153,7 +155,12 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
-from weblate.trans.tasks import category_removal, component_removal, project_removal
+from weblate.trans.tasks import (
+    category_removal,
+    component_removal,
+    create_project_backup,
+    project_removal,
+)
 from weblate.trans.util import get_upload_error_message
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
@@ -2138,6 +2145,63 @@ class ProjectViewSet(
         return super()._delete_announcement(
             ProjectLanguage(obj, language), request, announcement_id, **kwargs
         )
+
+    @action(detail=True, methods=["get", "post"])
+    @extend_schema(
+        description="Return a list of project backups.",
+        methods=["get"],
+        responses=BackupSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create a new project backup.",
+        methods=["post"],
+        responses={
+            HTTP_202_ACCEPTED: inline_serializer(
+                "CreateBackupResponse",
+                fields={
+                    "detail": serializers.CharField(),
+                    "url": serializers.URLField(),
+                },
+            )
+        },
+    )
+    def backups(self, request: Request, **kwargs):
+        obj = self.get_object()
+        if not request.user.has_perm("project.edit", obj):
+            raise PermissionDenied
+
+        if request.method == "POST":
+            create_project_backup.delay(obj.pk, request.user.pk)
+            return Response(
+                {
+                    "detail": "Backup scheduled. It will be available soon.",
+                    "url": reverse("api:project-backups", kwargs={"slug": obj.slug}),
+                },
+                status=HTTP_202_ACCEPTED,
+            )
+        return Response(
+            data=BackupSerializer(list_backups(obj.pk), many=True).data,
+            status=HTTP_200_OK,
+        )
+
+    @action(detail=True, methods=["get"], url_path="backups/(?P<backup>[0-9]+\\.zip)")
+    @extend_schema(
+        description="Download a project backup.",
+        methods=["get"],
+        parameters=[OpenApiParameter("backup", str, OpenApiParameter.PATH)],
+        responses=binary_download_response_schema("Project backup download."),
+    )
+    def backups_download(self, request: Request, **kwargs):
+        obj = self.get_object()
+        if not request.user.has_perm("project.edit", obj):
+            self.permission_denied(request, "Can not download backup")
+
+        for backup in list_backups(obj.pk):
+            if backup["name"] != kwargs["backup"]:
+                continue
+            return self.download_file(backup["path"], "application/zip")
+        msg = "Project backup"
+        raise not_found_http404(msg)
 
 
 @extend_schema_view(
