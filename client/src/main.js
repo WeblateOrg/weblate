@@ -11,10 +11,7 @@
  */
 
 // Imports
-import jQuery from "jquery";
 import slugify from "slugify";
 
 // Definitions in global scope
-window.$ = jQuery;
-window.jQuery = jQuery;
 window.slugify = slugify;
