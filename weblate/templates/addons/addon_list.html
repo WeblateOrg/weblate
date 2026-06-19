@@ -47,59 +47,64 @@
         </div>
         <table class="table table-striped">
           <tbody>
-            {% for addon in object_list %}
-              <tr>
-                <td>
-                  {% if addon.is_valid %}
-                    {% include 'addons/addon_head.html' with addon=addon.addon %}
-                  {% else %}
-                    {{ addon.addon_name }}
-                  {% endif %}
-                </td>
-                <td class="bottom-button">
-                  <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
-                    {% csrf_token %}
-                    <input type="hidden" name="delete" value="{{ addon.name }}" />
-                    <button type="submit" class="btn btn-danger">{% translate "Uninstall" %}</button>
-                  </form>
-                  {% if addon.can_run_manually %}
-                    <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
-                      {% csrf_token %}
-                      <input type="hidden" name="run" value="1" />
-                      <button type="submit" class="btn btn-primary">{% translate "Run now" %}</button>
-                    </form>
-                  {% endif %}
-                  <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% translate "View Logs" %}</a>
-                  {% if addon.is_valid and addon.addon.has_settings %}
-                    <a class="btn btn-primary" href="{{ addon.get_absolute_url }}">{% translate "Configure" %}</a>
-                  {% endif %}
-                </td>
-              </tr>
+            {% for item in object_list %}
+              {% with addon=item.instance %}
+                <tr>
+                  <td>
+                    {% if addon.is_valid %}
+                      {% if item.inherited %}
+                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage scope_label=item.scope_label scope_description=item.scope_description %}
+                      {% elif scope == "component" and addon.repo_scope %}
+                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage %}
+                      {% else %}
+                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage hide_scope_badges=True %}
+                      {% endif %}
+                    {% else %}
+                      <h4>{{ addon.addon_name }}</h4>
+                    {% endif %}
+                    {% if item.inherited %}
+                      <div>
+                        <span class="format-item">
+                          {% translate "Inherited from" %} <span>{{ item.scope_description }}</span>
+                        </span>
+                      </div>
+                    {% endif %}
+                  </td>
+                  <td class="bottom-button">
+                    {% if item.inherited %}
+                      {% if item.can_manage %}
+                        <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% translate "View Logs" %}</a>
+                        <a class="btn btn-primary" href="{{ item.manage_url }}">{% blocktranslate with location=item.scope_description %}Manage add-ons at {{ location }}{% endblocktranslate %}</a>
+                      {% else %}
+                        <span class="help-block">{% translate "Managed at a scope you do not have access to." %}</span>
+                      {% endif %}
+                    {% else %}
+                      <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete" value="{{ addon.name }}" />
+                        <button type="submit" class="btn btn-danger">{% translate "Uninstall" %}</button>
+                      </form>
+                      {% if addon.can_run_manually %}
+                        <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
+                          {% csrf_token %}
+                          <input type="hidden" name="run" value="1" />
+                          <button type="submit" class="btn btn-primary">{% translate "Run now" %}</button>
+                        </form>
+                      {% endif %}
+                      <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% translate "View Logs" %}</a>
+                      {% if item.components_url %}
+                        <a class="btn btn-primary" href="{{ item.components_url }}">{% translate "View components" %}</a>
+                      {% endif %}
+                      {% if addon.is_valid and addon.addon.has_settings %}
+                        <a class="btn btn-primary" href="{{ addon.get_absolute_url }}">{% translate "Configure" %}</a>
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endwith %}
             {% endfor %}
           </tbody>
         </table>
-        <div class="card-footer">
-          {% if scope == "sitewide" %}
-            {% translate "Add-ons can also be installed at the project and the component levels." %}
-          {% endif %}
-          {% if scope == "component" %}
-            <a href="{% url 'addons' path=object.project.get_url_path %}"
-               class="btn btn-primary">
-              {% blocktranslate count count=project_addons %}Manage project-wide add-ons ({{ count }} installed){% plural %}Manage project-wide add-ons ({{ count }} installed){% endblocktranslate %}
-            </a>
-          {% endif %}
-          {% if scope == "category" %}
-            <p>{% translate "Add-ons installed here apply to all components within this category." %}</p>
-          {% endif %}
-          {% if scope == "project" or scope == "component" or scope == "category" %}
-            {% perm "management.addons" as user_can_manage_addons %}
-            <a href="{% url 'manage-addons' %}"
-               class="btn btn-primary"
-               {% if not user_can_manage_addons %}disabled="disabled"{% endif %}>
-              {% blocktranslate count count=sitewide_addons %}Manage site-wide add-ons ({{ count }} installed){% plural %}Manage site-wide add-ons ({{ count }} installed){% endblocktranslate %}
-            </a>
-          {% endif %}
-        </div>
       </div>
 
       <div class="card">

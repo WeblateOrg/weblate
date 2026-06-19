@@ -320,7 +320,7 @@ class Addon(models.Model):
         if self.component:
             self.component.drop_addons_cache()
 
-    def _affected_components(self):
+    def affected_components(self):
         if self.component:
             if self.repo_scope:
                 return Component.objects.filter(
@@ -337,7 +337,7 @@ class Addon(models.Model):
         if self.name != POT_MSGMERGE_ADDON:
             return
         Alert.objects.filter(
-            component__in=self._affected_components(),
+            component__in=self.affected_components(),
             name="ExtractPotMissingMsgmerge",
         ).delete()
 
@@ -355,7 +355,7 @@ class Addon(models.Model):
         ]
         if alert_names:
             Alert.objects.filter(
-                component__in=self._affected_components(), name__in=alert_names
+                component__in=self.affected_components(), name__in=alert_names
             ).delete()
 
     def delete(self, using=None, keep_parents=False):
