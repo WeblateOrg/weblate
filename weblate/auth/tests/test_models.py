@@ -5,6 +5,7 @@
 from secrets import token_hex
 from unittest.mock import patch
 
+from django.conf import settings
 from django.contrib.auth.models import Group as DjangoGroup
 
 from weblate.auth import permissions as auth_permissions
@@ -30,6 +31,26 @@ class ModelTest(FixtureComponentTestCase):
         with self.assertNumQueries(9):
             self.assertEqual(len(self.user.component_permissions), 0)
             self.assertEqual(len(self.user.project_permissions), 2)
+
+    def test_cached_memberships_query_avoids_scoped_name_joins(self) -> None:
+        sql = str(self.user.cached_memberships.query)
+
+        self.assertIn('"weblate_auth_group"."name"', sql)
+        self.assertIn('"weblate_auth_user_groups"."group_id"', sql)
+        self.assertNotIn("trans_project", sql)
+        self.assertNotIn("workspaces_workspace", sql)
+
+    def test_anonymous_project_permissions(self) -> None:
+        anonymous = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
+        group = Group.objects.create(
+            name="Anonymous projects",
+            project_selection=SELECTION_ALL,
+            language_selection=SELECTION_ALL,
+        )
+        anonymous.groups.add(group)
+        anonymous.clear_cache()
+
+        self.assertIn(-SELECTION_ALL, anonymous.project_permissions)
 
     def test_format_membership_limit_language_codes_order(self) -> None:
         membership = TeamMembership.objects.create(user=self.user, group=self.group)
