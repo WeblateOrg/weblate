@@ -778,7 +778,7 @@ class Change(models.Model, UserDisplayMixin):
     def path_object(
         self,
     ) -> Translation | Component | Category | Project | Workspace | None:
-        """Return link either to unit or translation."""
+        """Object linked from the change path."""
         if self.translation is not None:
             return self.translation
         if self.component is not None:
