@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
@@ -99,8 +99,7 @@ class LimitLanguagesField(LanguageCodeMultipleChoiceField):
 class LanguageForm(forms.ModelForm):
     class Meta:
         model = Language
-        # ruff: ignore[mutable-class-default]
-        fields = [
+        fields: ClassVar[list[str]] = [
             "code",
             "name",
             "direction",
@@ -130,8 +129,7 @@ class LanguageForm(forms.ModelForm):
 class PluralForm(forms.ModelForm):
     class Meta:
         model = Plural
-        # ruff: ignore[mutable-class-default]
-        fields = [
+        fields: ClassVar[list[str]] = [
             "number",
             "formula",
         ]
