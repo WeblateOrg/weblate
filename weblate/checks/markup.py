@@ -243,19 +243,18 @@ def has_changed_placeholder_attributes(source: str, target: str) -> bool:
         for attribute in extract_html_attributes(source)
         if is_html_attribute_placeholder(attribute.value)
     }
-    source_attribute_names = {
-        (tag, name) for tag, name, _placeholder in source_values
-    }
+    source_attribute_names = {(tag, name) for tag, name, _placeholder in source_values}
     if not source_attribute_names:
         return False
 
     for attribute in extract_html_attributes(target):
         if (attribute.tag, attribute.name) not in source_attribute_names:
             continue
-        if (
-            (placeholder := get_wrapped_placeholder_attribute(attribute.value))
-            and (attribute.tag, attribute.name, placeholder) in source_values
-        ):
+        if (placeholder := get_wrapped_placeholder_attribute(attribute.value)) and (
+            attribute.tag,
+            attribute.name,
+            placeholder,
+        ) in source_values:
             return True
     return False
 
