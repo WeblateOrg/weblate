@@ -251,7 +251,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     @property
     def target_list(self) -> list[str]:
         """
-        Returns the target split into a list of plurals.
+        Target split into a list of plurals.
 
         Used for populating the translation widgets in the frontend.
         """
