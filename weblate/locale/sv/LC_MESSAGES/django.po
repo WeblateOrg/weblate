@@ -18,7 +18,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
 "PO-Revision-Date: 2026-06-20 16:01+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -596,16 +596,14 @@ msgid "User was added to the site-wide {team} team by {username}."
 msgstr "Användaren lades till i den webbplatsgruppen {team} av {username}."
 
 #: weblate/accounts/models.py:348
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
-msgstr "Användaren lades till i team {team} av {username}."
+msgstr "Användaråtkomst till webbplatsgruppen {team} ändrades av {username}."
 
 #: weblate/accounts/models.py:352
-#, fuzzy, python-brace-format
-#| msgid "User was removed from the {team} team by {username}."
+#, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
-msgstr "Användaren togs bort från team {team} av {username}."
+msgstr "Användaren togs bort från webbplatsgruppen {team} av {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:355
@@ -629,10 +627,9 @@ msgid "User was added to the {team} team by {username}."
 msgstr "Användaren lades till i team {team} av {username}."
 
 #: weblate/accounts/models.py:364
-#, fuzzy, python-brace-format
-#| msgid "User was added to the {team} team by {username}."
+#, python-brace-format
 msgid "User access to the {team} team was changed by {username}."
-msgstr "Användaren lades till i team {team} av {username}."
+msgstr "Användaråtkomst till gruppen {team} ändrades av {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:367
@@ -642,10 +639,9 @@ msgstr "Användaren togs bort från team {team} av {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:369
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "Åtkomst till projekt {project} blockerades."
+msgstr "Projekt-token till projekt {project} skapades."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:371
@@ -1703,26 +1699,18 @@ msgstr ""
 "JavaScript eller HTML-lokalisering."
 
 #: weblate/addons/cdn.py:270
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "Översättningsfiler"
+msgstr "Översättningsfiler-CDN"
 
 #: weblate/addons/cdn.py:272
-#, fuzzy
-#| msgid ""
-#| "Publishes translations into content delivery network for use in "
-#| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
 msgstr ""
-"Publicerar översättningar till content delivery network för användning i "
-"JavaScript eller HTML-lokalisering."
+"Publicerar översättningsfiler till ett innehållsleveransnätverk (content "
+"delivery network)."
 
 #: weblate/addons/cdn.py:309
-#, fuzzy
-#| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "Översättningens basspråkssträngar kan inte redigeras."
+msgstr "Tillägget för översättningsfiler-CDN kan inte publicera weblate.js."
 
 #: weblate/addons/cleanup.py:44
 msgid "Cleanup translation files"
@@ -1803,10 +1791,8 @@ msgid "The given language is used as a source language."
 msgstr "Det angivna språket används som källspråk."
 
 #: weblate/addons/consistency.py:256 weblate/trans/models/component.py:5544
-#, fuzzy
-#| msgid "The given language already exists."
 msgid "The language filter timed out."
-msgstr "Det angivna språket finns redan."
+msgstr "Språkfiltret har överskridit tidsgränsen."
 
 #: weblate/addons/consistency.py:259 weblate/trans/models/component.py:5548
 msgid "The given language is filtered by the language filter."
@@ -1943,20 +1929,16 @@ msgstr ""
 "användas som översättningar."
 
 #: weblate/addons/forms.py:149
-#, fuzzy
-#| msgid "Frequency"
 msgid "Update frequency"
-msgstr "Frekvens"
+msgstr "Uppdateringsfrekvens"
 
 #: weblate/addons/forms.py:151
 msgid "Daily"
 msgstr "Dagligen"
 
 #: weblate/addons/forms.py:152
-#, fuzzy
-#| msgid "Weekly digest"
 msgid "Weekly"
-msgstr "Veckovis sammanställning"
+msgstr "Veckovis"
 
 #: weblate/addons/forms.py:153
 msgid "Monthly"
@@ -1979,10 +1961,8 @@ msgstr ""
 "Uppdaterar gettext-huvuden och ersätter platshållare i POT-kommentarer."
 
 #: weblate/addons/forms.py:170
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update PO files using msgmerge"
-msgstr "Uppdatera PO-filerna till att matcha POT (msgmerge)"
+msgstr "Uppdatera PO-filer med msgmerge"
 
 #: weblate/addons/forms.py:175
 msgid ""
@@ -1993,84 +1973,72 @@ msgstr ""
 "POT-filen är uppdaterad."
 
 #: weblate/addons/forms.py:200
-#, fuzzy
-#| msgid "Could not add comment!"
 msgid "Do not extract comments"
-msgstr "Kunde inte lägga till kommentar!"
+msgstr "Extrahera inte kommentarer"
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Utforska alla komponenter"
+msgstr "Extrahera alla kommentarer"
 
 #: weblate/addons/forms.py:202
 msgid "Extract comments with tag"
 msgstr "Extrahera kommentarer med tagg"
 
 #: weblate/addons/forms.py:211
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Användarkommentarer"
+msgstr "Kodkommentarer"
 
 #: weblate/addons/forms.py:216
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
 "comments marked with a specific tag."
 msgstr ""
+"Välj om xgettext inte skall extrahera några kommentarer, extrahera alla "
+"kommentarer eller endast extrahera kommentarer som är märkta med en viss "
+"tagg."
 
 #: weblate/addons/forms.py:221
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Kommentarstext"
+msgstr "Kommentartagg"
 
 #: weblate/addons/forms.py:224
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Tagg som skickas till xgettext för extrahering av kommentarer när läget för "
+"taggade kommentarer används."
 
 #: weblate/addons/forms.py:229
-#, fuzzy
-#| msgid "System checks"
 msgid "xgettext checks"
-msgstr "Systemkontroller"
+msgstr "xgettext-kontroller"
 
 #: weblate/addons/forms.py:234
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Ytterligare valideringskontroller med xgettext som skall aktiveras för "
+"extraherade meddelanden."
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Ytterligare gren"
+msgstr "Ytterligare nyckelord"
 
 #: weblate/addons/forms.py:241
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Valfritt extra nyckelord som skickas till xgettext med hjälp av --keyword."
 
 #: weblate/addons/forms.py:270 weblate/addons/forms.py:362
 #: weblate/addons/forms.py:369
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This field is required."
-msgstr "Detta namn är inte tillåtet"
+msgstr "Detta fält är obligatoriskt."
 
 #: weblate/addons/forms.py:280
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Input source"
-msgstr "Redigera källa"
+msgstr "Indatakälla"
 
 #: weblate/addons/forms.py:282 weblate/addons/forms.py:302
-#, fuzzy
-#| msgctxt "Number of source characters"
-#| msgid "Source characters"
 msgid "Source file patterns"
-msgstr "Specialtecken"
+msgstr "Mönster för källfiler"
 
 #: weblate/addons/forms.py:283
 msgid "POTFILES manifest"
@@ -2085,10 +2053,8 @@ msgstr ""
 "förteckning POTFILES/POTFILES.in."
 
 #: weblate/addons/forms.py:293
-#, fuzzy
-#| msgid "Target language"
 msgid "xgettext language"
-msgstr "Målspråk"
+msgstr "xgettext-språk"
 
 #: weblate/addons/forms.py:297
 msgid ""
@@ -2117,6 +2083,9 @@ msgid ""
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+"Relativ sökväg i förrådet till POTFILES eller POTFILES.in. Posterna tolkas "
+"relativt förrådets rotkatalog. Om POTFILES.skip finns angivet bredvid "
+"manifestet utesluts de filer som anges där från extraheringen."
 
 #: weblate/addons/forms.py:379 weblate/trans/models/component.py:6006
 msgid "Invalid symbolic link in a repository."
@@ -2124,13 +2093,11 @@ msgstr "Ogiltig symbolisk länk i ett arkiv."
 
 #: weblate/addons/forms.py:390
 msgid "POTFILES path has to point to a file."
-msgstr ""
+msgstr "POTFILES-sökvägen måste peka på en fil."
 
 #: weblate/addons/forms.py:399
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Arkivåterställning"
+msgstr "Meson-förinställning"
 
 #: weblate/addons/forms.py:400
 msgid "GLib"
@@ -2142,12 +2109,17 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"Inbyggd förinställning för xgettext-argument som överensstämmer med Mesons "
+"gettext-integration. GLib-förinställningen lägger till de nyckelords- och "
+"formatflaggaalternativ som används av Mesons gettext-hjälpfunktion."
 
 #: weblate/addons/forms.py:434
 msgid ""
 "The Meson add-on expects a Meson gettext directory with meson.build and "
 "POTFILES or POTFILES.in."
 msgstr ""
+"Tillägget Meson förväntar sig en Meson gettext-katalog med meson.build och "
+"POTFILES eller POTFILES.in."
 
 #: weblate/addons/forms.py:452
 #, fuzzy
