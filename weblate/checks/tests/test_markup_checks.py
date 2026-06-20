@@ -25,6 +25,7 @@ from weblate.checks.markup import (
     XMLTagsCheck,
     XMLValidityCheck,
     extract_rst_references,
+    has_changed_placeholder_attributes,
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
@@ -468,6 +469,21 @@ class SafeHTMLCheckTest(CheckTestCase):
                 "safe-html",
             ),
         )
+
+    def test_no_placeholder_attribute_skips_target_normalization(self) -> None:
+        target = f'<a title="{"„" * 1000}">link</a>'
+        with patch(
+            "weblate.checks.markup.get_wrapped_placeholder_attribute"
+        ) as wrapped:
+            self.assertFalse(
+                has_changed_placeholder_attributes('<a title="plain">link</a>', target)
+            )
+        wrapped.assert_not_called()
+
+    def test_repeated_placeholder_attributes(self) -> None:
+        source = '<a href="%(url)s">link</a>' * 1000
+        self.do_test(False, (source, source, "safe-html"))
+        self.do_test(True, (source, '<a href="„%(url)s“">link</a>', "safe-html"))
 
     def test_positional_printf_placeholder_attribute(self) -> None:
         source = '<a href="%1$s">terms</a>'
