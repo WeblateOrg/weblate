@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-20 20:28+0000\n"
+"PO-Revision-Date: 2026-06-21 07:27+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -17965,16 +17965,13 @@ msgstr ""
 "branco para utilizar todos os componentes do projeto atual."
 
 #: weblate/trans/forms.py:1085
-#, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
 msgid ""
 "Enter project and component slug or component ID to use as source, keep "
 "blank to use all components in the current workspace."
 msgstr ""
-"Introduza o nome curto de um componente para utilizar como fonte, deixe em "
-"branco para utilizar todos os componentes do projeto atual."
+"Introduza o projeto e componente abreviado ou ID do componente a usar como "
+"fonte, mantenha em branco para usar todos os componentes no espaço de "
+"trabalho atual."
 
 #: weblate/trans/forms.py:1089
 msgid ""
@@ -18017,10 +18014,8 @@ msgid "Score threshold"
 msgstr "Limite de pontuação"
 
 #: weblate/trans/forms.py:1199
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All components in current workspace"
-msgstr "Todos os componentes no projeto atual"
+msgstr "Todos os componentes no espaço de trabalho atual"
 
 #: weblate/trans/forms.py:1201
 msgid "All components in current project"
@@ -18049,7 +18044,7 @@ msgstr "Componente não encontrado!"
 
 #: weblate/trans/forms.py:1255
 msgid "Enter component ID or project/component slug."
-msgstr ""
+msgstr "Introduzir ID do componente ou projeto/componente abreviado."
 
 #: weblate/trans/forms.py:1272
 msgid "Source component needs to have same source language as target one."
@@ -18071,23 +18066,19 @@ msgid "Please choose"
 msgstr "Por favor, selecione"
 
 #: weblate/trans/forms.py:1546
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "Navegar para a última tradução na procura atual."
+msgstr ""
+"Reverter as últimas edições de tradução deste utilizador no projeto atual."
 
 #: weblate/trans/forms.py:1553
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid "Reject all pending suggestions from this user in the current project."
-msgstr "Navegar para a última tradução na procura atual."
+msgstr ""
+"Rejeitar todas as sugestões pendentes deste utilizador no projeto atual."
 
 #: weblate/trans/forms.py:1560
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid "Delete all comments from this user in the current project."
-msgstr "Navegar para a última tradução na procura atual."
+msgstr "Eliminar todos os comentários deste utilizador no projeto atual."
 
 #: weblate/trans/forms.py:1570
 msgid "Allow user to add or remove users from a team."
@@ -18135,68 +18126,52 @@ msgid "Sort order"
 msgstr "Ordenação"
 
 #: weblate/trans/forms.py:1705
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "Continuar"
+msgstr "Modo de contagem"
 
 #: weblate/trans/forms.py:1707
 msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Escolher se as alterações na mesma cadeia de carateres são contadas uma vez "
+"ou como alterações separadas."
 
 #: weblate/trans/forms.py:1713
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "Cadeias por concluir"
+msgstr "Cadeias de carateres únicas"
 
 #: weblate/trans/forms.py:1717
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "Todos os idiomas"
+msgstr "Todas as mudanças"
 
 #: weblate/trans/forms.py:1756
 msgid "Search filter"
 msgstr "Filtro de procura"
 
 #: weblate/trans/forms.py:1759
-#, fuzzy
-#| msgid "Date range"
 msgid "Base rate"
-msgstr "Intervalo de data"
+msgstr "Taxa base"
 
 #: weblate/trans/forms.py:1760
-#, fuzzy
-#| msgid "Number of source words"
 msgid "Price per source word."
-msgstr "Quantidade de palavras fonte"
+msgstr "Preço por palavra fonte."
 
 #: weblate/trans/forms.py:1767
-#, fuzzy
-#| msgid "Translation threshold"
 msgid "Translation memory threshold"
-msgstr "Limiar de tradução"
+msgstr "Limiar de memória de tradução"
 
 #: weblate/trans/forms.py:1773
-#, fuzzy
-#| msgid "New string added"
 msgid "New strings rate"
-msgstr "Nova cadeia adicionada"
+msgstr "Taxas de novas cadeias de carateres"
 
 #: weblate/trans/forms.py:1780
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs editing rate"
-msgstr "Precisa de edição"
+msgstr "Taxa de edições necessárias"
 
 #: weblate/trans/forms.py:1787
-#, fuzzy
-#| msgid "Extract comments with tag"
 msgid "Exact match rate"
-msgstr "Extrair comentários com tag"
+msgstr "Taxa de correspondência exata"
 
 #: weblate/trans/forms.py:1794
 msgid "Fuzzy match rate"
@@ -19553,7 +19528,17 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"O repositório foi reiniciado, mas não foi possível reaplicar traduções "
+"pendentes porque %(files)s estão em falta. Mudanças pendentes foram "
+"mantidas. Para recuperar, adicione o ficheiro à fonte e dê scan novamente, "
+"ou configure o componente para que o Weblate possa criar o ficheiro de "
+"tradução."
 msgstr[1] ""
+"Reinicia o repositório, mas não foi possível reaplicar traduções pendentes "
+"porque estes ficheiros estão em falta: %(files)s. Mudanças pendentes foram "
+"mantidas. Para recuperar, adicione os ficheiros à fonte e dê scan novamente, "
+"ou configure o componente para que o Weblate possa criar os ficheiros de "
+"tradução."
 
 #: weblate/trans/models/component.py:2932
 #, python-format
