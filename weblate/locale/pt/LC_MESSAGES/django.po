@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-21 20:40+0000\n"
+"PO-Revision-Date: 2026-06-22 04:02+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -21165,7 +21165,7 @@ msgstr "Carateres fonte"
 
 #: weblate/trans/views/reports.py:253
 msgid "Rate"
-msgstr ""
+msgstr "Taxa"
 
 #: weblate/trans/views/reports.py:254
 msgid "Cost"
@@ -21816,6 +21816,8 @@ msgstr "O nome de ficheiro não pode ser um caminho absoluto."
 #: weblate/utils/validators.py:405
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
 msgstr ""
+"Localização da cópia de segurança deve estar fora das cópias de segurança "
+"Weblate em DATA_DIR."
 
 #: weblate/utils/validators.py:414 weblate/utils/validators.py:431
 msgid "This name is prohibited"
@@ -21857,31 +21859,42 @@ msgstr ""
 #: weblate/utils/validators.py:666 weblate/utils/validators.py:680
 msgid "Profile URL cannot include username or password credentials."
 msgstr ""
+"O URL do perfil não pode incluir credenciais de nome de utilizador ou "
+"palavra-passe."
 
 #: weblate/utils/validators.py:669 weblate/utils/validators.py:683
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
 msgstr ""
+"O URL do perfil deve ser um link para uma página de perfil, não diretamente "
+"para um descarregamento de ficheiro."
 
 #: weblate/utils/validators.py:711
 msgid ""
 "Code site URL should link to a user profile or repository page on a code "
 "hosting site."
 msgstr ""
+"O URL do site de código deve ser um link para um perfil de utilizador ou uma "
+"página de repositório em site de alojamento de código."
 
 #: weblate/utils/validators.py:722
 msgid "Contact URL cannot include username or password credentials."
 msgstr ""
+"O URL de contacto não pode incluir credenciais de nome de utilizador ou "
+"palavra-passe."
 
 #: weblate/utils/validators.py:725
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
 msgstr ""
+"O URL de contacto deve ser um link para um contacto ou página de perfil, não "
+"diretamente para o descarregamento de ficheiro."
 
 #: weblate/utils/validators.py:768
 msgid "Fediverse URL should link to a Fediverse user profile."
 msgstr ""
+"O URL do Fediverse deve ser um link para um perfil de utilizador Fediverse."
 
 #: weblate/utils/validators.py:777
 msgid "URL domain is not allowed."
@@ -21934,34 +21947,29 @@ msgid "Component and priority"
 msgstr "Componente e prioridade"
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "O ficheiro ZIP contém a cópia de segurança do projeto"
+msgstr "O ficheiro ZIP contém um caminho inválido: {path}"
 
 #: weblate/utils/zip.py:63
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ZIP file contains unsupported symbolic links."
-msgstr "O componente contém configuração não suportada."
+msgstr "O ficheiro ZIP contém links simbólicos não suportados."
 
 #: weblate/utils/zip.py:67 weblate/utils/zip.py:71
-#, fuzzy
-#| msgid "The component contains unsupported configuration."
 msgid "ZIP file contains unsupported special files."
-msgstr "O componente contém configuração não suportada."
+msgstr "O ficheiro ZIP contém ficheiros especiais não suportados."
 
 #: weblate/utils/zip.py:85
-#, fuzzy
-#| msgid "ZIP file containing translations"
 msgid "The ZIP file contains too many entries."
-msgstr "Ficheiro ZIP com as traduções"
+msgstr "O ficheiro ZIP contém demasiadas entradas."
 
 #: weblate/utils/zip.py:95
 msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"O ficheiro zip contém ficheiros duplicados. Por favor gere uma nova cópia de "
+"segurança com uma versão Weblate mais recente."
 
 #: weblate/utils/zip.py:116
 #, python-format
@@ -21969,20 +21977,21 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"O ficheiro ZIP contém %(actual_size)s de dados após desempacotar, excedendo "
+"o limite configurado de %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "O ficheiro ZIP contém uma entrada comprimida que é demasiado grande."
 
 #: weblate/vcs/base.py:287
 msgid "This will push changes to the upstream repository."
 msgstr "Isto enviará as alterações para o repositório upstream."
 
 #: weblate/vcs/git.py:120 weblate/vcs/git.py:1538
-#, fuzzy, python-format
-#| msgid "Too many messages sent, please try again later."
+#, python-format
 msgid "%(message)s Please retry later."
-msgstr "Demasiadas mensagens enviadas, por favor, tente novamente mais tarde."
+msgstr "%(message)s Por favor tente novamente mais tarde."
 
 #: weblate/vcs/git.py:166
 msgid "This will push changes to the upstream Git repository."
@@ -22012,17 +22021,16 @@ msgstr "Isto forçará as alterações de envio para o repositório upstream."
 #, python-format
 msgid "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
 msgstr ""
+"%(service)s pedido API falhou durante %(action)s (%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:1812
 #, python-format
 msgid "%(service)s API request failed while %(action)s: %(status)s"
-msgstr ""
+msgstr "%(service)s pedido API falhou durante %(action)s: %(status)s"
 
 #: weblate/vcs/git.py:1840
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "creating a pull request"
-msgstr "«Pull request» do GitHub"
+msgstr "a criar um pedido de submissão"
 
 #: weblate/vcs/git.py:1867
 msgid "Azure DevOps pull request"
@@ -22162,16 +22170,12 @@ msgid "Invalid host name given!"
 msgstr "Nome de servidor inválido!"
 
 #: weblate/vcs/ssh.py:401
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Não foi possível obter a chave do host: %s"
+msgstr "Não foi possível ler as chaves de anfitrião armazenadas."
 
 #: weblate/vcs/ssh.py:414
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "Não foi possível encontrar a alteração revertida."
+msgstr "Não foi possível encontrar a chave do anfitrião selecionada."
 
 #: weblate/vcs/ssh.py:421
 #, fuzzy
