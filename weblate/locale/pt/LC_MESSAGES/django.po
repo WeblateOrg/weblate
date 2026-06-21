@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-21 07:27+0000\n"
+"PO-Revision-Date: 2026-06-21 20:40+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -19552,7 +19552,15 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
+"A sincronização de ficheiro não pode recrear %(files)s porque estão em "
+"falta. Mudanças pendentes foram mantidas. Para recuperar, adicione o "
+"ficheiro à fonte e dê scan novamente, ou configure o componente para que o "
+"Weblate possa criar o ficheiro de tradução."
 msgstr[1] ""
+"A sincronização de ficheiro não pode recrear estes ficheiros porque estão em "
+"falta: %(files)s. Mudanças pendentes foram guardadas. Para recuperar, "
+"adicione o ficheiro à fonte e dê scan novamente, ou configure o componente "
+"para que o Weblate possa criar o ficheiro de tradução."
 
 #: weblate/trans/models/component.py:3062
 #, python-format
@@ -19560,18 +19568,17 @@ msgid ""
 "Reset the repository, but could not recreate %(file)s while reapplying "
 "pending translations. Pending changes were kept."
 msgstr ""
+"O repositório foi reiniciado, mas não foi possível recrear %(file)s ao "
+"reaplicar traduções pendentes. Mudanças pendentes foram mantidas."
 
 #: weblate/trans/models/component.py:3070
-#, fuzzy, python-format
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(file)s before committing pending "
 "translations. Pending changes were kept."
 msgstr ""
-"Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
-"quaisquer alterações pendentes no Weblate."
+"A sincronização de ficheiro não pode recrear %(file)s antes de submeter "
+"traduções pendentes."
 
 #: weblate/trans/models/component.py:3089
 #, python-format
@@ -19582,7 +19589,12 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"O repositório foi reiniciado, mas não foi possível recriar %(files)s ao "
+"reaplicar traduções pendentes. Mudanças pendentes foram mantidas."
 msgstr[1] ""
+"O repositório foi reiniciado, mas não foi possível recriar estes ficheiros "
+"ao reaplicar traduções pendentes: %(files)s. Mudanças pendentes foram "
+"mantidas."
 
 #: weblate/trans/models/component.py:3099
 #, python-format
@@ -19601,28 +19613,20 @@ msgstr[1] ""
 "mantidas."
 
 #: weblate/trans/models/component.py:3109
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "Reset the repository, but could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
-"quaisquer alterações pendentes no Weblate."
+"O repositório foi reiniciado, mas não foi possível recriar traduções "
+"pendentes. Mudanças pendentes foram mantidas."
 
 #: weblate/trans/models/component.py:3116
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
-"quaisquer alterações pendentes no Weblate."
+"A sincronização de ficheiro não conseguiu recriar traduções pendentes. "
+"Mudanças pendentes foram mantidas."
 
 #: weblate/trans/models/component.py:3136
 #, python-format
@@ -19800,6 +19804,8 @@ msgid ""
 "Use %(branch)s instead of %(ref)s; Weblate and git-review add the Gerrit "
 "refs automatically."
 msgstr ""
+"Usar %(branch)s em vez de %(ref)s; o Weblate e git-review adicionam as "
+"referências Gerrit automaticamente."
 
 #: weblate/trans/models/component.py:4753
 #, python-format
@@ -19956,6 +19962,8 @@ msgstr "Instruções para tradução"
 #: weblate/trans/models/project.py:264
 msgid "Workspace this project belongs to. Standalone projects do not need one."
 msgstr ""
+"O espaço de trabalho ao qual este projeto pertence. Projetos individuais não "
+"precisam de um."
 
 #: weblate/trans/models/project.py:269
 msgid "Use shared translation memory"
@@ -20042,82 +20050,74 @@ msgstr ""
 "exemplo: en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:377
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
-msgstr "A tradução será atualizada em segundo plano."
+msgstr "Usar a licença de tradução configurada no espaço de trabalho."
 
 #: weblate/trans/models/project.py:385
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this project."
 msgstr ""
 "Acordo da licença do colaborador(a) que tem de ser aprovado antes de um "
-"utilizador possa traduzir este componente."
+"utilizador possa traduzir componentes neste projeto."
 
 #: weblate/trans/models/project.py:393
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "Use the contributor license agreement configured in the workspace."
-msgstr "Acordo da licença de colaborador alterado"
+msgstr ""
+"Usar a licença de acordo de contribuidor configurado no espaço de trabalho."
 
 #: weblate/trans/models/project.py:407
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
+"Usar a configuração de adição de novas traduções configuradas no espaço de "
+"trabalho."
 
 #: weblate/trans/models/project.py:425
 msgid "Use the language code style configured in the workspace."
-msgstr ""
+msgstr "Usar o estilo de código de idioma configurado no espaço de trabalho."
 
 #: weblate/trans/models/project.py:432
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the workspace."
-msgstr "Idioma secundário definido no projeto ou componente"
+msgstr "Usar o idioma secundário configurado no espaço de trabalho."
 
 #: weblate/trans/models/project.py:448
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Use the commit message when translating configured in the workspace."
-msgstr "Submeter mensagem ao traduzir"
+msgstr ""
+"Usar a mensagem de commit ao traduzir configurada no espaço de trabalho."
 
 #: weblate/trans/models/project.py:464
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the workspace."
-msgstr "Mensagem de submissão ao adicionar tradução"
+msgstr ""
+"Usar a mensagem de commit ao adicionar tradução configurada no espaço de "
+"trabalho."
 
 #: weblate/trans/models/project.py:480
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the workspace."
-msgstr "Mensagem de submissão quando remover a tradução"
+msgstr ""
+"Usar a mensagem de commit ao remover tradução configurada no espaço de "
+"trabalho."
 
 #: weblate/trans/models/project.py:497
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the workspace."
-msgstr "Mensagem de submissão quando a fusão de tradução"
+msgstr ""
+"Usar a mensagem de commit ao mesclar tradução configurada no espaço de "
+"trabalho."
 
 #: weblate/trans/models/project.py:513
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the "
 "workspace."
-msgstr "Mensagem de submissão quando a extensão faz uma modificação"
+msgstr ""
+"Usar a mensagem de commit ao quando uma extensão faz uma alteração "
+"configurada no espaço de trabalho."
 
 #: weblate/trans/models/project.py:529
 msgid "Use the merge request message configured in the workspace."
 msgstr ""
+"Usar a mensagem de pedido de mesclagem configurada no espaço de trabalho."
 
 #: weblate/trans/models/project.py:1292
 msgid ""
@@ -20736,11 +20736,9 @@ msgid "Weblate statistics"
 msgstr "Estatísticas do Weblate"
 
 #: weblate/trans/views/acl.py:107
-#, fuzzy, python-format
-#| msgid "Reverting edits by %(user)s site-wide was scheduled."
+#, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr ""
-"A reversão das edições feitas por %(user)s em todo o site foi agendada."
+msgstr "A limpeza de contribuições por %(user)s neste projeto foi agendada."
 
 #: weblate/trans/views/acl.py:171 weblate/trans/views/acl.py:417
 msgid "You can not remove yourself!"
@@ -20761,7 +20759,7 @@ msgstr "O utilizador já está bloqueado neste projeto."
 #: weblate/trans/views/acl.py:310 weblate/trans/views/acl.py:369
 #, python-format
 msgid "Reverting edits by %(user)s in this project was scheduled."
-msgstr ""
+msgstr "O reverter de edições por %(user)s neste projeto foi agendada."
 
 #: weblate/trans/views/acl.py:351
 msgid "User is not blocked on this project."
@@ -20838,35 +20836,27 @@ msgid "Invalid request."
 msgstr "Pedido inválido."
 
 #: weblate/trans/views/bulk_suggestions.py:122
-#, fuzzy
-#| msgid "This field is required."
 msgid "Confirmation is required."
-msgstr "Este campo é obrigatório."
+msgstr "Confirmação é necessária."
 
 #: weblate/trans/views/bulk_suggestions.py:129
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to approve strings."
-msgstr "Não tem permissões para aceitar sugestões."
+msgstr "Não tem permissão para aprovar cadeias de carateres."
 
 #: weblate/trans/views/bulk_suggestions.py:154
-#, fuzzy, python-format
-#| msgid "Accepted %(count)d suggestion from %(user)s."
-#| msgid_plural "Accepted %(count)d suggestions from %(user)s."
+#, python-format
 msgid "Accepting and approving %(count)d suggestion from %(user)s in progress."
 msgid_plural ""
 "Accepting and approving %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Aceitou %(count)d sugestão do %(user)s."
-msgstr[1] "Aceitou %(count)d sugestões do %(user)s."
+msgstr[0] "A aceitar e aprovar %(count)d sugestão do %(user)s em progresso."
+msgstr[1] "A aceitar e aprovar %(count)d sugestões do %(user)s em progresso."
 
 #: weblate/trans/views/bulk_suggestions.py:163
-#, fuzzy, python-format
-#| msgid "Accepted %(count)d suggestion from %(user)s."
-#| msgid_plural "Accepted %(count)d suggestions from %(user)s."
+#, python-format
 msgid "Accepting %(count)d suggestion from %(user)s in progress."
 msgid_plural "Accepting %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Aceitou %(count)d sugestão do %(user)s."
-msgstr[1] "Aceitou %(count)d sugestões do %(user)s."
+msgstr[0] "A aceitar %(count)d sugestão do %(user)s em progresso."
+msgstr[1] "A aceitar %(count)d sugestões do %(user)s em progresso."
 
 #: weblate/trans/views/changes.py:70
 #, python-format
@@ -20899,9 +20889,7 @@ msgid "Changes in %s"
 msgstr "Alterações em %s"
 
 #: weblate/trans/views/changes.py:87
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Alterações em %s"
@@ -20913,14 +20901,12 @@ msgstr ""
 "baixo."
 
 #: weblate/trans/views/create.py:125
-#, fuzzy
-#| msgid "Fetching VCS repository from %s is not allowed."
 msgid "Creating a project without a workspace is not allowed."
-msgstr "A obtenção do repositório VCS de %s não é permitida."
+msgstr "Criar um projeto sem um espaço de trabalho não é permitido."
 
 #: weblate/trans/views/create.py:266
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Importação de cópia de segurança do projeto em curso"
 
 #: weblate/trans/views/create.py:345
 #, python-format
@@ -21032,10 +21018,9 @@ msgid "Invalid search string!"
 msgstr "Cadeia de carateres de pesquisa inválida!"
 
 #: weblate/trans/views/edit.py:1457
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid "Automatic translation cannot be started because the target is locked."
-msgstr "Tradução automática ignorada porque o alvo já não existe."
+msgstr ""
+"A tradução automática não pôde ser começada porque o alvo está bloqueado."
 
 #: weblate/trans/views/edit.py:1502
 msgid "Automatic translation in progress"
@@ -21058,16 +21043,12 @@ msgid "Comment has been resolved."
 msgstr "O comentário foi resolvido."
 
 #: weblate/trans/views/edit.py:1779
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Não foi possível remover a cadeia porque outra operação em segundo plano "
-"está em andamento. Tente novamente mais tarde."
+"Não foi possível adicionar a cadeia de carateres porque outra operação no "
+"plano de fundo está em progresso. Por favor tente novamente mais tarde."
 
 #: weblate/trans/views/edit.py:1788
 msgid "New string has been added."
@@ -21097,19 +21078,15 @@ msgstr ""
 
 #: weblate/trans/views/git.py:46
 msgid "Use the button on the repository status page to run this action."
-msgstr ""
+msgstr "Use o botão na página de estado do repositório para executar esta ação."
 
 #: weblate/trans/views/git.py:67
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
-"Não foi possível remover a cadeia porque outra operação em segundo plano "
-"está em andamento. Tente novamente mais tarde."
+"Parece que há uma operação a decorrer no repositório. Por favor tente "
+"novamente mais tarde."
 
 #: weblate/trans/views/git.py:106
 msgid ""
@@ -21142,10 +21119,8 @@ msgid "Updates of translations are in progress."
 msgstr "Atualizações das traduções estão em andamento."
 
 #: weblate/trans/views/git.py:219
-#, fuzzy
-#| msgid "All pending translations were committed."
 msgid "Pending translations are being committed."
-msgstr "Todas as traduções pendentes foram submetidas."
+msgstr "Traduções pendentes estão a ser submetidas."
 
 #: weblate/trans/views/git.py:226
 msgid "All pending translations were committed."
@@ -21169,35 +21144,24 @@ msgstr ""
 "Todos os componentes estão agora abertos para atualizações de tradução."
 
 #: weblate/trans/views/reports.py:79
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Repetitions"
-msgstr "Adições recentes"
+msgstr "Repetições"
 
 #: weblate/trans/views/reports.py:80
-#, fuzzy
-#| msgid "Example matched files"
 msgid "Exact matches"
-msgstr "Exemplo de ficheiros correspondentes"
+msgstr "Correspondências exatas"
 
 #: weblate/trans/views/reports.py:81
-#, fuzzy
-#| msgid "Use fuzzy matching"
 msgid "Fuzzy matches"
-msgstr "Utilizar correspondência imprecisa"
+msgstr "Correspondências imprecisas"
 
 #: weblate/trans/views/reports.py:83
-#, fuzzy
-#| msgid "New string"
 msgid "New strings"
-msgstr "Nova cadeia"
+msgstr "Novas cadeias de carateres"
 
 #: weblate/trans/views/reports.py:252
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "Source characters"
-msgstr "Carateres alojados"
+msgstr "Carateres fonte"
 
 #: weblate/trans/views/reports.py:253
 msgid "Rate"
