@@ -1001,7 +1001,7 @@ class BulkEditTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
-        self.assertTrue(Change.objects.filter(message=custom_message).exists())
+        self.assertTrue(Change.objects.filter(details__message=custom_message).exists())
 
         # A too-long message is rejected by form validation
         response = self.client.post(

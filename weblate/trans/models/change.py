@@ -617,21 +617,6 @@ class Change(models.Model, UserDisplayMixin):
     old = models.TextField(default="", blank=True)
     details = models.JSONField(default=dict)
 
-    @property
-    def message(self) -> str:
-        if not self.details:
-            return ""
-        return self.details.get("message", "")
-
-    @message.setter
-    def message(self, value: str) -> None:
-        if self.details is None:
-            self.details = {}
-        if value:
-            self.details["message"] = value
-        else:
-            self.details.pop("message", None)
-
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
     class Meta:
@@ -799,6 +784,21 @@ class Change(models.Model, UserDisplayMixin):
                 self.project.log_info("%s", message)
             else:
                 LOGGER.info("%s", message)
+
+    @property
+    def message(self) -> str:
+        if not self.details:
+            return ""
+        return self.details.get("message", "")
+
+    @message.setter
+    def message(self, value: str) -> None:
+        if self.details is None:
+            self.details = {}
+        if value:
+            self.details["message"] = value
+        else:
+            self.details.pop("message", None)
 
     @property
     def path_object(
