@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-18 02:41+0000\n"
-"PO-Revision-Date: 2026-06-20 20:28+0000\n"
+"PO-Revision-Date: 2026-06-21 12:37+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -186,10 +186,9 @@ msgid ""
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
-"Administratoren von Instanzen können die Standardberechtigungen, die "
-"Benutzern in `Öffentlich`-, `Geschützt`- und `Privat`-Projekten zur "
-"Verfügung stehen, mithilfe von :ref:`benutzerdefinierten Einstellungen "
-"<custom-acl>` ändern."
+"Instanzadministratoren können die Standardberechtigungen, die Benutzern in "
+"`Öffentlich`-, `Geschützt`- und `Privat`-Projekten zur Verfügung stehen, "
+"mithilfe von :ref:`benutzerdefinierten Einstellungen <custom-acl>` ändern."
 
 #: admin/access.rst:86 admin/workspaces.rst:215
 msgid "Workspace access control"
@@ -1747,6 +1746,9 @@ msgid ""
 "Use the Weblate UI or API for normal operations such as creating projects, "
 "creating components, managing users, or posting announcements."
 msgstr ""
+"Verwenden Sie die Weblate-Bedienoberfläche oder -API für normale Vorgänge "
+"wie Projekterstellung, Komponentenerstellung, Benutzerverwaltung, oder "
+"Mitteilungsveröffentlichung."
 
 #: admin/admin.rst:97
 msgid "Project and component creation"
@@ -1760,6 +1762,12 @@ msgid ""
 "and :ref:`component` for the available settings, and :ref:`bimono` for how "
 "bilingual and monolingual formats differ."
 msgstr ""
+"Projekte und Komponenten werden über die reguläre Weblate-Bedienoberfläche "
+"erstellt. Projekte dienen als Container für Übersetzungskomponenten, und "
+"Komponenten können zweisprachige oder einsprachige Übersetzungsdateien "
+"verwenden. Unter :ref:`project` und :ref:`component` finden Sie "
+"Informationen zu den verfügbaren Einstellungen, und unter :ref:`bimono` "
+"erfahren Sie, wie sich zweisprachige und einsprachige Formate unterscheiden."
 
 #: admin/announcements.rst:2 snippets/permissions.rst:319
 msgid "Announcements"
@@ -5167,14 +5175,6 @@ msgstr ""
 "Repository zu pushen."
 
 #: admin/code-hosting.rst:697
-#, fuzzy
-#| msgid ""
-#| "The optional :ref:`component-push_branch` setting selects the target "
-#| "branch for the Gerrit review. Leave it empty to use :ref:`component-"
-#| "branch`. Use the short branch name, such as ``main``; Weblate and ``git-"
-#| "review`` push the review to ``refs/for/<branch>`` automatically. Do not "
-#| "include Gerrit push options such as ``%submit`` or ``%l=Code-Review+2`` "
-#| "in the branch name."
 msgid ""
 "The optional :ref:`component-push_branch` setting selects the target branch "
 "for the Gerrit review. Leave it empty to use :ref:`component-branch`. Use "
@@ -5188,8 +5188,10 @@ msgstr ""
 "für die Überprüfung in Gerrit aus. Lassen Sie sie leer, um :ref:`component-"
 "branch` zu verwenden. Verwenden Sie den Kurznamen des Branches, z. B. "
 "``main``; Weblate und ``git-review`` pushen die Überprüfung automatisch nach "
-"``refs/for/<branch>``. Fügen Sie keine Gerrit-Push-Optionen wie ``%submit`` "
-"oder ``%l=Code-Review+2`` in den Branchnamen ein."
+"``refs/for/<branch>``. Gerrit-Push-Optionen können in beiden Einstellungen "
+"an ``%`` angehängt werden, zum Beispiel ``main%topic=l10n``. Gerrit "
+"interpretiert diese Optionen als das konfigurierte Weblate-Gerrit-Konto und "
+"wendet dessen Berechtigungen an."
 
 #: admin/code-hosting.rst:705
 msgid ""
@@ -5244,6 +5246,11 @@ msgid ""
 "administrators can also use the low-level :ref:`admin-interface` when direct "
 "database-object management is necessary."
 msgstr ""
+"Jede Komponentenliste hat einen Namen, der dem Benutzer angezeigt wird, "
+"sowie über einen Slug, der in der URL verwendet wird. Komponentenlisten "
+"können über :ref:`api` verwaltet werden. Instanzadministratoren können zudem "
+"die Low-Level-:ref:`admin-interface` nutzen, wenn eine direkte Verwaltung "
+"der Datenbankobjekte erforderlich ist."
 
 #: admin/componentlists.rst:22
 msgid ""
@@ -5286,18 +5293,13 @@ msgstr ""
 "Installation."
 
 #: admin/componentlists.rst:38
-#, fuzzy
-#| msgid ""
-#| "1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` "
-#| "as regular expression in both the project and the component fields, as "
-#| "shown on this image:"
 msgid ""
 "Define :guilabel:`Automatic component list assignment` with ``^.*$`` as "
 "regular expression in both the project and the component fields."
 msgstr ""
-"1. Definieren Sie die :guilabel:`Automatische Komponentenlistenzuweisung` "
-"mit ``^.*$`` als regulären Ausdruck sowohl in den Projekt- als auch in den "
-"Komponentenfeldern, wie auf diesem Bild gezeigt:"
+"Definieren Sie die :guilabel:`Automatische Komponentenlistenzuweisung` mit "
+"``^.*$`` als regulären Ausdruck sowohl in den Projekt- als auch in den "
+"Komponentenfeldern."
 
 #: admin/config.rst:4 admin/install/kubernetes.rst:26
 #: admin/install/openshift.rst:102 faq.rst:5
@@ -8523,6 +8525,13 @@ msgid ""
 "translations are cleaned up only for Weblate-managed glossaries and only "
 "when no non-glossary component still uses the language."
 msgstr ""
+"Vorgänge, bei denen Repository-Inhalte gelesen werden, wie beispielsweise "
+"Aktualisieren, Zurücksetzen oder erneutes Scannen, führen auch zu einem "
+"Abgleich der Übersetzungsdateien in Weblate. Hinzugefügte oder entfernte "
+"Übersetzungsdateien werden nach Abschluss dieses Vorgangs übernommen. "
+"Glossarübersetzungen werden nur für von Weblate verwaltete Glossare "
+"bereinigt und nur dann, wenn keine Komponente außerhalb des Glossars diese "
+"Sprache mehr verwendet."
 
 #: admin/continuous.rst:199
 msgid "Action"
@@ -8735,13 +8744,13 @@ msgid ":guilabel:`Rescan`"
 msgstr ":guilabel:`Erneut scannen`"
 
 #: admin/continuous.rst:248
-#, fuzzy
-#| msgid "Re-reads translation files from the local repository into Weblate."
 msgid ""
 "Re-reads translation files from the local repository into Weblate and "
 "removes translations whose files no longer match the component configuration."
 msgstr ""
-"Liest Übersetzungsdateien aus dem lokalen Repository erneut in Weblate ein."
+"Liest Übersetzungsdateien aus dem lokalen Repository erneut in Weblate ein "
+"und entfernt Übersetzungen, deren Dateien nicht mehr mit der "
+"Komponentenkonfiguration übereinstimmen."
 
 #: admin/continuous.rst:249
 msgid "Import file changes after manual repository work or file creation."
@@ -9818,7 +9827,7 @@ msgstr "Integration von SAML 2 IDP in Weblate"
 
 #: admin/install.rst:0
 msgid ":pypi:`Sphinx`"
-msgstr ""
+msgstr ":pypi:`Sphinx`"
 
 #: admin/install.rst:259
 msgid "Needed for :ref:`addon-weblate.gettext.sphinx`"
