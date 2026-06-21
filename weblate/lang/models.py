@@ -542,7 +542,10 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Translation,
+        )
 
         return self.filter(Exists(Translation.objects.filter(language=OuterRef("pk"))))
 
@@ -637,7 +640,10 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
     def get_allowed_add_language_ids(
         self, project: Project, language_ids: Iterable[int]
     ) -> set[int]:
-        from weblate.trans.models import Component, Translation  # noqa: PLC0415
+        from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+            Component,
+            Translation,
+        )
 
         candidate_language_ids = set(language_ids)
         if not candidate_language_ids:
@@ -698,7 +704,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         """Return English language object."""
         return self.get(code=settings.DEFAULT_LANGUAGE, skip_cache=True)
 
-    def setup(  # noqa: C901
+    def setup(  # ruff: ignore[complex-structure]
         self,
         *,
         update: bool,
@@ -709,8 +715,15 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         It is based on languages defined in the languages-data repo.
         """
-        from weblate_language_data.languages import LANGUAGES  # noqa: PLC0415
-        from weblate_language_data.population import POPULATION  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate_language_data.languages import (
+            LANGUAGES,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate_language_data.population import (
+            POPULATION,
+        )
 
         if logger is None:
             logger = dummy_logger
@@ -1026,7 +1039,10 @@ class Language(models.Model, CacheKeyMixin):
         return self.format_full_name(self.get_localized_name())
 
     def __init__(self, *args, **kwargs) -> None:
-        from weblate.utils.stats import LanguageStats  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.stats import (
+            LanguageStats,
+        )
 
         super().__init__(*args, **kwargs)
         self.stats = LanguageStats(self)
@@ -1088,7 +1104,7 @@ class Language(models.Model, CacheKeyMixin):
             # Not yet saved, used in tests
             return Plural(language=self)
         # Filter in Python if query is cached
-        if self.plural_set.all()._result_cache is not None:  # noqa: SLF001
+        if self.plural_set.all()._result_cache is not None:  # ruff: ignore[private-member-access]
             for plural in self.plural_set.all():
                 if plural.source == Plural.SOURCE_DEFAULT:
                     return plural

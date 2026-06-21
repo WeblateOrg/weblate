@@ -6,22 +6,60 @@ Weblate 2026.7
 .. rubric:: New features
 
 * Translators can now attach an optional message explaining the reason for a change when saving translation edits, bulk edits, or search and replace actions. See :ref:`translating`.
+* Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
+* Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 
 .. rubric:: Improvements
 
+* :ref:`visual-keyboard` for RTL languages now includes Unicode isolate controls for better mixed-direction text editing.
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
 * Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
+* Expanded :doc:`/security/data-residency` with EU cloud sovereignty guidance.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
+* :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
+* Add-ons installed at higher scopes are now shown on lower-scope add-on pages, and broad-scope add-ons can list affected components with compatibility details.
+* :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
 * LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
+* Improved bidirectional text handling for RTL translation display and editor previews.
+* Meta descriptions now better match single-project and self-hosted installations.
+* Zen mode now loads large search results and glossary-heavy projects more efficiently.
+* Translate pages with filtered searches and nearby strings now load more efficiently.
+* Translation form submissions now avoid loading complete search result sets when saving strings.
+* Add-on management pages now load recent add-on history more efficiently on large sites.
+* Added :ref:`distribution-packaging` guidance for distribution maintainers.
+* Expanded security documentation for release artifacts, supported versions, security updates, release verification, SBOMs, and dependency handling.
+* Clarified security metadata, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
+* Large component imports now avoid duplicate translation-memory processing.
+* :ref:`gettext` files can now be configured to remove obsolete strings on save.
+* Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
+* :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
+* :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.
+* Committing large numbers of pending translations now queues browser requests in the background and avoids duplicate repository commit tasks.
+* Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events.
 
 .. rubric:: Bug fixes
 
+* Scoped team assignments can no longer be expanded through the API.
 * TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
+* :ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
 * Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
+* Project and workspace translation license defaults now follow component and project licenses more closely.
+* Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
+* Hardened HTML and AJAX object lookups against private project enumeration.
+* Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
+* :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
+* :ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations.
+* Repository reset and update progress now includes follow-up translation-file reconciliation.
+* :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
+* :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
+* Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
+* API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
 
 .. rubric:: Compatibility
+
+* :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, making categorized same-named components distinguishable.
 
 .. rubric:: Upgrading
 
@@ -69,6 +107,7 @@ Weblate 2026.6
 
 * Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`.
 * Improved performance of the :ref:`check-inconsistent` check on large projects.
+* Translation flag fields now use a tag-based editor with autocompletion and grouped suggestions for all known flags.
 * :ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes.
 * :doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset.
 * :ref:`alerts` now include dismissible component diagnostics for community localization.
@@ -77,7 +116,7 @@ Weblate 2026.6
 
 .. rubric:: Bug fixes
 
-* Outbound URL validation now rejects additional non-public targets (:ghsa:`vmfc-9982-2m45`).
+* Outbound URL validation now rejects additional non-public targets (:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`).
 * Project-language :doc:`/admin/announcements` no longer appear across the whole project.
 * Hardened :http:post:`/api/screenshots/` access checks against private project enumeration.
 * Registration-attempt account activity e-mails now link to password reset to help users finish account setup.

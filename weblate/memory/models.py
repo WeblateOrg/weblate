@@ -84,7 +84,8 @@ def get_node_data(unit, node):
 def load_memory_json_data(content: bytes) -> list[MemoryDict]:
     """Load and validate a memory export payload."""
     # Lazily import as this is expensive
-    from jsonschema import validate  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from jsonschema import validate
 
     data = json.loads(force_str(content))
     validate(data, load_schema("weblate-memory.schema.json"))
@@ -354,7 +355,8 @@ class MemoryManager(models.Manager):
         status: int = 0,
     ) -> int:
         # Lazily import as this is expensive
-        from jsonschema.exceptions import ValidationError  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from jsonschema.exceptions import ValidationError
 
         try:
             data = load_memory_json_data(fileobj.read())
@@ -497,7 +499,8 @@ class MemoryManager(models.Manager):
         `weblate.formats.auto`.
 
         """
-        from weblate.formats.auto import try_load  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.auto import try_load
 
         lang_cache: dict[str, Language] = {}
         try:
@@ -654,7 +657,8 @@ class Memory(models.Model):
     class Meta:
         verbose_name = "Translation memory entry"
         verbose_name_plural = "Translation memory entries"
-        indexes = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        indexes = [
             # Use MD5 to index text fields, applied in MemoryQuerySet.filter
             models.Index(
                 MD5("origin"),
@@ -684,7 +688,7 @@ class Memory(models.Model):
     def get_origin_display(self):
         if self.project:
             text = pgettext("Translation memory category", "Project: {}")
-        elif self.user:
+        elif self.user_id:
             text = pgettext("Translation memory category", "Personal: {}")
         elif self.shared:
             text = pgettext("Translation memory category", "Shared: {}")

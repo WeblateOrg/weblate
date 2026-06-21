@@ -12,7 +12,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
@@ -20,9 +20,7 @@ from django.views.decorators.cache import never_cache
 from weblate.trans.forms import AutoForm, BulkEditForm, SearchForm
 from weblate.trans.models.change import Change
 from weblate.trans.models.project import prefetch_project_flags
-from weblate.utils import messages
 from weblate.utils.views import get_paginator
-from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -46,7 +44,8 @@ def get_billing_context(
     if billing is None or not request.user.has_perm("meta:billing.view", billing):
         return {}
 
-    from weblate.billing.forms import (  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.forms import (
         BillingMergeForm,
         HostingForm,
     )
@@ -109,24 +108,6 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         msg = "Access denied"
         raise Http404(msg)
 
-    active_tab = "projects"
-    if request.method == "POST":
-        if not can_edit_workspace:
-            msg = "Access denied"
-            raise Http404(msg)
-        workspace.acting_user = request.user
-        settings_form = WorkspaceSettingsForm(request.POST, instance=workspace)
-        if settings_form.is_valid():
-            settings_form.save()
-            messages.success(request, gettext("Settings saved"))
-            return redirect(f"{workspace.get_absolute_url()}#settings")
-        active_tab = "settings"
-        messages.error(
-            request, gettext("Invalid settings. Please check the form for errors.")
-        )
-    else:
-        settings_form = WorkspaceSettingsForm(instance=workspace)
-
     show_review_columns = projects.filter(
         Q(source_review=True) | Q(translation_review=True)
     ).exists()
@@ -169,11 +150,27 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             ).recent(),
             "can_edit_workspace": can_edit_workspace,
             "can_manage_access": can_manage_access,
+            **get_billing_context(request, billing),
+        },
+    )
+
+
+@never_cache
+def access(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
+    workspace = get_object_or_404(Workspace, pk=pk)
+    if not request.user.has_perm("workspace.edit_members", workspace):
+        msg = "Access denied"
+        raise Http404(msg)
+
+    return render(
+        request,
+        "workspace-access.html",
+        {
+            "object": workspace,
+            "workspace": workspace,
+            "title": gettext("Access control"),
             "workspace_teams": workspace.defined_groups.annotate(Count("user"))
             .order()
             .prefetch_related("roles"),
-            "settings_form": settings_form,
-            "active_tab": active_tab,
-            **get_billing_context(request, billing),
         },
     )

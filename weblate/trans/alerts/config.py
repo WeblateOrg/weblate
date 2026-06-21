@@ -16,7 +16,7 @@ from django.utils.translation import gettext_lazy
 from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.formats.models import FILE_FORMATS
-from weblate.trans.alerts.base import AlertSeverity, BaseAlert
+from weblate.trans.alerts.base import AlertSeverity, BaseAlert, MultiAlert
 from weblate.trans.alerts.registry import register
 from weblate.utils.requests import (
     format_validation_error,
@@ -251,7 +251,8 @@ class UnusedScreenshot(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        from weblate.screenshots.models import Screenshot  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.screenshots.models import Screenshot
 
         return (
             Screenshot.objects.filter(translation__component=component)
@@ -340,3 +341,56 @@ class MonolingualGlossary(BaseAlert):
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
         return component.is_glossary and bool(component.template)
+
+
+@register
+class UnusedGlossaryLanguage(MultiAlert):
+    verbose = gettext_lazy("Unused glossary language.")
+    doc_page = "user/glossary"
+
+    def process_occurrences(
+        self, occurrences: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        result = super().process_occurrences(occurrences)
+        updates: dict[int, list[dict[str, Any]]] = {}
+        for occurrence in result:
+            if "translation_pk" not in occurrence:
+                continue
+            updates.setdefault(occurrence["translation_pk"], []).append(occurrence)
+        if not updates:
+            return result
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
+
+        for translation in Translation.objects.filter(pk__in=updates).select_related(
+            "component", "language"
+        ):
+            for occurrence in updates[translation.pk]:
+                occurrence["translation"] = translation
+        return result
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        if not component.is_glossary:
+            return False
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.tasks import get_stale_glossary_translations
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.stats import prefetch_stats
+
+        occurrences = [
+            {
+                "language_code": translation.language_code,
+                "translation_pk": translation.pk,
+            }
+            for translation in prefetch_stats(
+                get_stale_glossary_translations(component.project, component)
+            )
+            if not translation.can_be_deleted()
+        ]
+        if occurrences:
+            return {"occurrences": occurrences}
+        return False

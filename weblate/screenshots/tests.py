@@ -81,6 +81,40 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(uploaded_changes.count(), 1)
         self.assertEqual(uploaded_changes[0].user, self.user)
 
+    def test_upload_redirect_next(self) -> None:
+        self.make_manager()
+        next_url = "/projects/weblate/weblate/cs/translate/"
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.client.post(
+                reverse("screenshots", kwargs=self.kw_component),
+                {
+                    "image": handle,
+                    "name": "Obrazek",
+                    "translation": self.component.source_translation.pk,
+                    "next": next_url,
+                },
+            )
+        self.assertRedirects(response, next_url, fetch_redirect_response=False)
+        self.assertEqual(Screenshot.objects.count(), 1)
+
+    def test_upload_redirect_next_invalid(self) -> None:
+        self.make_manager()
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            response = self.client.post(
+                reverse("screenshots", kwargs=self.kw_component),
+                {
+                    "image": handle,
+                    "name": "Obrazek",
+                    "translation": self.component.source_translation.pk,
+                    "next": "https://evil.com/redirect",
+                },
+            )
+        self.assertEqual(Screenshot.objects.count(), 1)
+        screenshot = Screenshot.objects.get()
+        self.assertRedirects(
+            response, screenshot.get_absolute_url(), fetch_redirect_response=False
+        )
+
     def test_upload_fail(self) -> None:
         self.make_manager()
         response = self.do_upload(name="")
@@ -1126,6 +1160,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             "intermediate/*.json",
             screenshot_filemask="*.png",
         )
+        self.project = self.component.project
 
         # Add a screenshot linked to the component
         shot = Screenshot.objects.create(
@@ -1201,6 +1236,22 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             repository_filename="test-update.png",
         )[0].image.size
         self.assertNotEqual(existing_ss_size, updated_ss_size)
+
+    def test_linked_screenshots_reuse_changed_files(self) -> None:
+        repository = self.component.repository
+        last_revision = repository.last_revision
+        self.create_link_existing()
+
+        with patch.object(
+            repository, "get_changed_files", return_value=["test-update.png"]
+        ) as get_changed_files:
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+                user=None,
+            )
+
+        get_changed_files.assert_called_once_with(compare_to=last_revision)
 
     def test_update_screenshots_from_repo_rejects_symlinked_directory(self) -> None:
         repository = self.component.repository

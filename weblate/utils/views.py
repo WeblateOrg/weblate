@@ -56,7 +56,8 @@ class UnsupportedPathObjectError(Http404):
 
 
 def key_name(instance):
-    from weblate.trans.templatetags.translations import get_breadcrumbs  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.templatetags.translations import get_breadcrumbs
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
@@ -261,7 +262,8 @@ def get_sort_name(
     }
 
 
-def parse_path(  # noqa: C901
+# ruff: ignore[complex-structure]
+def parse_path(
     request: AuthenticatedHttpRequest | None,
     path: list[str] | tuple[str, ...] | None,
     types: tuple[type[Model | BaseURLMixin] | None, ...],
@@ -376,7 +378,8 @@ def parse_path(  # noqa: C901
         raise UnsupportedPathObjectError(msg)
 
     translation = get_object_or_404(
-        cast("Component", current).translation_set, language__code=path.pop(0)
+        cast("Component", current).translation_set.select_related("language", "plural"),
+        language__code=path.pop(0),
     )
     if not path:
         check_type(Translation)
@@ -632,7 +635,7 @@ def download_translation_file(
             # Create response
             response = FileResponse(
                 # pylint: disable-next=consider-using-with
-                open(filename, "rb"),  # noqa: SIM115
+                open(filename, "rb"),  # ruff: ignore[open-file-with-context-handler]
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:

@@ -133,10 +133,14 @@ class DummyBilingualUpdate(BilingualUpdateMixin):
     @classmethod
     def do_bilingual_update(
         cls,
-        in_file: str,  # noqa: ARG003
-        out_file: str,  # noqa: ARG003
-        template: str,  # noqa: ARG003
-        **kwargs,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        in_file: str,
+        # ruff: ignore[unused-class-method-argument]
+        out_file: str,
+        # ruff: ignore[unused-class-method-argument]
+        template: str,
+        # ruff: ignore[unused-class-method-argument]
+        **kwargs,
     ) -> None:
         return
 
@@ -957,6 +961,22 @@ class PoFormatTest(BaseFormatTest):
         content = handle.getvalue().decode()
         self.assertIn('\nmsgid "Hello, world!\\n"', content)
         self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
+
+    def test_remove_obsolete_on_save(self) -> None:
+        test_file = os.path.join(self.tempdir, "obsolete.po")
+        Path(test_file).write_text(
+            Path(TEST_PO).read_text(encoding="utf-8")
+            + '\n#~ msgid "Obsolete string"\n#~ msgstr "Zastaraly retezec"\n',
+            encoding="utf-8",
+        )
+
+        storage = self.format_class(
+            test_file, file_format_params={"po_remove_obsolete": True}
+        )
+        storage.save()
+
+        content = Path(test_file).read_text(encoding="utf-8")
+        self.assertNotIn("#~ msgid", content)
 
     def test_new_unit_plural(self) -> None:
         # Read test content
@@ -2719,7 +2739,8 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         )
         self.assertFalse(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        translation_data.all_units[index]._unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:
@@ -2838,7 +2859,8 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        translation_data.all_units[index]._unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:

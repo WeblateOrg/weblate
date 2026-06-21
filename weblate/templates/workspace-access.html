@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load i18n icons translations %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs object %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'workspace-access' pk=object.pk %}">{% translate "Access control" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Teams" %}</h4>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% translate "Name" %}</th>
+          <th>{% translate "Roles" %}</th>
+          <th>{% translate "Members" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for group in workspace_teams %}
+          <tr>
+            <td>{% include "auth/teams-name.html" %}</td>
+            <td>{% include "auth/teams-roles.html" %}</td>
+            <td class="number">{% include "auth/teams-count.html" %}</td>
+            <td>
+              <a href="{{ group.get_absolute_url }}"
+                 class="btn btn-link btn-xs"
+                 title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

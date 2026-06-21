@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from collections.abc import Mapping, Sequence
 from contextlib import suppress
@@ -20,6 +20,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
 from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
+from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.trans.templatetags.translations import format_json
@@ -57,6 +58,31 @@ class CompatDict(TypedDict, total=False):
     vcs: set[str]
     file_format: set[str]
     edit_template: set[bool]
+
+
+CHANGE_EVENT_FILTER_CONTENT = "content"
+CHANGE_EVENT_FILTER_ALL = "all"
+CHANGE_EVENT_FILTER_CUSTOM = "custom"
+CHANGE_EVENT_FILTERS = frozenset(
+    (
+        CHANGE_EVENT_FILTER_CONTENT,
+        CHANGE_EVENT_FILTER_ALL,
+        CHANGE_EVENT_FILTER_CUSTOM,
+    )
+)
+
+
+def get_change_event_filter(
+    configuration: Mapping[str, AddonConfigurationValue],
+) -> str:
+    event_filter = configuration.get("event_filter")
+    if isinstance(event_filter, str) and event_filter in CHANGE_EVENT_FILTERS:
+        return event_filter
+    if configuration.get("all_events", False):
+        return CHANGE_EVENT_FILTER_ALL
+    if "events" in configuration:
+        return CHANGE_EVENT_FILTER_CUSTOM
+    return CHANGE_EVENT_FILTER_CONTENT
 
 
 class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
@@ -114,7 +140,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
-        from weblate.addons.models import Addon  # noqa: PLC0415
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         result = Addon(
             project=project,
@@ -239,7 +265,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         self.post_configure()
 
     def post_configure(self, run: bool = True) -> None:
-        from weblate.addons.tasks import postconfigure_addon  # noqa: PLC0415
+        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         self.instance.log_debug("configuring events for %s add-on", self.name)
 
@@ -264,7 +290,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             self.post_configure_run_project(project)
 
     def post_configure_run_project(self, project: Project) -> None:
-        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         for component in project.component_set.iterator():
             if self.can_process(component=component):
@@ -281,7 +307,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             )
 
     def post_configure_run_category(self, category: Category) -> None:
-        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         for component in category.all_components.iterator():
             if self.can_process(component=component):
@@ -300,7 +326,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def post_configure_run_component(
         self, component: Component, skip_daily: bool = False
     ) -> None:
-        from weblate.addons.models import execute_addon_event  # noqa: PLC0415
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -341,7 +367,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
                 *(base_event_args),
                 AddonEvent.EVENT_POST_UPDATE,
                 "post_update",
-                (component, "", False, True),
+                (component, "", False, [], True),
             )
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
@@ -428,8 +454,10 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         cls,
         *,
         component: Component | None = None,
-        category: Category | None = None,  # noqa: ARG003
-        project: Project | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        category: Category | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        project: Project | None = None,
     ) -> bool:
         """Check whether add-on is compatible with given component."""
         if component is not None:
@@ -472,6 +500,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> dict | None:
@@ -484,6 +513,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
                                changes upstream. Usually you can pass this to
                                underlying methods as ``commit_and_push`` or
                                ``commit_pending``.
+        :param list[str] changed_files: Files changed by the repository update.
         """
         # To be implemented in a subclass
 
@@ -656,7 +686,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     ) -> None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            output = subprocess.check_output(  # noqa: S603
+            output = subprocess.check_output(
                 cmd,
                 env=get_clean_env(env),
                 cwd=component.full_path,
@@ -730,15 +760,22 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         # Absolute path
         filename = os.path.join(component.full_path, filename)
 
-        # Check if parent directory exists
         dirname = os.path.dirname(filename)
-        if not os.path.lexists(dirname):
-            os.makedirs(dirname)
 
-        # Validate if there is not a symlink out of the tree
+        # Validate before and after directory creation to avoid following a
+        # symlinked parent outside the repository.
         try:
             component.repository.resolve_symlinks(dirname)
             component.repository.resolve_symlinks(filename)
+        except ValueError:
+            component.log_error("refused to write out of repository: %s", filename)
+            return None
+
+        if not os.path.lexists(dirname):
+            os.makedirs(dirname, exist_ok=True)
+
+        try:
+            component.repository.resolve_symlinks(dirname)
         except ValueError:
             component.log_error("refused to write out of repository: %s", filename)
             return None
@@ -814,7 +851,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         obj: Component | Project | Category | None,
         request: AuthenticatedHttpRequest,
     ) -> None:
-        from weblate.trans.tasks import perform_update  # noqa: PLC0415
+        from weblate.trans.tasks import perform_update  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         if cls.trigger_update and isinstance(obj, Component):
             perform_update.delay("Component", obj.pk, auto=True)
@@ -830,7 +867,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     @cached_property
     def user(self) -> User:
         """Weblate user used to track changes by this add-on."""
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         if not self.user_name or not self.user_verbose:
             msg = f"{self.__class__.__name__} is missing user_name and user_verbose!"
@@ -873,7 +910,9 @@ class UpdateBaseAddon(BaseAddon):
             if not translation.is_source or component.intermediate:
                 yield translation
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         raise NotImplementedError
 
     def post_update(
@@ -881,13 +920,14 @@ class UpdateBaseAddon(BaseAddon):
         component: Component,
         previous_head: str,
         skip_push: bool,
+        changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
     ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with component.repository.lock:
             with suppress(FileParseError):
-                self.update_translations(component, previous_head)
+                self.update_translations(component, previous_head, changed_files)
             self.commit_and_push(
                 component,
                 skip_push=skip_push,
@@ -906,7 +946,15 @@ class ChangeBaseAddon(BaseAddon):
 
     @cached_property
     def configured_change_events(self) -> set[int]:
-        return {int(event) for event in self.instance.configuration["events"]}
+        return {int(event) for event in self.instance.configuration.get("events", ())}
+
+    @cached_property
+    def configured_change_event_filter(self) -> str:
+        return get_change_event_filter(self.instance.configuration)
 
     def check_change_action(self, change: Change) -> bool:
+        if self.configured_change_event_filter == CHANGE_EVENT_FILTER_ALL:
+            return True
+        if self.configured_change_event_filter == CHANGE_EVENT_FILTER_CONTENT:
+            return change.action in ACTIONS_CONTENT
         return change.action in self.configured_change_events

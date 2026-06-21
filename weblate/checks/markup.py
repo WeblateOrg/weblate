@@ -40,6 +40,14 @@ from docutils.readers.standalone import Reader
 from docutils.writers.null import Writer
 
 from weblate.checks.base import TargetCheck
+from weblate.checks.format import (
+    ES_TEMPLATE_MATCH,
+    FLAG_RULES,
+    I18NEXT_MATCH,
+    JAVA_MESSAGE_MATCH,
+    PERCENT_MATCH,
+    VUE_MATCH,
+)
 from weblate.utils.html import (
     MD_BROKEN_LINK,
     MD_LINK,
@@ -47,6 +55,7 @@ from weblate.utils.html import (
     MD_SYNTAX,
     MD_SYNTAX_GROUPS,
     HTMLSanitizer,
+    extract_html_attributes,
 )
 from weblate.utils.xml import parse_xml
 
@@ -69,6 +78,15 @@ DOCUTILS_PARSER_LOCK = threading.Lock()
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
 )
+HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
+    *(rule[0] for rule in FLAG_RULES.values()),
+    I18NEXT_MATCH,
+    ES_TEMPLATE_MATCH,
+    JAVA_MESSAGE_MATCH,
+    PERCENT_MATCH,
+    VUE_MATCH,
+)
+HTML_ATTRIBUTE_WRAPPER_CHARS = frozenset("\"'`“”„‟‘’‚‛«»‹›")
 
 
 XML_MATCH = re.compile(r"<[^>]+>")
@@ -128,6 +146,11 @@ RST_ROLE_RE = [
 ]
 
 RST_LIST_START = ("- ", "* ", "+ ")
+RST_WRAPPED_ROLE_RE = re.compile(
+    r"(?<!\S)`\s+"
+    r"(?P<role>(?::[^`\s]+:`[^`]+`|`[^`]+`:[^`\s]+:))"
+    r"\s+`(?!`)"
+)
 RST_HIGHLIGHT_WHOLE = "whole"
 RST_HIGHLIGHT_ROLE_SYNTAX = "role-syntax"
 RST_HIGHLIGHT_ROLE_TARGET = "role-target"
@@ -147,6 +170,93 @@ class RSTRoleMatch(NamedTuple):
 def strip_entities(text):
     """Strip all HTML entities (we don't care about them)."""
     return XML_CDATA_MATCH.sub(r"\1", XML_ENTITY_MATCH.sub(" ", text))
+
+
+def is_html_attribute_placeholder(value: str | None) -> bool:
+    """Check whether an HTML attribute value is exactly one placeholder."""
+    if value is None or value in {"%", "%%", "{{", "}}"}:
+        return False
+    return any(regexp.fullmatch(value) for regexp in HTML_ATTRIBUTE_PLACEHOLDER_MATCHES)
+
+
+def strip_html_attribute_wrappers(value: str) -> str:
+    """Remove quote-like wrappers around a placeholder attribute."""
+    start = 0
+    end = len(value)
+
+    while True:
+        original = (start, end)
+
+        while start < end and value[start].isspace():
+            start += 1
+
+        if start < end and value[start] in HTML_ATTRIBUTE_WRAPPER_CHARS:
+            start += 1
+            while start < end and value[start].isspace():
+                start += 1
+        elif (
+            start + 1 < end
+            and value[start] == "\\"
+            and value[start + 1] in HTML_ATTRIBUTE_WRAPPER_CHARS
+        ):
+            start += 2
+            while start < end and value[start].isspace():
+                start += 1
+
+        while start < end and value[end - 1].isspace():
+            end -= 1
+
+        if (
+            start + 1 < end
+            and value[end - 2] == "\\"
+            and value[end - 1] in HTML_ATTRIBUTE_WRAPPER_CHARS
+        ):
+            end -= 2
+            while start < end and value[end - 1].isspace():
+                end -= 1
+        elif start < end and value[end - 1] in HTML_ATTRIBUTE_WRAPPER_CHARS:
+            end -= 1
+            while start < end and value[end - 1].isspace():
+                end -= 1
+
+        if (start, end) == original:
+            return value[start:end]
+
+
+def get_wrapped_placeholder_attribute(value: str | None) -> str | None:
+    if value is None:
+        return None
+
+    placeholder = strip_html_attribute_wrappers(value)
+    if (
+        value != placeholder
+        and placeholder in value
+        and is_html_attribute_placeholder(placeholder)
+    ):
+        return placeholder
+    return None
+
+
+def has_changed_placeholder_attributes(source: str, target: str) -> bool:
+    source_values: set[tuple[str, str, str]] = {
+        (attribute.tag, attribute.name, attribute.value)
+        for attribute in extract_html_attributes(source)
+        if is_html_attribute_placeholder(attribute.value)
+    }
+    source_attribute_names = {(tag, name) for tag, name, _placeholder in source_values}
+    if not source_attribute_names:
+        return False
+
+    for attribute in extract_html_attributes(target):
+        if (attribute.tag, attribute.name) not in source_attribute_names:
+            continue
+        if (placeholder := get_wrapped_placeholder_attribute(attribute.value)) and (
+            attribute.tag,
+            attribute.name,
+            placeholder,
+        ) in source_values:
+            return True
+    return False
 
 
 class BBCodeCheck(TargetCheck):
@@ -506,7 +616,10 @@ class SafeHTMLCheck(TargetCheck):
         sanitizer = HTMLSanitizer()
         cleaned_target = sanitizer.clean(target, source, flags)
 
-        return cleaned_target != target
+        if cleaned_target != target:
+            return True
+
+        return has_changed_placeholder_attributes(source, target)
 
 
 class RSTBaseCheck(TargetCheck):
@@ -883,6 +996,15 @@ class RSTSyntaxCheck(RSTBaseCheck):
         _errors, source_roles = validate_rst_snippet(source)
         rst_errors, _target_roles = validate_rst_snippet(target, source_roles)
         errors = list(rst_errors)
+
+        errors.extend(
+            (
+                gettext(
+                    "The reStructuredText role should not be wrapped in backticks: {role}"
+                ).format(role=match.group("role"))
+            )
+            for match in RST_WRAPPED_ROLE_RE.finditer(target)
+        )
 
         # This is valid RST, but might mess up the document
         if not source.startswith(RST_LIST_START) and target.startswith(RST_LIST_START):

@@ -9,7 +9,7 @@ from unittest import TestCase
 from django.test.utils import override_settings
 
 from weblate.lang.models import Language
-from weblate.trans.specialchars import get_special_chars
+from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 
 
 class SpecialCharsTest(TestCase):
@@ -53,3 +53,10 @@ class SpecialCharsTest(TestCase):
         self.check_chars(
             Language(code="ar", direction="rtl"), 14, ["←", "⇐"], source="→⇒→⇒"
         )
+
+    def test_rtl_isolate_chars(self) -> None:
+        chars = {char: short for _name, short, char in RTL_CHARS_DATA}
+        self.assertEqual(chars["\u2066"], "LRI")
+        self.assertEqual(chars["\u2067"], "RLI")
+        self.assertEqual(chars["\u2068"], "FSI")
+        self.assertEqual(chars["\u2069"], "PDI")

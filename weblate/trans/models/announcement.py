@@ -105,7 +105,8 @@ class AnnouncementManager(models.Manager["Announcement"]):
         return base.filter(project=None, category=None, component=None, language=None)
 
     def create(self, user=None, **kwargs):
-        from weblate.trans.models.change import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.change import Change
 
         if kwargs.get("category") is not None and kwargs.get("component") is None:
             kwargs["project"] = None
@@ -129,6 +130,31 @@ class AnnouncementManager(models.Manager["Announcement"]):
 
 
 class AnnouncementQuerySet(models.QuerySet["Announcement", "Announcement"]):
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+
+        global_scope = Q(
+            project__isnull=True, category__isnull=True, component__isnull=True
+        )
+        project_scope = Q(category__isnull=True, component__isnull=True) & (
+            user.get_project_access_query("project")
+        )
+        category_scope = Q(category__isnull=False, component__isnull=True) & (
+            user.get_project_access_query("category__project")
+        )
+        component_scope = Q(component__isnull=False) & (
+            user.get_project_access_query("component__project")
+        )
+        if user.needs_component_restrictions_filter:
+            component_scope &= Q(component__restricted=False) | Q(
+                component_id__in=user.component_permissions
+            )
+
+        return self.filter(
+            global_scope | project_scope | category_scope | component_scope
+        )
+
     def order(self):
         return self.order_by("id")
 

@@ -11,7 +11,7 @@ import logging
 import os
 import os.path
 import signal
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from contextlib import suppress
 from datetime import datetime
 from pathlib import Path
@@ -327,7 +327,8 @@ class Repository:
             SSH_WRAPPER.create()
 
     @classmethod
-    def get_remote_branch(cls, repo: str) -> str:  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def get_remote_branch(cls, repo: str) -> str:
         return cls.default_branch
 
     @classmethod
@@ -471,9 +472,8 @@ class Repository:
         """Execute the command using popen."""
         if args is None:
             raise RepositoryError(0, "Not supported functionality")
-        if not fullcmd:
-            args = [cls._cmd, *list(args)]
-        text_cmd = " ".join(args)
+        cmd = args if fullcmd else [cls._cmd, *args]
+        text_cmd = " ".join(cmd)
         # These are mutually exclusive, gevent actually checks
         # for their presence, not a value.
         kwargs: SubprocessArgs = {}
@@ -484,7 +484,7 @@ class Repository:
 
         try:
             process = subprocess.run(
-                args=args,
+                args=cmd,
                 cwd=cwd,
                 env=environment or {} if local else cls._getenv(environment, cwd=cwd),
                 stdout=subprocess.PIPE,
@@ -548,7 +548,8 @@ class Repository:
         return errormessage
 
     @staticmethod
-    def should_retry_popen(errormessage: str) -> bool:  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def should_retry_popen(errormessage: str) -> bool:
         return False
 
     def recover_lock_session(self) -> None:
@@ -646,9 +647,9 @@ class Repository:
     @staticmethod
     def validate_remote_url(url: str) -> None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # noqa: PLC0415
+        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
-        from weblate.utils.validators import validate_repo_url  # noqa: PLC0415
+        from weblate.utils.validators import validate_repo_url  # ruff: ignore[import-outside-top-level]
 
         try:
             validate_repo_url(url)

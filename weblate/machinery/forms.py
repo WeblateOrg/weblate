@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import re
+from urllib.parse import urlsplit
 
 from django import forms
 from django.conf import settings
@@ -376,7 +377,7 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
 class DeepLMachineryForm(KeyURLMachineryForm):
     url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
-        initial="https://api.deepl.com/v2/",
+        initial="https://api.deepl.com/",
     )
     formality = forms.CharField(
         label=pgettext_lazy("Automatic suggestion service configuration", "Formality"),
@@ -414,6 +415,12 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         ),
         required=False,
     )
+
+    def clean_url(self) -> str:
+        url = self.cleaned_data["url"]
+        if urlsplit(url).path.rstrip("/").endswith("/v1"):
+            raise ValidationError(gettext("DeepL API v1 is no longer supported."))
+        return url
 
 
 class LLMBasicMachineryForm(BaseMachineryForm):
@@ -572,6 +579,58 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
 
     def clean(self) -> None:
         """Validate `custom_model, model` fields."""
+        has_custom_model = bool(self.cleaned_data.get("custom_model"))
+        model = self.cleaned_data.get("model")
+        if model == "custom" and not has_custom_model:
+            raise ValidationError(
+                {"custom_model": gettext("Missing custom model name.")}
+            )
+        if model != "custom" and has_custom_model:
+            raise ValidationError(
+                {"model": gettext("Choose custom model here to enable it.")}
+            )
+        super().clean()
+
+
+class MistralMachineryForm(BaseOpenAIMachineryForm):
+    # Ordering choices here defines priority for automatic selection
+    MODEL_CHOICES = (
+        ("auto", pgettext_lazy("Mistral model selection", "Automatic selection")),
+        ("mistral-small-latest", "Mistral Small"),
+        ("mistral-medium-latest", "Mistral Medium"),
+        ("mistral-large-latest", "Mistral Large"),
+        ("custom", pgettext_lazy("Mistral model selection", "Custom model")),
+    )
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Mistral API base URL",
+        ),
+        widget=forms.TextInput,
+        help_text=gettext_lazy(
+            "Base URL of the Mistral API, if it differs from the Mistral default URL"
+        ),
+        required=False,
+    )
+    model = forms.ChoiceField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Mistral model",
+        ),
+        initial="auto",
+        choices=MODEL_CHOICES,
+    )
+    custom_model = forms.CharField(
+        label=pgettext_lazy(
+            "Mistral model selection",
+            "Custom model name",
+        ),
+        help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
+        required=False,
+    )
+
+    def clean(self) -> None:
+        """Validate custom_model and model fields."""
         has_custom_model = bool(self.cleaned_data.get("custom_model"))
         model = self.cleaned_data.get("model")
         if model == "custom" and not has_custom_model:

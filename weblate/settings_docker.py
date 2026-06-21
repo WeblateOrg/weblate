@@ -519,7 +519,8 @@ if SOCIAL_AUTH_FEDORA_OIDC_KEY:
     SOCIAL_AUTH_FEDORA_OIDC_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_SECRET", required=True
     )
-    SOCIAL_AUTH_FEDORA_OIDC_TOKEN_ENDPOINT_AUTH_METHOD = "client_secret_post"  # noqa: S105
+    # ruff: ignore[hardcoded-password-string]
+    SOCIAL_AUTH_FEDORA_OIDC_TOKEN_ENDPOINT_AUTH_METHOD = "client_secret_post"
 
     AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenIdConnect",)
 
@@ -792,6 +793,9 @@ WEBHOOK_RESTRICT_PRIVATE = get_env_bool(
 WEBHOOK_PRIVATE_ALLOWLIST = get_env_list(
     "WEBLATE_WEBHOOK_PRIVATE_ALLOWLIST",
     list(utils_defaults.DEFAULT_WEBHOOK_PRIVATE_ALLOWLIST),
+)
+ALLOWED_ASSET_SIZE = get_env_int(
+    "WEBLATE_ALLOWED_ASSET_SIZE", utils_defaults.DEFAULT_ALLOWED_ASSET_SIZE
 )
 ASSET_RESTRICT_PRIVATE = get_env_bool(
     "WEBLATE_ASSET_RESTRICT_PRIVATE", utils_defaults.DEFAULT_ASSET_RESTRICT_PRIVATE
@@ -1627,4 +1631,4 @@ if ADDITIONAL_CONFIG.exists():
         ADDITIONAL_CONFIG.read_text(encoding="utf-8"), ADDITIONAL_CONFIG, "exec"
     )
     # pylint: disable-next=exec-used
-    exec(code)  # noqa: S102
+    exec(code)  # ruff: ignore[exec-builtin]

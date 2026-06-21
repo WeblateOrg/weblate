@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast, overload
+from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
 
 from django.conf import settings
@@ -281,7 +281,8 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
         Add processing to bulk creation.
         """
-        from weblate.accounts.notifications import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.notifications import (
             dispatch_changes_notifications,
         )
 
@@ -635,7 +636,8 @@ class Change(models.Model, UserDisplayMixin):
 
     class Meta:
         app_label = "trans"
-        indexes = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        indexes = [
             models.Index(
                 fields=["-timestamp", "action"],
                 name="trans_change_action_idx",
@@ -679,6 +681,21 @@ class Change(models.Model, UserDisplayMixin):
                 fields=["unit", "-timestamp", "action"],
                 condition=Q(unit__isnull=False),
                 name="trans_change_unit_idx",
+            ),
+            models.Index(
+                fields=["-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=True)
+                & Q(category__isnull=True)
+                & Q(component__isnull=True),
+                name="trans_change_site_addon_idx",
+            ),
+            models.Index(
+                fields=["project", "-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=False)
+                & Q(component__isnull=True),
+                name="trans_change_proj_addon_idx",
             ),
             models.Index(
                 fields=["user", "-timestamp", "action"],
@@ -787,7 +804,7 @@ class Change(models.Model, UserDisplayMixin):
     def path_object(
         self,
     ) -> Translation | Component | Category | Project | Workspace | None:
-        """Return link either to unit or translation."""
+        """Object linked from the change path."""
         if self.translation is not None:
             return self.translation
         if self.component is not None:
@@ -863,11 +880,18 @@ class Change(models.Model, UserDisplayMixin):
         return (
             self.unit is not None
             and self.action in ACTIONS_REVERTABLE
-            and "old_state" in self.details
+            and self.get_revert_state() is not None
         )
 
-    def get_revert_state(self) -> StringState:
-        return StringState(self.details["old_state"])
+    @staticmethod
+    def parse_revert_state(details: dict[str, Any]) -> StringState | None:
+        try:
+            return StringState(details["old_state"])
+        except (KeyError, TypeError, ValueError):
+            return None
+
+    def get_revert_state(self) -> StringState | None:
+        return self.parse_revert_state(self.details)
 
     def get_latest_user_revert_target(self) -> tuple[str, StringState] | None:
         if self.unit_id is None or self.user_id is None:
@@ -885,10 +909,10 @@ class Change(models.Model, UserDisplayMixin):
                 return None
             if user_id != self.user_id:
                 break
-            if "old_state" not in details:
+            boundary_state = self.parse_revert_state(details)
+            if boundary_state is None:
                 return None
             boundary_old = old
-            boundary_state = StringState(details["old_state"])
 
         if boundary_old is None or boundary_state is None:
             return None
@@ -940,13 +964,14 @@ class Change(models.Model, UserDisplayMixin):
 
         unit = cast("Unit", self.unit)
         locked_unit = unit.__class__.objects.select_for_update().get(pk=unit.pk)
-        if "old_state" not in self.details:
+        state = self.get_revert_state()
+        if state is None:
             return False
 
         return locked_unit.translate(
             user,
             split_plural(self.old),
-            self.get_revert_state(),
+            state,
             change_action=change_action,
             author=author,
             request=request,
@@ -979,7 +1004,8 @@ class Change(models.Model, UserDisplayMixin):
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
     def get_details_display(self) -> StrOrPromise:
-        from weblate.trans.change_display import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.change_display import (
             ChangeDetailsRenderFactory,
         )
 
@@ -1039,7 +1065,8 @@ class Change(models.Model, UserDisplayMixin):
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
 def change_notify(sender, instance: Change, created: bool = False, **kwargs) -> None:
-    from weblate.accounts.notifications import (  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.notifications import (
         dispatch_changes_notifications,
     )
 

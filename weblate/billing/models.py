@@ -404,7 +404,8 @@ class Billing(models.Model):
         raise ValidationError({"workspace": msg})
 
     def get_default_workspace_name(self, using=None) -> str:
-        from weblate.workspaces.models import WORKSPACE_NAME_LENGTH  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import WORKSPACE_NAME_LENGTH
 
         if self.customer_name:
             name = self.customer_name
@@ -415,7 +416,8 @@ class Billing(models.Model):
         return name[:WORKSPACE_NAME_LENGTH]
 
     def update_workspace_name(self, using=None) -> None:
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
 
         name = self.get_default_workspace_name(using=using)
         objects = Workspace.objects
@@ -434,7 +436,8 @@ class Billing(models.Model):
     def ensure_workspace(self, using=None) -> None:
         if self.workspace_id:
             return
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import Workspace
 
         objects = Workspace.objects
         database = using or self._state.db
@@ -1309,7 +1312,8 @@ def record_project_bill(
 def delete_project_bill(
     sender, instance: Project | Component | Translation, **kwargs
 ) -> None:
-    from weblate.billing.tasks import billing_check  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.tasks import billing_check
 
     if isinstance(instance, Translation):
         try:

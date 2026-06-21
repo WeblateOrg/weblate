@@ -95,50 +95,56 @@ function addAlert(message, kind = "danger", delay = 3000) {
   }).show();
 }
 
+// Need `bubbles` because some event listeners (like this
+// https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
+// ) are attached to the parent elements.
+function insertAtCaret(element, myValue) {
+  if (document.selection) {
+    // For browsers like Internet Explorer
+    element.focus();
+    const sel = document.selection.createRange();
+
+    sel.text = myValue;
+    element.focus();
+  } else if (element.selectionStart || element.selectionStart === 0) {
+    //For browsers like Firefox and Webkit based
+    const startPos = element.selectionStart;
+    const endPos = element.selectionEnd;
+    const scrollTop = element.scrollTop;
+
+    element.value =
+      element.value.substring(0, startPos) +
+      myValue +
+      element.value.substring(endPos, element.value.length);
+    element.focus();
+    element.selectionStart = startPos + myValue.length;
+    element.selectionEnd = startPos + myValue.length;
+    element.scrollTop = scrollTop;
+  } else {
+    element.value += myValue;
+    element.focus();
+  }
+  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function replaceValue(element, myValue) {
+  element.value = myValue;
+  element.dispatchEvent(new Event("input", { bubbles: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+// jQuery wrappers — removed once full.js and loader-bootstrap.js no longer
+// call these via jQuery chains.
 jQuery.fn.extend({
   insertAtCaret: function (myValue) {
     return this.each(function () {
-      if (document.selection) {
-        // For browsers like Internet Explorer
-        this.focus();
-        const sel = document.selection.createRange();
-
-        sel.text = myValue;
-        this.focus();
-      } else if (this.selectionStart || this.selectionStart === 0) {
-        //For browsers like Firefox and Webkit based
-        const startPos = this.selectionStart;
-        const endPos = this.selectionEnd;
-        const scrollTop = this.scrollTop;
-
-        this.value =
-          this.value.substring(0, startPos) +
-          myValue +
-          this.value.substring(endPos, this.value.length);
-        this.focus();
-        this.selectionStart = startPos + myValue.length;
-        this.selectionEnd = startPos + myValue.length;
-        this.scrollTop = scrollTop;
-      } else {
-        this.value += myValue;
-        this.focus();
-      }
-      // Need `bubbles` because some event listeners (like this
-      // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
-      // ) are attached to the parent elements.
-      this.dispatchEvent(new Event("input", { bubbles: true }));
-      this.dispatchEvent(new Event("change", { bubbles: true }));
+      insertAtCaret(this, myValue);
     });
   },
-
   replaceValue: function (myValue) {
     return this.each(function () {
-      this.value = myValue;
-      // Need `bubbles` because some event listeners (like this
-      // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
-      // ) are attached to the parent elements.
-      this.dispatchEvent(new Event("input", { bubbles: true }));
-      this.dispatchEvent(new Event("change", { bubbles: true }));
+      replaceValue(this, myValue);
     });
   },
 });
@@ -1122,21 +1128,60 @@ $(function () {
     selectAutoSource.trigger("change");
   }
 
-  /* Override all multiple selects */
-  document.querySelectorAll("select[multiple]").forEach((el) => {
-    if (el.tomselect) {
-      return;
+  const findElements = (root, selector) => {
+    const elements = [];
+    if (root instanceof Element && root.matches(selector)) {
+      elements.push(root);
     }
-    const options = {
-      plugins: ["remove_button", "checkbox_options"],
-      placeholder: el.dataset.placeholder || gettext("Search…"),
-      hidePlaceholder: el.dataset.hidePlaceholder === "true",
-      persist: false,
-      create: false,
-      allowEmptyOption: true,
-    };
-    new TomSelect(el, options);
-  });
+    elements.push(...root.querySelectorAll(selector));
+    return elements;
+  };
+
+  const initializeMultipleSelects = (root = document) => {
+    findElements(root, "select[multiple]").forEach((el) => {
+      if (el.tomselect) {
+        return;
+      }
+      const options = {
+        plugins: ["remove_button", "checkbox_options"],
+        placeholder: el.dataset.placeholder || gettext("Search…"),
+        hidePlaceholder: el.dataset.hidePlaceholder === "true",
+        persist: false,
+        create: false,
+        allowEmptyOption: true,
+      };
+      new TomSelect(el, options);
+    });
+  };
+
+  const initializeProjectMembershipControls = (root = document) => {
+    findElements(root, ".project-membership-team-toggle").forEach((el) => {
+      if (el.dataset.membershipToggleInitialized === "true") {
+        return;
+      }
+      el.dataset.membershipToggleInitialized = "true";
+      const limitField = document.getElementById(el.dataset.limitTarget);
+      const updateLimitField = () => {
+        if (!limitField) {
+          return;
+        }
+        limitField.disabled = !el.checked;
+        if (!limitField.tomselect) {
+          return;
+        }
+        if (el.checked) {
+          limitField.tomselect.enable();
+        } else {
+          limitField.tomselect.disable();
+        }
+      };
+      el.addEventListener("change", updateLimitField);
+      updateLimitField();
+    });
+  };
+
+  /* Override all multiple selects */
+  initializeMultipleSelects();
 
   /* Searchable single selects */
   document.querySelectorAll("select.searchable-select").forEach((el) => {
@@ -1235,25 +1280,76 @@ $(function () {
     updateInheritedSetting(false);
   });
 
-  document.querySelectorAll(".project-membership-team-toggle").forEach((el) => {
-    const limitField = document.getElementById(el.dataset.limitTarget);
-    const updateLimitField = () => {
-      if (!limitField) {
+  initializeProjectMembershipControls();
+
+  const projectUserGroupsModal = document.getElementById(
+    "project-user-groups-modal",
+  );
+  if (projectUserGroupsModal) {
+    const modalBody = projectUserGroupsModal.querySelector(".modal-body");
+    const modalTitle = projectUserGroupsModal.querySelector(".modal-title");
+    const submitButton = projectUserGroupsModal.querySelector(
+      "input[type='submit']",
+    );
+    const formCache = new Map();
+
+    const renderProjectUserGroupsForm = (url, html) => {
+      if (projectUserGroupsModal.dataset.activeUrl !== url) {
         return;
       }
-      limitField.disabled = !el.checked;
-      if (!limitField.tomselect) {
-        return;
-      }
-      if (el.checked) {
-        limitField.tomselect.enable();
-      } else {
-        limitField.tomselect.disable();
-      }
+      modalBody.innerHTML = html;
+      initializeMultipleSelects(modalBody);
+      initializeProjectMembershipControls(modalBody);
+      submitButton.disabled = false;
     };
-    el.addEventListener("change", updateLimitField);
-    updateLimitField();
-  });
+
+    projectUserGroupsModal.addEventListener("show.bs.modal", (event) => {
+      const trigger = event.relatedTarget;
+      const url = trigger?.dataset.href;
+      if (!url) {
+        return;
+      }
+      projectUserGroupsModal.dataset.activeUrl = url;
+      modalTitle.textContent = trigger.dataset.modalTitle || "";
+      submitButton.disabled = true;
+      modalBody.textContent =
+        modalBody.dataset.loadingText || gettext("Loading…");
+
+      if (formCache.has(url)) {
+        renderProjectUserGroupsForm(url, formCache.get(url));
+        return;
+      }
+
+      fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`${response.statusText} (${response.status})`);
+          }
+          return response.text();
+        })
+        .then((html) => {
+          formCache.set(url, html);
+          renderProjectUserGroupsForm(url, html);
+        })
+        .catch((error) => {
+          if (projectUserGroupsModal.dataset.activeUrl !== url) {
+            return;
+          }
+          const alert = document.createElement("div");
+          alert.className = "alert alert-danger";
+          alert.role = "alert";
+          const errorText =
+            modalBody.dataset.errorText || gettext("Error while loading form:");
+          alert.textContent = `${errorText} ${error.message}`;
+          modalBody.textContent = "";
+          modalBody.append(alert);
+        });
+    });
+
+    projectUserGroupsModal.addEventListener("hidden.bs.modal", () => {
+      delete projectUserGroupsModal.dataset.activeUrl;
+    });
+  }
 
   /* Slugify name */
   slugify.extend({ ".": "-" });
@@ -1652,6 +1748,7 @@ $(function () {
         return match ? match[1] : "";
       },
       trigger: (query) => query.length >= 2,
+      submit: true,
       resultsList: {
         class: "autoComplete dropdown-menu shadow mention-dropdown",
       },
@@ -1695,7 +1792,14 @@ $(function () {
     editor.addEventListener(
       "keydown",
       (event) => {
-        if (event.key !== "Escape" || !mentionAutoComplete.isOpen) {
+        if (!mentionAutoComplete.isOpen) {
+          return;
+        }
+        if (event.key === "Enter" && mentionAutoComplete.cursor >= 0) {
+          event.preventDefault();
+          return;
+        }
+        if (event.key !== "Escape") {
           return;
         }
         event.stopImmediatePropagation();

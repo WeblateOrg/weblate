@@ -64,7 +64,9 @@ If you have the :guilabel:`Accept suggestions` permission, you can bulk accept
 all suggestions from a specific user by clicking the account check icon next
 to their suggestion. This is useful for quickly processing suggestions from
 trusted contributors. Suggestions failing quality checks are skipped and
-remain for manual review.
+remain for manual review. Weblate shows the number of matching suggestions for
+confirmation and processes the acceptance in the background. If you can review
+the translation, you can accept and approve the suggestions in the same step.
 
 .. _user-comments:
 
@@ -442,7 +444,9 @@ Search and replace
 ------------------
 
 Change terminology effectively or perform bulk fixing of the
-strings using :guilabel:`Search and replace` in the :guilabel:`Tools` menu.
+strings using :guilabel:`Search and replace` in the :guilabel:`Operations` menu.
+
+.. image:: /screenshots/search-replace.webp
 
 .. hint::
 
@@ -465,7 +469,9 @@ Supported operations:
 .. hint::
 
     This tool is called :guilabel:`Bulk edit`, accessible in the
-    :guilabel:`Tools` menu of each project, component or translation.
+    :guilabel:`Operations` menu of each project, component or translation.
+
+.. image:: /screenshots/bulk-edit.webp
 
 
 
@@ -477,12 +483,14 @@ Matrix View
 -----------
 
 You can compare different languages efficiently using this view.
-It is available on every component page, from the :guilabel:`Tools` menu.
+It is available on every component page, from the :guilabel:`Operations` menu.
 First select all languages you want to compare, confirm your selection,
 then click on any translation to open and edit it.
 
 The matrix view is also a very good starting point to find missing
 translations in different languages, and quickly add them from one view.
+
+.. image:: /screenshots/matrix-view.webp
 
 .. _zen-mode:
 
@@ -498,3 +506,5 @@ You can select the Zen editor as your default editor using the
 You can also choose there between having translations listed
 :guilabel:`Top to bottom` or :guilabel:`Side by side`,
 depending on your personal preference.
+
+.. image:: /screenshots/zen-mode.webp

@@ -14,12 +14,13 @@ from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import urlparse
 
 import django.shortcuts
+from django.conf import settings
 from django.core.cache import cache
 from django.db import DatabaseError
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, ngettext
 from lxml import etree
 from packaging.version import Version
 from translate.misc.multistring import multistring
@@ -282,10 +283,16 @@ def get_project_description(project: Project) -> str:
     if count is None:
         count = project.stats.languages
         cache.set(cache_key, count, 6 * 3600)
-    return gettext(
-        "{0} is being translated into {1} languages using Weblate. "
-        "Join the translation or start translating your own project."
-    ).format(project, count)
+    description = ngettext(
+        "{project} is being translated into {count} language using Weblate.",
+        "{project} is being translated into {count} languages using Weblate.",
+        count,
+    ).format(project=project, count=count)
+    if settings.OFFER_HOSTING and not settings.SINGLE_PROJECT:
+        action = gettext("Join the translation or start translating your own project.")
+    else:
+        action = gettext("Join the translation.")
+    return f"{description} {action}"
 
 
 def render(
@@ -397,7 +404,8 @@ def check_upload_method_permissions(
     user: User, translation: Translation, method: str
 ) -> PermissionResult | bool:
     """Check whether user has permission to perform upload method."""
-    from weblate.formats.base import BilingualUpdateMixin  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.formats.base import BilingualUpdateMixin
 
     if method == "source":
         if not translation.is_source:

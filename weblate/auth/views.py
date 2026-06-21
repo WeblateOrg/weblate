@@ -157,7 +157,9 @@ class TeamUpdateView(UpdateView):
         if self.object.defining_project:
             fallback = f"{reverse('manage-access', kwargs={'project': self.object.defining_project.slug})}#teams"
         elif self.object.defining_workspace:
-            fallback = f"{self.object.defining_workspace.get_absolute_url()}#access"
+            fallback = reverse(
+                "workspace-access", kwargs={"pk": self.object.defining_workspace.pk}
+            )
         elif request.user.is_superuser:
             fallback = reverse("manage-teams")
         else:

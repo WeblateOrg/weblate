@@ -11,7 +11,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Prefetch
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext
@@ -193,14 +193,19 @@ def get_project_memberships_prefetch(groups):
     )
 
 
-def setup_project_group_edit_form(
-    user, project, groups, limit_language_choices
-) -> None:
-    initial = {"user": user.username, "groups": user.project_groups}
+def setup_project_membership_badges(user) -> None:
     for membership in user.project_group_memberships:
         membership.limit_language_codes = format_membership_limit_language_codes(
             membership
         )
+
+
+def setup_project_group_edit_form(
+    user, project, groups, limit_language_choices
+) -> None:
+    initial = {"user": user.username, "groups": user.project_groups}
+    setup_project_membership_badges(user)
+    for membership in user.project_group_memberships:
         initial[ProjectUserGroupForm.get_limit_languages_field(membership.group)] = (
             membership.limit_languages.all()
         )
@@ -210,6 +215,39 @@ def setup_project_group_edit_form(
         auto_id=f"id_user_{user.id}_%s",
         group_queryset=groups,
         limit_language_choices=limit_language_choices,
+    )
+
+
+@login_required
+def project_user_groups(request: AuthenticatedHttpRequest, project, user_id: int):
+    """Render team assignment form for a project user."""
+    obj = parse_path(request, [project], (Project,))
+
+    if not request.user.has_perm("project.permissions", obj):
+        raise PermissionDenied
+
+    groups = obj.defined_groups.order().prefetch_related("languages", "components")
+    user = get_object_or_404(
+        User.objects.filter(groups__in=groups, pk=user_id)
+        .distinct()
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="project_groups",
+            ),
+            get_project_memberships_prefetch(groups),
+        )
+    )
+
+    setup_project_group_edit_form(
+        user, obj, groups, get_language_code_choices(obj.languages)
+    )
+
+    return render(
+        request,
+        "trans/project-access-team-form.html",
+        {"form": user.group_edit_form},
     )
 
 
@@ -447,10 +485,8 @@ def manage_access(request: AuthenticatedHttpRequest, project):
         )
     )
 
-    limit_language_choices = get_language_code_choices(obj.languages)
-
     for user in chain(users, project_tokens):
-        setup_project_group_edit_form(user, obj, groups, limit_language_choices)
+        setup_project_membership_badges(user)
 
     invitations = list(
         Invitation.objects.filter(group__defining_project=obj)

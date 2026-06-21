@@ -131,6 +131,10 @@ def weblate_context(request: AuthenticatedHttpRequest):
         description = gettext(
             "Hosted Weblate, the place to localize your software project."
         )
+    elif settings.SINGLE_PROJECT:
+        description = gettext(
+            "This site runs Weblate for localizing a software project."
+        )
     else:
         description = gettext(
             "This site runs Weblate for localizing various software projects."

@@ -16,9 +16,100 @@ def raise_broken_error() -> None:
     raise ValueError(msg)
 
 
+class ErrorCollectionSettingsTest(SimpleTestCase):
+    @override_settings(
+        SENTRY_DSN="https://public@example.com/1",
+        GOOGLE_CLOUD_ERROR_REPORTING=None,
+        OPENTELEMETRY_ENABLED=False,
+    )
+    def test_validate_error_collection_checks_sentry(self) -> None:
+        with (
+            patch(
+                "weblate.utils.errors.get_sentry_sdk",
+                side_effect=errors.ImproperlyConfigured("missing sentry"),
+            ),
+            self.assertRaisesMessage(
+                errors.ImproperlyConfigured,
+                "missing sentry",
+            ),
+        ):
+            errors.validate_error_collection_settings()
+
+    @override_settings(
+        SENTRY_DSN=None,
+        GOOGLE_CLOUD_ERROR_REPORTING={},
+        OPENTELEMETRY_ENABLED=False,
+    )
+    def test_validate_error_collection_checks_google_cloud(self) -> None:
+        with (
+            patch(
+                "weblate.utils.errors.get_google_cloud_error_reporting",
+                side_effect=errors.ImproperlyConfigured("missing google"),
+            ),
+            self.assertRaisesMessage(
+                errors.ImproperlyConfigured,
+                "missing google",
+            ),
+        ):
+            errors.validate_error_collection_settings()
+
+    @override_settings(
+        SENTRY_DSN=None,
+        GOOGLE_CLOUD_ERROR_REPORTING=None,
+        OPENTELEMETRY_ENABLED=False,
+        ROLLBAR={},
+    )
+    def test_validate_error_collection_checks_rollbar(self) -> None:
+        with (
+            patch(
+                "weblate.utils.errors.get_rollbar",
+                side_effect=errors.ImproperlyConfigured("missing rollbar"),
+            ),
+            self.assertRaisesMessage(
+                errors.ImproperlyConfigured,
+                "missing rollbar",
+            ),
+        ):
+            errors.validate_error_collection_settings()
+
+    @override_settings(
+        SENTRY_DSN=None,
+        GOOGLE_CLOUD_ERROR_REPORTING=None,
+        OPENTELEMETRY_ENABLED=True,
+        OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT="http://collector:4318/v1/traces",
+        OPENTELEMETRY_TRACES_SAMPLE_RATE=1.1,
+    )
+    def test_validate_error_collection_checks_opentelemetry(self) -> None:
+        with self.assertRaisesMessage(
+            errors.ImproperlyConfigured,
+            "OPENTELEMETRY_TRACES_SAMPLE_RATE has to be between 0 and 1",
+        ):
+            errors.validate_error_collection_settings()
+
+    @override_settings(
+        SENTRY_DSN=None,
+        GOOGLE_CLOUD_ERROR_REPORTING=None,
+        OPENTELEMETRY_ENABLED=False,
+    )
+    def test_validate_error_collection_skips_unconfigured_backends(self) -> None:
+        with (
+            patch("weblate.utils.errors.get_sentry_sdk") as get_sentry_sdk,
+            patch(
+                "weblate.utils.errors.get_google_cloud_error_reporting"
+            ) as get_google_cloud_error_reporting,
+            patch("weblate.utils.errors.get_rollbar") as get_rollbar,
+        ):
+            errors.validate_error_collection_settings()
+
+        get_sentry_sdk.assert_not_called()
+        get_google_cloud_error_reporting.assert_not_called()
+        get_rollbar.assert_not_called()
+
+
 class GoogleCloudErrorReportingTest(SimpleTestCase):
     def tearDown(self) -> None:
-        errors._STATE["google_cloud_error_reporting_client"] = None  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = None
         super().tearDown()
 
     @override_settings(GOOGLE_CLOUD_ERROR_REPORTING={})
@@ -36,7 +127,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
 
         reporting.Client.assert_called_once_with(service="weblate", version="revision")
         self.assertEqual(
-            errors._STATE["google_cloud_error_reporting_client"],  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            errors._STATE["google_cloud_error_reporting_client"],
             reporting.Client.return_value,
         )
 
@@ -96,7 +188,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_exception(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error"):
             try:
@@ -139,7 +232,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_message(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error"):
             errors.report_error("Handled error", level="error", message=True)
@@ -150,7 +244,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_message_without_exception(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error"):
             errors.report_error("Handled error", level="error")
@@ -161,7 +256,8 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN=None)
     def test_report_error_skip_error_reporting_skips_google(self) -> None:
         client = MagicMock()
-        errors._STATE["google_cloud_error_reporting_client"] = client  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error") as record_error:
             errors.report_error(

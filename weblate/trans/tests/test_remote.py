@@ -109,6 +109,34 @@ class MultiRepoTest(ViewTestCase):
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
+    def test_background_push_uses_bot_user(self) -> None:
+        unit = self.get_unit()
+        unit.translate(self.user, ["Background push\n"], STATE_TRANSLATED)
+
+        self.assertTrue(
+            self.component.commit_pending("test", self.user, skip_push=True)
+        )
+        self.assertTrue(self.component.repo_needs_push())
+        self.assertTrue(
+            self.component.do_push(None, force_commit=False, do_update=False)
+        )
+
+        change = self.component.change_set.filter(action=ActionEvents.PUSH).latest(
+            "timestamp"
+        )
+        self.assertIsNotNone(change.user)
+        self.assertEqual(change.user.username, "weblate:push")
+        self.assertTrue(change.user.is_bot)
+        self.assertEqual(change.user.full_name, "Background push")
+
+    def assert_background_update_user(self, change) -> None:
+        self.assertIsNotNone(change.user)
+        self.assertEqual(change.user.username, "weblate:update")
+        self.assertTrue(change.user.is_bot)
+        self.assertEqual(change.user.full_name, "Background update")
+        self.assertIsNotNone(change.author)
+        self.assertEqual(change.author.username, "weblate:update")
+
     def do_update_with_callbacks(self, translation) -> bool:
         translation = type(translation).objects.get(pk=translation.pk)
         with self.captureOnCommitCallbacks(execute=True):
@@ -174,6 +202,24 @@ class MultiRepoTest(ViewTestCase):
         self.do_update_with_callbacks(translation)
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 1)
+        change = translation.change_set.filter(action=ActionEvents.UPDATE).latest(
+            "timestamp"
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+    def test_background_update_uses_bot_user(self) -> None:
+        """Test background update attribution in case remote has changed."""
+        self.push_first(False)
+
+        self.assertTrue(self.component2.do_update(None))
+
+        translation = self.component2.translation_set.get(language_code="cs")
+        self.assertEqual(translation.stats.translated, 1)
+        change = translation.change_set.filter(action=ActionEvents.UPDATE).latest(
+            "timestamp"
+        )
+        self.assert_background_update_user(change)
 
     def test_rebase(self) -> None:
         """Testing of rebase."""
@@ -217,6 +263,30 @@ class MultiRepoTest(ViewTestCase):
 
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 5)
+        unit = translation.unit_set.get(source="Languages")
+        change = unit.source_unit.change_set.filter(
+            action=ActionEvents.NEW_SOURCE_REPO
+        ).latest("timestamp")
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+    def test_background_new_unit_update_uses_bot_user(self) -> None:
+        """Test background update attribution for units added in a repository."""
+        self.push_replace(EXTRA_PO, "a")
+
+        self.assertTrue(self.component2.do_update(None))
+
+        translation = self.component2.translation_set.get(language_code="cs")
+        self.assertEqual(translation.stats.all, 5)
+        unit = translation.unit_set.get(source="Languages")
+        change = unit.change_set.filter(action=ActionEvents.NEW_UNIT_REPO).latest(
+            "timestamp"
+        )
+        self.assert_background_update_user(change)
+        change = unit.source_unit.change_set.filter(
+            action=ActionEvents.NEW_SOURCE_REPO
+        ).latest("timestamp")
+        self.assert_background_update_user(change)
 
     def test_deleted_unit(self) -> None:
         """Test removing several units from remote repo."""

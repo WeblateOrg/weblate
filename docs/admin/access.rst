@@ -216,6 +216,30 @@ If users misbehave in your project, you can block them from contributing.
 With the relevant permissions blocked, users can still see the project,
 but won't be able to contribute.
 
+.. _cleanup-user-contributions:
+
+Cleaning up user contributions
+++++++++++++++++++++++++++++++
+
+When blocking spam or abusive accounts, project administrators can also clean
+up the user's existing contributions in that project. Use
+:guilabel:`Operations` ↓ :guilabel:`Users`, block the user, and select the
+cleanup actions in the block form. For users who are already blocked, use
+:guilabel:`Clean up user contributions` in the blocked users list.
+
+The available cleanup actions are:
+
+* :guilabel:`Revert user edits` reverts the latest editable translations by
+  the user.
+* :guilabel:`Reject user suggestions` rejects pending suggestions by the user.
+* :guilabel:`Delete user comments` deletes comments by the user.
+
+Site administrators with the site-wide ``user.edit`` permission can perform
+the same bulk cleanup across all projects from the
+:ref:`management interface <management-interface>` on the :guilabel:`Users`
+tab. Open the user's profile, select the :guilabel:`Edit` tab, and use
+:guilabel:`Contribution cleanup`.
+
 Per-project permission management
 +++++++++++++++++++++++++++++++++
 
@@ -447,6 +471,8 @@ the following rules:
    Use :guilabel:`Language selection` or :guilabel:`Project selection`
    to automate inclusion of all languages or projects.
 
+.. image:: /screenshots/team-scope.webp
+
 **Example:**
 
    A project ``foo`` with the components: ``foo/bar`` and
@@ -485,6 +511,8 @@ e-mail addresses. This assignment only happens upon account creation.
 The most common use-case for the feature is to assign all new users to some
 default team. This behavior is used for the default `Users` and `Guest` teams
 (see :ref:`default-teams`). Use regular expression ``^.*$`` to match all users.
+
+.. image:: /screenshots/team-automatic-assignments.webp
 
 Another use-case for this option might be to
 give some additional privileges to employees of your company by default.

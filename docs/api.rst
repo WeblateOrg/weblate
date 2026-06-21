@@ -915,9 +915,10 @@ Projects
     :type web: string
     :param workspace: Optional workspace UUID. Creating a project in a workspace
                        requires :guilabel:`Add projects to workspace` permission
-                       for that workspace. Creating a project without a
-                       workspace requires the site-wide :guilabel:`Add new
-                       projects` permission. See
+                       for that workspace. When omitted, Weblate can use the
+                       only eligible workspace. Creating a project without an
+                       eligible workspace requires the site-wide
+                       :guilabel:`Add new projects` permission. See
                        :ref:`workspace-project-creation`.
     :type workspace: string
 
@@ -941,6 +942,7 @@ Projects
                             assigned to a workspace
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
+    :>json string license: :ref:`project-license`
     :>json string announcements_url: URL to announcements; see :http:get:`/api/projects/(string:project)/announcements/`
 
     **Example JSON data:**
@@ -961,6 +963,22 @@ Projects
 
     Edit a project by a :http:method:`PATCH` request.
 
+    The ``project`` value is the project slug. To avoid using a wrong
+    identifier, use the project ``url`` returned by :http:get:`/api/projects/`
+    or :http:get:`/api/projects/(string:project)/`.
+
+    The request body accepts project fields such as ``instructions`` and
+    ``license``.
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "instructions": "Translate consistently.",
+            "license": "MIT"
+        }
+
     Changing ``workspace`` moves the project. Moving a project requires
     permission to edit the project and the :guilabel:`Edit workspace settings`
     permission for the source and target workspace. The target workspace also
@@ -970,6 +988,10 @@ Projects
 
     :param project: Project URL slug
     :type project: string
+    :param instructions: :ref:`project-instructions`
+    :type instructions: string
+    :param license: :ref:`project-license`
+    :type license: string
     :param workspace: Optional workspace UUID, or ``null`` to move the project
                        out of a workspace
     :type workspace: string
@@ -985,6 +1007,10 @@ Projects
 
     :param project: Project URL slug
     :type project: string
+    :param instructions: :ref:`project-instructions`
+    :type instructions: string
+    :param license: :ref:`project-license`
+    :type license: string
 
 .. http:delete:: /api/projects/(string:project)/
 
@@ -3348,7 +3374,7 @@ update individual repositories; see
 
         :ref:`Gitee notifications <code-hosting-gitee-notifications>`
             For instruction on setting up Gitee integration
-        https://gitee.com/help/categories/40
+        https://help.gitee.com/webhook
             Generic information about Gitee Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

@@ -236,7 +236,7 @@ class Subscription(models.Model):
     class Meta:
         verbose_name = "Notification subscription"
         verbose_name_plural = "Notification subscriptions"
-        constraints = [  # noqa: RUF012
+        constraints = [  # ruff: ignore[mutable-class-default]
             models.UniqueConstraint(
                 name="accounts_subscription_notification_unique",
                 fields=("notification", "scope", "project", "component", "user"),
@@ -261,8 +261,12 @@ class Subscription(models.Model):
         )
 
     def get_unsubscribe_url(self) -> str:
-        from django.urls import reverse  # noqa: PLC0415
-        from django.utils.http import urlencode  # noqa: PLC0415
+        from django.urls import reverse  # ruff: ignore[import-outside-top-level, unsorted-imports]
+
+        # ruff: ignore[import-outside-top-level]
+        from django.utils.http import (
+            urlencode,
+        )
 
         return f"{reverse('unsubscribe')}?{urlencode({'i': self.get_signed_id()})}"
 
@@ -586,7 +590,7 @@ class AuditLog(models.Model):
         )
 
     def get_params(self) -> dict[str, Any]:
-        from weblate.accounts.templatetags.authnames import (  # noqa: PLC0415
+        from weblate.accounts.templatetags.authnames import (  # ruff: ignore[import-outside-top-level]
             get_auth_name,
         )
 
@@ -653,7 +657,10 @@ class AuditLog(models.Model):
 
     def check_rate_limit(self, request: AuthenticatedHttpRequest) -> bool:
         """Check whether the activity should be rate limited."""
-        from weblate.accounts.utils import lock_user  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import (
+            lock_user,
+        )
 
         if (
             self.activity == "failed-auth"
@@ -708,7 +715,7 @@ class VerifiedEmail(models.Model):
     class Meta:
         verbose_name = "Verified e-mail"
         verbose_name_plural = "Verified e-mails"
-        indexes = [  # noqa: RUF012
+        indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
                 Upper("email"),
                 name="accounts_verifiedemail_email",
@@ -1032,7 +1039,7 @@ class Profile(models.Model):
 
     @property
     def full_name(self):
-        """Return user's full name."""
+        """User's full name."""
         return self.user.full_name
 
     def clean(self) -> None:
@@ -1150,7 +1157,10 @@ class Profile(models.Model):
             | GhostCategoryLanguageStats
             | GhostTranslation,
         ) -> str:
-            from weblate.trans.models import Unit  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import (
+                Unit,
+            )
 
             language: Language
             is_source = False
@@ -1291,7 +1301,10 @@ class Profile(models.Model):
 
     @cached_property
     def second_factor_types(self) -> set[Literal["totp", "webauthn", "recovery"]]:
-        from weblate.accounts.utils import get_key_type  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import (
+            get_key_type,
+        )
 
         return {get_key_type(device) for device in self.second_factors}
 
@@ -1303,7 +1316,10 @@ class Profile(models.Model):
         )
 
     def log_2fa(self, request: AuthenticatedHttpRequest, device: Device) -> None:
-        from weblate.accounts.utils import get_key_name, get_key_type  # noqa: PLC0415
+        from weblate.accounts.utils import (  # ruff: ignore[import-outside-top-level]
+            get_key_name,
+            get_key_type,
+        )
 
         # Audit log entry
         AuditLog.objects.create(
@@ -1407,7 +1423,10 @@ def post_login_handler(
 def create_profile_callback(sender, instance, created=False, **kwargs) -> None:
     """Automatically create token and profile for user."""
     if created:
-        from weblate.accounts.utils import create_api_token  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import (
+            create_api_token,
+        )
 
         # Create API token
         instance.auth_token = create_api_token(instance)

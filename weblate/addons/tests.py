@@ -11,7 +11,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
 from datetime import timedelta
@@ -25,6 +25,7 @@ import jsonschema.exceptions
 import requests
 import responses
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -47,7 +48,7 @@ from weblate.addons.forms import (
 )
 from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Announcement,
@@ -74,7 +75,13 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
-from .base import BaseAddon, UpdateBaseAddon
+from .base import (
+    CHANGE_EVENT_FILTER_ALL,
+    CHANGE_EVENT_FILTER_CONTENT,
+    CHANGE_EVENT_FILTER_CUSTOM,
+    BaseAddon,
+    UpdateBaseAddon,
+)
 from .cdn import CDNFilesAddon, CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
 from .consistency import LanguageConsistencyAddon
@@ -117,7 +124,7 @@ from .gettext import (
     is_xgettext_placeholder_comment,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon, AddonActivityLog, Event, handle_addon_event
+from .models import Addon, AddonActivityLog, Event, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -168,7 +175,9 @@ class CrashAddon(UpdateBaseAddon):
     verbose = "Crash test add-on"
     description = "Crash test add-on"
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         if previous_head:
             msg = "Test error"
             raise CrashAddonError(msg)
@@ -177,9 +186,12 @@ class CrashAddon(UpdateBaseAddon):
     def can_install(
         cls,
         *,
-        component: Component | None = None,  # noqa: ARG003
-        category: Category | None = None,  # noqa: ARG003
-        project: Project | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        component: Component | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        category: Category | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        project: Project | None = None,
     ) -> bool:
         return False
 
@@ -227,19 +239,18 @@ class ManualResultAddon(BaseAddon):
 class TestAddonMixin:
     def setUp(self) -> None:
         super().setUp()
-        ADDONS.data[NoOpAddon.name] = NoOpAddon
-        ADDONS.data[ExampleAddon.name] = ExampleAddon
-        ADDONS.data[CrashAddon.name] = CrashAddon
-        ADDONS.data[ExamplePreAddon.name] = ExamplePreAddon
-        ADDONS.data[ManualResultAddon.name] = ManualResultAddon
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        del ADDONS.data[NoOpAddon.name]
-        del ADDONS.data[ExampleAddon.name]
-        del ADDONS.data[CrashAddon.name]
-        del ADDONS.data[ExamplePreAddon.name]
-        del ADDONS.data[ManualResultAddon.name]
+        addons_override = override_settings(
+            WEBLATE_ADDONS=(
+                *settings.WEBLATE_ADDONS,
+                "weblate.addons.tests.NoOpAddon",
+                "weblate.addons.tests.ExampleAddon",
+                "weblate.addons.tests.CrashAddon",
+                "weblate.addons.tests.ExamplePreAddon",
+                "weblate.addons.tests.ManualResultAddon",
+            )
+        )
+        addons_override.enable()
+        self.addCleanup(addons_override.disable)
 
 
 class AddonBaseTest(TestAddonMixin, ComponentTestCase):
@@ -591,6 +602,25 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         self.assertIsNone(addon.render_repo_filename("stats/cs.json", translation))
         self.assertFalse(outside_target.exists())
 
+    def test_render_repo_filename_rejects_symlinked_parent_outside_repository(
+        self,
+    ) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        repository_dir = tempfile.mkdtemp()
+        outside_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, repository_dir, True)
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        os.symlink(outside_dir, Path(repository_dir) / "stats")
+
+        component = self.build_fake_component(repository_dir, new_base="messages.pot")
+        addon = self.build_fake_addon(BaseAddon, component)
+        translation = SimpleNamespace(component=component)
+
+        self.assertIsNone(addon.render_repo_filename("stats/new/cs.json", translation))
+        self.assertFalse((Path(outside_dir) / "new").exists())
+
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
         if not hasattr(os, "symlink"):
             self.skipTest("symlinks are not supported")
@@ -646,7 +676,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         )
         addon = self.build_fake_addon(DjangoAddon, component)
 
-        result = addon.execute_update(component, "")
+        result = addon.execute_update(component, "", [])
 
         self.assertFalse(result)
         self.assertEqual(
@@ -690,7 +720,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
             patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            result = addon.execute_update(component, "")
+            result = addon.execute_update(component, "", [])
 
         self.assertTrue(result, addon.alerts)
         self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
@@ -719,7 +749,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon = self.build_fake_addon(DjangoAddon, component)
 
         with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
-            result = addon.execute_update(component, "")
+            result = addon.execute_update(component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -760,7 +790,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
             patch.object(DjangoAddon, "get_gettext_format_args", return_value=[]),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            result = addon.execute_update(component, "")
+            result = addon.execute_update(component, "", [])
 
         self.assertTrue(result, addon.alerts)
         self.assertEqual(mocked.call_args.kwargs["cwd"], repository_dir)
@@ -858,6 +888,29 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
 
+    def test_update_passes_changed_files(self) -> None:
+        changed_files = ["po/cs.po"]
+        MsgmergeAddon.create(component=self.component)
+
+        with (
+            patch.object(
+                self.component.repository,
+                "get_changed_files",
+                return_value=changed_files,
+            ),
+            patch.object(
+                MsgmergeAddon, "post_update", autospec=True, return_value=None
+            ) as post_update,
+        ):
+            self.component.trigger_post_update(
+                previous_head=self.component.repository.last_revision,
+                skip_push=False,
+                user=None,
+            )
+
+        post_update.assert_called_once()
+        self.assertEqual(post_update.call_args.kwargs["changed_files"], changed_files)
+
     def test_crash(self) -> None:
         self.assertEqual([], self.component.addons_cache.names)
 
@@ -866,7 +919,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
 
         with self.assertRaises(CrashAddonError):
-            addon.post_update(self.component, "head", False)
+            addon.post_update(self.component, "head", False, [])
 
         # The crash should be handled here and addon uninstalled
         self.component.trigger_post_update(
@@ -1094,6 +1147,31 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
         self.assertEqual(form.cleaned_data["keyword"], "")
+
+    def test_xgettext_form_accepts_blank_language(self) -> None:
+        form = XgettextAddon.get_add_form(None, component=self.component)
+
+        self.assertFalse(form.fields["language"].required)
+        self.assertEqual(form.fields["language"].initial, "")
+
+        for language in ("", "   "):
+            with self.subTest(language=language):
+                form = XgettextAddon.get_add_form(
+                    None,
+                    component=self.component,
+                    data={
+                        "interval": "weekly",
+                        "normalize_header": True,
+                        "update_po_files": True,
+                        "input_mode": "patterns",
+                        "language": language,
+                        "source_patterns": "src/*.py\n",
+                        "potfiles_path": "",
+                    },
+                )
+                self.assertTrue(form.is_valid(), form.errors)
+                self.assertEqual(form.cleaned_data["language"], "")
+                self.assertEqual(form.serialize_form()["language"], "")
 
     def test_xgettext_form_tagged_comments_require_tag(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -1653,7 +1731,7 @@ class GettextAddonTest(ViewTestCase):
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         mocked.assert_called_once()
         command = mocked.call_args.args[1]
@@ -1668,6 +1746,50 @@ class GettextAddonTest(ViewTestCase):
             os.path.join(self.component.full_path, "po/hello.pot"),
             addon.extra_files,
         )
+
+    def test_xgettext_without_language_omits_language_argument(self) -> None:
+        for configuration in (
+            {
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "",
+                "source_patterns": ["src/*.py"],
+            },
+            {
+                "interval": "weekly",
+                "update_po_files": False,
+                "source_patterns": ["src/*.py"],
+            },
+        ):
+            with self.subTest(configuration=configuration):
+                source = Path(self.component.full_path) / "src" / "messages.py"
+                source.parent.mkdir(parents=True, exist_ok=True)
+                source.write_text(
+                    'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+                )
+                addon = XgettextAddon.create(
+                    component=self.component,
+                    run=False,
+                    configuration=configuration,
+                )
+
+                with (
+                    patch.object(
+                        XgettextAddon, "run_process", return_value=""
+                    ) as mocked,
+                    patch.object(
+                        XgettextAddon, "validate_repository_tree", return_value=True
+                    ),
+                ):
+                    addon.update_translations(self.component, "", [])
+
+                mocked.assert_called_once()
+                command = mocked.call_args.args[1]
+                self.assertEqual(command[:3], ["xgettext", "--output", "po/hello.pot"])
+                self.assertNotIn("--language", command)
+                self.assertIn("--from-code=UTF-8", command)
+                self.assertIn("src/messages.py", command)
+                addon.instance.delete()
 
     def test_xgettext_uses_potfiles_manifest(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"
@@ -1692,7 +1814,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("src/messages.py", command)
@@ -1743,7 +1865,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -1779,7 +1901,7 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["README.md"],
         ):
-            addon.update_translations(self.component, "old-revision")
+            addon.update_translations(self.component, "old-revision", [])
 
         self.assertTrue(self.component.alert_set.filter(name=addon.alert).exists())
 
@@ -1801,7 +1923,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--", command)
@@ -1880,7 +2002,7 @@ class GettextAddonTest(ViewTestCase):
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--no-location", command)
@@ -1911,7 +2033,7 @@ class GettextAddonTest(ViewTestCase):
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--from-code=UTF-8", command)
@@ -1944,7 +2066,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(MesonAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(command[:3], ["xgettext", "--output", "po/messages.pot"])
@@ -1986,7 +2108,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
         with patch.object(MesonAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--from-code=UTF-8", command)
@@ -2052,7 +2174,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["po/POTFILES"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_meson_potfiles_skip_excludes_entries(self) -> None:
         gettext_dir = Path(self.component.full_path) / "po"
@@ -2103,7 +2227,7 @@ class GettextAddonTest(ViewTestCase):
             ),
             patch.object(XgettextAddon, "run_process", return_value="") as mocked,
         ):
-            addon.update_translations(self.component, "old-revision")
+            addon.update_translations(self.component, "old-revision", [])
 
         mocked.assert_not_called()
 
@@ -2136,7 +2260,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["po/POTFILES.in"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_potfiles_change_detection_tracks_manifest_entries(self) -> None:
         addon = XgettextAddon.create(
@@ -2167,7 +2293,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["src/messages.py"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_potfiles_change_detection_tracks_skip_manifest(self) -> None:
         addon = XgettextAddon.create(
@@ -2199,7 +2327,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["po/POTFILES.skip"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_ignores_symlinked_source_directory(self) -> None:
         if not hasattr(os, "symlink"):
@@ -2226,7 +2356,7 @@ class GettextAddonTest(ViewTestCase):
             )
 
             with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
-                result = addon.execute_update(self.component, "")
+                result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -2299,7 +2429,7 @@ class GettextAddonTest(ViewTestCase):
         ) as mocked:
             addon.post_configure_run_component(self.component)
 
-        mocked.assert_called_once_with(self.component, "")
+        mocked.assert_called_once_with(self.component, "", [])
 
     def test_extract_pot_manual_bypasses_schedule(self) -> None:
         addon = XgettextAddon.create(
@@ -2325,7 +2455,7 @@ class GettextAddonTest(ViewTestCase):
         ) as mocked:
             addon.manual_component(self.component)
 
-        mocked.assert_called_once_with(self.component, "")
+        mocked.assert_called_once_with(self.component, "", [])
         self.assertNotIn("_force_run", addon.get_component_state(self.component))
 
     def test_extract_pot_manual_commits_pending_changes(self) -> None:
@@ -2520,7 +2650,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["src/messages.py"],
         ) as mocked:
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
         mocked.assert_called_once_with(
             self.component.repository.ref_to_remote.format("stored-revision")
@@ -2548,7 +2680,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             side_effect=RepositoryError(1, "bad revision"),
         ) as mocked:
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
         mocked.assert_called_once_with(
             self.component.repository.ref_to_remote.format("stored-revision")
@@ -2575,7 +2709,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["src/nested/messages.py"],
         ):
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
     def test_xgettext_change_detection_is_evaluated_once_per_refresh(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"
@@ -2606,7 +2742,7 @@ class GettextAddonTest(ViewTestCase):
             ) as mocked,
             patch.object(XgettextAddon, "run_process", return_value=""),
         ):
-            addon.update_translations(self.component, "previous-head")
+            addon.update_translations(self.component, "previous-head", [])
 
         mocked.assert_called_once_with(
             self.component.repository.ref_to_remote.format("stored-revision")
@@ -2638,7 +2774,9 @@ class GettextAddonTest(ViewTestCase):
             return ""
 
         with patch.object(XgettextAddon, "run_process", side_effect=run_process):
-            addon.post_update(self.component, revision_before, True)
+            addon.post_update(
+                self.component, revision_before, True, ["src/messages.py"]
+            )
 
         revision_after = self.component.repository.last_revision
         self.assertNotEqual(revision_before, revision_after)
@@ -2677,7 +2815,9 @@ class GettextAddonTest(ViewTestCase):
             ),
             self.assertRaisesRegex(RuntimeError, "push failed"),
         ):
-            addon.post_update(self.component, revision_before, True)
+            addon.post_update(
+                self.component, revision_before, True, ["src/messages.py"]
+            )
 
         self.assertNotIn(
             "last_revision",
@@ -2706,7 +2846,9 @@ class GettextAddonTest(ViewTestCase):
             "list_changed_files",
             return_value=["README.md"],
         ) as mocked:
-            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+            self.assertTrue(
+                addon.has_relevant_changes(self.component, "previous-head", [])
+            )
 
         mocked.assert_not_called()
 
@@ -2942,7 +3084,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(
@@ -2980,7 +3122,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         template = Path(self.component.full_path) / self.component.new_base
         self.assertTrue(template.exists())
@@ -3013,7 +3155,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3044,7 +3186,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3077,7 +3219,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3110,7 +3252,7 @@ msgstr ""
             ),
             patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         command = mocked.call_args.args[1]
         self.assertIn("--no-location", command)
@@ -3137,7 +3279,7 @@ msgstr ""
             )
             mocked_tmp.return_value.__enter__.return_value = tempdir
             mocked_tmp.return_value.__exit__.return_value = False
-            addon.execute_update(self.component, "")
+            addon.execute_update(self.component, "", [])
 
         self.assertEqual(mocked.call_args.args[1][-2], ".")
         self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
@@ -3256,7 +3398,7 @@ msgstr ""
         with patch.object(
             DjangoAddon, "validate_django_repository_tree", return_value=True
         ):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result)
         generated = (
@@ -3305,7 +3447,7 @@ msgstr ""
             patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
             patch.object(SphinxAddon, "run_process", side_effect=run_process) as mocked,
         ):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result)
         command = mocked.call_args.args[1]
@@ -3353,7 +3495,7 @@ msgstr ""
             source_dir.symlink_to(outside_dir, target_is_directory=True)
 
             with patch.object(SphinxAddon, "run_process", return_value="") as mocked:
-                result = addon.execute_update(self.component, "")
+                result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -3396,7 +3538,7 @@ msgstr ""
         )
 
         with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
         if result:
@@ -3439,7 +3581,7 @@ msgstr ""
         )
 
         with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result, addon.alerts)
         generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
@@ -3563,7 +3705,7 @@ msgstr ""
         )
 
         with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
-            result = addon.execute_update(self.component, "")
+            result = addon.execute_update(self.component, "", [])
 
         self.assertTrue(result, addon.alerts)
         generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
@@ -3593,7 +3735,7 @@ msgstr ""
             )
 
             with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
-                result = addon.execute_update(self.component, "")
+                result = addon.execute_update(self.component, "", [])
 
         self.assertFalse(result)
         mocked.assert_not_called()
@@ -3758,7 +3900,7 @@ msgstr ""
             patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         mocked.assert_called_once()
         self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
@@ -3793,7 +3935,7 @@ msgstr ""
                 return_value=["src/messages.py"],
             ),
         ):
-            addon.update_translations(self.component, "old-revision")
+            addon.update_translations(self.component, "old-revision", [])
 
         mocked.assert_called_once()
         self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
@@ -3824,7 +3966,7 @@ msgstr ""
             patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
             patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
         ):
-            addon.update_translations(self.component, "")
+            addon.update_translations(self.component, "", [])
 
         mocked.assert_called_once()
         self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
@@ -4125,9 +4267,9 @@ class AppStoreAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("cs/changelogs/100000.txt", commit)
 
@@ -4142,9 +4284,9 @@ class AndroidAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("android-not-synced/values-cs/strings.xml", commit)
         self.assertIn('\n-    <string name="hello">Ahoj svete</string>', commit)
@@ -4160,9 +4302,9 @@ class WindowsRCAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("winrc/cs-CZ.rc", commit)
         self.assertIn("\n-IDS_MSG5", commit)
@@ -4178,9 +4320,9 @@ class IntermediateAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         # It should remove string not present in the English file
         self.assertIn("intermediate/cs.json", commit)
@@ -4202,7 +4344,7 @@ class ResxAddonTest(ComponentTestCase):
                 remote_op="pull",
             )
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4219,7 +4361,7 @@ class ResxAddonTest(ComponentTestCase):
                 remote_op="pull",
             )
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4235,7 +4377,7 @@ class CSVAddonTest(ComponentTestCase):
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4246,7 +4388,7 @@ class CSVAddonTest(ComponentTestCase):
         rev = self.component.repository.last_revision
         addon = RemoveBlankAddon.create(component=self.component)
         addon.post_update(
-            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False, []
         )
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -4263,7 +4405,7 @@ class JsonAddonTest(ComponentTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
@@ -4274,7 +4416,7 @@ class JsonAddonTest(ComponentTestCase):
         addon = RemoveBlankAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
@@ -4528,6 +4670,32 @@ class ViewTests(ViewTestCase):
             "whole project",
         )
 
+    def test_project_history_filters_project_addon_changes(self) -> None:
+        project_target = "project.addon.visible"
+        component_target = "component.addon.hidden"
+
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            project=self.project,
+            target=project_target,
+            user=self.user,
+        )
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            component=self.component,
+            target=component_target,
+            user=self.user,
+        )
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_project_path))
+
+        self.assertEqual(response.status_code, 200)
+        targets = {change.target for change in response.context["last_changes"]}
+        self.assertIn(project_target, targets)
+        self.assertNotIn(component_target, targets)
+        self.assertContains(response, project_target)
+        self.assertNotContains(response, component_target)
+
     def test_add_simple_category_addon(self) -> None:
         self.setup_language_consistency_preview()
         category = self.create_category(self.project)
@@ -4666,6 +4834,152 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "No add-ons currently installed")
 
 
+class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.make_manager()
+
+    def test_component_lists_inherited_addons_as_view_only(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        manual_addon = ManualResultAddon.create(
+            project=self.project, run=False
+        ).instance
+        category_addon = NoOpAddon.create(category=category, run=False).instance
+        sitewide_addon = NoOpAddon.create(run=False).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "Manual result add-on")
+        self.assertContains(response, "Test add-on")
+        self.assertContains(response, "project-wide")
+        self.assertContains(response, "category")
+        self.assertContains(response, "site-wide")
+        self.assertContains(response, "Inherited from")
+        self.assertNotContains(response, "Installed at the current scope.")
+        self.assertContains(
+            response, reverse("addon-logs", kwargs={"pk": manual_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": manual_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": category_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": sitewide_addon.pk})
+        )
+        self.assertContains(response, "Managed at a scope you do not have access to.")
+        self.assertContains(response, "Manage add-ons at Test")
+        self.assertNotContains(response, "Run now")
+        self.assertNotContains(response, "Uninstall")
+        self.assertNotContains(response, "Configure")
+
+    def test_inherited_addon_does_not_block_local_install(self) -> None:
+        NoOpAddon.create(project=self.project, run=False)
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": NoOpAddon.name, "form": "1"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 2 add-ons")
+        self.assertTrue(
+            Addon.objects.filter(component=self.component, name=NoOpAddon.name).exists()
+        )
+        self.assertTrue(
+            Addon.objects.filter(project=self.project, name=NoOpAddon.name).exists()
+        )
+
+    def test_component_repo_scope_addon_keeps_repository_badge(self) -> None:
+        GitSquashAddon.create(
+            component=self.component, run=False, configuration={"squash": "all"}
+        )
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "repository wide")
+
+    def test_repository_scope_addon_components_view(self) -> None:
+        linked_component = self.create_link_existing(name="Linked", slug="linked")
+        addon = GitSquashAddon.create(
+            component=self.component, run=False, configuration={"squash": "all"}
+        ).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(
+            response, reverse("addon-components", kwargs={"pk": addon.pk})
+        )
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        components = {row["component"] for row in response.context["component_rows"]}
+        self.assertEqual(components, {self.component, linked_component})
+
+    def test_project_addon_components_view(self) -> None:
+        self.create_ts(project=self.project, name="TS")
+        addon = NoOpAddon.create(project=self.project, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "addons/addon_components.html")
+        self.assertContains(response, self.component.name)
+        self.assertContains(response, "Compatible")
+        self.assertEqual(
+            len(response.context["component_rows"]),
+            self.project.component_set.count(),
+        )
+
+    def test_category_addon_components_view(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        outside_component = self.create_ts(project=self.project, name="Outside")
+        addon = NoOpAddon.create(category=category, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f'href="{self.component.get_absolute_url()}"')
+        self.assertContains(response, f'href="{category.get_absolute_url()}"')
+        components = {row["component"] for row in response.context["component_rows"]}
+        self.assertIn(self.component, components)
+        self.assertNotIn(outside_component, components)
+
+    def test_addon_components_view_shows_incompatible_components(self) -> None:
+        addon = Addon.objects.create(project=self.project, name=CrashAddon.name)
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Not compatible")
+
+    def test_component_addon_components_view_not_available(self) -> None:
+        addon = NoOpAddon.create(component=self.component, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_sitewide_addon_components_view_requires_management_access(self) -> None:
+        addon = NoOpAddon.create(run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+        self.assertEqual(response.status_code, 403)
+
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.component.name)
+
+
 class PropertiesAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_java()
@@ -4694,9 +5008,9 @@ class PropertiesAddonTest(ViewTestCase):
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(init_rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
         self.component.do_reset()
@@ -4912,7 +5226,7 @@ class DiscoveryTest(ViewTestCase):
             )
         self.assertEqual(Component.objects.filter(repo=link).count(), 4)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            addon.post_update(self.component, "", False)
+            addon.post_update(self.component, "", False, [])
         self.assertEqual(Component.objects.filter(repo=link).count(), 4)
 
     def test_form(self) -> None:
@@ -5844,7 +6158,7 @@ class LanguageConsistencyTest(ComponentTestCase):
         )
 
         # Trigger post update signal, should do nothing
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(Translation.objects.count(), 15)
 
     def test_language_consistency_missing_activity_log_after_component_delete(
@@ -6873,7 +7187,7 @@ class CDNJSAddonTest(ViewTestCase):
             run=False,
         )
 
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
 
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 14
@@ -7234,7 +7548,7 @@ class CDNFilesAddonTest(ViewTestCase):
         self.assertIsNotNone(filename)
 
         Path(filename).write_bytes(b'{"hello": "updated"}\n')
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
 
         self.assertEqual(
             Path(addon.cdn_path("cs.json")).read_bytes(), Path(filename).read_bytes()
@@ -7501,6 +7815,7 @@ class BaseWebhookTests:
 
     def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_CUSTOM
 
     def count_requests(self) -> int:
         return len(responses.calls)
@@ -7558,6 +7873,21 @@ class BaseWebhookTests:
         with self.captureOnCommitCallbacks(execute=True):
             self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
         self.assertEqual(self.count_requests(), 1)
+
+    @responses.activate
+    def test_all_events(self) -> None:
+        """Test processing every change action without event filtering."""
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_ALL
+        self.do_translation_added_test(response_code=200, expected_calls=2)
+
+    @responses.activate
+    def test_content_events(self) -> None:
+        """Test processing translation content events preset."""
+        self.assertIn(ActionEvents.NEW, ACTIONS_CONTENT)
+        self.assertNotIn(ActionEvents.STRING_REMOVE, ACTIONS_CONTENT)
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_CONTENT
+        self.addon_configuration["events"] = []
+        self.do_translation_added_test(response_code=200)
 
     @responses.activate
     def test_announcement(self) -> None:
@@ -7814,6 +8144,8 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
             follow=True,
         )
         self.assertNotContains(response, "Installed 1 add-on")
+        self.assertContains(response, "addon-events.js")
+        self.assertContains(response, "id_event_filter")
 
         # empty secret
         response = self.client.post(
@@ -7837,6 +8169,29 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         )
         self.assertContains(response, "No add-ons currently installed")
 
+        # all change events without individual event selection
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "secret": "",
+                "event_filter": CHANGE_EVENT_FILTER_ALL,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(addon.configuration["event_filter"], CHANGE_EVENT_FILTER_ALL)
+        self.assertEqual(addon.configuration["events"], [])
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon.id}),
+            {"delete": "weblate.webhook.webhook"},
+            follow=True,
+        )
+        self.assertContains(response, "No add-ons currently installed")
+
         # invalid secret
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
@@ -7845,6 +8200,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
                 "events": [ActionEvents.NEW],
+                "event_filter": CHANGE_EVENT_FILTER_CUSTOM,
                 "secret": "xxxx-xx",
             },
             follow=True,
@@ -7860,10 +8216,41 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "webhook_url": "https://example.com/webhooks",
                 "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
                 "events": [ActionEvents.NEW],
+                "event_filter": CHANGE_EVENT_FILTER_CUSTOM,
             },
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(
+            addon.configuration["event_filter"], CHANGE_EVENT_FILTER_CUSTOM
+        )
+        self.assertEqual(
+            {str(item) for item in addon.configuration["events"]},
+            {str(ActionEvents.NEW)},
+        )
+
+        # switching presets preserves the previous individual event selection
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon.id}),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+        addon.refresh_from_db()
+        self.assertEqual(
+            addon.configuration["event_filter"], CHANGE_EVENT_FILTER_CONTENT
+        )
+        self.assertEqual(
+            {str(item) for item in addon.configuration["events"]},
+            {str(ActionEvents.NEW)},
+        )
 
     def test_form_blocks_private_webhook_target_by_default(self) -> None:
         self.user.is_superuser = True
@@ -8046,6 +8433,53 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
 
+    def test_topic_scopes(self) -> None:
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_COMPONENT, component=self.component)
+            ),
+            "weblate.component_renamed.test.test",
+        )
+
+        parent_category = Category.objects.create(
+            name="Parent Category", slug="parent", project=self.project
+        )
+        child_category = Category.objects.create(
+            name="Child Category",
+            slug="child",
+            category=parent_category,
+            project=self.project,
+        )
+
+        self.component.category = child_category
+        self.component.save(update_fields=["category"])
+        translation = Translation.objects.get(pk=self.translation.pk)
+
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.PROJECT_BACKUP, project=self.project)
+            ),
+            "weblate.project_backed_up.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_CATEGORY, category=child_category)
+            ),
+            "weblate.category_renamed.test.parent.child",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.RENAME_COMPONENT, component=self.component)
+            ),
+            "weblate.component_renamed.test.parent.child.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_change_topic(
+                Change(action=ActionEvents.CHANGE, translation=translation)
+            ),
+            "weblate.translation_changed.test.parent.child.test.cs",
+        )
+
     def test_body(self):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
@@ -8202,5 +8636,8 @@ class TestCommand(ComponentTestCase):
 
         self.assertIn("Common add-on parameters", parameters_content)
         self.assertIn(".. _addon-choice-engines:", parameters_content)
+        self.assertIn(".. _change-actions:", parameters_content)
+        self.assertIn("Identifier", parameters_content)
+        self.assertIn("``resource_updated``", parameters_content)
         self.assertNotIn("Built-in add-ons", parameters_content)
         self.assertNotIn("Events that trigger add-ons", parameters_content)

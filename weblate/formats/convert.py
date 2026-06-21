@@ -95,6 +95,17 @@ class ConvertPoUnit[U: pounit, F: "ConvertFormat"](BasePoUnit[U, F]):  # type: i
             return get_string(self.template.source)
         return get_string(self.unit.source)
 
+    def is_code_block(self) -> bool:
+        """
+        Check whether unit is a code block.
+
+        Code blocks are identified by the presence of a docpath ending with code[N]".
+        This would be true for both fenced and indented code blocks.
+        """
+        if docpath := self.mainunit.getdocpath():
+            return docpath.rsplit("/", 1)[-1].startswith("code[")
+        return False
+
 
 class ConvertXliffUnit(XliffUnit):
     remove_flags: ClassVar[list[str]] = ["xml-text"]
@@ -154,7 +165,8 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
         raise NotImplementedError
 
     @staticmethod
-    def needs_target_sync(template_store: TranslationFormat | None) -> bool:  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def needs_target_sync(template_store: TranslationFormat | None) -> bool:
         return False
 
     def load(
@@ -182,10 +194,13 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     def create_new_file(
         cls,
         filename: str,
-        language: Language,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        language: Language,
         base: str,
-        callback: Callable | None = None,  # noqa: ARG003
-        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        callback: Callable | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
@@ -198,10 +213,12 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     def is_valid_base_for_new(
         cls,
         base: str,
-        monolingual: bool,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        monolingual: bool,
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        file_format_params: FileFormatParams | None = None,
     ) -> bool:
         """Check whether base is valid."""
         if not base:
@@ -257,7 +274,8 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
 
         return locationindex, docpathindex
 
-    def convert_to_po(  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def convert_to_po(
         self,
         parser: TranslationStore,
         template_store: TranslationFormat | None,
@@ -380,13 +398,14 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     name = gettext_lazy("Markdown file")
     autoload: tuple[str, ...] = ("*.md", "*.markdown")
     format_id = "markdown"
-    check_flags = ("auto-safe-html", "strict-same", "md-text")
+    check_flags: tuple[str, ...] = ("auto-safe-html", "strict-same", "md-text")
 
     @staticmethod
     def get_parser_class() -> type[Any]:
         """Return parser class."""
         # Lazy import as mistletoe is expensive
-        from translate.storage.markdown import MarkdownFile  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from translate.storage.markdown import MarkdownFile
 
         return MarkdownFile
 
@@ -394,7 +413,8 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     def get_translator_class() -> type[Any]:
         """Return translator class."""
         # Lazy import as mistletoe is expensive
-        from translate.convert.po2md import MarkdownTranslator  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from translate.convert.po2md import MarkdownTranslator
 
         return MarkdownTranslator
 
@@ -469,17 +489,28 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
         return "md"
 
 
+class MDXPoUnit(ConvertPoUnit):
+    def get_extra_flags(self):
+        yield from super().get_extra_flags()
+        if self.is_code_block():
+            # fenced/indented code-block contents are considered as literal text, not JSX
+            yield "ignore-safe-mdx"
+
+
 class MDXFormat(MarkdownFormat):
     # Translators: File format name
     name = gettext_lazy("MDX file")
     autoload: tuple[str, ...] = ("*.mdx",)
     format_id = "mdx"
+    check_flags = ("auto-safe-html", "strict-same", "md-text", "safe-mdx")
+    unit_class = MDXPoUnit
 
     @staticmethod
     def get_parser_class() -> type[Any]:
         """Return parser class."""
         # Lazy import as mistletoe is expensive
-        from translate.storage.mdxfile import MDXFile  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from translate.storage.mdxfile import MDXFile
 
         return MDXFile
 
@@ -487,7 +518,8 @@ class MDXFormat(MarkdownFormat):
     def get_translator_class() -> type[Any]:
         """Return translator class."""
         # Lazy import as mistletoe is expensive
-        from translate.convert.po2mdx import MDXTranslator  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from translate.convert.po2mdx import MDXTranslator
 
         return MDXTranslator
 
@@ -497,7 +529,8 @@ class MDXFormat(MarkdownFormat):
             return self.get_translator_class()
 
         # Lazy import as mistletoe is expensive
-        from translate.convert.po2mdx import MDXTranslator  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from translate.convert.po2mdx import MDXTranslator
 
         class ContextMDXTranslator(MDXTranslator):
             def __init__(
@@ -615,7 +648,8 @@ class OpenDocumentFormat[S: Xliff1File, U: Xliff1Unit, T: ConvertXliffUnit](
         return "odt"
 
     @staticmethod
-    def needs_target_sync(template_store: TranslationFormat | None) -> bool:  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def needs_target_sync(template_store: TranslationFormat | None) -> bool:
         return True
 
 
@@ -678,7 +712,8 @@ class IDMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T])
         return "idml"
 
     @staticmethod
-    def needs_target_sync(template_store: TranslationFormat | None) -> bool:  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def needs_target_sync(template_store: TranslationFormat | None) -> bool:
         return True
 
 

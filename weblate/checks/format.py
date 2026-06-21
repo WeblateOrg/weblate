@@ -281,7 +281,8 @@ def python_format_is_position_based(string: str):
     return "(" not in string and string not in {"{", "}"}
 
 
-def name_format_is_position_based(string: str) -> bool:  # noqa: FURB118
+# ruff: ignore[reimplemented-operator]
+def name_format_is_position_based(string: str) -> bool:
     return not string
 
 

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_not_required
 from django.test import TestCase, override_settings
 from django.utils.decorators import method_decorator
@@ -77,3 +78,13 @@ class MiddlewareTest(TestCase):
         # With default settings (REQUIRE_LOGIN=False), most views are accessible
         response = self.client.get("/projects/")
         self.assertEqual(response.status_code, 200)
+
+    def test_authenticated_session_expiry_is_not_refreshed_every_request(self) -> None:
+        user = User.objects.create_user(username="testuser", password="testpass")
+        self.client.force_login(user)
+
+        response = self.client.get("/healthz/")
+        self.assertIn(settings.SESSION_COOKIE_NAME, response.cookies)
+
+        response = self.client.get("/healthz/")
+        self.assertNotIn(settings.SESSION_COOKIE_NAME, response.cookies)

@@ -21,7 +21,8 @@ def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
     It cannot be imported directly, because get_spectacular_settings is used
     from settings.
     """
-    from weblate.utils.docs import get_doc_url  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.docs import get_doc_url
 
     return get_doc_url(page, anchor, doc_version="latest")
 

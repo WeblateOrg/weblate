@@ -82,6 +82,11 @@ real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
     path("workspaces/<uuid:pk>/", weblate.workspaces.views.detail, name="workspace"),
+    path(
+        "workspaces/<uuid:pk>/access/",
+        weblate.workspaces.views.access,
+        name="workspace-access",
+    ),
     # Bulk accept all suggestions from a specific user
     path(
         "js/bulk-accept-suggestions/<object_path:path>/",
@@ -229,6 +234,11 @@ real_patterns = [
         "addon/<int:pk>/logs/",
         weblate.addons.views.AddonLogs.as_view(),
         name="addon-logs",
+    ),
+    path(
+        "addon/<int:pk>/components/",
+        weblate.addons.views.AddonComponents.as_view(),
+        name="addon-components",
     ),
     path(
         "access/<name:project>/",
@@ -793,6 +803,11 @@ real_patterns = [
     ),
     path("js/matomo/", weblate.trans.views.js.matomo, name="js-matomo"),
     path(
+        "js/flags/",
+        weblate.trans.views.js.flag_choices,
+        name="js-flag-choices",
+    ),
+    path(
         "js/translate/<name:service>/<int:unit_id>/",
         weblate.machinery.views.translate,
         name="js-translate",
@@ -811,6 +826,11 @@ real_patterns = [
         "js/translations/<int:unit_id>/",
         weblate.trans.views.js.get_unit_translations,
         name="js-unit-translations",
+    ),
+    path(
+        "js/access/<name:project>/user/<int:user_id>/groups/",
+        weblate.trans.views.acl.project_user_groups,
+        name="js-project-user-groups",
     ),
     path(
         "js/git/<object_path:path>/",

@@ -53,7 +53,7 @@ gi.require_version("Pango", "1.0")
 gi.require_version("Rsvg", "2.0")
 
 # pylint: disable-next=wrong-import-position,wrong-import-order
-from gi.repository import Pango, PangoCairo, Rsvg  # noqa: E402
+from gi.repository import Pango, PangoCairo, Rsvg  # ruff: ignore[module-import-not-at-top-of-file, unsorted-imports]
 
 COLOR_DATA = {
     "grey": (0, 0, 0),

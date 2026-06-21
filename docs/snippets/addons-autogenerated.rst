@@ -433,19 +433,22 @@ Fedora Messaging
 .. versionadded:: 5.15
 
 :Add-on ID: ``weblate.fedora_messaging.publish``
-:Configuration: +-----------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``events``      | Change events               | :ref:`addon-choice-events`                                                                      |
-                +-----------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``amqp_host``   | AMQP broker host            | The AMQP broker to connect to.                                                                  |
-                +-----------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``amqp_ssl``    | Use SSL for AMQP connection |                                                                                                 |
-                +-----------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``ca_cert``     | CA certificates             | Bundle of PEM encoded CA certificates used to validate the certificate presented by the server. |
-                +-----------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``client_key``  | Client SSL key              | PEM encoded client private SSL key.                                                             |
-                +-----------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``client_cert`` | Client SSL certificates     | PEM encoded client SSL certificate.                                                             |
-                +-----------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+:Configuration: +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+                | ``amqp_host``    | AMQP broker host            | The AMQP broker to connect to.                                                                  |
+                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+                | ``amqp_ssl``     | Use SSL for AMQP connection |                                                                                                 |
+                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+                | ``ca_cert``      | CA certificates             | Bundle of PEM encoded CA certificates used to validate the certificate presented by the server. |
+                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+                | ``client_key``   | Client SSL key              | PEM encoded client private SSL key.                                                             |
+                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+                | ``client_cert``  | Client SSL certificates     | PEM encoded client SSL certificate.                                                             |
+                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+                | ``event_filter`` | Change events to trigger    | Choose which change events should trigger this add-on.                                          |
+                |                  |                             | :ref:`addon-choice-event_filter`                                                                |
+                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+                | ``events``       | Selected change events      | :ref:`addon-choice-events`                                                                      |
+                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-event-change`
 
@@ -460,10 +463,18 @@ Message topic
 ~~~~~~~~~~~~~
 
 All messages have topic
-``weblate.<action>.<project>.<component>.<translation>``. The action is
-lowercase textual representation of action with underscores instead of space,
-for example ``resource_update``, all other parts are optional and represent
-slug of the object or a language code.
+``weblate.<action>.<project>.<category...>.<component>.<translation>``.
+The action is lowercase textual representation of action with underscores
+instead of space, for example ``resource_updated``; see :ref:`change-actions`
+for all action identifiers. The remaining parts match Weblate object path
+segments.
+
+For example, a project backup event for the ``website`` project uses
+``weblate.project_backed_up.website``. A translation change in the ``website``
+project, ``frontend`` component, and Czech translation uses
+``weblate.translation_changed.website.frontend.cs``. The same change in the
+``frontend`` component inside the ``parent`` and ``child`` categories uses
+``weblate.translation_changed.website.parent.child.frontend.cs``.
 
 Message body
 ~~~~~~~~~~~~
@@ -1037,6 +1048,22 @@ Update gettext template (Django)
 Updates the gettext template using Django's built-in makemessages command.
 
 .. AUTOGENERATED END: weblate.gettext.django
+
+.. include:: /snippets/addons/gettext-pot-common.rst
+
+Django requirements
+~~~~~~~~~~~~~~~~~~~
+
+This add-on requires :program:`xgettext` and :program:`msguniq`. It runs
+Weblate's internal extraction wrapper for Django messages instead of invoking a
+project's :program:`manage.py makemessages`, so it does not load project Django
+settings or applications.
+
+The template for new translations must use the ``django`` or ``djangojs``
+domain. Supported template names are :file:`django.pot`, :file:`djangojs.pot`,
+:file:`django.po`, and :file:`djangojs.po`. Weblate infers the source directory
+from the template path and skips repository locale directories while extracting.
+
 .. AUTOGENERATED START: weblate.gettext.linguas
 .. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
 
@@ -1122,6 +1149,36 @@ Update POT file (Meson)
 Updates the gettext template using Meson gettext conventions.
 
 .. AUTOGENERATED END: weblate.gettext.meson
+
+.. include:: /snippets/addons/gettext-pot-common.rst
+
+Meson requirements
+~~~~~~~~~~~~~~~~~~
+
+This add-on requires :program:`xgettext`; it does not invoke Meson. It follows
+Meson gettext conventions by reading :file:`POTFILES` or :file:`POTFILES.in`
+from the gettext directory and passing the GLib keyword and format-flag preset
+to :program:`xgettext`.
+
+The gettext directory is the directory containing the template configured in
+:ref:`component-new_base`. It must contain :file:`meson.build` and
+:file:`POTFILES` or :file:`POTFILES.in`. A Meson project :file:`meson.build`
+must be present in that directory or one of its parent directories. If both
+:file:`POTFILES` and :file:`POTFILES.in` exist, :file:`POTFILES` is used.
+An adjacent :file:`POTFILES.skip` excludes listed source files from extraction.
+
+Configure this add-on from the existing Meson gettext setup. In most Meson
+projects, the gettext directory is :file:`po/`, the template is named after the
+gettext domain, and :file:`po/meson.build` calls Meson's gettext helper. Use the
+same template path in :ref:`component-new_base`, for example
+:file:`po/example.pot`, and keep :file:`POTFILES` or :file:`POTFILES.in` next to
+that :file:`meson.build` file.
+
+Weblate does not read the source file list from :file:`meson.build`. It uses
+:file:`POTFILES` or :file:`POTFILES.in`, matching Meson's gettext convention.
+When the Meson project uses a non-default gettext directory or domain, mirror
+that layout in the component template path.
+
 .. AUTOGENERATED START: weblate.gettext.mo
 .. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
 
@@ -1183,7 +1240,8 @@ merges those changes into all language PO files, ensuring that:
 * Modified strings are marked as needing review (fuzzy)
 
 Most msgmerge command-line options can be set up through file format parameters
-configuration.
+configuration. Enable the ``po_remove_obsolete`` parameter to remove obsolete
+``#~`` entries when PO files are saved.
 
 .. seealso::
 
@@ -1236,6 +1294,22 @@ Updates the gettext template using Sphinx's gettext builder without loading
 project configuration.
 
 .. AUTOGENERATED END: weblate.gettext.sphinx
+
+.. include:: /snippets/addons/gettext-pot-common.rst
+
+Sphinx requirements
+~~~~~~~~~~~~~~~~~~~
+
+This add-on requires :program:`sphinx-build`, provided by the ``sphinx``
+installation extra. The template for new translations must be a :file:`.pot`
+file below a :file:`locales` directory. The directory before :file:`locales` is
+used as the Sphinx source directory and must contain :file:`conf.py`.
+
+Extraction uses Weblate's bundled Sphinx configuration and does not load the
+project configuration. Weblate runs the Sphinx gettext builder, normalizes
+source references to paths relative to the source directory, and copies the
+generated template back to the configured template path.
+
 .. AUTOGENERATED START: weblate.gettext.xgettext
 .. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
 
@@ -1302,7 +1376,7 @@ Update POT file (xgettext)
                 |                      |                      |    * - ``potfiles``                                                                                                                                                                              |
                 |                      |                      |      - POTFILES manifest                                                                                                                                                                         |
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``language``         | xgettext language    | Programming language passed to xgettext, for example Python or C.                                                                                                                                |
+                | ``language``         | xgettext language    | Programming language passed to xgettext, for example Python or C. Leave blank to let xgettext guess the language from file extensions.                                                           |
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``source_patterns``  | Source file patterns | Newline-separated repository-relative glob patterns for files to extract with xgettext.                                                                                                          |
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1314,6 +1388,42 @@ Update POT file (xgettext)
 Updates the gettext template using xgettext on selected source files.
 
 .. AUTOGENERATED END: weblate.gettext.xgettext
+
+.. include:: /snippets/addons/gettext-pot-common.rst
+
+xgettext requirements
+~~~~~~~~~~~~~~~~~~~~~
+
+This add-on requires :program:`xgettext`. Configure either source file patterns
+or a :file:`POTFILES` / :file:`POTFILES.in` manifest. Source file patterns are
+repository-relative glob patterns and only matching repository files are passed
+to :program:`xgettext`.
+
+Entries in :file:`POTFILES` or :file:`POTFILES.in` are resolved relative to the
+repository root. They must be relative paths, stay inside the repository, and
+point to existing files. Blank lines and lines starting with ``#`` are ignored.
+If a :file:`POTFILES.skip` file exists next to the manifest, its entries are
+excluded from extraction.
+
+Automatic repository refresh runs are skipped unless the changed files match
+the configured source patterns, match files listed in the manifest, change a
+watched manifest, or change the add-on configuration.
+
+Start from the build-system extraction setup when configuring this add-on.
+Autotools projects usually keep gettext inputs in :file:`po/POTFILES.in` and
+options such as the gettext domain and :program:`xgettext` flags in
+:file:`po/Makevars` or related :file:`Makefile.am` files. Use manifest mode
+with the same :file:`POTFILES.in` when its entries are plain repository-relative
+source paths, and copy relevant extraction behavior into the add-on settings,
+for example the language, comment extraction, checks, and additional keyword.
+
+For other build systems, use the source list or extraction command they already
+run as the source of truth. CMake, custom Makefiles, npm scripts, or project
+specific extraction scripts often call :program:`xgettext` directly or generate
+an intermediate file list. Configure source patterns for simple layouts, or use
+manifest mode when the project maintains a plain file list. If a build-system
+manifest contains transformations or prefixes that are not file paths, convert
+it to plain repository-relative paths before using it as :file:`POTFILES`.
 
 .. AUTOGENERATED START: weblate.git.squash
 .. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
@@ -1509,11 +1619,14 @@ Slack Webhooks
 .. versionadded:: 5.12
 
 :Add-on ID: ``weblate.webhook.slack``
-:Configuration: +-----------------+---------------+----------------------------+
-                | ``webhook_url`` | Webhook URL   |                            |
-                +-----------------+---------------+----------------------------+
-                | ``events``      | Change events | :ref:`addon-choice-events` |
-                +-----------------+---------------+----------------------------+
+:Configuration: +------------------+--------------------------+--------------------------------------------------------+
+                | ``webhook_url``  | Webhook URL              |                                                        |
+                +------------------+--------------------------+--------------------------------------------------------+
+                | ``event_filter`` | Change events to trigger | Choose which change events should trigger this add-on. |
+                |                  |                          | :ref:`addon-choice-event_filter`                       |
+                +------------------+--------------------------+--------------------------------------------------------+
+                | ``events``       | Selected change events   | :ref:`addon-choice-events`                             |
+                +------------------+--------------------------+--------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-event-change`
 
@@ -1544,13 +1657,16 @@ Webhook
    Compliance of the secret length with the specification is now validated.
 
 :Add-on ID: ``weblate.webhook.webhook``
-:Configuration: +-----------------+----------------+----------------------------------------------------------+
-                | ``webhook_url`` | Webhook URL    |                                                          |
-                +-----------------+----------------+----------------------------------------------------------+
-                | ``secret``      | Webhook secret | The Standard Webhooks secret is a base64 encoded string. |
-                +-----------------+----------------+----------------------------------------------------------+
-                | ``events``      | Change events  | :ref:`addon-choice-events`                               |
-                +-----------------+----------------+----------------------------------------------------------+
+:Configuration: +------------------+--------------------------+----------------------------------------------------------+
+                | ``webhook_url``  | Webhook URL              |                                                          |
+                +------------------+--------------------------+----------------------------------------------------------+
+                | ``secret``       | Webhook secret           | The Standard Webhooks secret is a base64 encoded string. |
+                +------------------+--------------------------+----------------------------------------------------------+
+                | ``event_filter`` | Change events to trigger | Choose which change events should trigger this add-on.   |
+                |                  |                          | :ref:`addon-choice-event_filter`                         |
+                +------------------+--------------------------+----------------------------------------------------------+
+                | ``events``       | Selected change events   | :ref:`addon-choice-events`                               |
+                +------------------+--------------------------+----------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-event-change`
 
@@ -1559,7 +1675,8 @@ the Standard Webhooks specification.
 
 .. AUTOGENERATED END: weblate.webhook.webhook
 
-The request payload complies with the :ref:`schema-messaging` schema.
+The request payload complies with the :ref:`schema-messaging` schema. The
+``action`` field uses the action name listed in :ref:`change-actions`.
 The OpenAPI description can also be found at ``/api/docs/``.
 Sample request body:
 

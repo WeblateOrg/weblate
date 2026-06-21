@@ -46,7 +46,8 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
 
     @cached_property
     def client(self):
-        import boto3  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        import boto3
 
         return boto3.client(
             service_name="translate",

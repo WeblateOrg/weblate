@@ -5,34 +5,83 @@
 // biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: TODO: doesn't work without that
 var WLT = WLT || {};
 
+function delegate(roots, eventName, selector, handler, options) {
+  const list =
+    roots instanceof NodeList || Array.isArray(roots) ? roots : [roots];
+  for (const root of list) {
+    if (!root) {
+      continue;
+    }
+    root.addEventListener(
+      eventName,
+      (event) => {
+        const match = event.target.closest?.(selector);
+        if (match && root.contains(match)) {
+          handler.call(match, event);
+        }
+      },
+      options,
+    );
+  }
+}
+
 WLT.Config = (() => ({
   IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
   HAS_REVIEW_WORKFLOW:
-    $('.translation-form input[name="review"][value="30"]').length > 0,
+    document.querySelectorAll(
+      '.translation-form input[name="review"][value="30"]',
+    ).length > 0,
 }))();
 
 WLT.Utils = (() => ({
   getNumericKey: (idx) => (idx + 1) % 10,
 
-  markFuzzy: ($el) => {
+  markFuzzy: (el) => {
+    if (!el) {
+      return;
+    }
     /* Standard workflow */
-    $el.find('input[name="fuzzy"]').prop("checked", true);
+    for (const input of el.querySelectorAll('input[name="fuzzy"]')) {
+      input.checked = true;
+    }
     /* Review workflow */
-    $el.find('input[name="review"][value="10"]').prop("checked", true);
+    for (const input of el.querySelectorAll(
+      'input[name="review"][value="10"]',
+    )) {
+      input.checked = true;
+    }
   },
 
-  markTranslated: ($el) => {
+  markTranslated: (el) => {
+    if (!el) {
+      return;
+    }
     /* Standard workflow */
-    $el.find('input[name="fuzzy"]').prop("checked", false);
+    for (const input of el.querySelectorAll('input[name="fuzzy"]')) {
+      input.checked = false;
+    }
     /* Review workflow */
-    $el.find('input[name="review"][value="20"]').prop("checked", true);
+    for (const input of el.querySelectorAll(
+      'input[name="review"][value="20"]',
+    )) {
+      input.checked = true;
+    }
   },
 
-  markApproved: ($el) => {
+  markApproved: (el) => {
+    if (!el) {
+      return;
+    }
     /* Standard workflow */
-    $el.find('input[name="fuzzy"]').prop("checked", false);
+    for (const input of el.querySelectorAll('input[name="fuzzy"]')) {
+      input.checked = false;
+    }
     /* Review workflow */
-    $el.find('input[name="review"][value="30"]').prop("checked", true);
+    for (const input of el.querySelectorAll(
+      'input[name="review"][value="30"]',
+    )) {
+      input.checked = true;
+    }
   },
 
   /**
@@ -42,20 +91,28 @@ WLT.Utils = (() => ({
    * @returns {void}
    */
   indicateChanges: (e) => {
-    const $warning = $(
-      "<div id='unsaved-label' class='text-warning float-end'/>",
-    );
-    const $editorArea = e
-      ? $(e.target).closest(".translation-editor")
-      : $(".translator .translation-editor");
-    const $target = $editorArea
-      .closest(".translation-item")
-      .find(".editor-footer");
-    $warning.text(gettext("Unsaved changes!"));
-    if ($target.next(".text-warning").length === 0) {
-      $warning.insertAfter($target);
-      $editorArea.addClass("has-changes");
+    const editorArea = e
+      ? e.target.closest(".translation-editor")
+      : document.querySelector(".translator .translation-editor");
+    if (!editorArea) {
+      return;
     }
+    const target = editorArea
+      .closest(".translation-item")
+      ?.querySelector(".editor-footer");
+    if (!target) {
+      return;
+    }
+    const next = target.nextElementSibling;
+    if (next?.classList.contains("text-warning")) {
+      return;
+    }
+    const warning = document.createElement("div");
+    warning.id = "unsaved-label";
+    warning.className = "text-warning float-end";
+    warning.textContent = gettext("Unsaved changes!");
+    target.insertAdjacentElement("afterend", warning);
+    editorArea.classList.add("has-changes");
   },
   /**
    * Check if the translation has any changes
@@ -63,10 +120,10 @@ WLT.Utils = (() => ({
    * @returns {boolean}
    */
   editorHasChanges: (e) => {
-    const $editorArea = e
-      ? $(e.target).closest(".translation-editor")
-      : $(".translator .translation-editor");
-    return $editorArea.hasClass("has-changes");
+    const editorArea = e
+      ? e.target.closest(".translation-editor")
+      : document.querySelector(".translator .translation-editor");
+    return editorArea?.classList.contains("has-changes") ?? false;
   },
 }))();
 
@@ -76,21 +133,23 @@ WLT.Editor = (() => {
   function EditorBase() {
     const translationAreaSelector = ".translation-editor";
 
-    this.$editor = $(".js-editor");
-    /* Only insert actual translation editor, not a popup for adding variant */
-    this.$translationArea = $(".translator .translation-editor");
+    this.editors = document.querySelectorAll(".js-editor");
+    /* Only insert actual translation editor, not a popup for adding variant. */
+    this.translationArea = document.querySelectorAll(
+      ".translator .translation-editor",
+    );
 
-    this.$editor.on("input", translationAreaSelector, (e) => {
-      WLT.Utils.markTranslated($(e.target).closest("form"));
+    delegate(this.editors, "input", translationAreaSelector, (e) => {
+      WLT.Utils.markTranslated(e.target.closest("form"));
       WLT.Utils.indicateChanges(e);
     });
 
-    this.$editor.on("focusin", translationAreaSelector, function () {
-      lastEditor = $(this);
+    delegate(this.editors, "focusin", translationAreaSelector, function () {
+      lastEditor = this;
     });
 
     /* Count characters */
-    this.$editor.on("input", translationAreaSelector, (e) => {
+    delegate(this.editors, "input", translationAreaSelector, (e) => {
       const textarea = e.target;
       const editor = textarea.parentElement.parentElement;
       const counter = editor.querySelector(".length-indicator");
@@ -113,89 +172,102 @@ WLT.Editor = (() => {
     });
 
     /* Copy source text */
-    this.$editor.on("click", "[data-clone-value]", function (e) {
-      const $this = $(this);
-      const $document = $(document);
+    delegate(this.editors, "click", "[data-clone-value]", function (e) {
       const cloneText = this.getAttribute("data-clone-value");
 
-      let row = $this.closest(".zen-unit");
-      if (row.length === 0) {
-        row = $this.closest(".translator");
-      }
-      if (row.length === 0) {
-        row = $document.find(".translator");
-      }
-      const editors = row.find(".translation-editor");
+      const row =
+        this.closest(".zen-unit") ||
+        this.closest(".translator") ||
+        document.querySelector(".translator");
+      const editors = row ? row.querySelectorAll(".translation-editor") : [];
       if (editors.length === 1) {
-        editors.replaceValue(cloneText);
+        replaceValue(editors[0], cloneText);
       } else {
         addAlert(gettext("Please select target plural by clicking."), "info");
-        editors.addClass("editor-click-select");
-        editors.click(function () {
-          $(this).replaceValue(cloneText);
-          editors.removeClass("editor-click-select");
-          editors.off("click");
-          $document.off("click");
-          return false;
-        });
-        $document.on("click", () => {
-          editors.removeClass("editor-click-select");
-          editors.off("click");
-          $document.off("click");
-          return false;
-        });
+        for (const editor of editors) {
+          editor.classList.add("editor-click-select");
+        }
+
+        const cleanup = () => {
+          for (const editor of editors) {
+            editor.classList.remove("editor-click-select");
+            editor.removeEventListener("click", onEditorClick);
+          }
+          document.removeEventListener("click", onDocClick);
+        };
+        const onEditorClick = function (ev) {
+          replaceValue(this, cloneText);
+          cleanup();
+          ev.preventDefault();
+          ev.stopPropagation();
+        };
+        const onDocClick = (ev) => {
+          cleanup();
+          ev.preventDefault();
+        };
+        for (const editor of editors) {
+          editor.addEventListener("click", onEditorClick);
+        }
+        document.addEventListener("click", onDocClick);
       }
-      WLT.Utils.markFuzzy($this.closest("form"));
+      WLT.Utils.markFuzzy(this.closest("form"));
       WLT.Utils.indicateChanges(e);
-      return false;
+      e.preventDefault();
+      e.stopPropagation();
     });
 
     /* Direction toggling */
-    this.$editor.on("change", ".direction-toggle", function (e) {
-      const $this = $(this);
-      const direction = $this.find("input").val();
-      const container = $this.closest(".translation-item");
-
-      container.find(".translation-editor").attr("dir", direction);
-      container.find(".highlighted-output").attr("dir", direction);
+    delegate(this.editors, "change", ".direction-toggle", function (e) {
+      const direction = this.querySelector("input")?.value;
+      const container = this.closest(".translation-item");
+      if (!container) {
+        return;
+      }
+      for (const el of container.querySelectorAll(".translation-editor")) {
+        el.setAttribute("dir", direction);
+      }
+      for (const el of container.querySelectorAll(".highlighted-output")) {
+        el.setAttribute("dir", direction);
+      }
       WLT.Utils.indicateChanges(e);
     });
 
     /* Special characters */
-    this.$editor.on("click", ".specialchar", function (e) {
-      const $this = $(this);
+    delegate(this.editors, "click", ".specialchar", function (e) {
       const text = this.getAttribute("data-value");
-
-      $this
-        .closest(".translation-item")
-        .find(".translation-editor")
-        .insertAtCaret(text);
+      const editor = this.closest(".translation-item")?.querySelector(
+        ".translation-editor",
+      );
+      if (editor) {
+        insertAtCaret(editor, text);
+      }
       e.preventDefault();
       WLT.Utils.indicateChanges(e);
     });
 
     // Disable insertion and copy buttons for read only strings
-    $(".translator").each(function () {
-      const $this = $(this);
-
-      if ($this.find(".translation-editor").first().attr("readonly")) {
+    for (const translator of document.querySelectorAll(".translator")) {
+      const firstEditor = translator.querySelector(".translation-editor");
+      if (firstEditor?.hasAttribute("readonly")) {
         // Apply to zen unit or the entire document
         // the latter also disables insertion from related strings
-        let root = $this.closest(".zen-unit");
-        if (root.length === 0) {
-          root = $(document);
+        const root = translator.closest(".zen-unit") || document;
+        for (const el of root.querySelectorAll(".specialchar")) {
+          el.setAttribute("disabled", "");
         }
-
-        root.find(".specialchar").attr("disabled", "");
-        root.find("[data-clone-value]").attr("disabled", "");
-        root.find(".hlcheck").addClass("disabled");
+        for (const el of root.querySelectorAll("[data-clone-value]")) {
+          el.setAttribute("disabled", "");
+        }
+        for (const el of root.querySelectorAll(".hlcheck")) {
+          el.classList.add("disabled");
+        }
       }
-    });
+    }
 
     this.initHighlight();
     this.init();
 
-    this.$translationArea[0].focus();
+    this.translationArea[0]?.focus();
 
     // Show confirmation dialog if changes have been made
     // when leaving the page
@@ -207,18 +279,28 @@ WLT.Editor = (() => {
     });
 
     // Skip confirmation
-    this.$editor.on("click", ".skip", (e) => {
+    delegate(this.editors, "click", ".skip", (e) => {
       if (WLT.Utils.editorHasChanges(e)) {
-        return confirm(
-          gettext("You have unsaved changes. Are you sure you want to skip?"),
-        );
+        if (
+          !confirm(
+            gettext("You have unsaved changes. Are you sure you want to skip?"),
+          )
+        ) {
+          e.preventDefault();
+        }
       }
     });
 
     // Remove unsaved changes warning when submitting
-    this.$editor.on("submit", () => {
-      $(".translator .translation-editor").removeClass("has-changes");
-    });
+    for (const editor of this.editors) {
+      editor.addEventListener("submit", () => {
+        for (const el of document.querySelectorAll(
+          ".translator .translation-editor",
+        )) {
+          el.classList.remove("has-changes");
+        }
+      });
+    }
   }
 
   EditorBase.prototype.init = () => {};
@@ -228,11 +310,10 @@ WLT.Editor = (() => {
     const hlNumberSelector = ".highlight-number";
 
     /* Copy from source text highlight check */
-    this.$editor.on("click", hlSelector, function (e) {
-      const $this = $(this);
+    delegate(this.editors, "click", hlSelector, function (e) {
       // Do not insert if highlighted element is disabled
-      if (!$this.hasClass("disabled")) {
-        insertEditor(this.getAttribute("data-value"), $this);
+      if (!this.classList.contains("disabled")) {
+        insertEditor(this.getAttribute("data-value"), this);
       }
       e.preventDefault();
       WLT.Utils.indicateChanges(e);
@@ -243,11 +324,9 @@ WLT.Editor = (() => {
       hotkeys(`ctrl+${i},command+${i}`, () => false);
     }
 
-    const $hlCheck = $(hlSelector);
-    if ($hlCheck.length > 0) {
-      $hlCheck.each(function (idx) {
-        const $this = $(this);
-
+    const hlChecks = document.querySelectorAll(hlSelector);
+    if (hlChecks.length > 0) {
+      hlChecks.forEach((el, idx) => {
         if (idx < 10) {
           const key = WLT.Utils.getNumericKey(idx);
 
@@ -257,28 +336,42 @@ WLT.Editor = (() => {
           } else {
             title = interpolate(gettext("Ctrl+%s"), [key]);
           }
-          $this.attr("title", title);
-          $this.find(hlNumberSelector).html($("<kbd/>").text(key));
+          el.setAttribute("title", title);
+          const numberEl = el.querySelector(hlNumberSelector);
+          if (numberEl) {
+            const kbd = document.createElement("kbd");
+            kbd.textContent = key;
+            numberEl.replaceChildren(kbd);
+          }
 
           hotkeys(`ctrl+${key},command+${key}`, () => {
-            $this.click();
+            el.click();
             return false;
           });
         } else {
-          $this.find(hlNumberSelector).html("");
+          const numberEl = el.querySelector(hlNumberSelector);
+          if (numberEl) {
+            numberEl.replaceChildren();
+          }
         }
       });
-      $(hlNumberSelector).hide();
+      for (const el of document.querySelectorAll(hlNumberSelector)) {
+        el.style.display = "none";
+      }
     }
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Control" || e.key === "Meta") {
-        $(hlNumberSelector).show();
+        for (const el of document.querySelectorAll(hlNumberSelector)) {
+          el.style.display = "";
+        }
       }
     });
     document.addEventListener("keyup", (e) => {
       if (e.key === "Control" || e.key === "Meta") {
-        $(hlNumberSelector).hide();
+        for (const el of document.querySelectorAll(hlNumberSelector)) {
+          el.style.display = "none";
+        }
       }
     });
   };
@@ -287,27 +380,27 @@ WLT.Editor = (() => {
     let root;
 
     /* Find within root element */
-    if (typeof element !== "undefined") {
-      root = element.closest(".zen-unit");
-      if (root.length === 0) {
-        root = element.closest(".translation-form");
-      }
-      if (root.length === 0) {
-        root = $(document);
-      }
+    if (element) {
+      root =
+        element.closest(".zen-unit") ||
+        element.closest(".translation-form") ||
+        document;
     } else {
-      root = $(document);
+      root = document;
     }
 
-    let editor = root.find(".translation-editor:focus");
-    if (editor.length === 0) {
-      editor = root.find(lastEditor);
-      if (editor.length === 0) {
-        editor = root.find(".translation-editor:first");
+    let editor = root.querySelector(".translation-editor:focus");
+    if (!editor) {
+      if (lastEditor && root.contains(lastEditor)) {
+        editor = lastEditor;
+      } else {
+        editor = root.querySelector(".translation-editor");
       }
     }
 
-    editor.insertAtCaret(text);
+    if (editor) {
+      insertAtCaret(editor, text);
+    }
   }
 
   return {

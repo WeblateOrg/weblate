@@ -15,6 +15,7 @@ from siphashc import siphash
 from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.base import ChangeBaseAddon
+from weblate.trans.actions import get_change_action_identifier
 from weblate.trans.util import split_plural
 from weblate.utils.data import data_path
 from weblate.utils.site import get_site_url
@@ -51,9 +52,12 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     def can_process(
         cls,
         *,
-        component: Component | None = None,  # noqa: ARG003
-        category: Category | None = None,  # noqa: ARG003
-        project: Project | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        component: Component | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        category: Category | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        project: Project | None = None,
     ) -> bool:
         return True
 
@@ -87,15 +91,19 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         """
         Generate a topic for the change.
 
-        It is in the form weblate.<action>.<project>.<component>.<translation>
+        It is in the form
+        weblate.<action>.<project>.<category...>.<component>.<translation>
         """
-        parts = ["weblate", change.get_action_display().lower().replace(" ", "_")]
-        if change.project:
-            parts.append(change.project.slug)
-        if change.component:
-            parts.append(change.component.slug)
-        if change.translation:
-            parts.append(change.translation.language.code)
+        parts = ["weblate", get_change_action_identifier(change.get_action_display())]
+        for path_object in (
+            change.translation,
+            change.component,
+            change.category,
+            change.project,
+        ):
+            if path_object is not None:
+                parts.extend(path_object.get_url_path())
+                break
         return ".".join(parts)
 
     @staticmethod
@@ -169,7 +177,8 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             return
 
         # Discard existing Twisted service as configuration has changed
-        fedora_messaging.api._twisted_service = None  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        fedora_messaging.api._twisted_service = None
 
         # Avoid loading settings file
         messaging_config.loaded = True
@@ -207,4 +216,5 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         )
 
         # Validate the configuration, there is currently no public API for this
-        messaging_config._validate()  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        messaging_config._validate()

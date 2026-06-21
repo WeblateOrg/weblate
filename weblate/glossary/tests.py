@@ -19,9 +19,11 @@ from django.urls import reverse
 from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
 from weblate.glossary.tasks import (
     cleanup_stale_glossaries,
+    get_stale_glossary_translations,
     sync_terminology,
 )
 from weblate.lang.models import Language
+from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -135,6 +137,35 @@ class GlossaryTest(ViewTestCase):
             state=STATE_TRANSLATED,
         )
         self.glossary.invalidate_cache()
+
+    def make_glossary_language_stale(
+        self, language_code: str, source: str | None = None
+    ) -> Translation:
+        language = Language.objects.get(code=language_code)
+        self.component.translation_set.filter(language=language).delete()
+        glossary = self.glossary_component.translation_set.get(language=language)
+        if source is not None:
+            with self.captureOnCommitCallbacks(execute=True):
+                glossary.add_unit(None, "", source, source, author=self.user)
+        return glossary
+
+    def assert_unused_glossary_language_alert(self, *language_codes: str) -> None:
+        if not language_codes:
+            self.assertFalse(
+                self.glossary_component.alert_set.filter(
+                    name="UnusedGlossaryLanguage"
+                ).exists()
+            )
+            return
+
+        alert = self.glossary_component.alert_set.get(name="UnusedGlossaryLanguage")
+        self.assertEqual(
+            {
+                occurrence["language_code"]
+                for occurrence in alert.details["occurrences"]
+            },
+            set(language_codes),
+        )
 
     def test_import(self) -> None:
         """Test for importing of TBX into glossary."""
@@ -650,6 +681,83 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(
             self.glossary_component.translation_set.count(), initial_count - 1
         )
+
+    def test_stale_glossary_translations(self) -> None:
+        self.assertFalse(get_stale_glossary_translations(self.project).exists())
+
+        self.make_glossary_language_stale("de")
+
+        self.assertEqual(
+            list(
+                get_stale_glossary_translations(self.project).values_list(
+                    "language_code", flat=True
+                )
+            ),
+            ["de"],
+        )
+
+        self.component.delete()
+
+        self.assertFalse(get_stale_glossary_translations(self.project).exists())
+
+    def test_unused_glossary_language_alert(self) -> None:
+        glossary = self.make_glossary_language_stale("de", "unused de")
+
+        cleanup_stale_glossaries(self.project.id)
+
+        self.assertTrue(
+            self.glossary_component.translation_set.filter(pk=glossary.pk).exists()
+        )
+        self.assert_unused_glossary_language_alert()
+
+        update_alerts(self.glossary_component, {"UnusedGlossaryLanguage"})
+
+        self.assert_unused_glossary_language_alert("de")
+        alert = self.glossary_component.alert_set.get(name="UnusedGlossaryLanguage")
+        removal_url = f"{glossary.get_absolute_url()}#organize"
+
+        self.assertFalse(self.user.has_perm("translation.delete", glossary))
+        self.assertNotIn(removal_url, alert.render(self.user))
+
+        self.make_manager()
+        self.user.clear_cache()
+        self.assertTrue(self.user.has_perm("translation.delete", glossary))
+        self.assertIn(removal_url, alert.render(self.user))
+
+    def test_unused_glossary_language_alert_ignores_blank_local_glossary(self) -> None:
+        self.make_glossary_language_stale("de")
+
+        update_alerts(self.glossary_component, {"UnusedGlossaryLanguage"})
+
+        self.assert_unused_glossary_language_alert()
+
+    def test_unused_glossary_language_alert_ignores_matching_language(self) -> None:
+        update_alerts(self.glossary_component, {"UnusedGlossaryLanguage"})
+
+        self.assert_unused_glossary_language_alert()
+
+    def test_unused_glossary_language_alert_ignores_glossary_only_project(self) -> None:
+        self.component.delete()
+
+        update_alerts(self.glossary_component, {"UnusedGlossaryLanguage"})
+
+        self.assert_unused_glossary_language_alert()
+
+    def test_unused_glossary_language_alert_updates_on_removal(self) -> None:
+        czech_glossary = self.make_glossary_language_stale("cs", "unused cs")
+        german_glossary = self.make_glossary_language_stale("de", "unused de")
+        update_alerts(self.glossary_component, {"UnusedGlossaryLanguage"})
+        self.assert_unused_glossary_language_alert("cs", "de")
+
+        with self.captureOnCommitCallbacks(execute=True):
+            german_glossary.remove(self.user)
+
+        self.assert_unused_glossary_language_alert("cs")
+
+        with self.captureOnCommitCallbacks(execute=True):
+            czech_glossary.remove(self.user)
+
+        self.assert_unused_glossary_language_alert()
 
     def test_prohibited_initial_character(self) -> None:
         """Test that a prohibited initial character in views."""

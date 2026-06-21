@@ -295,7 +295,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
             )
         except HTTPError as error:
             report_error("Activation error")
-            if error.response.status_code == 404:
+            if error.response is not None and error.response.status_code == 404:
                 messages.error(
                     request,
                     gettext(
@@ -509,7 +509,7 @@ def alerts(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show component alerts."""
     context = {
         "alerts": Alert.objects.filter(severity__gte=AlertSeverity.ERROR)
-        .order_by("name", "component__project__name", "component__name")
+        .order()
         .select_related("component", "component__project"),
         "no_components": Project.objects.filter(component__isnull=True),
         "menu_items": MENU,
@@ -665,7 +665,8 @@ def appearance(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @management_permission_required("billing.manage")
 def billing(request: AuthenticatedHttpRequest) -> HttpResponse:
-    from weblate.billing.models import Billing  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.models import Billing
 
     trial = []
     pending = []

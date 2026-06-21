@@ -25,7 +25,10 @@ from weblate.auth.results import PermissionResult
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
-from weblate.memory.tasks import handle_unit_translation_change
+from weblate.memory.tasks import (
+    get_unit_memory_update,
+    schedule_memory_update,
+)
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
@@ -92,7 +95,10 @@ def orders_units_by_component(obj: object) -> bool:
     if isinstance(obj, (Project, Category)):
         return True
 
-    from weblate.utils.stats import CategoryLanguage, ProjectLanguage  # noqa: PLC0415
+    from weblate.utils.stats import (  # ruff: ignore[import-outside-top-level]
+        CategoryLanguage,
+        ProjectLanguage,
+    )
 
     return isinstance(obj, (ProjectLanguage, CategoryLanguage))
 
@@ -119,8 +125,15 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
     def prefetch(self):
-        from weblate.trans.models.component import Component  # noqa: PLC0415
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import (
+            Component,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import (
+            Workspace,
+        )
 
         return self.prefetch_related(
             "translation",
@@ -165,8 +178,15 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         )
 
     def prefetch_source(self):
-        from weblate.trans.models.component import Component  # noqa: PLC0415
-        from weblate.workspaces.models import Workspace  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import (
+            Component,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import (
+            Workspace,
+        )
 
         return self.prefetch_related(
             "source_unit",
@@ -205,10 +225,12 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             "source_unit__translation",
             models.Prefetch(
                 "source_unit__check_set",
+                queryset=Check.objects.order(),
                 to_attr="all_checks",
             ),
             models.Prefetch(
                 "check_set",
+                queryset=Check.objects.order(),
                 to_attr="all_checks",
             ),
         )
@@ -236,13 +258,35 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             )
         )
 
+    def prefetch_embed(self):
+        """Prefetch relations needed by snippets/embed-units.html."""
+        return (
+            self.prefetch_all_checks()
+            .prefetch_source()
+            .prefetch_related(
+                models.Prefetch(
+                    "suggestion_set",
+                    queryset=Suggestion.objects.order(),
+                    to_attr="suggestions",
+                ),
+                models.Prefetch(
+                    "comment_set",
+                    queryset=Comment.objects.filter(resolved=False),
+                    to_attr="unresolved_comments",
+                ),
+            )
+        )
+
     def prefetch_bulk(self):
         """Prefetch useful for bulk editing."""
         return self.prefetch_full().prefetch_related("defined_variants")
 
     def search(self, query, **context) -> UnitQuerySet:
         """High level wrapper for searching."""
-        from weblate.utils.search import parse_query  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.search import (
+            parse_query,
+        )
 
         filters, annotations = parse_query(query, **context)
         result = self.annotate(**annotations).filter(filters)
@@ -432,7 +476,8 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
 
     def get_ordered(self, ids):
         """Return list of units ordered by ID."""
-        return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
+        order = {unit_id: pos for pos, unit_id in enumerate(ids)}
+        return sorted(self.filter(id__in=ids), key=lambda unit: order[unit.id])
 
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> UnitQuerySet:  # type: ignore[override]
@@ -561,10 +606,10 @@ class Unit(models.Model, LoggerMixin):
 
     class Meta:
         app_label = "trans"
-        unique_together = [("translation", "id_hash")]  # noqa: RUF012
+        unique_together = [("translation", "id_hash")]  # ruff: ignore[mutable-class-default]
         verbose_name = "string"
         verbose_name_plural = "strings"
-        indexes = [  # noqa: RUF012
+        indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
                 MD5(Lower("source")), "translation", name="trans_unit_source_md5"
             ),
@@ -643,6 +688,7 @@ class Unit(models.Model, LoggerMixin):
         self.unit_attributes: UnitAttributesDict | None = None
         # To handle pending update for enforced checks
         self.pending_unit_change: PendingUnitChange | None = None
+        self.updated_old_checks_names: set[str] | None = None
         # Avoid loading self-referencing source unit from the database
         # Skip this when deferred fields are present to avoid database access
         if (
@@ -718,7 +764,15 @@ class Unit(models.Model, LoggerMixin):
             or self.context != self.old_unit["context"]
             or force_insert
         ):
-            self.update_variants()
+            component = self.translation.component
+            # Newly created units cannot have stale variant links; skip the
+            # many-to-many lookup unless this unit can create variant links.
+            if (
+                not was_created
+                or component.variant_regex
+                or self.all_flags.has_value("variant")
+            ):
+                self.update_variants()
 
         # Update terminology
         if sync_terminology:
@@ -1153,7 +1207,7 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": unit.is_automatically_translated(),
         }
 
-    def update_from_unit(  # noqa: C901,PLR0914
+    def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals]
         self,
         *,
         user: User | None = None,
@@ -1923,7 +1977,7 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_checks(self) -> models.QuerySet[Check]:
-        result = self.check_set.all()
+        result = self.check_set.order()
         # Force fetching
         list(result)
         return result
@@ -1931,10 +1985,28 @@ class Unit(models.Model, LoggerMixin):
     def clear_checks_cache(self) -> None:
         if "all_checks" in self.__dict__:
             del self.__dict__["all_checks"]
+        if "_all_checks_names_cache" in self.__dict__:
+            del self.__dict__["_all_checks_names_cache"]
+        if "_replace_highlighted_cache" in self.__dict__:
+            del self.__dict__["_replace_highlighted_cache"]
+
+    def _all_checks_names(self) -> frozenset[str]:
+        try:
+            return self.__dict__["_all_checks_names_cache"]
+        except KeyError:
+            if "all_checks" not in self.__dict__:
+                result = frozenset(self.check_set.values_list("name", flat=True))
+            else:
+                result = frozenset(check.name for check in self.all_checks)
+            self.__dict__["_all_checks_names_cache"] = result
+            return result
 
     @property
     def all_checks_names(self) -> set[str]:
-        return {check.name for check in self.all_checks}
+        return set(self._all_checks_names())
+
+    def has_check(self, name: str) -> bool:
+        return name in self._all_checks_names()
 
     @property
     def dismissed_checks(self) -> list[Check]:
@@ -1942,7 +2014,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def active_checks(self) -> list[Check]:
-        """Return all active (not ignored) checks for this unit."""
+        """Active (not ignored) checks for this unit."""
         return [check for check in self.all_checks if not check.dismissed]
 
     @cached_property
@@ -1977,29 +2049,34 @@ class Unit(models.Model, LoggerMixin):
             return len(self._prefetched_objects_cache["labels"])
         return self.labels.count()
 
-    def run_checks(  # noqa: C901
+    def run_checks(  # ruff: ignore[complex-structure, too-many-branches]
         self, *, force_propagate: bool = False, skip_propagate: bool = False
     ) -> None:
         """Update checks for this unit."""
-        src = self.get_source_plurals()
-        tgt = self.get_target_plurals()
-
-        old_checks = self.all_checks_names
+        existing_checks = self.all_checks_names
+        self.updated_old_checks_names = set(existing_checks)
+        old_checks = set(existing_checks)
         create = []
 
-        args: tuple[list[str], Unit] | tuple[list[str], list[str], Unit]
-        if self.is_source:
-            checks = CHECKS.source
-            meth = "check_source"
-            args = src, self
-        else:
-            checks = {} if self.readonly else CHECKS.target
-            meth = "check_target"
-            args = src, tgt, self
-        if self.translation.component.is_glossary:
+        component = self.translation.component
+        if component.is_glossary:
             checks = CHECKS.glossary
-            meth = "check_target"
-            args = src, tgt, self
+            target_checks = True
+        elif self.is_source:
+            checks = CHECKS.source
+            target_checks = False
+        elif self.readonly:
+            checks = {}
+            target_checks = False
+        elif self.state:
+            checks = CHECKS.target
+            target_checks = True
+        else:
+            # Most target checks ignore untranslated units in check_target().
+            # Keep checks that opt into untranslated handling so stale checks are
+            # removed and existing untranslated behavior is preserved.
+            checks = CHECKS.target_untranslated
+            target_checks = True
 
         # Initial propagation setup
         propagation: set[Literal["source", "target"]] = set()
@@ -2007,18 +2084,39 @@ class Unit(models.Model, LoggerMixin):
             propagation.add("source")
 
         # Run all checks
-        for check, check_obj in checks.items():
-            # Does the check fire?
-            if getattr(check_obj, meth)(*args):
-                if check in old_checks:
-                    # We already have this check
-                    old_checks.remove(check)
-                    # Propagation is handled later in this method
-                else:
-                    # Create new check
-                    create.append(Check(unit=self, dismissed=False, name=check))
-                    if check_obj.propagates and not skip_propagate:
-                        propagation.add(check_obj.propagates)
+        if checks:
+            src = self.get_source_plurals()
+            if target_checks:
+                tgt = self.get_target_plurals()
+                # Target checks mostly use the base skip logic; compute flags once.
+                all_flags = self.all_flags
+                for check, check_obj in checks.items():
+                    # Does the check fire?
+                    if check_obj.check_target_with_flags(src, tgt, self, all_flags):
+                        if check in old_checks:
+                            # We already have this check
+                            old_checks.remove(check)
+                            # Propagation is handled later in this method
+                        else:
+                            # Create new check
+                            create.append(Check(unit=self, dismissed=False, name=check))
+                            if check_obj.propagates and not skip_propagate:
+                                propagation.add(check_obj.propagates)
+            else:
+                # Source checks mostly use the base skip logic; compute flags once.
+                all_flags = self.all_flags
+                for check, check_obj in checks.items():
+                    # Does the check fire?
+                    if check_obj.check_source_with_flags(src, self, all_flags):
+                        if check in old_checks:
+                            # We already have this check
+                            old_checks.remove(check)
+                            # Propagation is handled later in this method
+                        else:
+                            # Create new check
+                            create.append(Check(unit=self, dismissed=False, name=check))
+                            if check_obj.propagates and not skip_propagate:
+                                propagation.add(check_obj.propagates)
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
@@ -2093,8 +2191,13 @@ class Unit(models.Model, LoggerMixin):
             else:
                 self.source_unit.run_checks()
 
+        current_checks = (existing_checks - old_checks) | {
+            check.name for check in create
+        }
+
         # This is always preset as it is used in top of this method
         self.clear_checks_cache()
+        self.__dict__["_all_checks_names_cache"] = frozenset(current_checks)
 
         if not self.is_batch_update and (create or old_checks):
             self.translation.invalidate_cache()
@@ -2107,7 +2210,7 @@ class Unit(models.Model, LoggerMixin):
             # Limiting the query is needed to avoid issues when unit
             # position is not properly populated
             result = (
-                self.translation.unit_set.prefetch_full()
+                self.translation.unit_set.prefetch_embed()
                 .order_by("position")
                 .filter(
                     position__gte=self.position - count,
@@ -2134,7 +2237,7 @@ class Unit(models.Model, LoggerMixin):
             nearby = key_list[max(offset - count, 0) : offset + count]
             return (
                 unit_set.filter(id__in=nearby)
-                .prefetch_full()
+                .prefetch_embed()
                 .order_by("context")
                 .fill_in_source_translation()
             )
@@ -2349,9 +2452,9 @@ class Unit(models.Model, LoggerMixin):
     @property
     def checksum(self):
         """
-        Return unique hex identifier.
+        Unique hex identifier.
 
-        It's unsigned representation of id_hash in hex.
+        Unsigned representation of id_hash in hex.
         """
         return hash_to_checksum(self.id_hash)
 
@@ -2409,7 +2512,10 @@ class Unit(models.Model, LoggerMixin):
         Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.
         """
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import (
+            get_anonymous,
+        )
 
         try:
             change = self.recent_content_changes[0]
@@ -2419,7 +2525,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def get_last_author(self) -> User:
-        """Get last author of content changes to a unit."""
+        """Last author of content changes to a unit."""
         return self.get_last_content_change()[0]
 
     def get_locations(self) -> Generator[tuple[str, str, str]]:
@@ -2618,7 +2724,13 @@ class Unit(models.Model, LoggerMixin):
             and not component.is_glossary
             and is_valid_memory_entry(source=self.source, target=self.target)
         ):
-            handle_unit_translation_change(self, user)
+            payload = get_unit_memory_update(self, user, component)
+            if payload is None:
+                return
+            if user is None and component.batch_memory:
+                component.add_batched_memory_update(payload)
+            else:
+                schedule_memory_update(payload)
 
     @property
     def has_pending_changes(self) -> bool:

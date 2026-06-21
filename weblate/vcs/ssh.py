@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 import os
 import stat
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from base64 import b64decode, b64encode
 from contextlib import suppress
 from time import time
@@ -219,8 +219,9 @@ def generate_ssh_key(
     pubkeyfile = ssh_file(key_info["public"])
     try:
         # Actually generate the key
-        subprocess.run(  # noqa: S603
-            [  # noqa: S607
+        subprocess.run(
+            # ruff: ignore[start-process-with-partial-path]
+            [
                 "ssh-keygen",
                 "-q",
                 *key_info["keygen"],
@@ -376,7 +377,7 @@ def add_host_key(
             cmdline.extend(["-p", str(port)])
         cmdline.append(host)
         try:
-            result = subprocess.run(  # noqa: S603
+            result = subprocess.run(
                 cmdline,
                 env=get_clean_env(),
                 check=True,
@@ -446,9 +447,11 @@ GITHUB_RSA_KEY = (
 
 
 def cleanup_host_keys(
-    *args: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    *args: Any,
     logger: Callable[[str], Any] = print,
-    **kwargs: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    **kwargs: Any,
 ) -> None:
     known_hosts_file = ssh_file(KNOWN_HOSTS)
     if not known_hosts_file.exists():
@@ -502,9 +505,11 @@ def get_wrapper_access_time(path: Path) -> float | None:
 
 
 def cleanup_legacy_wrapper_dirs(
-    *args: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    *args: Any,
     logger: Callable[[str], Any] = print,
-    **kwargs: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    **kwargs: Any,
 ) -> None:
     legacy_dir = data_path("ssh")
     if not legacy_dir.exists():
@@ -516,10 +521,12 @@ def cleanup_legacy_wrapper_dirs(
 
 
 def cleanup_stale_wrapper_dirs(
-    *args: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    *args: Any,
     stale_seconds: int = STALE_WRAPPER_SECONDS,
     logger: Callable[[str], Any] = print,
-    **kwargs: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    **kwargs: Any,
 ) -> None:
     cache_dir = ssh_wrapper_path()
     if not cache_dir.exists():

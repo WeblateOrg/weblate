@@ -24,6 +24,8 @@ from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -698,6 +700,37 @@ class BulkEditTest(ViewTestCase):
                 },
             )
         )
+
+    def test_bulk_edit_fuzzy_alias_includes_substates(self) -> None:
+        self.unit.state = STATE_NEEDS_REWRITING
+        self.unit.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"q": "is:needs-editing", "state": STATE_TRANSLATED},
+            follow=True,
+        )
+
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+
+    def test_bulk_edit_or_query_includes_substates(self) -> None:
+        self.unit.state = STATE_NEEDS_CHECKING
+        self.unit.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": "state:needs-checking OR state:needs-rewriting",
+                "state": STATE_TRANSLATED,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
 
     def test_bulk_edit_requires_bulk_permission_per_unit(self) -> None:
         limited_user = User.objects.create_user(

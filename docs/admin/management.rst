@@ -96,6 +96,59 @@ Example:
     weblate --author michal@cihar.com add_suggestions weblate application cs /tmp/suggestions-cs.po
 
 
+analyze_translator_work
+-----------------------
+
+.. weblate-admin:: analyze_translator_work
+
+Analyzes change history to estimate realistic translator throughput per day.
+The command includes only active human users and unit-backed manual translation
+changes, and applies daily minimum and maximum thresholds to skip obvious outliers,
+bots, bulk imports, uploads, and other events that would pollute the result.
+
+.. weblate-admin-option:: --days DAYS
+
+    Number of recent days to analyze when ``--since`` is not specified.
+
+.. weblate-admin-option:: --since YYYY-MM-DD
+
+    Start date for the analysis.
+
+.. weblate-admin-option:: --until YYYY-MM-DD
+
+    End date for the analysis.
+
+.. weblate-admin-option:: --project PROJECT
+
+    Limit the analysis to a project slug.
+
+.. weblate-admin-option:: --component PROJECT/COMPONENT
+
+    Limit the analysis to a component.
+
+.. weblate-admin-option:: --language LANGUAGE
+
+    Limit the analysis to a language code.
+
+.. weblate-admin-option:: --min-changes COUNT
+
+    Minimum translated strings per user day to include.
+
+.. weblate-admin-option:: --max-changes COUNT
+
+    Maximum translated strings per user day to include.
+
+.. weblate-admin-option:: --max-words COUNT
+
+    Maximum translated source words per user day to include.
+
+Example:
+
+.. code-block:: sh
+
+    weblate analyze_translator_work --project weblate --since 2026-01-01
+
+
 auto_translate
 --------------
 
@@ -752,7 +805,7 @@ To install :ref:`mt-deepl`:
 
 .. code-block:: shell
 
-   weblate install_machinery --service deepl --configuration '{"key": "x", "url": "https://api.deepl.com/v2/"}' --update
+   weblate install_machinery --service deepl --configuration '{"key": "x", "url": "https://api.deepl.com/"}' --update
 
 .. seealso::
 

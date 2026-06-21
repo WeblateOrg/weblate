@@ -681,7 +681,7 @@ This can be done in :guilabel:`WebHooks` under repository
 
 .. seealso::
 
-   * `Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_
+   * `Webhooks in Gitee manual <https://help.gitee.com/webhook>`_
    * :http:post:`/hooks/gitee/`
    * :ref:`hosted-push`
 
@@ -690,21 +690,21 @@ This can be done in :guilabel:`WebHooks` under repository
 Gerrit review requests
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Gerrit support adds a thin layer atop :ref:`vcs-git` using the `git-review`_
-tool to allow pushing translation changes as Gerrit review requests, instead
-of pushing them directly to the repository.
+Gerrit support adds a thin layer atop :ref:`vcs-git` using the
+:pypi:`git-review` tool to allow pushing translation changes as Gerrit review
+requests, instead of pushing them directly to the repository.
 
 The optional :ref:`component-push_branch` setting selects the target branch for
 the Gerrit review. Leave it empty to use :ref:`component-branch`. Use the short
 branch name, such as ``main``; Weblate and ``git-review`` push the review to
-``refs/for/<branch>`` automatically. Do not include Gerrit push options such as
-``%submit`` or ``%l=Code-Review+2`` in the branch name.
+``refs/for/<branch>`` automatically. Gerrit push options can be appended after
+``%`` in either setting, for example ``main%topic=l10n``. Gerrit interprets
+these options as the configured Weblate Gerrit account and applies its own
+permissions.
 
 The Gerrit documentation has the details on the configuration necessary to set
 up such repositories. There is no separate code hosting credential setting for
 this backend.
-
-.. _git-review: https://pypi.org/project/git-review/
 
 Docker credentials
 ~~~~~~~~~~~~~~~~~~

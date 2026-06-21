@@ -187,6 +187,12 @@ Availability of individual actions depends on permissions, the configured
 version control system, whether pushing is configured, and whether the selected
 object can be locked.
 
+Operations that read repository content, such as updating, resetting, or
+rescanning, also reconcile translation files in Weblate. Added or removed
+translation files are reflected after this processing finishes. Glossary
+translations are cleaned up only for Weblate-managed glossaries and only when no
+non-glossary component still uses the language.
+
 .. list-table::
    :header-rows: 1
 
@@ -203,7 +209,7 @@ object can be locked.
      - Send committed translations upstream when automatic push is disabled or delayed.
 
    * - :guilabel:`Update`
-     - Fetches upstream changes and integrates them using the component's configured :ref:`component-merge_style`.
+     - Fetches upstream changes, integrates them using the component's configured :ref:`component-merge_style`, and reconciles translation files.
      - Bring Weblate in sync with upstream using the default integration strategy.
 
    * - :guilabel:`Update with merge`
@@ -223,11 +229,11 @@ object can be locked.
      - Freeze translation changes while doing repository maintenance outside Weblate.
 
    * - :guilabel:`Reset and discard`
-     - Resets Weblate's local repository to upstream and discards pending Weblate changes.
+     - Resets Weblate's local repository to upstream, discards pending Weblate changes, and reconciles translation files.
      - Use when upstream should overwrite the local Weblate repository state.
 
    * - :guilabel:`Reset and reapply`
-     - Resets Weblate's local repository to upstream while preserving pending translations. See :ref:`manage-vcs-reset-reapply`.
+     - Resets Weblate's local repository to upstream, reconciles translation files, and reapplies pending translations. See :ref:`manage-vcs-reset-reapply`.
      - Recover from diverged history while keeping pending Weblate translations.
 
    * - :guilabel:`Cleanup`
@@ -239,7 +245,7 @@ object can be locked.
      - Repair cases where repository files became out of sync with the database state.
 
    * - :guilabel:`Rescan`
-     - Re-reads translation files from the local repository into Weblate.
+     - Re-reads translation files from the local repository into Weblate and removes translations whose files no longer match the component configuration.
      - Import file changes after manual repository work or file creation.
 
 .. _manage-vcs-reset-reapply:

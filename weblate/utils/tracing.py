@@ -95,7 +95,8 @@ def _record_error_on_span(
         span.add_event("weblate.error", attributes=attributes)
 
     if level in {"critical", "error", "fatal"}:
-        from opentelemetry.trace import Status, StatusCode  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from opentelemetry.trace import Status, StatusCode
 
         span.set_status(Status(StatusCode.ERROR, description=cause))
 
@@ -126,7 +127,8 @@ def _record_error(
     if tracer is None:
         return
 
-    from opentelemetry import trace  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from opentelemetry import trace
 
     error_attributes = _build_error_attributes(cause, level, attributes)
     span = cast("ErrorSpan", trace.get_current_span())

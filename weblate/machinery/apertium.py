@@ -90,7 +90,7 @@ class ApertiumAPYTranslation(ResponseStatusMachineTranslation):
 
     @property
     def all_langs(self):
-        """Return all language codes known to service."""
+        """All language codes known to service."""
         return set(chain.from_iterable(self.supported_languages))
 
     def map_language_code(self, code):

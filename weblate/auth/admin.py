@@ -37,7 +37,8 @@ def block_role_edit(obj: Role):
 class AutoGroupChangeForm(forms.ModelForm):
     class Meta:
         model = AutoGroup
-        fields = "__all__"  # noqa: DJ007
+        # ruff: ignore[django-all-with-model-form]
+        fields = "__all__"
 
     def has_changed(self) -> bool:
         """
@@ -97,7 +98,8 @@ class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = "__all__"
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "username": UniqueUsernameField,
             "full_name": FullNameField,
         }
@@ -116,7 +118,8 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
     class Meta:
         model = User
         fields = ("username", "email", "full_name")
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "username": UniqueUsernameField,
             "full_name": FullNameField,
         }
@@ -233,7 +236,8 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 class GroupChangeForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = "__all__"  # noqa: DJ007
+        # ruff: ignore[django-all-with-model-form]
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

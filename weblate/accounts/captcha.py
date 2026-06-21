@@ -87,12 +87,12 @@ class MathCaptcha:
 
     @property
     def result(self):
-        """Return result."""
+        """Captcha result."""
         return eval_expr(self.question)
 
     @property
     def display(self):
-        """Get unicode for display."""
+        """Unicode for display."""
         parts = self.question.split()
         return format_html("{} {} {}", parts[0], operator_display(parts[1]), parts[2])
 

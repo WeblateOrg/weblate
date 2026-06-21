@@ -255,9 +255,7 @@ class InviteUserForm(BaseInviteForm, forms.ModelForm):
     class Meta:
         model = Invitation
         fields = ("user", "group")
-        field_classes = {  # noqa: RUF012
-            "user": UserField
-        }
+        field_classes = {"user": UserField}  # ruff: ignore[mutable-class-default]
 
     def __init__(
         self,
@@ -468,7 +466,7 @@ class UserEditForm(forms.ModelForm):
             "is_active",
             "date_expires",
         )
-        widgets = {  # noqa: RUF012
+        widgets = {  # ruff: ignore[mutable-class-default]
             "date_expires": WeblateDateInput(),
         }
 

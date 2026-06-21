@@ -58,6 +58,8 @@ from weblate.utils import messages
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import parse_path, show_form_errors
+from weblate.workspaces.forms import WorkspaceSettingsForm
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -66,7 +68,14 @@ if TYPE_CHECKING:
 @never_cache
 @login_required
 def change(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Component, Project, ProjectLanguage, Category))
+    obj = parse_path(
+        request, path, (Component, Project, ProjectLanguage, Category, Workspace)
+    )
+    if isinstance(obj, Workspace):
+        if not request.user.has_perm("workspace.edit", obj):
+            raise Http404
+        return change_workspace(request, obj)
+
     if not request.user.has_perm(obj.settings_permission, obj):
         raise Http404
 
@@ -77,6 +86,27 @@ def change(request: AuthenticatedHttpRequest, path):
     if isinstance(obj, ProjectLanguage):
         return change_project_language(request, obj)
     return change_project(request, obj)
+
+
+def change_workspace(request: AuthenticatedHttpRequest, obj: Workspace):
+    if request.method == "POST":
+        obj.acting_user = request.user
+        settings_form = WorkspaceSettingsForm(request.POST, instance=obj)
+        if settings_form.is_valid():
+            settings_form.save()
+            messages.success(request, gettext("Settings saved"))
+            return redirect("settings", path=obj.get_url_path())
+        messages.error(
+            request, gettext("Invalid settings. Please check the form for errors.")
+        )
+    else:
+        settings_form = WorkspaceSettingsForm(instance=obj)
+
+    return render(
+        request,
+        "project-settings.html",
+        {"object": obj, "workspace": obj, "form": settings_form},
+    )
 
 
 def change_project(request: AuthenticatedHttpRequest, obj):
@@ -481,7 +511,9 @@ def announcement(request: AuthenticatedHttpRequest, path):
 @login_required
 @require_POST
 def announcement_delete(request: AuthenticatedHttpRequest, pk):
-    announcement = get_object_or_404(Announcement, pk=pk)
+    announcement = get_object_or_404(
+        Announcement.objects.filter_access(request.user), pk=pk
+    )
 
     if not request.user.has_perm("announcement.delete", announcement):
         raise PermissionDenied

@@ -30,7 +30,8 @@ if TYPE_CHECKING:
         SettingsDict,
     )
 
-TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken"  # noqa: S105
+# ruff: ignore[hardcoded-password-string]
+TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken"
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 

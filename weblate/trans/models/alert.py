@@ -26,6 +26,7 @@ __all__ = [
     "ALERTS",
     "ALERTS_IMPORT",
     "Alert",
+    "AlertQuerySet",
     "AlertSeverity",
     "BaseAlert",
     "ErrorAlert",
@@ -33,6 +34,16 @@ __all__ = [
     "register",
     "update_alerts",
 ]
+
+
+class AlertQuerySet(models.QuerySet["Alert", "Alert"]):
+    def order(self) -> AlertQuerySet:
+        return self.order_by(
+            "-severity", "name", "component__project__name", "component__name", "pk"
+        )
+
+    def order_component(self) -> AlertQuerySet:
+        return self.order_by("-severity", "name", "pk")
 
 
 class Alert(models.Model):
@@ -48,8 +59,11 @@ class Alert(models.Model):
     )
     details = models.JSONField(default=dict)
 
+    objects = AlertQuerySet.as_manager()
+
     class Meta:
-        unique_together = [("component", "name")]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [("component", "name")]
         verbose_name = "component alert"
         verbose_name_plural = "component alerts"
 

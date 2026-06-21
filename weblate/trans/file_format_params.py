@@ -34,6 +34,7 @@ class FileFormatParams(TypedDict, total=False):
     json_use_compact_separators: bool
     po_line_wrap: int
     po_keep_previous: bool
+    po_remove_obsolete: bool
     po_no_location: bool
     po_fuzzy_matching: bool
     po_set_language_team: bool
@@ -68,6 +69,7 @@ FileFormatParamKey = Literal[
     "json_use_compact_separators",
     "po_line_wrap",
     "po_keep_previous",
+    "po_remove_obsolete",
     "po_no_location",
     "po_fuzzy_matching",
     "po_set_language_team",
@@ -361,6 +363,20 @@ class GettextKeepPreviousMsgids(BaseGettextFormatParam):
     label = gettext_lazy("Keep previous msgids of translated strings")
     field_class = forms.BooleanField
     default = True
+    help_text = gettext_lazy("Controls previous msgid comments for fuzzy strings.")
+
+
+@register_file_format_param
+class GettextRemoveObsolete(BaseGettextFormatParam):
+    file_formats: Sequence[str] = ("po", "po-mono")
+    name = "po_remove_obsolete"
+    label = gettext_lazy("Remove obsolete strings")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Remove obsolete entries from PO files when saving translation changes "
+        "or updating from a POT file."
+    )
 
 
 @register_file_format_param
@@ -495,8 +511,15 @@ class XMLClosingTags(BaseFileFormatParam):
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
-        from weblate.formats.models import FILE_FORMATS  # noqa: PLC0415
-        from weblate.formats.ttkit import TTKitFormat  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.models import (
+            FILE_FORMATS,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.ttkit import (
+            TTKitFormat,
+        )
 
         result = []
         for file_format, format_class in FILE_FORMATS.items():

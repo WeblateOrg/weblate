@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from typing import ClassVar
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
@@ -45,7 +47,7 @@ class Font(models.Model, UserDisplayMixin):
     )
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        unique_together: ClassVar[list[tuple[str, str, str]]] = [
             ("family", "style", "project")
         ]
         verbose_name = "Font"
@@ -62,7 +64,10 @@ class Font(models.Model, UserDisplayMixin):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ) -> None:
-        from weblate.fonts.tasks import update_fonts_cache  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.fonts.tasks import (
+            update_fonts_cache,
+        )
 
         self.clean()
         super().save(
@@ -125,9 +130,7 @@ class FontGroup(models.Model):
     objects = FontGroupQuerySet.as_manager()
 
     class Meta:
-        unique_together = [  # noqa: RUF012
-            ("project", "name")
-        ]
+        unique_together: ClassVar[list[tuple[str, str]]] = [("project", "name")]
         verbose_name = "Font group"
         verbose_name_plural = "Font groups"
 
@@ -154,9 +157,7 @@ class FontOverride(models.Model):
     )
 
     class Meta:
-        unique_together = [  # noqa: RUF012
-            ("group", "language")
-        ]
+        unique_together: ClassVar[list[tuple[str, str]]] = [("group", "language")]
         verbose_name = "Font override"
         verbose_name_plural = "Font overrides"
 

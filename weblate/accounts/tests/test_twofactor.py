@@ -9,6 +9,7 @@ from __future__ import annotations
 from datetime import timedelta
 from unittest import mock
 
+from django.conf import settings
 from django.core import mail
 from django.urls import reverse
 from django.utils.timezone import now
@@ -207,6 +208,33 @@ class TwoFactorTestCase(FixtureTestCase):
             expected_url, {"otp_token": totp_response}, follow=True
         )
         self.assertEqual(response.context["user"], self.user)
+        self.assertEqual(
+            self.client.session.get_expiry_age(),
+            settings.SESSION_COOKIE_AGE_AUTHENTICATED,
+        )
+
+    def test_login_totp_saml_expiry(self) -> None:
+        device = self.add_totp()
+        self.client.logout()
+        response = self.client.post(
+            reverse("login"),
+            {
+                "username": "testuser",
+                "password": "testpassword",
+                "next": "/idp/login/process/",
+            },
+        )
+
+        second_factor_url = response["Location"]
+        totp_response = totp(
+            device.bin_key, device.step, device.t0, device.digits, device.drift
+        )
+        response = self.client.post(second_factor_url, {"otp_token": totp_response})
+
+        self.assertRedirects(
+            response, "/idp/login/process/", fetch_redirect_response=False
+        )
+        self.assertEqual(self.client.session.get_expiry_age(), 60)
 
     def test_login_totp_rejects_unsafe_next(self) -> None:
         device = self.add_totp()
