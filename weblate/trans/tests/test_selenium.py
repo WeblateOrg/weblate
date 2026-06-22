@@ -339,11 +339,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                         element.getAttribute("data-bs-target") === tabTarget,
                 );
                 const content = document.querySelector(tabTarget);
-                if (!tab || !content || typeof window.jQuery === "undefined") {
+                if (!tab || !content) {
                     return false;
                 }
                 const text = content.textContent || "";
-                return Boolean(window.jQuery(tab).data("loaded")) &&
+                return Boolean(tab.dataset.loaded) &&
                     !text.includes("Loading") &&
                     text.includes(expectedText);
                 """,
