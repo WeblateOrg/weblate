@@ -5162,7 +5162,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @property
     def count_pending_units(self):
-        """Return count of pending units."""
+        """Count of pending units."""
         return self._count_pending_units_helper(apply_filters=True)
 
     def _count_pending_units_helper(self, apply_filters: bool):

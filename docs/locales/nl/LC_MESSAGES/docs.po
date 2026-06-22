@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-18 02:41+0000\n"
-"PO-Revision-Date: 2026-06-19 15:14+0000\n"
+"PO-Revision-Date: 2026-06-20 16:01+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -53391,7 +53391,7 @@ msgid ""
 "Release assets include Python distribution archives, release notes, and the "
 "release SBOM."
 msgstr ""
-"Uitgavedelen bevatten Python distributiearchieven, opmerkingen voor de "
+"Uitgavedelen bevatten Python-distributiearchieven, opmerkingen voor de "
 "uitgave en de SBOM voor de uitgave."
 
 #: security/release-artifacts.rst:36
@@ -53400,18 +53400,22 @@ msgstr "Python-pakket"
 
 #: security/release-artifacts.rst:37
 msgid ":file:`pyproject.toml`, :file:`setup.py`, and :file:`MANIFEST.in`"
-msgstr ""
+msgstr ":file:`pyproject.toml`, :file:`setup.py` en :file:`MANIFEST.in`"
 
 #: security/release-artifacts.rst:39
 msgid ""
 "The distribution workflow builds, validates, signs, and publishes the "
 "package using PyPI trusted publishing."
 msgstr ""
+"De distributiewerkstroom bouwt, valideert, ondertekent en publiceert het "
+"pakket met PyPI vertrouwd publiceren."
 
 #: security/release-artifacts.rst:41
 msgid ""
 "The package metadata and dependencies are maintained in this repository."
 msgstr ""
+"De metadata voor het pakket en afhankelijkheden worden in deze opslagruiimte "
+"onderhouden."
 
 #: security/release-artifacts.rst:42
 msgid "Docker images"
@@ -53423,7 +53427,7 @@ msgstr "`Weblate Docker opslagruimte`_"
 
 #: security/release-artifacts.rst:44
 msgid "`Docker Hub`_ and `GitHub Packages Docker registry`_"
-msgstr ""
+msgstr "`Docker Hub`_ en `GitHub Packages Docker register`_"
 
 #: security/release-artifacts.rst:45
 msgid ""
@@ -53431,6 +53435,9 @@ msgid ""
 "container CI workflow`_, :doc:`/admin/install/docker`, :doc:`/contributing/"
 "release`, and :file:`security.yaml`"
 msgstr ""
+"`Weblate Dockerfile`_, `Weblate Docker-schijfkopie werkstroom`_, `Weblate "
+"Docker container CI werkstroom`_, :doc:`/admin/install/docker`, :doc:`/"
+"contributing/release` en :file:`security.yaml`"
 
 #: security/release-artifacts.rst:48
 msgid ""
@@ -53439,10 +53446,14 @@ msgid ""
 "Published image digests are signed with Cosign, and the build publishes "
 "BuildKit SBOM and provenance attestations."
 msgstr ""
+"De werkstroom bouwt multi-architectuurschijfkopieën, voert testen voor "
+"containers uit, scant met Anchore en Trivy en publiceert naar Docker Hub en "
+"GitHub Packages. Verzamelde gepubliceerde schijfkopieën worden ondertekend "
+"met Cosign en de bouw publiceert BuildKit SBOM en beheerattesten."
 
 #: security/release-artifacts.rst:52
 msgid "Kubernetes Helm chart"
-msgstr ""
+msgstr "Kubernetes Helm-grafiek"
 
 #: security/release-artifacts.rst:53
 msgid "`Weblate Helm repository`_"
@@ -53450,7 +53461,7 @@ msgstr "`Weblate Helm opslagruimte`_"
 
 #: security/release-artifacts.rst:54
 msgid "`Weblate Helm repository endpoint`_ and `Artifact Hub`_"
-msgstr ""
+msgstr "`Weblate Helm opslagruimte eindpunt`_ en `Artifact Hub`_"
 
 #: security/release-artifacts.rst:55
 msgid ""
@@ -53458,6 +53469,9 @@ msgid ""
 "workflow`_, `Weblate Helm dependency review workflow`_, and :doc:`/admin/"
 "install/kubernetes`"
 msgstr ""
+"`Weblate Helm-grafiek`_, `Weblate Helm uitgave werkstroom`_, `Weblate Helm "
+"test werkstroom`_, `Weblate Helm werkstroom beoordelen afhankelijkheid`_ en "
+":doc:`/admin/install/kubernetes`"
 
 #: security/release-artifacts.rst:59
 msgid ""
@@ -53466,10 +53480,14 @@ msgid ""
 "signing, chart provenance, and chart SBOM evidence were not found in the "
 "inspected Helm workflows."
 msgstr ""
+"De werkstroom grafiek uitgave gebruikt Helm chart-releaser voor wijzigingen "
+"onder :file:`charts/**`. Grafiek testlints en installeert de grafiek. "
+"Ondertekenen van grafiek, beheer van de grafiek en bewijs voor SBOM van de "
+"grafiek werden niet in de geïnspecteerde werkstromen voor Helm gevonden."
 
 #: security/release-artifacts.rst:64
 msgid ":file:`docs/`, :file:`docs/conf.py`, and :file:`.readthedocs.yml`"
-msgstr ""
+msgstr ":file:`docs/`, :file:`docs/conf.py` en :file:`.readthedocs.yml`"
 
 #: security/release-artifacts.rst:65
 msgid "`Weblate documentation`_"
@@ -53477,7 +53495,7 @@ msgstr "`Weblate documentatie`_"
 
 #: security/release-artifacts.rst:66
 msgid ":file:`.github/workflows/docs.yml` and :file:`.readthedocs.yml`"
-msgstr ""
+msgstr ":file:`.github/workflows/docs.yml` en :file:`.readthedocs.yml`"
 
 #: security/release-artifacts.rst:67
 msgid "Read the Docs project settings are not stored in this repository."
@@ -53494,13 +53512,15 @@ msgstr "`Weblate Client opslagruimte`_"
 
 #: security/release-artifacts.rst:70
 msgid ":pypi:`wlc` and `Weblate Client GitHub releases`_"
-msgstr ""
+msgstr ":pypi:`wlc` en `Weblate Client GitHub uitgaven`_"
 
 #: security/release-artifacts.rst:71
 msgid ""
 "`Weblate Client distribution workflow`_, `Weblate Client metadata`_, "
 "and :doc:`/wlc`"
 msgstr ""
+"`Weblate Client distributie werkstroom`_, `Weblate Client metadata`_ en "
+":doc:`/wlc`"
 
 #: security/release-artifacts.rst:73
 msgid ""
@@ -53509,6 +53529,10 @@ msgid ""
 "package SBOM files to GitHub releases, and creates package provenance and "
 "SBOM attestations."
 msgstr ""
+"De werkstroom bouwt en valideert artefacten voor bron en wiel, publiceert "
+"naar PyPI met vertrouwd publiceren, maakt GitHub-uitgaven voor tags, voegt "
+"pakketten SBOM-bestanden toe aan GitHub-uitgaven en maakt pakketbeheer en "
+"attesten voor SBOM."
 
 #: security/release-artifacts.rst:77
 msgid "Weblate Client Docker image"
@@ -53516,13 +53540,15 @@ msgstr "Weblate Client Docker-schijfkopie"
 
 #: security/release-artifacts.rst:79
 msgid "`Weblate Client Docker image`_ and `Weblate Client GHCR registry`_"
-msgstr ""
+msgstr "`Weblate Client Docker schijfkopie`_ en `Weblate Client GHCR register`_"
 
 #: security/release-artifacts.rst:80
 msgid ""
 "`Weblate Client Dockerfile`_, `Weblate Client Docker workflow`_, and :doc:`/"
 "wlc`"
 msgstr ""
+"`Weblate Client Dockerfile`_, `Weblate Client Docker werkstroom`_ en :doc:`/"
+"wlc`"
 
 #: security/release-artifacts.rst:82
 msgid ""
@@ -53532,6 +53558,12 @@ msgid ""
 "SBOMs are generated with Syft, and image provenance and SBOM attestations "
 "are pushed to the registries."
 msgstr ""
+"De werkstroom bouwt multi-architectuurschijfkopieën, voert testen uit voor "
+"de schijfkopie voor de opdrachtregel-cliënt, scant met Anchore en Trivy en "
+"publiceert naar Docker Hub en GitHub Packages. Verzamelde gepubliceerde "
+"schijfkopieën worden ondertekend met Cosign, CycloneDX image SBOM's worden "
+"gemaakt met Syft en schijfbeheer en SBOM-attesten worden gepusht naar de "
+"registers."
 
 #: security/release-artifacts.rst:88
 msgid ""
@@ -53539,6 +53571,9 @@ msgid ""
 "container definitions in :file:`.clusterfuzzlite/` are development and "
 "testing infrastructure, not production release artifacts."
 msgstr ""
+"De bestanden voor het ontwikkelen van Docker in :file:`dev-docker/` en de "
+"fuzzing containerdefinities in :file:`.clusterfuzzlite/` zijn infrastructuur "
+"voor ontwikkeling en testen, geen uitgave-artefacten voor productie."
 
 #: security/release-artifacts.rst:92
 msgid ""
@@ -53549,6 +53584,13 @@ msgid ""
 "are not covered by the release signatures, SBOMs, or provenance statements "
 "on this page."
 msgstr ""
+"Bestanden van Docker Compose, inclusief de `Weblate Docker Compose "
+"opslagruimte`_ en lokale voorbeelden voor overschrijven, zijn voorbeelden "
+"van configuraties van uitrollen in plaats van uitgave-artefacten. Operators "
+"passen ze gewoonlijk aan voor hun eigen uitrollen en Weblate primair door "
+"het selecteren of ophalen van tags voor de Docker-schijfkopie. Ze worden "
+"niet gedekt door de uitgavehandtekeningen, SBOM's of argumenten voor beheer "
+"op deze pagina."
 
 #: security/release-artifacts.rst:102
 msgid "Software Bill of Material"
@@ -53598,6 +53640,14 @@ msgid ""
 "PyPI because the release workflow removes files not accepted by PyPI before "
 "publishing."
 msgstr ""
+"De Weblate-uitgavewerkstroom publiceert verificatiemateriaal voor de Weblate "
+"Python-brondistributie en wiel in `GitHub uitgavedelen`_. Uitgavedelen "
+"omvatten de pakketarchieven, Sigstore-handtekeningenbundels, opmerkingen "
+"voor uitgaven en de SBOM voor de uitgave. Dezelfde pakketarchieven worden "
+"geüpload naar PyPI met vertrouwd publiceren, maar de Sigstore-"
+"handtekeningenbundels worden niet geüpload naar PyPI, omdat de "
+"uitgavewerkstroom voor het publiceren bestanden verwijdert die niet worden "
+"geaccepteerd door PyPI."
 
 #: security/release-artifacts.rst:131
 msgid ""
@@ -53605,6 +53655,10 @@ msgid ""
 "published signatures, attestations, and SBOM. PyPI package files can be "
 "compared to the matching GitHub release assets by filename and digest."
 msgstr ""
+"Verifieer de bestanden die zijn gedownload van GitHub-uitgavedelen als u de "
+"gepubliceerde handtekeningen, attesten en SBOM nodig hebt. Bestanden van het "
+"PyPi-pakket kunnen worden vergeleken met de overeenkomende uitgavedelen op "
+"bestandsnaam en samenvatting."
 
 #: security/release-artifacts.rst:136
 msgid "Release signatures"
@@ -53639,34 +53693,44 @@ msgid ""
 "The release workflow creates two kinds of `GitHub artifact attestations`_ "
 "for the package archives:"
 msgstr ""
+"De uitgavewerkstroom maakt twee soorten `GitHub artefact attesten`_ voor de "
+"pakketarchieven:"
 
 #: security/release-artifacts.rst:159
 msgid ""
 "Build provenance attestations generated by :file:`.github/workflows/"
 "setup.yml` using :program:`actions/attest-build-provenance`."
 msgstr ""
+"Attesten voor bouwbeheer gegenereerd door :file:`.github/workflows/"
+"setup.yml` met :program:`actions/attest-build-provenance`."
 
 #: security/release-artifacts.rst:162
 msgid ""
 "SBOM attestations generated by :file:`.github/workflows/setup.yml` "
 "using :program:`actions/attest` with the CycloneDX release SBOM."
 msgstr ""
+"SBOM-attesten gegenereerd door :file:`.github/workflows/setup.yml` met "
+":program:`actions/attest` met de CycloneDX uitgave-SBOM."
 
 #: security/release-artifacts.rst:165
 msgid ""
 "The attestations can be verified using :program:`gh`. The following example "
 "checks the build provenance attestation for the 5.4 wheel:"
 msgstr ""
+"De attesten kunnen worden geverifieerd met :program:`gh`. Het volgende "
+"voorbeeld controleert het attest voor bouwbeheer voor het wiel van 5.4:"
 
 #: security/release-artifacts.rst:175
 msgid ""
 "Use the CycloneDX predicate type to verify the SBOM attestation attached to "
 "the same package artifact:"
 msgstr ""
+"Gebruik het CycloneDX predicaattype om het SBOM-attest te verifiëren dat is "
+"verbonden aan hetzelfde pakketartefact:"
 
 #: security/release-artifacts.rst:187
 msgid "SBOM and checksums"
-msgstr ""
+msgstr "SBOM en controlesommen"
 
 #: security/release-artifacts.rst:189
 msgid ""
@@ -53675,16 +53739,22 @@ msgid ""
 "attestation is attached to the package archives, not to the SBOM file as a "
 "separate release artifact."
 msgstr ""
+"De uitgave-SBOM is een JSON-bestand van CycloneDX, genaamd ``weblate-"
+"<version>-sbom.cdx.json`` en is verbonden met de GitHub-uitgavedelen. Het "
+"SBOM-attest is verbonden met de pakketarchieven, niet aan het SBOM-bestand "
+"als een afzonderlijk uitgaveartefact."
 
 #: security/release-artifacts.rst:194
 msgid ""
 "Weblate does not currently publish a separate checksum manifest such "
 "as :file:`SHA256SUMS` for release artifacts."
 msgstr ""
+"Weblate publiceert momenteel geen afzonderlijk manifest voor controlesommen, "
+"zoals :file:`SHA256SUMS` voor uitgave-artefacten."
 
 #: security/release-artifacts.rst:198
 msgid "Other release channels"
-msgstr ""
+msgstr "Andere kanalen voor uitgaven"
 
 #: security/release-artifacts.rst:200
 msgid ""
@@ -53694,10 +53764,16 @@ msgid ""
 "published by this repository. Docker image and Weblate Client supply-chain "
 "metadata is published by their owning repositories."
 msgstr ""
+"De inventarisatie van uitgave-artefacten bevat momenteel geen "
+"identificatiehandtekeningen, SBOM's of beheersattesten voor Helm grafieken. "
+"De verificatie-instructies in dit gedeelte zijn van toepassing op Weblate "
+"Python-uitgaveartefacten, gepubliceerd door deze opslagruimte. Docker-"
+"schijfkopie en Weblate Client metadata voor supply-chain worden gepubliceerd "
+"door hun eigen opslagruimten."
 
 #: security/releases.rst:2
 msgid "Releases and supported versions"
-msgstr ""
+msgstr "Uitgaven en ondersteunde versies"
 
 #: security/releases.rst:4
 msgid ""
@@ -53707,6 +53783,12 @@ msgid ""
 "published release artifacts, SBOMs, signatures, and provenance attestations, "
 "see :doc:`release-artifacts`."
 msgstr ""
+"Deze pagina geeft een overzicht van de publieke uitgaven, "
+"beveiligingsupdates en beleid voor ondersteuning bij upgraden Weblate. Voor "
+"stappen van uitgaven voor onderhoud, bekijk :doc:`/contributing/release`. "
+"Voor opdrachten voor upgraden, bekijk :doc:`/admin/upgrade`. Voor "
+"gepubliceerde uitgave-artefacten, SBOM's, handtekeningen en beheersattesten, "
+"bekijk :doc:`release-artifacts`."
 
 #: security/releases.rst:15
 msgid ""
@@ -53742,10 +53824,10 @@ msgid ""
 "when the Weblate version omits a ``0`` patch component. These updates may "
 "include security updates."
 msgstr ""
-"De Docker-container bevat een aanvullend onderdeel versie om wijzigingen in "
-"de container zelf bij te houden, zoals afhankelijkheden. Vaste Docker "
-"afbeeldingstags bevatten het onderdeel patch tezamen met dit onderdeel bouw, "
-"zelfs als de versie van Weblate een onderdeel patch ``0`` weglaat. Die "
+"De Docker-container bevat een aanvullend versie-onderdeel om wijzigingen in "
+"de container zelf bij te houden, zoals afhankelijkheden. Vaste Docker-tags "
+"voor schijfkopie bevatten het onderdeel patch tezamen met dit onderdeel "
+"bouw, zelfs als de versie van Weblate een onderdeel patch ``0`` weglaat. Die "
 "updates zouden ook updates voor beveiliging kunnen bevatten."
 
 #: security/releases.rst:34
@@ -53769,6 +53851,8 @@ msgstr ""
 msgid ""
 "Security update coverage and direct upgrade support are separate policies."
 msgstr ""
+"Dekking beveiligingsupdates en directe ondersteuning voor upgraden is "
+"afzonderlijk beleid."
 
 #: security/releases.rst:46
 msgid "Version"
@@ -53784,7 +53868,7 @@ msgstr "Einde van gegarandeerde beveiligingsupdates"
 
 #: security/releases.rst:49
 msgid "Direct upgrade support"
-msgstr ""
+msgstr "Directe ondersteuning upgraden"
 
 #: security/releases.rst:50
 msgid "Latest Weblate release"
@@ -53792,12 +53876,14 @@ msgstr "Laatste uitgave Weblate"
 
 #: security/releases.rst:51
 msgid "Guaranteed."
-msgstr ""
+msgstr "Gegarandeerd."
 
 #: security/releases.rst:52
 msgid ""
 "When the next Weblate release is published, normally the following month."
 msgstr ""
+"Als de volgende uitgave van Weblate wordt gepubliceerd, normaal gesproken de "
+"volgende maand."
 
 #: security/releases.rst:54
 msgid "Supported."
@@ -53817,11 +53903,11 @@ msgstr ""
 
 #: security/releases.rst:58 security/releases.rst:62
 msgid "Ended when a newer Weblate release was published."
-msgstr ""
+msgstr "Beëindigd als een nieuwere uitgave van Weblate werd gepubliceerd."
 
 #: security/releases.rst:59
 msgid "Direct upgrades are supported."
-msgstr ""
+msgstr "Direct upgraden wordt ondersteund."
 
 #: security/releases.rst:60
 msgid "Older releases"
@@ -56768,7 +56854,7 @@ msgstr "LTEngine"
 #: snippets/addon-parameters-autogenerated.rst:45
 #: snippets/machines-autogenerated.rst:692
 msgid "Mistral"
-msgstr ""
+msgstr "Mistral"
 
 #: snippets/addon-parameters-autogenerated.rst:47
 #: snippets/machines-autogenerated.rst:742
@@ -63422,7 +63508,7 @@ msgstr "Vorige msgids van vertaalde tekenreeksen bewaren"
 
 #: snippets/file-format-parameters.rst:114
 msgid "Controls previous msgid comments for fuzzy strings."
-msgstr ""
+msgstr "Beheert eerdere opmerkingen msgid voor fuzzy tekenreeksen."
 
 #: snippets/file-format-parameters.rst:116
 msgid "po_line_wrap"
@@ -63465,7 +63551,7 @@ msgstr "Neem geen locatie-informatie in het bestand op"
 
 #: snippets/file-format-parameters.rst:131
 msgid "po_remove_obsolete"
-msgstr ""
+msgstr "po_remove_obsolete"
 
 #: snippets/file-format-parameters.rst:131
 msgid "Remove obsolete strings"
@@ -63476,6 +63562,8 @@ msgid ""
 "Remove obsolete entries from PO files when saving translation changes or "
 "updating from a POT file."
 msgstr ""
+"Overbodige items verwijderen uit PO-bestanden bij het opslaan van "
+"wijzigingen in vertalingen of bijwerken vanuit een POT-bestand."
 
 #: snippets/file-format-parameters.rst:134
 msgid "po_report_msgid_bugs_to"
@@ -64741,6 +64829,8 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to 1000 characters each."
 msgstr ""
+"JSON-object verbindt bestaande doeltaalcodes aan extra instructies, tot "
+"maximaal 1000 tekens elk."
 
 #: snippets/machines-autogenerated.rst:82
 #: snippets/machines-autogenerated.rst:731
@@ -64983,6 +65073,9 @@ msgid ""
 "an API version; Weblate selects the appropriate DeepL API version for each "
 "request."
 msgstr ""
+"API-URL om te gebruiken met de service DeepL. Configureer het basiseindpunt "
+"zonder een versie van de API; Weblate selecteert de toepasselijke versie van "
+"de API voor DeepL voor elk verzoek."
 
 #: snippets/machines-autogenerated.rst:350
 msgid "DeepL API v1 is no longer supported."
@@ -65431,15 +65524,15 @@ msgstr "Mistral-model"
 
 #: snippets/machines-autogenerated.rst:715
 msgid "``mistral-small-latest`` -- Mistral Small"
-msgstr ""
+msgstr "``mistral-small-latest`` -- Mistral klein"
 
 #: snippets/machines-autogenerated.rst:717
 msgid "``mistral-medium-latest`` -- Mistral Medium"
-msgstr ""
+msgstr "``mistral-medium-latest`` -- Mistral medium"
 
 #: snippets/machines-autogenerated.rst:719
 msgid "``mistral-large-latest`` -- Mistral Large"
-msgstr ""
+msgstr "``mistral-large-latest`` -- Mistral groot"
 
 #: snippets/machines-autogenerated.rst:762
 msgid "Context vector"
@@ -67423,6 +67516,9 @@ msgid ""
 "terms. LLM-based services can receive duplicates with explanations to "
 "disambiguate them."
 msgstr ""
+"Duplicate bronitems worden overgeslagen voor services die unieke brontermen "
+"vereisen. Op LLM gebaseerde services kunnen duplicaten met uitleg ontvangen "
+"om onderscheid te kunnen maken."
 
 #: user/glossary.rst:154
 msgid ""

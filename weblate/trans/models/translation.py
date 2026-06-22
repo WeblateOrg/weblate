@@ -1184,7 +1184,7 @@ class Translation(
 
     @property
     def count_pending_units(self):
-        """Return count of units with pending changes."""
+        """Count of units with pending changes."""
         qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
         return qs.distinct("unit_id").count()
 

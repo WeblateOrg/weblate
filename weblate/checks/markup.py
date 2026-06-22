@@ -181,53 +181,80 @@ def is_html_attribute_placeholder(value: str | None) -> bool:
 
 def strip_html_attribute_wrappers(value: str) -> str:
     """Remove quote-like wrappers around a placeholder attribute."""
-    stripped = value.strip()
-    while stripped:
-        original = stripped
-        if stripped[0] in HTML_ATTRIBUTE_WRAPPER_CHARS:
-            stripped = stripped[1:].lstrip()
+    start = 0
+    end = len(value)
+
+    while True:
+        original = (start, end)
+
+        while start < end and value[start].isspace():
+            start += 1
+
+        if start < end and value[start] in HTML_ATTRIBUTE_WRAPPER_CHARS:
+            start += 1
+            while start < end and value[start].isspace():
+                start += 1
         elif (
-            len(stripped) > 1
-            and stripped[0] == "\\"
-            and stripped[1] in HTML_ATTRIBUTE_WRAPPER_CHARS
+            start + 1 < end
+            and value[start] == "\\"
+            and value[start + 1] in HTML_ATTRIBUTE_WRAPPER_CHARS
         ):
-            stripped = stripped[2:].lstrip()
+            start += 2
+            while start < end and value[start].isspace():
+                start += 1
+
+        while start < end and value[end - 1].isspace():
+            end -= 1
 
         if (
-            len(stripped) > 1
-            and stripped[-2] == "\\"
-            and stripped[-1] in HTML_ATTRIBUTE_WRAPPER_CHARS
+            start + 1 < end
+            and value[end - 2] == "\\"
+            and value[end - 1] in HTML_ATTRIBUTE_WRAPPER_CHARS
         ):
-            stripped = stripped[:-2].rstrip()
-        elif stripped and stripped[-1] in HTML_ATTRIBUTE_WRAPPER_CHARS:
-            stripped = stripped[:-1].rstrip()
+            end -= 2
+            while start < end and value[end - 1].isspace():
+                end -= 1
+        elif start < end and value[end - 1] in HTML_ATTRIBUTE_WRAPPER_CHARS:
+            end -= 1
+            while start < end and value[end - 1].isspace():
+                end -= 1
 
-        if stripped == original:
-            return stripped
-    return stripped
+        if (start, end) == original:
+            return value[start:end]
 
 
-def is_wrapped_html_attribute_placeholder(placeholder: str, value: str | None) -> bool:
-    return (
-        value is not None
-        and value != placeholder
+def get_wrapped_placeholder_attribute(value: str | None) -> str | None:
+    if value is None:
+        return None
+
+    placeholder = strip_html_attribute_wrappers(value)
+    if (
+        value != placeholder
         and placeholder in value
-        and strip_html_attribute_wrappers(value) == placeholder
-    )
+        and is_html_attribute_placeholder(placeholder)
+    ):
+        return placeholder
+    return None
 
 
 def has_changed_placeholder_attributes(source: str, target: str) -> bool:
-    target_values: dict[tuple[str, str], list[str | None]] = defaultdict(list)
-    for attribute in extract_html_attributes(target):
-        target_values[attribute.tag, attribute.name].append(attribute.value)
+    source_values: set[tuple[str, str, str]] = {
+        (attribute.tag, attribute.name, attribute.value)
+        for attribute in extract_html_attributes(source)
+        if is_html_attribute_placeholder(attribute.value)
+    }
+    source_attribute_names = {(tag, name) for tag, name, _placeholder in source_values}
+    if not source_attribute_names:
+        return False
 
-    for attribute in extract_html_attributes(source):
-        if not is_html_attribute_placeholder(attribute.value):
+    for attribute in extract_html_attributes(target):
+        if (attribute.tag, attribute.name) not in source_attribute_names:
             continue
-        if any(
-            is_wrapped_html_attribute_placeholder(attribute.value, target_value)
-            for target_value in target_values.get((attribute.tag, attribute.name), ())
-        ):
+        if (placeholder := get_wrapped_placeholder_attribute(attribute.value)) and (
+            attribute.tag,
+            attribute.name,
+            placeholder,
+        ) in source_values:
             return True
     return False
 
