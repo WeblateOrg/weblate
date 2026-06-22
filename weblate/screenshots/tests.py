@@ -299,6 +299,65 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(Screenshot.objects.count(), 0)
         self.assertRedirects(response, reverse("screenshots", kwargs=self.kw_component))
 
+    def test_delete_redirect_next(self) -> None:
+        self.make_manager()
+        self.do_upload(name="Unassigned")
+        screenshot = Screenshot.objects.get()
+        url = reverse("screenshots", kwargs=self.kw_component)
+        next_url = f"{url}?q=NOT+has%3Astring"
+
+        response = self.client.get(next_url)
+
+        self.assertContains(response, f'value="{next_url}"')
+
+        response = self.client.post(
+            reverse("screenshot-delete", kwargs={"pk": screenshot.pk}),
+            {"next": next_url},
+        )
+
+        self.assertEqual(Screenshot.objects.count(), 0)
+        self.assertRedirects(response, next_url, fetch_redirect_response=False)
+
+    def test_delete_redirect_next_strips_page(self) -> None:
+        self.make_manager()
+        Screenshot.objects.bulk_create(
+            Screenshot(
+                image="screenshots/screenshot.png",
+                name=f"Unassigned {index:02d}",
+                translation=self.component.source_translation,
+                user=self.user,
+            )
+            for index in range(49)
+        )
+        url = reverse("screenshots", kwargs=self.kw_component)
+        next_url = f"{url}?q=NOT+has%3Astring&sort_by=-timestamp&page=2"
+        expected_url = f"{url}?q=NOT+has%3Astring&sort_by=-timestamp"
+
+        response = self.client.get(next_url)
+
+        self.assertContains(response, f'value="{expected_url.replace("&", "&amp;")}"')
+        self.assertEqual(len(response.context["object_list"]), 1)
+        screenshot = response.context["object_list"][0]
+
+        response = self.client.post(
+            reverse("screenshot-delete", kwargs={"pk": screenshot.pk}),
+            {"next": expected_url},
+        )
+
+        self.assertEqual(Screenshot.objects.count(), 48)
+        self.assertRedirects(response, expected_url)
+
+    def test_delete_redirect_next_invalid(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.get()
+        response = self.client.post(
+            reverse("screenshot-delete", kwargs={"pk": screenshot.pk}),
+            {"next": "https://evil.com/redirect"},
+        )
+        self.assertEqual(Screenshot.objects.count(), 0)
+        self.assertRedirects(response, reverse("screenshots", kwargs=self.kw_component))
+
     def extract_pk(self, data):
         return int(data.split('data-pk="')[1].split('"')[0])
 
