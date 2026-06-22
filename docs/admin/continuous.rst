@@ -190,8 +190,8 @@ object can be locked.
 Operations that read repository content, such as updating, resetting, or
 rescanning, also reconcile translation files in Weblate. Added or removed
 translation files are reflected after this processing finishes. Glossary
-translations are cleaned up only for Weblate-managed glossaries and only when no
-non-glossary component still uses the language.
+language synchronization and cleanup are described in
+:ref:`glossary-language-sync`.
 
 .. list-table::
    :header-rows: 1
