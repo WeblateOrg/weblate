@@ -24,6 +24,7 @@ Weblate loads and saves explanation from TBX files to be displayed in :ref:`glos
 
 * Translation explanation is stored as ``<note from="translator"></note>`` tag.
 * Source string explanation is stored as ``<descrip></descrip>`` tag.
+* Source string description is stored as ``<descrip type="Usage note"></descrip>`` tag.
 
 Glossary flags and read-only metadata
 +++++++++++++++++++++++++++++++++++++
