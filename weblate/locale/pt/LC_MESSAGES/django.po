@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-22 04:02+0000\n"
+"PO-Revision-Date: 2026-06-23 11:01+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -20137,10 +20137,8 @@ msgstr "Não foi possível aceitar a sugestão!"
 
 #: weblate/trans/models/translation.py:100
 #: weblate/trans/models/translation.py:104 weblate/utils/validators.py:162
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded translation file is too big."
-msgstr "A imagem é muito grande."
+msgstr "O ficheiro de tradução enviado é demasiado grande."
 
 #: weblate/trans/models/translation.py:438
 #, python-format
@@ -20172,18 +20170,14 @@ msgstr[0] "Não foi possível encontrar %d cadeia de carateres:"
 msgstr[1] "Não foi possível encontrar %d cadeias de carateres:"
 
 #: weblate/trans/models/translation.py:1475
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
-msgstr ""
-"As formas de plural no ficheiro carregado não coincidem com a tradução atual."
+msgstr "A forma plural %d no ficheiro enviado está fora do intervalo."
 
 #: weblate/trans/models/translation.py:1481
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr ""
-"As formas de plural no ficheiro carregado não coincidem com a tradução atual."
+msgstr "A forma plural %d no ficheiro enviado está em falta."
 
 #: weblate/trans/models/translation.py:1692
 #: weblate/trans/models/translation.py:1697
@@ -20202,16 +20196,14 @@ msgstr ""
 "Não foi possível analisar o ficheiro enviado como {file_format}: {error}"
 
 #: weblate/trans/models/translation.py:1933
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Não foi possível analisar o ficheiro ZIP enviado."
+msgstr "Não foi possível analisar o ficheiro enviado: %s"
 
 #: weblate/trans/models/translation.py:2590
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "Não foi possível analisar ficheiros de tradução."
+msgstr "Não foi possível analisar ficheiro de tradução: %s"
 
 #: weblate/trans/models/translation.py:2640
 msgid "Plurals are not supported by the file format."
@@ -20382,10 +20374,8 @@ msgid "Automatic translation skipped because the target no longer exists."
 msgstr "Tradução automática ignorada porque o alvo já não existe."
 
 #: weblate/trans/tasks.py:1279
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Projetos sem componentes"
+msgstr "Importar da cópia de segurança do projeto completada."
 
 #: weblate/trans/templatetags/translations.py:108
 msgid "Good configuration"
@@ -20400,28 +20390,20 @@ msgid "Possible configuration"
 msgstr "Configuração possível"
 
 #: weblate/trans/templatetags/translations.py:116
-#, fuzzy
-#| msgid "Very high"
 msgid "Priority: Very high"
-msgstr "Muito alta"
+msgstr "Prioridade: Muito alta"
 
 #: weblate/trans/templatetags/translations.py:117
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: High"
-msgstr "Prioridade"
+msgstr "Prioridade: Alta"
 
 #: weblate/trans/templatetags/translations.py:118
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Low"
-msgstr "Prioridade"
+msgstr "Prioridade: Baixa"
 
 #: weblate/trans/templatetags/translations.py:119
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Very low"
-msgstr "Prioridade"
+msgstr "Prioridade: Muito baixa"
 
 #. Translators: Glossary term formatting used in a tooltip
 #: weblate/trans/templatetags/translations.py:312
@@ -20486,10 +20468,8 @@ msgid "This language is used for source strings."
 msgstr "Este idioma é utilizado para as cadeias de carateres fonte."
 
 #: weblate/trans/templatetags/translations.py:1166
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Fix this component to clear its diagnostics."
-msgstr "Corrija este componente para limpar os alertas."
+msgstr "Corrija este componente para limpar os seus diagnósticos."
 
 #: weblate/trans/templatetags/translations.py:1171
 #: weblate/trans/templatetags/translations.py:1190
@@ -20501,10 +20481,8 @@ msgid "Updating translation component…"
 msgstr "A atualizar o componente de tradução…"
 
 #: weblate/trans/templatetags/translations.py:1185
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some of the components within this project have diagnostics."
-msgstr "Alguns dos componentes deste projeto têm alertas."
+msgstr "Alguns dos componentes deste projeto têm diagnósticos."
 
 #: weblate/trans/templatetags/translations.py:1214
 msgid "You administrate this project."
@@ -20638,31 +20616,20 @@ msgid "File upload has failed: %s"
 msgstr "O envio do ficheiro falhou: %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Está a ser traduzida para <strong>%(count)s idioma</strong>."
-msgstr[1] "Está a ser traduzida para <strong>%(count)s idiomas</strong>."
+msgstr[0] "O {project} está a ser traduzido para {count} idioma usando o Weblate."
+msgstr[1] "O {project} está a ser traduzido para {count} idiomas usando o Weblate."
 
 #: weblate/trans/util.py:292
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
-msgstr ""
-"{0} está a ser traduzido em {1} idiomas utilizando o Weblate. Junte-se à "
-"equipa ou comece a traduzir o seu próprio projeto."
+msgstr "Participe na tradução ou comece a traduzir o seu próprio projeto."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Clonar para Traduzir"
+msgstr "Participe na tradução."
 
 #: weblate/trans/util.py:413
 msgid "Source upload is only supported on the source language."
@@ -21169,7 +21136,7 @@ msgstr "Taxa"
 
 #: weblate/trans/views/reports.py:254
 msgid "Cost"
-msgstr ""
+msgstr "Custo"
 
 #: weblate/trans/views/search.py:69 weblate/trans/views/search.py:240
 msgid "Could not process form!"
@@ -21264,10 +21231,8 @@ msgstr ""
 "configurações: %(error)s"
 
 #: weblate/trans/views/settings.py:384
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved."
-msgstr "Projeto removido"
+msgstr "Projeto movido."
 
 #: weblate/trans/views/settings.py:421
 #, python-format
@@ -21354,41 +21319,31 @@ msgstr[1] "idiomas"
 
 #: weblate/trans/workspace_move.py:68
 msgid "No valid billing found or limit exceeded."
-msgstr ""
+msgstr "Não foi encontrada faturação válida ou limite excedido."
 
 #: weblate/trans/workspace_move.py:82
-#, fuzzy
-#| msgid "This component is already shared in %s."
 msgid "The project is already assigned to this workspace."
-msgstr "Este componente já está partilhado em %s."
+msgstr "O projeto já está atribuído a este espaço de trabalho."
 
 #: weblate/trans/workspace_move.py:88
-#, fuzzy
-#| msgid "You do not have permission to create terminology."
 msgid "You do not have permission to edit the current workspace."
-msgstr "Não tem permissão para criar terminologia."
+msgstr "Não tem permissão para editar o espaço de trabalho atual."
 
 #: weblate/trans/workspace_move.py:93
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to move projects without a workspace."
-msgstr "Não tem permissão para alterar o controlo de acesso ao projeto."
+msgstr "Não tem permissão para mover projetos sem um espaço de trabalho."
 
 #: weblate/trans/workspace_move.py:98
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit the target workspace."
-msgstr "Não tem permissões para aceitar sugestões."
+msgstr "Não tem permissão para editar o espaço de trabalho alvo."
 
 #: weblate/trans/workspace_move.py:101
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to add projects to the target workspace."
-msgstr "Não tem permissão para alterar o controlo de acesso ao projeto."
+msgstr "Não tem permissão para adicionar projetos ao espaço de trabalho alvo."
 
 #: weblate/utils/backup.py:138
 msgid "Borg completed with warnings without any output."
-msgstr ""
+msgstr "Borg completado com avisos e sem qualquer resultado."
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:11
@@ -21567,12 +21522,12 @@ msgstr ""
 "de linguagem em vez disso."
 
 #: weblate/utils/requests.py:309
-#, fuzzy
-#| msgid "This URL is prohibited because it matches a restricted pattern."
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
-msgstr "Esta URL está proibida porque ela corresponde a um padrão restrito."
+msgstr ""
+"Este URL é proibido porque o endereço do par conectado não pode ser "
+"determinado."
 
 #: weblate/utils/requests.py:517 weblate/utils/requests.py:554
 #, python-format
@@ -21584,7 +21539,7 @@ msgstr ""
 
 #: weblate/utils/search.py:148 weblate/utils/search.py:165
 msgid "Search query is too complex."
-msgstr ""
+msgstr "A consulta de pesquisa é demasiado complexa."
 
 #: weblate/utils/search.py:263
 msgid "Unsupported state: {}"
@@ -21603,10 +21558,8 @@ msgid "Could not parse timestamp: {}"
 msgstr "Não foi possível analisar a data/hora: {}"
 
 #: weblate/utils/search.py:515
-#, fuzzy
-#| msgid "Unknown search field: {}"
 msgid "Unknown change action: {}"
-msgstr "Campo de pesquisa desconhecido: {}"
+msgstr "Ação de alteração desconhecida: {}"
 
 #: weblate/utils/search.py:542
 msgid "Unknown search field: {}"
@@ -21623,22 +21576,16 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr "Pesquisa não suportada para {field}: {value}"
 
 #: weblate/utils/search.py:1013
-#, fuzzy
-#| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
-msgstr "Não foi possível analisar o sinalizador {}: {}"
+msgstr "Não foi possível analisar o endereço IP: {}"
 
 #: weblate/utils/search.py:1129
-#, fuzzy
-#| msgid "Regular expression for e-mail address"
 msgid "Regular expression not supported for field {}"
-msgstr "Expressão regular para o endereço de correio eletrónico"
+msgstr "Expressão regular para o campo {}"
 
 #: weblate/utils/search.py:1149
-#, fuzzy
-#| msgid "Unsupported lookup for {field}: {value}"
 msgid "Range not supported for field {}"
-msgstr "Pesquisa não suportada para {field}: {value}"
+msgstr "Intervalo não suportado para o campo {}"
 
 #: weblate/utils/search.py:1182
 msgid "Mixed operators!"
@@ -21712,10 +21659,8 @@ msgstr ""
 "simples de o definir é {1}."
 
 #: weblate/utils/validators.py:167 weblate/utils/validators.py:172
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded ZIP file is too big."
-msgstr "A imagem é muito grande."
+msgstr "O ficheiro ZIP enviado é demasiado grande."
 
 #: weblate/utils/validators.py:205
 msgid "The uploaded image was invalid."
@@ -21772,10 +21717,10 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Não foi possível avaliar a fórmula de plural: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "Não foi possível avaliar a fórmula de plural: {}"
+msgstr ""
+"Não foi possível avaliar a fórmula de plural para o número {count} : {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
@@ -21783,6 +21728,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"O resultado {result} da fórmula do plural para o número {count} está fora do "
+"limite permitido 0..{max}."
 
 #: weblate/utils/validators.py:356
 msgid "The filename can not contain reference to a parent directory."
@@ -21806,12 +21753,11 @@ msgstr "O nome do ficheiro contém uma pasta proibida."
 #: weblate/utils/validators.py:384
 msgid "No archive can be specified in backup location."
 msgstr ""
+"Nenhum arquivo pode ser especificado na localização da cópia de segurança."
 
 #: weblate/utils/validators.py:390 weblate/utils/validators.py:398
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "Backup location has to be an absolute path."
-msgstr "O nome de ficheiro não pode ser um caminho absoluto."
+msgstr "A localização da cópia de segurança tem que ser um caminho absoluto."
 
 #: weblate/utils/validators.py:405
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
@@ -22178,21 +22124,16 @@ msgid "Could not find the selected host key."
 msgstr "Não foi possível encontrar a chave do anfitrião selecionada."
 
 #: weblate/vcs/ssh.py:421
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "Não foi possível atualizar o repositório."
+msgstr "Não foi possível atualizar as chaves de anfitrião armazenadas."
 
 #: weblate/vcs/ssh.py:428
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Adicionada chave de servidor a %(host)s com a identidade %(fingerprint)s "
-"(%(keytype)s), verifique se está correcta."
+"A chave de servidor foi removida para %(host)s com a identidade %"
+"(fingerprint)s (%(keytype)s)."
 
 #: weblate/wladmin/forms.py:18
 msgid "Activation token"
@@ -22427,53 +22368,36 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Não foi possível ignorar o erro de configuração!"
 
 #: weblate/wladmin/views.py:833
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created."
-msgstr "Componente criado"
+msgstr "Espaço de trabalho criado."
 
 #: weblate/workspaces/apps.py:12
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate workspaces"
-msgstr "Códigos do Weblate"
+msgstr "Espaços de trabalho Weblate"
 
 #: weblate/workspaces/forms.py:56
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Inherited component defaults"
-msgstr "Componente restrito"
+msgstr "Predefinições de componentes herdadas"
 
 #: weblate/workspaces/models.py:80
-#, fuzzy
-#| msgid "Resource update"
 msgid "Workspace name"
-msgstr "Actualização dos recursos"
+msgstr "Nome do espaço de trabalho."
 
 #: weblate/workspaces/models.py:87
-#, fuzzy
-#| msgid "Language name"
 msgid "Managed name"
-msgstr "Nome do idioma"
+msgstr "Nome gerido"
 
 #: weblate/workspaces/models.py:88
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Whether Weblate can update the name automatically."
-msgstr "Permite ao Weblate atualizar o cabeçalho \"Idioma-Equipa\" no projeto."
+msgstr "Se o Weblate pode atualizar o nome automaticamente."
 
 #: weblate/workspaces/models.py:102
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this workspace."
 msgstr ""
 "Acordo da licença do colaborador(a) que tem de ser aprovado antes de um "
-"utilizador possa traduzir este componente."
+"utilizador possa traduzir componentes neste espaço de trabalho."
 
 #~ msgid "Clean up"
 #~ msgstr "Limpeza"
