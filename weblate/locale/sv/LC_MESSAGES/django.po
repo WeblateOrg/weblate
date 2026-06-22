@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-21 20:40+0000\n"
+"PO-Revision-Date: 2026-06-23 11:01+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -2244,8 +2244,6 @@ msgstr ""
 "oavsett antalet röster. Fältet har ingen effekt om omröstning är avstängt."
 
 #: weblate/addons/forms.py:655
-#, fuzzy
-#| msgid "I confirm the above matches look correct"
 msgid "I confirm the above actions look correct"
 msgstr "Jag bekräftar att ovanstående åtgärder ser korrekta ut"
 
@@ -2258,11 +2256,11 @@ msgid "Regular expression to match translation files against"
 msgstr "Reguljärt uttryck för att matcha översättningsfiler mot"
 
 #: weblate/addons/forms.py:780
-#, fuzzy
-#| msgid "The regular expression can not match an empty string."
 msgid ""
 "The regular expression must define named groups for component and language."
-msgstr "Det reguljära uttrycket kan inte matcha en tom sträng."
+msgstr ""
+"Det reguljära uttrycket måste definiera namngivna grupper för komponent och "
+"språk."
 
 #: weblate/addons/forms.py:784
 #: weblate/templates/snippets/libre-checklist.html:26
@@ -2278,35 +2276,31 @@ msgstr "Anpassa komponentnamnet"
 
 #: weblate/addons/forms.py:794
 msgid "Use Django template syntax. This template must include {{ component }}."
-msgstr ""
+msgstr "Använd Djangos mallsyntax. Mallen måste innehålla {{ component }}."
 
 #: weblate/addons/forms.py:798
 msgid "Define the monolingual base filename"
 msgstr "Definiera den enspråkiga basspråkfilen"
 
 #: weblate/addons/forms.py:802
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Lämna tom för tvåspråkiga översättningsfiler."
+msgstr ""
+"Lämna tom för tvåspråkiga översättningsfiler. När det är inställt måste "
+"denna mall inkludera {{ component }}."
 
 #: weblate/addons/forms.py:806
 msgid "Define the base file for new translations"
 msgstr "Definiera basfil för nya översättningar"
 
 #: weblate/addons/forms.py:810
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Filnamn på fil som används för att skapa nya översättningar. Välj .pot-fil "
-"för gettext."
+"Filnamn för filen som används för att skapa nya översättningar. För gettext "
+"välj .pot-fil. Denna mall måste innehålla {{ component }}."
 
 #: weblate/addons/forms.py:815
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -2315,19 +2309,15 @@ msgid "Intermediate language file"
 msgstr "Mellanliggande språkfil"
 
 #: weblate/addons/forms.py:819
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"Filnamn för mellanliggande översättningsfil. I de flesta fall är detta en "
-"översättningsfil som tillhandahålls av utvecklare och som används vid "
-"skapandet av faktiska källsträngar."
+"Filnamn på den mellanliggande översättningsfilen. I de flesta fall är detta "
+"en översättningsfil som tillhandahålls av utvecklarna och som används vid "
+"skapandet av de faktiska källsträngarna. Denna mall måste innehålla {{ "
+"component }}."
 
 #: weblate/addons/forms.py:826 weblate/trans/models/component.py:1000
 msgid "Language filter"
@@ -2356,30 +2346,25 @@ msgstr "Jag bekräftar att ovanstående matchningar ser ut att vara korrekta"
 #: weblate/addons/forms.py:926
 #, python-format
 msgid "Generic preset: %(name)s [%(details)s]"
-msgstr ""
+msgstr "Allmän förinställning: %(name)s [%(details)s]"
 
 #: weblate/addons/forms.py:939
-#, fuzzy
-#| msgid "Information about project"
 msgid "format not preset"
-msgstr "Information om projektet"
+msgstr "formatet är inte förinställt"
 
 #: weblate/addons/forms.py:947
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Enspråkig basspråkfil"
+msgstr "enspråkig bas: %(base)s"
 
 #: weblate/addons/forms.py:950
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "no monolingual base"
-msgstr "Definiera den enspråkiga basspråkfilen"
+msgstr "ingen enspråkig bas"
 
 #: weblate/addons/forms.py:958
 #, python-format
 msgid "%(format)s; %(base)s"
-msgstr ""
+msgstr "%(format)s; %(base)s"
 
 #: weblate/addons/forms.py:968
 msgid "One folder per language"
@@ -2712,16 +2697,12 @@ msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "Uppdatera ALL_LINGUAS-variabeln i \"configure\"-filen"
 
 #: weblate/addons/gettext.py:280
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
-#| "\"configure.ac\" files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a translation is added or removed."
 msgstr ""
-"Uppdaterar ALL_LINGUAS-variabeln i filerna \"configure\", \"configure.in\" "
-"och \"configure.ac\", när en ny översättning adderas."
+"Uppdaterar variabeln ALL_LINGUAS i filerna ”configure”, ”configure.in” eller "
+"”configure.ac” när en översättning läggs till eller tas bort."
 
 #: weblate/addons/gettext.py:374
 msgid "Update PO files to match POT (msgmerge)"
@@ -2737,10 +2718,8 @@ msgstr ""
 "msgmerge."
 
 #: weblate/addons/gettext.py:990
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (xgettext)"
-msgstr "Uppdatera PO-filerna till att matcha POT (msgmerge)"
+msgstr "Uppdatera POT-filen (xgettext)"
 
 #: weblate/addons/gettext.py:992
 msgid "Updates the gettext template using xgettext on selected source files."
@@ -2748,27 +2727,21 @@ msgstr ""
 "Uppdatera gettext-mallen genom att använda xgettext på utvalda källfiler."
 
 #: weblate/addons/gettext.py:1403
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Update POT file (Meson)"
-msgstr "Uppdatera PO-filerna till att matcha POT (msgmerge)"
+msgstr "Uppdatera POT-filen (Meson)"
 
 #: weblate/addons/gettext.py:1405
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr "Välj en befintlig komponentkonfiguration att kopiera."
+msgstr "Uppdaterar gettext-mallen enligt Mesons gettext-konventioner."
 
 #: weblate/addons/gettext.py:1553
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "Uppdatera POT-fil (Django)"
+msgstr "Uppdatera gettext-mallen (Django)"
 
 #: weblate/addons/gettext.py:1555
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
-msgstr ""
+msgstr "Uppdaterar gettext-mallen med Djangos inbyggda kommando makemessages."
 
 #: weblate/addons/gettext.py:1747
 msgid "Update POT file (Sphinx)"
@@ -2779,6 +2752,8 @@ msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
+"Uppdaterar gettext-mallen med Sphinx gettext-builder utan att ladda "
+"projektkonfiguration."
 
 #: weblate/addons/gettext.py:1981
 msgid "Contributors in comment"
@@ -2802,10 +2777,8 @@ msgstr "Squasha Git-arkiveringar innan de pushas."
 
 #: weblate/addons/models.py:307 weblate/addons/views.py:433
 #: weblate/api/views.py:4077
-#, fuzzy
-#| msgid "This add-on has no settings."
 msgid "This add-on cannot be triggered manually."
-msgstr "Det här tillägget har inga inställningar."
+msgstr "Detta tillägg kan inte utlösas manuellt."
 
 #: weblate/addons/properties.py:160
 msgid "Format the Java properties file"
@@ -2846,45 +2819,33 @@ msgstr ""
 "av källsträngen."
 
 #: weblate/addons/views.py:115
-#, fuzzy
-#| msgid "Manage site-wide add-ons"
 msgid "site-wide add-ons"
-msgstr "Hantera tillägg för hela webbplatsen"
+msgstr "webbplatsgemensamma tillägg"
 
 #: weblate/addons/views.py:123 weblate/templates/addons/addon_head.html:12
 msgid "repository wide"
 msgstr "hela arkivet"
 
 #: weblate/addons/views.py:124
-#, fuzzy
-#| msgid "Component"
 msgid "component"
-msgstr "Komponent"
+msgstr "komponent"
 
 #: weblate/addons/views.py:127 weblate/addons/views.py:132
-#, fuzzy
-#| msgid "Move category"
 msgid "parent category"
-msgstr "Flytta kategori"
+msgstr "föräldrakategori"
 
 #: weblate/addons/views.py:133 weblate/trans/forms.py:2207
 #: weblate/trans/forms.py:2580 weblate/trans/forms.py:3159
-#, fuzzy
-#| msgid "Category"
 msgid "category"
-msgstr "Kategori"
+msgstr "kategori"
 
 #: weblate/addons/views.py:135
-#, fuzzy
-#| msgid "project wide"
 msgid "project-wide"
 msgstr "hela projektet"
 
 #: weblate/addons/views.py:136
-#, fuzzy
-#| msgid "site wide"
 msgid "site-wide"
-msgstr "för hela webbplatsen"
+msgstr "på hela webbplatsen"
 
 #: weblate/addons/views.py:320 weblate/addons/views.py:323
 #: weblate/addons/views.py:453
@@ -2902,10 +2863,8 @@ msgid "Add-on installed, please review integration instructions."
 msgstr "Tillägget är installerat, läs instruktionerna för integrering."
 
 #: weblate/addons/views.py:438 weblate/api/views.py:4084
-#, fuzzy
-#| msgid "Comment has been deleted."
 msgid "Add-on run has been scheduled."
-msgstr "Kommentaren har tagits bort."
+msgstr "Körning av tillägget har schemalagts."
 
 #: weblate/addons/webhooks.py:120
 msgid "Webhook"
@@ -3016,26 +2975,20 @@ msgid "Cannot change this on a built-in team."
 msgstr "Kan inte ändra detta för en inbyggd grupp."
 
 #: weblate/api/serializers.py:725 weblate/api/serializers.py:737
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot change this on an existing team."
-msgstr "Kan inte ändra detta för en inbyggd grupp."
+msgstr "Det går inte att ändra detta för en befintlig grupp."
 
 #: weblate/api/serializers.py:745
 msgid "Choose either a project or a workspace."
-msgstr ""
+msgstr "Välj antingen ett projekt eller en arbetsyta."
 
 #: weblate/api/serializers.py:766 weblate/auth/models.py:336
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A team with this name already exists in this workspace."
-msgstr "Det finns redan en användare med det namnet."
+msgstr "Det finns redan en grupp med det här namnet i det här arbetsområdet."
 
 #: weblate/api/serializers.py:784
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot change this on a scoped team."
-msgstr "Kan inte ändra detta för en inbyggd grupp."
+msgstr "Detta kan inte ändras för en grupp med begränsad räckvidd."
 
 #: weblate/api/serializers.py:1942 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3088,12 +3041,12 @@ msgid "Weblate's REST API"
 msgstr "Weblates REST API"
 
 #: weblate/api/views.py:290 weblate/trans/views/edit.py:93
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
-msgstr "Kunde inte låsa arkivet. En annan operation pågår."
+msgstr ""
+"Det gick inte att ta bort strängen eftersom en annan bakgrundsåtgärd pågår. "
+"Försök igen senare."
 
 #: weblate/api/views.py:296
 msgid "Could not obtain the lock to perform the operation."
@@ -3125,39 +3078,32 @@ msgstr ""
 
 #: weblate/api/views.py:782
 msgid "Expected an object."
-msgstr ""
+msgstr "Ett objekt förväntades."
 
 #: weblate/api/views.py:812 weblate/trans/forms.py:4392
 msgid "At least one team is required for a project token."
-msgstr ""
+msgstr "Åtminstone en grupp krävs för en projekt-token."
 
 #: weblate/api/views.py:1061
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "This role cannot be assigned to this team."
-msgstr "Filnamnet kan inte vara en absolut sökväg."
+msgstr "Denna roll kan inte tilldelas denna grupp."
 
 #: weblate/api/views.py:1147 weblate/api/views.py:1175
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot change projects on a scoped team."
-msgstr "Kan inte ändra detta för en inbyggd grupp."
+msgstr "Det går inte att byta projekt i en grupp med begränsad räckvidd."
 
 #: weblate/api/views.py:1196 weblate/api/views.py:1237
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "Kan inte ändra detta för en inbyggd grupp."
+msgstr ""
+"Det går inte att ändra komponentlistor för en grupp med begränsad räckvidd."
 
 #: weblate/api/views.py:1258 weblate/api/views.py:1291
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot change components on a workspace team."
-msgstr "Kan inte ändra detta för en inbyggd grupp."
+msgstr "Det går inte att ändra komponenter på en arbetsområdesgrupp."
 
 #: weblate/api/views.py:1854
 msgid "Specify a workspace when multiple workspaces can be used."
-msgstr ""
+msgstr "Ange ett arbetsområde när flera arbetsområden kan användas."
 
 #: weblate/api/views.py:3097 weblate/trans/models/translation.py:2622
 msgid "This string seems to already exist."
@@ -3495,17 +3441,13 @@ msgstr "Publicera meddelanden"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Ta bort meddelande"
+msgstr "Ta bort meddelanden"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Ändra källsträng"
+msgstr "Redigera arbetsområdets inställningar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
