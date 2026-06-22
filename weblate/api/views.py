@@ -164,7 +164,11 @@ from weblate.trans.tasks import (
 from weblate.trans.util import get_upload_error_message
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
-from weblate.utils.celery import get_task_metadata, get_task_progress
+from weblate.utils.celery import (
+    get_task_metadata,
+    get_task_progress,
+    store_task_metadata,
+)
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
@@ -2146,7 +2150,6 @@ class ProjectViewSet(
             ProjectLanguage(obj, language), request, announcement_id, **kwargs
         )
 
-    @action(detail=True, methods=["get", "post"])
     @extend_schema(
         description="Return a list of project backups.",
         methods=["get"],
@@ -2160,22 +2163,24 @@ class ProjectViewSet(
                 "CreateBackupResponse",
                 fields={
                     "detail": serializers.CharField(),
-                    "url": serializers.URLField(),
+                    "task_url": serializers.URLField(),
                 },
             )
         },
     )
+    @action(detail=True, methods=["get", "post"])
     def backups(self, request: Request, **kwargs):
         obj = self.get_object()
         if not request.user.has_perm("project.edit", obj):
             raise PermissionDenied
 
         if request.method == "POST":
-            create_project_backup.delay(obj.pk, request.user.pk)
+            task = create_project_backup.delay(obj.pk, request.user.pk)
+            store_task_metadata(task.id, user_id=request.user.id)
             return Response(
                 {
                     "detail": "Backup scheduled. It will be available soon.",
-                    "url": reverse("api:project-backups", kwargs={"slug": obj.slug}),
+                    "task_url": reverse("api:task-detail", kwargs={"pk": task.id}),
                 },
                 status=HTTP_202_ACCEPTED,
             )

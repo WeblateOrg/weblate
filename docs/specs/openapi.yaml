@@ -14565,9 +14565,21 @@ paths:
           description: No response body
   /api/projects/{slug}/backups/:
     get:
-      operationId: api_projects_backups_retrieve
-      description: Translation projects API.
+      operationId: api_projects_backups_list
+      description: Return a list of project backups.
       parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       - in: path
         name: slug
         schema:
@@ -14703,7 +14715,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/PaginatedBackupList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -14714,7 +14726,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_backups_create
-      description: Translation projects API.
+      description: Create a new project backup.
       parameters:
       - in: path
         name: slug
@@ -14866,19 +14878,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '202':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/CreateBackupResponse'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/backups/{backup}/:
     get:
       operationId: api_projects_backups_download_retrieve
@@ -29072,6 +29077,20 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    Backup:
+      type: object
+      properties:
+        name:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        size:
+          type: integer
+      required:
+      - name
+      - size
+      - timestamp
     BilingualSourceUnit:
       type: object
       properties:
@@ -29609,12 +29628,12 @@ components:
           description: |-
             Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
 
+            * `bitbucketcloud` - Bitbucket Cloud merge request
             * `gerrit` - Gerrit
             * `git` - Git
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
-            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -30285,6 +30304,17 @@ components:
       type: string
       description: "* `` - \n* `ignore` - ignore\n* `replace-translated` - replace-translated\n*
         `replace-approved` - replace-approved"
+    CreateBackupResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     DirectionEnum:
       enum:
       - ltr
@@ -31535,6 +31565,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Announcement'
+    PaginatedBackupList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Backup'
     PaginatedCategoryList:
       type: object
       required:
@@ -32201,12 +32252,12 @@ components:
           description: |-
             Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
 
+            * `bitbucketcloud` - Bitbucket Cloud merge request
             * `gerrit` - Gerrit
             * `git` - Git
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
-            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -33631,12 +33682,12 @@ components:
           description: |-
             Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
 
+            * `bitbucketcloud` - Bitbucket Cloud merge request
             * `gerrit` - Gerrit
             * `git` - Git
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
-            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -34903,20 +34954,20 @@ components:
       - uploaded
     VcsEnum:
       enum:
+      - bitbucketcloud
       - gerrit
       - git
       - git-force-push
       - local
       - mercurial
-      - subversion
       type: string
       description: |-
+        * `bitbucketcloud` - Bitbucket Cloud merge request
         * `gerrit` - Gerrit
         * `git` - Git
         * `git-force-push` - Git with force push
         * `local` - No remote repository
         * `mercurial` - Mercurial
-        * `subversion` - Subversion
     UserGroupDeleteRequest:
       type: object
       properties:
@@ -34949,7 +35000,7 @@ components:
         project tokens whose access to the API is limited to operations to their associated
         project. These tokens have the `wlp_` prefix.\n        "
 servers:
-- url: 'http:'
+- url: http://localhost:8000
   description: Weblate
 tags:
 - name: root

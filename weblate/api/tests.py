@@ -5081,6 +5081,24 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(
             "Backup scheduled. It will be available soon.", response.data["detail"]
         )
+        task_url = response.data["task_url"]
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "SUCCESS"
+
+            def ready(self):
+                return True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                task_url,
+                method="get",
+                code=200,
+                superuser=False,
+            )
 
         response = self.do_request(
             "api:project-backups",
