@@ -51,6 +51,8 @@ from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
@@ -61,6 +63,7 @@ from weblate.trans.models import (
     ComponentList,
     ContributorAgreement,
     Project,
+    Translation,
     Unit,
 )
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
@@ -73,7 +76,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
@@ -85,7 +88,6 @@ if TYPE_CHECKING:
     from selenium.webdriver.remote.webelement import WebElement
 
     from weblate.machinery.types import DownloadTranslations
-    from weblate.trans.models import Translation
     from weblate.utils.stats import BaseStats
 
 
@@ -232,9 +234,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         else:
             # Increase webdriver timeout to avoid occasional errors in CI
             cls._driver.command_executor.client_config.timeout = 300
-            # The screenshot browser is reused across tests while several
-            # fixtures use identical slugs. Avoid cached widget images showing
-            # status badges from an earlier fixture.
             cls._driver.execute_cdp_cmd(
                 "Network.setCacheDisabled", {"cacheDisabled": True}
             )
@@ -271,6 +270,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self) -> None:
         super().setUp()
+        self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
         self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.driver.set_window_size(1200, 1024)
         self.site_domain = settings.SITE_DOMAIN
@@ -306,6 +306,59 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 Path(get_test_file(fixture)).read_text(encoding="utf-8"),
                 encoding="utf-8",
             )
+
+    def clear_project_stats_cache(self, project: Project) -> None:
+        """Drop stats cache entries that can survive the flushed test database."""
+        translations = list(
+            Translation.objects.filter(component__project=project).select_related(
+                "language"
+            )
+        )
+        stats = [
+            project.stats,
+            *(component.stats for component in project.component_set.all()),
+            *(translation.stats for translation in translations),
+            *(
+                ProjectLanguage(project, language).stats
+                for language in {translation.language for translation in translations}
+            ),
+        ]
+        cache.delete_many({stat.cache_key for stat in stats})
+
+    def populate_global_activity_metrics(self) -> None:
+        """Create deterministic metric rows for the generated activity history."""
+        today = timezone.now().date()
+        scope = Metric.SCOPE_GLOBAL
+        relation = 0
+        cache.delete(GlobalStats().cache_key)
+        Metric.objects.filter_metric(scope, relation).filter(date=today).delete()
+
+        wrapper = MetricsWrapper(None, scope, relation)
+        cache_keys = []
+        last_month_date = today.replace(day=1) - timedelta(days=1)
+        month = last_month_date.month
+        year = last_month_date.year
+        for _unused in range(12):
+            cache_keys.extend(
+                (
+                    wrapper.get_month_cache_key(year, month),
+                    wrapper.get_month_cache_key(year - 1, month),
+                )
+            )
+            month -= 1
+            if month < 1:
+                month = 12
+                year -= 1
+        cache.delete_many(cache_keys)
+
+        for day in range(366):
+            Metric.objects.calculate_changes(
+                today - timedelta(days=day),
+                None,
+                scope,
+                relation,
+            )
+        Metric.objects.collect_global()
 
     def count_elements(self, css_selector: str) -> int:
         """Return the count of elements matching css_selector on the current page."""
@@ -1180,6 +1233,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             new_base="weblate/locale/django.pot",
             file_format="po",
         )
+        self.clear_project_stats_cache(project)
         return project
 
     def create_glossary(
@@ -1237,7 +1291,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        return Component.objects.create(
+        component = Component.objects.create(
             name="Android",
             slug="android",
             project=project,
@@ -1246,15 +1300,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             template="app/src/main/res/values/strings.xml",
             file_format="aresource",
         )
+        self.clear_project_stats_cache(project)
+        return component
 
     def test_dashboard(self) -> None:
         self.do_login()
+        self.create_component()
         # Generate nice changes data
         for day in range(365):
             for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
                 change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
                 change.timestamp -= timedelta(days=day)
                 change.save()
+        self.populate_global_activity_metrics()
 
         # Screenshot search
         self.click("Search")
