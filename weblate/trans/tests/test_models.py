@@ -8,7 +8,6 @@ import importlib
 import os
 from contextlib import ExitStack
 from datetime import timedelta
-from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -55,6 +54,7 @@ from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
     create_test_user,
+    get_optional_path,
     fixup_languages_seq,
 )
 from weblate.utils.files import remove_tree
@@ -1793,7 +1793,9 @@ class AutomaticallyTranslatedFromFileTest(RepoTestCase):
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
 
-        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        file_content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
         self.assertEqual(file_content.count('state-qualifier="leveraged-mt"'), 1)
         self.assertEqual(file_content.count('state-qualifier="mt-suggestion"'), 1)
 
@@ -1820,7 +1822,9 @@ class AutomaticallyTranslatedFromFileTest(RepoTestCase):
 
         translation.commit_pending("test", None)
 
-        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        file_content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
         self.assertIn("Automobil", file_content)
         self.assertEqual(file_content.count('state-qualifier="leveraged-mt"'), 2)
         self.assertEqual(file_content.count('state-qualifier="mt-suggestion"'), 0)
@@ -1832,12 +1836,16 @@ class AutomaticallyTranslatedFromFileTest(RepoTestCase):
         car_unit = translation.unit_set.get(source="Car")
         self.assertFalse(car_unit.automatically_translated)
 
-        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        file_content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
         modified_content = file_content.replace(
             "<target>Auto</target>",
             '<target state-qualifier="leveraged-mt">Auto</target>',
         )
-        Path(translation.get_filename()).write_text(modified_content, encoding="utf-8")
+        get_optional_path(translation.get_filename()).write_text(
+            modified_content, encoding="utf-8"
+        )
 
         translation = component.translation_set.get(language_code="cs")
         translation.check_sync(force=True)
