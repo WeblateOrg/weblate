@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-20 20:28+0000\n"
+"PO-Revision-Date: 2026-06-23 11:02+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -8459,7 +8459,7 @@ msgstr "Trebaš komercijalni hosting?"
 #: weblate/templates/accounts/login.html:16
 msgid "This username/password combination was not found. Please try again."
 msgstr ""
-"Ova kombinacija korisničkog imena i lozinke nije nađena. Pokušaj ponovo."
+"Ova kombinacija korisničkog imena i lozinke nije pronađena. Pokušaj ponovo."
 
 #: weblate/templates/accounts/login.html:28
 #, python-format
@@ -13664,7 +13664,7 @@ msgstr ""
 #: weblate/templates/snippets/about.html:8
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
-msgstr "Nađi daljnje informacije o Weblateu na %(weblate_link)s."
+msgstr "Pronađi daljnje informacije o Weblateu na %(weblate_link)s."
 
 #: weblate/templates/snippets/about.html:12
 msgid ""
@@ -14936,7 +14936,7 @@ msgstr "Weblate nije uspio izvršiti skript dodatka."
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:5
 #: weblate/templates/trans/alert/unusedglossarylanguage.html:7
 msgid "The following occurrences were found:"
-msgstr "Nađena su sljedeća pojavljivanja:"
+msgstr "Pronađene su sljedeća pojavljivanja:"
 
 #: weblate/templates/trans/alert/addonscripterror.html:10
 msgid "Command"
@@ -15463,21 +15463,20 @@ msgstr ""
 "komponenti."
 
 #: weblate/templates/trans/alert/unusedglossarylanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "The glossary contains languages not used by any regular component in this "
 "project."
 msgstr ""
-"Osigurava korištenje dosljednog skupa jezika za sve komponente u projektu."
+"Glosar sadrži jezike koje ne koristi nijedna regularna komponenta u ovom "
+"projektu."
 
 #: weblate/templates/trans/alert/unusedglossarylanguage.html:5
 msgid ""
 "Remove the glossary language if it is no longer needed, or add matching "
 "translations to regular components if the glossary should be used."
 msgstr ""
+"Ukloni jezik glosara ako više nije potreban ili dodaj odgovarajuće prijevode "
+"regularnim komponentama, ukoliko bi se glosar trebao koristiti."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:3
 msgid "At least one screenshot has no string assigned to it."
@@ -20322,20 +20321,14 @@ msgstr[1] "Nije bilo moguće pronaći %d izraza:"
 msgstr[2] "Nije bilo moguće pronaći %d izraza:"
 
 #: weblate/trans/models/translation.py:1475
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
-msgstr ""
-"Oblici množine u prenesenoj datoteci se ne poklapaju s trenutačnim "
-"prijevodom."
+msgstr "Oblik množine %d u prenesenoj datoteci je izvan raspona."
 
 #: weblate/trans/models/translation.py:1481
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr ""
-"Oblici množine u prenesenoj datoteci se ne poklapaju s trenutačnim "
-"prijevodom."
+msgstr "Oblik množine %d u prenesenoj datoteci nedostaje."
 
 #: weblate/trans/models/translation.py:1692
 #: weblate/trans/models/translation.py:1697
@@ -20783,32 +20776,21 @@ msgid "File upload has failed: %s"
 msgstr "Neuspio prijenos datoteke: %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Prevodi se na <strong>%(count)s jezik</strong>."
-msgstr[1] "Prevodi se na <strong>%(count)s jezika</strong>."
-msgstr[2] "Prevodi se na <strong>%(count)s jezika</strong>."
+msgstr[0] "{project} se prevodi na {count} jezik koristeći Weblate."
+msgstr[1] "{project} se prevodi na {count} jezika koristeći Weblate."
+msgstr[2] "{project} se prevodi na {count} jezika koristeći Weblate."
 
 #: weblate/trans/util.py:292
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
-msgstr ""
-"{0} se prevodi na {1} jezika pomoću Weblatea. Uključi se u prijevod ili "
-"započni prevoditi vlastiti projekt."
+msgstr "Pomogni prevoditi ili započni prevoditi vlastiti projekt."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Kopiraj u prijevod"
+msgstr "Pomogni prevoditi."
 
 #: weblate/trans/util.py:413
 msgid "Source upload is only supported on the source language."
@@ -22141,10 +22123,9 @@ msgid "This will push changes to the upstream repository."
 msgstr "Ovo će poslati promjene u izvorni repozitorij."
 
 #: weblate/vcs/git.py:120 weblate/vcs/git.py:1538
-#, fuzzy, python-format
-#| msgid "Too many messages sent, please try again later."
+#, python-format
 msgid "%(message)s Please retry later."
-msgstr "Poslano je previše poruka. Pokušaj ponovo kasnije."
+msgstr "%(message)s Pokušaj ponovo kasnije."
 
 #: weblate/vcs/git.py:166
 msgid "This will push changes to the upstream Git repository."
