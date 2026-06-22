@@ -164,6 +164,17 @@ class SafeMDXCheckTest(CheckTestCase):
         )
         self.do_test(True, (source, target, "safe-mdx"))
 
+    def test_jsx_identifier_start_elements_set_context(self) -> None:
+        for tag in ("_Wrapper", "$Wrapper"):
+            with self.subTest(tag=tag):
+                source = f"<{tag}>{{x}}</{tag}>"
+                target = "{x}"
+                self.assertEqual(
+                    list(self.check.get_jsx_expression_signatures(source)),
+                    [("text", "", (tag,), "{x}")],
+                )
+                self.do_test(True, (source, target, "safe-mdx"))
+
     def test_attribute_context_ignores_expression_greater_than(self) -> None:
         source = "<a title={x > y} href={url}>"
         target = "<a title={x > y}>{url}</a>"

@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Unit
 
-_JSX_TAG_NAME_RE = re.compile(r"[A-Za-z][\w.:-]*")
+_JSX_TAG_NAME_RE = re.compile(r"[$_A-Za-z][\w.$:-]*")
 _ATTR_NAME_RE = re.compile(r"([A-Za-z_:][\w:.-]*)\s*=\s*$")
 
 # Various lexical contexts tracked while scanning a JSX expression.
