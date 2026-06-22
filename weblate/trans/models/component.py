@@ -1211,6 +1211,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
+                or (old.push != self.push)
                 or (old.branch != self.branch)
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
@@ -3559,7 +3560,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         skip_push: bool = False,
         parse_after_update: bool = False,
         user: User | None = None,
-    ) -> bool:
+        raise_update_errors: bool = True,
+    ) -> bool | None:
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
@@ -3628,7 +3630,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 # Tell user (if there is any)
                 messages.error(request, error_msg % self)
 
-                raise
+                if raise_update_errors:
+                    raise
+                return None
 
             # Delete alerts
             if self.id:
@@ -4372,32 +4376,40 @@ class Component(  # ruff: ignore[too-many-public-methods]
         skip_push: bool = False,
         skip_commit: bool = False,
         parse_after_update: bool = False,
-    ) -> None:
+        raise_update_errors: bool = True,
+    ) -> bool:
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
-            return
+            return True
         if skip_push is None:
             skip_push = validate
         if not self.is_repo_local and not self.repository.is_valid():
             with self.repository.lock:
                 self.repository.clone_from(self.repo)
 
-        self.configure_repo(validate)
-        if not skip_commit and self.id:
-            self.commit_pending("sync", None, skip_push=skip_push)
-        self.configure_branch()
+        self.configure_repo(validate, pull=False)
         if self.id:
+            if not self.update_remote_branch(validate):
+                return False
+            if not skip_commit:
+                self.commit_pending("sync", None, skip_push=skip_push)
+            self.configure_branch()
             # Update existing repo
-            self.update_branch(
-                skip_push=skip_push,
-                parse_after_update=parse_after_update,
+            return (
+                self.update_branch(
+                    skip_push=skip_push,
+                    parse_after_update=parse_after_update,
+                    raise_update_errors=raise_update_errors,
+                )
+                is not None
             )
-        else:
-            # Reset to upstream in case not yet saved model (this is called
-            # from the clean method only)
-            with self.repository.lock:
-                self.update_remote_branch()
-                self.repository.reset()
+        # Reset to upstream in case not yet saved model (this is called
+        # from the clean method only)
+        with self.repository.lock:
+            self.update_remote_branch(validate)
+            self.configure_branch()
+            self.repository.reset()
+        return True
 
     def set_default_branch(self) -> None:
         """Set default VCS branch if empty."""
@@ -4667,8 +4679,65 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             raise ValidationError({"template": msg})
 
-    def clean_repo(self) -> None:
+    def validate_repository_compatibility(self, *, retry: bool = True) -> None:
+        """Validate repository URLs without merging remote changes."""
+        self.repository.validate_pull_url(self.repo)
+        if self.push:
+            self.repository.validate_push_url(self.push)
+        while True:
+            try:
+                self.repository.validate_remote_compatibility(self.repo, self.branch)
+            except RepositoryError as error:
+                error_text = self.error_text(error)
+                if retry and should_auto_add_ssh_host_key(error_text):
+                    self.add_ssh_host_key()
+                    retry = False
+                    continue
+                raise
+            return
+
+    def validate_repository_access(self, *, validate_worktree: bool) -> None:
+        """Validate repository access using the appropriate depth."""
+        if (
+            validate_worktree
+            or not self.repository_class.supports_remote_compatibility_validation
+            or not self.repository.is_valid()
+        ):
+            self.sync_git_repo(validate=True, skip_push=True)
+        else:
+            self.validate_repository_compatibility()
+
+    def clean_push_url(self) -> None:
+        """Validate push URL without accessing the pull repository."""
+        if self.is_repo_local and self.push:
+            raise ValidationError(
+                {"push": gettext("Push URL is not used without a remote repository.")}
+            )
+        try:
+            self.repository.validate_push_url(self.push)
+        except RepositoryError as error:
+            msg = gettext("Could not validate push URL: %s") % self.error_text(error)
+            raise ValidationError({"push": msg}) from error
+
+    def clean_push_branch_settings(self) -> None:
+        """Validate push branch settings."""
+        if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
+            if self.branch == self.push_branch:
+                msg = gettext(
+                    "Pull and push branches cannot be the same when using pull/merge requests and not pushing to a fork."
+                )
+                raise ValidationError({"push_branch": msg})
+
+            if not self.push_branch:
+                msg = gettext(
+                    "Push branch cannot be empty when using pull/merge requests and not pushing to a fork."
+                )
+                raise ValidationError({"push_branch": msg})
+
+    def clean_repo(self, *, validate_worktree: bool = True) -> None:
         self.clean_repo_link()
+        if self.is_repo_link:
+            return
 
         # Bail out on failed repo validation
         if self.repo is None:
@@ -4688,8 +4757,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         try:
             self.set_default_branch()
             self.clean_branches()
-
-            self.sync_git_repo(validate=True, skip_push=True)
+            self.validate_repository_access(validate_worktree=validate_worktree)
         except RepositoryError as error:
             text = self.error_text(error)
             if is_ssh_host_key_mismatch_error(text):
@@ -4712,18 +4780,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg}) from error
 
-        if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
-            if self.branch == self.push_branch:
-                msg = gettext(
-                    "Pull and push branches cannot be the same when using pull/merge requests and not pushing to a fork."
-                )
-                raise ValidationError({"push_branch": msg})
+        self.clean_push_branch_settings()
 
-            if not self.push_branch:
-                msg = gettext(
-                    "Push branch cannot be empty when using pull/merge requests and not pushing to a fork."
-                )
-                raise ValidationError({"push_branch": msg})
+    def has_only_push_url_changed(self, old: Component | None) -> bool:
+        """Check whether repository validation can be limited to push URL."""
+        return (
+            old is not None
+            and old.vcs == self.vcs
+            and old.repo == self.repo
+            and old.push != self.push
+            and old.branch == self.branch
+            and old.filemask == self.filemask
+            and old.language_regex == self.language_regex
+        )
 
     def clean_branches(self) -> None:
         """Validate VCS branch names."""
@@ -4773,6 +4842,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """
         self.clean_model_settings()
         self._clean_repository_settings()
+
+    def can_validate_repository_compatibility(self, old: Component | None) -> bool:
+        """Check whether repository validation can avoid worktree updates."""
+        return (
+            old is not None
+            and self.repository_class.supports_remote_compatibility_validation
+            and old.vcs == self.vcs
+            and old.branch == self.branch
+            and old.filemask == self.filemask
+            and old.language_regex == self.language_regex
+            and old.template == self.template
+            and old.intermediate == self.intermediate
+            and old.new_base == self.new_base
+            and old.file_format == self.file_format
+            and old.file_format_params == self.file_format_params
+        )
 
     def clean_model_settings(self) -> None:
         """Validate component settings that do not require repository access."""
@@ -4841,6 +4926,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Check if we should rename
         changed_git = True
         was_renamed = False
+        old = None
         if self.id:
             old = Component.objects.get(pk=self.id)
             was_renamed = self.check_rename(old, validate=True)
@@ -4857,7 +4943,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if changed_git or was_renamed:
             self.drop_repository_cache()
         if changed_git:
-            self.clean_repo()
+            if self.has_only_push_url_changed(old):
+                self.clean_repo_link()
+                if not self.is_repo_link:
+                    self.clean_branches()
+                    self.clean_push_url()
+                    self.clean_push_branch_settings()
+            else:
+                self.clean_repo(
+                    validate_worktree=not self.can_validate_repository_compatibility(
+                        old
+                    )
+                )
         else:
             self.clean_branches()
 
@@ -4954,6 +5051,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 files=[fullname],
             )
 
+    def create_template_if_repository_updated(
+        self, repository_update_succeeded: bool
+    ) -> None:
+        """Create blank template only when checkout is current."""
+        if repository_update_succeeded:
+            self.create_template_if_missing()
+
     def after_save(
         self,
         *,
@@ -4979,28 +5083,30 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.translations_count = 0
         self.progress_step(0)
         has_seed_source = create and seed_source_component_id is not None
+        repository_update_succeeded = True
         # Configure git repo if there were changes
         if changed_git and (not create or not self.is_repo_link):
             # Bring VCS repo in sync with current model
-            self.sync_git_repo(
+            repository_update_succeeded = self.sync_git_repo(
                 skip_push=skip_push,
                 skip_commit=create,
                 parse_after_update=True,
+                raise_update_errors=create,
             )
 
         # Create template in case intermediate file is present
-        self.create_template_if_missing()
+        self.create_template_if_repository_updated(repository_update_succeeded)
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
         was_change = False
         if has_seed_source:
             was_change = False
-        elif changed_setup:
+        elif changed_setup and repository_update_succeeded:
             was_change = self.create_translations(
                 force=True, changed_template=changed_template
             )
-        elif changed_git:
+        elif changed_git and repository_update_succeeded:
             was_change = self.create_translations()
 
         # Update variants (create_translation does this on change)
