@@ -434,9 +434,7 @@ Fedora Messaging
 
 :Add-on ID: ``weblate.fedora_messaging.publish``
 :Configuration: +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``amqp_host``    | AMQP broker host            | The AMQP broker to connect to.                                                                  |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``amqp_ssl``     | Use SSL for AMQP connection |                                                                                                 |
+                | ``amqp_url``     | AMQP broker URL             | The AMQP broker URL to connect to.                                                              |
                 +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
                 | ``ca_cert``      | CA certificates             | Bundle of PEM encoded CA certificates used to validate the certificate presented by the server. |
                 +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+

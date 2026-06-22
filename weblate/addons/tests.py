@@ -6341,6 +6341,58 @@ class CleanupPeriodicTaskMigrationTest(TestCase):
         self.assertTrue(PeriodicTasks.objects.exists())
 
 
+class FedoraMessagingAMQPUrlMigrationTest(TestCase):
+    def test_legacy_amqp_settings_are_migrated(self) -> None:
+        migration = importlib.import_module(
+            "weblate.addons.migrations.0021_migrate_fedora_messaging_amqp_url"
+        )
+        addon = Addon.objects.create(
+            name=FedoraMessagingAddon.name,
+            configuration={
+                "amqp_host": "broker.example",
+                "amqp_ssl": True,
+                "ca_cert": "ca",
+                "events": [str(ActionEvents.NEW)],
+            },
+        )
+
+        migration.migrate_fedora_messaging_amqp_url(apps, None)
+
+        addon.refresh_from_db()
+        expected_url = "amqps://broker.example?connection_attempts=3&retry_delay=5"
+        self.assertEqual(
+            addon.configuration,
+            {
+                "amqp_url": expected_url,
+                "ca_cert": "ca",
+                "events": [str(ActionEvents.NEW)],
+            },
+        )
+
+    def test_existing_amqp_url_is_preserved(self) -> None:
+        migration = importlib.import_module(
+            "weblate.addons.migrations.0021_migrate_fedora_messaging_amqp_url"
+        )
+        addon = Addon.objects.create(
+            name=FedoraMessagingAddon.name,
+            configuration={
+                "amqp_url": "amqp://broker.example/%2F",
+                "amqp_host": "legacy.example",
+                "amqp_ssl": False,
+            },
+        )
+
+        migration.migrate_fedora_messaging_amqp_url(apps, None)
+
+        addon.refresh_from_db()
+        self.assertEqual(
+            addon.configuration,
+            {
+                "amqp_url": "amqp://broker.example/%2F",
+            },
+        )
+
+
 class TestRemoval(ComponentTestCase):
     def install(
         self,
@@ -8407,7 +8459,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     # Not really used
     WEBHOOK_URL = "https://example.com/webhooks"
     addon_configuration: ClassVar[dict] = {
-        "amqp_host": "nonexisting.example.com",
+        "amqp_url": (
+            "amqp://nonexisting.example.com?connection_attempts=3&retry_delay=5"
+        ),
         "events": [str(ActionEvents.NEW)],
     }
 
@@ -8494,6 +8548,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     def test_project_scopes(self) -> None:
         pass
 
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
     def test_form(self) -> None:
         """Test FedoraMessagingAddonForm."""
         self.user.is_superuser = True
@@ -8534,7 +8589,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "No add-ons currently installed")
 
         # missing certs for SSL
-        params["amqp_ssl"] = "1"
+        params["amqp_url"] = "amqps://nonexisting.example.com"
         response = self.client.post(
             reverse("manage-addons"),
             params,
@@ -8546,7 +8601,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertNotContains(response, "Installed 1 add-on")
 
         # certs but no SSL
-        del params["amqp_ssl"]
+        params["amqp_url"] = "amqp://nonexisting.example.com"
         params["ca_cert"] = "x"
         params["client_key"] = "x"
         params["client_cert"] = "x"
@@ -8561,12 +8616,84 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertNotContains(response, "Installed 1 add-on")
 
         # Install with SSL
-        params["amqp_ssl"] = "1"
+        params["amqp_url"] = "amqps://nonexisting.example.com"
         response = self.client.post(
             reverse("manage-addons"),
             params,
             follow=True,
         )
+        self.assertContains(response, "Installed 1 add-on")
+
+    def test_form_rejects_invalid_amqp_url_scheme(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "https://example.com",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Enter a valid URL.")
+        self.assertNotContains(response, "Installed 1 add-on")
+
+    def test_form_rejects_private_amqp_target(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "amqp://localhost",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        self.assertNotContains(response, "Installed 1 add-on")
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_form_allows_private_amqp_target_when_restriction_disabled(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "amqp://localhost",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 1 add-on")
+
+    @override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["localhost"])
+    def test_form_allows_private_amqp_target_when_allowlisted(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "amqp://localhost",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
         self.assertContains(response, "Installed 1 add-on")
 
 
