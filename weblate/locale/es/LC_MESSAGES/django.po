@@ -35,8 +35,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-20 16:01+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-06-23 11:01+0000\n"
+"Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -2624,33 +2624,24 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Activar la clasificación por capitalinas"
 
 #: weblate/addons/forms.py:1491
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "Cambio de eventos"
+msgstr "Cambio de eventos para disparador"
 
 #: weblate/addons/forms.py:1497
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation context"
 msgid "Translation content events"
-msgstr "Contexto de traducción"
+msgstr "Eventos del contenido de traducción"
 
 #: weblate/addons/forms.py:1501
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "Cambio de eventos"
+msgstr "Todos los cambios de eventos"
 
 #: weblate/addons/forms.py:1505 weblate/addons/forms.py:1519
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "Cambio de eventos"
+msgstr "Cambio de eventos seleccionados"
 
 #: weblate/addons/forms.py:1509
 msgid "Choose which change events should trigger this add-on."
-msgstr ""
+msgstr "Elija cuales cambios de eventos saltarían este complemento."
 
 #: weblate/addons/forms.py:1580
 msgid "Webhook URL"
@@ -2898,26 +2889,20 @@ msgstr ""
 "nuevas es agregada como copias de las cadenas de origen."
 
 #: weblate/addons/views.py:115
-#, fuzzy
-#| msgid "Manage site-wide add-ons"
 msgid "site-wide add-ons"
-msgstr "Gestionar complementos en todo el sitio"
+msgstr "Complementos en todo el sitio"
 
 #: weblate/addons/views.py:123 weblate/templates/addons/addon_head.html:12
 msgid "repository wide"
 msgstr "todo el repositorio"
 
 #: weblate/addons/views.py:124
-#, fuzzy
-#| msgid "Component"
 msgid "component"
-msgstr "Componente"
+msgstr "componente"
 
 #: weblate/addons/views.py:127 weblate/addons/views.py:132
-#, fuzzy
-#| msgid "Category"
 msgid "parent category"
-msgstr "Categoría"
+msgstr "categoría anterior"
 
 #: weblate/addons/views.py:133 weblate/trans/forms.py:2207
 #: weblate/trans/forms.py:2580 weblate/trans/forms.py:3159
@@ -2925,16 +2910,12 @@ msgid "category"
 msgstr "categoría"
 
 #: weblate/addons/views.py:135
-#, fuzzy
-#| msgid "project wide"
 msgid "project-wide"
-msgstr "todo el proyecto"
+msgstr "proyecto completo"
 
 #: weblate/addons/views.py:136
-#, fuzzy
-#| msgid "site wide"
 msgid "site-wide"
-msgstr "en todo el sitio"
+msgstr "sitio completo"
 
 #: weblate/addons/views.py:320 weblate/addons/views.py:323
 #: weblate/addons/views.py:453
@@ -3205,6 +3186,8 @@ msgstr "No se pueden cambiar componentes en un equipo de espacio de trabajo."
 #: weblate/api/views.py:1854
 msgid "Specify a workspace when multiple workspaces can be used."
 msgstr ""
+"Especifique un espacio de trabajo cuando puedan ser utilizados múltiples "
+"espacios de trabajo."
 
 #: weblate/api/views.py:3097 weblate/trans/models/translation.py:2622
 msgid "This string seems to already exist."
@@ -5708,14 +5691,11 @@ msgstr "La traducción no iniciaría con un marcador de listado."
 
 #: weblate/checks/mdx.py:167
 msgid "Safe MDX"
-msgstr ""
+msgstr "Guardar MDX"
 
 #: weblate/checks/mdx.py:169
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid "JSX expressions in the translation do not match the source."
-msgstr ""
-"Las etiquetas XML en la traducción no coinciden con aquellas en el original."
+msgstr "La expresión JSX en la traducción no coinciden con el origen."
 
 #: weblate/checks/placeholders.py:43
 msgid "Placeholders"
@@ -15451,22 +15431,20 @@ msgstr ""
 "los indicadores de la cadena o componente."
 
 #: weblate/templates/trans/alert/unusedglossarylanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "The glossary contains languages not used by any regular component in this "
 "project."
 msgstr ""
-"Garantiza que en todos los componentes de un proyecto se utilice el mismo "
-"conjunto de idiomas."
+"La globalidad contiene idiomas no utilizados por ningún componente usual en "
+"ese proyecto."
 
 #: weblate/templates/trans/alert/unusedglossarylanguage.html:5
 msgid ""
 "Remove the glossary language if it is no longer needed, or add matching "
 "translations to regular components if the glossary should be used."
 msgstr ""
+"Retira el idioma global si no es recibido más, o añada traducciones "
+"coincidentes para componentes normales si el glosario sería utilizado."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:3
 msgid "At least one screenshot has no string assigned to it."
@@ -15934,7 +15912,7 @@ msgstr "Esta es su clave personal del API; no la comparta con nadie."
 
 #: weblate/templates/trans/project-access.html:483
 msgid "Error while loading form:"
-msgstr ""
+msgstr "Error al cargar formulario:"
 
 #: weblate/templates/trans/project_form.html:12
 msgid "Import translation project"
@@ -15991,11 +15969,8 @@ msgstr ""
 "diferente, podría ser mejor crear un componente de traducción nuevo."
 
 #: weblate/templates/trans/vcs_push_help.html:10
-#, fuzzy
-#| msgid "URL of repository where users can fetch changes from Weblate"
 msgid "Learn more about pushing changes from Weblate."
-msgstr ""
-"URL del repositorio donde los usuarios pueden recuperar cambios de Weblate"
+msgstr "Aprenda más sobre subir cambios desde Weblate."
 
 #: weblate/templates/translate.html:60
 msgid "Open in Zen mode"
@@ -17210,10 +17185,8 @@ msgid "Glossary using monolingual files."
 msgstr "El glosario utiliza archivos monolingües."
 
 #: weblate/trans/alerts/config.py:348
-#, fuzzy
-#| msgid "Used languages"
 msgid "Unused glossary language."
-msgstr "Idiomas utilizados"
+msgstr "Glosario de idioma no utilizado."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/files.py:26
@@ -20500,16 +20473,12 @@ msgid "Priority: High"
 msgstr "Prioridad"
 
 #: weblate/trans/templatetags/translations.py:118
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Low"
-msgstr "Prioridad"
+msgstr "Prioridad: Baja"
 
 #: weblate/trans/templatetags/translations.py:119
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Very low"
-msgstr "Prioridad"
+msgstr "Prioridad: Muy baja"
 
 #. Translators: Glossary term formatting used in a tooltip
 #: weblate/trans/templatetags/translations.py:312
@@ -20913,35 +20882,31 @@ msgid "Invalid request."
 msgstr "Solicitud no válida."
 
 #: weblate/trans/views/bulk_suggestions.py:122
-#, fuzzy
-#| msgid "This field is required."
 msgid "Confirmation is required."
-msgstr "Este campo es requerido."
+msgstr "Se requiere configuración."
 
 #: weblate/trans/views/bulk_suggestions.py:129
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to approve strings."
-msgstr "No tienes permiso para aceptar sugerencias."
+msgstr "No tienes permiso para aprobar cadenas."
 
 #: weblate/trans/views/bulk_suggestions.py:154
-#, fuzzy, python-format
-#| msgid "Accepted %(count)d suggestion from %(user)s."
-#| msgid_plural "Accepted %(count)d suggestions from %(user)s."
+#, python-format
 msgid "Accepting and approving %(count)d suggestion from %(user)s in progress."
 msgid_plural ""
 "Accepting and approving %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Se ha aceptado %(count)d sugerencia del usuario %(user)s."
-msgstr[1] "Se han aceptado %(count)d sugerencias del usuario %(user)s."
+msgstr[0] ""
+"Se ha aceptado y aprobado %(count)d sugerencia del usuario %(user)s en "
+"proceso."
+msgstr[1] ""
+"Se han aceptado y aprobados %(count)d sugerencias del usuario %(user)s en "
+"proceso.."
 
 #: weblate/trans/views/bulk_suggestions.py:163
-#, fuzzy, python-format
-#| msgid "Accepted %(count)d suggestion from %(user)s."
-#| msgid_plural "Accepted %(count)d suggestions from %(user)s."
+#, python-format
 msgid "Accepting %(count)d suggestion from %(user)s in progress."
 msgid_plural "Accepting %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Se ha aceptado %(count)d sugerencia del usuario %(user)s."
-msgstr[1] "Se han aceptado %(count)d sugerencias del usuario %(user)s."
+msgstr[0] "Se acepta %(count)d sugerencia del usuario %(user)s en proceso."
+msgstr[1] "Se aceptaron %(count)d sugerencias del usuario %(user)s en proceso."
 
 #: weblate/trans/views/changes.py:70
 #, python-format
@@ -21102,10 +21067,10 @@ msgid "Invalid search string!"
 msgstr "¡Cadena de búsqueda no válida!"
 
 #: weblate/trans/views/edit.py:1457
-#, fuzzy
-#| msgid "Automatic translation skipped because the target no longer exists."
 msgid "Automatic translation cannot be started because the target is locked."
-msgstr "Traducción automática descartada porque el destino ya no existe."
+msgstr ""
+"La traducción automática no puede ser inicializada porque el destino está "
+"bloqueado."
 
 #: weblate/trans/views/edit.py:1502
 msgid "Automatic translation in progress"
@@ -21165,6 +21130,8 @@ msgstr ""
 #: weblate/trans/views/git.py:46
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
+"Utilice el botón en la página del estado del repositorio para ejecutar esta "
+"acción."
 
 #: weblate/trans/views/git.py:67
 msgid ""
@@ -21205,10 +21172,8 @@ msgid "Updates of translations are in progress."
 msgstr "Se están actualizando las traducciones."
 
 #: weblate/trans/views/git.py:219
-#, fuzzy
-#| msgid "All pending translations were committed."
 msgid "Pending translations are being committed."
-msgstr "Se consignaron todas las traducciones pendientes."
+msgstr "La traducción pendiente está siendo consignada."
 
 #: weblate/trans/views/git.py:226
 msgid "All pending translations were committed."
@@ -22052,10 +22017,9 @@ msgid "This will push changes to the upstream repository."
 msgstr "Esto empujará los cambios al repositorio en desarrollo."
 
 #: weblate/vcs/git.py:120 weblate/vcs/git.py:1538
-#, fuzzy, python-format
-#| msgid "Too many messages sent, please try again later."
+#, python-format
 msgid "%(message)s Please retry later."
-msgstr "Se enviaron demasiados mensajes. Inténtelo de nuevo más tarde."
+msgstr "%(message)s Reintente más tarde."
 
 #: weblate/vcs/git.py:166
 msgid "This will push changes to the upstream Git repository."
@@ -22085,17 +22049,17 @@ msgstr "Esto forzará a empujar los cambios al repositorio upstream."
 #, python-format
 msgid "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
 msgstr ""
+"Solicitud de %(service)s API incorrecto mientras %(action)s (%(status)s): %"
+"(error)s"
 
 #: weblate/vcs/git.py:1812
 #, python-format
 msgid "%(service)s API request failed while %(action)s: %(status)s"
-msgstr ""
+msgstr "Solicitud de %(service)s API incorrecta mientras %(action)s: %(status)s"
 
 #: weblate/vcs/git.py:1840
-#, fuzzy
-#| msgid "Gitea pull request"
 msgid "creating a pull request"
-msgstr "Solicitud de incorporación de Gitea"
+msgstr "creando una solicitud de extracción"
 
 #: weblate/vcs/git.py:1867
 msgid "Azure DevOps pull request"
