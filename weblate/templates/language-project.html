@@ -34,7 +34,7 @@
         {% if last_announcements %}
           <li>
             <a class="dropdown-item"
-               href="#announcement-history"
+               data-bs-target="#announcement-history"
                data-bs-toggle="tab"
                href="#">{% translate "Announcements" %}</a>
           </li>
@@ -66,7 +66,7 @@
         </li>
         {% if user_can_upload_translation %}
           <li>
-            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab">{% translate "Upload translation" %}</a>
+            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -89,9 +89,13 @@
             <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
-        <li>
-          <hr class="dropdown-divider">
-        </li>
+        {% if replace_form or bulk_state_form or autoform %}
+          {% if user_can_edit_project or announcement_form or delete_form %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
+        {% endif %}
         {% if user_can_edit_project %}
           <li>
             <a class="dropdown-item" href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
@@ -106,9 +110,11 @@
           </li>
         {% endif %}
         {% if delete_form %}
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+          {% if replace_form or bulk_state_form or autoform or user_can_edit_project or announcement_form %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
           <li>
             <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
           </li>
@@ -157,7 +163,7 @@
       <div class="tab-pane" id="announcement-history">
         {% format_last_changes_content last_changes=last_announcements user=user %}
         <a class="btn btn-primary"
-           href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
+           href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all changes for this language" %}</a>
       </div>
     {% endif %}
 

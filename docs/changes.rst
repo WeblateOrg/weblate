@@ -25,6 +25,7 @@ Weblate 2026.7
 * Zen mode now loads large search results and glossary-heavy projects more efficiently.
 * Translate pages with filtered searches and nearby strings now load more efficiently.
 * Translation form submissions now avoid loading complete search result sets when saving strings.
+* Add-on management pages now load recent add-on history more efficiently on large sites.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
 * Expanded security documentation for release artifacts, supported versions, security updates, release verification, SBOMs, and dependency handling.
 * Clarified security metadata, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
@@ -34,6 +35,7 @@ Weblate 2026.7
 * :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
 * :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.
 * Committing large numbers of pending translations now queues browser requests in the background and avoids duplicate repository commit tasks.
+* Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events.
 
 .. rubric:: Bug fixes
 
@@ -47,10 +49,12 @@ Weblate 2026.7
 * Hardened HTML and AJAX object lookups against private project enumeration.
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
+* :ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations.
 * Repository reset and update progress now includes follow-up translation-file reconciliation.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
 * :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
+* API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
 
 .. rubric:: Compatibility
 

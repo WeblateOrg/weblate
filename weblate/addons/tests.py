@@ -48,7 +48,7 @@ from weblate.addons.forms import (
 )
 from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Announcement,
@@ -75,7 +75,13 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
-from .base import BaseAddon, UpdateBaseAddon
+from .base import (
+    CHANGE_EVENT_FILTER_ALL,
+    CHANGE_EVENT_FILTER_CONTENT,
+    CHANGE_EVENT_FILTER_CUSTOM,
+    BaseAddon,
+    UpdateBaseAddon,
+)
 from .cdn import CDNFilesAddon, CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
 from .consistency import LanguageConsistencyAddon
@@ -4664,6 +4670,32 @@ class ViewTests(ViewTestCase):
             "whole project",
         )
 
+    def test_project_history_filters_project_addon_changes(self) -> None:
+        project_target = "project.addon.visible"
+        component_target = "component.addon.hidden"
+
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            project=self.project,
+            target=project_target,
+            user=self.user,
+        )
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            component=self.component,
+            target=component_target,
+            user=self.user,
+        )
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_project_path))
+
+        self.assertEqual(response.status_code, 200)
+        targets = {change.target for change in response.context["last_changes"]}
+        self.assertIn(project_target, targets)
+        self.assertNotIn(component_target, targets)
+        self.assertContains(response, project_target)
+        self.assertNotContains(response, component_target)
+
     def test_add_simple_category_addon(self) -> None:
         self.setup_language_consistency_preview()
         category = self.create_category(self.project)
@@ -7783,6 +7815,7 @@ class BaseWebhookTests:
 
     def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_CUSTOM
 
     def count_requests(self) -> int:
         return len(responses.calls)
@@ -7840,6 +7873,21 @@ class BaseWebhookTests:
         with self.captureOnCommitCallbacks(execute=True):
             self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
         self.assertEqual(self.count_requests(), 1)
+
+    @responses.activate
+    def test_all_events(self) -> None:
+        """Test processing every change action without event filtering."""
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_ALL
+        self.do_translation_added_test(response_code=200, expected_calls=2)
+
+    @responses.activate
+    def test_content_events(self) -> None:
+        """Test processing translation content events preset."""
+        self.assertIn(ActionEvents.NEW, ACTIONS_CONTENT)
+        self.assertNotIn(ActionEvents.STRING_REMOVE, ACTIONS_CONTENT)
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_CONTENT
+        self.addon_configuration["events"] = []
+        self.do_translation_added_test(response_code=200)
 
     @responses.activate
     def test_announcement(self) -> None:
@@ -8096,6 +8144,8 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
             follow=True,
         )
         self.assertNotContains(response, "Installed 1 add-on")
+        self.assertContains(response, "addon-events.js")
+        self.assertContains(response, "id_event_filter")
 
         # empty secret
         response = self.client.post(
@@ -8119,6 +8169,29 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         )
         self.assertContains(response, "No add-ons currently installed")
 
+        # all change events without individual event selection
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "secret": "",
+                "event_filter": CHANGE_EVENT_FILTER_ALL,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(addon.configuration["event_filter"], CHANGE_EVENT_FILTER_ALL)
+        self.assertEqual(addon.configuration["events"], [])
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon.id}),
+            {"delete": "weblate.webhook.webhook"},
+            follow=True,
+        )
+        self.assertContains(response, "No add-ons currently installed")
+
         # invalid secret
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
@@ -8127,6 +8200,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
                 "events": [ActionEvents.NEW],
+                "event_filter": CHANGE_EVENT_FILTER_CUSTOM,
                 "secret": "xxxx-xx",
             },
             follow=True,
@@ -8142,10 +8216,41 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "webhook_url": "https://example.com/webhooks",
                 "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
                 "events": [ActionEvents.NEW],
+                "event_filter": CHANGE_EVENT_FILTER_CUSTOM,
             },
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(
+            addon.configuration["event_filter"], CHANGE_EVENT_FILTER_CUSTOM
+        )
+        self.assertEqual(
+            {str(item) for item in addon.configuration["events"]},
+            {str(ActionEvents.NEW)},
+        )
+
+        # switching presets preserves the previous individual event selection
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon.id}),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+        addon.refresh_from_db()
+        self.assertEqual(
+            addon.configuration["event_filter"], CHANGE_EVENT_FILTER_CONTENT
+        )
+        self.assertEqual(
+            {str(item) for item in addon.configuration["events"]},
+            {str(ActionEvents.NEW)},
+        )
 
     def test_form_blocks_private_webhook_target_by_default(self) -> None:
         self.user.is_superuser = True

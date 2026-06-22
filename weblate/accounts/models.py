@@ -1039,7 +1039,7 @@ class Profile(models.Model):
 
     @property
     def full_name(self):
-        """Return user's full name."""
+        """User's full name."""
         return self.user.full_name
 
     def clean(self) -> None:

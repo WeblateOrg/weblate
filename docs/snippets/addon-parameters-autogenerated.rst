@@ -215,11 +215,26 @@ File format
    * - ``yaml``
      - YAML file
 
+.. _addon-choice-event_filter:
+
+Change events to trigger
+------------------------
+
+.. list-table:: Available choices:
+   :width: 100%
+
+   * - ``content``
+     - Translation content events
+   * - ``all``
+     - All change events
+   * - ``custom``
+     - Selected change events
+
 .. _addon-choice-events:
 .. _change-actions:
 
-Change events
--------------
+Selected change events
+----------------------
 
 The following change actions can appear in notification payloads. Fedora Messaging uses the identifier column in message topics, while webhook payloads use the name column in the ``action`` field.
 
