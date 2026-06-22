@@ -239,6 +239,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 "Network.setCacheDisabled", {"cacheDisabled": True}
             )
             cls._driver.execute_cdp_cmd("Network.clearBrowserCache", {})
+            # Track in-flight fetch() requests so screenshots can wait for AJAX
+            cls._driver.execute_cdp_cmd(
+                "Page.addScriptToEvaluateOnNewDocument",
+                {
+                    "source": """
+                    (() => {
+                        window.__weblateActiveFetches = 0;
+                        const original = window.fetch;
+                        if (typeof original !== "function" || original.__weblateWrapped) {
+                            return;
+                        }
+                        const wrapped = (...args) => {
+                            window.__weblateActiveFetches += 1;
+                            return original.apply(window, args).finally(() => {
+                                window.__weblateActiveFetches -= 1;
+                            });
+                        };
+                        wrapped.__weblateWrapped = true;
+                        window.fetch = wrapped;
+                    })();
+                    """
+                },
+            )
 
         # Restore custom fontconfig settings
         if backup_fc is not None:
@@ -405,7 +428,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     return !source || (image.complete && image.naturalWidth > 0);
                 });
                 const ajaxIdle =
-                    typeof window.jQuery === "undefined" || window.jQuery.active === 0;
+                    typeof window.__weblateActiveFetches === "undefined" ||
+                    window.__weblateActiveFetches === 0;
                 const loadingIdle = Array.from(
                     document.querySelectorAll('[id^="loading-"]')
                 ).every((element) => {
