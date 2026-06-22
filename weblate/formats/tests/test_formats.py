@@ -2954,7 +2954,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
     BASE = ""
     MIME = "application/x-tbx"
     EXT = "tbx"
-    COUNT = 4
+    COUNT = 5
     MASK = "tbx/*.tbx"
     EXPECTED_PATH = "tbx/cs_CZ.tbx"
     MATCH = "<martif"
