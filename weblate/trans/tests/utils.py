@@ -4,10 +4,10 @@
 from __future__ import annotations
 
 import os.path
-from pathlib import Path
 import shutil
 import sys
 from datetime import timedelta
+from pathlib import Path
 from tarfile import TarFile
 from tempfile import mkdtemp
 

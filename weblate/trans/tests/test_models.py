@@ -54,8 +54,8 @@ from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
     create_test_user,
-    get_optional_path,
     fixup_languages_seq,
+    get_optional_path,
 )
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
