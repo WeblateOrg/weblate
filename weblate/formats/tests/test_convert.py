@@ -161,6 +161,7 @@ Nazdar
         "line_max_length": 80,
         "md_extract_code_blocks": False,
         "md_extract_frontmatter": True,
+        "md_frontmatter_translate_values": False,
         "md_no_placeholders": False,
     }
 
@@ -272,6 +273,71 @@ Content
 
     def test_frontmatter_extraction_off(self) -> None:
         self.test_frontmatter_extraction(extract_frontmatter=False)
+
+    def test_frontmatter_value_extraction(self) -> None:
+        template = Path(self.tempdir) / "template.md"
+        translation = Path(self.tempdir) / "translation.md"
+        template.write_text(
+            """---
+title: Title
+description: Summary
+draft: false
+tags:
+  - Alpha
+  - Beta
+---
+
+# Header
+Content
+""",
+            encoding="utf-8",
+        )
+        translation.write_text(
+            """---
+title: Titulek
+description: Souhrn
+draft: false
+tags:
+  - Alfa
+  - Beta
+---
+
+# Nadpis
+Obsah
+""",
+            encoding="utf-8",
+        )
+
+        params = cast(
+            "FileFormatParams",
+            {**self.FILE_FORMAT_PARAMS, "md_frontmatter_translate_values": True},
+        )
+        storage = self.format_class(
+            str(translation),
+            template_store=self.format_class(
+                str(template),
+                is_template=True,
+                file_format_params=params,
+            ),
+            file_format_params=params,
+        )
+
+        self.assertEqual(
+            [unit.source for unit in storage.content_units],
+            ["Title", "Summary", "Alpha", "Beta", "Header", "Content"],
+        )
+        self.assertEqual(
+            [unit.target for unit in storage.content_units],
+            ["Titulek", "Souhrn", "Alfa", "Beta", "Nadpis", "Obsah"],
+        )
+
+        storage.content_units[0].set_target("Nadpisek")
+        storage.content_units[0].set_state(STATE_TRANSLATED)
+        storage.save()
+        self.assertIn(
+            "title: Nadpisek",
+            translation.read_text(encoding="utf-8"),
+        )
 
     def test_missing_converted_unit_is_untranslated(self) -> None:
         template = Path(self.tempdir) / "template.md"

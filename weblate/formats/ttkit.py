@@ -76,6 +76,7 @@ from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
 from weblate.trans.file_format_params import (
+    CSVFormulaEscaping,
     GettextLastTranslator,
     GettextRemoveObsolete,
     GettextXGenerator,
@@ -1301,7 +1302,7 @@ class CSVUnit(MonolingualSimpleUnit):
         return tuple(getattr(self.mainunit, "target_plural_forms", ()))
 
     @staticmethod
-    def unescape_csv(string):
+    def unescape_csv(string, *, escape_formulas: bool = False):
         r"""
         Remove Excel-specific escaping from CSV.
 
@@ -1316,7 +1317,22 @@ class CSVUnit(MonolingualSimpleUnit):
             and string[1] in {"=", "+", "-", "@", "\\", "%"}
         ):
             return get_string(string[1:-1].replace("\\|", "|"))
+        if (
+            escape_formulas
+            and len(string) > 1
+            and string[0] == "'"
+            and string[1] in csvunit.spreadsheetescapes
+        ):
+            return get_string(string[1:])
         return get_string(string)
+
+    def _unescape_csv(self, string):
+        return self.unescape_csv(
+            string,
+            escape_formulas=CSVFormulaEscaping.get_value(
+                self.parent.file_format_params
+            ),
+        )
 
     @cached_property
     def context(self):
@@ -1333,7 +1349,7 @@ class CSVUnit(MonolingualSimpleUnit):
             return get_context(self.template)
         if self.parent.is_template:
             return get_context(self.unit)
-        return self.unescape_csv(self.mainunit.getcontext())
+        return self._unescape_csv(self.mainunit.getcontext())
 
     @cached_property
     def locations(self):
@@ -1344,8 +1360,8 @@ class CSVUnit(MonolingualSimpleUnit):
         # Needed to avoid Translate Toolkit construct ID
         # as context\04source
         if self.template is None:
-            return self.unescape_csv(get_string(self.mainunit.source))
-        return self.unescape_csv(super().source)
+            return self._unescape_csv(get_string(self.mainunit.source))
+        return self._unescape_csv(super().source)
 
     @cached_property
     def target(self):
@@ -1359,7 +1375,7 @@ class CSVUnit(MonolingualSimpleUnit):
             target = get_string(self.unit.source)
         else:
             target = super().target
-        return self.unescape_csv(target)
+        return self._unescape_csv(target)
 
     def set_target(self, target: str | list[str]) -> None:
         plural_rows = getattr(self.mainunit, "plural_rows", ())
@@ -2406,12 +2422,18 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
             result[index] = value
         return result
 
+    def _unescape_csv(self, string):
+        return CSVUnit.unescape_csv(
+            string,
+            escape_formulas=CSVFormulaEscaping.get_value(self.file_format_params),
+        )
+
     def _get_plural_group_source(self, group: CSVPluralGroup) -> str:
         first = group["first"]
         return join_plural(
             self._forms_to_list(
                 group["source_forms"],
-                CSVUnit.unescape_csv(get_string(first.source)),
+                self._unescape_csv(get_string(first.source)),
             )
         )
 
@@ -2502,7 +2524,7 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
                 )
 
             source_forms = group["source_forms"]
-            source = CSVUnit.unescape_csv(get_string(unit.source))
+            source = self._unescape_csv(get_string(unit.source))
             if source_form in source_forms:
                 if source_forms[source_form] != source:
                     raise CSVMetadataError(
@@ -2511,7 +2533,7 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
                     )
             else:
                 source_forms[source_form] = source
-            target_forms[target_form] = CSVUnit.unescape_csv(get_string(unit.target))
+            target_forms[target_form] = self._unescape_csv(get_string(unit.target))
 
         if not grouped:
             return units

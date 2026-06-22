@@ -2083,6 +2083,26 @@ class CSVFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
+    def test_formula_escaping_param(self) -> None:
+        if self.format_class is not CSVFormat:
+            self.skipTest("Only full CSV formula escaping is tested here")
+
+        filename = Path(self.tempdir) / "formula.csv"
+        filename.write_text('"source","target"\n"Hello",""\n', encoding="utf-8")
+        storage = self.format_class(
+            str(filename), file_format_params={"csv_escape_formulas": True}
+        )
+        unit = storage.content_units[0]
+        unit.set_target("=1+1")
+        storage.save()
+
+        self.assertIn('"\'=1+1"', filename.read_text(encoding="utf-8"))
+
+        storage = self.format_class(
+            str(filename), file_format_params={"csv_escape_formulas": True}
+        )
+        self.assertEqual(storage.content_units[0].target, "=1+1")
+
     def test_plural_metadata_rows(self) -> None:
         if self.format_class is not CSVFormat:
             self.skipTest("Only full CSV preserves plural metadata fields")
