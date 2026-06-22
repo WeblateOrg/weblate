@@ -58,7 +58,7 @@ Weblate 2026.7
 
 .. rubric:: Compatibility
 
-* :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, making categorized same-named components distinguishable.
+* :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, and broker settings are stored as an AMQP URL with existing host and SSL settings migrated automatically.
 
 .. rubric:: Upgrading
 

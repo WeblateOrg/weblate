@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar, cast
+from urllib.parse import urlparse
 
 import regex
 from crispy_forms.helper import FormHelper
@@ -43,7 +44,7 @@ from weblate.utils.forms import (
 from weblate.utils.regex import compile_regex, regex_match, regex_sub
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
-    DomainOrIPValidator,
+    validate_fedora_messaging_url,
     validate_filename,
     validate_re,
     validate_re_nonempty,
@@ -1616,14 +1617,10 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
 
 
 class FedoraMessagingAddonForm(ChangeBaseAddonForm):
-    amqp_host = forms.CharField(
-        label=gettext_lazy("AMQP broker host"),
-        help_text=gettext_lazy("The AMQP broker to connect to."),
-        validators=[DomainOrIPValidator()],
-    )
-    amqp_ssl = forms.BooleanField(
-        label=gettext_lazy("Use SSL for AMQP connection"),
-        required=False,
+    amqp_url = forms.CharField(
+        label=gettext_lazy("AMQP broker URL"),
+        help_text=gettext_lazy("The AMQP broker URL to connect to."),
+        validators=[validate_fedora_messaging_url],
     )
     ca_cert = forms.CharField(
         widget=forms.Textarea(),
@@ -1648,8 +1645,7 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
     )
 
     field_order = [  # ruff: ignore[mutable-class-default]
-        "amqp_host",
-        "amqp_ssl",
+        "amqp_url",
         "ca_cert",
         "client_key",
         "client_cert",
@@ -1663,9 +1659,9 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
             FedoraMessagingAddon,
         )
 
-        amqp_ssl = self.cleaned_data.get("amqp_ssl")
-        if amqp_ssl is not None:
-            if amqp_ssl:
+        amqp_url = self.cleaned_data.get("amqp_url")
+        if amqp_url:
+            if urlparse(amqp_url).scheme == "amqps":
                 if (
                     not self.cleaned_data.get("ca_cert")
                     or not self.cleaned_data.get("client_key")
@@ -1673,7 +1669,7 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
                 ):
                     raise forms.ValidationError(
                         {
-                            "amqp_ssl": gettext(
+                            "amqp_url": gettext(
                                 "The SSL certificates have to be provided for SSL connection."
                             )
                         }
@@ -1686,17 +1682,16 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
             ):
                 raise forms.ValidationError(
                     {
-                        "amqp_ssl": gettext(
+                        "amqp_url": gettext(
                             "The SSL certificates are not used without a SSL connection."
                         )
                     }
                 )
 
-        if amqp_host := self.cleaned_data.get("amqp_host"):
+        if amqp_url:
             try:
                 FedoraMessagingAddon.configure_fedora_messaging(
-                    amqp_host=amqp_host,
-                    amqp_ssl=self.cleaned_data.get("amqp_ssl", False),
+                    amqp_url=amqp_url,
                     ca_cert=self.cleaned_data.get("ca_cert"),
                     client_key=self.cleaned_data.get("client_key"),
                     client_cert=self.cleaned_data.get("client_cert"),
