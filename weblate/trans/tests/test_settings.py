@@ -27,6 +27,7 @@ from weblate.trans.models import (
     CommitPolicyChoices,
     Component,
     ContributorAgreement,
+    PendingUnitChange,
     Project,
     Translation,
     Unit,
@@ -1351,6 +1352,53 @@ class SettingsTest(ViewTestCase):
             response = self.client.post(url, data)
 
         self.assertRedirects(response, url, fetch_redirect_response=False)
+        acquire.assert_called_once()
+        self.assertEqual(
+            sum(
+                call.kwargs.get("force", False) is False
+                for call in release.call_args_list
+            ),
+            1,
+        )
+
+    def test_linked_component_reuses_repository_lock_during_setup_commit(self) -> None:
+        linked_component = self.create_link_existing(
+            name="Settings linked lock", slug="settings-linked-lock"
+        )
+        new_target = self.create_po(name="settings-new-target", project=self.project)
+        translation = (
+            linked_component.translation_set.exclude(filename="")
+            .exclude(language_id=linked_component.source_language_id)
+            .first()
+        )
+        if translation is None:
+            self.fail("Expected a linked component translation with a filename.")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one linked component unit.")
+        PendingUnitChange.store_unit_change(unit=unit, author=self.user)
+
+        self.component.drop_repository_cache()
+        linked_component.drop_repository_cache()
+        if linked_component.linked_component is not None:
+            linked_component.linked_component.drop_repository_cache()
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(Component, "queue_background_task", autospec=True),
+            patch.object(
+                Translation, "_commit_pending", autospec=True, return_value=False
+            ) as commit_pending,
+            patch.object(FileLock, "acquire", autospec=True) as acquire,
+            patch.object(FileLock, "release", autospec=True) as release,
+            linked_component.locked_for_update() as locked_component,
+        ):
+            locked_component.repo = new_target.get_repo_link_url()
+            locked_component.edit_template = False
+            locked_component.save()
+
+        commit_pending.assert_called_once()
         acquire.assert_called_once()
         self.assertEqual(
             sum(

@@ -1173,6 +1173,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.drop_file_format_cache()
         self.set_default_branch()
+        locked_repository = self.__dict__.get("repository")
 
         # Repository links change both the effective repository object and
         # the delegated filesystem path.
@@ -1198,6 +1199,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            if (
+                locked_repository is not None
+                and locked_repository.lock.lock_object.is_locked
+            ):
+                # Reuse the lock already held by locked_for_update() when
+                # committing pending changes through the freshly loaded old state.
+                old.__dict__["repository"] = old.build_repository(
+                    lock_override=locked_repository.lock
+                )
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
