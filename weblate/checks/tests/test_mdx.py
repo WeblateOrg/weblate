@@ -154,3 +154,24 @@ class SafeMDXCheckTest(CheckTestCase):
             ),
             [("attribute", "href", ("a",), "{userName}")],
         )
+
+    def test_repeated_tags_close_innermost_element(self) -> None:
+        source = "<div><div></div>{x}</div>"
+        target = "<div><div></div></div>{x}"
+        self.assertEqual(
+            list(self.check.get_jsx_expression_signatures(source)),
+            [("text", "", ("div",), "{x}")],
+        )
+        self.do_test(True, (source, target, "safe-mdx"))
+
+    def test_attribute_context_ignores_expression_greater_than(self) -> None:
+        source = "<a title={x > y} href={url}>"
+        target = "<a title={x > y}>{url}</a>"
+        self.assertEqual(
+            list(self.check.get_jsx_expression_signatures(source)),
+            [
+                ("attribute", "title", ("a",), "{x > y}"),
+                ("attribute", "href", ("a",), "{url}"),
+            ],
+        )
+        self.do_test(True, (source, target, "safe-mdx"))

@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Unit
 
-_JSX_TAG_RE = re.compile(r"<(/?)([A-Za-z][\w.:-]*)(?:\s[^<>]*)?(/?)>")
+_JSX_TAG_NAME_RE = re.compile(r"[A-Za-z][\w.:-]*")
 _ATTR_NAME_RE = re.compile(r"([A-Za-z_:][\w:.-]*)\s*=\s*$")
 
 # Various lexical contexts tracked while scanning a JSX expression.
@@ -164,6 +164,114 @@ def _skip_code_span(text: str, start: int) -> int | None:
     return None
 
 
+def _scan_jsx_tag(
+    text: str, start: int, limit: int | None = None
+) -> tuple[bool, str, bool, int | None] | None:
+    """Scan a JSX tag starting at ``start``."""
+    length = len(text) if limit is None else min(limit, len(text))
+    if text[start] != "<" or start + 1 >= len(text):
+        return None
+
+    i = start + 1
+    closing = text[i] == "/"
+    if closing:
+        i += 1
+
+    tag_match = _JSX_TAG_NAME_RE.match(text, i)
+    if tag_match is None:
+        return None
+
+    tag = tag_match.group()
+    quote = ""
+    i = tag_match.end()
+    while i < length:
+        char = text[i]
+        if quote:
+            if char == "\\":
+                i += 1
+            elif char == quote:
+                quote = ""
+        elif char in {'"', "'"}:
+            quote = char
+        elif char == "{":
+            close = _scan_expression(text, i)
+            if close is None or close >= length:
+                return (closing, tag, False, None)
+            i = close
+        elif char == ">":
+            self_closing = not closing and text[start + 1 : i].rstrip().endswith("/")
+            return (closing, tag, self_closing, i)
+        elif char == "<":
+            return None
+        i += 1
+
+    return (closing, tag, False, None)
+
+
+def _iter_jsx_tags(text: str) -> Iterator[tuple[bool, str, bool]]:
+    """Yield closed JSX tags while ignoring expressions and code spans."""
+    i = 0
+    length = len(text)
+    while i < length:
+        char = text[i]
+        if char == "\\":
+            i += 2
+            continue
+        if char == "`":
+            close = _skip_code_span(text, i)
+            if close is not None:
+                i = close + 1
+                continue
+        if char == "{":
+            close = _scan_expression(text, i)
+            if close is not None:
+                i = close + 1
+                continue
+        if char == "<":
+            tag = _scan_jsx_tag(text, i)
+            if tag is not None:
+                closing, tag_name, self_closing, end = tag
+                if end is None:
+                    break
+                yield closing, tag_name, self_closing
+                i = end + 1
+                continue
+        i += 1
+
+
+def _find_unclosed_jsx_tag(text: str, start: int) -> tuple[int, str] | None:
+    """Find an opening JSX tag containing ``start``."""
+    i = 0
+    while i < start:
+        char = text[i]
+        if char == "\\":
+            i += 2
+            continue
+        if char == "`":
+            close = _skip_code_span(text, i)
+            if close is not None and close < start:
+                i = close + 1
+                continue
+        if char == "{":
+            close = _scan_expression(text, i)
+            if close is not None and close < start:
+                i = close + 1
+                continue
+        if char == "<":
+            tag = _scan_jsx_tag(text, i, start)
+            if tag is not None:
+                closing, tag_name, _self_closing, end = tag
+                if end is None:
+                    if closing:
+                        return None
+                    return (i, tag_name)
+                i = end + 1
+                continue
+        i += 1
+
+    return None
+
+
 class SafeMDXCheck(TargetCheck):
     """Check for unsafe MDX content."""
 
@@ -193,13 +301,11 @@ class SafeMDXCheck(TargetCheck):
     ) -> tuple[str, str, tuple[str, ...]]:
         """Return whether an expression appears in JSX text or an attribute."""
         stack = self.get_jsx_element_stack(text[:start])
-        last_open = text.rfind("<", 0, start)
-        last_close = text.rfind(">", 0, start)
-        if last_open > last_close:
-            before_expression = text[last_open + 1 : start]
-            tag = before_expression.split(maxsplit=1)[0].lstrip("/")
-            if tag:
-                stack = (*stack, tag)
+        tag_context = _find_unclosed_jsx_tag(text, start)
+        if tag_context is not None:
+            tag_start, tag = tag_context
+            before_expression = text[tag_start + 1 : start]
+            stack = (*stack, tag)
             attr_match = _ATTR_NAME_RE.search(before_expression)
             if attr_match:
                 return ("attribute", attr_match.group(1), stack)
@@ -209,11 +315,12 @@ class SafeMDXCheck(TargetCheck):
     def get_jsx_element_stack(self, text: str) -> tuple[str, ...]:
         """Return a best-effort stack of JSX elements open at the end of text."""
         stack: list[str] = []
-        for match in _JSX_TAG_RE.finditer(text):
-            closing, tag, self_closing = match.groups()
+        for closing, tag, self_closing in _iter_jsx_tags(text):
             if closing:
-                if tag in stack:
-                    del stack[stack.index(tag) :]
+                for index in range(len(stack) - 1, -1, -1):
+                    if stack[index] == tag:
+                        del stack[index:]
+                        break
             elif not self_closing:
                 stack.append(tag)
         return tuple(stack)
