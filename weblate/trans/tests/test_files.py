@@ -32,7 +32,7 @@ from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import SimpleUploadForm, UploadForm, get_upload_form
 from weblate.trans.models import Change, ComponentList, PendingUnitChange, Translation
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import get_optional_path, get_test_file
 from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_READONLY
 
@@ -1189,7 +1189,7 @@ class ImportSourceTest(ImportBaseTest):
         }
         self.component.save(update_fields=["file_format_params"])
         translation = self.component.translation_set.get(language__code="cs")
-        translation_file = Path(translation.get_filename())
+        translation_file = get_optional_path(translation.get_filename())
         translation_file.write_text(
             translation_file.read_text(encoding="utf-8").replace(
                 'msgid "Thank you for using Weblate."\nmsgstr ""',
@@ -1218,7 +1218,8 @@ class ImportSourceTest(ImportBaseTest):
 
         self.assertRedirects(response, self.translation.get_absolute_url())
         self.assertNotIn(
-            "#~ msgid", Path(translation.get_filename()).read_text(encoding="utf-8")
+            "#~ msgid",
+            get_optional_path(translation.get_filename()).read_text(encoding="utf-8"),
         )
 
 

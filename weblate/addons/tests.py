@@ -63,6 +63,7 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
+from weblate.trans.tests.utils import get_optional_path
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -2556,7 +2557,7 @@ class GettextAddonTest(ViewTestCase):
                 "source_patterns": ["src/*.py"],
             },
         )
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         template_content = template.read_text(encoding="utf-8").replace(
             "Thank you for using Weblate.",
             "Thank you for using Weblate!",
@@ -2591,7 +2592,7 @@ class GettextAddonTest(ViewTestCase):
                 "source_patterns": ["src/*.py"],
             },
         )
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         template_content = template.read_text(encoding="utf-8").replace(
             "Thank you for using Weblate.",
             "Thank you for using Weblate!",
@@ -3990,7 +3991,7 @@ msgstr ""
             'from gettext import gettext as _\n_("Thank you for using Weblate!")\n',
             encoding="utf-8",
         )
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         template_content = template.read_text(encoding="utf-8").replace(
             "Thank you for using Weblate.",
             "Thank you for using Weblate!",
@@ -4152,7 +4153,9 @@ msgstr ""
         )
         addon = GettextAuthorComments.create(component=translation.component)
         addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
         self.assertIn("Stojan Jakotyc", content)
 
     def test_pseudolocale(self) -> None:
@@ -7551,11 +7554,11 @@ class CDNFilesAddonTest(ViewTestCase):
 
         self.assertEqual(
             Path(addon.cdn_path("en.json")).read_bytes(),
-            Path(source_filename).read_bytes(),
+            get_optional_path(source_filename).read_bytes(),
         )
         self.assertEqual(
             Path(addon.cdn_path("cs.json")).read_bytes(),
-            Path(translation_filename).read_bytes(),
+            get_optional_path(translation_filename).read_bytes(),
         )
 
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -7563,7 +7566,7 @@ class CDNFilesAddonTest(ViewTestCase):
 
         self.assertEqual(
             Path(addon.cdn_path("cs.json")).read_bytes(),
-            Path(translation_filename).read_bytes(),
+            get_optional_path(translation_filename).read_bytes(),
         )
         self.assertIn(
             "Nazdar svete", Path(addon.cdn_path("cs.json")).read_text(encoding="utf-8")
@@ -7599,11 +7602,12 @@ class CDNFilesAddonTest(ViewTestCase):
         filename = translation.get_filename()
         self.assertIsNotNone(filename)
 
-        Path(filename).write_bytes(b'{"hello": "updated"}\n')
+        get_optional_path(filename).write_bytes(b'{"hello": "updated"}\n')
         addon.post_update(self.component, "", False, [])
 
         self.assertEqual(
-            Path(addon.cdn_path("cs.json")).read_bytes(), Path(filename).read_bytes()
+            Path(addon.cdn_path("cs.json")).read_bytes(),
+            get_optional_path(filename).read_bytes(),
         )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
@@ -7662,7 +7666,7 @@ class CDNFilesBilingualAddonTest(ViewTestCase):
         self.assertFalse(os.path.exists(addon.cdn_path("en.po")))
         self.assertEqual(
             Path(addon.cdn_path("cs.po")).read_bytes(),
-            Path(translation_filename).read_bytes(),
+            get_optional_path(translation_filename).read_bytes(),
         )
 
 
@@ -7680,7 +7684,7 @@ class CDNFilesAppStoreAddonTest(ViewTestCase):
         filename = translation.filenames[0]
         expected = os.path.join(
             translation.language.code,
-            Path(filename)
+            get_optional_path(filename)
             .relative_to(Path(self.component.full_path, translation.filename))
             .as_posix(),
         )

@@ -8,7 +8,6 @@
 from __future__ import annotations
 
 import os.path
-from pathlib import Path
 from typing import TYPE_CHECKING, Unpack
 from unittest.mock import patch
 
@@ -23,6 +22,7 @@ from weblate.lang.models import Language, get_default_lang
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import get_optional_path
 from weblate.utils.views import get_form_data
 
 if TYPE_CHECKING:
@@ -311,7 +311,7 @@ class YAMLParamsTest(BaseFileFormatsTest):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn(f"{expected}try:", commit)
         self.assertIn("cs.yml", commit)
-        filepath = Path(self.get_translation().get_filename())
+        filepath = get_optional_path(self.get_translation().get_filename())
         self.assertIn(b"\r\n", filepath.read_bytes())
 
     def test_customize(self) -> None:
@@ -399,7 +399,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         return self.create_po_new_base(new_lang="add")
 
     def remove_thank_you_from_template(self) -> None:
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         content = template.read_text(encoding="utf-8")
         for line in ("14", "15"):
             content = content.replace(
@@ -411,7 +411,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         template.write_text(content, encoding="utf-8")
 
     def translate_thank_you(self) -> None:
-        translation = Path(self.get_translation().get_filename())
+        translation = get_optional_path(self.get_translation().get_filename())
         translation.write_text(
             translation.read_text(encoding="utf-8").replace(
                 'msgid "Thank you for using Weblate."\nmsgstr ""',
@@ -440,7 +440,7 @@ class GettextParamsTest(BaseFileFormatsTest):
 
     def test_msgmerge_imports_changed_source(self) -> None:
         addon = MsgmergeAddon.create(component=self.component, run=False)
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         template.write_text(
             template.read_text(encoding="utf-8").replace(
                 "Thank you for using Weblate.",
@@ -474,7 +474,7 @@ class GettextParamsTest(BaseFileFormatsTest):
 
         addon.post_update(self.component, "", False, [])
 
-        content = Path(self.get_translation().get_filename()).read_text(
+        content = get_optional_path(self.get_translation().get_filename()).read_text(
             encoding="utf-8"
         )
         self.assertNotIn("#~ msgid", content)
@@ -486,7 +486,7 @@ class GettextParamsTest(BaseFileFormatsTest):
 
         addon.post_update(self.component, "", False, [])
 
-        content = Path(self.get_translation().get_filename()).read_text(
+        content = get_optional_path(self.get_translation().get_filename()).read_text(
             encoding="utf-8"
         )
         self.assertIn('#~ msgid "Thank you for using Weblate."', content)
@@ -507,7 +507,7 @@ class GettextParamsTest(BaseFileFormatsTest):
     def test_store_removes_obsolete(self) -> None:
         self.update_component_file_params(po_remove_obsolete=True)
         translation = self.get_translation()
-        filename = Path(translation.get_filename())
+        filename = get_optional_path(translation.get_filename())
         filename.write_text(
             filename.read_text(encoding="utf-8")
             + '\n#~ msgid "Obsolete string"\n#~ msgstr "Zastaraly retezec"\n',
