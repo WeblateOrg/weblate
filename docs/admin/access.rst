@@ -483,7 +483,7 @@ the following rules:
          :stub-columns: 1
 
          * - Roles
-           - `Review Strings`, `Manage repository`
+           - `Review strings`, `Manage repository`
          * - Components
            - foo/bar
          * - Languages

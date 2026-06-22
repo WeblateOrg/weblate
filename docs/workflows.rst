@@ -210,6 +210,25 @@ Reviews can be turned on in the project configuration, from the
 
 .. image:: /screenshots/project-workflow.webp
 
+Per-language reviews
+++++++++++++++++++++
+
+To require review only for selected languages, first turn on
+:ref:`project-translation_review` for the whole project. Then open each
+project language page that should use different behavior, enable
+:guilabel:`Customize translation workflow for this language in this project`,
+and turn :guilabel:`Enable reviews` off for languages that should not require
+review.
+
+Reviewers also need review access for the same language. Add them to a team
+whose roles include :guilabel:`Review strings`, and limit that team or the
+user membership to the language they should review. See :ref:`manage-acl` and
+:ref:`custom-acl` for language-scoped access setup.
+
+If approval buttons are not visible, check both parts of the setup: reviews
+have to be enabled for that translation, and the signed-in user has to have
+review permission for that language.
+
 .. _source-quality-gateway:
 
 Quality gateway for the source strings
