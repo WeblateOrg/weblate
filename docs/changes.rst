@@ -54,6 +54,7 @@ Weblate 2026.7
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * :ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations.
 * Repository reset and update progress now includes follow-up translation-file reconciliation.
+* Updating repository URLs now validates compatible Git history without requiring an immediate successful merge.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
 * :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
