@@ -3023,6 +3023,12 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
         return build_object_type(properties={"service_name": build_basic_type(dict)})
 
 
+class BackupSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    timestamp = serializers.DateTimeField()
+    size = serializers.IntegerField()
+
+
 class MessageResponseSerializer(serializers.Serializer):
     message = serializers.CharField()
 
