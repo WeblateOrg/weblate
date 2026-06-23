@@ -2076,7 +2076,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Duplicates")
-        self.click("Diagnostics")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, 'a[data-bs-target="#alerts"]')
+        )
         self.screenshot("alerts.png")
         self.assertGreater(self.count_elements("#alerts .card"), 0)
 
@@ -2091,7 +2093,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         guidance.add_alert("MissingTranslationInstructions")
         self.driver.get(f"{self.live_server_url}{guidance.get_absolute_url()}")
-        self.click("Diagnostics")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, 'a[data-bs-target="#alerts"]')
+        )
         self.screenshot("component-diagnostics.png")
         self.assert_text_contains("#alerts", "Define translation instructions")
 
