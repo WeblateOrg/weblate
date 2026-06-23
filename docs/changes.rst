@@ -57,6 +57,7 @@ Weblate 2026.7
 * :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
 * API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
+* Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs.
 
 .. rubric:: Compatibility
 

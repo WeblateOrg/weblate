@@ -13,6 +13,7 @@ import shutil
 # ruff: ignore[suspicious-subprocess-import]
 import subprocess
 import tempfile
+from configparser import RawConfigParser
 from contextlib import ExitStack
 from datetime import datetime
 from io import BytesIO
@@ -312,6 +313,12 @@ class RepositoryTest(SimpleTestCase):
         self.assertIs(context.exception.__cause__, error)
         self.assertEqual(context.exception.retcode, 2)
         self.assertIn(cwd, str(context.exception))
+
+    def test_config_check_cache_key_is_versioned(self) -> None:
+        self.assertRegex(
+            get_config_check_cache_key(42),
+            r"^sp-config-check-v\d+-[0-9a-f]{64}-42$",
+        )
 
     def test_mercurial_repository_uses_hg_temp_dir(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
@@ -1468,6 +1475,16 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
                 with self.assertRaises(RepositoryError):
                     self.repo.get_config("remote.origin.pushURL")
+
+    def test_check_config_disables_git_auto_maintenance(self) -> None:
+        if not issubclass(self._class, GitRepository):
+            self.skipTest("Git specific configuration")
+
+        self.repo.check_config()
+
+        self.assertEqual(self.repo.get_config("push.default"), "current")
+        self.assertEqual(self.repo.get_config("maintenance.auto"), "0")
+        self.assertEqual(self.repo.get_config("gc.auto"), "0")
 
     def test_configure_branch(self) -> None:
         # Existing branch
@@ -3417,6 +3434,19 @@ class VCSLocalTest(VCSGitTest):
         super().setUpClass()
         # Global setup to configure git committer
         GitRepository.global_setup()
+
+    def test_global_setup_disables_git_auto_maintenance(self) -> None:
+        with tempfile.TemporaryDirectory() as data_dir:
+            home = Path(data_dir) / "home"
+            home.mkdir()
+
+            with override_settings(DATA_DIR=data_dir):
+                GitRepository.global_setup()
+
+            config = RawConfigParser()
+            config.read(home / ".gitconfig")
+            self.assertEqual(config.get("maintenance", "auto"), "0")
+            self.assertEqual(config.get("gc", "auto"), "0")
 
     def test_status(self) -> None:
         status = self.repo.status()
