@@ -10,6 +10,7 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from weblate.auth.models import setup_project_groups
+from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tasks import actual_project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -160,6 +161,22 @@ class ProjectTokenTest(FixtureTestCase):
         # The token should still be visible on the access page
         response = self.client.get(reverse("manage-access", kwargs=self.kw_project))
         self.assertContains(response, token_user.username)
+
+    def test_limited_token_membership_badge(self) -> None:
+        """Project token memberships display language limits."""
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        czech = Language.objects.get(code="cs")
+        admin_group = self.project.defined_groups.get(name="Administration")
+        membership = token_user.team_memberships.get(group=admin_group)
+        membership.limit_languages.set([czech])
+
+        response = self.client.get(reverse("manage-access", kwargs=self.kw_project))
+
+        self.assertInHTML(
+            f'<span class="badge text-bg-secondary">{admin_group} (cs)</span>',
+            response.content.decode(),
+        )
 
     def test_project_removal_cleans_up_tokens(self) -> None:
         """Project removal should remove associated project tokens."""

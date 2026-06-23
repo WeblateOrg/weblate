@@ -17,7 +17,8 @@ It includes basic overview of your Weblate:
 * :ref:`manage-performance` to review Weblate health and length of Celery queues.
 * SSH keys management, see :ref:`ssh-repos`.
 * Alerts overview for all components, see :ref:`alerts`.
-* Users and teams, see :ref:`custom-acl`.
+* Users and teams, see :ref:`custom-acl`; site administrators can also
+  :ref:`clean up user contributions <cleanup-user-contributions>`.
 * :ref:`manage-appearance`.
 * Configure :ref:`machine-translation-setup`.
 * Configure site-wide addons, see :ref:`addons`.

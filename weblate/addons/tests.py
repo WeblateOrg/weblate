@@ -48,7 +48,7 @@ from weblate.addons.forms import (
 )
 from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
-from weblate.trans.actions import ActionEvents
+from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Announcement,
@@ -63,6 +63,7 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
+from weblate.trans.tests.utils import get_optional_path
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -75,7 +76,13 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
-from .base import BaseAddon, UpdateBaseAddon
+from .base import (
+    CHANGE_EVENT_FILTER_ALL,
+    CHANGE_EVENT_FILTER_CONTENT,
+    CHANGE_EVENT_FILTER_CUSTOM,
+    BaseAddon,
+    UpdateBaseAddon,
+)
 from .cdn import CDNFilesAddon, CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
 from .consistency import LanguageConsistencyAddon
@@ -2550,7 +2557,7 @@ class GettextAddonTest(ViewTestCase):
                 "source_patterns": ["src/*.py"],
             },
         )
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         template_content = template.read_text(encoding="utf-8").replace(
             "Thank you for using Weblate.",
             "Thank you for using Weblate!",
@@ -2585,7 +2592,7 @@ class GettextAddonTest(ViewTestCase):
                 "source_patterns": ["src/*.py"],
             },
         )
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         template_content = template.read_text(encoding="utf-8").replace(
             "Thank you for using Weblate.",
             "Thank you for using Weblate!",
@@ -3984,7 +3991,7 @@ msgstr ""
             'from gettext import gettext as _\n_("Thank you for using Weblate!")\n',
             encoding="utf-8",
         )
-        template = Path(self.component.get_new_base_filename())
+        template = get_optional_path(self.component.get_new_base_filename())
         template_content = template.read_text(encoding="utf-8").replace(
             "Thank you for using Weblate.",
             "Thank you for using Weblate!",
@@ -4146,7 +4153,9 @@ msgstr ""
         )
         addon = GettextAuthorComments.create(component=translation.component)
         addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
         self.assertIn("Stojan Jakotyc", content)
 
     def test_pseudolocale(self) -> None:
@@ -4664,6 +4673,32 @@ class ViewTests(ViewTestCase):
             "whole project",
         )
 
+    def test_project_history_filters_project_addon_changes(self) -> None:
+        project_target = "project.addon.visible"
+        component_target = "component.addon.hidden"
+
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            project=self.project,
+            target=project_target,
+            user=self.user,
+        )
+        Change.objects.create(
+            action=ActionEvents.ADDON_CREATE,
+            component=self.component,
+            target=component_target,
+            user=self.user,
+        )
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_project_path))
+
+        self.assertEqual(response.status_code, 200)
+        targets = {change.target for change in response.context["last_changes"]}
+        self.assertIn(project_target, targets)
+        self.assertNotIn(component_target, targets)
+        self.assertContains(response, project_target)
+        self.assertNotContains(response, component_target)
+
     def test_add_simple_category_addon(self) -> None:
         self.setup_language_consistency_preview()
         category = self.create_category(self.project)
@@ -4800,6 +4835,152 @@ class ViewTests(ViewTestCase):
             addon.instance.get_absolute_url(), {"delete": "1"}, follow=True
         )
         self.assertContains(response, "No add-ons currently installed")
+
+
+class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.make_manager()
+
+    def test_component_lists_inherited_addons_as_view_only(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        manual_addon = ManualResultAddon.create(
+            project=self.project, run=False
+        ).instance
+        category_addon = NoOpAddon.create(category=category, run=False).instance
+        sitewide_addon = NoOpAddon.create(run=False).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "Manual result add-on")
+        self.assertContains(response, "Test add-on")
+        self.assertContains(response, "project-wide")
+        self.assertContains(response, "category")
+        self.assertContains(response, "site-wide")
+        self.assertContains(response, "Inherited from")
+        self.assertNotContains(response, "Installed at the current scope.")
+        self.assertContains(
+            response, reverse("addon-logs", kwargs={"pk": manual_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": manual_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": category_addon.pk})
+        )
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": sitewide_addon.pk})
+        )
+        self.assertContains(response, "Managed at a scope you do not have access to.")
+        self.assertContains(response, "Manage add-ons at Test")
+        self.assertNotContains(response, "Run now")
+        self.assertNotContains(response, "Uninstall")
+        self.assertNotContains(response, "Configure")
+
+    def test_inherited_addon_does_not_block_local_install(self) -> None:
+        NoOpAddon.create(project=self.project, run=False)
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": NoOpAddon.name, "form": "1"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 2 add-ons")
+        self.assertTrue(
+            Addon.objects.filter(component=self.component, name=NoOpAddon.name).exists()
+        )
+        self.assertTrue(
+            Addon.objects.filter(project=self.project, name=NoOpAddon.name).exists()
+        )
+
+    def test_component_repo_scope_addon_keeps_repository_badge(self) -> None:
+        GitSquashAddon.create(
+            component=self.component, run=False, configuration={"squash": "all"}
+        )
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(response, "repository wide")
+
+    def test_repository_scope_addon_components_view(self) -> None:
+        linked_component = self.create_link_existing(name="Linked", slug="linked")
+        addon = GitSquashAddon.create(
+            component=self.component, run=False, configuration={"squash": "all"}
+        ).instance
+
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+
+        self.assertContains(
+            response, reverse("addon-components", kwargs={"pk": addon.pk})
+        )
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        components = {row["component"] for row in response.context["component_rows"]}
+        self.assertEqual(components, {self.component, linked_component})
+
+    def test_project_addon_components_view(self) -> None:
+        self.create_ts(project=self.project, name="TS")
+        addon = NoOpAddon.create(project=self.project, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "addons/addon_components.html")
+        self.assertContains(response, self.component.name)
+        self.assertContains(response, "Compatible")
+        self.assertEqual(
+            len(response.context["component_rows"]),
+            self.project.component_set.count(),
+        )
+
+    def test_category_addon_components_view(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        outside_component = self.create_ts(project=self.project, name="Outside")
+        addon = NoOpAddon.create(category=category, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, f'href="{self.component.get_absolute_url()}"')
+        self.assertContains(response, f'href="{category.get_absolute_url()}"')
+        components = {row["component"] for row in response.context["component_rows"]}
+        self.assertIn(self.component, components)
+        self.assertNotIn(outside_component, components)
+
+    def test_addon_components_view_shows_incompatible_components(self) -> None:
+        addon = Addon.objects.create(project=self.project, name=CrashAddon.name)
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Not compatible")
+
+    def test_component_addon_components_view_not_available(self) -> None:
+        addon = NoOpAddon.create(component=self.component, run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_sitewide_addon_components_view_requires_management_access(self) -> None:
+        addon = NoOpAddon.create(run=False).instance
+
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+        self.assertEqual(response.status_code, 403)
+
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.component.name)
 
 
 class PropertiesAddonTest(ViewTestCase):
@@ -6163,6 +6344,58 @@ class CleanupPeriodicTaskMigrationTest(TestCase):
         self.assertTrue(PeriodicTasks.objects.exists())
 
 
+class FedoraMessagingAMQPUrlMigrationTest(TestCase):
+    def test_legacy_amqp_settings_are_migrated(self) -> None:
+        migration = importlib.import_module(
+            "weblate.addons.migrations.0021_migrate_fedora_messaging_amqp_url"
+        )
+        addon = Addon.objects.create(
+            name=FedoraMessagingAddon.name,
+            configuration={
+                "amqp_host": "broker.example",
+                "amqp_ssl": True,
+                "ca_cert": "ca",
+                "events": [str(ActionEvents.NEW)],
+            },
+        )
+
+        migration.migrate_fedora_messaging_amqp_url(apps, None)
+
+        addon.refresh_from_db()
+        expected_url = "amqps://broker.example?connection_attempts=3&retry_delay=5"
+        self.assertEqual(
+            addon.configuration,
+            {
+                "amqp_url": expected_url,
+                "ca_cert": "ca",
+                "events": [str(ActionEvents.NEW)],
+            },
+        )
+
+    def test_existing_amqp_url_is_preserved(self) -> None:
+        migration = importlib.import_module(
+            "weblate.addons.migrations.0021_migrate_fedora_messaging_amqp_url"
+        )
+        addon = Addon.objects.create(
+            name=FedoraMessagingAddon.name,
+            configuration={
+                "amqp_url": "amqp://broker.example/%2F",
+                "amqp_host": "legacy.example",
+                "amqp_ssl": False,
+            },
+        )
+
+        migration.migrate_fedora_messaging_amqp_url(apps, None)
+
+        addon.refresh_from_db()
+        self.assertEqual(
+            addon.configuration,
+            {
+                "amqp_url": "amqp://broker.example/%2F",
+            },
+        )
+
+
 class TestRemoval(ComponentTestCase):
     def install(
         self,
@@ -7321,11 +7554,11 @@ class CDNFilesAddonTest(ViewTestCase):
 
         self.assertEqual(
             Path(addon.cdn_path("en.json")).read_bytes(),
-            Path(source_filename).read_bytes(),
+            get_optional_path(source_filename).read_bytes(),
         )
         self.assertEqual(
             Path(addon.cdn_path("cs.json")).read_bytes(),
-            Path(translation_filename).read_bytes(),
+            get_optional_path(translation_filename).read_bytes(),
         )
 
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -7333,7 +7566,7 @@ class CDNFilesAddonTest(ViewTestCase):
 
         self.assertEqual(
             Path(addon.cdn_path("cs.json")).read_bytes(),
-            Path(translation_filename).read_bytes(),
+            get_optional_path(translation_filename).read_bytes(),
         )
         self.assertIn(
             "Nazdar svete", Path(addon.cdn_path("cs.json")).read_text(encoding="utf-8")
@@ -7369,11 +7602,12 @@ class CDNFilesAddonTest(ViewTestCase):
         filename = translation.get_filename()
         self.assertIsNotNone(filename)
 
-        Path(filename).write_bytes(b'{"hello": "updated"}\n')
+        get_optional_path(filename).write_bytes(b'{"hello": "updated"}\n')
         addon.post_update(self.component, "", False, [])
 
         self.assertEqual(
-            Path(addon.cdn_path("cs.json")).read_bytes(), Path(filename).read_bytes()
+            Path(addon.cdn_path("cs.json")).read_bytes(),
+            get_optional_path(filename).read_bytes(),
         )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
@@ -7432,7 +7666,7 @@ class CDNFilesBilingualAddonTest(ViewTestCase):
         self.assertFalse(os.path.exists(addon.cdn_path("en.po")))
         self.assertEqual(
             Path(addon.cdn_path("cs.po")).read_bytes(),
-            Path(translation_filename).read_bytes(),
+            get_optional_path(translation_filename).read_bytes(),
         )
 
 
@@ -7450,7 +7684,7 @@ class CDNFilesAppStoreAddonTest(ViewTestCase):
         filename = translation.filenames[0]
         expected = os.path.join(
             translation.language.code,
-            Path(filename)
+            get_optional_path(filename)
             .relative_to(Path(self.component.full_path, translation.filename))
             .as_posix(),
         )
@@ -7637,6 +7871,7 @@ class BaseWebhookTests:
 
     def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_CUSTOM
 
     def count_requests(self) -> int:
         return len(responses.calls)
@@ -7694,6 +7929,21 @@ class BaseWebhookTests:
         with self.captureOnCommitCallbacks(execute=True):
             self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
         self.assertEqual(self.count_requests(), 1)
+
+    @responses.activate
+    def test_all_events(self) -> None:
+        """Test processing every change action without event filtering."""
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_ALL
+        self.do_translation_added_test(response_code=200, expected_calls=2)
+
+    @responses.activate
+    def test_content_events(self) -> None:
+        """Test processing translation content events preset."""
+        self.assertIn(ActionEvents.NEW, ACTIONS_CONTENT)
+        self.assertNotIn(ActionEvents.STRING_REMOVE, ACTIONS_CONTENT)
+        self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_CONTENT
+        self.addon_configuration["events"] = []
+        self.do_translation_added_test(response_code=200)
 
     @responses.activate
     def test_announcement(self) -> None:
@@ -7950,6 +8200,8 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
             follow=True,
         )
         self.assertNotContains(response, "Installed 1 add-on")
+        self.assertContains(response, "addon-events.js")
+        self.assertContains(response, "id_event_filter")
 
         # empty secret
         response = self.client.post(
@@ -7973,6 +8225,29 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         )
         self.assertContains(response, "No add-ons currently installed")
 
+        # all change events without individual event selection
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "secret": "",
+                "event_filter": CHANGE_EVENT_FILTER_ALL,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(addon.configuration["event_filter"], CHANGE_EVENT_FILTER_ALL)
+        self.assertEqual(addon.configuration["events"], [])
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon.id}),
+            {"delete": "weblate.webhook.webhook"},
+            follow=True,
+        )
+        self.assertContains(response, "No add-ons currently installed")
+
         # invalid secret
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
@@ -7981,6 +8256,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
                 "events": [ActionEvents.NEW],
+                "event_filter": CHANGE_EVENT_FILTER_CUSTOM,
                 "secret": "xxxx-xx",
             },
             follow=True,
@@ -7996,10 +8272,41 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "webhook_url": "https://example.com/webhooks",
                 "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
                 "events": [ActionEvents.NEW],
+                "event_filter": CHANGE_EVENT_FILTER_CUSTOM,
             },
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(
+            addon.configuration["event_filter"], CHANGE_EVENT_FILTER_CUSTOM
+        )
+        self.assertEqual(
+            {str(item) for item in addon.configuration["events"]},
+            {str(ActionEvents.NEW)},
+        )
+
+        # switching presets preserves the previous individual event selection
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon.id}),
+            {
+                "name": "weblate.webhook.webhook",
+                "form": "1",
+                "webhook_url": "https://example.com/webhooks",
+                "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+        addon.refresh_from_db()
+        self.assertEqual(
+            addon.configuration["event_filter"], CHANGE_EVENT_FILTER_CONTENT
+        )
+        self.assertEqual(
+            {str(item) for item in addon.configuration["events"]},
+            {str(ActionEvents.NEW)},
+        )
 
     def test_form_blocks_private_webhook_target_by_default(self) -> None:
         self.user.is_superuser = True
@@ -8156,7 +8463,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     # Not really used
     WEBHOOK_URL = "https://example.com/webhooks"
     addon_configuration: ClassVar[dict] = {
-        "amqp_host": "nonexisting.example.com",
+        "amqp_url": (
+            "amqp://nonexisting.example.com?connection_attempts=3&retry_delay=5"
+        ),
         "events": [str(ActionEvents.NEW)],
     }
 
@@ -8243,6 +8552,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     def test_project_scopes(self) -> None:
         pass
 
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
     def test_form(self) -> None:
         """Test FedoraMessagingAddonForm."""
         self.user.is_superuser = True
@@ -8283,7 +8593,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "No add-ons currently installed")
 
         # missing certs for SSL
-        params["amqp_ssl"] = "1"
+        params["amqp_url"] = "amqps://nonexisting.example.com"
         response = self.client.post(
             reverse("manage-addons"),
             params,
@@ -8295,7 +8605,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertNotContains(response, "Installed 1 add-on")
 
         # certs but no SSL
-        del params["amqp_ssl"]
+        params["amqp_url"] = "amqp://nonexisting.example.com"
         params["ca_cert"] = "x"
         params["client_key"] = "x"
         params["client_cert"] = "x"
@@ -8310,12 +8620,84 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertNotContains(response, "Installed 1 add-on")
 
         # Install with SSL
-        params["amqp_ssl"] = "1"
+        params["amqp_url"] = "amqps://nonexisting.example.com"
         response = self.client.post(
             reverse("manage-addons"),
             params,
             follow=True,
         )
+        self.assertContains(response, "Installed 1 add-on")
+
+    def test_form_rejects_invalid_amqp_url_scheme(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "https://example.com",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Enter a valid URL.")
+        self.assertNotContains(response, "Installed 1 add-on")
+
+    def test_form_rejects_private_amqp_target(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "amqp://localhost",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "internal or non-public address")
+        self.assertNotContains(response, "Installed 1 add-on")
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_form_allows_private_amqp_target_when_restriction_disabled(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "amqp://localhost",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 1 add-on")
+
+    @override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["localhost"])
+    def test_form_allows_private_amqp_target_when_allowlisted(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("manage-addons"),
+            {
+                "name": self.WEBHOOK_CLS.name,
+                "form": "1",
+                "amqp_url": "amqp://localhost",
+                "events": [str(ActionEvents.NEW)],
+            },
+            follow=True,
+        )
+
         self.assertContains(response, "Installed 1 add-on")
 
 

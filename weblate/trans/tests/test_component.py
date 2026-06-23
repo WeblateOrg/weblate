@@ -13,10 +13,12 @@ from typing import cast
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db.models import F
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from django.utils import timezone
 from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
@@ -1561,6 +1563,88 @@ class ComponentErrorTest(RepoTestCase):
 
         immediate.assert_called_once()
         queue_task.assert_called_once()
+
+    def test_queue_commit_pending_deduplicates_repository_tasks(self) -> None:
+        cache.delete(self.component.commit_task_key)
+        cache.delete(self.component.commit_task_reschedule_key)
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.uuid", return_value="commit-task-id"),
+            patch("weblate.trans.tasks.perform_commit.apply_async") as apply_async,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.queue_commit_pending("commit")
+            self.component.queue_commit_pending("commit")
+
+        apply_async.assert_called_once_with(
+            args=(self.component.pk, "commit"),
+            kwargs={
+                "user_id": None,
+                "force_scan": False,
+                "previous_head": None,
+            },
+            task_id="commit-task-id",
+        )
+        self.assertEqual(cache.get(self.component.commit_task_key), "commit-task-id")
+        self.assertEqual(
+            cache.get(self.component.commit_task_reschedule_key),
+            {
+                "reason": "commit",
+                "user_id": None,
+                "force_scan": False,
+                "previous_head": None,
+            },
+        )
+        self.component.delete_commit_task()
+        self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
+
+    def test_queue_commit_pending_does_not_reopen_finished_task(self) -> None:
+        cache.delete(self.component.commit_task_key)
+        cache.delete(self.component.commit_task_reschedule_key)
+
+        def delete_commit_task(*args, **kwargs) -> None:
+            self.component.delete_commit_task()
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.uuid", return_value="commit-task-id"),
+            patch(
+                "weblate.trans.tasks.perform_commit.apply_async",
+                side_effect=delete_commit_task,
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.queue_commit_pending("commit")
+
+        self.assertIsNone(cache.get(self.component.commit_task_key))
+        self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
+
+
+class PendingChangeCleanupTest(SimpleTestCase):
+    def test_delete_successful_pending_changes_batches_lookup(self) -> None:
+        success_times = {unit_id: timezone.now() for unit_id in range(1001)}
+
+        def filter_pending_changes(**kwargs):
+            queryset = Mock()
+            queryset.values_list.return_value.iterator.return_value = iter(())
+            return queryset
+
+        with patch(
+            "weblate.trans.models.translation.PendingUnitChange.objects.filter",
+            side_effect=filter_pending_changes,
+        ) as pending_filter:
+            Translation.delete_successful_pending_changes(success_times)
+
+        self.assertEqual(pending_filter.call_count, 2)
+        self.assertEqual(
+            len(pending_filter.call_args_list[0].kwargs["unit_id__in"]),
+            1000,
+        )
+        self.assertEqual(
+            len(pending_filter.call_args_list[1].kwargs["unit_id__in"]),
+            1,
+        )
 
 
 class FileSyncPendingUnitOptimizationTest(ComponentTestCase):

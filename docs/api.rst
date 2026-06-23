@@ -915,9 +915,10 @@ Projects
     :type web: string
     :param workspace: Optional workspace UUID. Creating a project in a workspace
                        requires :guilabel:`Add projects to workspace` permission
-                       for that workspace. Creating a project without a
-                       workspace requires the site-wide :guilabel:`Add new
-                       projects` permission. See
+                       for that workspace. When omitted, Weblate can use the
+                       only eligible workspace. Creating a project without an
+                       eligible workspace requires the site-wide
+                       :guilabel:`Add new projects` permission. See
                        :ref:`workspace-project-creation`.
     :type workspace: string
 

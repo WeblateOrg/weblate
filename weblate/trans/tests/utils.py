@@ -7,6 +7,7 @@ import os.path
 import shutil
 import sys
 from datetime import timedelta
+from pathlib import Path
 from tarfile import TarFile
 from tempfile import mkdtemp
 
@@ -64,6 +65,12 @@ def clear_users_cache() -> None:
 def wait_for_celery(timeout=10) -> None:
     with allow_join_result():
         ping.delay().get(timeout=timeout)
+
+
+def get_optional_path(filename: str | None) -> Path:
+    """Return path for filename expected to be present in tests."""
+    assert filename is not None
+    return Path(filename)
 
 
 def get_test_file(name) -> str:

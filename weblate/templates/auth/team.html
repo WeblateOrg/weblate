@@ -47,7 +47,7 @@
       <a href="{{ object.defining_workspace.get_absolute_url }}">{{ object.defining_workspace }}</a>
     </li>
     <li class="breadcrumb-item">
-      <a href="{{ object.defining_workspace.get_absolute_url }}#access">{% translate "Access control" %}</a>
+      <a href="{% url 'workspace-access' pk=object.defining_workspace.pk %}">{% translate "Access control" %}</a>
     </li>
   {% else %}
     <li class="breadcrumb-item">

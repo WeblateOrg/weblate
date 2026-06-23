@@ -113,12 +113,18 @@ class WorkspaceViewTest(BaseTestCase):
         user = create_test_user()
         workspace = Workspace.objects.create(name="Settings workspace")
         workspace.add_owner(user)
+        settings_url = reverse("settings", kwargs={"path": workspace.get_url_path()})
 
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(workspace.get_absolute_url())
 
-        self.assertContains(response, 'data-bs-target="#settings"')
-        self.assertContains(response, "Workspace settings")
+        self.assertContains(response, settings_url)
+        self.assertNotContains(response, 'data-bs-target="#settings"', status_code=200)
+
+        response = self.client.get(settings_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["object"], workspace)
 
     @override_settings(DEFAULT_COMMIT_MESSAGE="Site default workspace commit")
     def test_workspace_settings_show_site_default_message_control(self) -> None:
@@ -127,7 +133,9 @@ class WorkspaceViewTest(BaseTestCase):
         workspace.add_owner(user)
 
         self.client.login(username=user.username, password="testpassword")
-        response = self.client.get(workspace.get_absolute_url())
+        response = self.client.get(
+            reverse("settings", kwargs={"path": workspace.get_url_path()})
+        )
 
         self.assertContains(
             response, 'data-site-default-value="Site default workspace commit"'
@@ -141,27 +149,25 @@ class WorkspaceViewTest(BaseTestCase):
             name="Public project",
             slug="public-project",
         )
+        settings_url = reverse("settings", kwargs={"path": workspace.get_url_path()})
 
         response = self.client.get(workspace.get_absolute_url())
 
         self.assertContains(response, "Public project")
+        self.assertNotContains(response, settings_url, status_code=200)
         self.assertNotContains(response, 'data-bs-target="#settings"', status_code=200)
-        self.assertNotContains(response, "Workspace settings", status_code=200)
 
     def test_workspace_settings_update_name_as_workspace_owner(self) -> None:
         user = create_test_user()
         workspace = Workspace.objects.create(name="Original view workspace")
         workspace.add_owner(user)
+        settings_url = reverse("settings", kwargs={"path": workspace.get_url_path()})
 
         self.client.login(username=user.username, password="testpassword")
-        response = self.client.post(
-            workspace.get_absolute_url(), {"name": "Renamed view workspace"}
-        )
+        response = self.client.post(settings_url, {"name": "Renamed view workspace"})
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(
-            response["Location"], f"{workspace.get_absolute_url()}#settings"
-        )
+        self.assertEqual(response["Location"], settings_url)
         workspace.refresh_from_db()
         self.assertEqual(workspace.name, "Renamed view workspace")
         change = workspace.change_set.get(action=ActionEvents.WORKSPACE_SETTING_CHANGE)
@@ -175,9 +181,12 @@ class WorkspaceViewTest(BaseTestCase):
             name="Read-only project",
             slug="read-only-project",
         )
+        user = create_another_user()
 
+        self.client.login(username=user.username, password="testpassword")
         response = self.client.post(
-            workspace.get_absolute_url(), {"name": "Denied workspace"}
+            reverse("settings", kwargs={"path": workspace.get_url_path()}),
+            {"name": "Denied workspace"},
         )
 
         self.assertEqual(response.status_code, 404)
@@ -455,26 +464,39 @@ class WorkspaceViewTest(BaseTestCase):
         user = create_test_user()
         workspace = Workspace.objects.create(name="Access workspace")
         workspace.add_owner(user)
+        access_url = reverse("workspace-access", kwargs={"pk": workspace.pk})
 
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(workspace.get_absolute_url())
 
-        self.assertContains(response, 'data-bs-target="#access"')
-        self.assertContains(response, "Access control")
-        self.assertContains(response, "Project creators")
+        self.assertContains(response, access_url)
+        self.assertNotContains(response, 'data-bs-target="#access"', status_code=200)
+        self.assertNotContains(response, "Project creators", status_code=200)
+
+        response = self.client.get(access_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["object"], workspace)
+        self.assertEqual(response.context["workspace"], workspace)
 
     def test_access_tab_is_hidden_without_member_management(self) -> None:
         user = create_test_user()
         workspace = Workspace.objects.create(name="Project creator workspace")
         groups = workspace.setup_groups()
         user.add_team(None, groups[WORKSPACE_PROJECT_CREATORS_GROUP])
+        access_url = reverse("workspace-access", kwargs={"pk": workspace.pk})
 
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(workspace.get_absolute_url())
 
         self.assertContains(response, workspace.name)
+        self.assertNotContains(response, access_url, status_code=200)
         self.assertNotContains(response, 'data-bs-target="#access"', status_code=200)
         self.assertNotContains(response, "Access control", status_code=200)
+
+        response = self.client.get(access_url)
+
+        self.assertEqual(response.status_code, 404)
 
     def test_workspace_team_names_are_unique(self) -> None:
         workspace = Workspace.objects.create(name="Team workspace")

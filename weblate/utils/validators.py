@@ -872,6 +872,31 @@ class WeblateServiceURLValidator(WeblateURLValidator):
     )
 
 
+class FedoraMessagingURLValidator(WeblateServiceURLValidator):
+    """Validator for Fedora Messaging AMQP URLs."""
+
+    # ruff: ignore[mutable-class-default]
+    schemes: list[str] = [
+        "amqp",
+        "amqps",
+    ]
+
+
+def validate_fedora_messaging_url(value: str) -> None:
+    FedoraMessagingURLValidator()(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allow_unresolved_hostname=False,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+
+
 def validate_repo_url(url: str) -> None:
     normalized_url = url
     parsed = urlparse(normalized_url)

@@ -49,6 +49,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.workspaces.models import Workspace
 
 CONTACT_DATA = {
     "name": "Test",
@@ -694,6 +695,25 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+
+    def test_profile_group_display_uses_scoped_team_queryset(self) -> None:
+        workspace = Workspace.objects.create(name="Profile workspace")
+        project_group = Group.objects.create(
+            name="Profile project team", defining_project=self.project
+        )
+        workspace_group = Group.objects.create(
+            name="Profile workspace team", defining_workspace=workspace
+        )
+        self.user.groups.add(project_group, workspace_group)
+
+        response = self.client.get(reverse("profile"))
+        user_groups = response.context["user_groups"]
+        sql = str(user_groups.query)
+
+        self.assertIn("trans_project", sql)
+        self.assertIn("workspaces_workspace", sql)
+        self.assertIn(project_group, user_groups)
+        self.assertIn(workspace_group, user_groups)
 
     def test_profile_inherited_license_display(self) -> None:
         self.project.license = "MIT"

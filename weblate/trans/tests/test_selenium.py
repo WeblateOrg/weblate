@@ -51,6 +51,8 @@ from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
@@ -61,6 +63,7 @@ from weblate.trans.models import (
     ComponentList,
     ContributorAgreement,
     Project,
+    Translation,
     Unit,
 )
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
@@ -73,7 +76,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
@@ -85,7 +88,6 @@ if TYPE_CHECKING:
     from selenium.webdriver.remote.webelement import WebElement
 
     from weblate.machinery.types import DownloadTranslations
-    from weblate.trans.models import Translation
     from weblate.utils.stats import BaseStats
 
 
@@ -160,7 +162,7 @@ PERFORMANCE_REPORT_HEADERS = {
 
 # The fixture repositories are known public GitHub repos; allowlisting them
 # avoids flaky runtime DNS checks while keeping the real import path covered.
-@override_settings(VCS_ALLOW_HOSTS={"github.com"})
+@override_settings(STATS_LAZY=False, VCS_ALLOW_HOSTS={"github.com"})
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     _driver: WebDriver | None = None
     _driver_error: str = ""
@@ -232,9 +234,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         else:
             # Increase webdriver timeout to avoid occasional errors in CI
             cls._driver.command_executor.client_config.timeout = 300
-            # The screenshot browser is reused across tests while several
-            # fixtures use identical slugs. Avoid cached widget images showing
-            # status badges from an earlier fixture.
             cls._driver.execute_cdp_cmd(
                 "Network.setCacheDisabled", {"cacheDisabled": True}
             )
@@ -271,6 +270,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self) -> None:
         super().setUp()
+        self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
         self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.driver.set_window_size(1200, 1024)
         self.site_domain = settings.SITE_DOMAIN
@@ -306,6 +306,59 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 Path(get_test_file(fixture)).read_text(encoding="utf-8"),
                 encoding="utf-8",
             )
+
+    def clear_project_stats_cache(self, project: Project) -> None:
+        """Drop stats cache entries that can survive the flushed test database."""
+        translations = list(
+            Translation.objects.filter(component__project=project).select_related(
+                "language"
+            )
+        )
+        stats = [
+            project.stats,
+            *(component.stats for component in project.component_set.all()),
+            *(translation.stats for translation in translations),
+            *(
+                ProjectLanguage(project, language).stats
+                for language in {translation.language for translation in translations}
+            ),
+        ]
+        cache.delete_many({stat.cache_key for stat in stats})
+
+    def populate_global_activity_metrics(self) -> None:
+        """Create deterministic metric rows for the generated activity history."""
+        today = timezone.now().date()
+        scope = Metric.SCOPE_GLOBAL
+        relation = 0
+        cache.delete(GlobalStats().cache_key)
+        Metric.objects.filter_metric(scope, relation).filter(date=today).delete()
+
+        wrapper = MetricsWrapper(None, scope, relation)
+        cache_keys = []
+        last_month_date = today.replace(day=1) - timedelta(days=1)
+        month = last_month_date.month
+        year = last_month_date.year
+        for _unused in range(12):
+            cache_keys.extend(
+                (
+                    wrapper.get_month_cache_key(year, month),
+                    wrapper.get_month_cache_key(year - 1, month),
+                )
+            )
+            month -= 1
+            if month < 1:
+                month = 12
+                year -= 1
+        cache.delete_many(cache_keys)
+
+        for day in range(366):
+            Metric.objects.calculate_changes(
+                today - timedelta(days=day),
+                None,
+                scope,
+                relation,
+            )
+        Metric.objects.collect_global()
 
     def count_elements(self, css_selector: str) -> int:
         """Return the count of elements matching css_selector on the current page."""
@@ -375,16 +428,150 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             component.git_export = get_export_url(component)
             component.save(update_fields=("git_export",))
 
+    def wait_for_screenshot_ready(self, timeout: int = 10) -> None:
+        """Wait for browser-side rendering that can affect screenshots."""
+        WebDriverWait(self.driver, timeout).until(self.is_page_loaded)
+        self.driver.execute_script(
+            """
+            for (const image of document.images) {
+                if (image.loading === "lazy") {
+                    image.loading = "eager";
+                }
+            }
+            """
+        )
+        self.driver.execute_async_script(
+            """
+            const done = arguments[0];
+            if (!document.fonts) {
+                done(true);
+                return;
+            }
+            document.fonts.ready.then(() => done(true), () => done(false));
+            """
+        )
+        WebDriverWait(self.driver, timeout).until(
+            lambda driver: driver.execute_script(
+                """
+                const imagesLoaded = Array.from(document.images).every((image) => {
+                    const source = image.getAttribute("src");
+                    return !source || (image.complete && image.naturalWidth > 0);
+                });
+                const ajaxIdle =
+                    typeof window.jQuery === "undefined" || window.jQuery.active === 0;
+                const loadingIdle = Array.from(
+                    document.querySelectorAll('[id^="loading-"]')
+                ).every((element) => {
+                    const style = getComputedStyle(element);
+                    return (
+                        style.display === "none" ||
+                        style.visibility === "hidden" ||
+                        Number(style.opacity) === 0 ||
+                        element.offsetParent === null
+                    );
+                });
+                const animationsIdle =
+                    !document.getAnimations ||
+                    document.getAnimations({ subtree: true }).every((animation) => {
+                        const target = animation.effect?.target;
+                        if (!(target instanceof Element)) {
+                            return true;
+                        }
+                        const style = getComputedStyle(target);
+                        if (
+                            style.display === "none" ||
+                            style.visibility === "hidden" ||
+                            Number(style.opacity) === 0
+                        ) {
+                            return true;
+                        }
+                        const timing = animation.effect.getComputedTiming();
+                        return (
+                            timing.iterations === Infinity ||
+                            !["pending", "running"].includes(animation.playState)
+                        );
+                    });
+                return imagesLoaded && ajaxIdle && loadingIdle && animationsIdle;
+                """
+            )
+        )
+        self.driver.execute_async_script(
+            """
+            const done = arguments[0];
+            let lastSnapshot = null;
+            let stableFrames = 0;
+
+            function snapshot() {
+                const body = document.body;
+                const doc = document.documentElement;
+                return [
+                    window.scrollX,
+                    window.scrollY,
+                    body?.scrollWidth,
+                    body?.scrollHeight,
+                    body?.offsetWidth,
+                    body?.offsetHeight,
+                    doc?.scrollWidth,
+                    doc?.scrollHeight,
+                    doc?.offsetWidth,
+                    doc?.offsetHeight,
+                    doc?.clientWidth,
+                    doc?.clientHeight,
+                ].join(":");
+            }
+
+            function check() {
+                const currentSnapshot = snapshot();
+                if (currentSnapshot === lastSnapshot) {
+                    stableFrames += 1;
+                } else {
+                    stableFrames = 0;
+                    lastSnapshot = currentSnapshot;
+                }
+                if (stableFrames >= 3) {
+                    done(true);
+                    return;
+                }
+                requestAnimationFrame(check);
+            }
+
+            requestAnimationFrame(check);
+            """
+        )
+
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
+        self.driver.set_window_size(1200, 1024)
         self.scroll_top()
-        # Get window and document dimensions
-        scroll_height = self.driver.execute_script("return document.body.scrollHeight")
-        scroll_width = self.driver.execute_script("return document.body.scrollWidth")
-        # Resize the window
-        self.driver.set_window_size(max(1200, scroll_width), scroll_height + 180)
-        time.sleep(0.2)
-        # Get screenshot
+        self.wait_for_screenshot_ready()
+        dimensions = self.driver.execute_script(
+            """
+            const body = document.body;
+            const doc = document.documentElement;
+            return {
+                width: Math.max(
+                    body.scrollWidth,
+                    body.offsetWidth,
+                    body.clientWidth,
+                    doc.scrollWidth,
+                    doc.offsetWidth,
+                    doc.clientWidth
+                ),
+                height: Math.max(
+                    body.scrollHeight,
+                    body.offsetHeight,
+                    doc.scrollHeight,
+                    doc.offsetHeight
+                ),
+            };
+            """
+        )
+        self.driver.set_window_size(
+            max(1200, math.ceil(dimensions["width"])),
+            math.ceil(dimensions["height"] + 180),
+        )
+        self.scroll_top()
+        self.wait_for_screenshot_ready()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
@@ -1026,27 +1213,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
-        with override_settings(STATS_LAZY=False):
-            project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
-            Component.objects.create(
-                name="Language names",
-                slug="language-names",
-                project=project,
-                repo="https://github.com/WeblateOrg/demo.git",
-                branch="main",
-                filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
-                new_base="weblate/langdata/locale/django.pot",
-                file_format="po",
-            )
-            Component.objects.create(
-                name="Django",
-                slug="django",
-                project=project,
-                repo="weblate://weblateorg/language-names",
-                filemask="weblate/locale/*/LC_MESSAGES/django.po",
-                new_base="weblate/locale/django.pot",
-                file_format="po",
-            )
+        project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
+        Component.objects.create(
+            name="Language names",
+            slug="language-names",
+            project=project,
+            repo="https://github.com/WeblateOrg/demo.git",
+            branch="main",
+            filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
+            new_base="weblate/langdata/locale/django.pot",
+            file_format="po",
+        )
+        Component.objects.create(
+            name="Django",
+            slug="django",
+            project=project,
+            repo="weblate://weblateorg/language-names",
+            filemask="weblate/locale/*/LC_MESSAGES/django.po",
+            new_base="weblate/locale/django.pot",
+            file_format="po",
+        )
+        self.clear_project_stats_cache(project)
         return project
 
     def create_glossary(
@@ -1104,25 +1291,28 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        with override_settings(STATS_LAZY=False):
-            return Component.objects.create(
-                name="Android",
-                slug="android",
-                project=project,
-                repo="weblate://weblateorg/language-names",
-                filemask="app/src/main/res/values-*/strings.xml",
-                template="app/src/main/res/values/strings.xml",
-                file_format="aresource",
-            )
+        component = Component.objects.create(
+            name="Android",
+            slug="android",
+            project=project,
+            repo="weblate://weblateorg/language-names",
+            filemask="app/src/main/res/values-*/strings.xml",
+            template="app/src/main/res/values/strings.xml",
+            file_format="aresource",
+        )
+        self.clear_project_stats_cache(project)
+        return component
 
     def test_dashboard(self) -> None:
         self.do_login()
+        self.create_component()
         # Generate nice changes data
         for day in range(365):
             for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
                 change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
                 change.timestamp -= timedelta(days=day)
                 change.save()
+        self.populate_global_activity_metrics()
 
         # Screenshot search
         self.click("Search")
@@ -1386,14 +1576,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains(".tab-content", "Documentation portal")
         self.screenshot("workspace-projects.png")
 
-        self.click("Access control")
-        WebDriverWait(self.driver, 5).until(
-            lambda driver: (
-                "active" in driver.find_element(By.ID, "access").get_attribute("class")
-            )
-        )
-        self.assert_text_contains("#access", "Owners")
-        self.assert_text_contains("#access", "Project creators")
+        self.click("Operations")
+        with self.wait_for_page_load():
+            self.click("Access control")
+        self.assert_text_contains("table.table-striped", "Owners")
+        self.assert_text_contains("table.table-striped", "Project creators")
         self.screenshot("workspace-access.png")
 
     def test_project_operations(self) -> None:
@@ -1608,7 +1795,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Files")
         self.screenshot("file-download.png")
         self.click("Operations")
-        self.click("Automatic translation")
+        self.click("Batch automatic translation")
         self.click(htmlid="id_auto_auto_source_1")
         self.click("Operations")
         self.screenshot("automatic-translation.png")

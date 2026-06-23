@@ -54,6 +54,9 @@
         </div>
         <div class="card-footer">
           <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          {% if components_url %}
+            <a href="{{ components_url }}" class="btn btn-primary">{% translate "View components" %}</a>
+          {% endif %}
         </div>
       </div>
     </form>
@@ -67,6 +70,9 @@
     {% endif %}
     {% if instance %}
       <a href="{% url 'addon-logs' instance.id %}" class="btn btn-primary">{% translate "View Logs" %}</a>
+      {% if components_url %}
+        <a href="{{ components_url }}" class="btn btn-primary">{% translate "View components" %}</a>
+      {% endif %}
     {% endif %}
   {% endif %}
 
@@ -74,6 +80,11 @@
 
 {% block extra_script %}
   {{ block.super }}
+  {% if form.fields.event_filter %}
+    <script defer
+            data-cfasync="false"
+            src="{% static 'js/addon-events.js' %}{{ cache_param }}"></script>
+  {% endif %}
   {% if form.guided_presets %}
     <script defer
             data-cfasync="false"

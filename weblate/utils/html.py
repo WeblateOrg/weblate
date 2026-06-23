@@ -8,7 +8,7 @@ import re
 import threading
 from collections import defaultdict
 from html.parser import HTMLParser as StdHTMLParser
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, NamedTuple
 
 import nh3
 from django.utils.html import format_html, format_html_join
@@ -146,6 +146,29 @@ class MarkupExtractor(ParserTarget):
         pass
 
 
+class HTMLAttribute(NamedTuple):
+    tag: str
+    name: str
+    value: str | None
+
+
+class HTMLAttributeExtractor(StdHTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.attributes: list[HTMLAttribute] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self.handle_attributes(tag, attrs)
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self.handle_attributes(tag, attrs)
+
+    def handle_attributes(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag in IGNORE:
+            return
+        self.attributes.extend(HTMLAttribute(tag, name, value) for name, value in attrs)
+
+
 def extract_html_tags(text: str) -> tuple[set[str], dict[str, set[str]]]:
     """Extract tags from text in a form suitable for HTML sanitization."""
     extractor = MarkupExtractor()
@@ -156,6 +179,14 @@ def extract_html_tags(text: str) -> tuple[set[str], dict[str, set[str]]]:
     parser = HTMLParser(collect_ids=False, target=extractor)
     parser.feed(text)
     return (extractor.found_tags, extractor.found_attributes)
+
+
+def extract_html_attributes(text: str) -> list[HTMLAttribute]:
+    """Extract ordered HTML attributes from a text fragment."""
+    extractor = HTMLAttributeExtractor()
+    extractor.feed(text)
+    extractor.close()
+    return extractor.attributes
 
 
 def is_auto_safe_html_source(source: str, flags: Flags) -> bool:

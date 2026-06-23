@@ -88,8 +88,8 @@ Scope and intended use
        :doc:`/admin/management`)
    * - Machine translation and outbound integrations
      - Machine translation, avatars, status reporting, telemetry, error
-       reporting, VCS hosts, CDN add-on
-     - Outbound HTTP(S), provider APIs, logs
+       reporting, VCS hosts, CDN add-on, Fedora Messaging add-on
+     - Outbound HTTP(S), AMQP(S), provider APIs, logs
      - In scope for Weblate's enforcement of configured access and network
        restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/addons`)
    * - Add-ons
@@ -253,7 +253,8 @@ What Weblate does to its host:
 
 * It opens outbound network connections for configured VCS, identity-provider,
   avatar, machine-translation, backup, status-reporting, telemetry,
-  error-reporting, and add-on features.
+  error-reporting, and add-on features such as outbound webhooks and Fedora
+  Messaging AMQP delivery.
   *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-hosting`,
   :doc:`/admin/backup`)
 * It runs VCS and backup-related helper commands as part of repository and
@@ -326,8 +327,9 @@ Build-time and configuration variants
        *(documented)*
    * - Private-target restrictions and allowlists for outbound URLs
      - User-configurable outbound URL surfaces documented with private-target
-       restriction settings reject internal or non-public targets by default.
-       *(documented)* (source: :setting:`ASSET_RESTRICT_PRIVATE`,
+       restriction settings, including Fedora Messaging AMQP broker URLs,
+       reject internal or non-public targets by default. *(documented)*
+       (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
      - Allowlist settings and privileged configuration can intentionally expand
@@ -546,8 +548,9 @@ Security properties Weblate provides
      - Default private-target checks are enabled and no trusted allowlist
        exemption applies.
      - A user-configurable screenshot URL, remote HTML URL, project website or
-       repository browser URL, outbound webhook URL, or VCS URL reaches an
-       internal or non-public target despite default controls.
+       repository browser URL, outbound webhook URL, Fedora Messaging AMQP
+       broker URL, or VCS URL reaches an internal or non-public target despite
+       default controls.
      - Security-critical when it exposes internal services or metadata.
    * - Weblate records security-relevant account, permission, and project or
        component setting changes in audit logs or history. *(documented)*

@@ -661,6 +661,21 @@ class Change(models.Model, UserDisplayMixin):
                 name="trans_change_unit_idx",
             ),
             models.Index(
+                fields=["-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=True)
+                & Q(category__isnull=True)
+                & Q(component__isnull=True),
+                name="trans_change_site_addon_idx",
+            ),
+            models.Index(
+                fields=["project", "-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=False)
+                & Q(component__isnull=True),
+                name="trans_change_proj_addon_idx",
+            ),
+            models.Index(
                 fields=["user", "-timestamp", "action"],
                 name="trans_change_user_idx",
             ),
@@ -763,7 +778,7 @@ class Change(models.Model, UserDisplayMixin):
     def path_object(
         self,
     ) -> Translation | Component | Category | Project | Workspace | None:
-        """Return link either to unit or translation."""
+        """Object linked from the change path."""
         if self.translation is not None:
             return self.translation
         if self.component is not None:

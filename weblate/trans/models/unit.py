@@ -2007,7 +2007,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def active_checks(self) -> list[Check]:
-        """Return all active (not ignored) checks for this unit."""
+        """Active (not ignored) checks for this unit."""
         return [check for check in self.all_checks if not check.dismissed]
 
     @cached_property
@@ -2443,9 +2443,9 @@ class Unit(models.Model, LoggerMixin):
     @property
     def checksum(self):
         """
-        Return unique hex identifier.
+        Unique hex identifier.
 
-        It's unsigned representation of id_hash in hex.
+        Unsigned representation of id_hash in hex.
         """
         return hash_to_checksum(self.id_hash)
 
@@ -2516,7 +2516,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def get_last_author(self) -> User:
-        """Get last author of content changes to a unit."""
+        """Last author of content changes to a unit."""
         return self.get_last_content_change()[0]
 
     def get_locations(self) -> Generator[tuple[str, str, str]]:

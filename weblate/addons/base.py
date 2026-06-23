@@ -20,6 +20,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
 from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
+from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
 from weblate.trans.templatetags.translations import format_json
@@ -57,6 +58,31 @@ class CompatDict(TypedDict, total=False):
     vcs: set[str]
     file_format: set[str]
     edit_template: set[bool]
+
+
+CHANGE_EVENT_FILTER_CONTENT = "content"
+CHANGE_EVENT_FILTER_ALL = "all"
+CHANGE_EVENT_FILTER_CUSTOM = "custom"
+CHANGE_EVENT_FILTERS = frozenset(
+    (
+        CHANGE_EVENT_FILTER_CONTENT,
+        CHANGE_EVENT_FILTER_ALL,
+        CHANGE_EVENT_FILTER_CUSTOM,
+    )
+)
+
+
+def get_change_event_filter(
+    configuration: Mapping[str, AddonConfigurationValue],
+) -> str:
+    event_filter = configuration.get("event_filter")
+    if isinstance(event_filter, str) and event_filter in CHANGE_EVENT_FILTERS:
+        return event_filter
+    if configuration.get("all_events", False):
+        return CHANGE_EVENT_FILTER_ALL
+    if "events" in configuration:
+        return CHANGE_EVENT_FILTER_CUSTOM
+    return CHANGE_EVENT_FILTER_CONTENT
 
 
 class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
@@ -920,7 +946,15 @@ class ChangeBaseAddon(BaseAddon):
 
     @cached_property
     def configured_change_events(self) -> set[int]:
-        return {int(event) for event in self.instance.configuration["events"]}
+        return {int(event) for event in self.instance.configuration.get("events", ())}
+
+    @cached_property
+    def configured_change_event_filter(self) -> str:
+        return get_change_event_filter(self.instance.configuration)
 
     def check_change_action(self, change: Change) -> bool:
+        if self.configured_change_event_filter == CHANGE_EVENT_FILTER_ALL:
+            return True
+        if self.configured_change_event_filter == CHANGE_EVENT_FILTER_CONTENT:
+            return change.action in ACTIONS_CONTENT
         return change.action in self.configured_change_events

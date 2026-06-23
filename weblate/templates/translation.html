@@ -58,11 +58,11 @@
           </li>
         {% endif %}
         <li>
-          <a class="dropdown-item" data-bs-target="#download" data-bs-toggle="tab">{% translate "Customize download" %}</a>
+          <a class="dropdown-item" data-bs-target="#download" data-bs-toggle="tab" href="#">{% translate "Customize download" %}</a>
         </li>
         {% if user_can_upload_translation %}
           <li>
-            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab">{% translate "Upload translation" %}</a>
+            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -82,10 +82,16 @@
         {% endif %}
         {% if autoform %}
           <li>
-            <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Automatic translation" %}</a>
+            <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
-        <hr class="dropdown-divider">
+        {% if replace_form or bulk_state_form or autoform %}
+          {% if user_can_add_unit or user_can_see_repository_status %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
+        {% endif %}
         {% if user_can_add_unit %}
           <li>
             <a class="dropdown-item" data-bs-target="#new" data-bs-toggle="tab" href="#">{{ object.component.get_add_label }}</a>
@@ -101,7 +107,11 @@
           </li>
         {% endif %}
         {% if announcement_form %}
-          <hr class="dropdown-divider">
+          {% if replace_form or bulk_state_form or autoform or user_can_add_unit or user_can_see_repository_status %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
           <li>
             <a class="dropdown-item"
                data-bs-target="#announcement"
@@ -110,7 +120,11 @@
           </li>
         {% endif %}
         {% if delete_form %}
-          <hr class="dropdown-divider">
+          {% if replace_form or bulk_state_form or autoform or user_can_add_unit or user_can_see_repository_status or announcement_form %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          {% endif %}
           <li>
             <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
           </li>

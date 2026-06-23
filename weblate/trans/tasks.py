@@ -63,6 +63,47 @@ if TYPE_CHECKING:
     from weblate.workspaces.models import Workspace
 
 
+def commit_lock_retries_exhausted() -> bool:
+    """Check whether a commit lock timeout will no longer be retried."""
+    if not current_task:
+        return True
+
+    if current_task.max_retries is None:
+        return False
+    return current_task.request.retries >= current_task.max_retries
+
+
+def schedule_deferred_commit(component: Component) -> None:
+    followup = component.finish_commit_task()
+    if followup:
+        component.queue_commit_pending(
+            followup["reason"],
+            user_id=followup["user_id"],
+            force_scan=followup["force_scan"],
+            previous_head=followup["previous_head"],
+        )
+
+
+def perform_component_commit(
+    component: Component,
+    reason: str,
+    user: User | None,
+    *,
+    force_scan: bool = False,
+    previous_head: str | None = None,
+) -> None:
+    with component.repository.lock:
+        component.commit_pending(reason, user=user)
+        if force_scan:
+            component.trigger_post_update(
+                previous_head=previous_head,
+                skip_push=False,
+                user=user,
+                parse_after_update=True,
+            )
+            component.create_translations(force=True)
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -148,18 +189,24 @@ def perform_commit(
     force_scan: bool = False,
     previous_head: str | None = None,
 ) -> None:
-    user = User.objects.get(pk=user_id) if user_id else None
     component = Component.objects.get(pk=pk)
-    with component.repository.lock:
-        component.commit_pending(reason, user=user)
-        if force_scan:
-            component.trigger_post_update(
-                previous_head=previous_head,
-                skip_push=False,
-                user=user,
-                parse_after_update=True,
-            )
-            component.create_translations(force=True)
+    try:
+        user = User.objects.get(pk=user_id) if user_id else None
+        perform_component_commit(
+            component,
+            reason,
+            user,
+            force_scan=force_scan,
+            previous_head=previous_head,
+        )
+    except WeblateLockTimeoutError:
+        if commit_lock_retries_exhausted():
+            schedule_deferred_commit(component)
+        raise
+    except Exception:
+        component.delete_commit_task(require_match=True)
+        raise
+    schedule_deferred_commit(component)
 
 
 @app.task(
@@ -192,7 +239,7 @@ def commit_pending(
         if logger:
             logger(f"Committing {component}")
 
-        perform_commit.delay(component.pk, "commit_pending")
+        component.queue_commit_pending("commit_pending")
 
 
 @app.task(trail=False)

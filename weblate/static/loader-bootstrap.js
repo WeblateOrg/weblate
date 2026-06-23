@@ -1128,21 +1128,60 @@ $(function () {
     selectAutoSource.trigger("change");
   }
 
-  /* Override all multiple selects */
-  document.querySelectorAll("select[multiple]").forEach((el) => {
-    if (el.tomselect) {
-      return;
+  const findElements = (root, selector) => {
+    const elements = [];
+    if (root instanceof Element && root.matches(selector)) {
+      elements.push(root);
     }
-    const options = {
-      plugins: ["remove_button", "checkbox_options"],
-      placeholder: el.dataset.placeholder || gettext("Search…"),
-      hidePlaceholder: el.dataset.hidePlaceholder === "true",
-      persist: false,
-      create: false,
-      allowEmptyOption: true,
-    };
-    new TomSelect(el, options);
-  });
+    elements.push(...root.querySelectorAll(selector));
+    return elements;
+  };
+
+  const initializeMultipleSelects = (root = document) => {
+    findElements(root, "select[multiple]").forEach((el) => {
+      if (el.tomselect) {
+        return;
+      }
+      const options = {
+        plugins: ["remove_button", "checkbox_options"],
+        placeholder: el.dataset.placeholder || gettext("Search…"),
+        hidePlaceholder: el.dataset.hidePlaceholder === "true",
+        persist: false,
+        create: false,
+        allowEmptyOption: true,
+      };
+      new TomSelect(el, options);
+    });
+  };
+
+  const initializeProjectMembershipControls = (root = document) => {
+    findElements(root, ".project-membership-team-toggle").forEach((el) => {
+      if (el.dataset.membershipToggleInitialized === "true") {
+        return;
+      }
+      el.dataset.membershipToggleInitialized = "true";
+      const limitField = document.getElementById(el.dataset.limitTarget);
+      const updateLimitField = () => {
+        if (!limitField) {
+          return;
+        }
+        limitField.disabled = !el.checked;
+        if (!limitField.tomselect) {
+          return;
+        }
+        if (el.checked) {
+          limitField.tomselect.enable();
+        } else {
+          limitField.tomselect.disable();
+        }
+      };
+      el.addEventListener("change", updateLimitField);
+      updateLimitField();
+    });
+  };
+
+  /* Override all multiple selects */
+  initializeMultipleSelects();
 
   /* Searchable single selects */
   document.querySelectorAll("select.searchable-select").forEach((el) => {
@@ -1241,25 +1280,76 @@ $(function () {
     updateInheritedSetting(false);
   });
 
-  document.querySelectorAll(".project-membership-team-toggle").forEach((el) => {
-    const limitField = document.getElementById(el.dataset.limitTarget);
-    const updateLimitField = () => {
-      if (!limitField) {
+  initializeProjectMembershipControls();
+
+  const projectUserGroupsModal = document.getElementById(
+    "project-user-groups-modal",
+  );
+  if (projectUserGroupsModal) {
+    const modalBody = projectUserGroupsModal.querySelector(".modal-body");
+    const modalTitle = projectUserGroupsModal.querySelector(".modal-title");
+    const submitButton = projectUserGroupsModal.querySelector(
+      "input[type='submit']",
+    );
+    const formCache = new Map();
+
+    const renderProjectUserGroupsForm = (url, html) => {
+      if (projectUserGroupsModal.dataset.activeUrl !== url) {
         return;
       }
-      limitField.disabled = !el.checked;
-      if (!limitField.tomselect) {
-        return;
-      }
-      if (el.checked) {
-        limitField.tomselect.enable();
-      } else {
-        limitField.tomselect.disable();
-      }
+      modalBody.innerHTML = html;
+      initializeMultipleSelects(modalBody);
+      initializeProjectMembershipControls(modalBody);
+      submitButton.disabled = false;
     };
-    el.addEventListener("change", updateLimitField);
-    updateLimitField();
-  });
+
+    projectUserGroupsModal.addEventListener("show.bs.modal", (event) => {
+      const trigger = event.relatedTarget;
+      const url = trigger?.dataset.href;
+      if (!url) {
+        return;
+      }
+      projectUserGroupsModal.dataset.activeUrl = url;
+      modalTitle.textContent = trigger.dataset.modalTitle || "";
+      submitButton.disabled = true;
+      modalBody.textContent =
+        modalBody.dataset.loadingText || gettext("Loading…");
+
+      if (formCache.has(url)) {
+        renderProjectUserGroupsForm(url, formCache.get(url));
+        return;
+      }
+
+      fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`${response.statusText} (${response.status})`);
+          }
+          return response.text();
+        })
+        .then((html) => {
+          formCache.set(url, html);
+          renderProjectUserGroupsForm(url, html);
+        })
+        .catch((error) => {
+          if (projectUserGroupsModal.dataset.activeUrl !== url) {
+            return;
+          }
+          const alert = document.createElement("div");
+          alert.className = "alert alert-danger";
+          alert.role = "alert";
+          const errorText =
+            modalBody.dataset.errorText || gettext("Error while loading form:");
+          alert.textContent = `${errorText} ${error.message}`;
+          modalBody.textContent = "";
+          modalBody.append(alert);
+        });
+    });
+
+    projectUserGroupsModal.addEventListener("hidden.bs.modal", () => {
+      delete projectUserGroupsModal.dataset.activeUrl;
+    });
+  }
 
   /* Slugify name */
   slugify.extend({ ".": "-" });
