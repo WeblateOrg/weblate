@@ -1173,6 +1173,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Confirm account
         self.driver.get(url)
+        if "Confirm registration" in self.driver.find_element(By.TAG_NAME, "body").text:
+            self.screenshot("registration-confirmation.png")
+            with self.wait_for_page_load():
+                self.click(
+                    self.driver.find_element(
+                        By.CSS_SELECTOR, "form button[type='submit']"
+                    )
+                )
 
         # Check we got message
         self.assertIn(

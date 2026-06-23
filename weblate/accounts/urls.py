@@ -15,10 +15,9 @@ register_weblate_converters()
 
 
 # Follows copy of social_django.urls with few changes:
-# - authentication requires POST (issue submitted upstream)
-# - authentication stores current user (to avoid CSRF on complete)
+# - authentication stores current user and requested account action
 # - removed some configurability (just to avoid additional deps)
-# - the association_id has to be numeric (patch accepted upstream)
+# - SAML metadata is exposed with Weblate's default IdP handling
 social_urls = [
     # user authentication / association
     path("login/<slug:backend>/", weblate.accounts.views.social_auth, name="begin"),

@@ -49,8 +49,8 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
     from django.test.client import Client as TestClient
+    from django.test.client import _MonkeyPatchedWSGIResponse as TestClientResponse
 
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
@@ -88,14 +88,34 @@ class RegistrationTestMixin(TestCase):
             if "(" in line or ")" in line or "<" in line or ">" in line:
                 continue
             if live_url and line.startswith(live_url):
-                url = f"{line}&confirm=1"
+                url = line
                 break
             if line.startswith("http://example.com/"):
-                url = f"{line[18:]}&confirm=1"
+                url = line[18:]
                 break
 
         self.assertIsNotNone(url, "Confirmation URL not found")
         return cast("str", url)
+
+    def confirm_registration_url(
+        self, url: str, client: TestClient | None = None, *, follow: bool = True
+    ) -> TestClientResponse:
+        client = client or self.client
+        response = client.get(url, follow=follow)
+        confirmation_template = "social_django/partial_pipeline_external_resume.html"
+        if confirmation_template not in [
+            template.name for template in response.templates
+        ]:
+            return response
+        context = response.context
+        return client.post(
+            context["action_url"],
+            {
+                context["confirmation_parameter"]: context["confirmation_value"],
+                context["confirmation_nonce_parameter"]: context["confirmation_nonce"],
+            },
+            follow=follow,
+        )
 
     def assert_notify_mailbox(self, sent_mail) -> None:
         self.assertEqual(
@@ -103,8 +123,8 @@ class RegistrationTestMixin(TestCase):
         )
 
     def confirm_tos(
-        self, user_client: TestClient, response: HttpResponse
-    ) -> HttpResponse:
+        self, user_client: TestClient, response: TestClientResponse
+    ) -> TestClientResponse:
         url = response.redirect_chain[-1][0]
         parsed_url = urlparse(url)
         parsed_query = parse_qs(parsed_url.query)

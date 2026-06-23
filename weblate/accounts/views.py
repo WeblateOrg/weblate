@@ -1967,23 +1967,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     Wrapper around social_django.views.complete:
 
     - Handles backend errors gracefully
-    - Intermediate page (autosubmitted by JavaScript) to avoid
-      confirmations by bots
     """
-    if (
-        "partial_token" in request.GET
-        and "verification_code" in request.GET
-        and "confirm" not in request.GET
-    ):
-        return render(
-            request,
-            "accounts/token.html",
-            {
-                "partial_token": request.GET["partial_token"],
-                "verification_code": request.GET["verification_code"],
-                "backend": backend,
-            },
-        )
     try:
         response = complete(request, backend)
     except (

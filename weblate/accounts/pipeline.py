@@ -14,7 +14,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.http import url_has_allowed_host_and_scheme, urlencode
+from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
@@ -234,7 +234,7 @@ def password_reset(
         user.set_unusable_password()
         user.save(update_fields=["password"])
         # Remove partial pipeline, we do not need it
-        strategy.really_clean_partial_pipeline(current_partial.token)
+        strategy.clean_partial_pipeline(current_partial.token)
         session = strategy.request.session
         # Store user ID
         session["perform_reset"] = user.pk
@@ -257,7 +257,7 @@ def remove_account(
     """Set unusable password on reset."""
     if strategy.request is not None and user is not None and weblate_action == "remove":
         # Remove partial pipeline, we do not need it
-        strategy.really_clean_partial_pipeline(current_partial.token)
+        strategy.clean_partial_pipeline(current_partial.token)
         # Set short session expiry
         session = strategy.request.session
         session["remove_confirm"] = True
@@ -294,17 +294,6 @@ def verify_open(
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
     ):
         raise AuthMissingParameter(backend, "disabled")
-
-
-def cleanup_next(strategy, **kwargs):
-    # This is mostly fix for lack of next validation in Python Social Auth
-    # see https://github.com/python-social-auth/social-core/issues/62
-    url = strategy.session_get("next")
-    if url and not url_has_allowed_host_and_scheme(url, allowed_hosts=None):
-        strategy.session_set("next", None)
-    if url_has_allowed_host_and_scheme(kwargs.get("next", ""), allowed_hosts=None):
-        return None
-    return {"next": None}
 
 
 def store_params(strategy, user: User, **kwargs):
@@ -366,7 +355,10 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
 
     PSA keeps them around, but we really don't need them again.
     """
-    data = strategy.request_data()
+    request_data = kwargs.get("request")
+    data = (
+        request_data if isinstance(request_data, Mapping) else strategy.request_data()
+    )
     if "email" in details and details["email"] and "verification_code" in data:
         try:
             code = strategy.storage.code.objects.get(
@@ -581,7 +573,7 @@ def notify_connect(
     # Remove partial pipeline
     session = strategy.request.session
     if PARTIAL_TOKEN_SESSION_NAME in session:
-        strategy.really_clean_partial_pipeline(session[PARTIAL_TOKEN_SESSION_NAME])
+        strategy.clean_partial_pipeline(session[PARTIAL_TOKEN_SESSION_NAME])
 
 
 def user_full_name(strategy, details, username, user=None, **kwargs) -> None:

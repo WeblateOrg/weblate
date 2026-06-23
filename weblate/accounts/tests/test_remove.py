@@ -21,7 +21,7 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         # Get confirmation URL
         url = self.assert_registration_mailbox("[Weblate] Account removal on Weblate")
         # Verify confirmation URL
-        response = self.client.get(url, follow=True)
+        response = self.confirm_registration_url(url, follow=True)
         self.assertContains(
             response,
             "By pressing the following button, you will no longer be able to use",
