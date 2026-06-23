@@ -38,6 +38,7 @@ Weblate 2026.7
 * :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.
 * Committing large numbers of pending translations now queues browser requests in the background and avoids duplicate repository commit tasks.
 * Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events.
+* :ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing settings.
 
 .. rubric:: Bug fixes
 

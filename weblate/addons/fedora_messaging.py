@@ -4,26 +4,71 @@
 
 from __future__ import annotations
 
+import re
+import socket
+import ssl
 from copy import deepcopy
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
+from urllib.parse import SplitResult, parse_qsl, urlencode, urlsplit, urlunsplit
 
-import fedora_messaging.api
-import fedora_messaging.config
+from cryptography import x509
+from cryptography.exceptions import UnsupportedAlgorithm
+from cryptography.hazmat.primitives import serialization
 from django.conf import settings
-from django.utils.translation import gettext_lazy
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext, gettext_lazy
 from siphashc import siphash
-from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.base import ChangeBaseAddon
+from weblate.addons.defaults import (
+    DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+    DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
+    DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
+)
 from weblate.trans.actions import get_change_action_identifier
 from weblate.trans.util import split_plural
 from weblate.utils.data import data_path
+from weblate.utils.errors import add_breadcrumb, report_error
+from weblate.utils.outbound import validate_connected_peer
 from weblate.utils.site import get_site_url
 
 from .forms import FedoraMessagingAddonForm
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+    from pathlib import Path
+
+    from django.forms.boundfield import BoundField
+    from django_stubs_ext import StrOrPromise
+    from weblate_schemas.messages import WeblateV1Message
+
     from weblate.trans.models import Category, Change, Component, Project
+
+
+PEM_BLOCK_RE = re.compile(
+    r"-----BEGIN ([A-Z0-9 ]+)-----\r?\n.*?\r?\n-----END \1-----",
+    re.DOTALL,
+)
+TLS_CREDENTIAL_FIELDS = frozenset({"ca_cert", "client_key", "client_cert"})
+TLS_PROBE_TIMEOUT = 5
+SERVICE_STOP_TIMEOUT = 5
+
+
+class BrokerSSLOptions(Protocol):
+    context: ssl.SSLContext
+    server_hostname: str | None
+
+
+class BrokerParameters(Protocol):
+    host: str
+    port: int
+    ssl_options: BrokerSSLOptions | None
+
+
+class FedoraMessagingPublishError(RuntimeError):
+    """Publish failure reported with Fedora Messaging context."""
+
+    _weblate_reported = True
 
 
 class FedoraMessagingAddon(ChangeBaseAddon):
@@ -64,7 +109,26 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     def change_event(
         self, change: Change, activity_log_id: int | None = None
     ) -> dict | None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate_schemas.messages import WeblateV1Message
+
         config = self.instance.configuration
+        connection_attempts = int(
+            config.get(
+                "connection_attempts", DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS
+            )
+        )
+        retry_delay = int(
+            config.get("retry_delay", DEFAULT_FEDORA_MESSAGING_RETRY_DELAY)
+        )
+        publish_timeout = int(
+            config.get("publish_timeout", DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT)
+        )
+        amqp_url = self.get_configured_amqp_url(
+            config["amqp_url"],
+            connection_attempts=connection_attempts,
+            retry_delay=retry_delay,
+        )
 
         # Apply configuration
         self.configure_fedora_messaging(
@@ -72,6 +136,8 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             ca_cert=config.get("ca_cert"),
             client_key=config.get("client_key"),
             client_cert=config.get("client_cert"),
+            connection_attempts=connection_attempts,
+            retry_delay=retry_delay,
         )
 
         # Build message payload
@@ -80,10 +146,131 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             headers=self.get_change_headers(change),
             body=self.get_change_body(change),
         )
-        # Publish the message
-        # We might want to handle PublishReturned and PublishTimeout exceptions from publish here
-        fedora_messaging.api.publish(message)
+        self.publish_message(message, amqp_url, change.project, timeout=publish_timeout)
         return {"message_id": message.id}
+
+    @staticmethod
+    def publish_message(
+        message: WeblateV1Message,
+        amqp_url: str,
+        project: Project | None,
+        timeout: int = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
+    ) -> None:
+        """Publish message and report Fedora Messaging failures with context."""
+        # ruff: ignore[import-outside-top-level]
+        import fedora_messaging.api
+
+        try:
+            fedora_messaging.api.publish(message, timeout=timeout)
+        except Exception as error:
+            FedoraMessagingAddon._reset_fedora_messaging_service()
+            FedoraMessagingAddon._report_publish_error(
+                message, amqp_url, project, error
+            )
+            raise FedoraMessagingPublishError(
+                FedoraMessagingAddon._get_publish_error_message(error)
+            ) from error
+
+    @staticmethod
+    def _reset_fedora_messaging_service() -> None:
+        # ruff: ignore[import-outside-top-level]
+        import fedora_messaging.api
+
+        # A timeout can leave the Twisted publisher service in a stale state.
+        # Stop and reset it so the next publish attempt creates a fresh connection.
+        # ruff: ignore[private-member-access]
+        twisted_service = fedora_messaging.api._twisted_service
+        stop_service = getattr(twisted_service, "stopService", None)
+        if callable(stop_service):
+            FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)
+        fedora_messaging.api._twisted_service = None  # noqa: SLF001
+
+    @staticmethod
+    def _stop_fedora_messaging_service(stop_service: Callable[[], object]) -> None:
+        # ruff: ignore[import-outside-top-level]
+        import crochet
+
+        @crochet.run_in_reactor
+        def stop_service_in_reactor() -> object:
+            return stop_service()
+
+        result = stop_service_in_reactor()
+        try:
+            result.wait(timeout=SERVICE_STOP_TIMEOUT)
+        except crochet.TimeoutError:
+            result.cancel()
+            report_error("Fedora Messaging service shutdown timed out", level="error")
+        except Exception:
+            report_error("Fedora Messaging service shutdown failed", level="error")
+
+    @staticmethod
+    def _report_publish_error(
+        message: WeblateV1Message,
+        amqp_url: str,
+        project: Project | None,
+        error: Exception,
+    ) -> None:
+        add_breadcrumb(
+            "fedora_messaging",
+            "Fedora Messaging publish failed",
+            level="error",
+            message_id=message.id,
+            topic=message.topic,
+            exception_class=error.__class__.__name__,
+            **FedoraMessagingAddon._get_broker_context(amqp_url),
+        )
+        report_error("Fedora Messaging publish failed", level="error", project=project)
+
+    @staticmethod
+    def _get_broker_context(amqp_url: str) -> dict[str, object]:
+        # ruff: ignore[import-outside-top-level]
+        import pika  # type: ignore[import-untyped]
+
+        try:
+            parameters = pika.URLParameters(amqp_url)
+        except (TypeError, ValueError) as error:
+            return {
+                "amqp_url_parse_error": str(error),
+            }
+        return {
+            "amqp_scheme": "amqps" if parameters.ssl_options else "amqp",
+            "amqp_host": parameters.host,
+            "amqp_port": parameters.port,
+            "connection_attempts": parameters.connection_attempts,
+            "retry_delay": parameters.retry_delay,
+        }
+
+    @staticmethod
+    def _get_publish_error_message(error: Exception) -> str:
+        # ruff: ignore[import-outside-top-level]
+        from fedora_messaging import exceptions as fedora_messaging_exceptions
+
+        if isinstance(error, fedora_messaging_exceptions.PublishTimeout):
+            return gettext(
+                "Fedora Messaging publish timed out; the broker did not confirm delivery: %(error)s"
+            ) % {"error": error}
+        if FedoraMessagingAddon._is_missing_publisher_error(error):
+            return gettext(
+                "Fedora Messaging publisher service was unavailable; the connection will be recreated on the next attempt: %(error)s"
+            ) % {"error": error}
+        if isinstance(error, fedora_messaging_exceptions.PublishReturned):
+            return gettext(
+                "Fedora Messaging broker returned the message: %(error)s"
+            ) % {"error": error}
+        if isinstance(error, fedora_messaging_exceptions.PublishForbidden):
+            return gettext(
+                "Fedora Messaging broker rejected the message: %(error)s"
+            ) % {"error": error}
+        return gettext("Fedora Messaging publish failed: %(error)s") % {"error": error}
+
+    @staticmethod
+    def _is_missing_publisher_error(error: Exception) -> bool:
+        message = str(error)
+        return (
+            isinstance(error, AttributeError)
+            and "NoneType" in message
+            and "publish" in message
+        )
 
     @staticmethod
     def get_change_topic(change: Change) -> str:
@@ -145,6 +332,11 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             result["component"] = change.component.slug
         return result
 
+    def get_setting_value(self, field: BoundField) -> StrOrPromise:
+        if field.name in TLS_CREDENTIAL_FIELDS:
+            return gettext("configured")
+        return super().get_setting_value(field)
+
     @staticmethod
     def configure_fedora_messaging(
         *,
@@ -152,9 +344,24 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         ca_cert: str | None,
         client_key: str | None,
         client_cert: str | None,
+        connection_attempts: int = DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+        retry_delay: int = DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
         force_update: bool = False,
     ) -> None:
         """Configure Fedora Messaging."""
+        # ruff: ignore[import-outside-top-level]
+
+        import fedora_messaging.config
+
+        ca_cert = FedoraMessagingAddon._normalize_pem(ca_cert)
+        client_key = FedoraMessagingAddon._normalize_pem(client_key)
+        client_cert = FedoraMessagingAddon._normalize_pem(client_cert)
+        amqp_url = FedoraMessagingAddon.get_configured_amqp_url(
+            amqp_url,
+            connection_attempts=connection_attempts,
+            retry_delay=retry_delay,
+        )
+
         # Hash certificates to detect configuration changes
         cert_hash = siphash(
             "Fedora Messaging", f"CA:{ca_cert},KEY:{client_key},CERT:{client_cert}"
@@ -171,9 +378,12 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         ):
             return
 
+        FedoraMessagingAddon.validate_tls_credentials(
+            ca_cert=ca_cert, client_key=client_key, client_cert=client_cert
+        )
+
         # Discard existing Twisted service as configuration has changed
-        # ruff: ignore[private-member-access]
-        fedora_messaging.api._twisted_service = None
+        FedoraMessagingAddon._reset_fedora_messaging_service()
 
         # Avoid loading settings file
         messaging_config.loaded = True
@@ -192,15 +402,15 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         certs_path.mkdir(parents=True, exist_ok=True)
         if ca_cert:
             ca_cert_file = certs_path / "ca.crt"
-            ca_cert_file.write_text(ca_cert)
+            FedoraMessagingAddon._write_pem_file(ca_cert_file, ca_cert)
             messaging_config["tls"]["ca_cert"] = ca_cert_file.as_posix()
         if client_key:
             key_file = certs_path / "client.key"
-            key_file.write_text(client_key)
+            FedoraMessagingAddon._write_pem_file(key_file, client_key)
             messaging_config["tls"]["keyfile"] = key_file.as_posix()
         if client_cert:
             cert_file = certs_path / "client.crt"
-            cert_file.write_text(client_cert)
+            FedoraMessagingAddon._write_pem_file(cert_file, client_cert)
             messaging_config["tls"]["certfile"] = cert_file.as_posix()
 
         # Update client properties
@@ -213,3 +423,207 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         # Validate the configuration, there is currently no public API for this
         # ruff: ignore[private-member-access]
         messaging_config._validate()
+
+    @staticmethod
+    def get_configured_amqp_url(
+        amqp_url: str, *, connection_attempts: int, retry_delay: int
+    ) -> str:
+        parsed, query = FedoraMessagingAddon._parse_amqp_url_query(amqp_url)
+        query["connection_attempts"] = str(connection_attempts)
+        query["retry_delay"] = str(retry_delay)
+        return urlunsplit(
+            (
+                parsed.scheme,
+                parsed.netloc,
+                parsed.path,
+                urlencode(query),
+                parsed.fragment,
+            )
+        )
+
+    @staticmethod
+    def get_broker_amqp_url(amqp_url: str) -> str:
+        parsed, query = FedoraMessagingAddon._parse_amqp_url_query(amqp_url)
+        return urlunsplit(
+            (
+                parsed.scheme,
+                parsed.netloc,
+                parsed.path,
+                urlencode(query),
+                parsed.fragment,
+            )
+        )
+
+    @staticmethod
+    def _parse_amqp_url_query(amqp_url: str) -> tuple[SplitResult, dict[str, str]]:
+        parsed = urlsplit(amqp_url)
+        query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        query.pop("connection_attempts", None)
+        query.pop("retry_delay", None)
+        return parsed, query
+
+    @staticmethod
+    def validate_tls_credentials(
+        *,
+        ca_cert: str | None,
+        client_key: str | None,
+        client_cert: str | None,
+    ) -> None:
+        """Validate TLS credentials accepted by Fedora Messaging."""
+        FedoraMessagingAddon._validate_pem_certificates(
+            ca_cert,
+            gettext("CA certificates must be valid PEM encoded X.509 certificates."),
+        )
+        FedoraMessagingAddon._validate_pem_private_key(
+            client_key,
+            gettext("Client SSL key must be an unencrypted PEM encoded private key."),
+        )
+        FedoraMessagingAddon._validate_pem_certificates(
+            client_cert,
+            gettext(
+                "Client SSL certificates must be valid PEM encoded X.509 certificates."
+            ),
+        )
+
+    @staticmethod
+    def validate_broker_tls(amqp_url: str, timeout: float = TLS_PROBE_TIMEOUT) -> None:
+        """Validate TLS trust against the configured Fedora Messaging broker."""
+        # ruff: ignore[import-outside-top-level]
+        import pika  # type: ignore[import-untyped]
+
+        # ruff: ignore[import-outside-top-level]
+        from fedora_messaging.exceptions import ConfigurationException
+
+        try:
+            parameters = pika.URLParameters(amqp_url)
+        except (TypeError, ValueError) as error:
+            raise ConfigurationException(
+                gettext("Fedora Messaging broker URL is invalid: %(error)s")
+                % {"error": error}
+            ) from error
+
+        if parameters.ssl_options is None:
+            return
+
+        try:
+            ssl_options = FedoraMessagingAddon._configure_broker_tls_options(parameters)
+            if ssl_options is None:
+                return
+            FedoraMessagingAddon._probe_broker_tls(parameters, ssl_options, timeout)
+        except (
+            ConfigurationException,
+            ValidationError,
+            OSError,
+            TimeoutError,
+            ssl.SSLError,
+        ) as error:
+            raise ConfigurationException(
+                gettext(
+                    "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
+                )
+                % {"error": error}
+            ) from error
+
+    @staticmethod
+    def _configure_broker_tls_options(
+        parameters: BrokerParameters,
+    ) -> BrokerSSLOptions | None:
+        # ruff: ignore[import-outside-top-level]
+        from fedora_messaging.twisted import service as fedora_messaging_service
+
+        # Use Fedora Messaging to configure TLS options so URL and TLS
+        # semantics stay aligned with the publisher implementation.
+        # ruff: ignore[private-member-access]
+        fedora_messaging_service._configure_tls_parameters(parameters)
+        return parameters.ssl_options
+
+    @staticmethod
+    def _probe_broker_tls(
+        parameters: BrokerParameters, ssl_options: BrokerSSLOptions, timeout: float
+    ) -> None:
+        with socket.create_connection(
+            (parameters.host, parameters.port), timeout=timeout
+        ) as connection:
+            connection.settimeout(timeout)
+            validate_connected_peer(
+                parameters.host,
+                FedoraMessagingAddon._get_socket_peer_ip(connection),
+                allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+                allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+            )
+            with ssl_options.context.wrap_socket(
+                connection, server_hostname=ssl_options.server_hostname
+            ):
+                pass
+
+    @staticmethod
+    def _get_socket_peer_ip(connection: socket.socket) -> str | None:
+        try:
+            peer = connection.getpeername()
+        except OSError:
+            return None
+
+        if isinstance(peer, tuple) and peer:
+            return str(peer[0])
+        return None
+
+    @staticmethod
+    def _validate_pem_certificates(value: str | None, message: str) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from fedora_messaging.exceptions import ConfigurationException
+
+        if not value:
+            return
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)
+        if not labels or any(label != "CERTIFICATE" for label in labels):
+            raise ConfigurationException(message)
+        try:
+            certificates = x509.load_pem_x509_certificates(value.encode())
+        except ValueError as error:
+            raise ConfigurationException(message) from error
+        if not certificates:
+            raise ConfigurationException(message)
+
+    @staticmethod
+    def _validate_pem_private_key(value: str | None, message: str) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from fedora_messaging.exceptions import ConfigurationException
+
+        if not value:
+            return
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)
+        if len(labels) != 1 or not labels[0].endswith("PRIVATE KEY"):
+            raise ConfigurationException(message)
+        try:
+            serialization.load_pem_private_key(value.encode(), password=None)
+        except (TypeError, ValueError, UnsupportedAlgorithm) as error:
+            raise ConfigurationException(message) from error
+
+    @staticmethod
+    def _get_pem_block_labels(value: str) -> list[str]:
+        labels: list[str] = []
+        position = 0
+        text = value.strip()
+        while position < len(text):
+            whitespace = re.match(r"\s*", text[position:])
+            if whitespace is not None:
+                position += whitespace.end()
+            match = PEM_BLOCK_RE.match(text, position)
+            if match is None:
+                return []
+            labels.append(match.group(1))
+            position = match.end()
+        return labels
+
+    @staticmethod
+    def _normalize_pem(value: str | None) -> str | None:
+        if not value:
+            return None
+        value = value.strip()
+        if not value:
+            return None
+        return f"{value}\n"
+
+    @staticmethod
+    def _write_pem_file(path: Path, value: str) -> None:
+        path.write_text(value, encoding="utf-8")
