@@ -29628,12 +29628,12 @@ components:
           description: |-
             Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
 
-            * `bitbucketcloud` - Bitbucket Cloud merge request
             * `gerrit` - Gerrit
             * `git` - Git
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
+            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -32252,12 +32252,12 @@ components:
           description: |-
             Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
 
-            * `bitbucketcloud` - Bitbucket Cloud merge request
             * `gerrit` - Gerrit
             * `git` - Git
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
+            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -33682,12 +33682,12 @@ components:
           description: |-
             Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
 
-            * `bitbucketcloud` - Bitbucket Cloud merge request
             * `gerrit` - Gerrit
             * `git` - Git
             * `git-force-push` - Git with force push
             * `local` - No remote repository
             * `mercurial` - Mercurial
+            * `subversion` - Subversion
         repo:
           type: string
           maxLength: 300
@@ -34954,20 +34954,20 @@ components:
       - uploaded
     VcsEnum:
       enum:
-      - bitbucketcloud
       - gerrit
       - git
       - git-force-push
       - local
       - mercurial
+      - subversion
       type: string
       description: |-
-        * `bitbucketcloud` - Bitbucket Cloud merge request
         * `gerrit` - Gerrit
         * `git` - Git
         * `git-force-push` - Git with force push
         * `local` - No remote repository
         * `mercurial` - Mercurial
+        * `subversion` - Subversion
     UserGroupDeleteRequest:
       type: object
       properties:
@@ -35000,7 +35000,7 @@ components:
         project tokens whose access to the API is limited to operations to their associated
         project. These tokens have the `wlp_` prefix.\n        "
 servers:
-- url: http://localhost:8000
+- url: 'http:'
   description: Weblate
 tags:
 - name: root
