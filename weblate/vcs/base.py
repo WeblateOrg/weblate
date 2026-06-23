@@ -57,6 +57,8 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.vcs")
 
 SSH_HOST_KEY_VERIFICATION_FAILED = "Host key verification failed"
+# Bump when check_config() gains settings existing repositories must refresh.
+CONFIG_CHECK_CACHE_VERSION = 2
 
 
 def get_config_check_cache_key(component_pk: int) -> str:
@@ -64,7 +66,9 @@ def get_config_check_cache_key(component_pk: int) -> str:
     wrapper_hash = hashlib.sha256(
         SSH_WRAPPER.filename.as_posix().encode("utf-8")
     ).hexdigest()
-    return f"sp-config-check-{wrapper_hash}-{component_pk}"
+    return (
+        f"sp-config-check-v{CONFIG_CHECK_CACHE_VERSION}-{wrapper_hash}-{component_pk}"
+    )
 
 
 def get_repository_lock_key(base_path: str, component: Component | None) -> int | str:

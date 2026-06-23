@@ -291,7 +291,11 @@ class GitRepository(Repository):
 
     def check_config(self) -> None:
         """Check VCS configuration."""
-        self.config_update(("push", "default", "current"))
+        self.config_update(
+            ("push", "default", "current"),
+            ("maintenance", "auto", "0"),
+            ("gc", "auto", "0"),
+        )
 
     def recover_lock_session(self) -> None:
         super().recover_lock_session()
@@ -757,6 +761,9 @@ class GitRepository(Repository):
                 # Default committer
                 ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
                 ("user", "name", settings.DEFAULT_COMMITER_NAME),
+                # Weblate schedules repository maintenance under its own lock.
+                ("maintenance", "auto", "0"),
+                ("gc", "auto", "0"),
             )
         )
         # Merge driver
