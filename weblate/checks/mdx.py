@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
@@ -14,6 +15,9 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
     from weblate.trans.models import Unit
+
+_JSX_TAG_NAME_RE = re.compile(r"[$_A-Za-z][\w.$:-]*")
+_ATTR_NAME_RE = re.compile(r"([A-Za-z_:][\w:.-]*)\s*=\s*$")
 
 # Various lexical contexts tracked while scanning a JSX expression.
 _CODE = 0
@@ -160,6 +164,114 @@ def _skip_code_span(text: str, start: int) -> int | None:
     return None
 
 
+def _scan_jsx_tag(
+    text: str, start: int, limit: int | None = None
+) -> tuple[bool, str, bool, int | None] | None:
+    """Scan a JSX tag starting at ``start``."""
+    length = len(text) if limit is None else min(limit, len(text))
+    if text[start] != "<" or start + 1 >= len(text):
+        return None
+
+    i = start + 1
+    closing = text[i] == "/"
+    if closing:
+        i += 1
+
+    tag_match = _JSX_TAG_NAME_RE.match(text, i)
+    if tag_match is None:
+        return None
+
+    tag = tag_match.group()
+    quote = ""
+    i = tag_match.end()
+    while i < length:
+        char = text[i]
+        if quote:
+            if char == "\\":
+                i += 1
+            elif char == quote:
+                quote = ""
+        elif char in {'"', "'"}:
+            quote = char
+        elif char == "{":
+            close = _scan_expression(text, i)
+            if close is None or close >= length:
+                return (closing, tag, False, None)
+            i = close
+        elif char == ">":
+            self_closing = not closing and text[start + 1 : i].rstrip().endswith("/")
+            return (closing, tag, self_closing, i)
+        elif char == "<":
+            return None
+        i += 1
+
+    return (closing, tag, False, None)
+
+
+def _iter_jsx_tags(text: str) -> Iterator[tuple[bool, str, bool]]:
+    """Yield closed JSX tags while ignoring expressions and code spans."""
+    i = 0
+    length = len(text)
+    while i < length:
+        char = text[i]
+        if char == "\\":
+            i += 2
+            continue
+        if char == "`":
+            close = _skip_code_span(text, i)
+            if close is not None:
+                i = close + 1
+                continue
+        if char == "{":
+            close = _scan_expression(text, i)
+            if close is not None:
+                i = close + 1
+                continue
+        if char == "<":
+            tag = _scan_jsx_tag(text, i)
+            if tag is not None:
+                closing, tag_name, self_closing, end = tag
+                if end is None:
+                    break
+                yield closing, tag_name, self_closing
+                i = end + 1
+                continue
+        i += 1
+
+
+def _find_unclosed_jsx_tag(text: str, start: int) -> tuple[int, str] | None:
+    """Find an opening JSX tag containing ``start``."""
+    i = 0
+    while i < start:
+        char = text[i]
+        if char == "\\":
+            i += 2
+            continue
+        if char == "`":
+            close = _skip_code_span(text, i)
+            if close is not None and close < start:
+                i = close + 1
+                continue
+        if char == "{":
+            close = _scan_expression(text, i)
+            if close is not None and close < start:
+                i = close + 1
+                continue
+        if char == "<":
+            tag = _scan_jsx_tag(text, i, start)
+            if tag is not None:
+                closing, tag_name, _self_closing, end = tag
+                if end is None:
+                    if closing:
+                        return None
+                    return (i, tag_name)
+                i = end + 1
+                continue
+        i += 1
+
+    return None
+
+
 class SafeMDXCheck(TargetCheck):
     """Check for unsafe MDX content."""
 
@@ -173,11 +285,51 @@ class SafeMDXCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Check the target has the same JSX expressions as the source."""
-        expected = list(self.get_jsx_expression_matches(source))
-        found = list(self.get_jsx_expression_matches(target))
-        return sorted(found) != sorted(expected)
+        expected = list(self.get_jsx_expression_signatures(source))
+        found = list(self.get_jsx_expression_signatures(target))
+        return found != expected
+
+    def get_jsx_expression_signatures(
+        self, text: str
+    ) -> Iterator[tuple[str, str, tuple[str, ...], str]]:
+        """Extract JSX expressions together with their syntactic context."""
+        for start, expression in self._iter_jsx_expressions(text):
+            yield (*self.get_jsx_expression_context(text, start), expression)
+
+    def get_jsx_expression_context(
+        self, text: str, start: int
+    ) -> tuple[str, str, tuple[str, ...]]:
+        """Return whether an expression appears in JSX text or an attribute."""
+        stack = self.get_jsx_element_stack(text[:start])
+        tag_context = _find_unclosed_jsx_tag(text, start)
+        if tag_context is not None:
+            tag_start, tag = tag_context
+            before_expression = text[tag_start + 1 : start]
+            stack = (*stack, tag)
+            attr_match = _ATTR_NAME_RE.search(before_expression)
+            if attr_match:
+                return ("attribute", attr_match.group(1), stack)
+            return ("tag", "", stack)
+        return ("text", "", stack)
+
+    def get_jsx_element_stack(self, text: str) -> tuple[str, ...]:
+        """Return a best-effort stack of JSX elements open at the end of text."""
+        stack: list[str] = []
+        for closing, tag, self_closing in _iter_jsx_tags(text):
+            if closing:
+                for index in range(len(stack) - 1, -1, -1):
+                    if stack[index] == tag:
+                        del stack[index:]
+                        break
+            elif not self_closing:
+                stack.append(tag)
+        return tuple(stack)
 
     def get_jsx_expression_matches(self, text: str) -> Iterator[str]:
+        for _start, expression in self._iter_jsx_expressions(text):
+            yield expression
+
+    def _iter_jsx_expressions(self, text: str) -> Iterator[tuple[int, str]]:
         i = 0
         length = len(text)
         while i < length:
@@ -196,7 +348,7 @@ class SafeMDXCheck(TargetCheck):
                 # JSX expression
                 close = _scan_expression(text, i)
                 if close is not None:
-                    yield text[i : close + 1]
+                    yield i, text[i : close + 1]
                     i = close + 1
                     continue
             i += 1
