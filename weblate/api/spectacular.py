@@ -123,6 +123,8 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         },
         "POSTPROCESSING_HOOKS": [
             "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
+            "weblate.api.docs.strip_field_choice_descriptions",
+            "weblate.api.docs.document_all_static_vcs_choices",
             "weblate.api.docs.add_middleware_headers",
             "weblate.api.docs.simplify_license_schema",
             "weblate.api.docs.document_user_group_delete_body",

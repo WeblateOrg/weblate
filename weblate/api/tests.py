@@ -35,6 +35,7 @@ from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.models import Addon
+from weblate.api.docs import DOCS_OPENAPI_ALL_VCS_CHOICES_ENV
 from weblate.api.serializers import (
     CommentSerializer,
     ComponentSerializer,
@@ -86,6 +87,7 @@ from weblate.utils.state import (
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 TEST_PO = get_test_file("cs.po")
@@ -13106,6 +13108,48 @@ class OpenAPITest(APIBaseTest):
         schema = self.get_schema()
         required = schema["components"]["schemas"]["Metrics"]["required"]
         self.assertNotIn("version", required)
+
+    def test_vcs_enum_schema_matches_runtime_choices(self) -> None:
+        schema = self.get_schema()
+        schemas = schema["components"]["schemas"]
+        vcs_schema = schemas["VcsEnum"]
+        field_description = schemas["Component"]["properties"]["vcs"]["description"]
+        severity_description = schemas["Announcement"]["properties"]["severity"][
+            "description"
+        ]
+        enum = vcs_schema["enum"]
+        expected = [value for value, _label in VCS_REGISTRY.get_choices()]
+
+        self.assertEqual(enum, expected)
+        self.assertNotIn("github", enum)
+        self.assertIn("* `git` - Git", vcs_schema["description"])
+        self.assertEqual(
+            field_description,
+            "Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.",
+        )
+        self.assertNotIn("* `git`", field_description)
+        self.assertEqual(
+            severity_description,
+            "Severity defines color used for the message.",
+        )
+        self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
+        self.assertNotIn("* `info`", severity_description)
+
+    def test_static_vcs_enum_schema_includes_all_configured_choices(self) -> None:
+        with patch.dict(os.environ, {DOCS_OPENAPI_ALL_VCS_CHOICES_ENV: "1"}):
+            schema = self.get_schema()
+
+        schemas = schema["components"]["schemas"]
+        vcs_schema = schemas["VcsEnum"]
+        field_description = schemas["Component"]["properties"]["vcs"]["description"]
+        enum = vcs_schema["enum"]
+        expected = [value for value, _label in VCS_REGISTRY.get_unfiltered_choices()]
+
+        self.assertEqual(enum, expected)
+        self.assertIn("github", enum)
+        self.assertIn("* `github` - GitHub pull request", vcs_schema["description"])
+        self.assertNotIn("* `git`", field_description)
+        self.assertNotIn("* `github`", field_description)
 
     def test_user_groups_schema_includes_language_limits(self) -> None:
         schema = self.get_schema()

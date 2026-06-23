@@ -28566,13 +28566,7 @@ components:
         severity:
           allOf:
           - $ref: '#/components/schemas/SeverityEnum'
-          description: |-
-            Severity defines color used for the message.
-
-            * `info` - Info (light blue)
-            * `warning` - Warning (yellow)
-            * `danger` - Danger (red)
-            * `success` - Success (green)
+          description: Severity defines color used for the message.
         expiry:
           type:
           - string
@@ -28725,13 +28719,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -28741,23 +28729,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -28986,12 +28959,8 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommentScopeEnum'
           writeOnly: true
-          description: |-
-            Is your comment specific to this translation, or generic for all of them?
-
-            * `report` - report
-            * `global` - global
-            * `translation` - translation
+          description: Is your comment specific to this translation, or generic for
+            all of them?
         comment:
           type: string
           title: Comment text
@@ -29135,15 +29104,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -29280,13 +29243,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -29296,23 +29253,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -29335,14 +29277,7 @@ components:
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -29368,12 +29303,8 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
@@ -31564,13 +31495,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -31580,23 +31505,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -31727,15 +31637,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -31872,13 +31776,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -31888,23 +31786,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -31927,14 +31810,7 @@ components:
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -31960,12 +31836,8 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
@@ -32490,12 +32362,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommitPolicyEnum'
           title: Translation quality filter
-          description: |-
-            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
-
-            * `0` - Commit all translations regardless of quality
-            * `20` - Skip translations marked as needing editing
-            * `30` - Only include approved translations
+          description: Select which translations should be included when committing
+            changes. More restrictive options will skip translations with potential
+            quality issues.
           minimum: -2147483648
           maximum: 2147483647
         workspace:
@@ -32547,13 +32416,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -32562,23 +32425,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -32899,12 +32747,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommitPolicyEnum'
           title: Translation quality filter
-          description: |-
-            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
-
-            * `0` - Commit all translations regardless of quality
-            * `20` - Skip translations marked as needing editing
-            * `30` - Only include approved translations
+          description: Select which translations should be included when committing
+            changes. More restrictive options will skip translations with potential
+            quality issues.
           minimum: -2147483648
           maximum: 2147483647
         workspace:
@@ -32956,13 +32801,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -32971,23 +32810,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -33157,15 +32981,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -33302,13 +33120,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -33318,23 +33130,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -33357,14 +33154,7 @@ components:
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -33390,12 +33180,8 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
@@ -34432,19 +34218,33 @@ components:
       - uploaded
     VcsEnum:
       enum:
+      - azure_devops
+      - bitbucketcloud
+      - bitbucketserver
       - gerrit
       - git
       - git-force-push
+      - gitea
+      - github
+      - gitlab
       - local
       - mercurial
+      - pagure
       - subversion
       type: string
       description: |-
+        * `azure_devops` - Azure DevOps pull request
+        * `bitbucketcloud` - Bitbucket Cloud merge request
+        * `bitbucketserver` - Bitbucket Data Center pull request
         * `gerrit` - Gerrit
         * `git` - Git
         * `git-force-push` - Git with force push
+        * `gitea` - Gitea pull request
+        * `github` - GitHub pull request
+        * `gitlab` - GitLab merge request
         * `local` - No remote repository
         * `mercurial` - Mercurial
+        * `pagure` - Pagure merge request
         * `subversion` - Subversion
     UserGroupDeleteRequest:
       type: object
