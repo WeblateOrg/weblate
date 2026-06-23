@@ -92,7 +92,7 @@ class LibreCheckAlert:
 
 def get_component_billing_alerts(component: Component) -> list[LibreCheckAlert]:
     result = []
-    for alert in component.alert_set.all():
+    for alert in component.all_alerts.values():
         try:
             alert_class = get_alert_class(alert.name)
         except KeyError:
@@ -970,7 +970,7 @@ class Billing(models.Model):
             components = components.prefetch_related(
                 Prefetch(
                     "alert_set",
-                    queryset=Alert.objects.order_by("-severity", "name"),
+                    queryset=Alert.objects.order_component(),
                 )
             )
         yield LibreCheck(

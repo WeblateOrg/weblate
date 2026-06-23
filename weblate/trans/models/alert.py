@@ -22,6 +22,12 @@ from weblate.trans.alerts.registry import (
 if TYPE_CHECKING:
     from weblate.auth.models import User
 
+SEVERITY_BADGE_CLASSES: dict[int, str] = {
+    AlertSeverity.INFO: "text-bg-info",
+    AlertSeverity.WARNING: "text-bg-warning",
+    AlertSeverity.ERROR: "text-bg-danger",
+}
+
 __all__ = [
     "ALERTS",
     "ALERTS_IMPORT",
@@ -90,3 +96,7 @@ class Alert(models.Model):
     @property
     def is_problem(self) -> bool:
         return self.severity >= AlertSeverity.ERROR
+
+    @property
+    def severity_class(self) -> str:
+        return SEVERITY_BADGE_CLASSES.get(self.severity, "text-bg-secondary")

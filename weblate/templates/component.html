@@ -21,7 +21,17 @@
     </li>
     {% if alerts %}
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">{% translate "Diagnostics" %}</a>
+        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">
+          {% translate "Diagnostics" %}
+          {% if problem_alerts_count %}
+            <span class="badge text-bg-danger">
+              {{ problem_alerts_count }}
+              <span class="visually-hidden">
+                {% blocktranslate count count=problem_alerts_count %}error{% plural %}errors{% endblocktranslate %}
+              </span>
+            </span>
+          {% endif %}
+        </a>
       </li>
     {% endif %}
     <li class="nav-item">
@@ -213,7 +223,7 @@
                 {% documentation_icon alert.obj.doc_page alert.obj.doc_anchor right=True %}
               {% endif %}
               {{ alert }}
-              <span class="badge text-bg-secondary">{{ alert.get_severity_display }}</span>
+              <span class="badge {{ alert.severity_class }}">{{ alert.get_severity_display }}</span>
               {% if alert.dismissed %}
                 <span class="badge  text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
