@@ -144,6 +144,61 @@ Below the translation, translators will find suggestions made by others, to be a
 accepted with changes (✏️), bulk accepted for a specific user (👤✓),
 cloned into the translation fields (📑) or deleted (🗑).
 
+.. _translating-special-text:
+
+Translating special text safely
++++++++++++++++++++++++++++++++
+
+Some source strings contain text that the application interprets at runtime.
+Translate the human-readable parts, but keep technical markers intact unless
+the project instructions say otherwise.
+
+Placeholders and format strings
+    Keep variables such as ``%s``, ``%1$d``, ``%(name)s``, ``{count}``,
+    ``{{ value }}``, or similar markers in the translation. Named placeholders
+    describe the inserted value, but the names themselves are not translated.
+    You can usually reorder numbered or named placeholders to fit the target
+    language. Use the placeable copy shortcuts to insert them without typing
+    mistakes.
+Markup
+    Keep HTML and XML tags, tag names, and attribute names unchanged. Translate
+    the visible text between tags and any attribute value that is meant for
+    users, for example alternative text or a tooltip, when it appears as part
+    of the translatable string. Make sure opening and closing tags still match
+    after reordering the sentence.
+Program syntax
+    Leave function names, commands, environment variables, spreadsheet
+    functions, SQL keywords, and similar program syntax untranslated unless the
+    project explicitly documents a localized form.
+Punctuation and whitespace
+    Preserve punctuation and spaces that affect the interface, such as
+    trailing colons, ellipses, leading or trailing spaces, and punctuation next
+    to placeholders. Follow the target language's typography when it differs
+    from the source, and use comments when a source punctuation choice looks
+    wrong.
+Accelerators
+    Menu labels can mark keyboard accelerators with characters such as ``&``,
+    ``_``, or ``~``. When the source has an accelerator, keep one in the
+    translation. Choose a readable key in the translated label and avoid
+    obvious conflicts with nearby menu items or buttons.
+Plural forms
+    Translate each plural field Weblate shows. Do not combine forms into a
+    single construction such as ``file(s)`` unless that is correct for the
+    target language and project. If the source string uses an ambiguous plural,
+    report it with a source string comment or review.
+
+Weblate quality checks catch many technical mistakes in placeholders, markup,
+punctuation, whitespace, and plural forms. They do not replace translator
+judgment, so use :ref:`source-context`, :doc:`/user/glossary`, and
+:ref:`user-comments` when the source text needs clarification.
+
+.. seealso::
+
+   * :doc:`/user/checks`
+   * :ref:`plurals`
+   * :ref:`source-context`
+   * :ref:`user-comments`
+
 .. _plurals:
 
 Plurals

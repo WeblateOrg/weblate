@@ -65,3 +65,15 @@ To consolidate identical strings into a single translation unit, enable
    Enabling this option disables line-based context for the merged units,
    ensuring that translations remain stable even if rows or sections
    are moved within the document.
+
+.. _markdown-frontmatter-values:
+
+Translating front matter values
++++++++++++++++++++++++++++++++
+
+By default, YAML front matter is extracted as a single translatable block.
+Enable :guilabel:`Translate front matter values` in
+:ref:`component-file_format_params` to parse YAML front matter and translate
+only scalar string values while preserving keys, structure, comments, and
+formatting when possible.
+The same setting is available for :ref:`mdx` files.

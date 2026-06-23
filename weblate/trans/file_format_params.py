@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
     from translate.storage.base import TranslationStore
+    from translate.storage.csvl10n import csvfile
     from translate.storage.jsonl10n import JsonFile
     from translate.storage.pypo import pofile
     from translate.storage.yaml import YAMLFile
@@ -51,12 +52,14 @@ class FileFormatParams(TypedDict, total=False):
     strings_encoding: str
     properties_encoding: str
     csv_encoding: str
+    csv_escape_formulas: bool
     csv_simple_encoding: str
     dos_eol: bool
     gwt_encoding: str
     line_max_length: int
     md_extract_code_blocks: bool
     md_extract_frontmatter: bool
+    md_frontmatter_translate_values: bool
     md_no_placeholders: bool
     merge_duplicates: bool
 
@@ -86,12 +89,14 @@ FileFormatParamKey = Literal[
     "strings_encoding",
     "properties_encoding",
     "csv_encoding",
+    "csv_escape_formulas",
     "csv_simple_encoding",
     "gwt_encoding",
     "merge_duplicates",
     "line_max_length",
     "md_extract_code_blocks",
     "md_extract_frontmatter",
+    "md_frontmatter_translate_values",
     "md_no_placeholders",
 ]
 
@@ -649,6 +654,24 @@ class CSVSimpleEncoding(BaseFileFormatParam):
 
 
 @register_file_format_param
+class CSVFormulaEscaping(BaseFileFormatParam):
+    file_formats = ("csv", "csv-multi", "csv-simple")
+    name = "csv_escape_formulas"
+    label = gettext_lazy("Escape spreadsheet formulas")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Prefix values that look like spreadsheet formulas with an apostrophe "
+        "when saving CSV files."
+    )
+
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
+        cast("csvfile", store).escape_formulas = self.get_value(file_format_params)
+
+
+@register_file_format_param
 class GWTEncoding(BaseFileFormatParam):
     name = "gwt_encoding"
     file_formats = ("gwt",)
@@ -708,6 +731,19 @@ class MdExtractFrontmatter(BaseFileFormatParam):
     default = True
     help_text = gettext_lazy(
         "Whether to extract and translate YAML front matter blocks in Markdown and MDX files."
+    )
+
+
+@register_file_format_param
+class MdFrontmatterTranslateValues(BaseFileFormatParam):
+    name = "md_frontmatter_translate_values"
+    file_formats = ("markdown", "mdx")
+    label = gettext_lazy("Translate front matter values")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Parse YAML front matter and translate only scalar string values. "
+        "Keys, structure, comments, and formatting are preserved when possible."
     )
 
 

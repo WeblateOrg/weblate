@@ -68,8 +68,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
 
         # Apply configuration
         self.configure_fedora_messaging(
-            amqp_host=config["amqp_host"],
-            amqp_ssl=config.get("amqp_ssl", False),
+            amqp_url=config["amqp_url"],
             ca_cert=config.get("ca_cert"),
             client_key=config.get("client_key"),
             client_cert=config.get("client_cert"),
@@ -149,17 +148,13 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     @staticmethod
     def configure_fedora_messaging(
         *,
-        amqp_host: str,
-        amqp_ssl: bool,
+        amqp_url: str,
         ca_cert: str | None,
         client_key: str | None,
         client_cert: str | None,
         force_update: bool = False,
     ) -> None:
         """Configure Fedora Messaging."""
-        # Build AMQP URL, the parameters might be configurable
-        amqp_url = f"{'amqps' if amqp_ssl else 'amqp'}://{amqp_host}?connection_attempts=3&retry_delay=5"
-
         # Hash certificates to detect configuration changes
         cert_hash = siphash(
             "Fedora Messaging", f"CA:{ca_cert},KEY:{client_key},CERT:{client_cert}"

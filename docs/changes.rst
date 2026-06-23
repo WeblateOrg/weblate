@@ -7,6 +7,8 @@ Weblate 2026.7
 
 * Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
+* :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
+* Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
 
 .. rubric:: Improvements
 
@@ -55,10 +57,11 @@ Weblate 2026.7
 * :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
 * API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
+* Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs.
 
 .. rubric:: Compatibility
 
-* :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, making categorized same-named components distinguishable.
+* :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, and broker settings are stored as an AMQP URL with existing host and SSL settings migrated automatically.
 
 .. rubric:: Upgrading
 

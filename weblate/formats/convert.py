@@ -12,11 +12,12 @@ import shutil
 from collections import defaultdict, deque
 from io import BytesIO
 from operator import attrgetter
-from typing import IO, TYPE_CHECKING, Any, ClassVar, NoReturn, cast
+from typing import IO, TYPE_CHECKING, Any, ClassVar, NoReturn, Protocol, cast
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
+from translate.convert import convert as tt_convert
 from translate.convert.po2asciidoc import AsciiDocTranslator
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
@@ -50,6 +51,7 @@ from weblate.trans.file_format_params import (
     LineMaxLength,
     MdExtractCodeBlocks,
     MdExtractFrontmatter,
+    MdFrontmatterTranslateValues,
     MdNoPlaceholders,
     MergeDuplicates,
 )
@@ -68,6 +70,17 @@ if TYPE_CHECKING:
     from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
+
+
+class MarkdownTranslatorLike(Protocol):
+    inputstore: TranslationStore
+    outputthreshold: int | None
+    maxlength: int
+    extract_code_blocks: bool
+    extract_frontmatter: bool
+    no_placeholders: bool
+
+    def lookup(self, string: str) -> str: ...
 
 
 # TODO: the type ignore is wrong, we probably need some shared base class
@@ -420,7 +433,47 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
 
     def get_save_translator_class(self) -> type[Any]:
         """Return translator class for saving."""
-        return self.get_translator_class()
+        translator_class = self.get_translator_class()
+
+        class WeblateMarkdownTranslator(translator_class):  # type: ignore[valid-type, misc]
+            def lookup(self, string: str) -> str:
+                unit = self.inputstore.sourceindex.get(string, None)
+                if unit is None:
+                    return string
+                unit = unit[0]
+                if unit.istranslated():
+                    return unit.target
+                if self.includefuzzy and unit.isfuzzy():
+                    return unit.target
+                return unit.source
+
+        return WeblateMarkdownTranslator
+
+    def translate_markdown(
+        self,
+        converter: MarkdownTranslatorLike,
+        templatefile: IO[bytes],
+        outputfile: IO[bytes],
+    ) -> int:
+        """Translate Markdown using the parser class directly."""
+        if not tt_convert.should_output_store(
+            converter.inputstore, converter.outputthreshold
+        ):
+            return False
+
+        outputstore = self.get_parser_class()(
+            inputfile=templatefile,
+            callback=converter.lookup,
+            max_line_length=converter.maxlength if converter.maxlength > 0 else None,
+            extract_code_blocks=converter.extract_code_blocks,
+            extract_frontmatter=converter.extract_frontmatter,
+            frontmatter_translate_values=MdFrontmatterTranslateValues.get_value(
+                self.file_format_params
+            ),
+            no_placeholders=converter.no_placeholders,
+        )
+        outputfile.write(outputstore.filesrc.encode("utf-8"))
+        return 1
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
@@ -436,6 +489,9 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
                     self.file_format_params
                 ),
                 extract_frontmatter=MdExtractFrontmatter.get_value(
+                    self.file_format_params
+                ),
+                frontmatter_translate_values=MdFrontmatterTranslateValues.get_value(
                     self.file_format_params
                 ),
                 no_placeholders=MdNoPlaceholders.get_value(self.file_format_params),
@@ -476,7 +532,10 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
             if hasattr(templatename, "name"):
                 templatename = templatename.name
             with open(templatename, "rb") as templatefile:
-                converter.translate(templatefile, handle)
+                if MdFrontmatterTranslateValues.get_value(self.file_format_params):
+                    self.translate_markdown(converter, templatefile, handle)
+                else:
+                    converter.translate(templatefile, handle)
 
     @staticmethod
     def mimetype() -> str:
@@ -526,7 +585,7 @@ class MDXFormat(MarkdownFormat):
     def get_save_translator_class(self) -> type[Any]:
         """Return translator class for saving."""
         if MergeDuplicates.get_value(self.file_format_params):
-            return self.get_translator_class()
+            return super().get_save_translator_class()
 
         # Lazy import as mistletoe is expensive
         # ruff: ignore[import-outside-top-level]
@@ -557,7 +616,7 @@ class MDXFormat(MarkdownFormat):
                     if not unit.isheader():
                         self._source_units[get_string(unit.source)].append(unit)
 
-            def _lookup(self, string: str) -> str:
+            def lookup(self, string: str) -> str:
                 units = self._source_units.get(string)
                 if not units:
                     return string
@@ -567,6 +626,9 @@ class MDXFormat(MarkdownFormat):
                 if self.includefuzzy and unit.isfuzzy():
                     return get_string(unit.target)
                 return get_string(unit.source)
+
+            def _lookup(self, string: str) -> str:
+                return self.lookup(string)
 
         return ContextMDXTranslator
 

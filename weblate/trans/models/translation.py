@@ -2126,10 +2126,12 @@ class Translation(
                 component.push_if_needed()
 
         # Remove blank directory if still present (appstore)
-        filename = Path(self.get_filename())
-        if filename.is_dir():
-            with suppress(OSError):
-                filename.rmdir()
+        validated_filename = self.get_filename()
+        if validated_filename is not None:
+            filename = Path(validated_filename)
+            if filename.is_dir():
+                with suppress(OSError):
+                    filename.rmdir()
 
         # Record change
         component.change_set.create(

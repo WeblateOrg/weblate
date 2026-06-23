@@ -14,6 +14,7 @@ from django.db.models import Count
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
@@ -488,7 +489,10 @@ def delete_screenshot(request: AuthenticatedHttpRequest, pk):
 
     messages.success(request, gettext("Screenshot %s has been deleted.") % obj.name)
 
-    return redirect("screenshots", path=component.get_url_path())
+    return redirect_next(
+        request.POST.get("next"),
+        reverse("screenshots", kwargs={"path": component.get_url_path()}),
+    )
 
 
 def get_screenshot(request: AuthenticatedHttpRequest, pk):

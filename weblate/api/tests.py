@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import operator
 import os
 import tempfile
 import zipfile
@@ -35,6 +36,7 @@ from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.models import Addon
+from weblate.api.docs import DOCS_OPENAPI_ALL_VCS_CHOICES_ENV
 from weblate.api.serializers import (
     CommentSerializer,
     ComponentSerializer,
@@ -86,6 +88,7 @@ from weblate.utils.state import (
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 TEST_PO = get_test_file("cs.po")
@@ -5183,6 +5186,95 @@ class ProjectAPITest(APIBaseTest):
         self.assertIn("internal or non-public address", str(response.data))
         self.assertIn("site administrator", str(response.data))
         self.assertIn("site-wide or allowlisted", str(response.data))
+
+    def test_project_backups(self) -> None:
+        self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            superuser=False,
+        )
+
+        self.do_request(
+            "api:project-backups-download",
+            self.project_kwargs | {"backup": "123456.zip"},
+            method="get",
+            code=403,
+            superuser=False,
+        )
+
+        self.component.project.add_user(self.user, "Administration")
+
+        response = self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=False,
+        )
+        initial_count = len(response.data)
+
+        response = self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="post",
+            code=202,
+            superuser=False,
+        )
+        self.assertEqual(
+            "Backup scheduled. It will be available soon.", response.data["detail"]
+        )
+        task_url = response.data["task_url"]
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "SUCCESS"
+
+            def ready(self):
+                return True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                task_url,
+                method="get",
+                code=200,
+                superuser=False,
+            )
+
+        response = self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=False,
+        )
+
+        self.assertEqual(len(response.data), initial_count + 1)
+
+        backup_name = max(response.data, key=operator.itemgetter("timestamp"))["name"]
+
+        self.do_request(
+            "api:project-backups-download",
+            self.project_kwargs | {"backup": "99999999.zip"},
+            method="get",
+            code=404,
+            superuser=False,
+        )
+
+        response = self.do_request(
+            "api:project-backups-download",
+            self.project_kwargs | {"backup": backup_name},
+            method="get",
+            code=200,
+            superuser=False,
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        if response.streaming:
+            # consume stream to avoid unclosed file warnings
+            b"".join(response.streaming_content)
 
 
 class ComponentAPITest(APIBaseTest):
@@ -13106,6 +13198,48 @@ class OpenAPITest(APIBaseTest):
         schema = self.get_schema()
         required = schema["components"]["schemas"]["Metrics"]["required"]
         self.assertNotIn("version", required)
+
+    def test_vcs_enum_schema_matches_runtime_choices(self) -> None:
+        schema = self.get_schema()
+        schemas = schema["components"]["schemas"]
+        vcs_schema = schemas["VcsEnum"]
+        field_description = schemas["Component"]["properties"]["vcs"]["description"]
+        severity_description = schemas["Announcement"]["properties"]["severity"][
+            "description"
+        ]
+        enum = vcs_schema["enum"]
+        expected = [value for value, _label in VCS_REGISTRY.get_choices()]
+
+        self.assertEqual(enum, expected)
+        self.assertNotIn("github", enum)
+        self.assertIn("* `git` - Git", vcs_schema["description"])
+        self.assertEqual(
+            field_description,
+            "Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.",
+        )
+        self.assertNotIn("* `git`", field_description)
+        self.assertEqual(
+            severity_description,
+            "Severity defines color used for the message.",
+        )
+        self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
+        self.assertNotIn("* `info`", severity_description)
+
+    def test_static_vcs_enum_schema_includes_all_configured_choices(self) -> None:
+        with patch.dict(os.environ, {DOCS_OPENAPI_ALL_VCS_CHOICES_ENV: "1"}):
+            schema = self.get_schema()
+
+        schemas = schema["components"]["schemas"]
+        vcs_schema = schemas["VcsEnum"]
+        field_description = schemas["Component"]["properties"]["vcs"]["description"]
+        enum = vcs_schema["enum"]
+        expected = [value for value, _label in VCS_REGISTRY.get_unfiltered_choices()]
+
+        self.assertEqual(enum, expected)
+        self.assertIn("github", enum)
+        self.assertIn("* `github` - GitHub pull request", vcs_schema["description"])
+        self.assertNotIn("* `git`", field_description)
+        self.assertNotIn("* `github`", field_description)
 
     def test_user_groups_schema_includes_language_limits(self) -> None:
         schema = self.get_schema()
