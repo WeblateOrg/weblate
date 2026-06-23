@@ -1134,7 +1134,11 @@ onReady(() => {
       if (storedRaw) {
         const storedValue = JSON.parse(storedRaw);
         for (const [key, value] of Object.entries(storedValue)) {
-          form.querySelectorAll(`[name=${key}]`).forEach((target) => {
+          if (!key) {
+            continue;
+          }
+          const selector = `[name="${CSS.escape(key)}"]`;
+          form.querySelectorAll(selector).forEach((target) => {
             if (target.type === "checkbox") {
               target.checked = value;
             } else {
@@ -1149,10 +1153,14 @@ onReady(() => {
       form.addEventListener("submit", (_e) => {
         const data = {};
         form.querySelectorAll("input[type=checkbox]").forEach((checkbox) => {
-          data[checkbox.name] = checkbox.checked;
+          if (checkbox.name) {
+            data[checkbox.name] = checkbox.checked;
+          }
         });
         form.querySelectorAll("select").forEach((select) => {
-          data[select.name] = select.value;
+          if (select.name) {
+            data[select.name] = select.value;
+          }
         });
         window.localStorage[form.dataset.persist] = JSON.stringify(data);
       });
