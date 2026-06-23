@@ -915,9 +915,10 @@ Projects
     :type web: string
     :param workspace: Optional workspace UUID. Creating a project in a workspace
                        requires :guilabel:`Add projects to workspace` permission
-                       for that workspace. Creating a project without a
-                       workspace requires the site-wide :guilabel:`Add new
-                       projects` permission. See
+                       for that workspace. When omitted, Weblate can use the
+                       only eligible workspace. Creating a project without an
+                       eligible workspace requires the site-wide
+                       :guilabel:`Add new projects` permission. See
                        :ref:`workspace-project-creation`.
     :type workspace: string
 
@@ -1498,6 +1499,41 @@ Projects
     :type project: string
     :param announcement_id: ID of the announcement to delete
     :type announcement_id: integer
+
+.. http:get:: /api/projects/(string:project)/backups/
+
+   .. versionadded:: 2026.7
+
+    Returns a list of :ref:`projectbackup` archives.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json string name: Backup file name, for example ``1718803200.zip``
+    :>json string timestamp: Backup creation time in ISO 8601 format
+    :>json int size: Backup file size in bytes
+
+.. http:post:: /api/projects/(string:project)/backups/
+
+   .. versionadded:: 2026.7
+
+    Schedules creation of a new :ref:`projectbackup` archive. Once ready, the backup appears in
+    :http:get:`/api/projects/(string:project)/backups/`.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json string detail: Result message
+    :>json string url: URL to list backups
+
+.. http:get:: /api/projects/(string:project)/backups/(string:backup)/
+
+   .. versionadded:: 2026.7
+
+    Downloads a :ref:`projectbackup` archive.
+
+    :param project: Project URL slug
+    :type project: string
+    :param backup: Backup file name, e.g. ``1718803200.zip``
+    :type backup: string
 
 Components
 ++++++++++

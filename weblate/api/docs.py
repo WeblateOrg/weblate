@@ -13,6 +13,8 @@ from drf_spectacular.plumbing import (
 from drf_spectacular.settings import spectacular_settings
 from drf_spectacular.utils import OpenApiParameter
 
+from weblate.utils.environment import get_env_bool
+
 from .middleware import (
     RATELIMIT_LIMIT_HEADER,
     RATELIMIT_REMAINING_HEADER,
@@ -20,6 +22,11 @@ from .middleware import (
 )
 
 LICENSE_ENUM_REF = "#/components/schemas/LicenseEnum"
+DOCS_OPENAPI_ALL_VCS_CHOICES_ENV = "WEBLATE_DOCS_OPENAPI_ALL_VCS_CHOICES"
+ENUM_CHOICE_DESCRIPTION_PREFIX = "* `"
+ENUM_CHOICE_DESCRIPTION_SEPARATOR = f"\n\n{ENUM_CHOICE_DESCRIPTION_PREFIX}"
+SCHEMA_REF_PREFIX = "#/components/schemas/"
+VCS_ENUM_SCHEMA_NAME = "VcsEnum"
 LICENSE_SCHEMA_EXAMPLES = (
     "MIT",
     "GPL-3.0-or-later",
@@ -96,6 +103,90 @@ def simplify_license_schema(result, generator, request, public):
     """Document component licenses as strings instead of a huge enum."""
     result.get("components", {}).get("schemas", {}).pop("LicenseEnum", None)
     _replace_license_schema(result)
+    return result
+
+
+def _build_choice_description(choices) -> str:
+    return "\n".join(f"* `{value}` - {label}" for value, label in choices)
+
+
+def _is_enum_ref(ref: object) -> bool:
+    return (
+        isinstance(ref, str)
+        and ref.startswith(SCHEMA_REF_PREFIX)
+        and ref.endswith("Enum")
+    )
+
+
+def _has_direct_enum_ref(schema: object) -> bool:
+    if not isinstance(schema, dict):
+        return False
+
+    if _is_enum_ref(schema.get("$ref")):
+        return True
+
+    items = schema.get("items")
+    if isinstance(items, dict) and _has_direct_enum_ref(items):
+        return True
+
+    for key in ("allOf", "anyOf", "oneOf"):
+        options = schema.get(key)
+        if isinstance(options, list) and any(
+            _has_direct_enum_ref(item) for item in options
+        ):
+            return True
+
+    return False
+
+
+def _strip_choice_description(description: str) -> str:
+    if description.startswith(ENUM_CHOICE_DESCRIPTION_PREFIX):
+        return ""
+    if ENUM_CHOICE_DESCRIPTION_SEPARATOR in description:
+        return description.partition(ENUM_CHOICE_DESCRIPTION_SEPARATOR)[0]
+    return description
+
+
+def _strip_enum_choice_descriptions(schema: object) -> None:
+    if isinstance(schema, dict):
+        description = schema.get("description")
+        if isinstance(description, str) and _has_direct_enum_ref(schema):
+            description = _strip_choice_description(description)
+            if description:
+                schema["description"] = description
+            else:
+                schema.pop("description")
+
+        for value in schema.values():
+            _strip_enum_choice_descriptions(value)
+
+    elif isinstance(schema, list):
+        for item in schema:
+            _strip_enum_choice_descriptions(item)
+
+
+def strip_field_choice_descriptions(result, generator, request, public):
+    """Keep enum choices on shared components, not on every referencing field."""
+    _strip_enum_choice_descriptions(result.get("components", {}).get("schemas", {}))
+    return result
+
+
+def document_all_static_vcs_choices(result, generator, request, public):
+    """Document all VCS backends when generating the shipped static schema."""
+    if not get_env_bool(DOCS_OPENAPI_ALL_VCS_CHOICES_ENV):
+        return result
+
+    schemas = result.get("components", {}).get("schemas", {})
+    vcs_schema = schemas.get(VCS_ENUM_SCHEMA_NAME)
+    if not isinstance(vcs_schema, dict):
+        return result
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.vcs.models import VCS_REGISTRY
+
+    choices = VCS_REGISTRY.get_unfiltered_choices()
+    vcs_schema["enum"] = [value for value, _label in choices]
+    vcs_schema["description"] = _build_choice_description(choices)
     return result
 
 

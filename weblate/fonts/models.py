@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from typing import ClassVar
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
@@ -45,7 +47,9 @@ class Font(models.Model, UserDisplayMixin):
     )
 
     class Meta:
-        unique_together = [("family", "style", "project")]  # ruff: ignore[mutable-class-default]
+        unique_together: ClassVar[list[tuple[str, str, str]]] = [
+            ("family", "style", "project")
+        ]
         verbose_name = "Font"
         verbose_name_plural = "Fonts"
 
@@ -126,7 +130,7 @@ class FontGroup(models.Model):
     objects = FontGroupQuerySet.as_manager()
 
     class Meta:
-        unique_together = [("project", "name")]  # ruff: ignore[mutable-class-default]
+        unique_together: ClassVar[list[tuple[str, str]]] = [("project", "name")]
         verbose_name = "Font group"
         verbose_name_plural = "Font groups"
 
@@ -153,7 +157,7 @@ class FontOverride(models.Model):
     )
 
     class Meta:
-        unique_together = [("group", "language")]  # ruff: ignore[mutable-class-default]
+        unique_together: ClassVar[list[tuple[str, str]]] = [("group", "language")]
         verbose_name = "Font override"
         verbose_name_plural = "Font overrides"
 

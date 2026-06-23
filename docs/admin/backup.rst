@@ -18,6 +18,11 @@ You can perform a project backup in :guilabel:`Operations` ↓ :guilabel:`Backup
 The backup can be restored when creating a project (see
 :ref:`adding-projects`).
 
+.. note::
+
+   Project backups can also be created, listed, and downloaded through the
+   :ref:`api` since version 2026.7;
+
 The backups currently do not include access control information and history.
 
 The comments and suggestions are backed up with the username of the user who did

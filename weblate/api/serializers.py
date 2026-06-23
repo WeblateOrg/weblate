@@ -275,7 +275,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
             "url",
             "statistics_url",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:language-detail", "lookup_field": "code"},
             "code": {"validators": [validate_language_code]},
         }
@@ -404,7 +404,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "date_joined",
             "last_login",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
 
@@ -423,7 +423,7 @@ class SelfUserSerializer(serializers.ModelSerializer[User]):
             "username",
         )
         # Self-service PUT must accept the fields returned by the basic self view.
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "email": {"required": False},
         }
 
@@ -507,7 +507,7 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
             "permissions",
             "url",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:role-detail", "lookup_field": "id"},
         }
 
@@ -700,7 +700,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "enforced_2fa",
             "admins",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:group-detail", "lookup_field": "id"},
         }
         validators = ()
@@ -916,7 +916,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "locked",
             "announcements_url",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
 
@@ -1287,7 +1287,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "linked_component",
             "locked",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {
                 "view_name": "api:component-detail",
                 "lookup_field": ("project__slug", "slug"),
@@ -1752,7 +1752,7 @@ class TranslationSerializer(RemovableSerializer[Translation]):
             "units_list_url",
             "announcements_url",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {
                 "view_name": "api:translation-detail",
                 "lookup_field": (
@@ -2394,7 +2394,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "last_updated",
             "automatically_translated",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:unit-detail"},
         }
 
@@ -2557,7 +2557,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             "inherit_pull_message",
             "effective_pull_message",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:category-detail"},
         }
 
@@ -2674,7 +2674,9 @@ class ScreenshotSerializer(RemovableSerializer[Screenshot]):
             "units",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
+            "url": {"view_name": "api:screenshot-detail"}
+        }
 
 
 class ScreenshotCreateSerializer(ScreenshotSerializer):
@@ -2689,7 +2691,9 @@ class ScreenshotCreateSerializer(ScreenshotSerializer):
             "url",
             "image",
         )
-        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
+            "url": {"view_name": "api:screenshot-detail"}
+        }
 
 
 class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
@@ -2698,7 +2702,9 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
     class Meta:
         model = Screenshot
         fields = ("image",)
-        extra_kwargs = {"url": {"view_name": "api:screenshot-file"}}  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
+            "url": {"view_name": "api:screenshot-file"}
+        }
 
 
 class ChangeSerializer(RemovableSerializer[Change]):
@@ -2744,7 +2750,9 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "action_name",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "api:change-detail"}}  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
+            "url": {"view_name": "api:change-detail"}
+        }
 
 
 class AutoComponentListSerializer(serializers.ModelSerializer[AutoComponentList]):
@@ -2778,7 +2786,7 @@ class ComponentListSerializer(serializers.ModelSerializer[ComponentList]):
             "auto_assign",
             "url",
         )
-        extra_kwargs = {  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
         }
 
@@ -2814,7 +2822,9 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             "configuration",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "api:addon-detail"}}  # ruff: ignore[mutable-class-default]
+        extra_kwargs: ClassVar[dict[str, Any]] = {
+            "url": {"view_name": "api:addon-detail"}
+        }
 
     @staticmethod
     def check_addon(name, queryset) -> None:
@@ -3011,6 +3021,12 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
 
     def map_serializer(self, auto_schema: AutoSchema, direction):
         return build_object_type(properties={"service_name": build_basic_type(dict)})
+
+
+class BackupSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    timestamp = serializers.DateTimeField()
+    size = serializers.IntegerField()
 
 
 class MessageResponseSerializer(serializers.Serializer):

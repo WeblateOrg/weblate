@@ -54,17 +54,20 @@ class MetricsWrapper:
             self.scope, self.relation, self.secondary
         ).filter(date__range=(dates[-1], dates[0]))
 
-        # Fetch the most recent metric for each date
-        current = past_30 = past_60 = Metric()
-        for metric in metrics:
-            if metric.date in dates[0:2] and current.pk is None:
-                current = metric
-            if metric.date in dates[2:4] and past_30.pk is None:
-                past_30 = metric
-            if metric.date in dates[4:6] and past_60.pk is None:
-                past_30 = metric
+        metrics_by_date = {metric.date: metric for metric in metrics}
 
-        return (current, past_30, past_60)
+        def get_metric(candidates: list[date]) -> Metric:
+            for metric_date in candidates:
+                metric = metrics_by_date.get(metric_date)
+                if metric is not None:
+                    return metric
+            return Metric()
+
+        return (
+            get_metric(dates[0:2]),
+            get_metric(dates[2:4]),
+            get_metric(dates[4:6]),
+        )
 
     @property
     def current(self) -> Metric:

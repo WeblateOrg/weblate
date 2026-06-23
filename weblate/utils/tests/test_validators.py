@@ -23,6 +23,7 @@ from weblate.utils.validators import (
     validate_code_site_url,
     validate_contact_url,
     validate_fediverse_url,
+    validate_fedora_messaging_url,
     validate_filename,
     validate_fullname,
     validate_machinery_hostname,
@@ -283,6 +284,70 @@ class WebhookURLTest(SimpleTestCase):
             ),
         ):
             validate_webhook_url("https://private.example/hook")
+
+
+class FedoraMessagingURLTest(SimpleTestCase):
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_valid(self) -> None:
+        validate_fedora_messaging_url("amqp://broker.example/%2F")
+        validate_fedora_messaging_url(
+            "amqps://user:password@broker.example:5671/vhost"  # kingfisher:ignore
+            "?connection_attempts=3&retry_delay=5"
+        )
+
+    def test_invalid_scheme(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_fedora_messaging_url("https://broker.example")
+
+    def test_private(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 5672))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            validate_fedora_messaging_url("amqp://private.example/%2F")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_private_disabled(self) -> None:
+        with patch(
+            "weblate.utils.outbound.socket.getaddrinfo",
+            return_value=[(0, 0, 0, "", ("127.0.0.1", 5672))],
+        ):
+            validate_fedora_messaging_url("amqp://private.example/%2F")
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=OSError("Name or service not known"),
+    )
+    def test_unresolved_rejected(self, mocked_getaddrinfo) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_fedora_messaging_url("amqp://unresolved.example/%2F")
+
+        self.assertIn("Could not resolve the URL domain", str(error.exception))
+        mocked_getaddrinfo.assert_called_once_with("unresolved.example", None, type=1)
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=OSError("Name or service not known"),
+    )
+    def test_unresolved_allowlisted(self, mocked_getaddrinfo) -> None:
+        with override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["unresolved.example"]):
+            validate_fedora_messaging_url("amqp://unresolved.example/%2F")
+
+        mocked_getaddrinfo.assert_not_called()
+
+    def test_private_allowlisted(self) -> None:
+        with (
+            override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["private.example"]),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 5672))],
+            ),
+        ):
+            validate_fedora_messaging_url("amqp://private.example/%2F")
 
 
 class WebsiteTest(SimpleTestCase):

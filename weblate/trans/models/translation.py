@@ -9,7 +9,7 @@ import os
 import tempfile
 from contextlib import contextmanager, suppress
 from datetime import UTC
-from itertools import chain
+from itertools import batched, chain
 from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
 
@@ -874,9 +874,7 @@ class Translation(
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
-    def _commit_pending(
-        self, reason: str, user: User | None, pending_changes_pk: list[int]
-    ) -> bool:
+    def _commit_pending(self, reason: str, user: User | None) -> bool:
         """
         Commit pending translation.
 
@@ -886,28 +884,27 @@ class Translation(
         - the source translation needs to be committed first
         - signals and alerts are updated by the caller
         - repository push is handled by the caller
-        - pending_changes_pk only has pending changes for units associated with this translation
         """
         if not self.filename:
-            return self._commit_pending_without_filename(pending_changes_pk)
-        return self._commit_pending_with_filename(reason, user, pending_changes_pk)
+            return self._commit_pending_without_filename()
+        return self._commit_pending_with_filename(reason, user)
 
-    def _commit_pending_without_filename(self, pending_changes_pk: list[int]) -> bool:
+    def _commit_pending_without_filename(self) -> bool:
         """Discard uncommittable pending changes for missing file translations."""
+        pending_changes_qs = PendingUnitChange.objects.for_translation(
+            self, apply_filters=True
+        )
+        pending_changes_count = pending_changes_qs.count()
         report_error(
             "Attempted to commit translation without filename",
             project=self.component.project,
             message=True,
-            extra_log=f"translation={self.full_slug}, pending_changes={len(pending_changes_pk)}",
+            extra_log=f"translation={self.full_slug}, pending_changes={pending_changes_count}",
         )
-        pending_changes = list(
-            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).values_list(
-                "unit_id", flat=True
-            )
-        )
+        pending_changes = list(pending_changes_qs.values_list("unit_id", flat=True))
         if pending_changes:
             pending_unit_ids = set(pending_changes)
-            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).delete()
+            pending_changes_qs.delete()
             remaining_pending_unit_ids = set(
                 PendingUnitChange.objects.filter(
                     unit_id__in=pending_unit_ids
@@ -923,9 +920,7 @@ class Translation(
         self.log_error("skipping commit due to missing filename")
         return False
 
-    def _commit_pending_with_filename(
-        self, reason: str, user: User | None, pending_changes_pk: list[int]
-    ) -> bool:
+    def _commit_pending_with_filename(self, reason: str, user: User | None) -> bool:
         """Commit pending changes when translation file exists."""
         try:
             store = self.store
@@ -946,9 +941,9 @@ class Translation(
             self.log_error("skipping commit due to error: %s", error)
             return False
 
-        pending_changes: list[PendingUnitChange] = list(
-            PendingUnitChange.objects.filter(pk__in=pending_changes_pk)
-            .prefetch_related("unit", "author")
+        pending_changes = list(
+            PendingUnitChange.objects.for_translation(self, apply_filters=True)
+            .select_related("unit", "author")
             .order_by("timestamp")
             .select_for_update()
         )
@@ -1004,24 +999,8 @@ class Translation(
                 if prev is None or change.timestamp > prev:
                     success_times[change.unit_id] = change.timestamp
 
-        for unit_id, ts in success_times.items():
-            PendingUnitChange.objects.filter(
-                unit_id=unit_id, timestamp__lte=ts
-            ).delete()
-
-        # Clear disk states for units that have no more pending changes
-        units_with_remaining_changes = set(
-            PendingUnitChange.objects.filter(
-                unit_id__in=units_to_clear_disk_state
-            ).values_list("unit_id", flat=True)
-        )
-
-        units_to_actually_clear = (
-            units_to_clear_disk_state - units_with_remaining_changes
-        )
-
-        if units_to_actually_clear:
-            Unit.objects.filter(id__in=units_to_actually_clear).clear_disk_state()
+        self.delete_successful_pending_changes(success_times)
+        self.clear_committed_disk_states(units_to_clear_disk_state)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -1030,6 +1009,44 @@ class Translation(
         self.drop_store_cache()
 
         return True
+
+    @staticmethod
+    def delete_successful_pending_changes(success_times: dict[int, datetime]) -> None:
+        """Delete applied pending changes in bounded batches."""
+        pending_to_delete = []
+        for unit_ids in batched(success_times, 1000):
+            for pk, unit_id, timestamp in (
+                PendingUnitChange.objects.filter(unit_id__in=unit_ids)
+                .values_list("pk", "unit_id", "timestamp")
+                .iterator(chunk_size=1000)
+            ):
+                if timestamp <= success_times[unit_id]:
+                    pending_to_delete.append(pk)
+                    if len(pending_to_delete) >= 1000:
+                        PendingUnitChange.objects.filter(
+                            pk__in=pending_to_delete
+                        ).delete()
+                        pending_to_delete.clear()
+
+        if pending_to_delete:
+            PendingUnitChange.objects.filter(pk__in=pending_to_delete).delete()
+
+    @staticmethod
+    def clear_committed_disk_states(units_to_clear_disk_state: set[int]) -> None:
+        """Clear disk states for units that no longer have pending changes."""
+        units_with_remaining_changes = set()
+        for unit_ids in batched(units_to_clear_disk_state, 1000):
+            units_with_remaining_changes.update(
+                PendingUnitChange.objects.filter(unit_id__in=unit_ids).values_list(
+                    "unit_id", flat=True
+                )
+            )
+
+        units_to_actually_clear = (
+            units_to_clear_disk_state - units_with_remaining_changes
+        )
+        for unit_ids in batched(units_to_actually_clear, 1000):
+            Unit.objects.filter(id__in=unit_ids).clear_disk_state()
 
     @staticmethod
     def _group_changes_by_author(
@@ -1167,7 +1184,7 @@ class Translation(
 
     @property
     def count_pending_units(self):
-        """Return count of units with pending changes."""
+        """Count of units with pending changes."""
         qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
         return qs.distinct("unit_id").count()
 
@@ -1247,7 +1264,9 @@ class Translation(
         """Update backend file and unit."""
         changes_status = {}
         updated = False
-        for pending_change in pending_changes:
+        for index, pending_change in enumerate(pending_changes, start=1):
+            if index % 1000 == 0:
+                self.component.repository.lock.reacquire()
             unit = pending_change.unit
 
             # update the unit in memory so that get_target_plurals returns
@@ -2107,10 +2126,12 @@ class Translation(
                 component.push_if_needed()
 
         # Remove blank directory if still present (appstore)
-        filename = Path(self.get_filename())
-        if filename.is_dir():
-            with suppress(OSError):
-                filename.rmdir()
+        validated_filename = self.get_filename()
+        if validated_filename is not None:
+            filename = Path(validated_filename)
+            if filename.is_dir():
+                with suppress(OSError):
+                    filename.rmdir()
 
         # Record change
         component.change_set.create(

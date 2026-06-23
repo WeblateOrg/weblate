@@ -11,7 +11,8 @@ from unittest.mock import patch
 from django.conf import settings
 from django.core import mail
 from django.core.exceptions import ValidationError
-from django.test.utils import modify_settings, override_settings
+from django.db import connection
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from social_django.models import UserSocialAuth
 
@@ -57,6 +58,12 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.admin_group = self.project.defined_groups.get(name="Administration")
         self.translate_group = self.project.defined_groups.get(name="Translate")
 
+    def get_project_user_groups_url(self, user: User) -> str:
+        return reverse(
+            "js-project-user-groups",
+            kwargs={**self.kw_project, "user_id": user.id},
+        )
+
     def add_acl(self) -> None:
         """Add user to ACL."""
         self.project.add_user(self.user, "Translate")
@@ -78,6 +85,25 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
         self.assertContains(response, ' name="save"')
+
+    def test_anonymous_translate_view_permission_memberships(self) -> None:
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        get_anonymous().clear_cache()
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.translate_url)
+
+        self.assertContains(response, ' name="save"')
+        membership_queries = [
+            query["sql"]
+            for query in queries
+            if query["sql"].startswith('SELECT "weblate_auth_user_groups"')
+        ]
+        self.assertTrue(membership_queries)
+        for query in membership_queries:
+            self.assertNotIn('ORDER BY "trans_project"', query)
+            self.assertNotIn('ORDER BY "workspaces_workspace"', query)
 
     def test_acl_protected(self) -> None:
         """Test ACL protected project."""
@@ -112,6 +138,57 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.project.add_user(self.user, "Administration")
         response = self.client.get(self.access_url)
         self.assertContains(response, "Users")
+
+    def test_edit_acl_user_group_form_is_lazy_loaded(self) -> None:
+        """Project user team forms are not rendered in every user row."""
+        self.project.add_user(self.user, "Administration")
+        self.project.add_user(self.second_user, "Translate")
+        form_url = self.get_project_user_groups_url(self.second_user)
+
+        response = self.client.get(self.access_url)
+
+        self.assertContains(response, form_url)
+        self.assertContains(response, 'id="project-user-groups-modal"')
+        self.assertNotContains(response, f'id="edit_user_{self.second_user.id}"')
+        self.assertNotContains(response, "project-membership-team-toggle")
+        self.assertNotContains(
+            response,
+            f"id_user_{self.second_user.id}_limit_languages_{self.translate_group.pk}",
+        )
+
+    def test_edit_acl_user_group_form_fragment(self) -> None:
+        """Project user team form is rendered by the JS endpoint."""
+        self.project.add_user(self.user, "Administration")
+        self.project.add_user(self.second_user, "Translate")
+
+        response = self.client.get(self.get_project_user_groups_url(self.second_user))
+
+        self.assertContains(response, self.second_user.username)
+        self.assertContains(response, "project-membership-team-toggle")
+        self.assertContains(
+            response,
+            f"id_user_{self.second_user.id}_limit_languages_{self.translate_group.pk}",
+        )
+
+    def test_edit_acl_user_group_form_fragment_denied(self) -> None:
+        """Regular project users can not load team management forms."""
+        self.add_acl()
+        self.project.add_user(self.second_user, "Translate")
+
+        response = self.client.get(self.get_project_user_groups_url(self.second_user))
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_edit_acl_user_group_form_fragment_project_scope(self) -> None:
+        """Team management form is available only for project users."""
+        self.project.add_user(self.user, "Administration")
+        outside_user = User.objects.create_user(
+            "outsideuser", "outside@example.org", "testpassword"
+        )
+
+        response = self.client.get(self.get_project_user_groups_url(outside_user))
+
+        self.assertEqual(response.status_code, 404)
 
     @override_settings(DEFAULT_PAGE_LIMIT=10)
     def test_edit_acl_users_pagination(self) -> None:
@@ -713,7 +790,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
         response = self.client.get(self.access_url)
         self.assertContains(response, str(self.translate_group))
-        self.assertContains(response, "(cs)")
+        self.assertInHTML(
+            f'<span class="badge text-bg-secondary">{self.translate_group} (cs)</span>',
+            response.content.decode(),
+        )
 
         self.client.post(
             reverse("set-groups", kwargs=self.kw_project),

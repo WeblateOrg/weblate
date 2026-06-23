@@ -26,6 +26,16 @@ class SafeMDXCheckTest(CheckTestCase):
         )
         self.test_failure_2 = ("Test {Math.PI * 100}", "Test {Math.PI*100}", "safe-mdx")
         self.test_failure_3 = ("Hello, {props.name.toUpperCase()}", "Ahoj", "safe-mdx")
+        self.test_failure_4 = (
+            '<a href="/profile">{userName}</a>',
+            "<a href={userName}>View profile</a>",
+            "safe-mdx",
+        )
+        self.test_failure_5 = (
+            "<Card title={title}>{body}</Card>",
+            "<Card title={body}>{title}</Card>",
+            "safe-mdx",
+        )
         self.test_ignore_check = (
             "Hello, {test}",
             "Ahoj, {ignore}",
@@ -126,3 +136,53 @@ class SafeMDXCheckTest(CheckTestCase):
             list(self.check.get_jsx_expression_matches(text)),
             expected,
         )
+
+    def test_expression_signatures_include_context(self) -> None:
+        self.assertEqual(
+            list(
+                self.check.get_jsx_expression_signatures(
+                    '<a href="/profile">{userName}</a>'
+                )
+            ),
+            [("text", "", ("a",), "{userName}")],
+        )
+        self.assertEqual(
+            list(
+                self.check.get_jsx_expression_signatures(
+                    "<a href={userName}>View profile</a>"
+                )
+            ),
+            [("attribute", "href", ("a",), "{userName}")],
+        )
+
+    def test_repeated_tags_close_innermost_element(self) -> None:
+        source = "<div><div></div>{x}</div>"
+        target = "<div><div></div></div>{x}"
+        self.assertEqual(
+            list(self.check.get_jsx_expression_signatures(source)),
+            [("text", "", ("div",), "{x}")],
+        )
+        self.do_test(True, (source, target, "safe-mdx"))
+
+    def test_jsx_identifier_start_elements_set_context(self) -> None:
+        for tag in ("_Wrapper", "$Wrapper"):
+            with self.subTest(tag=tag):
+                source = f"<{tag}>{{x}}</{tag}>"
+                target = "{x}"
+                self.assertEqual(
+                    list(self.check.get_jsx_expression_signatures(source)),
+                    [("text", "", (tag,), "{x}")],
+                )
+                self.do_test(True, (source, target, "safe-mdx"))
+
+    def test_attribute_context_ignores_expression_greater_than(self) -> None:
+        source = "<a title={x > y} href={url}>"
+        target = "<a title={x > y}>{url}</a>"
+        self.assertEqual(
+            list(self.check.get_jsx_expression_signatures(source)),
+            [
+                ("attribute", "title", ("a",), "{x > y}"),
+                ("attribute", "href", ("a",), "{url}"),
+            ],
+        )
+        self.do_test(True, (source, target, "safe-mdx"))

@@ -151,6 +151,32 @@ def validate_runtime_ip(value: str, *, allow_private_targets: bool = True) -> No
         )
 
 
+def validate_connected_peer(
+    hostname: str,
+    peer_ip: str | None,
+    *,
+    allow_private_targets: bool = True,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+    used_proxy: bool = False,
+) -> None:
+    if allow_private_targets:
+        return
+    if used_proxy:
+        return
+    if is_allowlisted_hostname(hostname, allowed_domains):
+        return
+
+    if peer_ip is None:
+        raise ValidationError(
+            gettext(
+                "This URL is prohibited because the connected peer address could not be determined."
+            ),
+            code="private_target",
+        )
+
+    validate_runtime_ip(peer_ip, allow_private_targets=allow_private_targets)
+
+
 def is_allowlisted_hostname(
     hostname: str, allowed_domains: list[str] | tuple[str, ...]
 ) -> bool:

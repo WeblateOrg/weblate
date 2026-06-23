@@ -320,7 +320,7 @@ class Addon(models.Model):
         if self.component:
             self.component.drop_addons_cache()
 
-    def _affected_components(self):
+    def affected_components(self):
         if self.component:
             if self.repo_scope:
                 return Component.objects.filter(
@@ -337,7 +337,7 @@ class Addon(models.Model):
         if self.name != POT_MSGMERGE_ADDON:
             return
         Alert.objects.filter(
-            component__in=self._affected_components(),
+            component__in=self.affected_components(),
             name="ExtractPotMissingMsgmerge",
         ).delete()
 
@@ -355,7 +355,7 @@ class Addon(models.Model):
         ]
         if alert_names:
             Alert.objects.filter(
-                component__in=self._affected_components(), name__in=alert_names
+                component__in=self.affected_components(), name__in=alert_names
             ).delete()
 
     def delete(self, using=None, keep_parents=False):
@@ -478,6 +478,20 @@ def _project_for_error(
     return addon.project
 
 
+def _report_addon_error(
+    addon: Addon,
+    component: Component | None,
+    scope: Translation | Component | Category | Project | None,
+    error: Exception,
+) -> None:
+    if getattr(error, "_weblate_reported", False):
+        return
+    report_error(
+        f"add-on {addon.name} failed",
+        project=_project_for_error(addon, component, scope),
+    )
+
+
 def execute_addon_event(
     addon: Addon,
     component: Component | None,
@@ -560,10 +574,7 @@ def execute_addon_event(
             addon_logger(
                 "error", "failed %s add-on: %s: %s", event.label, addon.name, str(error)
             )
-            report_error(
-                f"add-on {addon.name} failed",
-                project=_project_for_error(addon, component, scope),
-            )
+            _report_addon_error(addon, component, scope, error)
             # Uninstall no longer compatible add-ons
             if component and not addon.addon.can_process(component=component):
                 addon.disable()

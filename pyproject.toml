@@ -2,7 +2,7 @@
 build-backend = "setuptools.build_meta"
 requires = [
   "setuptools==82.0.1",
-  "translate-toolkit==3.19.11"
+  "translate-toolkit==3.19.12"
 ]
 
 [dependency-groups]
@@ -37,7 +37,7 @@ lint = [
 ]
 package-build = [
   "setuptools==82.0.1",
-  "translate-toolkit==3.19.11"
+  "translate-toolkit==3.19.12"
 ]
 package-lint = [
   "check-manifest==0.51",
@@ -56,32 +56,32 @@ sbom = [
   "packaging==26.2"
 ]
 schemas = [
-  "weblate-schemas==2026.4"
+  "weblate-schemas==2026.5"
 ]
 scripts = [
-  "django-debug-toolbar==6.3.0",
+  "django-debug-toolbar==7.0.0",
   "PyICU==2.16.2",
   "reuse==6.2.0",
   "scour==0.38.2",
   "tinyunicodeblock==1.3"
 ]
 test = [
-  "coverage==7.14.1",
+  "coverage==7.14.3",
   "pytest-cov==7.1.0",
   "pytest-django==4.12.0",
-  "pytest-github-actions-annotate-failures==0.4.0",
+  "pytest-github-actions-annotate-failures==0.4.2",
   "pytest-profiling==1.8.1",
   "pytest-xdist==3.8.0",
-  "pytest==9.1.0",
+  "pytest==9.1.1",
   "responses==0.26.1",
   "selenium==4.45.0",
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.43.29",
+  "boto3-stubs==1.43.34",
   "celery-types==0.26.0",
-  "django-stubs-ext==6.0.5",
-  "django-stubs[compatible-mypy]==6.0.5",
+  "django-stubs-ext==6.0.6",
+  "django-stubs[compatible-mypy]==6.0.6",
   "djangorestframework-stubs==3.17.0",
   "mypy==2.1.0",
   "PyGObject-stubs==2.17.0",
@@ -121,7 +121,7 @@ dependencies = [
   # Pin for translate-toolkit extra
   "aeidon==1.16",
   "ahocorasick-rs==1.0.3",
-  "altcha==2.0.1",
+  "altcha==2.0.2",
   "argon2-cffi-bindings==25.1.0",
   "argon2-cffi==25.1.0",
   "borgbackup==1.4.4",
@@ -138,7 +138,7 @@ dependencies = [
   "cyrtranslit==1.2.0",
   "dateparser==1.4.1",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.201",
+  "disposable-email-domains==0.0.205",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-compressor==4.6.0",
@@ -154,7 +154,7 @@ dependencies = [
   "docutils==0.21.2",
   "drf-spectacular[sidecar]==0.29.0",
   "drf-standardized-errors[openapi]==0.16.0",
-  "fedora-messaging==3.9.0",
+  "fedora-messaging==3.9.1",
   "filelock==3.29.4",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
@@ -166,7 +166,7 @@ dependencies = [
   "jsonschema==4.26.0",
   "lxml==6.1.1",
   "mistletoe==1.5.1",
-  "nh3==0.3.5",
+  "nh3==0.3.6",
   "openpyxl==3.1.5",
   "opentelemetry-exporter-otlp-proto-http==1.42.1",
   "opentelemetry-instrumentation-celery==0.63b1",
@@ -202,7 +202,7 @@ dependencies = [
   "tesserocr==2.10.0",
   # Pin for translate-toolkit extra
   "tomlkit==0.15.0",
-  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.11",
+  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.12",
   "translation-finder==3.1",
   "twisted==26.4.0",
   # Pin for translate-toolkit extra
@@ -212,7 +212,7 @@ dependencies = [
   "user-agents==2.2.0",
   "weblate-fonts==2026.1",
   "weblate-language-data==2026.8",
-  "weblate-schemas==2026.4"
+  "weblate-schemas==2026.5"
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
@@ -234,7 +234,7 @@ all = [
   "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.29"
+  "boto3==1.43.34"
 ]
 gelf = [
   "logging-gelf==0.0.32"
@@ -244,10 +244,10 @@ gerrit = [
 ]
 google = [
   "google-cloud-storage==3.12.0",
-  "google-cloud-translate==3.26.0"
+  "google-cloud-translate==3.27.0"
 ]
 google-errors = [
-  "google-cloud-error-reporting==1.15.0"
+  "google-cloud-error-reporting==1.16.0"
 ]
 ldap = [
   "django-auth-ldap==5.3.0"
@@ -275,7 +275,7 @@ wllegal = [
   "wllegal==2026.4"
 ]
 wsgi = [
-  "granian==2.7.6"
+  "granian==2.7.7"
 ]
 zxcvbn = [
   "django-zxcvbn-password-validator==1.7.0"
@@ -680,7 +680,7 @@ max-complexity = 16  # TODO: should be lower
 "fuzzing/targets.py" = ["PLC0415"]
 "scripts/*" = ["T201", "T203"]
 "weblate/*/migrations/*.py" = ["RUF012"]
-"weblate/*/tests**.py" = ["ANN001", "S105", "S106"]
+"weblate/*/tests**.py" = ["ANN001", "S101", "S105", "S106"]
 "weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
 "weblate/examples/*.py" = ["CPY001", "INP001"]
 "weblate/settings_*.py" = ["F405"]
