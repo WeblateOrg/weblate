@@ -75,6 +75,10 @@ class VcsClassLoader(ClassLoader):
     def __init__(self) -> None:
         super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
 
+    def get_unfiltered_choices(self):
+        result = super().load_data()
+        return [(x, result[x].name) for x in sorted(result)]
+
     def load_data(self):
         result = super().load_data()
 
