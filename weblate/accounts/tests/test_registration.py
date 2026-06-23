@@ -165,7 +165,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
         # Confirm account
         with self.captureOnCommitCallbacks(execute=True):
-            response = self.client.get(url, follow=True)
+            response = self.confirm_registration_url(url, follow=True)
         if reset:
             # Ensure we can set the password
             self.assertRedirects(response, reverse("password_reset"))
@@ -421,7 +421,7 @@ class RegistrationTest(BaseRegistrationTest):
         confirmation_url = self.assert_registration_mailbox()
         self.expire_invitation(invitation)
 
-        response = self.client.get(confirmation_url, follow=True)
+        response = self.confirm_registration_url(confirmation_url, follow=True)
 
         self.assertContains(response, "This invitation has expired.")
         self.assertFalse(User.objects.filter(email=REGISTRATION_DATA["email"]).exists())
@@ -675,7 +675,7 @@ class RegistrationTest(BaseRegistrationTest):
         mail.outbox.pop()
 
         # Confirm first account
-        response = self.client.get(first_url, follow=True)
+        response = self.confirm_registration_url(first_url, follow=True)
         self.assertTrue(
             User.objects.filter(email="noreply-weblate@example.org").exists()
         )
@@ -687,7 +687,7 @@ class RegistrationTest(BaseRegistrationTest):
             self.client.post(reverse("logout"))
 
         # Confirm second account
-        self.client.get(second_url, follow=True)
+        self.confirm_registration_url(second_url, follow=True)
         self.assertEqual(
             User.objects.filter(email="noreply@example.net").exists(), logout
         )
@@ -706,7 +706,7 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, REGISTRATION_SUCCESS)
         confirmation_url = self.assert_registration_mailbox()
 
-        response = self.client.get(confirmation_url, follow=True)
+        response = self.confirm_registration_url(confirmation_url, follow=True)
         if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
             response = self.confirm_tos(self.client, response)
         self.assertRedirects(response, reverse("password"))
@@ -893,7 +893,7 @@ class RegistrationTest(BaseRegistrationTest):
         )
 
         self.assertContains(response, "Password reset almost complete")
-        response = self.client.get(
+        response = self.confirm_registration_url(
             self.assert_registration_mailbox("[Weblate] Password reset on Weblate"),
             follow=True,
         )
@@ -989,7 +989,7 @@ class RegistrationTest(BaseRegistrationTest):
         self.assert_registration_mailbox("[Weblate] Password reset on Weblate")
         mail.outbox.clear()
 
-        response = self.client.get(first_url, follow=True)
+        response = self.confirm_registration_url(first_url, follow=True)
         self.assertRedirects(response, reverse("password_reset"))
         self.assertContains(response, "You can now set new one")
 
@@ -1007,7 +1007,9 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertRedirects(response, reverse("email-sent"))
 
-        response = self.client.get(self.assert_registration_mailbox(match), follow=True)
+        response = self.confirm_registration_url(
+            self.assert_registration_mailbox(match), follow=True
+        )
         self.assertRedirects(response, reverse("password_reset"))
         self.assertContains(response, "You can now set new one")
 
@@ -1019,7 +1021,9 @@ class RegistrationTest(BaseRegistrationTest):
         )
         self.assertRedirects(response, reverse("email-sent"))
 
-        response = client2.get(self.assert_registration_mailbox(match), follow=True)
+        response = self.confirm_registration_url(
+            self.assert_registration_mailbox(match), client2, follow=True
+        )
         self.assertRedirects(response, reverse("password_reset"))
         self.assertContains(response, "You can now set new one")
 
@@ -1100,7 +1104,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
         with self.captureOnCommitCallbacks(execute=True):
-            response = self.client.get(url, follow=True)
+            response = self.confirm_registration_url(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
 
         # Enter wrong password
@@ -1240,7 +1244,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Confirmation
         mail.outbox.pop()
         with self.captureOnCommitCallbacks(execute=True):
-            response = self.client.get(url, follow=True)
+            response = self.confirm_registration_url(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
         with self.captureOnCommitCallbacks(execute=True):
             response = self.client.post(
@@ -1263,7 +1267,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
         with self.captureOnCommitCallbacks(execute=True):
-            response = self.client.get(url, follow=True)
+            response = self.confirm_registration_url(url, follow=True)
         self.assertRedirects(response, reverse("confirm"))
         with self.captureOnCommitCallbacks(execute=True):
             response = self.client.post(
@@ -1530,19 +1534,64 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.perform_registration()
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_confirmation_link_requires_post(self) -> None:
+        """Test that verification link GET does not finish registration."""
+        response = self.do_register()
+        self.assertContains(response, REGISTRATION_SUCCESS)
+        url = self.assert_registration_mailbox()
+        query = parse_qs(urlparse(url).query)
+        partial_token = query["partial_token"][0]
+        verification_code = query["verification_code"][0]
+
+        response = self.client.get(url)
+
+        self.assertTemplateUsed(
+            response, "social_django/partial_pipeline_external_resume.html"
+        )
+        self.assertContains(response, "Confirm registration")
+        self.assertFalse(
+            User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
+        )
+        self.assertIsNotNone(DjangoStorage.partial.load(partial_token))
+        self.assertIsNotNone(DjangoStorage.code.get_code(verification_code))
+
+        context = response.context
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                context["action_url"],
+                {
+                    context["confirmation_parameter"]: context["confirmation_value"],
+                    context["confirmation_nonce_parameter"]: context[
+                        "confirmation_nonce"
+                    ],
+                },
+                follow=True,
+            )
+
+        self.assertRedirects(response, reverse("password"))
+        self.assertIsNone(DjangoStorage.partial.load(partial_token))
+        self.assertIsNone(DjangoStorage.code.get_code(verification_code))
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_double_link(self) -> None:
         """Test that verification link works just once."""
         response = self.do_register()
         # Check we did succeed
         self.assertContains(response, REGISTRATION_SUCCESS)
         url = self.assert_registration()
+        query = parse_qs(urlparse(url).query)
+        partial_token = query["partial_token"][0]
+        verification_code = query["verification_code"][0]
+
+        self.assertIsNone(DjangoStorage.partial.load(partial_token))
+        self.assertIsNone(DjangoStorage.code.get_code(verification_code))
 
         # Clear cookies
         if self.clear_cookie and "sessionid" in self.client.cookies:
             del self.client.cookies["sessionid"]
 
-        response = self.client.get(url, follow=True)
-        self.assertContains(response, "the confirmation link probably expired")
+        response = self.client.get(url)
+        self.assertRedirects(response, reverse("login"), fetch_redirect_response=False)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset(self) -> None:
@@ -1571,7 +1620,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
         )
         self.assertContains(response, "Password reset almost complete")
 
-        response = self.client.get(
+        response = self.confirm_registration_url(
             self.assert_registration_mailbox("[Weblate] Password reset on Weblate"),
             follow=True,
         )
@@ -1738,7 +1787,9 @@ class RegistrationLegalTestCase(RegistrationLoginRequiredTestCase):
         response = self.do_register()
         self.assertContains(response, REGISTRATION_SUCCESS)
 
-        response = self.client.get(self.assert_registration_mailbox(), follow=True)
+        response = self.confirm_registration_url(
+            self.assert_registration_mailbox(), follow=True
+        )
         self.assertTrue(
             response.request["PATH_INFO"].startswith(reverse("legal:confirm"))
         )
