@@ -451,7 +451,10 @@ function loadTableSorting() {
           th.setAttribute("title", gettext("Sort this column"));
           th.classList.add("sort-cell");
           if (th.classList.contains("number")) {
-            th.innerHTML = `<span·class="sort-icon">·</span>${th.textContent}`;
+            const icon = document.createElement("span");
+            icon.classList.add("sort-icon");
+            icon.textContent = " ";
+            th.prepend(icon);
           } else {
             th.insertAdjacentHTML(
               "beforeend",
