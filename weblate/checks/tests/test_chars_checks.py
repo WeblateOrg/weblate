@@ -38,32 +38,51 @@ class AcceleratorKeyCheckTest(CheckTestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_good_matching = ("&File", "&File", "accelerators")
-        self.test_good_none = ("File", "File", "accelerators")
+        self.test_good_matching = ("&File", "&File", "accelerator:&")
+        self.test_good_none = ("File", "File", "accelerator:&")
         self.test_good_flag = ("&File", "File", "")
-        self.test_failure_1 = ("&File", "File", "accelerators")
-        self.test_failure_2 = ("File", "&File", "accelerators")
-        self.test_failure_3 = ("&File", "&File &Edit", "accelerators")
+        self.test_failure_1 = ("&File", "File", "accelerator:&")
+        self.test_failure_2 = ("File", "&File", "accelerator:&")
+        self.test_failure_3 = ("&File", "&File &Edit", "accelerator:&")
 
     def test_underscore_accelerator(self) -> None:
-        self.do_test(False, ("_File", "_File", "accelerators"))
-        self.do_test(True, ("_File", "File", "accelerators"))
-        self.do_test(True, ("File", "_File", "accelerators"))
+        self.do_test(False, ("_File", "_File", "accelerator:_"))
+        self.do_test(True, ("_File", "File", "accelerator:_"))
+        self.do_test(True, ("File", "_File", "accelerator:_"))
 
     def test_literal_ampersand(self) -> None:
         # A literal ampersand present in both source and translation should not trigger this check.
-        self.do_test(False, ("Walter & Sons", "Walter & Sons", "accelerators"))
+        self.do_test(False, ("Walter & Sons", "Walter & Sons", "accelerator:&"))
         # Escaped/literal ampersands (Qt/Windows "&&") should not count as accelerators.
-        self.do_test(False, ("Save && Exit", "Save && Exit", "accelerators"))
+        self.do_test(False, ("Save && Exit", "Save && Exit", "accelerator:&"))
         # HTML entities should not be treated as accelerators.
-        self.do_test(False, ("Fish &amp; Chips", "Fish &amp; Chips", "accelerators"))
-        self.do_test(False, ("A &amp; B &amp; C", "A &amp; B &amp; C", "accelerators"))
+        self.do_test(False, ("Fish &amp; Chips", "Fish &amp; Chips", "accelerator:&"))
+        self.do_test(False, ("A &amp; B &amp; C", "A &amp; B &amp; C", "accelerator:&"))
 
     def test_escaped_underscore(self) -> None:
         # Escaped/literal underscores (GTK "__") should not count as accelerators.
-        self.do_test(False, ("__File", "__File", "accelerators"))
+        self.do_test(False, ("__File", "__File", "accelerator:_"))
         # "___" is commonly used for a literal underscore plus an accelerator marker.
-        self.do_test(False, ("___File", "___File", "accelerators"))
+        self.do_test(False, ("___File", "___File", "accelerator:_"))
+
+    def test_configured_marker_only(self) -> None:
+        self.do_test(False, ("_File", "File", "accelerator:&"))
+        self.do_test(False, ("&File", "File", "accelerator:_"))
+
+    def test_custom_accelerator(self) -> None:
+        self.do_test(False, ("~File", "~File", "accelerator:~"))
+        self.do_test(True, ("~File", "File", "accelerator:~"))
+        self.do_test(True, ("File", "~File", "accelerator:~"))
+        self.do_test(False, ("~~File", "~~File", "accelerator:~"))
+
+    def test_plain_flag_does_not_enable_runtime(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["&File"],
+                ["File"],
+                make_unit(None, "accelerator", self.default_lang, source="&File"),
+            )
+        )
 
 
 class BeginNewlineCheckTest(CheckTestCase):
