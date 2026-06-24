@@ -43,6 +43,7 @@ Weblate 2026.7
 
 .. rubric:: Bug fixes
 
+* Malformed ``replacements`` flags no longer abort source length checks.
 * Scoped team assignments can no longer be expanded through the API.
 * Empty component lists are no longer exposed to users without component list management permission.
 * TBX glossary files no longer duplicate terms when repeated pending add operations are saved.

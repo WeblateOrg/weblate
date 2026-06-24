@@ -267,7 +267,10 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
             return replacement
 
         # Parse the flag
-        replacements = flags.get_value("replacements")
+        try:
+            replacements = flags.get_value("replacements")
+        except ValueError:
+            return replacement
         # Create dict from that
         replacements = dict(
             replacements[pos : pos + 2] for pos in range(0, len(replacements), 2)
