@@ -10,6 +10,7 @@ from types import SimpleNamespace
 from typing import Any
 from unittest.mock import MagicMock, patch
 
+from django.core.cache import cache
 from django.test import SimpleTestCase
 from django.urls import reverse
 from django.utils.html import format_html
@@ -21,6 +22,7 @@ from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.models import Project, Unit
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.util import join_plural
 from weblate.utils.lock import WeblateLock
 
 
@@ -92,6 +94,72 @@ class CheckModelTestCase(FixtureTestCase):
             ),
         )
         self.assert_png(self.client.get(url))
+
+    def test_source_check_render(self) -> None:
+        unit = self.get_unit().source_unit
+        Unit.objects.filter(pk=unit.pk).update(extra_flags="max-size:1:1")
+        check = Check.objects.create(unit=unit, name="max-size")
+        url = reverse(
+            "render-check", kwargs={"check_id": check.name, "unit_id": unit.id}
+        )
+        self.assertHTMLEqual(
+            check.get_description(),
+            format_html(
+                '<a href="{0}?pos={1}" class="thumbnail img-check">'
+                '<img class="img-fluid" src="{0}?pos={1}" /></a>',
+                url,
+                0,
+            ),
+        )
+        self.assert_png(self.client.get(url))
+
+    def test_source_check_render_updates_after_source_change(self) -> None:
+        cache.clear()
+        unit = self.get_unit().source_unit
+        Unit.objects.filter(pk=unit.pk).update(
+            source="short", extra_flags="max-size:500"
+        )
+        url = reverse(
+            "render-check", kwargs={"check_id": "max-size", "unit_id": unit.id}
+        )
+
+        response = self.client.get(url)
+        self.assert_png(response)
+        original = response.content
+
+        Unit.objects.filter(pk=unit.pk).update(
+            source="long " * 50, extra_flags="max-size:500"
+        )
+        response = self.client.get(url)
+        self.assert_png(response)
+        self.assertNotEqual(original, response.content)
+
+    def test_source_check_render_later_plural_after_first_plural_failure(self) -> None:
+        cache.clear()
+        unit = self.get_unit().source_unit
+        Unit.objects.filter(pk=unit.pk).update(
+            source=join_plural(("long " * 50, "short")),
+            extra_flags="max-size:500",
+        )
+        url = reverse(
+            "render-check", kwargs={"check_id": "max-size", "unit_id": unit.id}
+        )
+
+        self.assert_png(self.client.get(f"{url}?pos=1"))
+
+    def test_source_check_run_checks(self) -> None:
+        unit = self.get_unit().source_unit
+        Check.objects.filter(unit=unit, name="max-size").delete()
+        unit.extra_flags = "max-size:500"
+        unit.source = "long " * 50
+
+        unit.run_checks()
+        self.assertTrue(Check.objects.filter(unit=unit, name="max-size").exists())
+
+        unit.source = "short"
+        unit.check_cache = {}
+        unit.run_checks()
+        self.assertFalse(Check.objects.filter(unit=unit, name="max-size").exists())
 
     def test_check_order(self) -> None:
         unit = self.get_unit()

@@ -22,6 +22,12 @@ class MaxSizeCheckTest(FontTestCase):
         unit.state = STATE_TRANSLATED
         return self.check.check_target(["source"], [target], unit)
 
+    def perform_source_check(self, source: str, flags):
+        unit = self.get_unit().source_unit
+        unit.extra_flags = flags
+        unit.source = source
+        return self.check.check_source(unit.get_source_plurals(), unit)
+
     def test_good(self) -> None:
         self.assertFalse(self.perform_check("short", "max-size:500"))
         self.assertEqual(self.check.last_font, "sans")
@@ -37,6 +43,17 @@ class MaxSizeCheckTest(FontTestCase):
     def test_good_multiline(self) -> None:
         self.assertFalse(self.perform_check("long " * 50, "max-size:500:50"))
         self.assertEqual(self.check.last_font, "sans")
+
+    def test_source_good(self) -> None:
+        self.assertFalse(self.perform_source_check("short", "max-size:500"))
+        self.assertEqual(self.check.last_font, "sans")
+
+    def test_source_bad_long(self) -> None:
+        self.assertTrue(self.perform_source_check("long" * 50, "max-size:500"))
+        self.assertEqual(self.check.last_font, "sans")
+
+    def test_source_bad_invalid_flag(self) -> None:
+        self.assertTrue(self.perform_source_check("short", "max-size:invalid"))
 
     def add_font_group(self):
         font = self.add_font()
