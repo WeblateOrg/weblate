@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from itertools import zip_longest
 from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
@@ -285,31 +286,107 @@ class SafeMDXCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """Check the target has the same JSX expressions as the source."""
-        expected = list(self.get_jsx_expression_signatures(source))
-        found = list(self.get_jsx_expression_signatures(target))
-        return found != expected
+        missing = object()
+        return any(
+            expected != found
+            for expected, found in zip_longest(
+                self.get_jsx_expression_signatures(source),
+                self.get_jsx_expression_signatures(target),
+                fillvalue=missing,
+            )
+        )
 
-    def get_jsx_expression_signatures(
+    def get_jsx_expression_signatures(  # noqa: C901
         self, text: str
     ) -> Iterator[tuple[str, str, tuple[str, ...], str]]:
         """Extract JSX expressions together with their syntactic context."""
-        for start, expression in self._iter_jsx_expressions(text):
-            yield (*self.get_jsx_expression_context(text, start), expression)
+        stack: list[str] = []
+        open_tag: tuple[int, bool, str, bool, int | None] | None = None
+        quote = ""
+        i = 0
+        length = len(text)
+        while i < length:
+            char = text[i]
+
+            if open_tag is not None:
+                tag_start, closing, tag, self_closing, end = open_tag
+                if quote:
+                    if char == "\\":
+                        i += 2
+                        continue
+                    if char == quote:
+                        quote = ""
+                elif char in {'"', "'"}:
+                    quote = char
+                elif char == "{":
+                    close = _scan_expression(text, i)
+                    if close is not None:
+                        yield (
+                            *self.get_jsx_expression_context(
+                                text, i, tuple(stack), (tag_start, tag)
+                            ),
+                            text[i : close + 1],
+                        )
+                        i = close + 1
+                        continue
+                elif i == end and char == ">":
+                    if closing:
+                        for index in range(len(stack) - 1, -1, -1):
+                            if stack[index] == tag:
+                                del stack[index:]
+                                break
+                    elif not self_closing:
+                        stack.append(tag)
+                    open_tag = None
+                i += 1
+                continue
+
+            if char == "\\":
+                i += 2
+                continue
+            if char == "`":
+                close = _skip_code_span(text, i)
+                if close is not None:
+                    i = close + 1
+                    continue
+            if char == "<":
+                scanned = _scan_jsx_tag(text, i)
+                if scanned is not None:
+                    closing, tag, self_closing, end = scanned
+                    open_tag = (i, closing, tag, self_closing, end)
+                    i += 1
+                    continue
+            if char == "{":
+                close = _scan_expression(text, i)
+                if close is not None:
+                    yield (
+                        *self.get_jsx_expression_context(text, i, tuple(stack), None),
+                        text[i : close + 1],
+                    )
+                    i = close + 1
+                    continue
+            i += 1
 
     def get_jsx_expression_context(
-        self, text: str, start: int
+        self,
+        text: str,
+        start: int,
+        stack: tuple[str, ...] | None = None,
+        tag_context: tuple[int, str] | None = None,
     ) -> tuple[str, str, tuple[str, ...]]:
         """Return whether an expression appears in JSX text or an attribute."""
-        stack = self.get_jsx_element_stack(text[:start])
-        tag_context = _find_unclosed_jsx_tag(text, start)
+        if stack is None:
+            stack = self.get_jsx_element_stack(text[:start])
+        if tag_context is None:
+            tag_context = _find_unclosed_jsx_tag(text, start)
         if tag_context is not None:
             tag_start, tag = tag_context
             before_expression = text[tag_start + 1 : start]
-            stack = (*stack, tag)
+            tag_stack = (*stack, tag)
             attr_match = _ATTR_NAME_RE.search(before_expression)
             if attr_match:
-                return ("attribute", attr_match.group(1), stack)
-            return ("tag", "", stack)
+                return ("attribute", attr_match.group(1), tag_stack)
+            return ("tag", "", tag_stack)
         return ("text", "", stack)
 
     def get_jsx_element_stack(self, text: str) -> tuple[str, ...]:

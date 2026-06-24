@@ -155,6 +155,23 @@ class SafeMDXCheckTest(CheckTestCase):
             [("attribute", "href", ("a",), "{userName}")],
         )
 
+    def test_check_single_stops_on_first_mismatch(self) -> None:
+        calls = 0
+        original = self.check.get_jsx_expression_context
+
+        def counting_context(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            return original(*args, **kwargs)
+
+        self.check.get_jsx_expression_context = counting_context
+        try:
+            self.assertTrue(self.check.check_single("{ok}", "<a>{x}</a>" * 20, None))
+        finally:
+            self.check.get_jsx_expression_context = original
+
+        self.assertEqual(calls, 2)
+
     def test_repeated_tags_close_innermost_element(self) -> None:
         source = "<div><div></div>{x}</div>"
         target = "<div><div></div></div>{x}"
