@@ -651,8 +651,9 @@ def github_app_repository_list(request):
             selected_workspace = selected_project.workspace
 
     category_id = request.GET.get("category", "").strip()
+    configured_hosts = set(get_github_app_configurations())
     installations = GitHubInstallation.objects.filter(
-        enabled=True, workspace__in=workspaces
+        enabled=True, hostname__in=configured_hosts, workspace__in=workspaces
     ).select_related("workspace")
     if selected_project_without_workspace:
         installations = installations.none()

@@ -483,6 +483,35 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "other-org/repo2")
 
+    def test_repository_list_hides_hosts_without_credentials(self):
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        GitHubInstallation.objects.create(
+            installation_id="67890",
+            target_type="Organization",
+            target_login="stale-org",
+            hostname="github.example.com",
+            workspace=self.workspace,
+            repositories=[
+                _repo_entry(
+                    "stale-org/repo2",
+                    clone_url="https://github.example.com/stale-org/repo2.git",
+                    html_url="https://github.example.com/stale-org/repo2",
+                    ssh_url="git@github.example.com:stale-org/repo2.git",
+                )
+            ],
+        )
+
+        response = self.client.get(reverse("github-app-repositories"))
+
+        self.assertContains(response, "test-org/repo1")
+        self.assertNotContains(response, "stale-org/repo2")
+
     def test_repository_import_link_preselects_github_app_vcs(self):
         repo = _repo_entry("test-org/repo1", default_branch="stable")
         GitHubInstallation.objects.create(

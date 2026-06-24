@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 101 documented / 64 maintainer / 0 inferred claims.
+Provenance summary: 103 documented / 64 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -58,9 +58,10 @@ Scope and intended use
      - In scope as authenticated actors with delegated project scope.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhooks
-     - :ref:`hooks`, project :ref:`project-enable_hooks`
+     - :ref:`hooks`, project :ref:`project-enable_hooks`,
+       :ref:`code-hosting-github-app-webhook`
      - Background task scheduling and VCS repository updates
-     - In scope as a public, deployment-hardened interface. *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`)
+     - In scope as a public, deployment-hardened interface. *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
    * - VCS integration
      - Repository URLs, branches, pushes, pulls, merge requests, local clones
      - Filesystem, child VCS commands, SSH/HTTPS network connections
@@ -88,10 +89,11 @@ Scope and intended use
        :doc:`/admin/management`)
    * - Machine translation and outbound integrations
      - Machine translation, avatars, status reporting, telemetry, error
-       reporting, VCS hosts, CDN add-on, Fedora Messaging add-on
+       reporting, VCS hosts, GitHub App connections, CDN add-on, Fedora
+       Messaging add-on
      - Outbound HTTP(S), AMQP(S), provider APIs, logs
      - In scope for Weblate's enforcement of configured access and network
-       restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/addons`)
+       restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/addons`)
    * - Add-ons
      - Built-in add-ons and administrator-configured add-on execution
      - Varies by add-on; can mutate repositories or contact services
@@ -173,8 +175,10 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. *(documented)* (source: :ref:`hooks`,
-       :ref:`project-enable_hooks`)
+       where hooks are enabled. GitHub App integration webhooks additionally
+       authenticate with a per-integration URL token and GitHub signature
+       verification before processing. *(documented)* (source: :ref:`hooks`,
+       :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
    * - Weblate to database/datastore
      - Permission-checked application state becomes persistent data and queued
        work. *(documented)* (source: :doc:`/admin/install`)
@@ -246,7 +250,8 @@ or compromised worker is equivalent to a compromised application process.
 
 VCS command execution, SSH, and HTTPS clients are assumed to execute as the
 Weblate service user with the credentials configured for the relevant project
-or integration. *(documented)* (source: :doc:`/admin/code-hosting`,
+or integration, including database-stored GitHub App credentials used for
+installation tokens and webhook signature verification. *(documented)* (source: :doc:`/admin/code-hosting`,
 :setting:`SSH_EXTRA_ARGS`)
 
 What Weblate does to its host:

@@ -149,6 +149,30 @@ class TestGitHubInstallationManager(TestCase):
             )
 
     @responses.activate
+    def test_connect_workspace_reenables_existing_installation(self):
+        _make_credentials()
+        self.installation.enabled = False
+        self.installation.save(update_fields=["enabled"])
+        responses.add(
+            responses.GET,
+            "https://api.github.com/app/installations/67890",
+            json={
+                "id": 67890,
+                "app_id": 99999,
+                "account": {"login": "test-org", "type": "Organization"},
+            },
+        )
+
+        installation, created = GitHubInstallation.objects.connect_workspace(
+            "github.com", "67890", self.installation.workspace
+        )
+
+        self.assertFalse(created)
+        self.assertEqual(installation.pk, self.installation.pk)
+        self.assertTrue(installation.enabled)
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
     def test_github_repository_auth_args_use_installation_token(self):
         _make_credentials()
         cache.clear()

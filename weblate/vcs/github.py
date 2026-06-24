@@ -606,7 +606,12 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             hostname, installation_id, workspace=workspace
         )
         if installation is not None:
-            return installation, False
+            return (
+                self.sync_from_api(
+                    hostname, installation_id, workspace=workspace, enabled=True
+                ),
+                False,
+            )
 
         return (
             self.sync_from_api(hostname, installation_id, workspace=workspace),
