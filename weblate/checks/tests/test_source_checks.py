@@ -107,6 +107,12 @@ class SourceMaxLengthCheckTest(TestCase):
         self.assertFalse(self.check.check_source(["x" * 82], unit))
         self.assertTrue(self.check.check_source(["x" * 82 + "%s"], unit))
 
+    def test_invalid_replacements(self) -> None:
+        unit = self.get_unit("max-length:100, replacements:%s")
+
+        self.assertFalse(self.check.check_source(["x" * 85], unit))
+        self.assertTrue(self.check.check_source(["x" * 86], unit))
+
     def test_xml_text(self) -> None:
         unit = self.get_unit("max-length:100, xml-text")
 
