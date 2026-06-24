@@ -50,7 +50,7 @@ from weblate.trans.removal import RemovalBatch, removal_batch_context
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import remove_tree
+from weblate.utils.files import VCS_METADATA_DIRS, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage, prefetch_stats
@@ -535,9 +535,6 @@ def cleanup_repos() -> None:
                 component.repository.maintenance()
         except (RepositoryError, WeblateLockTimeoutError):
             report_error("Repository maintenance failed", project=component.project)
-
-
-VCS_METADATA_DIRS = {".git", ".hg"}
 
 
 def _is_project_or_category_path(parts: tuple[str, ...]) -> bool:
