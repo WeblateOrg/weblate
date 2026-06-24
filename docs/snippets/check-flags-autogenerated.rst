@@ -312,6 +312,8 @@
     Skip the :ref:`check-multiple-failures` quality check.
 ``ignore-unnamed-format``
     Skip the :ref:`check-unnamed-format` quality check.
+``ignore-source-max-length``
+    Skip the :ref:`check-source-max-length` quality check.
 ``ignore-optional-plural``
     Skip the :ref:`check-optional-plural` quality check.
 

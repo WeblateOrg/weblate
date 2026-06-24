@@ -75,6 +75,7 @@ DEFAULT_CHECK_LIST: tuple[str, ...] = (
     "weblate.checks.duplicate.DuplicateCheck",
     "weblate.checks.source.OptionalPluralCheck",
     "weblate.checks.source.EllipsisCheck",
+    "weblate.checks.source.SourceMaxLengthCheck",
     "weblate.checks.source.MultipleFailingCheck",
     "weblate.checks.source.LongUntranslatedCheck",
     "weblate.checks.format.MultipleUnnamedFormatsCheck",
