@@ -7,10 +7,10 @@ Weblate 2026.7
 
 * Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
 * Added :ref:`check-source-max-length` check for source strings near ``max-length``.
+* Added the :ref:`check-accelerator` quality check, which verifies that accelerator keys are used consistently between the source and the translation. Enable it with the ``accelerator:`` flag and the marker character, for example ``accelerator:&``.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
-* Added the :ref:`check-accelerators` quality check, which verifies that accelerator keys are used consistently between the source and the translation. Enable it with the ``accelerators`` flag.
 
 .. rubric:: Improvements
 

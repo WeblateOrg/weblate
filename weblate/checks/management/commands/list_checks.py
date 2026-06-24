@@ -35,6 +35,11 @@ def escape(text: StrOrPromise):
 
 
 EXTRA_ENABLE_FLAG_DESCRIPTION = {
+    "accelerator": (
+        "Specify the single punctuation accelerator marker, for example "
+        "``accelerator:&``, "
+        "``accelerator:_``, or ``accelerator:~``."
+    ),
     "rst-text": "Treat a text as an reStructuredText document, affects :ref:`check-same`.",
     "bbcode-text": "Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:`check-same`.",
     "md-text": "Treat a text as a Markdown document, and provide Markdown syntax highlighting on the translation text area.",
