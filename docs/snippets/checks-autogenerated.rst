@@ -27,10 +27,9 @@ Accelerator key
 Accelerator keys (also known as mnemonics) let users trigger a UI action from
 the keyboard. They are marked in the string by a single punctuation character,
 typically ``&`` (Qt, Windows), ``_`` (GTK), or ``~``. Literal marker characters
-can usually be escaped by doubling them, and are ignored by this check, as are
-HTML entities such as ``&amp;``. Enable this check with the ``accelerator:`` flag
-to explicitly choose the marker, for example ``accelerator:&``,
-``accelerator:_``, or ``accelerator:~``.
+can usually be escaped by doubling them, and are ignored by this check. Enable
+this check with the ``accelerator:`` flag to explicitly choose the marker, for
+example ``accelerator:&``, ``accelerator:_``, or ``accelerator:~``.
 
 This check verifies that the source and the translation contain the same number
 of accelerator keys, and that the translation does not contain more than one.

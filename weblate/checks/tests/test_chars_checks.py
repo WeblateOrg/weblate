@@ -55,9 +55,11 @@ class AcceleratorKeyCheckTest(CheckTestCase):
         self.do_test(False, ("Walter & Sons", "Walter & Sons", "accelerator:&"))
         # Escaped/literal ampersands (Qt/Windows "&&") should not count as accelerators.
         self.do_test(False, ("Save && Exit", "Save && Exit", "accelerator:&"))
-        # HTML entities should not be treated as accelerators.
-        self.do_test(False, ("Fish &amp; Chips", "Fish &amp; Chips", "accelerator:&"))
-        self.do_test(False, ("A &amp; B &amp; C", "A &amp; B &amp; C", "accelerator:&"))
+        # Doubled markers before entity-like text are still literal markers.
+        self.do_test(
+            False,
+            ("Use &&lt; and &&gt;", "Use &&lt; and &&gt;", "accelerator:&"),
+        )
 
     def test_escaped_underscore(self) -> None:
         # Escaped/literal underscores (GTK "__") should not count as accelerators.
