@@ -154,6 +154,27 @@ if TYPE_CHECKING:
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 
+def clean_integration_component_data(
+    form: forms.BaseForm, data: dict[str, Any], *, vcs: str | None = None
+) -> bool:
+    """Normalize settings owned by integration-backed VCS backends."""
+    vcs_backend = VCS_REGISTRY.get(vcs or data.get("vcs", ""))
+    if vcs_backend is None:
+        return True
+
+    for field in vcs_backend.component_clear_fields:
+        if field in data:
+            data[field] = ""
+
+    if vcs_backend.component_requires_branch and not data.get("branch"):
+        form.add_error(
+            "branch",
+            gettext("Repository branch is required for this integration."),
+        )
+        return False
+    return True
+
+
 class SiteDefaultField(Protocol):
     site_default: bool
     widget: forms.Widget
@@ -2334,18 +2355,28 @@ class ComponentSettingsForm(
                 template="layout/pills.html",
             )
         )
-        vcses: set[str] = VCS_REGISTRY.git_based
-        if self.instance.vcs not in vcses:
-            vcses = (self.instance.vcs,)
+        vcses: set[str] = {
+            identifier
+            for identifier in VCS_REGISTRY.git_based
+            if VCS_REGISTRY[identifier].manual_component_creation
+            or identifier == self.instance.vcs
+        }
+        if self.instance.vcs not in VCS_REGISTRY.git_based:
+            vcses = {self.instance.vcs}
         self.fields["vcs"].choices = [
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
-        if self.instance.vcs == "github-app":
-            # Repo URL is managed by the GitHub App; editing it would point
-            # auth at a different repository and break the integration.
-            for locked_field in ("vcs", "repo"):
+        vcs_backend = VCS_REGISTRY.get(self.instance.vcs)
+        if vcs_backend is not None and vcs_backend.component_lock_fields:
+            # Integration-backed repository settings are managed by the
+            # provider import flow; editing them would break authentication.
+            for locked_field in vcs_backend.component_lock_fields:
                 if locked_field in self.fields:
                     self.fields[locked_field].disabled = True
+            for cleared_field in vcs_backend.component_clear_fields:
+                if cleared_field in self.fields:
+                    self.initial[cleared_field] = ""
+                    self.fields[cleared_field].initial = ""
         self.patch_unlinking_linked_repository_settings()
         self.patch_linked_repository_settings()
 
@@ -2408,6 +2439,7 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+        clean_integration_component_data(self, data, vcs=self.instance.vcs)
 
         repo = data.get("repo") or ""
         if is_repo_link(repo):
@@ -2637,6 +2669,7 @@ class ComponentCreateForm(
     def clean(self) -> None:
         super().clean()
         data = self.cleaned_data
+        clean_integration_component_data(self, data)
 
         if "file_format_params" in data:
             data["file_format_params"] = strip_unused_file_format_params(
@@ -2864,17 +2897,13 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        # The GitHub App backend is always registered, but should only be
-        # offered once an App is actually configured. This is checked per
-        # request because App credentials live in the database.
-        from weblate.vcs.github import github_app_is_configured  # noqa: PLC0415
-
-        if not github_app_is_configured():
-            self.fields["vcs"].choices = [
-                choice
-                for choice in self.fields["vcs"].choices
-                if choice[0] != "github-app"
-            ]
+        # Integration-backed backends are selected by provider import flows,
+        # not manually from the generic VCS chooser.
+        self.fields["vcs"].choices = [
+            choice
+            for choice in self.fields["vcs"].choices
+            if VCS_REGISTRY[choice[0]].manual_component_creation
+        ]
 
     def clean_instance(self, data) -> None:
         params = copy.copy(data)
@@ -2905,6 +2934,8 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
             self.clean_instance(data)
 
     def clean(self) -> None:
+        if not clean_integration_component_data(self, self.cleaned_data):
+            return
         self.clean_instance(self.cleaned_data)
 
 

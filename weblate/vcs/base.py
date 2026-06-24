@@ -282,6 +282,10 @@ class Repository:
 
     name: ClassVar[StrOrPromise] = ""
     identifier: ClassVar[str] = ""
+    manual_component_creation: ClassVar[bool] = True
+    component_lock_fields: ClassVar[tuple[str, ...]] = ()
+    component_clear_fields: ClassVar[tuple[str, ...]] = ()
+    component_requires_branch: ClassVar[bool] = False
     req_version: ClassVar[str | None] = None
     default_branch: ClassVar[str] = ""
     needs_push_url: ClassVar[bool] = True
@@ -339,6 +343,10 @@ class Repository:
     @classmethod
     def validate_branch_name(cls, branch: str) -> str:
         return branch
+
+    @classmethod
+    def validate_component(cls, component: Component) -> None:
+        """Validate repository-specific component constraints."""
 
     @classmethod
     def add_breadcrumb(cls, message: str, **data) -> None:

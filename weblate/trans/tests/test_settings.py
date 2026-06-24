@@ -42,6 +42,8 @@ from weblate.utils.render import (
 )
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
+from weblate.vcs.github import GitHubInstallation
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 
@@ -1464,6 +1466,70 @@ class SettingsTest(ViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)
+
+    def test_github_app_component_settings_lock_push_settings(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        workspace = Workspace.objects.create(name="GitHub App settings")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+            repositories=[{"full_name": "test-org/repo"}],
+        )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo.git"
+        self.component.push = "https://example.com/other/repo.git"
+        self.component.push_branch = "translations"
+        self.component.save(update_fields=["vcs", "repo", "push", "push_branch"])
+
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        self.assertContains(response, "Settings")
+        form = response.context["form"]
+
+        for field in ("vcs", "repo", "push", "push_branch"):
+            self.assertTrue(form.fields[field].disabled)
+        self.assertEqual(form.initial["push"], "")
+        self.assertEqual(form.initial["push_branch"], "")
+
+        data = get_form_data(form.initial)
+        data["push"] = "https://example.com/other/repo.git"
+        data["push_branch"] = "translations"
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.component,
+        )
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            self.assertTrue(form.is_valid(), form.errors)
+            form.save()
+
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.push, "")
+        self.assertEqual(self.component.push_branch, "")
+
+    def test_component_settings_reject_manual_github_app_vcs(self) -> None:
+        self.project.add_user(self.user, "Administration")
+
+        VCS_REGISTRY.__dict__.pop("git_based", None)
+        form = ComponentSettingsForm(self.get_request(), instance=self.component)
+
+        self.assertNotIn("github-app", dict(form.fields["vcs"].choices))
+
+        data = get_form_data(form.initial)
+        data["vcs"] = "github-app"
+        data["repo"] = "https://github.com/test-org/repo.git"
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.component,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("vcs", form.errors)
 
     def test_component_settings_drop_repository_setting_overrides_on_link(self) -> None:
         self.project.add_user(self.user, "Administration")

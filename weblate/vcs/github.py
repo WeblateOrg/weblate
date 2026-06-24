@@ -12,17 +12,18 @@ import hmac
 import logging
 import time
 import uuid
+from contextlib import suppress
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import urlencode, urlparse
 
 import jwt
 import requests
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.text import slugify
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
@@ -34,6 +35,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
+    from weblate.trans.models import Component
     from weblate.workspaces.models import Workspace
 
 logger = logging.getLogger(__name__)
@@ -125,23 +127,23 @@ def get_github_app_install_url(state: str, hostname: str | None = None) -> str:
 def get_github_repository_import_url(
     repo: dict,
     *,
+    installation_id: str | int,
     project_id: str | int | None = None,
     category_id: str | int | None = None,
 ) -> str:
-    """Return the component creation URL pre-filled from a GitHub repository."""
-    name = repo["name"]
-    params = {
-        "repo": repo["clone_url"],
-        "branch": repo.get("default_branch", "main"),
-        "vcs": "github-app",
-        "name": name,
-        "slug": slugify(name),
-    }
+    """Return the GitHub App repository import URL."""
+    params = {}
     if project_id:
         params["project"] = str(project_id)
     if category_id:
         params["category"] = str(category_id)
-    return f"{reverse('create-component-vcs')}?{urlencode(params)}"
+    url = reverse(
+        "github-app-repository-import",
+        kwargs={"pk": installation_id, "repo_full_name": repo["full_name"]},
+    )
+    if params:
+        return f"{url}?{urlencode(params)}"
+    return url
 
 
 def build_github_app_manifest(
@@ -708,6 +710,14 @@ class GithubAppRepository(GithubRepository):
 
     name: ClassVar[StrOrPromise] = gettext_lazy("GitHub (via Weblate GitHub app)")
     identifier: ClassVar[str] = "github-app"
+    manual_component_creation: ClassVar[bool] = False
+    component_clear_fields: ClassVar[tuple[str, ...]] = ("push", "push_branch")
+    component_lock_fields: ClassVar[tuple[str, ...]] = (
+        "vcs",
+        "repo",
+        *component_clear_fields,
+    )
+    component_requires_branch: ClassVar[bool] = True
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes and create a GitHub pull request "
         "via the Weblate GitHub app."
@@ -728,11 +738,139 @@ class GithubAppRepository(GithubRepository):
         # a static settings dict; satisfy the base API with an empty mapping.
         return {}
 
+    @classmethod
+    def validate_component(cls, component: Component) -> None:
+        if component.project_id is None or component.project.workspace_id is None:
+            raise ValidationError(
+                {
+                    "project": gettext(
+                        "GitHub App components require a project with a workspace."
+                    )
+                }
+            )
+        parsed = urlparse(component.repo)
+        full_name = parsed.path.strip("/").removesuffix(".git")
+        if (
+            parsed.scheme != "https"
+            or not parsed.hostname
+            or parsed.username
+            or parsed.password
+            or full_name.count("/") != 1
+        ):
+            raise ValidationError(
+                {
+                    "repo": gettext(
+                        "GitHub App components require a GitHub HTTPS repository URL."
+                    )
+                }
+            )
+
+        if (
+            GitHubInstallation.objects.get_for_repo(
+                parsed.hostname.lower(),
+                full_name,
+                workspace=component.project.workspace,
+            )
+            is None
+        ):
+            raise ValidationError(
+                {
+                    "repo": gettext(
+                        "Repository is not available from a connected GitHub account for this workspace."
+                    )
+                }
+            )
+
     def should_use_fork(self, branch: str | None = None) -> bool:
         # Apps push branches directly to the source repo; forking is both
         # unnecessary (the App already has write access) and unsupported
         # (Apps cannot fork without an explicit organization target).
         return False
+
+    def _get_component_workspace(self) -> Workspace | None:
+        if (
+            self.component is None
+            or self.component.project_id is None
+            or self.component.project.workspace_id is None
+        ):
+            return None
+        return self.component.project.workspace
+
+    def clone_from(self, source: str) -> None:
+        """Clone repository using installation credentials for the component workspace."""
+        self.validate_pull_url(source)
+        branch = self.validate_branch_name(self.branch)
+        self._popen(
+            [
+                *self._get_auth_args(source, workspace=self._get_component_workspace()),
+                "clone",
+                *self.get_depth(),
+                "--branch",
+                branch,
+                "--",
+                source,
+                self.path,
+            ]
+        )
+
+    def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
+        """Validate remote history using installation credentials."""
+        self.validate_pull_url(pull_url)
+        branch = self.validate_branch_name(branch)
+        validation_ref = f"refs/weblate/validation/{branch}"
+        refspec = f"+refs/heads/{branch}:{validation_ref}"
+
+        with self.lock:
+            try:
+                self.execute(
+                    [
+                        *self._get_auth_args(
+                            pull_url, workspace=self._get_component_workspace()
+                        ),
+                        "fetch",
+                        "--no-tags",
+                        "--",
+                        pull_url,
+                        refspec,
+                    ],
+                    remote_op="none",
+                    merge_err=False,
+                )
+                if any(
+                    self.has_common_history(validation_ref, revision)
+                    for revision in self.get_compatibility_revisions(branch)
+                ):
+                    return
+                if self.is_shallow():
+                    with suppress(RepositoryError):
+                        self.deepen_remote_compatibility_history(branch)
+                    if any(
+                        self.has_common_history(validation_ref, revision)
+                        for revision in self.get_compatibility_revisions(branch)
+                    ):
+                        return
+                    if self.is_shallow():
+                        raise RepositoryError(
+                            0,
+                            gettext(
+                                "Remote branch could not be verified against the "
+                                "shallow existing repository."
+                            ),
+                        )
+            finally:
+                with suppress(RepositoryError):
+                    self.execute(
+                        ["update-ref", "-d", validation_ref],
+                        remote_op="none",
+                        merge_err=False,
+                    )
+
+        raise RepositoryError(
+            0,
+            gettext(
+                "Remote branch does not share common history with the existing repository."
+            ),
+        )
 
     def push(self, branch: str) -> None:
         # Translations must not push onto the pull branch — there's no fork
@@ -791,15 +929,13 @@ class GithubAppRepository(GithubRepository):
             )
 
     def get_auth_args(self) -> list[str]:
-        if (
-            self.component is None
-            or self.component.project_id is None
-            or self.component.project.workspace_id is None
-        ):
+        workspace = self._get_component_workspace()
+        if workspace is None:
             return []
         return list(
             self._get_auth_args(
-                self.component.repo, workspace=self.component.project.workspace
+                self.component.repo,
+                workspace=workspace,
             )
         )
 

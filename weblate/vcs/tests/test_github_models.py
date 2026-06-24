@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
 
 import responses
 from django.core.cache import cache
@@ -246,3 +247,83 @@ class TestGitHubInstallationManager(TestCase):
         with self.assertRaises(RepositoryError):
             repository.get_credentials_by_hostname("api.github.com")
         self.assertEqual(len(responses.calls), 0)
+
+    @responses.activate
+    def test_github_repository_clone_uses_installation_token(self):
+        _make_credentials()
+        cache.clear()
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_test"},
+        )
+        component = cast(
+            "Component",
+            SimpleNamespace(
+                pk=None,
+                full_slug="test/project/component",
+                project_id=1,
+                project=SimpleNamespace(
+                    workspace_id=self.installation.workspace_id,
+                    workspace=self.installation.workspace,
+                ),
+                repo="https://github.com/test-org/repo1.git",
+            ),
+        )
+        repository = GithubAppRepository(
+            ".", branch="main", component=component, local=True
+        )
+
+        with patch.object(GithubAppRepository, "_popen", return_value="") as popen:
+            repository.clone_from("https://github.com/test-org/repo1.git")
+
+        clone_args = popen.call_args_list[-1].args[0]
+        self.assertIn("clone", clone_args)
+        self.assertTrue(
+            any("http.extraHeader=Authorization: Basic" in arg for arg in clone_args)
+        )
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    def test_github_repository_remote_compatibility_uses_installation_token(self):
+        _make_credentials()
+        cache.clear()
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_test"},
+        )
+        component = cast(
+            "Component",
+            SimpleNamespace(
+                pk=None,
+                full_slug="test/project/component",
+                project_id=1,
+                project=SimpleNamespace(
+                    workspace_id=self.installation.workspace_id,
+                    workspace=self.installation.workspace,
+                ),
+                repo="https://github.com/test-org/repo1.git",
+            ),
+        )
+        repository = GithubAppRepository(
+            ".", branch="main", component=component, local=True
+        )
+
+        with (
+            patch.object(GithubAppRepository, "_popen", return_value=""),
+            patch.object(GithubAppRepository, "execute", return_value="") as execute,
+            patch.object(GithubAppRepository, "has_common_history", return_value=True),
+        ):
+            repository.validate_remote_compatibility(
+                "https://github.com/test-org/repo1.git", "main"
+            )
+
+        fetch_args = next(
+            call.args[0] for call in execute.call_args_list if "fetch" in call.args[0]
+        )
+        self.assertIn("fetch", fetch_args)
+        self.assertTrue(
+            any("http.extraHeader=Authorization: Basic" in arg for arg in fetch_args)
+        )
+        self.assertEqual(len(responses.calls), 1)

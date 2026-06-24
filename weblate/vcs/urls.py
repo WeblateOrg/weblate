@@ -8,6 +8,7 @@ from weblate.vcs.views import (
     GitHubInstallationDetailView,
     GitHubInstallationListView,
     UserVCSIntegrationListView,
+    github_app_import_repository,
     github_app_install,
     github_app_register,
     github_app_register_callback,
@@ -75,6 +76,11 @@ urlpatterns = [
         "create/component/github-app/",
         github_app_repository_list,
         name="github-app-repositories",
+    ),
+    path(
+        "create/component/github-app/<int:pk>/<path:repo_full_name>/",
+        github_app_import_repository,
+        name="github-app-repository-import",
     ),
     path(
         "integrations/github/install/",

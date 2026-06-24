@@ -44,16 +44,16 @@ def _repo_entry(full_name: str, **overrides) -> dict:
     return entry
 
 
-def _import_url(repo: dict, **overrides) -> str:
-    params = {
-        "repo": repo["clone_url"],
-        "branch": repo["default_branch"],
-        "vcs": "github-app",
-        "name": repo["name"],
-        "slug": repo["name"],
-    }
+def _import_url(installation: GitHubInstallation, repo: dict, **overrides) -> str:
+    params = {}
     params.update(overrides)
-    return f"{reverse('create-component-vcs')}?{urlencode(params)}"
+    url = reverse(
+        "github-app-repository-import",
+        kwargs={"pk": installation.pk, "repo_full_name": repo["full_name"]},
+    )
+    if params:
+        return f"{url}?{urlencode(params)}"
+    return url
 
 
 class GitHubInstallationViewTest(ViewTestCase):
@@ -512,9 +512,54 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "stale-org/repo2")
 
+    def test_installation_detail_hides_import_link_when_disabled(self):
+        repo = _repo_entry("test-org/repo1")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            enabled=False,
+            repositories=[repo],
+        )
+
+        response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+
+        self.assertContains(response, "test-org/repo1")
+        self.assertNotIn("import_url", response.context["repositories"][0])
+        self.assertNotContains(response, _import_url(installation, repo))
+        self.assertContains(response, "Unavailable")
+
+    def test_installation_detail_hides_import_link_without_credentials(self):
+        repo = _repo_entry(
+            "stale-org/repo2",
+            clone_url="https://github.example.com/stale-org/repo2.git",
+            html_url="https://github.example.com/stale-org/repo2",
+            ssh_url="git@github.example.com:stale-org/repo2.git",
+        )
+        installation = GitHubInstallation.objects.create(
+            installation_id="67890",
+            target_type="Organization",
+            target_login="stale-org",
+            hostname="github.example.com",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+
+        response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+
+        self.assertContains(response, "stale-org/repo2")
+        self.assertNotIn("import_url", response.context["repositories"][0])
+        self.assertNotContains(response, _import_url(installation, repo))
+        self.assertContains(response, "Unavailable")
+
     def test_repository_import_link_preselects_github_app_vcs(self):
         repo = _repo_entry("test-org/repo1", default_branch="stable")
-        GitHubInstallation.objects.create(
+        installation = GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
             target_login="test-org",
@@ -525,12 +570,54 @@ class GitHubInstallationViewTest(ViewTestCase):
         response = self.client.get(reverse("github-app-repositories"))
 
         self.assertNotContains(response, "test-org (github.com/12345)")
-        import_path = _import_url(repo)
+        import_path = _import_url(installation, repo)
         self.assertEqual(
             response.context["repositories"][0]["import_url"],
             import_path,
         )
         self.assertContains(response, import_path.replace("&", "&amp;"))
+
+    def test_repository_import_uses_create_session(self):
+        repo = _repo_entry("test-org/repo1", default_branch="stable")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+
+        response = self.client.get(
+            _import_url(installation, repo, project=self.project.pk)
+        )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('create-component-vcs')}?session_component=1",
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(
+            self.client.session["session_component"],
+            {
+                "repo": repo["clone_url"],
+                "branch": "stable",
+                "vcs": "github-app",
+                "name": repo["name"],
+                "slug": repo["name"],
+                "integration_import_vcs": "github-app",
+                "project": self.project.pk,
+            },
+        )
+
+        response = self.client.get(
+            f"{reverse('create-component-vcs')}?session_component=1"
+        )
+        form = response.context["form"]
+        self.assertEqual(form["vcs"].value(), "github-app")
+        self.assertTrue(form.fields["vcs"].disabled)
+        self.assertIn("github-app", dict(form.fields["vcs"].choices))
+        self.assertEqual(form["repo"].value(), repo["clone_url"])
+        self.assertTrue(form.fields["repo"].disabled)
 
     def test_repository_list_omits_archived_repositories(self):
         GitHubInstallation.objects.create(
@@ -786,14 +873,18 @@ class GitHubAppAccessControlTest(ViewTestCase):
         self.project.add_user(self.other_user, "Administration")
         response = self.client.get(reverse("github-app-repositories"))
         self.assertContains(response, "test-org/repo1")
-        import_path = _import_url(repo)
+        import_path = _import_url(installation, repo)
         self.assertEqual(
             response.context["repositories"][0]["import_url"],
             import_path,
         )
         self.assertContains(response, import_path.replace("&", "&amp;"))
         create = self.client.get(import_path)
-        self.assertEqual(create.status_code, 200)
+        self.assertRedirects(
+            create,
+            f"{reverse('create-component-vcs')}?session_component=1",
+            fetch_redirect_response=False,
+        )
 
 
 MANIFEST_RESPONSE = {

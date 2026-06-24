@@ -20,11 +20,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.text import slugify
 from django.utils.translation import gettext
 from django.views import View
 
 from weblate.auth.decorators import management_access
-from weblate.trans.models import Project
+from weblate.trans.models import Category, Project
+from weblate.trans.views.create import INTEGRATION_IMPORT_VCS_KEY, SESSION_CREATE_KEY
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
@@ -358,12 +360,17 @@ class GitHubInstallationDetailView(View):
             GitHubInstallation.objects.select_related("workspace"), pk=pk
         )
         _require_installation_access(request, installation)
+        app_configured = get_github_app_settings(installation.hostname) is not None
+        can_import = installation.enabled and app_configured
         repositories = []
         for repo in installation.repositories:
             if repo.get("archived", False):
                 continue
             entry = dict(repo)
-            entry["import_url"] = get_github_repository_import_url(entry)
+            if can_import:
+                entry["import_url"] = get_github_repository_import_url(
+                    entry, installation_id=installation.pk
+                )
             repositories.append(entry)
         return render(
             request,
@@ -376,8 +383,7 @@ class GitHubInstallationDetailView(View):
                     reverse("manage-github-account-detail", kwargs={"pk": pk}),
                     installation.workspace,
                 ),
-                "app_configured": get_github_app_settings(installation.hostname)
-                is not None,
+                "app_configured": app_configured,
                 **_MENU_CONTEXT,
             },
         )
@@ -674,6 +680,7 @@ def github_app_repository_list(request):
             entry["workspace_name"] = installation.workspace.name
             entry["import_url"] = get_github_repository_import_url(
                 entry,
+                installation_id=installation.pk,
                 project_id=selected_project.pk if selected_project else None,
                 category_id=category_id,
             )
@@ -693,6 +700,66 @@ def github_app_repository_list(request):
                 request, request.get_full_path(), selected_workspace
             ),
         },
+    )
+
+
+@login_required
+def github_app_import_repository(request, pk, repo_full_name):
+    """Import a repository selected from a connected GitHub account."""
+    configured_hosts = set(get_github_app_configurations())
+    installation = get_object_or_404(
+        GitHubInstallation.objects.select_related("workspace"),
+        pk=pk,
+        enabled=True,
+        hostname__in=configured_hosts,
+    )
+    _require_installation_access(request, installation)
+
+    repository = None
+    for entry in installation.repositories:
+        if entry.get("full_name") == repo_full_name and not entry.get(
+            "archived", False
+        ):
+            repository = entry
+            break
+    if repository is None:
+        raise PermissionDenied
+
+    params = {
+        "repo": repository["clone_url"],
+        "branch": repository.get("default_branch", "main"),
+        "vcs": "github-app",
+        "name": repository["name"],
+        "slug": slugify(repository["name"]),
+    }
+
+    project_id = request.GET.get("project", "").strip()
+    if project_id:
+        try:
+            selected_project = request.user.managed_projects.get(pk=project_id)
+        except (Project.DoesNotExist, ValueError) as error:
+            raise PermissionDenied from error
+        if selected_project.workspace_id != installation.workspace_id:
+            raise PermissionDenied
+        params["project"] = selected_project.pk
+
+    category_id = request.GET.get("category", "").strip()
+    if category_id:
+        try:
+            selected_category = Category.objects.get(
+                pk=category_id, project__in=request.user.managed_projects
+            )
+        except (Category.DoesNotExist, ValueError) as error:
+            raise PermissionDenied from error
+        if selected_category.project.workspace_id != installation.workspace_id:
+            raise PermissionDenied
+        params["category"] = selected_category.pk
+        params.setdefault("project", selected_category.project.pk)
+
+    params[INTEGRATION_IMPORT_VCS_KEY] = "github-app"
+    request.session[SESSION_CREATE_KEY] = params
+    return redirect(
+        f"{reverse('create-component-vcs')}?{urlencode({SESSION_CREATE_KEY: 1})}"
     )
 
 

@@ -52,6 +52,7 @@ from weblate.utils.views import create_component_from_doc, create_component_from
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import (
     GitHubInstallation,
+    get_github_app_configurations,
     get_github_repository_import_url,
     github_app_is_configured,
 )
@@ -68,6 +69,7 @@ if TYPE_CHECKING:
     from weblate.trans.models.component import ComponentQuerySet
 
 SESSION_CREATE_KEY = "session_component"
+INTEGRATION_IMPORT_VCS_KEY = "integration_import_vcs"
 
 
 class BaseCreateView(CreateView):
@@ -300,6 +302,7 @@ class CreateComponent(BaseCreateView):
     origin = "vcs"
     object: Component
     duplicate_existing_component: int | None = None
+    integration_import_vcs = ""
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -408,6 +411,7 @@ class CreateComponent(BaseCreateView):
     def get_form(self, form_class=None, empty=False):
         self.empty_form = empty
         form = super().get_form(form_class)
+        self.patch_integration_vcs_choice(form)
         if "project" in form.fields:
             project_field = form.fields["project"]
             category_field = form.fields["category"]
@@ -431,6 +435,43 @@ class CreateComponent(BaseCreateView):
                 form.fields["source_component"].queryset = components
                 form.initial["source_component"] = self.duplicate_existing_component
         return form
+
+    def patch_integration_vcs_choice(self, form) -> None:
+        vcs_field = form.fields.get("vcs")
+        if vcs_field is None:
+            return
+
+        integration_choices = [
+            choice
+            for choice in VCS_REGISTRY.get_choices(exclude={"local"})
+            if not VCS_REGISTRY[choice[0]].manual_component_creation
+        ]
+        vcs_field.choices = [
+            choice
+            for choice in vcs_field.choices
+            if VCS_REGISTRY[choice[0]].manual_component_creation
+        ]
+        if (
+            self.integration_import_vcs
+            and self.integration_import_vcs == self.initial.get("vcs")
+        ):
+            vcs_backend = VCS_REGISTRY.get(self.integration_import_vcs)
+            vcs_field.choices = [
+                *vcs_field.choices,
+                *(
+                    choice
+                    for choice in integration_choices
+                    if choice[0] == self.integration_import_vcs
+                ),
+            ]
+            if vcs_backend is not None:
+                for field in vcs_backend.component_lock_fields:
+                    if field in form.fields:
+                        form.fields[field].disabled = True
+                for field in vcs_backend.component_clear_fields:
+                    if field in form.fields:
+                        form.initial[field] = ""
+                        form.fields[field].initial = ""
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
@@ -466,6 +507,7 @@ class CreateComponent(BaseCreateView):
         session_data = {}
         if SESSION_CREATE_KEY in request.GET and SESSION_CREATE_KEY in request.session:
             session_data = request.session[SESSION_CREATE_KEY]
+        self.integration_import_vcs = session_data.get(INTEGRATION_IMPORT_VCS_KEY, "")
         for field in self.initial_fields:
             if field in session_data:
                 self.initial[field] = session_data[field]
@@ -660,8 +702,11 @@ class CreateComponentSelection(CreateComponent):
             .values_list("workspace_id", flat=True)
             .distinct()
         )
+        configured_hosts = set(get_github_app_configurations())
         installations = GitHubInstallation.objects.filter(
-            enabled=True, workspace_id__in=workspace_ids
+            enabled=True,
+            hostname__in=configured_hosts,
+            workspace_id__in=workspace_ids,
         ).select_related("workspace")
         selected_project_obj = None
         if self.selected_project:
@@ -691,6 +736,7 @@ class CreateComponentSelection(CreateComponent):
                 entry["workspace_name"] = installation.workspace.name
                 entry["import_url"] = get_github_repository_import_url(
                     entry,
+                    installation_id=installation.pk,
                     project_id=(
                         selected_project_obj.pk
                         if selected_project_obj is not None

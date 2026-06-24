@@ -121,7 +121,11 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                  {% if repo.import_url %}
+                    <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                  {% else %}
+                    <span class="text-body-secondary">{% translate "Unavailable" %}</span>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
