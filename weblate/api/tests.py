@@ -5565,6 +5565,32 @@ class ComponentAPITest(APIBaseTest):
             {"project__slug": component.project.slug, "slug": component.slug},
         )
 
+    def test_monolingual_directory_base_skips_symlinked_file(self) -> None:
+        component = self.create_appstore(
+            name="appstore", project=self.component.project
+        )
+        template_path = os.path.join(component.full_path, component.template)
+        sentinel = b"outside repository"
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(sentinel)
+        self.addCleanup(os.unlink, handle.name)
+
+        os.symlink(handle.name, os.path.join(template_path, "leak_host.bin"))
+
+        response = self.do_request(
+            "api:component-monolingual-base",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            superuser=True,
+        )
+
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            self.assertNotIn("leak_host.bin", zf.namelist())
+            archived_files = [zf.read(name) for name in zf.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
+
     def test_monolingual_download_prohibited(self) -> None:
         component = self.create_po_mono(name="mono", project=self.component.project)
         project = component.project

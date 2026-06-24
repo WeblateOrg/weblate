@@ -19,6 +19,8 @@ from weblate.utils.files import (
     get_repo_temp_dir,
     is_excluded,
     is_path_within_directory,
+    is_unsafe_path,
+    is_vcs_metadata_path,
     read_file_bytes,
     remove_tree,
     should_skip,
@@ -79,6 +81,18 @@ class FilesTestCase(SimpleTestCase):
 
     def test_is_excluded_allows_regular_relative_paths(self) -> None:
         self.assertFalse(is_excluded("locale/cs/messages.po"))
+
+    def test_is_unsafe_path(self) -> None:
+        self.assertTrue(is_unsafe_path("../outside.po"))
+        self.assertTrue(is_unsafe_path("/etc/passwd"))
+        self.assertTrue(is_unsafe_path(r"C:\temp\escape.po"))
+        self.assertFalse(is_unsafe_path("build/translation.txt"))
+
+    def test_is_vcs_metadata_path(self) -> None:
+        self.assertTrue(is_vcs_metadata_path(".git/config"))
+        self.assertTrue(is_vcs_metadata_path("path/.hg/hgrc"))
+        self.assertFalse(is_vcs_metadata_path("build/translation.txt"))
+        self.assertFalse(is_vcs_metadata_path("node_modules/translation.txt"))
 
     def test_is_path_within_directory_accepts_descendants(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:

@@ -6,7 +6,10 @@
 
 from __future__ import annotations
 
+import os
 from io import BytesIO
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 from unittest import TestCase
 from urllib.parse import parse_qs, urlparse, urlsplit
@@ -46,6 +49,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.views import zip_download
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
@@ -66,6 +70,45 @@ class PaginatorTemplateTest(TestCase):
         )
 
         self.assertIn('<form method="get" action="#components">', rendered)
+
+
+class ZipDownloadTest(TestCase):
+    def test_zip_download_validates_symlinked_file(self) -> None:
+        sentinel = b"outside repository"
+
+        with TemporaryDirectory() as root_name, TemporaryDirectory() as outside_name:
+            root = Path(root_name)
+            outside = Path(outside_name)
+            (root / ".git").mkdir()
+            (root / ".git" / "config").write_bytes(b"repository metadata")
+            (root / "build").mkdir()
+            (root / "build" / "translation.txt").write_bytes(b"build directory")
+            (root / "node_modules").mkdir()
+            (root / "node_modules" / "translation.txt").write_bytes(
+                b"node_modules directory"
+            )
+            (root / "regular.txt").write_bytes(b"inside repository")
+            (root / "shared.txt").write_bytes(b"shared translation")
+            (outside / "secret.txt").write_bytes(sentinel)
+            os.symlink(root / "shared.txt", root / "safe_link.txt")
+            os.symlink(outside / "secret.txt", root / "leak_host.bin")
+            os.symlink(root / "regular.txt", outside / "outside_link.txt")
+
+            response = zip_download(
+                str(root), [str(root), str(outside / "outside_link.txt")]
+            )
+
+        with ZipFile(BytesIO(response.content), "r") as archive:
+            self.assertIn("regular.txt", archive.namelist())
+            self.assertIn("build/translation.txt", archive.namelist())
+            self.assertIn("node_modules/translation.txt", archive.namelist())
+            self.assertEqual(archive.read("safe_link.txt"), b"shared translation")
+            self.assertNotIn(".git/config", archive.namelist())
+            self.assertNotIn("leak_host.bin", archive.namelist())
+            self.assertFalse(any(name.startswith("../") for name in archive.namelist()))
+            archived_files = [archive.read(name) for name in archive.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
 
 
 class RegistrationTestMixin(TestCase):
