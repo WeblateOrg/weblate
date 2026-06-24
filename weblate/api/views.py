@@ -1105,6 +1105,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "language_code",
+            gettext("Cannot change languages on a workspace team."),
+        )
 
         if "language_code" not in request.data:
             msg = "Missing language_code parameter"
@@ -1137,6 +1142,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     def delete_languages(self, request: Request, id, language_code):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "language_code",
+            gettext("Cannot change languages on a workspace team."),
+        )
 
         try:
             language = obj.languages.get(code=language_code)

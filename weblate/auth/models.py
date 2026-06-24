@@ -290,6 +290,10 @@ class Group(models.Model):
 
     def save(self, *args, **kwargs) -> None:
         self.clean()
+        if self.defining_workspace_id:
+            self.language_selection = SELECTION_ALL
+            if update_fields := kwargs.get("update_fields"):
+                kwargs["update_fields"] = {*update_fields, "language_selection"}
         super().save(*args, **kwargs)
         if self.defining_workspace_id:
             self.projects.clear()

@@ -2275,16 +2275,20 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": group.id},
             method="post",
             authenticated=False,
-            code=200,
+            code=400,
             request={"language_code": "cs"},
         )
-        self.assertTrue(group.languages.filter(code="cs").exists())
+        self.assertContains(
+            response, "Cannot change languages on a workspace team.", status_code=400
+        )
+        self.assertFalse(group.languages.filter(code="cs").exists())
+        group.languages.add(Language.objects.get(code="cs"))
         self.do_request(
             "api:group-delete-languages",
             kwargs={"id": group.id, "language_code": "cs"},
             method="delete",
             authenticated=False,
-            code=204,
+            code=400,
         )
         self.do_request(
             "api:group-detail",
@@ -2295,7 +2299,8 @@ class GroupAPITest(APIBaseTest):
             request={"language_selection": SELECTION_MANUAL},
         )
         group.refresh_from_db()
-        self.assertEqual(group.language_selection, SELECTION_MANUAL)
+        self.assertEqual(group.language_selection, SELECTION_ALL)
+        self.assertFalse(group.languages.exists())
         self.do_request(
             "api:group-delete-roles",
             kwargs={"id": group.id, "role_id": role.id},

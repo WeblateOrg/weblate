@@ -32,7 +32,7 @@ from rest_framework.exceptions import PermissionDenied
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
-from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
@@ -706,12 +706,28 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         validators = ()
 
     def validate(self, attrs):
+        defining_workspace = attrs.get(
+            "defining_workspace",
+            self.instance.defining_workspace if self.instance is not None else None,
+        )
+        if defining_workspace is not None:
+            attrs["language_selection"] = SELECTION_ALL
         if self.instance is not None and self.instance.internal:
-            errors = {
-                field: gettext_lazy("Cannot change this on a built-in team.")
-                for field in self.internal_fields
-                if field in attrs and attrs[field] != getattr(self.instance, field)
-            }
+            errors = {}
+            for field in self.internal_fields:
+                if field not in attrs:
+                    continue
+                value = attrs[field]
+                instance_value = getattr(self.instance, field)
+                if (
+                    field == "language_selection"
+                    and self.instance.defining_workspace_id
+                ):
+                    instance_value = SELECTION_ALL
+                if value != instance_value:
+                    errors[field] = gettext_lazy(
+                        "Cannot change this on a built-in team."
+                    )
             if errors:
                 raise serializers.ValidationError(errors)
         if (
@@ -746,10 +762,6 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
                     )
                 }
             )
-        defining_workspace = attrs.get(
-            "defining_workspace",
-            self.instance.defining_workspace if self.instance is not None else None,
-        )
         name = attrs.get(
             "name", self.instance.name if self.instance is not None else None
         )
@@ -792,6 +804,8 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         defining_workspace = validated_data.get("defining_workspace")
         if defining_project is not None or defining_workspace is not None:
             validated_data["project_selection"] = SELECTION_MANUAL
+        if defining_workspace is not None:
+            validated_data["language_selection"] = SELECTION_ALL
 
         group = super().create(validated_data)
         if defining_project is not None:
