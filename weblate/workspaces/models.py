@@ -294,6 +294,7 @@ class Workspace(models.Model):
     def setup_groups(self) -> dict[str, Group]:
         # ruff: ignore[import-outside-top-level]
         from weblate.auth.data import (
+            SELECTION_ALL,
             SELECTION_MANUAL,
         )
         from weblate.auth.models import (  # ruff: ignore[import-outside-top-level]
@@ -309,7 +310,7 @@ class Workspace(models.Model):
                 defaults={
                     "internal": True,
                     "project_selection": SELECTION_MANUAL,
-                    "language_selection": SELECTION_MANUAL,
+                    "language_selection": SELECTION_ALL,
                 },
             )
             if created or not group.roles.exists():

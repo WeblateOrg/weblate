@@ -18,7 +18,7 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -516,7 +516,7 @@ class BaseTeamForm(forms.ModelForm):
             self.instance.defining_project = None
             self.instance.defining_workspace = workspace
             self.instance.project_selection = SELECTION_MANUAL
-            self.instance.language_selection = SELECTION_MANUAL
+            self.instance.language_selection = SELECTION_ALL
 
         self.instance.save()
 

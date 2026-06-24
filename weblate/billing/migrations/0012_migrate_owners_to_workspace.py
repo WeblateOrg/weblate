@@ -18,7 +18,7 @@ def migrate_owners_to_workspace(apps, schema_editor) -> None:
             defaults={
                 "internal": True,
                 "project_selection": 0,
-                "language_selection": 0,
+                "language_selection": 1,
             },
         )
         for user_id in (
