@@ -63,6 +63,7 @@ Weblate 2026.7
 * API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
 * Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs.
 * Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
+* :ref:`check-max-size` no longer wraps text when checking strings configured to fit on one line.
 
 .. rubric:: Compatibility
 
