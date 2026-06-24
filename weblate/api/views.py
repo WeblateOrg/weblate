@@ -1275,8 +1275,10 @@ class GroupViewSet(viewsets.ModelViewSet):
         field_name = "component_id"
         if obj.defining_project_id is not None:
             component_queryset = obj.defining_project.component_set
-        else:
+        elif request.user.has_perm("group.edit"):
             component_queryset = Component.objects
+        else:
+            component_queryset = Component.objects.filter_access(request.user)
         try:
             component = component_queryset.get(pk=int(request.data[field_name]))
         except (TypeError, ValueError) as error:
