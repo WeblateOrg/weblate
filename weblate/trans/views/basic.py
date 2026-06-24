@@ -1144,7 +1144,9 @@ def healthz(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @never_cache
 def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse:
-    obj = get_object_or_404(ComponentList, slug__iexact=name)
+    obj = get_object_or_404(
+        ComponentList.objects.filter_access(request.user), slug__iexact=name
+    )
     components = prefetch_tasks(
         get_paginator(
             request,

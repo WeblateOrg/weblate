@@ -25,7 +25,7 @@ from django.core.exceptions import (
     ValidationError as DjangoValidationError,
 )
 from django.db import DatabaseError, IntegrityError, transaction
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -3721,14 +3721,16 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     request: Request  # type: ignore[assignment]
 
     def get_queryset(self):
+        component_queryset = Component.objects.select_related("project")
+        if not self.request.user.has_perm("componentlist.edit"):
+            component_queryset = component_queryset.filter_access(self.request.user)
         return (
-            ComponentList.objects.filter(
-                Q(components__project__in=self.request.user.allowed_projects)
-                | Q(components__isnull=True)
+            ComponentList.objects.filter_access(self.request.user)
+            .prefetch_related(
+                Prefetch("components", queryset=component_queryset),
+                "autocomponentlist_set",
             )
-            .prefetch_related("components__project", "autocomponentlist_set")
             .order_by("id")
-            .distinct()
         )
 
     def perm_check(self, request: Request) -> None:

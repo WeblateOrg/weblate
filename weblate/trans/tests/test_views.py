@@ -30,7 +30,8 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, setup_project_groups
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
@@ -1043,6 +1044,68 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
         self.assertContains(response, "TestCL")
         self.assertContains(response, self.component.name)
+
+    def test_view_empty_component_list_denied(self) -> None:
+        ComponentList.objects.create(name="TestCL", slug="testcl")
+
+        response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_view_restricted_component_list_denied(self) -> None:
+        restricted_component = self.create_po(
+            project=self.project, name="Restricted", restricted=True
+        )
+        clist = ComponentList.objects.create(name="RestrictedCL", slug="restrictedcl")
+        clist.components.add(restricted_component)
+
+        response = self.client.get(
+            reverse("component-list", kwargs={"name": "restrictedcl"})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_view_empty_component_list_with_management_permission(self) -> None:
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.autocomponentlist_set.create(
+            project_match="^internal-", component_match="^.*$"
+        )
+        group = Group.objects.create(
+            name="Component list managers", language_selection=SELECTION_ALL
+        )
+        role = Role.objects.create(name="Component list management")
+        role.permissions.add(Permission.objects.get(codename="componentlist.edit"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.client.login(username="testuser", password="testpassword")
+
+        response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
+
+        self.assertContains(response, "TestCL")
+
+    def test_view_private_component_list_with_management_permission(self) -> None:
+        private_project = self.create_project(
+            name="Private", slug="private", access_control=Project.ACCESS_PRIVATE
+        )
+        private_component = self.create_po(project=private_project, name="Private")
+        clist = ComponentList.objects.create(name="PrivateCL", slug="privatecl")
+        clist.components.add(private_component)
+        group = Group.objects.create(
+            name="Component list managers", language_selection=SELECTION_ALL
+        )
+        role = Role.objects.create(name="Component list management")
+        role.permissions.add(Permission.objects.get(codename="componentlist.edit"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.client.login(username="testuser", password="testpassword")
+
+        response = self.client.get(
+            reverse("component-list", kwargs={"name": "privatecl"})
+        )
+
+        self.assertContains(response, "PrivateCL")
 
     def test_view_category(self) -> None:
         category = self.create_category(self.project)

@@ -1336,6 +1336,15 @@ class DownloadMultiTest(ViewTestCase):
         )
         self.assert_zip(response, "test/test/po/cs.po")
 
+    def test_empty_component_list_denied(self) -> None:
+        ComponentList.objects.create(name="TestCL", slug="testcl")
+
+        response = self.client.get(
+            reverse("download_component_list", kwargs={"name": "testcl"})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
     def test_component_csv(self) -> None:
         response = self.client.get(
             reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
