@@ -273,18 +273,23 @@ def _find_unclosed_jsx_tag(text: str, start: int) -> tuple[int, str] | None:
     return None
 
 
+def _is_attribute_name_char(char: str) -> bool:
+    """Return whether char is allowed after the first JSX attribute name char."""
+    return char.isalnum() or char in "_:.-"
+
+
 def _find_attribute_name(text: str, equals: int) -> str | None:
     """Find the JSX attribute name before an equals sign."""
     i = equals - 1
     while i >= 0 and text[i].isspace():
         i -= 1
     end = i + 1
-    while i >= 0 and re.match(r"[\w:.-]", text[i]):
+    while i >= 0 and _is_attribute_name_char(text[i]):
         i -= 1
     if end == i + 1:
         return None
     name = text[i + 1 : end]
-    if re.match(r"[A-Za-z_:]", name[0]):
+    if name[0].isalpha() or name[0] in "_:":
         return name
     return None
 
@@ -390,17 +395,11 @@ class SafeMDXCheck(TargetCheck):
             i += 1
 
     def get_jsx_expression_context(
-        self,
-        text: str,
-        start: int,
-        stack: tuple[str, ...] | None = None,
-        tag_context: tuple[int, str] | None = None,
+        self, text: str, start: int
     ) -> tuple[str, str, tuple[str, ...]]:
         """Return whether an expression appears in JSX text or an attribute."""
-        if stack is None:
-            stack = self.get_jsx_element_stack(text[:start])
-        if tag_context is None:
-            tag_context = _find_unclosed_jsx_tag(text, start)
+        stack = self.get_jsx_element_stack(text[:start])
+        tag_context = _find_unclosed_jsx_tag(text, start)
         if tag_context is not None:
             tag_start, tag = tag_context
             before_expression = text[tag_start + 1 : start]
