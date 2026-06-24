@@ -351,7 +351,10 @@ class TeamMembershipQuerySet(models.QuerySet["TeamMembership"]):
         return self.filter(limit_languages__isnull=True)
 
     def unlimited_for_user(self, user: User) -> Self:
-        return self.filter(user=user, limit_languages__isnull=True)
+        queryset = self.filter(user=user, limit_languages__isnull=True)
+        if user.is_bot or user.profile.has_2fa:
+            return queryset
+        return queryset.exclude(group__enforced_2fa=True)
 
 
 @dataclass(frozen=True)

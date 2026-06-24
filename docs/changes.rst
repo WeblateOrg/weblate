@@ -64,6 +64,7 @@ Weblate 2026.7
 
 .. rubric:: Compatibility
 
+* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured.
 * :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, and broker settings are stored as an AMQP URL with existing host and SSL settings migrated automatically.
 
 .. rubric:: Upgrading
