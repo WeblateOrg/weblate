@@ -40,6 +40,16 @@ the resulting PO file then contains lines such as:
    msgid "untranslated-string"
    msgstr "translated-string"
 
+This is controlled by the ``po_keep_previous`` :ref:`file_format_params`
+parameter. It does not affect obsolete entries marked with ``#~``.
+
+Obsolete strings
+++++++++++++++++
+
+:program:`msgmerge` keeps strings removed from the POT file as obsolete ``#~``
+entries by default. Enable the ``po_remove_obsolete`` :ref:`file_format_params`
+parameter to remove obsolete entries when Weblate saves PO files.
+
 PO file header
 ++++++++++++++
 

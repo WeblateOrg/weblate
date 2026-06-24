@@ -7,7 +7,7 @@ from __future__ import annotations
 import gzip
 import os
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import time
 from importlib import import_module
 from pathlib import Path
@@ -57,8 +57,7 @@ def heartbeat() -> None:
     cache.set("celery_encoding", get_encoding_list())
 
 
-@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
-def settings_backup() -> None:
+def run_settings_backup() -> None:
     with backup_lock():
         # Expand settings in case it contains non-trivial code
         command = diffsettings.Command()
@@ -79,6 +78,11 @@ def settings_backup() -> None:
         ) as handle:
             yaml = YAML()
             yaml.dump(dict(os.environ), handle)
+
+
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
+def settings_backup() -> None:
+    run_settings_backup()
 
 
 @app.task(trail=False)
@@ -110,8 +114,7 @@ def update_project_stats_link(pk: int) -> None:
     project.stats.update_stats()
 
 
-@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
-def database_backup() -> None:
+def run_database_backup() -> None:
     if settings.DATABASE_BACKUP == "none":
         return
     with backup_lock():
@@ -148,7 +151,7 @@ def database_backup() -> None:
         env["PGPASSWORD"] = cast("str", database["PASSWORD"])
 
         try:
-            subprocess.run(  # noqa: S603
+            subprocess.run(
                 cmd,  # type: ignore[arg-type]
                 env=env,
                 capture_output=True,
@@ -171,6 +174,11 @@ def database_backup() -> None:
             with open(out_text, "rb") as f_in, gzip.open(out_compressed, "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
             os.unlink(out_text)
+
+
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
+def database_backup() -> None:
+    run_database_backup()
 
 
 @app.on_after_finalize.connect

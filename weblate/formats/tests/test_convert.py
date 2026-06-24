@@ -8,15 +8,17 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile, TemporaryDirectory
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from weblate.checks.tests.test_checks import MockUnit
+from django.test import SimpleTestCase
+
 from weblate.formats.convert import (
     AsciiDocFormat,
     HTMLFormat,
     IDMLFormat,
     MarkdownFormat,
+    MDXFormat,
     OpenDocumentFormat,
     PlainTextFormat,
     WindowsRCFormat,
@@ -24,6 +26,7 @@ from weblate.formats.convert import (
 )
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.tests.test_formats import BaseFormatTest
+from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -31,12 +34,15 @@ if TYPE_CHECKING:
     from translate.storage.pypo import pofile
 
     from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.models import Unit
 
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
 HTML_FILE_TRANSLATED = get_test_file("cs2.html")
 MARKDOWN_FILE = get_test_file("cs.md")
 MARKDOWN_FILE_TRANSLATED = get_test_file("cs2.md")
+MDX_FILE = get_test_file("cs.mdx")
+MDX_FILE_TRANSLATED = get_test_file("cs2.mdx")
 ASCIIDOC_FILE = get_test_file("cs.adoc")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
@@ -52,7 +58,7 @@ class ConvertFormatTest(BaseFormatTest):
     CONVERT_TEMPLATE = ""
     CONVERT_TRANSLATION = ""
     CONVERT_EXPECTED = ""
-    CONVERT_EXISTING: ClassVar[list[MockUnit]] = []
+    CONVERT_EXISTING: ClassVar[list[Unit]] = []
 
     def test_convert(self) -> None:
         self.maxDiff = None
@@ -60,50 +66,43 @@ class ConvertFormatTest(BaseFormatTest):
             self.skipTest(
                 f"Test template not provided for {self.format_class.format_id}"
             )
-        translation = template = None
-        try:
-            # Generate test files
-            with NamedTemporaryFile(
-                encoding="utf-8", delete=False, mode="w+"
-            ) as template:
-                template.write(self.CONVERT_TEMPLATE)
-            with NamedTemporaryFile(
-                encoding="utf-8", delete=False, mode="w+"
-            ) as translation:
-                translation.write(self.CONVERT_TRANSLATION)
+        # Generate test files
+        with NamedTemporaryFile(encoding="utf-8", delete=False, mode="w+") as template:
+            template.write(self.CONVERT_TEMPLATE)
+        self.addCleanup(os.unlink, template.name)
+        with NamedTemporaryFile(
+            encoding="utf-8", delete=False, mode="w+"
+        ) as translation:
+            translation.write(self.CONVERT_TRANSLATION)
+        self.addCleanup(os.unlink, translation.name)
 
-            # Parse
-            storage = self.format_class(
-                translation.name,
-                template_store=self.format_class(template.name, is_template=True),
-                existing_units=self.CONVERT_EXISTING,  # type: ignore[arg-type]
-            )
+        # Parse
+        storage = self.format_class(
+            translation.name,
+            template_store=self.format_class(template.name, is_template=True),
+            existing_units=self.CONVERT_EXISTING,  # type: ignore[arg-type]
+        )
 
-            # Ensure it is parsed correctly
-            self.assertEqual(len(storage.content_units), 2)
-            unit1, unit2 = storage.content_units
-            self.assertEqual(unit1.source, "Hello")
-            self.assertEqual(unit1.target, "Ahoj")
-            self.assertEqual(unit2.source, "Bye")
-            self.assertEqual(unit2.target, "")
+        # Ensure it is parsed correctly
+        self.assertEqual(len(storage.content_units), 2)
+        unit1, unit2 = storage.content_units
+        self.assertEqual(unit1.source, "Hello")
+        self.assertEqual(unit1.target, "Ahoj")
+        self.assertEqual(unit2.source, "Bye")
+        self.assertEqual(unit2.target, "")
 
-            # Translation
-            unit2.set_target("Nazdar")
-            unit2.set_state(STATE_TRANSLATED)
+        # Translation
+        unit2.set_target("Nazdar")
+        unit2.set_state(STATE_TRANSLATED)
 
-            # Save
-            storage.save()
+        # Save
+        storage.save()
 
-            # Check translation
-            self.assertEqual(
-                Path(translation.name).read_text(encoding="utf-8"),
-                self.CONVERT_EXPECTED,
-            )
-        finally:
-            if template:
-                os.unlink(template.name)
-            if translation:
-                os.unlink(translation.name)
+        # Check translation
+        self.assertEqual(
+            Path(translation.name).read_text(encoding="utf-8"),
+            self.CONVERT_EXPECTED,
+        )
 
 
 class HTMLFormatTest(ConvertFormatTest):
@@ -157,13 +156,12 @@ Bye
 
 Nazdar
 """
-    CONVERT_EXISTING: ClassVar[list[MockUnit]] = [
-        MockUnit(source="Hello", target="Ahoj")
-    ]
+    CONVERT_EXISTING: ClassVar[list[Unit]] = [make_unit(source="Hello", target="Ahoj")]
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {
         "line_max_length": 80,
         "md_extract_code_blocks": False,
         "md_extract_frontmatter": True,
+        "md_frontmatter_translate_values": False,
         "md_no_placeholders": False,
     }
 
@@ -181,7 +179,7 @@ Nazdar
             testfile,
             template_store=self.format_class(testfile, is_template=True),
             existing_units=[
-                MockUnit(
+                make_unit(
                     source="Orangutan has five bananas.",
                     target="Orangutan má pět banánů.",
                 )
@@ -212,7 +210,7 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
 
     def test_default_check_flags(self) -> None:
         self.assertEqual(
-            MarkdownFormat.check_flags,
+            self.format_class.check_flags,
             ("auto-safe-html", "strict-same", "md-text"),
         )
 
@@ -276,6 +274,71 @@ Content
     def test_frontmatter_extraction_off(self) -> None:
         self.test_frontmatter_extraction(extract_frontmatter=False)
 
+    def test_frontmatter_value_extraction(self) -> None:
+        template = Path(self.tempdir) / "template.md"
+        translation = Path(self.tempdir) / "translation.md"
+        template.write_text(
+            """---
+title: Title
+description: Summary
+draft: false
+tags:
+  - Alpha
+  - Beta
+---
+
+# Header
+Content
+""",
+            encoding="utf-8",
+        )
+        translation.write_text(
+            """---
+title: Titulek
+description: Souhrn
+draft: false
+tags:
+  - Alfa
+  - Beta
+---
+
+# Nadpis
+Obsah
+""",
+            encoding="utf-8",
+        )
+
+        params = cast(
+            "FileFormatParams",
+            {**self.FILE_FORMAT_PARAMS, "md_frontmatter_translate_values": True},
+        )
+        storage = self.format_class(
+            str(translation),
+            template_store=self.format_class(
+                str(template),
+                is_template=True,
+                file_format_params=params,
+            ),
+            file_format_params=params,
+        )
+
+        self.assertEqual(
+            [unit.source for unit in storage.content_units],
+            ["Title", "Summary", "Alpha", "Beta", "Header", "Content"],
+        )
+        self.assertEqual(
+            [unit.target for unit in storage.content_units],
+            ["Titulek", "Souhrn", "Alfa", "Beta", "Nadpis", "Obsah"],
+        )
+
+        storage.content_units[0].set_target("Nadpisek")
+        storage.content_units[0].set_state(STATE_TRANSLATED)
+        storage.save()
+        self.assertIn(
+            "title: Nadpisek",
+            translation.read_text(encoding="utf-8"),
+        )
+
     def test_missing_converted_unit_is_untranslated(self) -> None:
         template = Path(self.tempdir) / "template.md"
         translation = Path(self.tempdir) / "translation.md"
@@ -295,6 +358,168 @@ Content
         self.assertFalse(unit2.has_unit())
         self.assertEqual(unit2.target, "")
         self.assertFalse(unit2.is_translated())
+
+
+class MDXFormatTest(MarkdownFormatTest):
+    format_class = MDXFormat
+    FILE = MDX_FILE
+    MIME = "text/mdx"
+    EXT = "mdx"
+    COUNT = 6
+    MASK = "*/translations.mdx"
+    EXPECTED_PATH = "cs_CZ/translations.mdx"
+    MATCH = b"LessonCard"
+    BASE = MDX_FILE
+    EDIT_OFFSET = 2
+
+    CONVERT_TEMPLATE = """import Box from "./Box"
+
+# Hello
+
+<Box value={items.length}>Do not translate this JSX.</Box>
+
+Bye
+"""
+    CONVERT_TRANSLATION = """import Box from "./Box"
+
+# Ahoj
+
+<Box value={items.length}>Do not translate this JSX.</Box>
+"""
+    CONVERT_EXPECTED = """import Box from "./Box"
+
+# Ahoj
+
+<Box value={items.length}>Do not translate this JSX.</Box>
+
+Nazdar
+"""
+
+    def test_existing_units(self) -> None:
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+        Path(testfile).write_bytes(testdata)
+
+        storage = self.format_class(
+            testfile,
+            template_store=self.format_class(testfile, is_template=True),
+            existing_units=cast(
+                "list[Unit]",
+                [
+                    cast(
+                        "Unit",
+                        make_unit(
+                            source="Orangutan has five bananas.",
+                            target="Orangutan má pět banánů.",
+                        ),
+                    )
+                ],
+            ),
+        )
+
+        storage.save()
+
+        self.assertEqual(
+            Path(testfile).read_text(encoding="utf-8"),
+            """---
+title: Ahoj světe!
+description: Learn with Weblate
+---
+
+import LessonCard from "./LessonCard"
+export const metadata = { slug: "intro" }
+
+# Ahoj světe!
+
+<LessonCard title="Keep this code" count={5}>
+  Do not translate this JSX body.
+</LessonCard>
+
+Orangutan má pět banánů.
+
+Try Weblate at [weblate.org](https://demo.weblate.org/)!
+
+*Thank you for using Weblate.*
+""",
+        )
+
+    def test_import_existing(self) -> None:
+        storage = self.parse_file(MDX_FILE_TRANSLATED, MDX_FILE)
+        unit, add = storage.find_unit("", "*Thank you for using Weblate.*")
+
+        self.assertFalse(add)
+        self.assertIsNotNone(unit)
+        self.assertEqual(unit.target, "*Díky za používání Weblate.*")
+
+    def test_mdx_code_is_preserved_without_extraction(self) -> None:
+        storage = self.parse_file(self.FILE)
+        sources = [unit.source for unit in storage.content_units]
+
+        self.assertIn("Orangutan has five bananas.", sources)
+        self.assertNotIn("Do not translate this JSX body.", sources)
+        self.assertIn("LessonCard", Path(self.FILE).read_text(encoding="utf-8"))
+
+    def test_default_check_flags(self) -> None:
+        self.assertEqual(
+            self.format_class.check_flags,
+            ("auto-safe-html", "strict-same", "md-text", "safe-mdx"),
+        )
+
+    def test_ignore_safe_mdx_in_code_blocks(self) -> None:
+        file_content = """```js
+const messages = { hello: "Hello" }
+```"""
+        with self.temporary_file_format_param("md_extract_code_blocks", True):
+            storage = self.parse_file(
+                NamedBytesIO("test.mdx", file_content.encode("utf-8"))
+            )
+            self.assertIn("ignore-safe-mdx", storage.content_units[0].flags)
+
+
+class MDXFormatSaveTest(SimpleTestCase):
+    def test_duplicate_sources_save_distinct_targets(self) -> None:
+        content = """import Box from "./Box"
+
+Repeated
+
+<Box>Do not translate this JSX.</Box>
+
+Repeated
+"""
+        with TemporaryDirectory() as tempdir:
+            template = Path(tempdir) / "template.mdx"
+            translation = Path(tempdir) / "translation.mdx"
+            template.write_text(content, encoding="utf-8")
+            translation.write_text(content, encoding="utf-8")
+
+            storage = MDXFormat(
+                str(translation),
+                template_store=MDXFormat(str(template), is_template=True),
+                file_format_params={"merge_duplicates": False},
+            )
+            units = [
+                unit for unit in storage.content_units if unit.source == "Repeated"
+            ]
+
+            self.assertEqual(len(units), 2)
+            units[0].set_target("First translation")
+            units[0].set_state(STATE_TRANSLATED)
+            units[1].set_target("Second translation")
+            units[1].set_state(STATE_TRANSLATED)
+
+            storage.save()
+
+            self.assertEqual(
+                translation.read_text(encoding="utf-8"),
+                """import Box from "./Box"
+
+First translation
+
+<Box>Do not translate this JSX.</Box>
+
+Second translation
+""",
+            )
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):
@@ -447,9 +672,7 @@ Bye
 
 Nazdar
 """
-    CONVERT_EXISTING: ClassVar[list[MockUnit]] = [
-        MockUnit(source="Hello", target="Ahoj")
-    ]
+    CONVERT_EXISTING: ClassVar[list[Unit]] = [make_unit(source="Hello", target="Ahoj")]
 
     def test_existing_units(self) -> None:
         testdata = Path(self.FILE).read_bytes()
@@ -465,7 +688,7 @@ Nazdar
             testfile,
             template_store=self.format_class(testfile, is_template=True),
             existing_units=[
-                MockUnit(
+                make_unit(
                     source="Orangutan has five bananas.",
                     target="Orangutan má pět banánů.",
                 )

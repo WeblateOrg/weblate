@@ -26,9 +26,9 @@ MENU = (
 REPO_URL = "https://api.github.com/repos/WeblateOrg/weblate"
 ACTIVITY_URL = "https://api.github.com/repos/WeblateOrg/weblate/stats/commit_activity"
 FALLBACK_STATS = {
-    "stars": 4082,
-    "issues": 447,
-    "commits": 663,
+    "stars": 5896,
+    "issues": 484,
+    "commits": 1728,
 }
 
 
@@ -78,7 +78,7 @@ class StatsView(AboutView):
             .filter(user__is_bot=False, user__is_active=True)[:10]
             .select_related("user")
         )
-        translated_max = max(user.translated for user in top_users)
+        translated_max = max((user.translated for user in top_users), default=0)
         for user in top_users:
             if translated_max:
                 user.translated_width = 100 * user.translated // translated_max

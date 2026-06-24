@@ -13,7 +13,7 @@
 
 {% block content %}
 
-  {% if not user.is_authenticated or object.user != user %}
+  {% if not invitation_matches_user %}
     <div class="container">
       <div class="card">
         <div class="card-header">

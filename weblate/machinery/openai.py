@@ -4,7 +4,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar
+from typing import ClassVar
+from urllib.parse import quote, urljoin
 
 from django.core.cache import cache
 
@@ -15,61 +16,52 @@ from .base import (
 from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
 from .llm import BaseLLMTranslation
 
-if TYPE_CHECKING:
-    from collections.abc import Iterable
-
-    from openai import OpenAI
-
 
 class BaseOpenAITranslation(BaseLLMTranslation):
-    client: OpenAI
-
     def get_runtime_base_url(self) -> str:
         raise NotImplementedError
+
+    def get_chat_completions_url(self) -> str:
+        raise NotImplementedError
+
+    @staticmethod
+    def join_api_url(base_url: str, path: str) -> str:
+        return urljoin(f"{base_url.rstrip('/')}/", path)
+
+    def check_failure(self, response) -> None:
+        if response.status_code == 429:
+            message = self.get_error_detail(response) or "Rate limit exceeded"
+            raise MachineryRateLimitError(message)
+        super().check_failure(response)
 
     def fetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
-        from openai import RateLimitError  # noqa: PLC0415
-        from openai.types.chat import (  # noqa: PLC0415
-            ChatCompletionAssistantMessageParam,
-            ChatCompletionSystemMessageParam,
-            ChatCompletionUserMessageParam,
-        )
-
-        messages: Iterable[
-            ChatCompletionSystemMessageParam
-            | ChatCompletionUserMessageParam
-            | ChatCompletionAssistantMessageParam
-        ] = [
-            ChatCompletionSystemMessageParam(role="system", content=prompt),
-            ChatCompletionUserMessageParam(
-                role="user",
-                content=previous_content,
-            ),
-            ChatCompletionAssistantMessageParam(
-                role="assistant",
-                content=previous_response,
-            ),
-            ChatCompletionUserMessageParam(
-                role="user",
-                content=content,
-            ),
+        messages = [
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": previous_content},
+            {"role": "assistant", "content": previous_response},
+            {"role": "user", "content": content},
         ]
-        try:
-            self.validate_runtime_url(self.get_runtime_base_url())
-            response = self.client.chat.completions.create(
-                model=self.get_model(),
-                messages=messages,
-            )
-        except RateLimitError as error:
-            if not isinstance(error.body, dict) or not (
-                message := error.body.get("message")
-            ):
-                message = error.message
-            raise MachineryRateLimitError(message) from error
-
-        return response.choices[0].message.content
+        self.validate_runtime_url(self.get_runtime_base_url())
+        model = self.get_traced_model()
+        response = self.request(
+            "post",
+            self.get_chat_completions_url(),
+            json={
+                "model": model,
+                "messages": messages,
+            },
+        )
+        payload = response.json()
+        choices = payload.get("choices", []) if isinstance(payload, dict) else []
+        if choices:
+            first_choice = choices[0]
+            if isinstance(first_choice, dict):
+                message = first_choice.get("message", {})
+                if isinstance(message, dict):
+                    return message.get("content")
+        return None
 
 
 class OpenAITranslation(BaseOpenAITranslation):
@@ -81,18 +73,20 @@ class OpenAITranslation(BaseOpenAITranslation):
     settings_form = OpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:
-        from openai import OpenAI  # noqa: PLC0415
-
         super().__init__(settings)
-        self.client = OpenAI(
-            api_key=self.settings["key"],
-            timeout=self.request_timeout,
-            base_url=self.settings.get("base_url") or None,
-        )
         self._models: set[str] | None = None
+
+    def get_headers(self) -> dict[str, str]:
+        return {"Authorization": f"Bearer {self.settings['key']}"}
 
     def get_runtime_base_url(self) -> str:
         return self.settings.get("base_url") or "https://api.openai.com/v1"
+
+    def get_models_url(self) -> str:
+        return self.join_api_url(self.get_runtime_base_url(), "models")
+
+    def get_chat_completions_url(self) -> str:
+        return self.join_api_url(self.get_runtime_base_url(), "chat/completions")
 
     def get_model(self) -> str:
         if self._models is None:
@@ -103,7 +97,13 @@ class OpenAITranslation(BaseOpenAITranslation):
                 self._models = set(models_cache)
             else:
                 self.validate_runtime_url(self.get_runtime_base_url())
-                self._models = {model.id for model in self.client.models.list()}
+                payload = self.request("get", self.get_models_url()).json()
+                models = payload.get("data", []) if isinstance(payload, dict) else []
+                self._models = {
+                    model["id"]
+                    for model in models
+                    if isinstance(model, dict) and isinstance(model.get("id"), str)
+                }
                 cache.set(cache_key, self._models, 3600)
 
         if self.settings["model"] in self._models:
@@ -126,20 +126,21 @@ class AzureOpenAITranslation(BaseOpenAITranslation):
     version_added = "5.8"
     settings_form = AzureOpenAIMachineryForm
 
-    def __init__(self, settings=None) -> None:
-        from openai import AzureOpenAI  # noqa: PLC0415
+    api_version = "2024-06-01"
 
-        super().__init__(settings)
-        self.client = AzureOpenAI(
-            api_key=self.settings["key"],
-            api_version="2024-06-01",
-            timeout=self.request_timeout,
-            azure_endpoint=self.settings.get("azure_endpoint") or "",
-            azure_deployment=self.settings["deployment"],
-        )
+    def get_headers(self) -> dict[str, str]:
+        return {"api-key": self.settings["key"]}
 
     def get_runtime_base_url(self) -> str:
         return self.settings.get("azure_endpoint") or ""
+
+    def get_chat_completions_url(self) -> str:
+        deployment = quote(self.settings["deployment"], safe="")
+        return self.join_api_url(
+            self.get_runtime_base_url(),
+            f"openai/deployments/{deployment}/chat/completions"
+            f"?api-version={self.api_version}",
+        )
 
     def get_model(self) -> str:
         return self.settings["deployment"]

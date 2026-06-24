@@ -24,7 +24,7 @@ There are several jobs to verify different aspects:
 * Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
 * Code security scanning using `CodeQL <https://codeql.github.com/>`_.
 * Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_.
-* Code formatting using `prek <https://pypi.org/project/prek/>`_, a faster
+* Code formatting using :pypi:`prek`, a faster
   third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_
   framework.
 * Migration testing from all supported releases
@@ -35,6 +35,14 @@ heavily uses helper scripts stored in :file:`ci` directory. The scripts can be
 also executed manually, but they require several environment variables, mostly
 defining Django settings file to use and test database connection. The example
 definition of that is in :file:`scripts/test-database.sh`:
+
+The Selenium screenshot tests in :file:`weblate/trans/tests/test_selenium.py`
+serve two purposes. They generate images for visual change testing in CI, and
+the same images are converted into documentation screenshots by
+:command:`make -C docs update-screenshots`. Keep screenshot fixtures close to
+real rendered pages so CI catches UI regressions. When a screenshot includes
+volatile runtime data, prefer deterministic server-side test inputs over
+post-render DOM changes.
 
 .. literalinclude:: ../../scripts/test-database.sh
    :language: sh

@@ -12,7 +12,6 @@ from unittest import mock
 
 from django.conf import settings
 from django.core import mail
-from django.core.signing import TimestampSigner
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
@@ -31,19 +30,26 @@ from weblate_schemas import load_schema
 
 from weblate.accounts.forms import ProfileForm
 from weblate.accounts.models import Profile, Subscription
-from weblate.accounts.notifications import NotificationFrequency, NotificationScope
+from weblate.accounts.notifications import (
+    NOTIFICATIONS,
+    NotificationFrequency,
+    NotificationScope,
+)
 from weblate.accounts.views import log_handled_auth_failure
-from weblate.auth.models import User
-from weblate.billing.models import Plan
+from weblate.auth.models import Group, User
+from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import (
+    create_test_billing,
     social_core_modify_settings,
     social_core_override_settings,
 )
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.workspaces.models import Workspace
 
 CONTACT_DATA = {
     "name": "Test",
@@ -230,7 +236,7 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, "640k")
         response = self.client.post(reverse("trial"), follow=True)
         self.assertContains(response, "Create project")
-        billing = user.billing_set.get()
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
         self.assertTrue(billing.is_trial)
 
         # Repeated attempt should fail
@@ -275,6 +281,30 @@ class ViewTest(RepoTestCase):
         # Get public profile
         response = self.client.get(user.get_absolute_url())
         self.assertContains(response, "table-activity")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_user_without_billing(self) -> None:
+        """Test user pages without billing."""
+        user = self.get_user()
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(user.get_absolute_url())
+
+        self.assertContains(response, "table-activity")
+        self.assertEqual(response.context["page_user_billings"], [])
+
+    def test_user_billing_tab(self) -> None:
+        """Test billing tab on user pages."""
+        user = self.get_user()
+        user.is_superuser = True
+        user.save()
+        billing = create_test_billing(user, invoice=False)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(user.get_absolute_url())
+
+        self.assertEqual(response.context["page_user_billings"], [billing])
+        self.assertContains(response, 'data-bs-target="#billing"')
 
     def test_suggestions(self) -> None:
         """Test user pages."""
@@ -625,6 +655,12 @@ class ViewTest(RepoTestCase):
 
 
 class ProfileTest(FixtureTestCase):
+    @staticmethod
+    def get_muted_subscription_count() -> int:
+        return sum(
+            1 for notification in NOTIFICATIONS if not notification.ignore_watched
+        )
+
     def test_profile(self) -> None:
         # Get profile page
         response = self.client.get(reverse("profile"))
@@ -659,6 +695,41 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+
+    def test_profile_group_display_uses_scoped_team_queryset(self) -> None:
+        workspace = Workspace.objects.create(name="Profile workspace")
+        project_group = Group.objects.create(
+            name="Profile project team", defining_project=self.project
+        )
+        workspace_group = Group.objects.create(
+            name="Profile workspace team", defining_workspace=workspace
+        )
+        self.user.groups.add(project_group, workspace_group)
+
+        response = self.client.get(reverse("profile"))
+        user_groups = response.context["user_groups"]
+        sql = str(user_groups.query)
+
+        self.assertIn("trans_project", sql)
+        self.assertIn("workspaces_workspace", sql)
+        self.assertIn(project_group, user_groups)
+        self.assertIn(workspace_group, user_groups)
+
+    def test_profile_inherited_license_display(self) -> None:
+        self.project.license = "MIT"
+        self.project.save(update_fields=["license"])
+        self.component.license = ""
+        self.component.inherit_license = True
+        self.component.save(update_fields=["license", "inherit_license"])
+        unit = self.get_unit()
+        unit.change_set.create(
+            action=ActionEvents.CHANGE, user=self.user, author=self.user
+        )
+
+        response = self.client.get(reverse("profile"))
+
+        self.assertContains(response, "MIT License")
+        self.assertContains(response, 'class="license badge">MIT</span>')
 
     def test_profile_contact_rejects_direct_download(self) -> None:
         form = ProfileForm(
@@ -970,6 +1041,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(form.initial["project"], self.project)
 
     def test_watch(self) -> None:
+        muted_subscription_count = self.get_muted_subscription_count()
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 10)
 
@@ -983,13 +1055,15 @@ class ProfileTest(FixtureTestCase):
         # Mute notifications for component
         self.client.post(reverse("mute", kwargs=self.kw_component))
         self.assertEqual(
-            self.user.subscription_set.filter(component=self.component).count(), 20
+            self.user.subscription_set.filter(component=self.component).count(),
+            muted_subscription_count,
         )
 
         # Mute notifications for project
         self.client.post(reverse("mute", kwargs={"path": self.project.get_url_path()}))
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 20
+            self.user.subscription_set.filter(project=self.project).count(),
+            muted_subscription_count,
         )
 
         # Unwatch project
@@ -1006,6 +1080,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 10)
 
     def test_watch_component(self) -> None:
+        muted_subscription_count = self.get_muted_subscription_count()
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 10)
 
@@ -1014,7 +1089,8 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.profile.watched.count(), 1)
         # All project notifications should be muted
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 20
+            self.user.subscription_set.filter(project=self.project).count(),
+            muted_subscription_count,
         )
         # Only default notifications should be enabled
         self.assertEqual(
@@ -1030,7 +1106,7 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "notification change link is no longer valid")
 
         response = self.client.get(
-            reverse("unsubscribe"), {"i": TimestampSigner().sign("-1")}, follow=True
+            reverse("unsubscribe"), {"i": Subscription.sign_id("-1")}, follow=True
         )
         self.assertRedirects(response, f"{reverse('profile')}#notifications")
         self.assertContains(response, "notification change link is no longer valid")
@@ -1043,7 +1119,7 @@ class ProfileTest(FixtureTestCase):
         )
         response = self.client.get(
             reverse("unsubscribe"),
-            {"i": TimestampSigner().sign(f"{subscription.pk}")},
+            {"i": subscription.get_signed_id()},
             follow=True,
         )
         self.assertRedirects(response, f"{reverse('profile')}#notifications")
@@ -1116,6 +1192,36 @@ class EditUserTest(FixtureTestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
+
+    def test_add_team_with_language_limit(self) -> None:
+        target = User.objects.create_user(
+            username="team-target", password="testpassword"
+        )
+        group = Group.objects.create(name="Translate", defining_project=self.project)
+        language = Language.objects.get(code="cs")
+
+        response = self.client.post(
+            target.get_absolute_url(),
+            {"add_group": group.pk, "limit_languages": [language.code]},
+        )
+        self.assertRedirects(response, f"{target.get_absolute_url()}#groups")
+
+        membership = target.team_memberships.get(group=group)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)), ["cs"]
+        )
+
+        response = self.client.post(target.get_absolute_url(), {"add_group": group.pk})
+        self.assertRedirects(response, f"{target.get_absolute_url()}#groups")
+        self.assertFalse(membership.limit_languages.exists())
+        audit = target.auditlog_set.get(activity="team-change")
+        self.assertEqual(audit.params["team"], group.name)
+        self.assertEqual(audit.params["username"], self.user.username)
+        self.assertEqual(audit.params["previous_limit_languages"], ["cs"])
+        self.assertEqual(audit.params["limit_languages"], [])
+
+        response = self.client.get(target.get_absolute_url())
+        self.assertContains(response, "No language limit")
 
 
 class AdminUserRevertTest(FixtureTestCase):

@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, NamedTuple
 
 from dateutil.parser import parse
 from django.core.cache import cache
+from packaging.version import Version
 
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository
@@ -25,10 +26,10 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "2026.5-dev"
+VERSION = "2026.7.dev0"
 
 # Version string without suffix
-VERSION_BASE = VERSION.replace("-dev", "").replace("-rc", "")
+VERSION_BASE = Version(VERSION).base_version
 
 # User-Agent string to use
 USER_AGENT = f"Weblate/{VERSION}"
@@ -79,7 +80,8 @@ class Release(NamedTuple):
 
 
 def download_version_info() -> list[Release]:
-    from weblate.utils.requests import fetch_url  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.requests import fetch_url
 
     response = fetch_url("get", PYPI)
     result = []

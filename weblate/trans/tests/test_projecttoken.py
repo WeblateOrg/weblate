@@ -6,9 +6,11 @@
 import re
 
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
 from weblate.auth.models import setup_project_groups
+from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tasks import actual_project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -22,11 +24,11 @@ class ProjectTokenTest(FixtureTestCase):
         self.project.save()
         self.access_url = f"{reverse('manage-access', kwargs=self.kw_project)}#api"
 
-    def create_token(self):
+    def create_token(self, date_expires: str = "2999-12-31"):
         self.make_manager()
         response = self.client.post(
             reverse("create-project-token", kwargs=self.kw_project),
-            {"full_name": "Test Token", "date_expires": "2999-12-31"},
+            {"full_name": "Test Token", "date_expires": date_expires},
             follow=True,
         )
         self.assertContains(response, 'data-clipboard-message="Token copied')
@@ -66,6 +68,19 @@ class ProjectTokenTest(FixtureTestCase):
 
         self.assertIsNotNone(token)
         self.assertGreaterEqual(len(token), 10)
+
+    def test_create_token_expiring_today(self) -> None:
+        """Tokens expiring today should be valid until the end of the day."""
+        today = timezone.localdate()
+        token_key = self.create_token(today.isoformat())
+        token_user = self.get_token_user(token_key)
+
+        expires = timezone.localtime(token_user.date_expires)
+        self.assertEqual(expires.date(), today)
+        self.assertEqual(expires.hour, 23)
+        self.assertEqual(expires.minute, 59)
+        self.assertEqual(expires.second, 59)
+        self.assertEqual(expires.microsecond, 999999)
 
     def test_create_token_audit(self) -> None:
         """Creating a token should create an audit log entry."""
@@ -147,6 +162,22 @@ class ProjectTokenTest(FixtureTestCase):
         response = self.client.get(reverse("manage-access", kwargs=self.kw_project))
         self.assertContains(response, token_user.username)
 
+    def test_limited_token_membership_badge(self) -> None:
+        """Project token memberships display language limits."""
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        czech = Language.objects.get(code="cs")
+        admin_group = self.project.defined_groups.get(name="Administration")
+        membership = token_user.team_memberships.get(group=admin_group)
+        membership.limit_languages.set([czech])
+
+        response = self.client.get(reverse("manage-access", kwargs=self.kw_project))
+
+        self.assertInHTML(
+            f'<span class="badge text-bg-secondary">{admin_group} (cs)</span>',
+            response.content.decode(),
+        )
+
     def test_project_removal_cleans_up_tokens(self) -> None:
         """Project removal should remove associated project tokens."""
         token_key = self.create_token()
@@ -178,7 +209,7 @@ class ProjectTokenTest(FixtureTestCase):
         second_project.save()
         if not second_project.defined_groups.exists():
             setup_project_groups(sender=Project, instance=second_project, created=False)
-        second_project.add_user(token_user, "Administration")
+        second_project.add_user(token_user, "Administration", allow_bot=True)
 
         actual_project_removal(self.project.pk, self.user.pk)
 

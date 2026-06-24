@@ -4,12 +4,10 @@
 
 """Tests for placeholder quality checks."""
 
-from weblate.checks.flags import Flags
-from weblate.checks.models import Check
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
-from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.lang.models import Language, Plural
-from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.lang.models import Language
+from weblate.trans.tests.factories import make_check, make_unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
@@ -26,7 +24,7 @@ class PlaceholdersTest(CheckTestCase):
         self.test_failure_3 = (
             "string $URL$ $2$",
             "string $URL$",
-            "placeholders:$URL$:$2$:",
+            "placeholders:$URL$:$2$",
         )
         self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
 
@@ -35,24 +33,12 @@ class PlaceholdersTest(CheckTestCase):
         return
 
     def test_description(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source="string $URL$",
             target="string",
-            translation=Translation(
-                component=Component(
-                    project=Project(slug="p", name="p"),
-                    source_language=Language(),
-                    slug="c",
-                    name="c",
-                    pk=-1,
-                    file_format="po",
-                ),
-                language=Language(),
-                plural=Plural(),
-            ),
+            flags="placeholders:$URL$",
         )
-        unit.__dict__["all_flags"] = Flags("placeholders:$URL$")
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
@@ -62,24 +48,12 @@ class PlaceholdersTest(CheckTestCase):
         )
 
     def test_regexp(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source="string $URL$",
             target="string $FOO$",
-            translation=Translation(
-                component=Component(
-                    project=Project(slug="p", name="p"),
-                    source_language=Language(),
-                    slug="c",
-                    name="c",
-                    pk=-1,
-                    file_format="po",
-                ),
-                language=Language(),
-                plural=Plural(),
-            ),
+            flags=r"""placeholders:r"(\$)([^$]*)(\$)" """,
         )
-        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"(\$)([^$]*)(\$)" """)
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
@@ -92,24 +66,12 @@ class PlaceholdersTest(CheckTestCase):
         )
 
     def test_whitespace(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source="string {URL} ",
             target="string {URL}",
-            translation=Translation(
-                component=Component(
-                    project=Project(slug="p", name="p"),
-                    source_language=Language(),
-                    slug="c",
-                    name="c",
-                    pk=-1,
-                    file_format="po",
-                ),
-                language=Language(),
-                plural=Plural(),
-            ),
+            flags=r"""placeholders:r"\s?{\w+}\s?" """,
         )
-        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\s?{\w+}\s?" """)
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertHTMLEqual(
             self.check.get_description(check),
             """
@@ -131,12 +93,12 @@ class PlaceholdersTest(CheckTestCase):
             """,
         )
 
-    def test_case_insentivive(self) -> None:
+    def test_case_insensitive(self) -> None:
         self.assertTrue(
             self.check.check_target(
                 ["Hello %WORLD%"],
                 ["Ahoj %world%"],
-                MockUnit(
+                make_unit(
                     None,
                     "placeholders:%WORLD%",
                     self.default_lang,
@@ -148,7 +110,7 @@ class PlaceholdersTest(CheckTestCase):
             self.check.check_target(
                 ["Hello %WORLD%"],
                 ["Ahoj %world%"],
-                MockUnit(
+                make_unit(
                     None,
                     "placeholders:%WORLD%,case-insensitive",
                     self.default_lang,
@@ -158,7 +120,7 @@ class PlaceholdersTest(CheckTestCase):
         )
 
     def test_escaped_markup(self) -> None:
-        unit = MockUnit(
+        unit = make_unit(
             None,
             'icu-message-format, placeholders:r"&lt;[a-z/]+&gt;", xml-text',
             self.default_lang,
@@ -172,12 +134,56 @@ class PlaceholdersTest(CheckTestCase):
             ],
         )
 
+    def test_overlapping_non_nested(self) -> None:
+        # The 2 flags match partially overlapping spans
+        # 'python-brace-format' matches {user.name}.
+        # "placeholders:r"\$\{\w+" matches ${user.
+        unit = make_unit(
+            None,
+            r'placeholders:r"\$\{\w+":r"\w+\.\w+\}"',
+            self.default_lang,
+            "nested ${user.name} non-overlapping",
+        )
+        self.assertEqual(
+            list(self.check.check_highlight(unit.source, unit)),
+            [(7, 19, "${user.name}")],
+        )
+
+    def test_empty_placeholder_flags_do_not_match(self) -> None:
+        for flags in ("placeholders:", 'placeholders:""', 'placeholders:r""'):
+            with self.subTest(flags=flags):
+                unit = make_unit(source="string", target="translation", flags=flags)
+                self.assertFalse(
+                    self.check.check_target(["string"], ["translation"], unit)
+                )
+                self.assertEqual(
+                    list(self.check.check_highlight(unit.source, unit)), []
+                )
+
+    def test_empty_placeholder_values_are_ignored(self) -> None:
+        unit = make_unit(
+            source="string $URL$ $2$",
+            target="string $URL$",
+            flags="placeholders:$URL$:$2$:",
+        )
+        self.assertTrue(
+            self.check.check_target(
+                ["string $URL$ $2$"],
+                ["string $URL$"],
+                unit,
+            )
+        )
+        self.assertEqual(
+            list(self.check.check_highlight(unit.source, unit)),
+            [(7, 12, "$URL$"), (13, 16, "$2$")],
+        )
+
 
 class PluralPlaceholdersTest(FixtureComponentTestCase):
     def test_plural(self) -> None:
         check = PlaceholderCheck()
         lang = "cs"
-        unit = MockUnit(
+        unit = make_unit(
             None,
             'placeholders:r"%[0-9]"',
             lang,
@@ -227,16 +233,15 @@ class RegexTest(CheckTestCase):
         return
 
     def test_description(self) -> None:
-        unit = Unit(source="string URL", target="string")
-        unit.__dict__["all_flags"] = Flags("regex:URL")
-        check = Check(unit=unit)
+        unit = make_unit(source="string URL", target="string", flags="regex:URL")
+        check = make_check(unit, self.check)
         self.assertEqual(
             self.check.get_description(check),
             "Does not match regular expression <code>URL</code>.",
         )
 
     def test_check_highlight_groups(self) -> None:
-        unit = MockUnit(
+        unit = make_unit(
             None,
             r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"',
             self.default_lang,
@@ -245,7 +250,7 @@ class RegexTest(CheckTestCase):
         self.assertEqual(list(self.check.check_highlight(unit.source, unit)), [])
 
     def test_unicode_regex(self) -> None:
-        unit = MockUnit(
+        unit = make_unit(
             None,
             r'regex:"((?:@:\(|\{)[-_\p{Lo}\p{Ll}\p{N}]+(?:\)|\}))"',
             self.default_lang,

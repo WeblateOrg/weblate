@@ -12,7 +12,8 @@ Weblate Client
 Installation
 ++++++++++++
 
-The Weblate Client is shipped separately and includes the Python module.
+The :pypi:`Weblate Client <wlc>` is shipped separately and includes the Python
+module.
 To use the commands below, you need to install :program:`wlc` using pip:
 
 .. code-block:: sh

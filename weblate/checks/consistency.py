@@ -8,7 +8,7 @@ from collections import defaultdict
 from functools import reduce
 from typing import TYPE_CHECKING, ClassVar, Literal
 
-from django.db.models import Count, Prefetch, Q, Value
+from django.db.models import Count, F, Max, Min, Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
@@ -110,7 +110,8 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         return False
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Unit
 
         units = Unit.objects.filter(
             translation__component__project=component.project,
@@ -121,8 +122,8 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         # Limit this to 100 strings, otherwise the resulting query is way too complex
         matches = (
             units.values("id_hash", "translation__plural_id")
-            .annotate(Count("target", distinct=True))
-            .filter(target__count__gt=1)
+            .annotate(min_target=Min("target"), max_target=Max("target"))
+            .filter(min_target__lt=F("max_target"))
             .order_by("id_hash")[:100]
         )
 
@@ -170,7 +171,8 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return super().should_skip(unit)
 
     def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
-        from weblate.trans.models import Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Unit
 
         translation = unit.translation
         component = translation.component
@@ -185,7 +187,8 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return Unit.objects.same_target(unit).exists()
 
     def get_description(self, check_obj):
-        from weblate.trans.models import Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Unit
 
         other_sources = (
             Unit.objects.same_target(check_obj.unit)
@@ -208,7 +211,8 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         return False
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Unit
 
         units = Unit.objects.filter(
             translation__component__project=component.project,
@@ -339,7 +343,8 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         return [("plurals", split_plural(target))]
 
     def check_component(self, component: Component) -> Iterable[Unit]:
-        from weblate.trans.models import Change, Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Change, Unit
 
         units = (
             Unit.objects.filter(

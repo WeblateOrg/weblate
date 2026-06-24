@@ -98,11 +98,13 @@ class LanguageConsistencyAddon(BaseAddon):
     user_verbose = "Languages add-on"
 
     @classmethod
-    def can_install(cls, *, component=None, category=None, project=None) -> bool:  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def can_install(cls, *, component=None, category=None, project=None) -> bool:
         return component is None
 
     @classmethod
-    def can_process(cls, *, component=None, category=None, project=None) -> bool:  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def can_process(cls, *, component=None, category=None, project=None) -> bool:
         return True
 
     @classmethod
@@ -169,7 +171,8 @@ class LanguageConsistencyAddon(BaseAddon):
 
     @staticmethod
     def get_sitewide_projects() -> QuerySet[Project]:
-        from weblate.trans.models import Project  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Project
 
         return Project.objects.order()
 

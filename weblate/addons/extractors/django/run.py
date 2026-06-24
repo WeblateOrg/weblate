@@ -17,7 +17,8 @@ os.environ.setdefault(
 def main() -> None:
     django.setup()
 
-    from weblate.addons.extractors.django.command import Command  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.addons.extractors.django.command import Command
 
     Command().run_from_argv(
         [

@@ -6,7 +6,7 @@ from __future__ import annotations
 import hashlib
 import os
 import stat
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from base64 import b64decode, b64encode
 from contextlib import suppress
 from time import time
@@ -131,24 +131,23 @@ def parse_hosts_line(line: str) -> tuple[str, str, str]:
 def get_host_key_entries() -> list[HostKeyEntry]:
     """Return stored host keys with identifiers for management actions."""
     try:
-        result: list[HostKeyEntry] = []
-        hosts_file = ssh_file(KNOWN_HOSTS)
-        with hosts_file.open() as handle:
-            for line in handle:
-                line = line.strip()
-                if is_key_line(line):
-                    host, key_type, fingerprint = parse_hosts_line(line)
-                    result.append(
-                        {
-                            "host": host,
-                            "key_type": key_type,
-                            "fingerprint": fingerprint,
-                            "id": calculate_checksum(line),
-                        }
-                    )
+        lines = ssh_file(KNOWN_HOSTS).read_text().splitlines()
     except OSError:
         return []
 
+    result: list[HostKeyEntry] = []
+    for line in lines:
+        line = line.strip()
+        if is_key_line(line):
+            host, key_type, fingerprint = parse_hosts_line(line)
+            result.append(
+                {
+                    "host": host,
+                    "key_type": key_type,
+                    "fingerprint": fingerprint,
+                    "id": calculate_checksum(line),
+                }
+            )
     return result
 
 
@@ -220,8 +219,9 @@ def generate_ssh_key(
     pubkeyfile = ssh_file(key_info["public"])
     try:
         # Actually generate the key
-        subprocess.run(  # noqa: S603
-            [  # noqa: S607
+        subprocess.run(
+            # ruff: ignore[start-process-with-partial-path]
+            [
                 "ssh-keygen",
                 "-q",
                 *key_info["keygen"],
@@ -292,6 +292,75 @@ def add_host_key_error(
         messages.error(request, gettext("Could not fetch public key for a host."))
 
 
+def store_host_key_scan_result(
+    request: AuthenticatedHttpRequest | None,
+    result: subprocess.CompletedProcess[str],
+    accept_fingerprint: str | None,
+) -> None:
+    keys = set()
+    was_key = False
+    for key in result.stdout.splitlines():
+        key = key.strip()
+        if not is_key_line(key):
+            continue
+        was_key = True
+        host, keytype, fingerprint = parse_hosts_line(key)
+        if accept_fingerprint:
+            if fingerprint == accept_fingerprint:
+                messages.success(
+                    request,
+                    gettext(
+                        "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
+                    )
+                    % {
+                        "host": host,
+                        "fingerprint": fingerprint,
+                        "keytype": keytype,
+                    },
+                )
+                keys.add(key)
+            else:
+                messages.warning(
+                    request,
+                    gettext(
+                        "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
+                    )
+                    % {
+                        "host": host,
+                        "fingerprint": fingerprint,
+                        "keytype": keytype,
+                    },
+                )
+        else:
+            messages.warning(
+                request,
+                gettext(
+                    "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), please verify that it is correct."
+                )
+                % {
+                    "host": host,
+                    "fingerprint": fingerprint,
+                    "keytype": keytype,
+                },
+            )
+            keys.add(key)
+    if keys:
+        known_hosts_file = ssh_file(KNOWN_HOSTS)
+        ensure_ssh_dir()
+        # Remove existing key entries
+        if known_hosts_file.exists():
+            with known_hosts_file.open() as handle:
+                keys.difference_update(line.strip() for line in handle)
+        # Write any new keys
+        if keys:
+            with known_hosts_file.open(mode="a") as handle:
+                for key in keys:
+                    handle.write(key)
+                    handle.write("\n")
+    elif not was_key:
+        add_host_key_error(request, result.stderr or result.stdout)
+
+
 def add_host_key(
     request: AuthenticatedHttpRequest | None,
     host: str,
@@ -308,75 +377,14 @@ def add_host_key(
             cmdline.extend(["-p", str(port)])
         cmdline.append(host)
         try:
-            result = subprocess.run(  # noqa: S603
+            result = subprocess.run(
                 cmdline,
                 env=get_clean_env(),
                 check=True,
                 text=True,
                 capture_output=True,
             )
-            keys = set()
-            was_key = False
-            for key in result.stdout.splitlines():
-                key = key.strip()
-                if not is_key_line(key):
-                    continue
-                was_key = True
-                host, keytype, fingerprint = parse_hosts_line(key)
-                if accept_fingerprint:
-                    if fingerprint == accept_fingerprint:
-                        messages.success(
-                            request,
-                            gettext(
-                                "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
-                            )
-                            % {
-                                "host": host,
-                                "fingerprint": fingerprint,
-                                "keytype": keytype,
-                            },
-                        )
-                        keys.add(key)
-                    else:
-                        messages.warning(
-                            request,
-                            gettext(
-                                "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
-                            )
-                            % {
-                                "host": host,
-                                "fingerprint": fingerprint,
-                                "keytype": keytype,
-                            },
-                        )
-                else:
-                    messages.warning(
-                        request,
-                        gettext(
-                            "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), please verify that it is correct."
-                        )
-                        % {
-                            "host": host,
-                            "fingerprint": fingerprint,
-                            "keytype": keytype,
-                        },
-                    )
-                    keys.add(key)
-            if keys:
-                known_hosts_file = ssh_file(KNOWN_HOSTS)
-                ensure_ssh_dir()
-                # Remove existing key entries
-                if known_hosts_file.exists():
-                    with known_hosts_file.open() as handle:
-                        keys.difference_update(line.strip() for line in handle)
-                # Write any new keys
-                if keys:
-                    with known_hosts_file.open(mode="a") as handle:
-                        for key in keys:
-                            handle.write(key)
-                            handle.write("\n")
-            elif not was_key:
-                add_host_key_error(request, result.stderr or result.stdout)
+            store_host_key_scan_result(request, result, accept_fingerprint)
         except subprocess.CalledProcessError as exc:
             add_host_key_error(request, exc.stderr or exc.stdout)
         except OSError as exc:
@@ -439,9 +447,11 @@ GITHUB_RSA_KEY = (
 
 
 def cleanup_host_keys(
-    *args: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    *args: Any,
     logger: Callable[[str], Any] = print,
-    **kwargs: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    **kwargs: Any,
 ) -> None:
     known_hosts_file = ssh_file(KNOWN_HOSTS)
     if not known_hosts_file.exists():
@@ -495,9 +505,11 @@ def get_wrapper_access_time(path: Path) -> float | None:
 
 
 def cleanup_legacy_wrapper_dirs(
-    *args: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    *args: Any,
     logger: Callable[[str], Any] = print,
-    **kwargs: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    **kwargs: Any,
 ) -> None:
     legacy_dir = data_path("ssh")
     if not legacy_dir.exists():
@@ -509,10 +521,12 @@ def cleanup_legacy_wrapper_dirs(
 
 
 def cleanup_stale_wrapper_dirs(
-    *args: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    *args: Any,
     stale_seconds: int = STALE_WRAPPER_SECONDS,
     logger: Callable[[str], Any] = print,
-    **kwargs: Any,  # noqa: ANN401
+    # ruff: ignore[any-type]
+    **kwargs: Any,
 ) -> None:
     cache_dir = ssh_wrapper_path()
     if not cache_dir.exists():

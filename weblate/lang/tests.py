@@ -10,9 +10,10 @@ from io import StringIO
 from itertools import chain
 from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import connection
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from weblate_language_data.aliases import ALIASES
@@ -21,7 +22,13 @@ from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
 from weblate_language_data.population import POPULATION
 
 from weblate.lang import data
-from weblate.lang.models import Language, Plural, PluralMapper, get_plural_type
+from weblate.lang.models import (
+    PLURAL_COUNT_MAX,
+    Language,
+    Plural,
+    PluralMapper,
+    get_plural_type,
+)
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import (
@@ -292,7 +299,7 @@ class BasicLanguagesTest(TestCase):
 
 class LanguageTestSequenceMeta(type):
     # pylint: disable-next=redefined-builtin
-    def __new__(mcs, name, bases, dict):  # noqa: A002
+    def __new__(mcs, name, bases, dict):  # ruff: ignore[builtin-argument-shadowing]
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
                 self.run_create(original, expected, direction, plural, name, create)
@@ -307,6 +314,22 @@ class LanguageTestSequenceMeta(type):
             dict[test_name] = gen_test(*params)
 
         return type.__new__(mcs, name, bases, dict)
+
+
+class LanguageCodeValidationTest(SimpleTestCase):
+    def test_language_data_codes_are_valid(self) -> None:
+        for code, name, _nplurals, _plural_formula in LANGUAGES:
+            with self.subTest(code=code):
+                Language(code=code, name=name, direction="ltr").full_clean(
+                    validate_unique=False
+                )
+
+    def test_language_code_rejects_unsafe_values(self) -> None:
+        for code in ("en US", "en/US", "en:US", "@en", "en@"):
+            with self.subTest(code=code), self.assertRaises(ValidationError):
+                Language(code=code, name="Test", direction="ltr").full_clean(
+                    validate_unique=False
+                )
 
 
 class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
@@ -698,6 +721,54 @@ class PluralTest(BaseTestCase):
         )
         self.assertEqual(plural.type, data.PLURAL_ONE_FEW_MANY)
 
+    def test_validate_plural_formula_range(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"), number=2, formula="n != 1"
+        )
+        plural.full_clean()
+
+    def test_validate_plural_formula_range_above(self) -> None:
+        plural = Plural(language=Language.objects.get(code="cs"), number=2, formula="2")
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_range_below(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"), number=2, formula="(0-1)"
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_range_examples_tail(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"),
+            number=2,
+            formula="n == 2000000 ? 2 : 0",
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_range_skipped_constant(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"),
+            number=2,
+            formula="n == 10001 ? 2 : 0",
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("formula", error.exception.message_dict)
+
+    def test_validate_plural_formula_evaluation_error(self) -> None:
+        plural = Plural(
+            language=Language.objects.get(code="cs"), number=2, formula="n/0"
+        )
+        with self.assertRaises(ValidationError) as error:
+            plural.full_clean()
+        self.assertIn("count 0", error.exception.message_dict["formula"][0])
+
     def test_definitions(self) -> None:
         """Verify consistency of plural definitions."""
         plurals = [x[1] for x in data.PLURAL_MAPPINGS]
@@ -711,6 +782,36 @@ class PluralTest(BaseTestCase):
             Plural.parse_plural_forms("nplurals=2; plural=(n == 1) ? 0 : 1;"),
             (2, "(n == 1) ? 0 : 1"),
         )
+
+    def test_parse_upper_limit(self) -> None:
+        self.assertEqual(
+            Plural.parse_plural_forms(f"nplurals={PLURAL_COUNT_MAX}; plural=0;"),
+            (PLURAL_COUNT_MAX, "0"),
+        )
+
+    def test_parse_too_many(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms(f"nplurals={PLURAL_COUNT_MAX + 1}; plural=0;")
+
+    def test_parse_out_of_range(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2; plural=2;")
+
+    def test_parse_negative(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2; plural=(0-1);")
+
+    def test_parse_out_of_range_examples_tail(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2; plural=n == 2000000 ? 2 : 0;")
+
+    def test_parse_out_of_range_skipped_constant(self) -> None:
+        with self.assertRaisesRegex(ValueError, "10001"):
+            Plural.parse_plural_forms("nplurals=2; plural=n == 10001 ? 2 : 0;")
+
+    def test_parse_evaluation_error(self) -> None:
+        with self.assertRaisesRegex(ValueError, "count 0"):
+            Plural.parse_plural_forms("nplurals=2; plural=n/0;")
 
     def test_parse_empty(self) -> None:
         with self.assertRaises(ValueError):

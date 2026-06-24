@@ -11,10 +11,10 @@ See :ref:`dashboard` to learn more.
 
     A status will be presented for each component list presented on the dashboard.
 
-The names and content of component lists can be specified in the admin
-interface, in :guilabel:`Component lists` section. Each component list must
-have a name that is displayed to the user, and a slug representing it in the
-URL.
+Each component list has a name displayed to the user and a slug used in the
+URL. Component lists can be managed using the :ref:`api`. Instance
+administrators can also use the low-level :ref:`admin-interface` when direct
+database-object management is necessary.
 
 
 .. hint::
@@ -35,8 +35,5 @@ Add components to the list automatically based on their slug by creating
 
     Make a component list containing all the components of your Weblate installation.
 
-1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` as regular expression
-in both the project and the component fields, as shown on this image:
-
-.. image:: /screenshots/componentlist-add.webp
-   :alt: Image showing the Weblate administration panel with the above configuration filled in.
+1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` as
+   regular expression in both the project and the component fields.

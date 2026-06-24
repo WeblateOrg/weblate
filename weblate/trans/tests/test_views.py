@@ -18,9 +18,10 @@ from django.core import mail
 from django.core.cache import cache
 from django.core.management import call_command
 from django.core.paginator import Paginator
+from django.db import connection
 from django.template.loader import render_to_string
 from django.test.client import RequestFactory
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils.translation import activate
 from openpyxl import load_workbook
@@ -28,7 +29,14 @@ from PIL import Image
 
 from weblate.auth.models import Group, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Component, ComponentList, Project
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentLink,
+    ComponentList,
+    Project,
+    WorkflowSetting,
+)
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     clear_users_cache,
@@ -41,8 +49,8 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
     from django.test.client import Client as TestClient
+    from django.test.client import _MonkeyPatchedWSGIResponse as TestClientResponse
 
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
@@ -80,14 +88,34 @@ class RegistrationTestMixin(TestCase):
             if "(" in line or ")" in line or "<" in line or ">" in line:
                 continue
             if live_url and line.startswith(live_url):
-                url = f"{line}&confirm=1"
+                url = line
                 break
             if line.startswith("http://example.com/"):
-                url = f"{line[18:]}&confirm=1"
+                url = line[18:]
                 break
 
         self.assertIsNotNone(url, "Confirmation URL not found")
         return cast("str", url)
+
+    def confirm_registration_url(
+        self, url: str, client: TestClient | None = None, *, follow: bool = True
+    ) -> TestClientResponse:
+        client = client or self.client
+        response = client.get(url, follow=follow)
+        confirmation_template = "social_django/partial_pipeline_external_resume.html"
+        if confirmation_template not in [
+            template.name for template in response.templates
+        ]:
+            return response
+        context = response.context
+        return client.post(
+            context["action_url"],
+            {
+                context["confirmation_parameter"]: context["confirmation_value"],
+                context["confirmation_nonce_parameter"]: context["confirmation_nonce"],
+            },
+            follow=follow,
+        )
 
     def assert_notify_mailbox(self, sent_mail) -> None:
         self.assertEqual(
@@ -95,8 +123,8 @@ class RegistrationTestMixin(TestCase):
         )
 
     def confirm_tos(
-        self, user_client: TestClient, response: HttpResponse
-    ) -> HttpResponse:
+        self, user_client: TestClient, response: TestClientResponse
+    ) -> TestClientResponse:
         url = response.redirect_chain[-1][0]
         parsed_url = urlparse(url)
         parsed_query = parse_qs(parsed_url.query)
@@ -183,7 +211,8 @@ class ComponentTestCase(RepoTestCase):
         request.user = user or self.user
         request.session = "session"
         messages = FallbackStorage(request)
-        request._messages = messages  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        request._messages = messages
         return request
 
     def get_translation(self, language: str = "cs") -> Translation:
@@ -283,14 +312,14 @@ class ComponentTestCase(RepoTestCase):
 
         for unit in store.content_units:
             id_hash = unit.id_hash
-            self.assertNotIn(id_hash, messages, "Duplicate string in in backend file!")
+            self.assertNotIn(id_hash, messages, "Duplicate string in the backend file!")
             if unit.is_translated():
                 translated += 1
 
         self.assertEqual(
             translated,
             expected_translated,
-            f"Did not found expected number of translations ({translated} != {expected_translated}).",
+            f"Did not find expected number of translations ({translated} != {expected_translated}).",
         )
 
     def edit_unit(
@@ -599,6 +628,79 @@ class ProjectLanguageAdditionTest(ViewTestCase):
                 component.translation_set.filter(language_code="af").exists()
             )
 
+    def test_category_override_new_lang_policy(self) -> None:
+        self.project.new_lang = "none"
+        self.project.save(update_fields=["new_lang"])
+        category = Category.objects.create(
+            name="Add category",
+            slug="add-category",
+            project=self.project,
+            new_lang="add",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="none",
+            name="test-inherited-add",
+            project=self.project,
+        )
+        component.category = category
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.project.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertIn(component.pk, eligible_ids)
+
+    def test_category_blocks_inherited_new_lang_policy(self) -> None:
+        category = Category.objects.create(
+            name="Disabled category",
+            slug="disabled-category",
+            project=self.project,
+            new_lang="none",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="add",
+            name="test-inherited-none",
+            project=self.project,
+        )
+        component.category = category
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.project.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertNotIn(component.pk, eligible_ids)
+
+    def test_shared_component_uses_own_inherited_new_lang_policy(self) -> None:
+        project = self.create_project(name="Shared source", slug="shared-source")
+        project.new_lang = "none"
+        project.save(update_fields=["new_lang"])
+        component = self.create_po_new_base(
+            new_lang="add",
+            name="test-shared-inherited-none",
+            project=project,
+        )
+        component.inherit_new_lang = True
+        component.save(update_fields=["inherit_new_lang"])
+        component.links.add(self.project)
+
+        eligible_ids = set(
+            self.project.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertNotIn(component.pk, eligible_ids)
+
 
 class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
     def setUp(self) -> None:
@@ -640,12 +742,117 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
             outside_component.translation_set.filter(language_code="af").exists()
         )
 
+    def test_child_category_override_new_lang_policy(self) -> None:
+        self.category.new_lang = "none"
+        self.category.inherit_new_lang = False
+        self.category.save(update_fields=["new_lang", "inherit_new_lang"])
+        child = Category.objects.create(
+            name="Child add category",
+            slug="child-add-category",
+            project=self.project,
+            category=self.category,
+            new_lang="add",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="none",
+            name="test-child-inherited-add",
+            project=self.project,
+        )
+        component.category = child
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.category.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertIn(component.pk, eligible_ids)
+
+    def test_child_category_blocks_inherited_new_lang_policy(self) -> None:
+        self.category.new_lang = "add"
+        self.category.inherit_new_lang = False
+        self.category.save(update_fields=["new_lang", "inherit_new_lang"])
+        child = Category.objects.create(
+            name="Child disabled category",
+            slug="child-disabled-category",
+            project=self.project,
+            category=self.category,
+            new_lang="none",
+            inherit_new_lang=False,
+        )
+        component = self.create_po_new_base(
+            new_lang="add",
+            name="test-child-inherited-none",
+            project=self.project,
+        )
+        component.category = child
+        component.inherit_new_lang = True
+        component.save(update_fields=["category", "inherit_new_lang"])
+
+        eligible_ids = set(
+            self.category.components_user_can_add_new_language(self.user).values_list(
+                "pk", flat=True
+            )
+        )
+
+        self.assertNotIn(component.pk, eligible_ids)
+
 
 class BasicViewTest(ViewTestCase):
     def test_view_project(self) -> None:
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
+
+    def test_view_project_preloads_workflow_settings(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            translation_review=True,
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Czech")
+        workflow_queries = [
+            query for query in queries if '"trans_workflowsetting"' in query["sql"]
+        ]
+        self.assertLessEqual(
+            len(workflow_queries),
+            1,
+            "\n".join(query["sql"] for query in workflow_queries),
+        )
+
+    def test_project_component_listing_shows_inherited_license_badge(self) -> None:
+        self.project.license = "MIT"
+        self.project.save(update_fields=["license"])
+        self.component.license = ""
+        self.component.inherit_license = True
+        self.component.save(update_fields=["license", "inherit_license"])
+
+        response = self.client.get(self.project.get_absolute_url())
+
+        self.assertContains(response, 'class="license badge">MIT</span>')
+
+    def test_view_project_deduplicates_outgoing_shared_component(self) -> None:
+        first_project = Project.objects.create(name="Shared target one", slug="target1")
+        second_project = Project.objects.create(
+            name="Shared target two", slug="target2"
+        )
+        ComponentLink.objects.create(component=self.component, project=first_project)
+        ComponentLink.objects.create(component=self.component, project=second_project)
+
+        response = self.client.get(self.project.get_absolute_url())
+
+        component_ids = [component.pk for component in response.context["components"]]
+        self.assertEqual(component_ids.count(self.component.pk), 1)
 
     def test_view_project_ghost(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="es"))
@@ -709,7 +916,9 @@ class BasicViewTest(ViewTestCase):
 
     def test_view_component_guide(self) -> None:
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
-        self.assertContains(response, "Test/Test")
+        self.assertRedirects(
+            response, f"{self.component.get_absolute_url()}?alerts=1#alerts"
+        )
 
     def test_view_translation(self) -> None:
         response = self.client.get(self.translation.get_absolute_url())
@@ -734,6 +943,51 @@ class BasicViewTest(ViewTestCase):
         kwargs = {"path": [*self.component.get_url_path(), "it"]}
         response = self.client.get(reverse("show", kwargs=kwargs))
         self.assertContains(response, other.name)
+
+    def test_translate_other_occurrences_component_queries_do_not_scale(self) -> None:
+        unit = self.get_unit()
+
+        self.create_po(project=self.project, name="other-1")
+        baseline_queries = self.count_translate_other_occurrence_relation_queries(unit)
+
+        for index in range(2, 5):
+            self.create_po(project=self.project, name=f"other-{index}")
+
+        self.assertEqual(
+            self.count_translate_other_occurrence_relation_queries(unit),
+            baseline_queries,
+        )
+
+    def count_translate_other_occurrence_relation_queries(self, unit: Unit) -> int:
+        session = self.client.session
+        for key in list(session.keys()):
+            if key.startswith("search_"):
+                del session[key]
+        session.save()
+
+        response = self.client.get(
+            unit.translation.get_translate_url(), {"checksum": unit.checksum}
+        )
+        self.assertContains(response, "Other occurrences")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(
+                unit.translation.get_translate_url(), {"checksum": unit.checksum}
+            )
+
+        self.assertContains(response, "Other occurrences")
+
+        return sum(
+            (
+                'FROM "trans_component"' in query["sql"]
+                and 'WHERE "trans_component"."id" =' in query["sql"]
+            )
+            or (
+                'FROM "trans_project"' in query["sql"]
+                and 'WHERE "trans_project"."id" =' in query["sql"]
+            )
+            for query in queries
+        )
 
     def test_view_unit(self) -> None:
         unit = self.get_unit()
@@ -827,6 +1081,24 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit().source_unit
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
+
+    def test_edit_context_hides_private_unit(self) -> None:
+        private_project = self.create_project(
+            name="Private source",
+            slug="private-source",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-source"
+        )
+        private_translation = private_component.translation_set.get(language_code="cs")
+        unit = self.get_unit(translation=private_translation).source_unit
+
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": unit.pk}),
+            {"explanation": "Extra context"},
+        )
+        self.assertEqual(response.status_code, 404)
 
     def test_edit_check_flags(self) -> None:
         # Need extra power

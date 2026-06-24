@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import ClassVar, cast
 
 from django import forms
 
@@ -16,7 +16,7 @@ class FontForm(forms.ModelForm):
     class Meta:
         model = Font
         fields = ("font",)
-        field_classes = {"font": AssetFileField}  # noqa: RUF012
+        field_classes: ClassVar[dict[str, type[forms.Field]]] = {"font": AssetFileField}
 
 
 class FontGroupForm(forms.ModelForm):

@@ -19,7 +19,9 @@
     <div class="card-header">
       <h4 class="card-title">{% translate "Subcontractors" %}</h4>
     </div>
-    <div class="card-body tos">{% include "legal/documents/contracts.html" %}</div>
+    <div class="card-body{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
+      {% include "legal/documents/contracts.html" %}
+    </div>
   </div>
 
 {% endblock content %}

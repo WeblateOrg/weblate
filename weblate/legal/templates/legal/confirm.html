@@ -16,8 +16,24 @@
         <h4 class="card-title">{% translate "You have to agree to the General Terms and Conditions" %}</h4>
       </div>
       <div class="card-body">
-        <p>{% translate "Please read following General Terms and Conditions document:" %}</p>
-        <div class="list-group-item pre-scrollable tos">{% include "legal/documents/tos.html" %}</div>
+        {% if terms_document_hidden and terms_url %}
+          <p>{% translate "Please read the following legal documents:" %}</p>
+          <ul>
+            <li>
+              <a href="{{ terms_url }}">{% translate "General Terms and Conditions" %}</a>
+            </li>
+            {% if privacy_url %}
+              <li>
+                <a href="{{ privacy_url }}">{% translate "Privacy Policy" %}</a>
+              </li>
+            {% endif %}
+          </ul>
+        {% else %}
+          <p>{% translate "Please read the following General Terms and Conditions document:" %}</p>
+          <div class="list-group-item pre-scrollable{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
+            {% include "legal/documents/tos.html" %}
+          </div>
+        {% endif %}
         {{ form|crispy }}
         {% csrf_token %}
       </div>

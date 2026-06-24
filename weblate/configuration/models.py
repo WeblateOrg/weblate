@@ -9,7 +9,7 @@ from typing import Any
 from django.db import models
 
 
-class SettingQuerySet(models.QuerySet):
+class SettingQuerySet(models.QuerySet["Setting", "Setting"]):
     def get_settings_dict(self, category: int) -> dict[str, Any]:
         return dict(self.filter(category=category).values_list("name", "value"))
 
@@ -27,7 +27,8 @@ class Setting(models.Model):
     objects = SettingQuerySet.as_manager()
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [
             ("category", "name"),
         ]
         verbose_name = "Setting"

@@ -14,13 +14,14 @@ import requests
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
+from requests.adapters import HTTPAdapter
 from requests.utils import select_proxy
 
 from weblate.logger import LOGGER
 from weblate.utils.outbound import (
     is_allowlisted_hostname,
+    validate_connected_peer,
     validate_outbound_url,
-    validate_runtime_ip,
     validate_runtime_url,
 )
 from weblate.utils.validators import validate_asset_url
@@ -32,7 +33,10 @@ if TYPE_CHECKING:
     from requests import Response
 
 
-@dataclass(slots=True)
+PEER_IP_RESPONSE_ATTR = "_weblate_peer_ip"
+
+
+@dataclass
 class RedirectValidators:
     def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
         return
@@ -41,7 +45,7 @@ class RedirectValidators:
         return
 
 
-@dataclass(slots=True)
+@dataclass
 class RuntimeRedirectValidators(RedirectValidators):
     allow_private_targets: bool = True
     allowed_domains: list[str] | tuple[str, ...] = ()
@@ -75,13 +79,20 @@ class RuntimeRedirectValidators(RedirectValidators):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class AssetRedirectValidators(RedirectValidators):
     def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
         validate_asset_url(request_url)
 
 
-@dataclass(slots=True)
+@dataclass
+class RestrictedAssetRedirectValidators(RuntimeRedirectValidators):
+    def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
+        validate_asset_url(request_url)
+        super().validate_request_url(request_url, used_proxy=used_proxy)
+
+
+@dataclass
 class ChainedRedirectValidators(RedirectValidators):
     request_validators: tuple[Callable[[str], None], ...] = ()
     response_validator: Callable[[Response, bool], None] | None = None
@@ -168,6 +179,16 @@ def _should_redirect_to_get(status_code: int, method: str) -> bool:
     return status_code == 301 and normalized_method == "POST"
 
 
+class PeerIPHTTPAdapter(HTTPAdapter):
+    """HTTP adapter that captures the peer address before urllib3 can release it."""
+
+    def build_response(self, req, resp):
+        result = super().build_response(req, resp)
+        if (peer_ip := _extract_response_peer_ip(result)) is not None:
+            setattr(result, PEER_IP_RESPONSE_ATTR, peer_ip)
+        return result
+
+
 def _request_with_redirects(
     method: str,
     url: str,
@@ -188,6 +209,10 @@ def _request_with_redirects(
     request_headers = _prepare_headers(headers)
 
     with requests.Session() as session:
+        if validators is not None:
+            adapter = PeerIPHTTPAdapter()
+            session.mount("http://", adapter)
+            session.mount("https://", adapter)
         for _ in range(max_redirects + 1):
             used_proxy = _request_uses_proxy(
                 session,
@@ -242,6 +267,14 @@ def _request_with_redirects(
 
 
 def _get_response_peer_ip(response: Response) -> str | None:
+    cached_peer_ip = getattr(response, PEER_IP_RESPONSE_ATTR, None)
+    if cached_peer_ip is not None:
+        return str(cached_peer_ip)
+
+    return _extract_response_peer_ip(response)
+
+
+def _extract_response_peer_ip(response: Response) -> str | None:
     try:
         connection = getattr(response.raw, "connection", None)
         if connection is None or connection.sock is None:
@@ -269,16 +302,11 @@ def _validate_response_peer(
     hostname = urlparse(response.url).hostname or ""
     if is_allowlisted_hostname(hostname, allowed_domains):
         return
-
-    if (peer_ip := _get_response_peer_ip(response)) is None:
-        raise ValidationError(
-            gettext(
-                "This URL is prohibited because the connected peer address could not be determined."
-            ),
-            code="private_target",
-        )
-
-    validate_runtime_ip(peer_ip, allow_private_targets=allow_private_targets)
+    validate_connected_peer(
+        hostname,
+        _get_response_peer_ip(response),
+        allow_private_targets=allow_private_targets,
+    )
 
 
 def _validated_request_with_redirects(
@@ -330,6 +358,34 @@ def _asset_request_with_redirects(
         allow_redirects=True,
         max_redirects=max_redirects,
         validators=AssetRedirectValidators(),
+        **kwargs,
+    )
+
+
+def _restricted_asset_request_with_redirects(
+    method: str,
+    url: str,
+    *,
+    headers: dict[str, str] | None = None,
+    timeout: float = 5,
+    stream: bool = False,
+    allow_private_targets: bool = True,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+    max_redirects: int = 5,
+    **kwargs,
+) -> Response:
+    return _request_with_redirects(
+        method,
+        url,
+        headers=headers,
+        timeout=timeout,
+        stream=stream,
+        allow_redirects=True,
+        max_redirects=max_redirects,
+        validators=RestrictedAssetRedirectValidators(
+            allow_private_targets=allow_private_targets,
+            allowed_domains=allowed_domains,
+        ),
         **kwargs,
     )
 
@@ -461,6 +517,43 @@ def open_asset_url(
         yield response
 
 
+@contextmanager
+def open_restricted_asset_url(
+    method: str,
+    url: str,
+    *,
+    headers: dict[str, str] | None = None,
+    timeout: float = 5,
+    raise_for_status: bool = True,
+    allow_private_targets: bool = True,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+    max_redirects: int = 5,
+    **kwargs,
+) -> Generator[Response, None, None]:
+    """Fetch an asset while validating redirects and connected peer addresses."""
+    response = _restricted_asset_request_with_redirects(
+        method,
+        url,
+        headers=headers,
+        timeout=timeout,
+        stream=True,
+        allow_private_targets=allow_private_targets,
+        allowed_domains=allowed_domains,
+        max_redirects=max_redirects,
+        **kwargs,
+    )
+    with response:
+        if raise_for_status and not 200 <= response.status_code < 300:
+            raise ValidationError(
+                gettext(
+                    "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
+                ),
+                code="download_failed",
+                params={"code": response.status_code},
+            )
+        yield response
+
+
 def _probe_validated_url(
     url: str,
     *,
@@ -481,8 +574,14 @@ def _probe_validated_url(
         response.raise_for_status()
 
 
-def _uri_error_cache_key(uri: str) -> str:
-    return f"uri-check-{sha256(uri.encode()).hexdigest()}"
+def _uri_error_cache_key(
+    uri: str,
+    *,
+    allow_private_targets: bool,
+    allowed_domains: list[str] | tuple[str, ...],
+) -> str:
+    policy = f"{allow_private_targets}:{tuple(sorted(allowed_domains))}:{uri}"
+    return f"uri-check-{sha256(policy.encode()).hexdigest()}"
 
 
 def format_validation_error(error: ValidationError) -> str:
@@ -493,11 +592,20 @@ def format_validation_error(error: ValidationError) -> str:
     return " ".join(error.messages)
 
 
-def get_uri_error(uri: str) -> str | None:
+def get_uri_error(
+    uri: str,
+    *,
+    allow_private_targets: bool = True,
+    allowed_domains: list[str] | tuple[str, ...] = (),
+) -> str | None:
     """Return error for fetching the URL or None if it works."""
     if uri.startswith("https://nonexisting.weblate.org/"):
         return "Non existing test URL"
-    cache_key = _uri_error_cache_key(uri)
+    cache_key = _uri_error_cache_key(
+        uri,
+        allow_private_targets=allow_private_targets,
+        allowed_domains=allowed_domains,
+    )
     cached = cache.get(cache_key)
     if cached is True:
         LOGGER.debug("URL check for %s, cached success", uri)
@@ -509,7 +617,10 @@ def get_uri_error(uri: str) -> str | None:
     try:
         _probe_validated_url(
             uri,
-            validators=RedirectValidators(),
+            validators=RuntimeRedirectValidators(
+                allow_private_targets=allow_private_targets,
+                allowed_domains=allowed_domains,
+            ),
             timeout=5,
             max_redirects=5,
         )

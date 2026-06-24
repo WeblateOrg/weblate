@@ -19,6 +19,7 @@ plan = Plan.objects.create(name="Basic plan", price=19, yearly_price=199)
 billing = Billing.objects.create(plan=plan)
 project = Project.objects.get(pk=1)
 setup_project_groups(sender=Project, instance=project, created=True)
+# This script runs before migration, against the older checked-out Weblate version.
 billing.projects.add(project)
 
 # Add user to per-project group

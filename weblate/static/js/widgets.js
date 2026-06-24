@@ -2,17 +2,28 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-$(document).ready(() => {
-  const widgetsData = $("#widgets-data").data("json");
+document.addEventListener("DOMContentLoaded", () => {
+  const widgetsDataElement = document.getElementById("widgets-data");
+  if (widgetsDataElement === null) {
+    return;
+  }
+  const widgetsData = JSON.parse(widgetsDataElement.getAttribute("data-json"));
+
+  const widgetTypeSelect = document.getElementById("widget-type");
+  const componentSelect = document.getElementById("component");
+  const languageSelect = document.getElementById("translation-language");
+  const colorSelect = document.getElementById("color-select");
+  const codeLanguageSelect = document.getElementById("code-language");
+  const extraParamsContainer = document.getElementById("extra-parameters");
 
   const jsonLanguage = widgetsData.language || "";
-  $("#translation-language").val(jsonLanguage);
+  languageSelect.value = jsonLanguage;
 
   let jsonComponent = widgetsData.component;
   if (jsonComponent === null) {
     jsonComponent = "";
   }
-  $("#component").val(jsonComponent);
+  componentSelect.value = jsonComponent;
 
   function generateEmbedCode(
     codeLanguage,
@@ -47,14 +58,14 @@ $(document).ready(() => {
   }
 
   function updateLivePreviewAndEmbedCode() {
-    const widgetName = $("#widget-type").val();
-    const componentId = $("#component").val();
+    const widgetName = widgetTypeSelect.value;
+    const componentId = componentSelect.value;
     const component = widgetsData.components.find(
       (c) => String(c.id) === componentId,
     );
-    const language = $("#translation-language").val();
+    const language = languageSelect.value;
     const widget = widgetsData.widgets[widgetName];
-    const color = $("#color-select").val();
+    const color = colorSelect.value;
 
     const engageUrl = widgetsData.engage_base_url;
     const widgetBaseUrl = widgetsData.widget_base_url;
@@ -69,47 +80,50 @@ $(document).ready(() => {
 
     // Include extra parameters in the URL
     const params = new URLSearchParams();
-    $("#extra-parameters input").each(function () {
-      const paramName = $(this).attr("name");
-      const paramValue = $(this).val();
+    for (const input of extraParamsContainer.querySelectorAll("input")) {
+      const paramName = input.getAttribute("name");
+      const paramValue = input.value;
       if (paramValue) {
         params.set(paramName, paramValue);
       }
-    });
+    }
 
     const query = params.toString();
     const suffix = query === "" ? "" : `?${query}`;
     const newUrl = `${widgetUrl}/${widgetName}-${color}.${widget.extension}${suffix}`;
-    $("#widget-image").attr("src", newUrl);
+    document.getElementById("widget-image").setAttribute("src", newUrl);
 
     const translationStatus = widgetsData.translation_status;
-    const codeLanguage = $("#code-language").val();
+    const codeLanguage = codeLanguageSelect.value;
     const code = generateEmbedCode(
       codeLanguage,
       engageUrl,
       newUrl,
       translationStatus,
     );
-    $("#embed-code-copy-button").attr("data-clipboard-value", code);
-    $("#embed-code").val(code);
+    document
+      .getElementById("embed-code-copy-button")
+      .setAttribute("data-clipboard-value", code);
+    document.getElementById("embed-code").value = code;
   }
 
   function updateWidgetColors(widgetName) {
     const widgets = widgetsData.widgets;
     const colors = widgets[widgetName].colors;
-    const colorSelect = $("#color-select");
-    colorSelect.empty();
-    $.each(colors, (_index, color) => {
-      const option = $("<option></option>").val(color).text(color);
+    colorSelect.replaceChildren();
+    for (const color of colors) {
+      const option = document.createElement("option");
+      option.value = color;
+      option.textContent = color;
       colorSelect.append(option);
-    });
+    }
     updateLivePreviewAndEmbedCode();
   }
 
   function updateQueryParams() {
     const params = new URLSearchParams(window.location.search);
-    params.set("component", $("#component").val());
-    params.set("lang", $("#translation-language").val());
+    params.set("component", componentSelect.value);
+    params.set("lang", languageSelect.value);
     const query = params.toString();
     const suffix = query === "" ? "" : `?${query}`;
     const newUrl = `${window.location.pathname}${suffix}`;
@@ -118,58 +132,55 @@ $(document).ready(() => {
 
   function renderExtraParameters(widgetName) {
     const widget = widgetsData.widgets[widgetName];
-    const extraParamsContainer = $("#extra-parameters");
-    extraParamsContainer.empty();
+    extraParamsContainer.replaceChildren();
 
     if (widget.extra_parameters) {
       for (const param of widget.extra_parameters) {
-        let input;
+        const label = document.createElement("label");
+        label.setAttribute("for", param.name);
+        label.textContent = param.label;
+        label.className = "form-label mt-2";
+        extraParamsContainer.append(label);
+
         if (param.type === "number") {
-          input = $("<input/>", {
-            type: param.type,
-            id: param.name,
-            name: param.name,
-            min: param.min,
-            max: param.max,
-            step: param.step,
-            value: param.default,
-            class: "form-control mt-2",
+          const input = document.createElement("input");
+          input.type = param.type;
+          input.id = param.name;
+          input.name = param.name;
+          input.min = param.min;
+          input.max = param.max;
+          input.step = param.step;
+          input.value = param.default;
+          input.className = "form-control mt-2";
+          extraParamsContainer.append(input);
+
+          // Add change event listener to update query params and live preview
+          input.addEventListener("change", () => {
+            updateQueryParams();
+            updateLivePreviewAndEmbedCode();
           });
         }
-
-        const label = $("<label/>", {
-          for: param.name,
-          text: param.label,
-          class: "form-label mt-2",
-        });
-        extraParamsContainer.append(label).append(input);
-
-        // Add change event listener to update query params and live preview
-        input.change(() => {
-          updateQueryParams();
-          updateLivePreviewAndEmbedCode();
-        });
       }
     }
   }
 
-  $("#widget-type").change(function () {
-    const widgetName = $(this).val();
+  widgetTypeSelect.addEventListener("change", () => {
+    const widgetName = widgetTypeSelect.value;
     updateWidgetColors(widgetName);
     renderExtraParameters(widgetName);
   });
 
-  $("#color-select").change(updateLivePreviewAndEmbedCode);
-  $("#component").change(() => {
+  colorSelect.addEventListener("change", updateLivePreviewAndEmbedCode);
+  componentSelect.addEventListener("change", () => {
     updateQueryParams();
     updateLivePreviewAndEmbedCode();
   });
-  $("#translation-language").change(() => {
+  languageSelect.addEventListener("change", () => {
     updateQueryParams();
     updateLivePreviewAndEmbedCode();
   });
-  $("#code-language").change(updateLivePreviewAndEmbedCode);
+  codeLanguageSelect.addEventListener("change", updateLivePreviewAndEmbedCode);
 
-  updateWidgetColors($("#widget-type").val());
-  renderExtraParameters($("#widget-type").val());
+  updateWidgetColors(widgetTypeSelect.value);
+  renderExtraParameters(widgetTypeSelect.value);
 });

@@ -13,6 +13,7 @@ from django.utils.translation import gettext
 
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
+from weblate.legal.utils import get_document_context
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.version_display import (
     hide_detailed_version,
@@ -69,6 +70,8 @@ def add_optional_context(context) -> None:
     for name in CONTEXT_APPS:
         appname = f"weblate.{name}"
         context[f"has_{name}"] = appname in settings.INSTALLED_APPS
+    if context["has_legal"]:
+        context.update(get_document_context())
 
 
 def get_preconnect_list() -> list[str | None]:
@@ -127,6 +130,10 @@ def weblate_context(request: AuthenticatedHttpRequest):
     if settings.OFFER_HOSTING:
         description = gettext(
             "Hosted Weblate, the place to localize your software project."
+        )
+    elif settings.SINGLE_PROJECT:
+        description = gettext(
+            "This site runs Weblate for localizing a software project."
         )
     else:
         description = gettext(

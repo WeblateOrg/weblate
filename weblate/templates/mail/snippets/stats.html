@@ -51,12 +51,12 @@
 <tr>
   <td>{% get_filter_name "fuzzy" %}</td>
   <td>
-    {% if url %}<a href="{{ url }}?q=state:needs-editing">{% endif %}
+    {% if url %}<a href="{{ url }}?q=is:needs-editing">{% endif %}
       {{ stats.fuzzy|intcomma }}
       {% if url %}</a>{% endif %}
   </td>
   <td>
-    {% if url %}<a href="{{ url }}?q=state:needs-editing">{% endif %}
+    {% if url %}<a href="{{ url }}?q=is:needs-editing">{% endif %}
       {{ stats.fuzzy_percent|percent_format }}
       {% if url %}</a>{% endif %}
   </td>

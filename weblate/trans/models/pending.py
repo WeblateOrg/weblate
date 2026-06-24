@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from django.conf import settings
 from django.db import models
@@ -34,15 +34,11 @@ from weblate.utils.version import GIT_VERSION
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from django.db.models import (
-        QuerySet,
-    )
-
     from weblate.auth.models import User
     from weblate.trans.models import Component, Project, Translation, Unit
 
 
-class PendingChangeQuerySet(models.QuerySet):
+class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitChange"]):
     def find_committable_components(
         self, pks: list[int] | None = None, hours: int | None = None
     ) -> models.QuerySet[Component]:
@@ -57,8 +53,15 @@ class PendingChangeQuerySet(models.QuerySet):
             hours: Optional fixed hours threshold (overrides per-component commit_pending_age)
 
         """
-        from weblate.trans.models import Component  # noqa: PLC0415
-        from weblate.trans.models.project import CommitPolicyChoices  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import (
+            CommitPolicyChoices,
+        )
 
         pending_changes = self.all()
 
@@ -173,8 +176,11 @@ class PendingChangeQuerySet(models.QuerySet):
         return self._apply_commit_policy_filter(qs, commit_policy)
 
     def _apply_retry_filter(
-        self, qs: QuerySet, revision: str | None, blocking_unit_filter: bool
-    ) -> QuerySet:
+        self,
+        qs: PendingChangeQuerySet,
+        revision: str | None,
+        blocking_unit_filter: bool,
+    ) -> PendingChangeQuerySet:
         """
         Filter pending changes based on retry eligibility.
 
@@ -192,16 +198,9 @@ class PendingChangeQuerySet(models.QuerySet):
         """
         one_week_ago = timezone.now() - timedelta(days=7)
 
-        annotations_: dict[str, Any] = {
-            "failed_revision": KT("metadata__failed_revision"),
-            "weblate_version": KT("metadata__weblate_version"),
-            "last_failed": KT("metadata__last_failed"),
-        }
-
         # Component-level queries require joining unit.translation for revision;
         # translation-level queries use the provided revision directly
         if revision is None:
-            annotations_["translation_revision"] = F("unit__translation__revision")
             revision_comparison = ~Q(failed_revision=F("translation_revision"))
         else:
             revision_comparison = ~Q(failed_revision=revision)
@@ -214,22 +213,41 @@ class PendingChangeQuerySet(models.QuerySet):
             | Q(last_failed__lt=one_week_ago.isoformat())
         )
 
-        annotations_["eligible_for_attempt"] = Case(
+        eligible_for_attempt = Case(
             When(eligible_for_attempt_filter, then=True),
             default=False,
             output_field=BooleanField(),
         )
 
-        qs = qs.annotate(**annotations_)
+        if revision is None:
+            annotated_qs = qs.annotate(
+                failed_revision=KT("metadata__failed_revision"),
+                weblate_version=KT("metadata__weblate_version"),
+                last_failed=KT("metadata__last_failed"),
+                translation_revision=F("unit__translation__revision"),
+                eligible_for_attempt=eligible_for_attempt,
+            )
+        else:
+            annotated_qs = qs.annotate(
+                failed_revision=KT("metadata__failed_revision"),
+                weblate_version=KT("metadata__weblate_version"),
+                last_failed=KT("metadata__last_failed"),
+                eligible_for_attempt=eligible_for_attempt,
+            )
 
         if not blocking_unit_filter:
-            return qs.filter(eligible_for_attempt=True)
+            return cast(
+                "PendingChangeQuerySet",
+                annotated_qs.filter(eligible_for_attempt=True),
+            )
 
         # When blocking_unit_filter is True, we need to handle the case where a failed
         # change with blocking_unit=True prevents newer changes on the same unit from
         # being committed. This requires Python-side iteration to track blocked units.
-        qs = (
-            qs.filter(Q(eligible_for_attempt=True) | Q(metadata__blocking_unit=True))
+        changes = (
+            annotated_qs.filter(
+                Q(eligible_for_attempt=True) | Q(metadata__blocking_unit=True)
+            )
             .order_by("unit_id", "timestamp")
             .values_list(
                 "pk", "unit_id", "metadata__blocking_unit", "eligible_for_attempt"
@@ -241,7 +259,7 @@ class PendingChangeQuerySet(models.QuerySet):
 
         # failed changes that are not yet eligible for retry and have blocking_unit=True
         # should prevent all newer changes from being committed
-        for pk, unit_id, blocking_unit, eligible_for_attempt in qs.iterator():
+        for pk, unit_id, blocking_unit, eligible_for_attempt in changes.iterator():
             if unit_id in blocked_units:
                 continue
 
@@ -252,7 +270,9 @@ class PendingChangeQuerySet(models.QuerySet):
 
         return self.filter(pk__in=eligible_pks)
 
-    def _apply_commit_policy_filter(self, qs: QuerySet, commit_policy: int) -> QuerySet:
+    def _apply_commit_policy_filter(
+        self, qs: PendingChangeQuerySet, commit_policy: int
+    ) -> PendingChangeQuerySet:
         """
         Filter pending changes based on the project's commit policy.
 
@@ -260,7 +280,10 @@ class PendingChangeQuerySet(models.QuerySet):
         and includes all changes up to that point. This ensures we commit changes in
         chronological order and don't skip intermediate changes.
         """
-        from weblate.trans.models.project import CommitPolicyChoices  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import (
+            CommitPolicyChoices,
+        )
 
         if commit_policy == CommitPolicyChoices.ALL:
             return qs
@@ -286,13 +309,13 @@ class PendingChangeQuerySet(models.QuerySet):
         # Use weaker locking and limit locking to this table only
         return super().select_for_update(no_key=True, of=("self",))
 
-    def _count_units_helper(self, qs: QuerySet) -> int:
+    def _count_units_helper(self, qs: PendingChangeQuerySet) -> int:
         """Count distinct units in a PendingUnitChange queryset."""
         return qs.distinct("unit_id").count()
 
     def detailed_count(self, obj: Project | Component | Translation) -> dict[str, int]:
         """Count total, skipped and eligible units pending and eligible for commit for the given object."""
-        from weblate.trans.models import (  # noqa: PLC0415
+        from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
             Component,
             Project,
             Translation,
@@ -368,6 +391,52 @@ class PendingUnitChange(models.Model):
         return f"Pending change for {self.unit} -> {self.target} by {self.author}"
 
     @classmethod
+    def build_unit_change(
+        cls,
+        *,
+        unit: Unit | None = None,
+        unit_id: int | None = None,
+        author: User | None = None,
+        author_id: int | None = None,
+        target: str,
+        explanation: str,
+        state: int,
+        add_unit: bool = False,
+        source_unit_explanation: str,
+        automatically_translated: bool,
+        timestamp: datetime | None = None,
+    ) -> PendingUnitChange:
+        """Build pending change from a unit instance or pre-fetched unit values."""
+        kwargs = {
+            "target": target,
+            "explanation": explanation,
+            "state": state,
+            "add_unit": add_unit,
+            "source_unit_explanation": source_unit_explanation,
+            "automatically_translated": automatically_translated,
+        }
+        if unit_id is not None:
+            kwargs["unit_id"] = unit_id
+        elif unit is not None:
+            kwargs["unit"] = unit
+        else:
+            msg = "Pending unit change requires unit or unit_id."
+            raise ValueError(msg)
+
+        if author_id is not None:
+            kwargs["author_id"] = author_id
+        elif author is not None:
+            kwargs["author"] = author
+        else:
+            msg = "Pending unit change requires author or author_id."
+            raise ValueError(msg)
+
+        if timestamp is not None:
+            kwargs["timestamp"] = timestamp
+
+        return cls(**kwargs)
+
+    @classmethod
     def store_unit_change(
         cls,
         unit: Unit,
@@ -402,20 +471,17 @@ class PendingUnitChange(models.Model):
         if automatically_translated is None:
             automatically_translated = unit.automatically_translated
 
-        kwargs = {
-            "unit": unit,
-            "author": author,
-            "target": target,
-            "explanation": explanation,
-            "state": state,
-            "add_unit": add_unit,
-            "source_unit_explanation": source_unit_explanation,
-            "automatically_translated": automatically_translated,
-        }
-        if timestamp is not None:
-            kwargs["timestamp"] = timestamp
-
-        pending_unit_change = PendingUnitChange(**kwargs)
+        pending_unit_change = cls.build_unit_change(
+            unit=unit,
+            author=author,
+            target=target,
+            explanation=explanation,
+            state=state,
+            add_unit=add_unit,
+            source_unit_explanation=source_unit_explanation,
+            automatically_translated=automatically_translated,
+            timestamp=timestamp,
+        )
         if save:
             pending_unit_change.save()
         return pending_unit_change

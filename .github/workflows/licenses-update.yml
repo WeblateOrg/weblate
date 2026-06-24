@@ -14,6 +14,7 @@ on:
     - .github/workflows/licenses-update.yml
     - scripts/generate-license-data.py
     - scripts/spdx-license-list
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,30 +24,12 @@ jobs:
     runs-on: ubuntu-24.04-arm
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
-      with:
-        token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
-        persist-credentials: true
-        submodules: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
-      with:
-        persist-credentials: true
-        submodules: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
-      if: github.event_name == 'pull_request'
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0   # v7.0.0
       with:
         persist-credentials: false
         submodules: true
     - uses: ./.github/actions/pre-commit-setup
     - run: ./scripts/generate-license-data.py
 
-    - name: Commit or create pull request (pre-commit-ci-lite)
+    - name: Prepare maintenance patch
       uses: ./.github/actions/auto-commit
-      with:
-        message: 'utils: Update SPDX license data'
-        pr-branch: create-pull-request/licenses-update
-        pr-labels: |
-          dependencies
-        github-token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]

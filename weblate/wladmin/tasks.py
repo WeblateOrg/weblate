@@ -14,6 +14,17 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.wladmin.models import BackupService, SupportStatus
 
 
+def run_backup_service(service: BackupService) -> bool:
+    if not service.ensure_init():
+        return False
+    service.backup()
+    service.prune()
+    today = timezone.now().date()
+    if today.weekday() == 3:
+        service.cleanup()
+    return True
+
+
 @app.task(trail=False)
 @transaction.atomic
 def support_status_update() -> None:
@@ -35,13 +46,7 @@ def backup_service(pk: int) -> None:
     except BackupService.DoesNotExist:
         # The service was removed meanwhile
         return
-    if not service.ensure_init():
-        return
-    service.backup()
-    service.prune()
-    today = timezone.now().date()
-    if today.weekday() == 3:
-        service.cleanup()
+    run_backup_service(service)
 
 
 @app.on_after_finalize.connect

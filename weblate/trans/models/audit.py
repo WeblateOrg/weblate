@@ -29,7 +29,8 @@ def should_track_field(
     """Check whether a changed field is included in a partial model save."""
     if update_fields is None:
         return True
-    field = cast("models.Field", instance._meta.get_field(attribute))  # noqa: SLF001
+    # ruff: ignore[private-member-access]
+    field = cast("models.Field", instance._meta.get_field(attribute))
     return attribute in update_fields or field.attname in update_fields
 
 

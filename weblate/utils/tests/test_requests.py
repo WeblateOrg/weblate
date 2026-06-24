@@ -6,16 +6,20 @@ import os
 from unittest.mock import Mock, patch
 
 import responses
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from requests.cookies import RequestsCookieJar
 
 from weblate.utils.requests import (
+    PEER_IP_RESPONSE_ATTR,
+    _get_response_peer_ip,
     _validate_response_peer,
     fetch_validated_url,
     get_uri_error,
     open_asset_url,
+    open_restricted_asset_url,
 )
 
 
@@ -141,7 +145,198 @@ class OpenAssetURLTest(SimpleTestCase):
             pass
 
 
+class OpenRestrictedAssetURLTest(SimpleTestCase):
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_open_restricted_asset_url_blocks_private_target(
+        self, mocked_getaddrinfo
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://private.example.com/messages.html",
+            status=200,
+            body=b"should-not-be-fetched",
+        )
+
+        with (
+            self.assertRaises(ValidationError),
+            open_restricted_asset_url(
+                "get",
+                "https://private.example.com/messages.html",
+                allow_private_targets=False,
+            ),
+        ):
+            pass
+
+        mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
+        self.assertEqual(len(responses.calls), 0)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=[
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("127.0.0.1", 443))],
+        ],
+    )
+    def test_open_restricted_asset_url_blocks_private_redirect(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/messages.html",
+            status=302,
+            headers={"Location": "https://private.example.com/messages.html"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/messages.html",
+            status=200,
+            body=b"should-not-be-fetched",
+        )
+
+        with (
+            self.assertRaises(ValidationError),
+            open_restricted_asset_url(
+                "get",
+                "https://public.example.com/messages.html",
+                allow_private_targets=False,
+            ),
+        ):
+            pass
+
+        self.assertEqual(mocked_getaddrinfo.call_count, 2)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_open_restricted_asset_url_blocks_private_peer_after_public_dns(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/messages.html",
+            status=200,
+            body=b"should-not-be-read",
+        )
+
+        with (
+            self.assertRaises(ValidationError),
+            open_restricted_asset_url(
+                "get",
+                "https://public.example.com/messages.html",
+                allow_private_targets=False,
+            ),
+        ):
+            pass
+
+        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch("weblate.utils.requests._get_response_peer_ip", return_value=None)
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_open_restricted_asset_url_blocks_missing_peer_after_public_dns(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/messages.html",
+            status=200,
+            body=b"connection-close-response",
+        )
+
+        with (
+            self.assertRaises(ValidationError),
+            open_restricted_asset_url(
+                "get",
+                "https://public.example.com/messages.html",
+                allow_private_targets=False,
+            ),
+        ):
+            pass
+
+        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch("weblate.utils.requests._get_response_peer_ip")
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_open_restricted_asset_url_allows_allowlisted_private_target(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://private.example.com/messages.html",
+            status=200,
+            body=b"allowlisted-private-target",
+        )
+
+        with open_restricted_asset_url(
+            "get",
+            "https://private.example.com/messages.html",
+            allow_private_targets=False,
+            allowed_domains=["private.example.com"],
+        ) as response:
+            self.assertEqual(response.content, b"allowlisted-private-target")
+
+        mocked_getaddrinfo.assert_not_called()
+        mocked_get_peer.assert_not_called()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    @patch("weblate.utils.outbound.socket.getaddrinfo")
+    def test_open_restricted_asset_url_blocks_disallowed_asset_domain(
+        self, mocked_getaddrinfo
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://blocked.example.com/messages.html",
+            status=200,
+            body=b"should-not-be-fetched",
+        )
+
+        with (
+            self.assertRaises(ValidationError),
+            open_restricted_asset_url(
+                "get",
+                "https://blocked.example.com/messages.html",
+                allow_private_targets=False,
+            ),
+        ):
+            pass
+
+        mocked_getaddrinfo.assert_not_called()
+        self.assertEqual(len(responses.calls), 0)
+
+
 class GetUriErrorTest(SimpleTestCase):
+    def setUp(self) -> None:
+        cache.clear()
+
     @responses.activate
     def test_get_uri_error_allows_internal_host_by_default(self) -> None:
         responses.add(
@@ -152,6 +347,94 @@ class GetUriErrorTest(SimpleTestCase):
         )
 
         self.assertIsNone(get_uri_error("https://gitlab.intranet.example/project"))
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value="93.184.216.34",
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=[
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("127.0.0.1", 443))],
+        ],
+    )
+    def test_get_uri_error_blocks_private_redirect(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=302,
+            headers={"Location": "https://private.example.com/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/final",
+            status=200,
+            body=b"should-not-be-fetched",
+        )
+
+        expected_error = (
+            "This URL is prohibited because it points to an internal or non-public "
+            "address."
+        )
+        self.assertEqual(
+            get_uri_error(
+                "https://public.example.com/source", allow_private_targets=False
+            ),
+            expected_error,
+        )
+
+        self.assertEqual(mocked_getaddrinfo.call_count, 2)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value="93.184.216.34",
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=[
+            [(0, 0, 0, "", ("93.184.216.34", 443))],
+            [(0, 0, 0, "", ("127.0.0.1", 443))],
+        ],
+    )
+    def test_get_uri_error_cache_is_scoped_by_private_target_policy(
+        self, mocked_getaddrinfo, mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=302,
+            headers={"Location": "https://private.example.com/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://private.example.com/final",
+            status=200,
+            body=b"private-target",
+        )
+
+        expected_error = (
+            "This URL is prohibited because it points to an internal or non-public "
+            "address."
+        )
+
+        self.assertIsNone(get_uri_error("https://public.example.com/source"))
+        self.assertEqual(
+            get_uri_error(
+                "https://public.example.com/source", allow_private_targets=False
+            ),
+            expected_error,
+        )
+
+        self.assertEqual(mocked_getaddrinfo.call_count, 2)
+        mocked_get_peer.assert_called_once()
+        self.assertEqual(len(responses.calls), 3)
 
     @patch("weblate.utils.requests._probe_validated_url")
     def test_get_uri_error_flattens_validation_error(self, mocked_probe) -> None:
@@ -584,6 +867,13 @@ class FetchValidatedURLTest(SimpleTestCase):
             )
 
         mocked_get_peer.assert_called_once_with(response)
+
+    def test_get_response_peer_ip_uses_cached_peer_after_socket_release(self) -> None:
+        response = Mock()
+        response.raw.connection.sock = None
+        setattr(response, PEER_IP_RESPONSE_ATTR, "93.184.216.34")
+
+        self.assertEqual(_get_response_peer_ip(response), "93.184.216.34")
 
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
     def test_validate_response_peer_skips_allowlisted_hostname(

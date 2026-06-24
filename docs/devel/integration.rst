@@ -32,7 +32,8 @@ changes made in Weblate (see :ref:`lazy-commit`). This can be done from the user
 (in the :guilabel:`Repository maintenance`), or from the command-line using :ref:`wlc`.
 
 Pushing changes can be automated if you grant Weblate push access to your repository and
-configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
+configure :ref:`component-push` in the :ref:`component`, see
+:ref:`code-hosting-push-options`.
 
 Alternatively, use :doc:`/api` to update translations
 so that they match the latest version from the upstream in your remote VCS repository.
@@ -40,7 +41,7 @@ so that they match the latest version from the upstream in your remote VCS repos
 .. seealso::
 
    * :ref:`continuous-translation`
-   * :ref:`push-changes`
+   * :ref:`code-hosting-push-options`
    * :ref:`vcs-repos`
 
 Fetching remote changes into Weblate

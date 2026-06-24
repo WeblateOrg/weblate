@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import ast
+import json
 import os
 from pathlib import Path
 from typing import Any, Literal, cast, overload
@@ -119,6 +120,24 @@ def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, s
     return default or {}
 
 
+@overload
+def get_env_json(name: str, default: dict[str, Any]) -> dict[str, Any]: ...
+@overload
+def get_env_json(name: str, default: None = None) -> dict[str, Any] | None: ...
+def get_env_json(
+    name: str, default: dict[str, Any] | None = None
+) -> dict[str, Any] | None:
+    """Get JSON object from environment."""
+    string_value = get_env_str(name)
+    if not string_value:
+        return default
+    try:
+        return json.loads(string_value)
+    except json.JSONDecodeError as error:
+        msg = f"Could not parse {name}: {error}"
+        raise ImproperlyConfigured(msg) from error
+
+
 def get_env_int_or_none(name: str) -> int | None:
     """Get integer value from environment."""
     string_value = get_env_str(name)
@@ -147,7 +166,7 @@ def get_env_float(name: str, default: float = 0.0) -> float:
     try:
         return float(string_value)
     except ValueError as error:
-        msg = f"{name} is not an float: {error}"
+        msg = f"{name} is not a float: {error}"
         raise ImproperlyConfigured(msg) from error
 
 

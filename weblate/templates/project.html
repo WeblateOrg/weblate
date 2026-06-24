@@ -194,7 +194,7 @@
           {% endfor %}
         {% endif %}
 
-        {% if delete_form or rename_form or user_can_edit_project %}
+        {% if delete_form or rename_form or move_form or user_can_edit_project %}
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -204,7 +204,7 @@
               <a class="dropdown-item" href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
             </li>
           {% endif %}
-          {% if delete_form or rename_form %}
+          {% if delete_form or rename_form or move_form %}
             <li>
               <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
             </li>
@@ -369,7 +369,7 @@
     {% endif %}
 
 
-    {% if rename_form %}
+    {% if rename_form or move_form or delete_form %}
       <div class="tab-pane" id="organize">
 
         {% if rename_form %}
@@ -394,6 +394,23 @@
           </form>
         {% endif %}
 
+        {% if move_form %}
+          <form method="post" action="{% url 'move' path=object.get_url_path %}">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Move project" %}</h4>
+              </div>
+              <div class="card-body">
+                {% csrf_token %}
+                {% crispy move_form %}
+              </div>
+              <div class="card-footer">
+                <input type="submit" class="btn btn-warning" value="{% translate "Move" %}">
+              </div>
+            </div>
+          </form>
+        {% endif %}
+
         {% if delete_form %}
           {% include "trans/delete-form.html" %}
         {% endif %}
@@ -411,7 +428,7 @@
     {% if user.is_authenticated %}
       <div class="tab-pane" id="reports">
         {% if not user_can_view_reports %}
-          {% translate "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+          {% translate "You don't have permission to view reports for all users; contributor reports will list only your contributions." as msg %}
           {% show_message "warning" msg %}
         {% endif %}
         <div class="row">
@@ -451,7 +468,30 @@
                 </div>
                 <div class="card-body">
                   <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
-                  {% crispy reports_form %}
+                  {% crispy reports_count_form %}
+                </div>
+                <div class="card-footer">
+                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-6">
+            <form action="{% url 'costs' path=object.get_url_path %}"
+                  method="post"
+                  enctype="multipart/form-data">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    {% documentation_icon 'devel/reporting' 'cost-estimate' right=True %}
+                    {% translate "Cost estimate" %}
+                  </h4>
+                </div>
+                <div class="card-body">
+                  <p>
+                    {% translate "Estimates translation costs based on source words, repetitions, needs-editing strings, and translation memory matches." %}
+                  </p>
+                  {% crispy reports_cost_form %}
                 </div>
                 <div class="card-footer">
                   <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />

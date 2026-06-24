@@ -5,18 +5,19 @@
 from __future__ import annotations
 
 import logging
+from contextlib import closing
 from datetime import timedelta
 from email.message import MIMEPart
 from smtplib import SMTP, SMTPConnectError
 from types import MethodType
 from typing import TYPE_CHECKING, TypedDict
 
-import sentry_sdk
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
 from django.db import transaction
+from django.urls import reverse
 from django.utils.timezone import now
 from social_django.models import Code, Partial
 
@@ -24,6 +25,7 @@ from weblate.utils.celery import app
 from weblate.utils.errors import report_error
 from weblate.utils.html import HTML2Text
 from weblate.utils.icons import load_icon
+from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -45,6 +47,23 @@ class OutgoingEmail(TypedDict):
     headers: dict[str, str]
 
 
+def get_registration_attempt_password_reset_url(activity: str) -> str | None:
+    """Return a password reset URL suitable for registration-attempt e-mails."""
+    if activity not in {"connect", "register"}:
+        return None
+    if settings.PASSWORD_RESET_URL:
+        return settings.PASSWORD_RESET_URL
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.utils import (
+        get_auth_keys,
+    )
+
+    if "email" in get_auth_keys():
+        return reverse("password_reset")
+    return None
+
+
 @app.task(trail=False)
 def cleanup_social_auth() -> None:
     """Cleanup expired partial social authentications."""
@@ -59,7 +78,10 @@ def cleanup_social_auth() -> None:
 @app.task(trail=False)
 def cleanup_auditlog() -> None:
     """Cleanup old auditlog entries."""
-    from weblate.accounts.models import AuditLog  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.models import (
+        AuditLog,
+    )
 
     timestamp = now()
 
@@ -89,7 +111,7 @@ class NotificationFactory:
         self.instances: dict[str, Notification] = {}
 
     def for_action(self, action: int) -> Generator[Notification]:
-        from weblate.accounts.notifications import (  # noqa: PLC0415
+        from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
             NOTIFICATIONS_ACTIONS,
         )
 
@@ -112,7 +134,7 @@ class NotificationFactory:
 @app.task(trail=False)
 @transaction.atomic
 def notify_changes(change_ids: list[int]) -> None:
-    from weblate.trans.models import Change  # noqa: PLC0415
+    from weblate.trans.models import Change  # ruff: ignore[import-outside-top-level]
 
     changes = Change.objects.prefetch_for_render().filter(pk__in=change_ids)
     factory = NotificationFactory()
@@ -126,7 +148,10 @@ def notify_changes(change_ids: list[int]) -> None:
 
 @transaction.atomic
 def notify_digest(method: str) -> None:
-    from weblate.accounts.notifications import NOTIFICATIONS  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.notifications import (
+        NOTIFICATIONS,
+    )
 
     outgoing: list[OutgoingEmail] = []
     for notification_cls in NOTIFICATIONS:
@@ -153,8 +178,15 @@ def notify_monthly() -> None:
 
 @app.task(trail=False)
 def notify_auditlog(log_id: int, email: str) -> None:
-    from weblate.accounts.models import AuditLog  # noqa: PLC0415
-    from weblate.accounts.notifications import send_notification_email  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.models import (
+        AuditLog,
+    )
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.notifications import (
+        send_notification_email,
+    )
 
     audit = AuditLog.objects.get(pk=log_id)
     send_notification_email(
@@ -166,6 +198,9 @@ def notify_auditlog(log_id: int, email: str) -> None:
             "extra_message": audit.get_extra_message,
             "address": audit.shortened_address,
             "user_agent": audit.user_agent,
+            "password_reset_url": get_registration_attempt_password_reset_url(
+                audit.activity
+            ),
         },
         info=f"{audit.activity} from {audit.address}",
         user=audit.user,
@@ -213,7 +248,7 @@ def queue_mails(mails: list[OutgoingEmail]) -> None:
 def send_mails(mails: list[OutgoingEmail]) -> None:
     """Send multiple mails in single connection."""
     images = []
-    with sentry_sdk.start_span(op="email.images"):
+    with start_span(op="email.images"):
         for name in ("email-logo.png", "email-logo-footer.png"):
             image = MIMEPart()
             image.set_content(
@@ -226,7 +261,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             )
             images.append(image)
 
-    with sentry_sdk.start_span(op="email.connect"):
+    with start_span(op="email.connect"):
         connection = get_connection()
         try:
             connection.open()
@@ -239,9 +274,9 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
 
     html2text = HTML2Text()
 
-    try:
+    with closing(connection):
         for mail in mails:
-            with sentry_sdk.start_span(op="email.text"):
+            with start_span(op="email.text"):
                 text = html2text.handle(mail["body"])
             email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
@@ -253,11 +288,9 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             for image in images:
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")
-            with sentry_sdk.start_span(op="email.send"):
+            with start_span(op="email.send"):
                 LOGGER.debug("sending e-mail to %s", mail["address"])
                 email.send()
-    finally:
-        connection.close()
 
 
 @app.on_after_finalize.connect

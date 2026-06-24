@@ -50,8 +50,9 @@ class AnthropicTranslation(BaseLLMTranslation):
     def fetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
+        model = self.get_traced_model()
         payload = {
-            "model": self.get_model(),
+            "model": model,
             "max_tokens": self.settings.get("max_tokens", 4096),
             "system": prompt,
             "messages": [

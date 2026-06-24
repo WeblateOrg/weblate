@@ -164,6 +164,13 @@ class TBXExporter(XMLExporter):
     verbose = gettext_lazy("TBX")
     storage_class = tbxfile
 
+    def add(self, unit, word) -> None:
+        if self.source_language.code.replace("_", "-").lower() == (
+            self.language.code.replace("_", "-").lower()
+        ):
+            return
+        super().add(unit, word)
+
 
 class TMXExporter(XMLExporter):
     name = "tmx"
@@ -442,7 +449,8 @@ class AndroidResourceExporter(XMLFilterMixin, MonolingualExporter):
 
     def add(self, unit, word) -> None:
         # Need to have storage to handle plurals
-        unit._store = self.storage  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        unit._store = self.storage
         super().add(unit, word)
 
     def add_note(self, output, note: str, origin: str) -> None:

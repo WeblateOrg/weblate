@@ -3,7 +3,8 @@
 <table class="sort table progress-table autocolspan table-listing">
   <thead>
     <tr>
-      <th>{% translate "Owners" %}</th>
+      <th>{% translate "Workspace" %}</th>
+      <th>{% translate "Customer" %}</th>
       <th>{% translate "Projects" %}</th>
       <th>{% translate "Plan" %}</th>
       <th class="number">{% translate "Hosted words" %}</th>
@@ -20,12 +21,9 @@
     {% for object in objects %}
       <tr>
         <td>
-          {% for user in object.owners.all %}
-            {{ user.profile.get_user_display_link }}
-          {% empty %}
-            <em>{% translate "No users currently assigned!" %}</em>
-          {% endfor %}
+          <a href="{{ object.workspace.get_absolute_url }}">{{ object.workspace }}</a>
         </td>
+        <td>{{ object.customer_name }}</td>
         <td>
           {% for project in object.all_projects %}
             <a href="{{ project.get_absolute_url }}">{{ project }}</a>
@@ -36,8 +34,12 @@
         </td>
         <td>{% include "billing/state-snippet.html" %}</td>
         <td class="number" data-value="{{ object.hosted_words }}">{{ object.hosted_words|intcomma }}</td>
-        {% if show_expiry %}<td data-value="{{ object.expiry.timestamp }}">{{ object.expiry|naturaltime }}</td>{% endif %}
-        {% if show_removal %}<td data-value="{{ object.removal.timestamp }}">{{ object.removal|naturaltime }}</td>{% endif %}
+        {% if show_expiry %}
+          <td {% if object.expiry %}data-value="{{ object.expiry.timestamp }}"{% endif %}>{{ object.expiry|naturaltime }}</td>
+        {% endif %}
+        {% if show_removal %}
+          <td {% if object.removal %}data-value="{{ object.removal.timestamp }}"{% endif %}>{{ object.removal|naturaltime }}</td>
+        {% endif %}
         <td>
           <a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% translate "View" %}</a>
         </td>

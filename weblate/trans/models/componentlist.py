@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.trans.componentlist")
 
 
-class ComponentListQuerySet(models.QuerySet):
+class ComponentListQuerySet(models.QuerySet["ComponentList", "ComponentList"]):
     def order(self):
         return self.order_by("name")
 

@@ -32,7 +32,7 @@ class WeblateUserBackend(ModelBackend):
     def authenticate(
         self, request: AuthenticatedHttpRequest, username=None, password=None, **kwargs
     ):
-        """Prohibit login for anonymous user and allows to login by e-mail."""
+        """Prohibit login for anonymous user and allow login by e-mail."""
         if username == settings.ANONYMOUS_USER_NAME or username is None:
             return None
 

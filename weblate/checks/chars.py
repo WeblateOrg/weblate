@@ -211,7 +211,7 @@ class EndStopCheck(TargetCheck):
         return self.check_chars(source, target, -1, {".", "။"})
 
     def should_skip(self, unit: Unit) -> bool:
-        # Thai and Lojban does not have a full stop
+        # Thai and Lojban do not have a full stop
         if unit.translation.language.is_base({"th", "jbo"}):
             return True
         return super().should_skip(unit)
@@ -259,7 +259,7 @@ class EndColonCheck(TargetCheck):
     description = gettext_lazy("Source and translation do not both end with a colon.")
 
     def should_skip(self, unit: Unit) -> bool:
-        # Thai and Lojban does not have a colon
+        # Thai and Lojban do not have a colon
         if unit.translation.language.is_base({"th", "jbo"}):
             return True
         return super().should_skip(unit)
@@ -297,7 +297,7 @@ class EndQuestionCheck(TargetCheck):
     question_el = ("?", ";", ";")
 
     def should_skip(self, unit: Unit) -> bool:
-        # Thai and Lojban does not have a question mark
+        # Thai and Lojban do not have a question mark
         if unit.translation.language.is_base({"th", "jbo"}):
             return True
         return super().should_skip(unit)
@@ -342,7 +342,7 @@ class EndExclamationCheck(TargetCheck):
     )
 
     def should_skip(self, unit: Unit) -> bool:
-        # Thai and Lojban and Armenian does not have an exclamation mark
+        # Thai, Lojban, and Armenian do not have an exclamation mark
         if unit.translation.language.is_base({"hy", "th", "jbo"}):
             return True
         return super().should_skip(unit)
@@ -392,7 +392,7 @@ class EndEllipsisCheck(TargetCheck):
     )
 
     def should_skip(self, unit: Unit) -> bool:
-        # Thai and Lojban does not have a ellipsis
+        # Thai and Lojban do not have an ellipsis
         if unit.translation.language.is_base({"th", "jbo"}):
             return True
         return super().should_skip(unit)

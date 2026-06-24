@@ -84,7 +84,8 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
         "get_source_words",
         "get_language_count",
     )
-    prepopulated_fields = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    prepopulated_fields = {
         "slug": ("name",),
     }
     search_fields = ("name", "slug", "web")
@@ -123,7 +124,8 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
 @admin.register(Component)
 class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = ("name", "slug", "project", "repo", "branch", "vcs", "file_format")
-    prepopulated_fields = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    prepopulated_fields = {
         "slug": ("name",),
     }
     search_fields = ("name", "slug", "repo", "branch", "project__name", "project__slug")
@@ -192,7 +194,8 @@ class AutoComponentListAdmin(admin.TabularInline):
 class ComponentListAdmin(WeblateModelAdmin):
     list_display = ("name", "show_dashboard")
     list_filter = ("show_dashboard",)
-    prepopulated_fields = {"slug": ("name",)}  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    prepopulated_fields = {"slug": ("name",)}
     autocomplete_fields = ("components",)
     inlines = (AutoComponentListAdmin,)
     ordering = ("name",)
@@ -200,9 +203,24 @@ class ComponentListAdmin(WeblateModelAdmin):
 
 @admin.register(ContributorAgreement)
 class ContributorAgreementAdmin(WeblateModelAdmin):
-    list_display = ("user", "component", "timestamp")
+    list_display = (
+        "user",
+        "component",
+        "project",
+        "category",
+        "workspace",
+        "timestamp",
+    )
     date_hierarchy = "timestamp"
-    ordering = ("user__username", "component__project__name", "component__name")
+    ordering = (
+        "user__username",
+        "workspace__name",
+        "project__name",
+        "category__project__name",
+        "category__name",
+        "component__project__name",
+        "component__name",
+    )
 
 
 # Show some controls only in debug mode

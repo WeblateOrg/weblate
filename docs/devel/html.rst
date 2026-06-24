@@ -3,18 +3,20 @@
 Translating HTML and JavaScript using Weblate CDN
 =================================================
 
-Starting with Weblate 4.2 it is possible to export localization to a CDN using
-:ref:`addon-weblate.cdn.cdnjs` add-on.
+Starting with Weblate 4.2 it is possible to export JavaScript and HTML
+localization to a CDN using :ref:`addon-weblate.cdn.cdnjs` add-on.
+To publish translation files without the JavaScript loader, use
+:ref:`addon-weblate.cdn.files`.
 
 .. note::
 
    This feature is configured on Hosted Weblate. It requires additional
    configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and
-   :setting:`LOCALIZE_CDN_PATH`.
+   :setting:`LOCALIZE_CDN_PATH`. See also :ref:`cdn-server-security`.
 
-Upon installation into your component it will push committed translations (see
-:ref:`lazy-commit`) to the CDN and these can be used in your web pages to
-localize them.
+Upon installation into your component the JavaScript localization add-on will
+push committed translations (see :ref:`lazy-commit`) to the CDN and these can
+be used in your web pages to localize them.
 
 Creating component
 ~~~~~~~~~~~~~~~~~~
@@ -101,7 +103,7 @@ selector to process all elements.
 HTML localization using Weblate CDN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To localize a HTML document, you need to load the :file:`weblate.js` script:
+To localize an HTML document, you need to load the :file:`weblate.js` script:
 
 .. code-block:: html
 
@@ -130,3 +132,17 @@ To fetch one you can use following code:
       .then(data => console.log(data));
 
 The actual localization logic needs to be implemented in this case.
+
+Publishing translation files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The :ref:`addon-weblate.cdn.files` add-on publishes translation files directly
+to the CDN. It does not generate a JavaScript loader or convert translations
+into bilingual JSON.
+
+Single-file translations are named using the language code and original file
+extension, for example ``cs.json`` or ``de.po``. Multi-file translations are
+served below the language code using paths relative to the translation
+directory. Monolingual components include the source language file, while
+bilingual components publish only target-language files.
+See :ref:`cdn-server-security` for secure server setup.

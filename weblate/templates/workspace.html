@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#projects"
+         data-bs-toggle="tab"
+         href="#">{% translate "Projects" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
+      <ul class="dropdown-menu shadow">
+        <li>
+          <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'checks' path=workspace.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
+      </ul>
+    </li>
+    {% if billing %}
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#billing" data-bs-toggle="tab" href="#">{% translate "Billing" %}</a>
+      </li>
+    {% endif %}
+    {% if bulk_state_form or autoform or can_edit_workspace or can_manage_access %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
+        <ul class="dropdown-menu shadow">
+          {% if bulk_state_form %}
+            <li>
+              <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+            </li>
+          {% endif %}
+          {% if autoform %}
+            <li>
+              <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
+            </li>
+          {% endif %}
+          {% if can_edit_workspace or can_manage_access %}
+            {% if bulk_state_form or autoform %}
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+            {% endif %}
+            {% if can_edit_workspace %}
+              <li>
+                <a class="dropdown-item" href="{% url 'settings' path=workspace.get_url_path %}">{% translate "Settings" %}</a>
+              </li>
+            {% endif %}
+            {% if can_manage_access %}
+              <li>
+                <a class="dropdown-item" href="{% url 'workspace-access' pk=workspace.pk %}">{% translate "Access control" %}</a>
+              </li>
+            {% endif %}
+          {% endif %}
+        </ul>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="projects">
+      {% include "list-projects.html" %}
+
+      {% if not projects and create_project_url %}
+        <p>
+          <a class="btn btn-primary" href="{{ create_project_url }}">{% translate "Add new translation project" %}</a>
+        </p>
+      {% endif %}
+
+      {% include "paginator.html" with page_obj=projects anchor="projects" %}
+    </div>
+
+    <div class="tab-pane" id="history">
+      {% format_last_changes_content last_changes=last_changes user=user %}
+      <a class="btn btn-primary" href="{% url 'changes' path=workspace.get_url_path %}">{% translate "Browse all workspace changes" %}</a>
+    </div>
+
+    <div class="tab-pane" id="search">
+      <form action="{% url 'search' path=workspace.get_url_path %}"
+            method="get"
+            data-persist="search-workspace">
+        {% include "snippets/search-form.html" %}
+      </form>
+    </div>
+
+    {% if autoform %}
+      <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=workspace autoform=autoform %}</div>
+    {% endif %}
+
+    {% if bulk_state_form %}
+      <div class="tab-pane" id="bulk-edit">
+        <form action="{% url 'bulk-edit' path=workspace.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+                {% translate "Bulk edit" %}
+              </h4>
+            </div>
+            <div class="card-body">{% crispy bulk_state_form %}</div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if billing %}
+      <div class="tab-pane" id="billing">{% include "billing/detail-content.html" %}</div>
+    {% endif %}
+
+  </div>
+
+{% endblock content %}

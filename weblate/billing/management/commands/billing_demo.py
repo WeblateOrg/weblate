@@ -46,11 +46,14 @@ class Command(BaseCommand):
         )[0]
 
         # Create billing
-        try:
-            billing = project.billing_set.get()
-        except Billing.DoesNotExist:
+        if project.workspace_id:
+            billing = Billing.objects.get_or_create(
+                workspace=project.workspace,
+                defaults={"plan": plan},
+            )[0]
+        else:
             billing = Billing.objects.create(plan=plan)
-            billing.projects.add(project)
+            billing.add_project(project)
 
         # Add invoice
         start = now()

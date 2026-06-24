@@ -81,6 +81,7 @@ Fields
    Path to the object to limit searching inside component, category, project, or translation.
 ``changed_by:TEXT``
    String was changed by author with given username.
+   Use ``changed_by:""`` to search for strings with at least one content change without a recorded author.
 ``changed:DATETIME``
    String content was changed on date, supports :ref:`search-operators` and :ref:`date-search`.
 ``change_time:DATETIME``
@@ -93,6 +94,9 @@ Fields
    English name of the change action, either quoted and with spaces or
    lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for
    examples.
+
+   When combining ``changed_by``, ``changed``, ``change_time``, and
+   ``change_action`` filters, the filters apply to the same change event.
 ``source_changed:DATETIME``
    Source string was last changed on date, supports :ref:`search-operators` and :ref:`date-search`.
 ``last_changed:DATETIME``
@@ -240,6 +244,80 @@ Ordering the results
 There are many options to order the strings according to your needs:
 
 .. image:: /screenshots/query-sort.webp
+
+.. _search-screenshots:
+
+Searching for screenshots
++++++++++++++++++++++++++
+
+The screenshot listing in a component accepts advanced queries using boolean
+operations, parentheses, or field specific lookup.
+
+When no field is defined, the lookup happens on the screenshot name, repository
+path, screenshot language, assigned source string, assigned context, and
+assigned location.
+
+Screenshot fields
+-----------------
+
+``name:TEXT``
+   Screenshot name case-insensitive search.
+``path:TEXT``
+   Repository path to screenshot case-insensitive search.
+``repository:TEXT``
+   Repository path to screenshot case-insensitive search, same as
+   ``path:TEXT``.
+``language:TEXT``
+   Screenshot language code or language name case-insensitive search.
+``string:TEXT``
+   Assigned source string case-insensitive search.
+``context:TEXT``
+   Assigned source string context case-insensitive search.
+``location:TEXT``
+   Assigned source string location case-insensitive search.
+``id:NUMBER``
+   Screenshot unique identifier.
+``timestamp:DATETIME``
+   Timestamp for when the screenshot was added to Weblate.
+``strings:NUMBER``
+   Number of assigned source strings.
+``has:TEXT``
+   Search for screenshots having attributes:
+
+   ``string``
+      Screenshot assigned to at least one source string.
+   ``repository``
+      Screenshot with a repository path.
+   ``path``
+      Screenshot with a repository path, same as ``repository``.
+
+Screenshot search examples
+--------------------------
+
+``login``
+   Search for screenshots matching ``login`` in any default screenshot field.
+``name:login``
+   Search for screenshots with ``login`` in the screenshot name.
+``language:cs``
+   Search for screenshots in languages matching ``cs``.
+``string:"Save changes"``
+   Search for screenshots assigned to source strings matching
+   ``Save changes``.
+``has:string``
+   Search for screenshots assigned to at least one source string.
+``NOT has:string``
+   Search for screenshots not assigned to any source string.
+``repository:fastlane``
+   Search for screenshots with ``fastlane`` in the repository path.
+``strings:>2``
+   Search for screenshots assigned to more than two source strings.
+``has:repository AND NOT has:string``
+   Search for screenshots imported from the repository that still need source
+   string assignment.
+
+Screenshot search supports the same :ref:`search-boolean`,
+:ref:`search-operators`, :ref:`date-search`, exact match, and regular
+expression syntax as string search.
 
 .. _search-users:
 

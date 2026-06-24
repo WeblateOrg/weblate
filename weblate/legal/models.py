@@ -28,6 +28,10 @@ else:
 class WeblateLegalConf(AppConf):
     # Current TOS date
     LEGAL_TOS_DATE = DEFAULT_TOS_DATE
+    # CSS class for styling legal document templates
+    LEGAL_DOCUMENT_CSS_CLASS = "tos"
+    # Legal documents to hide from the UI
+    LEGAL_HIDDEN_DOCUMENTS = ()
 
     class Meta:
         prefix = ""

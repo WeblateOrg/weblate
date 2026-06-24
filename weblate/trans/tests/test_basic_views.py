@@ -37,6 +37,14 @@ class BasicViewTest(FixtureTestCase):
         response = self.client.get(reverse("stats"))
         self.assertContains(response, "Weblate statistics")
 
+    def test_stats_without_active_users(self) -> None:
+        self.client.logout()
+        User.objects.update(is_active=False)
+
+        response = self.client.get(reverse("stats"))
+
+        self.assertContains(response, "Weblate statistics")
+
     def test_donate(self) -> None:
         response = self.client.get(reverse("donate"))
         self.assertContains(response, "Support Weblate")
@@ -62,6 +70,34 @@ class BasicViewTest(FixtureTestCase):
         context = weblate_context(request)
         self.assertIn("show_version_details", context)
         self.assertEqual(context["theme"], "auto")
+
+    def get_context_description(self) -> str:
+        request = RequestFactory().get("/")
+        with patch(
+            "weblate.trans.context_processors.get_support_status", return_value={}
+        ):
+            return weblate_context(request)["description"]
+
+    @override_settings(OFFER_HOSTING=True, SINGLE_PROJECT=False)
+    def test_context_processor_hosted_description(self) -> None:
+        self.assertEqual(
+            self.get_context_description(),
+            "Hosted Weblate, the place to localize your software project.",
+        )
+
+    @override_settings(OFFER_HOSTING=False, SINGLE_PROJECT=False)
+    def test_context_processor_multi_project_description(self) -> None:
+        self.assertEqual(
+            self.get_context_description(),
+            "This site runs Weblate for localizing various software projects.",
+        )
+
+    @override_settings(OFFER_HOSTING=False, SINGLE_PROJECT=True)
+    def test_context_processor_single_project_description(self) -> None:
+        self.assertEqual(
+            self.get_context_description(),
+            "This site runs Weblate for localizing a software project.",
+        )
 
     @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SHOW, HIDE_VERSION=False)
     def test_about_footer_shows_version_in_show_mode(self) -> None:

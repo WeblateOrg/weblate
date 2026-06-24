@@ -10,10 +10,11 @@ from celery import current_task
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Case, IntegerField, Value, When
+from django.db.models import Case, IntegerField, QuerySet, Value, When
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
+from weblate.logger import LOGGER
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
@@ -26,13 +27,62 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import ProjectLanguage
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
     from weblate.auth.models import User
     from weblate.machinery.base import BatchMachineTranslation, UnitMemoryResultDict
     from weblate.utils.state import StringState
+
+
+def fetch_machinery_matches(
+    *,
+    units: list[Unit],
+    user: User | None,
+    services: Sequence[BatchMachineTranslation],
+    threshold: int,
+    set_progress: Callable[[int], None] | None = None,
+    log_translation: Translation | None = None,
+) -> dict[int, UnitMemoryResultDict]:
+    """Fetch machinery matches without applying them to units."""
+    num_units = len(units)
+
+    for pos, translation_service in enumerate(services):
+        batch_size = translation_service.batch_size
+        if log_translation is not None:
+            log_translation.log_info(
+                "fetching translations for %d units from %s, %d per request",
+                num_units,
+                translation_service.name,
+                batch_size,
+            )
+
+        for batch_start in range(0, num_units, batch_size):
+            if set_progress is not None:
+                set_progress(pos * num_units + batch_start)
+            try:
+                translation_service.batch_translate(
+                    units[batch_start : batch_start + batch_size],
+                    user,
+                    threshold=threshold,
+                )
+            except MachineTranslationError as error:
+                if log_translation is not None:
+                    log_translation.log_error("failed automatic translation: %s", error)
+                else:
+                    LOGGER.warning(
+                        "failed machinery translation from %s: %s",
+                        translation_service.name,
+                        error,
+                    )
+
+    return {
+        unit.id: unit.machinery
+        for unit in units
+        if unit.machinery and any(unit.machinery["quality"])
+    }
 
 
 class BaseAutoTranslate:
@@ -153,6 +203,12 @@ class AutoTranslate(BaseAutoTranslate):
             if suggestion:
                 self.updated += 1
         else:
+            if (
+                state == STATE_APPROVED
+                and self.user is not None
+                and not self.user.has_perm("unit.review", unit)
+            ):
+                return
             # Ensure deferred changes accumulate on the right Translation instance
             unit.translation = self.translation
             unit.is_batch_update = True
@@ -374,35 +430,16 @@ class AutoTranslate(BaseAutoTranslate):
         # Estimate number of strings to translate, this is adjusted in process_mt
         self.progress_steps = self.progress_base + num_units
 
-        for pos, translation_service in enumerate(engines):
-            batch_size = translation_service.batch_size
-            self.translation.log_info(
-                "fetching translations for %d units from %s, %d per request",
-                num_units,
-                translation_service.name,
-                batch_size,
-            )
-
-            for batch_start in range(0, num_units, batch_size):
-                self.set_progress(pos * num_units + batch_start)
-                try:
-                    translation_service.batch_translate(
-                        units[batch_start : batch_start + batch_size],
-                        self.user,
-                        threshold=threshold,
-                    )
-                except MachineTranslationError as error:
-                    # Ignore errors here to complete fetching
-                    self.translation.log_error(
-                        "failed automatic translation: %s", error
-                    )
-
+        translations = fetch_machinery_matches(
+            units=units,
+            user=self.user,
+            services=engines,
+            threshold=threshold,
+            set_progress=self.set_progress,
+            log_translation=self.translation,
+        )
         self.set_progress(self.progress_base)
-        return {
-            unit.id: unit.machinery
-            for unit in units
-            if unit.machinery and any(unit.machinery["quality"])
-        }
+        return translations
 
     def process_mt(self, engines: list[str], threshold: int) -> None:
         """Perform automatic translation based on machine translation."""
@@ -473,11 +510,11 @@ class AutoTranslate(BaseAutoTranslate):
 
 
 class BatchAutoTranslate(BaseAutoTranslate):
-    translations: Sequence[Translation]
+    translations: QuerySet[Translation] | Sequence[Translation]
 
     def __init__(
         self,
-        obj: Translation | Component | Category | ProjectLanguage,
+        obj: Translation | Component | Category | ProjectLanguage | Workspace,
         *,
         user: User | None,
         q: str,
@@ -497,6 +534,8 @@ class BatchAutoTranslate(BaseAutoTranslate):
             ),
         )
         self._task_meta: dict[str, Any] = {}
+        self.workspace_source_component_ids: dict[int, list[int]] | None = None
+        self.check_translation_permissions = False
 
         match obj:
             case Translation():
@@ -511,15 +550,41 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 ).exclude_source()
                 self._task_meta = {"category": obj.pk}
             case ProjectLanguage():
-                self.translations = [t for t in obj.translation_set if not t.is_source]
+                self.translations = list(
+                    obj.action_translation_set.exclude_source().prefetch()
+                )
                 self._task_meta = {
                     "project": obj.project.pk,
                     "language": obj.language.pk,
                 }
+            case Workspace():
+                components = Component.objects.filter(project__workspace=obj)
+                if user is not None:
+                    components = components.filter_access(user)
+                self.translations = (
+                    Translation.objects.filter(component__in=components)
+                    .select_related("component", "component__project")
+                    .exclude_source()
+                )
+                source_component_ids: dict[int, list[int]] = {}
+                for source_language_id, component_id in components.filter(
+                    source_language_id__isnull=False
+                ).values_list("source_language_id", "pk"):
+                    source_component_ids.setdefault(source_language_id, []).append(
+                        component_id
+                    )
+                self.workspace_source_component_ids = source_component_ids
+                self.allow_non_shared_tm_source_components = True
+                self.check_translation_permissions = True
+                self._task_meta = {"workspace": str(obj.pk)}
             case _:  # pragma: no cover
                 msg = "Unsupported object type for BatchAutoTranslate"
                 raise ValueError(msg)
-        self.progress_steps = len(self.translations)
+        self.progress_steps = (
+            self.translations.count()
+            if isinstance(self.translations, QuerySet)
+            else len(self.translations)
+        )
 
     def get_task_meta(self) -> dict[str, Any]:
         return self._task_meta
@@ -532,7 +597,30 @@ class BatchAutoTranslate(BaseAutoTranslate):
         threshold: int,
         source_component_ids: list[int] | None,
     ) -> str:
+        selected_workspace_source_component_ids: dict[int, list[int]] | None = None
+        if (
+            auto_source == "others"
+            and source_component_ids is not None
+            and self.workspace_source_component_ids is not None
+        ):
+            selected_workspace_source_component_ids = {}
+            for selected_source_language_id, component_id in Component.objects.filter(
+                pk__in=source_component_ids, source_language_id__isnull=False
+            ).values_list("source_language_id", "pk"):
+                if selected_source_language_id is not None:
+                    selected_workspace_source_component_ids.setdefault(
+                        selected_source_language_id, []
+                    ).append(component_id)
+
         for pos, translation in enumerate(self.translations, start=1):
+            if (
+                self.check_translation_permissions
+                and self.user is not None
+                and not self.user.has_perm("translation.auto", translation)
+            ):
+                self.set_progress(pos)
+                continue
+
             auto_translate = AutoTranslate(
                 user=self.user,
                 translation=translation,
@@ -545,11 +633,68 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 ),
             )
 
+            effective_source_component_ids = source_component_ids
+            if (
+                auto_source == "others"
+                and self.workspace_source_component_ids is not None
+            ):
+                source_language_id = translation.component.source_language_id
+                if selected_workspace_source_component_ids is None:
+                    effective_source_component_ids = (
+                        []
+                        if source_language_id is None
+                        else self.workspace_source_component_ids.get(
+                            source_language_id, []
+                        )
+                    )
+                elif source_language_id is None:
+                    self.add_warning(
+                        gettext(
+                            "Automatic translation skipped some translations because "
+                            "selected source components use a different source language."
+                        )
+                    )
+                    self.set_progress(pos)
+                    continue
+                else:
+                    effective_source_component_ids = (
+                        selected_workspace_source_component_ids.get(
+                            source_language_id, []
+                        )
+                    )
+                    if not effective_source_component_ids:
+                        self.add_warning(
+                            gettext(
+                                "Automatic translation skipped some translations because "
+                                "selected source components use a different source language."
+                            )
+                        )
+                        self.set_progress(pos)
+                        continue
+
+                effective_source_component_ids = [
+                    component_id
+                    for component_id in effective_source_component_ids
+                    if component_id != translation.component_id
+                ]
+                if not effective_source_component_ids:
+                    if selected_workspace_source_component_ids is not None:
+                        self.set_progress(pos)
+                        continue
+                    self.add_warning(
+                        gettext(
+                            "Automatic translation skipped some translations because "
+                            "no other source components were available."
+                        )
+                    )
+                    self.set_progress(pos)
+                    continue
+
             auto_translate.perform(
                 auto_source=auto_source,
                 engines=engines,
                 threshold=threshold,
-                source_component_ids=source_component_ids,
+                source_component_ids=effective_source_component_ids,
             )
             self.updated += auto_translate.updated
             for warning in auto_translate.get_warnings():

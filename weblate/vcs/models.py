@@ -12,53 +12,60 @@ from django.utils.functional import cached_property
 from weblate.utils.classloader import ClassLoader
 
 from .base import Repository
+from .defaults import (
+    DEFAULT_AZURE_DEVOPS_CREDENTIALS,
+    DEFAULT_BITBUCKETCLOUD_CREDENTIALS,
+    DEFAULT_BITBUCKETSERVER_CREDENTIALS,
+    DEFAULT_GITEA_CREDENTIALS,
+    DEFAULT_GITHUB_CREDENTIALS,
+    DEFAULT_GITLAB_CREDENTIALS,
+    DEFAULT_PAGURE_CREDENTIALS,
+    DEFAULT_SSH_EXTRA_ARGS,
+    DEFAULT_VCS_ALLOW_HOSTS,
+    DEFAULT_VCS_ALLOW_SCHEMES,
+    DEFAULT_VCS_API_DELAY,
+    DEFAULT_VCS_API_TIMEOUT,
+    DEFAULT_VCS_BACKENDS,
+    DEFAULT_VCS_CLONE_DEPTH,
+    DEFAULT_VCS_RESTRICT_PRIVATE,
+)
 
 
 class VCSConf(AppConf):
-    VCS_BACKENDS = (
-        "weblate.vcs.git.GitRepository",
-        "weblate.vcs.git.GitWithGerritRepository",
-        "weblate.vcs.git.SubversionRepository",
-        "weblate.vcs.git.GithubRepository",
-        "weblate.vcs.git.AzureDevOpsRepository",
-        "weblate.vcs.git.GiteaRepository",
-        "weblate.vcs.git.GitLabRepository",
-        "weblate.vcs.git.PagureRepository",
-        "weblate.vcs.git.LocalRepository",
-        "weblate.vcs.git.GitForcePushRepository",
-        "weblate.vcs.git.BitbucketServerRepository",
-        "weblate.vcs.git.BitbucketCloudRepository",
-        "weblate.vcs.mercurial.HgRepository",
-    )
-    VCS_CLONE_DEPTH = 1
-    VCS_API_DELAY = 10
-    VCS_API_TIMEOUT = 10
-    VCS_ALLOW_SCHEMES: ClassVar[set[str]] = {"https", "ssh"}
-    VCS_ALLOW_HOSTS: ClassVar[set[str]] = set()
-    VCS_RESTRICT_PRIVATE = True
+    VCS_BACKENDS = DEFAULT_VCS_BACKENDS
+    VCS_CLONE_DEPTH = DEFAULT_VCS_CLONE_DEPTH
+    VCS_API_DELAY = DEFAULT_VCS_API_DELAY
+    VCS_API_TIMEOUT = DEFAULT_VCS_API_TIMEOUT
+    VCS_ALLOW_SCHEMES: ClassVar[set[str]] = set(DEFAULT_VCS_ALLOW_SCHEMES)
+    VCS_ALLOW_HOSTS: ClassVar[set[str]] = set(DEFAULT_VCS_ALLOW_HOSTS)
+    VCS_RESTRICT_PRIVATE = DEFAULT_VCS_RESTRICT_PRIVATE
 
     # GitHub username for sending pull requests
-    GITHUB_CREDENTIALS: ClassVar[dict] = {}
+    GITHUB_CREDENTIALS: ClassVar[dict] = dict(DEFAULT_GITHUB_CREDENTIALS)
 
     # Azure DevOps username for sending pull requests
-    AZURE_DEVOPS_CREDENTIALS: ClassVar[dict] = {}
+    AZURE_DEVOPS_CREDENTIALS: ClassVar[dict] = dict(DEFAULT_AZURE_DEVOPS_CREDENTIALS)
 
     # GitLab username for sending merge requests
-    GITLAB_CREDENTIALS: ClassVar[dict] = {}
+    GITLAB_CREDENTIALS: ClassVar[dict] = dict(DEFAULT_GITLAB_CREDENTIALS)
 
     # Pagure username for sending merge requests
-    PAGURE_CREDENTIALS: ClassVar[dict] = {}
+    PAGURE_CREDENTIALS: ClassVar[dict] = dict(DEFAULT_PAGURE_CREDENTIALS)
 
     # Gitea username for sending pull requests
-    GITEA_CREDENTIALS: ClassVar[dict] = {}
+    GITEA_CREDENTIALS: ClassVar[dict] = dict(DEFAULT_GITEA_CREDENTIALS)
 
     # Bitbucket username for sending pull requests
-    BITBUCKETSERVER_CREDENTIALS: ClassVar[dict] = {}
+    BITBUCKETSERVER_CREDENTIALS: ClassVar[dict] = dict(
+        DEFAULT_BITBUCKETSERVER_CREDENTIALS
+    )
 
     # Bitbucket username for sending pull requests
-    BITBUCKETCLOUD_CREDENTIALS: ClassVar[dict] = {}
+    BITBUCKETCLOUD_CREDENTIALS: ClassVar[dict] = dict(
+        DEFAULT_BITBUCKETCLOUD_CREDENTIALS
+    )
 
-    SSH_EXTRA_ARGS = ""
+    SSH_EXTRA_ARGS = DEFAULT_SSH_EXTRA_ARGS
 
     class Meta:
         prefix = ""
@@ -67,6 +74,10 @@ class VCSConf(AppConf):
 class VcsClassLoader(ClassLoader):
     def __init__(self) -> None:
         super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
+
+    def get_unfiltered_choices(self):
+        result = super().load_data()
+        return [(x, result[x].name) for x in sorted(result)]
 
     def load_data(self):
         result = super().load_data()
@@ -89,7 +100,8 @@ class VcsClassLoader(ClassLoader):
 
     @cached_property
     def git_based(self) -> set[str]:
-        from weblate.vcs.git import GitRepository  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.vcs.git import GitRepository
 
         return {
             vcs.get_identifier()
@@ -99,7 +111,8 @@ class VcsClassLoader(ClassLoader):
 
     @cached_property
     def merge_request_based(self) -> set[str]:
-        from weblate.vcs.git import GitMergeRequestBase  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.vcs.git import GitMergeRequestBase
 
         return {
             vcs.get_identifier()

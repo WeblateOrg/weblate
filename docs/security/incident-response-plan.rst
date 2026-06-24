@@ -32,7 +32,9 @@ Communication logistics
     - **E-mail** is used to reach customers.
     - Customer contact lists are maintained in several locations to ensure access during service outages.
 - **Public Disclosure:**
-    - If a security vulnerability is discovered, follow :doc:`/security/issues`.
+    - If an incident includes a Weblate product vulnerability, follow the
+      product vulnerability reporting process and
+      :ref:`vulnerability-disclosure-policy` in :doc:`/security/issues`.
 
 Incident categories and severity
 --------------------------------

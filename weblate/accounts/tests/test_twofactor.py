@@ -9,6 +9,7 @@ from __future__ import annotations
 from datetime import timedelta
 from unittest import mock
 
+from django.conf import settings
 from django.core import mail
 from django.urls import reverse
 from django.utils.timezone import now
@@ -60,12 +61,17 @@ class TwoFactorTestCase(FixtureTestCase):
         )
         mail.outbox.clear()
 
+    def post_with_callbacks(self, *args, **kwargs):
+        with self.captureOnCommitCallbacks(execute=True):
+            return self.client.post(*args, **kwargs)
+
     def test_audit_maturing(self) -> None:
         audit = self.create_webauthn_audit()
         audit.timestamp = now() - timedelta(minutes=10)
         audit.save()
         self.assertEqual(len(mail.outbox), 0)
-        cleanup_auditlog()
+        with self.captureOnCommitCallbacks(execute=True):
+            cleanup_auditlog()
         self.assert_audit_mail()
 
     def test_webauthn(self) -> None:
@@ -83,7 +89,7 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         # Test initial naming
-        response = self.client.post(url, {"name": test_name}, follow=True)
+        response = self.post_with_callbacks(url, {"name": test_name}, follow=True)
         # The device should be listed
         self.assertContains(response, test_name)
         # Audit log mail should be triggered
@@ -102,7 +108,7 @@ class TwoFactorTestCase(FixtureTestCase):
         self.assertEqual(credential.name, test_name)
 
         # Test removal
-        response = self.client.post(url, {"delete": ""}, follow=True)
+        response = self.post_with_callbacks(url, {"delete": ""}, follow=True)
         self.assertEqual(WebAuthnCredential.objects.all().count(), 0)
         # The audit log for removal should be present
         self.assertContains(response, test_name)
@@ -124,7 +130,7 @@ class TwoFactorTestCase(FixtureTestCase):
         totp_response = totp(totp_key, 30, 0, 6, 0)
 
         # Register TOTP device
-        response = self.client.post(
+        response = self.post_with_callbacks(
             reverse("totp"),
             {
                 "name": test_name,
@@ -158,7 +164,7 @@ class TwoFactorTestCase(FixtureTestCase):
         device = self.add_totp(test_name)
 
         # Remove it
-        response = self.client.post(
+        response = self.post_with_callbacks(
             reverse("totp-detail", kwargs={"pk": device.pk}),
             {"delete": "1"},
             follow=True,
@@ -188,7 +194,7 @@ class TwoFactorTestCase(FixtureTestCase):
         expected_url = reverse("2fa-login", kwargs={"backend": "totp"})
         self.assertRedirects(response, expected_url)
 
-        # We should be on 2fa page without an user set now
+        # We should be on 2fa page without a user set now
         self.assertNotEqual(response.context["user"], self.user)
 
         totp_response = totp(
@@ -202,6 +208,33 @@ class TwoFactorTestCase(FixtureTestCase):
             expected_url, {"otp_token": totp_response}, follow=True
         )
         self.assertEqual(response.context["user"], self.user)
+        self.assertEqual(
+            self.client.session.get_expiry_age(),
+            settings.SESSION_COOKIE_AGE_AUTHENTICATED,
+        )
+
+    def test_login_totp_saml_expiry(self) -> None:
+        device = self.add_totp()
+        self.client.logout()
+        response = self.client.post(
+            reverse("login"),
+            {
+                "username": "testuser",
+                "password": "testpassword",
+                "next": "/idp/login/process/",
+            },
+        )
+
+        second_factor_url = response["Location"]
+        totp_response = totp(
+            device.bin_key, device.step, device.t0, device.digits, device.drift
+        )
+        response = self.client.post(second_factor_url, {"otp_token": totp_response})
+
+        self.assertRedirects(
+            response, "/idp/login/process/", fetch_redirect_response=False
+        )
+        self.assertEqual(self.client.session.get_expiry_age(), 60)
 
     def test_login_totp_rejects_unsafe_next(self) -> None:
         device = self.add_totp()

@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-import subprocess  # noqa: S404
+import shlex
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from contextlib import nullcontext
 from typing import cast
 from unittest.mock import patch
@@ -89,6 +90,28 @@ class RunBorgTest(SimpleTestCase):
             borg_result = run_borg(["create"])
 
         self.assertEqual(borg_result, BorgResult("warning output", returncode=1))
+
+    def test_run_borg_disables_weak_crypto_warning(self) -> None:
+        result = subprocess.CompletedProcess(["borg", "create"], 0, "")
+        with (
+            patch("weblate.utils.backup.backup_lock", return_value=nullcontext()),
+            patch("weblate.utils.backup.SSH_WRAPPER.create"),
+            patch("weblate.utils.backup.subprocess.run", return_value=result) as run,
+        ):
+            run_borg(["create"])
+
+        borg_command = run.call_args.args[0]
+        ssh_command = shlex.split(borg_command[2])
+        self.assertEqual(borg_command[:2], ["borg", "--rsh"])
+        self.assertEqual(
+            ssh_command[-4:],
+            [
+                "-o",
+                "IgnoreUnknown=WarnWeakCrypto",
+                "-o",
+                "WarnWeakCrypto=no-pq-kex",
+            ],
+        )
 
     def test_run_borg_reports_silent_failure(self) -> None:
         result = subprocess.CompletedProcess(["borg", "create"], 2, "")

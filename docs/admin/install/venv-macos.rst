@@ -25,7 +25,7 @@ Installing on macOS
     # Database server: PostgreSQL
     brew install postgresql
 
-    # Gettext for the msgmerge add-on
+    # Gettext tools for gettext POT/PO update add-ons
     brew install gettext
 
 .. include:: steps/install-python.rst

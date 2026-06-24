@@ -23,6 +23,7 @@ from weblate.utils.validators import (
     validate_code_site_url,
     validate_contact_url,
     validate_fediverse_url,
+    validate_fedora_messaging_url,
     validate_filename,
     validate_fullname,
     validate_machinery_hostname,
@@ -31,6 +32,7 @@ from weblate.utils.validators import (
     validate_project_web,
     validate_re,
     validate_repo_url,
+    validate_restricted_asset_url,
     validate_username,
     validate_webhook_secret_string,
     validate_webhook_url,
@@ -284,6 +286,70 @@ class WebhookURLTest(SimpleTestCase):
             validate_webhook_url("https://private.example/hook")
 
 
+class FedoraMessagingURLTest(SimpleTestCase):
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_valid(self) -> None:
+        validate_fedora_messaging_url("amqp://broker.example/%2F")
+        validate_fedora_messaging_url(
+            "amqps://user:password@broker.example:5671/vhost"  # kingfisher:ignore
+            "?connection_attempts=3&retry_delay=5"
+        )
+
+    def test_invalid_scheme(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_fedora_messaging_url("https://broker.example")
+
+    def test_private(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 5672))],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            validate_fedora_messaging_url("amqp://private.example/%2F")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_private_disabled(self) -> None:
+        with patch(
+            "weblate.utils.outbound.socket.getaddrinfo",
+            return_value=[(0, 0, 0, "", ("127.0.0.1", 5672))],
+        ):
+            validate_fedora_messaging_url("amqp://private.example/%2F")
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=OSError("Name or service not known"),
+    )
+    def test_unresolved_rejected(self, mocked_getaddrinfo) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_fedora_messaging_url("amqp://unresolved.example/%2F")
+
+        self.assertIn("Could not resolve the URL domain", str(error.exception))
+        mocked_getaddrinfo.assert_called_once_with("unresolved.example", None, type=1)
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=OSError("Name or service not known"),
+    )
+    def test_unresolved_allowlisted(self, mocked_getaddrinfo) -> None:
+        with override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["unresolved.example"]):
+            validate_fedora_messaging_url("amqp://unresolved.example/%2F")
+
+        mocked_getaddrinfo.assert_not_called()
+
+    def test_private_allowlisted(self) -> None:
+        with (
+            override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["private.example"]),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("127.0.0.1", 5672))],
+            ),
+        ):
+            validate_fedora_messaging_url("amqp://private.example/%2F")
+
+
 class WebsiteTest(SimpleTestCase):
     def test_regexp(self) -> None:
         validate_project_web("https://weblate.org")
@@ -458,9 +524,37 @@ class WebsiteTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_asset_url("https://blocked.example.com/image.png")
 
+    @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_restricted_asset_url_validator_rejects_private(
+        self, mocked_getaddrinfo
+    ) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_restricted_asset_url("https://private.example/messages.html")
+
+        self.assertIn("internal or non-public address", str(error.exception))
+        mocked_getaddrinfo.assert_called_once_with("private.example", None, type=1)
+
+    @override_settings(
+        ALLOWED_ASSET_DOMAINS=["*"], ASSET_PRIVATE_ALLOWLIST=["private.example"]
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_restricted_asset_url_validator_allows_private_allowlist(
+        self, mocked_getaddrinfo
+    ) -> None:
+        validate_restricted_asset_url("https://private.example/messages.html")
+
+        mocked_getaddrinfo.assert_not_called()
+
     def test_machinery_url_validator(self) -> None:
         validate_machinery_url("http://127.0.0.1:11434", allow_private_targets=True)
-        validate_machinery_url("https://api.deepl.com/v2/", allow_private_targets=False)
+        validate_machinery_url("https://api.deepl.com/", allow_private_targets=False)
         with self.assertRaises(ValidationError):
             validate_machinery_url(
                 "http://127.0.0.1:11434", allow_private_targets=False
@@ -652,6 +746,20 @@ class OutboundAddressValidationTest(SimpleTestCase):
             validate_runtime_ip("100.64.0.1", allow_private_targets=False)
         self.assertIn("internal or non-public address", str(error.exception))
 
+    def test_validate_runtime_ip_rejects_special_use_ranges(self) -> None:
+        for label, address in (
+            ("6to4 relay anycast", "192.88.99.1"),
+            ("IPv4 multicast", "224.0.0.1"),
+            ("IPv4 multicast documentation", "233.252.0.1"),
+            ("IPv6 Segment Routing", "5f00::1"),
+            ("ORCHIDv2", "2001:20::1"),
+            ("IPv6 multicast", "ff00::1"),
+        ):
+            with self.subTest(case=label, address=address):
+                with self.assertRaises(ValidationError) as error:
+                    validate_runtime_ip(address, allow_private_targets=False)
+                self.assertIn("internal or non-public address", str(error.exception))
+
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("100.64.0.1", 443))],
@@ -669,6 +777,69 @@ class OutboundAddressValidationTest(SimpleTestCase):
         mocked_getaddrinfo.assert_called_once_with(
             "shared-address-space.example", None, type=1
         )
+
+    def test_validate_runtime_ip_rejects_ipv6_transition_wrappers(self) -> None:
+        """
+        6to4, NAT64 and IPv4-compatible wrappers must be rejected.
+
+        On hosts where the kernel has NAT64 translation configured, traffic to
+        the NAT64 well-known prefix is forwarded to the embedded IPv4 endpoint.
+        """
+        for label, wrapped_address in (
+            ("6to4 IMDS", "2002:a9fe:a9fe::"),
+            ("6to4 ECS", "2002:a9fe:aa02::"),
+            ("6to4 loopback", "2002:7f00:1::"),
+            ("6to4 RFC1918", "2002:a00:1::"),
+            ("6to4 public IPv4", "2002:808:808::"),
+            ("NAT64 IMDS", "64:ff9b::a9fe:a9fe"),
+            ("NAT64 loopback", "64:ff9b::7f00:1"),
+            ("NAT64 RFC1918", "64:ff9b::a00:1"),
+            ("NAT64 multicast", "64:ff9b::e000:1"),
+            ("NAT64 6to4 relay anycast", "64:ff9b::c058:6301"),
+            ("IPv4-compat", "::a00:1"),
+            ("IPv4-compat multicast", "::e000:1"),
+            ("IPv4-compat 6to4 relay anycast", "::c058:6301"),
+        ):
+            with self.subTest(case=label, address=wrapped_address):
+                with self.assertRaises(ValidationError) as error:
+                    validate_runtime_ip(wrapped_address, allow_private_targets=False)
+                self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_validate_runtime_ip_rejects_nat64_local_use_suffix(self) -> None:
+        with self.assertRaises(ValidationError) as error:
+            validate_runtime_ip("64:ff9b:1::808:808", allow_private_targets=False)
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_validate_runtime_ip_permits_public_ipv6(self) -> None:
+        """
+        Legitimate public IPv6 must still be accepted.
+
+        The unwrap helper must not over-block.
+        """
+        for address in (
+            "2606:4700:4700::1111",  # Cloudflare 1.1.1.1
+            "2001:4860:4860::8888",  # Google 8.8.8.8
+        ):
+            with self.subTest(address=address):
+                validate_runtime_ip(address, allow_private_targets=False)
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("2002:a9fe:a9fe::", 0, 0, 0))],
+    )
+    def test_validate_runtime_url_rejects_6to4_imds(self, mocked_getaddrinfo) -> None:
+        """
+        Hostnames resolving to 6to4 metadata wrappers must be rejected.
+
+        When a hostname's AAAA record resolves to a 6to4 wrapper of the
+        AWS / GCP / Azure / Oracle metadata IPv4, validate_runtime_url must
+        reject it.
+        """
+        with self.assertRaises(ValidationError) as error:
+            validate_runtime_url(
+                "https://attacker.example", allow_private_targets=False
+            )
+        self.assertIn("internal or non-public address", str(error.exception))
 
 
 class RepoURLValidationTestCase(SimpleTestCase):

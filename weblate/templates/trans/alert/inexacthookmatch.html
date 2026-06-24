@@ -1,0 +1,59 @@
+{% load i18n permissions translations %}
+
+<p>
+  {% translate "The last webhook update for this component used fallback repository matching instead of an exact repository URL match." %}
+</p>
+
+<p>
+  {% translate "This can happen when the component repository URL does not match the repository URL sent by the webhook, or when Weblate does not yet understand the repository URL format in the webhook payload." %}
+</p>
+
+<p>
+  {% translate "Check the component repository URL first. If the URL is correct, report the issue to Weblate with the webhook service name, configured component repository URL, branch, and repository URLs from the webhook payload." %}
+</p>
+
+<p>
+  {% blocktranslate with issue_url="https://github.com/WeblateOrg/weblate/issues/19855" %}Inexact webhook matching is currently scheduled for removal in Weblate 2026.9, see <a href="{{ issue_url }}">issue #19855</a>.{% endblocktranslate %}
+</p>
+
+{% perm 'component.edit' component as user_can_edit_component %}
+
+{% if service_long_name or repo_url or full_name or branch %}
+  <dl>
+    {% if service_long_name %}
+      <dt>{% translate "Service" %}</dt>
+      <dd>
+        {{ service_long_name }}
+      </dd>
+    {% endif %}
+    {% if repo_url %}
+      <dt>{% translate "Repository URL" %}</dt>
+      <dd>
+        <code>{{ repo_url }}</code>
+      </dd>
+    {% endif %}
+    {% if full_name %}
+      <dt>{% translate "Repository name" %}</dt>
+      <dd>
+        <code>{{ full_name }}</code>
+      </dd>
+    {% endif %}
+    {% if branch %}
+      <dt>{% translate "Branch" %}</dt>
+      <dd>
+        <code>{{ branch }}</code>
+      </dd>
+    {% endif %}
+  </dl>
+{% endif %}
+
+<p>
+  {% if user_can_edit_component %}
+    <a class="btn btn-primary" href="{% url 'settings' path=component.get_url_path %}">{% translate "Configure component" %}</a>
+    <a class="btn btn-link" href="{% documentation 'admin/continuous' 'update-vcs' %}">{% translate "Documentation" %}</a>
+  {% else %}
+    <a class="btn btn-primary"
+       href="{% documentation 'admin/continuous' 'update-vcs' %}">{% translate "Documentation" %}</a>
+  {% endif %}
+  <a class="btn btn-link" href="https://github.com/WeblateOrg/weblate/issues">{% translate "Report issue" %}</a>
+</p>

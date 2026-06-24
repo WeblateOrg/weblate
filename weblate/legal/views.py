@@ -5,42 +5,44 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_not_required
+from django.http import Http404
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.utils.translation import gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 
 from weblate.auth.models import User
 from weblate.legal.forms import TOSForm
 from weblate.legal.models import Agreement
+from weblate.legal.utils import (
+    get_document_context,
+    get_legal_menu,
+    is_document_hidden,
+)
 from weblate.trans.util import redirect_next
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
-
-MENU = (
-    ("index", "legal:index", gettext_lazy("Overview")),
-    ("terms", "legal:terms", gettext_lazy("General Terms and Conditions")),
-    ("cookies", "legal:cookies", gettext_lazy("Cookies")),
-    ("privacy", "legal:privacy", gettext_lazy("Privacy Policy")),
-    ("contracts", "legal:contracts", gettext_lazy("Subcontractors")),
-)
 
 
 @method_decorator(login_not_required, name="dispatch")
 class LegalView(TemplateView):
     page = "index"
 
+    def dispatch(self, request, *args, **kwargs):
+        if is_document_hidden(self.page):
+            raise Http404
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["legal_menu"] = MENU
+        context["legal_menu"] = get_legal_menu()
         context["legal_page"] = self.page
-        context["privacy_url"] = reverse("legal:privacy")
-        context["terms_url"] = reverse("legal:terms")
+        context["legal_document_css_class"] = settings.LEGAL_DOCUMENT_CSS_CLASS
+        context.update(get_document_context())
 
         return context
 
@@ -91,5 +93,9 @@ def tos_confirm(request: AuthenticatedHttpRequest):
     return render(
         request,
         "legal/confirm.html",
-        {"form": form, "privacy_url": reverse("legal:privacy")},
+        {
+            "form": form,
+            "legal_document_css_class": settings.LEGAL_DOCUMENT_CSS_CLASS,
+            **get_document_context(),
+        },
     )

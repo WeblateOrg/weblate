@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load humanize i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-workspaces' %}">{% translate "Workspaces" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      {% if not billing_enabled and can_add_workspace %}
+        <a class="btn btn-primary float-end" href="{% url 'manage-workspace-add' %}">{% translate "Add workspace" %}</a>
+      {% endif %}
+      <h4 class="card-title">{% translate "Manage workspaces" %}</h4>
+    </div>
+    <div class="card-body">
+      <form method="get" class="result-page-form">
+        <label class="visually-hidden" for="{{ search_form.q.id_for_label }}">{% translate "Search workspaces" %}</label>
+        <div class="input-group search-group query-field">
+          {{ search_form.q }}
+          <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
+          {% if search_query %}
+            <a class="btn btn-outline-secondary" href="{% url 'manage-workspaces' %}">{% translate "Clear" %}</a>
+          {% endif %}
+        </div>
+        {% if search_form.q.errors %}<div class="invalid-feedback d-block">{{ search_form.q.errors }}</div>{% endif %}
+      </form>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% translate "Name" %}</th>
+          <th>{% translate "Projects" %}</th>
+          {% if billing_enabled %}
+            <th>{% translate "Billing" %}</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for workspace in object_list %}
+          <tr>
+            <td>
+              <a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a>
+            </td>
+            <td class="number">{{ workspace.projects__count|intcomma }}</td>
+            {% if billing_enabled %}
+              <td>
+                {% if workspace.billing %}
+                  <a href="{{ workspace.billing.get_absolute_url }}">
+                    {% if workspace.billing.customer_name %}
+                      {{ workspace.billing.customer_name }}
+                    {% else %}
+                      {% blocktranslate with id=workspace.billing.pk %}Billing #{{ id }}{% endblocktranslate %}
+                    {% endif %}
+                  </a>
+                {% else %}
+                  {% translate "Not available" %}
+                {% endif %}
+              </td>
+            {% endif %}
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="{% if billing_enabled %}3{% else %}2{% endif %}">{% translate "No workspaces found." %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="card-footer">{% include "paginator.html" %}</div>
+  </div>
+
+{% endblock content %}

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import hashlib
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -11,10 +12,12 @@ from fuzzing import sentry
 
 class FuzzingSentryTest(TestCase):
     def setUp(self) -> None:
-        sentry._STATE["initialized"] = False  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        sentry._STATE["initialized"] = False
 
     def tearDown(self) -> None:
-        sentry._STATE["initialized"] = False  # noqa: SLF001
+        # ruff: ignore[private-member-access]
+        sentry._STATE["initialized"] = False
 
     def test_wrap_target_reports_exception(self) -> None:
         def callback(_data: bytes) -> None:
@@ -52,6 +55,16 @@ class FuzzingSentryTest(TestCase):
         self.assertEqual(kwargs["tags"]["target"], "backups")
         self.assertEqual(kwargs["contexts"]["fuzz_input"]["size"], 7)
         self.assertEqual(
+            kwargs["contexts"]["fuzz_input"]["sha256"],
+            hashlib.sha256(b"payload").hexdigest(),
+        )
+        self.assertEqual(
+            kwargs["contexts"]["fuzz_input"]["attachment_filename"],
+            "fuzz-input-backups.bin",
+        )
+        self.assertEqual(kwargs["contexts"]["fuzz_input"]["attachment_size"], 7)
+        self.assertFalse(kwargs["contexts"]["fuzz_input"]["attachment_truncated"])
+        self.assertEqual(
             kwargs["contexts"]["github_actions"]["run_url"],
             "https://github.com/WeblateOrg/weblate/actions/runs/123",
         )
@@ -86,3 +99,35 @@ class FuzzingSentryTest(TestCase):
             sentry.wrap_target("backups", callback)(b"payload")
 
         self.assertIn("Could not report fuzz exception to Sentry", logs.output[0])
+
+    def test_fuzz_input_attachment_is_limited_and_named(self) -> None:
+        class Scope:
+            def __init__(self) -> None:
+                self.attachments: list[dict[str, object]] = []
+
+            def add_attachment(self, **kwargs: object) -> None:
+                self.attachments.append(kwargs)
+
+        scope = Scope()
+        with patch("fuzzing.sentry.MAX_INPUT_ATTACHMENT_BYTES", 4):
+            # ruff: ignore[private-member-access]
+            sentry._attach_fuzz_input(scope, "backup/import", b"payload")
+            # ruff: ignore[private-member-access]
+            context = sentry._input_context("backup/import", b"payload")
+
+        self.assertEqual(
+            scope.attachments,
+            [
+                {
+                    "bytes": b"payl",
+                    "filename": "fuzz-input-backup-import.bin",
+                    "content_type": "application/octet-stream",
+                }
+            ],
+        )
+        self.assertEqual(context["attachment_filename"], "fuzz-input-backup-import.bin")
+        self.assertEqual(context["attachment_size"], 4)
+        self.assertTrue(context["attachment_truncated"])
+        self.assertEqual(
+            context["attachment_sha256"], hashlib.sha256(b"payl").hexdigest()
+        )

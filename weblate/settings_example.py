@@ -47,7 +47,7 @@ DATABASES = {
         # Database user.
         "USER": "weblate",
         # Name of role to alter to set parameters in PostgreSQL,
-        # use in case role name is different than user used for authentication.
+        # use in case role name is different than the user used for authentication.
         # "ALTER_ROLE": "weblate",
         # Database password.
         "PASSWORD": "",
@@ -294,7 +294,6 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
-    "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
@@ -308,7 +307,6 @@ SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     "weblate.accounts.pipeline.adjust_primary_mail",
     "weblate.accounts.pipeline.notify_disconnect",
     "social_core.pipeline.disconnect.disconnect",
-    "weblate.accounts.pipeline.cleanup_next",
 )
 
 # Custom authentication strategy
@@ -378,11 +376,17 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 # Restrict private webhook targets
 # WEBHOOK_RESTRICT_PRIVATE = True
 
+# Restrict private asset targets
+# ASSET_RESTRICT_PRIVATE = True
+
 # Restrict private VCS repository targets
 # VCS_RESTRICT_PRIVATE = True
 
 # Private webhook target allowlist
 # WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
+
+# Private asset target allowlist
+# ASSET_PRIVATE_ALLOWLIST = [".internal.example", "assets.internal.example"]
 
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
@@ -424,6 +428,7 @@ INSTALLED_APPS = [
     "weblate.formats",
     "weblate.glossary",
     "weblate.machinery",
+    "weblate.workspaces",
     "weblate.trans",
     "weblate.lang",
     "weblate_language_data",
@@ -656,7 +661,7 @@ TRANSLATION_UPLOAD_MAX_SIZE = 50000000
 # Maximum allowed uploaded component ZIP file size
 COMPONENT_ZIP_UPLOAD_MAX_SIZE = 50000000
 # Maximum allowed uploaded project backup ZIP file size
-PROJECT_BACKUP_UPLOAD_MAX_SIZE = 250 * 1024 * 1024
+PROJECT_BACKUP_UPLOAD_MAX_SIZE = 512 * 1024 * 1024
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
@@ -784,6 +789,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.checks.markup.RSTReferencesCheck",
 #     "weblate.checks.markup.RSTSyntaxCheck",
 #     "weblate.checks.placeholders.PlaceholderCheck",
+#     "weblate.checks.mdx.SafeMDXCheck",
 #     "weblate.checks.placeholders.RegexCheck",
 #     "weblate.checks.duplicate.DuplicateCheck",
 #     "weblate.checks.source.OptionalPluralCheck",
@@ -844,6 +850,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.removal.RemoveSuggestions",
 #     "weblate.addons.resx.ResxUpdateAddon",
 #     "weblate.addons.cdn.CDNJSAddon",
+#     "weblate.addons.cdn.CDNFilesAddon",
 #     "weblate.addons.webhooks.WebhookAddon",
 #     "weblate.addons.webhooks.SlackWebhookAddon",
 #     "weblate.addons.fedora_messaging.FedoraMessagingAddon",
@@ -896,7 +903,13 @@ REST_FRAMEWORK = get_drf_settings(
     user_throttle="5000/hour",
 )
 DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
-SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
+SPECTACULAR_SETTINGS = get_spectacular_settings(
+    INSTALLED_APPS,
+    SITE_URL,
+    SITE_TITLE,
+    legal_hidden_documents=globals().get("LEGAL_HIDDEN_DOCUMENTS", ()),
+    legal_url=globals().get("LEGAL_URL"),
+)
 
 # Fonts CDN URL
 FONTS_CDN_URL = None
@@ -973,4 +986,11 @@ MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
 SENTRY_ENVIRONMENT = SITE_DOMAIN
+GOOGLE_CLOUD_ERROR_REPORTING = None
+OPENTELEMETRY_ENABLED = False
+OPENTELEMETRY_SERVICE_NAME = "weblate"
+OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT = None
+OPENTELEMETRY_EXPORTER_OTLP_HEADERS = {}
+OPENTELEMETRY_TRACES_SAMPLE_RATE = 0
+OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES = {}
 PASSWORD_RESET_URL = None

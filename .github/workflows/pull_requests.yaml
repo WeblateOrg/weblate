@@ -3,27 +3,22 @@
 # SPDX-License-Identifier: CC0-1.0
 
 # This file is maintained in https://github.com/WeblateOrg/meta/
-
 name: Pull request automation
 
 on: # zizmor: ignore[dangerous-triggers]
   pull_request_target:
     types: opened
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
-  weblate_automerge:
+  weblate-automerge:
     runs-on: ubuntu-slim
     name: Weblate automerge
     if: github.actor == 'weblate'
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      with:
-        persist-credentials: false
     - name: Enable Pull Request Automerge
-      run: gh pr merge --rebase --auto "$PR_NUMBER"
+      run: gh pr merge --repo "$GITHUB_REPOSITORY" --rebase --auto "$PR_NUMBER"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
         PR_NUMBER: ${{ github.event.pull_request.number }}

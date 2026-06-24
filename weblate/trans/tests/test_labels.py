@@ -53,6 +53,17 @@ class LabelTest(FixtureTestCase):
         )
         self.assertEqual(self.project.label_set.filter(name="Test label").count(), 1)
 
+    def test_list_order(self) -> None:
+        for name in ("Zulu label", "Alpha label", "Middle label"):
+            self.project.label_set.create(name=name, color="orange")
+
+        response = self.client.get(self.labels_url)
+
+        self.assertEqual(
+            [label.name for label in response.context["labels"]],
+            ["Alpha label", "Middle label", "Zulu label"],
+        )
+
     def test_edit_name(self) -> None:
         self.test_create()
         label = self.project.label_set.get()
@@ -112,20 +123,22 @@ class LabelTest(FixtureTestCase):
         self.test_create()
         label = self.project.label_set.get()
         unit = self.get_unit().source_unit
-        self.client.post(
-            reverse("edit_context", kwargs={"pk": unit.pk}),
-            {"explanation": "", "extra_flags": "", "labels": label.pk},
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(
+                reverse("edit_context", kwargs={"pk": unit.pk}),
+                {"explanation": "", "extra_flags": "", "labels": label.pk},
+            )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 1)
         changes = unit.change_set.filter(action=ActionEvents.LABEL_ADD)
         self.assertEqual(changes.count(), 1)
         self.assertEqual(changes.first().user, self.user)
 
-        self.client.post(
-            reverse("edit_context", kwargs={"pk": unit.pk}),
-            {"explanation": "", "extra_flags": ""},
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(
+                reverse("edit_context", kwargs={"pk": unit.pk}),
+                {"explanation": "", "extra_flags": ""},
+            )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 0)
         changes = unit.change_set.filter(action=ActionEvents.LABEL_REMOVE)
@@ -136,14 +149,16 @@ class LabelTest(FixtureTestCase):
         self.test_create()
         label = self.project.label_set.get()
         unit = self.get_unit().source_unit
-        self.client.post(
-            reverse("edit_context", kwargs={"pk": unit.pk}),
-            {"explanation": "", "extra_flags": "", "labels": label.pk},
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(
+                reverse("edit_context", kwargs={"pk": unit.pk}),
+                {"explanation": "", "extra_flags": "", "labels": label.pk},
+            )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 1)
 
-        label.delete()
+        with self.captureOnCommitCallbacks(execute=True):
+            label.delete()
 
         translation = self.get_translation()
         with self.assertRaises(AttributeError):
@@ -195,7 +210,10 @@ class MonolingualLabelTest(ViewTestCase):
             target_unit.source_unit.num_words,
         )
 
-        self.edit_unit("Hello, world!\n", "Hello, beautiful world!\n", language="en")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit(
+                "Hello, world!\n", "Hello, beautiful world!\n", language="en"
+            )
 
         updated_unit = self.get_unit("Hello, beautiful world!\n", language="cs")
         target_translation = self.get_translation()

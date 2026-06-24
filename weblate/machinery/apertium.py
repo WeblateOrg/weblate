@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     ResponseStatusMachineTranslation,
 )
 from .forms import URLMachineryForm
@@ -89,7 +90,7 @@ class ApertiumAPYTranslation(ResponseStatusMachineTranslation):
 
     @property
     def all_langs(self):
-        """Return all language codes known to service."""
+        """All language codes known to service."""
         return set(chain.from_iterable(self.supported_languages))
 
     def map_language_code(self, code):
@@ -141,7 +142,7 @@ class ApertiumAPYTranslation(ResponseStatusMachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from Apertium."""
         args = {

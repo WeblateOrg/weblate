@@ -62,7 +62,8 @@ CSP_DIRECTIVES: CSP_TYPE = {
     "style-src": {"'self'", "'unsafe-inline'"},
     # "data:" is required for bootstrap 5 icons
     "img-src": {"'self'", "data:"},
-    "script-src": {"'self'"},
+    # 'wasm-unsafe-eval' is required by the altcha Argon2id worker
+    "script-src": {"'self'", "'wasm-unsafe-eval'"},
     "connect-src": {"'self'"},
     "object-src": {"'none'"},
     "font-src": {"'self'"},
@@ -72,7 +73,7 @@ CSP_DIRECTIVES: CSP_TYPE = {
     "form-action": {"'self'"},
     "manifest-src": {"'self'"},
     # Used by altcha
-    "worker-src": {"'self'", "blob:"},
+    "worker-src": {"'self'"},
 }
 
 # URLs requiring inline javascript
@@ -215,10 +216,12 @@ class RedirectMiddleware:
         """
         return project.has_language(language)
 
-    def process_exception(  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def process_exception(
         self, request: AuthenticatedHttpRequest, exception
     ) -> HttpResponse | None:
-        from weblate.utils.views import UnsupportedPathObjectError  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.views import UnsupportedPathObjectError
 
         if not isinstance(exception, Http404):
             return None
@@ -305,12 +308,10 @@ class RedirectMiddleware:
 
 class CSPBuilder:
     directives: CSP_TYPE
-    request: AuthenticatedHttpRequest
+    request: HttpRequest
     response: HttpResponse
 
-    def __init__(
-        self, request: AuthenticatedHttpRequest, response: HttpResponse
-    ) -> None:
+    def __init__(self, request: HttpRequest, response: HttpResponse) -> None:
         self.directives = deepcopy(CSP_DIRECTIVES)
         self.request = request
         self.response = response
@@ -401,7 +402,12 @@ class CSPBuilder:
         # External static URL
         if "://" in settings.STATIC_URL:
             self.add_csp_host(
-                settings.STATIC_URL, "script-src", "img-src", "style-src", "font-src"
+                settings.STATIC_URL,
+                "script-src",
+                "img-src",
+                "style-src",
+                "font-src",
+                "worker-src",
             )
 
     def build_csp_cdn(self) -> None:
@@ -445,9 +451,11 @@ class CSPBuilder:
                     # Handle SAML redirect flow
                     elif hasattr(backend, "get_idp"):
                         # Lazily import here to avoid pulling in xmlsec
-                        from social_core.backends.saml import SAMLAuth  # noqa: PLC0415
+                        # ruff: ignore[import-outside-top-level]
+                        from social_core.backends.saml import SAMLAuth
 
-                        assert issubclass(backend, SAMLAuth)  # noqa: S101
+                        # ruff: ignore[assert]
+                        assert issubclass(backend, SAMLAuth)
 
                         saml_auth = backend(social_strategy)
                         urls = [

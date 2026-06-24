@@ -31,7 +31,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
         """Filter announcements by context."""
         base = self.filter(
             Q(expiry__isnull=True) | Q(expiry__gte=timezone.now())
-        ).order()
+        ).order_by("id")
 
         if language and project is None and component is None and category is None:
             return base.filter(
@@ -40,6 +40,12 @@ class AnnouncementManager(models.Manager["Announcement"]):
 
         if component:
             category_filter = self._category_filter(component.category)
+            project_filter = (
+                Q(project=component.project)
+                & Q(category=None)
+                & Q(component=None)
+                & Q(language=None)
+            )
             if language:
                 return base.filter(
                     (Q(component=component) & Q(language=language))
@@ -50,37 +56,57 @@ class AnnouncementManager(models.Manager["Announcement"]):
                         & Q(language=language)
                     )
                     | (Q(component=component) & Q(language=None))
-                    | (category_filter & Q(component=None))
+                    | (category_filter & Q(component=None) & Q(language=None))
+                    | (category_filter & Q(component=None) & Q(language=language))
+                    | project_filter
                     | (
                         Q(project=component.project)
                         & Q(category=None)
                         & Q(component=None)
+                        & Q(language=language)
                     )
                 )
 
             return base.filter(
                 (Q(component=component) & Q(language=None))
-                | (category_filter & Q(component=None))
-                | (Q(project=component.project) & Q(category=None) & Q(component=None))
+                | (category_filter & Q(component=None) & Q(language=None))
+                | project_filter
             )
 
         if category:
             category_filter = self._category_filter(category)
             return base.filter(
-                (category_filter & Q(component=None))
-                | (Q(project=category.project) & Q(category=None) & Q(component=None))
+                (category_filter & Q(component=None) & Q(language=None))
+                | (
+                    Q(project=category.project)
+                    & Q(category=None)
+                    & Q(component=None)
+                    & Q(language=None)
+                )
             )
 
         if project:
-            return base.filter(
-                Q(project=project) & Q(category=None) & Q(component=None)
+            project_filter = (
+                Q(project=project)
+                & Q(category=None)
+                & Q(component=None)
+                & Q(language=None)
             )
+            if language:
+                project_filter |= (
+                    Q(project=project)
+                    & Q(category=None)
+                    & Q(component=None)
+                    & Q(language=language)
+                )
+            return base.filter(project_filter)
 
         # All are None
         return base.filter(project=None, category=None, component=None, language=None)
 
     def create(self, user=None, **kwargs):
-        from weblate.trans.models.change import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.change import Change
 
         if kwargs.get("category") is not None and kwargs.get("component") is None:
             kwargs["project"] = None
@@ -103,7 +129,32 @@ class AnnouncementManager(models.Manager["Announcement"]):
         return result
 
 
-class AnnouncementQuerySet(models.QuerySet):
+class AnnouncementQuerySet(models.QuerySet["Announcement", "Announcement"]):
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+
+        global_scope = Q(
+            project__isnull=True, category__isnull=True, component__isnull=True
+        )
+        project_scope = Q(category__isnull=True, component__isnull=True) & (
+            user.get_project_access_query("project")
+        )
+        category_scope = Q(category__isnull=False, component__isnull=True) & (
+            user.get_project_access_query("category__project")
+        )
+        component_scope = Q(component__isnull=False) & (
+            user.get_project_access_query("component__project")
+        )
+        if user.needs_component_restrictions_filter:
+            component_scope &= Q(component__restricted=False) | Q(
+                component_id__in=user.component_permissions
+            )
+
+        return self.filter(
+            global_scope | project_scope | category_scope | component_scope
+        )
+
     def order(self):
         return self.order_by("id")
 

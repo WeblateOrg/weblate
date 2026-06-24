@@ -5,11 +5,13 @@
 const path = require("node:path");
 
 const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require("webpack");
 const LicensePlugin = require("webpack-license-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // Regular expression to match copyright lines
 const copyrightRegex = /Copyright.*\n/;
+const ossLicensesJson = "oss-licenses.json";
 
 // REUSE-IgnoreStart
 // Function to extract copyright information from a package
@@ -42,9 +44,7 @@ SPDX-License-Identifier: ${licenses}
 function mainLicenseTransform(packages) {
   const excludePrefixes = [
     "@sentry",
-    "tributejs",
     "@tarekraafat/autocomplete.js",
-    "autosize",
     "tom-select",
     "hotkeys-js",
     "prismjs",
@@ -62,14 +62,6 @@ function mainLicenseTransform(packages) {
 
 function sentryLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("@sentry"));
-}
-
-function tributeLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("tributejs"));
-}
-
-function autosizeLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("autosize"));
 }
 
 function prismJsLicenseTransform(packages) {
@@ -135,14 +127,33 @@ function altchaLicenseTransform() {
 }
 // REUSE-IgnoreEnd
 
+class RemoveOssLicensesJsonPlugin {
+  apply(compiler) {
+    compiler.hooks.thisCompilation.tap(
+      "RemoveOssLicensesJsonPlugin",
+      (compilation) => {
+        compilation.hooks.processAssets.tap(
+          {
+            name: "RemoveOssLicensesJsonPlugin",
+            stage: webpack.Compilation.PROCESS_ASSETS_STAGE_REPORT,
+          },
+          () => {
+            if (compilation.getAsset(ossLicensesJson)) {
+              compilation.deleteAsset(ossLicensesJson);
+            }
+          },
+        );
+      },
+    );
+  }
+}
+
 // Webpack configuration
 module.exports = {
   entry: {
     main: "./src/main.js",
     sentry: "./src/sentry.js",
-    tribute: "./src/tribute.js",
     autoComplete: "./src/autoComplete.js",
-    autosize: "./src/autosize.js",
     "tom-select": "./src/tom-select.js",
     hotkeys: "./src/hotkeys.js",
     prismjs: "./src/prismjs.js",
@@ -155,6 +166,7 @@ module.exports = {
     minimize: true,
     minimizer: [
       new TerserPlugin({
+        exclude: /argon2id\.js$/,
         extractComments: false,
         terserOptions: {
           format: {
@@ -170,21 +182,28 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      {
+        resourceQuery: /^\?url$/,
+        type: "asset/resource",
+        generator: {
+          filename: "[name][ext]",
+        },
+      },
     ],
   },
   plugins: [
     new LicensePlugin({
+      outputFilename: ossLicensesJson,
       additionalFiles: {
         "main.js.license": mainLicenseTransform,
         "sentry.js.license": sentryLicenseTransform,
-        "tribute.js.license": tributeLicenseTransform,
         "autoComplete.js.license": autoCompleteLicenseTransform,
-        "autosize.js.license": autosizeLicenseTransform,
         "tom-select.js.license": tomSelectLicenseTransform,
         "../../styles/vendor/tom-select.css.license": tomSelectLicenseTransform,
         "hotkeys.js.license": hotkeysLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
+        "argon2id.js.license": altchaLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,
         "bootstrap5_rtl.js.license": bootstrapLicenseTransform,
         "../../styles/vendor/bootstrap5.css.license": bootstrapLicenseTransform,
@@ -192,6 +211,7 @@ module.exports = {
           bootstrapLicenseTransform,
       },
     }),
+    new RemoveOssLicensesJsonPlugin(),
     new MiniCssExtractPlugin({
       filename: "../../styles/vendor/[name].css",
     }),

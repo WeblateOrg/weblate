@@ -58,7 +58,7 @@
                         aria-controls="backup-service-{{ service.pk }}-credentials">
                   <span class="d-flex flex-wrap align-items-center gap-2 w-100 me-3">
                     <span class="fw-semibold">{% translate "Backup service credentials" %}</span>
-                    <span class="small text-body-secondary ms-lg-auto">{{ service.timestamp|date:"SHORT_DATE_FORMAT" }}</span>
+                    <span class="small text-body-secondary ms-lg-auto">{{ service.timestamp|naturaltime }}</span>
                   </span>
                 </button>
               </h5>
@@ -86,7 +86,7 @@
                       {% elif log.warning %}
                         <span class="badge text-bg-warning">{% translate "Warnings" %}</span>
                       {% endif %}
-                      <span class="small text-body-secondary ms-lg-auto">{{ log.timestamp|date:"SHORT_DATETIME_FORMAT" }}</span>
+                      <span class="small text-body-secondary ms-lg-auto">{{ log.timestamp|naturaltime }}</span>
                     </span>
                   </button>
                 </h5>

@@ -1,27 +1,86 @@
 {% load i18n icons translations %}
 
-{% for check in billing.libre_checklist %}
-  <p>
-    {% if check %}
-      <span class="green">{% icon "check.svg" %}</span>
-    {% else %}
-      <span class="red">{% icon "alert.svg" %}</span>
-    {% endif %}
-    {{ check }}
-  </p>
-  {% if check.component %}
-    {% if not check.component.is_glossary %}
-      <p>
-        {% icon "comment.svg" %}
-        <a href="{% url "guide" path=check.component.get_url_path %}">{% translate "Review guidelines from the community localization checklist." %}</a>
-      </p>
-    {% endif %}
-    {% if check.component.agreement %}
-      <p>
-        {% icon "suggest.svg" %}
-        <a href="{{ check.component.get_absolute_url }}#information">{% translate "Contributor license agreement" %}</a>
-        {{ check.component.agreement|markdown }}
-      </p>
-    {% endif %}
-  {% endif %}
-{% endfor %}
+<ul class="list-unstyled mb-3">
+  {% for check in libre_general_checklist %}
+    <li class="d-flex align-items-center gap-2 mb-1">
+      {% if check %}
+        <span class="green">{% icon "check.svg" %}</span>
+      {% else %}
+        <span class="red">{% icon "alert.svg" %}</span>
+      {% endif %}
+      <span>{{ check }}</span>
+    </li>
+  {% endfor %}
+</ul>
+
+{% if libre_component_checklist %}
+  <table class="table table-sm align-middle mb-0">
+    <thead>
+      <tr>
+        <th class="text-center">
+          <span class="visually-hidden">{% translate "Status" %}</span>
+        </th>
+        <th>{% translate "Component" %}</th>
+        <th>{% translate "License" %}</th>
+        <th>{% translate "Repository" %}</th>
+        <th>{% translate "File format" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for check in libre_component_checklist %}
+        {% with component=check.component %}
+          <tr>
+            <td class="text-center">
+              {% if check %}
+                <span class="green">{% icon "check.svg" %}</span>
+              {% else %}
+                <span class="red">{% icon "alert.svg" %}</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ component.get_absolute_url }}">{{ component }}</a>
+            </td>
+            <td>
+              {% if check.license_name %}{{ check.license_name }}{% endif %}
+              {% if check.license_error %}<span class="badge text-bg-danger">{{ check.license_error }}</span>{% endif %}
+            </td>
+            <td class="text-break">{{ check.repository_url }}</td>
+            <td>{{ check.file_format }}</td>
+          </tr>
+          {% if check.alerts or component.effective_agreement %}
+            <tr>
+              <td colspan="5" class="p-0 border-0">
+                <div class="p-2 text-break">
+                  {% if show_alerts and check.alerts %}
+                    <p class="mb-2">
+                      {% icon "comment.svg" %}
+                      <a href="{{ component.get_absolute_url }}?alerts=1#alerts">{% translate "Diagnostics" %}</a>
+                    </p>
+                    <ul class="list-unstyled mb-2">
+                      {% for item in check.alerts %}
+                        <li>
+                          {{ item.message }}
+                          <span class="badge {{ item.alert.severity_class }}">{{ item.alert.get_severity_display }}</span>
+                          {% if item.alert.dismissed %}
+                            <span class="badge text-bg-secondary">{% translate "dismissed" %}</span>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                  {% if component.effective_agreement %}
+                    <div class="mb-2">
+                      {% icon "suggest.svg" %}
+                      <a href="{{ component.get_absolute_url }}#information">{% translate "Contributor license agreement" %}</a>
+                      {{ component.effective_agreement|markdown }}
+                    </div>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+          {% endif %}
+        {% endwith %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}

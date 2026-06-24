@@ -229,6 +229,85 @@
           "title": "Language code style",
           "type": "string"
         },
+        "secondary_language": {
+          "$id": "#root/component/secondary_language",
+          "title": "Secondary language code",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "inherit_license": {
+          "$id": "#root/component/inherit_license",
+          "title": "Inherit translation license",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_agreement": {
+          "$id": "#root/component/inherit_agreement",
+          "title": "Inherit contributor agreement",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_new_lang": {
+          "$id": "#root/component/inherit_new_lang",
+          "title": "Inherit adding new translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_language_code_style": {
+          "$id": "#root/component/inherit_language_code_style",
+          "title": "Inherit language code style",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_secondary_language": {
+          "$id": "#root/component/inherit_secondary_language",
+          "title": "Inherit secondary language",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_commit_message": {
+          "$id": "#root/component/inherit_commit_message",
+          "title": "Inherit commit message when translating",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_add_message": {
+          "$id": "#root/component/inherit_add_message",
+          "title": "Inherit commit message when adding translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_delete_message": {
+          "$id": "#root/component/inherit_delete_message",
+          "title": "Inherit commit message when removing translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_merge_message": {
+          "$id": "#root/component/inherit_merge_message",
+          "title": "Inherit commit message when merging translation",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_addon_message": {
+          "$id": "#root/component/inherit_addon_message",
+          "title": "Inherit commit message when add-on makes a change",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_pull_message": {
+          "$id": "#root/component/inherit_pull_message",
+          "title": "Inherit merge request message",
+          "type": "boolean",
+          "default": false
+        },
         "manage_units": {
           "$id": "#root/component/manage_units",
           "title": "Manage strings",

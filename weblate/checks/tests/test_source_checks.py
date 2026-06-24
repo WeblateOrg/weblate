@@ -5,6 +5,7 @@
 """Tests for source checks."""
 
 from datetime import timedelta
+from typing import cast
 
 from django.test import TestCase
 from django.utils import timezone
@@ -16,8 +17,8 @@ from weblate.checks.source import (
     MultipleFailingCheck,
     OptionalPluralCheck,
 )
-from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.models import Unit
+from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase, FixtureTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
@@ -27,13 +28,13 @@ class OptionalPluralCheckTest(TestCase):
         self.check = OptionalPluralCheck()
 
     def test_none(self) -> None:
-        self.assertFalse(self.check.check_source(["text"], MockUnit()))
+        self.assertFalse(self.check.check_source(["text"], make_unit()))
 
     def test_plural(self) -> None:
-        self.assertFalse(self.check.check_source(["text", "texts"], MockUnit()))
+        self.assertFalse(self.check.check_source(["text", "texts"], make_unit()))
 
     def test_failing(self) -> None:
-        self.assertTrue(self.check.check_source(["text(s)"], MockUnit()))
+        self.assertTrue(self.check.check_source(["text(s)"], make_unit()))
 
 
 class EllipsisCheckTest(TestCase):
@@ -41,13 +42,13 @@ class EllipsisCheckTest(TestCase):
         self.check = EllipsisCheck()
 
     def test_none(self) -> None:
-        self.assertFalse(self.check.check_source(["text"], MockUnit()))
+        self.assertFalse(self.check.check_source(["text"], make_unit()))
 
     def test_good(self) -> None:
-        self.assertFalse(self.check.check_source(["text…"], MockUnit()))
+        self.assertFalse(self.check.check_source(["text…"], make_unit()))
 
     def test_failing(self) -> None:
-        self.assertTrue(self.check.check_source(["text..."], MockUnit()))
+        self.assertTrue(self.check.check_source(["text..."], make_unit()))
 
 
 class LongUntranslatedCheckTestCase(FixtureComponentTestCase):
@@ -85,6 +86,7 @@ class LongUntranslatedCheckTestCase(FixtureComponentTestCase):
         ).update(state=STATE_TRANSLATED)
         unit.unit_set.exclude(pk=unit.pk).update(state=STATE_EMPTY, target="")
         self.check.perform_batch(self.component)
+        unit = Unit.objects.get(pk=unit.pk)
         self.assertIn("long_untranslated", unit.all_checks_names)
 
 
@@ -119,8 +121,10 @@ class MultipleFailingCheckTestCase(FixtureTestCase):
                 )
         source_unit = self.get_unit(language="en")
         child_unit = source_unit.unit_set.exclude(pk=source_unit.id).first()
-        child_unit.run_checks()
-        self.assertIn("same", child_unit.all_checks_names)
+        self.assertIsNotNone(child_unit)
+        checked_child_unit = cast("Unit", child_unit)
+        checked_child_unit.run_checks()
+        self.assertIn("same", checked_child_unit.all_checks_names)
         source_unit.run_checks()
         self.assertTrue(self.check.check_source([], source_unit))
 
@@ -139,7 +143,9 @@ class MultipleFailingCheckTestCase(FixtureTestCase):
                 )
         source_unit = self.get_unit(language="en")
         child_unit = source_unit.unit_set.exclude(pk=source_unit.id).first()
-        child_unit.run_checks()
-        self.assertIn("same", child_unit.all_checks_names)
+        self.assertIsNotNone(child_unit)
+        checked_child_unit = cast("Unit", child_unit)
+        checked_child_unit.run_checks()
+        self.assertIn("same", checked_child_unit.all_checks_names)
         self.check.perform_batch(self.component)
         self.assertTrue(self.check.check_source([], source_unit))

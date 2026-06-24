@@ -100,7 +100,7 @@
                      data-bs-toggle="modal"
                      data-bs-target="#revert_blocked_user_{{ userblock.user.id }}"
                      class="btn btn-link btn-xs"
-                     title="{% translate "Clean up user contributions" %}">{% icon 'undo.svg' %}</a>
+                     title="{% translate "Choose cleanup actions" %}">{% icon 'undo.svg' %}</a>
                   <form action="{% url "unblock-user" project=object.slug %}"
                         method="post"
                         class="inlineform">
@@ -122,7 +122,7 @@
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                            <h4 class="modal-title">{% translate "Choose cleanup actions" %}</h4>
                             <button type="button"
                                     class="btn-close"
                                     data-bs-dismiss="modal"
@@ -136,7 +136,7 @@
                             <input type="submit"
                                    name="cleanup_user_contributions"
                                    class="btn btn-danger"
-                                   value="{% translate "Clean up" %}" />
+                                   value="{% translate "Clean up selected contributions" %}" />
                           </div>
                         </div>
                       </div>
@@ -162,7 +162,10 @@
                   <em>{% translate "Pending invitation" %}</em>
                 </td>
                 <td>
-                  <span class="badge  text-bg-secondary">{{ invitation.group }}</span>
+                  <span class="badge  text-bg-secondary">
+                    {{ invitation.group }}
+                    {% include "snippets/membership-language-limit.html" with membership=invitation only %}
+                  </span>
                 </td>
                 <td>
                   <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
@@ -189,6 +192,11 @@
             {% endfor %}
           </tbody>
         </table>
+        {% if all_users.paginator.num_pages > 1 %}
+          <div class="card-footer">
+            {% include "paginator.html" with page_obj=all_users anchor="users" paginator_form="paginator-form" %}
+          </div>
+        {% endif %}
         <div class="card-body">
           <p class="help-block">
             {% translate "Once all its permissions are removed, the user will be removed from the project." %}
@@ -451,5 +459,37 @@
       {% documentation_icon 'vcs' right=True %}
     </div>
   </div>
+
+  <form action="{% url "set-groups" project=object.slug %}"
+        method="post"
+        class="inlineform">
+    {% csrf_token %}
+    <div class="modal fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="project-user-groups-modal-title"
+         id="project-user-groups-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="project-user-groups-modal-title"></h4>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate "Close" %}"></button>
+          </div>
+          <div class="modal-body"
+               data-loading-text="{% translate "Loading…" %}"
+               data-error-text="{% translate "Error while loading form:" %}"></div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form method="get" id="paginator-form">
+  </form>
 
 {% endblock content %}

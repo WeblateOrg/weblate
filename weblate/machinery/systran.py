@@ -2,7 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import KeyMachineryForm
 
 
@@ -12,6 +16,10 @@ class SystranTranslation(MachineTranslation):
     name = "Systran"
     max_score = 90
     settings_form = KeyMachineryForm
+
+    def get_headers(self) -> dict[str, str]:
+        """Add authentication headers to request."""
+        return {"Authorization": f"Key {self.settings['key']}"}
 
     def check_failure(self, response) -> None:
         if "error" not in response:
@@ -23,7 +31,6 @@ class SystranTranslation(MachineTranslation):
         response = self.request(
             "get",
             "https://api-translate.systran.net/translation/supportedLanguages",
-            params={"key": self.settings["key"]},
         )
         payload = response.json()
         self.check_failure(payload)
@@ -40,14 +47,13 @@ class SystranTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
         """Download list of possible translations from a service."""
         response = self.request(
             "post",
             "https://api-translate.systran.net/translation/text/translate",
             params={
-                "key": self.settings["key"],
                 "source": source_language,
                 "target": target_language,
                 "input": text,

@@ -44,6 +44,8 @@ from .types import (
     SourceLanguageChoices,
 )
 
+MACHINERY_DEFAULT_THRESHOLD = 80
+
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
@@ -106,6 +108,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     highlight_syntax = False
     glossary_support = False
     llm_context_support = False
+    sends_data_to_third_party = True
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
     is_available = True
@@ -148,7 +151,7 @@ class BatchMachineTranslation(DocVersionsMixin):
                 self.validate_target_language,
                 [("test", None)],
                 None,
-                75,
+                MACHINERY_DEFAULT_THRESHOLD,
             )
         except Exception as error:
             raise ValidationError(
@@ -413,7 +416,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
             return True
-        if not isinstance(exc, HTTPError):
+        if not isinstance(exc, HTTPError) or exc.response is None:
             return False
         # Apply rate limiting for following status codes:
         # HTTP 456 Client Error: Quota Exceeded (DeepL)
@@ -599,7 +602,8 @@ class BatchMachineTranslation(DocVersionsMixin):
         return hash_to_checksum(calculate_hash(tsv)) if tsv else ""
 
     def get_glossary_cache_part(self, unit: Unit) -> str:
-        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import get_glossary_tsv
 
         return self.tsv_checksum(get_glossary_tsv(unit.translation))
 
@@ -688,12 +692,10 @@ class BatchMachineTranslation(DocVersionsMixin):
         if selection == SourceLanguageChoices.SOURCE:
             return translation.component.source_language
 
-        if selection == SourceLanguageChoices.SECONDARY:
-            # Use secondary if configured
-            if translation.component.secondary_language:
-                return translation.component.secondary_language
-            if translation.component.project.secondary_language:
-                return translation.component.project.secondary_language
+        if selection == SourceLanguageChoices.SECONDARY and (
+            secondary_language := translation.component.effective_secondary_language
+        ):
+            return secondary_language
 
         return self.get_default_source_language(translation)
 
@@ -701,7 +703,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         self,
         unit: Unit,
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
         *,
         source_language: Language | None = None,
     ):
@@ -751,7 +753,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         """
         Download dictionary of a lists of possible translations from a service.
@@ -771,7 +773,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return {
             text: result
@@ -790,7 +792,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> list[list[TranslationResultDict]]:
         output: list[list[TranslationResultDict]] = [[] for _source in sources]
         pending: dict[str, list[tuple[int, Unit | None, str, dict[str, str]]]] = (
@@ -880,7 +882,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         source_language,
         target_language,
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> None:
         remaining_keys = list(pending)
         while remaining_keys:
@@ -945,7 +947,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         target_language,
         sources: list[tuple[str, Unit | None, int]],
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return self.download_multiple_translations(
             source_language,
@@ -965,7 +967,8 @@ class BatchMachineTranslation(DocVersionsMixin):
 
     def signed_salt(self, appid, secret, text):
         """Generate salt and sign as used by Chinese services."""
-        salt = str(random.randint(0, 10000000000))  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        salt = str(random.randint(0, 10000000000))
 
         payload = appid + text + salt + secret
         digest = md5(payload.encode(), usedforsecurity=False).hexdigest()
@@ -976,7 +979,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         self,
         units: list[Unit] | UnitQuerySet,
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
         *,
         source_language: Language | None = None,
     ) -> None:
@@ -1041,7 +1044,8 @@ class BatchMachineTranslation(DocVersionsMixin):
     @cached_property
     def user(self):
         """Weblate user used to track changes by this engine."""
-        from weblate.auth.models import User  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         return User.objects.get_or_create_bot(
             scope="mt",
@@ -1058,7 +1062,7 @@ class MachineTranslation(BatchMachineTranslation):
         text: str,
         unit: Unit | None,
         user: User | None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """
         Download list of possible translations from a service.
@@ -1078,7 +1082,7 @@ class MachineTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user: User | None = None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         return {
             text: list(
@@ -1099,6 +1103,7 @@ class InternalMachineTranslation(MachineTranslation):
     do_cleanup = False
     accounting_key = "internal"
     cache_translations = False
+    sends_data_to_third_party = False
     settings_form: type[BaseMachineryForm] | None = None
 
     def is_supported(
@@ -1202,7 +1207,8 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
-        from weblate.glossary.models import get_glossary_tsv  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import get_glossary_tsv
 
         if unit is None:
             return None

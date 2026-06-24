@@ -22,11 +22,27 @@ else
     datespec="datetime.date.today()"
 fi
 
+# shellcheck source=/dev/null
 . scripts/test-database.sh
 version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.VERSION_BASE)')
 today=$(./manage.py shell --no-imports -c 'from django.utils.dateformat import format; import datetime; print(format('"$datespec"', "F jS Y"))')
+case "$suffix" in
+"")
+    release_version="$version"
+    ;;
+"-rc")
+    release_version="${version}rc0"
+    ;;
+"-rc"[0-9]*)
+    release_version="${version}rc${suffix#-rc}"
+    ;;
+*)
+    echo "Unsupported release suffix: $suffix"
+    exit 1
+    ;;
+esac
 
-sed -i "s/^VERSION =.*/VERSION = \"$version$suffix\"/" weblate/utils/version.py
+python scripts/update_version.py "$release_version" "$version"
 sed -E -i "s/^\*(Not yet released.|Expected ).*/*Released on $today.*/" docs/changes.rst
 
 if [ -z "$suffix" ]; then
@@ -35,5 +51,5 @@ if [ -z "$suffix" ]; then
 fi
 
 if ! git diff --exit-code --quiet; then
-    git commit -m "chore: releasing $version$suffix" -- weblate/utils/version.py docs/changes.rst "docs/changes/contributors/$version.rst"
+    git commit -m "chore: releasing $release_version" -- pyproject.toml uv.lock weblate/utils/version.py docs/conf.py docs/changes.rst "docs/changes/contributors/$version.rst"
 fi

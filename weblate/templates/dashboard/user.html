@@ -138,7 +138,7 @@
 
     <div class="tab-pane" id="reports">
       {% if not user_can_view_reports %}
-        {% translate "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+        {% translate "You don't have permission to view reports for all users; contributor reports will list only your contributions." as msg %}
         {% show_message "warning" msg %}
       {% endif %}
       <div class="row">
@@ -174,7 +174,28 @@
               </div>
               <div class="card-body">
                 <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
-                {% crispy reports_form %}
+                {% crispy reports_count_form %}
+              </div>
+              <div class="card-footer">
+                <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <form action="{% url 'costs' %}" method="post" enctype="multipart/form-data">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon 'devel/reporting' 'cost-estimate' right=True %}
+                  {% translate "Cost estimate" %}
+                </h4>
+              </div>
+              <div class="card-body">
+                <p>
+                  {% translate "Estimates translation costs based on source words, repetitions, needs-editing strings, and translation memory matches." %}
+                </p>
+                {% crispy reports_cost_form %}
               </div>
               <div class="card-footer">
                 <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />

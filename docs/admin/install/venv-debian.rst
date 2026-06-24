@@ -45,7 +45,7 @@ Installing on Debian and Ubuntu
     # SMTP server
     apt install -y exim4
 
-    # Gettext for the msgmerge add-on
+    # Gettext tools for gettext POT/PO update add-ons
     apt install -y gettext
 
 .. include:: steps/install-uv.rst

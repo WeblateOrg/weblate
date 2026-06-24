@@ -10,13 +10,14 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext
-from django.views.decorators.http import require_POST
 
 from weblate.accounts.views import mail_admins_contact
+from weblate.auth.models import TeamMembership
 from weblate.trans.backups import PROJECTBACKUP_PREFIX
 from weblate.utils import messages
 from weblate.utils.data import data_path
@@ -25,7 +26,6 @@ from weblate.utils.views import show_form_errors
 from .forms import (
     BillingMergeConfirmForm,
     BillingMergeForm,
-    BillingUserForm,
     HostingForm,
 )
 from .models import Billing, BillingEvent, Invoice, Plan
@@ -47,6 +47,38 @@ Message:
 
 Please review at https://hosted.weblate.org%(billing_url)s
 """
+
+
+def merge_workspace_access(billing: Billing, other: Billing) -> None:
+    target_groups = other.workspace.setup_groups()
+    billing.workspace.setup_groups()
+    for source_group in billing.workspace.defined_groups.prefetch_related("roles"):
+        target_group = target_groups.get(source_group.name)
+        if target_group is None:
+            target_group, _created = other.workspace.defined_groups.get_or_create(
+                name=source_group.name,
+                defaults={
+                    "internal": source_group.internal,
+                    "project_selection": source_group.project_selection,
+                    "language_selection": source_group.language_selection,
+                    "enforced_2fa": source_group.enforced_2fa,
+                },
+            )
+            target_groups[source_group.name] = target_group
+        if not target_group.roles.exists():
+            target_group.roles.set(source_group.roles.all())
+        existing_user_ids = set(
+            target_group.memberships.values_list("user_id", flat=True)
+        )
+        for membership in (
+            source_group.memberships.select_related("user")
+            .prefetch_related("limit_languages")
+            .exclude(user_id__in=existing_user_ids)
+        ):
+            target_membership = TeamMembership.objects.create(
+                user=membership.user, group=target_group
+            )
+            target_membership.limit_languages.set(membership.limit_languages.all())
 
 
 @login_required
@@ -118,7 +150,13 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
     elif "recurring" in request.POST:
         if "recurring" in billing.payment:
             del billing.payment["recurring"]
-        billing.save()
+        billing.clear_inactive_recurring_status(save=False, log=False)
+        billing.save(
+            update_fields=[
+                "payment",
+                *Billing.INACTIVE_RECURRING_FIELDS,
+            ]
+        )
         billing.billinglog_set.create(
             event=BillingEvent.DISABLED_RECURRING, user=request.user
         )
@@ -140,7 +178,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
         elif "request" in request.POST and billing.is_libre_trial:
             form = HostingForm(request.POST)
             if form.is_valid():
-                project = billing.projects.get()
+                project = billing.get_projects_queryset().get()
                 subject = f"Hosting request for {project}"
                 billing.payment["libre_request"] = True
                 billing.save(update_fields=["payment"])
@@ -170,8 +208,10 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
 
 @login_required
 def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
-    billings = Billing.objects.for_user(request.user).prefetch_related(
-        "plan", "projects", "invoice_set"
+    billings = (
+        Billing.objects.for_user(request.user)
+        .prefetch()
+        .prefetch_related("invoice_set")
     )
     if not request.user.has_perm("billing.manage") and len(billings) == 1:
         return redirect(billings[0])
@@ -223,70 +263,22 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         return redirect(billing)
 
     other = confirm_form.cleaned_data["other"]
-    if "recurring" in billing.payment:
-        other.payment["recurring"] = billing.payment["recurring"]
-    if "all" in billing.payment:
-        other.payment.setdefault("all", []).extend(billing.payment["all"])
-    other.save()
-    other.owners.add(*billing.owners.all())
-    billing.invoice_set.update(billing=other)
-    billing.billinglog_set.update(billing=other)
-    billing.payment = {}
-    billing.save()
+    with transaction.atomic():
+        if "recurring" in billing.payment:
+            other.payment["recurring"] = billing.payment["recurring"]
+        if "all" in billing.payment:
+            other.payment.setdefault("all", []).extend(billing.payment["all"])
+        other.save()
+        billing.get_projects_queryset().update(workspace=other.workspace)
+        merge_workspace_access(billing, other)
+        billing.invoice_set.update(billing=other)
+        billing.billinglog_set.update(billing=other)
+        billing.payment = {}
+        billing.save()
+        billing.check_limits()
+        other.check_limits()
 
     return redirect(confirm_form.cleaned_data["other"])
-
-
-@require_POST
-@login_required
-def owner_add(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
-    billing = get_object_or_404(Billing, pk=pk)
-    if not request.user.has_perm("meta:billing.view", billing):
-        raise PermissionDenied
-
-    form = BillingUserForm(request.POST)
-    if form.is_valid():
-        # Audit log
-        billing.billinglog_set.create(
-            event=BillingEvent.ADMIN_ADDED,
-            user=request.user,
-            summary=form.cleaned_data["user"].username,
-        )
-        # Actually add
-        billing.owners.add(form.cleaned_data["user"])
-        messages.success(
-            request,
-            gettext("User %s was added as a billing admin.")
-            % form.cleaned_data["user"].username,
-        )
-    else:
-        show_form_errors(request, form)
-    return redirect(billing)
-
-
-@require_POST
-@login_required
-def owner_remove(request: AuthenticatedHttpRequest, pk, user_id) -> HttpResponse:
-    billing = get_object_or_404(Billing, pk=pk)
-    if not request.user.has_perm("meta:billing.view", billing):
-        raise PermissionDenied
-
-    user = get_object_or_404(billing.owners, pk=user_id)
-
-    if user == request.user:
-        messages.error(request, gettext("You cannot remove yourself."))
-    else:
-        # Audit log
-        billing.billinglog_set.create(
-            event=BillingEvent.ADMIN_REMOVED, user=request.user, summary=user.username
-        )
-        # Actual removal
-        billing.owners.remove(user)
-        messages.success(
-            request, gettext("User %s was removed as a billing admin.") % user.username
-        )
-
-    return redirect(billing)
 
 
 @login_required
@@ -307,6 +299,5 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "billing": billing,
             "hosting_form": HostingForm(),
             "merge_form": BillingMergeForm(),
-            "user_form": BillingUserForm(),
         },
     )

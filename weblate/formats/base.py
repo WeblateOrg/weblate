@@ -244,6 +244,9 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
                 yield "rst-text"
             elif extension in {".md", ".markdown"}:
                 yield "md-text"
+            elif extension == ".mdx":
+                yield "md-text"
+                yield "safe-mdx"
         yield from self.add_flags
 
     @cached_property
@@ -655,7 +658,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         for unit in self.content_units:
             # Just ensure that id_hash can be calculated
             # pylint: disable-next=pointless-statement
-            unit.id_hash  # noqa: B018
+            unit.id_hash  # ruff: ignore[useless-expression]
         return True
 
     @classmethod
@@ -787,11 +790,13 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         )
 
     @classmethod
-    def get_new_file_content(cls, encoding: str | None = None) -> bytes:  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def get_new_file_content(cls, encoding: str | None = None) -> bytes:
         return b""
 
     @classmethod
-    def get_new_translation(cls, encoding: str | None = None) -> str | bytes | None:  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def get_new_translation(cls, encoding: str | None = None) -> str | bytes | None:
         return cls.empty_file_template
 
     @classmethod
@@ -965,7 +970,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         return result
 
     @staticmethod
-    def validate_context(context: str) -> None:  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def validate_context(context: str) -> None:
         return
 
     def validate_new_context(
@@ -981,7 +987,7 @@ class EmptyFormat(TranslationFormat):
 
     @classmethod
     # pylint: disable-next=arguments-differ
-    def load(cls, storefile, template_store):  # noqa: ARG003
+    def load(cls, storefile, template_store):  # ruff: ignore[unused-class-method-argument]
         return type("", (object,), {"units": []})()
 
     def save(self) -> None:
@@ -1022,7 +1028,7 @@ class BilingualUpdateMixin:
         """
         Return list of arguments for update command.
 
-        This is used to pass additional arguments to update command.
+        This is used to pass additional arguments to the update command.
         """
         params = component.file_format_params
         args: list[str] = []
@@ -1076,7 +1082,8 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    def supports(translation: Translation) -> bool:  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def supports(translation: Translation) -> bool:
         return True
 
     @cached_property
@@ -1217,7 +1224,8 @@ class BaseExporter:
 
     def serialize(self) -> bytes:
         """Return storage content."""
-        from weblate.formats.ttkit import TTKitFormat  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.ttkit import TTKitFormat
 
         return TTKitFormat.serialize(self.storage)
 

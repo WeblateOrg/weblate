@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import os.path
+import pathlib
 from typing import ClassVar
 from unittest.mock import patch
 
@@ -47,6 +48,7 @@ class RemovalTest(ViewTestCase):
             patch.object(
                 Component, "schedule_update_checks", autospec=True
             ) as schedule,
+            self.captureOnCommitCallbacks(execute=True),
         ):
             translation.remove(self.user)
 
@@ -205,6 +207,33 @@ class RenameTest(ViewTestCase):
         # Test rename redirect for the old name in middleware
         response = self.client.get(original_url)
         self.assertRedirects(response, component.get_absolute_url(), status_code=301)
+
+    def test_rename_component_replaces_stale_target_dir(self) -> None:
+        self.make_manager()
+        old_path = self.component.full_path
+        target = os.path.join(data_dir("vcs"), self.project.slug, "stale-target")
+        os.makedirs(os.path.join(target, ".git"))
+        pathlib.Path(os.path.join(target, ".git", "config")).write_text(
+            "[stale]\n", encoding="utf-8"
+        )
+        self.addCleanup(remove_tree, target, True)
+
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component),
+            {
+                "project": self.project.pk,
+                "slug": "stale-target",
+                "name": self.component.name,
+            },
+        )
+
+        self.assertRedirects(response, "/projects/test/stale-target/")
+        component = Component.objects.get(pk=self.component.pk)
+        config = pathlib.Path(component.full_path) / ".git" / "config"
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.isdir(component.full_path))
+        self.assertTrue(config.is_file())
+        self.assertNotIn("[stale]", config.read_text(encoding="utf-8"))
 
     def test_rename_component_locks_component_before_binding_form(self) -> None:
         self.make_manager()
@@ -377,7 +406,8 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         czech = Language.objects.get(code="cs")
         self.anotheruser.profile.languages.add(czech)
 
-        response = self.client.post(url, self.data, follow=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
         self.assertEqual(len(mail.outbox), self.outbox)
 
@@ -394,11 +424,15 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.perform_test(url)
 
     def test_project_language(self) -> None:
-        project_language = ProjectLanguage(
-            project=self.project, language=Language.objects.get(code="cs")
-        )
+        czech = Language.objects.get(code="cs")
+        project_language = ProjectLanguage(project=self.project, language=czech)
         url = reverse("announcement", kwargs={"path": project_language.get_url_path()})
         self.perform_test(url)
+        announcement = Announcement.objects.get(message=self.data["message"])
+        self.assertEqual(announcement.project, self.project)
+        self.assertEqual(announcement.language, czech)
+        self.assertIsNone(announcement.category)
+        self.assertIsNone(announcement.component)
 
     def test_category(self) -> None:
         category = Category(
@@ -529,6 +563,33 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.client.post(reverse("announcement-delete", kwargs={"pk": announcement.pk}))
         self.assertEqual(Announcement.objects.count(), 0)
 
+    def test_language_announcement(self) -> None:
+        czech = Language.objects.get(code="cs")
+        announcement = Announcement.objects.create(
+            language=czech, message="test language"
+        )
+
+        response = self.client.get(
+            reverse("show_language", kwargs={"lang": czech.code})
+        )
+        self.assertContains(response, "test language")
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Announcement.objects.count(), 1)
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.user.clear_cache()
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Announcement.objects.count(), 0)
+
 
 class AnnouncementTest(AnnouncementPermissionTestCase):
     def set_user_permissions(self) -> None:
@@ -542,7 +603,31 @@ class AnnouncementTest(AnnouncementPermissionTestCase):
 
     def test_delete_deny(self) -> None:
         message = Announcement.objects.create(message="test")
-        self.client.post(reverse("announcement-delete", kwargs={"pk": message.pk}))
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": message.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Announcement.objects.count(), 1)
+
+    def test_delete_hides_private_announcement(self) -> None:
+        private_project = self.create_project(
+            name="Private announcement",
+            slug="private-announcement",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_po(
+            project=private_project, name="private-announcement"
+        )
+        announcement = Announcement.objects.create(
+            project=private_project,
+            component=private_component,
+            message="Hidden announcement",
+        )
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 404)
         self.assertEqual(Announcement.objects.count(), 1)
 
 

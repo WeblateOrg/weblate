@@ -8,7 +8,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
 from datetime import date, timedelta
@@ -61,7 +61,7 @@ POT_PLACEHOLDER_COMMENTS = (
 )
 POT_BLANK_COPYRIGHT_RE = re.compile(r"^# Copyright \(C\)(?: [0-9– -]*)?$")
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator
+    from collections.abc import Callable, Generator, Iterator
 
     from weblate.addons.base import CompatDict
     from weblate.formats.ttkit import PoFormat
@@ -122,7 +122,7 @@ class GenerateMoAddon(GettextBaseAddon):
         if not output:
             return
 
-        Path(output).write_bytes(exporter.serialize())
+        self.write_repo_file(output, exporter.serialize())
         translation.addon_commit_files.append(output)
 
 
@@ -139,22 +139,28 @@ class UpdateLinguasAddon(GettextBaseAddon):
     )
 
     @staticmethod
-    def get_linguas_path(component: Component) -> str:
-        base = component.get_new_base_filename()
-        if not base:
-            base = os.path.join(
-                component.full_path, component.filemask.replace("*", "x")
-            )
-        return os.path.join(os.path.dirname(base), "LINGUAS")
+    def get_linguas_paths(component: Component) -> Iterator[str]:
+        # First look at the POT file location
+        try:
+            base = component.get_new_base_filename()
+        except ValidationError:
+            base = None
+        if base:
+            yield os.path.join(os.path.dirname(base), "LINGUAS")
+        # Fallback to PO file location
+        base = os.path.join(component.full_path, component.filemask.replace("*", "x"))
+        yield os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
     def get_validated_linguas_path(cls, component: Component) -> str | None:
-        try:
-            path = cls.get_linguas_path(component)
-            component.check_file_is_valid(path)
-        except ValidationError:
-            return None
-        return path
+        for path in cls.get_linguas_paths(component):
+            try:
+                component.check_file_is_valid(path)
+            except ValidationError:
+                continue
+            if os.path.exists(path):
+                return path
+        return None
 
     @classmethod
     def can_install(
@@ -171,7 +177,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         if component is None:
             return True
         path = cls.get_validated_linguas_path(component)
-        return path is not None and os.path.exists(path)
+        return path is not None
 
     @staticmethod
     def update_linguas(lines: list[str], codes: set[str]) -> tuple[bool, list[str]]:
@@ -393,22 +399,24 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             component=component, category=category, project=project
         )
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
         repository = component.repository
-        if previous_head and not component.alert_set.filter(name=self.alert).exists():
-            changes = repository.list_changed_files(
-                repository.ref_to_remote.format(previous_head)
+        if (
+            previous_head
+            and not component.alert_set.filter(name=self.alert).exists()
+            and component.new_base not in changed_files
+        ):
+            component.log_info(
+                "%s addon skipped, new base was not updated in %s..%s",
+                self.name,
+                previous_head,
+                repository.last_revision,
             )
-            if component.new_base not in changes:
-                component.log_info(
-                    "%s addon skipped, new base was not updated in %s..%s",
-                    self.name,
-                    previous_head,
-                    repository.last_revision,
-                )
-                return
+            return
         template = component.get_new_base_filename()
         if not template or not os.path.exists(template):
             self.alerts.append(
@@ -435,7 +443,11 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 continue
             try:
                 file_format_cls.update_bilingual(
-                    filename, template, args=args, repo_temp_dir=repo_temp_dir
+                    filename,
+                    template,
+                    args=args,
+                    file_format_params=component.file_format_params,
+                    repo_temp_dir=repo_temp_dir,
                 )
             except UpdateError as error:
                 self.alerts.append(
@@ -454,9 +466,16 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         component: Component,
         files: list[str] | None = None,
         skip_push: bool = False,
+        parse_after_update: bool = False,
     ) -> bool:
-        if super().commit_and_push(component, files=files, skip_push=skip_push):
-            component.create_translations()
+        if super().commit_and_push(
+            component,
+            files=files,
+            skip_push=skip_push,
+            parse_after_update=parse_after_update,
+        ):
+            if not parse_after_update:
+                component.create_translations()
             return True
         return False
 
@@ -519,7 +538,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         ]
 
     def ensure_msgmerge_addon(self) -> bool:
-        from weblate.addons.models import Addon  # noqa: PLC0415
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         install_msgmerge = self.instance.configuration.get("_install_msgmerge", False)
         if not install_msgmerge:
@@ -626,7 +645,9 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
             component.commit_pending("add-on", None)
             result = cast(
                 "dict | None",
-                self.post_update(component, "", False, activity_log_id=activity_log_id),
+                self.post_update(
+                    component, "", False, [], activity_log_id=activity_log_id
+                ),
             )
 
         self.run_forced_update(component, trigger)
@@ -722,7 +743,7 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     ) -> str | None:
         component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
-            output = subprocess.check_output(  # noqa: S603
+            output = subprocess.check_output(
                 cmd,
                 env=get_clean_env(env, extra_path),
                 cwd=component.full_path if cwd is None else cwd,
@@ -909,22 +930,31 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
                     pending.append(entry)
         return True
 
-    def should_run_update(self, component: Component, previous_head: str) -> bool:
+    def should_run_update(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> bool:
         return self.is_schedule_due(component)
 
-    def execute_update(self, component: Component, previous_head: str) -> bool:
+    def execute_update(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> bool:
         raise NotImplementedError
 
-    def update_translations(self, component: Component, previous_head: str) -> None:
+    def update_translations(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> None:
         self.extra_files = []
         self.successful_components.discard(component.pk)
         self.pending_successful_revisions.pop(component.pk, None)
         current_revision = component.repository.last_revision
-        if not self.should_run_update(component, previous_head):
+        if not self.should_run_update(component, previous_head, changed_files):
             return
-        if self.execute_update(component, previous_head) and not self.alerts:
+        if (
+            self.execute_update(component, previous_head, changed_files)
+            and not self.alerts
+        ):
             if msgmerge_addon := self.get_msgmerge_addon(component):
-                msgmerge_addon.update_translations(component, "")
+                msgmerge_addon.update_translations(component, "", [])
             self.pending_successful_revisions[component.pk] = current_revision
             self.successful_components.add(component.pk)
         self.trigger_alerts(component)
@@ -934,13 +964,21 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         component: Component,
         files: list[str] | None = None,
         skip_push: bool = False,
+        parse_after_update: bool = False,
     ) -> bool:
-        committed = super().commit_and_push(component, files=files, skip_push=skip_push)
+        committed = super().commit_and_push(
+            component,
+            files=files,
+            skip_push=skip_push,
+            parse_after_update=parse_after_update,
+        )
         revision = self.pending_successful_revisions.pop(component.pk, None)
         if revision is None:
             return committed
         if committed:
             self.mark_successful_run(component, component.repository.last_revision)
+            if not parse_after_update:
+                component.create_translations()
         else:
             self.mark_successful_run(component, revision)
         return committed
@@ -997,7 +1035,7 @@ class XgettextAddon(ExtractPotBaseAddon):
         }
 
     def get_language(self) -> str | None:
-        return self.instance.configuration["language"]
+        return self.instance.configuration.get("language", "")
 
     def get_comment_mode(self) -> str:
         return str(self.instance.configuration.get("comment_mode", "off"))
@@ -1199,11 +1237,12 @@ class XgettextAddon(ExtractPotBaseAddon):
         return sorted(result)
 
     def get_relevant_changes_cache_key(
-        self, component: Component, previous_head: str
+        self, component: Component, previous_head: str, changed_files: list[str]
     ) -> tuple[object, ...]:
         return (
             component.pk,
             previous_head,
+            tuple(changed_files),
             self.get_last_successful_revision(component),
             self.get_last_successful_configuration_signature(component),
             self.get_configuration_signature(),
@@ -1211,8 +1250,12 @@ class XgettextAddon(ExtractPotBaseAddon):
             component.alert_set.filter(name=self.alert).exists(),
         )
 
-    def has_relevant_changes(self, component: Component, previous_head: str) -> bool:
-        cache_key = self.get_relevant_changes_cache_key(component, previous_head)
+    def has_relevant_changes(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> bool:
+        cache_key = self.get_relevant_changes_cache_key(
+            component, previous_head, changed_files
+        )
         if cache_key in self._relevant_changes_cache:
             return self._relevant_changes_cache[cache_key]
         if self.get_component_state(component).get("_force_run"):
@@ -1231,19 +1274,23 @@ class XgettextAddon(ExtractPotBaseAddon):
         if not compare_revision:
             self._relevant_changes_cache[cache_key] = True
             return True
-        try:
-            changed = component.repository.list_changed_files(
-                component.repository.ref_to_remote.format(compare_revision)
-            )
-        except RepositoryError as error:
-            component.log_info(
-                "%s addon falling back to full rerun, could not compare against %s: %s",
-                self.name,
-                compare_revision,
-                error,
-            )
-            self._relevant_changes_cache[cache_key] = True
-            return True
+        if compare_revision == previous_head:
+            changed = changed_files
+        else:
+            try:
+                changed = component.repository.list_changed_files(
+                    component.repository.ref_to_remote.format(compare_revision)
+                )
+            except RepositoryError as error:
+                component.log_info(
+                    "%s addon falling back to full rerun, could not compare against "
+                    "%s: %s",
+                    self.name,
+                    compare_revision,
+                    error,
+                )
+                self._relevant_changes_cache[cache_key] = True
+                return True
         if self.get_effective_input_mode(component) == "potfiles":
             watched_paths = set(self.resolve_potfiles_entries(component))
             if self.alerts:
@@ -1289,13 +1336,17 @@ class XgettextAddon(ExtractPotBaseAddon):
                 result.add(relative)
         return sorted(result)
 
-    def should_run_update(self, component: Component, previous_head: str) -> bool:
+    def should_run_update(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> bool:
         return super().should_run_update(
-            component, previous_head
-        ) and self.has_relevant_changes(component, previous_head)
+            component, previous_head, changed_files
+        ) and self.has_relevant_changes(component, previous_head, changed_files)
 
-    def execute_update(self, component: Component, previous_head: str) -> bool:
-        if not self.has_relevant_changes(component, previous_head):
+    def execute_update(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> bool:
+        if not self.has_relevant_changes(component, previous_head, changed_files):
             return False
 
         template = self.get_template_filename(component)
@@ -1499,7 +1550,7 @@ class MesonAddon(XgettextAddon):
 class DjangoAddon(ExtractPotBaseAddon):
     name = "weblate.gettext.django"
     version_added = "5.17"
-    verbose = gettext_lazy("Update POT file (Django)")
+    verbose = gettext_lazy("Update gettext template (Django)")
     description = gettext_lazy(
         "Updates the gettext template using Django's built-in makemessages command."
     )
@@ -1523,6 +1574,8 @@ class DjangoAddon(ExtractPotBaseAddon):
             return False
         if component is None:
             return True
+        if not component.is_gettext_po_template():
+            return False
         if Path(component.new_base).stem not in {"django", "djangojs"}:
             return False
         try:
@@ -1530,7 +1583,9 @@ class DjangoAddon(ExtractPotBaseAddon):
         except ValidationError:
             return False
 
-    def execute_update(self, component: Component, previous_head: str) -> bool:
+    def execute_update(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> bool:
         try:
             source_dir = self.get_source_dir(component)
         except ValidationError:
@@ -1576,6 +1631,19 @@ class DjangoAddon(ExtractPotBaseAddon):
             )
             return False
         domain = self.get_domain(component)
+        if not component.is_gettext_po_template():
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": (
+                        "The component has to define a gettext template "
+                        "for new translations"
+                    ),
+                }
+            )
+            return False
         if not self.validate_django_repository_tree(component, source_dir):
             self.alerts.append(
                 {
@@ -1592,7 +1660,10 @@ class DjangoAddon(ExtractPotBaseAddon):
                     "addon": self.name,
                     "command": "django makemessages",
                     "output": component.new_base,
-                    "error": "The Django extractor only supports django.pot and djangojs.pot templates",
+                    "error": (
+                        "The Django extractor only supports django.pot, "
+                        "djangojs.pot, django.po, and djangojs.po templates"
+                    ),
                 }
             )
             return False
@@ -1652,9 +1723,14 @@ class DjangoAddon(ExtractPotBaseAddon):
             return cls.get_validated_repository_dir(
                 component, Path(component.full_path)
             )
-        if locale_index == 1 and parts[0] == "conf":
+        if parts[locale_index - 1] == "conf":
+            if locale_index == 1:
+                return cls.get_validated_repository_dir(
+                    component, Path(component.full_path)
+                )
             return cls.get_validated_repository_dir(
-                component, Path(component.full_path)
+                component,
+                Path(component.full_path).joinpath(*parts[: locale_index - 1]),
             )
         source_dir = Path(component.full_path).joinpath(*parts[:locale_index])
         return cls.get_validated_repository_dir(component, source_dir)
@@ -1743,7 +1819,9 @@ class SphinxAddon(ExtractPotBaseAddon):
     def get_filter_mode(self) -> str:
         return str(self.instance.configuration.get("filter_mode", "none"))
 
-    def execute_update(self, component: Component, previous_head: str) -> bool:
+    def execute_update(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> bool:
         try:
             source_dir = self.get_sphinx_source_dir(component)
         except ValidationError:

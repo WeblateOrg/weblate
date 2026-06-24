@@ -1,14 +1,37 @@
-include COPYING
+include LICENSE
 include ChangeLog
-include *.rst
-include *.md
-include *.py
+include BACKERS.rst
+include README.rst
+include SECURITY.md
+include ACCESSIBILITY.md
+include manage.py
+include setup.py
+recursive-include weblate *.py
 recursive-include weblate/examples *
+recursive-include weblate/locale *.po *.pot
 include weblate/billing/test-data/*
 include weblate/addons/extractors/sphinx/docutils.conf
 include weblate/trans/tests/data/*
+include weblate/trans/tests/data/selenium-keys/*
 include weblate/trans/fixtures/simple-project.json
+exclude .dclintrc .editorconfig .gitmodules .imgbotconfig .weblate .yamllint.yml
+exclude .pre-commit-config.yaml .readthedocs.yml redocly.yaml security.yaml
+exclude AGENTS.md codecov.yml
+exclude biome.json rundev.sh
 exclude weblate/settings.py
+exclude weblate/static/js/vendor/oss-licenses.json
+recursive-exclude weblate/locale *.mo
+prune .clusterfuzzlite
+prune .github
+prune .reuse
+prune .well-known
+prune ci
+prune client
 prune data*
+prune dev-docker
 prune dev-docker/data*
+prune docs
+prune fuzzing
+prune LICENSES
+prune scripts
 global-exclude *.swp *.swo *.swn __pycache__ *.pyc *.pyo uv.lock

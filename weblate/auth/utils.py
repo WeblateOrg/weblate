@@ -6,11 +6,14 @@ from __future__ import annotations
 
 from email.errors import HeaderDefect
 from email.headerregistry import Address
+from operator import attrgetter
 from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.utils.translation import gettext
 from social_core.backends.utils import load_backends
 
 from weblate.auth.data import (
@@ -24,7 +27,49 @@ from weblate.auth.data import (
 )
 
 if TYPE_CHECKING:
-    from weblate.auth.models import Group, Permission, Role
+    from django.db.models import Prefetch
+    from django.utils.safestring import SafeString
+
+    from weblate.auth.models import (
+        Group,
+        Invitation,
+        Permission,
+        Role,
+        TeamMembership,
+        User,
+    )
+    from weblate.lang.models import Language
+
+
+def get_ordered_membership_limit_languages(
+    membership: TeamMembership | Invitation,
+) -> list[Language]:
+    return sorted(membership.limit_languages.all(), key=attrgetter("code"))
+
+
+def prefetch_membership_limit_languages() -> Prefetch:
+    # ruff: ignore[import-outside-top-level]
+    from django.db.models import Prefetch
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.lang.models import Language
+
+    return Prefetch("limit_languages", queryset=Language.objects.order_by("code"))
+
+
+def format_membership_limit_language_codes(
+    membership: TeamMembership | Invitation,
+) -> SafeString:
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.html import format_html_join_comma
+
+    return format_html_join_comma(
+        "{}",
+        (
+            (language.code,)
+            for language in get_ordered_membership_limit_languages(membership)
+        ),
+    )
 
 
 def get_auth_backends():
@@ -46,6 +91,20 @@ def is_django_permission(permission: str):
         and permission not in GLOBAL_PERM_NAMES
         and not permission.startswith(("meta:", "billing:"))
     )
+
+
+def validate_team_assignable_user(user: User, *, allow_bot: bool = False) -> None:
+    """Validate a user can be manually assigned to a team."""
+    if user.is_anonymous:
+        raise ValidationError(
+            gettext("The anonymous user can not be assigned to teams.")
+        )
+    if not user.is_active:
+        raise ValidationError(gettext("Inactive users can not be assigned to teams."))
+    if user.is_bot and not allow_bot:
+        raise ValidationError(
+            gettext("Project tokens can not be assigned to teams here.")
+        )
 
 
 def migrate_permissions_list(
@@ -107,7 +166,9 @@ def migrate_groups(
     """Create groups as defined in the data."""
     result: dict[str, Group] = {
         obj.name: obj
-        for obj in model.objects.filter(internal=True, defining_project=None)
+        for obj in model.objects.filter(
+            internal=True, defining_project=None, defining_workspace=None
+        )
     }
     for group, roles, selection in GROUPS:
         if group in result:
@@ -125,6 +186,7 @@ def migrate_groups(
                 name=group,
                 internal=True,
                 defining_project=None,
+                defining_workspace=None,
                 project_selection=selection,
                 language_selection=SELECTION_ALL,
             )

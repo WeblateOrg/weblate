@@ -5,10 +5,13 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
@@ -18,13 +21,33 @@ def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
     It cannot be imported directly, because get_spectacular_settings is used
     from settings.
     """
-    from weblate.utils.docs import get_doc_url  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.docs import get_doc_url
 
     return get_doc_url(page, anchor, doc_version="latest")
 
 
+def get_legal_terms_url(
+    legal_hidden_documents: Sequence[str] | str = (), legal_url: str | None = None
+) -> str | None:
+    if isinstance(legal_hidden_documents, str):
+        hidden_documents = legal_hidden_documents.split(",")
+    else:
+        hidden_documents = legal_hidden_documents
+
+    for document in hidden_documents:
+        if document.strip() == "terms":
+            return legal_url
+    return "/legal/terms/"
+
+
 def get_spectacular_settings(
-    installed_apps: list[str], site_url: str, site_title: str
+    installed_apps: list[str],
+    site_url: str,
+    site_title: str,
+    *,
+    legal_hidden_documents: Sequence[str] | str = (),
+    legal_url: str | None = None,
 ) -> dict[str, Any]:
     settings = {
         # Use redoc from sidecar
@@ -100,8 +123,11 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         },
         "POSTPROCESSING_HOOKS": [
             "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
+            "weblate.api.docs.strip_field_choice_descriptions",
+            "weblate.api.docs.document_all_static_vcs_choices",
             "weblate.api.docs.add_middleware_headers",
             "weblate.api.docs.simplify_license_schema",
+            "weblate.api.docs.document_user_group_delete_body",
             "weblate.api.docs.simplify_media_types",
         ],
         "EXTERNAL_DOCS": {
@@ -201,7 +227,9 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         "WEBHOOKS": ["weblate.addons.webhooks.change_event_webhook"],
     }
     if "weblate.legal" in installed_apps:
-        settings["TOS"] = "/legal/terms/"
+        terms_url = get_legal_terms_url(legal_hidden_documents, legal_url)
+        if terms_url:
+            settings["TOS"] = terms_url
 
     return settings
 

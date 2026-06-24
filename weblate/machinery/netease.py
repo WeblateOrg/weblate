@@ -9,7 +9,11 @@ import time
 from hashlib import sha1
 from typing import TYPE_CHECKING, ClassVar
 
-from .base import MachineTranslation, MachineTranslationError
+from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from .forms import KeySecretMachineryForm
 
 if TYPE_CHECKING:
@@ -34,7 +38,8 @@ class NeteaseSightTranslation(MachineTranslation):
 
     def get_headers(self):
         """Add authentication headers to request."""
-        nonce = str(random.randint(1000, 99999999))  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        nonce = str(random.randint(1000, 99999999))
         timestamp = str(int(1000 * time.time()))
 
         payload = self.settings["secret"] + nonce + timestamp
@@ -55,7 +60,7 @@ class NeteaseSightTranslation(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         response = self.request(

@@ -22,7 +22,10 @@ For application-developer workflows and broader product integration guidance, us
 - In templates, use `{% translate %}` / `{% blocktranslate %}` for translatable
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend
-  patterns.
+  patterns. For user-facing HTML, CSS, or JavaScript changes, follow
+  `ACCESSIBILITY.md` and `docs/contributing/frontend.rst`, including keyboard
+  navigation, visible focus, semantic controls, labels/errors, and
+  non-color-only state.
 - Write commit messages using the Conventional Commits format
   `<type>(<optional scope>): <description>`. Common types include `feat`,
   `fix`, `docs`, `refactor`, `test`, `ci`, and `chore`. Example:
@@ -57,6 +60,15 @@ For application-developer workflows and broader product integration guidance, us
   risks.
 - Handle VCS operations defensively and surface failures cleanly.
 - Mock external VCS operations and API calls in tests.
+- Check `docs/security/threat-model.rst` when changing public endpoints,
+  authentication or token modes, deployment modes, backup or import formats, VCS
+  execution paths, outbound integration classes, add-on execution capabilities,
+  or security-relevant defaults for hooks, HTTPS, rate limits, CSP,
+  private-network access, or backup import limits.
+- Update `docs/security/threat-model.rst` in the same change when the threat
+  model's "Conditions that change this model" apply, including when unsupported
+  components become supported product surface, claimed security properties
+  change, or a vulnerability report exposes a model gap.
 - For user-visible changes, add or update a changelog entry in the top section
   of `docs/changes.rst` for the upcoming release.
 - Do not alter changelog sections for already released versions; put follow-up
@@ -65,6 +77,18 @@ For application-developer workflows and broader product integration guidance, us
   feature instead of embedding long explanations in the changelog itself.
 - Minor fixes and fixes for features that have not been released yet do not
   need a changelog entry.
+
+## GitHub discussions
+
+- GitHub organization discussion URLs such as
+  `https://github.com/orgs/WeblateOrg/discussions/19794` can still belong to the
+  `WeblateOrg/weblate` repository. When working with these URLs, resolve the
+  discussion through `WeblateOrg/weblate` repository discussions instead of
+  treating the URL as an issue, pull request, or organization-only object.
+- Use GitHub discussion-aware tooling, such as `gh api graphql` against
+  `repository(owner: "WeblateOrg", name: "weblate") { discussion(number: ...) }`,
+  when the regular GitHub issue or pull request connectors do not expose the
+  discussion.
 
 ## Testing and linting instructions
 
@@ -76,6 +100,9 @@ For application-developer workflows and broader product integration guidance, us
 - Prefer `uv run prek run --all-files` as the primary linting/formatting command because
   it runs the repository's configured pre-commit framework checks.
 - `prek` is a third-party reimplementation of the `pre-commit` tool.
+- Prefer `prek` for Ruff checks and formatting; `uv run ruff ...` is not
+  guaranteed to work in this environment because Ruff can be provided only
+  through the pre-commit hook environment.
 - Use `pytest` to run the test suite: `uv run pytest`. On a fresh checkout,
   first follow the local test setup in `docs/contributing/tests.rst`
   (`DJANGO_SETTINGS_MODULE=weblate.settings_test`, `collectstatic`, and test

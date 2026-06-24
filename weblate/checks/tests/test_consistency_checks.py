@@ -6,7 +6,9 @@
 
 from unittest.mock import patch
 
+from django.db import connection
 from django.test import SimpleTestCase, TestCase
+from django.test.utils import CaptureQueriesContext
 
 from weblate.checks.consistency import (
     ConsistencyCheck,
@@ -16,37 +18,37 @@ from weblate.checks.consistency import (
     TranslatedCheck,
 )
 from weblate.checks.models import Check
-from weblate.checks.tests.test_checks import MockUnit
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Unit
+from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
     FixtureTestCase,
 )
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
 class PluralsCheckTest(TestCase):
     def setUp(self) -> None:
-        self.check = PluralsCheck()
+        self.check: PluralsCheck | SamePluralsCheck = PluralsCheck()
 
     def test_none(self) -> None:
         self.assertFalse(
-            self.check.check_target(["string"], ["string"], MockUnit("plural_none"))
+            self.check.check_target(["string"], ["string"], make_unit("plural_none"))
         )
 
     def test_empty(self) -> None:
         self.assertFalse(
             self.check.check_target(
-                ["string", "plural"], ["", ""], MockUnit("plural_empty")
+                ["string", "plural"], ["", ""], make_unit("plural_empty")
             )
         )
 
     def test_hit(self) -> None:
         self.assertTrue(
             self.check.check_target(
-                ["string", "plural"], ["string", ""], MockUnit("plural_partial_empty")
+                ["string", "plural"], ["string", ""], make_unit("plural_partial_empty")
             )
         )
 
@@ -55,7 +57,7 @@ class PluralsCheckTest(TestCase):
             self.check.check_target(
                 ["string", "plural"],
                 ["translation", "trplural"],
-                MockUnit("plural_good"),
+                make_unit("plural_good"),
             )
         )
 
@@ -69,7 +71,7 @@ class SamePluralsCheckTest(PluralsCheckTest):
             self.check.check_target(
                 ["string", "plural"],
                 ["string", "string"],
-                MockUnit("plural_partial_empty"),
+                make_unit("plural_partial_empty"),
             )
         )
 
@@ -112,11 +114,32 @@ class TranslatedCheckTest(FixtureTestCase):
             'Previous translation was "Nazdar svete!\n".',
         )
 
+    def test_run_checks_untranslated(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.edit_unit("Hello, world!\n", "")
+        unit = self.get_unit()
+        Check.objects.filter(unit=unit).delete()
+        unit.clear_checks_cache()
+
+        unit.run_checks()
+
+        self.assertEqual(unit.state, STATE_EMPTY)
+        self.assertIn("translated", unit.all_checks_names)
+
+    def test_run_checks_untranslated_removes_stale_check(self) -> None:
+        unit = self.get_unit()
+        self.assertEqual(unit.state, STATE_EMPTY)
+        Check.objects.create(unit=unit, name="same")
+
+        unit.run_checks()
+
+        self.assertNotIn("same", unit.all_checks_names)
+
 
 class ReusedCheckGuardTest(SimpleTestCase):
     def test_reuse_ignores_non_propagating_component(self) -> None:
         check = ReusedCheck()
-        unit = MockUnit(target="Jeden")
+        unit = make_unit(target="Jeden")
         unit.translation.component.allow_translation_propagation = False
         unit.translation.component.batch_checks = True
 
@@ -262,3 +285,33 @@ class ConsistencyCheckTest(ComponentTestCase):
         self.assertTrue(check.check_target_unit([], [], unit))
 
         self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_consistency_empty_target(self) -> None:
+        check = ConsistencyCheck()
+
+        self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.add_unit(self.translation_2, "one", "One", "", increment=False)
+
+        self.assertNotEqual(check.check_component(self.component), [])
+
+    def test_consistency_empty_target_run_checks(self) -> None:
+        self.add_unit(self.translation_1, "one", "One", "Jeden")
+        unit = self.add_unit(self.translation_2, "one", "One", "", increment=False)
+
+        unit.run_checks()
+
+        self.assertEqual(unit.all_checks_names, {"inconsistent"})
+
+    def test_consistency_query_uses_min_max_targets(self) -> None:
+        check = ConsistencyCheck()
+
+        self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.add_unit(self.translation_2, "one", "One", "Jedna", increment=False)
+
+        with CaptureQueriesContext(connection) as queries:
+            list(check.check_component(self.component))
+
+        sql = "\n".join(query["sql"].upper() for query in queries)
+        self.assertNotIn("COUNT(DISTINCT", sql)
+        self.assertIn("MIN(", sql)
+        self.assertIn("MAX(", sql)

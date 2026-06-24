@@ -21,8 +21,10 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 
 # Type annotation compatibility
-Celery.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # noqa: ARG005
-DjangoTask.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # noqa: ARG005
+# ruff: ignore[unused-lambda-argument]
+Celery.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)
+# ruff: ignore[unused-lambda-argument]
+DjangoTask.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
@@ -50,15 +52,19 @@ def store_task_metadata(
     *,
     component_id: int | None = None,
     translation_id: int | None = None,
+    user_id: int | None = None,
 ) -> None:
     if not task_id:
         return
+    data = {
+        "component_id": component_id,
+        "translation_id": translation_id,
+    }
+    if user_id is not None:
+        data["user_id"] = user_id
     cache.set(
         get_task_metadata_key(task_id),
-        {
-            "component_id": component_id,
-            "translation_id": translation_id,
-        },
+        data,
         TASK_METADATA_TTL,
     )
 
@@ -100,11 +106,12 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
 
 @task_failure.connect
 def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
-    from weblate.utils.errors import report_error  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.errors import report_error
 
     report_error(
         f"Failure while executing task {task_id}",
-        skip_sentry=True,
+        skip_error_reporting=True,
         print_tb=True,
         level="error",
     )
@@ -113,7 +120,8 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
 @app.on_after_configure.connect
 def configure_error_handling(sender, **kwargs) -> None:
     """Rollbar and Sentry integration."""
-    from weblate.utils.errors import init_error_collection  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.errors import init_error_collection
 
     init_error_collection(celery=True)
 
@@ -172,7 +180,8 @@ def is_celery_queue_long():
     filtered out, and no warning need be issued for big operations (for example
     site-wide autotranslation).
     """
-    from weblate.trans.models import Translation  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Translation
 
     cache_key = "celery_queue_stats"
     queues_data = cache.get(cache_key, {})

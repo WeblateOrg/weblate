@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import time
 from collections import UserDict
 from typing import TYPE_CHECKING, ClassVar, Self, cast
 
@@ -17,16 +18,34 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
+from weblate.auth.utils import validate_team_assignable_user
+from weblate.checks.flags import Flags
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.defines import PROJECT_NAME_LENGTH
+from weblate.trans.inherited_settings import (
+    HUGE_INHERITABLE_SETTINGS,
+    INHERITABLE_COMPONENT_SETTINGS,
+    LANGUAGE_CODE_STYLE_CHOICES,
+    NEW_LANG_CHOICES,
+    get_disabled_component_new_language_filter,
+    get_inherit_field_name,
+    get_inheritable_setting_value,
+)
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.validators import validate_check_flags
+from weblate.utils.licenses import get_license_choices
 from weblate.utils.lock import WeblateLock
+from weblate.utils.render import (
+    validate_render_addon,
+    validate_render_commit,
+    validate_render_component,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
 from weblate.utils.validators import (
@@ -39,8 +58,10 @@ from weblate.utils.validators import (
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Collection, Iterable
+    from uuid import UUID
 
     from ahocorasick_rs import AhoCorasick
+    from django.db.models.base import Deferred
 
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.billing.models import Billing
@@ -81,10 +102,13 @@ class ProjectLanguageFactory(UserDict):
     def preload(self) -> list[ProjectLanguage]:
         return [self[language] for language in self._project.languages]
 
-    def preload_workflow_settings(self) -> None:
-        from weblate.trans.models.workflow import WorkflowSetting  # noqa: PLC0415
+    def preload_workflow_settings(
+        self, instances: Iterable[ProjectLanguage] | None = None
+    ) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.workflow import WorkflowSetting
 
-        instances = self.preload()
+        instances = self.preload() if instances is None else list(instances)
 
         pending = {instance.language.id: instance for instance in instances}
 
@@ -102,18 +126,27 @@ class ProjectLanguageFactory(UserDict):
             instance.__dict__["workflow_settings"] = None
 
 
-class ProjectQuerySet(QuerySet["Project"]):
+class ProjectQuerySet(QuerySet["Project", "Project"]):
     def order(self) -> Self:
         return self.order_by("name")
 
     def only(self, *fields: str) -> Self:
         only_fields = set(fields)
         # These are used in Project.__init__
-        only_fields.update(("access_control", "translation_review", "source_review"))
+        only_fields.update(
+            ("access_control", "translation_review", "source_review", "workspace")
+        )
         return super().only(*only_fields)
 
     def search(self, query: str) -> Self:
         return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
+
+    def defer_huge(self) -> Self:
+        return self.defer(
+            "instructions",
+            "language_aliases",
+            *HUGE_INHERITABLE_SETTINGS,
+        )
 
     def prefetch_languages(self) -> Self:
         # Bitmap for languages
@@ -148,7 +181,10 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
             project.__dict__["has_alerts"] = False
         # Indicate alerts
         for project_id in (
-            queryset.filter(component__alert__dismissed=False)
+            queryset.filter(
+                component__alert__dismissed=False,
+                component__alert__severity__gte=AlertSeverity.ERROR,
+            )
             .values_list("id", flat=True)
             .distinct()
         ):
@@ -216,6 +252,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Translation instructions"),
         blank=True,
         help_text=gettext_lazy("You can use Markdown and mention users by @username."),
+    )
+    workspace = models.ForeignKey(
+        "workspaces.Workspace",
+        verbose_name=gettext_lazy("Workspace"),
+        on_delete=models.PROTECT,
+        related_name="projects",
+        null=True,
+        blank=True,
+        help_text=gettext_lazy(
+            "Workspace this project belongs to. Standalone projects do not need one."
+        ),
     )
 
     use_shared_tm = models.BooleanField(
@@ -316,6 +363,172 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         validators=[validate_check_flags],
         blank=True,
     )
+    license = models.CharField(
+        verbose_name=gettext_lazy("Translation license"),
+        max_length=150,
+        blank=not settings.LICENSE_REQUIRED,
+        default="",
+        choices=get_license_choices(),
+    )
+    inherit_license = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit translation license"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the translation license configured in the workspace."
+        ),
+    )
+    agreement = models.TextField(
+        verbose_name=gettext_lazy("Contributor license agreement"),
+        blank=True,
+        default="",
+        help_text=gettext_lazy(
+            "Contributor license agreement which needs to be approved before a user can "
+            "translate components in this project."
+        ),
+    )
+    inherit_agreement = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit contributor license agreement"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the contributor license agreement configured in the workspace."
+        ),
+    )
+    new_lang = models.CharField(
+        verbose_name=gettext_lazy("Adding new translation"),
+        max_length=10,
+        choices=NEW_LANG_CHOICES,
+        default="add",
+        help_text=gettext_lazy("How to handle requests for creating new translations."),
+    )
+    inherit_new_lang = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit adding new translations"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the adding new translations setting configured in the workspace."
+        ),
+    )
+    language_code_style = models.CharField(
+        verbose_name=gettext_lazy("Language code style"),
+        max_length=20,
+        choices=LANGUAGE_CODE_STYLE_CHOICES,
+        default="",
+        blank=True,
+        help_text=gettext_lazy(
+            "Customize language code used to generate the filename for "
+            "translations created by Weblate."
+        ),
+    )
+    inherit_language_code_style = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit language code style"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the language code style configured in the workspace."
+        ),
+    )
+    inherit_secondary_language = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit secondary language"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the secondary language configured in the workspace."
+        ),
+    )
+    commit_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when translating"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_COMMIT_MESSAGE,
+    )
+    inherit_commit_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when translating"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when translating configured in the workspace."
+        ),
+    )
+    add_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when adding translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_ADD_MESSAGE,
+    )
+    inherit_add_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when adding translation"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when adding translation configured in the workspace."
+        ),
+    )
+    delete_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when removing translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_commit],
+        default=settings.DEFAULT_DELETE_MESSAGE,
+    )
+    inherit_delete_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when removing translation"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when removing translation configured in the workspace."
+        ),
+    )
+    merge_message = models.TextField(
+        # Translators: The commit message, for when merging the translation
+        verbose_name=gettext_lazy("Commit message when merging translation"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_component],
+        default=settings.DEFAULT_MERGE_MESSAGE,
+    )
+    inherit_merge_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when merging translation"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when merging translation configured in the workspace."
+        ),
+    )
+    addon_message = models.TextField(
+        verbose_name=gettext_lazy("Commit message when add-on makes a change"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_addon],
+        default=settings.DEFAULT_ADDON_MESSAGE,
+    )
+    inherit_addon_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit commit message when add-on makes a change"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the commit message when add-on makes a change configured in the workspace."
+        ),
+    )
+    pull_message = models.TextField(
+        verbose_name=gettext_lazy("Merge request message"),
+        help_text=gettext_lazy(
+            "You can use template language for various info, "
+            "please consult the documentation for more details."
+        ),
+        validators=[validate_render_addon],
+        default=settings.DEFAULT_PULL_MESSAGE,
+    )
+    inherit_pull_message = models.BooleanField(
+        verbose_name=gettext_lazy("Inherit merge request message"),
+        default=True,
+        help_text=gettext_lazy(
+            "Use the merge request message configured in the workspace."
+        ),
+    )
 
     machinery_settings = models.JSONField(default=dict, blank=True)
 
@@ -328,6 +541,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     # Used when updating for object removal
     billings_to_update: list[int]
+    # Workspace loaded with this instance; used to detect workspace changes.
+    billing_original_workspace_id: UUID | Deferred | None
+    # Old workspace captured by pre_save for one post_save billing recalculation.
+    billing_previous_workspace_id: UUID | None
 
     class Meta:
         app_label = "trans"
@@ -339,25 +556,45 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.old_access_control = self.access_control
-        self.old_translation_review = self.translation_review
-        self.old_source_review = self.source_review
+        self.old_access_control = self.__dict__.get("access_control", models.DEFERRED)
+        self.old_translation_review = self.__dict__.get(
+            "translation_review", models.DEFERRED
+        )
+        self.old_source_review = self.__dict__.get("source_review", models.DEFERRED)
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
         self.label_cleanups: TranslationQuerySet | None = None
         self.languages_cache: dict[str, Language] = {}
+        self.billing_original_workspace_id = self.__dict__.get(
+            "workspace_id", models.DEFERRED
+        )
 
     def save(self, *args, **kwargs) -> None:
-        from weblate.trans.tasks import component_alerts  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import component_alerts
 
         update_tm = self.contribute_shared_tm
 
         # Renaming detection
         old = None
+        old_effective_check_flags = ""
         update_fields = kwargs.get("update_fields")
         if self.id:
             old = Project.objects.get(pk=self.id)
+            old_effective_check_flags = old.effective_check_flags.format()
+            update_fields_set = None if update_fields is None else set(update_fields)
+            for field in INHERITABLE_COMPONENT_SETTINGS:
+                if get_inheritable_setting_value(
+                    old, field
+                ) != get_inheritable_setting_value(self, field):
+                    inherit = get_inherit_field_name(field)
+                    setattr(self, inherit, False)
+                    if update_fields_set is not None:
+                        update_fields_set.add(inherit)
+            if update_fields_set is not None:
+                kwargs["update_fields"] = update_fields_set
+                update_fields = update_fields_set
             # Generate change entries for changes
             self.generate_changes(old, update_fields=update_fields)
             # Detect slug changes and rename directory
@@ -377,6 +614,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         super().save(*args, **kwargs)
 
         if old is not None:
+            if (
+                should_track_field(self, "instructions", update_fields)
+                and old.instructions != self.instructions
+            ) or (
+                should_track_field(self, "access_control", update_fields)
+                and old.access_control != self.access_control
+            ):
+                self._clear_translation_instructions_guidance_alert()
+
             # Update alerts if needed
             if old.web != self.web:
                 component_alerts.delay_on_commit(
@@ -388,10 +634,32 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 self.component_set.filter(
                     is_glossary=True, name__contains=old.name
                 ).update(name=Replace("name", Value(old.name), Value(self.name)))
+            if old_effective_check_flags != self.effective_check_flags.format():
+                transaction.on_commit(
+                    lambda: self.schedule_component_check_updates(update_state=True)
+                )
 
         # Update translation memory on enabled sharing
         if update_tm:
             import_memory.delay_on_commit(self.id)
+        self.billing_original_workspace_id = self.workspace_id
+
+    def _clear_translation_instructions_guidance_alert(self) -> None:
+        if (
+            self.instructions
+            or self.access_control not in {self.ACCESS_PUBLIC, self.ACCESS_PROTECTED}
+            or settings.REQUIRE_LOGIN
+        ):
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import Alert
+
+            Alert.objects.filter(
+                component__project=self, name="MissingTranslationInstructions"
+            ).delete()
+
+    def schedule_component_check_updates(self, *, update_state: bool = False) -> None:
+        for component in self.component_set.iterator():
+            component.schedule_update_checks(update_state=update_state)
 
     def clean(self) -> None:
         super().clean()
@@ -400,6 +668,34 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 validate_project_web(self.web, project_slug=self.slug or None)
             except ValidationError as error:
                 raise ValidationError({"web": error.messages}) from error
+
+    def uses_workspace_setting(self, field: str) -> bool:
+        """Return whether a project setting is inherited from the workspace."""
+        return (
+            field in INHERITABLE_COMPONENT_SETTINGS
+            and self.workspace_id is not None
+            and getattr(self, get_inherit_field_name(field), False)
+        )
+
+    def get_effective_setting(self, field: str) -> str | Language | None:
+        """Return setting value after applying workspace inheritance."""
+        if self.uses_workspace_setting(field):
+            return getattr(self.workspace, field)
+        return getattr(self, field)
+
+    def get_effective_setting_owner(self, field: str):
+        """Return object owning the effective setting value."""
+        if self.uses_workspace_setting(field):
+            return self.workspace
+        return self
+
+    @cached_property
+    def effective_check_flags(self) -> Flags:
+        """Return parsed project flags including workspace defaults."""
+        workspace = self.workspace
+        if workspace is not None:
+            return Flags(workspace.check_flags, self.check_flags)
+        return Flags(self.check_flags)
 
     @cached_property
     def checks_lock(self):
@@ -439,6 +735,31 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     "old_access_control": old.access_control,
                 },
             )
+        if (
+            should_track_field(self, "workspace", update_fields)
+            and old.workspace_id != self.workspace_id
+        ):
+            old_workspace_name = ""
+            if old.workspace is not None:
+                old_workspace_name = old.workspace.name
+            workspace_name = ""
+            if self.workspace is not None:
+                workspace_name = self.workspace.name
+            self.change_set.create(
+                action=ActionEvents.MOVE_PROJECT,
+                old=str(old.workspace_id or ""),
+                target=str(self.workspace_id or ""),
+                workspace=self.workspace,
+                user=self.acting_user,
+                details={
+                    "old_workspace": (
+                        str(old.workspace_id) if old.workspace_id else None
+                    ),
+                    "old_workspace_name": old_workspace_name,
+                    "workspace": str(self.workspace_id) if self.workspace_id else None,
+                    "workspace_name": workspace_name,
+                },
+            )
         log_setting_changes(
             self,
             old,
@@ -454,8 +775,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
-    def add_user(self, user: User, group: str | None = None) -> None:
+    def add_user(
+        self, user: User, group: str | None = None, *, allow_bot: bool = False
+    ) -> None:
         """Add user based on username or email address."""
+        validate_team_assignable_user(user, allow_bot=allow_bot)
         implicit_group = False
         if group is None:
             implicit_group = True
@@ -518,7 +842,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def has_language(self, language: Language) -> bool:
         """Return whether project has a translation in given language."""
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
 
         if Translation.objects.filter(
             component__project=self, language_id=language.pk
@@ -529,7 +854,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ).exists()
 
     def _get_language_ids_queryset(self) -> QuerySet:
-        from weblate.trans.models import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
 
         own = Translation.objects.filter(component__project=self).values_list(
             "language_id", flat=True
@@ -549,7 +875,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def count_pending_units(self) -> int:
         """Check whether there are any uncommitted changes."""
-        from weblate.trans.models import Unit  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Unit
 
         return Unit.objects.filter(
             translation__component__project=self, pending_changes__isnull=False
@@ -625,12 +952,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @cached_property
     def all_repo_components(self) -> list[Component]:
         """Return list of all unique VCS components."""
-        result = list(self.component_set.with_repo().prefetch_related("alert_set"))
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Alert
+
+        alert_prefetch = models.Prefetch(
+            "alert_set", queryset=Alert.objects.order_component()
+        )
+        result = list(self.component_set.with_repo().prefetch_related(alert_prefetch))
         included = {component.id for component in result}
 
         linked = self.component_set.filter(
             repo__startswith="weblate:"
-        ).prefetch_related("alert_set")
+        ).prefetch_related(alert_prefetch)
         for other in linked:
             if other.linked_component_id in included:
                 continue
@@ -641,9 +974,15 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def billings(self) -> list[Billing] | QuerySet[Billing]:
-        if "weblate.billing" not in settings.INSTALLED_APPS:
+        if "weblate.billing" not in settings.INSTALLED_APPS or not self.workspace_id:
             return []
-        return self.billing_set.all()
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
+
+        objects = Billing.objects
+        if self._state.db is not None:
+            objects = objects.db_manager(self._state.db)
+        return objects.filter(workspace_id=self.workspace_id)
 
     @property
     def billing(self) -> Billing:
@@ -663,7 +1002,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def post_create(self, user: User, billing: Billing | None = None) -> None:
         if billing:
-            billing.projects.add(self)
+            billing.add_project(self)
             if billing.plan.change_access_control:
                 self.access_control = Project.ACCESS_PRIVATE
             else:
@@ -677,19 +1016,25 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_active_alerts(self) -> QuerySet[Alert]:
-        from weblate.trans.models import Alert  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Alert
 
-        result = Alert.objects.filter(component__project=self, dismissed=False)
+        result = Alert.objects.filter(component__project=self, dismissed=False).order()
         list(result)
         return result
 
     @cached_property
+    def all_problem_alerts(self) -> QuerySet[Alert]:
+        return self.all_active_alerts.filter(severity__gte=AlertSeverity.ERROR)
+
+    @cached_property
     def has_alerts(self) -> bool:
-        return self.all_active_alerts.exists()
+        return self.all_problem_alerts.exists()
 
     @cached_property
     def all_admins(self) -> QuerySet[User]:
-        from weblate.auth.models import User  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         return (
             User.objects.all_admins(self).exclude(is_bot=True).select_related("profile")
@@ -697,7 +1042,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def all_reviewers(self) -> QuerySet[User]:
-        from weblate.auth.models import User  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import User
 
         if not self.enable_review:
             return User.objects.none()
@@ -757,13 +1103,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def source_language_ids(self) -> set[int]:
-        def filter_source_language(qs: ComponentQuerySet) -> ComponentQuerySet:
-            return qs.values_list("source_language_id", flat=True).distinct()  # type: ignore[return-value]
-
         cached = cache.get(self.source_language_cache_key)
         if cached is not None:
             return cached
-        result = set(self.get_child_components_filter(filter_source_language))
+        result = set(
+            self.child_components.values_list("source_language_id", flat=True)
+            .distinct()
+            .iterator()
+        )
         cache.set(self.source_language_cache_key, result, 7 * 24 * 3600)
         return result
 
@@ -796,6 +1143,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 "is_glossary": is_glossary,
             }
         )
+        for field in INHERITABLE_COMPONENT_SETTINGS:
+            inherit = get_inherit_field_name(field)
+            kwargs.setdefault(inherit, field not in kwargs)
         # Create component
         if is_glossary:
             return self.component_set.get_or_create(
@@ -810,8 +1160,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     def invalidate_glossary_cache(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import (
+            clear_glossary_automaton_cache,
+        )
+
         if "glossary_automaton" in self.__dict__:
             del self.__dict__["glossary_automaton"]
+        if "glossary_automaton_cache_version" in self.__dict__:
+            del self.__dict__["glossary_automaton_cache_version"]
+        clear_glossary_automaton_cache(self.pk)
+        try:
+            cache.incr(self.glossary_automaton_cache_key)
+        except ValueError:
+            cache.set(self.glossary_automaton_cache_key, time.time_ns(), None)
         tsv_cache_keys = [
             self.get_glossary_tsv_cache_key(source_language, language)
             for source_language in Language.objects.filter(
@@ -823,9 +1185,23 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @cached_property
     def glossary_automaton(self) -> AhoCorasick:
-        from weblate.glossary.models import get_glossary_automaton  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.models import get_glossary_automaton
 
         return get_glossary_automaton(self)
+
+    @cached_property
+    def glossary_automaton_cache_key(self) -> str:
+        return f"project-glossary-automaton-{self.pk}"
+
+    @cached_property
+    def glossary_automaton_cache_version(self) -> int:
+        version = cache.get(self.glossary_automaton_cache_key)
+        if version is None:
+            version = time.time_ns()
+            cache.add(self.glossary_automaton_cache_key, version, None)
+            version = cache.get(self.glossary_automaton_cache_key, version)
+        return version
 
     def get_machinery_settings(self) -> dict[str, SettingsDict]:
         mt_settings = cast(
@@ -850,7 +1226,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @transaction.atomic
     def do_lock(self, user: User, lock: bool = True, auto: bool = False) -> None:
-        from weblate.trans.models.change import Change  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.change import Change
 
         actionable = self.component_set.exclude(locked=lock)
         changes = [
@@ -865,7 +1242,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return True
 
     def collect_label_cleanup(self, label: Label) -> None:
-        from weblate.trans.models.translation import Translation  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.translation import Translation
 
         translations = Translation.objects.filter(unit__source_unit__labels=label)
         if self.label_cleanups is None:
@@ -882,8 +1260,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
         """Return a queryset of components within the project that the given user is allowed to add new languages to."""
         filter_ = Q(is_glossary=True)
-        if not user.has_perm("project.edit", self):
-            filter_ |= Q(new_lang="none") | Q(new_lang="url")
+        check_effective_new_lang = not user.has_perm("project.edit", self)
+        if check_effective_new_lang:
+            filter_ |= get_disabled_component_new_language_filter()
 
         def filter_callback(qs: ComponentQuerySet) -> ComponentQuerySet:
             return qs.exclude(filter_)
@@ -903,7 +1282,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return (
             access_control in {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
             and settings.LICENSE_REQUIRED
-            and not settings.LOGIN_REQUIRED_URLS
+            and not settings.REQUIRE_LOGIN
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
         )
 

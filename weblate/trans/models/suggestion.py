@@ -40,7 +40,8 @@ class SuggestionManager(models.Manager["Suggestion"]):
         raise_exception: bool = True,
     ):
         """Create new suggestion for this unit."""
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import get_anonymous
 
         # Apply fixups
         fixups: list[str] = []
@@ -97,7 +98,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
         return suggestion
 
 
-class SuggestionQuerySet(models.QuerySet):
+class SuggestionQuerySet(models.QuerySet["Suggestion", "Suggestion"]):
     def order(self):
         return self.order_by("-timestamp")
 
@@ -105,7 +106,7 @@ class SuggestionQuerySet(models.QuerySet):
         result = self
         if user.needs_project_filter:
             result = result.filter(
-                unit__translation__component__project__in=user.allowed_projects
+                user.get_project_access_query("unit__translation__component__project")
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
@@ -137,7 +138,8 @@ class Suggestion(models.Model, UserDisplayMixin):
         app_label = "trans"
         verbose_name = "string suggestion"
         verbose_name_plural = "string suggestions"
-        indexes = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        indexes = [
             postgres_indexes.GinIndex(
                 postgres_indexes.OpClass(models.F("target"), name="gin_trgm_ops"),
                 models.F("unit"),
@@ -249,7 +251,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     @property
     def target_list(self) -> list[str]:
         """
-        Returns the target split into a list of plurals.
+        Target split into a list of plurals.
 
         Used for populating the translation widgets in the frontend.
         """
@@ -271,7 +273,8 @@ class Vote(models.Model):
     NEGATIVE = -1
 
     class Meta:
-        unique_together = [("suggestion", "user")]  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [("suggestion", "user")]
         app_label = "trans"
         verbose_name = "suggestion vote"
         verbose_name_plural = "suggestion votes"

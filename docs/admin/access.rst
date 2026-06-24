@@ -82,6 +82,11 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
     :ref:`project-access_control`
 
+Workspace access control
+------------------------
+
+Workspace-scoped teams are documented in :ref:`workspace-acl`.
+
 .. _manage-acl:
 
 Managing per-project access control
@@ -210,6 +215,30 @@ Blocking users
 If users misbehave in your project, you can block them from contributing.
 With the relevant permissions blocked, users can still see the project,
 but won't be able to contribute.
+
+.. _cleanup-user-contributions:
+
+Cleaning up user contributions
+++++++++++++++++++++++++++++++
+
+When blocking spam or abusive accounts, project administrators can also clean
+up the user's existing contributions in that project. Use
+:guilabel:`Operations` ↓ :guilabel:`Users`, block the user, and select the
+cleanup actions in the block form. For users who are already blocked, use
+:guilabel:`Clean up user contributions` in the blocked users list.
+
+The available cleanup actions are:
+
+* :guilabel:`Revert user edits` reverts the latest editable translations by
+  the user.
+* :guilabel:`Reject user suggestions` rejects pending suggestions by the user.
+* :guilabel:`Delete user comments` deletes comments by the user.
+
+Site administrators with the site-wide ``user.edit`` permission can perform
+the same bulk cleanup across all projects from the
+:ref:`management interface <management-interface>` on the :guilabel:`Users`
+tab. Open the user's profile, select the :guilabel:`Edit` tab, and use
+:guilabel:`Contribution cleanup`.
 
 Per-project permission management
 +++++++++++++++++++++++++++++++++
@@ -425,14 +454,24 @@ the following rules:
   :ref:`unrestricted components <component-restricted>`.
 
 - The restrictions imposed by a team’s :guilabel:`Languages` are applied separately,
-  when it’s verified if a user has an access to perform certain actions. Namely,
+  when it’s verified if a user has access to perform certain actions. Namely,
   it’s applied only to actions directly related to the translation process itself like
   reviewing, saving translations, adding suggestions, etc.
+
+  Individual team memberships can further limit these permissions to selected
+  languages. Leaving the per-member language limit empty applies no additional
+  limit beyond the team language selection. The same language limit can be set
+  when inviting new users to a project team. When a per-member language limit is
+  set, the membership grants only permissions that can be evaluated for one of
+  those languages. Project-wide, component-wide and global permissions from that
+  team are not granted for that member.
 
 .. hint::
 
    Use :guilabel:`Language selection` or :guilabel:`Project selection`
    to automate inclusion of all languages or projects.
+
+.. image:: /screenshots/team-scope.webp
 
 **Example:**
 
@@ -444,7 +483,7 @@ the following rules:
          :stub-columns: 1
 
          * - Roles
-           - `Review Strings`, `Manage repository`
+           - `Review strings`, `Manage repository`
          * - Components
            - foo/bar
          * - Languages
@@ -472,6 +511,8 @@ e-mail addresses. This assignment only happens upon account creation.
 The most common use-case for the feature is to assign all new users to some
 default team. This behavior is used for the default `Users` and `Guest` teams
 (see :ref:`default-teams`). Use regular expression ``^.*$`` to match all users.
+
+.. image:: /screenshots/team-automatic-assignments.webp
 
 Another use-case for this option might be to
 give some additional privileges to employees of your company by default.

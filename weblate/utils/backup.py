@@ -8,10 +8,11 @@ from __future__ import annotations
 
 import os
 import string
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from dataclasses import dataclass
 from pathlib import Path
 from random import SystemRandom
+from shlex import quote
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -23,6 +24,13 @@ from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
+
+BORG_SSH_OPTIONS = (
+    "-o",
+    "IgnoreUnknown=WarnWeakCrypto",
+    "-o",
+    "WarnWeakCrypto=no-pq-kex",
+)
 
 CACHEDIR = """Signature: 8a477f597d28d172789f06886806bc55
 # This file is a cache directory tag created by Weblate
@@ -95,13 +103,23 @@ def tag_cache_dirs() -> None:
             Path(tagfile).write_text(CACHEDIR, encoding="utf-8")
 
 
+def get_borg_rsh() -> str:
+    """Return SSH command used by Borg."""
+    # OpenSSH 10.1 warns when the server does not support post-quantum KEX.
+    # IgnoreUnknown keeps this usable with older OpenSSH clients.
+    return " ".join(
+        quote(arg) for arg in (SSH_WRAPPER.filename.as_posix(), *BORG_SSH_OPTIONS)
+    )
+
+
 def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> BorgResult:
     """Execute borgbackup."""
     with backup_lock():
         SSH_WRAPPER.create()
         try:
-            result = subprocess.run(  # noqa: S603
-                ["borg", "--rsh", SSH_WRAPPER.filename, *cmd],  # noqa: S607
+            result = subprocess.run(
+                # ruff: ignore[start-process-with-partial-path]
+                ["borg", "--rsh", get_borg_rsh(), *cmd],
                 check=False,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,

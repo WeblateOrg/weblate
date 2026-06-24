@@ -22,11 +22,7 @@ The announcements can posted on each level in the :guilabel:`Operations` menu, u
 .. image:: /screenshots/announcement-project.webp
     :alt: Image showing an announcement that reads: "Translations will be used only if they reach 60%" atop the dashboard view.
 
-It can be also added using the admin interface:
-
-.. image:: /screenshots/announcement.webp
-
-The announcements are then shown based on their specified context:
+The announcements are shown based on their specified context:
 
 No context specified
 
@@ -35,6 +31,11 @@ No context specified
 Project specified
 
     Shown within the project, including all its components and translations.
+
+Project and language specified
+
+    Shown within the project for the specified language, including all its
+    translations.
 
 Category specified
 

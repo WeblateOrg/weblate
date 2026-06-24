@@ -11,19 +11,22 @@ from typing import TYPE_CHECKING
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.data import GLOBAL_PERM_NAMES, SELECTION_MANUAL
+from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import (
     Group,
     Invitation,
     Role,
     User,
 )
+from weblate.auth.utils import validate_team_assignable_user
+from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change
 from weblate.utils import messages
@@ -33,6 +36,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import (
         AuthenticatedHttpRequest,
     )
+    from weblate.workspaces.models import Workspace
 
 
 @dataclass
@@ -166,6 +170,7 @@ def create_invitation(
     username: str = "",
     full_name: str = "",
     is_superuser: bool = False,
+    limit_languages=None,
     success_message: bool = True,
 ) -> Invitation:
     author = request.user
@@ -177,15 +182,18 @@ def create_invitation(
     if resolved_user is not None:
         resolved_email = ""
 
-    invitation = Invitation.objects.create(
-        author=author,
-        user=resolved_user,
-        username=username,
-        full_name=full_name,
-        group=group,
-        email=resolved_email,
-        is_superuser=is_superuser,
-    )
+    with transaction.atomic():
+        invitation = Invitation.objects.create(
+            author=author,
+            user=resolved_user,
+            username=username,
+            full_name=full_name,
+            group=group,
+            email=resolved_email,
+            is_superuser=is_superuser,
+        )
+        if limit_languages is not None:
+            invitation.limit_languages.set(limit_languages)
 
     if invitation.user:
         details = {"username": invitation.user.username}
@@ -218,6 +226,8 @@ def create_invitation(
 
 
 class BaseInviteForm:
+    support_limit_languages = False
+
     def setup_group_field(self, project) -> None:
         self.project = project
         if project:
@@ -226,15 +236,26 @@ class BaseInviteForm:
             self.fields["group"].queryset = Group.objects.filter(
                 defining_project=None
             ).order()
+        if project and self.support_limit_languages:
+            languages = project.languages
+            self.fields["limit_languages"] = LimitLanguagesField(
+                languages,
+                language_choices=get_language_code_choices(languages),
+            )
+
+    def get_limit_languages(self):
+        if "limit_languages" not in self.fields:
+            return None
+        return self.cleaned_data["limit_languages"]
 
 
 class InviteUserForm(BaseInviteForm, forms.ModelForm):
+    support_limit_languages = True
+
     class Meta:
         model = Invitation
         fields = ("user", "group")
-        field_classes = {  # noqa: RUF012
-            "user": UserField
-        }
+        field_classes = {"user": UserField}  # ruff: ignore[mutable-class-default]
 
     def __init__(
         self,
@@ -248,6 +269,12 @@ class InviteUserForm(BaseInviteForm, forms.ModelForm):
         for field in ("user", "email"):
             if field in self.fields:
                 self.fields[field].required = True
+
+    def clean_user(self) -> User | None:
+        user = self.cleaned_data.get("user")
+        if user is not None:
+            validate_team_assignable_user(user)
+        return user
 
     # pylint: disable-next=arguments-renamed
     def save(self, request: AuthenticatedHttpRequest, commit: bool = True) -> None:
@@ -265,6 +292,7 @@ class InviteUserForm(BaseInviteForm, forms.ModelForm):
             username=self.cleaned_data.get("username", ""),
             full_name=self.cleaned_data.get("full_name", ""),
             is_superuser=self.cleaned_data.get("is_superuser", False),
+            limit_languages=self.get_limit_languages(),
         )
         return
 
@@ -282,6 +310,8 @@ class AdminInviteUserForm(InviteUserForm):
 
 
 class BulkInviteForm(BaseInviteForm, forms.Form):
+    support_limit_languages = True
+
     group = forms.ModelChoiceField(
         queryset=Group.objects.none(),
         label=gettext_lazy("Team"),
@@ -317,6 +347,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
     def save(self, request: AuthenticatedHttpRequest) -> BulkInviteResult:
         email_field = EmailField()
         group = self.cleaned_data["group"]
+        limit_languages = self.get_limit_languages()
         seen: set[str] = set()
         created = 0
         skipped: list[str] = []
@@ -372,6 +403,7 @@ class BulkInviteForm(BaseInviteForm, forms.Form):
                 project=self.project,
                 email=email,
                 user=invited_user,
+                limit_languages=limit_languages,
                 success_message=False,
                 **self.get_invitation_kwargs(),
             )
@@ -434,7 +466,7 @@ class UserEditForm(forms.ModelForm):
             "is_active",
             "date_expires",
         )
-        widgets = {  # noqa: RUF012
+        widgets = {  # ruff: ignore[mutable-class-default]
             "date_expires": WeblateDateInput(),
         }
 
@@ -473,12 +505,18 @@ class BaseTeamForm(forms.ModelForm):
                         {field: gettext("Cannot change this on a built-in team.")}
                     )
 
-    def save(self, commit=True, project=None):
+    def save(self, commit=True, project=None, workspace: Workspace | None = None):
         if not commit:
             return super().save(commit=commit)
         if project:
             self.instance.defining_project = project
+            self.instance.defining_workspace = None
             self.instance.project_selection = SELECTION_MANUAL
+        if workspace:
+            self.instance.defining_project = None
+            self.instance.defining_workspace = workspace
+            self.instance.project_selection = SELECTION_MANUAL
+            self.instance.language_selection = SELECTION_MANUAL
 
         self.instance.save()
 
@@ -498,10 +536,27 @@ class ProjectTeamForm(BaseTeamForm):
     def __init__(self, project, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["components"].queryset = project.component_set.order()
-        # Exclude site-wide permissions here
-        self.fields["roles"].queryset = Role.objects.exclude(
-            permissions__codename__in=GLOBAL_PERM_NAMES
+        self.fields["roles"].queryset = Role.objects.assignable_to_project_team()
+
+
+class WorkspaceTeamForm(BaseTeamForm):
+    class Meta:
+        model = Group
+        fields = (
+            "name",
+            "roles",
+            "enforced_2fa",
         )
+
+    internal_fields = ("name",)
+
+    def __init__(self, workspace: Workspace, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.workspace = workspace
+        self.fields["roles"].queryset = Role.objects.assignable_to_workspace_team()
+
+    def save(self, commit=True, project=None, workspace: Workspace | None = None):
+        return super().save(commit=commit, workspace=workspace or self.workspace)
 
 
 class SitewideTeamForm(BaseTeamForm):

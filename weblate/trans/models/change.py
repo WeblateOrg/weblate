@@ -6,10 +6,9 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast, overload
+from typing import TYPE_CHECKING, Any, ClassVar, Self, TypedDict, cast, overload
 from uuid import uuid5
 
-import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
@@ -37,9 +36,10 @@ from weblate.trans.util import split_plural
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.state import StringState
+from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Collection, Iterable
     from uuid import UUID
 
     from django_stubs_ext import StrOrPromise
@@ -47,6 +47,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.lang.models import Language
     from weblate.trans.models import Category, Component, Translation, Unit
+    from weblate.workspaces.models import Workspace
 
 LOGGER = logging.getLogger("weblate.change")
 
@@ -59,6 +60,7 @@ PREFETCH_FIELDS = (
     "language",
     "component",
     "category",
+    "workspace",
     "project",
     "component__source_language",
     "component__secondary_language",
@@ -100,20 +102,20 @@ def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
     )
 
 
-class ChangeQuerySet(models.QuerySet["Change"]):
-    def content(self, prefetch: bool = False) -> ChangeQuerySet:
+class ChangeQuerySet(models.QuerySet["Change", "Change"]):
+    def content(self, prefetch: bool = False) -> Self:
         """Return queryset with content changes."""
         base = self
         if prefetch:
             base = base.prefetch()
         return base.filter(action__in=ACTIONS_CONTENT)
 
-    def for_category(self, category: Category) -> ChangeQuerySet:
+    def for_category(self, category: Category) -> Self:
         return self.filter(
             Q(component_id__in=category.all_component_ids) | Q(category=category)
         )
 
-    def filter_announcements(self) -> ChangeQuerySet:
+    def filter_announcements(self) -> Self:
         return self.filter(action=ActionEvents.ANNOUNCEMENT)
 
     def count_stats(
@@ -174,7 +176,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         return base.count_stats(days, step, dtstart)
 
-    def prefetch_for_render(self) -> ChangeQuerySet:
+    def prefetch_for_render(self) -> Self:
         """
         Prefetch needed related fields for rendering.
 
@@ -188,7 +190,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             "comment",
         )
 
-    def prefetch(self) -> ChangeQuerySet:
+    def prefetch(self) -> Self:
         """
         Fetch related fields at once to avoid loading them individually.
 
@@ -207,6 +209,8 @@ class ChangeQuerySet(models.QuerySet["Change"]):
     def preload_list(self, results, skip=None):
         """Companion for prefetch to fill in nested references."""
         for item in results:
+            if item.project and skip != "project":
+                item.project.workspace = item.workspace
             if item.component and skip != "component":
                 item.component.project = item.project
             if item.translation and skip != "translation":
@@ -240,7 +244,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             )
         )
 
-    def order(self) -> ChangeQuerySet:
+    def order(self) -> Self:
         return self.order_by("-timestamp")
 
     def recent(
@@ -253,24 +257,44 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         more effective here.
         """
         result: list[Change] = []
-        with transaction.atomic(), sentry_sdk.start_span(op="change.recent"):
+        with transaction.atomic(), start_span(op="change.recent"):
             for change in self.order().iterator(chunk_size=count):
                 result.append(change)
                 if len(result) >= count:
                     break
             return self.preload_list(result, skip_preload)
 
-    def bulk_create(self, *args, **kwargs) -> list[Change]:
+    def bulk_create(  # type: ignore[override]
+        self,
+        objs: Iterable[Change],
+        batch_size: int | None = None,
+        ignore_conflicts: bool = False,
+        update_conflicts: bool = False,
+        update_fields: Collection[str] | None = None,
+        unique_fields: Collection[str] | None = None,
+    ) -> list[Change]:
         """
         Bulk creation of changes.
 
         Add processing to bulk creation.
         """
-        from weblate.accounts.notifications import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.notifications import (
             dispatch_changes_notifications,
         )
 
-        changes = super().bulk_create(*args, **kwargs)
+        objs = list(objs)
+        for change in objs:
+            change.fixup_references()
+
+        changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
+            objs,  # type: ignore[arg-type]
+            batch_size=batch_size,
+            ignore_conflicts=ignore_conflicts,
+            update_conflicts=update_conflicts,
+            update_fields=update_fields,
+            unique_fields=unique_fields,
+        )
 
         # Dispatch notifications
         dispatch_changes_notifications(changes)
@@ -296,7 +320,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
         return changes
 
-    def filter_components(self, user: User) -> ChangeQuerySet:
+    def filter_components(self, user: User) -> Self:
         if not user.needs_component_restrictions_filter:
             return self
         return self.filter(
@@ -305,10 +329,10 @@ class ChangeQuerySet(models.QuerySet["Change"]):
             | Q(component_id__in=user.component_permissions)
         )
 
-    def filter_projects(self, user: User) -> ChangeQuerySet:
+    def filter_projects(self, user: User) -> Self:
         if not user.needs_project_filter:
             return self
-        return self.filter(project__in=user.allowed_projects)
+        return self.filter(user.get_project_access_query("project"))
 
     def lookup_project_rename(self, name: str) -> Project | None:
         lookup = cache.get(CHANGE_PROJECT_LOOKUP_KEY)
@@ -329,7 +353,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         cache.set(CHANGE_PROJECT_LOOKUP_KEY, lookup, 3600 * 24 * 7)
         return lookup
 
-    def filter_by_day(self, dt: datetime | date) -> ChangeQuerySet:
+    def filter_by_day(self, dt: datetime | date) -> Self:
         """
         Filter changes by given date.
 
@@ -337,7 +361,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         """
         return self.filter(timestamp__range=dt_as_day_range(dt))
 
-    def since_day(self, dt: datetime | date) -> ChangeQuerySet:
+    def since_day(self, dt: datetime | date) -> Self:
         """
         Filter changes since given date.
 
@@ -379,38 +403,53 @@ class ChangeManager(models.Manager["Change"]):
         project: Project | None = None,
         category: Category | None = None,
         language: Language | None = None,
-    ) -> models.QuerySet[Change, Change]:
+        workspace: Workspace | None = None,
+    ) -> ChangeQuerySet:
         """
-        Return the most recent changes for an user.
+        Return the most recent changes for a user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.
         """
+        result: models.QuerySet[Change, Change]
         if unit is not None:
             if not user.can_access_component(unit.translation.component):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = unit.change_set.all()
         elif translation is not None:
             if not user.can_access_component(translation.component):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = translation.change_set.all()
         elif component is not None:
             if not user.can_access_component(component):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = component.change_set.all()
         elif project is not None:
             if not user.can_access_project(project):
-                return self.none()
+                return cast("ChangeQuerySet", self.none())
             result = project.change_set.filter_components(user)
             if language is not None:
                 result = result.filter(language=language)
             if category is not None:
                 result = result.filter(category=category)
+        elif workspace is not None:
+            if not workspace.can_view(user):
+                return cast("ChangeQuerySet", self.none())
+            result = cast("ChangeQuerySet", self.filter(workspace=workspace))
+            if user.needs_project_filter:
+                result = cast(
+                    "ChangeQuerySet",
+                    result.filter(
+                        Q(project__isnull=True)
+                        | user.get_project_access_query("project")
+                    ),
+                )
+            result = result.filter_components(user)
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
             result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
-        return result.prefetch_for_render().order()
+        return cast("ChangeQuerySet", result).prefetch_for_render().order()
 
     def latest_revertable_changes(
         self,
@@ -518,6 +557,12 @@ class Change(models.Model, UserDisplayMixin):
     project = models.ForeignKey(
         "trans.Project", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
+    workspace = models.ForeignKey(
+        "workspaces.Workspace",
+        null=True,
+        on_delete=models.deletion.CASCADE,
+        db_index=False,
+    )
     category = models.ForeignKey(
         "trans.Category", null=True, on_delete=models.deletion.CASCADE, db_index=False
     )
@@ -569,7 +614,8 @@ class Change(models.Model, UserDisplayMixin):
 
     class Meta:
         app_label = "trans"
-        indexes = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        indexes = [
             models.Index(
                 fields=["-timestamp", "action"],
                 name="trans_change_action_idx",
@@ -578,6 +624,11 @@ class Change(models.Model, UserDisplayMixin):
                 fields=["project", "-timestamp", "action"],
                 condition=Q(project__isnull=False),
                 name="trans_change_project_idx",
+            ),
+            models.Index(
+                fields=["workspace", "-timestamp", "action"],
+                condition=Q(workspace__isnull=False),
+                name="trans_change_workspace_idx",
             ),
             models.Index(
                 fields=["language", "-timestamp", "action"],
@@ -610,6 +661,21 @@ class Change(models.Model, UserDisplayMixin):
                 name="trans_change_unit_idx",
             ),
             models.Index(
+                fields=["-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=True)
+                & Q(category__isnull=True)
+                & Q(component__isnull=True),
+                name="trans_change_site_addon_idx",
+            ),
+            models.Index(
+                fields=["project", "-timestamp"],
+                condition=Q(action__in=ACTIONS_ADDON)
+                & Q(project__isnull=False)
+                & Q(component__isnull=True),
+                name="trans_change_proj_addon_idx",
+            ),
+            models.Index(
                 fields=["user", "-timestamp", "action"],
                 name="trans_change_user_idx",
             ),
@@ -623,14 +689,20 @@ class Change(models.Model, UserDisplayMixin):
             return gettext("%(action)s at %(time)s on %(translation)s by %(user)s") % {
                 "action": self.get_action_display(),
                 "time": self.timestamp,
-                "translation": self.translation or self.component or self.project,
+                "translation": self.translation
+                or self.component
+                or self.project
+                or self.workspace,
                 "user": self.get_user_display(False),
             }
         # Translators: condensed rendering of a change action in history
         return gettext("%(action)s at %(time)s on %(translation)s") % {
             "action": self.get_action_display(),
             "time": self.timestamp,
-            "translation": self.translation or self.component or self.project,
+            "translation": self.translation
+            or self.component
+            or self.project
+            or self.workspace,
         }
 
     def __init__(self, *args, **kwargs) -> None:
@@ -680,6 +752,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.category.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
+        if self.workspace is not None:
+            return self.workspace.get_absolute_url()
         return "/"
 
     def log_event(self) -> None:
@@ -701,8 +775,10 @@ class Change(models.Model, UserDisplayMixin):
                 LOGGER.info("%s", message)
 
     @property
-    def path_object(self) -> Translation | Component | Category | Project | None:
-        """Return link either to unit or translation."""
+    def path_object(
+        self,
+    ) -> Translation | Component | Category | Project | Workspace | None:
+        """Object linked from the change path."""
         if self.translation is not None:
             return self.translation
         if self.component is not None:
@@ -711,6 +787,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.category
         if self.project is not None:
             return self.project
+        if self.workspace is not None:
+            return self.workspace
         return None
 
     @staticmethod
@@ -745,6 +823,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.component:
             self.project = self.component.project
             self.category = self.component.category
+        if self.project:
+            self.workspace = self.project.workspace
         if (self.user is None or not self.user.is_authenticated) and (
             ip_address := self.get_ip_address()
         ):
@@ -774,11 +854,18 @@ class Change(models.Model, UserDisplayMixin):
         return (
             self.unit is not None
             and self.action in ACTIONS_REVERTABLE
-            and "old_state" in self.details
+            and self.get_revert_state() is not None
         )
 
-    def get_revert_state(self) -> StringState:
-        return StringState(self.details["old_state"])
+    @staticmethod
+    def parse_revert_state(details: dict[str, Any]) -> StringState | None:
+        try:
+            return StringState(details["old_state"])
+        except (KeyError, TypeError, ValueError):
+            return None
+
+    def get_revert_state(self) -> StringState | None:
+        return self.parse_revert_state(self.details)
 
     def get_latest_user_revert_target(self) -> tuple[str, StringState] | None:
         if self.unit_id is None or self.user_id is None:
@@ -796,10 +883,10 @@ class Change(models.Model, UserDisplayMixin):
                 return None
             if user_id != self.user_id:
                 break
-            if "old_state" not in details:
+            boundary_state = self.parse_revert_state(details)
+            if boundary_state is None:
                 return None
             boundary_old = old
-            boundary_state = StringState(details["old_state"])
 
         if boundary_old is None or boundary_state is None:
             return None
@@ -851,13 +938,14 @@ class Change(models.Model, UserDisplayMixin):
 
         unit = cast("Unit", self.unit)
         locked_unit = unit.__class__.objects.select_for_update().get(pk=unit.pk)
-        if "old_state" not in self.details:
+        state = self.get_revert_state()
+        if state is None:
             return False
 
         return locked_unit.translate(
             user,
             split_plural(self.old),
-            self.get_revert_state(),
+            state,
             change_action=change_action,
             author=author,
             request=request,
@@ -890,7 +978,8 @@ class Change(models.Model, UserDisplayMixin):
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
     def get_details_display(self) -> StrOrPromise:
-        from weblate.trans.change_display import (  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.change_display import (
             ChangeDetailsRenderFactory,
         )
 
@@ -943,12 +1032,15 @@ class Change(models.Model, UserDisplayMixin):
         if self.component:
             self.component.project = cast("Project", self.project)
             self.component.category = cast("Category", self.category)
+        if self.project:
+            self.project.workspace = self.workspace
 
 
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
 def change_notify(sender, instance: Change, created: bool = False, **kwargs) -> None:
-    from weblate.accounts.notifications import (  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.notifications import (
         dispatch_changes_notifications,
     )
 

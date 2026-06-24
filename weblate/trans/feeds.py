@@ -14,11 +14,16 @@ from django.utils.translation import gettext
 
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+def get_change_feed_guid(change: Change) -> str:
+    return get_site_url(reverse("show_change", kwargs={"pk": change.pk}))
 
 
 class BaseFeed(Feed):
@@ -33,6 +38,12 @@ class BaseFeed(Feed):
 
     def item_pubdate(self, item):
         return item.timestamp
+
+    def item_guid(self, item):
+        return get_change_feed_guid(item)
+
+    def item_guid_is_permalink(self, item):
+        return False
 
 
 class ChangesFeed(BaseFeed):

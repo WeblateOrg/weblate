@@ -23,6 +23,7 @@ GROUP_NAMES = {
     "upload": "Uploads",
     "unit": "Strings",
     "vcs": "VCS",
+    "workspace": "Workspaces",
 }
 
 PERMISSION_NAMES = dict(GLOBAL_PERMISSIONS)

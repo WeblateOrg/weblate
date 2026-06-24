@@ -3,6 +3,8 @@ Checks and fixups
 
 The quality checks help catch common translator errors, ensuring the
 translation is in good shape. The checks can be ignored in case of false positives.
+For practical translation guidance around placeholders, markup, punctuation,
+and plural forms, see :ref:`translating-special-text`.
 
 Once submitting a translation with a failing check, this is immediately shown to
 the user:

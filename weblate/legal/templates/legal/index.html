@@ -20,18 +20,24 @@
 
       {% include 'legal/documents/summary.html' %}
 
-      <p>
-        {% blocktranslate %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktranslate %}
-      </p>
+      {% if terms_url or privacy_url %}
+        <p>
+          {% blocktranslate %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktranslate %}
+        </p>
 
-      <ul>
-        <li>
-          <a href="{% url 'legal:terms' %}">{% translate "General Terms and Conditions" %}</a>
-        </li>
-        <li>
-          <a href="{% url 'legal:privacy' %}">{% translate "Privacy Policy" %}</a>
-        </li>
-      </ul>
+        <ul>
+          {% if terms_url %}
+            <li>
+              <a href="{{ terms_url }}">{% translate "General Terms and Conditions" %}</a>
+            </li>
+          {% endif %}
+          {% if privacy_url %}
+            <li>
+              <a href="{{ privacy_url }}">{% translate "Privacy Policy" %}</a>
+            </li>
+          {% endif %}
+        </ul>
+      {% endif %}
 
     </div>
   </div>

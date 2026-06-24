@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from weblate.machinery.base import MachineTranslation
+from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD, MachineTranslation
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -34,7 +34,7 @@ class SampleTranslation(MachineTranslation):
         text: str,
         unit: Unit | None,
         user: User | None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Return tuple with translations."""
         response = self.request(

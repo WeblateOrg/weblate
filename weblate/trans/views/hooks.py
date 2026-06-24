@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
-from ipaddress import ip_address
 from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 from urllib.parse import quote, urlparse
 
@@ -29,6 +28,15 @@ from weblate.api.serializers import MultiFieldHyperlinkedIdentityField
 from weblate.auth.models import User
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
+from weblate.trans.hooks.fallback import (
+    get_fallback_components,
+    normalize_full_name,
+    repo_connection,
+    repo_is_scp_like,
+    repo_path,
+    validate_full_name,
+)
+from weblate.trans.hooks.matching import HOOK_MATCH_EXACT, HOOK_MATCH_FALLBACK
 from weblate.trans.models import Component
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
@@ -36,6 +44,7 @@ from weblate.utils.errors import report_error
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
 BITBUCKET_GIT_REPOS = (
@@ -103,99 +112,47 @@ class HookPayloadError(Exception):
     """Raised for malformed but expected webhook payload problems."""
 
 
-def validate_full_name(full_name: str | None) -> bool:
-    """
-    Validate that repository full name is suitable for endswith matching.
-
-    This is to avoid using too short expression with possibly too broad matches.
-    """
-    full_name = normalize_full_name(full_name)
-    if full_name is None:
-        return False
-    name = strip_git_suffix(full_name.rsplit("/", 1)[-1])
-    return len(name) >= 3
-
-
-def strip_git_suffix(value: str) -> str:
-    """Strip a trailing .git suffix from a repository path."""
-    if value.endswith(".git"):
-        return value[:-4]
-    return value
+def exact_repositories_filter(repos: list[str]) -> Q:
+    """Build a filter for exact repository URL matching."""
+    spfilter = Q(repo__in=repos)
+    for repo in repos:
+        # We need to match also URLs which include username and password
+        if repo.startswith("http://"):
+            spfilter |= Q(repo__startswith="http://") & Q(repo__endswith=f"@{repo[7:]}")
+        elif repo.startswith("https://"):
+            spfilter |= Q(repo__startswith="https://") & Q(
+                repo__endswith=f"@{repo[8:]}"
+            )
+        # Include URLs with trailing slash
+        spfilter |= Q(repo=f"{repo}/")
+    return spfilter
 
 
-def normalize_full_name(full_name: str | None) -> str | None:
-    """Normalize repository full name for matching helpers."""
-    if not full_name:
-        return None
-    full_name = strip_git_suffix(full_name.strip("/"))
-    parts = full_name.split("/")
-    if len(parts) < 2 or any(not part for part in parts):
-        return None
-    return full_name
+def inexact_hook_alert_details(details: Mapping[str, object]) -> dict[str, str]:
+    """Extract details stored with inexact hook match alerts."""
+    return {
+        "service_long_name": str(details.get("service_long_name") or ""),
+        "repo_url": str(details.get("repo_url") or ""),
+        "branch": str(details.get("branch") or ""),
+        "full_name": str(details.get("full_name") or ""),
+    }
 
 
-def repo_connection(repo: str) -> tuple[str | None, str | None, int | None, bool]:
-    """Extract hostname, username and SSH port from repository URL."""
-    parsed = urlparse(repo)
-    if parsed.hostname is not None:
-        try:
-            port = parsed.port
-        except ValueError:
-            port = None
-        return parsed.hostname, parsed.username, port, parsed.scheme == "ssh"
+def get_hook_components(
+    repos: list[str], full_name: str | None
+) -> tuple[QuerySet[Component], str]:
+    """Return hook target components and repository match method."""
+    repo_components = Component.objects.filter(exact_repositories_filter(repos))
+    if repo_components.exists():
+        return repo_components, HOOK_MATCH_EXACT
 
-    if ":" not in repo:
-        return None, None, None, False
+    fallback_components = get_fallback_components(
+        Component.objects.all(), repos, full_name
+    )
+    if fallback_components is None:
+        return repo_components, HOOK_MATCH_EXACT
 
-    host = repo.split(":", 1)[0]
-    username = None
-    if "@" in host:
-        username, host = host.rsplit("@", 1)
-    return host or None, username or None, None, False
-
-
-def repo_is_scp_like(repo: str) -> bool:
-    """Check whether repository URL uses scp-like Git syntax."""
-    return urlparse(repo).hostname is None and ":" in repo
-
-
-def repo_path(repo: str) -> str | None:
-    """Extract repository path from URL or scp-like Git syntax."""
-    parsed = urlparse(repo)
-    if parsed.hostname is not None:
-        return strip_git_suffix(parsed.path.lstrip("/")) or None
-    if ":" not in repo:
-        return None
-    return strip_git_suffix(repo.split(":", 1)[1].lstrip("/")) or None
-
-
-def repo_hostname(repo: str) -> str | None:
-    """Extract hostname from repository URL or scp-like Git URL."""
-    return repo_connection(repo)[0]
-
-
-def repo_is_loopback(repo: str) -> bool:
-    """Check whether repository URL points to a loopback host."""
-    hostname = repo_hostname(repo)
-    if hostname is None:
-        return False
-    if hostname == "localhost":
-        return True
-    try:
-        return ip_address(hostname).is_loopback
-    except ValueError:
-        return False
-
-
-def allow_fallback_matching(repos: list[str]) -> bool:
-    """
-    Allow suffix fallback only for payloads with at least one non-loopback URL.
-
-    Forgejo and Gitea test deliveries use sample localhost repository URLs. If
-    exact matching fails, suffix fallback would scan all components for that
-    sample repository path before responding to the hook.
-    """
-    return any(not repo_is_loopback(repo) for repo in repos)
+    return fallback_components, HOOK_MATCH_FALLBACK
 
 
 def url_host(hostname: str) -> str:
@@ -463,21 +420,25 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     if request and request.headers.get("x-github-event") != "push":
         return None
     # Parse owner, branch and repository name
-    o_data = data["repository"]["owner"]
-    owner = o_data["login"] if "login" in o_data else o_data["name"]
-    slug = data["repository"]["name"]
+    repository = require_mapping(data.get("repository"), "repository")
+    o_data = require_mapping(repository.get("owner"), "repository.owner")
+    owner = optional_string(o_data.get("login"), "repository.owner.login")
+    if owner is None:
+        owner = require_string(o_data.get("name"), "repository.owner.name")
+    slug = require_string(repository.get("name"), "repository.name")
+    repo_url = require_string(repository.get("url"), "repository.url")
     branch = normalize_branch_ref(data.get("ref"))
 
     params = {"owner": owner, "slug": slug}
 
-    if "clone_url" not in data["repository"]:
+    if "clone_url" not in repository:
         # Construct possible repository URLs
         repos = [repo % params for repo in GITHUB_REPOS]
     else:
         repos = []
         keys = ["clone_url", "git_url", "ssh_url", "svn_url", "html_url", "url"]
         for key in keys:
-            url = data["repository"].get(key)
+            url = optional_string(repository.get(key), f"repository.{key}")
             if not url:
                 continue
             repos.append(url)
@@ -486,7 +447,7 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
 
     return {
         "service_long_name": "GitHub",
-        "repo_url": data["repository"]["url"],
+        "repo_url": repo_url,
         "repos": sorted(set(repos)),
         "branch": branch,
         "full_name": f"{owner}/{slug}",
@@ -664,10 +625,14 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
     ],
 )
 class ServiceHookView(APIView):
-    authentication_classes = []  # noqa: RUF012
-    permission_classes = [AllowAny]  # noqa: RUF012
-    throttle_classes = []  # noqa: RUF012
-    http_method_names = ["post"]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    authentication_classes = []
+    # ruff: ignore[mutable-class-default]
+    permission_classes = [AllowAny]
+    # ruff: ignore[mutable-class-default]
+    throttle_classes = []
+    # ruff: ignore[mutable-class-default]
+    http_method_names = ["post"]
     parser_classes = (
         parsers.JSONParser,
         parsers.MultiPartParser,
@@ -739,43 +704,13 @@ class ServiceHookView(APIView):
         branch = service_data["branch"]
         full_name = service_data["full_name"]
 
-        # Generate filter
-        spfilter = Q(repo__in=repos)
-
         user = User.objects.get_or_create_bot(
             scope="webhook",
             name=service,
             verbose=f"{service_data['service_long_name']} webhook",
         )
 
-        for repo in repos:
-            # We need to match also URLs which include username and password
-            if repo.startswith("http://"):
-                spfilter |= Q(repo__startswith="http://") & Q(
-                    repo__endswith=f"@{repo[7:]}"
-                )
-            elif repo.startswith("https://"):
-                spfilter |= Q(repo__startswith="https://") & Q(
-                    repo__endswith=f"@{repo[8:]}"
-                )
-            # Include URLs with trailing slash
-            spfilter |= Q(repo=f"{repo}/")
-
-        repo_components = Component.objects.filter(spfilter)
-
-        fallback_full_name = normalize_full_name(full_name)
-        if (
-            not repo_components.exists()
-            and fallback_full_name is not None
-            and validate_full_name(fallback_full_name)
-            and allow_fallback_matching(repos)
-        ):
-            # Fall back to endswith matching if repository full name is reasonable
-            repo_components = Component.objects.filter(
-                Q(repo__iendswith=fallback_full_name)
-                | Q(repo__iendswith=f"{fallback_full_name}/")
-                | Q(repo__iendswith=f"{fallback_full_name}.git")
-            )
+        repo_components, match_method = get_hook_components(repos, full_name)
 
         if branch is not None:
             all_components = repo_components.filter(branch=branch)
@@ -801,11 +736,18 @@ class ServiceHookView(APIView):
         # Trigger updates
         updated_components: list[Component] = []
         for obj in enabled_components:
+            hook_details = service_data | {"match_method": match_method}
             updated_components.append(obj)
             LOGGER.info("%s notification will update %s", service_long_name, obj)
             obj.change_set.create(
-                action=ActionEvents.HOOK, details=service_data, user=user
+                action=ActionEvents.HOOK, details=hook_details, user=user
             )
+            if match_method == HOOK_MATCH_FALLBACK:
+                obj.add_alert(
+                    "InexactHookMatch", **inexact_hook_alert_details(hook_details)
+                )
+            else:
+                obj.delete_alert("InexactHookMatch")
             perform_update.delay("Component", obj.pk, user_id=user.id)
 
         match_status = HookMatchDict(

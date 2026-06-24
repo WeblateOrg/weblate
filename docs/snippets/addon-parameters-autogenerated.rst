@@ -41,6 +41,8 @@ Machine translation engines
      - LTEngine
    * - ``libretranslate``
      - LibreTranslate
+   * - ``mistral``
+     - Mistral
    * - ``modernmt``
      - ModernMT
    * - ``mymemory``
@@ -140,6 +142,8 @@ File format
      - Laravel PHP strings
    * - ``markdown``
      - Markdown file
+   * - ``mdx``
+     - MDX file
    * - ``mediawiki``
      - MediaWiki text file
    * - ``mi18n-lang``
@@ -211,196 +215,321 @@ File format
    * - ``yaml``
      - YAML file
 
-.. _addon-choice-events:
+.. _addon-choice-event_filter:
 
-Change events
--------------
+Change events to trigger
+------------------------
 
 .. list-table:: Available choices:
    :width: 100%
 
+   * - ``content``
+     - Translation content events
+   * - ``all``
+     - All change events
+   * - ``custom``
+     - Selected change events
+
+.. _addon-choice-events:
+.. _change-actions:
+
+Selected change events
+----------------------
+
+The following change actions can appear in notification payloads. Fedora Messaging uses the identifier column in message topics, while webhook payloads use the name column in the ``action`` field.
+
+.. list-table:: Available choices:
+   :width: 100%
+   :header-rows: 1
+
+   * - ID
+     - Identifier
+     - Name
    * - ``0``
+     - ``resource_updated``
      - Resource updated
    * - ``1``
+     - ``translation_completed``
      - Translation completed
    * - ``2``
+     - ``translation_changed``
      - Translation changed
    * - ``3``
+     - ``comment_added``
      - Comment added
    * - ``4``
+     - ``suggestion_added``
      - Suggestion added
    * - ``5``
+     - ``translation_added``
      - Translation added
    * - ``6``
+     - ``automatically_translated``
      - Automatically translated
    * - ``7``
+     - ``suggestion_accepted``
      - Suggestion accepted
    * - ``8``
+     - ``translation_reverted``
      - Translation reverted
    * - ``9``
+     - ``translation_uploaded``
      - Translation uploaded
    * - ``13``
+     - ``source_string_added``
      - Source string added
    * - ``14``
+     - ``component_locked``
      - Component locked
    * - ``15``
+     - ``component_unlocked``
      - Component unlocked
    * - ``17``
+     - ``changes_committed``
      - Changes committed
    * - ``18``
+     - ``changes_pushed``
      - Changes pushed
    * - ``19``
+     - ``repository_reset``
      - Repository reset
    * - ``20``
+     - ``repository_merged``
      - Repository merged
    * - ``21``
+     - ``repository_rebased``
      - Repository rebased
    * - ``22``
+     - ``repository_merge_failed``
      - Repository merge failed
    * - ``23``
+     - ``repository_rebase_failed``
      - Repository rebase failed
    * - ``24``
+     - ``parsing_failed``
      - Parsing failed
    * - ``25``
+     - ``translation_removed``
      - Translation removed
    * - ``26``
+     - ``suggestion_removed``
      - Suggestion removed
    * - ``27``
+     - ``translation_replaced``
      - Translation replaced
    * - ``28``
+     - ``repository_push_failed``
      - Repository push failed
    * - ``29``
+     - ``suggestion_removed_during_cleanup``
      - Suggestion removed during cleanup
    * - ``30``
+     - ``source_string_changed``
      - Source string changed
    * - ``31``
+     - ``string_added``
      - String added
    * - ``32``
+     - ``bulk_status_changed``
      - Bulk status changed
    * - ``33``
+     - ``visibility_changed``
      - Visibility changed
    * - ``34``
+     - ``user_added``
      - User added
    * - ``35``
+     - ``user_removed``
      - User removed
    * - ``36``
+     - ``translation_approved``
      - Translation approved
    * - ``37``
+     - ``marked_for_edit``
      - Marked for edit
    * - ``38``
+     - ``component_removed``
      - Component removed
    * - ``39``
+     - ``project_removed``
      - Project removed
    * - ``41``
+     - ``project_renamed``
      - Project renamed
    * - ``42``
+     - ``component_renamed``
      - Component renamed
    * - ``43``
+     - ``moved_component``
      - Moved component
    * - ``45``
+     - ``contributor_joined``
      - Contributor joined
    * - ``46``
+     - ``announcement_posted``
      - Announcement posted
    * - ``47``
+     - ``alert_triggered``
      - Alert triggered
    * - ``48``
+     - ``language_added``
      - Language added
    * - ``49``
+     - ``language_requested``
      - Language requested
    * - ``50``
+     - ``project_created``
      - Project created
    * - ``51``
+     - ``component_created``
      - Component created
    * - ``52``
+     - ``user_invited``
      - User invited
    * - ``53``
+     - ``repository_notification_received``
      - Repository notification received
    * - ``54``
+     - ``translation_replaced_file_by_upload``
      - Translation replaced file by upload
    * - ``55``
+     - ``license_changed``
      - License changed
    * - ``56``
+     - ``contributor_license_agreement_changed``
      - Contributor license agreement changed
    * - ``57``
+     - ``screenshot_added``
      - Screenshot added
    * - ``58``
+     - ``screenshot_uploaded``
      - Screenshot uploaded
    * - ``59``
+     - ``string_updated_in_the_repository``
      - String updated in the repository
    * - ``60``
+     - ``add-on_installed``
      - Add-on installed
    * - ``61``
+     - ``add-on_configuration_changed``
      - Add-on configuration changed
    * - ``62``
+     - ``add-on_uninstalled``
      - Add-on uninstalled
    * - ``63``
+     - ``string_removed``
      - String removed
    * - ``64``
+     - ``comment_removed``
      - Comment removed
    * - ``65``
+     - ``comment_resolved``
      - Comment resolved
    * - ``66``
+     - ``explanation_updated``
      - Explanation updated
    * - ``67``
+     - ``category_removed``
      - Category removed
    * - ``68``
+     - ``category_renamed``
      - Category renamed
    * - ``69``
+     - ``category_moved``
      - Category moved
    * - ``70``
+     - ``saving_string_failed``
      - Saving string failed
    * - ``71``
+     - ``string_added_in_the_repository``
      - String added in the repository
    * - ``72``
+     - ``string_updated_in_the_upload``
      - String updated in the upload
    * - ``73``
+     - ``string_added_in_the_upload``
      - String added in the upload
    * - ``74``
+     - ``translation_updated_by_source_upload``
      - Translation updated by source upload
    * - ``75``
+     - ``component_translation_completed``
      - Component translation completed
    * - ``76``
+     - ``applied_enforced_check``
      - Applied enforced check
    * - ``77``
+     - ``propagated_change``
      - Propagated change
    * - ``78``
+     - ``file_uploaded``
      - File uploaded
    * - ``79``
+     - ``extra_flags_updated``
      - Extra flags updated
    * - ``80``
+     - ``font_uploaded``
      - Font uploaded
    * - ``81``
+     - ``font_changed``
      - Font changed
    * - ``82``
+     - ``font_removed``
      - Font removed
    * - ``83``
+     - ``forced_synchronization_of_translations``
      - Forced synchronization of translations
    * - ``84``
+     - ``forced_rescan_of_translations``
      - Forced rescan of translations
    * - ``85``
+     - ``screenshot_removed``
      - Screenshot removed
    * - ``86``
+     - ``label_added``
      - Label added
    * - ``87``
+     - ``label_removed``
      - Label removed
    * - ``88``
+     - ``repository_cleanup``
      - Repository cleanup
    * - ``89``
+     - ``source_string_added_in_the_upload``
      - Source string added in the upload
    * - ``90``
+     - ``source_string_added_in_the_repository``
      - Source string added in the repository
    * - ``91``
+     - ``project_backed_up``
      - Project backed up
    * - ``92``
+     - ``project_restored``
      - Project restored
    * - ``93``
+     - ``component_restored``
      - Component restored
    * - ``94``
+     - ``user_edit_reverted``
      - User edit reverted
    * - ``95``
+     - ``project_setting_changed``
      - Project setting changed
    * - ``96``
+     - ``component_setting_changed``
      - Component setting changed
+   * - ``97``
+     - ``user_access_changed``
+     - User access changed
+   * - ``98``
+     - ``workspace_created``
+     - Workspace created
+   * - ``99``
+     - ``workspace_setting_changed``
+     - Workspace setting changed
+   * - ``100``
+     - ``project_moved``
+     - Project moved
 
 
 .. AUTOGENERATED END: addon-parameters

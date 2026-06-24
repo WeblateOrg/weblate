@@ -22,6 +22,7 @@ from google.cloud.translate_v3 import (
 from google.oauth2 import service_account
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     GlossaryAlreadyExistsError,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
@@ -102,7 +103,7 @@ class GoogleV3Translation(
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         request = {

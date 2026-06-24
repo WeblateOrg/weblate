@@ -81,23 +81,25 @@ class Command(BaseCommand):
             username = userprofile["basic"]["username"]
             try:
                 user = User.objects.get(username=username)
-                update = False
-                profile = user.profile
-                if not profile.language:
-                    update = True
-
-                # Merge stats
-                profile.translated += userprofile["profile"]["translated"]
-                profile.suggested += userprofile["profile"]["suggested"]
-                profile.uploaded += userprofile["profile"]["uploaded"]
-
-                # Update fields if we should
-                if update:
-                    self.update_languages(profile, userprofile["profile"])
-
-                # Add subscriptions
-                self.import_watched(profile, userprofile["profile"])
-
-                profile.save()
             except User.DoesNotExist:
                 self.stderr.write(f"User not found: {username}\n")
+                continue
+
+            update = False
+            profile = user.profile
+            if not profile.language:
+                update = True
+
+            # Merge stats
+            profile.translated += userprofile["profile"]["translated"]
+            profile.suggested += userprofile["profile"]["suggested"]
+            profile.uploaded += userprofile["profile"]["uploaded"]
+
+            # Update fields if we should
+            if update:
+                self.update_languages(profile, userprofile["profile"])
+
+            # Add subscriptions
+            self.import_watched(profile, userprofile["profile"])
+
+            profile.save()

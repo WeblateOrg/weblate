@@ -32,7 +32,7 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import open_asset_url
+from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
@@ -69,7 +69,12 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                with open_asset_url("get", filename) as handle:
+                with open_restricted_asset_url(
+                    "get",
+                    filename,
+                    allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+                    allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+                ) as handle:
                     content = handle.text
             else:
                 content = read_component_file(component, filename)
@@ -108,6 +113,47 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         component.delete_alert("CDNAddonError")
 
 
+def enforce_language_consistency(
+    addon: Addon,
+    languages,
+    fake_request: HttpRequest,
+    components,
+    log_result: list[str],
+) -> None:
+    for component in components.iterator():
+        # Keep the standard lock ordering: repository first, then component.
+        # This avoids inverting the order used by create_translations().
+        with component.repository.lock, component.lock:
+            missing = languages.exclude(
+                Q(translation__component=component) | Q(component=component)
+            )
+            if not missing:
+                continue
+            component.commit_pending("language consistency", None)
+            for language in missing:
+                component.refresh_lock()
+                new_lang = component.add_new_language(
+                    language,
+                    fake_request,  # type: ignore[arg-type]
+                    send_signal=False,
+                    create_translations=False,
+                )
+                if new_lang is None:
+                    log_result.append(
+                        f"{component.full_slug}: {addon.addon.verbose}: Could not add {language}: {component.new_lang_error_message}"
+                    )
+                else:
+                    log_result.append(
+                        f"{component.full_slug}: {addon.addon.verbose}: Added {language}"
+                    )
+            try:
+                component.create_translations_immediate()
+            except FileParseError as error:
+                log_result.append(
+                    f"{component.full_slug}: {addon.addon.verbose}: Could not parse translation files: {error}"
+                )
+
+
 @app.task(
     trail=False,
     autoretry_for=(WeblateLockTimeoutError,),
@@ -122,7 +168,8 @@ def language_consistency(
     category_id: int | None = None,
     activity_log_id: int | None = None,
 ) -> None:
-    from weblate.trans.models import Category  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Category
 
     if project_id is not None and category_id is not None:
         msg = "language_consistency cannot receive both project_id and category_id"
@@ -155,38 +202,9 @@ def language_consistency(
     log_result: list[str] = []
 
     try:
-        for component in components.iterator():
-            # Keep the standard lock ordering: repository first, then component.
-            # This avoids inverting the order used by create_translations().
-            with component.repository.lock, component.lock:
-                missing = languages.exclude(
-                    Q(translation__component=component) | Q(component=component)
-                )
-                if not missing:
-                    continue
-                component.commit_pending("language consistency", None)
-                for language in missing:
-                    component.refresh_lock()
-                    new_lang = component.add_new_language(
-                        language,
-                        fake_request,  # type: ignore[arg-type]
-                        send_signal=False,
-                        create_translations=False,
-                    )
-                    if new_lang is None:
-                        log_result.append(
-                            f"{component.full_slug}: {addon.addon.verbose}: Could not add {language}: {component.new_lang_error_message}"
-                        )
-                    else:
-                        log_result.append(
-                            f"{component.full_slug}: {addon.addon.verbose}: Added {language}"
-                        )
-                try:
-                    component.create_translations_immediate()
-                except FileParseError as error:
-                    log_result.append(
-                        f"{component.full_slug}: {addon.addon.verbose}: Could not parse translation files: {error}"
-                    )
+        enforce_language_consistency(
+            addon, languages, fake_request, components, log_result
+        )
     except Exception as error:
         log_result.append(f"{addon.addon.verbose}: failed: {error}")
         raise

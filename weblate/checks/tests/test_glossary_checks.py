@@ -25,7 +25,8 @@ class GlossaryCheckTest(ComponentTestCase):
         super().setUp()
         self.unit = self.get_unit()
         self.unit.extra_flags = "check-glossary"
-        self.unit.translate(self.user, "Ahoj světe!\n", STATE_TRANSLATED)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.unit.translate(self.user, "Ahoj světe!\n", STATE_TRANSLATED)
         # Clear unit caches
         self.unit.check_cache = {}
         self.unit.glossary_terms = None
@@ -34,7 +35,10 @@ class GlossaryCheckTest(ComponentTestCase):
         )
 
     def add_glossary(self, target: str, context="") -> None:
-        self.glossary.add_unit(None, context, "hello", target, author=self.user)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.glossary.add_unit(None, context, "hello", target, author=self.user)
+        self.project.invalidate_glossary_cache()
+        self.unit.glossary_terms = None
 
     def test_missing(self) -> None:
         self.assertFalse(
@@ -124,7 +128,8 @@ class ProhibitedInitialCharacterCheckTest(ComponentTestCase):
         )
 
     def get_term(self) -> str:
-        char = choice(list(PROHIBITED_INITIAL_CHARS))  # noqa: S311
+        # ruff: ignore[suspicious-non-cryptographic-random-usage]
+        char = choice(list(PROHIBITED_INITIAL_CHARS))
         return f"{char} glossary term"
 
     def test_prohibited_initial_character(self) -> None:

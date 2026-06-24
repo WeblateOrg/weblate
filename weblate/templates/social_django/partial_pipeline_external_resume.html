@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% with action=partial.kwargs.weblate_action invitation=partial.kwargs.invitation_pk %}
+    <form method="post" action="{{ action_url }}">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% if action == "reset" %}
+              {% translate "Confirm password reset" %}
+            {% elif action == "remove" %}
+              {% translate "Confirm account removal" %}
+            {% elif invitation %}
+              {% translate "Confirm invitation" %}
+            {% else %}
+              {% translate "Confirm registration" %}
+            {% endif %}
+          </h4>
+        </div>
+        <div class="card-body">
+          <p>
+            {% if action == "reset" %}
+              {% blocktranslate %}You are about to continue resetting the password for your Weblate account.{% endblocktranslate %}
+            {% elif action == "remove" %}
+              {% blocktranslate %}You are about to continue removing your Weblate account.{% endblocktranslate %}
+            {% elif invitation %}
+              {% blocktranslate %}You are about to accept an invitation and create a Weblate account.{% endblocktranslate %}
+            {% else %}
+              {% blocktranslate %}You are about to complete registration and create a Weblate account.{% endblocktranslate %}
+            {% endif %}
+          </p>
+          <p>
+            {% blocktranslate %}Continue only if you opened the confirmation link from your e-mail.{% endblocktranslate %}
+          </p>
+          {% csrf_token %}
+          <input type="hidden"
+                 name="{{ confirmation_parameter }}"
+                 value="{{ confirmation_value }}" />
+          <input type="hidden"
+                 name="{{ confirmation_nonce_parameter }}"
+                 value="{{ confirmation_nonce }}" />
+        </div>
+        <div class="card-footer">
+          <button type="submit"
+                  class="btn {% if action == "remove" %}btn-danger{% else %}btn-primary{% endif %}">
+            {% if action == "reset" %}
+              {% translate "Continue password reset" %}
+            {% elif action == "remove" %}
+              {% translate "Continue account removal" %}
+            {% elif invitation %}
+              {% translate "Accept invitation" %}
+            {% else %}
+              {% translate "Create account" %}
+            {% endif %}
+          </button>
+        </div>
+      </div>
+    </form>
+  {% endwith %}
+
+{% endblock content %}

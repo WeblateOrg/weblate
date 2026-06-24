@@ -7,6 +7,7 @@ import os.path
 import shutil
 import sys
 from datetime import timedelta
+from pathlib import Path
 from tarfile import TarFile
 from tempfile import mkdtemp
 
@@ -26,6 +27,7 @@ from weblate.billing.models import Billing, Invoice, Plan
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, Plural
+from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
 from weblate.trans.models import Category, Component, Project
 from weblate.utils.files import remove_tree
 from weblate.vcs.models import VCS_REGISTRY
@@ -65,6 +67,12 @@ def wait_for_celery(timeout=10) -> None:
         ping.delay().get(timeout=timeout)
 
 
+def get_optional_path(filename: str | None) -> Path:
+    """Return path for filename expected to be present in tests."""
+    assert filename is not None
+    return Path(filename)
+
+
 def get_test_file(name) -> str:
     """Return filename of test file."""
     return os.path.join(TEST_DATA, name)
@@ -91,7 +99,8 @@ def create_another_user(suffix: str = "") -> User:
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos: set[str] = set()  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    updated_base_repos: set[str] = set()
     CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"
@@ -113,7 +122,8 @@ class RepoTestMixin:
 
             # Extract new content
             with TarFile(tarname) as tar:
-                tar.extractall(settings.DATA_DIR)  # noqa: S202
+                # ruff: ignore[tarfile-unsafe-members]
+                tar.extractall(settings.DATA_DIR)
 
             # Update directory timestamp
             os.utime(output, None)
@@ -226,6 +236,8 @@ class RepoTestMixin:
 
         if "push_on_commit" not in kwargs:
             kwargs["push_on_commit"] = False
+        for field in INHERITABLE_COMPONENT_FLAGS:
+            kwargs.setdefault(field, False)
 
         if "name" not in kwargs:
             kwargs["name"] = "Test"
@@ -479,6 +491,7 @@ class RepoTestMixin:
                 file_format="po",
                 filemask="po/*.po",
                 new_lang="contact",
+                **dict.fromkeys(INHERITABLE_COMPONENT_FLAGS, False),
             )
 
     def create_link_existing(
@@ -493,6 +506,7 @@ class RepoTestMixin:
             "file_format": "po",
             "filemask": "po-duplicates/*.dpo",
             "new_lang": "contact",
+            **dict.fromkeys(INHERITABLE_COMPONENT_FLAGS, False),
         }
         params.update(kwargs)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -531,7 +545,7 @@ def create_test_billing(user: User, invoice: bool = True) -> Billing:
         yearly_price=199,
     )
     billing = Billing.objects.create(plan=plan)
-    billing.owners.add(user)
+    billing.workspace.add_owner(user)
     if invoice:
         Invoice.objects.create(
             billing=billing,
@@ -560,17 +574,20 @@ class SocialCacheMixin:
 
 
 # Lowercase name to be consistent with Django
-class social_core_override_settings(SocialCacheMixin, override_settings):  # noqa: N801
+# ruff: ignore[invalid-class-name]
+class social_core_override_settings(SocialCacheMixin, override_settings):
     pass
 
 
 # Lowercase name to be consistent with Django
-class social_core_modify_settings(SocialCacheMixin, modify_settings):  # noqa: N801
+# ruff: ignore[invalid-class-name]
+class social_core_modify_settings(SocialCacheMixin, modify_settings):
     pass
 
 
 # Lowercase name to be consistent with Django
-class enable_login_required_settings(override_settings):  # noqa: N801
+# ruff: ignore[invalid-class-name]
+class enable_login_required_settings(override_settings):
     def __init__(self):
         middleware = settings.MIDDLEWARE.copy()
         middleware.insert(

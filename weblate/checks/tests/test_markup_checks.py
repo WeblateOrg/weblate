@@ -25,11 +25,10 @@ from weblate.checks.markup import (
     XMLTagsCheck,
     XMLValidityCheck,
     extract_rst_references,
+    has_changed_placeholder_attributes,
 )
-from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
-from weblate.lang.models import Language, Plural
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.tests.factories import make_check, make_unit
 
 
 class BBCodeCheckTest(CheckTestCase):
@@ -279,14 +278,14 @@ class MarkdownLinkCheckTest(CheckTestCase):
         )
 
     def test_fixup(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source="[My Home Page](http://example.com)",
             target="[Moje stránka] (http://example.com)",
         )
 
         self.assertEqual(self.check.get_fixup(unit), [("regex", r"\] +\(", "](", "u")])
 
-        unit = Unit(
+        unit = make_unit(
             source="[My Home Page](http://example.com)",
             target="[Moje stránka]",
         )
@@ -447,6 +446,106 @@ class SafeHTMLCheckTest(CheckTestCase):
             ),
         )
 
+    def test_placeholder_attribute(self) -> None:
+        source = '<a href="%(terms_url)s">terms</a>'
+        self.do_test(False, (source, source, "safe-html"))
+        self.do_test(
+            True,
+            (source, '<a href="„%(terms_url)s“">terms</a>', "safe-html"),
+        )
+        self.do_test(
+            True,
+            (
+                '<a href="%(url)s">Organize</a>',
+                '<a href="\\&quot;%(url)s\\&quot;">Organize</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                '<a href="%(url)s">Organize</a>',
+                '<a href="&quot;%(url)s&quot;">Organize</a>',
+                "safe-html",
+            ),
+        )
+
+    def test_no_placeholder_attribute_skips_target_normalization(self) -> None:
+        target = f'<a title="{"„" * 1000}">link</a>'
+        with patch(
+            "weblate.checks.markup.get_wrapped_placeholder_attribute"
+        ) as wrapped:
+            self.assertFalse(
+                has_changed_placeholder_attributes('<a title="plain">link</a>', target)
+            )
+        wrapped.assert_not_called()
+
+    def test_repeated_placeholder_attributes(self) -> None:
+        source = '<a href="%(url)s">link</a>' * 1000
+        self.do_test(False, (source, source, "safe-html"))
+        self.do_test(True, (source, '<a href="„%(url)s“">link</a>', "safe-html"))
+
+    def test_positional_printf_placeholder_attribute(self) -> None:
+        source = '<a href="%1$s">terms</a>'
+        self.do_test(False, (source, source, "safe-html"))
+        self.do_test(True, (source, '<a href="„%1$s“">terms</a>', "safe-html"))
+
+    def test_reordered_placeholder_attributes(self) -> None:
+        source = '<a href="%terms%">terms</a> and <a href="%privacy%">privacy</a>'
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="%privacy%">privacy</a> and <a href="%terms%">terms</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                source,
+                '<a href="„%privacy%“">privacy</a> and <a href="%terms%">terms</a>',
+                "safe-html",
+            ),
+        )
+
+    def test_mixed_placeholder_static_attributes(self) -> None:
+        source = '<a href="%terms%">terms</a><a href="/help">help</a>'
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="%terms%">terms</a><a href="/support">help</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="/help">help</a><a href="%terms%">terms</a>',
+                "safe-html",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                source,
+                '<a href="%terms%">terms</a> help',
+                "safe-html",
+            ),
+        )
+
+    def test_localizable_placeholder_attribute(self) -> None:
+        self.do_test(
+            False,
+            (
+                '<a href="/%(terms_url)s">terms</a>',
+                '<a href="/cs/%(terms_url)s">terms</a>',
+                "safe-html",
+            ),
+        )
+
     def test_auto_safe_html_plain_text(self) -> None:
         self.do_test(True, ("Plain text", "<b>Plain text</b>", "auto-safe-html"))
 
@@ -556,21 +655,14 @@ class RSTReferencesCheckTest(CheckTestCase):
         )
 
     def test_description(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source=":ref:`bar` `baz`_",
             target=":ref:`bar <baz>` `baz`",
-            extra_flags="rst-text",
-            translation=Translation(
-                component=Component(
-                    file_format="po",
-                    source_language=Language(code="en"),
-                ),
-                plural=Plural(),
-            ),
+            flags="rst-text",
         )
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertHTMLEqual(
-            self.check.get_description(check),
+            str(self.check.get_description(check)),
             """
             The following reStructuredText markup is missing:
             <span class="hlcheck" data-value=":ref:`bar`">:ref:`bar`</span>,
@@ -1121,6 +1213,40 @@ class RSTSyntaxCheckTest(CheckTestCase):
             ),
         )
 
+    def test_wrapped_role(self) -> None:
+        self.do_test(
+            True,
+            (
+                "set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an empty string",
+                "setzen Sie ` :setting:`LEGAL_DOCUMENT_CSS_CLASS` ` auf eine leere Zeichenkette",  # codespell:ignore
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "set `LEGAL_DOCUMENT_CSS_CLASS`:setting: to an empty string",
+                "setzen Sie ` `LEGAL_DOCUMENT_CSS_CLASS`:setting: ` auf eine leere Zeichenkette",  # codespell:ignore
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Users` :ref:`default team <default-teams>` `Teams`",
+                "`Benutzer` :ref:`Standardteam <default-teams>` `Teams`",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "`Users` `default-teams`:ref: `Teams`",
+                "`Benutzer` `default-teams`:ref: `Teams`",
+                "rst-text",
+            ),
+        )
+
     def test_admindocs_tags(self) -> None:
         # admindocs registers own parsers which fail without specific settings
         self.assertTrue(docutils_is_available)
@@ -1134,21 +1260,14 @@ class RSTSyntaxCheckTest(CheckTestCase):
         )
 
     def test_description(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source=":ref:`bar`",
             target=":ref:`bar",
-            extra_flags="rst-text",
-            translation=Translation(
-                component=Component(
-                    file_format="po",
-                    source_language=Language(code="en"),
-                ),
-                plural=Plural(),
-            ),
+            flags="rst-text",
         )
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertHTMLEqual(
-            self.check.get_description(check),
+            str(self.check.get_description(check)),
             """
             The following errors were found:<br>
             Inline interpreted text or phrase reference start-string without end-string.

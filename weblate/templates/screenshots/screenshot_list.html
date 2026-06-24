@@ -17,78 +17,222 @@
   </li>
 {% endblock breadcrumbs %}
 
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link {% if not add_form_active %}active{% endif %}"
+         data-bs-target="#screenshots-list"
+         data-bs-toggle="tab"
+         href="#screenshots-list">{% translate "Screenshots" %}</a>
+    </li>
+    {% if add_form %}
+      <li class="nav-item">
+        <a class="nav-link {% if add_form_active %}active{% endif %}"
+           data-bs-target="#screenshots-add"
+           data-bs-toggle="tab"
+           href="#screenshots-add">{% translate "Add screenshot" %}</a>
+      </li>
+    {% endif %}
+    <li class="nav-item ms-auto align-self-center">{% documentation_icon 'admin/translating' 'screenshots' %}</li>
+  </ul>
+{% endblock nav_pills %}
+
 {% block content %}
 
   {% perm 'screenshot.delete' object as user_can_delete_screenshot %}
   {% perm 'screenshot.edit' object as user_can_edit_screenshot %}
 
-  <h4>
-    {% documentation_icon 'admin/translating' 'screenshots' right=True %}
-    {% translate "Screenshots" %}
-  </h4>
-
-  {% if add_form %}
-    <form action="{% url 'screenshots' path=object.get_url_path %}"
-          method="post"
-          enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">{% translate "Add new screenshot" %}</h4>
+  <div class="tab-content">
+    <div class="tab-pane {% if not add_form_active %}active{% endif %}"
+         id="screenshots-list">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-3">
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="h4">{{ screenshot_summary.total|intcomma }}</div>
+              <div class="text-body-secondary">{% translate "Screenshots" %}</div>
+            </div>
+          </div>
         </div>
-        <div class="card-body">
-          <div id="screenshot-form-container">{{ add_form|crispy }}</div>
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="h4">{{ screenshot_summary.unassigned|intcomma }}</div>
+              <div>
+                <a href="{% url 'screenshots' path=object.get_url_path %}?{{ screenshot_summary.unassigned_query }}">{% translate "Unassigned screenshots" %}</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="card-footer">
-          <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="h4">{{ screenshot_summary.source_strings_with_screenshots|intcomma }}</div>
+              <div>
+                <a href="{{ screenshot_summary.source_translation.get_translate_url }}?q={{ screenshot_summary.with_query|urlencode }}">{% translate "Source strings with screenshots" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="h4">{{ screenshot_summary.source_strings_without_screenshots|intcomma }}</div>
+              <div>
+                <a href="{{ screenshot_summary.source_translation.get_translate_url }}?q={{ screenshot_summary.without_query|urlencode }}">{% translate "Source strings without screenshots" %}</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </form>
-  {% endif %}
 
-  <table class="sort table">
-    <thead>
-      <tr>
-        <th>{% translate "Screenshot name" %}</th>
-        <th>{% translate "Image" %}</th>
-        <th>{% translate "Strings" %}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for screenshot in object_list %}
-        <tr>
-          <th>
-            <a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a> <span class="badge  text-bg-secondary">{{ screenshot.translation.language }}</span>
-          </th>
-          <td>
-            <div class="shot-list">{% include "screenshots/screenshot_show.html" %}</div>
-          </td>
-          {% with count=screenshot.units.count %}
-            <td data-value="{{ count }}">
-              <a href="{{ screenshot.translation.get_translate_url }}?q={{ screenshot.filter_name }}">{{ count|intcomma }}</a>
-              {% if count == 0 %}
-                <span title="{% translate "There are no assigned strings." %}" class="red">{% icon "alert.svg" %}</span>
-              {% endif %}
-            </td>
-          {% endwith %}
-          <td>
-            {% if user_can_edit_screenshot %}
-              <a href="{{ screenshot.get_absolute_url }}" class="btn btn-primary">{% translate "Edit" %}</a>
+      <form method="get" class="result-page-form mb-3">
+        <div class="row g-2 align-items-start">
+          <div class="col-12 col-lg">
+            <label class="visually-hidden" for="{{ search_form.q.id_for_label }}">{% translate "Search screenshots" %}</label>
+            <div class="input-group">
+              <button type="button"
+                      id="query-dropdown"
+                      class="btn btn-outline-primary dropdown-toggle search-field"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false">
+                <span class="search-label">{{ active_query_label }}</span>
+              </button>
+              <ul class="dropdown-menu shadow">
+                {% for preset in screenshot_search_presets %}
+                  <li>
+                    <a class="dropdown-item {% if active_query == preset.query %}active{% endif %}"
+                       href="{% url 'screenshots' path=object.get_url_path %}{% if preset.query_string %}?{{ preset.query_string }}{% endif %}"
+                       {% if active_query == preset.query %}aria-current="true"{% endif %}>
+                      <span class="title">{{ preset.label }}</span>
+                      {% if preset.query %}• <code>{{ preset.query }}</code>{% endif %}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+              {{ search_form.q }}
+            </div>
+            {% if search_form.q.errors %}<div class="invalid-feedback d-block">{{ search_form.q.errors }}</div>{% endif %}
+          </div>
+          <div class="col-12 col-sm-auto">
+            <div class="btn-group search-group sort-field" role="group">
+              <div class="btn-group" role="group">
+                <button type="button"
+                        id="query-sort-dropdown"
+                        class="btn btn-outline-primary dropdown-toggle search-field"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                  <span class="search-label">{{ sort_name }}</span>
+                </button>
+                <input type="hidden"
+                       id="id_sort_by"
+                       name="sort_by"
+                       value="{{ sort_query }}"
+                       aria-label="{% translate "Sort By" %}" />
+                <ul class="dropdown-menu shadow">
+                  {% for key, value in sort_choices.items %}
+                    <li>
+                      <a class="dropdown-item" href="#" data-sort="{{ key }}">{{ value }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary search-field query-sort-toggle">
+                  <span title="{% translate "Ascending" %}"
+                        class="search-icon asc {% if not sort_desc %}active{% endif %}">{% icon "sort-ascending.svg" %}</span>
+                  <span title="{% translate "Descending" %}"
+                        class="search-icon desc {% if sort_desc %}active{% endif %}">{% icon "sort-descending.svg" %}</span>
+                </button>
+              </div>
+            </div>
+            {% if search_form.sort_by.errors %}
+              <div class="invalid-feedback d-block">{{ search_form.sort_by.errors }}</div>
             {% endif %}
-          </td>
-          <td>
-            {% if user_can_delete_screenshot %}
-              <form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
-              </form>
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+          </div>
+        </div>
+      </form>
 
-  {% include "paginator.html" %}
+      {% if object_list %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-3">
+          {% for screenshot in object_list %}
+            <div class="col">
+              <article class="card h-100">
+                <div class="card-body d-flex flex-column">
+                  <div class="d-flex justify-content-between gap-2 align-items-start">
+                    <h3 class="h5 card-title mb-1">
+                      <a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a>
+                    </h3>
+                    <span class="badge text-bg-secondary">{{ screenshot.translation.language }}</span>
+                  </div>
+                  {% if screenshot.repository_filename %}
+                    <div class="small text-body-secondary text-break">
+                      <code>{{ screenshot.repository_filename }}</code>
+                    </div>
+                  {% endif %}
+                  <div class="shot-list my-3">{% include "screenshots/screenshot_show.html" %}</div>
+                  {% with count=screenshot.strings_count %}
+                    <div class="mt-auto d-flex justify-content-between align-items-center gap-2">
+                      <a href="{{ screenshot.translation.get_translate_url }}?q={{ screenshot.filter_name }}">
+                        {% blocktranslate count count=count trimmed %}
+                          {{ count }} string
+                        {% plural %}
+                          {{ count }} strings
+                        {% endblocktranslate %}
+                      </a>
+                      {% if count == 0 %}
+                        <span title="{% translate "There are no assigned strings." %}" class="red">{% icon "alert.svg" %}</span>
+                      {% endif %}
+                    </div>
+                  {% endwith %}
+                </div>
+                {% if user_can_edit_screenshot or user_can_delete_screenshot %}
+                  <div class="card-footer d-flex justify-content-end gap-2">
+                    {% if user_can_edit_screenshot %}
+                      <a href="{{ screenshot.get_absolute_url }}" class="btn btn-sm btn-primary">{% translate "Edit" %}</a>
+                    {% endif %}
+                    {% if user_can_delete_screenshot %}
+                      <form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}{% querystring page=None %}" />
+                        <button type="submit" class="btn btn-sm btn-danger">{% translate "Delete" %}</button>
+                      </form>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </article>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>{% translate "No screenshots found." %}</p>
+      {% endif %}
+
+      {% include "paginator.html" %}
+    </div>
+
+    {% if add_form %}
+      <div class="tab-pane {% if add_form_active %}active{% endif %}" id="screenshots-add">
+        <form action="{% url 'screenshots' path=object.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Add new screenshot" %}</h4>
+            </div>
+            <div class="card-body">
+              <div id="screenshot-form-container">{{ add_form|crispy }}</div>
+            </div>
+            <div class="card-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+  </div>
 
 {% endblock content %}

@@ -3,6 +3,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 (() => {
+  function showShortcutsModal() {
+    const modal = document.getElementById("shortcuts-modal");
+    if (modal !== null) {
+      bootstrap.Modal.getOrCreateInstance(modal).show();
+    }
+  }
+
   // Match the "?" character directly rather than binding via hotkeys-js
   document.addEventListener("keydown", (event) => {
     if (event.key !== "?") {
@@ -18,10 +25,10 @@
       return;
     }
     event.preventDefault();
-    $("#shortcuts-modal").modal("show");
+    showShortcutsModal();
   });
 
-  $("#shortcuts-btn").on("click", () => {
-    $("#shortcuts-modal").modal("show");
-  });
+  document
+    .getElementById("shortcuts-btn")
+    ?.addEventListener("click", showShortcutsModal);
 })();

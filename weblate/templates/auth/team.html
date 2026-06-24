@@ -42,6 +42,13 @@
     <li class="breadcrumb-item">
       <a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% translate "Access control" %}</a>
     </li>
+  {% elif object.defining_workspace %}
+    <li class="breadcrumb-item">
+      <a href="{{ object.defining_workspace.get_absolute_url }}">{{ object.defining_workspace }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'workspace-access' pk=object.defining_workspace.pk %}">{% translate "Access control" %}</a>
+    </li>
   {% else %}
     <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
@@ -91,6 +98,7 @@
         <div class="tab-pane" id="auto">
           <p>
             {% translate "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
+            {% translate "This is checked for every new user on the site, regardless of which project they use." %}
           </p>
           {{ auto_formset|crispy }}
           <div class="multiFieldEmpty hidden">{{ auto_formset.empty_form|crispy }}</div>
@@ -116,6 +124,7 @@
                 <tr>
                   <th>{% translate "Username" %}</th>
                   <th>{% translate "Full name" %}</th>
+                  <th>{% translate "Language limit" %}</th>
                   <th>{% translate "Last sign in" %}</th>
                   <th></th>
                 </tr>
@@ -130,6 +139,15 @@
                       {% endif %}
                     </td>
                     <td>{{ user.full_name }}</td>
+                    <td>
+                      {% with limit_languages=user.team_membership.limit_languages.all %}
+                        {% for language in limit_languages %}
+                          <span class="badge text-bg-secondary">{{ language }}</span>
+                        {% empty %}
+                          <em>{% translate "No additional limit" %}</em>
+                        {% endfor %}
+                      {% endwith %}
+                    </td>
                     <td>
                       {% if user.last_login %}
                         {{ user.last_login|naturaltime }}

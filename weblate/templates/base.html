@@ -39,13 +39,12 @@
     {% include "snippets/meta-css.html" %}
 
     <script src="{% url 'js-catalog' %}" defer></script>
+    <meta name="argon2id-worker-url"
+          content="{% static 'js/vendor/argon2id.js' %}{{ cache_param }}" />
     {% compress js %}
       <script defer
               data-cfasync="false"
               src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/autosize.js' %}{{ cache_param }}"></script>
       <script defer
               data-cfasync="false"
               src="{% static 'js/vendor/altcha.js' %}{{ cache_param }}"></script>
@@ -58,9 +57,6 @@
       <script defer
               data-cfasync="false"
               src="{% static 'js/vendor/bootstrap5.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/tribute.js' %}{{ cache_param }}"></script>
       <script defer
               data-cfasync="false"
               src="{% static 'js/vendor/autoComplete.js' %}{{ cache_param }}"></script>
@@ -78,7 +74,11 @@
               src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
       <script defer
               data-cfasync="false"
+              src="{% static 'js/flag-editor.js' %}{{ cache_param }}"></script>
+      <script defer
+              data-cfasync="false"
               src="{% static 'js/keyboard-shortcuts.js' %}{{ cache_param }}"></script>
+      <script defer data-cfasync="false" src="{% static 'js/urls.js' %}{{ cache_param }}"></script>
       <script defer
               data-cfasync="false"
               src="{% static 'editor/tools/search.js' %}{{ cache_param }}"></script>
@@ -219,9 +219,13 @@
                                  href="{% url 'checks' path=projectlanguage.get_url_path %}">{% blocktranslate %}Failing checks in {{ project }} — {{ language }}{% endblocktranslate %}</a>
                             </li>
                           {% endfor %}
-                          {% if languages|length > 1 %}<li role="separator" class="divider"></li>{% endif %}
+                          {% if languages|length > 1 %}
+                            <li role="separator" class="divider"></li>
+                          {% endif %}
                         {% endfor %}
-                        {% if languages|length == 1 %}<li role="separator" class="divider"></li>{% endif %}
+                        {% if languages|length == 1 %}
+                          <li role="separator" class="divider"></li>
+                        {% endif %}
                       {% endif %}
                       {% for project in watched_projects %}
                         <li>
@@ -296,10 +300,11 @@
               {# Adding new translations #}
               {% if user.is_authenticated %}
                 {% perm "project.add" user as user_can_add_project %}
+                {% perm "workspace.add" user as user_can_add_workspace %}
                 {% if component %}
                   {% perm 'translation.add' component as user_can_add_translation %}
                 {% endif %}
-                {% if user_can_add_project or user.managed_projects or user_can_add_translation|default:False or offer_hosting %}
+                {% if user_can_add_project or user_can_add_workspace and not has_billing or user.managed_projects or user_can_add_translation|default:False or offer_hosting %}
                   <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                       <span class="d-none d-sm-inline">{% icon "plus.svg" %}</span>
@@ -309,6 +314,11 @@
                       {% if user_can_add_project or offer_hosting %}
                         <li>
                           <a class="dropdown-item" href="{% url 'create-project' %}">{% translate "Add new translation project" %}</a>
+                        </li>
+                      {% endif %}
+                      {% if user_can_add_workspace and not has_billing %}
+                        <li>
+                          <a class="dropdown-item" href="{% url 'manage-workspace-add' %}">{% translate "Add new workspace" %}</a>
                         </li>
                       {% endif %}
                       {% if user.managed_projects %}
@@ -436,9 +446,7 @@
                   <li>
                     <a class="dropdown-item" id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
                   </li>
-                  <li>
-                    <li class="dropdown-header">{% translate "Weblate project" %}</li>
-                  </li>
+                  <li class="dropdown-header">{% translate "Weblate project" %}</li>
                   <li>
                     <a class="dropdown-item" href="https://weblate.org/contribute/">{% translate "Contribute" %}</a>
                   </li>
@@ -498,9 +506,11 @@
         {% include 'snippets/menu.html' %}
       {% endif %}
 
-      {% block nav_pills %}{% endblock %}
+      {% block nav_pills %}
+      {% endblock nav_pills %}
 
-      {% block content %}{% endblock %}
+      {% block content %}
+      {% endblock content %}
 
     </div>
     <form id="link-post" method="post">

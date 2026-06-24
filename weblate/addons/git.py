@@ -202,6 +202,64 @@ class GitSquashAddon(
                 message=message, files=[filename], signals=False, skip_push=True
             )
 
+    def squash_author_commits(
+        self,
+        component: Component,
+        repository: GitRepository,
+        commits: list[tuple[str, str]],
+        remote: str,
+        tmp: str,
+        gpg_sign: list[str],
+    ) -> None:
+        # Create local branch for upstream
+        repository.execute(["branch", tmp, remote], remote_op="none")
+        # Checkout upstream branch
+        repository.execute(["checkout", tmp], remote_op="none")
+        while commits:
+            commit, author = commits.pop(0)
+            # Remember current revision for final squash
+            base = repository.get_last_revision()
+            # Cherry pick current commit (this should work
+            # unless something is messed up)
+            try:
+                repository.execute(
+                    ["cherry-pick", "--empty=drop", commit, *gpg_sign],
+                    remote_op="none",
+                    environment={"WEBLATE_MERGE_SKIP": "1"},
+                )
+            except RepositoryError:
+                if repository.has_git_file("CHERRY_PICK_HEAD"):
+                    repository.execute(["cherry-pick", "--abort"], remote_op="none")
+                raise
+            handled = []
+            # Pick other commits by same author
+            for i, other in enumerate(commits):
+                if other[1] != author:
+                    continue
+                try:
+                    repository.execute(
+                        ["cherry-pick", "--empty=drop", other[0], *gpg_sign],
+                        remote_op="none",
+                        environment={"WEBLATE_MERGE_SKIP": "1"},
+                    )
+                    handled.append(i)
+                except RepositoryError:
+                    # If fails, continue to another author, we will
+                    # pick this commit later (it depends on some other)
+                    if repository.has_git_file("CHERRY_PICK_HEAD"):
+                        repository.execute(["cherry-pick", "--abort"], remote_op="none")
+                    break
+            # Remove processed commits from list
+            for i in reversed(handled):
+                del commits[i]
+            # Squash all current commits from one author
+            self.squash_repo(component, repository, base, author)
+
+        # Update working copy with squashed commits
+        repository.execute(["checkout", repository.branch], remote_op="none")
+        repository.execute(["reset", "--hard", tmp], remote_op="none")
+        repository.delete_branch(tmp)
+
     def squash_author(self, component: Component, repository: GitRepository) -> None:
         remote = repository.get_remote_branch_name()
         # Get list of pending commits with authors
@@ -219,57 +277,9 @@ class GitSquashAddon(
         tmp = "weblate-squash-tmp"
         repository.delete_branch(tmp)
         try:
-            # Create local branch for upstream
-            repository.execute(["branch", tmp, remote], remote_op="none")
-            # Checkout upstream branch
-            repository.execute(["checkout", tmp], remote_op="none")
-            while commits:
-                commit, author = commits.pop(0)
-                # Remember current revision for final squash
-                base = repository.get_last_revision()
-                # Cherry pick current commit (this should work
-                # unless something is messed up)
-                try:
-                    repository.execute(
-                        ["cherry-pick", "--empty=drop", commit, *gpg_sign],
-                        remote_op="none",
-                        environment={"WEBLATE_MERGE_SKIP": "1"},
-                    )
-                except RepositoryError:
-                    if repository.has_git_file("CHERRY_PICK_HEAD"):
-                        repository.execute(["cherry-pick", "--abort"], remote_op="none")
-                    raise
-                handled = []
-                # Pick other commits by same author
-                for i, other in enumerate(commits):
-                    if other[1] != author:
-                        continue
-                    try:
-                        repository.execute(
-                            ["cherry-pick", "--empty=drop", other[0], *gpg_sign],
-                            remote_op="none",
-                            environment={"WEBLATE_MERGE_SKIP": "1"},
-                        )
-                        handled.append(i)
-                    except RepositoryError:
-                        # If fails, continue to another author, we will
-                        # pick this commit later (it depends on some other)
-                        if repository.has_git_file("CHERRY_PICK_HEAD"):
-                            repository.execute(
-                                ["cherry-pick", "--abort"], remote_op="none"
-                            )
-                        break
-                # Remove processed commits from list
-                for i in reversed(handled):
-                    del commits[i]
-                # Squash all current commits from one author
-                self.squash_repo(component, repository, base, author)
-
-            # Update working copy with squashed commits
-            repository.execute(["checkout", repository.branch], remote_op="none")
-            repository.execute(["reset", "--hard", tmp], remote_op="none")
-            repository.delete_branch(tmp)
-
+            self.squash_author_commits(
+                component, repository, commits, remote, tmp, gpg_sign
+            )
         except Exception:
             report_error("Failed squash", project=component.project)
             # Revert to original branch without any changes
@@ -292,7 +302,9 @@ class GitSquashAddon(
             if component.repo_needs_merge():
                 try:
                     branch_updated = component.update_branch(
-                        method="rebase", skip_push=True
+                        method="rebase",
+                        skip_push=True,
+                        parse_after_update=True,
                     )
                 except RepositoryError:
                     return
@@ -314,7 +326,7 @@ class GitSquashAddon(
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
             component.commit_files(
-                template=component.addon_message,
+                template=component.effective_addon_message,
                 extra_context={"addon_name": self.verbose},
                 signals=False,
                 skip_push=True,

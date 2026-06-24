@@ -17,24 +17,28 @@ from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
 
+from weblate.auth.results import Denied
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.ttkit import CSVFormat
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FailedCommitError, FileParseError
-from weblate.trans.forms import SimpleUploadForm
+from weblate.trans.forms import SimpleUploadForm, UploadForm, get_upload_form
 from weblate.trans.models import Change, ComponentList, PendingUnitChange, Translation
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import get_optional_path, get_test_file
 from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_READONLY
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from django.http import HttpResponseBase
 
 TEST_PO = get_test_file("cs.po")
@@ -57,6 +61,49 @@ TEST_TBX = get_test_file("terms.tbx")
 
 TRANSLATION_OURS = "Nazdar světe!\n"
 TRANSLATION_PO = "Ahoj světe!\n"
+
+
+class UploadFormTest(SimpleTestCase):
+    def test_upload_form_rejects_approved_conflicts_without_review(self) -> None:
+        form = UploadForm(
+            data={
+                "method": "translate",
+                "fuzzy": "",
+                "conflicts": "replace-approved",
+            },
+            files={"file": SimpleUploadedFile("test.po", b'msgid ""\n')},
+            review_permission=Denied("Translation reviews are turned off."),
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["conflicts"],
+            ["Translation reviews are turned off."],
+        )
+
+
+class UploadFormPermissionTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_cache()
+
+    def test_upload_form_hides_approved_conflicts_without_review(self) -> None:
+        form = get_upload_form(self.user, self.translation)
+
+        choices = [choice[0] for choice in form.fields["conflicts"].choices]
+        self.assertIn("replace-translated", choices)
+        self.assertNotIn("replace-approved", choices)
+
+    def test_upload_form_keeps_approved_conflicts_with_review(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+        self.user.clear_cache()
+
+        form = get_upload_form(self.user, self.translation)
+
+        choices = [choice[0] for choice in form.fields["conflicts"].choices]
+        self.assertIn("replace-approved", choices)
 
 
 class ImportBaseTest(ViewTestCase):
@@ -85,11 +132,12 @@ class ImportBaseTest(ViewTestCase):
                 "author_email": self.user.email,
             }
             params.update(kwargs)
-            return self.client.post(
-                reverse("upload", kwargs=self.kw_translation),
-                params,
-                follow=follow,
-            )
+            with self.captureOnCommitCallbacks(execute=True):
+                return self.client.post(
+                    reverse("upload", kwargs=self.kw_translation),
+                    params,
+                    follow=follow,
+                )
 
 
 class ImportTest(ImportBaseTest):
@@ -756,13 +804,15 @@ class RubyPluralImportText(ImportBaseTest):
 
     def test_import_pt_br(self) -> None:
         language = Language.objects.get(code="pt_BR")
-        translation = self.component.add_new_language(language, None)
+        with self.captureOnCommitCallbacks(execute=True):
+            translation = self.component.add_new_language(language, None)
         self.assertIsNotNone(translation)
-        response = self.client.post(
-            reverse("upload", kwargs={"path": translation.get_url_path()}),
-            {
-                "file": BytesIO(
-                    r"""
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("upload", kwargs={"path": translation.get_url_path()}),
+                {
+                    "file": BytesIO(
+                        r"""
 pt_br:
   weblate:
     orangutan:
@@ -770,13 +820,13 @@ pt_br:
       many: "Orangutan má %d banány.\n"
       other: "Orangutan má %d banánů.\n"
 """.encode()
-                ),
-                "method": "translate",
-                "author_name": self.user.full_name,
-                "author_email": self.user.email,
-            },
-            follow=True,
-        )
+                    ),
+                    "method": "translate",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
+                },
+                follow=True,
+            )
         self.assertRedirects(response, translation.get_absolute_url())
 
         self.assertEqual(translation.stats.translated, 1)
@@ -893,7 +943,10 @@ class CSVImportTest(ViewTestCase):
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
-        with open(self.test_file, "rb") as handle:
+        with (
+            open(self.test_file, "rb") as handle,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.client.post(
                 reverse("upload", kwargs=self.kw_translation),
                 {
@@ -1098,7 +1151,18 @@ class ImportSourceTest(ImportBaseTest):
         self.assertFalse(
             translation.change_set.filter(action=ActionEvents.SOURCE_UPLOAD).exists()
         )
-        response = self.do_import(method="source", follow=True)
+
+        def run_on_commit(
+            callback: Callable[[], object], *args: object, **kwargs: object
+        ) -> object:
+            del args, kwargs
+            return callback()
+
+        with patch(
+            "django.db.transaction.on_commit",
+            side_effect=run_on_commit,
+        ):
+            response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation.get_absolute_url())
         messages = list(response.context["messages"])
         self.assertIn(self.expected, messages[0].message)
@@ -1118,11 +1182,75 @@ class ImportSourceTest(ImportBaseTest):
             self.expected_uploads,
         )
 
+    def test_import_removes_obsolete(self) -> None:
+        self.component.file_format_params = {
+            **self.component.file_format_params,
+            "po_remove_obsolete": True,
+        }
+        self.component.save(update_fields=["file_format_params"])
+        translation = self.component.translation_set.get(language__code="cs")
+        translation_file = get_optional_path(translation.get_filename())
+        translation_file.write_text(
+            translation_file.read_text(encoding="utf-8").replace(
+                'msgid "Thank you for using Weblate."\nmsgstr ""',
+                'msgid "Thank you for using Weblate."\nmsgstr "Dekuji"',
+            ),
+            encoding="utf-8",
+        )
+        content = Path(TEST_POT).read_text(encoding="utf-8")
+        for line in ("14", "15"):
+            content = content.replace(
+                f"\n#: main.c:{line}\n"
+                'msgid "Thank you for using Weblate."\n'
+                'msgstr ""\n',
+                "\n",
+            )
+        with tempfile.NamedTemporaryFile(
+            "w", encoding="utf-8", suffix=".pot", delete=False
+        ) as handle:
+            handle.write(content)
+            test_file = handle.name
+
+        try:
+            response = self.do_import(method="source", test_file=test_file, follow=True)
+        finally:
+            os.unlink(test_file)
+
+        self.assertRedirects(response, self.translation.get_absolute_url())
+        self.assertNotIn(
+            "#~ msgid",
+            get_optional_path(translation.get_filename()).read_text(encoding="utf-8"),
+        )
+
 
 class ImportAddTest(ImportBaseTest):
     """Testing of source strings update imports."""
 
     test_file = TEST_TBX
+
+    def test_add_upload_holds_component_lock(self) -> None:
+        translation = self.get_translation()
+        request = self.get_request()
+        store = object()
+
+        def handle_add_upload(*args, **kwargs):
+            self.assertTrue(translation.component.lock.is_locked)
+            return (0, 0, 0, 0)
+
+        with (
+            patch.object(translation, "load_uploaded_file", return_value=store),
+            patch.object(
+                translation, "handle_add_upload", side_effect=handle_add_upload
+            ) as add_upload,
+        ):
+            translation.handle_upload(
+                request,
+                NamedBytesIO("upload.tbx", b""),
+                "",
+                method="add",
+            )
+
+        add_upload.assert_called_once()
 
     def test_import(self) -> None:
         """Test importing normally."""

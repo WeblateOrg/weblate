@@ -35,7 +35,8 @@ EDITABLE_STATES = {
 }
 
 
-def bulk_perform(  # noqa: C901
+# ruff: ignore[complex-structure]
+def bulk_perform(
     user: User | None,
     unit_set: UnitQuerySet,
     *,
@@ -45,7 +46,7 @@ def bulk_perform(  # noqa: C901
     remove_flags: str | Flags,
     add_labels: QuerySet[Label],
     remove_labels: QuerySet[Label],
-    project: Project,
+    project: Project | None,
     components: QuerySet[Component] | list[Component] | None = None,
 ) -> int:
     matching = unit_set.search(query, project=project)
@@ -93,7 +94,17 @@ def bulk_perform(  # noqa: C901
                 ):
                     source_unit_ids.add(unit.source_unit_id)
 
-                    if user is None or user.has_perm("unit.edit", unit):
+                    bulk_permission_obj = (
+                        unit.translation.component if unit.is_source else unit
+                    )
+                    if user is None or (
+                        user.has_perm("unit.edit", unit)
+                        and user.has_perm("unit.bulk_edit", bulk_permission_obj)
+                        and (
+                            target_state != STATE_APPROVED
+                            or user.has_perm("unit.review", unit)
+                        )
+                    ):
                         # Create change object for edit, update is done outside the loop
                         unit.state = target_state
                         unit.automatically_translated = False
@@ -135,7 +146,11 @@ def bulk_perform(  # noqa: C901
                     unit.source_unit_save()
 
             if update_source and (
-                user is None or user.has_perm("source.edit", component)
+                user is None
+                or (
+                    user.has_perm("source.edit", component)
+                    and user.has_perm("unit.bulk_edit", component)
+                )
             ):
                 # Perform changes on the source units
                 source_units = (

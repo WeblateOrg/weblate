@@ -1,0 +1,95 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Accessibility issue
+description: Report a barrier when using Weblate
+title: 'Accessibility: '
+labels:
+- accessibility
+body:
+- type: markdown
+  attributes:
+    value: |
+      Thank you for reporting an accessibility problem.
+      This form helps us understand the affected workflow and impact.
+- type: textarea
+  id: affected-area
+  attributes:
+    label: Affected page or workflow
+    description: Which Weblate page, feature, or task is affected?
+    placeholder: 'Example: Translation editor, project settings, sign-in form'
+  validations:
+    required: true
+- type: textarea
+  id: reproducer
+  attributes:
+    label: Steps to reproduce
+    description: What did you do before the problem appeared?
+    placeholder: |
+      1. Go to '...'
+      2. Navigate using '...'
+      3. The problem appears
+  validations:
+    required: true
+- type: textarea
+  id: expected
+  attributes:
+    label: Expected behavior
+    description: What should happen instead?
+  validations:
+    required: true
+- type: textarea
+  id: actual
+  attributes:
+    label: Actual behavior
+    description: What happened, and what made the workflow difficult or impossible?
+  validations:
+    required: true
+- type: dropdown
+  id: input-method
+  attributes:
+    label: Input method
+    description: Which input method exposes the issue?
+    multiple: true
+    options:
+    - Keyboard only
+    - Screen reader
+    - Screen magnifier or zoom
+    - Voice control
+    - Mouse or pointer
+    - Touch
+    - Other assistive technology
+- type: textarea
+  id: environment
+  attributes:
+    label: Environment
+    description: Please include browser, operating system, and assistive technology versions when relevant.
+    placeholder: Firefox 126 on Linux with NVDA, Chrome on Android with TalkBack, Safari on macOS with VoiceOver
+- type: dropdown
+  id: impact
+  attributes:
+    label: Impact
+    description: How severe is the problem?
+    options:
+    - Blocks a core workflow
+    - Core workflow has a workaround
+    - Non-core workflow is difficult
+    - Minor issue or inconsistent behavior
+  validations:
+    required: true
+- type: textarea
+  id: workaround
+  attributes:
+    label: Workaround
+    description: If you found a workaround, please describe it.
+- type: textarea
+  id: screenshots
+  attributes:
+    label: Screenshots or recordings
+    description: If helpful, add screenshots, screen recordings, or text output from assistive technology.
+- type: textarea
+  id: additional
+  attributes:
+    label: Additional context
+    description: Add any other context that might help us reproduce or understand the problem.

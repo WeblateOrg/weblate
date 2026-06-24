@@ -28,10 +28,8 @@ from weblate.checks.chars import (
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
-from weblate.checks.models import Check
-from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
-from weblate.lang.models import Language
-from weblate.trans.models import Component, Project, Translation, Unit
+from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.trans.tests.factories import make_check, make_unit
 
 
 class BeginNewlineCheckTest(CheckTestCase):
@@ -103,14 +101,14 @@ class EndStopCheckTest(CheckTestCase):
             self.check.check_target(
                 ["<unused singular (hash=…)>", "Lorem ipsum dolor sit amet."],
                 ["zero", "one", "two", "few", "many", "other"],
-                MockUnit(code="ar"),
+                make_unit(code="ar"),
             )
         )
         self.assertFalse(
             self.check.check_target(
                 ["<unused singular (hash=…)>", "Lorem ipsum dolor sit amet."],
                 ["zero.", "one", "two.", "few.", "many.", "other."],
-                MockUnit(code="ar"),
+                make_unit(code="ar"),
             )
         )
 
@@ -121,14 +119,14 @@ class EndStopCheckTest(CheckTestCase):
             self.check.check_target(
                 ["<unused singular (hash=…)>", "English."],
                 ["Japanese…"],
-                MockUnit(code="ja"),
+                make_unit(code="ja"),
             )
         )
         self.assertFalse(
             self.check.check_target(
                 ["<unused singular (hash=…)>", "English."],
                 ["Japanese。"],
-                MockUnit(code="ja"),
+                make_unit(code="ja"),
             )
         )
 
@@ -311,7 +309,7 @@ class NewLineCountCheckTest(CheckTestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_single_good_matching = ("string\n\nstring", "string\n\nstring", "")
+        self.test_good_matching = ("string\n\nstring", "string\n\nstring", "")
         self.test_failure_1 = ("string\nstring", "string\n\n\nstring", "")
         self.test_failure_2 = ("string\nstring\n\nstring", "string\nstring\nstring", "")
 
@@ -337,7 +335,7 @@ class MaxLengthCheckTest(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags=self.test_good_matching[2]),
+                make_unit(flags=self.test_good_matching[2]),
             )
         )
 
@@ -346,24 +344,17 @@ class MaxLengthCheckTest(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags="max-length:*"),
+                make_unit(flags="max-length:*"),
             )
         )
 
     def test_description_invalid_flag(self) -> None:
-        unit = Unit(
+        unit = make_unit(
             source=self.test_good_matching[0],
             target=self.test_good_matching[1],
-            extra_flags="max-length:*",
-            translation=Translation(
-                component=Component(
-                    file_format="po",
-                    source_language=Language(code="en"),
-                    project=Project(),
-                )
-            ),
+            flags="max-length:*",
         )
-        check = Check(unit=unit)
+        check = make_check(unit, self.check)
         self.assertIn(
             "Could not parse max-length flag:", str(self.check.get_description(check))
         )
@@ -373,7 +364,7 @@ class MaxLengthCheckTest(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
-                MockUnit(flags=self.test_good_matching_unicode[2]),
+                make_unit(flags=self.test_good_matching_unicode[2]),
             )
         )
 
@@ -382,7 +373,7 @@ class MaxLengthCheckTest(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags="max-length:10"),
+                make_unit(flags="max-length:10"),
             )
         )
 
@@ -391,7 +382,7 @@ class MaxLengthCheckTest(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
-                MockUnit(flags="max-length:10"),
+                make_unit(flags="max-length:10"),
             )
         )
 
@@ -400,14 +391,14 @@ class MaxLengthCheckTest(SimpleTestCase):
             self.check.check_target(
                 ["hi %s"],
                 ["ahoj %s"],
-                MockUnit(flags="max-length:10"),
+                make_unit(flags="max-length:10"),
             )
         )
         self.assertTrue(
             self.check.check_target(
                 ["hi %s"],
                 ["ahoj %s"],
-                MockUnit(flags='max-length:10, replacements:%s:"very long text"'),
+                make_unit(flags='max-length:10, replacements:%s:"very long text"'),
             )
         )
 
@@ -416,21 +407,21 @@ class MaxLengthCheckTest(SimpleTestCase):
             self.check.check_target(
                 ["hi <mrk>%s</mrk>"],
                 ["ahoj <mrk>%s</mrk>"],
-                MockUnit(flags="max-length:10"),
+                make_unit(flags="max-length:10"),
             )
         )
         self.assertFalse(
             self.check.check_target(
                 ["hi <mrk>%s</mrk>"],
                 ["ahoj <mrk>%s</mrk>"],
-                MockUnit(flags="max-length:10, xml-text"),
+                make_unit(flags="max-length:10, xml-text"),
             )
         )
         self.assertTrue(
             self.check.check_target(
                 ["hi <mrk>%s</mrk>"],
                 ["ahoj <mrk>%s</mk>"],
-                MockUnit(flags="max-length:10, xml-text"),
+                make_unit(flags="max-length:10, xml-text"),
             )
         )
 

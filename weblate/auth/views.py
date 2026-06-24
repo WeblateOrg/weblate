@@ -15,7 +15,8 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
-from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm
+from weblate.auth.decorators import check_management_access
+from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import (
     AutoGroup,
     Group,
@@ -23,6 +24,7 @@ from weblate.auth.models import (
     InvitationExpiredError,
     InvitationUserMismatchError,
 )
+from weblate.auth.utils import prefetch_membership_limit_languages
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
 from weblate.trans.util import redirect_next, redirect_param
 from weblate.utils import messages
@@ -55,22 +57,34 @@ class TeamUpdateView(UpdateView):
     def get_form_class(self):
         if self.object.defining_project:
             return ProjectTeamForm
+        if self.object.defining_workspace:
+            return WorkspaceTeamForm
         return SitewideTeamForm
 
     def get_form(self, form_class=None):
         if not self.request.user.has_perm("meta:team.edit", self.object):
             return None
+        if (
+            self.object.defining_project is None
+            and self.object.defining_workspace is None
+        ):
+            check_management_access(self.request, "group.edit")
         return super().get_form(form_class)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         if self.object.defining_project:
             kwargs["project"] = self.object.defining_project
+        if self.object.defining_workspace:
+            kwargs["workspace"] = self.object.defining_workspace
         return kwargs
 
     def get_object(self, queryset=None):
         result = super().get_object(queryset=queryset)
         user = self.request.user
+
+        if user.is_anonymous:
+            raise PermissionDenied
 
         if (
             not user.has_perm("meta:team.edit", result)
@@ -88,23 +102,45 @@ class TeamUpdateView(UpdateView):
             result["auto_formset"] = self.auto_formset(instance=self.object)
 
         if self.request.user.has_perm("meta:team.users", self.object):
-            result["users"] = get_paginator(
+            users = get_paginator(
                 self.request,
                 self.object.user_set.filter(is_active=True, is_bot=False).order(),
             )
-            result["add_user_form"] = UserAddTeamForm()
+            memberships = {
+                membership.user_id: membership
+                for membership in self.object.memberships.filter(
+                    user__in=users.object_list
+                ).prefetch_related(prefetch_membership_limit_languages())
+            }
+            for user in users:
+                user.team_membership = memberships.get(user.id)
+            result["users"] = users
+            result["add_user_form"] = UserAddTeamForm(team=self.object)
             result["admins"] = self.object.admins.all()
 
         return result
 
     def handle_add_user(self, request: AuthenticatedHttpRequest):
-        form = UserAddTeamForm(request.POST)
+        form = UserAddTeamForm(request.POST, team=self.object)
         if form.is_valid():
+            user = form.cleaned_data["user"]
+            had_membership = user.team_memberships.filter(group=self.object).exists()
             if form.cleaned_data["make_admin"]:
-                self.object.admins.add(form.cleaned_data["user"])
+                self.object.admins.add(user)
             else:
-                self.object.admins.remove(form.cleaned_data["user"])
-            form.cleaned_data["user"].add_team(request, self.object)
+                self.object.admins.remove(user)
+            user.add_team(request, self.object)
+            # The inline admin toggle links submit add_user=1 without the add-user
+            # form fields, so they should not alter existing language limits.
+            should_update_limit_languages = (
+                request.POST.get("add_user") != "1" or "limit_languages" in request.POST
+            )
+            if should_update_limit_languages:
+                user.team_memberships.get(group=self.object).set_limit_languages(
+                    form.cleaned_data["limit_languages"],
+                    request,
+                    audit=had_membership,
+                )
         else:
             show_form_errors(request, form)
         return HttpResponseRedirect(self.get_success_url())
@@ -120,6 +156,10 @@ class TeamUpdateView(UpdateView):
     def handle_delete(self, request: AuthenticatedHttpRequest):
         if self.object.defining_project:
             fallback = f"{reverse('manage-access', kwargs={'project': self.object.defining_project.slug})}#teams"
+        elif self.object.defining_workspace:
+            fallback = reverse(
+                "workspace-access", kwargs={"pk": self.object.defining_workspace.pk}
+            )
         elif request.user.is_superuser:
             fallback = reverse("manage-teams")
         else:
@@ -133,6 +173,12 @@ class TeamUpdateView(UpdateView):
     # pylint: disable=arguments-differ
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
+        if (
+            self.object.defining_project is None
+            and self.object.defining_workspace is None
+            and request.user.has_perm("group.edit")
+        ):
+            check_management_access(request, "group.edit")
         if self.request.user.has_perm("meta:team.users", self.object):
             if "add_user" in request.POST:
                 return self.handle_add_user(request)
@@ -164,6 +210,14 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["invitation_matches_user"] = (
+            self.request.user.is_authenticated
+            and self.object.matches_user(self.request.user)
+        )
+        return context
+
     def validate_invitation(
         self, request: AuthenticatedHttpRequest
     ) -> HttpResponse | None:
@@ -173,16 +227,17 @@ class InvitationView(DetailView):
                 return redirect_param("profile", "#account")
             return redirect("register")
 
-        if request.user.is_authenticated and self.object.user != request.user:
-            # Invitation not for this user (either is for email and user is None or different user)
-            messages.error(
-                request,
-                gettext(
-                    "This invitation can be accepted only by the e-mail address "
-                    "chosen by the inviter; it can't be used by your account."
-                ),
-            )
-            return redirect_param("profile", "#account")
+        if request.user.is_authenticated:
+            if not self.object.matches_user(request.user):
+                messages.error(
+                    request,
+                    gettext(
+                        "This invitation can be accepted only by the e-mail address "
+                        "chosen by the inviter; it can't be used by your account."
+                    ),
+                )
+                return redirect_param("profile", "#account")
+            return None
         if not self.object.user:
             # When inviting new user go through registration
             request.session["invitation_link"] = str(self.object.pk)
@@ -205,10 +260,16 @@ class InvitationView(DetailView):
         action = request.POST.get("action", "")
         if action in {"resend", "remove"}:
             project = invitation.group.defining_project
+            workspace = invitation.group.defining_workspace
             # Permission check
-            if not user.has_perm(
-                "project.permissions" if project else "user.edit", project
-            ):
+            if project:
+                allowed = user.has_perm("project.permissions", project)
+            elif workspace:
+                allowed = user.has_perm("workspace.edit_members", workspace)
+            else:
+                check_management_access(request, "user.edit")
+                allowed = True
+            if not allowed:
                 raise PermissionDenied
 
             # Perform admin action
@@ -222,16 +283,13 @@ class InvitationView(DetailView):
             # Redirect
             if project:
                 return redirect("manage-access", project=project.slug)
+            if workspace:
+                return redirect(workspace)
             return redirect("manage-users")
 
         # Check if invitation can be accepted
-        if not invitation.user:
-            # This should go via registration path
-            raise Http404
         if not user.is_authenticated:
             raise PermissionDenied
-        if invitation.user != user:
-            raise Http404
 
         # Check if this is for us
         validation_result = self.validate_invitation(request)
@@ -249,6 +307,8 @@ class InvitationView(DetailView):
 
         if invitation.group.defining_project:
             return redirect(invitation.group.defining_project)
+        if invitation.group.defining_workspace:
+            return redirect(invitation.group.defining_workspace)
         return redirect("home")
 
 

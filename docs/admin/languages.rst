@@ -4,7 +4,7 @@ Language definitions
 ====================
 
 To present different translations properly, info about language name,
-text direction, plural definitions and language code is needed.
+text direction, plural definitions and language code are needed.
 
 .. _included-languages:
 
@@ -177,11 +177,32 @@ Plural formula
 
 Gettext compatible plural formula used to determine which plural form is used for given count.
 
+The formula uses the same expression syntax as the ``plural=`` part of the
+Gettext ``Plural-Forms`` header. The ``nplurals`` value sets how many plural
+forms the language has, and the formula returns the zero-based index of the
+plural form to use for a count ``n``.
+
+Weblate validates the formula using the Gettext parser provided by Python.
+The accepted syntax is a C-like integer expression with ``n`` as the only
+variable. It can use decimal numbers, parentheses, arithmetic operators
+(``+``, ``-``, ``*``, ``/``, ``%``), comparison and equality operators,
+logical operators (``&&``, ``||``, ``!``), and the ternary operator
+(``condition ? value1 : value2``). The result must be between ``0`` and
+``nplurals - 1``.
+
+For example, English uses:
+
+.. code-block:: text
+
+   nplurals=2; plural=n != 1;
+
 .. seealso::
 
    * :ref:`plurals`
-   * `Additional functions for plural forms in GNU gettext`_
+   * `GNU gettext manual for plural forms`_
+   * `GNU gettext plural formula parser`_
    * `Language Plural Rules by the Unicode Consortium`_
 
-.. _Additional functions for plural forms in GNU gettext: https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html
+.. _GNU gettext manual for plural forms: https://www.gnu.org/software/gettext/manual/gettext.html#Plural-forms
+.. _GNU gettext plural formula parser: https://cgit.git.savannah.gnu.org/cgit/gettext.git/tree/gettext-runtime/intl/plural.y
 .. _Language Plural Rules by the Unicode Consortium: https://www.unicode.org/cldr/charts/43/supplemental/language_plural_rules.html

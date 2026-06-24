@@ -15,6 +15,7 @@ from requests.exceptions import HTTPError
 import weblate.utils.version
 
 from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
     MachineTranslationError,
@@ -85,7 +86,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         params = {"q": text, "source": source_language, "target": target_language}

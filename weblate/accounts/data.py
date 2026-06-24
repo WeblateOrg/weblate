@@ -34,7 +34,7 @@ DEFAULT_NOTIFICATIONS = [
     (
         NotificationScope.SCOPE_WATCHED,
         NotificationFrequency.FREQ_WEEKLY,
-        "NewStringNotificaton",
+        "TranslationActivitySummaryNotification",
     ),
     (
         NotificationScope.SCOPE_ADMIN,

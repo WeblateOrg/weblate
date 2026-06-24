@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django import forms
 from django.contrib import admin
@@ -16,7 +16,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import ROLES
-from weblate.auth.models import AutoGroup, Group, Role, User
+from weblate.auth.models import AutoGroup, Group, Role, TeamMembership, User
 from weblate.wladmin.models import WeblateModelAdmin
 
 if TYPE_CHECKING:
@@ -37,7 +37,8 @@ def block_role_edit(obj: Role):
 class AutoGroupChangeForm(forms.ModelForm):
     class Meta:
         model = AutoGroup
-        fields = "__all__"  # noqa: DJ007
+        # ruff: ignore[django-all-with-model-form]
+        fields = "__all__"
 
     def has_changed(self) -> bool:
         """
@@ -69,6 +70,14 @@ class InlineAutoGroupAdmin(admin.TabularInline):
         return super().has_delete_permission(request, obj)
 
 
+class UserTeamMembershipInline(admin.TabularInline):
+    model = TeamMembership
+    fk_name = "user"
+    extra = 0
+    autocomplete_fields = ("group",)
+    filter_horizontal = ("limit_languages",)
+
+
 @admin.register(Role)
 class RoleAdmin(WeblateModelAdmin):
     list_display = ("name",)
@@ -89,7 +98,8 @@ class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = "__all__"
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "username": UniqueUsernameField,
             "full_name": FullNameField,
         }
@@ -97,7 +107,9 @@ class WeblateUserChangeForm(UserChangeForm):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["email"].required = True
-        self.fields["username"].valid = self.instance.username
+        cast(
+            "UniqueUsernameField", self.fields["username"]
+        ).valid = self.instance.username
 
 
 class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
@@ -106,7 +118,8 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
     class Meta:
         model = User
         fields = ("username", "email", "full_name")
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "username": UniqueUsernameField,
             "full_name": FullNameField,
         }
@@ -159,6 +172,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     search_fields = ("username", "full_name", "email")
     form = WeblateUserChangeForm
     add_form = WeblateUserCreationForm
+    inlines = (UserTeamMembershipInline,)
     add_fieldsets = (
         (None, {"fields": ("username",)}),
         (gettext_lazy("Personal info"), {"fields": ("full_name", "email")}),
@@ -169,7 +183,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         (gettext_lazy("Personal info"), {"fields": ("full_name", "email")}),
         (
             gettext_lazy("Permissions"),
-            {"fields": ("is_active", "is_bot", "is_superuser", "groups")},
+            {"fields": ("is_active", "is_bot", "is_superuser")},
         ),
         (
             gettext_lazy("Important dates"),
@@ -177,7 +191,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         ),
     )
     list_filter = ("is_superuser", "is_active", "is_bot", "groups")
-    filter_horizontal = ("groups",)
+    filter_horizontal = ()
 
     def user_groups(self, obj):
         """Display comma separated list of user groups."""
@@ -222,7 +236,8 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 class GroupChangeForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = "__all__"  # noqa: DJ007
+        # ruff: ignore[django-all-with-model-form]
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -262,8 +277,8 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     model = Group
     form = GroupChangeForm
     inlines = (InlineAutoGroupAdmin,)
-    search_fields = ("name", "defining_project__name")
-    ordering = ("defining_project__name", "name")
+    search_fields = ("name", "defining_project__name", "defining_workspace__name")
+    ordering = ("defining_project__name", "defining_workspace__name", "name")
     list_filter = ("internal", "project_selection", "language_selection")
     filter_horizontal = (
         "roles",
@@ -272,7 +287,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         "components",
         "componentlists",
     )
-    list_display = ("name", "defining_project")
+    list_display = ("name", "defining_project", "defining_workspace")
 
     new_obj: Group
 

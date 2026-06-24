@@ -5,6 +5,15 @@
 <table class="table table-sm table-embed-units">
   <thead>
     <tr>
+      {% if selection_template %}
+        <th class="unit-selection-cell">
+          {% if selection_header_template %}
+            {% include selection_header_template %}
+          {% else %}
+            <span class="visually-hidden">{% translate "Select" %}</span>
+          {% endif %}
+        </th>
+      {% endif %}
       <th class="unit-state-cell"></th>
       {% if show_translation %}
         <th>{% translate "Translation" %}</th>
@@ -78,6 +87,9 @@
 
     {% for unit in units %}
       <tr class="{% if current_unit.id == unit.id %}current_translation{% endif %}">
+        {% if selection_template %}
+          <td class="unit-selection-cell">{% include selection_template %}</td>
+        {% endif %}
         <td class="unit-state-cell {% unit_state_class unit %}"
             title="{% unit_state_title unit %}"></td>
         {% if show_translation %}

@@ -16,6 +16,27 @@ correctly in these browsers as well.
 
 Older browsers might work, but some features might be limited.
 
+Accessibility
+-------------
+
+Weblate targets WCAG 2.2 Level AA for new and changed user-facing
+functionality where practical. Use semantic HTML and Bootstrap components
+before adding custom interaction code.
+
+When changing the frontend:
+
+- Make all interactive controls reachable and usable with a keyboard.
+- Keep focus order logical and preserve visible focus styling.
+- Prefer native buttons, links, inputs, selects, and tables over custom widgets.
+- Associate every form control with a label, help text, and validation errors
+  where applicable.
+- Do not use color, icon shape, or position as the only way to convey state.
+- Announce dynamic status changes that are not otherwise visible to assistive
+  technology.
+- Respect reduced-motion preferences for animation or scrolling behavior.
+- Test changed workflows with keyboard-only navigation and, when practical, a
+  screen reader spot check.
+
 Dependency management
 ---------------------
 

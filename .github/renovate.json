@@ -2,5 +2,57 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>WeblateOrg/meta:renovate"
-  ]
+  ],
+  "baseBranchPatterns": [
+    "main",
+    "stable"
+  ],
+  "packageRules": [
+    {
+      "description": "Disable lock file maintenance on stable",
+      "matchBaseBranches": [
+        "stable"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Only security updates on stable",
+      "matchBaseBranches": [
+        "stable"
+      ],
+      "matchPackageNames": [
+        "*"
+      ],
+      "enabled": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update CycloneDX CLI binary version and GitHub release asset digest",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/setup\\.yml$/"
+      ],
+      "matchStrings": [
+        "(?<indentation>[ \\t]*)# renovate-cyclonedx-cli\\r?\\n[ \\t]*CYCLONEDX_CLI_VERSION: (?<currentValue>\\S+)\\r?\\n[ \\t]*CYCLONEDX_CLI_DIGEST: (?<currentDigest>sha256:[a-f0-9]{64})"
+      ],
+      "depNameTemplate": "CycloneDX/cyclonedx-cli",
+      "packageNameTemplate": "CycloneDX/cyclonedx-cli",
+      "datasourceTemplate": "custom.github-release-asset-digest",
+      "versioningTemplate": "loose",
+      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-cyclonedx-cli\n{{{indentation}}}CYCLONEDX_CLI_VERSION: {{{newValue}}}\n{{{indentation}}}CYCLONEDX_CLI_DIGEST: {{{newDigest}}}"
+    }
+  ],
+  "customDatasources": {
+    "github-release-asset-digest": {
+      "defaultRegistryUrlTemplate": "https://api.github.com/repos/{{{packageName}}}/releases?per_page=100",
+      "format": "json",
+      "transformTemplates": [
+        "{\"releases\": $map($[draft = false and prerelease = false and assets[name = \"cyclonedx-linux-x64\" and digest != null]], function($release) { { \"version\": $release.tag_name, \"digest\": $release.assets[name = \"cyclonedx-linux-x64\" and digest != null][0].digest, \"releaseTimestamp\": $release.published_at, \"sourceUrl\": $release.html_url } }), \"sourceUrl\": \"https://github.com/CycloneDX/cyclonedx-cli\"}"
+      ]
+    }
+  }
 }

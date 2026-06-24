@@ -8,15 +8,15 @@ from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
 from typing import TYPE_CHECKING, Any, ClassVar, cast
+from urllib.parse import urlencode
 from uuid import uuid4
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.signing import TimestampSigner
-from django.db.models import IntegerChoices, Q
+from django.db.models import Count, IntegerChoices, Q
+from django.db.models.functions import Coalesce
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import (
     get_language,
@@ -46,6 +46,7 @@ from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from datetime import datetime
 
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
@@ -112,7 +113,8 @@ def is_notificable_action(action: int) -> bool:
 
 
 def dispatch_changes_notifications(changes: Iterable[Change]) -> None:
-    from weblate.accounts.tasks import notify_changes  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.tasks import notify_changes
 
     notifiable: list[int] = [
         change.pk for change in changes if is_notificable_action(change.action)
@@ -161,7 +163,8 @@ class Notification:
         return cls.__name__
 
     def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
-        from weblate.accounts.models import Subscription  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import Subscription
 
         result = Subscription.objects.filter(notification=self.get_name())
         scopes: set[NotificationScope] = {NotificationScope.SCOPE_ALL}
@@ -336,9 +339,7 @@ class Notification:
         elif summaries is not None:
             result["changes"] = summaries
         if subscription is not None:
-            result["unsubscribe_url"] = get_site_url(
-                f"{reverse('unsubscribe')}?i={TimestampSigner().sign(f'{subscription.pk}')}"
-            )
+            result["unsubscribe_url"] = get_site_url(subscription.get_unsubscribe_url())
             result["subscription_user"] = subscription.user
         else:
             result["subscription_user"] = None
@@ -635,6 +636,272 @@ class NewStringNotificaton(Notification):
     template_name = "new_string"
     filter_languages = True
     required_attr = "unit"
+
+
+@register_notification
+class TranslationActivitySummaryNotification(Notification):
+    verbose_plural = verbose = pgettext_lazy(
+        "Notification name", "Translation activity summary"
+    )
+    filter_languages = True
+
+    activity_fields: ClassVar[tuple[str, ...]] = (
+        "added",
+        "updated",
+        "translated",
+        "approved",
+        "needs_editing",
+    )
+    activity_actions: ClassVar[dict[str, tuple[ActionEvents, ...]]] = {
+        "added": (
+            ActionEvents.NEW_UNIT,
+            ActionEvents.NEW_UNIT_REPO,
+            ActionEvents.NEW_UNIT_UPLOAD,
+        ),
+        "updated": (
+            ActionEvents.SOURCE_CHANGE,
+            ActionEvents.STRING_REPO_UPDATE,
+            ActionEvents.STRING_UPLOAD_UPDATE,
+        ),
+        "translated": (
+            ActionEvents.CHANGE,
+            ActionEvents.NEW,
+            ActionEvents.ACCEPT,
+        ),
+        "approved": (ActionEvents.APPROVE,),
+        "needs_editing": (ActionEvents.MARKED_EDIT,),
+    }
+    digest_template = "translation_activity_summary"
+    since: datetime | None = None
+
+    @classmethod
+    def get_freq_choices(cls) -> list[tuple[int, StrOrPromise]]:
+        return [
+            x
+            for x in super().get_freq_choices()
+            if x[0] != NotificationFrequency.FREQ_INSTANT
+        ]
+
+    @classmethod
+    def get_activity_actions(cls) -> tuple[ActionEvents, ...]:
+        return tuple(
+            action for actions in cls.activity_actions.values() for action in actions
+        )
+
+    @classmethod
+    def get_activity_field(cls, action: int) -> str | None:
+        for field, actions in cls.activity_actions.items():
+            if action in actions:
+                return field
+        return None
+
+    @staticmethod
+    def get_action_query(action: ActionEvents) -> str:
+        with override("en"):
+            action_name = str(action.label).lower().replace(" ", "-")
+        return f"change_action:{action_name}"
+
+    def get_activity_query(self, actions: tuple[ActionEvents, ...]) -> str:
+        if self.since is None:
+            msg = "Activity summary period is not set"
+            raise ValueError(msg)
+        action_query = " OR ".join(self.get_action_query(action) for action in actions)
+        if len(actions) > 1:
+            action_query = f"({action_query})"
+        return f"change_time:>={self.since.isoformat()} AND {action_query}"
+
+    @staticmethod
+    def get_search_url(translation: Translation, query: str) -> str:
+        return f"{translation.get_translate_url()}?{urlencode({'q': query})}"
+
+    def notify_daily(self) -> None:
+        self.notify_activity_summary(NotificationFrequency.FREQ_DAILY, days=1)
+
+    def notify_weekly(self) -> None:
+        self.notify_activity_summary(NotificationFrequency.FREQ_WEEKLY, weeks=1)
+
+    def notify_monthly(self) -> None:
+        self.notify_activity_summary(NotificationFrequency.FREQ_MONTHLY, months=1)
+
+    def get_activity_change_filter(self, frequency: NotificationFrequency) -> Q:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.models import Subscription
+
+        subscriptions = Subscription.objects.filter(
+            notification=self.get_name(),
+            frequency=frequency,
+            user__is_active=True,
+            user__is_bot=False,
+        )
+        if not subscriptions.exists():
+            return Q(pk__in=())
+
+        if subscriptions.filter(
+            scope__in=(NotificationScope.SCOPE_ALL, NotificationScope.SCOPE_ADMIN)
+        ).exists():
+            return Q()
+
+        project_ids = set(
+            subscriptions.filter(
+                scope=NotificationScope.SCOPE_PROJECT, project__isnull=False
+            ).values_list("project_id", flat=True)
+        )
+        project_ids.update(
+            subscriptions.filter(
+                scope=NotificationScope.SCOPE_WATCHED,
+                user__profile__watched__isnull=False,
+            ).values_list("user__profile__watched", flat=True)
+        )
+        component_ids = set(
+            subscriptions.filter(
+                scope=NotificationScope.SCOPE_COMPONENT, component__isnull=False
+            ).values_list("component_id", flat=True)
+        )
+
+        query = Q()
+        if project_ids:
+            query |= Q(project_id__in=project_ids)
+        if component_ids:
+            query |= Q(component_id__in=component_ids)
+        return query or Q(pk__in=())
+
+    def get_activity_change_rows(self, frequency: NotificationFrequency):
+        return (
+            Change.objects.filter(
+                self.get_activity_change_filter(frequency),
+                action__in=self.get_activity_actions(),
+                timestamp__gte=self.since,
+                translation__isnull=False,
+            )
+            .annotate(summary_unit_id=Coalesce("unit_id", "id"))
+            .values("translation_id", "action", "user_id")
+            .annotate(count=Count("summary_unit_id", distinct=True))
+        )
+
+    def get_activity_summary_users(
+        self,
+        frequency: NotificationFrequency,
+        translation: Translation,
+        actor_user_id: int | None,
+    ) -> Iterable[User]:
+        component = translation.component
+        project = component.project
+        last_user = None
+        for subscription in self.get_subscriptions(
+            None, project, component, translation, None
+        ):
+            user = subscription.user
+            if user == last_user or (
+                actor_user_id is not None and user.pk == actor_user_id
+            ):
+                continue
+
+            last_user = user
+            if subscription.frequency != frequency:
+                continue
+            if not user.can_access_component(component):
+                continue
+
+            user.current_subscription = subscription
+            yield user
+
+    def notify_activity_summary(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        days: int = 0,
+        weeks: int = 0,
+        months: int = 0,
+    ) -> None:
+        self.since = timezone.now() - relativedelta(
+            days=days, weeks=weeks, months=months
+        )
+        activity_rows = list(self.get_activity_change_rows(frequency))
+        translation_ids = {row["translation_id"] for row in activity_rows}
+        translations = {
+            translation.pk: translation
+            for translation in prefetch_stats(
+                Translation.objects.filter(pk__in=translation_ids).prefetch()
+            )
+        }
+
+        users = {}
+        notifications: dict[int, dict[int, dict[str, Any]]] = defaultdict(dict)
+        for row in activity_rows:
+            field = self.get_activity_field(row["action"])
+            translation = translations.get(row["translation_id"])
+            if field is None or translation is None:
+                continue
+
+            for user in self.get_activity_summary_users(
+                frequency, translation, row["user_id"]
+            ):
+                users[user.pk] = user
+                user_notifications = notifications[user.pk]
+                summary = user_notifications.setdefault(
+                    translation.pk,
+                    {
+                        "translation": translation,
+                        **dict.fromkeys(self.activity_fields, 0),
+                    },
+                )
+                summary[field] += row["count"]
+
+        for userid, user_notifications in notifications.items():
+            summaries = self.get_summary_rows(user_notifications, translations)
+            if not summaries:
+                continue
+            user = users[userid]
+            self.send_digest(
+                user.profile.language,
+                user.email,
+                summaries=summaries,
+                subscription=user.current_subscription,
+            )
+
+    def get_summary_rows(
+        self,
+        summaries: dict[int, dict[str, Any]],
+        translations: dict[int, Translation],
+    ) -> list[dict[str, Any]]:
+        result = []
+        for translation_id, summary in summaries.items():
+            translation = translations.get(translation_id, summary["translation"])
+            total = 0
+            row = {"translation": translation}
+            for field in self.activity_fields:
+                count = summary[field]
+                total += count
+                row[field] = {
+                    "count": count,
+                    "url": self.get_search_url(
+                        translation,
+                        self.get_activity_query(self.activity_actions[field]),
+                    ),
+                }
+            row["unfinished"] = {
+                "count": translation.stats.todo,
+                "url": self.get_search_url(translation, "state:<translated"),
+            }
+            row["total"] = total
+            result.append(row)
+        return sorted(result, key=lambda item: str(item["translation"]))
+
+    def get_context(
+        self,
+        change: Change | None = None,
+        subscription: Subscription | None = None,
+        extracontext: dict | None = None,
+        *,
+        changes: QuerySet[Change] | list[Change] | list[dict[str, Any]] | None = None,
+        summaries: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        context = super().get_context(
+            change, subscription, extracontext, changes=changes, summaries=summaries
+        )
+        if summaries:
+            context["total_count"] = sum(item["total"] for item in summaries)
+        return context
 
 
 @register_notification

@@ -5,9 +5,11 @@
 """Test for categories."""
 
 import os
+import pathlib
 from contextlib import ExitStack
 from unittest.mock import call, patch
 
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
@@ -202,6 +204,40 @@ class CategoriesTest(ViewTestCase):
             )
         )
 
+    def test_move_local_component_to_existing_empty_category_path(self) -> None:
+        component = self.create_po(project=self.project, name="Local", vcs="local")
+        old_path = component.full_path
+        self.assertTrue(os.path.exists(os.path.join(old_path, ".git", "config")))
+
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        os.makedirs(os.path.join(category.full_path, component.slug))
+
+        component.category = category
+        component.save()
+
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(
+            os.path.exists(os.path.join(component.full_path, ".git", "config"))
+        )
+
+    def test_create_category_existing_non_empty_path(self) -> None:
+        path = os.path.join(self.project.full_path, "blocked")
+        git_path = pathlib.Path(path) / ".git"
+        git_path.mkdir(parents=True)
+        (git_path / "config").write_text("stale", encoding="utf-8")
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "Repository path for this category already exists and is not empty.",
+        ):
+            Category.objects.create(
+                project=self.project, name="Blocked", slug="blocked"
+            )
+
+        self.assertFalse(Category.objects.filter(slug="blocked").exists())
+
     def test_create(self) -> None:
         # Make superuser, otherwise user can not create due to no valid billing
         self.user.is_superuser = True
@@ -335,7 +371,10 @@ class CategoriesTest(ViewTestCase):
             name="Linked B", slug="linked-b", category=category
         )
 
-        with patch.object(Component, "update_alerts", autospec=True) as update_alerts:
+        with (
+            patch.object(Component, "update_alerts", autospec=True) as update_alerts,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             category_removal(category.pk, self.user.pk)
 
         self.assertFalse(
@@ -364,9 +403,12 @@ class CategoriesTest(ViewTestCase):
         second.allow_translation_propagation = True
         second.save(update_fields=["allow_translation_propagation"])
 
-        with patch.object(
-            Component, "schedule_update_checks", autospec=True
-        ) as schedule:
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             category_removal(category.pk, self.user.pk)
 
         self.assertEqual(
@@ -396,9 +438,12 @@ class CategoriesTest(ViewTestCase):
         other.allow_translation_propagation = True
         other.save(update_fields=["allow_translation_propagation"])
 
-        with patch.object(
-            Component, "schedule_update_checks", autospec=True
-        ) as schedule:
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             category_removal(category.pk, self.user.pk)
 
         schedule.assert_not_called()
@@ -434,8 +479,11 @@ class CategoriesTest(ViewTestCase):
                     )
                 original_flush(batch_self)
 
-        with patch.object(
-            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        with (
+            patch.object(
+                RemovalBatch, "flush", autospec=True, side_effect=record_flush
+            ),
+            self.captureOnCommitCallbacks(execute=True),
         ):
             category_removal(category.pk, self.user.pk)
 
@@ -486,8 +534,11 @@ class CategoriesTest(ViewTestCase):
                     )
                 original_flush(batch_self)
 
-        with patch.object(
-            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        with (
+            patch.object(
+                RemovalBatch, "flush", autospec=True, side_effect=record_flush
+            ),
+            self.captureOnCommitCallbacks(execute=True),
         ):
             category_removal(category.pk, self.user.pk)
 

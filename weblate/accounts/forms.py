@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+import struct
 from binascii import unhexlify
 from datetime import UTC, datetime, timedelta
 from time import time
@@ -21,7 +22,14 @@ from django.db import transaction
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
-from django.utils.translation import activate, gettext, gettext_lazy, ngettext, pgettext
+from django.utils.translation import (
+    activate,
+    get_language,
+    gettext,
+    gettext_lazy,
+    ngettext,
+    pgettext,
+)
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
 from django_otp.oath import totp
@@ -40,6 +48,7 @@ from weblate.accounts.utils import (
     reset_api_token,
 )
 from weblate.auth.models import Group, User
+from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
@@ -127,7 +136,8 @@ class UniqueUsernameField(UsernameField):
 
 
 class FullNameField(forms.CharField):
-    default_validators = [validate_fullname]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    default_validators = [validate_fullname]
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs["max_length"] = FULLNAME_LENGTH
@@ -164,7 +174,8 @@ class LanguagesForm(ProfileBaseForm):
     class Meta:
         model = Profile
         fields = ("language", "languages", "secondary_languages")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "language": SortedSelect,
             "languages": SortedSelectMultiple,
             "secondary_languages": SortedSelectMultiple,
@@ -302,7 +313,8 @@ class SubscriptionForm(ProfileBaseForm):
             "auto_watch",
             "watched",
         )
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "watched": forms.SelectMultiple,
         }
 
@@ -354,7 +366,8 @@ class DashboardSettingsForm(ProfileBaseForm):
     class Meta:
         model = Profile
         fields = ("dashboard_view", "dashboard_component_list")
-        widgets = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        widgets = {
             "dashboard_view": forms.RadioSelect,
             "dashboard_component_list": forms.HiddenInput,
         }
@@ -417,7 +430,8 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("username", "full_name", "email")
-        field_classes = {  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
             "username": UniqueUsernameField,
             "full_name": FullNameField,
         }
@@ -428,7 +442,9 @@ class UserForm(forms.ModelForm):
         emails = get_all_user_mails(self.instance)
 
         self.fields["email"].choices = [(x, x) for x in sorted(emails)]
-        self.fields["username"].valid = self.instance.username
+        cast(
+            "UniqueUsernameField", self.fields["username"]
+        ).valid = self.instance.username
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
@@ -464,22 +480,10 @@ class CaptchaWidget(forms.TextInput):
             raise ValueError(msg)
 
         return format_html(
-            "<altcha-widget challengejson='{}' strings='{}' hidefooter auto='onfocus'></altcha-widget>",
-            # Directly include challenge
+            '<altcha-widget challenge="{}" configuration="{}" language="{}" auto="onfocus"></altcha-widget>',
             self.serialize_challenge(self.challenge),
-            # Localize strings
-            json.dumps(
-                {
-                    "error": gettext("Verification failed. Try again later."),
-                    "expired": gettext("Verification expired. Try again."),
-                    "label": gettext("I'm not a robot"),
-                    "verified": gettext("Verification completed"),
-                    "verifying": gettext("Verifying…"),
-                    "waitAlert": gettext(
-                        "Verification is still in progress, please wait."
-                    ),
-                }
-            ),
+            json.dumps({"hideFooter": True}),
+            get_language() or "",
         )
 
 
@@ -585,8 +589,29 @@ class CaptchaForm(forms.Form):
             return
         payload = self.data.get("altcha", "")
 
+        try:
+            payload = Payload.from_base64(payload)
+        except (ValueError, KeyError, TypeError) as error:
+            LOGGER.error("Invalid altcha payload: %s", error)
+            raise forms.ValidationError(
+                gettext("Validation failed, please try again.")
+            ) from error
+
+        # Manually guard against replay attacks
+        # Use get to gracefully handle already solved challenges
+        if payload.challenge.signature != self.request.session.get("captcha_challenge"):
+            LOGGER.error("Outdated altcha solution")
+            raise forms.ValidationError(gettext("Validation failed, please try again."))
+
         # Validate payload
-        result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
+        try:
+            result = verify_solution(payload, hmac_secret=settings.SECRET_KEY)
+        except (ValueError, TypeError, struct.error) as error:
+            LOGGER.error("Invalid altcha solution: %s", error)
+            raise forms.ValidationError(
+                gettext("Validation failed, please try again.")
+            ) from error
+
         if not result.verified:
             LOGGER.error(
                 "Invalid altcha solution: expired=%s invalid_signature=%s invalid_solution=%s error=%s",
@@ -595,13 +620,6 @@ class CaptchaForm(forms.Form):
                 result.invalid_solution,
                 result.error,
             )
-            raise forms.ValidationError(gettext("Validation failed, please try again."))
-
-        # Manually guard against replay attacks
-        payload = Payload.from_base64(payload)
-        # Use get to gracefully handle already solved challenges
-        if payload.challenge.signature != self.request.session.get("captcha_challenge"):
-            LOGGER.error("Outdated altcha solution")
             raise forms.ValidationError(gettext("Validation failed, please try again."))
 
     def is_valid(self) -> bool:
@@ -638,7 +656,8 @@ class ContactForm(CaptchaForm):
         widget=forms.Textarea,
     )
 
-    field_order = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    field_order = [
         "subject",
         "name",
         "email",
@@ -659,7 +678,8 @@ class EmailForm(CaptchaForm, UniqueEmailMixin):
         help_text=gettext_lazy("An e-mail with a confirmation link will be sent here."),
     )
 
-    field_order = [  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    field_order = [
         "email",
         "captcha",
         "altcha",
@@ -810,7 +830,8 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=254, label=gettext_lazy("Username or e-mail"))
     password = PasswordField(label=gettext_lazy("Password"))
 
-    error_messages = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    error_messages = {
         "invalid_login": gettext_lazy(
             "Please enter the correct username and password."
         ),
@@ -1128,19 +1149,24 @@ class GroupChoiceField(forms.ModelChoiceField):
 
 class GroupAddForm(forms.Form):
     add_group = GroupChoiceField(
-        label=gettext_lazy("Add user to a team"),
+        label=gettext_lazy("Team"),
         queryset=Group.objects.prefetch_related("defining_project").order(),
         required=True,
+    )
+    limit_languages = LimitLanguagesField(
+        Language.objects.order(), hide_placeholder=True
     )
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.fields["limit_languages"].choices = get_language_code_choices(
+            self.fields["limit_languages"].queryset
+        )
         self.helper = FormHelper(self)
-        self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap5/layout/inline_field.html"
         self.helper.layout = Layout(
             "add_group",
-            Submit("add_group_button", gettext("Add team")),
+            "limit_languages",
+            Submit("add_group_button", gettext("Add to a team")),
         )
 
 
@@ -1185,7 +1211,8 @@ class TOTPDeviceForm(forms.Form):
         ),
     )
 
-    error_messages = {  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    error_messages = {
         "invalid_token": gettext_lazy("The entered token is not valid."),
     }
 
@@ -1280,7 +1307,8 @@ class OTPTokenForm(DjangoOTPTokenForm):
         return None
 
     @staticmethod
-    def device_choices(user):  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def device_choices(user):
         # Not needed as we do not support challenge/response devices
         # Also this is incompatible with WebAuthn
         return []

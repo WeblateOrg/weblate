@@ -64,7 +64,9 @@ If you have the :guilabel:`Accept suggestions` permission, you can bulk accept
 all suggestions from a specific user by clicking the account check icon next
 to their suggestion. This is useful for quickly processing suggestions from
 trusted contributors. Suggestions failing quality checks are skipped and
-remain for manual review.
+remain for manual review. Weblate shows the number of matching suggestions for
+confirmation and processes the acceptance in the background. If you can review
+the translation, you can accept and approve the suggestions in the same step.
 
 .. _user-comments:
 
@@ -141,6 +143,61 @@ Translation fields for any secondary languages translators select in the prefere
 Below the translation, translators will find suggestions made by others, to be accepted (✓),
 accepted with changes (✏️), bulk accepted for a specific user (👤✓),
 cloned into the translation fields (📑) or deleted (🗑).
+
+.. _translating-special-text:
+
+Translating special text safely
++++++++++++++++++++++++++++++++
+
+Some source strings contain text that the application interprets at runtime.
+Translate the human-readable parts, but keep technical markers intact unless
+the project instructions say otherwise.
+
+Placeholders and format strings
+    Keep variables such as ``%s``, ``%1$d``, ``%(name)s``, ``{count}``,
+    ``{{ value }}``, or similar markers in the translation. Named placeholders
+    describe the inserted value, but the names themselves are not translated.
+    You can usually reorder numbered or named placeholders to fit the target
+    language. Use the placeable copy shortcuts to insert them without typing
+    mistakes.
+Markup
+    Keep HTML and XML tags, tag names, and attribute names unchanged. Translate
+    the visible text between tags and any attribute value that is meant for
+    users, for example alternative text or a tooltip, when it appears as part
+    of the translatable string. Make sure opening and closing tags still match
+    after reordering the sentence.
+Program syntax
+    Leave function names, commands, environment variables, spreadsheet
+    functions, SQL keywords, and similar program syntax untranslated unless the
+    project explicitly documents a localized form.
+Punctuation and whitespace
+    Preserve punctuation and spaces that affect the interface, such as
+    trailing colons, ellipses, leading or trailing spaces, and punctuation next
+    to placeholders. Follow the target language's typography when it differs
+    from the source, and use comments when a source punctuation choice looks
+    wrong.
+Accelerators
+    Menu labels can mark keyboard accelerators with characters such as ``&``,
+    ``_``, or ``~``. When the source has an accelerator, keep one in the
+    translation. Choose a readable key in the translated label and avoid
+    obvious conflicts with nearby menu items or buttons.
+Plural forms
+    Translate each plural field Weblate shows. Do not combine forms into a
+    single construction such as ``file(s)`` unless that is correct for the
+    target language and project. If the source string uses an ambiguous plural,
+    report it with a source string comment or review.
+
+Weblate quality checks catch many technical mistakes in placeholders, markup,
+punctuation, whitespace, and plural forms. They do not replace translator
+judgment, so use :ref:`source-context`, :doc:`/user/glossary`, and
+:ref:`user-comments` when the source text needs clarification.
+
+.. seealso::
+
+   * :doc:`/user/checks`
+   * :ref:`plurals`
+   * :ref:`source-context`
+   * :ref:`user-comments`
 
 .. _plurals:
 
@@ -426,7 +483,7 @@ operations like searching, sending contact forms, or translating.
 If affected by it, you are blocked for a certain period, until you can
 perform the operation again.
 
-Default limits and fine-tuning is described in the administrative manual,
+Default limits and fine-tuning are described in the administrative manual,
 see :ref:`rate-limit`.
 
 .. _search-replace:
@@ -435,7 +492,9 @@ Search and replace
 ------------------
 
 Change terminology effectively or perform bulk fixing of the
-strings using :guilabel:`Search and replace` in the :guilabel:`Tools` menu.
+strings using :guilabel:`Search and replace` in the :guilabel:`Operations` menu.
+
+.. image:: /screenshots/search-replace.webp
 
 .. hint::
 
@@ -458,7 +517,9 @@ Supported operations:
 .. hint::
 
     This tool is called :guilabel:`Bulk edit`, accessible in the
-    :guilabel:`Tools` menu of each project, component or translation.
+    :guilabel:`Operations` menu of each project, component or translation.
+
+.. image:: /screenshots/bulk-edit.webp
 
 
 
@@ -470,12 +531,14 @@ Matrix View
 -----------
 
 You can compare different languages efficiently using this view.
-It is available on every component page, from the :guilabel:`Tools` menu.
+It is available on every component page, from the :guilabel:`Operations` menu.
 First select all languages you want to compare, confirm your selection,
 then click on any translation to open and edit it.
 
 The matrix view is also a very good starting point to find missing
 translations in different languages, and quickly add them from one view.
+
+.. image:: /screenshots/matrix-view.webp
 
 .. _zen-mode:
 
@@ -491,3 +554,5 @@ You can select the Zen editor as your default editor using the
 You can also choose there between having translations listed
 :guilabel:`Top to bottom` or :guilabel:`Side by side`,
 depending on your personal preference.
+
+.. image:: /screenshots/zen-mode.webp

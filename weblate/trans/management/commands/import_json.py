@@ -11,6 +11,7 @@ from django.core.exceptions import ValidationError
 from django.core.management.base import CommandError
 from django.utils.text import slugify
 
+from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
 
@@ -51,7 +52,8 @@ class Command(BaseCommand):
             help="JSON file containing component definition",
         )
 
-    def handle(self, *args, **options) -> None:  # noqa: C901
+    # ruff: ignore[complex-structure]
+    def handle(self, *args, **options) -> None:
         """Automatic import of components."""
         # Get project
         try:
@@ -71,19 +73,21 @@ class Command(BaseCommand):
                 msg = "Main component does not exist!"
                 raise CommandError(msg) from error
         try:
-            with options["json-file"].open("r") as handle:
-                try:
-                    data = json.load(handle)
-                except json.JSONDecodeError as error:
-                    msg = "Could not parse JSON file!"
-                    raise CommandError(msg) from error
+            handle = options["json-file"].open("r")
         except OSError as error:
             msg = f"Could not open file: {error}"
             raise CommandError(msg) from error
+        with handle:
+            try:
+                data = json.load(handle)
+            except json.JSONDecodeError as error:
+                msg = "Could not parse JSON file!"
+                raise CommandError(msg) from error
 
         allfields = {
             field.name
-            for field in Component._meta.get_fields()  # noqa: SLF001
+            # ruff: ignore[private-member-access]
+            for field in Component._meta.get_fields()
             if field.editable and not field.is_relation
         }
 
@@ -109,6 +113,7 @@ class Command(BaseCommand):
                 component = Component.objects.get(slug=item["slug"], project=project)
             except Component.DoesNotExist:
                 params = {key: item[key] for key in allfields if key in item}
+                apply_create_inheritance_defaults(params, item)
                 component = Component(project=project, **params)
                 try:
                     component.full_clean()

@@ -18,7 +18,7 @@
     <p>{% translate "Your billing plan has expired. Please renew it to continue using the service." %}</p>
   {% endif %}
 
-  {% with projects=billing.projects.all %}
+  {% with projects=billing.ordered_projects %}
     {% if projects %}
       <p>{% translate "This billing plan covers the following projects:" %}</p>
 

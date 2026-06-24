@@ -513,7 +513,7 @@
                   <td>{{ log.timestamp|naturaltime }}</td>
                   <td>{{ log.get_message }}</td>
                   <td>{{ log.address }}</td>
-                  <td>{{ log.user_agent }}</td>
+                  <td>{{ log.get_user_agent_display }}</td>
                 </tr>
               {% empty %}
                 <tr>
@@ -636,7 +636,15 @@ wlc \
                 <ul>
                   {% for agreement in agreements %}
                     <li>
-                      <a href="{% url 'contributor-agreement' path=agreement.component.get_url_path %}">{{ agreement.component }}</a>
+                      {% if agreement.component %}
+                        <a href="{% url 'contributor-agreement' path=agreement.component.get_url_path %}">{{ agreement.component }}</a>
+                      {% elif agreement.category %}
+                        <a href="{% url 'contributor-agreement' path=agreement.category.get_url_path %}">{{ agreement.category }}</a>
+                      {% elif agreement.project %}
+                        <a href="{% url 'contributor-agreement' path=agreement.project.get_url_path %}">{{ agreement.project }}</a>
+                      {% elif agreement.workspace %}
+                        <a href="{% url 'contributor-agreement' path=agreement.workspace.get_url_path %}">{{ agreement.workspace }}</a>
+                      {% endif %}
                     </li>
                   {% endfor %}
                 </ul>
@@ -646,8 +654,8 @@ wlc \
         </div>
 
         {% if licenses %}
-          {% regroup licenses by license as license_list %}
-          <div class="tab-pane" id="licenses">
+          {% regroup licenses by effective_license as license_list %}
+          <div class="tab-pane" id="licenses-individual">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">{% translate "Licenses for individual translations" %}</h4>
@@ -656,7 +664,7 @@ wlc \
                 {% for dummy, items in license_list %}
                   <h4>
                     {{ items.0.get_license_display }}
-                    <span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.license }}</span>
+                    <span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.effective_license }}</span>
                     <a class="doc-link" href="{{ items.0.license_url }}">{% icon "info.svg" %}</a>
                   </h4>
                   <p>

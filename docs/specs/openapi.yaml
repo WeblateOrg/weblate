@@ -2167,19 +2167,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '201':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Announcement'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/categories/{id}/announcements/{announcement_id}/:
     delete:
       operationId: api_categories_announcements_destroy
@@ -2486,6 +2479,7 @@ paths:
             enum:
             - 0
             - 1
+            - 100
             - 13
             - 14
             - 15
@@ -2575,6 +2569,9 @@ paths:
             - 94
             - 95
             - 96
+            - 97
+            - 98
+            - 99
         description: |-
           * `0` - Resource updated
           * `1` - Translation completed
@@ -2667,6 +2664,10 @@ paths:
           * `94` - User edit reverted
           * `95` - Project setting changed
           * `96` - Component setting changed
+          * `97` - User access changed
+          * `98` - Workspace created
+          * `99` - Workspace setting changed
+          * `100` - Project moved
         explode: true
         style: form
       - name: page
@@ -5664,19 +5665,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '201':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Announcement'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/announcements/{announcement_id}/:
     delete:
       operationId: api_components_announcements_destroy
@@ -12704,6 +12698,11 @@ paths:
       description: Look up translation memory matches for the provided source strings.
       parameters:
       - in: query
+        name: exact
+        schema:
+          type: boolean
+        description: Return exact matches only and skip fuzzy matching.
+      - in: query
         name: project
         schema:
           type: string
@@ -14416,19 +14415,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '201':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Announcement'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/announcements/{announcement_id}/:
     delete:
       operationId: api_projects_announcements_destroy
@@ -14571,6 +14563,482 @@ paths:
           description: ''
         '204':
           description: No response body
+  /api/projects/{slug}/backups/:
+    get:
+      operationId: api_projects_backups_list
+      description: Return a list of project backups.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBackupList'
+          description: ''
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+    post:
+      operationId: api_projects_backups_create
+      description: Create a new project backup.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBackupResponse'
+          description: ''
+  /api/projects/{slug}/backups/{backup}/:
+    get:
+      operationId: api_projects_backups_download_retrieve
+      description: Download a project backup.
+      parameters:
+      - in: path
+        name: backup
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          description: Project backup download.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/categories/:
     get:
       operationId: api_projects_categories_list
@@ -16124,6 +16592,484 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/projects/{slug}/languages/{language_code}/announcements/:
+    get:
+      operationId: api_projects_languages_announcements_list
+      description: Return project language announcements.
+      parameters:
+      - in: path
+        name: language_code
+        schema:
+          type: string
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAnnouncementList'
+          description: ''
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+    post:
+      operationId: api_projects_languages_announcements_create
+      description: Create a project language announcement.
+      parameters:
+      - in: path
+        name: language_code
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Announcement'
+          description: ''
+  /api/projects/{slug}/languages/{language_code}/announcements/{announcement_id}/:
+    delete:
+      operationId: api_projects_languages_announcements_destroy
+      description: Delete a project language announcement.
+      parameters:
+      - in: path
+        name: announcement_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: language_code
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '204':
+          description: No response body
   /api/projects/{slug}/languages/{language_code}/file/:
     get:
       operationId: api_projects_languages_file_retrieve
@@ -22025,19 +22971,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: ''
-        '200':
+        '201':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Announcement'
           description: ''
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/announcements/{announcement_id}/:
     delete:
       operationId: api_translations_announcements_destroy
@@ -26272,7 +27211,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FullUser'
+              $ref: '#/components/schemas/UserGroupRequest'
         required: true
       security:
       - tokenAuth: []
@@ -26523,6 +27462,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
         '423':
           content:
             application/json:
@@ -26559,6 +27512,12 @@ paths:
           description: ''
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGroupDeleteRequest'
+        required: true
   /api/users/{username}/notifications/:
     get:
       operationId: api_users_notifications_list
@@ -27927,6 +28886,10 @@ components:
       - 94
       - 95
       - 96
+      - 97
+      - 98
+      - 99
+      - 100
       type: integer
       description: |-
         * `0` - Resource updated
@@ -28020,6 +28983,10 @@ components:
         * `94` - User edit reverted
         * `95` - Project setting changed
         * `96` - Component setting changed
+        * `97` - User access changed
+        * `98` - Workspace created
+        * `99` - Workspace setting changed
+        * `100` - Project moved
     Addon:
       type: object
       properties:
@@ -28075,13 +29042,7 @@ components:
         severity:
           allOf:
           - $ref: '#/components/schemas/SeverityEnum'
-          description: |-
-            Severity defines color used for the message.
-
-            * `info` - Info (light blue)
-            * `warning` - Warning (yellow)
-            * `danger` - Danger (red)
-            * `success` - Success (green)
+          description: Severity defines color used for the message.
         expiry:
           type:
           - string
@@ -28110,6 +29071,20 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    Backup:
+      type: object
+      properties:
+        name:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        size:
+          type: integer
+      required:
+      - name
+      - size
+      - timestamp
     BilingualSourceUnit:
       type: object
       properties:
@@ -28176,7 +29151,9 @@ components:
           type: string
           format: uri
         category:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         url:
           type: string
@@ -28190,8 +29167,177 @@ components:
           type: string
           format: uri
           readOnly: true
+        check_flags:
+          type: string
+          title: Translation flags
+          description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the parent category
+            or project.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this category.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the parent
+            category or project.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: How to handle requests for creating new translations.
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the parent
+            category or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the parent category
+            or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
+        secondary_language:
+          type:
+          - integer
+          - 'null'
+          description: Additional language to show together with the source language
+            while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the parent category
+            or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the parent
+            category or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the parent category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the parent category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the parent category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the parent category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the parent category
+            or project.
+        effective_pull_message:
+          type: string
+          readOnly: true
       required:
       - announcements_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - id
       - name
       - project
@@ -28303,12 +29449,8 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommentScopeEnum'
           writeOnly: true
-          description: |-
-            Is your comment specific to this translation, or generic for all of them?
-
-            * `report` - report
-            * `global` - global
-            * `translation` - translation
+          description: Is your comment specific to this translation, or generic for
+            all of them?
         comment:
           type: string
           title: Comment text
@@ -28452,15 +29594,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -28525,6 +29661,13 @@ components:
           - Apache-2.0
           - BSD-3-Clause
           - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the category or project.
+        effective_license:
+          type: string
+          readOnly: true
         license_url:
           type: string
           readOnly: true
@@ -28537,6 +29680,14 @@ components:
           title: Contributor license agreement
           description: Contributor license agreement which needs to be approved before
             a user can translate this component.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the category
+            or project.
+        effective_agreement:
+          type: string
+          readOnly: true
         web_url:
           type: string
           readOnly: true
@@ -28582,34 +29733,27 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the category
+            or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the category or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         push:
           type: string
           maxLength: 300
@@ -28617,17 +29761,13 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -28653,42 +29793,86 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the category
+            or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
         add_message:
           type: string
           title: Commit message when adding translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
         delete_message:
           type: string
           title: Commit message when removing translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
         merge_message:
           type: string
           title: Commit message when merging translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
         addon_message:
           type: string
           title: Commit message when add-on makes a change
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
         pull_message:
           type: string
           title: Merge request message
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the category or
+            project.
+        effective_pull_message:
+          type: string
+          readOnly: true
         allow_translation_propagation:
           type: boolean
           description: Whether translation updates in other components will cause
@@ -28745,6 +29929,14 @@ components:
           description: Additional language to show together with the source language
             while translating. This setting is inherited from the project if left
             empty.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the category or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
         variant_regex:
           type: string
           title: Variants regular expression
@@ -28793,6 +29985,18 @@ components:
       - announcements_url
       - changes_list_url
       - credits_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - file_format
       - filemask
       - id
@@ -29031,6 +30235,17 @@ components:
       type: string
       description: "* `` - \n* `ignore` - ignore\n* `replace-translated` - replace-translated\n*
         `replace-approved` - replace-approved"
+    CreateBackupResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     DirectionEnum:
       enum:
       - ltr
@@ -29434,6 +30649,7 @@ components:
       - json-nested
       - laravel
       - markdown
+      - mdx
       - mediawiki
       - mi18n-lang
       - moko-resource
@@ -29503,6 +30719,7 @@ components:
         * `json-nested` - JSON nested structure file
         * `laravel` - Laravel PHP strings
         * `markdown` - Markdown file
+        * `mdx` - MDX file
         * `mediawiki` - MediaWiki text file
         * `mi18n-lang` - @draggable/i18n lang file
         * `moko-resource` - Mobile Kotlin Resource
@@ -29659,6 +30876,11 @@ components:
         defining_project:
           type: string
           format: uri
+        defining_workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         project_selection:
           allOf:
           - $ref: '#/components/schemas/ProjectSelectionEnum'
@@ -29784,8 +31006,8 @@ components:
         code:
           type: string
           title: Language code
+          pattern: ^[A-Za-z0-9]+(?:[-_@][A-Za-z0-9]+)*$
           maxLength: 50
-          pattern: ^[-a-zA-Z0-9_]+$
         name:
           type: string
           maxLength: 100
@@ -29870,7 +31092,7 @@ components:
           maximum: 32767
         number:
           type: integer
-          maximum: 32767
+          maximum: 10
           minimum: 1
           title: Number of plurals
         formula:
@@ -30149,6 +31371,7 @@ components:
       - LicenseNotification
       - ParseErrorNotification
       - NewStringNotificaton
+      - TranslationActivitySummaryNotification
       - NewContributorNotificaton
       - NewSuggestionNotificaton
       - LanguageTranslatedNotificaton
@@ -30173,6 +31396,7 @@ components:
         * `LicenseNotification` - License was changed
         * `ParseErrorNotification` - Parse error occurred
         * `NewStringNotificaton` - String is available for translation
+        * `TranslationActivitySummaryNotification` - Translation activity summary
         * `NewContributorNotificaton` - Contributor made their first translation
         * `NewSuggestionNotificaton` - Suggestion was added
         * `LanguageTranslatedNotificaton` - Language was translated
@@ -30272,6 +31496,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Announcement'
+    PaginatedBackupList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Backup'
     PaginatedCategoryList:
       type: object
       required:
@@ -30714,7 +31959,9 @@ components:
           type: string
           format: uri
         category:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         url:
           type: string
@@ -30727,6 +31974,163 @@ components:
         announcements_url:
           type: string
           format: uri
+          readOnly: true
+        check_flags:
+          type: string
+          title: Translation flags
+          description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the parent category
+            or project.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this category.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the parent
+            category or project.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: How to handle requests for creating new translations.
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the parent
+            category or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the parent category
+            or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
+        secondary_language:
+          type:
+          - integer
+          - 'null'
+          description: Additional language to show together with the source language
+            while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the parent category
+            or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the parent
+            category or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the parent category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the parent category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the parent category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the parent category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the parent category
+            or project.
+        effective_pull_message:
+          type: string
           readOnly: true
     PatchedComponent:
       type: object
@@ -30755,15 +32159,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -30828,6 +32226,13 @@ components:
           - Apache-2.0
           - BSD-3-Clause
           - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the category or project.
+        effective_license:
+          type: string
+          readOnly: true
         license_url:
           type: string
           readOnly: true
@@ -30840,6 +32245,14 @@ components:
           title: Contributor license agreement
           description: Contributor license agreement which needs to be approved before
             a user can translate this component.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the category
+            or project.
+        effective_agreement:
+          type: string
+          readOnly: true
         web_url:
           type: string
           readOnly: true
@@ -30885,34 +32298,27 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the category
+            or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the category or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         push:
           type: string
           maxLength: 300
@@ -30920,17 +32326,13 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -30956,42 +32358,86 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the category
+            or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
         add_message:
           type: string
           title: Commit message when adding translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
         delete_message:
           type: string
           title: Commit message when removing translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
         merge_message:
           type: string
           title: Commit message when merging translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
         addon_message:
           type: string
           title: Commit message when add-on makes a change
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
         pull_message:
           type: string
           title: Merge request message
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the category or
+            project.
+        effective_pull_message:
+          type: string
+          readOnly: true
         allow_translation_propagation:
           type: boolean
           description: Whether translation updates in other components will cause
@@ -31048,6 +32494,14 @@ components:
           description: Additional language to show together with the source language
             while translating. This setting is inherited from the project if left
             empty.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the category or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
         variant_regex:
           type: string
           title: Variants regular expression
@@ -31217,6 +32671,11 @@ components:
         defining_project:
           type: string
           format: uri
+        defining_workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         project_selection:
           allOf:
           - $ref: '#/components/schemas/ProjectSelectionEnum'
@@ -31280,8 +32739,8 @@ components:
         code:
           type: string
           title: Language code
+          pattern: ^[A-Za-z0-9]+(?:[-_@][A-Za-z0-9]+)*$
           maxLength: 50
-          pattern: ^[-a-zA-Z0-9_]+$
         name:
           type: string
           maxLength: 100
@@ -31374,6 +32833,9 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         components_list_url:
           type: string
           format: uri
@@ -31422,14 +32884,16 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommitPolicyEnum'
           title: Translation quality filter
-          description: |-
-            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
-
-            * `0` - Commit all translations regardless of quality
-            * `20` - Skip translations marked as needing editing
-            * `30` - Only include approved translations
+          description: Select which translations should be included when committing
+            changes. More restrictive options will skip translations with potential
+            quality issues.
           minimum: -2147483648
           maximum: 2147483647
+        workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         instructions:
           type: string
           title: Translation instructions
@@ -31441,12 +32905,149 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the workspace.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this project.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the workspace.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: How to handle requests for creating new translations.
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the workspace.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the workspace.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         secondary_language:
           type:
           - integer
           - 'null'
           description: Additional language to show together with the source language
             while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the workspace.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the workspace.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the workspace.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the workspace.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the workspace.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the workspace.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the workspace.
+        effective_pull_message:
+          type: string
+          readOnly: true
         enforced_2fa:
           type: boolean
           title: Enforced two-factor authentication
@@ -31617,6 +33218,9 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         components_list_url:
           type: string
           format: uri
@@ -31665,14 +33269,16 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommitPolicyEnum'
           title: Translation quality filter
-          description: |-
-            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
-
-            * `0` - Commit all translations regardless of quality
-            * `20` - Skip translations marked as needing editing
-            * `30` - Only include approved translations
+          description: Select which translations should be included when committing
+            changes. More restrictive options will skip translations with potential
+            quality issues.
           minimum: -2147483648
           maximum: 2147483647
+        workspace:
+          type:
+          - string
+          - 'null'
+          format: uuid
         instructions:
           type: string
           title: Translation instructions
@@ -31684,12 +33290,149 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        license:
+          title: Translation license
+          type: string
+          maxLength: 150
+          examples:
+          - MIT
+          - GPL-3.0-or-later
+          - Apache-2.0
+          - BSD-3-Clause
+          - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the workspace.
+        effective_license:
+          type: string
+          readOnly: true
+        agreement:
+          type: string
+          title: Contributor license agreement
+          description: Contributor license agreement which needs to be approved before
+            a user can translate components in this project.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the workspace.
+        effective_agreement:
+          type: string
+          readOnly: true
+        new_lang:
+          allOf:
+          - $ref: '#/components/schemas/NewLangEnum'
+          title: Adding new translation
+          description: How to handle requests for creating new translations.
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the workspace.
+        effective_new_lang:
+          type: string
+          readOnly: true
+        language_code_style:
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
+          oneOf:
+          - $ref: '#/components/schemas/LanguageCodeStyleEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the workspace.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         secondary_language:
           type:
           - integer
           - 'null'
           description: Additional language to show together with the source language
             while translating.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the workspace.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        commit_message:
+          type: string
+          title: Commit message when translating
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the workspace.
+        effective_commit_message:
+          type: string
+          readOnly: true
+        add_message:
+          type: string
+          title: Commit message when adding translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the workspace.
+        effective_add_message:
+          type: string
+          readOnly: true
+        delete_message:
+          type: string
+          title: Commit message when removing translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the workspace.
+        effective_delete_message:
+          type: string
+          readOnly: true
+        merge_message:
+          type: string
+          title: Commit message when merging translation
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the workspace.
+        effective_merge_message:
+          type: string
+          readOnly: true
+        addon_message:
+          type: string
+          title: Commit message when add-on makes a change
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the workspace.
+        effective_addon_message:
+          type: string
+          readOnly: true
+        pull_message:
+          type: string
+          title: Merge request message
+          description: You can use template language for various info, please consult
+            the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the workspace.
+        effective_pull_message:
+          type: string
+          readOnly: true
         enforced_2fa:
           type: boolean
           title: Enforced two-factor authentication
@@ -31712,6 +33455,18 @@ components:
       - changes_list_url
       - components_list_url
       - credits_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - id
       - labels_url
       - languages_url
@@ -31748,15 +33503,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -31821,6 +33570,13 @@ components:
           - Apache-2.0
           - BSD-3-Clause
           - proprietary
+        inherit_license:
+          type: boolean
+          title: Inherit translation license
+          description: Use the translation license configured in the category or project.
+        effective_license:
+          type: string
+          readOnly: true
         license_url:
           type: string
           readOnly: true
@@ -31833,6 +33589,14 @@ components:
           title: Contributor license agreement
           description: Contributor license agreement which needs to be approved before
             a user can translate this component.
+        inherit_agreement:
+          type: boolean
+          title: Inherit contributor license agreement
+          description: Use the contributor license agreement configured in the category
+            or project.
+        effective_agreement:
+          type: string
+          readOnly: true
         web_url:
           type: string
           readOnly: true
@@ -31878,34 +33642,27 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
+        inherit_new_lang:
+          type: boolean
+          title: Inherit adding new translations
+          description: Use the adding new translations setting configured in the category
+            or project.
+        effective_new_lang:
+          type: string
+          readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        inherit_language_code_style:
+          type: boolean
+          description: Use the language code style configured in the category or project.
+        effective_language_code_style:
+          type: string
+          readOnly: true
         push:
           type: string
           maxLength: 300
@@ -31913,17 +33670,13 @@ components:
           type: string
           title: Translation flags
           description: Additional comma-separated flags to influence Weblate behavior.
+        effective_check_flags:
+          type: string
+          readOnly: true
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -31949,42 +33702,86 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_commit_message:
+          type: boolean
+          title: Inherit commit message when translating
+          description: Use the commit message when translating configured in the category
+            or project.
+        effective_commit_message:
+          type: string
+          readOnly: true
         add_message:
           type: string
           title: Commit message when adding translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_add_message:
+          type: boolean
+          title: Inherit commit message when adding translation
+          description: Use the commit message when adding translation configured in
+            the category or project.
+        effective_add_message:
+          type: string
+          readOnly: true
         delete_message:
           type: string
           title: Commit message when removing translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_delete_message:
+          type: boolean
+          title: Inherit commit message when removing translation
+          description: Use the commit message when removing translation configured
+            in the category or project.
+        effective_delete_message:
+          type: string
+          readOnly: true
         merge_message:
           type: string
           title: Commit message when merging translation
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_merge_message:
+          type: boolean
+          title: Inherit commit message when merging translation
+          description: Use the commit message when merging translation configured
+            in the category or project.
+        effective_merge_message:
+          type: string
+          readOnly: true
         addon_message:
           type: string
           title: Commit message when add-on makes a change
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_addon_message:
+          type: boolean
+          title: Inherit commit message when add-on makes a change
+          description: Use the commit message when add-on makes a change configured
+            in the category or project.
+        effective_addon_message:
+          type: string
+          readOnly: true
         pull_message:
           type: string
           title: Merge request message
           description: You can use template language for various info, please consult
             the documentation for more details.
+        inherit_pull_message:
+          type: boolean
+          title: Inherit merge request message
+          description: Use the merge request message configured in the category or
+            project.
+        effective_pull_message:
+          type: string
+          readOnly: true
         allow_translation_propagation:
           type: boolean
           description: Whether translation updates in other components will cause
@@ -32041,6 +33838,14 @@ components:
           description: Additional language to show together with the source language
             while translating. This setting is inherited from the project if left
             empty.
+        inherit_secondary_language:
+          type: boolean
+          description: Use the secondary language configured in the category or project.
+        effective_secondary_language:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
         variant_regex:
           type: string
           title: Variants regular expression
@@ -32089,6 +33894,18 @@ components:
       - announcements_url
       - changes_list_url
       - credits_url
+      - effective_add_message
+      - effective_addon_message
+      - effective_agreement
+      - effective_check_flags
+      - effective_commit_message
+      - effective_delete_message
+      - effective_language_code_style
+      - effective_license
+      - effective_merge_message
+      - effective_new_lang
+      - effective_pull_message
+      - effective_secondary_language
       - file_format
       - filemask
       - id
@@ -32891,6 +34708,17 @@ components:
       - result
       - skipped
       - total
+    UserGroupRequest:
+      type: object
+      properties:
+        group_id:
+          type: integer
+        limit_language_codes:
+          type: array
+          items:
+            type: string
+      required:
+      - group_id
     UserStatistics:
       type: object
       properties:
@@ -32912,20 +34740,41 @@ components:
       - uploaded
     VcsEnum:
       enum:
+      - azure_devops
+      - bitbucketcloud
+      - bitbucketserver
       - gerrit
       - git
       - git-force-push
+      - gitea
+      - github
+      - gitlab
       - local
       - mercurial
+      - pagure
       - subversion
       type: string
       description: |-
+        * `azure_devops` - Azure DevOps pull request
+        * `bitbucketcloud` - Bitbucket Cloud merge request
+        * `bitbucketserver` - Bitbucket Data Center pull request
         * `gerrit` - Gerrit
         * `git` - Git
         * `git-force-push` - Git with force push
+        * `gitea` - Gitea pull request
+        * `github` - GitHub pull request
+        * `gitlab` - GitLab merge request
         * `local` - No remote repository
         * `mercurial` - Mercurial
+        * `pagure` - Pagure merge request
         * `subversion` - Subversion
+    UserGroupDeleteRequest:
+      type: object
+      properties:
+        group_id:
+          type: integer
+      required:
+      - group_id
   securitySchemes:
     bearerAuth:
       type: apiKey

@@ -24,103 +24,230 @@ jobs:
     env:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+    steps:
+    - name: Checkout first source tree
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      with:
+        persist-credentials: false
+        path: source/first
+    - name: Checkout second source tree
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      with:
+        persist-credentials: false
+        path: source/second
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+      with:
+        enable-cache: false
+        version: 0.11.23
+    - name: Setup Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      with:
+        python-version: '3.14'
+    - name: Set reproducible build timestamp
+      run: echo "SOURCE_DATE_EPOCH=$(git -C source/first log -1 --pretty=%ct)" >> "$GITHUB_ENV"
+    - name: build
+      run: |
+        set -euo pipefail
+
+        echo "::add-matcher::source/first/.github/matchers/setuptools.json"
+        uv build source/first --out-dir dist/first --no-create-gitignore
+        uv build source/second --out-dir dist/second --no-create-gitignore
+        echo "::remove-matcher owner=setuptools::"
+        python source/first/scripts/normalize-dist-archives.py dist/first/*.tar.gz dist/first/*.whl
+        python source/first/scripts/normalize-dist-archives.py dist/second/*.tar.gz dist/second/*.whl
+
+        report_artifact_difference() {
+          filename=$1
+          first=dist/first/"$filename"
+          second=dist/second/"$filename"
+
+          echo "::group::sha256sum $filename"
+          sha256sum "$first" "$second"
+          echo "::endgroup::"
+
+          case "$filename" in
+            *.tar.gz)
+              echo "::group::tar metadata diff $filename"
+              diff -u \
+                <(tar --numeric-owner --full-time -tvf "$first") \
+                <(tar --numeric-owner --full-time -tvf "$second") || true
+              echo "::endgroup::"
+              ;;
+            *.whl)
+              echo "::group::zip metadata diff $filename"
+              diff -u \
+                <(zipinfo -l "$first") \
+                <(zipinfo -l "$second") || true
+              echo "::endgroup::"
+              ;;
+          esac
+
+          extracted=$(mktemp -d)
+          mkdir "$extracted/first" "$extracted/second"
+          case "$filename" in
+            *.tar.gz)
+              tar -xf "$first" -C "$extracted/first"
+              tar -xf "$second" -C "$extracted/second"
+              ;;
+            *.whl)
+              unzip -q "$first" -d "$extracted/first"
+              unzip -q "$second" -d "$extracted/second"
+              ;;
+          esac
+          echo "::group::extracted content diff $filename"
+          diff -qr "$extracted/first" "$extracted/second" || true
+          echo "::endgroup::"
+          rm -rf "$extracted"
+        }
+
+        if ! diff -u \
+          <(cd dist/first && find . -maxdepth 1 -type f -printf '%f\n' | sort) \
+          <(cd dist/second && find . -maxdepth 1 -type f -printf '%f\n' | sort); then
+          echo "::error::Package artifact names differ between builds"
+          sha256sum dist/first/* dist/second/*
+          exit 1
+        fi
+
+        for artifact in dist/first/*; do
+          filename=${artifact##*/}
+          if ! cmp --silent "$artifact" "dist/second/$filename"; then
+            echo "::error file=$filename::Normalized package artifact differs between builds"
+            report_artifact_difference "$filename"
+            exit 1
+          fi
+        done
+
+        rm -rf dist/second
+        mv dist/first/* dist/
+        rmdir dist/first
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        path: dist/*
+        name: dist
+
+  sign_dist:
+    runs-on: ubuntu-24.04
+    name: Sign packages
+    if: github.event_name == 'push'
+    needs:
+    - dist
     permissions:
+      contents: read
       # Needed for Sigstore
       id-token: write
       # Needed for attestations
       attestations: write
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        persist-credentials: false
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-      with:
-        enable-cache: false
-        version: 0.11.11
+        name: dist
+        path: dist
     - name: Setup Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
-        # Avoid 3.14 until https://github.com/sigstore/gh-action-sigstore-python/issues/215 is addressed
         python-version: '3.14'
-    - name: build
-      run: |
-        echo "::add-matcher::.github/matchers/setuptools.json"
-        uv build
-        echo "::remove-matcher owner=setuptools::"
-        rm -f dist/.gitignore
     - name: Sign the dists with Sigstore
-      if: github.event_name == 'push'
-      uses: sigstore/gh-action-sigstore-python@04cffa1d795717b140764e8b640de88853c92acc # v3.3.0
+      uses: sigstore/gh-action-sigstore-python@5b79a39c381910c090341a2c9b0bf022c8b387e1 # v3.4.0
       with:
         inputs: dist/*
     - name: Attest
-      if: github.event_name == 'push'
       uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
       with:
         subject-path: dist/*
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         path: dist/*
-        name: dist
+        name: dist-signed
 
   sbom:
     runs-on: ubuntu-24.04
     name: Build SBOM
+    steps:
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+      with:
+        enable-cache: false
+        version: 0.11.23
+    - name: Setup Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      id: setup_python
+      with:
+        python-version: '3.14'
+    - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e   # v6.4.0
+      with:
+        node-version: 26
+        package-manager-cache: false
+    - name: Set reproducible SBOM timestamp
+      run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$GITHUB_ENV"
+    - name: Generate SBOM
+      id: generate-sbom
+      env:
+        PYTHON_VERSION: ${{ steps.setup_python.outputs.python-version }}
+        # renovate-cyclonedx-cli
+        CYCLONEDX_CLI_VERSION: v0.32.0
+        CYCLONEDX_CLI_DIGEST: sha256:454879e6a4a405c8a13bff49b8982adcb0596f3019b26b0811c66e4d7f0783e1
+      run: |
+        version=$(uv run --frozen --only-group sbom ./scripts/show-version.py)
+        sbom="build/sbom/weblate-$version-sbom.cdx.json"
+        mkdir -p build/sbom
+        uv export \
+          --preview-features sbom-export \
+          --format cyclonedx1.5 \
+          --all-extras \
+          --no-dev \
+          --locked \
+          --python "$PYTHON_VERSION" \
+          --no-python-downloads \
+          > build/sbom/python.json
+        cd client
+        yarn install --immutable --check-files
+        npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
+        cd ..
+        cyclonedx_cli=/tmp/cyclonedx-linux-x64
+        curl -fsSL "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > "$cyclonedx_cli"
+        echo "${CYCLONEDX_CLI_DIGEST#sha256:}  $cyclonedx_cli" | sha256sum --check --strict
+        chmod +x "$cyclonedx_cli"
+        "$cyclonedx_cli" merge --input-files build/sbom/*.json --output-file "$sbom"
+        ./scripts/reproducible-sbom.py "$sbom"
+        echo "path=$sbom" >> "$GITHUB_OUTPUT"
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        path: ${{ steps.generate-sbom.outputs.path }}
+        name: sbom
+
+  attest_sbom:
+    runs-on: ubuntu-24.04
+    name: Attest SBOM
+    if: github.event_name == 'push'
     needs:
-    - dist
+    - sign_dist
+    - sbom
     permissions:
       # Needed for attestations
       attestations: write
       contents: read
       id-token: write
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      with:
-        persist-credentials: false
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: dist
+        name: dist-signed
         path: dist
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        enable-cache: false
-        version: 0.11.11
-    - name: Setup Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-      with:
-        python-version: '3.14'
-    - name: Generate SBOM
-      id: generate-sbom
-      env:
-        # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
-        CYCLONEDX_CLI_VERSION: v0.31.0
+        name: sbom
+        path: sbom
+    - name: Locate SBOM
+      id: locate-sbom
       run: |
-        version=$(sed -n '/^VERSION =/ s/.*"\(.*\)"/\1/p' weblate/utils/version.py)
-        version=${version%-dev}
-        version=${version%-rc}
-        sbom="build/sbom/weblate-$version-sbom.cdx.json"
-        mkdir -p build/sbom
-        uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > build/sbom/python.json
-        ./scripts/reproducible-sbom.py build/sbom/python.json
-        cd client
-        yarn install --check-files
-        npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../build/sbom/javascript.json
-        cd ..
-        ./scripts/reproducible-sbom.py build/sbom/javascript.json
-        curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
-        chmod +x /tmp/cyclonedx-linux-x64
-        /tmp/cyclonedx-linux-x64 merge --input-files build/sbom/*.json --output-file "$sbom"
-        ./scripts/reproducible-sbom.py "$sbom"
-        echo "path=$sbom" >> "$GITHUB_OUTPUT"
+        path=$(find sbom -type f -name '*-sbom.cdx.json' -print -quit)
+        test -n "$path"
+        echo "path=$path" >> "$GITHUB_OUTPUT"
     - uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
-      if: github.event_name == 'push'
       with:
         subject-path: dist/*
-        sbom-path: ${{ steps.generate-sbom.outputs.path }}
-    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-      with:
-        path: ${{ steps.generate-sbom.outputs.path }}
-        name: sbom
+        sbom-path: ${{ steps.locate-sbom.outputs.path }}
 
   lint:
     runs-on: ubuntu-24.04
@@ -130,19 +257,19 @@ jobs:
     needs:
     - dist
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         persist-credentials: false
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       with:
         enable-cache: false
-        version: 0.11.11
+        version: 0.11.23
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: dist
@@ -155,15 +282,27 @@ jobs:
     - name: list sdist
       run: tar tvf dist/*.tar.gz
     - name: twine check
-      run: uvx twine check --strict dist/*
+      run: uv run --frozen --only-group package-lint twine check --strict dist/*
     - name: pydistcheck
-      run: uvx pydistcheck --inspect dist/*
+      run: uv run --frozen --only-group package-lint pydistcheck --inspect dist/*
     - name: pyroma
-      run: uvx --with pip pyroma dist/*.tar.gz
-    - name: check-wheel-contents
-      run: uvx check-wheel-contents dist/*.whl
+      run: uv run --frozen --only-group package-lint pyroma dist/*.tar.gz
     - name: check-manifest
-      run: uvx --with pip check-manifest -v
+      run: uv run --frozen --only-group package-lint check-manifest -v
+    - name: Prepare sdist tree for wheel comparison
+      id: wheel-source
+      run: |
+        source_dir=$(mktemp -d)
+        tar --strip-components=1 -xf dist/*.tar.gz -C "$source_dir"
+        echo "path=$source_dir" >> "$GITHUB_OUTPUT"
+    - name: Build source catalogs
+      working-directory: ${{ steps.wheel-source.outputs.path }}
+      # Wheels ship generated .mo files, while Git and sdist ship .po sources.
+      # Compile catalogs before comparing the wheel against the sdist tree.
+      run: uv run --frozen --project "$GITHUB_WORKSPACE" --only-group package-build python setup.py build_mo
+    - name: check-wheel-contents
+      working-directory: ${{ steps.wheel-source.outputs.path }}
+      run: uv run --frozen --project "$GITHUB_WORKSPACE" --only-group package-lint check-wheel-contents "$GITHUB_WORKSPACE"/dist/*.whl
     - name: install
       run: |
         uv venv .venv-install
@@ -174,15 +313,15 @@ jobs:
     runs-on: ubuntu-24.04
     name: Build release notes
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       with:
         enable-cache: false
-        version: 0.11.11
+        version: 0.11.23
     - name: Set up Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
         python-version: '3.14'
     - name: Install apt dependencies
@@ -212,27 +351,28 @@ jobs:
   publish_pypi:
     name: Publish to PyPI
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
+    environment: pypi
     permissions:
       # this permission is mandatory for trusted publishing
       id-token: write
     needs:
     - notes
-    - dist
-    - sbom
+    - sign_dist
+    - attest_sbom
     - lint
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: dist
+        name: dist-signed
         path: dist
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
-    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+    - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       with:
         enable-cache: false
-        version: 0.11.11
+        version: 0.11.23
     - run: uv publish --trusted-publishing always
 
   publish_github:
@@ -243,15 +383,26 @@ jobs:
       contents: write
     needs:
     - notes
-    - dist
-    - sbom
+    - sign_dist
+    - attest_sbom
     - lint
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         persist-credentials: false
     - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: dist-signed
+        path: dist
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: sbom
+        path: sbom
+    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: notes
+        path: notes
     - name: Extract notes body
       run: tail -n+3 notes/Weblate-*.md > notes.md
     - name: Extract notes title

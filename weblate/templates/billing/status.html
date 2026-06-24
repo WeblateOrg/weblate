@@ -14,6 +14,12 @@
         {% endif %}
       </td>
     </tr>
+    {% if billing.customer_name %}
+      <tr>
+        <th>{% translate "Customer name" %}</th>
+        <td colspan="2">{{ billing.customer_name }}</td>
+      </tr>
+    {% endif %}
     {% if billing.expiry %}
       <tr>
         <th>{% translate "Trial expiry date" %}</th>
@@ -117,7 +123,7 @@
         <td>
           {% if billing.is_active %}
             <a class="btn btn-primary billing-add-project float-end"
-               href="{% url 'create-project' %}?billing={{ billing.pk }}">{% translate "Add new translation project" %}</a>
+               href="{% url 'create-project' %}?workspace={{ billing.workspace_id }}">{% translate "Add new translation project" %}</a>
           {% endif %}
         </td>
       </tr>

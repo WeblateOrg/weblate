@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "2026.5"
+release = "2026.7"
 
 # -- General configuration ---------------------------------------------------
 
@@ -326,7 +326,8 @@ elif language in {"zh_TW", "ta"}:
     sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/latest/"
 
 if language != "en":
-    tags.add("i18n")  # noqa: F821
+    # ruff: ignore[undefined-name]
+    tags.add("i18n")
 
 
 # Configuration for intersphinx
@@ -384,10 +385,9 @@ linkcheck_ignore = [
     "https://my-instance.openai.azure.com",
     # These are PDF and fails with Unicode decode error
     "http://ftp.pwg.org/",
-    # Access to our service has been temporarily blocked
-    "https://yandex.com/dev/translate/",
     # Times out in CI
     "https://ai.youdao.com/product-fanyi-text.s",
+    "https://help.gitee.com/webhook",
     # 403
     "https://openai.com/",
     "https://platform.openai.com/api-keys",
@@ -396,10 +396,12 @@ linkcheck_ignore = [
     "https://api.sap.com/api/translationhub/overview",
     # Anchor is not there for linkcheck
     "https://hub.docker.com/_/postgres#pgdata",
+    "https://github.com/SAML-Toolkits/python3-saml#settings",
     # Protected by Anubis
     "https://anubis.techaro.lol/",
     # Seems unstable
     "https://pagure.io/",
+    "https://cgit.git.savannah.gnu.org/cgit/gettext.git/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
     "https://wiki.gnupg.org/",
     "https://www.bis.doc.gov/",

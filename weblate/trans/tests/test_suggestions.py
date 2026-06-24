@@ -196,7 +196,8 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(user.username, settings.ANONYMOUS_USER_NAME)
 
         # Accept one of suggestions
-        response = self.edit_unit("Hello, world!\n", "", accept=suggestions[0].pk)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.edit_unit("Hello, world!\n", "", accept=suggestions[0].pk)
         self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
@@ -232,7 +233,8 @@ class SuggestionsTest(ViewTestCase):
 
         suggestion_id = self.get_unit().suggestions[0].pk
 
-        response = self.edit_unit("Hello, world!\n", "", upvote=suggestion_id)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.edit_unit("Hello, world!\n", "", upvote=suggestion_id)
         self.assert_redirects_offset(response, translate_url, 2)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
@@ -254,7 +256,8 @@ class SuggestionsTest(ViewTestCase):
 
         suggestion_id = self.get_unit().suggestions[0].pk
 
-        response = self.edit_unit("Hello, world!\n", "", upvote=suggestion_id)
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.edit_unit("Hello, world!\n", "", upvote=suggestion_id)
         self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database

@@ -4,6 +4,7 @@
 
 import json
 import os
+from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
@@ -17,14 +18,18 @@ from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
-from django.test.utils import override_settings
+from django.db import connection
+from django.test import TestCase as DjangoTestCase
+from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.accounts.models import AuditLog
-from weblate.auth.models import Group, Invitation
-from weblate.trans.models import Announcement
+from weblate.auth.models import Group, Invitation, Permission, Role
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Announcement, Change, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
@@ -34,8 +39,17 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service
+from weblate.workspaces.models import Workspace
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
+
+
+@contextmanager
+def restored_environment(name: str, value: str):
+    try:
+        yield
+    finally:
+        os.environ[name] = value
 
 
 class BackupFailureService:
@@ -117,6 +131,152 @@ class BackupTaskTest(TestCase):
         service.cleanup.assert_called_once_with()
 
 
+class BackupCommandTest(DjangoTestCase):
+    def test_list_services(self) -> None:
+        enabled = BackupService.objects.create(
+            repository="/backup/enabled", paperkey="paper"
+        )
+        disabled = BackupService.objects.create(
+            repository="/backup/disabled", enabled=False, paperkey="paper"
+        )
+
+        output = StringIO()
+        call_command("backup", "--list", stdout=output)
+
+        self.assertEqual(
+            output.getvalue().splitlines(),
+            [
+                f"{enabled.pk}\tenabled\t/backup/enabled",
+                f"{disabled.pk}\tdisabled\t/backup/disabled",
+            ],
+        )
+
+    def test_service_runs_synchronously(self) -> None:
+        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+
+        with (
+            patch(
+                "weblate.wladmin.management.commands.backup.run_settings_backup"
+            ) as settings_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_database_backup"
+            ) as database_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service"
+            ) as backup_service_runner,
+        ):
+            call_command("backup", "--service", str(service.pk))
+
+        settings_backup.assert_called_once_with()
+        database_backup.assert_called_once_with()
+        backup_service_runner.assert_called_once_with(service)
+
+    def test_all_runs_enabled_services_synchronously(self) -> None:
+        enabled = BackupService.objects.create(
+            repository="/backup/enabled", paperkey="paper"
+        )
+        BackupService.objects.create(
+            repository="/backup/disabled", enabled=False, paperkey="paper"
+        )
+
+        with (
+            patch(
+                "weblate.wladmin.management.commands.backup.run_settings_backup"
+            ) as settings_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_database_backup"
+            ) as database_backup,
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service"
+            ) as backup_service_runner,
+        ):
+            call_command("backup", "--all")
+
+        settings_backup.assert_called_once_with()
+        database_backup.assert_called_once_with()
+        self.assertEqual(
+            [call.args[0].pk for call in backup_service_runner.call_args_list],
+            [enabled.pk],
+        )
+
+    def test_all_reports_failed_services(self) -> None:
+        first = BackupService.objects.create(repository="/backup/one", paperkey="paper")
+        second = BackupService.objects.create(
+            repository="/backup/two", paperkey="paper"
+        )
+
+        with (
+            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service",
+                side_effect=[False, True],
+            ) as backup_service_runner,
+            self.assertRaisesRegex(CommandError, f"Backup service failed: {first.pk}"),
+        ):
+            call_command("backup", "--all")
+
+        self.assertEqual(
+            [call.args[0].pk for call in backup_service_runner.call_args_list],
+            [first.pk, second.pk],
+        )
+
+    def test_verbosity_outputs_service_logs(self) -> None:
+        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+
+        def run_backup(service: BackupService) -> bool:
+            service.backuplog_set.create(event="backup", log="borg backup output")
+            return True
+
+        output = StringIO()
+        with (
+            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service",
+                side_effect=run_backup,
+            ),
+        ):
+            call_command(
+                "backup", "--service", str(service.pk), verbosity=2, stdout=output
+            )
+
+        self.assertIn(f"Backup service {service.pk}: /backup", output.getvalue())
+        self.assertIn("borg backup output", output.getvalue())
+
+    def test_error_outputs_service_logs(self) -> None:
+        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+
+        def run_backup(service: BackupService) -> bool:
+            service.backuplog_set.create(event="error", log="borg failed")
+            return True
+
+        output = StringIO()
+        with (
+            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch(
+                "weblate.wladmin.management.commands.backup.run_backup_service",
+                side_effect=run_backup,
+            ),
+            self.assertRaisesRegex(
+                CommandError, f"Backup service failed: {service.pk}"
+            ),
+        ):
+            call_command("backup", "--service", str(service.pk), stderr=output)
+
+        self.assertIn(f"Backup service {service.pk}: /backup", output.getvalue())
+        self.assertIn("borg failed", output.getvalue())
+
+    def test_rejects_conflicting_selection(self) -> None:
+        with self.assertRaises(CommandError):
+            call_command("backup", "--all", "--service", "1")
+
+    def test_rejects_unknown_service(self) -> None:
+        with self.assertRaisesRegex(CommandError, "Backup service 1 does not exist"):
+            call_command("backup", "--service", "1")
+
+
 class BackupServiceStatusTest(TestCase):
     def test_current_error_points_to_latest_unresolved_failure(self) -> None:
         error = SimpleNamespace(event="error", log="borg create failed")
@@ -182,6 +342,329 @@ class BackupServiceStatusTest(TestCase):
         )
 
 
+class WorkspaceCreateTest(ViewTestCase):
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_workspace_add_denied_without_permission(self) -> None:
+        response = self.client.get(reverse("manage-workspace-add"))
+
+        self.assertEqual(response.status_code, 403)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_project_creator_can_add_workspace(self) -> None:
+        self.user.groups.add(Group.objects.get(name="Project creators"))
+
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, "Add new workspace")
+
+        response = self.client.get(reverse("manage-workspace-add"))
+        self.assertContains(response, "Add workspace")
+
+        response = self.client.post(
+            reverse("manage-workspace-add"), {"name": "Created workspace"}
+        )
+
+        workspace = Workspace.objects.get(name="Created workspace")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], workspace.get_absolute_url())
+        self.user.clear_cache()
+        self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+        self.assertTrue(self.user.has_perm("workspace.add_project", workspace))
+
+        response = self.client.get(workspace.get_absolute_url())
+        self.assertContains(response, "Created workspace")
+
+        change = Change.objects.get(
+            action=ActionEvents.CREATE_WORKSPACE, workspace=workspace
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+
+class ManagementAccessControlTest(ViewTestCase):
+    """Test site-wide permission checks in the management interface."""
+
+    def grant_global_permissions(
+        self, *permissions: str, enforced_2fa: bool = False
+    ) -> None:
+        role, _created = Role.objects.get_or_create(name="Test management role")
+        permission_objects = list(Permission.objects.filter(codename__in=permissions))
+        self.assertEqual(
+            {permission.codename for permission in permission_objects},
+            set(permissions),
+        )
+        role.permissions.add(*permission_objects)
+        group, _created = Group.objects.get_or_create(name="Test management team")
+        group.enforced_2fa = enforced_2fa
+        group.save(update_fields=["enforced_2fa"])
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+    def assert_forbidden(self, url_name: str, method: str = "get", **kwargs) -> None:
+        response = getattr(self.client, method)(reverse(url_name), **kwargs)
+        self.assertEqual(response.status_code, 403)
+
+    def test_management_use_only_is_limited(self) -> None:
+        self.grant_global_permissions("management.use")
+        email = cast("str", self.user.email)
+
+        response = self.client.get(reverse("manage"))
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(reverse("manage-performance"))
+        self.assertEqual(response.status_code, 200)
+
+        for url_name in (
+            "manage-users",
+            "manage-teams",
+            "manage-memory",
+            "manage-memory-download",
+            "manage-machinery",
+            "manage-addons",
+            "manage-backups",
+            "manage-ssh",
+            "manage-ssh-key",
+            "manage-appearance",
+            "manage-billing",
+        ):
+            self.assert_forbidden(url_name)
+
+        self.assert_forbidden("manage-users-check", data={"q": email})
+        self.assert_forbidden("manage-activate", method="post", data={"refresh": "1"})
+        self.assert_forbidden("manage-discovery", method="post", data={})
+        self.assert_forbidden(
+            "manage-performance", method="post", data={"pk": "1", "ignore": "1"}
+        )
+
+    def test_management_use_requires_enforced_2fa(self) -> None:
+        self.grant_global_permissions("management.use", enforced_2fa=True)
+
+        response = self.client.get(reverse("manage"))
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_user_view_does_not_allow_user_changes(self) -> None:
+        self.grant_global_permissions("management.use", "user.view")
+        email = cast("str", self.user.email)
+
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "Manage users")
+        self.assertNotContains(response, "Add new user")
+
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "group": Group.objects.get(name="Users").pk,
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.get(reverse("manage-users-check"), {"q": email})
+        self.assertEqual(response.status_code, 403)
+
+    def test_user_edit_allows_user_changes(self) -> None:
+        self.grant_global_permissions("management.use", "user.view", "user.edit")
+
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "Add new user")
+
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "group": Group.objects.get(name="Users").pk,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "User invitation e-mail was sent")
+        self.assertEqual(Invitation.objects.count(), 1)
+
+    def test_user_edit_requires_management_access_on_direct_user_actions(self) -> None:
+        self.grant_global_permissions("user.edit")
+
+        with patch(
+            "weblate.accounts.views.cleanup_user_contributions_task.delay"
+        ) as mocked_delay:
+            response = self.client.post(
+                self.anotheruser.get_absolute_url(),
+                {
+                    "cleanup_user_contributions": "1",
+                    "delete_comments": "on",
+                },
+            )
+
+        self.assertEqual(response.status_code, 403)
+        mocked_delay.assert_not_called()
+
+        self.grant_global_permissions("management.use")
+
+        with patch(
+            "weblate.accounts.views.cleanup_user_contributions_task.delay"
+        ) as mocked_delay:
+            response = self.client.post(
+                self.anotheruser.get_absolute_url(),
+                {
+                    "cleanup_user_contributions": "1",
+                    "delete_comments": "on",
+                },
+            )
+
+        self.assertEqual(response.status_code, 302)
+        mocked_delay.assert_called_once_with(
+            target_user_id=self.anotheruser.id,
+            acting_user_id=self.user.id,
+            sitewide=True,
+            reject_suggestions=False,
+            delete_comments=True,
+        )
+
+    def test_user_edit_requires_management_access_on_direct_invitations(self) -> None:
+        self.grant_global_permissions("user.edit")
+        invitation = Invitation.objects.create(
+            author=self.user,
+            group=Group.objects.get(name="Users"),
+            email="noreply@example.com",
+        )
+
+        response = self.client.post(
+            invitation.get_absolute_url(),
+            {"action": "remove"},
+        )
+
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(Invitation.objects.filter(pk=invitation.pk).exists())
+
+        self.grant_global_permissions("management.use")
+
+        response = self.client.post(
+            invitation.get_absolute_url(),
+            {"action": "remove"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
+
+    def test_group_view_does_not_allow_team_changes(self) -> None:
+        self.grant_global_permissions("management.use", "group.view")
+
+        response = self.client.get(reverse("manage-teams"))
+        self.assertContains(response, "Manage teams")
+        self.assertNotContains(response, "Create new team")
+
+        response = self.client.post(reverse("manage-teams"), {"name": "Custom team"})
+        self.assertEqual(response.status_code, 403)
+
+    def test_group_edit_allows_team_changes(self) -> None:
+        self.grant_global_permissions("management.use", "group.edit")
+
+        response = self.client.get(reverse("manage-teams"))
+        self.assertContains(response, "Create new team")
+
+        response = self.client.post(
+            reverse("manage-teams"),
+            {
+                "name": "Custom team",
+                "project_selection": "1",
+                "language_selection": "1",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Group.objects.filter(name="Custom team").exists())
+
+    def test_group_edit_requires_management_access_on_direct_sitewide_team(
+        self,
+    ) -> None:
+        self.grant_global_permissions("group.edit")
+        group = Group.objects.create(name="Custom team")
+        edit_payload = {
+            "name": "Renamed team",
+            "language_selection": "1",
+            "project_selection": "1",
+            "autogroup_set-TOTAL_FORMS": "0",
+            "autogroup_set-INITIAL_FORMS": "0",
+        }
+
+        response = self.client.get(group.get_absolute_url())
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(group.get_absolute_url(), edit_payload)
+        self.assertEqual(response.status_code, 403)
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Custom team")
+
+        self.grant_global_permissions("management.use")
+
+        response = self.client.post(group.get_absolute_url(), edit_payload)
+        self.assertEqual(response.status_code, 302)
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Renamed team")
+
+    def test_specialized_management_permissions_allow_views(self) -> None:
+        self.grant_global_permissions(
+            "management.use",
+            "management.configure",
+            "memory.manage",
+            "machinery.edit",
+            "billing.manage",
+            "management.addons",
+            "announcement.edit",
+        )
+
+        for url_name in (
+            "manage-backups",
+            "manage-ssh",
+            "manage-appearance",
+            "manage-memory",
+            "manage-memory-download",
+            "manage-machinery",
+            "manage-addons",
+            "manage-billing",
+        ):
+            response = self.client.get(reverse(url_name))
+            self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(reverse("manage-tools"))
+        self.assertContains(response, "Post announcement")
+        self.assertContains(response, "Send test e-mail")
+
+        response = self.client.post(
+            reverse("manage-tools"), {"email": "noreply@example.com"}, follow=True
+        )
+        self.assertContains(response, "Test e-mail sent")
+
+        ConfigurationError.objects.create(name="Test error", message="Test error")
+        error = ConfigurationError.objects.get()
+        response = self.client.post(
+            reverse("manage-performance"),
+            {"pk": error.pk, "ignore": "1"},
+        )
+        self.assertEqual(response.status_code, 302)
+        error.refresh_from_db()
+        self.assertTrue(error.ignored)
+
+    def test_tools_without_announcement_permission(self) -> None:
+        self.grant_global_permissions("management.use")
+
+        response = self.client.get(reverse("manage-tools"))
+        self.assertNotContains(response, "Send test e-mail")
+        self.assertNotContains(response, "Post announcement")
+
+        response = self.client.post(
+            reverse("manage-tools"), {"email": "noreply@example.com"}
+        )
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(reverse("manage-tools"), {"sentry": "1"})
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(
+            reverse("manage-tools"),
+            {"message": "Test message", "severity": "info"},
+        )
+        self.assertEqual(response.status_code, 403)
+
+
 class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
 
@@ -197,6 +680,152 @@ class AdminTest(ViewTestCase):
     def test_manage_index(self) -> None:
         response = self.client.get(reverse("manage"))
         self.assertContains(response, "SSH")
+
+    def test_workspaces(self) -> None:
+        workspace = Workspace.objects.create(name="Test workspace")
+        Project.objects.create(
+            name="Workspace project",
+            slug="workspace-project",
+            web="https://example.com/",
+            workspace=workspace,
+        )
+
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, "Manage workspaces")
+        self.assertContains(response, workspace.name)
+        self.assertContains(response, workspace.get_absolute_url())
+        self.assertContains(response, ">1<")
+
+    def test_alerts_are_ordered(self) -> None:
+        zulu_project = self.create_project(name="Zulu", slug="zulu")
+        zulu = self.create_json(project=zulu_project, name="Zulu")
+        alpha_project = self.create_project(name="Alpha", slug="alpha")
+        alpha = self.create_json(project=alpha_project, name="Alpha")
+
+        zulu.add_alert("MissingLicense")
+        alpha.add_alert("MissingLicense")
+
+        response = self.client.get(reverse("manage-alerts"))
+        content = response.content.decode()
+
+        self.assertContains(response, alpha.get_absolute_url())
+        self.assertContains(response, zulu.get_absolute_url())
+        self.assertLess(
+            content.index(alpha.get_absolute_url()),
+            content.index(zulu.get_absolute_url()),
+        )
+
+    def test_workspaces_search(self) -> None:
+        workspace = Workspace.objects.create(name="Localization workspace")
+        Workspace.objects.create(name="Documentation workspace")
+
+        response = self.client.get(reverse("manage-workspaces"), {"q": "local"})
+
+        self.assertContains(response, "Localization workspace")
+        self.assertNotContains(response, "Documentation workspace")
+        self.assertEqual(list(response.context["object_list"]), [workspace])
+        self.assertEqual(response.context["search_query"], "local")
+        self.assertEqual(response.context["query_string"], "q=local")
+
+        response = self.client.get(reverse("manage-workspaces"), {"q": "missing"})
+
+        self.assertContains(response, "No workspaces found.")
+        self.assertNotContains(response, "Localization workspace")
+        self.assertNotContains(response, "Documentation workspace")
+
+    def test_workspaces_search_billing_customer_name(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing, Plan
+
+        plan = Plan.objects.create(
+            name="Workspace plan",
+            price=19,
+            yearly_price=199,
+            limit_projects=1,
+            display_limit_projects=1,
+        )
+        billing = Billing.objects.create(plan=plan, customer_name="Acme Billing LLC")
+        workspace = billing.workspace
+        workspace.name = "Manually renamed workspace"
+        workspace.save(update_fields=["name"])
+        Workspace.objects.create(name="Acme localization workspace")
+
+        response = self.client.get(reverse("manage-workspaces"), {"q": "billing"})
+
+        self.assertContains(response, "Manually renamed workspace")
+        self.assertContains(response, "Acme Billing LLC")
+        self.assertNotContains(response, "Acme localization workspace")
+        self.assertEqual(list(response.context["object_list"]), [workspace])
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_workspaces_add_link(self) -> None:
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, reverse("manage-workspace-add"))
+        self.assertContains(response, "Add workspace")
+
+    def test_workspaces_add_link_hidden_with_billing(self) -> None:
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertNotContains(response, reverse("manage-workspace-add"))
+        self.assertNotContains(response, "Add workspace")
+
+    def test_workspace_add_hidden_from_sitewide_menu_with_billing(self) -> None:
+        response = self.client.get(reverse("home"))
+
+        self.assertNotContains(response, "Add new workspace")
+
+    def test_workspace_add_direct_access_hidden_with_billing(self) -> None:
+        response = self.client.get(reverse("manage-workspace-add"))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_workspaces_pagination(self) -> None:
+        for index in range(51):
+            Workspace.objects.create(name=f"Workspace {index:02}")
+
+        response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertTrue(response.context["is_paginated"])
+        self.assertEqual(len(response.context["object_list"]), 50)
+
+    def test_workspaces_avoid_billing_display_queries(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing, Plan
+
+        plan = Plan.objects.create(
+            name="Workspace plan",
+            price=19,
+            yearly_price=199,
+            limit_projects=1,
+            display_limit_projects=1,
+        )
+
+        for index in range(3):
+            billing = Billing.objects.create(plan=plan)
+            project = Project.objects.create(
+                name=f"Billed project {index}",
+                slug=f"billed-project-{index}",
+                web="https://example.com/",
+            )
+            billing.add_project(project)
+
+        # ruff: ignore[private-member-access]
+        project_table = Project._meta.db_table
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("manage-workspaces"))
+
+        self.assertContains(response, "Billing #")
+        project_queries = [
+            query["sql"]
+            for query in queries
+            if (
+                f'FROM "{project_table}"' in query["sql"]
+                and f'WHERE "{project_table}"."workspace_id"' in query["sql"]
+            )
+        ]
+        self.assertEqual(project_queries, [])
 
     def test_ssh(self) -> None:
         response = self.client.get(reverse("manage-ssh"))
@@ -232,7 +861,7 @@ class AdminTest(ViewTestCase):
         self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]
         hostsfile = data_path("ssh") / "known_hosts"
-        try:
+        with restored_environment("PATH", oldpath):
             os.environ["PATH"] = f"{get_test_file('')}:{os.environ['PATH']}"
             # Verify there is button for adding
             response = self.client.get(reverse("manage-ssh"))
@@ -305,8 +934,6 @@ class AdminTest(ViewTestCase):
             )
             self.assertContains(response, "Added host key for example.com")
             self.assertTrue(hostsfile.exists())
-        finally:
-            os.environ["PATH"] = oldpath
 
         # Check the file contains it
         self.assertIn("example.com", hostsfile.read_text())
@@ -319,6 +946,10 @@ class AdminTest(ViewTestCase):
         response = do_post(repository=settings.BACKUP_DIR)
         self.assertContains(response, settings.BACKUP_DIR)
         service = BackupService.objects.get()
+        self.assertContains(response, 'class="naturaltime"', count=1)
+        service.backuplog_set.create(event="backup", log="borg backup output")
+        response = self.client.get(reverse("manage-backups"))
+        self.assertContains(response, 'class="naturaltime"', count=2)
         response = do_post(service=service.pk, trigger="1")
         self.assertContains(response, "triggered")
         response = do_post(service=service.pk, toggle="1")
@@ -404,12 +1035,15 @@ class AdminTest(ViewTestCase):
             [
                 Critical(msg="Error", id="weblate.E001"),
                 Critical(msg="Test Error", id="weblate.E002"),
+                Critical(msg="Cache Error", id="weblate.C044"),
             ]
         )
         all_errors = ConfigurationError.objects.all()
-        self.assertEqual(len(all_errors), 1)
-        self.assertEqual(all_errors[0].name, "weblate.E002")
-        self.assertEqual(all_errors[0].message, "Test Error")
+        self.assertEqual(len(all_errors), 2)
+        self.assertEqual(
+            {error.name: error.message for error in all_errors},
+            {"weblate.E002": "Test Error", "weblate.C044": "Cache Error"},
+        )
         # No triggered checks
         ConfigurationError.objects.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
@@ -470,12 +1104,13 @@ class AdminTest(ViewTestCase):
         self.assertEqual(Invitation.objects.filter(is_superuser=True).count(), 2)
 
     def test_check_user(self) -> None:
+        email = cast("str", self.user.email)
         response = self.client.get(
-            reverse("manage-users-check"), {"q": self.user.email}, follow=True
+            reverse("manage-users-check"), {"q": email}, follow=True
         )
         self.assertRedirects(response, self.user.get_absolute_url())
         response = self.client.get(
-            reverse("manage-users-check"), {"email": self.user.email}, follow=True
+            reverse("manage-users-check"), {"email": email}, follow=True
         )
         self.assertRedirects(response, self.user.get_absolute_url())
         self.assertContains(response, "Never signed-in")

@@ -8,10 +8,9 @@ from __future__ import annotations
 import os
 from glob import glob
 from itertools import chain
+from typing import ClassVar
 
-from distutils import log  # type: ignore[attr-defined]
-from distutils.core import Command  # type: ignore[import-not-found]
-from setuptools import setup
+from setuptools import Command, setup
 from setuptools.command.build import build
 from setuptools.command.build_py import build_py
 from setuptools.modified import newer
@@ -26,12 +25,16 @@ class WeblateBuildPy(build_py):
     def find_package_modules(self, package, package_dir):
         """Filter settings.py from built module."""
         result = super().find_package_modules(package, package_dir)
-        return [item for item in result if item[2] != "weblate/settings.py"]
+        return [
+            item
+            for item in result
+            if item[2] != "weblate/settings.py" and item[1] != "tests"
+        ]
 
 
 class BuildMo(Command):
     description = "update MO files to match PO"
-    user_options: list[str] = []  # noqa: RUF012
+    user_options: ClassVar[list[tuple[str, str | None, str]]] = []
 
     def initialize_options(self) -> None:
         self.build_base = None
@@ -44,7 +47,7 @@ class BuildMo(Command):
             output = os.path.splitext(name)[0] + ".mo"
             if not newer(name, output):
                 continue
-            self.announce(f"compiling {name} -> {output}", level=log.INFO)
+            self.announce(f"compiling {name} -> {output}")
             with open(name, "rb") as pofile, open(output, "wb") as mofile:
                 convertmo(pofile, mofile, None)
 
@@ -53,8 +56,10 @@ class WeblateBuild(build):
     """Override the default build with new subcommands."""
 
     # The build_mo has to be before build_data
-    sub_commands = [  # noqa: RUF012
-        ("build_mo", lambda self: True),  # noqa: ARG005
+    # ruff: ignore[mutable-class-default]
+    sub_commands = [
+        # ruff: ignore[unused-lambda-argument]
+        ("build_mo", lambda self: True),
         *build.sub_commands,
     ]
 

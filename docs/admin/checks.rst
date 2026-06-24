@@ -96,7 +96,7 @@ Some flags are added to strings by default, based on their locations.
 This means that certain checks will be automatically enabled depending on where the string is used.
 
 * ``rst-text``: This flag is automatically added to strings in reStructuredText files, if location extension is ``.rst``.
-* ``md-text``: This flag is automatically added to strings in Markdown files, if location extension is ``.md`` or ``.markdown``.
+* ``md-text``: This flag is automatically added to strings in Markdown and MDX files, if location extension is ``.md``, ``.markdown``, or ``.mdx``.
 
 .. _enforcing-checks:
 
@@ -159,7 +159,7 @@ special characters, so that it can be easily used in the check definition:
 
 .. image:: /screenshots/font-group-list.webp
 
-Font-family and style is automatically recognized after uploading them:
+Font-family and style are automatically recognized after uploading them:
 
 .. image:: /screenshots/font-edit.webp
 

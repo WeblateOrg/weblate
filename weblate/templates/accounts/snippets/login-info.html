@@ -3,16 +3,22 @@
 {% include "accounts/snippets/login-about.html" %}
 
 {% if has_legal %}
-  {# Translators: This is followed by list of legal documents such as Privacy Policy or General Terms and Conditions #}
-  <p>{% translate "By registering and signing in to this service you accept our:" %}</p>
-  <ul>
-    <li>
-      <a href="{% url 'legal:terms' %}">{% blocktranslate %}General Terms and Conditions{% endblocktranslate %}</a>
-    </li>
-    <li>
-      <a href="{% url 'legal:privacy' %}">{% blocktranslate %}Privacy Policy{% endblocktranslate %}</a>
-    </li>
-  </ul>
+  {% if terms_url or privacy_url %}
+    {# Translators: This is followed by list of legal documents such as Privacy Policy or General Terms and Conditions #}
+    <p>{% translate "By registering and signing in to this service you accept our:" %}</p>
+    <ul>
+      {% if terms_url %}
+        <li>
+          <a href="{{ terms_url }}">{% blocktranslate %}General Terms and Conditions{% endblocktranslate %}</a>
+        </li>
+      {% endif %}
+      {% if privacy_url %}
+        <li>
+          <a href="{{ privacy_url }}">{% blocktranslate %}Privacy Policy{% endblocktranslate %}</a>
+        </li>
+      {% endif %}
+    </ul>
+  {% endif %}
 
   <p>
     {% blocktranslate %}Quick overview of the General Terms and Conditions and the Privacy Policy, but you should still read the original documents to fully understand them:{% endblocktranslate %}

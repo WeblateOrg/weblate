@@ -5,8 +5,7 @@ from __future__ import annotations
 
 import csv
 import os
-import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
@@ -316,6 +315,37 @@ class TBXExporterTest(PoExporterTest):
         # Doesn't support plurals
         return
 
+    def test_source_language_export_uses_single_langset(self) -> None:
+        language = Language.objects.get(code="en")
+        project = Project(slug="test")
+        component = Component(
+            slug="comp",
+            project=project,
+            file_format="tbx",
+            source_language=language,
+        )
+        translation = Translation(
+            language=language, component=component, plural=language.plural
+        )
+        translation.store = EmptyFormat(NamedBytesIO("", b""))
+        unit = Unit(
+            translation=translation,
+            id_hash=-1,
+            pk=-1,
+            source="hello",
+            target="hello",
+            state=STATE_TRANSLATED,
+        )
+        unit.__dict__["unresolved_comments"] = []
+        unit.__dict__["suggestions"] = []
+        unit.source_unit = unit
+
+        exporter = self.get_exporter(language, translation=translation)
+        exporter.add_unit(unit)
+        result = self.check_export(exporter)
+
+        self.assertEqual(result.count(b'<langSet xml:lang="en">'), 1)
+
 
 class MoExporterTest(PoExporterTest):
     _class = MoExporter
@@ -430,7 +460,7 @@ class XlsxExporterTest(PoExporterTest):
         pass
 
     def test_plural_rows(self) -> None:
-        from openpyxl import load_workbook  # noqa: PLC0415
+        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         output = self.check_unit(
             source="%(count)s file\x1e\x1e%(count)s files",
@@ -456,7 +486,7 @@ class XlsxExporterTest(PoExporterTest):
         )
 
     def test_multivalue_units_are_not_exported_as_plural_rows(self) -> None:
-        from openpyxl import load_workbook  # noqa: PLC0415
+        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
         output = self.check_unit(
             nplurals=1,
@@ -620,25 +650,28 @@ class MultiCSVExporterTest(PoExporterTest):
     def test_real_multivalue_data(self) -> None:
         """Test multivalue export with real data from CSV file - integration test."""
         # Create a temporary directory for the git repository
-        temp_dir = tempfile.mkdtemp()
-        git_dir = os.path.join(temp_dir, "git")
-        os.makedirs(git_dir)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            git_dir = os.path.join(temp_dir, "git")
+            os.makedirs(git_dir)
 
-        try:
             # Initialize git repository
 
-            subprocess.run(["git", "init"], cwd=git_dir, check=True)  # noqa: S607
+            # ruff: ignore[start-process-with-partial-path]
+            subprocess.run(["git", "init"], cwd=git_dir, check=True)
             subprocess.run(
-                ["git", "config", "user.name", "Test User"],  # noqa: S607
+                # ruff: ignore[start-process-with-partial-path]
+                ["git", "config", "user.name", "Test User"],
                 cwd=git_dir,
                 check=True,
             )
             subprocess.run(
-                ["git", "config", "user.email", "test@example.com"],  # noqa: S607
+                # ruff: ignore[start-process-with-partial-path]
+                ["git", "config", "user.email", "test@example.com"],
                 cwd=git_dir,
                 check=True,
             )
-            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)  # noqa: S607
+            # ruff: ignore[start-process-with-partial-path]
+            subprocess.run(["git", "branch", "-M", "main"], cwd=git_dir, check=True)
 
             # Create the CSV file with real data
             csv_content = '''"source","target","context","developer_comments"
@@ -651,9 +684,11 @@ class MultiCSVExporterTest(PoExporterTest):
             Path(csv_file_path).write_text(csv_content, encoding="utf-8")
 
             # Add and commit the file
-            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)  # noqa: S607
+            # ruff: ignore[start-process-with-partial-path]
+            subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)
             subprocess.run(
-                ["git", "commit", "-m", "Initial commit"],  # noqa: S607
+                # ruff: ignore[start-process-with-partial-path]
+                ["git", "commit", "-m", "Initial commit"],
                 cwd=git_dir,
                 check=True,
             )
@@ -788,7 +823,3 @@ class MultiCSVExporterTest(PoExporterTest):
             self.assertEqual(
                 content.count("Primární otevřená redukce zlomeniny a funkční ortéza"), 1
             )
-
-        finally:
-            # Clean up the temporary directory
-            shutil.rmtree(temp_dir, ignore_errors=True)

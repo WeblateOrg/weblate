@@ -11,6 +11,6 @@ function Link (link)
 end
 function Image (img)
   img.src = fix_link(img.src);
-  return src
+  return img
 end
 return {{Link = Link, Image = Image}}

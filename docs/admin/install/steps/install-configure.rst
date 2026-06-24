@@ -60,7 +60,7 @@ Configuring Weblate
 
    .. code-block:: sh
 
-         ~/weblate-env/lib/python3.9/site-packages/weblate/examples/celery start
+         celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
 
 #. Start the development server (:ref:`server` details a production setup):
 

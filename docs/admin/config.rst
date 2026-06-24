@@ -80,6 +80,8 @@ This is currently used in the following places:
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_SIZE`
+   * :setting:`ASSET_RESTRICT_PRIVATE`
+   * :setting:`ASSET_PRIVATE_ALLOWLIST`
 
 .. setting:: ALLOWED_MACHINERY_DOMAINS
 
@@ -112,18 +114,69 @@ ALLOWED_ASSET_SIZE
 
 .. versionadded:: 5.14
 
-Configures size limit for fetching assets in Weblate. Defaults to 10 MB.
+Configures size limit in bytes for fetching or uploading assets into Weblate. Defaults to 10 MB.
+
+.. seealso::
+
+   * :ref:`screenshots`
+   * :ref:`fonts`
+   * :setting:`ALLOWED_ASSET_DOMAINS`
+
+.. setting:: ASSET_PRIVATE_ALLOWLIST
+
+ASSET_PRIVATE_ALLOWLIST
+-----------------------
+
+.. versionadded:: 2025.5
+
+Defines hostnames or domains exempt from :setting:`ASSET_RESTRICT_PRIVATE`
+for remote asset downloads that enforce private-target checks. Entries follow
+Django host matching semantics, so values such as ``assets.internal.example``
+or ``.internal.example`` can be used.
+
+This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must
+still match the asset domain allowlist.
+
+Default configuration:
+
+.. code-block:: python
+
+   ASSET_PRIVATE_ALLOWLIST = []
 
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_DOMAINS`
+   * :setting:`ASSET_RESTRICT_PRIVATE`
+
+.. setting:: ASSET_RESTRICT_PRIVATE
+
+ASSET_RESTRICT_PRIVATE
+----------------------
+
+.. versionadded:: 2025.5
+
+Reject remote asset URLs pointing to internal or non-public addresses unless
+the target host is included in :setting:`ASSET_PRIVATE_ALLOWLIST`. On by
+default.
+
+When enabled, hostnames that cannot be resolved during validation are rejected
+unless they are explicitly included in :setting:`ASSET_PRIVATE_ALLOWLIST`.
+This currently applies to screenshot URL uploads and remote HTML downloads for
+the :ref:`addon-weblate.cdn.cdnjs` add-on.
+
+.. seealso::
+
+   * :ref:`screenshots`
+   * :ref:`addon-weblate.cdn.cdnjs`
+   * :setting:`ALLOWED_ASSET_DOMAINS`
+   * :setting:`ASSET_PRIVATE_ALLOWLIST`
 
 .. setting:: ALTCHA_COST
 
 ALTCHA_COST
 -----------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``.
 
@@ -134,7 +187,7 @@ Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget v2.
 ALTCHA_MEMORY_COST
 ------------------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id memory cost in KiB. Defaults to ``65536``.
 
@@ -143,7 +196,7 @@ Argon2id memory cost in KiB. Defaults to ``65536``.
 ALTCHA_PARALLELISM
 ------------------
 
-.. versionadded:: 5.18
+.. versionadded:: 2025.5
 
 Argon2id parallelism factor. Defaults to ``1``.
 
@@ -381,16 +434,16 @@ in :setting:`DATA_DIR`.
 Change this to local or temporary filesystem if :setting:`DATA_DIR` is on a
 network filesystem.
 
-Weblate also stores generated SSH wrapper scripts here, so :setting:`CACHE_DIR`
-needs to be on an executable filesystem if :setting:`DATA_DIR` is mounted with
-``noexec``.
+Weblate stores generated helper files here and executes some of them, so
+:setting:`CACHE_DIR` has to be writable and mounted on a filesystem that allows
+execution. Avoid using ``noexec`` mount options for this directory.
 
 The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 
 The following subdirectories usually exist:
 
 :file:`ssh`
-   Generated SSH wrapper scripts used for VCS access.
+   Generated helper files used for VCS access.
 :file:`fonts`
    :program:`font-config` cache for :ref:`fonts`.
 :file:`avatar`
@@ -474,14 +527,6 @@ You can turn on only a few:
    * :ref:`own-checks`
    * :ref:`custom-modules`
 
-.. setting:: COMMENT_CLEANUP_DAYS
-
-COMMENT_CLEANUP_DAYS
---------------------
-
-Delete comments after a given number of days.
-Defaults to ``None``, meaning no deletion at all.
-
 .. setting:: COMMIT_PENDING_HOURS
 
 COMMIT_PENDING_HOURS
@@ -525,9 +570,9 @@ Configures how e-mail from the contact form is being sent.
 Choose a configuration that matches the configuration of your mail server.
 
 ``"reply-to"``
-   The sender is used in as :mailheader:`Reply-To`, this is the default behaviour.
+   The sender is used as :mailheader:`Reply-To`, this is the default behaviour.
 ``"from"``
-   The sender is used in as :mailheader:`From`. Your mail server needs to allow
+   The sender is used as :mailheader:`From`. Your mail server needs to allow
    sending such e-mails.
 ``"disabled"``
    Disables the contact form entirely.
@@ -663,6 +708,12 @@ DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, DEFAULT_DELE
 -----------------------------------------------------------------------------------------------------------------
 
 Default commit messages for different operations, please check :ref:`component` for details.
+
+The built-in defaults follow Conventional Commits and include
+Weblate links where available. Changing these settings affects newly created
+defaults; existing message templates can be reset in the settings forms with
+:guilabel:`Restore site default`. For inherited values, restoring the site
+default also disables inheritance for that message.
 
 
 .. seealso::
@@ -816,6 +867,9 @@ DEFAULT_PULL_MESSAGE
 
 Configures the default title and message for pull requests.
 
+The built-in default follows Conventional Commits and includes
+Weblate links and translation status.
+
 .. setting:: ENABLE_AVATARS
 
 ENABLE_AVATARS
@@ -938,7 +992,8 @@ List for credentials for Gitea servers.
 
 .. seealso::
 
-   * :ref:`vcs-gitea`
+   * :doc:`/admin/code-hosting`
+   * :ref:`code-hosting-gitea-pull-requests`
    * `Creating a Gitea personal access token`_
 
 .. _Creating a Gitea personal access token: https://docs.gitea.io/en-us/api-usage
@@ -969,7 +1024,7 @@ List for credentials for GitLab servers.
 
 .. seealso::
 
-   * :ref:`vcs-gitlab`
+   * :ref:`code-hosting-gitlab-merge-requests`
    * `GitLab: Personal access token <https://docs.gitlab.com/user/profile/personal_access_tokens/>`_
 
 .. setting:: GITHUB_CREDENTIALS
@@ -1005,13 +1060,13 @@ List for credentials for GitHub servers.
 
 .. hint::
 
-   Use ``api.github.com`` as a API host for https://github.com/.
+   Use ``api.github.com`` as an API host for https://github.com/.
 
 .. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
 
-   * :ref:`vcs-github`
+   * :ref:`code-hosting-github-pull-requests`
    * `Creating a GitHub personal access token`_
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
@@ -1038,7 +1093,7 @@ List for credentials for Bitbucket Data Center.
 
 .. seealso::
 
-   * :ref:`vcs-bitbucket-data-center`
+   * :ref:`code-hosting-bitbucket-data-center-pull-requests`
    * `Bitbucket: HTTP access token <https://confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_
 
 .. setting:: BITBUCKETCLOUD_CREDENTIALS
@@ -1077,7 +1132,7 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   * :ref:`vcs-bitbucket-cloud`
+   * :ref:`code-hosting-bitbucket-cloud-pull-requests`
    * `Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/create-an-api-token/>`_
    * `API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/api-token-permissions/>`_
 
@@ -1120,7 +1175,7 @@ Additional settings not described here can be found at :ref:`settings-credential
 
 .. seealso::
 
-   * :ref:`vcs-azure-devops`
+   * :ref:`code-hosting-azure-devops-pull-requests`
    * `Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
@@ -1271,6 +1326,64 @@ Defaults to -1.
    * :setting:`IP_BEHIND_REVERSE_PROXY`
    * :setting:`IP_PROXY_HEADER`
 
+.. setting:: LEGAL_DOCUMENT_CSS_CLASS
+
+LEGAL_DOCUMENT_CSS_CLASS
+------------------------
+
+.. versionadded:: 2026.7
+
+CSS class added to the wrappers around legal document templates.
+
+Defaults to ``"tos"``, which enables the built-in legal document numbering and
+spacing rules. Set this to an empty string to render legal documents without
+the built-in numbering.
+
+.. code-block:: python
+
+   LEGAL_DOCUMENT_CSS_CLASS = ""
+
+.. seealso::
+
+   :ref:`legal`
+
+.. setting:: LEGAL_HIDDEN_DOCUMENTS
+
+LEGAL_HIDDEN_DOCUMENTS
+----------------------
+
+.. versionadded:: 2026.7
+
+List of legal document page identifiers to hide from the legal module.
+
+The ``index`` page is always visible. Supported document identifiers are
+``terms``, ``cookies``, ``privacy``, and ``contracts``.
+
+Hidden pages are removed from the legal menu and return a 404 response when
+requested directly. Hiding ``terms`` or ``privacy`` is not recommended when
+terms of service confirmation is enabled.
+
+When ``terms`` or ``privacy`` is hidden, links exposed through the
+``terms_url`` and ``privacy_url`` template variables use :setting:`LEGAL_URL`
+and :setting:`PRIVACY_URL` as fallbacks when configured. If no fallback URL is
+configured, the related link is omitted.
+
+With terms of service confirmation enabled, hiding ``terms`` and setting
+:setting:`LEGAL_URL` makes the confirmation page link to the external terms
+document instead of embedding :file:`legal/documents/tos.html`.
+
+In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` and
+:setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the API
+schema terms link uses the same fallback.
+
+.. code-block:: python
+
+   LEGAL_HIDDEN_DOCUMENTS = ("contracts",)
+
+.. seealso::
+
+   :ref:`legal`
+
 .. setting:: LEGAL_TOS_DATE
 
 LEGAL_TOS_DATE
@@ -1300,8 +1413,9 @@ URL where your Weblate instance shows its legal documents.
 
 .. hint::
 
-    Useful if you host your legal documents outside Weblate for embedding them inside Weblate.
-    Please check :ref:`legal` for details.
+    Useful if you host your legal documents outside Weblate instead of using
+    the :ref:`legal` module. When the legal module is enabled, Weblate links to
+    the internal legal pages by default.
 
 Example:
 
@@ -1322,7 +1436,7 @@ Additional licenses to include in the license choices.
 
 .. note::
 
-    Each license definition should be tuple of its short name, a long name, a URL and a boolean, indication with it is a libre license.
+    Each license definition should be a tuple of its short name, a long name, a URL and a boolean, indicating whether it is a libre license.
 
 For example:
 
@@ -1402,10 +1516,13 @@ The restriction is the length of the source string × 10 characters.
 LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
 --------------------------------------
 
-These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-on.
+These settings configure the CDN add-ons, including
+:ref:`addon-weblate.cdn.cdnjs` and :ref:`addon-weblate.cdn.files`.
 :setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
 available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
 store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
+The files are served by your web server or CDN, not by Weblate; see
+:ref:`cdn-server-security` for secure serving guidance.
 
 .. hint::
 
@@ -1413,7 +1530,8 @@ store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
 
 .. seealso::
 
-   :ref:`addon-weblate.cdn.cdnjs`
+   * :ref:`addon-weblate.cdn.cdnjs`
+   * :ref:`addon-weblate.cdn.files`
 
 .. setting:: PIWIK_SITE_ID
 .. setting:: MATOMO_SITE_ID
@@ -1495,7 +1613,7 @@ List for credentials for Pagure servers.
 
 .. seealso::
 
-   * :ref:`vcs-pagure`
+   * :ref:`code-hosting-pagure-merge-requests`
    * `Pagure API <https://pagure.io/api/0/>`_
 
 .. setting:: PASSWORD_MINIMAL_STRENGTH
@@ -1538,8 +1656,9 @@ URL where your Weblate instance shows its privacy policy.
 
 .. hint::
 
-    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
-    please check :ref:`legal` for details.
+    Useful if you host your privacy policy outside Weblate instead of using
+    the :ref:`legal` module. When the legal module is enabled, Weblate links to
+    the internal legal pages by default.
 
 Example:
 
@@ -1659,7 +1778,7 @@ PROJECT_BACKUP_UPLOAD_MAX_SIZE
 .. versionadded:: 5.17.1
 
 Configures the maximum size, in bytes, for uploaded project backup ZIP files.
-Defaults to 262144000 bytes (250 MiB).
+Defaults to 536870912 bytes (512 MiB).
 
 In Docker, configure this using the ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``
 environment variable. Docker setups can also be constrained by
@@ -1683,6 +1802,9 @@ backup.
 This is a safeguard against malformed or intentionally fragmented archives.
 Defaults to 100000 entries.
 
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS`` environment variable.
+
 .. seealso::
 
    :ref:`projectbackup`
@@ -1695,10 +1817,14 @@ PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
 .. versionadded:: 5.17.1
 
 Defines the maximum total uncompressed size, in bytes, for ZIP entries in an
-imported project backup. Defaults to 262144000 bytes (250 MiB).
+imported project backup. Defaults to 536870912 bytes (512 MiB).
 
 This limits archives that are small when uploaded but expand to much more data
 during validation or restore.
+
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`` environment
+variable.
 
 .. seealso::
 
@@ -1719,6 +1845,10 @@ enough to look suspicious. Large low-compression files are intentionally
 allowed here and are expected to be constrained by the HTTP upload limit.
 Defaults to 262144000 bytes (250 MiB).
 
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`` environment
+variable.
+
 .. seealso::
 
    :ref:`projectbackup`
@@ -1736,6 +1866,9 @@ considering the ZIP compression ratio during project backup import.
 Smaller files are ignored for the compression-ratio-based validation to avoid
 rejecting reasonably sized files that compress well. Defaults to 1048576 bytes
 (1 MiB).
+
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable.
 
 .. seealso::
 
@@ -1756,6 +1889,10 @@ This is used together with
 :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` to detect suspiciously
 compressed entries while still allowing large repository pack files and other
 low-compression content. Defaults to 250.
+
+In Docker, configure this using the
+``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`` environment
+variable.
 
 .. seealso::
 
@@ -2045,7 +2182,7 @@ REGISTRATION_CAPTCHA
 
 Whether registration of new accounts is protected by a CAPTCHA. Defaults to enabled.
 
-If turned on, a CAPTCHA is added to all pages where a users enters their e-mail address:
+If turned on, a CAPTCHA is added to all pages where a user enters their e-mail address:
 
 * New account registration.
 * Password recovery.
@@ -2160,6 +2297,69 @@ and configures REST framework to require authentication for all API endpoints.
     This is implemented in the :ref:`sample-configuration`. For Docker, use
     :envvar:`WEBLATE_REQUIRE_LOGIN`.
 
+.. setting:: GOOGLE_CLOUD_ERROR_REPORTING
+
+GOOGLE_CLOUD_ERROR_REPORTING
+----------------------------
+
+Configuration for :ref:`collecting-errors` using Google Cloud Error Reporting.
+Set to ``None`` to disable the integration, or set to a dictionary of keyword
+arguments for the Google Cloud Error Reporting client.
+
+Weblate automatically supplies ``service`` as ``weblate`` and ``version`` as
+the current Weblate version or Git revision. Explicit values in the dictionary
+override these defaults.
+
+.. setting:: OPENTELEMETRY_ENABLED
+
+OPENTELEMETRY_ENABLED
+---------------------
+
+.. versionadded:: 2026.6
+
+Enable backend tracing using OpenTelemetry. Disabled by default.
+
+Traces are exported only when this is enabled and
+:setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured.
+
+.. setting:: OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+
+OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+------------------------------------
+
+OTLP HTTP traces endpoint for OpenTelemetry, for example
+``https://collector.example.com/v1/traces``.
+
+.. setting:: OPENTELEMETRY_EXPORTER_OTLP_HEADERS
+
+OPENTELEMETRY_EXPORTER_OTLP_HEADERS
+-----------------------------------
+
+Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an
+empty dictionary.
+
+.. setting:: OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES
+
+OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES
+---------------------------------------
+
+Additional OpenTelemetry resource attributes. Defaults to an empty dictionary.
+
+.. setting:: OPENTELEMETRY_SERVICE_NAME
+
+OPENTELEMETRY_SERVICE_NAME
+--------------------------
+
+OpenTelemetry service name. Defaults to ``weblate``.
+
+.. setting:: OPENTELEMETRY_TRACES_SAMPLE_RATE
+
+OPENTELEMETRY_TRACES_SAMPLE_RATE
+--------------------------------
+
+Configure sampling rate for OpenTelemetry traces. Set to 1 to trace all events,
+0 (the default) disables tracing.
+
 .. setting:: SENTRY_DSN
 
 SENTRY_DSN
@@ -2192,7 +2392,7 @@ Configure whether to monitor Celery Beat tasks with Sentry. Defaults to ``True``
 SENTRY_PROFILES_SAMPLE_RATE
 ---------------------------
 
-Configure sampling rate for performance monitoring. Set to 1 to trace all events, 0 (the default) disables tracing.
+Configure sampling rate for performance monitoring. Set to 1 to profile all traced events (the default), 0 disables profiling.
 
 .. seealso::
 
@@ -2378,14 +2578,6 @@ STATUS_URL
 
 The URL where your Weblate instance reports its status.
 
-.. setting:: SUGGESTION_CLEANUP_DAYS
-
-SUGGESTION_CLEANUP_DAYS
------------------------
-
-Automatically deletes suggestions after a given number of days.
-Defaults to ``None``, meaning no deletions.
-
 .. setting:: SUPPORT_STATUS_CHECK
 
 SUPPORT_STATUS_CHECK
@@ -2517,8 +2709,11 @@ VCS_API_DELAY
 .. versionadded:: 4.15.1
 
 Configures minimal delay in seconds between third-party API calls in
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, and
-:ref:`vcs-azure-devops`.
+:ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`, and
+:ref:`code-hosting-azure-devops-pull-requests`.
 
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
@@ -2534,8 +2729,11 @@ VCS_API_TIMEOUT
 .. versionadded:: 5.15
 
 Configures timeout in seconds for third-party API calls such as forking or
-creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`,
-:ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`.
+creating merge requests in :ref:`code-hosting-github-pull-requests`,
+:ref:`code-hosting-gitlab-merge-requests`,
+:ref:`code-hosting-gitea-pull-requests`,
+:ref:`code-hosting-pagure-merge-requests`, and
+:ref:`code-hosting-azure-devops-pull-requests`.
 
 The default value is 10.
 

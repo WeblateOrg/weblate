@@ -11,6 +11,5 @@ set -e
 # - things which currently cannot be properly typed Django
 # - https://github.com/sbdchd/celery-types/issues/157
 # - settings do not have proper type annotations
-# - testsuite mocks or simplifications (those probably should be addressed, but are too noisy now)
 
-grep -vE '"Field" has no attribute "(choices|queryset|name|valid)"|.Settings. object has no attribute|/test.* has incompatible type "Mock[A-Za-z]*"; expected "(Unit|Check)"|/test.*has incompatible type "None"; expected "Unit"'
+grep -vE '"Field" has no attribute "(choices|queryset|name)"|.Settings. object has no attribute'

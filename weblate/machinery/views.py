@@ -68,6 +68,7 @@ class MachineryGlobalMixin(MachineryMixin):
 class DeprecatedMachinery:
     is_available = False
     settings_form: None = None
+    sends_data_to_third_party = False
 
     def __init__(self, identifier: str) -> None:
         self.identifier = self.name = identifier
@@ -253,6 +254,9 @@ class EditMachineryView(FormView):
         result["machinery_id"] = self.machinery.get_identifier()
         result["machinery_name"] = self.machinery.name
         result["machinery_doc_anchor"] = self.machinery.get_doc_anchor()
+        result["machinery_sends_data_to_third_party"] = (
+            self.machinery.sends_data_to_third_party
+        )
         return result
 
     def install_service(self) -> None:
@@ -385,6 +389,30 @@ def format_results_helper(
     item["html"] = format_string_helper(item["text"], translation)
 
 
+def get_machinery_translations(
+    request: AuthenticatedHttpRequest,
+    translation_service,
+    unit: Unit,
+    search: str | None,
+    targets: list[str],
+    translation: Translation,
+    source_translation: Translation,
+) -> list[dict]:
+    if search:
+        translations = translation_service.search(unit, search, request.user)
+        for item in translations:
+            format_results_helper(item, targets, 0, translation, source_translation)
+        return translations
+
+    translations = translation_service.translate(unit, request.user)
+    for plural_form, possible_translations in enumerate(translations):
+        for item in possible_translations:
+            format_results_helper(
+                item, targets, plural_form, translation, source_translation
+            )
+    return list(chain.from_iterable(translations))
+
+
 def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=None):
     translation = unit.translation
     component = translation.component
@@ -417,20 +445,15 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
         response["responseDetails"] = gettext("Service is currently not available.")
     else:
         try:
-            if search:
-                translations = translation_service.search(unit, search, request.user)
-                for item in translations:
-                    format_results_helper(
-                        item, targets, 0, translation, source_translation
-                    )
-            else:
-                translations = translation_service.translate(unit, request.user)
-                for plural_form, possible_translations in enumerate(translations):
-                    for item in possible_translations:
-                        format_results_helper(
-                            item, targets, plural_form, translation, source_translation
-                        )
-                translations = list(chain.from_iterable(translations))
+            translations = get_machinery_translations(
+                request,
+                translation_service,
+                unit,
+                search,
+                targets,
+                translation,
+                source_translation,
+            )
             response["translations"] = translations
             response["responseStatus"] = 200
         except MachineTranslationError as exc:

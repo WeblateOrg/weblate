@@ -52,12 +52,18 @@ import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 import weblate.wladmin.views
-from weblate.auth.decorators import management_access
+import weblate.workspaces.views
+from weblate.auth.decorators import management_permission_required
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.bulk_suggestions import bulk_accept_user_suggestions
-from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
+from weblate.trans.views.changes import (
+    ChangesCSVView,
+    ChangesRSSView,
+    ChangesView,
+    show_change,
+)
 from weblate.trans.views.hooks import ServiceHookView
 from weblate.utils.version import VERSION
 
@@ -75,6 +81,12 @@ if URL_PREFIX:
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
+    path("workspaces/<uuid:pk>/", weblate.workspaces.views.detail, name="workspace"),
+    path(
+        "workspaces/<uuid:pk>/access/",
+        weblate.workspaces.views.access,
+        name="workspace-access",
+    ),
     # Bulk accept all suggestions from a specific user
     path(
         "js/bulk-accept-suggestions/<object_path:path>/",
@@ -182,6 +194,7 @@ real_patterns = [
     ),
     path("credits/", weblate.trans.views.reports.get_credits, name="credits"),
     path("counts/", weblate.trans.views.reports.get_counts, name="counts"),
+    path("costs/", weblate.trans.views.reports.get_costs, name="costs"),
     path(
         "credits/<object_path:path>/",
         weblate.trans.views.reports.get_credits,
@@ -191,6 +204,11 @@ real_patterns = [
         "counts/<object_path:path>/",
         weblate.trans.views.reports.get_counts,
         name="counts",
+    ),
+    path(
+        "costs/<object_path:path>/",
+        weblate.trans.views.reports.get_costs,
+        name="costs",
     ),
     path(
         "new-lang/<object_path:path>/",
@@ -216,6 +234,11 @@ real_patterns = [
         "addon/<int:pk>/logs/",
         weblate.addons.views.AddonLogs.as_view(),
         name="addon-logs",
+    ),
+    path(
+        "addon/<int:pk>/components/",
+        weblate.addons.views.AddonComponents.as_view(),
+        name="addon-components",
     ),
     path(
         "access/<name:project>/",
@@ -433,6 +456,7 @@ real_patterns = [
     path(
         "rename/<object_path:path>/", weblate.trans.views.settings.rename, name="rename"
     ),
+    path("move/<object_path:path>/", weblate.trans.views.settings.move, name="move"),
     path(
         "category/add/<object_path:path>/",
         weblate.trans.views.settings.add_category,
@@ -541,31 +565,41 @@ real_patterns = [
     ),
     path(
         "manage/memory/",
-        management_access(weblate.memory.views.MemoryView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.MemoryView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory",
     ),
     path(
         "manage/memory/upload/",
-        management_access(weblate.memory.views.UploadView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.UploadView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-upload",
     ),
     path(
         "manage/memory/delete/",
-        management_access(weblate.memory.views.DeleteView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.DeleteView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-delete",
     ),
     path(
         "manage/memory/rebuild/",
-        management_access(weblate.memory.views.RebuildView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.RebuildView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-rebuild",
     ),
     path(
         "manage/memory/download/",
-        management_access(weblate.memory.views.DownloadView.as_view()),
+        management_permission_required("memory.manage")(
+            weblate.memory.views.DownloadView.as_view()
+        ),
         kwargs={"manage": 1},
         name="manage-memory-download",
     ),
@@ -597,12 +631,16 @@ real_patterns = [
     # Machinery
     path(
         "manage/machinery/",
-        management_access(weblate.machinery.views.ListMachineryGlobalView.as_view()),
+        management_permission_required("machinery.edit")(
+            weblate.machinery.views.ListMachineryGlobalView.as_view()
+        ),
         name="manage-machinery",
     ),
     path(
         "manage/machinery/<name:machinery>/",
-        management_access(weblate.machinery.views.EditMachineryGlobalView.as_view()),
+        management_permission_required("machinery.edit")(
+            weblate.machinery.views.EditMachineryGlobalView.as_view()
+        ),
         name="machinery-edit",
     ),
     path(
@@ -665,6 +703,10 @@ real_patterns = [
     path("changes/csv/", ChangesCSVView.as_view(), name="changes-csv"),
     path(
         "changes/csv/<object_path:path>/", ChangesCSVView.as_view(), name="changes-csv"
+    ),
+    path("changes/rss/", ChangesRSSView.as_view(), name="changes-rss"),
+    path(
+        "changes/rss/<object_path:path>/", ChangesRSSView.as_view(), name="changes-rss"
     ),
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks
@@ -761,6 +803,11 @@ real_patterns = [
     ),
     path("js/matomo/", weblate.trans.views.js.matomo, name="js-matomo"),
     path(
+        "js/flags/",
+        weblate.trans.views.js.flag_choices,
+        name="js-flag-choices",
+    ),
+    path(
         "js/translate/<name:service>/<int:unit_id>/",
         weblate.machinery.views.translate,
         name="js-translate",
@@ -779,6 +826,11 @@ real_patterns = [
         "js/translations/<int:unit_id>/",
         weblate.trans.views.js.get_unit_translations,
         name="js-unit-translations",
+    ),
+    path(
+        "js/access/<name:project>/user/<int:user_id>/groups/",
+        weblate.trans.views.acl.project_user_groups,
+        name="js-project-user-groups",
     ),
     path(
         "js/git/<object_path:path>/",
@@ -812,7 +864,11 @@ real_patterns = [
     path("manage/", weblate.wladmin.views.manage, name="manage"),
     path("manage/support/", weblate.wladmin.views.support_form, name="manage-support"),
     path(
-        "manage/addons/", weblate.addons.views.AddonList.as_view(), name="manage-addons"
+        "manage/addons/",
+        management_permission_required("management.addons")(
+            weblate.addons.views.AddonList.as_view()
+        ),
+        name="manage-addons",
     ),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
     path(
@@ -824,6 +880,16 @@ real_patterns = [
         "manage/teams/",
         weblate.wladmin.views.TeamListView.as_view(),
         name="manage-teams",
+    ),
+    path(
+        "manage/workspaces/",
+        weblate.wladmin.views.WorkspaceListView.as_view(),
+        name="manage-workspaces",
+    ),
+    path(
+        "manage/workspaces/add/",
+        weblate.wladmin.views.WorkspaceCreateView.as_view(),
+        name="manage-workspace-add",
     ),
     path(
         "teams/<int:pk>/",
@@ -994,16 +1060,6 @@ if "weblate.billing" in settings.INSTALLED_APPS:
         path(
             "billing/<int:pk>/merge/", weblate.billing.views.merge, name="billing-merge"
         ),
-        path(
-            "billing/<int:pk>/owners/",
-            weblate.billing.views.owner_add,
-            name="billing-owner-add",
-        ),
-        path(
-            "billing/<int:pk>/owners/<int:user_id>/",
-            weblate.billing.views.owner_remove,
-            name="billing-owner-remove",
-        ),
         path("manage/billing/", weblate.wladmin.views.billing, name="manage-billing"),
     ]
 
@@ -1063,7 +1119,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         ),
     ]
 
-# Legal integartion
+# Legal integration
 if "weblate.legal" in settings.INSTALLED_APPS:
     real_patterns.extend(
         (
@@ -1106,6 +1162,9 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
 
     real_patterns.append(
         path("create/billing/", CreateBillingView.as_view(), name="create-billing"),
+    )
+    real_patterns.append(
+        path("hosted/api/", include("wlhosted.integrations.urls")),
     )
 
 # Django SAML2 Identity Provider

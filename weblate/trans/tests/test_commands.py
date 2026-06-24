@@ -16,19 +16,24 @@ from django.test.utils import override_settings
 
 from weblate.accounts.models import Profile
 from weblate.runner import main
+from weblate.trans.actions import ActionEvents
 from weblate.trans.file_format_params import (
     FILE_FORMATS_PARAMS,
     BaseFileFormatParam,
     register_file_format_param,
 )
-from weblate.trans.models import Component, Translation
+from weblate.trans.models import Change, Component, Translation
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
     FixtureComponentTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import create_test_user, get_test_file
+from weblate.trans.tests.utils import (
+    create_another_user,
+    create_test_user,
+    get_test_file,
+)
 from weblate.vcs.mercurial import HgRepository
 
 TEST_PO = get_test_file("cs.po")
@@ -45,6 +50,61 @@ class RunnerTest(SimpleTestCase):
             self.assertIn("list_versions", sys.stdout.getvalue())
         finally:
             sys.stdout = restore
+
+
+class AnalyzeTranslatorWorkTest(ComponentTestCase):
+    def create_change(self, author, user) -> None:
+        unit = self.get_unit()
+        Change.objects.create(
+            action=ActionEvents.ACCEPT,
+            author=author,
+            user=user,
+            unit=unit,
+            translation=self.translation,
+            component=self.component,
+            project=self.project,
+            language=self.translation.language,
+        )
+
+    def test_accepted_suggestions_are_grouped_by_author(self) -> None:
+        reviewer = self.user
+        first_author = create_another_user("-first")
+        second_author = create_another_user("-second")
+        for _unused in range(3):
+            self.create_change(first_author, reviewer)
+            self.create_change(second_author, reviewer)
+
+        output = StringIO()
+        call_command(
+            "analyze_translator_work",
+            days=1,
+            min_changes=1,
+            stdout=output,
+        )
+
+        result = output.getvalue()
+        self.assertIn("User days: 2 included, 0 excluded", result)
+        self.assertIn("  median: 3", result)
+
+    def test_component_filter_uses_full_path(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        for _unused in range(3):
+            self.create_change(self.user, self.user)
+
+        output = StringIO()
+        call_command(
+            "analyze_translator_work",
+            component="/".join(self.component.get_url_path()),
+            days=1,
+            min_changes=1,
+            stdout=output,
+        )
+
+        result = output.getvalue()
+        self.assertIn("User days: 1 included, 0 excluded", result)
+        self.assertIn("  median: 3", result)
 
 
 class ImportProjectTest(RepoTestCase):
@@ -718,4 +778,7 @@ class DocumentationCommandTest(TestCase):
     def test_list_change_events(self) -> None:
         output = StringIO()
         call_command("list_change_events", stdout=output)
-        self.assertIn("Forced synchronization of translations", output.getvalue())
+        result = output.getvalue()
+        self.assertIn("``83``", result)
+        self.assertIn("``forced_synchronization_of_translations``", result)
+        self.assertIn("Forced synchronization of translations", result)

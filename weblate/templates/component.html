@@ -21,7 +21,17 @@
     </li>
     {% if alerts %}
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">{% translate "Alerts" %}</a>
+        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">
+          {% translate "Diagnostics" %}
+          {% if problem_alerts_count %}
+            <span class="badge text-bg-danger">
+              {{ problem_alerts_count }}
+              <span class="visually-hidden">
+                {% blocktranslate count count=problem_alerts_count %}error{% plural %}errors{% endblocktranslate %}
+              </span>
+            </span>
+          {% endif %}
+        </a>
       </li>
     {% endif %}
     <li class="nav-item">
@@ -52,9 +62,6 @@
         <li>
           <a class="dropdown-item"
              href="{% url 'data_project' project=object.project.slug %}">{% translate "Data exports" %}</a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
         </li>
       </ul>
     </li>
@@ -109,7 +116,9 @@
             <a class="dropdown-item" href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
           </li>
         {% endif %}
-        <hr class="dropdown-divider">
+        <li>
+          <hr class="dropdown-divider">
+        </li>
         {% if user_can_see_repository_status %}
           <li>
             <a class="dropdown-item"
@@ -118,7 +127,9 @@
                data-href="{% url 'git_status' path=object.get_url_path %}"
                href="#">{% translate "Repository maintenance" %}</a>
           </li>
-          <hr class="dropdown-divider">
+          <li>
+            <hr class="dropdown-divider">
+          </li>
         {% endif %}
         <li>
           <a class="dropdown-item" href="{% url 'screenshots' path=object.get_url_path %}">{% translate "Screenshots" %}</a>
@@ -150,7 +161,9 @@
           </li>
         {% endif %}
         {% if delete_form or rename_form or user_can_edit_component or component_link_add_form %}
-          <hr class="dropdown-divider">
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           {% if user_can_edit_component %}
             <li>
               <a class="dropdown-item" href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
@@ -210,6 +223,7 @@
                 {% documentation_icon alert.obj.doc_page alert.obj.doc_anchor right=True %}
               {% endif %}
               {{ alert }}
+              <span class="badge {{ alert.severity_class }}">{{ alert.get_severity_display }}</span>
               {% if alert.dismissed %}
                 <span class="badge  text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
@@ -217,14 +231,21 @@
             <div class="card-body">{% render_alert alert %}</div>
             <form action="{% url "dismiss-alert" path=object.get_url_path %}" method="post">
               <div class="card-footer">
-                {% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
-                {% blocktranslate with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktranslate %}
+                {% with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}
+                  {% if alert.timestamp|same_naturaltime:alert.updated %}
+                    {% comment %}Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago{% endcomment %}
+                    {% blocktranslate %}Appeared {{ first }}{% endblocktranslate %}
+                  {% else %}
+                    {% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
+                    {% blocktranslate with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktranslate %}
+                  {% endif %}
+                {% endwith %}
                 {% if user_can_edit_component and alert.obj.dismissible %}
                   {% csrf_token %}
                   <input type="hidden" value="{{ alert.name }}" name="dismiss" />
                   <input type="submit"
                          value="{% translate "Dismiss" %}"
-                         class="float-end btn btn-danger" />
+                         class="float-end btn {% if alert.is_problem %}btn-danger{% else %}btn-secondary{% endif %}" />
                   <div class="clearfix"></div>
                 {% endif %}
               </div>
@@ -442,7 +463,7 @@
     {% if user.is_authenticated %}
       <div class="tab-pane" id="reports">
         {% if not user_can_view_reports %}
-          {% translate "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+          {% translate "You don't have permission to view reports for all users; contributor reports will list only your contributions." as msg %}
           {% show_message "warning" msg %}
         {% endif %}
         <div class="row">
@@ -482,7 +503,30 @@
                 </div>
                 <div class="card-body">
                   <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
-                  {% crispy reports_form %}
+                  {% crispy reports_count_form %}
+                </div>
+                <div class="card-footer">
+                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-6">
+            <form action="{% url 'costs' path=object.get_url_path %}"
+                  method="post"
+                  enctype="multipart/form-data">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    {% documentation_icon 'devel/reporting' 'cost-estimate' right=True %}
+                    {% translate "Cost estimate" %}
+                  </h4>
+                </div>
+                <div class="card-body">
+                  <p>
+                    {% translate "Estimates translation costs based on source words, repetitions, needs-editing strings, and translation memory matches." %}
+                  </p>
+                  {% crispy reports_cost_form %}
                 </div>
                 <div class="card-footer">
                   <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />

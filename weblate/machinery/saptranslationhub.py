@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .base import MachineTranslation
+from .base import MACHINERY_DEFAULT_THRESHOLD, MachineTranslation
 from .forms import SAPMachineryForm
 
 if TYPE_CHECKING:
@@ -58,7 +58,7 @@ class SAPTranslationHub(MachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         # should the machine translation service be used?

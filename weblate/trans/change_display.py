@@ -15,7 +15,7 @@ from django.utils.translation import gettext, gettext_lazy, npgettext, pgettext
 from weblate.addons.models import ADDONS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models.alert import ALERTS
+from weblate.trans.alerts.registry import get_alert_class
 from weblate.trans.models.change import COMPONENT_ORIGINS
 from weblate.trans.models.project import Project
 from weblate.trans.templatetags.translations import (
@@ -227,20 +227,26 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderSettingChange(BaseDetailsRenderStrategy):
-    """Strategy for displaying details of project and component setting changes."""
+    """Strategy for displaying details of setting changes."""
 
     details_required = True
     actions: ClassVar[set[ActionEvents]] = {
         ActionEvents.PROJECT_SETTING_CHANGE,
         ActionEvents.COMPONENT_SETTING_CHANGE,
+        ActionEvents.WORKSPACE_SETTING_CHANGE,
     }
 
     def render_details(self, change: Change) -> StrOrPromise:
-        obj = (
-            change.project
-            if change.action == ActionEvents.PROJECT_SETTING_CHANGE
-            else change.component
-        )
+        obj: models.Model | None
+        match change.action:
+            case ActionEvents.PROJECT_SETTING_CHANGE:
+                obj = change.project
+            case ActionEvents.COMPONENT_SETTING_CHANGE:
+                obj = change.component
+            case ActionEvents.WORKSPACE_SETTING_CHANGE:
+                obj = change.workspace
+            case _:
+                obj = None
         details = change.details
         if obj is None or "field" not in details:
             return change.get_action_display()
@@ -248,7 +254,8 @@ class RenderSettingChange(BaseDetailsRenderStrategy):
         try:
             field = cast(
                 "models.Field",
-                obj._meta.get_field(details["field"]),  # noqa: SLF001
+                # ruff: ignore[private-member-access]
+                obj._meta.get_field(details["field"]),
             )
         except FieldDoesNotExist:
             return change.get_action_display()
@@ -276,6 +283,24 @@ class RenderSettingChange(BaseDetailsRenderStrategy):
 
 
 @register_details_display_strategy
+class RenderProjectMove(BaseDetailsRenderStrategy):
+    """Strategy for displaying details of project moves."""
+
+    details_required = True
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.MOVE_PROJECT}
+
+    def render_details(self, change: Change) -> StrOrPromise:
+        no_workspace = gettext("No workspace")
+        details = change.details
+        old = details.get("old_workspace_name") or no_workspace
+        target = details.get("workspace_name") or no_workspace
+        return gettext('Project moved from "%(old)s" to "%(target)s".') % {
+            "old": old,
+            "target": target,
+        }
+
+
+@register_details_display_strategy
 class RenderUserActions(BaseDetailsRenderStrategy):
     """Strategy for displaying details of user actions."""
 
@@ -283,6 +308,7 @@ class RenderUserActions(BaseDetailsRenderStrategy):
         ActionEvents.ADD_USER,
         ActionEvents.INVITE_USER,
         ActionEvents.REMOVE_USER,
+        ActionEvents.USER_ACCESS_CHANGE,
         ActionEvents.USER_REVERT,
     }
     details_required = True
@@ -324,7 +350,7 @@ class RenderAlert(BaseDetailsRenderStrategy):
 
     def render_details(self, change: Change) -> StrOrPromise:
         try:
-            return ALERTS[change.details["alert"]].verbose
+            return get_alert_class(change.details["alert"]).verbose
         except KeyError:
             return change.details["alert"]
 
@@ -474,7 +500,8 @@ class BaseChangeHistoryContext:
         return render_to_string("snippets/format-translation.html", context)
 
     def make_distance_badge(self, count: int) -> str:
-        """Create a badge for the Damerau–Levenshtein distance."""  # noqa: RUF002
+        # ruff: ignore[ambiguous-unicode-character-docstring]
+        """Create a badge for the Damerau–Levenshtein distance."""
         return npgettext(
             "Number of edits on a change in Damerau–Levenshtein distance",
             "%(count)d character edited",

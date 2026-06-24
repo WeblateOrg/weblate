@@ -30,6 +30,13 @@ behind HTTPS terminating proxy. You can also deploy with a HTTPS proxy, see
         git clone https://github.com/WeblateOrg/docker-compose.git weblate-docker
         cd weblate-docker
 
+   .. note::
+
+      The Docker Compose files are example deployment configurations. Operators
+      typically customize them for their own deployment and maintain those local
+      changes. Weblate application updates are delivered through Docker image
+      tags; there is no release-bound update path for customized Compose files.
+
 2. Create a :file:`docker-compose.override.yml` file with your settings.
    See :ref:`docker-environment` for full list of environment variables.
 
@@ -253,8 +260,11 @@ should be no need for additional manual actions.
     calendar year. If you need to upgrade from an older release, upgrade first
     to an intermediate version listed in :ref:`version-specific-instructions`.
 
-You might also want to update the ``docker-compose`` repository, though it's
-not needed in most case. See :ref:`docker-postgres-upgrade` for upgrading the PostgreSQL server.
+If you use the example Compose files without local changes, you can also
+review updates in the ``docker-compose`` repository, though this is not needed
+for most Weblate upgrades. Customized Compose files need to be maintained as
+part of your deployment. See :ref:`docker-postgres-upgrade` for upgrading the
+PostgreSQL server.
 
 .. _docker-postgres-upgrade:
 
@@ -712,6 +722,14 @@ Generic settings
 
    Defaults to enabled.
 
+.. envvar:: WEBLATE_PROJECT_WEB_RESTRICT_ALLOWLIST
+
+   .. versionadded:: 5.17
+
+   Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`.
+
+   Expects a comma-separated list of trusted project slugs.
+
 .. envvar:: WEBLATE_WEBHOOK_RESTRICT_PRIVATE
 
    .. versionadded:: 5.17
@@ -725,6 +743,30 @@ Generic settings
    .. versionadded:: 5.17
 
    Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`.
+
+   Expects a comma-separated list of trusted hostnames or domains.
+
+.. envvar:: WEBLATE_ALLOWED_ASSET_SIZE
+
+   .. versionadded:: 2025.7
+
+   Configures :setting:`ALLOWED_ASSET_SIZE`.
+
+.. envvar:: WEBLATE_ASSET_RESTRICT_PRIVATE
+
+   .. versionadded:: 2025.5
+
+   Configures :setting:`ASSET_RESTRICT_PRIVATE`.
+
+   Defaults to enabled.
+
+.. envvar:: WEBLATE_ASSET_PRIVATE_ALLOWLIST
+
+   .. versionadded:: 2025.5
+
+   Configures :setting:`ASSET_PRIVATE_ALLOWLIST`.
+
+   Expects a comma-separated list of trusted hostnames or domains.
 
 .. envvar:: WEBLATE_TIME_ZONE
 
@@ -837,7 +879,7 @@ Generic settings
 
 .. envvar:: WEBLATE_SECURE_PROXY_SSL_HEADER
 
-    A tuple representing a HTTP header/value combination that signifies a
+    A tuple representing an HTTP header/value combination that signifies a
     request is secure. This is needed when Weblate is running behind a reverse
     proxy doing SSL termination which does not pass standard HTTPS headers.
 
@@ -882,6 +924,10 @@ Generic settings
     :file:`/app/data/python/customize/templates/legal/documents`, see
     :ref:`docker-static-override`.
 
+    Recreate the Docker container after changing this environment variable,
+    for example using :program:`docker compose up -d`. Restarting an existing
+    container does not apply changed environment values.
+
     **Example:**
 
     .. code-block:: yaml
@@ -893,6 +939,35 @@ Generic settings
 
        * :ref:`legal`
        * :ref:`docker-static-override`
+
+.. envvar:: WEBLATE_LEGAL_DOCUMENT_CSS_CLASS
+
+    Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments with
+    :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
+
+    Set this to an empty string to disable the built-in legal document
+    numbering.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_DOCUMENT_CSS_CLASS: ""
+
+.. envvar:: WEBLATE_LEGAL_HIDDEN_DOCUMENTS
+
+    Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments with
+    :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
+
+    Provide a comma-separated list of legal document page identifiers.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_LEGAL_HIDDEN_DOCUMENTS: contracts
 
 .. envvar:: WEBLATE_PUBLIC_ENGAGE
 
@@ -1238,6 +1313,61 @@ Generic settings
       This variable intentionally lacks ``WEBLATE_`` prefix as it is shared
       with third-party container used in :ref:`docker-https-portal`.
 
+.. envvar:: WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE
+
+   Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE
+
+   Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE
+
+   Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`.
+
+   The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also
+   large enough for uploaded backup files.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`.
+
+   The value is in bytes.
+
+.. envvar:: WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO
+
+   .. versionadded:: 2026.5
+
+   Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`.
+
 
 .. _docker-vcs-config:
 
@@ -1246,8 +1376,8 @@ Code hosting sites credentials
 
 In the Docker container, the code hosting credentials can be configured either
 in separate variables or using a Python dictionary to set them at once. The
-following examples are for :ref:`vcs-github`, but applies to all :ref:`vcs`
-with appropriately changed variable names.
+following examples are for :ref:`code-hosting-github-pull-requests`, but apply
+to all :ref:`vcs` with appropriately changed variable names.
 
 .. important::
 
@@ -1292,7 +1422,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITHUB_HOST
 .. envvar:: WEBLATE_GITHUB_CREDENTIALS
 
-    Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`.
+    Configures :ref:`code-hosting-github-pull-requests` by changing
+    :setting:`GITHUB_CREDENTIALS`.
 
     .. seealso::
 
@@ -1303,7 +1434,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITLAB_HOST
 .. envvar:: WEBLATE_GITLAB_CREDENTIALS
 
-    Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`.
+    Configures :ref:`code-hosting-gitlab-merge-requests` by changing
+    :setting:`GITLAB_CREDENTIALS`.
 
     .. seealso::
 
@@ -1314,7 +1446,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_GITEA_HOST
 .. envvar:: WEBLATE_GITEA_CREDENTIALS
 
-    Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`.
+    Configures :ref:`code-hosting-gitea-pull-requests` by changing
+    :setting:`GITEA_CREDENTIALS`.
 
     .. seealso::
 
@@ -1325,7 +1458,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_PAGURE_HOST
 .. envvar:: WEBLATE_PAGURE_CREDENTIALS
 
-    Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`.
+    Configures :ref:`code-hosting-pagure-merge-requests` by changing
+    :setting:`PAGURE_CREDENTIALS`.
 
     .. seealso::
 
@@ -1336,7 +1470,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETSERVER_HOST
 .. envvar:: WEBLATE_BITBUCKETSERVER_CREDENTIALS
 
-    Configures :ref:`vcs-bitbucket-data-center` by changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
+    Configures :ref:`code-hosting-bitbucket-data-center-pull-requests` by
+    changing :setting:`BITBUCKETSERVER_CREDENTIALS`.
 
 .. envvar:: WEBLATE_BITBUCKETCLOUD_USERNAME
 .. envvar:: WEBLATE_BITBUCKETCLOUD_WORKSPACE
@@ -1344,7 +1479,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_BITBUCKETCLOUD_HOST
 .. envvar:: WEBLATE_BITBUCKETCLOUD_CREDENTIALS
 
-    Configures :ref:`vcs-bitbucket-cloud` by changing :setting:`BITBUCKETCLOUD_CREDENTIALS`.
+    Configures :ref:`code-hosting-bitbucket-cloud-pull-requests` by changing
+    :setting:`BITBUCKETCLOUD_CREDENTIALS`.
 
     .. seealso::
 
@@ -1356,7 +1492,8 @@ Or the path to a file containing the Python dictionary:
 .. envvar:: WEBLATE_AZURE_DEVOPS_HOST
 .. envvar:: WEBLATE_AZURE_DEVOPS_CREDENTIALS
 
-    Configures :ref:`vcs-azure-devops` by changing :setting:`AZURE_DEVOPS_CREDENTIALS`.
+    Configures :ref:`code-hosting-azure-devops-pull-requests` by changing
+    :setting:`AZURE_DEVOPS_CREDENTIALS`.
 
     .. seealso::
 
@@ -1643,6 +1780,24 @@ In case you want to use own keys, place the certificate and private key in
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 
+.. envvar:: WEBLATE_SAML_SECURITY_CONFIG
+
+    .. versionadded:: 2026.6
+
+    SAML security configuration as a JSON object, passed to
+    ``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. For example, to disable the
+    ``requestedAuthnContext`` (needed for some identity providers such as
+    Microsoft Entra ID with multi-factor authentication):
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_SAML_SECURITY_CONFIG: '{"requestedAuthnContext": false}'
+
+    .. seealso::
+
+       `python3-saml security settings <https://github.com/SAML-Toolkits/python3-saml#settings>`_
+
 .. envvar:: WEBLATE_SAML_ID_ATTR_FULL_NAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_FIRST_NAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_LAST_NAME
@@ -1770,7 +1925,7 @@ both Weblate and PostgreSQL containers.
 
    .. versionadded:: 5.1
 
-   Set to false to disables environment based configuration of the database
+   Set to false to disable environment based configuration of the database
    connection. Use :ref:`docker-settings-override` to configure the database
    connection manually.
 
@@ -2033,6 +2188,58 @@ To enable support for Sentry, set following:
 
    Configures :setting:`SENTRY_SEND_PII`.
 
+To enable support for Google Cloud Error Reporting, set following:
+
+.. envvar:: GOOGLE_CLOUD_ERROR_REPORTING_ENABLED
+
+   Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``.
+
+.. envvar:: GOOGLE_CLOUD_ERROR_REPORTING_PROJECT
+
+   Google Cloud project to report errors to. If omitted, the Google client uses
+   application default credentials to detect the project.
+
+.. envvar:: GOOGLE_CLOUD_ERROR_REPORTING_SERVICE
+
+   Service name to use in Google Cloud Error Reporting, defaults to ``weblate``.
+
+To enable support for OpenTelemetry tracing, set following:
+
+.. envvar:: OPENTELEMETRY_ENABLED
+
+   Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``.
+
+.. envvar:: OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT
+
+   Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         OPENTELEMETRY_ENABLED: true
+         OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT: https://collector.example.com/v1/traces
+         OPENTELEMETRY_TRACES_SAMPLE_RATE: 0.1
+
+.. envvar:: OPENTELEMETRY_EXPORTER_OTLP_HEADERS
+
+   Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` as a comma-separated
+   ``name:value`` mapping.
+
+.. envvar:: OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES
+
+   Configures :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` as a
+   comma-separated ``name:value`` mapping.
+
+.. envvar:: OPENTELEMETRY_SERVICE_NAME
+
+   Configures :setting:`OPENTELEMETRY_SERVICE_NAME`.
+
+.. envvar:: OPENTELEMETRY_TRACES_SAMPLE_RATE
+
+   Configures :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`.
+
 Localization CDN
 ++++++++++++++++
 
@@ -2041,7 +2248,8 @@ Localization CDN
 
     .. versionadded:: 4.2.1
 
-    Configuration for :ref:`addon-weblate.cdn.cdnjs`.
+    Configuration for CDN add-ons, including :ref:`addon-weblate.cdn.cdnjs`
+    and :ref:`addon-weblate.cdn.files`.
 
     The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It
     should be stored on the persistent volume and not in the transient storage.
@@ -2057,7 +2265,8 @@ Localization CDN
     .. note::
 
        You are responsible for setting up serving of the files generated by
-       Weblate, it only does stores the files in configured location.
+       Weblate, it only stores the files in configured location. See
+       :ref:`cdn-server-security` for secure serving guidance.
 
     .. seealso::
 
@@ -2066,11 +2275,11 @@ Localization CDN
        * :setting:`LOCALIZE_CDN_PATH`
 
 
-Changing enabled apps, checks, add-ons, machine translation or autofixes
+Changing enabled apps, checks, formats, add-ons, machinery, or autofixes
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-The built-in configuration of enabled checks, add-ons or autofixes can be
-adjusted by the following variables:
+The built-in configuration of enabled checks, file formats, add-ons,
+machinery, or autofixes can be adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS
 .. envvar:: WEBLATE_REMOVE_APPS
@@ -2078,6 +2287,8 @@ adjusted by the following variables:
 .. envvar:: WEBLATE_REMOVE_CHECK
 .. envvar:: WEBLATE_ADD_AUTOFIX
 .. envvar:: WEBLATE_REMOVE_AUTOFIX
+.. envvar:: WEBLATE_ADD_FORMATS
+.. envvar:: WEBLATE_REMOVE_FORMATS
 .. envvar:: WEBLATE_ADD_ADDONS
 .. envvar:: WEBLATE_REMOVE_ADDONS
 .. envvar:: WEBLATE_ADD_MACHINERY
@@ -2094,12 +2305,14 @@ adjusted by the following variables:
 
     environment:
       WEBLATE_REMOVE_AUTOFIX: weblate.trans.autofixes.whitespace.SameBookendingWhitespace
+      WEBLATE_REMOVE_FORMATS: weblate.formats.ttkit.PoFormat
       WEBLATE_ADD_ADDONS: customize.addons.MyAddon,customize.addons.OtherAddon
 
 .. seealso::
 
    * :setting:`CHECK_LIST`
    * :setting:`AUTOFIX_LIST`
+   * :setting:`WEBLATE_FORMATS`
    * :setting:`WEBLATE_ADDONS`
    * :setting:`django:INSTALLED_APPS`
    * :setting:`WEBLATE_MACHINERY`
@@ -2258,7 +2471,24 @@ consist of name of your docker-compose directory, container, and volume names).
 
 The :file:`cache` volume is mounted as :file:`/app/cache` and is used to store static
 files and :setting:`CACHE_DIR`. Its content is recreated on container startup
-and the volume can be mounted using ephemeral filesystem such as `tmpfs`.
+and the volume can be mounted using ephemeral filesystem such as `tmpfs`, but
+the mount has to allow execution because Weblate stores generated helper files
+there.
+
+When mounting :file:`/app/cache` explicitly as ``tmpfs`` in Docker Compose,
+enable execution:
+
+.. code-block:: yaml
+
+   tmpfs:
+     - /app/cache:exec
+
+When also setting ownership options, keep the ``exec`` option:
+
+.. code-block:: yaml
+
+   tmpfs:
+     - /app/cache:exec,uid=1000,gid=1000
 
 When creating the volumes manually, the directories should be owned by UID 1000
 as that is user used inside the container.

@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.addons.models import ADDONS, Addon
 from weblate.machinery.models import MACHINERY
+from weblate.trans.actions import get_change_action_identifier
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import DocGeneratorCommand
 from weblate.utils.rst import format_rst_string, format_table
@@ -38,7 +39,7 @@ def sorted_events(events: Iterable[AddonEvent]) -> Iterable[AddonEvent]:
     return sorted(events, key=lambda event: event.label)
 
 
-SHARED_PARAMS = ("engines", "file_format", "events")
+SHARED_PARAMS = ("engines", "file_format", "event_filter", "events")
 
 
 class Command(DocGeneratorCommand):
@@ -142,20 +143,23 @@ class Command(DocGeneratorCommand):
                     and not field.widget.is_hidden
                 ]
 
-                for table_row in format_table(table, None):
-                    table_row = table_row.strip(
-                        "\n"
-                    )  # self.write_sections() inserts newlines
-                    addon_lines.append(f"{prefix}{table_row}")
-                    if not prefix.isspace():
-                        prefix = " " * len(prefix)
-                addon_lines.append("")
+                if table:
+                    for table_row in format_table(table, None):
+                        table_row = table_row.strip(
+                            "\n"
+                        )  # self.write_sections() inserts newlines
+                        addon_lines.append(f"{prefix}{table_row}")
+                        if not prefix.isspace():
+                            prefix = " " * len(prefix)
+                    addon_lines.append("")
+                else:
+                    addon_lines.append(f"{prefix}`This add-on has no configuration.`")
 
                 for name in self.params & set(form.fields):
                     field = form.fields[name]
                     if field.widget.is_hidden:
                         continue
-                    choices = list(field.choices)
+                    choices = list(getattr(field, "choices", ()))
                     if name == "engines":
                         choices.extend(
                             [
@@ -165,15 +169,9 @@ class Command(DocGeneratorCommand):
                         )
                         choices = sorted(set(choices), key=operator.itemgetter(1))
                     self.params.remove(name)
-                    self.param_docs[name] = [
-                        f".. _addon-choice-{name}:",
-                        "",
-                        f"{field.label}",
-                        "-" * len(field.label),
-                        "",
-                        *self.get_choices_table(choices),
-                        "",
-                    ]
+                    self.param_docs[name] = self.get_shared_parameter_doc(
+                        name, str(field.label), choices
+                    )
             else:
                 addon_lines.append(f"{prefix}`This add-on has no configuration.`")
             events = ", ".join(
@@ -248,4 +246,59 @@ class Command(DocGeneratorCommand):
                     f"     - {format_rst_string(description)}".replace("\\", "\\\\"),
                 )
             )
+        return result
+
+    def get_change_events_table(self, choices: list[tuple[str, str]]) -> list[str]:
+        result = [
+            ".. list-table:: Available choices:",
+            "   :width: 100%",
+            "   :header-rows: 1",
+            "",
+            "   * - ID",
+            "     - Identifier",
+            "     - Name",
+        ]
+        for value, description in choices:
+            if not value and not description:
+                continue
+            result.extend(
+                (
+                    f"   * - ``{value}``".replace("\\", "\\\\"),
+                    f"     - ``{get_change_action_identifier(description)}``".replace(
+                        "\\", "\\\\"
+                    ),
+                    f"     - {format_rst_string(description)}".replace("\\", "\\\\"),
+                )
+            )
+        return result
+
+    def get_shared_parameter_doc(
+        self, name: str, label: str, choices: list[tuple[str, str]]
+    ) -> list[str]:
+        anchors = [f".. _addon-choice-{name}:"]
+        if name == "events":
+            anchors.append(".. _change-actions:")
+
+        result = [
+            *anchors,
+            "",
+            label,
+            "-" * len(label),
+            "",
+        ]
+        if name == "events":
+            result.extend(
+                [
+                    (
+                        "The following change actions can appear in notification payloads. "
+                        "Fedora Messaging uses the identifier column in message topics, "
+                        "while webhook payloads use the name column in the ``action`` field."
+                    ),
+                    "",
+                    *self.get_change_events_table(choices),
+                    "",
+                ]
+            )
+        else:
+            result.extend([*self.get_choices_table(choices), ""])
         return result

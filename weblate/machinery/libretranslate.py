@@ -8,7 +8,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, ClassVar
 
-from .base import BatchMachineTranslation, MachineTranslationError
+from .base import (
+    MACHINERY_DEFAULT_THRESHOLD,
+    BatchMachineTranslation,
+    MachineTranslationError,
+)
 from .forms import LibreTranslateMachineryForm
 
 if TYPE_CHECKING:
@@ -106,7 +110,7 @@ class BaseLibreTranslateTranslation(BatchMachineTranslation):
         target_language,
         sources: list[tuple[str, Unit | None]],
         user=None,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadMultipleTranslations:
         """Download list of possible translations from a service."""
         texts = [text for text, _unit in sources]

@@ -11,6 +11,7 @@ from django.test import TestCase
 from django.utils.timezone import get_current_timezone
 
 from weblate.auth.models import User
+from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -21,6 +22,8 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -32,8 +35,8 @@ if TYPE_CHECKING:
 
 
 class SearchTestCase(TestCase):
-    object_class: ClassVar[type[Unit | User]] = Unit
-    parser: ClassVar[Literal["unit", "user", "superuser"]] = "unit"
+    object_class: ClassVar[type[Unit | User | Screenshot]] = Unit
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "unit"
 
     def assert_query(
         self,
@@ -55,6 +58,29 @@ class SearchTestCase(TestCase):
             self.object_class.objects.annotate(**annotations).filter(filters).exists(),
             exists,
         )
+
+    def assert_query_sql(
+        self,
+        string: str,
+        *,
+        sql_contains: tuple[str, ...] = (),
+        sql_not_contains: tuple[str, ...] = (),
+        params_contains: tuple[object, ...] = (),
+        exists: bool = False,
+        **context,
+    ) -> tuple[str, tuple[object, ...]]:
+        filters, annotations = parse_query(string, parser=self.parser, **context)
+        self.assertEqual(annotations, {})
+        query = self.object_class.objects.annotate(**annotations).filter(filters)
+        sql, params = query.query.sql_with_params()
+        for fragment in sql_contains:
+            self.assertIn(fragment, sql)
+        for fragment in sql_not_contains:
+            self.assertNotIn(fragment, sql)
+        for param in params_contains:
+            self.assertIn(param, params)
+        self.assertEqual(query.exists(), exists)
+        return sql, params
 
 
 class UnitQueryParserTest(SearchTestCase):
@@ -155,59 +181,61 @@ class UnitQueryParserTest(SearchTestCase):
             )
 
     def test_year(self) -> None:
-        self.assert_query(
+        self.assert_query_sql(
             "changed:2018",
-            Q(
-                change__timestamp__range=(
-                    datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
-                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
-                )
-            )
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" BETWEEN', '"action" IN', "EXISTS"),
+            params_contains=(
+                datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
+                datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
+            ),
         )
 
     def test_change_action(self) -> None:
-        expected = Q(
-            change__timestamp__range=(
+        self.assert_query_sql(
+            "change_time:2018 AND change_action:marked-for-edit",
+            sql_contains=('"timestamp" BETWEEN', '"action" =', "EXISTS"),
+            params_contains=(
                 datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
                 datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
-            )
-        ) & Q(change__action=ActionEvents.MARKED_EDIT)
-        self.assert_query(
-            "change_time:2018 AND change_action:marked-for-edit", expected
+                ActionEvents.MARKED_EDIT,
+            ),
         )
-        self.assert_query(
-            "change_time:2018 AND change_action:'Marked for edit'", expected
+        sql, _params = self.assert_query_sql(
+            "change_time:2018 AND change_action:'Marked for edit'",
+            sql_contains=('"timestamp" BETWEEN', '"action" =', "EXISTS"),
+            params_contains=(
+                datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
+                datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
+                ActionEvents.MARKED_EDIT,
+            ),
         )
+        self.assertEqual(sql.count("EXISTS"), 1)
         with self.assertRaises(SearchQueryError):
             self.assert_query("NOT change_action:new-string", Q())
 
     def test_dates(self) -> None:
-        action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
-        self.assert_query(
+        self.assert_query_sql(
             "changed:>20190301",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC))
-            & action_change,
+            sql_contains=('"timestamp" >=', '"action" IN', "EXISTS"),
+            params_contains=(datetime(2019, 3, 1, 0, 0, tzinfo=UTC),),
         )
-        self.assert_query(
+        self.assert_query_sql(
             "changed:>2019-03-01",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC))
-            & action_change,
+            sql_contains=('"timestamp" >=', '"action" IN', "EXISTS"),
+            params_contains=(datetime(2019, 3, 1, 0, 0, tzinfo=UTC),),
         )
-        self.assert_query(
+        self.assert_query_sql(
             "changed:2019-03-01",
-            Q(
-                change__timestamp__range=(
-                    datetime(2019, 3, 1, 0, 0, tzinfo=UTC),
-                    datetime(2019, 3, 1, 23, 59, 59, 999999, tzinfo=UTC),
-                )
-            )
-            & action_change,
+            sql_contains=('"timestamp" BETWEEN', '"action" IN', "EXISTS"),
+            params_contains=(
+                datetime(2019, 3, 1, 0, 0, tzinfo=UTC),
+                datetime(2019, 3, 1, 23, 59, 59, 999999, tzinfo=UTC),
+            ),
         )
-        self.assert_query(
+        self.assert_query_sql(
             "changed:>'March 1, 2019'",
-            Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC))
-            & action_change,
+            sql_contains=('"timestamp" >=', '"action" IN', "EXISTS"),
+            params_contains=(datetime(2019, 3, 1, 0, 0, tzinfo=UTC),),
         )
         with self.assertRaises(SearchQueryError):
             self.assert_query("changed:>'Not a date'", Q())
@@ -215,15 +243,13 @@ class UnitQueryParserTest(SearchTestCase):
             self.assert_query("changed:>'Invalid 1, 2019'", Q())
 
     def test_date_range(self) -> None:
-        self.assert_query(
+        self.assert_query_sql(
             "changed:[2019-03-01 to 2019-04-01]",
-            Q(
-                change__timestamp__range=(
-                    datetime(2019, 3, 1, 0, 0, tzinfo=UTC),
-                    datetime(2019, 4, 1, 23, 59, 59, 999999, tzinfo=UTC),
-                )
-            )
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" BETWEEN', '"action" IN', "EXISTS"),
+            params_contains=(
+                datetime(2019, 3, 1, 0, 0, tzinfo=UTC),
+                datetime(2019, 4, 1, 23, 59, 59, 999999, tzinfo=UTC),
+            ),
         )
 
     def test_date_added(self) -> None:
@@ -409,13 +435,86 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("is:approved", Q(state=STATE_APPROVED))
         self.assert_query("is:read-only", Q(state=STATE_READONLY))
         self.assert_query("is:fuzzy", Q(state__in=FUZZY_STATES))
+        self.assert_query("is:needs-editing", Q(state__in=FUZZY_STATES))
+
+    def test_fuzzy_state_aliases(self) -> None:
+        self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
+        self.assert_query("state:needs-rewriting", Q(state=STATE_NEEDS_REWRITING))
+        self.assert_query("state:needs-checking", Q(state=STATE_NEEDS_CHECKING))
 
     def test_changed_by(self) -> None:
-        self.assert_query(
+        self.assert_query_sql(
             "changed_by:nijel",
-            Q(change__author__username__iexact="nijel")
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"username"', '"action" IN', "EXISTS"),
+            params_contains=("nijel",),
         )
+        self.assert_query_sql(
+            "changed_by:none",
+            sql_contains=('"username"', '"action" IN', "EXISTS"),
+            params_contains=("none",),
+        )
+
+        sql, _params = self.assert_query_sql(
+            'changed_by:""',
+            sql_contains=('"action" IN', '"author_id" IS NULL', "EXISTS"),
+            sql_not_contains=('"weblate_auth_user"',),
+        )
+        self.assertEqual(sql.count("EXISTS"), 1)
+
+        sql, _params = self.assert_query_sql(
+            'NOT changed_by:""',
+            sql_contains=(
+                "NOT (EXISTS",
+                '"action" IN',
+                '"author_id" IS NULL',
+                "EXISTS",
+            ),
+        )
+        self.assertEqual(sql.count("EXISTS"), 1)
+
+        sql, _params = self.assert_query_sql(
+            'changed_by:"" AND changed:2026',
+            sql_contains=(
+                '"timestamp" BETWEEN',
+                '"action" IN',
+                '"author_id" IS NULL',
+                "EXISTS",
+            ),
+            params_contains=(
+                datetime(2026, 1, 1, 0, 0, tzinfo=UTC),
+                datetime(2026, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
+            ),
+        )
+        self.assertEqual(sql.count("EXISTS"), 1)
+
+        sql, _params = self.assert_query_sql(
+            'changed_by:"" OR change_action:marked-for-edit',
+            sql_contains=('"author_id" IS NULL', '"action" =', "EXISTS"),
+            params_contains=(ActionEvents.MARKED_EDIT,),
+        )
+        self.assertEqual(sql.count("EXISTS"), 2)
+
+        start_2026 = datetime(2026, 1, 1, 0, 0, tzinfo=UTC)
+        end_2026 = datetime(2026, 12, 31, 23, 59, 59, 999999, tzinfo=UTC)
+        sql, params = self.assert_query_sql(
+            '(changed_by:"" OR changed_by:nijel) AND changed:2026',
+            sql_contains=(
+                '"timestamp" BETWEEN',
+                '"action" IN',
+                '"author_id" IS NULL',
+                '"username"',
+                "EXISTS",
+            ),
+            params_contains=("nijel", start_2026, end_2026),
+        )
+        self.assertEqual(sql.count("EXISTS"), 2)
+        self.assertEqual(params.count(start_2026), 2)
+        self.assertEqual(params.count(end_2026), 2)
+
+    def test_changed_query_complexity_limit(self) -> None:
+        query = " AND ".join("(changed_by:nijel OR changed_by:none)" for _ in range(13))
+        with self.assertRaises(SearchQueryError):
+            parse_query(query)
 
     def test_explanation(self) -> None:
         self.assert_query(
@@ -466,23 +565,23 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_timestamp_format(self) -> None:
-        self.assert_query(
+        self.assert_query_sql(
             "changed:>=01/20/2020",
-            Q(change__timestamp__gte=datetime(2020, 1, 20, 0, 0, tzinfo=UTC))
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" >=', '"action" IN', "EXISTS"),
+            params_contains=(datetime(2020, 1, 20, 0, 0, tzinfo=UTC),),
         )
 
     def test_timestamp_exact_iso(self) -> None:
         timestamp = datetime.now(tz=timezone(timedelta(hours=3)))
-        self.assert_query(
+        self.assert_query_sql(
             f"changed:{timestamp.isoformat()}",
-            Q(change__timestamp=timestamp)
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" =', '"action" IN', "EXISTS"),
+            params_contains=(timestamp,),
         )
-        self.assert_query(
+        self.assert_query_sql(
             f"changed:={timestamp.isoformat()}",
-            Q(change__timestamp__exact=timestamp)
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" =', '"action" IN', "EXISTS"),
+            params_contains=(timestamp,),
         )
 
     def test_timestamp_exact_date(self) -> None:
@@ -490,56 +589,48 @@ class UnitQueryParserTest(SearchTestCase):
         timestamp = datetime(
             2013, 7, 21, 22, 15, 20, tzinfo=timezone(timedelta(hours=5))
         )
-        self.assert_query(
+        self.assert_query_sql(
             "changed:='21 July 2013 10:15:20 pm +0500'",
-            Q(change__timestamp__exact=timestamp)
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" =', '"action" IN', "EXISTS"),
+            params_contains=(timestamp,),
         )
 
     def test_timestamp_exact_human(self) -> None:
         timestamp = datetime(2013, 7, 21, 22, 15, 20, tzinfo=get_current_timezone())
-        self.assert_query(
+        self.assert_query_sql(
             "changed:='21 July year 2013 10:15:20 pm'",
-            Q(change__timestamp__exact=timestamp)
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" =', '"action" IN', "EXISTS"),
+            params_contains=(timestamp,),
         )
 
     def test_timestamp_interval(self) -> None:
-        self.assert_query(
+        self.assert_query_sql(
             "changed:2020-03-27",
-            Q(
-                change__timestamp__range=(
-                    datetime(2020, 3, 27, 0, 0, tzinfo=UTC),
-                    datetime(2020, 3, 27, 23, 59, 59, 999999, tzinfo=UTC),
-                )
-            )
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" BETWEEN', '"action" IN', "EXISTS"),
+            params_contains=(
+                datetime(2020, 3, 27, 0, 0, tzinfo=UTC),
+                datetime(2020, 3, 27, 23, 59, 59, 999999, tzinfo=UTC),
+            ),
         )
 
     def test_timestamp_interval_human(self) -> None:
         today = datetime.now(tz=get_current_timezone())
         timestamp = today - timedelta(days=20)
-        self.assert_query(
+        self.assert_query_sql(
             "changed:'20 days ago'",
-            Q(
-                change__timestamp__range=(
-                    timestamp.replace(hour=0, minute=0, second=0, microsecond=0),
-                    timestamp.replace(
-                        hour=23, minute=59, second=59, microsecond=999999
-                    ),
-                )
-            )
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" BETWEEN', '"action" IN', "EXISTS"),
+            params_contains=(
+                timestamp.replace(hour=0, minute=0, second=0, microsecond=0),
+                timestamp.replace(hour=23, minute=59, second=59, microsecond=999999),
+            ),
         )
-        self.assert_query(
+        self.assert_query_sql(
             "changed:[20_days_ago to today]",
-            Q(
-                change__timestamp__range=(
-                    timestamp.replace(hour=0, minute=0, second=0, microsecond=0),
-                    today.replace(hour=23, minute=59, second=59, microsecond=999999),
-                )
-            )
-            & Q(change__action__in=Change.ACTIONS_CONTENT),
+            sql_contains=('"timestamp" BETWEEN', '"action" IN', "EXISTS"),
+            params_contains=(
+                timestamp.replace(hour=0, minute=0, second=0, microsecond=0),
+                today.replace(hour=23, minute=59, second=59, microsecond=999999),
+            ),
         )
 
     def test_non_quoted_strings(self) -> None:
@@ -592,9 +683,89 @@ class UnitQueryParserTest(SearchTestCase):
             self.assert_query("labels_count:invalid", Q())
 
 
+class ScreenshotQueryParserTest(SearchTestCase):
+    object_class: ClassVar[type[Unit | User | Screenshot]] = Screenshot
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "screenshot"
+
+    def test_simple(self) -> None:
+        self.assert_query(
+            "login",
+            Q(name__icontains="login")
+            | Q(repository_filename__icontains="login")
+            | Q(translation__language__code__icontains="login")
+            | Q(translation__language__name__icontains="login")
+            | Q(units__source__icontains="login")
+            | Q(units__context__icontains="login")
+            | Q(units__location__icontains="login"),
+        )
+
+    def test_fields(self) -> None:
+        self.assert_query("id:100", Q(id=100))
+        self.assert_query("name:login", Q(name__icontains="login"))
+        self.assert_query("name:=login", Q(name__exact="login"))
+        self.assert_query("path:fastlane", Q(repository_filename__icontains="fastlane"))
+        self.assert_query(
+            "repository:fastlane", Q(repository_filename__icontains="fastlane")
+        )
+        self.assert_query("string:Save", Q(units__source__icontains="Save"))
+        self.assert_query("context:menu", Q(units__context__icontains="menu"))
+        self.assert_query("location:main", Q(units__location__icontains="main"))
+
+    def test_language(self) -> None:
+        self.assert_query(
+            "language:cs",
+            Q(translation__language__code__icontains="cs")
+            | Q(translation__language__name__icontains="cs"),
+        )
+        self.assert_query(
+            "language:=Czech",
+            Q(translation__language__code__iexact="Czech")
+            | Q(translation__language__name__iexact="Czech"),
+        )
+        self.assert_query(
+            'language:r".*"',
+            Q(translation__language__code__trgm_regex=".*")
+            | Q(translation__language__name__trgm_regex=".*"),
+        )
+        with self.assertRaises(SearchQueryError):
+            self.assert_query('language:r"["', Q())
+
+    def test_has(self) -> None:
+        self.assert_query("has:string", Q(units__isnull=False))
+        self.assert_query("NOT has:string", ~Q(units__isnull=False))
+        self.assert_query("has:repository", ~Q(repository_filename=""))
+        self.assert_query("has:path", ~Q(repository_filename=""))
+
+    def test_strings_count(self) -> None:
+        annotation = {"strings": Count("units", distinct=True)}
+        self.assert_query("strings:2", Q(strings=2), expected_annotations=annotation)
+        self.assert_query(
+            "strings:>2", Q(strings__gt=2), expected_annotations=annotation
+        )
+
+    def test_timestamp(self) -> None:
+        self.assert_query(
+            "timestamp:2018",
+            Q(
+                timestamp__range=(
+                    datetime(2018, 1, 1, 0, 0, tzinfo=UTC),
+                    datetime(2018, 12, 31, 23, 59, 59, 999999, tzinfo=UTC),
+                )
+            ),
+        )
+
+    def test_invalid(self) -> None:
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("state:translated", Q())
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("has:translation", Q())
+        with self.assertRaises(SearchQueryError):
+            self.assert_query("strings:invalid", Q())
+
+
 class UserQueryParserTest(SearchTestCase):
-    object_class: ClassVar[type[Unit | User]] = User
-    parser: ClassVar[Literal["unit", "user", "superuser"]] = "user"
+    object_class: ClassVar[type[Unit | User | Screenshot]] = User
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "user"
 
     def test_simple(self) -> None:
         self.assert_query(
@@ -690,8 +861,8 @@ class UserQueryParserTest(SearchTestCase):
 
 
 class SuperuserQueryParserTest(UserQueryParserTest):
-    object_class: ClassVar[type[Unit | User]] = User
-    parser: ClassVar[Literal["unit", "user", "superuser"]] = "superuser"
+    object_class: ClassVar[type[Unit | User | Screenshot]] = User
+    parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "superuser"
 
     def test_simple(self) -> None:
         self.assert_query(
@@ -733,6 +904,44 @@ class SearchTest(ViewTestCase, SearchTestCase):
     """Search tests on real projects."""
 
     CREATE_GLOSSARIES: bool = True
+
+    def search_matches_unit(self, query: str, unit: Unit) -> bool:
+        filters, annotations = parse_query(query, parser=self.parser)
+        return Unit.objects.annotate(**annotations).filter(filters, pk=unit.pk).exists()
+
+    def test_change_search_same_event_semantics(self) -> None:
+        unit = self.get_unit()
+        Change.objects.filter(unit=unit).delete()
+        other_user = User.objects.create(username="other-user")
+
+        authorless_change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, author=None
+        )
+        Change.objects.filter(pk=authorless_change.pk).update(
+            timestamp=datetime(2025, 1, 1, 0, 0, tzinfo=UTC)
+        )
+        authored_change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, author=other_user
+        )
+        Change.objects.filter(pk=authored_change.pk).update(
+            timestamp=datetime(2026, 1, 1, 0, 0, tzinfo=UTC)
+        )
+
+        query = 'changed_by:"" AND changed:2026'
+        self.assertFalse(self.search_matches_unit(query, unit))
+        grouped_query = (
+            f'(changed_by:"" OR changed_by:{self.user.username}) AND changed:2026'
+        )
+        self.assertFalse(self.search_matches_unit(grouped_query, unit))
+
+        authorless_2026_change = Change.objects.create(
+            unit=unit, action=ActionEvents.CHANGE, author=None
+        )
+        Change.objects.filter(pk=authorless_2026_change.pk).update(
+            timestamp=datetime(2026, 6, 1, 0, 0, tzinfo=UTC)
+        )
+        self.assertTrue(self.search_matches_unit(query, unit))
+        self.assertTrue(self.search_matches_unit(grouped_query, unit))
 
     def test_glossary_empty(self) -> None:
         self.assert_query("has:glossary", Q(source__isnull=True), project=self.project)

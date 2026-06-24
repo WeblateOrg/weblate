@@ -1,7 +1,7 @@
 .. _alerts:
 
-Translation component alerts
-============================
+Translation component diagnostics
+=================================
 
 Shows errors in the Weblate configuration or the translation project for any given translation component.
 Guidance on how to address found issues is also offered.
@@ -25,6 +25,7 @@ Currently the following is covered:
 * Duplicate file mask used for linked components
 * Conflicting merge request repository setup
 * Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)
+* Unused glossary languages
 
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).
@@ -33,9 +34,15 @@ Project website availability checks can be disabled using
 :setting:`WEBSITE_ALERTS_ENABLED`, in which case Weblate will no longer
 generate alerts for unreachable project websites.
 
-Alerts are listed on each respective component page as :guilabel:`Alerts`.
-If it is missing, the component clears all current checks. Alerts can not be ignored,
-but will disappear once the underlying problem has been fixed.
+Alerts are listed on each respective component page as
+:guilabel:`Diagnostics`.
+If it is missing, the component clears all current checks. Problem alerts cannot
+be ignored, but will disappear once the underlying problem has been fixed.
+
+Information and warning alerts are used for guidance on improving community
+localization. These can be dismissed and make the
+:guilabel:`Diagnostics` tab visible, but they do not indicate a
+component problem in listings.
 
 A component with both duplicated strings and languages looks like this:
 
@@ -45,9 +52,9 @@ Conflicting repository setup
 ----------------------------
 
 This alert is shown when multiple Git components are configured to push to the
-same repository and push branch. This includes pull or merge request workflows,
-and direct pushes to Git repositories. Such a setup can overwrite the shared
-branch.
+same repository and push branch without all of them pulling from that branch.
+This includes pull or merge request workflows, and direct pushes to a separate
+push branch. Such a setup can overwrite the shared branch.
 
 To resolve this, either configure a different :guilabel:`Push branch` for each
 component or share the repository between components using a

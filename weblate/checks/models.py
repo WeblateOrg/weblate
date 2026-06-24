@@ -12,6 +12,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.functional import cached_property
 
+from weblate.checks.defaults import DEFAULT_CHECK_LIST
 from weblate.utils.classloader import ClassLoader
 
 from .base import BaseCheck
@@ -40,6 +41,10 @@ class ChecksLoader(ClassLoader[BaseCheck]):
         return {k: v for k, v in self.items() if v.target}
 
     @cached_property
+    def target_untranslated(self):
+        return {k: v for k, v in self.target.items() if not v.ignore_untranslated}
+
+    @cached_property
     def glossary(self):
         return {k: v for k, v in self.items() if v.glossary}
 
@@ -50,99 +55,21 @@ CHECKS = ChecksLoader()
 
 class WeblateChecksConf(AppConf):
     # List of quality checks
-    CHECK_LIST = (
-        "weblate.checks.same.SameCheck",
-        "weblate.checks.chars.BeginNewlineCheck",
-        "weblate.checks.chars.EndNewlineCheck",
-        "weblate.checks.chars.BeginSpaceCheck",
-        "weblate.checks.chars.EndSpaceCheck",
-        "weblate.checks.chars.DoubleSpaceCheck",
-        "weblate.checks.chars.EndStopCheck",
-        "weblate.checks.chars.EndColonCheck",
-        "weblate.checks.chars.EndQuestionCheck",
-        "weblate.checks.chars.EndExclamationCheck",
-        "weblate.checks.chars.EndInterrobangCheck",
-        "weblate.checks.chars.EndEllipsisCheck",
-        "weblate.checks.chars.EndSemicolonCheck",
-        "weblate.checks.chars.MaxLengthCheck",
-        "weblate.checks.chars.MultipleCapitalCheck",
-        "weblate.checks.chars.KashidaCheck",
-        "weblate.checks.chars.PunctuationSpacingCheck",
-        "weblate.checks.chars.KabyleCharactersCheck",
-        "weblate.checks.format.PythonFormatCheck",
-        "weblate.checks.format.PythonBraceFormatCheck",
-        "weblate.checks.format.PHPFormatCheck",
-        "weblate.checks.format.CFormatCheck",
-        "weblate.checks.format.ObjCFormatCheck",
-        "weblate.checks.format.PerlFormatCheck",
-        "weblate.checks.format.PerlBraceFormatCheck",
-        "weblate.checks.format.JavaScriptFormatCheck",
-        "weblate.checks.format.LuaFormatCheck",
-        "weblate.checks.format.ObjectPascalFormatCheck",
-        "weblate.checks.format.SchemeFormatCheck",
-        "weblate.checks.format.CSharpFormatCheck",
-        "weblate.checks.format.LaravelFormatCheck",
-        "weblate.checks.format.JavaFormatCheck",
-        "weblate.checks.format.JavaMessageFormatCheck",
-        "weblate.checks.format.PercentPlaceholdersCheck",
-        "weblate.checks.format.VueFormattingCheck",
-        "weblate.checks.format.I18NextInterpolationCheck",
-        "weblate.checks.format.ESTemplateLiteralsCheck",
-        "weblate.checks.format.AutomatticComponentsCheck",
-        "weblate.checks.angularjs.AngularJSInterpolationCheck",
-        "weblate.checks.icu.ICUMessageFormatCheck",
-        "weblate.checks.icu.ICUSourceCheck",
-        "weblate.checks.qt.QtFormatCheck",
-        "weblate.checks.qt.QtPluralCheck",
-        "weblate.checks.ruby.RubyFormatCheck",
-        "weblate.checks.consistency.PluralsCheck",
-        "weblate.checks.consistency.SamePluralsCheck",
-        "weblate.checks.consistency.ConsistencyCheck",
-        "weblate.checks.consistency.ReusedCheck",
-        "weblate.checks.consistency.TranslatedCheck",
-        "weblate.checks.chars.EscapedNewlineCountingCheck",
-        "weblate.checks.chars.NewLineCountCheck",
-        "weblate.checks.markup.BBCodeCheck",
-        "weblate.checks.chars.ZeroWidthSpaceCheck",
-        "weblate.checks.render.MaxSizeCheck",
-        "weblate.checks.markup.XMLValidityCheck",
-        "weblate.checks.markup.XMLTagsCheck",
-        "weblate.checks.markup.XMLCharsAroundTagsCheck",
-        "weblate.checks.markup.MarkdownRefLinkCheck",
-        "weblate.checks.markup.MarkdownLinkCheck",
-        "weblate.checks.markup.MarkdownSyntaxCheck",
-        "weblate.checks.markup.URLCheck",
-        "weblate.checks.markup.SafeHTMLCheck",
-        "weblate.checks.markup.RSTReferencesCheck",
-        "weblate.checks.markup.RSTSyntaxCheck",
-        "weblate.checks.placeholders.PlaceholderCheck",
-        "weblate.checks.placeholders.RegexCheck",
-        "weblate.checks.duplicate.DuplicateCheck",
-        "weblate.checks.source.OptionalPluralCheck",
-        "weblate.checks.source.EllipsisCheck",
-        "weblate.checks.source.MultipleFailingCheck",
-        "weblate.checks.source.LongUntranslatedCheck",
-        "weblate.checks.format.MultipleUnnamedFormatsCheck",
-        "weblate.checks.glossary.GlossaryCheck",
-        "weblate.checks.glossary.ProhibitedInitialCharacterCheck",
-        "weblate.checks.fluent.syntax.FluentSourceSyntaxCheck",
-        "weblate.checks.fluent.syntax.FluentTargetSyntaxCheck",
-        "weblate.checks.fluent.parts.FluentPartsCheck",
-        "weblate.checks.fluent.references.FluentReferencesCheck",
-        "weblate.checks.fluent.inner_html.FluentSourceInnerHTMLCheck",
-        "weblate.checks.fluent.inner_html.FluentTargetInnerHTMLCheck",
-    )
+    CHECK_LIST = DEFAULT_CHECK_LIST
 
     class Meta:
         prefix = ""
 
 
-class CheckQuerySet(models.QuerySet):
+class CheckQuerySet(models.QuerySet["Check", "Check"]):
+    def order(self):
+        return self.order_by("name")
+
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
             result = result.filter(
-                unit__translation__component__project__in=user.allowed_projects
+                user.get_project_access_query("unit__translation__component__project")
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
@@ -162,8 +89,17 @@ class Check(models.Model):
     objects = CheckQuerySet.as_manager()
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        # ruff: ignore[mutable-class-default]
+        unique_together = [
             ("unit", "name"),
+        ]
+        # ruff: ignore[mutable-class-default]
+        indexes = [
+            models.Index(
+                fields=["unit"],
+                condition=Q(dismissed=False),
+                name="checks_active_unit_idx",
+            ),
         ]
         verbose_name = "Quality check"
         verbose_name_plural = "Quality checks"

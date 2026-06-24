@@ -49,4 +49,19 @@
     </ul>
   {% endif %}
 
+  {% if inactive_recurring %}
+    <p>
+      {% translate "Following billings have recurring payment scheduled for automatic disablement due to inactivity:" %}
+    </p>
+
+    <ul>
+      {% for bill in inactive_recurring %}
+        <li>
+          {% include "mail/billing_check_line.html" %}
+          [{{ bill.inactive_recurring_disable|date:"SHORT_DATETIME_FORMAT" }}]
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
 {% endblock content %}

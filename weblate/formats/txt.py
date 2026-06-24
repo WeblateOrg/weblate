@@ -21,6 +21,7 @@ from weblate.formats.base import (
     TranslationFormat,
     TranslationUnit,
 )
+from weblate.trans.exceptions import is_expected_parse_error
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
@@ -231,10 +232,14 @@ class AppStoreFormat(TranslationFormat):
     def create_new_file(
         cls,
         filename: str,
-        language: Language,  # noqa: ARG003
-        base: str,  # noqa: ARG003
-        callback: Callable | None = None,  # noqa: ARG003
-        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        language: Language,
+        # ruff: ignore[unused-class-method-argument]
+        base: str,
+        # ruff: ignore[unused-class-method-argument]
+        callback: Callable | None = None,
+        # ruff: ignore[unused-class-method-argument]
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         os.makedirs(filename)
@@ -266,10 +271,12 @@ class AppStoreFormat(TranslationFormat):
     def is_valid_base_for_new(
         cls,
         base: str,
-        monolingual: bool,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        monolingual: bool,
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
+        # ruff: ignore[unused-class-method-argument]
+        file_format_params: FileFormatParams | None = None,
     ) -> bool:
         """Check whether base is valid."""
         if not base:
@@ -280,7 +287,8 @@ class AppStoreFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error("File-parsing error")
+            if not is_expected_parse_error(exception):
+                report_error("File-parsing error")
             return False
         return True
 

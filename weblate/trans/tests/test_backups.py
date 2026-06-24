@@ -7,7 +7,10 @@
 import json
 import os
 import tempfile
-from unittest.mock import patch
+import warnings
+from contextlib import contextmanager, suppress
+from shutil import copyfile
+from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
@@ -21,7 +24,7 @@ from django.urls import reverse
 
 from weblate.addons.webhooks import WebhookAddon
 from weblate.auth.data import SELECTION_MANUAL
-from weblate.auth.models import AutoGroup, Group, Role
+from weblate.auth.models import AutoGroup, Group, Role, TeamMembership
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -39,14 +42,28 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
-from weblate.trans.tasks import cleanup_project_backup_download, cleanup_project_backups
+from weblate.trans.tasks import (
+    cleanup_project_backup_download,
+    cleanup_project_backups,
+    import_project_backup,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.workspaces.models import Workspace
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
 TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
 TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
+
+
+@contextmanager
+def remove_file_after(filename: str):
+    try:
+        yield
+    finally:
+        with suppress(OSError):
+            os.unlink(filename)
 
 
 class BackupsTest(ViewTestCase):
@@ -163,6 +180,68 @@ class BackupsTest(ViewTestCase):
                 "Original component",
             )
 
+    def test_import_task_returns_project_url(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+        copyfile(TEST_BACKUP, temp_name)
+
+        result = import_project_backup(
+            "Restored URL", "restored-url", self.user.id, temp_name
+        )
+
+        project = Project.objects.get(slug="restored-url")
+        self.assertEqual(
+            result,
+            {
+                "message": "Project backup import completed.",
+                "url": project.get_absolute_url(),
+            },
+        )
+        self.assertFalse(os.path.exists(temp_name))
+
+    def test_import_task_reports_progress(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+        copyfile(TEST_BACKUP, temp_name)
+        task = MagicMock()
+        task.request.id = "task-id"
+
+        with patch("weblate.trans.tasks.current_task", task):
+            import_project_backup(
+                "Restored Progress", "restored-progress", self.user.id, temp_name
+            )
+
+        self.assertEqual(
+            [
+                call.kwargs["meta"]["progress"]
+                for call in task.update_state.call_args_list
+            ],
+            [5, 10, 30, 60, 90, 95],
+        )
+
+    def test_import_task_unlinks_file_when_user_lookup_fails(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with self.assertRaises(type(self.user).DoesNotExist):
+            import_project_backup("Restored", "restored", 0, temp_name)
+
+        self.assertFalse(os.path.exists(temp_name))
+
+    def test_import_task_unlinks_file_when_billing_lookup_fails(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with self.assertRaises(Billing.DoesNotExist):
+            import_project_backup(
+                "Restored", "restored", self.user.id, temp_name, billing_id=0
+            )
+
+        self.assertFalse(os.path.exists(temp_name))
+
     def test_restore_batches_change_addon_dispatch(self) -> None:
         backup = ProjectBackup()
         backup.backup_project(self.project)
@@ -221,12 +300,16 @@ class BackupsTest(ViewTestCase):
         team = Group.objects.create(name="Test group", defining_project=self.project)
         team.roles.set([Role.objects.get(name="Translate")])
         team.admins.add(self.user)
+        team.user_set.add(self.user)
         team.language_selection = SELECTION_MANUAL
         team.languages.set(
             [
                 Language.objects.get(code="en"),
                 Language.objects.get(code="ru"),
             ]
+        )
+        TeamMembership.objects.get(user=self.user, group=team).limit_languages.set(
+            [Language.objects.get(code="en")]
         )
         AutoGroup(match="^.*$", group=team).save()
 
@@ -242,14 +325,23 @@ class BackupsTest(ViewTestCase):
             self.assertIn("components/glossary.json", files)
             self.assertIn("vcs/my-category/test/.git/index", files)
             self.assertIn("vcs/glossary/.git/index", files)
+            metadata = json.loads(zipfile.read("weblate-backup.json"))
+            backup_team = next(
+                item for item in metadata["teams"] if item["name"] == team.name
+            )
+            self.assertEqual(
+                backup_team["members"],
+                [{"username": self.user.username, "limit_languages": ["en"]}],
+            )
 
         restore = ProjectBackup(backup.filename)
 
         restore.validate()
 
-        restored = restore.restore(
-            project_name="Restored", project_slug="restored", user=self.user
-        )
+        with patch.object(ProjectBackup, "IMPORT_BATCH_SIZE", 1):
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
 
         self.assertEqual(
             Vote.objects.filter(
@@ -327,6 +419,14 @@ class BackupsTest(ViewTestCase):
             set(restored_team.user_set.values_list("username", flat=True)),
         )
         self.assertEqual(
+            set(
+                TeamMembership.objects.get(
+                    user__username=self.user.username, group=restored_team
+                ).limit_languages.values_list("code", flat=True)
+            ),
+            {"en"},
+        )
+        self.assertEqual(
             set(team.languages.values_list("code", flat=True)),
             set(restored_team.languages.values_list("code", flat=True)),
         )
@@ -348,6 +448,325 @@ class BackupsTest(ViewTestCase):
         )
         # Verify that Git operations work on restored repos
         restored.do_reset()
+
+    def test_backup_inherited_settings(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Backup workspace",
+            license="MIT",
+            secondary_language=Language.objects.get(code="de"),
+            check_flags="safe-html",
+            commit_message="Workspace commit",
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace,
+            license="GPL-3.0-or-later",
+            secondary_language=Language.objects.get(code="ru"),
+            check_flags="strict-same",
+            commit_message="Project commit",
+            inherit_license=True,
+            inherit_secondary_language=True,
+            inherit_commit_message=True,
+        )
+        category = Category.objects.create(
+            name="Backup category",
+            slug="backup-category",
+            project=self.project,
+            commit_message="Category commit",
+            inherit_commit_message=False,
+            check_flags="xml-text",
+        )
+        self.component.category = category
+        self.component.check_flags = "ignore-same"
+        self.component.inherit_secondary_language = True
+        self.component.inherit_commit_message = True
+        self.component.save()
+        project = Project.objects.select_related("workspace").get(pk=self.project.pk)
+
+        backup = ProjectBackup()
+        backup.backup_project(project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            project_data = json.loads(zipfile.read("weblate-backup.json"))
+            category_data = project_data["categories"][0]
+            component_data = json.loads(
+                zipfile.read("components/backup-category/test.json")
+            )
+
+        self.assertEqual(project_data["project"]["commit_message"], "Workspace commit")
+        self.assertEqual(project_data["project"]["license"], "MIT")
+        self.assertEqual(project_data["project"]["secondary_language"], "de")
+        self.assertEqual(
+            project_data["project"]["check_flags"], "safe-html, strict-same"
+        )
+        self.assertTrue(project_data["project"]["inherit_license"])
+        self.assertTrue(project_data["project"]["inherit_commit_message"])
+        self.assertTrue(project_data["project"]["inherit_secondary_language"])
+        self.assertEqual(category_data["commit_message"], "Category commit")
+        self.assertEqual(category_data["check_flags"], "xml-text")
+        self.assertFalse(category_data["inherit_commit_message"])
+        self.assertTrue(category_data["inherit_secondary_language"])
+        self.assertEqual(component_data["component"]["check_flags"], "ignore-same")
+        self.assertTrue(component_data["component"]["inherit_commit_message"])
+        self.assertTrue(component_data["component"]["inherit_secondary_language"])
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+        restored_component = restored.component_set.select_related(
+            "project",
+            "project__workspace",
+            "project__secondary_language",
+            "category",
+            "category__category",
+            "secondary_language",
+        ).get(slug=self.component.slug)
+        restored_category = restored.category_set.get(slug=category.slug)
+
+        self.assertIsNone(restored.workspace)
+        self.assertEqual(restored.license, "MIT")
+        self.assertEqual(restored.commit_message, "Workspace commit")
+        self.assertEqual(restored.secondary_language.code, "de")
+        self.assertEqual(
+            restored.effective_check_flags.format(), "safe-html, strict-same"
+        )
+        self.assertTrue(restored.inherit_license)
+        self.assertTrue(restored.inherit_commit_message)
+        self.assertTrue(restored.inherit_secondary_language)
+        self.assertEqual(restored_category.commit_message, "Category commit")
+        self.assertEqual(restored_category.check_flags, "xml-text")
+        self.assertFalse(restored_category.inherit_commit_message)
+        self.assertTrue(restored_category.inherit_secondary_language)
+        self.assertTrue(restored_component.inherit_commit_message)
+        self.assertTrue(restored_component.inherit_secondary_language)
+        self.assertEqual(restored_component.effective_commit_message, "Category commit")
+        self.assertEqual(restored_component.effective_secondary_language.code, "de")
+        self.assertEqual(
+            set(restored_component.all_flags),
+            {"safe-html", "strict-same", "xml-text", "ignore-same"},
+        )
+
+        target_workspace = Workspace.objects.create(
+            name="Target workspace",
+            license="GPL-3.0-or-later",
+            secondary_language=Language.objects.get(code="fr"),
+            commit_message="Target workspace commit",
+        )
+        workspace_restore = ProjectBackup(backup.filename)
+        workspace_restore.validate()
+        restored_workspace_project = workspace_restore.restore(
+            project_name="Restored workspace",
+            project_slug="restored-workspace",
+            user=self.user,
+            workspace=target_workspace,
+        )
+
+        self.assertEqual(restored_workspace_project.workspace_id, target_workspace.pk)
+        self.assertFalse(restored_workspace_project.inherit_license)
+        self.assertFalse(restored_workspace_project.inherit_commit_message)
+        self.assertFalse(restored_workspace_project.inherit_secondary_language)
+        self.assertEqual(
+            restored_workspace_project.get_effective_setting("license"), "MIT"
+        )
+        self.assertEqual(
+            restored_workspace_project.get_effective_setting("commit_message"),
+            "Workspace commit",
+        )
+        secondary_language = restored_workspace_project.get_effective_setting(
+            "secondary_language"
+        )
+        self.assertIsInstance(secondary_language, Language)
+        self.assertEqual(secondary_language.code, "de")
+
+    def test_backup_team_members_prefetches_limit_languages(self) -> None:
+        team = Group.objects.create(name="Prefetch team", defining_project=self.project)
+        first_user = type(self.user).objects.create_user(
+            "backup-limit-a", "backup-limit-a@example.com", "x"
+        )
+        second_user = type(self.user).objects.create_user(
+            "backup-limit-b", "backup-limit-b@example.com", "x"
+        )
+        team.user_set.add(first_user, second_user)
+        TeamMembership.objects.get(user=first_user, group=team).limit_languages.set(
+            [Language.objects.get(code="cs")]
+        )
+        TeamMembership.objects.get(user=second_user, group=team).limit_languages.set(
+            [Language.objects.get(code="de")]
+        )
+
+        with self.assertNumQueries(2):
+            self.assertEqual(
+                ProjectBackup.backup_team_members(team),
+                [
+                    {"username": first_user.username, "limit_languages": ["cs"]},
+                    {"username": second_user.username, "limit_languages": ["de"]},
+                ],
+            )
+
+    def test_restore_team_members_accepts_legacy_member_dict(self) -> None:
+        team = Group.objects.create(name="Restore team", defining_project=self.project)
+        user = type(self.user).objects.create_user(
+            "backup-limit-legacy", "backup-limit-legacy@example.com", "x"
+        )
+        backup = ProjectBackup()
+
+        backup.restore_team_members(team, [{"username": user.username}])
+
+        membership = TeamMembership.objects.get(user=user, group=team)
+        self.assertFalse(membership.limit_languages.exists())
+
+    def test_restore_team_members_deduplicates_users(self) -> None:
+        team = Group.objects.create(name="Restore duplicate team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-duplicate", "backup-limit-duplicate@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech, german.code: german}
+
+        with self.assertWarnsRegex(UserWarning, "Conflicting language limits"):
+            backup.restore_team_members(
+                team,
+                [
+                    {"username": user.username, "limit_languages": [czech.code]},
+                    {"username": user.username, "limit_languages": [german.code]},
+                ],
+            )
+
+        self.assertEqual(team.user_set.count(), 1)
+        membership = TeamMembership.objects.get(user=user, group=team)
+        self.assertEqual(
+            list(membership.limit_languages.values_list("code", flat=True)), ["de"]
+        )
+
+    def test_restore_team_members_bulk_restores_limit_languages(self) -> None:
+        team = Group.objects.create(name="Restore bulk limit team")
+        first_user = type(self.user).objects.create_user(
+            "backup-limit-bulk-a", "backup-limit-bulk-a@example.com", "x"
+        )
+        second_user = type(self.user).objects.create_user(
+            "backup-limit-bulk-b", "backup-limit-bulk-b@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech, german.code: german}
+
+        with patch.object(
+            TeamMembership,
+            "set_limit_languages",
+            side_effect=AssertionError("restore should use bulk m2m writes"),
+        ):
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": first_user.username,
+                        "limit_languages": [german.code, czech.code, czech.code],
+                    },
+                    {
+                        "username": second_user.username,
+                        "limit_languages": [german.code],
+                    },
+                ],
+            )
+
+        memberships = TeamMembership.objects.filter(group=team).prefetch_related(
+            "limit_languages"
+        )
+        restored_limits = {
+            membership.user.username: sorted(
+                membership.limit_languages.values_list("code", flat=True)
+            )
+            for membership in memberships
+        }
+        self.assertEqual(
+            restored_limits,
+            {
+                first_user.username: ["cs", "de"],
+                second_user.username: ["de"],
+            },
+        )
+
+    def test_restore_team_members_ignores_equivalent_duplicate_limits(self) -> None:
+        team = Group.objects.create(name="Restore equivalent duplicate team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-equivalent", "backup-limit-equivalent@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech, german.code: german}
+
+        with warnings.catch_warnings(record=True) as caught_warnings:
+            warnings.simplefilter("always")
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": user.username,
+                        "limit_languages": [czech.code, german.code],
+                    },
+                    {
+                        "username": user.username,
+                        "limit_languages": [german.code, czech.code],
+                    },
+                ],
+            )
+
+        self.assertEqual(caught_warnings, [])
+
+    def test_restore_team_members_rejects_missing_limit_language(self) -> None:
+        team = Group.objects.create(name="Restore missing limit language team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-missing", "backup-limit-missing@example.com", "x"
+        )
+        backup = ProjectBackup()
+        backup.languages_cache = {}
+
+        with self.assertRaisesRegex(
+            ValueError, "Unknown language codes in limit_languages"
+        ):
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": user.username,
+                        "limit_languages": ["missing"],
+                    }
+                ],
+            )
+
+        self.assertFalse(team.user_set.filter(pk=user.pk).exists())
+
+    def test_restore_team_members_rolls_back_limit_failure(self) -> None:
+        team = Group.objects.create(name="Restore rollback team")
+        user = type(self.user).objects.create_user(
+            "backup-limit-rollback", "backup-limit-rollback@example.com", "x"
+        )
+        czech = Language.objects.get(code="cs")
+        backup = ProjectBackup()
+        backup.languages_cache = {czech.code: czech}
+
+        with (
+            patch.object(
+                backup, "get_items_from_cache", side_effect=RuntimeError("failed")
+            ),
+            self.assertRaisesRegex(RuntimeError, "failed"),
+        ):
+            backup.restore_team_members(
+                team,
+                [
+                    {
+                        "username": user.username,
+                        "limit_languages": [czech.code],
+                    }
+                ],
+            )
+
+        self.assertFalse(team.user_set.filter(pk=user.pk).exists())
 
     def test_restore_synthesizes_source_translation_check_flags(self) -> None:
         source = self.component.source_translation
@@ -388,7 +807,7 @@ class BackupsTest(ViewTestCase):
             repo="https://private.example/repo.git"
         )
 
-        try:
+        with remove_file_after(temp_name):
             restore = ProjectBackup(temp_name)
             with (
                 patch(
@@ -407,15 +826,13 @@ class BackupsTest(ViewTestCase):
                     ]
                 },
             )
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_rejects_invalid_push_url(self) -> None:
         temp_name = self.write_tampered_component_backup(
             push="https://private.example/push.git"
         )
 
-        try:
+        with remove_file_after(temp_name):
             restore = ProjectBackup(temp_name)
             with (
                 patch(
@@ -434,8 +851,6 @@ class BackupsTest(ViewTestCase):
                     ]
                 },
             )
-        finally:
-            os.unlink(temp_name)
 
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
@@ -527,6 +942,12 @@ class BackupsTest(ViewTestCase):
         # check that set_language_team is migrated to file format parameters
         self.assertTrue(component.file_format_params["po_set_language_team"])
         self.assertIsNone(glossary.file_format_params.get("po_set_language_team"))
+        self.assertFalse(restored.inherit_commit_message)
+        self.assertFalse(restored.inherit_secondary_language)
+        self.assertFalse(component.inherit_commit_message)
+        self.assertFalse(component.inherit_secondary_language)
+        self.assertFalse(glossary.inherit_commit_message)
+        self.assertFalse(glossary.inherit_secondary_language)
 
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
@@ -548,7 +969,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -562,15 +983,13 @@ class BackupsTest(ViewTestCase):
                 ValueError, "compressed entry that is too large"
             ):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     @override_settings(PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=10)
     def test_restore_low_compression_large_entry_allowed(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -583,15 +1002,13 @@ class BackupsTest(ViewTestCase):
 
             restore = ProjectBackup(temp_name)
             restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     @override_settings(PROJECT_BACKUP_IMPORT_MAX_MEMBERS=5)
     def test_restore_zip_bomb_too_many_members(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -604,14 +1021,12 @@ class BackupsTest(ViewTestCase):
             restore = ProjectBackup(temp_name)
             with self.assertRaisesRegex(ValueError, "contains too many entries"):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_zip_bomb_too_much_uncompressed_data(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -633,18 +1048,17 @@ class BackupsTest(ViewTestCase):
                     PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE=total_size
                 ),
                 self.assertRaisesRegex(
-                    ValueError, "contains too much uncompressed data"
+                    ValueError,
+                    "data after unpacking, exceeding the configured limit",
                 ),
             ):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_rejects_unsafe_vcs_path_after_prefix_strip(self) -> None:
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(TEST_BACKUP, "r") as source_zip,
                 ZipFile(temp_name, "w") as zipfile,
@@ -656,8 +1070,6 @@ class BackupsTest(ViewTestCase):
             restore = ProjectBackup(temp_name)
             with self.assertRaisesRegex(ValueError, "ZIP file contains invalid path"):
                 restore.validate()
-        finally:
-            os.unlink(temp_name)
 
     @override_settings(
         PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
@@ -671,7 +1083,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(backup.filename, "r") as source_zip,
                 ZipFile(temp_name, "w") as target_zip,
@@ -691,8 +1103,6 @@ class BackupsTest(ViewTestCase):
                 restore.restore(
                     project_name="Restored", project_slug="restored", user=self.user
                 )
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_skips_git_hooks(self) -> None:
         backup = ProjectBackup()
@@ -701,7 +1111,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(backup.filename, "r") as source_zip,
                 ZipFile(temp_name, "w") as target_zip,
@@ -736,8 +1146,6 @@ class BackupsTest(ViewTestCase):
                 f"refs/heads/{component.branch}",
             )
             restored.do_reset()
-        finally:
-            os.unlink(temp_name)
 
     def test_restore_rejects_invalid_screenshot(self) -> None:
         screenshot = Screenshot.objects.create(
@@ -752,7 +1160,7 @@ class BackupsTest(ViewTestCase):
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
 
-        try:
+        with remove_file_after(temp_name):
             with (
                 ZipFile(backup.filename, "r") as source_zip,
                 ZipFile(temp_name, "w") as target_zip,
@@ -769,8 +1177,6 @@ class BackupsTest(ViewTestCase):
                 restore.restore(
                     project_name="Restored", project_slug="restored", user=self.user
                 )
-        finally:
-            os.unlink(temp_name)
 
     def test_cleanup(self) -> None:
         cleanup_project_backups()
@@ -867,6 +1273,43 @@ class BackupsTest(ViewTestCase):
                 },
                 follow=True,
             )
-            self.assertContains(response, "Import Test")
+            self.assertContains(response, "Project backup import in progress")
             project = Project.objects.get(slug="import-test")
             self.assertEqual(project.component_set.count(), 2)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    @patch("weblate.trans.views.create.import_project_backup.delay")
+    def test_view_restore_schedules_background_import(self, delay) -> None:
+        delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
+        self.user.is_superuser = True
+        self.user.save()
+        with open(TEST_BACKUP, "rb") as handle:
+            response = self.client.post(
+                reverse("create-project-import"),
+                {
+                    "zipfile": handle,
+                },
+                follow=True,
+            )
+        self.assertContains(
+            response, "Created on Weblate (example.com) by Weblate 4.14-dev"
+        )
+
+        response = self.client.post(
+            reverse("create-project-import"),
+            {
+                "name": "Import Test",
+                "slug": "import-test",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Project backup import in progress")
+        delay.assert_called_once()
+        kwargs = delay.call_args.kwargs
+        filename = kwargs["filename"]
+        with remove_file_after(filename):
+            self.assertEqual(kwargs["project_name"], "Import Test")
+            self.assertEqual(kwargs["project_slug"], "import-test")
+            self.assertEqual(kwargs["user_id"], self.user.id)
+            self.assertIsNone(kwargs["billing_id"])
+            self.assertFalse(Project.objects.filter(slug="import-test").exists())

@@ -420,7 +420,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 Overriding authentication method names and icons
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can override the authentication method display name and icon using using settings as
+You can override the authentication method display name and icon using settings as
 ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. For example
 overriding naming for Auth0 would look like:
 
@@ -566,6 +566,18 @@ configure your IdP to provide them:
 
 When configuring Weblate SP in your IdP, it is recommended to choose persistent
 :guilabel:`Name ID format`.
+
+.. hint::
+
+   Some identity providers (such as Microsoft Entra ID with multi-factor
+   authentication) require disabling the default ``requestedAuthnContext``
+   in the SAML security configuration:
+
+   .. code-block:: python
+
+      SOCIAL_AUTH_SAML_SECURITY_CONFIG = {"requestedAuthnContext": False}
+
+   In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead.
 
 .. hint::
 
@@ -837,6 +849,8 @@ Recovery codes
    Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes.
 
    Keep your recovery codes as safe as your password. We recommend saving them with a password manager such as Bitwarden, 1Password, Authy, or Keeper.
+
+.. image:: /screenshots/authentication.webp
 
 Each user can configure this in :ref:`profile-account` and second factor will
 be required to sign in addition to the existing authentication method.

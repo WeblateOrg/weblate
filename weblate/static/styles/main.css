@@ -288,17 +288,21 @@ ul.legend li {
 
 textarea.translation-editor,
 textarea[name="explanation"] {
-  height: 3em;
+  min-height: 3em;
 }
 
 textarea#id_comment {
-  height: 5em;
+  min-height: 5em;
 }
 
 textarea#id_extra_flags,
 textarea#id_explanation,
 textarea#id_check_flags {
-  height: 4em;
+  min-height: 4em;
+}
+
+textarea.highlight-editor {
+  overflow: hidden;
 }
 
 .hlcheck,
@@ -494,6 +498,65 @@ th:hover .sort-icon {
 
 .engage .buttons a {
   margin: 1em;
+}
+
+.engage-tasks {
+  margin: 2em auto 0;
+  max-width: 920px;
+}
+
+.engage-tasks h3 {
+  margin: 0 0 0.25em;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.engage .buttons a.engage-language-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  white-space: normal;
+}
+
+.engage-button-language {
+  display: block;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 1.2;
+  opacity: 0.85;
+}
+
+.engage-tasks > p {
+  margin: 0 auto 1.25em;
+  max-width: 620px;
+}
+
+.engage-task-list {
+  row-gap: 12px;
+}
+
+.engage-task.metric {
+  padding: 0;
+}
+
+.engage-task > a {
+  display: block;
+  padding: 20px 0;
+  color: var(--bs-body-color);
+  text-decoration: none;
+}
+
+.engage-task:hover,
+.engage-task:focus-within {
+  border-color: var(--bs-link-color);
+}
+
+.engage-task > a:hover,
+.engage-task > a:focus {
+  color: var(--bs-link-color);
+  text-decoration: none;
 }
 
 .bignumbers {
@@ -983,6 +1046,10 @@ legend {
   vertical-align: middle;
   height: 40px;
   width: 40px;
+}
+
+.bidi-isolate {
+  unicode-bidi: isolate;
 }
 
 .wrap-text {
@@ -1786,6 +1853,51 @@ h2 .label {
   font-weight: 600;
 }
 
+.form-check-input,
+.form-check-label {
+  cursor: pointer;
+}
+
+.form-check-label {
+  margin-left: -0.5em;
+  padding-left: 0.5em;
+}
+
+.inherited-setting {
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--bs-border-color);
+}
+
+.inherited-setting.is-inherited {
+  border-left-color: var(--bs-primary);
+}
+
+.inherited-setting-toggle > .mb-3 {
+  margin-bottom: 0.5rem !important;
+}
+
+.inherited-setting-field > .mb-3 {
+  margin-bottom: 0;
+}
+
+.form-label-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-label-actions .form-label {
+  margin-bottom: 0;
+}
+
+.form-label-actions .site-default-field-button {
+  flex: 0 0 auto;
+}
+
 .help-block {
   color: var(--wl-color-text);
 }
@@ -1810,18 +1922,6 @@ a.language {
 a.language:hover {
   color: var(--wl-navi-color);
   text-decoration: underline;
-}
-.tribute-container {
-  z-index: 10000;
-}
-.tribute-container > .dropdown-menu {
-  position: relative;
-  display: block;
-}
-.tribute-container > .dropdown-menu > li.highlight > a {
-  color: #262626;
-  text-decoration: none;
-  background-color: var(--wl-color-tribute-bg);
 }
 
 .editor-wrap {
@@ -2110,6 +2210,18 @@ h5.list-group-item-heading {
   position: absolute;
   top: 100%;
 }
+
+.autoComplete.mention-dropdown {
+  position: fixed;
+  max-width: 320px;
+  max-height: 14em;
+  overflow-y: auto;
+  z-index: 10000;
+}
+.autoComplete.mention-dropdown .autoComplete_result {
+  cursor: pointer;
+}
+
 .navbar .autoComplete {
   margin-top: 0;
   border-top-left-radius: 0;
@@ -2233,7 +2345,7 @@ tbody.warning {
   overflow-y: auto;
 }
 
-#shortcuts-table-container #t-head {
+#shortcuts-table-container th {
   font-weight: bold;
 }
 
@@ -2241,7 +2353,7 @@ tbody.warning {
   color: unset;
 }
 
-#shortcuts-table5-container kbd {
+#shortcuts-table-container kbd {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
 }
@@ -2263,7 +2375,7 @@ tbody.warning {
   box-shadow: 1px 2px 4px #00000020;
 }
 
-#search-preview > #search-result {
+#search-preview > .search-result {
   display: block;
   padding: 5px;
   margin-bottom: 5px;
@@ -2272,11 +2384,11 @@ tbody.warning {
   border-radius: 4px;
 }
 
-#search-preview > #search-result:hover {
+#search-preview > .search-result:hover {
   background-color: #cccccc50;
 }
 
-#search-preview > #search-result > div {
+#search-preview > .search-result > div {
   margin-left: 10px;
 }
 
@@ -2599,4 +2711,8 @@ table.table-simple tbody#glossary-terms .alert-info {
 
 .ts-dropdown-content {
   max-height: min(60vh, 480px);
+}
+
+.ts-dropdown .create {
+  color: var(--bs-secondary-color);
 }

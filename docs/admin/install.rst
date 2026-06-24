@@ -209,69 +209,65 @@ Django REST Framework
        - Python packages
        - Weblate feature
 
-     * - ``alibaba``
-       - | `aliyun-python-sdk-alimt <https://pypi.org/project/aliyun-python-sdk-alimt>`_
-         | `aliyun-python-sdk-core <https://pypi.org/project/aliyun-python-sdk-core>`_
-       - :ref:`mt-alibaba`
-
      * - ``amazon``
-       - | `boto3 <https://pypi.org/project/boto3>`_
+       - | :pypi:`boto3`
        - :ref:`mt-aws`
 
      * - ``gelf``
-       - | `logging-gelf <https://pypi.org/project/logging-gelf>`_
+       - | :pypi:`logging-gelf`
        - :ref:`graylog`
 
      * - ``gerrit``
-       - | `git-review <https://pypi.org/project/git-review>`_
-       - :ref:`vcs-gerrit`
+       - | :pypi:`git-review`
+       - :ref:`code-hosting-gerrit`
 
      * - ``google``
-       - | `google-cloud-storage <https://pypi.org/project/google-cloud-storage>`_
-         | `google-cloud-translate <https://pypi.org/project/google-cloud-translate>`_
+       - | :pypi:`google-cloud-storage`
+         | :pypi:`google-cloud-translate`
        - :ref:`mt-google-translate-api-v3` with glossary support
 
+     * - ``google-errors``
+       - | :pypi:`google-cloud-error-reporting`
+       - :ref:`collecting-errors`
+
      * - ``ldap``
-       - | `django-auth-ldap <https://pypi.org/project/django-auth-ldap>`_
+       - | :pypi:`django-auth-ldap`
        - :ref:`ldap-auth`
 
      * - ``mercurial``
-       - | `mercurial <https://pypi.org/project/mercurial>`_
+       - | :pypi:`mercurial`
        - :ref:`vcs-mercurial`
 
-     * - ``openai``
-       - | `openai <https://pypi.org/project/openai>`_
-       - :ref:`mt-openai`
-
      * - ``postgres``
-       - | `psycopg <https://pypi.org/project/psycopg>`_
+       - | :pypi:`psycopg`
        - PostgreSQL, see :ref:`database-setup`
 
+     * - ``rollbar``
+       - | :pypi:`rollbar`
+       - :ref:`collecting-errors`
+
      * - ``saml``
-       - | `python3-saml <https://pypi.org/project/python3-saml>`_
+       - | :pypi:`python3-saml`
+         | :pypi:`xmlsec`
        - :ref:`saml-auth`
 
      * - ``saml2idp``
-       - | `djangosaml2idp2 <https://pypi.org/project/djangosaml2idp2>`_
+       - | :pypi:`djangosaml2idp2`
        - Integrating SAML 2 IDP into Weblate
      * - ``sphinx``
-       - | `Sphinx <https://pypi.org/project/Sphinx>`_
+       - | :pypi:`Sphinx`
        - Needed for :ref:`addon-weblate.gettext.sphinx`
 
-     * - ``wlhosted``
-       - | `wlhosted <https://pypi.org/project/wlhosted>`_
-       - Hosted Weblate integration
-
      * - ``wllegal``
-       - | `wllegal <https://pypi.org/project/wllegal>`_
+       - | :pypi:`wllegal`
        - Hosted Weblate integration
 
      * - ``wsgi``
-       - | `granian <https://pypi.org/project/granian>`_
+       - | :pypi:`granian`
        - wsgi server for Weblate
 
      * - ``zxcvbn``
-       - | `django-zxcvbn-password-validator <https://pypi.org/project/django-zxcvbn-password-validator>`_
+       - | :pypi:`django-zxcvbn-password-validator`
        - :ref:`password-authentication`
 
 When installing using pip, you can directly specify desired features when installing:
@@ -332,7 +328,7 @@ The following dependencies have to be installed on the system:
 Pango, Cairo and related header files and GObject introspection data
     https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, see :ref:`pangocairo`
 ``git-review`` (optional for Gerrit support)
-    https://pypi.org/project/git-review/
+    :pypi:`git-review`
 ``git-svn`` (optional for Subversion support)
     https://git-scm.com/docs/git-svn
 ``tesseract`` (needed only if :program:`tesserocr` binary wheels are not available for your system)
@@ -369,25 +365,11 @@ with development files and GObject introspection data.
 
 .. include:: install/steps/hw.rst
 
-.. _verify:
+Verifying release artifacts
+---------------------------
 
-Verifying release signatures
-----------------------------
-
-Weblate release are cryptographically signed using `Sigstore signatures
-<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub
-release.
-
-The verification can be performed using `sigstore package
-<https://pypi.org/project/sigstore/>`_. The following example verifies
-signature of the 5.4 release:
-
-.. code-block:: sh
-
-   sigstore verify github \
-      --cert-identity https://github.com/WeblateOrg/weblate/.github/workflows/setup.yml@refs/tags/weblate-5.4 \
-      --bundle Weblate-5.4-py3-none-any.whl.sigstore \
-      Weblate-5.4-py3-none-any.whl
+Release archives can be verified using the signatures, attestations, and SBOMs
+published with GitHub release assets. See :ref:`verify`.
 
 .. _file-permissions:
 
@@ -404,6 +386,10 @@ you might prefer to move these to a better location such as:
 
 Weblate tries to create these directories automatically, but it will fail
 when it does not have permissions to do so.
+
+The configured :setting:`CACHE_DIR` also has to be writable by the Weblate
+process and has to allow executing generated helper files. Do not mount
+:setting:`CACHE_DIR` with the ``noexec`` option.
 
 You should also take care when running :ref:`manage`, as they should be ran
 under the same user as Weblate itself is running, otherwise permissions on some
@@ -1289,6 +1275,14 @@ Running Weblate is not different from running any other Django based
 program. Django is usually executed as WSGI or fcgi (see examples for
 different webservers below).
 
+.. note::
+
+   The sample configuration files shown below are maintained in the Weblate
+   source tree under :file:`weblate/examples/`. They are included in source
+   distributions and in this documentation, but Python wheels only install
+   runtime files. When installing Weblate from PyPI, get the matching source
+   distribution or source checkout before copying these examples.
+
 For testing purposes, you can use the built-in web server in Django:
 
 .. code-block:: sh
@@ -1389,7 +1383,7 @@ Sample configuration for NGINX and Gunicorn
 +++++++++++++++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate using Gunicorn under the NGINX webserver
-(also available as :file:`weblate/examples/weblate.nginx.gunicorn.conf`):
+(:file:`weblate/examples/weblate.nginx.gunicorn.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/weblate.nginx.gunicorn.conf
     :language: nginx
@@ -1414,12 +1408,12 @@ example using ``virtualenv = /home/user/weblate-env`` in uWSGI).
 
 The following configuration runs Weblate as uWSGI under the NGINX webserver.
 
-Configuration for NGINX (also available as :file:`weblate/examples/weblate.nginx.conf`):
+Configuration for NGINX (:file:`weblate/examples/weblate.nginx.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/weblate.nginx.conf
     :language: nginx
 
-Configuration for uWSGI (also available as :file:`weblate/examples/weblate.uwsgi.ini`):
+Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/weblate.uwsgi.ini
     :language: ini
@@ -1436,7 +1430,7 @@ Sample configuration for Apache
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 The following configuration runs Weblate as WSGI, you need to have enabled
-``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):
+``mod_wsgi`` (:file:`weblate/examples/apache.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/apache.conf
     :language: apache
@@ -1460,7 +1454,7 @@ Sample configuration for Apache and Gunicorn
 ++++++++++++++++++++++++++++++++++++++++++++
 
 The following configuration runs Weblate in Gunicorn and Apache 2.4
-(available as :file:`weblate/examples/apache.gunicorn.conf`):
+(:file:`weblate/examples/apache.gunicorn.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/apache.gunicorn.conf
     :language: apache
@@ -1529,7 +1523,7 @@ Running Weblate under path
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 A sample Apache configuration to serve Weblate under ``/weblate``. Again using
-``mod_wsgi`` (also available as :file:`weblate/examples/apache-path.conf`):
+``mod_wsgi`` (:file:`weblate/examples/apache-path.conf` in the source tree):
 
 .. literalinclude:: ../../weblate/examples/apache-path.conf
     :language: apache
@@ -1569,14 +1563,13 @@ A typical setup using Valkey or Redis as a backend looks like this:
 
    :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
 
-You should also start the Celery worker to process the tasks and start
-scheduled tasks, this can be done directly on the command-line (which is mostly
-useful when debugging or developing):
+You should also start the Celery worker to process the tasks and start scheduled
+tasks. For debugging or development, this can be done directly on the
+command-line:
 
 .. code-block:: sh
 
-   ./weblate/examples/celery start
-   ./weblate/examples/celery stop
+   celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
 
 .. note::
 
@@ -1609,8 +1602,9 @@ Running Celery as system service
 
 Most likely you will want to run Celery as a daemon and that is covered by
 :doc:`celery:userguide/daemonizing`. For the most common Linux setup using
-systemd, you can use the example files shipped in the :file:`examples` folder
-listed below.
+systemd, adapt the example files listed below. These examples are maintained in
+the Weblate source tree under :file:`weblate/examples/`; Python wheels do not
+install these deployment samples.
 
 Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate.service`:
 
@@ -1742,6 +1736,45 @@ and profiles for defined percentage of operations. This can be configured using
 
    * `Sentry Performance Monitoring <https://docs.sentry.io/product/sentry-basics/performance-monitoring/>`_
    * `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
+
+Google Cloud Error Reporting
+++++++++++++++++++++++++++++
+
+Weblate can report handled server errors to `Google Cloud Error Reporting`_.
+Install Weblate with the ``google-errors`` extra and configure
+:setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:
+
+.. code-block:: python
+
+   GOOGLE_CLOUD_ERROR_REPORTING = {
+       "project": "your-google-cloud-project",
+   }
+
+Weblate automatically reports errors under the ``weblate`` service and uses the
+current Weblate version or Git revision as the reported version. These values
+can be overridden by setting ``service`` or ``version`` in
+:setting:`GOOGLE_CLOUD_ERROR_REPORTING`.
+
+.. _Google Cloud Error Reporting: https://docs.cloud.google.com/error-reporting/docs/grouping-errors
+
+OpenTelemetry
++++++++++++++
+
+Weblate can export backend traces using `OpenTelemetry <https://opentelemetry.io/>`_.
+It uses OTLP over HTTP and can send traces to an OpenTelemetry Collector or a
+compatible vendor endpoint.
+
+.. code-block:: python
+
+   OPENTELEMETRY_ENABLED = True
+   OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT = "https://collector.example.com/v1/traces"
+   OPENTELEMETRY_TRACES_SAMPLE_RATE = 0.1
+
+The integration traces Django requests, Celery tasks, Redis, outgoing HTTP
+requests, database calls, and Weblate-specific spans. Configure it using
+:setting:`OPENTELEMETRY_ENABLED`,
+:setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, and
+:setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`.
 
 .. _rollbar-errors:
 

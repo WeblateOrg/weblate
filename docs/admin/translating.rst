@@ -144,20 +144,37 @@ language are shown only for that language. You can add a screenshot directly
 from the translate page using :guilabel:`Add screenshot` in the
 :guilabel:`Screenshot context` panel, or open the separate management
 interface under the :guilabel:`Operations` menu. There you can upload
-screenshots, assign them to source strings manually, or use optical character
-recognition (OCR) by pressing the :guilabel:`Automatically recognize` button.
+screenshots, assign them to source strings manually, or let Weblate find
+strings in the image using text recognition (OCR) with the
+:guilabel:`Find strings in image` button.
+Matching source strings can be assigned individually, in a selected batch, or
+all at once.
+
+The screenshot listing summarizes uploaded screenshots and lets you search or
+filter them:
+
+.. image:: /screenshots/screenshot-listing.webp
 
 Once a screenshot is uploaded, this interface handles
 management and source string association:
 
 .. image:: /screenshots/screenshot-ocr.webp
 
+Use the screenshot listing search to find screenshots by name, repository path,
+language, assigned source string, source string context, or source string
+location. The search accepts plain text as well as advanced screenshot queries,
+see :ref:`search-screenshots`. For example, use ``NOT has:string`` to find
+unassigned screenshots, ``has:string`` to find assigned screenshots, or
+``repository:fastlane`` to review screenshots discovered from repository paths.
+
 You can upload a screenshot from a local file, paste it from the clipboard, or
 provide a URL to download an image from an external source. URL-based uploads
 may be restricted based on the :setting:`ALLOWED_ASSET_DOMAINS` setting, which
 controls which domains are trusted for downloading external assets, including
 any redirects followed while fetching the image, and
-:setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset.
+:setting:`ASSET_RESTRICT_PRIVATE`, which rejects internal or non-public targets
+unless they are included in :setting:`ASSET_PRIVATE_ALLOWLIST`. The
+:setting:`ALLOWED_ASSET_SIZE` setting limits maximal size for the asset.
 
 Managing screenshots from the repository
 ++++++++++++++++++++++++++++++++++++++++
@@ -177,6 +194,18 @@ When the repository is updated, the system will automatically scan
 for changes. Existing screenshots in the repository will be updated,
 and new screenshots matching the specified screenshot file mask will
 be added to the component.
+
+For application projects, a practical workflow is:
+
+#. Capture source-language screenshots for the most visible user interface.
+#. Store them in a stable repository path, for example below
+   :file:`fastlane/metadata/android/en-US/images/phoneScreenshots/`.
+#. Configure :ref:`component-screenshot_filemask` for that path.
+#. Update the component repository so Weblate discovers or refreshes the
+   screenshots.
+#. Use OCR or source string search to assign screenshots to the matching source
+   strings, and review the :guilabel:`Source strings without screenshots`
+   counter for important strings still missing visual context.
 
 .. seealso::
 

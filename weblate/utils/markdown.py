@@ -37,7 +37,8 @@ def get_mention_users(text):
 class SkipHtmlSpan(span_token.HtmlSpan):
     """A token that strips HTML tags from the content."""
 
-    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")  # noqa: SLF001
+    # ruff: ignore[private-member-access]
+    pattern = re.compile(f"{span_token._open_tag}|{span_token._closing_tag}")
     parse_inner = False
     content: str
 
@@ -130,7 +131,7 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         return self.escape_html_text(f"![{token.title}]({token.src})")
 
     def check_url(self, url: str) -> bool:
-        """Check if an url is valid or not  the scheme."""
+        """Check whether a URL uses an allowed scheme."""
         if url.startswith("/user/"):
             return True
         return bool(self._allowed_url_re.match(url))
@@ -152,7 +153,9 @@ def render_markdown(text: str) -> str:
     text = "".join(parts)
     try:
         with MARKDOWN_LOCK, SaferWeblateHtmlRenderer() as renderer:
-            return mark_safe(renderer.render(mistletoe.Document(text)))  # noqa: S308
+            # ruff: ignore[suspicious-mark-safe-usage]
+            return mark_safe(renderer.render(mistletoe.Document(text)))
     except Exception:
         report_error("Markdown rendering failed")
-        return mark_safe(linebreaks(original_text, autoescape=True))  # noqa: S308
+        # ruff: ignore[suspicious-mark-safe-usage]
+        return mark_safe(linebreaks(original_text, autoescape=True))

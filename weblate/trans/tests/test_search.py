@@ -12,19 +12,25 @@ from django.http import QueryDict
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, PendingUnitChange
+from weblate.trans.bulk import bulk_perform
+from weblate.trans.models import Change, Component, PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.views import get_form_data
+from weblate.workspaces.models import Workspace
 
 
 class SearchViewTest(ViewTestCase):
@@ -128,6 +134,62 @@ class SearchViewTest(ViewTestCase):
         self.do_search_url(
             reverse("search", kwargs={"path": self.project.get_url_path()})
         )
+
+    def test_workspace_search(self) -> None:
+        """Searching within workspace."""
+        workspace = Workspace.objects.create(name="Search workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+
+        self.do_search_url(reverse("search", kwargs={"path": workspace.get_url_path()}))
+
+    def test_workspace_bulk_edit(self) -> None:
+        """Bulk editing within workspace."""
+        workspace = Workspace.objects.create(name="Bulk workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_cache()
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": workspace.get_url_path()}),
+            {
+                "q": "source:Hello",
+                "state": STATE_TRANSLATED,
+                "add_flags": "",
+                "remove_flags": "",
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Bulk edit completed")
+
+    def test_workspace_bulk_edit_derives_matching_components(self) -> None:
+        """Bulk editing within workspace derives affected components from matches."""
+        workspace = Workspace.objects.create(name="Bulk workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_cache()
+
+        with patch(
+            "weblate.trans.views.search.bulk_perform", return_value=0
+        ) as perform:
+            response = self.client.post(
+                reverse("bulk-edit", kwargs={"path": workspace.get_url_path()}),
+                {
+                    "q": "source:Hello",
+                    "state": STATE_TRANSLATED,
+                    "add_flags": "",
+                    "remove_flags": "",
+                },
+                follow=True,
+            )
+
+        self.assertContains(response, "Bulk edit completed")
+        self.assertIsNone(perform.call_args.kwargs["components"])
 
     def test_component_search(self) -> None:
         """Searching within component."""
@@ -596,6 +658,106 @@ class BulkEditTest(ViewTestCase):
             )
         )
 
+    def test_bulk_edit_fuzzy_alias_includes_substates(self) -> None:
+        self.unit.state = STATE_NEEDS_REWRITING
+        self.unit.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"q": "is:needs-editing", "state": STATE_TRANSLATED},
+            follow=True,
+        )
+
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+
+    def test_bulk_edit_or_query_includes_substates(self) -> None:
+        self.unit.state = STATE_NEEDS_CHECKING
+        self.unit.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": "state:needs-checking OR state:needs-rewriting",
+                "state": STATE_TRANSLATED,
+            },
+            follow=True,
+        )
+
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_TRANSLATED)
+
+    def test_bulk_edit_requires_bulk_permission_per_unit(self) -> None:
+        limited_user = User.objects.create_user(
+            "limited-bulk", "limited-bulk@example.com", "limited-bulk"
+        )
+        group = Group.objects.create(
+            name="Limited bulk", language_selection=SELECTION_ALL
+        )
+        group.roles.add(Role.objects.get(name="Translate"))
+        group.components.add(self.component)
+        limited_user.groups.add(group)
+        limited_user.clear_cache()
+
+        self.assertTrue(limited_user.has_perm("unit.edit", self.unit))
+        self.assertFalse(limited_user.has_perm("unit.bulk_edit", self.unit))
+
+        updated = bulk_perform(
+            limited_user,
+            Unit.objects.filter(translation__component=self.component),
+            query="state:needs-editing",
+            target_state=STATE_TRANSLATED,
+            add_flags="",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            components=[self.component],
+        )
+
+        self.assertEqual(updated, 0)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_FUZZY)
+
+    def test_bulk_edit_requires_review_permission_to_approve(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        limited_user = User.objects.create_user(
+            "limited-approve", "limited-approve@example.com", "limited-approve"
+        )
+        group = Group.objects.create(
+            name="Limited approve", language_selection=SELECTION_ALL
+        )
+        group.roles.add(
+            Role.objects.get(name="Translate"), Role.objects.get(name="Bulk editing")
+        )
+        group.components.add(self.component)
+        limited_user.groups.add(group)
+        limited_user.clear_cache()
+
+        self.assertTrue(limited_user.has_perm("unit.edit", self.unit))
+        self.assertTrue(limited_user.has_perm("unit.bulk_edit", self.unit))
+        self.assertFalse(limited_user.has_perm("unit.review", self.unit))
+
+        updated = bulk_perform(
+            limited_user,
+            Unit.objects.filter(translation__component=self.component),
+            query="state:needs-editing",
+            target_state=STATE_APPROVED,
+            add_flags="",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            components=[self.component],
+        )
+
+        self.assertEqual(updated, 0)
+        self.unit.refresh_from_db()
+        self.assertEqual(self.unit.state, STATE_FUZZY)
+
     def test_bulk_flags(self) -> None:
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
@@ -634,11 +796,12 @@ class BulkEditTest(ViewTestCase):
 
     def test_bulk_labels(self) -> None:
         label = self.project.label_set.create(name="Test label", color="black")
-        response = self.client.post(
-            reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
-            {"q": "state:needs-editing", "state": -1, "add_labels": label.pk},
-            follow=True,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+                {"q": "state:needs-editing", "state": -1, "add_labels": label.pk},
+                follow=True,
+            )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
@@ -655,11 +818,12 @@ class BulkEditTest(ViewTestCase):
             getattr(unit.source_unit.translation.stats, f"label:{label.name}"),
             1,
         )
-        response = self.client.post(
-            reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
-            {"q": "state:needs-editing", "state": -1, "remove_labels": label.pk},
-            follow=True,
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+                {"q": "state:needs-editing", "state": -1, "remove_labels": label.pk},
+                follow=True,
+            )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),

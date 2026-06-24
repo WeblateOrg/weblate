@@ -73,9 +73,26 @@ check
 ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-base.py"
 check
 
+# Add stale comment removal add-on for cleanup settings migration test
+# This migration is already applied when migrating from 2026.5 or newer.
+semver_compare "$1" "<" "2026.5"
+cleanup_settings_migrate=$?
+if [ "$cleanup_settings_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-cleanup-settings.py"
+    check
+fi
+
 # Add component links for through-model migration test
 ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-links.py"
 check
+
+# Add user team membership for through-model migration test
+semver_compare "$1" "<" "2026.6"
+team_membership_migrate=$?
+if [ "$team_membership_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-team-membership.py"
+    check
+fi
 
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
@@ -112,6 +129,14 @@ if [ "$billing_users_migrate" -eq 0 ]; then
     check
 fi
 
+# Add billing projects for workspace migration test
+semver_compare "$1" "<" "2026.6"
+workspace_migrate=$?
+if [ "$workspace_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-workspaces.py"
+    check
+fi
+
 # Add dos-eol flag to project, component, translation and unit
 semver_compare "5.11" "<=" "$1" && semver_compare "$1" "<" "5.17.1"
 dos_eol_migrate=$?
@@ -132,11 +157,24 @@ git reset --hard
 check
 git checkout "$HEAD_COMMIT"
 check
+if [ "$cleanup_settings_migrate" -eq 0 ]; then
+    cp weblate/settings_test.py "$MIGRATE_DIR/settings_test.py"
+    check
+    cat >> weblate/settings_test.py << 'EOF'
+COMMENT_CLEANUP_DAYS = 15
+SUGGESTION_CLEANUP_DAYS = 20
+EOF
+    check
+fi
 # Use CI environment
 deactivate
 check
 run_coverage ./manage.py migrate
 check
+if [ "$cleanup_settings_migrate" -eq 0 ]; then
+    cp "$MIGRATE_DIR/settings_test.py" weblate/settings_test.py
+    check
+fi
 # Check migrated vote exists
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-vote.py"
 check
@@ -144,6 +182,18 @@ check
 # Check component links survived through-model migration
 uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-links.py"
 check
+
+# Check user team memberships survived through-model migration
+if [ "$team_membership_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-team-membership.py"
+    check
+fi
+
+# Check cleanup settings were migrated to site-wide add-ons
+if [ "$cleanup_settings_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-cleanup-settings.py"
+    check
+fi
 
 # Check migrated pending unit
 if [ "$pending_migration_test" -eq 0 ]; then
@@ -164,6 +214,12 @@ fi
 if [ "$billing_users_migrate" -eq 0 ]; then
     # Verify that the user has been migrated from the billing permission to the owner
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
+fi
+
+if [ "$workspace_migrate" -eq 0 ]; then
+    # Verify that billing projects have been migrated to workspaces
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-workspaces.py"
+    check
 fi
 
 if [ "$dos_eol_migrate" -eq 0 ]; then

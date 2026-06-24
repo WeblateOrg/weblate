@@ -8,7 +8,6 @@ import logging
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
-import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
@@ -39,11 +38,20 @@ from weblate.trans.signals import (
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
+from weblate.utils.tracing import start_span
 
 from .base import BaseAddon
+from .defaults import (
+    DEFAULT_ADDON_ACTIVITY_LOG_EXPIRY,
+    DEFAULT_LOCALIZE_CDN_PATH,
+    DEFAULT_LOCALIZE_CDN_URL,
+    DEFAULT_WEBLATE_ADDONS,
+)
 from .events import AddonEvent
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
@@ -72,7 +80,7 @@ class AddonCache:
         return self.events.get(event, [])
 
 
-class AddonQuerySet(models.QuerySet):
+class AddonQuerySet(models.QuerySet["Addon", "Addon"]):
     def filter_component(self, component):
         return self.prefetch_related("event_set").filter(component=component)
 
@@ -243,6 +251,7 @@ class Addon(models.Model):
                 original_component.drop_addons_cache()
             self._drop_addons_cache()
             self._clear_pot_guidance_alert()
+            self._clear_recommendation_guidance_alerts()
 
     def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})
@@ -300,7 +309,10 @@ class Addon(models.Model):
             msg = "Cannot schedule a manual run for an unsaved add-on."
             raise ValueError(msg)
 
-        from weblate.addons.tasks import run_addon_manually  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.addons.tasks import (
+            run_addon_manually,
+        )
 
         run_addon_manually.delay_on_commit(self.pk)
 
@@ -308,7 +320,7 @@ class Addon(models.Model):
         if self.component:
             self.component.drop_addons_cache()
 
-    def _affected_components(self):
+    def affected_components(self):
         if self.component:
             if self.repo_scope:
                 return Component.objects.filter(
@@ -325,9 +337,26 @@ class Addon(models.Model):
         if self.name != POT_MSGMERGE_ADDON:
             return
         Alert.objects.filter(
-            component__in=self._affected_components(),
+            component__in=self.affected_components(),
             name="ExtractPotMissingMsgmerge",
         ).delete()
+
+    def _clear_recommendation_guidance_alerts(self) -> None:
+        from weblate.trans.alerts.registry import (  # ruff: ignore[import-outside-top-level]
+            ALERTS,
+            load_alerts,
+        )
+
+        load_alerts()
+        alert_names = [
+            name
+            for name, alert in ALERTS.items()
+            if getattr(alert, "addon", None) == self.name
+        ]
+        if alert_names:
+            Alert.objects.filter(
+                component__in=self.affected_components(), name__in=alert_names
+            ).delete()
 
     def delete(self, using=None, keep_parents=False):
         # Store history
@@ -396,7 +425,7 @@ class Event(models.Model):
     event = models.IntegerField(choices=AddonEvent.choices)
 
     class Meta:
-        unique_together = [  # noqa: RUF012
+        unique_together = [  # ruff: ignore[mutable-class-default]
             ("addon", "event"),
         ]
         verbose_name = "add-on event"
@@ -407,47 +436,13 @@ class Event(models.Model):
 
 
 class AddonsConf(AppConf):
-    WEBLATE_ADDONS = (
-        "weblate.addons.gettext.GenerateMoAddon",
-        "weblate.addons.gettext.UpdateLinguasAddon",
-        "weblate.addons.gettext.UpdateConfigureAddon",
-        "weblate.addons.gettext.MsgmergeAddon",
-        "weblate.addons.gettext.XgettextAddon",
-        "weblate.addons.gettext.MesonAddon",
-        "weblate.addons.gettext.DjangoAddon",
-        "weblate.addons.gettext.SphinxAddon",
-        "weblate.addons.gettext.GettextAuthorComments",
-        "weblate.addons.cleanup.CleanupAddon",
-        "weblate.addons.cleanup.RemoveBlankAddon",
-        "weblate.addons.cleanup.ResetAddon",
-        "weblate.addons.consistency.LanguageConsistencyAddon",
-        "weblate.addons.discovery.DiscoveryAddon",
-        "weblate.addons.autotranslate.AutoTranslateAddon",
-        "weblate.addons.flags.SourceEditAddon",
-        "weblate.addons.flags.TargetEditAddon",
-        "weblate.addons.flags.SameEditAddon",
-        "weblate.addons.flags.BulkEditAddon",
-        "weblate.addons.flags.TargetRepoUpdateAddon",
-        "weblate.addons.generate.GenerateFileAddon",
-        "weblate.addons.generate.PseudolocaleAddon",
-        "weblate.addons.generate.PrefillAddon",
-        "weblate.addons.generate.FillReadOnlyAddon",
-        "weblate.addons.properties.PropertiesSortAddon",
-        "weblate.addons.git.GitSquashAddon",
-        "weblate.addons.removal.RemoveComments",
-        "weblate.addons.removal.RemoveSuggestions",
-        "weblate.addons.resx.ResxUpdateAddon",
-        "weblate.addons.cdn.CDNJSAddon",
-        "weblate.addons.webhooks.WebhookAddon",
-        "weblate.addons.webhooks.SlackWebhookAddon",
-        "weblate.addons.fedora_messaging.FedoraMessagingAddon",
-    )
+    WEBLATE_ADDONS = DEFAULT_WEBLATE_ADDONS
 
-    LOCALIZE_CDN_URL = None
-    LOCALIZE_CDN_PATH = None
+    LOCALIZE_CDN_URL = DEFAULT_LOCALIZE_CDN_URL
+    LOCALIZE_CDN_PATH = DEFAULT_LOCALIZE_CDN_PATH
 
     # How long to keep add-on activity log entries
-    ADDON_ACTIVITY_LOG_EXPIRY = 180
+    ADDON_ACTIVITY_LOG_EXPIRY = DEFAULT_ADDON_ACTIVITY_LOG_EXPIRY
 
     class Meta:
         prefix = ""
@@ -483,6 +478,20 @@ def _project_for_error(
     return addon.project
 
 
+def _report_addon_error(
+    addon: Addon,
+    component: Component | None,
+    scope: Translation | Component | Category | Project | None,
+    error: Exception,
+) -> None:
+    if getattr(error, "_weblate_reported", False):
+        return
+    report_error(
+        f"add-on {addon.name} failed",
+        project=_project_for_error(addon, component, scope),
+    )
+
+
 def execute_addon_event(
     addon: Addon,
     component: Component | None,
@@ -514,13 +523,17 @@ def execute_addon_event(
         else:
             scope.log_error(message, *args)
 
-    # Log logging result and error flag for add-on activity log
+    # Log result and error flag for add-on activity log
     log_result = None
     error_occurred = False
     if args is None:
         args = ()
     if kwargs is None:
         kwargs = {}
+    else:
+        kwargs = kwargs.copy()
+        if "changed_files" in kwargs:
+            kwargs["changed_files"] = list(kwargs["changed_files"])
 
     activity_log = AddonActivityLog.objects.create(
         addon=addon,
@@ -547,8 +560,8 @@ def execute_addon_event(
             return
 
         try:
-            # Execute event in sentry span to track performance
-            with sentry_sdk.start_span(op=f"addon.{event.name}", name=addon.name):
+            # Execute event in tracing span to track performance.
+            with start_span(op=f"addon.{event.name}", name=addon.name):
                 log_result = getattr(addon.addon, method)(
                     *args, **kwargs, activity_log_id=activity_log.pk
                 )
@@ -561,10 +574,7 @@ def execute_addon_event(
             addon_logger(
                 "error", "failed %s add-on: %s: %s", event.label, addon.name, str(error)
             )
-            report_error(
-                f"add-on {addon.name} failed",
-                project=_project_for_error(addon, component, scope),
-            )
+            _report_addon_error(addon, component, scope, error)
             # Uninstall no longer compatible add-ons
             if component and not addon.addon.can_process(component=component):
                 addon.disable()
@@ -589,7 +599,6 @@ def execute_addon_event(
                     )
 
 
-@transaction.atomic
 def handle_addon_event(
     event: AddonEvent,
     method: str,
@@ -599,7 +608,7 @@ def handle_addon_event(
     project: Project | None = None,
     component: Component | None = None,
     translation: Translation | None = None,
-    addon_queryset: AddonQuerySet | list[Addon] | None = None,
+    addon_queryset: Iterable[Addon] | None = None,
 ) -> None:
     # Scope is used for logging
     scope: Translation | Component | Project | None = (
@@ -613,18 +622,22 @@ def handle_addon_event(
     if addon_queryset is None:
         addon_queryset = Addon.objects.filter_event(component, event)
 
-    for addon in addon_queryset:
-        execute_addon_event(addon, component, scope, event, method, args)
+    if not addon_queryset:
+        return
+
+    with transaction.atomic():
+        for addon in addon_queryset:
+            execute_addon_event(addon, component, scope, event, method, args, kwargs)
 
 
 @transaction.atomic
-def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]) -> None:
+def handle_daily_addon_event(addon_queryset: Iterable[Addon]) -> None:
     handle_scoped_addon_event(addon_queryset, AddonEvent.EVENT_DAILY, "daily")
 
 
 @transaction.atomic
 def handle_scoped_addon_event(
-    addon_queryset: AddonQuerySet | list[Addon], event: AddonEvent, method: str
+    addon_queryset: Iterable[Addon], event: AddonEvent, method: str
 ) -> None:
     project_kwargs = {"component": None, "category": None, "project": None}
 
@@ -701,13 +714,16 @@ def post_update(
     sender,
     component: Component,
     previous_head: str,
+    changed_files: list[str],
     skip_push: bool = False,
+    parse_after_update: bool = False,
     **kwargs,
 ) -> None:
     handle_addon_event(
         AddonEvent.EVENT_POST_UPDATE,
         "post_update",
         (component, previous_head, skip_push),
+        {"changed_files": changed_files, "parse_after_update": parse_after_update},
         component=component,
     )
 
@@ -774,24 +790,42 @@ def post_remove(sender, translation: Translation, **kwargs) -> None:
     )
 
 
+def handle_unit_addon_event(
+    event: AddonEvent, method: str, args: tuple, unit: Unit
+) -> None:
+    translation = unit.translation
+    # Unit signals fire for every imported string; use the cached event list
+    # before entering the generic add-on dispatcher.
+    addon_queryset = translation.component.addons_cache.get_event(event)
+    if not addon_queryset:
+        return
+    handle_addon_event(
+        event,
+        method,
+        args,
+        translation=translation,
+        addon_queryset=addon_queryset,
+    )
+
+
 @receiver(unit_pre_create)
 def unit_pre_create_handler(sender, unit: Unit, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_PRE_CREATE,
         "unit_pre_create",
         (unit,),
-        translation=unit.translation,
+        unit,
     )
 
 
 @receiver(post_save, sender=Unit)
 @disable_for_loaddata
 def unit_post_save_handler(sender, instance: Unit, created, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_POST_SAVE,
         "unit_post_save",
         (instance, created),
-        translation=instance.translation,
+        instance,
     )
 
 
@@ -807,7 +841,10 @@ def change_post_save_handler(sender, instance: Change, created, **kwargs) -> Non
 @disable_for_loaddata
 def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> None:
     """Handle Change bulk create signal."""
-    from weblate.addons.tasks import addon_change  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.addons.tasks import (
+        addon_change,
+    )
 
     # Filter out events that have a subscriber
     # It currently also includes all project and site-wide events as there is currently
@@ -825,11 +862,11 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
 
 @receiver(unit_post_sync)
 def unit_post_sync_handler(sender, unit: Unit, updated_attr: str, **kwargs) -> None:
-    handle_addon_event(
+    handle_unit_addon_event(
         AddonEvent.EVENT_UNIT_POST_SYNC,
         "unit_post_sync",
         (unit, updated_attr),
-        translation=unit.translation,
+        unit,
     )
 
 
@@ -846,9 +883,7 @@ class AddonActivityLog(models.Model):
     class Meta:
         verbose_name = "add-on activity log"
         verbose_name_plural = "add-on activity logs"
-        ordering = [  # noqa: RUF012
-            "-created"
-        ]
+        ordering = ["-created"]  # ruff: ignore[mutable-class-default]
 
     def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()} at {self.created}"

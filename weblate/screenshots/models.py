@@ -14,7 +14,7 @@ from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import m2m_changed, post_delete
+from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
@@ -23,9 +23,9 @@ from weblate.auth.models import User
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
-from weblate.trans.models.alert import update_alerts
 from weblate.trans.signals import vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -36,7 +36,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Component
 
 
-class ScreenshotQuerySet(models.QuerySet):
+class ScreenshotQuerySet(models.QuerySet["Screenshot", "Screenshot"]):
     def order(self):
         return self.order_by("name")
 
@@ -44,7 +44,7 @@ class ScreenshotQuerySet(models.QuerySet):
         result = self
         if user.needs_project_filter:
             result = result.filter(
-                translation__component__project__in=user.allowed_projects
+                user.get_project_access_query("translation__component__project")
             )
         if user.needs_component_restrictions_filter:
             result = result.filter(
@@ -134,6 +134,18 @@ def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
         update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
 
 
+@receiver(post_save, sender=Screenshot)
+@disable_for_loaddata
+def clear_missing_screenshots_alert(sender, instance: Screenshot, **kwargs) -> None:
+    component = instance.translation.component
+    deleted, _counts = component.alert_set.filter(name="MissingScreenshots").delete()
+    if deleted:
+        component.__dict__.pop("all_alerts", None)
+        component.__dict__.pop("all_active_alerts", None)
+        component.__dict__.pop("all_problem_alerts", None)
+        component.clear_prefetched_alerts()
+
+
 @receiver(post_delete, sender=Screenshot)
 def update_alerts_on_screenshot_delete(sender, instance: Screenshot, **kwargs) -> None:
     # Update the unused screenshot alert if screenshot is deleted
@@ -177,14 +189,18 @@ def validate_screenshot_image(component: Component, filename: str) -> str | None
 
 @receiver(vcs_post_update)
 def sync_screenshots_from_repo(
-    sender, component: Component, previous_head: str, user: User | None, **kwargs
+    sender,
+    component: Component,
+    previous_head: str,
+    user: User | None,
+    changed_files: list[str],
+    **kwargs,
 ) -> None:
     if user is None:
         user = User.objects.get_or_create_bot(
             scope="weblate", name="screenshots", verbose="Screenshots from repository"
         )
-    repository = component.repository
-    changed_files = repository.get_changed_files(compare_to=previous_head)
+    changed_files = list(changed_files)
 
     screenshots = Screenshot.objects.filter(
         translation__component=component, repository_filename__in=changed_files

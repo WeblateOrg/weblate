@@ -26,7 +26,7 @@ gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
 
 # pylint: disable-next=wrong-import-position,wrong-import-order
-from gi.repository import Pango, PangoCairo  # noqa: E402
+from gi.repository import Pango, PangoCairo  # ruff: ignore[module-import-not-at-top-of-file, unsorted-imports]
 
 if TYPE_CHECKING:
     from django.core.files.base import File

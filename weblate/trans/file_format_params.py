@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
     from translate.storage.base import TranslationStore
+    from translate.storage.csvl10n import csvfile
     from translate.storage.jsonl10n import JsonFile
     from translate.storage.pypo import pofile
     from translate.storage.yaml import YAMLFile
@@ -34,6 +35,7 @@ class FileFormatParams(TypedDict, total=False):
     json_use_compact_separators: bool
     po_line_wrap: int
     po_keep_previous: bool
+    po_remove_obsolete: bool
     po_no_location: bool
     po_fuzzy_matching: bool
     po_set_language_team: bool
@@ -50,12 +52,14 @@ class FileFormatParams(TypedDict, total=False):
     strings_encoding: str
     properties_encoding: str
     csv_encoding: str
+    csv_escape_formulas: bool
     csv_simple_encoding: str
     dos_eol: bool
     gwt_encoding: str
     line_max_length: int
     md_extract_code_blocks: bool
     md_extract_frontmatter: bool
+    md_frontmatter_translate_values: bool
     md_no_placeholders: bool
     merge_duplicates: bool
 
@@ -68,6 +72,7 @@ FileFormatParamKey = Literal[
     "json_use_compact_separators",
     "po_line_wrap",
     "po_keep_previous",
+    "po_remove_obsolete",
     "po_no_location",
     "po_fuzzy_matching",
     "po_set_language_team",
@@ -84,12 +89,14 @@ FileFormatParamKey = Literal[
     "strings_encoding",
     "properties_encoding",
     "csv_encoding",
+    "csv_escape_formulas",
     "csv_simple_encoding",
     "gwt_encoding",
     "merge_duplicates",
     "line_max_length",
     "md_extract_code_blocks",
     "md_extract_frontmatter",
+    "md_frontmatter_translate_values",
     "md_no_placeholders",
 ]
 
@@ -361,6 +368,20 @@ class GettextKeepPreviousMsgids(BaseGettextFormatParam):
     label = gettext_lazy("Keep previous msgids of translated strings")
     field_class = forms.BooleanField
     default = True
+    help_text = gettext_lazy("Controls previous msgid comments for fuzzy strings.")
+
+
+@register_file_format_param
+class GettextRemoveObsolete(BaseGettextFormatParam):
+    file_formats: Sequence[str] = ("po", "po-mono")
+    name = "po_remove_obsolete"
+    label = gettext_lazy("Remove obsolete strings")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Remove obsolete entries from PO files when saving translation changes "
+        "or updating from a POT file."
+    )
 
 
 @register_file_format_param
@@ -495,8 +516,15 @@ class XMLClosingTags(BaseFileFormatParam):
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
-        from weblate.formats.models import FILE_FORMATS  # noqa: PLC0415
-        from weblate.formats.ttkit import TTKitFormat  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.models import (
+            FILE_FORMATS,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.formats.ttkit import (
+            TTKitFormat,
+        )
 
         result = []
         for file_format, format_class in FILE_FORMATS.items():
@@ -547,7 +575,15 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
 
 @register_file_format_param
 class MergeDuplicates(BaseFileFormatParam):
-    file_formats = ("markdown", "html", "txt", "dokuwiki", "mediawiki", "asciidoc")
+    file_formats = (
+        "markdown",
+        "mdx",
+        "html",
+        "txt",
+        "dokuwiki",
+        "mediawiki",
+        "asciidoc",
+    )
     name = "merge_duplicates"
     label = gettext_lazy("Deduplicate identical strings")
     field_class = forms.BooleanField
@@ -618,6 +654,24 @@ class CSVSimpleEncoding(BaseFileFormatParam):
 
 
 @register_file_format_param
+class CSVFormulaEscaping(BaseFileFormatParam):
+    file_formats = ("csv", "csv-multi", "csv-simple")
+    name = "csv_escape_formulas"
+    label = gettext_lazy("Escape spreadsheet formulas")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Prefix values that look like spreadsheet formulas with an apostrophe "
+        "when saving CSV files."
+    )
+
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
+        cast("csvfile", store).escape_formulas = self.get_value(file_format_params)
+
+
+@register_file_format_param
 class GWTEncoding(BaseFileFormatParam):
     name = "gwt_encoding"
     file_formats = ("gwt",)
@@ -646,7 +700,7 @@ class DOSLineEndings(BaseFileFormatParam):
 @register_file_format_param
 class LineMaxLength(BaseFileFormatParam):
     name = "line_max_length"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Maximum line length")
     field_class = forms.IntegerField
     default = 80
@@ -659,34 +713,47 @@ class LineMaxLength(BaseFileFormatParam):
 @register_file_format_param
 class MdExtractCodeBlocks(BaseFileFormatParam):
     name = "md_extract_code_blocks"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Extract code blocks")
     field_class = forms.BooleanField
     default = True
     help_text = gettext_lazy(
-        "Whether to extract translatable content from code blocks in Markdown files."
+        "Whether to extract translatable content from code blocks in Markdown and MDX files."
     )
 
 
 @register_file_format_param
 class MdExtractFrontmatter(BaseFileFormatParam):
     name = "md_extract_frontmatter"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Extract front matter")
     field_class = forms.BooleanField
     default = True
     help_text = gettext_lazy(
-        "Whether to extract and translate YAML front matter blocks in Markdown files."
+        "Whether to extract and translate YAML front matter blocks in Markdown and MDX files."
+    )
+
+
+@register_file_format_param
+class MdFrontmatterTranslateValues(BaseFileFormatParam):
+    name = "md_frontmatter_translate_values"
+    file_formats = ("markdown", "mdx")
+    label = gettext_lazy("Translate front matter values")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Parse YAML front matter and translate only scalar string values. "
+        "Keys, structure, comments, and formatting are preserved when possible."
     )
 
 
 @register_file_format_param
 class MdNoPlaceholders(BaseFileFormatParam):
     name = "md_no_placeholders"
-    file_formats = ("markdown",)
+    file_formats = ("markdown", "mdx")
     label = gettext_lazy("Disable placeholders")
     field_class = forms.BooleanField
     default = False
     help_text = gettext_lazy(
-        "Disables detection and processing of placeholders in Markdown files."
+        "Disables detection and processing of placeholders in Markdown and MDX files."
     )

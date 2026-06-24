@@ -17,18 +17,21 @@ from django.urls import reverse
 from rest_framework.exceptions import ParseError
 
 from weblate.trans.actions import ActionEvents
+from weblate.trans.hooks.fallback import (
+    fallback_repository_evidence,
+    repo_matches_fallback_evidence,
+    validate_full_name,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
     HookPayloadError,
     HookRequestSerializer,
-    allow_fallback_matching,
     extract_payload,
     extract_request_data,
     gitea_like_repo_variants,
     normalize_branch_ref,
     require_mapping,
-    validate_full_name,
 )
 
 if TYPE_CHECKING:
@@ -1401,9 +1404,13 @@ class HooksViewTest(ViewTestCase):
 
         # Check change details display
         change = self.component.change_set.filter(action=ActionEvents.HOOK).get()
+        self.assertEqual(change.details["match_method"], "exact")
         self.assertIn("GitHub", change.get_details_display())
         self.assertIn("http://github.com/defunkt/github", change.get_details_display())
         self.assertIn("main", change.get_details_display())
+        self.assertFalse(
+            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_new(self) -> None:
@@ -1438,6 +1445,23 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_gitea_malformed_repo_url_no_server_error(self) -> None:
+        self.component.repo = "https://example.com/unrelated/project.git"
+        self.component.save()
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["clone_url"] = "http://[::1"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+        self.assertFalse(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_forgejo(self) -> None:
         # Adjust matching repo
         self.component.repo = "http://localhost:3000/forgejo/webhooks.git"
@@ -1459,6 +1483,72 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(
             response, "No matching repositories found!", status_code=202
         )
+        self.assertFalse(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_gitea_host_bound_fallback_match(self) -> None:
+        self.component.repo = "ssh://git@git.example.com/gitea/webhooks.git"
+        self.component.save()
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["clone_url"] = (
+            "https://git.example.com/gitea/webhooks.git"
+        )
+        payload["repository"]["html_url"] = "https://git.example.com/gitea/webhooks"
+        payload["repository"]["ssh_url"] = (
+            "ssh://gitea@git.example.com/gitea/webhooks.git"
+        )
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(response, "Update triggered")
+        self.assertTrue(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )
+        change = self.component.change_set.filter(action=ActionEvents.HOOK).get()
+        self.assertEqual(change.details["match_method"], "fallback")
+        self.assertTrue(
+            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        )
+
+        self.component.repo = "https://git.example.com/gitea/webhooks.git"
+        self.component.save()
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(response, "Update triggered")
+        change = self.component.change_set.filter(action=ActionEvents.HOOK).latest("id")
+        self.assertEqual(change.details["match_method"], "exact")
+        self.assertFalse(
+            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_hook_gitea_spoofed_full_name_different_host_no_fallback(self) -> None:
+        self.component.repo = "ssh://git@git.example.com/victim-private/frontend.git"
+        self.component.save()
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["full_name"] = "victim-private/frontend"
+        payload["repository"]["clone_url"] = (
+            "https://attacker.example.net/victim-private/frontend.git"
+        )
+        payload["repository"]["html_url"] = (
+            "https://attacker.example.net/victim-private/frontend"
+        )
+        payload["repository"]["ssh_url"] = (
+            "ssh://git@attacker.example.net/victim-private/frontend.git"
+        )
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+        self.assertEqual(response.json()["match_status"]["repository_matches"], 0)
         self.assertFalse(
             self.component.change_set.filter(action=ActionEvents.HOOK).exists()
         )
@@ -2170,23 +2260,125 @@ class GiteaLikeRepoVariantsTest(SimpleTestCase):
             ],
         )
 
+    def test_gitea_like_repo_variants_skip_malformed_urls(self) -> None:
+        repos = gitea_like_repo_variants(
+            "http://[::1",
+            "ssh://[::1",
+            "http://[::1",
+            "forgejo/webhooks",
+        )
 
-class AllowFallbackMatchingTest(SimpleTestCase):
-    """Test repository suffix fallback guard."""
+        self.assertEqual(
+            repos,
+            [
+                "http://[::1",
+                "ssh://[::1",
+            ],
+        )
 
-    def test_allow_fallback_matching(self) -> None:
-        self.assertTrue(allow_fallback_matching(["https://example.com/owner/repo"]))
-        self.assertTrue(allow_fallback_matching(["git@example.com:owner/repo.git"]))
-        self.assertFalse(allow_fallback_matching(["http://localhost:3000/owner/repo"]))
-        self.assertFalse(allow_fallback_matching(["ssh://git@127.0.0.1/owner/repo"]))
 
-    def test_allow_fallback_matching_mixed(self) -> None:
-        self.assertTrue(
-            allow_fallback_matching(
+class FallbackRepositoryEvidenceTest(SimpleTestCase):
+    """Test host/path evidence for repository suffix fallback."""
+
+    def test_fallback_repository_evidence(self) -> None:
+        self.assertEqual(
+            fallback_repository_evidence(
                 [
-                    "http://localhost:3000/owner/repo",
                     "https://example.com/owner/repo",
-                ]
+                    "git@example.com:owner/repo.git",
+                ],
+                "owner/repo",
+            ),
+            frozenset({("example.com", None, "owner/repo")}),
+        )
+
+    def test_fallback_repository_evidence_requires_matching_path(self) -> None:
+        self.assertEqual(
+            fallback_repository_evidence(
+                ["https://example.com/attacker/repo"], "owner/repo"
+            ),
+            frozenset(),
+        )
+
+    def test_fallback_repository_evidence_skips_loopback_and_malformed(self) -> None:
+        self.assertEqual(
+            fallback_repository_evidence(
+                [
+                    "http://[::1",
+                    "http://localhost:3000/owner/repo",
+                    "ssh://git@127.0.0.1/owner/repo",
+                ],
+                "owner/repo",
+            ),
+            frozenset(),
+        )
+
+    def test_repo_matches_fallback_evidence(self) -> None:
+        evidence = fallback_repository_evidence(
+            ["https://example.com/owner/repo.git"], "owner/repo"
+        )
+
+        self.assertTrue(
+            repo_matches_fallback_evidence(
+                "ssh://git@example.com/owner/repo.git", evidence
+            )
+        )
+        self.assertTrue(
+            repo_matches_fallback_evidence(
+                "https://user:password@example.com/owner/repo/", evidence
+            )
+        )
+        self.assertFalse(
+            repo_matches_fallback_evidence(
+                "ssh://git@other.example.com/owner/repo.git", evidence
+            )
+        )
+        self.assertFalse(
+            repo_matches_fallback_evidence(
+                "ssh://git@example.com/other/repo.git", evidence
+            )
+        )
+
+    def test_repo_matches_fallback_evidence_non_default_port(self) -> None:
+        evidence = fallback_repository_evidence(
+            ["https://example.com:8443/owner/repo.git"], "owner/repo"
+        )
+
+        self.assertTrue(
+            repo_matches_fallback_evidence(
+                "ssh://git@example.com:8443/owner/repo.git", evidence
+            )
+        )
+        self.assertFalse(
+            repo_matches_fallback_evidence(
+                "ssh://git@example.com/owner/repo.git", evidence
+            )
+        )
+
+    def test_repo_matches_fallback_evidence_default_port(self) -> None:
+        evidence = fallback_repository_evidence(
+            ["https://example.com:443/owner/repo.git"], "owner/repo"
+        )
+
+        self.assertTrue(
+            repo_matches_fallback_evidence(
+                "ssh://git@example.com/owner/repo.git", evidence
+            )
+        )
+
+    def test_repo_matches_fallback_evidence_hg_wrapper(self) -> None:
+        evidence = fallback_repository_evidence(
+            ["https://bitbucket.org/team/repo"], "team/repo"
+        )
+
+        self.assertTrue(
+            repo_matches_fallback_evidence(
+                "hg::https://user:password@bitbucket.org/team/repo", evidence
+            )
+        )
+        self.assertTrue(
+            repo_matches_fallback_evidence(
+                "hg::ssh://hg@bitbucket.org/team/repo", evidence
             )
         )
 
@@ -2290,16 +2482,18 @@ class InvalidBackendTest(SimpleTestCase):
         # GitHub handler checks 'login' first, falls back to 'name'
         # GITHUB_PAYLOAD has only 'name', so deleting it leaves no valid field
         del payload["repository"]["owner"]["name"]
-        with self.assertRaises(KeyError):
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Invalid repository.owner.name in payload", str(cm.exception))
 
     def test_github_missing_repository_name(self) -> None:
         """Test GitHub handler with missing repository name."""
         handler = HOOK_HANDLERS["github"]
         payload = json.loads(GITHUB_PAYLOAD)
         del payload["repository"]["name"]
-        with self.assertRaises(KeyError):
+        with self.assertRaises(HookPayloadError) as cm:
             handler(payload, None)
+        self.assertIn("Invalid repository.name in payload", str(cm.exception))
 
     def test_github_missing_ref(self) -> None:
         """Test GitHub handler with missing ref."""
@@ -2838,7 +3032,47 @@ class InvalidPayloadTest(ViewTestCase):
             {"payload": json.dumps(payload)},
             headers={"x-github-event": "push"},
         )
-        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_minimal_repository_payload(self) -> None:
+        """Test GitHub webhook with incomplete repository data."""
+        payload = {
+            "repository": {
+                "clone_url": "https://github.com/EURid/eurid-translations.git",
+                "full_name": "EURid/eurid-translations",
+            }
+        }
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository.owner in payload",
+            status_code=400,
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_missing_repository_url(self) -> None:
+        """Test GitHub webhook with missing repository URL."""
+        payload = json.loads(GITHUB_PAYLOAD)
+        del payload["repository"]["url"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository.url in payload",
+            status_code=400,
+        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_gitlab_missing_project_key(self) -> None:
@@ -2915,7 +3149,11 @@ class InvalidPayloadTest(ViewTestCase):
             {"payload": json.dumps(payload)},
             headers={"x-github-event": "push"},
         )
-        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        self.assertContains(
+            response,
+            "Invalid data in json payload: Invalid repository.owner.name in payload",
+            status_code=400,
+        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_azure_missing_resource_key(self) -> None:

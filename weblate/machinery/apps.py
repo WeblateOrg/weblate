@@ -24,7 +24,8 @@ def check_machinery(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.machinery.models import MACHINERY  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.machinery.models import MACHINERY
 
     # Needed to load the data
     MACHINERY.keys()

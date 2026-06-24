@@ -9,11 +9,10 @@ import os
 import tempfile
 from contextlib import contextmanager, suppress
 from datetime import UTC
-from itertools import chain
+from itertools import batched, chain
 from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
 
-import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -38,6 +37,7 @@ from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
     PluralFormsMismatchError,
+    is_expected_parse_error,
 )
 from weblate.trans.file_format_params import (
     GettextLastTranslator,
@@ -75,6 +75,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+from weblate.utils.tracing import start_span
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
@@ -139,6 +140,7 @@ class TranslationManager(models.Manager):
         path,
         force=False,
         request: AuthenticatedHttpRequest | None = None,
+        user: User | None = None,
         change=None,
     ):
         """Parse translation meta info and updates translation object."""
@@ -152,42 +154,119 @@ class TranslationManager(models.Manager):
             translation.language_code = code
             translation.save(update_fields=["filename", "language_code"])
         force |= translation.sync_readonly_check_flag()
-        translation.check_sync(force, request=request, change=change)
+        translation.check_sync(force, request=request, change=change, author=user)
         return translation
 
 
-class TranslationQuerySet(models.QuerySet):
+class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
     def prefetch(self, *, defer_huge: bool = True):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import (
+            Component,
+        )
 
         component_prefetch: str | models.Prefetch
+        component_project: str | models.Prefetch
+        category: str | models.Prefetch
+        category_project: str | models.Prefetch
+        parent_category: str | models.Prefetch
+        parent_category_project: str | models.Prefetch
+        grandparent_category: str | models.Prefetch
+        grandparent_category_project: str | models.Prefetch
+        component_project_workspace: str | models.Prefetch
         if defer_huge:
+            from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+                Category,
+                Project,
+            )
+
+            # ruff: ignore[import-outside-top-level]
+            from weblate.workspaces.models import (
+                Workspace,
+            )
+
             component_prefetch = models.Prefetch(
                 "component", queryset=Component.objects.defer_huge()
             )
+            component_project = models.Prefetch(
+                "component__project", queryset=Project.objects.defer_huge()
+            )
+            category = models.Prefetch(
+                "component__category", queryset=Category.objects.defer_huge()
+            )
+            category_project = models.Prefetch(
+                "component__category__project", queryset=Project.objects.defer_huge()
+            )
+            parent_category = models.Prefetch(
+                "component__category__category",
+                queryset=Category.objects.defer_huge(),
+            )
+            parent_category_project = models.Prefetch(
+                "component__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            )
+            grandparent_category = models.Prefetch(
+                "component__category__category__category",
+                queryset=Category.objects.defer_huge(),
+            )
+            grandparent_category_project = models.Prefetch(
+                "component__category__category__category__project",
+                queryset=Project.objects.defer_huge(),
+            )
+            component_project_workspace = models.Prefetch(
+                "component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            )
         else:
             component_prefetch = "component"
+            component_project = "component__project"
+            category = "component__category"
+            category_project = "component__category__project"
+            parent_category = "component__category__category"
+            parent_category_project = "component__category__category__project"
+            grandparent_category = "component__category__category__category"
+            grandparent_category_project = (
+                "component__category__category__category__project"
+            )
+            component_project_workspace = "component__project__workspace"
 
         return self.prefetch_related(
             component_prefetch,
-            "component__project",
-            "component__category",
-            "component__category__project",
-            "component__category__category",
-            "component__category__category__project",
-            "component__category__category__category",
-            "component__category__category__category__project",
+            component_project,
+            component_project_workspace,
+            category,
+            category_project,
+            parent_category,
+            parent_category_project,
+            grandparent_category,
+            grandparent_category_project,
         ).prefetch_meta()
 
     def prefetch_meta(self):
-        from weblate.trans.models import Component  # noqa: PLC0415
+        from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+            Component,
+            Project,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.workspaces.models import (
+            Workspace,
+        )
 
         return self.prefetch_related(
             "language",
             models.Prefetch(
-                "component__linked_component", queryset=Component.objects.defer_huge()
+                "component__linked_component",
+                queryset=Component.objects.defer_huge(),
             ),
-            "component__linked_component__project",
+            models.Prefetch(
+                "component__linked_component__project",
+                queryset=Project.objects.defer_huge(),
+            ),
+            models.Prefetch(
+                "component__linked_component__project__workspace",
+                queryset=Workspace.objects.defer_huge(),
+            ),
             "component__alert_set",
         )
 
@@ -197,7 +276,7 @@ class TranslationQuerySet(models.QuerySet):
     def filter_access(self, user: User):
         result = self
         if user.needs_project_filter:
-            result = result.filter(component__project__in=user.allowed_projects)
+            result = result.filter(user.get_project_access_query("component__project"))
         if user.needs_component_restrictions_filter:
             result = result.filter(
                 Q(component__restricted=False)
@@ -255,7 +334,7 @@ class Translation(
 
     class Meta:
         app_label = "trans"
-        unique_together = [("component", "language")]  # noqa: RUF012
+        unique_together = [("component", "language")]  # ruff: ignore[mutable-class-default]
         verbose_name = "translation"
         verbose_name_plural = "translations"
 
@@ -400,9 +479,7 @@ class Translation(
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
         # Use intermediate store as template for source translation
-        with sentry_sdk.start_span(
-            op="translation.load_store", name=self.get_filename()
-        ):
+        with start_span(op="translation.load_store", name=self.get_filename()):
             if force_intermediate or (self.is_template and self.component.intermediate):
                 template = self.component.intermediate_store
             else:
@@ -438,9 +515,12 @@ class Translation(
         except FileParseError:
             raise
         except Exception as exc:
-            report_error(
-                "Translation parse error", project=self.component.project, print_tb=True
-            )
+            if not is_expected_parse_error(exc):
+                report_error(
+                    "Translation parse error",
+                    project=self.component.project,
+                    print_tb=True,
+                )
             self.component.handle_parse_error(exc, self)
             raise
 
@@ -465,7 +545,150 @@ class Translation(
         )
         return newunit
 
-    def check_sync(  # noqa: C901, PLR0915
+    def update_units_from_store(  # ruff: ignore[complex-structure]
+        self, *, user: User | None, author: User | None
+    ) -> tuple[dict[int, Unit], dict[int, Unit]]:
+        store = self.store
+        translation_store = None
+
+        try:
+            store_units = store.content_units
+        except ValueError as error:
+            raise FileParseError(str(error)) from error
+
+        self.log_info(
+            "processing %s, %s, %d strings",
+            self.filename,
+            self.reason,
+            len(store_units),
+        )
+
+        # Store plural
+        plural = store.get_plural(self.language)
+        if plural != self.plural:
+            self.plural = plural
+            self.save(update_fields=["plural"])
+
+        # Select all current units for update
+        dbunits = {
+            unit.id_hash: unit
+            for unit in self.unit_set.prefetch_bulk().select_for_update()
+        }
+        updated: dict[int, Unit] = {}
+        duplicates: list[Unit] = []
+
+        # Process based on intermediate store if available
+        if self.component.intermediate:
+            translation_store = store
+            store = self.load_store(force_intermediate=True)
+            try:
+                store_units = store.content_units
+            except ValueError as error:
+                raise FileParseError(str(error)) from error
+
+        for pos, unit in enumerate(store_units):
+            # Use translation store if exists and if it contains the string
+            if translation_store is not None:
+                try:
+                    translated_unit, created = translation_store.find_unit(
+                        unit.context, unit.source
+                    )
+                except UnitNotFoundError:
+                    pass
+                else:
+                    if translated_unit and not created:
+                        unit = translated_unit
+                    else:
+                        # Patch unit to have matching source
+                        unit.source = translated_unit.source
+            if (
+                self.component.file_format_cls.monolingual
+                and self.component.key_filter_re
+            ):
+                try:
+                    key_filter_match = regex_match(
+                        self.component.key_filter_re, unit.context
+                    )
+                except TimeoutError:
+                    report_error(
+                        "Component key filter regex timed out",
+                        project=self.component.project,
+                    )
+                    self.component.log_warning(
+                        "key filter regex timed out, skipping: %s (%s)",
+                        unit.context,
+                        repr(unit.source),
+                    )
+                    continue
+                if key_filter_match is None:
+                    # This is where the key filtering take place
+                    self.log_info(
+                        "Doesn't match with key_filter, skipping: %s (%s)",
+                        unit.context,
+                        repr(unit.source),
+                    )
+                    continue
+
+            try:
+                id_hash = unit.id_hash
+            except Exception as error:
+                self.component.handle_parse_error(error, self)
+
+            # Check for possible duplicate units
+            if id_hash in updated:
+                newunit = updated[id_hash]
+                self.log_warning(
+                    "duplicate string to translate: %s (%s)",
+                    newunit,
+                    repr(newunit.source),
+                )
+                duplicates.append(newunit)
+                continue
+
+            # Collect source strings
+            newunit = self.pre_process_unit(
+                dbunits=dbunits,
+                id_hash=id_hash,
+                unit=unit,
+                pos=pos + 1,
+            )
+
+            # Store current unit ID
+            updated[id_hash] = newunit
+
+        # Create source strings
+        if not self.is_source and not self.component.template:
+            with start_span(op="component.bulk_create_source", name=self.full_slug):
+                self.component.bulk_create_sources(
+                    [
+                        newunit.unit_attributes
+                        for newunit in updated.values()
+                        if newunit.unit_attributes is not None
+                    ],
+                    create_unit_change_action=self.create_unit_change_action,
+                    user=author or user,
+                )
+
+        # Create/update translations
+        for newunit in updated.values():
+            with start_span(
+                op="unit.update_from_unit",
+                name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
+            ):
+                newunit.update_from_unit(user=user, author=author)
+
+        # Trigger duplicate alerts
+        for newunit in duplicates:
+            self.component.trigger_alert(
+                "DuplicateString",
+                language_code=self.language.code,
+                source=newunit.source,
+                unit_pk=newunit.pk,
+            )
+
+        return dbunits, updated
+
+    def check_sync(
         self,
         force: bool = False,
         request: AuthenticatedHttpRequest | None = None,
@@ -473,10 +696,10 @@ class Translation(
         author: User | None = None,
     ) -> None:
         """Check whether database is in sync with git and possibly updates."""
-        with sentry_sdk.start_span(op="translation.check_sync", name=self.full_slug):
+        with start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
                 change = ActionEvents.UPDATE
-            user = None if request is None else request.user
+            user = request.user if request is not None else author
 
             details = {
                 "filename": self.filename,
@@ -518,152 +741,16 @@ class Translation(
 
             self.component.check_template_valid()
 
-            # List of updated units (used for cleanup and duplicates detection)
-            updated: dict[int, Unit] = {}
-
             try:
-                store = self.store
-                translation_store = None
-
-                try:
-                    store_units = store.content_units
-                except ValueError as error:
-                    raise FileParseError(str(error)) from error
-
-                self.log_info(
-                    "processing %s, %s, %d strings",
-                    self.filename,
-                    self.reason,
-                    len(store_units),
+                dbunits, updated = self.update_units_from_store(
+                    user=user, author=author
                 )
-
-                # Store plural
-                plural = store.get_plural(self.language)
-                if plural != self.plural:
-                    self.plural = plural
-                    self.save(update_fields=["plural"])
-
-                # Select all current units for update
-                dbunits = {
-                    unit.id_hash: unit
-                    for unit in self.unit_set.prefetch_bulk().select_for_update()
-                }
-                duplicates: list[Unit] = []
-
-                # Process based on intermediate store if available
-                if self.component.intermediate:
-                    translation_store = store
-                    store = self.load_store(force_intermediate=True)
-                    try:
-                        store_units = store.content_units
-                    except ValueError as error:
-                        raise FileParseError(str(error)) from error
-
-                for pos, unit in enumerate(store_units):
-                    # Use translation store if exists and if it contains the string
-                    if translation_store is not None:
-                        try:
-                            translated_unit, created = translation_store.find_unit(
-                                unit.context, unit.source
-                            )
-                        except UnitNotFoundError:
-                            pass
-                        else:
-                            if translated_unit and not created:
-                                unit = translated_unit
-                            else:
-                                # Patch unit to have matching source
-                                unit.source = translated_unit.source
-                    if (
-                        self.component.file_format_cls.monolingual
-                        and self.component.key_filter_re
-                    ):
-                        try:
-                            key_filter_match = regex_match(
-                                self.component.key_filter_re, unit.context
-                            )
-                        except TimeoutError:
-                            report_error(
-                                "Component key filter regex timed out",
-                                project=self.component.project,
-                            )
-                            self.component.log_warning(
-                                "key filter regex timed out, skipping: %s (%s)",
-                                unit.context,
-                                repr(unit.source),
-                            )
-                            continue
-                        if key_filter_match is None:
-                            # This is where the key filtering take place
-                            self.log_info(
-                                "Doesn't match with key_filter, skipping: %s (%s)",
-                                unit.context,
-                                repr(unit.source),
-                            )
-                            continue
-
-                    try:
-                        id_hash = unit.id_hash
-                    except Exception as error:
-                        self.component.handle_parse_error(error, self)
-
-                    # Check for possible duplicate units
-                    if id_hash in updated:
-                        newunit = updated[id_hash]
-                        self.log_warning(
-                            "duplicate string to translate: %s (%s)",
-                            newunit,
-                            repr(newunit.source),
-                        )
-                        duplicates.append(newunit)
-                        continue
-
-                    # Collect source strings
-                    newunit = self.pre_process_unit(
-                        dbunits=dbunits,
-                        id_hash=id_hash,
-                        unit=unit,
-                        pos=pos + 1,
-                    )
-
-                    # Store current unit ID
-                    updated[id_hash] = newunit
-
-                # Create source strings
-                if not self.is_source and not self.component.template:
-                    with sentry_sdk.start_span(
-                        op="component.bulk_create_source", name=self.full_slug
-                    ):
-                        self.component.bulk_create_sources(
-                            [
-                                newunit.unit_attributes
-                                for newunit in updated.values()
-                                if newunit.unit_attributes is not None
-                            ],
-                            create_unit_change_action=self.create_unit_change_action,
-                        )
-
-                # Create/update translations
-                for newunit in updated.values():
-                    with sentry_sdk.start_span(
-                        op="unit.update_from_unit",
-                        name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
-                    ):
-                        newunit.update_from_unit(user=user, author=author)
-
-                # Trigger duplicate alerts
-                for newunit in duplicates:
-                    self.component.trigger_alert(
-                        "DuplicateString",
-                        language_code=self.language.code,
-                        source=newunit.source,
-                        unit_pk=newunit.pk,
-                    )
-
             except FileParseError as error:
-                report_error(
-                    "Could not parse file on update", project=self.component.project
-                )
+                if not is_expected_parse_error(error):
+                    report_error(
+                        "Could not parse file on update",
+                        project=self.component.project,
+                    )
                 self.log_warning("skipping update due to parse error: %s", error)
                 self.store_update_changes()
                 return
@@ -775,7 +862,7 @@ class Translation(
         """Return last author of change done in Weblate."""
         if not self.stats.last_author:
             return None
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         return User.objects.get(pk=self.stats.last_author).get_visible_name()
 
@@ -787,9 +874,7 @@ class Translation(
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
-    def _commit_pending(
-        self, reason: str, user: User | None, pending_changes_pk: list[int]
-    ) -> bool:
+    def _commit_pending(self, reason: str, user: User | None) -> bool:
         """
         Commit pending translation.
 
@@ -799,28 +884,27 @@ class Translation(
         - the source translation needs to be committed first
         - signals and alerts are updated by the caller
         - repository push is handled by the caller
-        - pending_changes_pk only has pending changes for units associated with this translation
         """
         if not self.filename:
-            return self._commit_pending_without_filename(pending_changes_pk)
-        return self._commit_pending_with_filename(reason, user, pending_changes_pk)
+            return self._commit_pending_without_filename()
+        return self._commit_pending_with_filename(reason, user)
 
-    def _commit_pending_without_filename(self, pending_changes_pk: list[int]) -> bool:
+    def _commit_pending_without_filename(self) -> bool:
         """Discard uncommittable pending changes for missing file translations."""
+        pending_changes_qs = PendingUnitChange.objects.for_translation(
+            self, apply_filters=True
+        )
+        pending_changes_count = pending_changes_qs.count()
         report_error(
             "Attempted to commit translation without filename",
             project=self.component.project,
             message=True,
-            extra_log=f"translation={self.full_slug}, pending_changes={len(pending_changes_pk)}",
+            extra_log=f"translation={self.full_slug}, pending_changes={pending_changes_count}",
         )
-        pending_changes = list(
-            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).values_list(
-                "unit_id", flat=True
-            )
-        )
+        pending_changes = list(pending_changes_qs.values_list("unit_id", flat=True))
         if pending_changes:
             pending_unit_ids = set(pending_changes)
-            PendingUnitChange.objects.filter(pk__in=pending_changes_pk).delete()
+            pending_changes_qs.delete()
             remaining_pending_unit_ids = set(
                 PendingUnitChange.objects.filter(
                     unit_id__in=pending_unit_ids
@@ -836,16 +920,15 @@ class Translation(
         self.log_error("skipping commit due to missing filename")
         return False
 
-    def _commit_pending_with_filename(
-        self, reason: str, user: User | None, pending_changes_pk: list[int]
-    ) -> bool:
+    def _commit_pending_with_filename(self, reason: str, user: User | None) -> bool:
         """Commit pending changes when translation file exists."""
         try:
             store = self.store
         except FileParseError as error:
-            report_error(
-                "Could not parse file on commit", project=self.component.project
-            )
+            if not is_expected_parse_error(error):
+                report_error(
+                    "Could not parse file on commit", project=self.component.project
+                )
             self.log_error("skipping commit due to error: %s", error)
             return False
 
@@ -859,8 +942,8 @@ class Translation(
             return False
 
         pending_changes = list(
-            PendingUnitChange.objects.filter(pk__in=pending_changes_pk)
-            .prefetch_related("unit", "author")
+            PendingUnitChange.objects.for_translation(self, apply_filters=True)
+            .select_related("unit", "author")
             .order_by("timestamp")
             .select_for_update()
         )
@@ -916,24 +999,8 @@ class Translation(
                 if prev is None or change.timestamp > prev:
                     success_times[change.unit_id] = change.timestamp
 
-        for unit_id, ts in success_times.items():
-            PendingUnitChange.objects.filter(
-                unit_id=unit_id, timestamp__lte=ts
-            ).delete()
-
-        # Clear disk states for units that have no more pending changes
-        units_with_remaining_changes = set(
-            PendingUnitChange.objects.filter(
-                unit_id__in=units_to_clear_disk_state
-            ).values_list("unit_id", flat=True)
-        )
-
-        units_to_actually_clear = (
-            units_to_clear_disk_state - units_with_remaining_changes
-        )
-
-        if units_to_actually_clear:
-            Unit.objects.filter(id__in=units_to_actually_clear).clear_disk_state()
+        self.delete_successful_pending_changes(success_times)
+        self.clear_committed_disk_states(units_to_clear_disk_state)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -942,6 +1009,44 @@ class Translation(
         self.drop_store_cache()
 
         return True
+
+    @staticmethod
+    def delete_successful_pending_changes(success_times: dict[int, datetime]) -> None:
+        """Delete applied pending changes in bounded batches."""
+        pending_to_delete = []
+        for unit_ids in batched(success_times, 1000):
+            for pk, unit_id, timestamp in (
+                PendingUnitChange.objects.filter(unit_id__in=unit_ids)
+                .values_list("pk", "unit_id", "timestamp")
+                .iterator(chunk_size=1000)
+            ):
+                if timestamp <= success_times[unit_id]:
+                    pending_to_delete.append(pk)
+                    if len(pending_to_delete) >= 1000:
+                        PendingUnitChange.objects.filter(
+                            pk__in=pending_to_delete
+                        ).delete()
+                        pending_to_delete.clear()
+
+        if pending_to_delete:
+            PendingUnitChange.objects.filter(pk__in=pending_to_delete).delete()
+
+    @staticmethod
+    def clear_committed_disk_states(units_to_clear_disk_state: set[int]) -> None:
+        """Clear disk states for units that no longer have pending changes."""
+        units_with_remaining_changes = set()
+        for unit_ids in batched(units_to_clear_disk_state, 1000):
+            units_with_remaining_changes.update(
+                PendingUnitChange.objects.filter(unit_id__in=unit_ids).values_list(
+                    "unit_id", flat=True
+                )
+            )
+
+        units_to_actually_clear = (
+            units_to_clear_disk_state - units_with_remaining_changes
+        )
+        for unit_ids in batched(units_to_actually_clear, 1000):
+            Unit.objects.filter(id__in=unit_ids).clear_disk_state()
 
     @staticmethod
     def _group_changes_by_author(
@@ -1051,9 +1156,35 @@ class Translation(
         )
         pending_change.save()
 
+    @staticmethod
+    def update_pending_store_unit(
+        pounit: TranslationUnit, unit: Unit, pending_change: PendingUnitChange
+    ) -> None:
+        if unit.is_plural:
+            pounit.set_target(unit.get_target_plurals())
+        else:
+            pounit.set_target(pending_change.target)
+        pounit.set_explanation(pending_change.explanation)
+        pounit.set_source_explanation(pending_change.source_unit_explanation)
+
+    def find_or_add_pending_store_unit(
+        self, store: TranslationFormat, unit: Unit
+    ) -> TranslationUnit:
+        try:
+            pounit, add = store.find_unit(unit.context, unit.source)
+        except UnitNotFoundError:
+            return store.new_unit(
+                unit.context,
+                unit.get_source_plurals(),
+                unit.get_target_plurals(),
+            )
+        if add:
+            store.add_unit(pounit)
+        return pounit
+
     @property
     def count_pending_units(self):
-        """Return count of units with pending changes."""
+        """Count of units with pending changes."""
         qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
         return qs.distinct("unit_id").count()
 
@@ -1091,7 +1222,7 @@ class Translation(
         """Commit translation to git."""
         repository = self.component.repository
         if template is None:
-            template = self.component.commit_message
+            template = self.component.effective_commit_message
         with repository.lock:
             # Pre commit hook
             vcs_pre_commit.send(
@@ -1133,7 +1264,9 @@ class Translation(
         """Update backend file and unit."""
         changes_status = {}
         updated = False
-        for pending_change in pending_changes:
+        for index, pending_change in enumerate(pending_changes, start=1):
+            if index % 1000 == 0:
+                self.component.repository.lock.reacquire()
             unit = pending_change.unit
 
             # update the unit in memory so that get_target_plurals returns
@@ -1141,11 +1274,15 @@ class Translation(
             unit.target = pending_change.target
 
             if pending_change.add_unit:
-                pounit = store.new_unit(
-                    unit.context, unit.get_source_plurals(), unit.get_target_plurals()
-                )
-                pounit.set_explanation(pending_change.explanation)
-                pounit.set_source_explanation(pending_change.source_unit_explanation)
+                pounit = self.find_or_add_pending_store_unit(store, unit)
+                try:
+                    self.update_pending_store_unit(pounit, unit, pending_change)
+                except Exception as error:
+                    self._log_unit_update_failure(unit, error)
+                    self._store_failed_unit_update(unit, pending_change, error)
+                    # this should be kept as pending, so that the changes are not lost
+                    changes_status[pending_change.pk] = False
+                    continue
                 # Check if context has changed while adding to storage
                 if pounit.context != unit.context:
                     if self.is_source:
@@ -1168,7 +1305,7 @@ class Translation(
                     report_error(
                         "String disappeared",
                         project=self.component.project,
-                        skip_sentry=True,
+                        skip_error_reporting=True,
                     )
                     unit.state = STATE_FUZZY
                     # Use update instead of hitting expensive save()
@@ -1198,14 +1335,7 @@ class Translation(
 
                 # Store translations
                 try:
-                    if unit.is_plural:
-                        pounit.set_target(unit.get_target_plurals())
-                    else:
-                        pounit.set_target(pending_change.target)
-                    pounit.set_explanation(pending_change.explanation)
-                    pounit.set_source_explanation(
-                        pending_change.source_unit_explanation
-                    )
+                    self.update_pending_store_unit(pounit, unit, pending_change)
                 except Exception as error:
                     self._log_unit_update_failure(unit, error)
                     self._store_failed_unit_update(unit, pending_change, error)
@@ -1591,6 +1721,7 @@ class Translation(
                         filename,
                         temp.name,
                         args=args,
+                        file_format_params=component.file_format_params,
                         repo_temp_dir=repo_temp_dir,
                     )
                     filenames.append(filename)
@@ -1839,7 +1970,7 @@ class Translation(
         fuzzy: Literal["", "process", "approve"] = "",
     ) -> UploadResult:
         """Top level handler for file uploads."""
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         component = self.component
 
@@ -1951,53 +2082,66 @@ class Translation(
     @transaction.atomic
     def remove(self, user: User) -> None:
         """Remove translation from the Database and VCS."""
-        from weblate.glossary.tasks import cleanup_stale_glossaries  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.glossary.tasks import (
+            cleanup_stale_glossaries,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.alerts.registry import update_alerts
 
         author = user.get_author_name()
+        component = self.component
         # Log
         self.log_info("removing %s as %s", self.filenames, author)
 
         # Build commit message before deleting (needs stats from DB)
         commit_message = self.get_commit_message(
-            author, template=self.component.delete_message
+            author, template=self.component.effective_delete_message
         )
 
         # Delete the translation from the database before committing
         # to ensure add-ons operate on the updated translation set
         self.delete()
         transaction.on_commit(self.stats.update_parents)
-        transaction.on_commit(self.component.schedule_update_checks)
+        transaction.on_commit(component.schedule_update_checks)
+        if component.is_glossary:
+            transaction.on_commit(
+                lambda: update_alerts(component, {"UnusedGlossaryLanguage"})
+            )
 
         # Remove file from VCS
         if any(os.path.exists(name) for name in self.filenames):
-            with self.component.track_local_head_change():
+            with component.track_local_head_change():
                 # Notify add-ons (they may update LINGUAS, configure, etc.)
                 translation_post_remove.send(sender=self.__class__, translation=self)
 
                 # Remove files and commit together with add-on changes
-                self.component.repository.remove(
+                component.repository.remove(
                     self.filenames,
                     commit_message,
                     author,
                     extra_commit_files=self.addon_commit_files or None,
                 )
-                self.component.push_if_needed()
+                component.push_if_needed()
 
         # Remove blank directory if still present (appstore)
-        filename = Path(self.get_filename())
-        if filename.is_dir():
-            with suppress(OSError):
-                filename.rmdir()
+        validated_filename = self.get_filename()
+        if validated_filename is not None:
+            filename = Path(validated_filename)
+            if filename.is_dir():
+                with suppress(OSError):
+                    filename.rmdir()
 
         # Record change
-        self.component.change_set.create(
+        component.change_set.create(
             action=ActionEvents.REMOVE_TRANSLATION,
             target=self.filename,
             user=user,
             author=user,
         )
-        if not self.component.is_glossary:
-            cleanup_stale_glossaries.delay_on_commit(self.component.project.id)
+        if not component.is_glossary:
+            cleanup_stale_glossaries.delay_on_commit(component.project.id)
 
     def handle_store_change(
         self,
@@ -2095,7 +2239,7 @@ class Translation(
             )
 
     @transaction.atomic
-    def _add_unit_locked(  # noqa: C901, PLR0914, PLR0915, PLR0912
+    def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches]
         self,
         request: AuthenticatedHttpRequest | None,
         context: str,
@@ -2269,7 +2413,7 @@ class Translation(
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
-                component._sources[id_hash] = unit  # noqa: SLF001
+                component._sources[id_hash] = unit  # ruff: ignore[private-member-access]
             if translation == self:
                 result = unit
             unit_ids.append(unit.pk)
@@ -2307,7 +2451,10 @@ class Translation(
 
     @transaction.atomic
     def delete_unit(self, request: AuthenticatedHttpRequest | None, unit: Unit) -> None:
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import (
+            get_anonymous,
+        )
 
         component = self.component
         user = request.user if request else get_anonymous()
@@ -2386,7 +2533,7 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self) -> None:
-        from weblate.auth.models import User  # noqa: PLC0415
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not self.is_source or not self.component.manage_units:
             return

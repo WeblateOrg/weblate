@@ -20,8 +20,10 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
+    should_copy_component_field,
 )
 from weblate.trans.defines import COMPONENT_NAME_LENGTH
+from weblate.trans.inherited_settings import apply_create_inheritance_defaults
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
@@ -118,14 +120,19 @@ get_detected_discovery_preset_values_key = cast(
 
 def get_discovery_result_key(
     result: DiscoveryResult,
-) -> tuple[str, str, str, str, str]:
+) -> tuple[str, str, str, str, str, str]:
     return (
         str(result.get("file_format", "")),
         str(result.get("filemask", "")),
         str(result.get("template", "")),
         str(result.get("new_base", "")),
         str(result.get("intermediate", "")),
+        get_discovery_language_regex(result),
     )
+
+
+def get_discovery_language_regex(result: DiscoveryResult) -> str:
+    return str(result.get("language_regex") or "^[^.]+$")
 
 
 def split_discovery_path(value: str) -> list[str]:
@@ -296,6 +303,10 @@ def build_detected_discovery_preset(
     if first.get("file_format") != second.get("file_format"):
         return None
 
+    language_regex = get_discovery_language_regex(first)
+    if language_regex != get_discovery_language_regex(second):
+        return None
+
     filemasks = [str(first.get("filemask", "")), str(second.get("filemask", ""))]
     if any(not filemask or filemask.count("*") != 1 for filemask in filemasks):
         return None
@@ -370,7 +381,7 @@ def build_detected_discovery_preset(
         "match": match,
         "file_format": str(first["file_format"]),
         "name_template": DISCOVERY_PRESET_COMPONENT_TEMPLATE,
-        "language_regex": "^[^.]+$",
+        "language_regex": language_regex,
         "base_file_template": base_file_template,
         "new_base_template": new_base_template,
         "intermediate_template": intermediate_template,
@@ -385,7 +396,7 @@ def build_detected_discovery_preset(
 def get_detected_discovery_presets_from_results(
     discovered: list[DiscoveryResult],
 ) -> list[DetectedDiscoveryPreset]:
-    unique_results: dict[tuple[str, str, str, str, str], DiscoveryResult] = {}
+    unique_results: dict[tuple[str, str, str, str, str, str], DiscoveryResult] = {}
     for result in discovered:
         key = get_discovery_result_key(result)
         if key[0] and key[1]:
@@ -708,8 +719,13 @@ class ComponentDiscovery:
         slug = get_val("slug") or "component"
 
         # Copy attributes from main component
+        explicit_fields = set(kwargs)
         for key in COPY_ATTRIBUTES:
-            if key not in kwargs and main is not None:
+            if (
+                key not in kwargs
+                and main is not None
+                and should_copy_component_field(key, explicit_fields)
+            ):
                 kwargs[key] = getattr(main, key)
         if main is not None and self.file_format != main.file_format:
             kwargs.pop("enforced_checks", None)
@@ -753,6 +769,7 @@ class ComponentDiscovery:
                 "copy_addons": self.copy_addons,
             }
         )
+        apply_create_inheritance_defaults(kwargs, set(kwargs))
 
         # Create non-saved object for validation
         component_kwargs = kwargs.copy()
@@ -766,6 +783,7 @@ class ComponentDiscovery:
             component.clean_new_lang()
         except ValidationError as error:
             component.new_lang = kwargs["new_lang"] = "none"
+            component.inherit_new_lang = kwargs["inherit_new_lang"] = False
             self.log("Disabling adding new languages for %s because of %s", name, error)
 
         # This might raise an exception

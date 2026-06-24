@@ -32,7 +32,14 @@
           {{ machinery_name }}
         </h4>
       </div>
-      <div class="card-body">{% crispy form %}</div>
+      <div class="card-body">
+        {% if machinery_sends_data_to_third_party %}
+          <div class="alert alert-warning" role="alert">
+            {% translate "This service can send source strings, translations, and related context to a third-party provider. Review the provider's terms and privacy policy before enabling it." %}
+          </div>
+        {% endif %}
+        {% crispy form %}
+      </div>
       <div class="card-footer">
         <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
       </div>

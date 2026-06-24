@@ -52,6 +52,14 @@ actions.
 
 .. note::
 
+   If you resolve the conflict in a pull request, merge it with a regular merge
+   commit. Do not squash merge it. Squash merging creates a new commit instead
+   of preserving the Weblate commits, so Weblate might not recognize that its
+   local commits are already included upstream and might need a repository
+   reset to recover.
+
+.. note::
+
    Weblate uses shallow clones by default to reduce cloning time and disk
    usage. Because of this, the workflow below works best when you start from an
    up-to-date checkout of the upstream repository. If you clone directly from
@@ -543,8 +551,9 @@ Does Weblate support other VCSes than Git and Mercurial?
 --------------------------------------------------------
 
 Weblate currently does not have native support for anything other than
-:ref:`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit`
-and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to write
+:ref:`vcs-git` (with extended support for
+:ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gerrit`, and
+:ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to write
 backends for other VCSes.
 
 Weblate also supports VCS-less operation, see :ref:`vcs-local`.

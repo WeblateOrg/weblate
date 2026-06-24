@@ -1,0 +1,67 @@
+{% extends "mail/base.html" %}
+
+{% load humanize i18n %}
+
+{% block content %}
+  <p>{% translate "Translation activity in this period:" %}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>{% translate "Translation" %}</th>
+        <th>{% translate "Added" %}</th>
+        <th>{% translate "Updated" %}</th>
+        <th>{% translate "Translated" %}</th>
+        <th>{% translate "Approved" %}</th>
+        <th>{% translate "Needs editing" %}</th>
+        <th>{% translate "Unfinished" %}</th>
+      </tr>
+    </thead>
+    {% for summary in changes %}
+      <tr>
+        <td>{{ summary.translation }}</td>
+        <td>
+          {% if summary.added.count %}
+            <a href="{{ summary.added.url }}">{{ summary.added.count|intcomma }}</a>
+          {% else %}
+            0
+          {% endif %}
+        </td>
+        <td>
+          {% if summary.updated.count %}
+            <a href="{{ summary.updated.url }}">{{ summary.updated.count|intcomma }}</a>
+          {% else %}
+            0
+          {% endif %}
+        </td>
+        <td>
+          {% if summary.translated.count %}
+            <a href="{{ summary.translated.url }}">{{ summary.translated.count|intcomma }}</a>
+          {% else %}
+            0
+          {% endif %}
+        </td>
+        <td>
+          {% if summary.approved.count %}
+            <a href="{{ summary.approved.url }}">{{ summary.approved.count|intcomma }}</a>
+          {% else %}
+            0
+          {% endif %}
+        </td>
+        <td>
+          {% if summary.needs_editing.count %}
+            <a href="{{ summary.needs_editing.url }}">{{ summary.needs_editing.count|intcomma }}</a>
+          {% else %}
+            0
+          {% endif %}
+        </td>
+        <td>
+          {% if summary.unfinished.count %}
+            <a href="{{ summary.unfinished.url }}">{{ summary.unfinished.count|intcomma }}</a>
+          {% else %}
+            0
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock content %}

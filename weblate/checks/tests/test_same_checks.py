@@ -5,7 +5,8 @@
 """Tests for quality checks."""
 
 from weblate.checks.same import SameCheck
-from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -21,14 +22,14 @@ class SameCheckTest(CheckTestCase):
         self.test_failure_1 = ("retezec", "retezec", "")
 
     def test_same_source_language(self) -> None:
-        unit = MockUnit(code="en")
+        unit = make_unit(code="en")
         # Is template
-        unit.translation.is_template = True
-        unit.translation.is_source = True
-        unit.is_source = True
+        unit.translation.__dict__["is_template"] = True
+        unit.translation.__dict__["is_source"] = True
+        unit.__dict__["is_source"] = True
         self.assertTrue(self.check.should_skip(unit))
         # Is same as source
-        unit.translation.template = False
+        unit.translation.__dict__["is_template"] = False
         self.assertTrue(self.check.should_skip(unit))
         # Interlingua special case
         unit.translation.language.code = "ia"
@@ -37,28 +38,28 @@ class SameCheckTest(CheckTestCase):
     def test_same_db_screen(self) -> None:
         self.assertTrue(
             self.check.check_single(
-                "some long text is here", "some long text is here", MockUnit(code="de")
+                "some long text is here", "some long text is here", make_unit(code="de")
             )
         )
         self.assertFalse(
             self.check.check_single(
                 "some long text is here",
                 "some long text is here",
-                MockUnit(code="de", note="Tag: screen"),
+                make_unit(code="de", note="Tag: screen"),
             )
         )
 
     def test_same_asciidoc_block(self) -> None:
         self.assertTrue(
             self.check.check_single(
-                "some text is here", "some text is here", MockUnit(code="de")
+                "some text is here", "some text is here", make_unit(code="de")
             )
         )
         self.assertFalse(
             self.check.check_single(
                 "some text is here",
                 "some text is here",
-                MockUnit(code="de", note="type: delimited block -"),
+                make_unit(code="de", note="type: delimited block -"),
             )
         )
 

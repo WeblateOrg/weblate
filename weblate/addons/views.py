@@ -4,21 +4,39 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
+from weblate.auth.decorators import check_management_access
 from weblate.trans.models import Category, Change, Component, Project
 from weblate.utils import messages
 from weblate.utils.views import PathViewMixin, get_paginator
 
 if TYPE_CHECKING:
+    from django.db.models import QuerySet
+    from django_stubs_ext import StrOrPromise
+
     from weblate.auth.models import AuthenticatedHttpRequest
+
+
+@dataclass(frozen=True)
+class AddonListItem:
+    instance: Addon
+    inherited: bool
+    scope_label: StrOrPromise
+    scope_description: str
+    manage_url: str
+    can_manage: bool
+    components_url: str
 
 
 class AddonList(PathViewMixin, ListView):
@@ -48,10 +66,152 @@ class AddonList(PathViewMixin, ListView):
             self.kwargs["project_obj"] = self.path_object
             return Addon.objects.filter_project(self.path_object)
 
-        if not self.request.user.has_perm("management.addons"):
-            msg = "Can not manage add-ons"
-            raise PermissionDenied(msg)
+        check_management_access(self.request, "management.addons")
         return Addon.objects.filter_sitewide()
+
+    def _get_scope_url(self, addon: Addon) -> str:
+        target = addon.component or addon.category or addon.project
+        if target is None:
+            return reverse("manage-addons")
+        return reverse("addons", kwargs={"path": target.get_url_path()})
+
+    def _can_manage_addon(self, addon: Addon) -> bool:
+        if addon.component:
+            return self.request.user.has_perm("component.edit", addon.component)
+        if addon.category:
+            return self.request.user.has_perm("project.edit", addon.category.project)
+        if addon.project:
+            return self.request.user.has_perm("project.edit", addon.project)
+        return self.request.user.has_perm(
+            "management.use"
+        ) and self.request.user.has_perm("management.addons")
+
+    @staticmethod
+    def _get_scope_rank(addon: Addon, target: Component | Project | Category | None):
+        if addon.component:
+            if addon.component == target:
+                return 0
+            return 1
+        if addon.category:
+            if addon.category == target:
+                return 0
+            return 2
+        if addon.project:
+            if addon.project == target:
+                return 0
+            return 3
+        if target is None:
+            return 0
+        return 4
+
+    @staticmethod
+    def _get_scope_description(addon: Addon) -> str:
+        if addon.component:
+            return str(addon.component)
+        if addon.category:
+            return str(addon.category)
+        if addon.project:
+            return str(addon.project)
+        return gettext("site-wide add-ons")
+
+    @staticmethod
+    def _get_scope_label(
+        addon: Addon, target: Component | Project | Category | None
+    ) -> StrOrPromise:
+        if addon.component:
+            if addon.repo_scope:
+                return gettext("repository wide")
+            return gettext("component")
+        if addon.category:
+            if isinstance(target, Category) and addon.category != target:
+                return gettext("parent category")
+            if (
+                isinstance(target, Component)
+                and addon.category_id != target.category_id
+            ):
+                return gettext("parent category")
+            return gettext("category")
+        if addon.project:
+            return gettext("project-wide")
+        return gettext("site-wide")
+
+    def _get_visible_queryset(self):
+        target = self.path_object
+        query = Q()
+        if isinstance(target, Component):
+            query |= Q(component=target)
+            query |= Q(project=target.project)
+            query |= Q(component__linked_component=target, repo_scope=True)
+            if target.linked_component:
+                query |= Q(component=target.linked_component, repo_scope=True)
+            category = target.category
+            while category is not None:
+                query |= Q(category=category)
+                category = category.category
+            query |= Q(
+                component__isnull=True, category__isnull=True, project__isnull=True
+            )
+        elif isinstance(target, Category):
+            category = target
+            while category is not None:
+                query |= Q(category=category)
+                category = category.category
+            query |= Q(project=target.project)
+            query |= Q(
+                component__isnull=True, category__isnull=True, project__isnull=True
+            )
+        elif isinstance(target, Project):
+            query |= Q(project=target)
+            query |= Q(
+                component__isnull=True, category__isnull=True, project__isnull=True
+            )
+        else:
+            query |= Q(
+                component__isnull=True, category__isnull=True, project__isnull=True
+            )
+
+        return (
+            Addon.objects.filter(query)
+            .select_related(
+                "component",
+                "component__project",
+                "category",
+                "category__project",
+                "project",
+            )
+            .prefetch_related("event_set")
+            .distinct()
+        )
+
+    def get_visible_items(self) -> list[AddonListItem]:
+        target = self.path_object
+        items = []
+        for addon in sorted(
+            self._get_visible_queryset(),
+            key=lambda item: (self._get_scope_rank(item, target), item.pk or 0),
+        ):
+            inherited = (addon.component or addon.category or addon.project) != target
+            can_manage = self._can_manage_addon(addon)
+            items.append(
+                AddonListItem(
+                    instance=addon,
+                    inherited=inherited,
+                    scope_label=self._get_scope_label(addon, target),
+                    scope_description=self._get_scope_description(addon),
+                    manage_url=self._get_scope_url(addon),
+                    can_manage=can_manage,
+                    components_url=(
+                        reverse("addon-components", kwargs={"pk": addon.pk})
+                        if not inherited
+                        and can_manage
+                        and addon.pk
+                        and addon.is_valid
+                        and (addon.component_id is None or addon.repo_scope)
+                        else ""
+                    ),
+                )
+            )
+        return items
 
     def get_success_url(self):
         if self.path_object is None:
@@ -66,6 +226,12 @@ class AddonList(PathViewMixin, ListView):
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
         target = self.path_object
+        local_addons = list(result["object_list"])
+        result["local_object_list"] = local_addons
+        result["object_list"] = self.get_visible_items()
+        result["inherited_addons"] = any(
+            item.inherited for item in result["object_list"]
+        )
         result["object"] = target
         result["change_actions"] = Change.ACTIONS_ADDON
         if target is None:
@@ -102,7 +268,7 @@ class AddonList(PathViewMixin, ListView):
                 .prefetch_for_render()
                 .recent(skip_preload="project")
             )
-        installed = {x.addon_name for x in result["object_list"]}
+        installed = {x.addon_name for x in local_addons}
 
         component: Component | None = None
         category: Category | None = None
@@ -127,18 +293,12 @@ class AddonList(PathViewMixin, ListView):
         )
         if component:
             result["scope"] = "component"
-            result["project_addons"] = Addon.objects.filter_project(
-                target.project
-            ).count()
         elif category:
             result["scope"] = "category"
         elif project:
             result["scope"] = "project"
         else:
             result["scope"] = "sitewide"
-
-        if target is not None:
-            result["sitewide_addons"] = Addon.objects.filter_sitewide().count()
 
         return result
 
@@ -229,14 +389,8 @@ class BaseAddonView(DetailView):
         if obj.project and not self.request.user.has_perm("project.edit", obj.project):
             msg = "Can not edit project"
             raise PermissionDenied(msg)
-        if (
-            obj.project is None
-            and obj.category is None
-            and obj.component is None
-            and not self.request.user.has_perm("management.addons")
-        ):
-            msg = "Can not manage add-ons"
-            raise PermissionDenied(msg)
+        if obj.project is None and obj.category is None and obj.component is None:
+            check_management_access(self.request, "management.addons")
         return obj
 
 
@@ -260,6 +414,11 @@ class AddonDetail(BaseAddonView, UpdateView):
         result["instance"] = self.object
         result["addon"] = self.object.addon if self.object.is_valid else None
         result["addon_name"] = self.object.addon_name
+        result["components_url"] = (
+            reverse("addon-components", kwargs={"pk": self.object.pk})
+            if self.object.is_valid and self.object.component_id is None
+            else ""
+        )
         return result
 
     def get_success_url(self):
@@ -314,4 +473,43 @@ class AddonLogs(BaseAddonView):
             self.request,
             self.object.get_addon_activity_logs(),
         )
+        return result
+
+
+class AddonComponents(BaseAddonView):
+    template_name_suffix = "_components"
+
+    def get_components(self) -> QuerySet[Component]:
+        if not self.object.is_valid or (
+            self.object.component_id and not self.object.repo_scope
+        ):
+            raise Http404
+
+        result = self.object.affected_components().filter_access(self.request.user)
+        if self.object.category_id or self.object.project_id:
+            return result.order().prefetch(alerts=False)
+        return result.order_project().prefetch(alerts=False)
+
+    def get_context_data(self, **kwargs):
+        if not self.object.is_valid or (
+            self.object.component_id and not self.object.repo_scope
+        ):
+            raise Http404
+
+        result = super().get_context_data(**kwargs)
+        result["object"] = (
+            self.object.component or self.object.category or self.object.project
+        )
+        result["instance"] = self.object
+        result["addon"] = self.object.addon
+        result["addon_name"] = self.object.addon_name
+        components = get_paginator(self.request, self.get_components())
+        result["components"] = components
+        result["component_rows"] = [
+            {
+                "component": component,
+                "compatible": self.object.addon.can_process(component=component),
+            }
+            for component in components
+        ]
         return result

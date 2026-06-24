@@ -7,7 +7,10 @@ from typing import TYPE_CHECKING
 
 from django.urls import reverse
 
-from weblate.machinery.base import InternalMachineTranslation
+from weblate.machinery.base import (
+    MACHINERY_DEFAULT_THRESHOLD,
+    InternalMachineTranslation,
+)
 from weblate.memory.models import Memory
 
 if TYPE_CHECKING:
@@ -31,7 +34,7 @@ class WeblateMemory(InternalMachineTranslation):
         text: str,
         unit,
         user,
-        threshold: int = 75,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         for result in Memory.objects.lookup(

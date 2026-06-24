@@ -26,11 +26,10 @@ from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import (
     ImproperlyConfigured,
     ObjectDoesNotExist,
-    PermissionDenied,
     ValidationError,
 )
 from django.core.mail.message import EmailMessage
-from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
+from django.core.signing import BadSignature, SignatureExpired
 from django.db import transaction
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
@@ -91,6 +90,13 @@ from social_django.views import complete, disconnect
 
 from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
+from weblate.accounts.flows import (
+    PASSWORD_RESET_EMAIL_SESSION,
+    PASSWORD_RESET_SCOPE_SESSION,
+    PASSWORD_RESET_SCOPE_TOKEN_PARAM,
+    PASSWORD_RESET_SCOPE_TOKEN_SESSION,
+    get_signed_password_reset_scope,
+)
 from weblate.accounts.forms import (
     CommitForm,
     ContactForm,
@@ -132,14 +138,22 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_TOTP,
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
+    adjust_session_expiry,
     get_key_name,
     lock_user,
     remove_user,
     reset_api_token,
 )
+from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import UserEditForm
 from weblate.auth.models import Invitation, User, get_anonymous
-from weblate.auth.utils import format_address, get_auth_keys
+from weblate.auth.utils import (
+    format_address,
+    format_membership_limit_language_codes,
+    get_auth_keys,
+    prefetch_membership_limit_languages,
+    validate_team_assignable_user,
+)
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
@@ -491,10 +505,17 @@ def user_profile(request: AuthenticatedHttpRequest):
     license_components = (
         Component.objects.filter_access(user)
         .filter(translation__id__in=user_translation_ids)
-        .exclude(license="")
         .prefetch(alerts=False)
         .distinct()
-        .order_by("license")
+    )
+    license_components = sorted(
+        (
+            component
+            for component in license_components
+            if component.effective_license
+            and component.effective_license != "proprietary"
+        ),
+        key=lambda component: component.effective_license,
     )
 
     return render(
@@ -510,7 +531,11 @@ def user_profile(request: AuthenticatedHttpRequest):
             "userform": forms[6],
             "notification_forms": forms[7:],
             "all_forms": forms,
-            "user_groups": user.cached_groups,
+            "user_groups": user.groups.select_related(
+                "defining_project", "defining_workspace"
+            )
+            .prefetch_related("roles", "projects", "languages", "components")
+            .order(),
             "profile": profile,
             "title": gettext("User profile"),
             "licenses": license_components,
@@ -650,7 +675,8 @@ def hosting(request: AuthenticatedHttpRequest):
     if not settings.OFFER_HOSTING:
         return redirect("home")
 
-    from weblate.billing.models import Billing  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.billing.models import Billing
 
     billings = (
         Billing.objects.for_user(request.user)
@@ -691,7 +717,8 @@ def trial(request: AuthenticatedHttpRequest):
         return redirect(f"{reverse('contact')}?t=trial")
 
     if request.method == "POST":
-        from weblate.billing.models import Billing, BillingEvent, Plan  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.billing.models import Billing, BillingEvent, Plan
 
         AuditLog.objects.create(request.user, request, "trial")
         billing = Billing.objects.create(
@@ -700,7 +727,7 @@ def trial(request: AuthenticatedHttpRequest):
             expiry=timezone.now() + timedelta(days=14),
         )
         billing.billinglog_set.create(event=BillingEvent.CREATED, user=request.user)
-        billing.owners.add(request.user)
+        billing.workspace.add_owner(request.user, request)
         messages.info(
             request,
             gettext(
@@ -708,7 +735,7 @@ def trial(request: AuthenticatedHttpRequest):
                 "create your translation project and start Weblating!"
             ),
         )
-        return redirect(f"{reverse('create-project')}?billing={billing.pk}")
+        return redirect(f"{reverse('create-project')}?workspace={billing.workspace_id}")
 
     return render(request, "accounts/trial.html", {"title": gettext("Gratis trial")})
 
@@ -724,15 +751,36 @@ class UserPage(UpdateView):
     group_form = None
     request: AuthenticatedHttpRequest
 
+    def handle_add_group(
+        self, request: AuthenticatedHttpRequest, user: User
+    ) -> HttpResponseRedirect | None:
+        self.group_form = GroupAddForm(request.POST)
+        if not self.group_form.is_valid():
+            return None
+        try:
+            validate_team_assignable_user(user)
+        except ValidationError as error:
+            for message in error.messages:
+                messages.error(request, message)
+            return HttpResponseRedirect(f"{self.get_success_url()}#groups")
+        group = self.group_form.cleaned_data["add_group"]
+        had_membership = user.team_memberships.filter(group=group).exists()
+        user.add_team(request, group)
+        membership = user.team_memberships.get(group=group)
+        membership.set_limit_languages(
+            self.group_form.cleaned_data["limit_languages"],
+            request,
+            audit=had_membership,
+        )
+        return HttpResponseRedirect(f"{self.get_success_url()}#groups")
+
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
-        if not request.user.has_perm("user.edit"):
-            raise PermissionDenied
+        check_management_access(request, "user.edit")
         user = self.object = self.get_object()
         if "add_group" in request.POST:
-            self.group_form = GroupAddForm(request.POST)
-            if self.group_form.is_valid():
-                user.add_team(request, self.group_form.cleaned_data["add_group"])
-                return HttpResponseRedirect(f"{self.get_success_url()}#groups")
+            response = self.handle_add_group(request, user)
+            if response is not None:
+                return response
         if "remove_group" in request.POST:
             form = GroupRemoveForm(request.POST)
             if form.is_valid():
@@ -855,11 +903,45 @@ class UserPage(UpdateView):
         )
         context["user_languages"] = user.profile.all_languages[:7]
         context["group_form"] = self.group_form or GroupAddForm()
-        context["page_user_groups"] = (
+        memberships = (
+            user.team_memberships.select_related(
+                "group", "group__defining_project", "group__defining_workspace"
+            )
+            .prefetch_related(prefetch_membership_limit_languages())
+            .order_by(
+                "group__defining_project__name",
+                "group__defining_workspace__name",
+                "group__name",
+            )
+        )
+        memberships_by_group_id = {}
+        for membership in memberships:
+            membership.limit_language_codes = format_membership_limit_language_codes(
+                membership
+            )
+            memberships_by_group_id[membership.group_id] = membership
+        page_user_groups = list(
             user.groups.annotate(Count("user"))
-            .prefetch_related("defining_project")
+            .select_related("defining_project", "defining_workspace")
             .order()
         )
+        for group in page_user_groups:
+            group.team_membership = memberships_by_group_id.get(group.pk)
+        context["page_user_groups"] = page_user_groups
+        context["page_user_billings"] = []
+        if "weblate.billing" in settings.INSTALLED_APPS:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.billing.models import Billing
+
+            context["page_user_billings"] = list(
+                Billing.objects.filter(
+                    workspace__defined_groups__memberships__user=user,
+                    workspace__defined_groups__memberships__limit_languages__isnull=True,
+                    workspace__defined_groups__roles__permissions__codename="workspace.edit",
+                )
+                .distinct()
+                .prefetch()
+            )
         return context
 
 
@@ -1023,6 +1105,9 @@ class BaseLoginView(LoginView):
             )
             return HttpResponseRedirect(f"{login_url}?{urlencode(login_params)}")
         auth_login(self.request, user)
+        adjust_session_expiry(
+            request=self.request, user=user, is_login=False, force=True
+        )
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -1080,7 +1165,8 @@ class WeblateLogoutView(TemplateView):
     - login_required decorator
     """
 
-    http_method_names = ["post", "options"]  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    http_method_names = ["post", "options"]
     template_name = "registration/logged_out.html"
     request: AuthenticatedHttpRequest
 
@@ -1309,6 +1395,37 @@ def reset_password_set(request: AuthenticatedHttpRequest):
     )
 
 
+def remember_password_reset_scope_token(request: AuthenticatedHttpRequest) -> None:
+    token = request.POST.get(PASSWORD_RESET_SCOPE_TOKEN_PARAM) or request.GET.get(
+        PASSWORD_RESET_SCOPE_TOKEN_PARAM, ""
+    )
+    if not token:
+        return
+    if get_signed_password_reset_scope(token):
+        request.session[PASSWORD_RESET_SCOPE_TOKEN_SESSION] = token
+    else:
+        request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
+
+
+def get_password_reset_scope(request: AuthenticatedHttpRequest, email: str) -> str:
+    token = request.session.get(PASSWORD_RESET_SCOPE_TOKEN_SESSION, "")
+    if token:
+        return get_signed_password_reset_scope(token, email)
+    return ""
+
+
+def send_password_reset_email(
+    request: AuthenticatedHttpRequest, user: User, *, email: str, scope: str = ""
+) -> HttpResponse | None:
+    """Start the existing e-mail password reset flow for a known user."""
+    audit = AuditLog.objects.create(user, request, "reset-request")
+    if audit.check_rate_limit(request):
+        return None
+    request.session[PASSWORD_RESET_EMAIL_SESSION] = email
+    store_userid(request, reset=True, reset_scope=scope)
+    return social_complete(request, "email")
+
+
 def get_registration_hint(email: str) -> str | None:
     domain = email.rsplit("@", 1)[-1]
     return settings.REGISTRATION_HINTS.get(domain)
@@ -1318,6 +1435,7 @@ def get_registration_hint(email: str) -> str | None:
 @login_not_required
 def reset_password(request: AuthenticatedHttpRequest):
     """Password reset handling."""
+    remember_password_reset_scope_token(request)
     if request.user.is_authenticated:
         return redirect_profile()
     if "email" not in get_auth_keys():
@@ -1333,15 +1451,17 @@ def reset_password(request: AuthenticatedHttpRequest):
     if request.method == "POST":
         form = ResetForm(request=request, data=request.POST)
         if form.is_valid():
+            email = form.cleaned_data["email"]
             if form.cleaned_data["email_user"]:
-                audit = AuditLog.objects.create(
-                    form.cleaned_data["email_user"], request, "reset-request"
+                response = send_password_reset_email(
+                    request,
+                    form.cleaned_data["email_user"],
+                    email=email,
+                    scope=get_password_reset_scope(request, email),
                 )
-                if not audit.check_rate_limit(request):
-                    store_userid(request, reset=True)
-                    return social_complete(request, "email")
+                if response is not None:
+                    return response
             else:
-                email = form.cleaned_data["email"]
                 send_notification_email(
                     None,
                     [email],
@@ -1499,12 +1619,23 @@ class SuggestionView(ListView):
 
 
 def store_userid(
-    request: AuthenticatedHttpRequest, *, reset: bool = False, remove: bool = False
+    request: AuthenticatedHttpRequest,
+    *,
+    reset: bool = False,
+    remove: bool = False,
+    reset_scope: str = "",
 ) -> None:
     """Store user ID in the session."""
     request.session["social_auth_user"] = request.user.pk
     request.session["password_reset"] = reset
     request.session["account_remove"] = remove
+    if reset and reset_scope:
+        request.session[PASSWORD_RESET_SCOPE_SESSION] = reset_scope
+    else:
+        request.session.pop(PASSWORD_RESET_SCOPE_SESSION, None)
+    request.session.pop(PASSWORD_RESET_SCOPE_TOKEN_SESSION, None)
+    if not reset:
+        request.session.pop(PASSWORD_RESET_EMAIL_SESSION, None)
 
 
 @require_POST
@@ -1836,23 +1967,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     Wrapper around social_django.views.complete:
 
     - Handles backend errors gracefully
-    - Intermediate page (autosubmitted by JavaScript) to avoid
-      confirmations by bots
     """
-    if (
-        "partial_token" in request.GET
-        and "verification_code" in request.GET
-        and "confirm" not in request.GET
-    ):
-        return render(
-            request,
-            "accounts/token.html",
-            {
-                "partial_token": request.GET["partial_token"],
-                "verification_code": request.GET["verification_code"],
-                "backend": backend,
-            },
-        )
     try:
         response = complete(request, backend)
     except (
@@ -1905,11 +2020,21 @@ def subscribe(request: AuthenticatedHttpRequest):
             onetime=True,
         )
         try:
-            subscription.full_clean()
+            subscription.full_clean(validate_unique=False, validate_constraints=False)
         except ValidationError:
             pass
         else:
-            subscription.save()
+            Subscription.objects.update_or_create(
+                user=subscription.user,
+                notification=subscription.notification,
+                scope=subscription.scope,
+                project=subscription.project,
+                component=subscription.component,
+                defaults={
+                    "frequency": subscription.frequency,
+                    "onetime": subscription.onetime,
+                },
+            )
         messages.success(request, gettext("Notification settings adjusted."))
     return redirect_profile("#notifications")
 
@@ -1917,14 +2042,8 @@ def subscribe(request: AuthenticatedHttpRequest):
 @login_not_required
 def unsubscribe(request: AuthenticatedHttpRequest):
     if "i" in request.GET:
-        signer = TimestampSigner()
         try:
-            subscription = Subscription.objects.get(
-                pk=int(signer.unsign(request.GET["i"], max_age=24 * 3600))
-            )
-            subscription.frequency = NotificationFrequency.FREQ_NONE
-            subscription.save(update_fields=["frequency"])
-            messages.success(request, gettext("Notification settings adjusted."))
+            subscription = Subscription.get_by_signed_id(request.GET["i"])
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
             messages.error(
                 request,
@@ -1933,6 +2052,10 @@ def unsubscribe(request: AuthenticatedHttpRequest):
                     "please sign in to configure notifications."
                 ),
             )
+        else:
+            subscription.frequency = NotificationFrequency.FREQ_NONE
+            subscription.save(update_fields=["frequency"])
+            messages.success(request, gettext("Notification settings adjusted."))
 
     return redirect_profile("#notifications")
 
@@ -2142,7 +2265,8 @@ class TOTPView(FormView):
     @property
     def totp_svg(self):
         image = qrcode.make(self.totp_url, image_factory=qrcode.image.svg.SvgPathImage)
-        return mark_safe(image.to_string(encoding="unicode"))  # noqa: S308
+        # ruff: ignore[suspicious-mark-safe-usage]
+        return mark_safe(image.to_string(encoding="unicode"))
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
@@ -2193,6 +2317,12 @@ class SecondFactorMixin(View):
             auth_login(self.request, user)
             # Perform OTP login
             otp_login(self.request, device)
+            adjust_session_expiry(
+                request=self.request,
+                user=user,
+                is_login=False,
+                force=True,
+            )
         else:
             self.request.session[DEVICE_ID_SESSION_KEY] = device.persistent_id
             # This is completed in social_complete after completing social login

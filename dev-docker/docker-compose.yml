@@ -13,13 +13,13 @@
 
 services:
   cache:
-    image: redis:8.6.3-alpine@sha256:69f2c586c8a7e9cce4ae1ee9bbaf60bc4bb5f4bb3880e4ed022b1fd758a7cab9
+    image: redis:8.8.0-alpine@sha256:9d317178eceac8454a2284a9e6df2466b93c745529947f0cd42a0fa9609d7005
     volumes:
     - redis-data:/data
     command: [redis-server, --save, '60', '1']
     restart: always
   database:
-    image: postgres:18.3-alpine@sha256:54451ecb8ab38c24c3ec123f2fd501303a3a1856a5c66e98cecf2460d5e1e9d7
+    image: postgres:18.4-alpine@sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa
     volumes:
     - postgres-data:/var/lib/postgresql
     - ./postgres-init:/docker-entrypoint-initdb.d
@@ -63,7 +63,7 @@ services:
     restart: always
     user: $USER_ID:$GROUP_ID
     tmpfs:
-    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
+    - /app/cache:exec,uid=$USER_ID,gid=$GROUP_ID
     - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
     - /run:uid=$USER_ID,gid=$GROUP_ID
     userns_mode: host

@@ -114,6 +114,21 @@ Add a component from your Git repository
 
 5. Review and confirm the detected settings
 
+.. note::
+
+   If your repository contains a Transifex :file:`.tx/config`, Weblate parses
+   it using translation-finder and offers matching component configurations
+   during discovery. This only covers file-related configuration, such as file
+   masks and source files. Other project settings from the previous platform,
+   including workflows, permissions, and language aliases, still need to be
+   configured manually in Weblate.
+
+   Language aliases are usually not needed because Weblate already recognizes
+   and normalizes common language-code variants while parsing translation
+   files. See :ref:`language-parsing-codes`; configure
+   :ref:`project-language_aliases` only if your repository uses codes Weblate
+   cannot map as intended.
+
 .. image:: /screenshots/user-add-component-discovery.webp
 
 .. hint::
@@ -161,7 +176,7 @@ Enable automatic updates and commits:
 1. Configure repository integration:
 
    * **Pull changes**: Set up a :ref:`webhook <update-vcs>` so Weblate updates when your source code changes
-   * **Push changes**: Configure :ref:`push-changes` so translations are committed back to your repository
+   * **Push changes**: Configure :ref:`code-hosting-push-options` so translations are committed back to your repository
 
 2. Enable automatic actions in component settings:
 

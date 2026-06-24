@@ -13,10 +13,13 @@ from typing import cast
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db.models import F
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from django.utils import timezone
+from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
@@ -24,6 +27,8 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
+    Change,
+    CommitPolicyChoices,
     Component,
     PendingUnitChange,
     Project,
@@ -37,8 +42,10 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.git import GitRepository
 from weblate.vcs.models import VCS_REGISTRY
 
 HOST_KEY_MISMATCH_ERROR = """remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -99,7 +106,7 @@ class ComponentTest(RepoTestCase):
 
         if component.has_template():
             self.assertEqual(component.source_translation.filename, component.template)
-        # Count units in the source languaage
+        # Count units in the source language
         self.assertEqual(component.source_translation.unit_set.count(), units)
         # Count translated units in the source language
         self.assertEqual(
@@ -128,6 +135,28 @@ class ComponentTest(RepoTestCase):
             source="Hello, world!\n", translation__language__code="cs"
         )
         self.assertEqual(unit.state, STATE_EMPTY)
+
+    def test_direct_create_explicit_license_disables_inheritance(self) -> None:
+        project = self.create_project()
+        repo = self.format_local_path(self.git_repo_path)
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            component = Component.objects.create(
+                name="Licensed",
+                slug="licensed",
+                project=project,
+                repo=repo,
+                push=repo,
+                branch=VCS_REGISTRY["git"].get_remote_branch(repo),
+                filemask="po/*.po",
+                file_format="po",
+                new_lang="contact",
+                push_on_commit=False,
+                license="GPL-3.0-or-later",
+            )
+
+        self.assertFalse(component.inherit_license)
+        self.assertEqual(component.effective_license, "GPL-3.0-or-later")
 
     def test_create_dot(self) -> None:
         component = self._create_component("po", "./po/*.po")
@@ -188,6 +217,100 @@ class ComponentTest(RepoTestCase):
             source="Hello, world!\n", translation__language__code="cs"
         )
         self.assertEqual(unit.state, STATE_EMPTY)
+
+    def test_is_gettext_po_template_pot(self) -> None:
+        component = self.create_po(new_base="po/project.pot")
+
+        self.assertTrue(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_po_excluded_by_language_regex(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+            language_regex="^(?!en$).+$",
+        )
+
+        self.assertTrue(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_po_included_by_language_regex(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+        )
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_po_outside_filemask(self) -> None:
+        component = self.create_po(new_base="locale/en/LC_MESSAGES/django.po")
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_non_po_component(self) -> None:
+        component = self.create_po()
+        component.file_format = "json"
+        component.new_base = "po/project.pot"
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_is_gettext_po_template_invalid_language_regex(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+            language_regex="^(?!en$).+$",
+        )
+        component.language_regex = "[-"
+
+        self.assertFalse(component.is_gettext_po_template())
+
+    def test_create_po_template(self) -> None:
+        component = self._create_component(
+            "po",
+            "locale/*/LC_MESSAGES/django.po",
+            new_base="locale/en/LC_MESSAGES/django.po",
+            language_regex="^(?!en$).+$",
+        )
+        base = pathlib.Path(component.full_path)
+        en_filename = base / "locale" / "en" / "LC_MESSAGES" / "django.po"
+        cs_filename = base / "locale" / "cs" / "LC_MESSAGES" / "django.po"
+        en_filename.parent.mkdir(parents=True, exist_ok=True)
+        cs_filename.parent.mkdir(parents=True, exist_ok=True)
+        en_filename.write_text(
+            'msgid ""\n'
+            'msgstr ""\n'
+            '"Project-Id-Version: test\\n"\n'
+            '"Language: en\\n"\n'
+            '"Content-Type: text/plain; charset=UTF-8\\n"\n'
+            '"Plural-Forms: nplurals=2; plural=(n != 1);\\n"\n'
+            "\n"
+            "#: example.py:1\n"
+            'msgid "Hello"\n'
+            'msgstr ""\n',
+            encoding="utf-8",
+        )
+        cs_filename.write_text(
+            'msgid ""\n'
+            'msgstr ""\n'
+            '"Project-Id-Version: test\\n"\n'
+            '"Language: cs\\n"\n'
+            '"Content-Type: text/plain; charset=UTF-8\\n"\n'
+            '"Plural-Forms: nplurals=3; '
+            'plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\\n"\n'
+            "\n"
+            "#: example.py:1\n"
+            'msgid "Hello"\n'
+            'msgstr "Ahoj"\n',
+            encoding="utf-8",
+        )
+
+        component.create_translations_immediate(force=True)
+        component.refresh_from_db()
+        component.__dict__.pop("source_translation", None)
+
+        self.verify_component(component, 2, "cs", 1, "Hello")
+        self.assertEqual(component.source_translation.filename, component.new_base)
 
     def test_create_filtered(self) -> None:
         component = self._create_component("po", "po/*.po", language_regex="^cs$")
@@ -491,13 +614,15 @@ class ComponentTest(RepoTestCase):
         component.branch = "translations"
         component.filemask = "translations/*.po"
         component.clean()
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
         self.verify_component(component, 4, "cs", 4)
         # Switch back to main branch
         component.branch = "main"
         component.filemask = "po/*.po"
         component.clean()
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
         self.verify_component(component, 4, "cs", 4)
 
     def test_switch_branch_mercurial(self) -> None:
@@ -522,7 +647,23 @@ class ComponentTest(RepoTestCase):
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
         component.check_flags = f"ignore-{check.name}"
-        component.save()
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save()
+        self.assertEqual(Check.objects.count(), 0)
+
+    def test_category_update_checks(self) -> None:
+        """Moving to category changes checks inherited by related units."""
+        component = self.create_component()
+        self.assertEqual(Check.objects.count(), 3)
+        check = Check.objects.all()[0]
+        category = component.project.category_set.create(
+            name="Checks", slug="checks", check_flags=f"ignore-{check.name}"
+        )
+
+        component.category = category
+        with self.captureOnCommitCallbacks(execute=True):
+            component.save(update_fields=["category"])
+
         self.assertEqual(Check.objects.count(), 0)
 
     def test_create_symlinks(self):
@@ -547,7 +688,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_po_push()
 
         # force reload VCS list to include github
-        del VCS_REGISTRY.data
+        VCS_REGISTRY.clear_cache()
 
         component.vcs = "github"
 
@@ -620,6 +761,16 @@ class ComponentTest(RepoTestCase):
         self.assertIn("Invalid repository branch", error)
         self.assertIn("Use main instead of refs/heads/main", error)
 
+    def test_gerrit_branch_allows_push_options(self) -> None:
+        if "gerrit" not in VCS_REGISTRY:
+            self.skipTest("Gerrit not supported")
+        component = self.create_po()
+        component.vcs = "gerrit"
+        component.branch = "main%topic=l10n"
+
+        with patch("weblate.trans.models.Component.sync_git_repo", return_value=None):
+            component.clean()
+
     def test_invalid_gerrit_push_branch_full_ref_validation(self) -> None:
         if "gerrit" not in VCS_REGISTRY:
             self.skipTest("Gerrit not supported")
@@ -636,6 +787,16 @@ class ComponentTest(RepoTestCase):
         error = str(cm.exception)
         self.assertIn("Invalid push branch", error)
         self.assertIn("Use main instead of refs/for/main", error)
+
+    def test_gerrit_push_branch_allows_push_options(self) -> None:
+        if "gerrit" not in VCS_REGISTRY:
+            self.skipTest("Gerrit not supported")
+        component = self.create_po_push()
+        component.vcs = "gerrit"
+        component.push_branch = "main%topic=l10n"
+
+        with patch("weblate.trans.models.Component.sync_git_repo", return_value=None):
+            component.clean()
 
     def _test_maintenance(self, component: Component) -> None:
         self.verify_component(component, 4, "cs", 4)
@@ -801,7 +962,7 @@ class ComponentChangeTest(RepoTestCase):
         old_path = component.full_path
         self.assertTrue(os.path.exists(old_path))
 
-        # Crete target project
+        # Create target project
         second = Project.objects.create(
             name="Test2", slug="test2", web="https://weblate.org/"
         )
@@ -1053,6 +1214,169 @@ class ComponentValidationTest(RepoTestCase):
             self.component.full_clean()
         self.assertIn("internal or non-public address", str(error.exception))
 
+    def create_unrelated_git_repo(self, branch: str) -> str:
+        path = self.get_repo_path("unrelated-repo.git")
+        if os.path.exists(path):
+            remove_tree(path)
+        self.addCleanup(remove_tree, path, True)
+
+        GitRepository.create_blank_repository(path)
+        repository = GitRepository(
+            path, branch=GitRepository.default_branch, local=True
+        )
+        with repository.lock:
+            repository.set_committer("Test", "test@example.net")
+            pathlib.Path(path, "README.md").write_text("Unrelated\n", encoding="utf-8")
+            repository.commit(
+                "Initial commit",
+                "Test <test@example.net>",
+                timezone.now(),
+                ["README.md"],
+            )
+            if branch != GitRepository.default_branch:
+                repository.execute(["branch", branch], remote_op="none")
+        return self.format_local_path(path)
+
+    def test_repository_url_with_unrelated_history_rejected(self) -> None:
+        if self.component.repository.is_shallow():
+            with self.component.repository.lock:
+                self.component.repository.unshallow()
+
+        self.component.repo = self.create_unrelated_git_repo(self.component.branch)
+
+        with self.assertRaises(ValidationError) as error:
+            self.component.clean()
+
+        error_text = str(error.exception)
+        self.assertIn("Could not update repository", error_text)
+        self.assertIn("does not share common history", error_text)
+
+    def test_repository_compatibility_requires_setup_unchanged(self) -> None:
+        old = Component.objects.get(pk=self.component.pk)
+        changed_settings = {
+            "template": "po/base.po",
+            "intermediate": "po/intermediate.po",
+            "new_base": "po/new.pot",
+            "file_format": "po-mono",
+            "file_format_params": {"key_separator": "_"},
+        }
+
+        for field, value in changed_settings.items():
+            with self.subTest(field=field):
+                component = Component.objects.get(pk=self.component.pk)
+                setattr(component, field, value)
+                self.assertFalse(component.can_validate_repository_compatibility(old))
+
+    def test_repository_url_with_template_change_validates_worktree(self) -> None:
+        new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
+        self.addCleanup(remove_tree, new_repo_path, True)
+        new_repo = self.format_local_path(new_repo_path)
+        self.component.repo = new_repo
+        self.component.push = new_repo
+        self.component.template = "po/base.po"
+
+        with (
+            patch.object(
+                Component, "sync_git_repo", return_value=True
+            ) as sync_git_repo,
+            patch.object(
+                Component, "validate_repository_compatibility"
+            ) as validate_repository_compatibility,
+            patch.object(Component, "clean_template"),
+            patch.object(Component, "clean_new_lang"),
+            patch.object(Component, "get_mask_matches", return_value=[]),
+            patch.object(Component, "clean_lang_codes"),
+            patch.object(Component, "clean_files"),
+        ):
+            self.component.clean()
+
+        sync_git_repo.assert_called_once_with(validate=True, skip_push=True)
+        validate_repository_compatibility.assert_not_called()
+
+    def test_push_url_change_skips_pull_history_validation(self) -> None:
+        self.component.push = "https://example.com/repo.git"
+
+        with (
+            patch.object(
+                GitRepository, "validate_push_url", autospec=True
+            ) as validate_push_url,
+            patch.object(
+                Component, "validate_repository_compatibility"
+            ) as validate_repository_compatibility,
+            patch.object(Component, "sync_git_repo") as sync_git_repo,
+        ):
+            self.component.clean()
+
+        validate_push_url.assert_called_once()
+        self.assertEqual(validate_push_url.call_args.args[1], self.component.push)
+        validate_repository_compatibility.assert_not_called()
+        sync_git_repo.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_repository_url_saved_when_post_save_merge_fails(self) -> None:
+        new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
+        self.addCleanup(remove_tree, new_repo_path, True)
+        new_repo = self.format_local_path(new_repo_path)
+        self.component.repo = new_repo
+        self.component.push = new_repo
+
+        with (
+            patch.object(
+                Component,
+                "update_branch",
+                return_value=None,
+            ),
+            patch.object(Component, "create_translations") as create_translations,
+        ):
+            self.component.save()
+
+        create_translations.assert_not_called()
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repo, new_repo)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_repository_url_saved_when_post_save_fetch_fails(self) -> None:
+        new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
+        self.addCleanup(remove_tree, new_repo_path, True)
+        new_repo = self.format_local_path(new_repo_path)
+        self.component.repo = new_repo
+        self.component.push = new_repo
+
+        with (
+            patch.object(Component, "update_remote_branch", return_value=False),
+            patch.object(Component, "update_branch") as update_branch,
+            patch.object(Component, "create_translations") as create_translations,
+        ):
+            self.component.save()
+
+        update_branch.assert_not_called()
+        create_translations.assert_not_called()
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repo, new_repo)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_setup_rescan_skipped_when_post_save_fetch_fails(self) -> None:
+        new_repo_path = self._copy_test_repo("test-repo-moved.git", self.git_repo_path)
+        self.addCleanup(remove_tree, new_repo_path, True)
+        new_repo = self.format_local_path(new_repo_path)
+        self.component.repo = new_repo
+        self.component.push = new_repo
+        self.component.template = "po/base.po"
+
+        with (
+            patch.object(Component, "update_remote_branch", return_value=False),
+            patch.object(Component, "update_branch") as update_branch,
+            patch.object(Component, "create_translations") as create_translations,
+            patch.object(
+                Component, "create_template_if_missing"
+            ) as create_template_if_missing,
+        ):
+            self.component.save()
+
+        update_branch.assert_not_called()
+        create_template_if_missing.assert_not_called()
+        create_translations.assert_not_called()
+
     def test_validation_mono(self) -> None:
         self.component.project.delete()
         project = self.create_po_mono()
@@ -1223,6 +1547,25 @@ class ComponentErrorTest(RepoTestCase):
     def test_failed_update(self) -> None:
         self.assertFalse(self.component.do_update())
 
+    def test_update_pushes_before_reraising_parse_error(self) -> None:
+        error = FileParseError("parse failed")
+
+        with (
+            patch.object(self.component, "configure_repo"),
+            patch.object(self.component, "update_remote_branch", return_value=True),
+            patch.object(self.component, "configure_branch"),
+            patch.object(self.component, "repo_needs_merge", return_value=True),
+            patch.object(self.component, "needs_commit_upstream", return_value=False),
+            patch.object(self.component, "update_branch", return_value=True),
+            patch.object(self.component, "create_translations", side_effect=error),
+            patch.object(self.component, "push_if_needed") as push_if_needed,
+            self.assertRaises(FileParseError) as context,
+        ):
+            self.component.do_update()
+
+        self.assertIs(context.exception, error)
+        push_if_needed.assert_called_once_with(do_update=False)
+
     def test_failed_update_remote(self) -> None:
         self.assertFalse(self.component.update_remote_branch())
 
@@ -1233,6 +1576,11 @@ class ComponentErrorTest(RepoTestCase):
         with self.component.repository.lock:
             self.component.repository.commit("test", files=["README.md"])
         self.assertFalse(self.component.do_push(None))
+        change = self.component.change_set.get(action=ActionEvents.FAILED_PUSH)
+        self.assertIsNotNone(change.user)
+        self.assertEqual(change.user.username, "weblate:push")
+        self.assertTrue(change.user.is_bot)
+        self.assertEqual(change.user.full_name, "Background push")
 
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
@@ -1246,7 +1594,7 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
 
         with self.assertRaises(ValidationError):
             self.component.clean()
@@ -1256,7 +1604,7 @@ class ComponentErrorTest(RepoTestCase):
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1267,7 +1615,7 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            translation.store  # noqa: B018
+            translation.store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             translation.clean()
 
@@ -1279,14 +1627,260 @@ class ComponentErrorTest(RepoTestCase):
 
         with self.assertRaises(FileParseError):
             # pylint: disable-next=pointless-statement
-            self.component.template_store  # noqa: B018
+            self.component.template_store  # ruff: ignore[useless-expression]
         with self.assertRaises(ValidationError):
             self.component.clean()
+
+    def test_template_store_translate_parse_error_is_not_reported(self) -> None:
+        self.component.drop_template_store_cache()
+
+        with (
+            patch.object(
+                self.component, "load_template_store", side_effect=ParseError("invalid")
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+            self.assertRaises(FileParseError),
+        ):
+            # pylint: disable-next=pointless-statement
+            self.component.template_store  # ruff: ignore[useless-expression]
+
+        report_error.assert_not_called()
+
+    def test_template_store_unexpected_error_is_reported(self) -> None:
+        self.component.drop_template_store_cache()
+
+        with (
+            patch.object(
+                self.component,
+                "load_template_store",
+                side_effect=ValueError("unexpected"),
+            ),
+            patch("weblate.trans.models.component.report_error") as report_error,
+            self.assertRaises(FileParseError),
+        ):
+            # pylint: disable-next=pointless-statement
+            self.component.template_store  # ruff: ignore[useless-expression]
+
+        report_error.assert_called_once_with(
+            "Template parse error", project=self.component.project
+        )
 
     def test_change_source_language(self) -> None:
         self.component.source_language = Language.objects.get(code="cs")
         with self.assertRaises(ValidationError):
             self.component.clean()
+
+    def test_create_translations_queues_outside_celery_task(self) -> None:
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", None),
+            patch.object(self.component, "create_translations_immediate") as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertFalse(self.component.create_translations(force=True))
+
+        immediate.assert_not_called()
+        queue_task.assert_called_once()
+
+    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+        request = SimpleNamespace(user=None)
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(
+                self.component, "create_translations_immediate", return_value=True
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertTrue(
+                self.component.create_translations(force=True, request=request)
+            )
+
+        immediate.assert_called_once_with(
+            force=True,
+            force_scan=False,
+            langs=None,
+            request=request,
+            user=None,
+            changed_template=False,
+            from_link=False,
+            change=None,
+        )
+        queue_task.assert_not_called()
+
+    def test_create_translations_queues_after_celery_lock_timeout(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(
+                self.component,
+                "create_translations_immediate",
+                side_effect=WeblateLockTimeoutError("locked", lock=self.component.lock),
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertFalse(self.component.create_translations(force=True))
+
+        immediate.assert_called_once()
+        queue_task.assert_called_once()
+
+    def test_queue_commit_pending_deduplicates_repository_tasks(self) -> None:
+        cache.delete(self.component.commit_task_key)
+        cache.delete(self.component.commit_task_reschedule_key)
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.uuid", return_value="commit-task-id"),
+            patch("weblate.trans.tasks.perform_commit.apply_async") as apply_async,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.queue_commit_pending("commit")
+            self.component.queue_commit_pending("commit")
+
+        apply_async.assert_called_once_with(
+            args=(self.component.pk, "commit"),
+            kwargs={
+                "user_id": None,
+                "force_scan": False,
+                "previous_head": None,
+            },
+            task_id="commit-task-id",
+        )
+        self.assertEqual(cache.get(self.component.commit_task_key), "commit-task-id")
+        self.assertEqual(
+            cache.get(self.component.commit_task_reschedule_key),
+            {
+                "reason": "commit",
+                "user_id": None,
+                "force_scan": False,
+                "previous_head": None,
+            },
+        )
+        self.component.delete_commit_task()
+        self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
+
+    def test_queue_commit_pending_does_not_reopen_finished_task(self) -> None:
+        cache.delete(self.component.commit_task_key)
+        cache.delete(self.component.commit_task_reschedule_key)
+
+        def delete_commit_task(*args, **kwargs) -> None:
+            self.component.delete_commit_task()
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.uuid", return_value="commit-task-id"),
+            patch(
+                "weblate.trans.tasks.perform_commit.apply_async",
+                side_effect=delete_commit_task,
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.queue_commit_pending("commit")
+
+        self.assertIsNone(cache.get(self.component.commit_task_key))
+        self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
+
+
+class PendingChangeCleanupTest(SimpleTestCase):
+    def test_delete_successful_pending_changes_batches_lookup(self) -> None:
+        success_times = {unit_id: timezone.now() for unit_id in range(1001)}
+
+        def filter_pending_changes(**kwargs):
+            queryset = Mock()
+            queryset.values_list.return_value.iterator.return_value = iter(())
+            return queryset
+
+        with patch(
+            "weblate.trans.models.translation.PendingUnitChange.objects.filter",
+            side_effect=filter_pending_changes,
+        ) as pending_filter:
+            Translation.delete_successful_pending_changes(success_times)
+
+        self.assertEqual(pending_filter.call_count, 2)
+        self.assertEqual(
+            len(pending_filter.call_args_list[0].kwargs["unit_id__in"]),
+            1000,
+        )
+        self.assertEqual(
+            len(pending_filter.call_args_list[1].kwargs["unit_id__in"]),
+            1,
+        )
+
+
+class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
+    def test_file_sync_creates_pending_changes_from_unit_values(self) -> None:
+        unit = self.get_unit()
+        Unit.objects.filter(pk=unit.source_unit_id).update(
+            explanation="Source explanation"
+        )
+        unit.change_set.create(
+            action=ActionEvents.CHANGE, user=self.user, author=self.user
+        )
+        unit.refresh_from_db()
+        source_explanation = Unit.objects.get(pk=unit.source_unit_id).explanation
+
+        with patch.object(Component, "queue_background_task", autospec=True):
+            self.assertTrue(
+                self.component.do_file_sync(self.get_request(), do_commit=False)
+            )
+
+        pending = PendingUnitChange.objects.get(unit=unit)
+        self.assertEqual(pending.author, self.user)
+        self.assertEqual(pending.target, unit.target)
+        self.assertEqual(pending.explanation, unit.explanation)
+        self.assertEqual(pending.state, unit.state)
+        self.assertEqual(pending.source_unit_explanation, source_explanation)
+        self.assertEqual(
+            pending.automatically_translated, unit.automatically_translated
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(
+            unit.details["disk_state"],
+            Unit.get_disk_state(
+                target=unit.target,
+                state=unit.state,
+                explanation=unit.explanation,
+                automatically_translated=unit.automatically_translated,
+            ),
+        )
+
+    def test_file_sync_without_disk_state_keeps_unit_details(self) -> None:
+        unit = self.get_unit()
+        original_details = unit.details.copy()
+
+        self.assertTrue(
+            self.component.do_file_sync(
+                self.get_request(),
+                do_commit=False,
+                store_disk_state=False,
+            )
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.details, original_details)
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+
+    def test_file_sync_keeps_existing_disk_state(self) -> None:
+        unit = self.get_unit()
+        disk_state = Unit.get_disk_state(
+            target="Original target",
+            state=STATE_TRANSLATED,
+            explanation="Original explanation",
+            automatically_translated=True,
+        )
+        Unit.objects.filter(pk=unit.pk).update(details={"disk_state": disk_state})
+
+        self.assertTrue(
+            self.component.do_file_sync(self.get_request(), do_commit=False)
+        )
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.details["disk_state"], disk_state)
 
 
 class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
@@ -1346,6 +1940,278 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     remote_op="none",
                 )
 
+    def test_file_sync_recreates_missing_translation_file(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+        self.assertFalse(os.path.exists(filename))
+
+        def assert_file_restored_before_queue(*_args, **_kwargs) -> None:
+            self.assertTrue(os.path.exists(filename))
+
+        with patch.object(
+            Component,
+            "queue_background_task",
+            autospec=True,
+            side_effect=assert_file_restored_before_queue,
+        ) as mock_queue:
+            self.assertTrue(self.component.do_file_sync(self.get_request()))
+
+        self.assertTrue(os.path.exists(filename))
+        mock_queue.assert_called_once()
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+
+        self.assertTrue(self.component.commit_pending("file-sync", self.user))
+        self.de_translation.drop_store_cache()
+        self.de_translation.check_sync(force=True)
+        self.assertEqual(
+            self.get_unit(language="de", translation=self.de_translation).target,
+            "Hallo Welt!\n",
+        )
+
+    def test_file_sync_keeps_pending_changes_when_restore_fails(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+        request = self.get_request()
+
+        with (
+            patch.object(
+                Component, "can_restore_missing_translation_file", return_value=False
+            ),
+            patch.object(self.component.repository, "reset") as mock_reset,
+            patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.assertFalse(os.path.exists(filename))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_reset.assert_not_called()
+        mock_cleanup.assert_not_called()
+        mock_queue.assert_not_called()
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_restore_failure_does_not_reset_repository(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        request = self.get_request()
+
+        with (
+            patch.object(
+                Component,
+                "restore_missing_translation_file",
+                autospec=True,
+                side_effect=OSError("restore failed"),
+            ),
+            patch.object(self.component.repository, "reset") as mock_reset,
+            patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
+            patch("weblate.trans.models.component.report_error") as mock_report_error,
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_reset.assert_not_called()
+        mock_cleanup.assert_called_once_with()
+        mock_queue.assert_not_called()
+        mock_report_error.assert_called_once_with(
+            "Could not recreate missing translation file during file sync",
+            project=self.component.project,
+        )
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_rolls_back_partial_missing_translation_restore(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        it_translation = self.ensure_translation("it")
+        self.prepare_missing_translation_file(
+            it_translation,
+            target="Ciao mondo!\n",
+            commit_to_remote=True,
+        )
+        start_rev = self.component.repository.last_revision
+
+        restore_file = Component.restore_missing_translation_file
+        restore_calls = 0
+        lock_states = []
+
+        def fail_second_restore(component, translation, **kwargs) -> None:
+            nonlocal restore_calls
+
+            lock_states.append(component.repository.lock.is_locked)
+            restore_calls += 1
+            if restore_calls == 2:
+                msg = "restore failed"
+                raise OSError(msg)
+            restore_file(component, translation, **kwargs)
+
+        request = self.get_request()
+        with (
+            patch.object(
+                Component,
+                "restore_missing_translation_file",
+                autospec=True,
+                side_effect=fail_second_restore,
+            ),
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.component.repository.clean_revision_cache()
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(self.component.repository.count_outgoing(), 0)
+        mock_queue.assert_not_called()
+        self.assertEqual(lock_states, [True, True])
+
+        for translation in (self.de_translation, it_translation):
+            self.assertFalse(os.path.exists(cast("str", translation.get_filename())))
+            self.assertTrue(
+                PendingUnitChange.objects.filter(unit__translation=translation).exists()
+            )
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_restore_failure_cleans_uncommitted_artifacts(self) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+            commit_to_remote=True,
+        )
+        filename = cast("str", self.de_translation.get_filename())
+        addon_file = os.path.join(self.component.full_path, "po", "restore-extra.mo")
+        start_rev = self.component.repository.last_revision
+
+        def fail_commit(translation, *args, **kwargs) -> bool:
+            pathlib.Path(addon_file).write_text("artifact", encoding="utf-8")
+            translation.addon_commit_files.append(addon_file)
+            msg = "commit failed"
+            raise OSError(msg)
+
+        request = self.get_request()
+        with (
+            patch.object(
+                Translation,
+                "git_commit",
+                autospec=True,
+                side_effect=fail_commit,
+            ),
+            patch("weblate.trans.models.component.translation_post_add.send"),
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertFalse(self.component.do_file_sync(request))
+
+        self.component.repository.clean_revision_cache()
+        self.assertEqual(start_rev, self.component.repository.last_revision)
+        self.assertEqual(self.component.repository.count_outgoing(), 0)
+        self.assertFalse(os.path.exists(filename))
+        self.assertFalse(os.path.exists(addon_file))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_queue.assert_not_called()
+
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("File synchronization could not recreate", messages[0])
+        self.assertNotIn("Reset the repository", messages[0])
+
+    def test_file_sync_ignores_uncommittable_missing_translation_file(self) -> None:
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.save()
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+
+        with (
+            patch.object(
+                Component, "restore_missing_translation_file", autospec=True
+            ) as mock_restore,
+            patch.object(
+                Component, "queue_background_task", autospec=True
+            ) as mock_queue,
+        ):
+            self.assertTrue(self.component.do_file_sync(self.get_request()))
+
+        self.assertFalse(os.path.exists(filename))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_restore.assert_not_called()
+        mock_queue.assert_called_once()
+
+    def test_file_sync_without_commit_does_not_restore_missing_translation_file(
+        self,
+    ) -> None:
+        self.prepare_missing_translation_file(
+            self.de_translation,
+            target="Hallo Welt!\n",
+        )
+        filename = cast("str", self.de_translation.get_filename())
+
+        with patch.object(
+            Component, "restore_pending_translation_files", autospec=True
+        ) as mock_restore:
+            self.assertTrue(
+                self.component.do_file_sync(
+                    self.get_request(),
+                    do_commit=False,
+                    store_disk_state=False,
+                )
+            )
+
+        self.assertFalse(os.path.exists(filename))
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit__translation=self.de_translation
+            ).exists()
+        )
+        mock_restore.assert_not_called()
+
     def test_reset_keep_recreates_missing_translation_file(self) -> None:
         self.prepare_missing_translation_file(
             self.de_translation,
@@ -1355,7 +2221,10 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self.restore_local_missing_translation_files(self.de_translation)
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
 
-        self.assertTrue(self.component.do_reset(self.get_request(), keep_changes=True))
+        with self.captureOnCommitCallbacks(execute=True):
+            self.assertTrue(
+                self.component.do_reset(self.get_request(), keep_changes=True)
+            )
 
         self.de_translation.refresh_from_db()
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
@@ -1386,7 +2255,10 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self.assertFalse(self.user.has_perm("component.edit", self.component))
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
 
-        self.assertTrue(self.component.do_reset(self.get_request(), keep_changes=True))
+        with self.captureOnCommitCallbacks(execute=True):
+            self.assertTrue(
+                self.component.do_reset(self.get_request(), keep_changes=True)
+            )
 
         self.de_translation.refresh_from_db()
         self.assertTrue(os.path.exists(cast("str", self.de_translation.get_filename())))
@@ -1755,6 +2627,17 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
 
 
 class ResetDiscardRevisionTest(ComponentTestCase):
+    def assert_removed_translation_change(self, filename: str) -> None:
+        change = Change.objects.get(
+            component=self.component,
+            action=ActionEvents.REMOVE_TRANSLATION,
+            target=filename,
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+        self.assertEqual(change.project, self.project)
+        self.assertIsNone(change.translation_id)
+
     def test_reset_updates_stored_local_revision(self) -> None:
         start_rev = self.component.repository.last_revision
 
@@ -1772,6 +2655,47 @@ class ResetDiscardRevisionTest(ComponentTestCase):
         self.assertEqual(start_rev, self.component.repository.last_revision)
         self.assertEqual(start_rev, self.component.local_revision)
 
+    def test_file_scan_removes_stale_translation_with_change(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        filename = translation.filename
+        pathlib.Path(cast("str", translation.get_filename())).unlink()
+
+        with patch(
+            "weblate.glossary.tasks.cleanup_stale_glossaries.delay_on_commit"
+        ) as cleanup_stale_glossaries:
+            self.assertTrue(
+                self.component.create_translations_immediate(
+                    force=True, request=self.get_request()
+                )
+            )
+
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+        self.assert_removed_translation_change(filename)
+        self.assertFalse(self.project.has_language(Language.objects.get(code="cs")))
+        cleanup_stale_glossaries.assert_called_once_with(self.project.id)
+
+    def test_reset_removes_upstream_deleted_translation_with_change(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        filename = translation.filename
+
+        with self.component.repository.lock:
+            self.component.repository.remove([filename], "Remove Czech translation")
+            self.component.repository.push(self.component.push_branch)
+
+        self.assertTrue(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+
+        self.assertTrue(self.component.do_reset(self.get_request()))
+
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="cs").exists()
+        )
+        self.assert_removed_translation_change(filename)
+        self.assertFalse(self.project.has_language(Language.objects.get(code="cs")))
+
 
 class TranslationRemoveRevisionTest(ComponentTestCase):
     def test_remove_updates_stored_local_revision(self) -> None:
@@ -1787,6 +2711,22 @@ class TranslationRemoveRevisionTest(ComponentTestCase):
         self.assertEqual(
             self.component.local_revision, self.component.repository.last_revision
         )
+
+    def test_remove_creates_change(self) -> None:
+        translation = self.component.translation_set.get(language_code="de")
+        filename = translation.filename
+
+        translation.remove(self.user)
+
+        change = Change.objects.get(
+            component=self.component,
+            action=ActionEvents.REMOVE_TRANSLATION,
+            target=filename,
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+        self.assertEqual(change.project, self.project)
+        self.assertIsNone(change.translation_id)
 
 
 class LastCommitLookupTest(ComponentTestCase):
@@ -1841,6 +2781,40 @@ class CleanupRevisionTest(ComponentTestCase):
 
         mock_cleanup.assert_called_once_with()
         mock_store.assert_called_once_with(self.component)
+
+    def test_cleanup_error_updates_stored_local_revision_when_head_changes(
+        self,
+    ) -> None:
+        request = self.get_request()
+        with (
+            patch.object(
+                Component,
+                "try_get_local_head_revision",
+                autospec=True,
+                return_value="old",
+            ),
+            patch.object(
+                Component,
+                "get_local_head_revision",
+                autospec=True,
+                return_value="new",
+            ),
+            patch.object(
+                Component, "store_local_revision", autospec=True
+            ) as mock_store,
+            patch.object(
+                self.component.repository,
+                "cleanup",
+                side_effect=RepositoryError(128, "cleanup failed"),
+            ) as mock_cleanup,
+        ):
+            self.assertFalse(self.component.do_cleanup(request))
+
+        mock_cleanup.assert_called_once_with()
+        mock_store.assert_called_once_with(self.component)
+        messages = [message.message for message in get_messages(request)]
+        self.assertEqual(len(messages), 1)
+        self.assertIn("Could not clean the repository", messages[0])
 
     def test_cleanup_reports_post_cleanup_head_read_failure(self) -> None:
         request = self.get_request()
@@ -1951,6 +2925,38 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
         )
         self.assertIn("\nHost key verification failed.\n", error_text)
         self.assertIn(".../.git/index.lock", error_text)
+
+    def test_validate_repository_compatibility_retries_tofu(self) -> None:
+        error = RepositoryError(
+            255,
+            "No ED25519 host key is known for example.com.\n"
+            "Host key verification failed.\n",
+        )
+        component = SimpleNamespace(
+            repository=Mock(
+                validate_pull_url=Mock(),
+                validate_push_url=Mock(),
+                validate_remote_compatibility=Mock(side_effect=[error, None]),
+            ),
+            repo="ssh://git@example.com/repo.git",
+            push="",
+            branch="main",
+            error_text=Mock(return_value=error.get_message()),
+            add_ssh_host_key=Mock(),
+        )
+
+        Component.validate_repository_compatibility(component)  # type: ignore[arg-type]
+
+        component.repository.validate_pull_url.assert_called_with(component.repo)
+        component.repository.validate_push_url.assert_not_called()
+        self.assertEqual(
+            component.repository.validate_remote_compatibility.call_args_list,
+            [
+                ((component.repo, component.branch),),
+                ((component.repo, component.branch),),
+            ],
+        )
+        component.add_ssh_host_key.assert_called_once_with()
 
     def test_handle_update_error_host_key_mismatch(self) -> None:
         component = SimpleNamespace(

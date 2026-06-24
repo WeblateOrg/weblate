@@ -12,6 +12,7 @@ from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 
+from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
@@ -39,6 +40,7 @@ if TYPE_CHECKING:
 
 __all__ = [
     "Alert",
+    "AlertSeverity",
     "Announcement",
     "Category",
     "Change",
@@ -128,7 +130,8 @@ def translation_post_delete(sender, instance: Translation, **kwargs) -> None:
 @receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
 def component_links_updated(sender, instance, **kwargs) -> None:
-    from weblate.utils.tasks import update_project_stats_link  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.tasks import update_project_stats_link
 
     update_project_stats_link.delay_on_commit(instance.project_id)
 

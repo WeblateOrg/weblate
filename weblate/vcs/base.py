@@ -11,13 +11,24 @@ import logging
 import os
 import os.path
 import signal
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from contextlib import suppress
+from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, Literal, Self, TypedDict
+from typing import (
+    TYPE_CHECKING,
+    ClassVar,
+    Literal,
+    NotRequired,
+    Required,
+    Self,
+    TypedDict,
+)
 
 from dateutil import parser
+from django.conf import settings
 from django.core.cache import cache
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from packaging.version import Version
@@ -37,7 +48,6 @@ from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterator
-    from datetime import datetime
 
     import requests
     from django_stubs_ext import StrOrPromise
@@ -47,6 +57,8 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger("weblate.vcs")
 
 SSH_HOST_KEY_VERIFICATION_FAILED = "Host key verification failed"
+# Bump when check_config() gains settings existing repositories must refresh.
+CONFIG_CHECK_CACHE_VERSION = 2
 
 
 def get_config_check_cache_key(component_pk: int) -> str:
@@ -54,7 +66,9 @@ def get_config_check_cache_key(component_pk: int) -> str:
     wrapper_hash = hashlib.sha256(
         SSH_WRAPPER.filename.as_posix().encode("utf-8")
     ).hexdigest()
-    return f"sp-config-check-{wrapper_hash}-{component_pk}"
+    return (
+        f"sp-config-check-v{CONFIG_CHECK_CACHE_VERSION}-{wrapper_hash}-{component_pk}"
+    )
 
 
 def get_repository_lock_key(base_path: str, component: Component | None) -> int | str:
@@ -69,7 +83,53 @@ class SubprocessArgs(TypedDict, total=False):
     input: str
 
 
+class RawCommitInfo(TypedDict):
+    """Detailed revision information returned by VCS implementations."""
+
+    revision: Required[str]
+    shortrevision: Required[str]
+    author: Required[str]
+    authordate: Required[str]
+    commit: Required[str]
+    commitdate: Required[str]
+    message: Required[str]
+    summary: Required[str]
+    author_name: NotRequired[str]
+    author_email: NotRequired[str]
+    commit_name: NotRequired[str]
+    commit_email: NotRequired[str]
+    committerdate: NotRequired[str]
+    date: NotRequired[str]
+
+
+class CommitInfo(TypedDict):
+    """Detailed revision information exposed to callers."""
+
+    revision: Required[str]
+    shortrevision: Required[str]
+    author: Required[str]
+    authordate: Required[datetime]
+    commit: Required[str]
+    commitdate: Required[datetime]
+    message: Required[str]
+    summary: Required[str]
+    author_name: NotRequired[str]
+    author_email: NotRequired[str]
+    commit_name: NotRequired[str]
+    commit_email: NotRequired[str]
+    committerdate: NotRequired[datetime]
+    date: NotRequired[datetime]
+
+
 type RemoteOperation = Literal["none", "pull", "push"]
+
+
+def parse_commit_date(value: str | datetime) -> datetime:
+    """Parse a commit date string into a datetime object."""
+    result = value if isinstance(value, datetime) else parser.parse(value)
+    if settings.USE_TZ and timezone.is_naive(result):
+        return timezone.make_aware(result)
+    return result
 
 
 class RepositoryLock:
@@ -233,6 +293,7 @@ class Repository:
     ref_to_remote: ClassVar[str]
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
+    supports_remote_compatibility_validation: ClassVar[bool] = False
     _version: ClassVar[str | None] = None
     _version_error: ClassVar[Exception | None] = None
 
@@ -271,7 +332,8 @@ class Repository:
             SSH_WRAPPER.create()
 
     @classmethod
-    def get_remote_branch(cls, repo: str) -> str:  # noqa: ARG003
+    # ruff: ignore[unused-class-method-argument]
+    def get_remote_branch(cls, repo: str) -> str:
         return cls.default_branch
 
     @classmethod
@@ -415,20 +477,19 @@ class Repository:
         """Execute the command using popen."""
         if args is None:
             raise RepositoryError(0, "Not supported functionality")
-        if not fullcmd:
-            args = [cls._cmd, *list(args)]
-        text_cmd = " ".join(args)
-        try:
-            # These are mutually exclusive, gevent actually checks
-            # for their presence, not a avalue
-            kwargs: SubprocessArgs = {}
-            if stdin is None:
-                kwargs["stdin"] = subprocess.PIPE
-            else:
-                kwargs["input"] = stdin
+        cmd = args if fullcmd else [cls._cmd, *args]
+        text_cmd = " ".join(cmd)
+        # These are mutually exclusive, gevent actually checks
+        # for their presence, not a value.
+        kwargs: SubprocessArgs = {}
+        if stdin is None:
+            kwargs["stdin"] = subprocess.PIPE
+        else:
+            kwargs["input"] = stdin
 
+        try:
             process = subprocess.run(
-                args=args,
+                args=cmd,
                 cwd=cwd,
                 env=environment or {} if local else cls._getenv(environment, cwd=cwd),
                 stdout=subprocess.PIPE,
@@ -439,6 +500,12 @@ class Repository:
                 timeout=3600,
                 **kwargs,
             )
+        except OSError as error:
+            if cwd is None or error.filename != cwd:
+                raise
+            raise RepositoryCommandError(
+                error.errno or 1, cls.sanitize_error_message(str(error))
+            ) from error
         except subprocess.TimeoutExpired as error:
             stdout = (
                 error.stdout.decode()
@@ -486,7 +553,8 @@ class Repository:
         return errormessage
 
     @staticmethod
-    def should_retry_popen(errormessage: str) -> bool:  # noqa: ARG004
+    # ruff: ignore[unused-static-method-argument]
+    def should_retry_popen(errormessage: str) -> bool:
         return False
 
     def recover_lock_session(self) -> None:
@@ -584,9 +652,9 @@ class Repository:
     @staticmethod
     def validate_remote_url(url: str) -> None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # noqa: PLC0415
+        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
-        from weblate.utils.validators import validate_repo_url  # noqa: PLC0415
+        from weblate.utils.validators import validate_repo_url  # ruff: ignore[import-outside-top-level]
 
         try:
             validate_repo_url(url)
@@ -606,6 +674,10 @@ class Repository:
             url = self.component.push or self.component.repo
         if url:
             self.validate_remote_url(url)
+
+    def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
+        """Validate that a remote branch is compatible with this checkout."""
+        raise NotImplementedError
 
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
@@ -640,6 +712,10 @@ class Repository:
 
     def reset(self) -> None:
         """Reset working copy to match remote branch."""
+        raise NotImplementedError
+
+    def reset_to_revision(self, revision: str) -> None:
+        """Reset working copy to a local revision."""
         raise NotImplementedError
 
     def merge(
@@ -710,25 +786,43 @@ class Repository:
         """Check whether repository needs push."""
         return bool(self.get_push_revisions(branch))
 
-    def _get_revision_info(self, revision: str) -> dict[str, str]:
+    def _get_revision_info(self, revision: str) -> RawCommitInfo:
         """Return dictionary with detailed revision information."""
         raise NotImplementedError
 
-    def get_revision_info(self, revision: str) -> dict[str, str]:
+    def get_revision_info(self, revision: str) -> CommitInfo:
         """Return dictionary with detailed revision information."""
         key = f"rev-info-{self.get_identifier()}-{revision}"
-        result = cache.get(key)
+        result: RawCommitInfo | None = cache.get(key)
         if not result:
             result = self._get_revision_info(revision)
             # Keep the cache for one day
             cache.set(key, result, 86400)
 
-        # Parse timestamps into datetime objects
-        for name, value in result.items():
-            if "date" in name:
-                result[name] = parser.parse(value)
+        commit_info: CommitInfo = {
+            "revision": result["revision"],
+            "shortrevision": result["shortrevision"],
+            "author": result["author"],
+            "authordate": parse_commit_date(result["authordate"]),
+            "commit": result["commit"],
+            "commitdate": parse_commit_date(result["commitdate"]),
+            "message": result["message"],
+            "summary": result["summary"],
+        }
+        if "author_name" in result:
+            commit_info["author_name"] = result["author_name"]
+        if "author_email" in result:
+            commit_info["author_email"] = result["author_email"]
+        if "commit_name" in result:
+            commit_info["commit_name"] = result["commit_name"]
+        if "commit_email" in result:
+            commit_info["commit_email"] = result["commit_email"]
+        if "committerdate" in result:
+            commit_info["committerdate"] = parse_commit_date(result["committerdate"])
+        if "date" in result:
+            commit_info["date"] = parse_commit_date(result["date"])
 
-        return result
+        return commit_info
 
     @classmethod
     def is_configured(cls) -> bool:

@@ -12,6 +12,7 @@ from contextlib import suppress
 
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
+from uuid import UUID
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -37,12 +38,13 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, prefetch_stats
 from weblate.vcs.git import LocalRepository
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
     from django.db.models import Model
-    from django.http import HttpRequest, HttpResponseBase
+    from django.http import HttpRequest, HttpResponseBase, QueryDict
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin
@@ -54,7 +56,8 @@ class UnsupportedPathObjectError(Http404):
 
 
 def key_name(instance):
-    from weblate.trans.templatetags.translations import get_breadcrumbs  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.templatetags.translations import get_breadcrumbs
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
@@ -63,6 +66,14 @@ def key_name(instance):
 
 def key_translated(instance):
     return instance.stats.translated_percent
+
+
+def key_approved(instance):
+    stats = instance.stats
+    # Mixed listings can include objects without review workflow enabled.
+    if stats.has_review:
+        return stats.approved_percent + stats.readonly_percent
+    return 0
 
 
 def key_unreviewed(instance):
@@ -103,6 +114,7 @@ def key_comments(instance):
 
 SORT_KEYS = {
     "name": key_name,
+    "approved": key_approved,
     "translated": key_translated,
     "unreviewed": key_unreviewed,
     "untranslated": key_untranslated,
@@ -228,15 +240,20 @@ SORT_CHOICES = {
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
 
 
-def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
+def get_sort_name(
+    request: AuthenticatedHttpRequest, obj=None, query_data: QueryDict | None = None
+):
     """Get sort name."""
-    if isinstance(obj, (Project, Category)):
+    if isinstance(
+        obj, (Project, Category, ProjectLanguage, CategoryLanguage, Workspace)
+    ):
         default = "component,-priority"
     elif hasattr(obj, "component") and obj.component.is_glossary:
         default = "source"
     else:
         default = "-priority,position"
-    sort_query = request.GET.get("sort_by", default)
+    data = request.GET if query_data is None else query_data
+    sort_query = data.get("sort_by", default)
     sort_params = sort_query.replace("-", "")
     sort_name = SORT_LOOKUP.get(sort_params, gettext("Position and priority"))
     return {
@@ -245,7 +262,8 @@ def get_sort_name(request: AuthenticatedHttpRequest, obj=None):
     }
 
 
-def parse_path(  # noqa: C901
+# ruff: ignore[complex-structure]
+def parse_path(
     request: AuthenticatedHttpRequest | None,
     path: list[str] | tuple[str, ...] | None,
     types: tuple[type[Model | BaseURLMixin] | None, ...],
@@ -267,6 +285,24 @@ def parse_path(  # noqa: C901
 
     path = list(path)
 
+    # Workspace URL
+    if path[:2] == ["-", "workspace"]:
+        check_type(Workspace)
+        if len(path) != 3:
+            msg = "Invalid workspace path"
+            raise UnsupportedPathObjectError(msg)
+        try:
+            workspace_id = UUID(path[2])
+        except ValueError as error:
+            msg = "Invalid workspace id"
+            raise Http404(msg) from error
+        workspace = get_object_or_404(Workspace, pk=workspace_id)
+        if request is not None and not workspace.can_view(request.user):
+            msg = "Access denied"
+            raise Http404(msg)
+        workspace.acting_user = acting_user
+        return workspace
+
     # Language URL
     if path[:2] == ["-", "-"] and len(path) == 3:
         if path[2] == "-" and None in types:
@@ -275,7 +311,9 @@ def parse_path(  # noqa: C901
         return get_object_or_404(Language, code=path[2])
 
     # First level is always project
-    project = get_object_or_404(Project, slug=path.pop(0))
+    project = get_object_or_404(
+        Project.objects.select_related("workspace"), slug=path.pop(0)
+    )
     if request is not None:
         request.user.check_access(project)
     project.acting_user = acting_user
@@ -340,7 +378,8 @@ def parse_path(  # noqa: C901
         raise UnsupportedPathObjectError(msg)
 
     translation = get_object_or_404(
-        cast("Component", current).translation_set, language__code=path.pop(0)
+        cast("Component", current).translation_set.select_related("language", "plural"),
+        language__code=path.pop(0),
     )
     if not path:
         check_type(Translation)
@@ -386,6 +425,11 @@ def parse_path_units(
     elif isinstance(obj, Project):
         unit_set = access_units.filter(translation__component__project=obj).prefetch()
         context["project"] = obj
+    elif isinstance(obj, Workspace):
+        unit_set = access_units.filter(
+            translation__component__project__workspace=obj
+        ).prefetch()
+        context["workspace"] = obj
     elif isinstance(obj, ProjectLanguage):
         unit_set = access_units.filter(
             translation__component__project=obj.project,
@@ -591,7 +635,7 @@ def download_translation_file(
             # Create response
             response = FileResponse(
                 # pylint: disable-next=consider-using-with
-                open(filename, "rb"),  # noqa: SIM115
+                open(filename, "rb"),  # ruff: ignore[open-file-with-context-handler]
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:

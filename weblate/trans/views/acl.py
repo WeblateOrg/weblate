@@ -11,7 +11,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Prefetch
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext
@@ -26,7 +26,12 @@ from weblate.auth.forms import (
     InviteUserForm,
     ProjectTeamForm,
 )
-from weblate.auth.models import Invitation, User
+from weblate.auth.models import Invitation, TeamMembership, User
+from weblate.auth.utils import (
+    format_membership_limit_language_codes,
+    prefetch_membership_limit_languages,
+)
+from weblate.lang.forms import get_language_code_choices
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
     ProjectTokenCreateForm,
@@ -44,7 +49,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
-from weblate.utils.views import parse_path, show_form_errors
+from weblate.utils.views import get_paginator, parse_path, show_form_errors
 from weblate.vcs.ssh import get_all_key_data
 
 if TYPE_CHECKING:
@@ -122,17 +127,45 @@ def set_groups(request: AuthenticatedHttpRequest, project):
     current_groups = set(
         user.groups.filter(defining_project=obj).values_list("id", flat=True)
     )
+    project_groups = list(obj.defined_groups.all())
+    memberships = {
+        membership.group_id: membership
+        for membership in TeamMembership.objects.filter(
+            user=user, group__in=project_groups
+        ).prefetch_related(prefetch_membership_limit_languages())
+    }
 
-    for group in obj.defined_groups.all():
+    for group in project_groups:
         if group.id in desired_groups:
-            if group.id in current_groups:
-                continue
-            user.add_team(request, group)
-            obj.change_set.create(
-                action=ActionEvents.ADD_USER,
-                user=request.user,
-                details={"username": user.username, "group": group.name},
+            had_membership = group.id in current_groups
+            if not had_membership:
+                user.add_team(request, group)
+                obj.change_set.create(
+                    action=ActionEvents.ADD_USER,
+                    user=request.user,
+                    details={"username": user.username, "group": group.name},
+                )
+            membership = memberships.get(group.id)
+            if membership is None:
+                membership = TeamMembership.objects.get(user=user, group=group)
+                memberships[group.id] = membership
+            limit_languages = list(form.get_limit_languages(group))
+            language_change = membership.set_limit_languages(
+                limit_languages, request, audit=had_membership
             )
+            if language_change is not None and had_membership:
+                obj.change_set.create(
+                    action=ActionEvents.USER_ACCESS_CHANGE,
+                    user=request.user,
+                    details={
+                        "username": user.username,
+                        "group": group.name,
+                        "previous_limit_languages": (
+                            language_change.previous_limit_languages
+                        ),
+                        "limit_languages": language_change.limit_languages,
+                    },
+                )
         elif group.id in current_groups:
             if request.user == user:
                 messages.error(request, gettext("You can not remove yourself!"))
@@ -146,6 +179,75 @@ def set_groups(request: AuthenticatedHttpRequest, project):
 
     return redirect_param(
         "manage-access", "#api" if user.is_bot else "", project=obj.slug
+    )
+
+
+def get_project_memberships_prefetch(groups):
+    return Prefetch(
+        "team_memberships",
+        queryset=TeamMembership.objects.filter(group__in=groups)
+        .select_related("group")
+        .prefetch_related(prefetch_membership_limit_languages())
+        .order_by("group__defining_project__name", "group__name"),
+        to_attr="project_group_memberships",
+    )
+
+
+def setup_project_membership_badges(user) -> None:
+    for membership in user.project_group_memberships:
+        membership.limit_language_codes = format_membership_limit_language_codes(
+            membership
+        )
+
+
+def setup_project_group_edit_form(
+    user, project, groups, limit_language_choices
+) -> None:
+    initial = {"user": user.username, "groups": user.project_groups}
+    setup_project_membership_badges(user)
+    for membership in user.project_group_memberships:
+        initial[ProjectUserGroupForm.get_limit_languages_field(membership.group)] = (
+            membership.limit_languages.all()
+        )
+    user.group_edit_form = ProjectUserGroupForm(
+        project,
+        initial=initial,
+        auto_id=f"id_user_{user.id}_%s",
+        group_queryset=groups,
+        limit_language_choices=limit_language_choices,
+    )
+
+
+@login_required
+def project_user_groups(request: AuthenticatedHttpRequest, project, user_id: int):
+    """Render team assignment form for a project user."""
+    obj = parse_path(request, [project], (Project,))
+
+    if not request.user.has_perm("project.permissions", obj):
+        raise PermissionDenied
+
+    groups = obj.defined_groups.order().prefetch_related("languages", "components")
+    user = get_object_or_404(
+        User.objects.filter(groups__in=groups, pk=user_id)
+        .distinct()
+        .prefetch_related(
+            Prefetch(
+                "groups",
+                queryset=groups,
+                to_attr="project_groups",
+            ),
+            get_project_memberships_prefetch(groups),
+        )
+    )
+
+    setup_project_group_edit_form(
+        user, obj, groups, get_language_code_choices(obj.languages)
+    )
+
+    return render(
+        request,
+        "trans/project-access-team-form.html",
+        {"form": user.group_edit_form},
     )
 
 
@@ -365,8 +467,10 @@ def manage_access(request: AuthenticatedHttpRequest, project):
                 queryset=groups,
                 to_attr="project_groups",
             ),
+            get_project_memberships_prefetch(groups),
         )
     )
+    users = get_paginator(request, users)
     project_tokens = (
         User.objects.filter(groups__in=groups, is_bot=True)
         .distinct()
@@ -377,14 +481,21 @@ def manage_access(request: AuthenticatedHttpRequest, project):
                 queryset=groups,
                 to_attr="project_groups",
             ),
+            get_project_memberships_prefetch(groups),
         )
     )
 
     for user in chain(users, project_tokens):
-        user.group_edit_form = ProjectUserGroupForm(
-            obj,
-            initial={"user": user.username, "groups": user.project_groups},
-            auto_id=f"id_user_{user.id}_%s",
+        setup_project_membership_badges(user)
+
+    invitations = list(
+        Invitation.objects.filter(group__defining_project=obj)
+        .select_related("group", "user")
+        .prefetch_related(prefetch_membership_limit_languages())
+    )
+    for invitation in invitations:
+        invitation.limit_language_codes = format_membership_limit_language_codes(
+            invitation
         )
 
     return render(
@@ -397,9 +508,7 @@ def manage_access(request: AuthenticatedHttpRequest, project):
             "groups": groups,
             "all_users": users,
             "blocked_users": obj.userblock_set.select_related("user"),
-            "invitations": Invitation.objects.filter(
-                group__defining_project=obj
-            ).select_related("user"),
+            "invitations": invitations,
             "create_project_token_form": ProjectTokenCreateForm(
                 obj, auto_id="id_project_token_%s"
             ),

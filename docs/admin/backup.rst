@@ -18,9 +18,14 @@ You can perform a project backup in :guilabel:`Operations` ↓ :guilabel:`Backup
 The backup can be restored when creating a project (see
 :ref:`adding-projects`).
 
+.. note::
+
+   Project backups can also be created, listed, and downloaded through the
+   :ref:`api` since version 2026.7;
+
 The backups currently do not include access control information and history.
 
-The comments and suggestions are backed up with an username of user who did
+The comments and suggestions are backed up with the username of the user who did
 create them. Upon import it is assigned to a matching user. If there is no user
 with such username, it is assigned to anonymous user.
 
@@ -30,6 +35,7 @@ The generated backups are kept on the server as configured by
 
 Import validation of uploaded project backups can be tuned using
 :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`,
+:setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`,
 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`,
 :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, and
 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`.
@@ -150,7 +156,7 @@ to create it but needs the appropriate permissions to do so.
               - /home/weblate/data:/app/data
               - /home/weblate/borgbackup:/borgbackup
 
-    The directory where backups will be stored have to be owned by UID 1000,
+    The directory where backups will be stored has to be owned by UID 1000,
     otherwise Weblate won’t be able to write the backups there.
 
 Remote backups
@@ -167,7 +173,7 @@ via SSH using the Weblate SSH key:
 5. Add Weblate SSH key to the user's `.ssh/authorized_keys` file, so that Weblate can SSH to the server without a password (see :ref:`weblate-ssh-key`).
 6. Create a user-writable directory where Weblate can remotely set up the Borg backup repository, for example in the home directory (i.e. ``/home/borg/backups``).
 7. Configure the backup location in Weblate as ``user@host:/home/borg/backups`` or ``ssh://user@host:port/home/borg/backups``.
-8. Once enabled, the backups will be triggered automatically daily. You can also manually trigger a backup from the Weblate UI.
+8. Once enabled, the backups will be triggered automatically daily. You can also manually trigger a backup from the Weblate UI or using :ref:`backup-management-command`.
 
 .. hint::
 

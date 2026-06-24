@@ -5,20 +5,31 @@
 from __future__ import annotations
 
 import time
-from unittest.mock import patch
+from pathlib import Path
+from unittest.mock import Mock, patch
+from weakref import WeakSet
 
+from django.conf import settings
 from django.core.cache import cache
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.addons.base import BaseAddon
-from weblate.utils.apps import check_class_loader, check_settings
+from weblate.utils.apps import (
+    CACHE_EXEC_CHECK_PREFIX,
+    check_class_loader,
+    check_data_writable,
+    check_errors,
+    check_settings,
+)
 from weblate.utils.celery import is_celery_queue_long
 from weblate.utils.classloader import ClassLoader
+from weblate.utils.unittest import tempdir_setting
 
 
 class CeleryQueueTest(SimpleTestCase):
-    databases = {"default"}  # noqa: RUF012
+    # ruff: ignore[mutable-class-default]
+    databases = {"default"}
 
     @staticmethod
     def set_cache(value) -> None:
@@ -74,27 +85,69 @@ class ClassLoaderCheckTestCase(SimpleTestCase):
     @override_settings(TEST_ADDONS="weblate.addons.cleanup.CleanupAddon")
     def test_invalid(self) -> None:
         old_instances = ClassLoader.instances
-        ClassLoader.instances = {}  # type: ignore[assignment]
+        ClassLoader.instances = WeakSet()
         try:
-            ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
+            loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
             # This operates on ClassLoader.instances
             errors = list(check_class_loader(app_configs=None, databases=None))
             self.assertEqual(len(errors), 1)
+            self.assertIn(loader, ClassLoader.instances)
         finally:
             ClassLoader.instances = old_instances
 
     @override_settings(TEST_ADDONS=("weblate.addons.not_found",))
     def test_not_found(self) -> None:
         old_instances = ClassLoader.instances
-        ClassLoader.instances = {}  # type: ignore[assignment]
+        ClassLoader.instances = WeakSet()
         try:
-            ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
+            loader = ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
             # This operates on ClassLoader.instances
             errors = list(check_class_loader(app_configs=None, databases=None))
             self.assertEqual(len(errors), 1)
             self.assertIn("does not define a 'not_found' class", errors[0].msg)
+            self.assertIn(loader, ClassLoader.instances)
         finally:
             ClassLoader.instances = old_instances
+
+
+class DataWritableCheckTestCase(SimpleTestCase):
+    @staticmethod
+    def get_cache_probes() -> list[Path]:
+        return list(
+            (Path(settings.CACHE_DIR) / "ssh").glob(f"{CACHE_EXEC_CHECK_PREFIX}*")
+        )
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_cache_dir_executable(self) -> None:
+        errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.C044" for error in errors))
+        self.assertEqual(self.get_cache_probes(), [])
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_cache_dir_execution_permission_error(self) -> None:
+        with patch(
+            "weblate.utils.apps.subprocess.run",
+            side_effect=PermissionError("permission denied"),
+        ):
+            errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertTrue(any(error.id == "weblate.C044" for error in errors))
+        self.assertEqual(self.get_cache_probes(), [])
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_cache_dir_execution_failure(self) -> None:
+        with patch(
+            "weblate.utils.apps.subprocess.run",
+            return_value=Mock(returncode=126),
+        ):
+            errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertTrue(any(error.id == "weblate.C044" for error in errors))
+        self.assertEqual(self.get_cache_probes(), [])
 
 
 class SettingsCheckTestCase(SimpleTestCase):
@@ -107,3 +160,17 @@ class SettingsCheckTestCase(SimpleTestCase):
     def test_default_admin_tuple_email(self) -> None:
         errors = list(check_settings(app_configs=None, databases=None))
         self.assertTrue(any(error.id == "weblate.E011" for error in errors))
+
+
+class ErrorCollectionCheckTestCase(SimpleTestCase):
+    @override_settings(SENTRY_DSN=None, GOOGLE_CLOUD_ERROR_REPORTING=None)
+    def test_error_collection_missing(self) -> None:
+        errors = list(check_errors(app_configs=None, databases=None))
+
+        self.assertTrue(any(error.id == "weblate.I021" for error in errors))
+
+    @override_settings(SENTRY_DSN=None, GOOGLE_CLOUD_ERROR_REPORTING={})
+    def test_google_cloud_error_reporting_configured(self) -> None:
+        errors = list(check_errors(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.I021" for error in errors))

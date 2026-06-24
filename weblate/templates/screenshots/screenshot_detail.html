@@ -57,26 +57,37 @@
       </div>
       <div class="search-results">{% include "screenshots/screenshot_sources_search.html" %}</div>
       <div class="card-footer">
-        <div class="float-end">
-          <form class="form-inline">
+        <div class="d-flex flex-column flex-xl-row gap-2 align-items-stretch">
+          <form class="double-submission flex-grow-1">
+            {% csrf_token %}
+            <div class="input-group">
+              <input class="textinput form-control"
+                     type="text"
+                     required="yes"
+                     name="q"
+                     id="search-input"
+                     placeholder="{% translate "Source string search" %}" />
+              <button data-href="{% url 'screenshot-js-search' pk=object.pk %}"
+                      class="btn btn-primary"
+                      id="screenshots-search">{% translate "Search" %}</button>
+            </div>
+          </form>
+          <form>
             {% csrf_token %}
             <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}"
-                    class="btn btn-warning"
-                    id="screenshots-auto">{% translate "Automatically recognize" %}</button>
+                    class="btn btn-primary w-100"
+                    id="screenshots-auto"
+                    title="{% translate "Suggests source strings by recognizing text in this screenshot." %}">
+              {% translate "Find strings in image" %}
+            </button>
           </form>
+          <button class="btn btn-primary" id="screenshots-add-selected" type="button" disabled>
+            {% translate "Add selected" %}
+          </button>
         </div>
-        <form class="form-inline double-submission">
-          {% csrf_token %}
-          <input class="textinput form-control"
-                 type="text"
-                 required="yes"
-                 name="q"
-                 id="search-input"
-                 placeholder="{% translate "Source string search" %}" />
-          <button data-href="{% url 'screenshot-js-search' pk=object.pk %}"
-                  class="btn btn-primary"
-                  id="screenshots-search">{% translate "Search" %}</button>
-        </form>
+        <div id="screenshots-search-summary"
+             class="small text-body-secondary mt-2"
+             aria-live="polite"></div>
       </div>
     </div>
   {% endif %}

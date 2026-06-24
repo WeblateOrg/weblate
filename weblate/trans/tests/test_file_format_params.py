@@ -8,10 +8,10 @@
 from __future__ import annotations
 
 import os.path
-from pathlib import Path
 from typing import TYPE_CHECKING, Unpack
 from unittest.mock import patch
 
+from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
@@ -20,12 +20,20 @@ from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.ttkit import StringsFormat
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.file_format_params import get_default_params_for_file_format
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import get_optional_path
 from weblate.utils.views import get_form_data
 
 if TYPE_CHECKING:
     from weblate.trans.file_format_params import FileFormatParams
+
+
+class FileFormatParamsTest(SimpleTestCase):
+    def test_po_mono_remove_obsolete_default(self) -> None:
+        self.assertEqual(
+            get_default_params_for_file_format("po-mono")["po_remove_obsolete"], False
+        )
 
 
 class BaseFileFormatsTest(ViewTestCase):
@@ -130,7 +138,10 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
 
     def test_create_component_from_existing(self) -> None:
         self.update_component_file_params(
-            po_line_wrap=-1, po_keep_previous=False, po_fuzzy_matching=False
+            po_line_wrap=-1,
+            po_keep_previous=False,
+            po_remove_obsolete=True,
+            po_fuzzy_matching=False,
         )
 
         response = self.client.post(
@@ -178,6 +189,7 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         new_component = Component.objects.get(slug="create-component-from-existing")
         self.assertEqual(new_component.file_format_params["po_line_wrap"], "-1")
         self.assertEqual(new_component.file_format_params["po_keep_previous"], False)
+        self.assertEqual(new_component.file_format_params["po_remove_obsolete"], True)
         self.assertEqual(new_component.file_format_params["po_fuzzy_matching"], False)
 
     def test_universal_file_format_parameters(self) -> None:
@@ -299,7 +311,7 @@ class YAMLParamsTest(BaseFileFormatsTest):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn(f"{expected}try:", commit)
         self.assertIn("cs.yml", commit)
-        filepath = Path(self.get_translation().get_filename())
+        filepath = get_optional_path(self.get_translation().get_filename())
         self.assertIn(b"\r\n", filepath.read_bytes())
 
     def test_customize(self) -> None:
@@ -364,7 +376,7 @@ class TSParamsTest(BaseFileFormatsTest):
         new_revision = self.component.repository.last_revision
         self.assertNotEqual(rev, new_revision)
         new_commit = self.component.repository.show(new_revision)
-        self.assertIn("Added translation using Weblate (German)", new_commit)
+        self.assertIn("chore(l10n): add German translation", new_commit)
         if closing_tags_active:
             self.assertIn(
                 '<location filename="main.c" line="11"></location>', new_commit
@@ -386,15 +398,37 @@ class GettextParamsTest(BaseFileFormatsTest):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
+    def remove_thank_you_from_template(self) -> None:
+        template = get_optional_path(self.component.get_new_base_filename())
+        content = template.read_text(encoding="utf-8")
+        for line in ("14", "15"):
+            content = content.replace(
+                f"\n#: main.c:{line}\n"
+                'msgid "Thank you for using Weblate."\n'
+                'msgstr ""\n',
+                "\n",
+            )
+        template.write_text(content, encoding="utf-8")
+
+    def translate_thank_you(self) -> None:
+        translation = get_optional_path(self.get_translation().get_filename())
+        translation.write_text(
+            translation.read_text(encoding="utf-8").replace(
+                'msgid "Thank you for using Weblate."\nmsgstr ""',
+                'msgid "Thank you for using Weblate."\nmsgstr "Dekuji"',
+            ),
+            encoding="utf-8",
+        )
+
     def test_msgmerge(self, wrapped=True) -> None:
         self.assertTrue(MsgmergeAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = MsgmergeAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, "", False)
+        addon.post_update(self.component, "", False, [])
         self.assertEqual(rev, self.component.repository.last_revision)
-        addon.post_update(self.component, rev, False)
+        addon.post_update(self.component, rev, False, [self.component.new_base])
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
@@ -403,6 +437,59 @@ class GettextParamsTest(BaseFileFormatsTest):
     def test_msgmerge_nowrap(self) -> None:
         self.update_component_file_params(po_line_wrap=-1)
         self.test_msgmerge(False)
+
+    def test_msgmerge_imports_changed_source(self) -> None:
+        addon = MsgmergeAddon.create(component=self.component, run=False)
+        template = get_optional_path(self.component.get_new_base_filename())
+        template.write_text(
+            template.read_text(encoding="utf-8").replace(
+                "Thank you for using Weblate.",
+                "Thank you for using Weblate!",
+            ),
+            encoding="utf-8",
+        )
+
+        addon.post_update(self.component, "", False, [])
+
+        self.assertTrue(
+            Unit.objects.filter(
+                translation__component=self.component,
+                translation__language__code="cs",
+                source="Thank you for using Weblate!",
+            ).exists()
+        )
+        self.assertFalse(
+            Unit.objects.filter(
+                translation__component=self.component,
+                translation__language__code="cs",
+                source="Thank you for using Weblate.",
+            ).exists()
+        )
+
+    def test_msgmerge_removes_obsolete(self) -> None:
+        self.update_component_file_params(po_remove_obsolete=True)
+        addon = MsgmergeAddon.create(component=self.component, run=False)
+        self.translate_thank_you()
+        self.remove_thank_you_from_template()
+
+        addon.post_update(self.component, "", False, [])
+
+        content = get_optional_path(self.get_translation().get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn("#~ msgid", content)
+
+    def test_msgmerge_keeps_obsolete_by_default(self) -> None:
+        addon = MsgmergeAddon.create(component=self.component, run=False)
+        self.translate_thank_you()
+        self.remove_thank_you_from_template()
+
+        addon.post_update(self.component, "", False, [])
+
+        content = get_optional_path(self.get_translation().get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('#~ msgid "Thank you for using Weblate."', content)
 
     def test_store(self) -> None:
         self.update_component_file_params(
@@ -417,6 +504,22 @@ class GettextParamsTest(BaseFileFormatsTest):
             "Last-Translator: Weblate Test <weblate@example.org>\\nLanguage", commit
         )
 
+    def test_store_removes_obsolete(self) -> None:
+        self.update_component_file_params(po_remove_obsolete=True)
+        translation = self.get_translation()
+        filename = get_optional_path(translation.get_filename())
+        filename.write_text(
+            filename.read_text(encoding="utf-8")
+            + '\n#~ msgid "Obsolete string"\n#~ msgstr "Zastaraly retezec"\n',
+            encoding="utf-8",
+        )
+        translation.drop_store_cache()
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        translation.commit_pending("test", None)
+
+        self.assertNotIn("#~ msgid", filename.read_text(encoding="utf-8"))
+
     def test_msgmerge_no_location(self) -> None:
         self.update_component_file_params(po_no_location=True)
         rev = self.component.repository.last_revision
@@ -425,7 +528,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         addon = MsgmergeAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        addon.post_update(self.component, rev, False)
+        addon.post_update(self.component, rev, False, [self.component.new_base])
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -524,7 +627,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         rev3 = self.component.repository.last_revision
         commit3 = self.component.repository.show(rev3)
         self.assertNotEqual(rev2, rev3)
-        self.assertIn("Added translation using Weblate (Polish)", commit3)
+        self.assertIn("chore(l10n): add Polish translation", commit3)
         self.assertNotIn("Last-Translator: Automatically generated", commit3)
 
         # check header is present when a new language is added and parameter set to True
@@ -533,24 +636,24 @@ class GettextParamsTest(BaseFileFormatsTest):
         rev4 = self.component.repository.last_revision
         self.assertNotEqual(rev3, rev4)
         commit4 = self.component.repository.show(rev4)
-        self.assertIn("Added translation using Weblate (French)", commit4)
+        self.assertIn("chore(l10n): add French translation", commit4)
         self.assertIn("Last-Translator: Automatically generated", commit4)
 
     def test_x_generator_header(self):
-        with patch("weblate.utils.version.VERSION", new="X.XX"):
+        with patch("weblate.utils.version.VERSION", new="9.99"):
             commit0 = self.component.repository.show(
                 self.component.repository.last_revision
             )
-            self.assertNotIn("X-Generator: Weblate X.XX", commit0)
+            self.assertNotIn("X-Generator: Weblate 9.99", commit0)
             self.update_component_file_params(po_set_x_generator=False)
 
             rev1, commit1 = self.edit_unit_and_commit_changes("one")
-            self.assertNotIn("X-Generator: Weblate X.XX", commit1)
+            self.assertNotIn("X-Generator: Weblate 9.99", commit1)
 
             self.update_component_file_params(po_set_x_generator=True)
             rev2, commit2 = self.edit_unit_and_commit_changes("two")
             self.assertNotEqual(rev1, rev2)
-            self.assertIn("X-Generator: Weblate X.XX", commit2)
+            self.assertIn("X-Generator: Weblate 9.99", commit2)
 
     def test_report_msgid_bugs_to_header(self):
         self.component.report_source_bugs = "weblate@example.org"

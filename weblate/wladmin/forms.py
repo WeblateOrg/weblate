@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy
 from weblate.accounts.forms import EmailField
 from weblate.utils.validators import DomainOrIPValidator
 from weblate.wladmin.models import BackupService
+from weblate.workspaces.models import Workspace
 
 
 class ActivateForm(forms.Form):
@@ -63,6 +64,30 @@ class BackupForm(forms.ModelForm):
     class Meta:
         model = BackupService
         fields = ("repository",)
+
+
+class WorkspaceCreateForm(forms.ModelForm):
+    class Meta:
+        model = Workspace
+        fields = ("name",)
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+
+
+class WorkspaceSearchForm(forms.Form):
+    q = forms.CharField(
+        label=gettext_lazy("Search"),
+        required=False,
+        widget=forms.SearchInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": gettext_lazy("Search workspaces"),
+            }
+        ),
+    )
 
 
 class BackupSelectionForm(forms.Form):

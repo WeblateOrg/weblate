@@ -5,7 +5,7 @@
 import os
 import pathlib
 import tempfile
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import call, patch
 
 from django.test import SimpleTestCase
@@ -19,6 +19,7 @@ from weblate.trans.discovery import (
     get_detected_discovery_preset_values_key,
     get_detected_discovery_presets_from_results,
 )
+from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.utils.files import remove_tree
@@ -330,6 +331,57 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertIsNotNone(component)
         self.assertFalse(component.manage_units)
 
+    def test_create_component_preview_applies_inheritance_defaults(self) -> None:
+        self.component.project.license = "GPL-3.0-or-later"
+        self.component.project.new_lang = "none"
+        self.component.project.save(update_fields=["license", "new_lang"])
+        match = self.discovery.matched_components["po/*.po"]
+
+        component = self.discovery.create_component(
+            None,
+            match,
+            preview=True,
+            existing_slugs=set(),
+            existing_names=set(),
+            project=self.component.project,
+            source_language=self.component.source_language,
+            repo=self.component.repo,
+            vcs=self.component.vcs,
+            new_lang="none",
+            license="MIT",
+        )
+
+        self.assertFalse(component.inherit_license)
+        self.assertEqual(component.effective_license, "MIT")
+        self.assertFalse(component.inherit_new_lang)
+        self.assertEqual(component.effective_new_lang, "none")
+
+    def test_create_component_preview_keeps_explicit_value_when_copying(self) -> None:
+        self.component.project.license = "GPL-3.0-or-later"
+        self.component.project.save(update_fields=["license"])
+        Component.objects.filter(pk=self.component.pk).update(
+            license="MIT",
+            inherit_license=True,
+        )
+        self.component.refresh_from_db()
+        match = self.discovery.matched_components["po/*.po"]
+
+        component = self.discovery.create_component(
+            self.component,
+            match,
+            preview=True,
+            existing_slugs=set(),
+            existing_names=set(),
+            project=self.component.project,
+            source_language=self.component.source_language,
+            repo=self.component.repo,
+            vcs=self.component.vcs,
+            license="LGPL-3.0-or-later",
+        )
+
+        self.assertFalse(component.inherit_license)
+        self.assertEqual(component.effective_license, "LGPL-3.0-or-later")
+
     def test_create_component_tolerates_missing_copy_from_addons_source(self) -> None:
         source_component = self._create_component(
             "po",
@@ -476,7 +528,6 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(created[0][0]["name"], "localization: component")
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
-        self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 0)
 
 
@@ -490,8 +541,9 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
         file_format: str = "",
         intermediate: str = "",
         new_base: str = "",
+        language_regex: str = "",
     ) -> DiscoveryResult:
-        data: ResultDict = {}
+        data: dict[str, object] = {}
         if name:
             data["name"] = name
         if filemask:
@@ -504,8 +556,10 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             data["intermediate"] = intermediate
         if new_base:
             data["new_base"] = new_base
+        if language_regex:
+            data["language_regex"] = language_regex
 
-        result = DiscoveryResult(data)
+        result = DiscoveryResult(cast("ResultDict", data))
         result.meta = {"priority": 1000, "origin": None}
         return result
 
@@ -534,6 +588,43 @@ class DetectedDiscoveryPresetTest(SimpleTestCase):
             presets[0]["values"]["base_file_template"],
             "{{ component }}/values/strings.xml",
         )
+
+    def test_detected_presets_preserve_language_regex(self) -> None:
+        first = self.make_discovery_result(
+            file_format="po",
+            filemask="django/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="django/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+        second = self.make_discovery_result(
+            file_format="po",
+            filemask="djangojs/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="djangojs/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+
+        presets = get_detected_discovery_presets_from_results([first, second])
+
+        self.assertEqual(len(presets), 1)
+        self.assertEqual(presets[0]["values"]["language_regex"], "^(?!en$).+$")
+
+    def test_detected_presets_do_not_combine_different_language_regexes(self) -> None:
+        first = self.make_discovery_result(
+            file_format="po",
+            filemask="django/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="django/conf/locale/en/LC_MESSAGES/messages.po",
+            language_regex="^(?!en$).+$",
+        )
+        second = self.make_discovery_result(
+            file_format="po",
+            filemask="djangojs/conf/locale/*/LC_MESSAGES/messages.po",
+            new_base="djangojs/conf/locale/en_GB/LC_MESSAGES/messages.po",
+            language_regex="^(?!en_GB$).+$",
+        )
+
+        presets = get_detected_discovery_presets_from_results([first, second])
+
+        self.assertEqual(presets, [])
 
     def test_detected_presets_keep_filename_suffix_from_translation_finder_cases(
         self,

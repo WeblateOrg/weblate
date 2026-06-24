@@ -102,7 +102,8 @@ class ComponentLinkTestCase(ViewTestCase):
         self.other.stats.force_load()
         start_data = self.other.stats.get_data()
 
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
         project = Project.objects.get(pk=self.project.pk)
         other = Project.objects.get(pk=self.other.pk)
@@ -159,7 +160,8 @@ class ComponentLinkTestCase(ViewTestCase):
     def test_labels(self) -> None:
         self.other.label_set.create(name="test other", color="navy")
         self.project.label_set.create(name="test project", color="navy")
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
         project = Project.objects.get(pk=self.project.pk)
         other = Project.objects.get(pk=self.other.pk)
@@ -202,7 +204,8 @@ class ComponentLinkTestCase(ViewTestCase):
         compare_stats(project.stats.get_data(), other.stats.get_data())
         compare_stats(project.stats.get_data(), third_project.stats.get_data())
 
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
         project = Project.objects.get(pk=self.project.pk)
         other = Project.objects.get(pk=self.other.pk)

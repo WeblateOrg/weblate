@@ -20,31 +20,33 @@
     <div class="card-body">{% include "snippets/user-list.html" %}</div>
   </div>
 
-  <form method="post">
-    {% csrf_token %}
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">{% translate "Add new user" %}</h4>
+  {% if can_edit_users %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Add new user" %}</h4>
+        </div>
+        <div class="card-body">{{ invite_form|crispy }}</div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
+        </div>
       </div>
-      <div class="card-body">{{ invite_form|crispy }}</div>
-      <div class="card-footer">
-        <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
-      </div>
-    </div>
-  </form>
+    </form>
 
-  <form method="post">
-    {% csrf_token %}
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">{% translate "Bulk invite users" %}</h4>
+    <form method="post">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Bulk invite users" %}</h4>
+        </div>
+        <div class="card-body">{{ bulk_invite_form|crispy }}</div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
+        </div>
       </div>
-      <div class="card-body">{{ bulk_invite_form|crispy }}</div>
-      <div class="card-footer">
-        <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
-      </div>
-    </div>
-  </form>
+    </form>
+  {% endif %}
 
   {% if invitations %}
     <div class="card">
@@ -59,7 +61,7 @@
             <th>{% translate "E-mail" %}</th>
             <th>{% translate "Projects" %}</th>
             <th>{% translate "Teams" %}</th>
-            <th></th>
+            {% if can_edit_users %}<th></th>{% endif %}
           </tr>
         </thead>
         <tbody>
@@ -84,27 +86,29 @@
               <td>
                 <span class="badge  text-bg-secondary">{{ invitation.group }}</span>
               </td>
-              <td>
-                <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="resend" />
-                  <button type="submit"
+              {% if can_edit_users %}
+                <td>
+                  <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="resend" />
+                    <button type="submit"
+                            class="btn btn-link btn-xs"
+                            title="{% translate "Resend invitation" %}">{% icon 'refresh.svg' %}</button>
+                  </form>
+                  <button type="button"
                           class="btn btn-link btn-xs"
-                          title="{% translate "Resend invitation" %}">{% icon 'refresh.svg' %}</button>
-                </form>
-                <button type="button"
-                        class="btn btn-link btn-xs"
-                        data-clipboard-value="{{ site_url }}{{ invitation.get_absolute_url }}"
-                        data-clipboard-message="{% translate "Invitation link copied to clipboard." %}"
-                        title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
-                <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
-                  {% csrf_token %}
-                  <input type="hidden" name="action" value="remove" />
-                  <button type="submit"
-                          class="btn btn-link btn-xs red"
-                          title="{% translate "Remove invitation" %}">{% icon 'delete.svg' %}</button>
-                </form>
-              </td>
+                          data-clipboard-value="{{ site_url }}{{ invitation.get_absolute_url }}"
+                          data-clipboard-message="{% translate "Invitation link copied to clipboard." %}"
+                          title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                  <form action="{{ invitation.get_absolute_url }}" method="post" class="inlineform">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="remove" />
+                    <button type="submit"
+                            class="btn btn-link btn-xs red"
+                            title="{% translate "Remove invitation" %}">{% icon 'delete.svg' %}</button>
+                  </form>
+                </td>
+              {% endif %}
             </tr>
           {% endfor %}
         </tbody>
@@ -112,16 +116,18 @@
     </div>
   {% endif %}
 
-  <form method="get" action="{% url "manage-users-check" %}">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">{% translate "Check user access" %}</h4>
+  {% if can_edit_users %}
+    <form method="get" action="{% url "manage-users-check" %}">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Check user access" %}</h4>
+        </div>
+        <div class="card-body">{{ search_form|crispy }}</div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Search" %}" />
+        </div>
       </div>
-      <div class="card-body">{{ search_form|crispy }}</div>
-      <div class="card-footer">
-        <input type="submit" class="btn btn-primary" value="{% translate "Search" %}" />
-      </div>
-    </div>
-  </form>
+    </form>
+  {% endif %}
 
 {% endblock content %}

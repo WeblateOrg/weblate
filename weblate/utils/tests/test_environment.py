@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from contextlib import contextmanager
 from pathlib import Path
 
 from django.conf import settings
@@ -15,6 +16,7 @@ from weblate.utils.environment import (
     get_env_credentials,
     get_env_int,
     get_env_int_or_none,
+    get_env_json,
     get_env_list,
     get_env_list_or_none,
     get_env_map,
@@ -27,6 +29,15 @@ from weblate.utils.environment import (
 )
 from weblate.utils.files import remove_tree
 from weblate.utils.unittest import tempdir_setting
+
+
+@contextmanager
+def cleaned_environment(cleanup):
+    cleanup()
+    try:
+        yield
+    finally:
+        cleanup()
 
 
 class EnvTest(SimpleTestCase):
@@ -181,6 +192,21 @@ class EnvTest(SimpleTestCase):
         del os.environ["TEST_DATA"]
         self.assertIsNone(get_env_map_or_none("TEST_DATA"))
 
+    def test_get_env_json(self) -> None:
+        os.environ["TEST_DATA"] = '{"bool": true}'
+        self.assertEqual(get_env_json("TEST_DATA"), {"bool": True})
+        os.environ["TEST_DATA"] = '{"key": "value", "num": 123}'
+        self.assertEqual(get_env_json("TEST_DATA"), {"key": "value", "num": 123})
+        os.environ["TEST_DATA"] = "{invalid-syntax}"
+        with self.assertRaises(ImproperlyConfigured):
+            get_env_json("TEST_DATA")
+        os.environ["TEST_DATA"] = ""
+        self.assertIsNone(get_env_json("TEST_DATA"))
+        self.assertEqual(get_env_json("TEST_DATA", {}), {})
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_json("TEST_DATA"))
+        self.assertEqual(get_env_json("TEST_DATA", {}), {})
+
     def test_bool(self) -> None:
         os.environ["TEST_DATA"] = "1"
         self.assertTrue(get_env_bool("TEST_DATA"))
@@ -287,8 +313,7 @@ class EnvTest(SimpleTestCase):
             for name in toremove:
                 del os.environ[name]
 
-        cleanup()
-        try:
+        with cleaned_environment(cleanup):
             self.assertEqual(get_env_redis_url(), "redis://cache:6379/1")
 
             os.environ["REDIS_TLS"] = "1"
@@ -321,8 +346,6 @@ class EnvTest(SimpleTestCase):
             os.environ["REDIS_HOST"] = ""
             with self.assertRaises(ImproperlyConfigured):
                 get_env_redis_url()
-        finally:
-            cleanup()
 
     def test_saml(self) -> None:
         def cleanup() -> None:
@@ -330,8 +353,7 @@ class EnvTest(SimpleTestCase):
             for name in toremove:
                 del os.environ[name]
 
-        cleanup()
-        try:
+        with cleaned_environment(cleanup):
             self.assertIsNone(get_saml_idp())
             os.environ["WEBLATE_SAML_IDP_ENTITY_ID"] = "https://example.com/entity"
             self.assertEqual(
@@ -370,8 +392,6 @@ class EnvTest(SimpleTestCase):
                     "attr_full_name": "fullname",
                 },
             )
-        finally:
-            cleanup()
 
     def test_email_config(self) -> None:
         def cleanup() -> None:
@@ -381,8 +401,7 @@ class EnvTest(SimpleTestCase):
             for name in toremove:
                 del os.environ[name]
 
-        cleanup()
-        try:
+        with cleaned_environment(cleanup):
             self.assertEqual(get_email_config(), (25, True, False))
 
             # Test SSL/TLS autoconfig for common ports
@@ -414,5 +433,3 @@ class EnvTest(SimpleTestCase):
             os.environ["WEBLATE_EMAIL_USE_SSL"] = "0"
             os.environ["WEBLATE_EMAIL_USE_TLS"] = "1"
             self.assertEqual(get_email_config(), (587, True, False))
-        finally:
-            cleanup()

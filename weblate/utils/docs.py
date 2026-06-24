@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from django.conf import settings
 from django.utils.translation import get_language
+from packaging.version import Version
 from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
 
 import weblate.utils.version
@@ -25,6 +26,12 @@ def build_doc_url(page: str, doc_version: str, anchor: str = "") -> str:
     return f"https://docs.weblate.org/{code}/{doc_version}/{page}.html{anchor}"
 
 
+def is_release_version(version: str) -> bool:
+    """Check whether version has stable release documentation."""
+    parsed = Version(version)
+    return not (parsed.is_devrelease or parsed.is_prerelease)
+
+
 def get_doc_url(
     page: str,
     anchor: str = "",
@@ -35,7 +42,7 @@ def get_doc_url(
     """Return URL to documentation."""
     if doc_version is None:
         version = weblate.utils.version.VERSION
-        if version.endswith(("-dev", "-rc")) or (
+        if not is_release_version(version) or (
             hide_detailed_version(settings.VERSION_DISPLAY)
             and (user is None or not user.is_authenticated)
         ):

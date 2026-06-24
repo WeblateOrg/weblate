@@ -50,37 +50,39 @@ Anthropic
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
-:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``source`` -- Component source language                                                                                   |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``base_url``        | Anthropic API URL         | Base URL of the Anthropic API. Leave empty to use the default URL.                                                        |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``model``           | Anthropic model           | Available choices:                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)                                                                  |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``claude-haiku-4-5`` -- Claude Haiku 4.5                                                                                  |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``claude-opus-4-5`` -- Claude Opus 4.5                                                                                    |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``custom`` -- Custom model                                                                                                |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``             | API key                   |                                                                                                                           |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``custom_model``    | Custom model name         | Only needed when model is set to 'Custom model'                                                                           |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``max_tokens``      | Max tokens                | Maximum number of tokens to generate in the response.                                                                     |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language``       | Source language selection      | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``auto`` -- Automatic selection                                                                                           |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``source`` -- Component source language                                                                                   |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``              | Anthropic API URL              | Base URL of the Anthropic API. Leave empty to use the default URL.                                                        |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``                 | Anthropic model                | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)                                                                  |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``claude-haiku-4-5`` -- Claude Haiku 4.5                                                                                  |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``claude-opus-4-5`` -- Claude Opus 4.5                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``custom`` -- Custom model                                                                                                |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``               | Translator persona             | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``                 | Translator style               | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``language_instructions`` | Language-specific instructions | JSON object mapping existing target language codes to extra instructions, up to 1000 characters each.                     |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``                   | API key                        |                                                                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``custom_model``          | Custom model name              | Only needed when model is set to 'Custom model'                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``max_tokens``            | Max tokens                     | Maximum number of tokens to generate in the response.                                                                     |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 
 .. AUTOGENERATED END: anthropic
@@ -197,29 +199,31 @@ Azure OpenAI
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
-:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``source`` -- Component source language                                                                                   |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``base_url``        | API URL                   |                                                                                                                           |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``model``           | LLM model                 |                                                                                                                           |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``             | API key                   |                                                                                                                           |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``azure_endpoint``  | Azure OpenAI endpoint URL | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``deployment``      | Azure OpenAI deployment   | The model's unique deployment name.                                                                                       |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language``       | Source language selection      | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``auto`` -- Automatic selection                                                                                           |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``source`` -- Component source language                                                                                   |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``              | API URL                        |                                                                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``                 | LLM model                      |                                                                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``               | Translator persona             | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``                 | Translator style               | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``language_instructions`` | Language-specific instructions | JSON object mapping existing target language codes to extra instructions, up to 1000 characters each.                     |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``                   | API key                        |                                                                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``azure_endpoint``        | Azure OpenAI endpoint URL      | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``deployment``            | Azure OpenAI deployment        | The model's unique deployment name.                                                                                       |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 
 .. AUTOGENERATED END: azure-openai
@@ -336,25 +340,19 @@ DeepL
 .. AUTOGENERATED END: deepl
 
 DeepL is paid service providing good machine translation for a few languages.
-You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
-:guilabel:`DeepL Pro (classic)` plan.
+You need to purchase :guilabel:`DeepL API` subscription.
 
-API URL to use with the DeepL service. At the time of writing, there is the v1 API
-as well as a free and a paid version of the v2 API.
+API URL to use with the DeepL service. Configure the base endpoint without an API
+version; Weblate selects the appropriate DeepL API version for each request.
 
-``https://api.deepl.com/v2/`` (default in Weblate)
+.. versionchanged:: 2026.7
+
+   DeepL API v1 is no longer supported.
+
+``https://api.deepl.com/`` (default in Weblate)
     Is meant for API usage on the paid plan, and the subscription is usage-based.
-``https://api-free.deepl.com/v2/``
+``https://api-free.deepl.com/``
     Is meant for API usage on the free plan, and the subscription is usage-based.
-``https://api.deepl.com/v1/``
-    Is meant for CAT tools and is usable with a per-user subscription.
-
-.. note::
-
-   Previously Weblate was classified as a CAT tool by DeepL, so it was supposed
-   to use the v1 API, but now is supposed to use the v2 API. Therefore it
-   defaults to v2, and you can change it to v1 in case you have an existing CAT
-   subscription and want Weblate to use that.
 
 Weblate supports DeepL formality, it will choose matching one based on the
 language (for example, there is ``de@formal`` and ``de@informal``).
@@ -685,6 +683,56 @@ You can also specify a custom category to use `custom translator <https://learn.
    * `"Authenticating with an access token" section <https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/authentication#authenticating-with-an-access-token>`_
 
 
+.. AUTOGENERATED START: mistral
+.. This section is automatically generated by `./manage.py list_machinery`. Do not edit manually.
+
+.. _mt-mistral:
+
+Mistral
+-------
+
+.. versionadded:: 2026.7
+
+:Service ID: ``mistral``
+:Maximal score: 90
+:Advanced features: * :ref:`glossary-mt`
+                    * :ref:`llm-translation-context`
+:Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language``       | Source language selection      | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``auto`` -- Automatic selection                                                                                           |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``source`` -- Component source language                                                                                   |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``              | Mistral API base URL           | Base URL of the Mistral API, if it differs from the Mistral default URL                                                   |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``                 | Mistral model                  | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``auto`` -- Automatic selection                                                                                           |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``mistral-small-latest`` -- Mistral Small                                                                                 |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``mistral-medium-latest`` -- Mistral Medium                                                                               |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``mistral-large-latest`` -- Mistral Large                                                                                 |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``custom`` -- Custom model                                                                                                |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``               | Translator persona             | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``                 | Translator style               | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``language_instructions`` | Language-specific instructions | JSON object mapping existing target language codes to extra instructions, up to 1000 characters each.                     |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``                   | API key                        |                                                                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``custom_model``          | Custom model name              | Only needed when model is set to 'Custom model'                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+
+.. AUTOGENERATED END: mistral
 .. AUTOGENERATED START: modernmt
 .. This section is automatically generated by `./manage.py list_machinery`. Do not edit manually.
 
@@ -815,23 +863,25 @@ Ollama
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
-:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``source`` -- Component source language                                                                                   |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``base_url``        | API URL                   | Base URL of the Ollama API, localhost and port 11434 by default.                                                          |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``model``           | Ollama model              | Name of the model described in Ollama catalogue.                                                                          |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language``       | Source language selection      | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``auto`` -- Automatic selection                                                                                           |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``source`` -- Component source language                                                                                   |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``              | API URL                        | Base URL of the Ollama API, localhost and port 11434 by default.                                                          |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``                 | Ollama model                   | Name of the model described in Ollama catalogue.                                                                          |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``               | Translator persona             | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``                 | Translator style               | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``language_instructions`` | Language-specific instructions | JSON object mapping existing target language codes to extra instructions, up to 1000 characters each.                     |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 
 .. AUTOGENERATED END: ollama
@@ -871,61 +921,63 @@ OpenAI
 :Maximal score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
-:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``source`` -- Component source language                                                                                   |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``base_url``        | OpenAI API base URL       | Base URL of the OpenAI API, if it differs from the OpenAI default URL                                                     |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``model``           | OpenAI model              | Available choices:                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-5-nano`` -- GPT-5-nano                                                                                              |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-5-mini`` -- GPT-5-mini                                                                                              |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-5.2`` -- GPT-5.2                                                                                                    |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-5.1`` -- GPT-5.1                                                                                                    |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-5`` -- GPT-5                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4.1-nano`` -- GPT-4.1-nano                                                                                          |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4.1-mini`` -- GPT-4.1-mini                                                                                          |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4.1`` -- GPT-4.1                                                                                                    |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4o-mini`` -- GPT-4o mini                                                                                            |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4o`` -- GPT-4o                                                                                                      |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``o3-mini`` -- o3-mini                                                                                                    |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``o3`` -- o3                                                                                                              |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``o1-mini`` -- o1-mini                                                                                                    |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``o1`` -- o1                                                                                                              |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``o1-pro`` -- o1-pro                                                                                                      |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``custom`` -- Custom model                                                                                                |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``             | API key                   |                                                                                                                           |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``custom_model``    | Custom model name         | Only needed when model is set to 'Custom model'                                                                           |
-                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language``       | Source language selection      | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``auto`` -- Automatic selection                                                                                           |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``source`` -- Component source language                                                                                   |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``              | OpenAI API base URL            | Base URL of the OpenAI API, if it differs from the OpenAI default URL                                                     |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``                 | OpenAI model                   | Available choices:                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``auto`` -- Automatic selection                                                                                           |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5-nano`` -- GPT-5-nano                                                                                              |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5-mini`` -- GPT-5-mini                                                                                              |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5.2`` -- GPT-5.2                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5.1`` -- GPT-5.1                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5`` -- GPT-5                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4.1-nano`` -- GPT-4.1-nano                                                                                          |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4.1-mini`` -- GPT-4.1-mini                                                                                          |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4.1`` -- GPT-4.1                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4o-mini`` -- GPT-4o mini                                                                                            |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4o`` -- GPT-4o                                                                                                      |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``o3-mini`` -- o3-mini                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``o3`` -- o3                                                                                                              |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``o1-mini`` -- o1-mini                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``o1`` -- o1                                                                                                              |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``o1-pro`` -- o1-pro                                                                                                      |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``custom`` -- Custom model                                                                                                |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``               | Translator persona             | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``                 | Translator style               | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``language_instructions`` | Language-specific instructions | JSON object mapping existing target language codes to extra instructions, up to 1000 characters each.                     |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``                   | API key                        |                                                                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``custom_model``          | Custom model name              | Only needed when model is set to 'Custom model'                                                                           |
+                +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 
 .. AUTOGENERATED END: openai
@@ -1148,7 +1200,6 @@ This service uses a Translation API, and you need to obtain an API key from Yand
 .. seealso::
 
    * `Yandex Translate API <https://yandex.com/dev/translate/>`_
-   * `Powered by Yandex.Translate <https://translate.yandex.com/>`_
 
 
 .. AUTOGENERATED START: yandex-v2
@@ -1184,8 +1235,7 @@ This service uses a Translation API, and you need to obtain an API key from Yand
 
 .. seealso::
 
-   * `Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-ref/authentication>`_
-   * `Powered by Yandex.Cloud <https://cloud.yandex.com/en/services/translate>`_
+   * `Yandex Translate API v2 <https://aistudio.yandex.ru/docs/en/translate/api-ref/authentication.html>`_
 
 .. AUTOGENERATED START: youdao-zhiyun
 .. This section is automatically generated by `./manage.py list_machinery`. Do not edit manually.

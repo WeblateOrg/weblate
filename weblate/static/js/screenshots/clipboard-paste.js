@@ -2,18 +2,24 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-$(document).ready(() => {
+document.addEventListener("DOMContentLoaded", () => {
   // The paste trigger button
-  const $pasteScreenshotBtn = $("#paste-screenshot-btn");
+  const pasteScreenshotBtn = document.getElementById("paste-screenshot-btn");
+  if (pasteScreenshotBtn === null) {
+    return;
+  }
   // The file input to store the screenshot file
-  const $screenshotFileInput = $("#screenshot-form-container input#id_image");
+  const screenshotFileInput = document.querySelector(
+    "#screenshot-form-container input#id_image",
+  );
 
   // Check if the browser supports the Clipboard API
   if (!navigator.clipboard?.read) {
-    $pasteScreenshotBtn.remove();
+    pasteScreenshotBtn.remove();
+    return;
   }
 
-  $pasteScreenshotBtn.on("click", async (e) => {
+  pasteScreenshotBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     try {
       // Read clipboard content
@@ -27,13 +33,13 @@ $(document).ready(() => {
             const blob = await clipboardItem.getType(type);
             const reader = new FileReader();
             reader.onload = (_event) => {
-              if ($screenshotFileInput.length > 0) {
+              if (screenshotFileInput !== null) {
                 // Load the file data into the form input
                 const fileName = `screenshot_${Date.now()}.${type.split("/")[1]}`;
                 const imageFile = new File([blob], fileName, { type: type });
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(imageFile);
-                $screenshotFileInput[0].files = dataTransfer.files;
+                screenshotFileInput.files = dataTransfer.files;
                 // Inform paste success
                 showInfo("success", gettext("Image Pasted!"));
               } else {
@@ -65,10 +71,16 @@ $(document).ready(() => {
  * @param {string} message - The content of the message.
  */
 function showInfo(type, message) {
-  const $pasteScreenshotInfo = $("#paste-screenshot-info-label");
-  const span = `<span class="text-${type}">${message}</span>`;
-  $pasteScreenshotInfo.html(span);
-  $pasteScreenshotInfo
-    .css("transform", "scale(1)")
-    .removeClass("animate__animated animate__fadeIn");
+  const pasteScreenshotInfo = document.getElementById(
+    "paste-screenshot-info-label",
+  );
+  if (pasteScreenshotInfo === null) {
+    return;
+  }
+  const span = document.createElement("span");
+  span.classList.add(`text-${type}`);
+  span.textContent = message;
+  pasteScreenshotInfo.replaceChildren(span);
+  pasteScreenshotInfo.style.transform = "scale(1)";
+  pasteScreenshotInfo.classList.remove("animate__animated", "animate__fadeIn");
 }
