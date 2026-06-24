@@ -65,10 +65,11 @@ def download_multi(
                 report_error("Download commit", project=obj.project)
 
     if fmt and fmt.startswith("zip:"):
+        exporter_format = fmt[4:]
         try:
-            exporter_cls = EXPORTERS[fmt[4:]]
+            exporter_cls = EXPORTERS[exporter_format]
         except KeyError as exc:
-            msg = f"Conversion to {fmt} is not supported"
+            msg = f"Conversion to {exporter_format} is not supported"
             raise Http404(msg) from exc
 
         for translation in translations:
