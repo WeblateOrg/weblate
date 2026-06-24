@@ -273,6 +273,22 @@ def _find_unclosed_jsx_tag(text: str, start: int) -> tuple[int, str] | None:
     return None
 
 
+def _find_attribute_name(text: str, equals: int) -> str | None:
+    """Find the JSX attribute name before an equals sign."""
+    i = equals - 1
+    while i >= 0 and text[i].isspace():
+        i -= 1
+    end = i + 1
+    while i >= 0 and re.match(r"[\w:.-]", text[i]):
+        i -= 1
+    if end == i + 1:
+        return None
+    name = text[i + 1 : end]
+    if re.match(r"[A-Za-z_:]", name[0]):
+        return name
+    return None
+
+
 class SafeMDXCheck(TargetCheck):
     """Check for unsafe MDX content."""
 
@@ -302,6 +318,7 @@ class SafeMDXCheck(TargetCheck):
         """Extract JSX expressions together with their syntactic context."""
         stack: list[str] = []
         open_tag: tuple[int, bool, str, bool, int | None] | None = None
+        pending_attr: str | None = None
         quote = ""
         i = 0
         length = len(text)
@@ -309,7 +326,7 @@ class SafeMDXCheck(TargetCheck):
             char = text[i]
 
             if open_tag is not None:
-                tag_start, closing, tag, self_closing, end = open_tag
+                _tag_start, closing, tag, self_closing, end = open_tag
                 if quote:
                     if char == "\\":
                         i += 2
@@ -318,15 +335,22 @@ class SafeMDXCheck(TargetCheck):
                         quote = ""
                 elif char in {'"', "'"}:
                     quote = char
+                elif char == "=":
+                    pending_attr = _find_attribute_name(text, i)
                 elif char == "{":
                     close = _scan_expression(text, i)
                     if close is not None:
-                        yield (
-                            *self.get_jsx_expression_context(
-                                text, i, tuple(stack), (tag_start, tag)
-                            ),
-                            text[i : close + 1],
-                        )
+                        tag_stack = (*tuple(stack), tag)
+                        if pending_attr is None:
+                            yield ("tag", "", tag_stack, text[i : close + 1])
+                        else:
+                            yield (
+                                "attribute",
+                                pending_attr,
+                                tag_stack,
+                                text[i : close + 1],
+                            )
+                            pending_attr = None
                         i = close + 1
                         continue
                 elif i == end and char == ">":
@@ -338,6 +362,7 @@ class SafeMDXCheck(TargetCheck):
                     elif not self_closing:
                         stack.append(tag)
                     open_tag = None
+                    pending_attr = None
                 i += 1
                 continue
 
@@ -359,10 +384,7 @@ class SafeMDXCheck(TargetCheck):
             if char == "{":
                 close = _scan_expression(text, i)
                 if close is not None:
-                    yield (
-                        *self.get_jsx_expression_context(text, i, tuple(stack), None),
-                        text[i : close + 1],
-                    )
+                    yield ("text", "", tuple(stack), text[i : close + 1])
                     i = close + 1
                     continue
             i += 1

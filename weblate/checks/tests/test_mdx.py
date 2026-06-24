@@ -170,7 +170,30 @@ class SafeMDXCheckTest(CheckTestCase):
         finally:
             self.check.get_jsx_expression_context = original
 
-        self.assertEqual(calls, 2)
+        self.assertEqual(calls, 0)
+
+    def test_attribute_context_does_not_rescan_tag(self) -> None:
+        calls = 0
+        original = self.check.get_jsx_expression_context
+
+        def counting_context(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            return original(*args, **kwargs)
+
+        self.check.get_jsx_expression_context = counting_context
+        try:
+            self.assertEqual(
+                list(self.check.get_jsx_expression_signatures("<C a0={x} a1={y} />")),
+                [
+                    ("attribute", "a0", ("C",), "{x}"),
+                    ("attribute", "a1", ("C",), "{y}"),
+                ],
+            )
+        finally:
+            self.check.get_jsx_expression_context = original
+
+        self.assertEqual(calls, 0)
 
     def test_repeated_tags_close_innermost_element(self) -> None:
         source = "<div><div></div>{x}</div>"
