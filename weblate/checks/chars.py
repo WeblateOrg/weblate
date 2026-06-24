@@ -67,10 +67,6 @@ class AcceleratorKeyCheck(TargetCheckParametrized):
         return parse_accelerator_marker
 
     def _count_accelerators(self, text: str, key: str) -> int:
-        # HTML/XML entities start with '&' but are not accelerator markers.
-        if key == "&":
-            text = strip_entities(text)
-
         count = 0
         pos = 0
         while True:
