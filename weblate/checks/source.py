@@ -55,6 +55,31 @@ class EllipsisCheck(SourceCheck):
         return "..." in sources[0]
 
 
+class SourceMaxLengthCheck(SourceCheck):
+    """Check whether source leaves enough room for translations."""
+
+    check_id = "source-max-length"
+    name = gettext_lazy("Source string length")
+    description = gettext_lazy(
+        "Source string is too long to fit into the configured maximum length."
+    )
+
+    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
+        if not unit.all_flags.has_value("max-length"):
+            return False
+        try:
+            max_length = unit.all_flags.get_value("max-length")
+        except ValueError:
+            return True
+
+        replace = self.get_replacement_function(unit)
+        if unit.translation.component.source_language.is_base({"en"}):
+            return any(
+                len(replace(source)) * 100 > max_length * 85 for source in sources
+            )
+        return any(len(replace(source)) > max_length for source in sources)
+
+
 class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
     """Check whether there are more failing checks on this translation."""
 

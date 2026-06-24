@@ -1093,7 +1093,7 @@ class Language(models.Model, CacheKeyMixin):
 
     @cached_property
     def base_code(self) -> str:
-        return self.code.replace("_", "-").split("-")[0]
+        return self.code.replace("_", "-").split("-", 1)[0]
 
     def uses_whitespace(self) -> bool:
         return self.base_code not in data.NO_SPACE_LANGUAGES
