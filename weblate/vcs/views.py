@@ -20,7 +20,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext
 from django.views import View
 
 from weblate.auth.decorators import management_access
@@ -401,8 +401,7 @@ def remove_installation(request, pk):
     installation.delete()
     messages.success(
         request,
-        gettext_lazy("Removed connected GitHub account %(target)s.")
-        % {"target": target},
+        gettext("Removed connected GitHub account %(target)s.") % {"target": target},
     )
     return redirect(next_url)
 
@@ -417,7 +416,7 @@ def remove_github_app(request, pk):
     credentials.delete()
     messages.success(
         request,
-        gettext_lazy("Removed Weblate GitHub App credentials for %(hostname)s.")
+        gettext("Removed Weblate GitHub App credentials for %(hostname)s.")
         % {"hostname": hostname},
     )
     return redirect("manage-github-accounts")
@@ -439,12 +438,12 @@ def refresh_repositories(request, pk):
         report_error("Failed to refresh connected GitHub account repositories")
         messages.error(
             request,
-            gettext_lazy("Failed to refresh repositories from GitHub."),
+            gettext("Failed to refresh repositories from GitHub."),
         )
     else:
         messages.success(
             request,
-            gettext_lazy("Refreshed %(count)d repositories from GitHub.")
+            gettext("Refreshed %(count)d repositories from GitHub.")
             % {"count": len(repos)},
         )
     return redirect(next_url)
@@ -460,9 +459,7 @@ def github_app_install(request):
     if not configs:
         messages.error(
             request,
-            gettext_lazy(
-                "Weblate GitHub app is not configured on this Weblate instance."
-            ),
+            gettext("Weblate GitHub app is not configured on this Weblate instance."),
         )
         return redirect(next_url)
 
@@ -470,7 +467,7 @@ def github_app_install(request):
     if workspace is None:
         messages.error(
             request,
-            gettext_lazy("Select a workspace before connecting a GitHub account."),
+            gettext("Select a workspace before connecting a GitHub account."),
         )
         return redirect(next_url)
 
@@ -480,9 +477,7 @@ def github_app_install(request):
         if host not in configs:
             messages.error(
                 request,
-                gettext_lazy(
-                    "Weblate GitHub app is not configured for the selected host."
-                ),
+                gettext("Weblate GitHub app is not configured for the selected host."),
             )
             return redirect(next_url)
     elif len(configs) > 1:
@@ -507,9 +502,7 @@ def github_app_install(request):
     except ValueError:
         messages.error(
             request,
-            gettext_lazy(
-                "Weblate GitHub app is not configured on this Weblate instance."
-            ),
+            gettext("Weblate GitHub app is not configured on this Weblate instance."),
         )
         return redirect(next_url)
 
@@ -549,7 +542,7 @@ def github_app_setup(request):
     except (BadSignature, SignatureExpired):
         messages.error(
             request,
-            gettext_lazy(
+            gettext(
                 "The Weblate GitHub app installation link is no longer valid. "
                 "Start the installation again."
             ),
@@ -558,9 +551,7 @@ def github_app_setup(request):
     except PermissionDenied:
         messages.error(
             request,
-            gettext_lazy(
-                "You do not have permission to connect GitHub to this workspace."
-            ),
+            gettext("You do not have permission to connect GitHub to this workspace."),
         )
         return redirect(next_url)
 
@@ -568,7 +559,7 @@ def github_app_setup(request):
     if not installation_id:
         messages.error(
             request,
-            gettext_lazy("GitHub did not return an installation ID."),
+            gettext("GitHub did not return an installation ID."),
         )
         return redirect(next_url)
 
@@ -576,18 +567,14 @@ def github_app_setup(request):
     if config is None:
         messages.error(
             request,
-            gettext_lazy(
-                "Weblate GitHub app is not configured on this Weblate instance."
-            ),
+            gettext("Weblate GitHub app is not configured on this Weblate instance."),
         )
         return redirect(next_url)
 
     if workspace is None:
         messages.error(
             request,
-            gettext_lazy(
-                "You do not have permission to connect GitHub to this workspace."
-            ),
+            gettext("You do not have permission to connect GitHub to this workspace."),
         )
         return redirect(next_url)
 
@@ -595,7 +582,7 @@ def github_app_setup(request):
     if not _user_authorized_for_installation(request, config, code, installation_id):
         messages.error(
             request,
-            gettext_lazy(
+            gettext(
                 "Weblate could not confirm that you have access to this GitHub "
                 "installation. Start the installation again and approve the "
                 "authorization request."
@@ -610,7 +597,7 @@ def github_app_setup(request):
         report_error("Failed to connect GitHub account to workspace")
         messages.info(
             request,
-            gettext_lazy(
+            gettext(
                 "GitHub is still syncing the connected account. "
                 "The repositories will appear here once the webhook is processed."
             ),
@@ -623,7 +610,7 @@ def github_app_setup(request):
         report_error("Failed to refresh connected GitHub account repositories")
         messages.warning(
             request,
-            gettext_lazy(
+            gettext(
                 "The connected GitHub account was saved, but refreshing the "
                 "repository list failed. Try again in a moment."
             ),
@@ -632,12 +619,12 @@ def github_app_setup(request):
         if is_new_install:
             messages.success(
                 request,
-                gettext_lazy("Connected GitHub account added."),
+                gettext("Connected GitHub account added."),
             )
         else:
             messages.success(
                 request,
-                gettext_lazy("Connected GitHub account updated."),
+                gettext("Connected GitHub account updated."),
             )
     return redirect(next_url)
 
@@ -856,7 +843,7 @@ def github_app_register_submit(request):
     if GitHubAppCredentials.objects.filter(hostname=hostname).exists():
         messages.error(
             request,
-            gettext_lazy(
+            gettext(
                 "A Weblate GitHub App is already registered for %(hostname)s. "
                 "Remove it before registering another one."
             )
@@ -911,7 +898,7 @@ def github_app_register_redirect(request):
     if not action_url or not action_url.startswith("https://"):
         messages.error(
             request,
-            gettext_lazy(
+            gettext(
                 "Start the Weblate GitHub App registration again to refresh "
                 "the request."
             ),
@@ -931,7 +918,7 @@ def github_app_register_callback(request):
     if not code:
         messages.error(
             request,
-            gettext_lazy("GitHub did not return a registration code."),
+            gettext("GitHub did not return a registration code."),
         )
         return redirect(accounts_url)
 
@@ -942,7 +929,7 @@ def github_app_register_callback(request):
     except (BadSignature, SignatureExpired):
         messages.error(
             request,
-            gettext_lazy(
+            gettext(
                 "The GitHub App registration link is no longer valid. "
                 "Start the registration again."
             ),
@@ -955,18 +942,18 @@ def github_app_register_callback(request):
         report_error("Failed to exchange GitHub App manifest code")
         messages.error(
             request,
-            gettext_lazy(
+            gettext(
                 "GitHub rejected the registration code. Start the registration again."
             ),
         )
         return redirect(accounts_url)
 
-    pem = data.get("pem", "").strip()
+    pem = str(data.get("pem", "")).strip()
     # GitHub returns ``id`` as a JSON number; coerce to str so the model
     # CharField accepts it.
     app_id = str(data.get("id", "")).strip()
-    app_slug = data.get("slug", "").strip()
-    webhook_secret = data.get("webhook_secret", "").strip()
+    app_slug = str(data.get("slug", "")).strip()
+    webhook_secret = str(data.get("webhook_secret", "")).strip()
     client_id = str(data.get("client_id", "")).strip()
     client_secret = str(data.get("client_secret", "")).strip()
     if (
@@ -979,7 +966,7 @@ def github_app_register_callback(request):
     ):
         messages.error(
             request,
-            gettext_lazy("GitHub returned an incomplete App registration response."),
+            gettext("GitHub returned an incomplete App registration response."),
         )
         return redirect(accounts_url)
 
@@ -993,7 +980,7 @@ def github_app_register_callback(request):
             "webhook_token": webhook_token,
             "client_id": client_id,
             "client_secret": client_secret,
-            "html_url": data.get("html_url", "").strip(),
+            "html_url": str(data.get("html_url", "")).strip(),
         },
     )
     request.session.pop("github_app_register_nonce", None)
@@ -1007,13 +994,13 @@ def github_app_register_callback(request):
     if created:
         messages.success(
             request,
-            gettext_lazy(
+            gettext(
                 "Weblate GitHub App registered. You can now connect a GitHub account."
             ),
         )
     else:
         messages.success(
             request,
-            gettext_lazy("Weblate GitHub App credentials updated."),
+            gettext("Weblate GitHub App credentials updated."),
         )
     return redirect(accounts_url)

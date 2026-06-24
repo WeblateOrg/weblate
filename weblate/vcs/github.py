@@ -52,6 +52,8 @@ GITHUB_APP_MANIFEST_PERMISSIONS: dict[str, str] = {
     "workflows": "write",
 }
 GITHUB_APP_MANIFEST_EVENTS: tuple[str, ...] = (
+    "installation",
+    "installation_repositories",
     "installation_target",
     "meta",
     "push",
@@ -741,6 +743,9 @@ class GithubAppRepository(GithubRepository):
         cls, repo: str, *, workspace: Workspace | None = None
     ) -> dict[str, str] | None:
         """Resolve an installation access token for a GitHub HTTPS repo URL."""
+        if workspace is None:
+            return None
+
         parsed = urlparse(repo)
         if parsed.scheme != "https" or not parsed.hostname:
             return None
@@ -765,7 +770,7 @@ class GithubAppRepository(GithubRepository):
         return {
             "username": "x-access-token",
             "token": token,
-            "github_app": True,
+            "github_app": "1",
         }
 
     @classmethod
@@ -781,14 +786,17 @@ class GithubAppRepository(GithubRepository):
             )
 
     def get_auth_args(self) -> list[str]:
-        if self.component:
-            workspace = (
-                self.component.project.workspace
-                if self.component.project_id is not None
-                else None
+        if (
+            self.component is None
+            or self.component.project_id is None
+            or self.component.project.workspace_id is None
+        ):
+            return []
+        return list(
+            self._get_auth_args(
+                self.component.repo, workspace=self.component.project.workspace
             )
-            return list(self._get_auth_args(self.component.repo, workspace=workspace))
-        return []
+        )
 
     @classmethod
     def get_remote_branch(cls, repo: str):
@@ -814,6 +822,13 @@ class GithubAppRepository(GithubRepository):
 
     def _resolve_github_app_token(self, hostname: str) -> dict[str, str] | None:
         """Resolve an installation access token for the parsed repository."""
+        if (
+            self.component is None
+            or self.component.project_id is None
+            or self.component.project.workspace_id is None
+        ):
+            return None
+
         # ``hostname`` arrives as the API host (``api.github.com`` for
         # github.com). Map it back to the user-facing hostname used by
         # installations.
@@ -821,11 +836,7 @@ class GithubAppRepository(GithubRepository):
 
         _, _, _, _, owner, slug = self.parse_repo_url()
         full_name = f"{owner}/{slug}"
-        workspace = (
-            self.component.project.workspace
-            if self.component is not None and self.component.project_id is not None
-            else None
-        )
+        workspace = self.component.project.workspace
         installation = GitHubInstallation.objects.get_for_repo(
             raw_hostname, full_name, workspace=workspace
         )
@@ -838,7 +849,7 @@ class GithubAppRepository(GithubRepository):
         return {
             "username": "x-access-token",
             "token": token,
-            "github_app": True,
+            "github_app": "1",
         }
 
     def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
