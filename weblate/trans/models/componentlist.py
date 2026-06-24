@@ -15,11 +15,13 @@ from django.utils.translation import gettext_lazy
 
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin
+from weblate.trans.models.component import Component
 from weblate.utils.errors import report_error
 from weblate.utils.regex import regex_match
 from weblate.utils.stats import ComponentListStats
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
     from weblate.trans.models.translation import Translation
 
 
@@ -27,6 +29,16 @@ LOGGER = logging.getLogger("weblate.trans.componentlist")
 
 
 class ComponentListQuerySet(models.QuerySet["ComponentList", "ComponentList"]):
+    def filter_access(self, user: User):
+        # componentlist.edit is site-wide and grants management of all lists,
+        # including lists assigned only to otherwise inaccessible projects.
+        if user.has_perm("componentlist.edit"):
+            return self.all()
+
+        return self.filter(
+            components__in=Component.objects.filter_access(user)
+        ).distinct()
+
     def order(self):
         return self.order_by("name")
 

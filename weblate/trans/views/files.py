@@ -107,7 +107,9 @@ def download_multi(
 
 
 def download_component_list(request: AuthenticatedHttpRequest, name):
-    obj = get_object_or_404(ComponentList, slug__iexact=name)
+    obj = get_object_or_404(
+        ComponentList.objects.filter_access(request.user), slug__iexact=name
+    )
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied
     components = obj.components.filter_access(request.user)
