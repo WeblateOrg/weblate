@@ -383,7 +383,9 @@ class WorkspaceCreateTest(ViewTestCase):
 class ManagementAccessControlTest(ViewTestCase):
     """Test site-wide permission checks in the management interface."""
 
-    def grant_global_permissions(self, *permissions: str) -> None:
+    def grant_global_permissions(
+        self, *permissions: str, enforced_2fa: bool = False
+    ) -> None:
         role, _created = Role.objects.get_or_create(name="Test management role")
         permission_objects = list(Permission.objects.filter(codename__in=permissions))
         self.assertEqual(
@@ -392,6 +394,8 @@ class ManagementAccessControlTest(ViewTestCase):
         )
         role.permissions.add(*permission_objects)
         group, _created = Group.objects.get_or_create(name="Test management team")
+        group.enforced_2fa = enforced_2fa
+        group.save(update_fields=["enforced_2fa"])
         group.roles.add(role)
         self.user.groups.add(group)
         self.user.clear_cache()
@@ -431,6 +435,13 @@ class ManagementAccessControlTest(ViewTestCase):
         self.assert_forbidden(
             "manage-performance", method="post", data={"pk": "1", "ignore": "1"}
         )
+
+    def test_management_use_requires_enforced_2fa(self) -> None:
+        self.grant_global_permissions("management.use", enforced_2fa=True)
+
+        response = self.client.get(reverse("manage"))
+
+        self.assertEqual(response.status_code, 403)
 
     def test_user_view_does_not_allow_user_changes(self) -> None:
         self.grant_global_permissions("management.use", "user.view")

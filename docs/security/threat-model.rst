@@ -503,8 +503,11 @@ Security properties Weblate provides
      - Severity tier
    * - Web authorization separates site, project, component, language,
        glossary, VCS, translation memory, screenshot, review, and access
-       management permissions. *(documented)* (source: :doc:`/admin/access`)
+       management permissions. *(documented)* (source: :doc:`/admin/access`,
+       :doc:`/admin/auth`)
      - Permission assignments match the intended trust relationship.
+       Team-level enforced 2FA is satisfied by human users before
+       team-derived permissions apply.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team
