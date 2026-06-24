@@ -433,9 +433,36 @@ class SVGBadgeWidget(BaseSVGBadgeWidget):
     order = 80
     # Translators: status widget name
     verbose = gettext_lazy("SVG status badge")
+    extra_parameters: ClassVar[list[ExtraParametersDict]] = [
+        {
+            "name": "capitalize",
+            "label": gettext("Capitalize first letter"),
+            "type": "number",
+            "default": 0,
+            "min": 0,
+            "max": 1,
+            "step": 1,
+        }
+    ]
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
+        try:
+            capitalize = int(request.GET.get("capitalize", 0))
+        except ValueError as e:
+            messages.error(
+                request,
+                gettext("Error in parameter %(field)s: %(error)s")
+                % {
+                    "field": "capitalize",
+                    "error": str(e),
+                },
+            )
+            capitalize = 0
+
+        # Translators: Status badge label
         translated_text = gettext("translated")
+        if capitalize:
+            translated_text = translated_text.capitalize()
         percent_text = self.get_percent_text()
         if self.percent >= 90:
             color = "#4c1"
