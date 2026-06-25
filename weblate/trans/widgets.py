@@ -444,9 +444,9 @@ class SVGBadgeWidget(BaseSVGBadgeWidget):
     ]
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
-        translated_text = gettext("translated")
+        translated_text = str(gettext("translated"))
         if request.GET.get("capitalize") == "1":
-            translated_text = capfirst(translated_text)
+            translated_text = str(capfirst(translated_text))
         percent_text = self.get_percent_text()
         if self.percent >= 90:
             color = "#4c1"
