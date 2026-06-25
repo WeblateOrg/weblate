@@ -74,6 +74,37 @@ class PaginatorTemplateTest(TestCase):
 
 
 class ZipDownloadTest(TestCase):
+    def test_zip_download_rejects_symlink_to_other_allowed_root(self) -> None:
+        sentinel = b"other component"
+
+        with TemporaryDirectory() as root_name:
+            root = Path(root_name)
+            component = root / "component"
+            other_component = root / "other-component"
+            component.mkdir()
+            other_component.mkdir()
+            (component / "regular.txt").write_bytes(b"inside component")
+            (component / "shared.txt").write_bytes(b"shared translation")
+            (other_component / "secret.txt").write_bytes(sentinel)
+            os.symlink(component / "shared.txt", component / "safe_link.txt")
+            os.symlink(other_component / "secret.txt", component / "cross_link.txt")
+
+            response = zip_download(
+                str(root),
+                [str(component)],
+                allowed_roots=[str(component), str(other_component)],
+            )
+
+        with ZipFile(BytesIO(response.content), "r") as archive:
+            self.assertIn("component/regular.txt", archive.namelist())
+            self.assertEqual(
+                archive.read("component/safe_link.txt"), b"shared translation"
+            )
+            self.assertNotIn("component/cross_link.txt", archive.namelist())
+            archived_files = [archive.read(name) for name in archive.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
+
     def test_zip_download_validates_symlinked_file(self) -> None:
         sentinel = b"outside repository"
 

@@ -53,6 +53,7 @@ def download_multi(
 ):
     filenames = set()
     components = set()
+    component_roots = set()
     extra: dict[str, str | bytes] = {}
 
     for obj in commit_objs:
@@ -85,6 +86,7 @@ def download_multi(
                 extra[filename] = exporter.serialize()
     else:
         for translation in translations:
+            component_roots.add(translation.component.full_path)
             # Add translation files
             if translation.filename:
                 filenames.add(translation.get_filename())
@@ -104,7 +106,13 @@ def download_multi(
                 if fullname and os.path.exists(fullname):
                     filenames.add(fullname)
 
-    return zip_download(data_dir("vcs"), sorted(filenames), name, extra=extra)
+    return zip_download(
+        data_dir("vcs"),
+        sorted(filenames),
+        name,
+        extra=extra,
+        allowed_roots=sorted(component_roots),
+    )
 
 
 def download_component_list(request: AuthenticatedHttpRequest, name):

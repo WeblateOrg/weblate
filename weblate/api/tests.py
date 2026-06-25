@@ -7128,6 +7128,36 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def test_download_translation_zip_skips_cross_component_symlink(self) -> None:
+        component = self.create_appstore(
+            name="appstore", project=self.component.project
+        )
+        template_path = os.path.join(component.full_path, component.template)
+        other_project = self.create_project(name="Other project", slug="other-project")
+        other_component = self.create_po(name="Other component", project=other_project)
+        sentinel = b"other component"
+        target = os.path.join(other_component.full_path, "secret.txt")
+        Path(target).write_bytes(sentinel)
+
+        os.symlink(target, os.path.join(template_path, "leak_host.bin"))
+
+        response = self.do_request(
+            "api:component-file",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            method="get",
+            code=200,
+            superuser=True,
+        )
+
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            self.assertFalse(
+                any(name.endswith("leak_host.bin") for name in zf.namelist())
+            )
+            archived_files = [zf.read(name) for name in zf.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
+
     def test_download_translation_zip_converted(self) -> None:
         response = self.do_request(
             "api:component-file",
