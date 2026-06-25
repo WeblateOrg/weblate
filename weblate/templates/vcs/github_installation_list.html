@@ -57,10 +57,17 @@
           {% if app.install_url %}
             <a href="{{ app.install_url }}" class="btn btn-primary btn-sm float-end ms-2">{% translate "Connect GitHub account" %}</a>
           {% endif %}
-          <button type="button"
-                  class="btn btn-outline-danger btn-sm float-end"
-                  data-bs-toggle="modal"
-                  data-bs-target="#remove-app-{{ app.credentials_pk }}">{% translate "Remove app" %}</button>
+          {% if app.can_remove %}
+            <button type="button"
+                    class="btn btn-outline-danger btn-sm float-end"
+                    data-bs-toggle="modal"
+                    data-bs-target="#remove-app-{{ app.credentials_pk }}">{% translate "Remove app" %}</button>
+          {% else %}
+            <button type="button"
+                    class="btn btn-outline-danger btn-sm float-end"
+                    disabled
+                    title="{% translate "Remove connected GitHub accounts first." %}">{% translate "Remove app" %}</button>
+          {% endif %}
         </h4>
       </div>
       <div class="card-body">
@@ -79,59 +86,50 @@
           </dd>
         </dl>
 
-        <form method="post" action="{% url 'manage-github-app-remove' app.credentials_pk %}">
-          {% csrf_token %}
-          <div class="modal fade"
-               tabindex="-1"
-               role="dialog"
-               id="remove-app-{{ app.credentials_pk }}"
-               aria-labelledby="remove-app-{{ app.credentials_pk }}-label">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="remove-app-{{ app.credentials_pk }}-label">
-                    {% translate "Remove Weblate GitHub App?" %}
-                  </h4>
-                  <button type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="{% translate "Close" %}"></button>
-                </div>
-                <div class="modal-body">
-                  <p>
-                    <strong>
-                      {% blocktranslate trimmed with slug=app.app_slug host=app.hostname %}
-                        This deletes the stored credentials for the
-                        <code>{{ slug }}</code> App on <code>{{ host }}</code>.
+        {% if app.can_remove %}
+          <form method="post" action="{% url 'manage-github-app-remove' app.credentials_pk %}">
+            {% csrf_token %}
+            <div class="modal fade"
+                 tabindex="-1"
+                 role="dialog"
+                 id="remove-app-{{ app.credentials_pk }}"
+                 aria-labelledby="remove-app-{{ app.credentials_pk }}-label">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="remove-app-{{ app.credentials_pk }}-label">
+                      {% translate "Remove Weblate GitHub App?" %}
+                    </h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate "Close" %}"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>
+                      <strong>
+                        {% blocktranslate trimmed with slug=app.app_slug host=app.hostname %}
+                          This deletes the stored credentials for the
+                          <code>{{ slug }}</code> App on <code>{{ host }}</code>.
+                        {% endblocktranslate %}
+                      </strong>
+                    </p>
+                    <p class="text-body-secondary">
+                      {% blocktranslate trimmed %}
+                        The App itself stays installed on GitHub. Delete it
+                        from GitHub separately if you no longer need it.
                       {% endblocktranslate %}
-                    </strong>
-                  </p>
-                  <p>
-                    {% blocktranslate trimmed count counter=app.installations|length %}
-                      {{ counter }} connected GitHub account will stop
-                      receiving webhook events and lose the ability to
-                      clone repositories until the App is registered again.
-                    {% plural %}
-                      {{ counter }} connected GitHub accounts will stop
-                      receiving webhook events and lose the ability to
-                      clone repositories until the App is registered again.
-                    {% endblocktranslate %}
-                  </p>
-                  <p class="text-body-secondary">
-                    {% blocktranslate trimmed %}
-                      The App itself stays installed on GitHub. Delete it
-                      from GitHub separately if you no longer need it.
-                    {% endblocktranslate %}
-                  </p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                  <button type="submit" class="btn btn-danger">{% translate "Remove app" %}</button>
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn btn-danger">{% translate "Remove app" %}</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        {% endif %}
 
         <h5>{% translate "Connected accounts" %}</h5>
         {% if app.installations %}

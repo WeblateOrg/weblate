@@ -271,6 +271,7 @@ class GitHubInstallationListView(View):
                     "html_url": config.html_url,
                     "credentials_pk": config.pk,
                     "installations": host_installations,
+                    "can_remove": not host_installations,
                     "install_url": _get_install_link(
                         request,
                         reverse("manage-github-accounts"),
@@ -420,6 +421,15 @@ def remove_github_app(request, pk):
         return HttpResponseNotAllowed(["POST"])
     credentials = get_object_or_404(GitHubAppCredentials, pk=pk)
     hostname = credentials.hostname
+    if GitHubInstallation.objects.filter(hostname=hostname).exists():
+        messages.error(
+            request,
+            gettext(
+                "Remove connected GitHub accounts on %(hostname)s before removing the app credentials."
+            )
+            % {"hostname": hostname},
+        )
+        return redirect("manage-github-accounts")
     credentials.delete()
     messages.success(
         request,

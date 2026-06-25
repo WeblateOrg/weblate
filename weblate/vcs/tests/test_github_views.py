@@ -1211,6 +1211,36 @@ class GitHubAppManifestViewTest(TestCase):
             response,
             f'action="{reverse("manage-github-app-remove", kwargs={"pk": credentials.pk})}"',
         )
+        self.assertTrue(response.context["apps"][0]["can_remove"])
+
+    def test_credentials_page_disables_remove_app_with_connected_accounts(self):
+        credentials = GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="111",
+            app_slug="weblate-on-com",
+            private_key="pem",
+            webhook_secret="wh",
+        )
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=Workspace.objects.create(name="Connected Workspace"),
+        )
+
+        response = self.client.get(reverse("manage-github-accounts"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["apps"][0]["can_remove"])
+        self.assertContains(response, "Remove connected GitHub accounts first.")
+        self.assertNotContains(
+            response,
+            f'data-bs-target="#remove-app-{credentials.pk}"',
+        )
+        self.assertNotContains(
+            response,
+            f'action="{reverse("manage-github-app-remove", kwargs={"pk": credentials.pk})}"',
+        )
 
     def test_credentials_page_lists_registered_apps(self):
         GitHubAppCredentials.objects.create(
@@ -1262,3 +1292,25 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertFalse(
             GitHubAppCredentials.objects.filter(pk=credentials.pk).exists()
         )
+
+    def test_credentials_remove_app_credentials_rejects_connected_accounts(self):
+        credentials = GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="111",
+            app_slug="weblate-on-com",
+            private_key="pem",
+            webhook_secret="wh",
+        )
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=Workspace.objects.create(name="Connected Workspace"),
+        )
+
+        response = self.client.post(
+            reverse("manage-github-app-remove", kwargs={"pk": credentials.pk})
+        )
+
+        self.assertRedirects(response, reverse("manage-github-accounts"))
+        self.assertTrue(GitHubAppCredentials.objects.filter(pk=credentials.pk).exists())
