@@ -293,6 +293,7 @@ class Repository:
     ref_to_remote: ClassVar[str]
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
+    supports_remote_compatibility_validation: ClassVar[bool] = False
     _version: ClassVar[str | None] = None
     _version_error: ClassVar[Exception | None] = None
 
@@ -673,6 +674,10 @@ class Repository:
             url = self.component.push or self.component.repo
         if url:
             self.validate_remote_url(url)
+
+    def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
+        """Validate that a remote branch is compatible with this checkout."""
+        raise NotImplementedError
 
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""

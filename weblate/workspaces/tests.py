@@ -11,6 +11,7 @@ from django.http import Http404
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group
 from weblate.billing.models import Billing, BillingQuerySet
 from weblate.trans.actions import ActionEvents
@@ -506,3 +507,24 @@ class WorkspaceViewTest(BaseTestCase):
             ValidationError, "A team with this name already exists in this workspace."
         ):
             Group.objects.create(name="Owners", defining_workspace=workspace)
+
+    def test_workspace_teams_use_all_languages(self) -> None:
+        workspace = Workspace.objects.create(name="Language workspace")
+
+        groups = workspace.setup_groups()
+
+        self.assertEqual(
+            groups[WORKSPACE_PROJECT_CREATORS_GROUP].language_selection, SELECTION_ALL
+        )
+
+    def test_workspace_team_save_normalizes_languages(self) -> None:
+        workspace = Workspace.objects.create(name="Saved language workspace")
+        group = Group.objects.create(name="Team", defining_workspace=workspace)
+        Group.objects.filter(pk=group.pk).update(language_selection=SELECTION_MANUAL)
+
+        group.refresh_from_db()
+        group.name = "Renamed team"
+        group.save(update_fields=["name"])
+
+        group.refresh_from_db()
+        self.assertEqual(group.language_selection, SELECTION_ALL)

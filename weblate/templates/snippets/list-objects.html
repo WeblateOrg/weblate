@@ -259,7 +259,7 @@
                 {% endif %}
               </span>
             {% elif name_source == "translation" %}
-              <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>/<a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a> — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
+              {% path_object_links object.component flags=False %} — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
             {% else %}
               <a href="{{ browse_url }}">
                 {% spaceless %}

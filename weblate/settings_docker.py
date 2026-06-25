@@ -641,7 +641,6 @@ SOCIAL_AUTH_PIPELINE = [
     "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
-    "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
@@ -655,7 +654,6 @@ SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     "weblate.accounts.pipeline.adjust_primary_mail",
     "weblate.accounts.pipeline.notify_disconnect",
     "social_core.pipeline.disconnect.disconnect",
-    "weblate.accounts.pipeline.cleanup_next",
 )
 
 # Custom authentication strategy

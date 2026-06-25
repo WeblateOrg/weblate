@@ -290,6 +290,10 @@ class Group(models.Model):
 
     def save(self, *args, **kwargs) -> None:
         self.clean()
+        if self.defining_workspace_id:
+            self.language_selection = SELECTION_ALL
+            if update_fields := kwargs.get("update_fields"):
+                kwargs["update_fields"] = {*update_fields, "language_selection"}
         super().save(*args, **kwargs)
         if self.defining_workspace_id:
             self.projects.clear()
@@ -351,7 +355,10 @@ class TeamMembershipQuerySet(models.QuerySet["TeamMembership"]):
         return self.filter(limit_languages__isnull=True)
 
     def unlimited_for_user(self, user: User) -> Self:
-        return self.filter(user=user, limit_languages__isnull=True)
+        queryset = self.filter(user=user, limit_languages__isnull=True)
+        if user.is_bot or user.profile.has_2fa:
+            return queryset
+        return queryset.exclude(group__enforced_2fa=True)
 
 
 @dataclass(frozen=True)

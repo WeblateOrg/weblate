@@ -1546,6 +1546,15 @@ def path_object_breadcrumbs(path_object, flags: bool = True):
 
 
 @register.simple_tag
+def path_object_links(path_object, flags: bool = True):
+    return format_html_join(
+        "/",
+        '<a href="{}">{}</a>',
+        get_breadcrumbs(path_object, flags=flags),
+    )
+
+
+@register.simple_tag
 def get_projectlanguage(project: Project, language: Language) -> ProjectLanguage:
     return ProjectLanguage(project=project, language=language)
 

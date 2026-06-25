@@ -125,6 +125,8 @@ class GitRepository(Repository):
     """Repository implementation for Git."""
 
     metadata_dir_name: ClassVar[str] = ".git"
+    supports_remote_compatibility_validation: ClassVar[bool] = True
+    remote_compatibility_deepen: ClassVar[int] = 50
 
     RESERVED_BRANCH_NAMES: ClassVar[frozenset[str]] = frozenset(
         {
@@ -355,6 +357,122 @@ class GitRepository(Repository):
         if self.component:
             return list(self._get_auth_args(self.component.repo))
         return []
+
+    def revision_exists(self, revision: str) -> bool:
+        try:
+            self.execute(
+                ["rev-parse", "--verify", "--quiet", f"{revision}^{{commit}}"],
+                remote_op="none",
+                needs_lock=False,
+                merge_err=False,
+            )
+        except RepositoryError:
+            return False
+        return True
+
+    def has_common_history(self, revision: str, other_revision: str) -> bool:
+        if not self.revision_exists(other_revision):
+            return False
+        try:
+            return bool(
+                self.execute(
+                    ["merge-base", revision, other_revision],
+                    remote_op="none",
+                    needs_lock=False,
+                    merge_err=False,
+                ).strip()
+            )
+        except RepositoryError:
+            return False
+
+    def is_shallow(self) -> bool:
+        return self.has_git_file("shallow")
+
+    def deepen_remote_compatibility_history(self, branch: str) -> None:
+        """Fetch bounded history for the currently configured remote branch."""
+        remote_url = self.get_config("remote.origin.url")
+        self.validate_pull_url(remote_url)
+        refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
+        self.execute(
+            [
+                *self._get_auth_args(remote_url),
+                "fetch",
+                f"--deepen={self.remote_compatibility_deepen}",
+                "--no-tags",
+                "--",
+                remote_url,
+                refspec,
+            ],
+            remote_op="none",
+            merge_err=False,
+        )
+        self.clean_revision_cache()
+
+    def get_compatibility_revisions(self, branch: str) -> Iterator[str]:
+        yield "HEAD"
+        yield self.get_remote_branch_name(branch)
+        if self.component is None:
+            return
+        for revision in (self.component.local_revision, self.component.remote_revision):
+            if revision:
+                yield revision
+
+    def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
+        """Validate that a remote branch shares history with this checkout."""
+        self.validate_pull_url(pull_url)
+        branch = self.validate_branch_name(branch)
+        validation_ref = f"refs/weblate/validation/{branch}"
+        refspec = f"+refs/heads/{branch}:{validation_ref}"
+
+        with self.lock:
+            try:
+                self.execute(
+                    [
+                        *self._get_auth_args(pull_url),
+                        "fetch",
+                        "--no-tags",
+                        "--",
+                        pull_url,
+                        refspec,
+                    ],
+                    remote_op="none",
+                    merge_err=False,
+                )
+                if any(
+                    self.has_common_history(validation_ref, revision)
+                    for revision in self.get_compatibility_revisions(branch)
+                ):
+                    return
+                if self.is_shallow():
+                    with suppress(RepositoryError):
+                        self.deepen_remote_compatibility_history(branch)
+                    if any(
+                        self.has_common_history(validation_ref, revision)
+                        for revision in self.get_compatibility_revisions(branch)
+                    ):
+                        return
+                    if self.is_shallow():
+                        raise RepositoryError(
+                            0,
+                            gettext(
+                                "Remote branch could not be verified against the "
+                                "shallow existing repository."
+                            ),
+                        )
+            finally:
+                with suppress(RepositoryError):
+                    self.execute(
+                        ["update-ref", "-d", validation_ref],
+                        remote_op="none",
+                        merge_err=False,
+                    )
+
+        raise RepositoryError(
+            0,
+            gettext(
+                "Remote branch does not share common history with the existing repository."
+            ),
+        )
 
     @classmethod
     def _clone(cls, source: str, target: str, branch: str) -> None:
@@ -1010,6 +1128,7 @@ class GitWithGerritRepository(GitRepository):
 class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
     default_branch: ClassVar[str] = "master"
+    supports_remote_compatibility_validation: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will commit changes to the Subversion repository."
     )

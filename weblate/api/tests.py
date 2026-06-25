@@ -2275,16 +2275,20 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": group.id},
             method="post",
             authenticated=False,
-            code=200,
+            code=400,
             request={"language_code": "cs"},
         )
-        self.assertTrue(group.languages.filter(code="cs").exists())
+        self.assertContains(
+            response, "Cannot change languages on a workspace team.", status_code=400
+        )
+        self.assertFalse(group.languages.filter(code="cs").exists())
+        group.languages.add(Language.objects.get(code="cs"))
         self.do_request(
             "api:group-delete-languages",
             kwargs={"id": group.id, "language_code": "cs"},
             method="delete",
             authenticated=False,
-            code=204,
+            code=400,
         )
         self.do_request(
             "api:group-detail",
@@ -2295,7 +2299,8 @@ class GroupAPITest(APIBaseTest):
             request={"language_selection": SELECTION_MANUAL},
         )
         group.refresh_from_db()
-        self.assertEqual(group.language_selection, SELECTION_MANUAL)
+        self.assertEqual(group.language_selection, SELECTION_ALL)
+        self.assertFalse(group.languages.exists())
         self.do_request(
             "api:group-delete-roles",
             kwargs={"id": group.id, "role_id": role.id},
@@ -5559,6 +5564,32 @@ class ComponentAPITest(APIBaseTest):
             "api:component-monolingual-base",
             {"project__slug": component.project.slug, "slug": component.slug},
         )
+
+    def test_monolingual_directory_base_skips_symlinked_file(self) -> None:
+        component = self.create_appstore(
+            name="appstore", project=self.component.project
+        )
+        template_path = os.path.join(component.full_path, component.template)
+        sentinel = b"outside repository"
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(sentinel)
+        self.addCleanup(os.unlink, handle.name)
+
+        os.symlink(handle.name, os.path.join(template_path, "leak_host.bin"))
+
+        response = self.do_request(
+            "api:component-monolingual-base",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            superuser=True,
+        )
+
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            self.assertNotIn("leak_host.bin", zf.namelist())
+            archived_files = [zf.read(name) for name in zf.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
 
     def test_monolingual_download_prohibited(self) -> None:
         component = self.create_po_mono(name="mono", project=self.component.project)
@@ -11064,6 +11095,7 @@ class ComponentListAPITest(APIBaseTest):
         super().setUp()
         clist = ComponentList.objects.create(name="Name", slug="name")
         clist.autocomponentlist_set.create()
+        clist.components.add(self.component)
 
     def test_list(self) -> None:
         response = self.client.get(reverse("api:componentlist-list"))
@@ -11077,6 +11109,126 @@ class ComponentListAPITest(APIBaseTest):
             )
         )
         self.assertIn("components", response.data)
+
+    def test_component_lists_hidden_without_management_permission(self) -> None:
+        empty = ComponentList.objects.create(name="Empty", slug="empty")
+        empty.autocomponentlist_set.create(
+            project_match="^internal-", component_match="^.*$"
+        )
+        private = ComponentList.objects.create(name="Private", slug="private")
+        private.components.add(self.create_acl())
+        restricted = ComponentList.objects.create(name="Restricted", slug="restricted")
+        restricted.components.add(
+            self.create_po(project=self.project, name="Restricted", restricted=True)
+        )
+
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["slug"], "name")
+
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": empty.slug},
+            authenticated=False,
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": private.slug},
+            authenticated=False,
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": restricted.slug},
+            authenticated=False,
+            code=404,
+        )
+
+        self.authenticate(False)
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["slug"], "name")
+
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": empty.slug},
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": private.slug},
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": restricted.slug},
+            code=404,
+        )
+
+    def test_component_links_filtered_without_management_permission(self) -> None:
+        clist = ComponentList.objects.get(slug="name")
+        restricted_component = self.create_po(
+            project=self.project, name="Restricted", restricted=True
+        )
+        private_component = self.create_acl()
+        clist.components.add(restricted_component, private_component)
+        expected_url = (
+            f"http://example.com"
+            f"{reverse('api:component-detail', kwargs=self.component_kwargs)}"
+        )
+
+        response = self.client.get(
+            reverse("api:componentlist-detail", kwargs={"slug": clist.slug})
+        )
+        self.assertEqual(response.data["components"], [expected_url])
+
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["results"][0]["components"], [expected_url])
+
+    def test_component_lists_visible_with_management_permission(self) -> None:
+        empty = ComponentList.objects.create(name="Empty", slug="empty")
+        empty.autocomponentlist_set.create(
+            project_match="^internal-", component_match="^.*$"
+        )
+        private = ComponentList.objects.create(name="Private", slug="private")
+        private.components.add(self.create_acl())
+        restricted = ComponentList.objects.create(name="Restricted", slug="restricted")
+        restricted.components.add(
+            self.create_po(project=self.project, name="Restricted", restricted=True)
+        )
+
+        self.grant_perm_to_user("componentlist.edit")
+        self.user.clear_cache()
+        self.authenticate(False)
+
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["count"], 4)
+        self.assertCountEqual(
+            [item["slug"] for item in response.data["results"]],
+            ["name", "empty", "private", "restricted"],
+        )
+
+        response = self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": empty.slug},
+            code=200,
+        )
+        self.assertEqual(response.data["auto_assign"][0]["project_match"], "^internal-")
+
+        response = self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": private.slug},
+            code=200,
+        )
+        self.assertEqual(response.data["slug"], "private")
+
+        response = self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": restricted.slug},
+            code=200,
+        )
+        self.assertEqual(response.data["slug"], "restricted")
 
     def test_create(self) -> None:
         self.do_request(

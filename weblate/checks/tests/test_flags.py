@@ -146,6 +146,19 @@ class FlagTest(SimpleTestCase):
             Flags("max-length:x").validate()
         Flags("max-length:30").validate()
 
+    def test_validate_accelerator_value(self) -> None:
+        Flags("accelerator:&").validate()
+        Flags("accelerator:_").validate()
+        Flags("accelerator:~").validate()
+        with self.assertRaises(ValidationError):
+            Flags("accelerator").validate()
+        with self.assertRaises(ValidationError):
+            Flags("accelerator:").validate()
+        with self.assertRaises(ValidationError):
+            Flags("accelerator:&&").validate()
+        with self.assertRaises(ValidationError):
+            Flags("accelerator:a").validate()
+
     def test_validate_name(self) -> None:
         with self.assertRaises(ValidationError):
             Flags("invalid-check-name").validate()

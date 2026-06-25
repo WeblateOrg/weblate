@@ -6,6 +6,8 @@ Weblate 2026.7
 .. rubric:: New features
 
 * Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
+* Added :ref:`check-source-max-length` check for source strings near ``max-length``.
+* Added the :ref:`check-accelerator` quality check, which verifies that accelerator keys are used consistently between the source and the translation. Enable it with the ``accelerator:`` flag and the marker character, for example ``accelerator:&``.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
@@ -42,7 +44,9 @@ Weblate 2026.7
 
 .. rubric:: Bug fixes
 
+* Malformed ``replacements`` flags no longer abort source length checks.
 * Scoped team assignments can no longer be expanded through the API.
+* Empty component lists are no longer exposed to users without component list management permission.
 * TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
 * :ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
@@ -50,23 +54,31 @@ Weblate 2026.7
 * Project and workspace translation license defaults now follow component and project licenses more closely.
 * Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
 * Hardened HTML and AJAX object lookups against private project enumeration.
+* ZIP downloads no longer follow repository symbolic links outside the downloaded tree.
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * :ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations.
 * Repository reset and update progress now includes follow-up translation-file reconciliation.
+* Updating repository URLs now validates compatible Git history without requiring an immediate successful merge.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
 * :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
 * API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
 * Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs.
+* Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
+* :ref:`check-max-size` no longer wraps text when checking strings configured to fit on one line.
+* Watched translations on the dashboard now include category path segments.
 
 .. rubric:: Compatibility
 
+* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured.
 * :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, and broker settings are stored as an AMQP URL with existing host and SSL settings migrated automatically.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are changes in :file:`settings_example.py`, most notably in ``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 

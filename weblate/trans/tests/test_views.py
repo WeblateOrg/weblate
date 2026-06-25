@@ -6,7 +6,10 @@
 
 from __future__ import annotations
 
+import os
 from io import BytesIO
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 from unittest import TestCase
 from urllib.parse import parse_qs, urlparse, urlsplit
@@ -27,7 +30,8 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, setup_project_groups
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
@@ -46,11 +50,12 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.views import zip_download
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
     from django.test.client import Client as TestClient
+    from django.test.client import _MonkeyPatchedWSGIResponse as TestClientResponse
 
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
@@ -66,6 +71,45 @@ class PaginatorTemplateTest(TestCase):
         )
 
         self.assertIn('<form method="get" action="#components">', rendered)
+
+
+class ZipDownloadTest(TestCase):
+    def test_zip_download_validates_symlinked_file(self) -> None:
+        sentinel = b"outside repository"
+
+        with TemporaryDirectory() as root_name, TemporaryDirectory() as outside_name:
+            root = Path(root_name)
+            outside = Path(outside_name)
+            (root / ".git").mkdir()
+            (root / ".git" / "config").write_bytes(b"repository metadata")
+            (root / "build").mkdir()
+            (root / "build" / "translation.txt").write_bytes(b"build directory")
+            (root / "node_modules").mkdir()
+            (root / "node_modules" / "translation.txt").write_bytes(
+                b"node_modules directory"
+            )
+            (root / "regular.txt").write_bytes(b"inside repository")
+            (root / "shared.txt").write_bytes(b"shared translation")
+            (outside / "secret.txt").write_bytes(sentinel)
+            os.symlink(root / "shared.txt", root / "safe_link.txt")
+            os.symlink(outside / "secret.txt", root / "leak_host.bin")
+            os.symlink(root / "regular.txt", outside / "outside_link.txt")
+
+            response = zip_download(
+                str(root), [str(root), str(outside / "outside_link.txt")]
+            )
+
+        with ZipFile(BytesIO(response.content), "r") as archive:
+            self.assertIn("regular.txt", archive.namelist())
+            self.assertIn("build/translation.txt", archive.namelist())
+            self.assertIn("node_modules/translation.txt", archive.namelist())
+            self.assertEqual(archive.read("safe_link.txt"), b"shared translation")
+            self.assertNotIn(".git/config", archive.namelist())
+            self.assertNotIn("leak_host.bin", archive.namelist())
+            self.assertFalse(any(name.startswith("../") for name in archive.namelist()))
+            archived_files = [archive.read(name) for name in archive.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
 
 
 class RegistrationTestMixin(TestCase):
@@ -88,14 +132,34 @@ class RegistrationTestMixin(TestCase):
             if "(" in line or ")" in line or "<" in line or ">" in line:
                 continue
             if live_url and line.startswith(live_url):
-                url = f"{line}&confirm=1"
+                url = line
                 break
             if line.startswith("http://example.com/"):
-                url = f"{line[18:]}&confirm=1"
+                url = line[18:]
                 break
 
         self.assertIsNotNone(url, "Confirmation URL not found")
         return cast("str", url)
+
+    def confirm_registration_url(
+        self, url: str, client: TestClient | None = None, *, follow: bool = True
+    ) -> TestClientResponse:
+        client = client or self.client
+        response = client.get(url, follow=follow)
+        confirmation_template = "social_django/partial_pipeline_external_resume.html"
+        if confirmation_template not in [
+            template.name for template in response.templates
+        ]:
+            return response
+        context = response.context
+        return client.post(
+            context["action_url"],
+            {
+                context["confirmation_parameter"]: context["confirmation_value"],
+                context["confirmation_nonce_parameter"]: context["confirmation_nonce"],
+            },
+            follow=follow,
+        )
 
     def assert_notify_mailbox(self, sent_mail) -> None:
         self.assertEqual(
@@ -103,8 +167,8 @@ class RegistrationTestMixin(TestCase):
         )
 
     def confirm_tos(
-        self, user_client: TestClient, response: HttpResponse
-    ) -> HttpResponse:
+        self, user_client: TestClient, response: TestClientResponse
+    ) -> TestClientResponse:
         url = response.redirect_chain[-1][0]
         parsed_url = urlparse(url)
         parsed_query = parse_qs(parsed_url.query)
@@ -980,6 +1044,68 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
         self.assertContains(response, "TestCL")
         self.assertContains(response, self.component.name)
+
+    def test_view_empty_component_list_denied(self) -> None:
+        ComponentList.objects.create(name="TestCL", slug="testcl")
+
+        response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_view_restricted_component_list_denied(self) -> None:
+        restricted_component = self.create_po(
+            project=self.project, name="Restricted", restricted=True
+        )
+        clist = ComponentList.objects.create(name="RestrictedCL", slug="restrictedcl")
+        clist.components.add(restricted_component)
+
+        response = self.client.get(
+            reverse("component-list", kwargs={"name": "restrictedcl"})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_view_empty_component_list_with_management_permission(self) -> None:
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.autocomponentlist_set.create(
+            project_match="^internal-", component_match="^.*$"
+        )
+        group = Group.objects.create(
+            name="Component list managers", language_selection=SELECTION_ALL
+        )
+        role = Role.objects.create(name="Component list management")
+        role.permissions.add(Permission.objects.get(codename="componentlist.edit"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.client.login(username="testuser", password="testpassword")
+
+        response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
+
+        self.assertContains(response, "TestCL")
+
+    def test_view_private_component_list_with_management_permission(self) -> None:
+        private_project = self.create_project(
+            name="Private", slug="private", access_control=Project.ACCESS_PRIVATE
+        )
+        private_component = self.create_po(project=private_project, name="Private")
+        clist = ComponentList.objects.create(name="PrivateCL", slug="privatecl")
+        clist.components.add(private_component)
+        group = Group.objects.create(
+            name="Component list managers", language_selection=SELECTION_ALL
+        )
+        role = Role.objects.create(name="Component list management")
+        role.permissions.add(Permission.objects.get(codename="componentlist.edit"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        self.client.login(username="testuser", password="testpassword")
+
+        response = self.client.get(
+            reverse("component-list", kwargs={"name": "privatecl"})
+        )
+
+        self.assertContains(response, "PrivateCL")
 
     def test_view_category(self) -> None:
         category = self.create_category(self.project)

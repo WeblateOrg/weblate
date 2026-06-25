@@ -671,6 +671,13 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
 
     obj.project.project_languages.preload_workflow_settings()
 
+    alerts = (
+        obj.all_active_alerts
+        if "alerts" not in request.GET
+        else obj.all_alerts.values()
+    )
+    problem_alerts = obj.all_problem_alerts
+
     last_changes = obj.change_set.prefetch().recent(skip_preload="component")
 
     translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
@@ -741,9 +748,8 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
                 initial=SearchForm.get_initial(request),
                 obj=obj,
             ),
-            "alerts": obj.all_active_alerts
-            if "alerts" not in request.GET
-            else obj.all_alerts.values(),
+            "alerts": alerts,
+            "problem_alerts_count": len(problem_alerts),
             "user_can_add_translation": user_can_add_translation,
             "component_links_formset": _get_component_links_formset(obj, user),
             "component_link_add_form": _get_component_link_add_form(request, obj, user),
@@ -1138,7 +1144,9 @@ def healthz(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 @never_cache
 def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse:
-    obj = get_object_or_404(ComponentList, slug__iexact=name)
+    obj = get_object_or_404(
+        ComponentList.objects.filter_access(request.user), slug__iexact=name
+    )
     components = prefetch_tasks(
         get_paginator(
             request,

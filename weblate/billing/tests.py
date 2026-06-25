@@ -24,6 +24,7 @@ from weblate.billing.models import (
     BillingEvent,
     Invoice,
     Plan,
+    get_component_billing_alerts,
     record_project_billing_workspace,
 )
 from weblate.billing.tasks import (
@@ -246,6 +247,15 @@ class BillingTest(BaseTestCase):
         component.add_alert("RecommendedXgettextAddon")
         component.alert_set.filter(name="MissingTranslationInstructions").update(
             dismissed=True
+        )
+
+        self.assertEqual(
+            [item.alert.name for item in get_component_billing_alerts(component)],
+            [
+                "BillingLimit",
+                "MissingTranslationInstructions",
+                "RecommendedXgettextAddon",
+            ],
         )
 
         self.refresh_from_db()

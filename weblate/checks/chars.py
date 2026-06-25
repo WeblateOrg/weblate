@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+import string
 import unicodedata
 from typing import TYPE_CHECKING, ClassVar
 
@@ -39,6 +40,66 @@ FRENCH_PUNCTUATION_MISSING_RE_NNBSP = (
 )
 MY_QUESTION_MARK = "\u1038\u104b"
 INTERROBANGS = ("?!", "!?", "؟!", "!؟", "？！", "！？", "⁈", "⁉")
+
+
+def validate_accelerator_marker(marker: str) -> None:
+    if len(marker) != 1 or marker not in string.punctuation:
+        msg = f"Accelerator marker should be a single punctuation character: {marker}"
+        raise ValueError(msg)
+
+
+parse_accelerator_marker = single_value_flag(str, validate_accelerator_marker)
+
+
+class AcceleratorKeyCheck(TargetCheckParametrized):
+    """Check for inconsistent accelerator keys."""
+
+    check_id = "accelerator"
+    name = gettext_lazy("Accelerator key")
+    description = gettext_lazy(
+        "Source and translation contain inconsistent accelerator keys."
+    )
+    default_disabled = True
+    version_added = "2026.7"
+
+    @property
+    def param_type(self):
+        return parse_accelerator_marker
+
+    def _count_accelerators(self, text: str, key: str) -> int:
+        count = 0
+        pos = 0
+        while True:
+            pos = text.find(key, pos)
+            if pos == -1:
+                return count
+            # A doubled marker escapes a literal marker in GNU gettext msgfmt.
+            if pos + 1 < len(text) and text[pos + 1] == key:
+                pos += 2
+            else:
+                count += 1
+                pos += 1
+
+    def _check_accelerator(self, source: str, target: str, key: str) -> bool:
+        src_count = self._count_accelerators(source, key)
+        tgt_count = self._count_accelerators(target, key)
+        return tgt_count > 1 or src_count != tgt_count
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        if not self.has_value(unit):
+            return False
+        try:
+            key = self.get_value(unit)
+        except ValueError:
+            return True
+        return self._check_accelerator(source, target, key)
+
+    def check_target_params(
+        self, sources: list[str], targets: list[str], unit: Unit, value: str
+    ) -> bool:
+        if len(sources) == 1 and len(targets) == 1:
+            return self._check_accelerator(sources[0], targets[0], value)
+        return any(self.check_target_generator(sources, targets, unit))
 
 
 class BeginNewlineCheck(TargetCheck):

@@ -33,6 +33,7 @@ CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
+VCS_METADATA_DIRS = frozenset((".git", ".hg"))
 REPO_TEMP_DIRNAME = "weblate-tmp"
 
 
@@ -99,15 +100,28 @@ def should_skip(location):
 def is_excluded(path: str) -> bool:
     """Whether path should be excluded from zip extraction."""
     normalized = path.replace("\\", "/")
+    return any(
+        exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES
+    ) or is_unsafe_path(path)
+
+
+def is_unsafe_path(path: str) -> bool:
+    """Whether path points outside a relative path."""
+    normalized = path.replace("\\", "/")
     posix_path = PurePosixPath(normalized)
     windows_path = PureWindowsPath(path)
     return (
-        any(exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES)
-        or ".." in posix_path.parts
+        ".." in posix_path.parts
         or posix_path.is_absolute()
         or windows_path.is_absolute()
         or bool(windows_path.drive)
     )
+
+
+def is_vcs_metadata_path(path: str) -> bool:
+    """Whether path points to VCS metadata."""
+    normalized = path.replace("\\", "/")
+    return any(part in VCS_METADATA_DIRS for part in PurePosixPath(normalized).parts)
 
 
 def is_path_within_directory(path: str, directory: str) -> bool:

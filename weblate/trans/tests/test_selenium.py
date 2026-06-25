@@ -191,7 +191,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @staticmethod
     def is_page_loaded(driver: WebDriver) -> bool:
         try:
-            return driver.execute_script("return document.readyState") == "complete"
+            return bool(
+                driver.execute_script(
+                    """
+                    if (document.readyState !== "complete") {
+                        return false;
+                    }
+                    if (!document.querySelector('meta[name="argon2id-worker-url"]')) {
+                        return true;
+                    }
+                    const status = {
+                        slugify: typeof window.slugify !== "undefined",
+                        DateRangePicker: typeof window.DateRangePicker !== "undefined",
+                        getNumber: typeof window.getNumber === "function",
+                        quoteSearch: typeof window.quoteSearch === "function",
+                        compareCells: typeof window.compareCells === "function",
+                    };
+                    return Object.values(status).every(Boolean);
+                    """
+                )
+            )
         except WebDriverException:
             return False
 
@@ -294,8 +313,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def setUp(self) -> None:
         super().setUp()
         self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
-        self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.driver.set_window_size(1200, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.site_domain = settings.SITE_DOMAIN
         settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"
 
@@ -828,12 +848,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("type"), "submit")
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
-    def test_js_assets_are_loaded(self) -> None:
-        """Check that the main JS bundle is active and globals are available."""
-        self.assertTrue(
-            self.driver.execute_script(
-                "return typeof window.slugify !== 'undefined' && typeof window.DateRangePicker !== 'undefined';"
-            )
+    def test_slug_autofill(self) -> None:
+        """Check that base JavaScript initializes slug autogeneration."""
+        self.do_login(superuser=True)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('create-project')}")
+
+        name_input = self.driver.find_element(By.ID, "id_name")
+        slug_input = self.driver.find_element(By.ID, "id_slug")
+        name_input.send_keys("Example.Project Name")
+
+        WebDriverWait(self.driver, 5).until(
+            lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
     def test_js_unit_tests(self) -> None:
@@ -1173,6 +1200,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Confirm account
         self.driver.get(url)
+        if "Confirm registration" in self.driver.find_element(By.TAG_NAME, "body").text:
+            self.screenshot("registration-confirmation.png")
+            with self.wait_for_page_load():
+                self.click(
+                    self.driver.find_element(
+                        By.CSS_SELECTOR, "form button[type='submit']"
+                    )
+                )
 
         # Check we got message
         self.assertIn(
@@ -2076,7 +2111,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Duplicates")
-        self.click("Diagnostics")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, 'a[data-bs-target="#alerts"]')
+        )
         self.screenshot("alerts.png")
         self.assertGreater(self.count_elements("#alerts .card"), 0)
 
@@ -2091,7 +2128,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         guidance.add_alert("MissingTranslationInstructions")
         self.driver.get(f"{self.live_server_url}{guidance.get_absolute_url()}")
-        self.click("Diagnostics")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, 'a[data-bs-target="#alerts"]')
+        )
         self.screenshot("component-diagnostics.png")
         self.assert_text_contains("#alerts", "Define translation instructions")
 

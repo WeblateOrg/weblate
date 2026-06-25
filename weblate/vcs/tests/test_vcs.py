@@ -925,6 +925,21 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             pk=-1,
         )
 
+    def create_unrelated_git_repository(self, path: str) -> None:
+        GitRepository.create_blank_repository(path)
+        unrelated = GitRepository(path, branch=GitRepository.default_branch, local=True)
+        with unrelated.lock:
+            unrelated.set_committer("Test", "test@example.net")
+            Path(path, "README.md").write_text("Unrelated\n", encoding="utf-8")
+            unrelated.commit(
+                "Initial commit",
+                "Test <test@example.net>",
+                timezone.now(),
+                ["README.md"],
+            )
+            if self._remote_branch != GitRepository.default_branch:
+                unrelated.execute(["branch", self._remote_branch], remote_op="none")
+
     def assert_no_popen_sequence(
         self,
         mocked_popen,
@@ -1285,6 +1300,128 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.test_commit()
         with self.assertRaises(RepositoryError):
             self.test_rebase()
+
+    def test_validate_remote_compatibility_allows_merge_conflict(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Plain Git specific validation")
+
+        self.add_remote_commit(conflict=True)
+        self.test_commit()
+
+        self.repo.validate_remote_compatibility(
+            self.get_remote_repo_url(), self._remote_branch
+        )
+        self.assertFalse(
+            self.repo.has_rev(f"refs/weblate/validation/{self._remote_branch}")
+        )
+
+    def test_validate_remote_compatibility_rejects_unrelated_history(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Plain Git specific validation")
+
+        if self.repo.is_shallow():
+            with self.repo.lock:
+                self.repo.unshallow()
+
+        with tempfile.TemporaryDirectory() as tempdir:
+            self.create_unrelated_git_repository(tempdir)
+
+            with self.assertRaisesRegex(
+                RepositoryError, "does not share common history"
+            ):
+                self.repo.validate_remote_compatibility(
+                    self.format_local_path(tempdir), self._remote_branch
+                )
+
+    def test_validate_remote_compatibility_rejects_inconclusive_shallow_history(
+        self,
+    ) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Plain Git specific validation")
+
+        self.assertTrue(self.repo.is_shallow())
+
+        with tempfile.TemporaryDirectory() as tempdir:
+            self.create_unrelated_git_repository(tempdir)
+
+            with self.assertRaisesRegex(
+                RepositoryError, "could not be verified against the shallow"
+            ):
+                self.repo.validate_remote_compatibility(
+                    self.format_local_path(tempdir), self._remote_branch
+                )
+
+    def test_validate_remote_compatibility_allows_shallow_fork(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Plain Git specific validation")
+
+        branch = self._remote_branch
+        with tempfile.TemporaryDirectory() as tempdir:
+            origin_path = os.path.join(tempdir, "origin.git")
+            fork_path = os.path.join(tempdir, "fork.git")
+            work_path = os.path.join(tempdir, "work")
+            shallow_path = os.path.join(tempdir, "shallow")
+            git = GitRepository(tempdir, branch=branch, local=True)
+
+            git.execute(
+                ["init", "--bare", "--initial-branch", branch, origin_path],
+                remote_op="none",
+                needs_lock=False,
+            )
+            git.execute(
+                ["init", "--initial-branch", branch, work_path],
+                remote_op="none",
+                needs_lock=False,
+            )
+            work = GitRepository(work_path, branch=branch, local=True)
+            with work.lock:
+                work.set_committer("Test", "test@example.net")
+                Path(work_path, "README.md").write_text("A\n", encoding="utf-8")
+                work.commit(
+                    "A", "Test <test@example.net>", timezone.now(), ["README.md"]
+                )
+                base_revision = work.last_revision
+                for commit_id in range(2):
+                    Path(work_path, "README.md").write_text(
+                        f"{commit_id}\n", encoding="utf-8"
+                    )
+                    work.commit(
+                        f"Commit {commit_id}",
+                        "Test <test@example.net>",
+                        timezone.now(),
+                        ["README.md"],
+                    )
+                work.execute(["remote", "add", "origin", origin_path], remote_op="none")
+                work.push("")
+
+                git.execute(
+                    ["init", "--bare", "--initial-branch", branch, fork_path],
+                    remote_op="none",
+                    needs_lock=False,
+                )
+                work.execute(
+                    ["checkout", "-B", "fork-main", base_revision], remote_op="none"
+                )
+                Path(work_path, "fork.txt").write_text("D\n", encoding="utf-8")
+                work.commit(
+                    "D", "Test <test@example.net>", timezone.now(), ["fork.txt"]
+                )
+                work.execute(
+                    ["push", fork_path, f"HEAD:refs/heads/{branch}"], remote_op="none"
+                )
+
+            component = self.get_fake_component()
+            component.repo = self.format_local_path(origin_path)
+            component.branch = branch
+            with override_settings(VCS_CLONE_DEPTH=1):
+                shallow = GitRepository.clone(
+                    component.repo, shallow_path, branch, component=component
+                )
+
+            self.assertTrue(shallow.is_shallow())
+            shallow.validate_remote_compatibility(
+                self.format_local_path(fork_path), branch
+            )
 
     def test_upstream_changes(self) -> None:
         self.add_remote_commit()

@@ -688,7 +688,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             follow=True,
         )
         url = self.assert_registration_mailbox()
-        response = user_client.get(url, follow=True)
+        response = self.confirm_registration_url(url, user_client, follow=True)
 
         # Accept terms if using legal
         if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:

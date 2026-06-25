@@ -134,13 +134,15 @@ class LegalTest(TestCase, RegistrationTestMixin):
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_confirm(self) -> None:
         """TOS confirmation on social auth."""
-        response = self.client.post(reverse("register"), REGISTRATION_DATA, follow=True)
+        registration_response = self.client.post(
+            reverse("register"), REGISTRATION_DATA, follow=True
+        )
         # Check we did succeed
-        self.assertContains(response, REGISTRATION_SUCCESS)
+        self.assertContains(registration_response, REGISTRATION_SUCCESS)
 
         # Follow link
         url = self.assert_registration_mailbox()
-        response = self.client.get(url, follow=True)
+        response = self.confirm_registration_url(url, follow=True)
         self.assertTrue(
             response.redirect_chain[-1][0].startswith(reverse("legal:confirm"))
         )
