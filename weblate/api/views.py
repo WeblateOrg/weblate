@@ -531,7 +531,7 @@ class WeblateViewSet(DownloadViewSet):
             data["weblate_commit"] = component.get_last_commit()
             data["status"] = component.repository.status()
             changes = component.change_set.filter(
-                action__in=Change.ACTIONS_REPOSITORY
+                action__in=Change.ACTIONS_REPOSITORY_STATUS
             ).order_by("-id")
 
             if changes.exists() and changes[0].is_merge_failure():

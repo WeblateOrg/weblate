@@ -5433,6 +5433,35 @@ class ComponentAPITest(APIBaseTest):
         self.assertIsNotNone(pending)
         self.assertEqual(pending["total"], 0)
 
+    def test_repo_status_remote_update_failure(self) -> None:
+        self.component.change_set.create(
+            action=ActionEvents.FAILED_REMOTE_UPDATE,
+            target="fetch failed",
+        )
+
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertIsNone(response.data["merge_failure"])
+
+    def test_repo_status_remote_update_preserves_merge_failure(self) -> None:
+        self.component.change_set.create(
+            action=ActionEvents.FAILED_REBASE,
+            target="rebase failed",
+        )
+        self.component.change_set.create(action=ActionEvents.REMOTE_UPDATE)
+
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertEqual(response.data["merge_failure"], "rebase failed")
+
     def test_repo_status_detailed(self) -> None:
         """Test component repository status with detailed field verification."""
         response = self.do_request(

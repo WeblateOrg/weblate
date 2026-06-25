@@ -2480,6 +2480,8 @@ paths:
             - 0
             - 1
             - 100
+            - 101
+            - 102
             - 13
             - 14
             - 15
@@ -2668,6 +2670,8 @@ paths:
           * `98` - Workspace created
           * `99` - Workspace setting changed
           * `100` - Project moved
+          * `101` - Remote repository updated
+          * `102` - Remote repository update failed
         explode: true
         style: form
       - name: page
@@ -28890,6 +28894,8 @@ components:
       - 98
       - 99
       - 100
+      - 101
+      - 102
       type: integer
       description: |-
         * `0` - Resource updated
@@ -28987,6 +28993,8 @@ components:
         * `98` - Workspace created
         * `99` - Workspace setting changed
         * `100` - Project moved
+        * `101` - Remote repository updated
+        * `102` - Remote repository update failed
     Addon:
       type: object
       properties:

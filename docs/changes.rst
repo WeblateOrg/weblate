@@ -72,6 +72,7 @@ Weblate 2026.7
 * Watched translations on the dashboard now include category path segments.
 * Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints.
 * Unsupported upload levels now show an upload placeholder pointing to individual translations.
+* Repository update history keeps attribution and records remote update failures for easier hook debugging.
 
 .. rubric:: Compatibility
 
