@@ -124,8 +124,12 @@
             {% format_unit_target unit search_match=search_query %}
           </a>
         </td>
-        {% if show_location %}<td>{{ unit.location }}</td>{% endif %}
-        {% if show_screenshots %}<td>{{ unit.screenshots__count }}</td>{% endif %}
+        {% if show_location %}
+          <td>{{ unit.location }}</td>
+        {% endif %}
+        {% if show_screenshots %}
+          <td>{{ unit.screenshots__count }}</td>
+        {% endif %}
         {% if actions_template %}
           <td>{% include actions_template %}</td>
         {% endif %}
