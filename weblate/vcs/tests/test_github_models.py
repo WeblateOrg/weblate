@@ -7,13 +7,14 @@
 from __future__ import annotations
 
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, cast
+from typing import cast
 from unittest.mock import patch
 
 import responses
 from django.core.cache import cache
 from django.test import TestCase
 
+from weblate.trans.models import Component
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -23,9 +24,6 @@ from weblate.vcs.github import (
 )
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import Workspace
-
-if TYPE_CHECKING:
-    from weblate.trans.models import Component
 
 SETTINGS_PRIVATE_KEY = generate_private_key()
 
@@ -65,6 +63,24 @@ class TestGitHubInstallationManager(TestCase):
         self.installation = _make_installation(
             repositories=[{"full_name": "test-org/repo1"}]
         )
+
+    def _make_app_repository(
+        self, repo: str = "https://github.com/test-org/repo1.git"
+    ) -> GithubAppRepository:
+        component = cast(
+            "Component",
+            SimpleNamespace(
+                pk=None,
+                full_slug="test/project/component",
+                project_id=1,
+                project=SimpleNamespace(
+                    workspace_id=self.installation.workspace_id,
+                    workspace=self.installation.workspace,
+                ),
+                repo=repo,
+            ),
+        )
+        return GithubAppRepository(".", branch="main", component=component, local=True)
 
     def test_get_for_repo(self):
         self.assertEqual(
@@ -182,12 +198,10 @@ class TestGitHubInstallationManager(TestCase):
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
+        repository = self._make_app_repository()
 
         args = list(
-            GithubAppRepository._get_auth_args(  # noqa: SLF001
-                "https://github.com/test-org/repo1.git",
-                workspace=self.installation.workspace,
-            )
+            repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
         )
 
         self.assertTrue(
@@ -199,25 +213,51 @@ class TestGitHubInstallationManager(TestCase):
             "https://api.github.com/app/installations/67890/access_tokens",
         )
 
-    @responses.activate
-    def test_github_repository_auth_args_require_workspace(self):
-        _make_credentials()
-        cache.clear()
-        responses.add(
-            responses.POST,
-            "https://api.github.com/app/installations/67890/access_tokens",
-            json={"token": "ghs_test"},
-        )
-
-        args = list(
-            GithubAppRepository._get_auth_args(  # noqa: SLF001
+    def test_github_repository_remote_branch_requires_import_branch(self):
+        with self.assertRaisesRegex(
+            RepositoryError, "GitHub App repositories must be imported with a branch"
+        ):
+            GithubAppRepository.get_remote_branch(
                 "https://github.com/test-org/repo1.git"
             )
+
+    def test_github_component_does_not_guess_default_branch(self):
+        component = Component(
+            vcs=GithubAppRepository.identifier,
+            repo="https://github.com/test-org/repo1.git",
+            branch="",
         )
 
-        self.assertFalse(
-            any("http.extraHeader=Authorization: Basic" in arg for arg in args)
-        )
+        component.set_default_branch()
+
+        self.assertEqual(component.branch, "")
+
+    @responses.activate
+    def test_github_repository_auth_args_require_workspace(self):
+        repository = GithubAppRepository(".", branch="main", local=True)
+
+        with self.assertRaisesRegex(
+            RepositoryError, "GitHub App components require a project with a workspace"
+        ):
+            list(
+                repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
+            )
+
+        self.assertEqual(len(responses.calls), 0)
+
+    @responses.activate
+    def test_github_repository_auth_args_require_installation(self):
+        _make_credentials()
+        cache.clear()
+        repository = self._make_app_repository("https://github.com/other/repo.git")
+
+        with self.assertRaisesRegex(
+            RepositoryError, "No Weblate GitHub app installation available"
+        ):
+            list(
+                repository._get_auth_args("https://github.com/other/repo.git")  # noqa: SLF001
+            )
+
         self.assertEqual(len(responses.calls), 0)
 
     @responses.activate
@@ -229,28 +269,19 @@ class TestGitHubInstallationManager(TestCase):
             "https://api.github.com/app/installations/67890/access_tokens",
             status=500,
         )
+        repository = self._make_app_repository()
 
         with self.assertRaisesRegex(
             RepositoryError, "Could not obtain GitHub App access token"
         ):
             list(
-                GithubAppRepository._get_auth_args(  # noqa: SLF001
-                    "https://github.com/test-org/repo1.git",
-                    workspace=self.installation.workspace,
-                )
+                repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
             )
 
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
     def test_github_repository_instance_auth_requires_workspace(self):
-        _make_credentials()
-        cache.clear()
-        responses.add(
-            responses.POST,
-            "https://api.github.com/app/installations/67890/access_tokens",
-            json={"token": "ghs_test"},
-        )
         component = cast(
             "Component",
             SimpleNamespace(
@@ -265,8 +296,13 @@ class TestGitHubInstallationManager(TestCase):
             ".", branch="main", component=component, local=True
         )
 
-        self.assertEqual(repository.get_auth_args(), [])
-        with self.assertRaises(RepositoryError):
+        with self.assertRaisesRegex(
+            RepositoryError, "GitHub App components require a project with a workspace"
+        ):
+            repository.get_auth_args()
+        with self.assertRaisesRegex(
+            RepositoryError, "GitHub App components require a project with a workspace"
+        ):
             repository.get_credentials_by_hostname("api.github.com")
         self.assertEqual(len(responses.calls), 0)
 

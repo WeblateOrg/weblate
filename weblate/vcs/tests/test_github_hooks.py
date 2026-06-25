@@ -503,3 +503,52 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertTrue(
             self.component.change_set.filter(action=ActionEvents.HOOK).exists()
         )
+
+    def test_signed_integration_hook_respects_disabled_project_hooks(self):
+        self.project.workspace = self.workspace
+        self.project.enable_hooks = False
+        self.project.save(update_fields=["workspace", "enable_hooks"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[
+                {
+                    "full_name": "test-org/local-repo",
+                    "clone_url": self.component.repo,
+                    "ssh_url": "git@github.com:test-org/local-repo.git",
+                    "html_url": "https://github.com/test-org/local-repo",
+                    "default_branch": self.component.branch,
+                    "private": False,
+                    "description": "",
+                }
+            ],
+        )
+        self.component.vcs = "github-app"
+        self.component.save(update_fields=["vcs"])
+
+        payload = {
+            "ref": f"refs/heads/{self.component.branch}",
+            "installation": {"id": 12345, "app_id": 99999},
+            "repository": {
+                "name": "local-repo",
+                "owner": {"login": "test-org"},
+                "url": "https://github.com/test-org/local-repo",
+                "clone_url": self.component.repo,
+                "ssh_url": "git@github.com:test-org/local-repo.git",
+                "html_url": "https://github.com/test-org/local-repo",
+            },
+        }
+
+        response = self._post("push", payload)
+
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+        self.assertEqual(response.json()["match_status"]["repository_matches"], 1)
+        self.assertEqual(response.json()["match_status"]["branch_matches"], 1)
+        self.assertEqual(response.json()["match_status"]["enabled_hook_matches"], 0)
+        self.assertFalse(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )

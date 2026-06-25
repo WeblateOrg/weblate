@@ -115,7 +115,6 @@ class HandlerResponse(TypedDict):
     project_ids: NotRequired[list[int]]
     component_vcs: NotRequired[str]
     exclude_component_vcs: NotRequired[list[str]]
-    require_project_hooks: NotRequired[bool]
 
 
 HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
@@ -789,7 +788,6 @@ def _github_push_hook_response(
     exact_match: bool = False,
     project_ids: list[int] | None = None,
     component_vcs: str | None = None,
-    require_project_hooks: bool = True,
 ) -> HandlerResponse:
     # Parse owner, branch and repository name
     repository = require_mapping(data.get("repository"), "repository")
@@ -830,8 +828,6 @@ def _github_push_hook_response(
         response["project_ids"] = project_ids
     if component_vcs is not None:
         response["component_vcs"] = component_vcs
-    if not require_project_hooks:
-        response["require_project_hooks"] = False
     return response
 
 
@@ -928,7 +924,6 @@ def github_integration_hook_helper(
         exact_match=True,
         project_ids=project_ids,
         component_vcs="github-app",
-        require_project_hooks=False,
     )
 
 
@@ -1208,9 +1203,7 @@ class BaseHookView(APIView):
 
         all_components_count = all_components.count()
         repo_components_count = repo_components.count()
-        enabled_components = all_components
-        if service_data.get("require_project_hooks", True):
-            enabled_components = enabled_components.filter(project__enable_hooks=True)
+        enabled_components = all_components.filter(project__enable_hooks=True)
 
         LOGGER.info(
             "received %s notification on repository %s, URL %s, branch %s, "

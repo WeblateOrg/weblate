@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from base64 import b64decode
+from typing import cast
 
 import jwt as pyjwt
 from django.test import TestCase
@@ -84,6 +85,7 @@ class TestGithubAppHookUtils(TestCase):
         self.create_app_credentials(hostname="github.example.com")
         config = get_github_app_settings()
         self.assertIsNotNone(config)
+        assert config is not None
         self.assertEqual(config.app_id, "12345")
         self.assertEqual(config.app_slug, "weblate-app")
         self.assertEqual(config.hostname, "github.example.com")
@@ -111,11 +113,15 @@ class TestGithubAppHookUtils(TestCase):
             "weblate-app",
         )
         self.assertEqual(
-            get_github_app_settings("github.example.com").app_slug,
+            cast(
+                "GitHubAppCredentials", get_github_app_settings("github.example.com")
+            ).app_slug,
             "weblate-enterprise-app",
         )
         self.assertEqual(
-            get_github_app_settings("api.github.com").hostname,
+            cast(
+                "GitHubAppCredentials", get_github_app_settings("api.github.com")
+            ).hostname,
             "github.com",
         )
         self.assertEqual(

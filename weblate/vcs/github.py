@@ -12,7 +12,6 @@ import hmac
 import logging
 import time
 import uuid
-from contextlib import suppress
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import urlencode, urlparse
 
@@ -25,7 +24,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GithubRepository, GitRepository
 from weblate.vcs.models import Installation, InstallationProvider
@@ -830,20 +828,16 @@ class GithubAppRepository(GithubRepository):
         # (Apps cannot fork without an explicit organization target).
         return False
 
-    def _get_component_workspace(self) -> Workspace | None:
+    def _get_component_workspace(self) -> Workspace:
         if (
             self.component is None
             or self.component.project_id is None
             or self.component.project.workspace_id is None
         ):
-            return None
+            raise RepositoryError(
+                0, gettext("GitHub App components require a project with a workspace.")
+            )
         return self.component.project.workspace
-
-    def _get_component_auth_args(self, repo: str) -> list[str]:
-        workspace = self._get_component_workspace()
-        if workspace is None:
-            return []
-        return list(self._get_auth_args(repo, workspace=workspace))
 
     def clone_from(self, source: str) -> None:
         """Clone repository using installation credentials for the component workspace."""
@@ -851,7 +845,7 @@ class GithubAppRepository(GithubRepository):
         branch = self.validate_branch_name(self.branch)
         self._popen(
             [
-                *self._get_component_auth_args(source),
+                *self._get_auth_args(source),
                 "clone",
                 *self.get_depth(),
                 "--branch",
@@ -860,83 +854,6 @@ class GithubAppRepository(GithubRepository):
                 source,
                 self.path,
             ]
-        )
-
-    def deepen_remote_compatibility_history(self, branch: str) -> None:
-        """Fetch bounded history using installation credentials."""
-        remote_url = self.get_config("remote.origin.url")
-        self.validate_pull_url(remote_url)
-        refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
-        self.execute(
-            [
-                *self._get_component_auth_args(remote_url),
-                "fetch",
-                f"--deepen={self.remote_compatibility_deepen}",
-                "--no-tags",
-                "--",
-                remote_url,
-                refspec,
-            ],
-            remote_op="none",
-            merge_err=False,
-        )
-        self.clean_revision_cache()
-
-    def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
-        """Validate remote history using installation credentials."""
-        self.validate_pull_url(pull_url)
-        branch = self.validate_branch_name(branch)
-        validation_ref = f"refs/weblate/validation/{branch}"
-        refspec = f"+refs/heads/{branch}:{validation_ref}"
-
-        with self.lock:
-            try:
-                self.execute(
-                    [
-                        *self._get_component_auth_args(pull_url),
-                        "fetch",
-                        "--no-tags",
-                        "--",
-                        pull_url,
-                        refspec,
-                    ],
-                    remote_op="none",
-                    merge_err=False,
-                )
-                if any(
-                    self.has_common_history(validation_ref, revision)
-                    for revision in self.get_compatibility_revisions(branch)
-                ):
-                    return
-                if self.is_shallow():
-                    with suppress(RepositoryError):
-                        self.deepen_remote_compatibility_history(branch)
-                    if any(
-                        self.has_common_history(validation_ref, revision)
-                        for revision in self.get_compatibility_revisions(branch)
-                    ):
-                        return
-                    if self.is_shallow():
-                        raise RepositoryError(
-                            0,
-                            gettext(
-                                "Remote branch could not be verified against the "
-                                "shallow existing repository."
-                            ),
-                        )
-            finally:
-                with suppress(RepositoryError):
-                    self.execute(
-                        ["update-ref", "-d", validation_ref],
-                        remote_op="none",
-                        merge_err=False,
-                    )
-
-        raise RepositoryError(
-            0,
-            gettext(
-                "Remote branch does not share common history with the existing repository."
-            ),
         )
 
     def push(self, branch: str) -> None:
@@ -950,12 +867,9 @@ class GithubAppRepository(GithubRepository):
 
     @classmethod
     def _resolve_github_app_credentials_for_repo(
-        cls, repo: str, *, workspace: Workspace | None = None
+        cls, repo: str, *, workspace: Workspace
     ) -> dict[str, str] | None:
         """Resolve an installation access token for a GitHub HTTPS repo URL."""
-        if workspace is None:
-            return None
-
         parsed = urlparse(repo)
         if parsed.scheme != "https" or not parsed.hostname:
             return None
@@ -986,79 +900,42 @@ class GithubAppRepository(GithubRepository):
             "github_app": "1",
         }
 
-    @classmethod
-    def _get_auth_args(cls, repo: str, *, workspace: Workspace | None = None):
-        yield from GitRepository._get_auth_args(repo)  # noqa: SLF001
-
-        app_creds = cls._resolve_github_app_credentials_for_repo(
+    def _get_auth_args(self, repo: str) -> Iterator[str]:
+        workspace = self._get_component_workspace()
+        app_creds = GithubAppRepository._resolve_github_app_credentials_for_repo(
             repo, workspace=workspace
         )
-        if app_creds is not None:
-            yield from get_github_git_auth_args(
-                app_creds["username"], app_creds["token"]
+        if app_creds is None:
+            raise RepositoryError(
+                0, gettext("No Weblate GitHub app installation available.")
             )
+
+        yield from GitRepository._get_auth_args(repo)  # noqa: SLF001
+        yield from get_github_git_auth_args(app_creds["username"], app_creds["token"])
 
     def get_auth_args(self) -> list[str]:
         if self.component is None:
-            return []
-        return self._get_component_auth_args(self.component.repo)
+            raise RepositoryError(
+                0, gettext("GitHub App components require a project with a workspace.")
+            )
+        return list(self._get_auth_args(self.component.repo))
 
     @classmethod
-    def get_remote_branch(cls, repo: str):
-        if not repo:
-            return super().get_remote_branch(repo)
-
-        cls.validate_remote_url(repo)
-        try:
-            result = cls._popen(
-                [*cls._get_auth_args(repo), "ls-remote", "--symref", "--", repo, "HEAD"]
-            )
-        except RepositoryError:
-            report_error("Listing remote branch")
-            return super().get_remote_branch(repo)
-
-        for line in result.splitlines():
-            if not line.startswith("ref: "):
-                continue
-            return line.split("\t")[0].split("refs/heads/")[1]
-
-        report_error("Could not figure out remote branch", message=True)
-        raise RepositoryError(0, "Could not figure out remote branch")
-
-    def _resolve_github_app_token(self, hostname: str) -> dict[str, str] | None:
-        """Resolve an installation access token for the parsed repository."""
-        if (
-            self.component is None
-            or self.component.project_id is None
-            or self.component.project.workspace_id is None
-        ):
-            return None
-
-        # ``hostname`` arrives as the API host (``api.github.com`` for
-        # github.com). Map it back to the user-facing hostname used by
-        # installations.
-        raw_hostname = "github.com" if hostname == "api.github.com" else hostname
-
-        _, _, _, _, owner, slug = self.parse_repo_url()
-        full_name = f"{owner}/{slug}"
-        workspace = self.component.project.workspace
-        installation = GitHubInstallation.objects.get_for_repo(
-            raw_hostname, full_name, workspace=workspace
+    def get_remote_branch(cls, _repo: str) -> str:
+        raise RepositoryError(
+            0, gettext("GitHub App repositories must be imported with a branch.")
         )
-        if installation is None:
-            return None
-        try:
-            token = installation.get_access_token()
-        except GitHubAppNotConfiguredError:
-            return None
-        except requests.RequestException as error:
-            msg = gettext("Could not obtain GitHub App access token: %s") % error
-            raise RepositoryError(0, msg) from error
-        return {
-            "username": "x-access-token",
-            "token": token,
-            "github_app": "1",
-        }
+
+    def _resolve_github_app_token(self, _hostname: str) -> dict[str, str] | None:
+        """Resolve an installation access token for the parsed repository."""
+        if self.component is None:
+            raise RepositoryError(
+                0, gettext("GitHub App components require a project with a workspace.")
+            )
+        workspace = self._get_component_workspace()
+        return GithubAppRepository._resolve_github_app_credentials_for_repo(
+            self.component.repo, workspace=workspace
+        )
 
     def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
         app_creds = self._resolve_github_app_token(hostname)

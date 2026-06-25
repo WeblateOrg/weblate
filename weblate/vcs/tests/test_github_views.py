@@ -198,12 +198,6 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
         other_project.add_user(user, "Administration")
         hidden_workspace = Workspace.objects.create(name="Hidden Workspace")
-        hidden_project = Project.objects.create(
-            name="Hidden GitHub Project",
-            slug="hidden-github-project",
-            web="https://example.com/",
-            workspace=hidden_workspace,
-        )
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
@@ -215,7 +209,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             installation_id="67890",
             target_type="Organization",
             target_login="hidden-org",
-            workspace=hidden_project.workspace,
+            workspace=hidden_workspace,
             repositories=[_repo_entry("hidden-org/repo2")],
         )
         self.client.login(username=user.username, password="testpassword")
