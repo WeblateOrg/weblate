@@ -109,6 +109,8 @@ class ProjectLanguageFactory(UserDict):
         from weblate.trans.models.workflow import WorkflowSetting
 
         instances = self.preload() if instances is None else list(instances)
+        for instance in instances:
+            self.data[instance.language.id] = instance
 
         pending = {instance.language.id: instance for instance in instances}
 

@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from django.conf import settings
+from django.db.models import Q
 from django.utils.translation import gettext
 
 from weblate.formats.base import BilingualUpdateMixin
@@ -16,6 +17,7 @@ from weblate.trans.models import (
     Announcement,
     Category,
     Component,
+    ComponentLink,
     ComponentList,
     ContributorAgreement,
     Project,
@@ -28,7 +30,7 @@ from weblate.workspaces.models import Workspace
 from .results import Allowed, Denied
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
     from django.db.models import Model, QuerySet
 
@@ -41,6 +43,7 @@ if TYPE_CHECKING:
     from .results import PermissionResult
 
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
+UPLOAD_SCOPE_PERMISSIONS = frozenset({"glossary.upload", "upload.perform"})
 
 
 @dataclass(frozen=True)
@@ -328,6 +331,7 @@ def check_can_edit(
     | Project,
     *,
     is_vote: bool = False,
+    allow_limited_without_language: bool | None = None,
 ) -> bool | PermissionResult:
     translation = component = None
 
@@ -383,9 +387,10 @@ def check_can_edit(
             )
 
     # Perform usual permission check
-    allow_limited_without_language = isinstance(
-        obj, (Translation, ProjectLanguage, CategoryLanguage)
-    )
+    if allow_limited_without_language is None:
+        allow_limited_without_language = isinstance(
+            obj, (Translation, ProjectLanguage, CategoryLanguage)
+        )
     if not check_permission(
         user,
         permission,
@@ -493,7 +498,16 @@ def check_unit_review(
 def check_edit_approved(
     user: User,
     permission: str,
-    obj: Unit | Translation | Component | Project | ProjectLanguage | Workspace,
+    obj: Unit
+    | Translation
+    | Component
+    | Project
+    | ProjectLanguage
+    | CategoryLanguage
+    | Category
+    | Workspace,
+    *,
+    allow_limited_without_language: bool | None = None,
 ) -> bool | PermissionResult:
     component = None
     if isinstance(obj, Unit):
@@ -530,7 +544,12 @@ def check_edit_approved(
         component = obj
     if component is not None and component.is_glossary:
         permission = "glossary.edit"
-    return check_can_edit(user, permission, obj)
+    return check_can_edit(
+        user,
+        permission,
+        obj,
+        allow_limited_without_language=allow_limited_without_language,
+    )
 
 
 def check_manage_units(
@@ -659,7 +678,9 @@ def check_suggestion_vote(
 
 @register_perm("suggestion.add")
 def check_suggestion_add(
-    user: User, permission: str, obj: Unit | Translation | ProjectLanguage
+    user: User,
+    permission: str,
+    obj: Unit | Translation | ProjectLanguage | CategoryLanguage,
 ) -> bool | PermissionResult:
     if isinstance(obj, Unit):
         obj = obj.translation
@@ -676,9 +697,202 @@ def check_suggestion_add(
     return check_permission(user, permission, obj)
 
 
+def _category_component_filter(category: Category) -> Q:
+    return (
+        Q(category=category)
+        | Q(category__category=category)
+        | Q(category__category__category=category)
+    )
+
+
+def _category_translation_component_filter(category: Category) -> Q:
+    return (
+        Q(component__category=category)
+        | Q(component__category__category=category)
+        | Q(component__category__category__category=category)
+    )
+
+
+def _category_link_filter(category: Category) -> Q:
+    return (
+        Q(category=category)
+        | Q(category__category=category)
+        | Q(category__category__category=category)
+    )
+
+
+def _category_translation_filter(category: Category) -> Q:
+    shared_component_ids = ComponentLink.objects.filter(
+        _category_link_filter(category)
+    ).values("component_id")
+    return _category_translation_component_filter(category) | Q(
+        component_id__in=shared_component_ids
+    )
+
+
+def _has_upload_scope_permission(
+    scoped_permissions: Iterable[tuple[set[str], PermissionLanguageScope | None]],
+    language_id: int | None = None,
+) -> bool:
+    return any(
+        _has_scoped_permission(
+            permission,
+            permissions,
+            langs,
+            language_id,
+            allow_limited_without_language=True,
+        )
+        for permissions, langs in scoped_permissions
+        for permission in UPLOAD_SCOPE_PERMISSIONS
+    )
+
+
+def _get_upload_child_translations(
+    obj: Component | ProjectLanguage | CategoryLanguage | Category | Project,
+) -> Iterable[Translation]:
+    if isinstance(obj, Component):
+        return obj.translation_set.select_related(
+            "component", "component__project", "language"
+        )
+    if isinstance(obj, ProjectLanguage | CategoryLanguage):
+        return obj.translation_set
+    if isinstance(obj, Category):
+        return (
+            Translation.objects.filter(_category_translation_filter(obj))
+            .distinct()
+            .select_related("component", "component__project", "language")
+        )
+    return (
+        Translation.objects.filter(Q(component__project=obj) | Q(component__links=obj))
+        .distinct()
+        .select_related("component", "component__project", "language")
+    )
+
+
+def _get_user_upload_component_ids(user: User, language_id: int | None) -> set[int]:
+    return {
+        component_id
+        for component_id, scoped_permissions in user.component_permissions.items()
+        if _has_upload_scope_permission(scoped_permissions, language_id)
+    }
+
+
+def _has_upload_component_scope(
+    user: User,
+    obj: Component | ProjectLanguage | CategoryLanguage | Category | Project,
+    language_id: int | None,
+) -> bool:
+    component_ids = _get_user_upload_component_ids(user, language_id)
+    if not component_ids:
+        return False
+
+    if isinstance(obj, Component):
+        return obj.pk in component_ids
+
+    if isinstance(obj, Project | ProjectLanguage):
+        project = obj if isinstance(obj, Project) else obj.project
+        components = Component.objects.filter(pk__in=component_ids).filter(
+            Q(project=project) | Q(links=project)
+        )
+        if language_id is not None:
+            components = components.filter(translation__language_id=language_id)
+        return components.exists()
+
+    category = obj if isinstance(obj, Category) else obj.category
+    own_components = Component.objects.filter(pk__in=component_ids).filter(
+        _category_component_filter(category)
+    )
+    if language_id is not None:
+        own_components = own_components.filter(translation__language_id=language_id)
+    if own_components.exists():
+        return True
+
+    shared_links = ComponentLink.objects.filter(
+        _category_link_filter(category), component_id__in=component_ids
+    )
+    if language_id is not None:
+        shared_links = shared_links.filter(
+            component__translation__language_id=language_id
+        )
+    return shared_links.exists()
+
+
+def _has_upload_scope(
+    user: User,
+    obj: Component | ProjectLanguage | CategoryLanguage | Category | Project,
+) -> bool:
+    if user.is_superuser:
+        return True
+
+    if isinstance(obj, Component):
+        language_id = None
+        project = obj.project
+    elif isinstance(obj, ProjectLanguage | CategoryLanguage):
+        language_id = obj.language.id
+        project = obj.project
+    elif isinstance(obj, Category):
+        language_id = None
+        project = obj.project
+    else:
+        language_id = None
+        project = obj
+
+    return _has_upload_scope_permission(
+        user.get_project_permissions(project), language_id
+    ) or _has_upload_component_scope(user, obj, language_id)
+
+
+def _bind_upload_child_scope(
+    obj: Component | ProjectLanguage | CategoryLanguage | Category | Project,
+    translation: Translation,
+) -> None:
+    if isinstance(obj, Component):
+        if translation.component_id == obj.pk:
+            translation.component = obj
+            _bind_upload_child_workflow_settings(obj.project, translation)
+        return
+
+    project = obj if isinstance(obj, Project) else obj.project
+    if translation.component.project_id == project.pk:
+        translation.component.project = project
+        _bind_upload_child_workflow_settings(project, translation)
+
+
+def _bind_upload_child_workflow_settings(
+    project: Project, translation: Translation
+) -> None:
+    project_language = project.project_languages.data.get(translation.language_id)
+    if (
+        project_language is not None
+        and "workflow_settings" in project_language.__dict__
+    ):
+        translation.__dict__["workflow_settings"] = project_language.workflow_settings
+
+
+def _has_upload_child(
+    user: User,
+    obj: Component | ProjectLanguage | CategoryLanguage | Category | Project,
+) -> bool:
+    if not _has_upload_scope(user, obj):
+        return False
+
+    for translation in _get_upload_child_translations(obj):
+        _bind_upload_child_scope(obj, translation)
+        if user.has_perm("upload.perform", translation):
+            return True
+    return False
+
+
 @register_perm("upload.perform")
 def check_upload(
-    user: User, permission: str, obj: Translation | ProjectLanguage
+    user: User,
+    permission: str,
+    obj: Translation
+    | Component
+    | ProjectLanguage
+    | CategoryLanguage
+    | Category
+    | Project,
 ) -> bool | PermissionResult:
     """
     Check whether user can perform any upload operation.
@@ -703,17 +917,18 @@ def check_upload(
             )
         if obj.component.is_glossary:
             permission = "glossary.upload"
+        return check_can_edit(user, permission, obj) and (
+            # Normal upload
+            check_edit_approved(user, "unit.edit", obj)
+            # Suggestion upload
+            or check_suggestion_add(user, "suggestion.add", obj)
+            # Add upload
+            or check_suggestion_add(user, "unit.add", obj)
+            # Source upload
+            or obj.is_source
+        )
 
-    return check_can_edit(user, permission, obj) and (
-        # Normal upload
-        check_edit_approved(user, "unit.edit", obj)
-        # Suggestion upload
-        or check_suggestion_add(user, "suggestion.add", obj)
-        # Add upload
-        or check_suggestion_add(user, "unit.add", obj)
-        # Source upload
-        or (isinstance(obj, Translation) and obj.is_source)
-    )
+    return _has_upload_child(user, obj)
 
 
 @register_perm("machinery.view")
