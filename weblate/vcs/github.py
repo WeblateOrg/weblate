@@ -796,13 +796,19 @@ class GithubAppRepository(GithubRepository):
             return None
         return self.component.project.workspace
 
+    def _get_component_auth_args(self, repo: str) -> list[str]:
+        workspace = self._get_component_workspace()
+        if workspace is None:
+            return []
+        return list(self._get_auth_args(repo, workspace=workspace))
+
     def clone_from(self, source: str) -> None:
         """Clone repository using installation credentials for the component workspace."""
         self.validate_pull_url(source)
         branch = self.validate_branch_name(self.branch)
         self._popen(
             [
-                *self._get_auth_args(source, workspace=self._get_component_workspace()),
+                *self._get_component_auth_args(source),
                 "clone",
                 *self.get_depth(),
                 "--branch",
@@ -812,6 +818,26 @@ class GithubAppRepository(GithubRepository):
                 self.path,
             ]
         )
+
+    def deepen_remote_compatibility_history(self, branch: str) -> None:
+        """Fetch bounded history using installation credentials."""
+        remote_url = self.get_config("remote.origin.url")
+        self.validate_pull_url(remote_url)
+        refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
+        self.execute(
+            [
+                *self._get_component_auth_args(remote_url),
+                "fetch",
+                f"--deepen={self.remote_compatibility_deepen}",
+                "--no-tags",
+                "--",
+                remote_url,
+                refspec,
+            ],
+            remote_op="none",
+            merge_err=False,
+        )
+        self.clean_revision_cache()
 
     def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
         """Validate remote history using installation credentials."""
@@ -824,9 +850,7 @@ class GithubAppRepository(GithubRepository):
             try:
                 self.execute(
                     [
-                        *self._get_auth_args(
-                            pull_url, workspace=self._get_component_workspace()
-                        ),
+                        *self._get_component_auth_args(pull_url),
                         "fetch",
                         "--no-tags",
                         "--",
@@ -909,6 +933,9 @@ class GithubAppRepository(GithubRepository):
             token = installation.get_access_token()
         except GitHubAppNotConfiguredError:
             return None
+        except requests.RequestException as error:
+            msg = gettext("Could not obtain GitHub App access token: %s") % error
+            raise RepositoryError(0, msg) from error
 
         return {
             "username": "x-access-token",
@@ -929,15 +956,9 @@ class GithubAppRepository(GithubRepository):
             )
 
     def get_auth_args(self) -> list[str]:
-        workspace = self._get_component_workspace()
-        if workspace is None:
+        if self.component is None:
             return []
-        return list(
-            self._get_auth_args(
-                self.component.repo,
-                workspace=workspace,
-            )
-        )
+        return self._get_component_auth_args(self.component.repo)
 
     @classmethod
     def get_remote_branch(cls, repo: str):
@@ -987,6 +1008,9 @@ class GithubAppRepository(GithubRepository):
             token = installation.get_access_token()
         except GitHubAppNotConfiguredError:
             return None
+        except requests.RequestException as error:
+            msg = gettext("Could not obtain GitHub App access token: %s") % error
+            raise RepositoryError(0, msg) from error
         return {
             "username": "x-access-token",
             "token": token,

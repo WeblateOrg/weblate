@@ -23,7 +23,12 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     get_test_file,
 )
-from weblate.trans.views.create import CreateComponent, CreateComponentSelection
+from weblate.trans.views.create import (
+    INTEGRATION_IMPORT_VCS_KEY,
+    SESSION_CREATE_KEY,
+    CreateComponent,
+    CreateComponentSelection,
+)
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.git import GitRepository
@@ -904,6 +909,34 @@ class CreateTest(ViewTestCase):
 
         change = new_component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "vcs")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_existing_preserves_github_app_vcs(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo.git"
+        self.component.save(update_fields=["vcs", "repo"])
+
+        response = self.client.post(
+            reverse("create-component"),
+            {
+                "origin": "existing",
+                "name": "Create Component From GitHub App",
+                "slug": "create-component-from-github-app",
+                "component": self.component.pk,
+                "is_glossary": self.component.is_glossary,
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1",
+            fetch_redirect_response=False,
+        )
+        session_data = self.client.session[SESSION_CREATE_KEY]
+        self.assertEqual(session_data["vcs"], "github-app")
+        self.assertEqual(session_data[INTEGRATION_IMPORT_VCS_KEY], "github-app")
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_create_component_rejects_inaccessible_source_component(self) -> None:

@@ -221,6 +221,28 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(len(responses.calls), 0)
 
     @responses.activate
+    def test_github_repository_auth_args_token_failure_raises_repository_error(self):
+        _make_credentials()
+        cache.clear()
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/67890/access_tokens",
+            status=500,
+        )
+
+        with self.assertRaisesRegex(
+            RepositoryError, "Could not obtain GitHub App access token"
+        ):
+            list(
+                GithubAppRepository._get_auth_args(  # noqa: SLF001
+                    "https://github.com/test-org/repo1.git",
+                    workspace=self.installation.workspace,
+                )
+            )
+
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
     def test_github_repository_instance_auth_requires_workspace(self):
         _make_credentials()
         cache.clear()
@@ -247,6 +269,42 @@ class TestGitHubInstallationManager(TestCase):
         with self.assertRaises(RepositoryError):
             repository.get_credentials_by_hostname("api.github.com")
         self.assertEqual(len(responses.calls), 0)
+
+    @responses.activate
+    def test_github_repository_instance_auth_token_failure_raises_repository_error(
+        self,
+    ):
+        _make_credentials()
+        cache.clear()
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/67890/access_tokens",
+            status=500,
+        )
+        component = cast(
+            "Component",
+            SimpleNamespace(
+                pk=None,
+                full_slug="test/project/component",
+                project_id=1,
+                project=SimpleNamespace(
+                    workspace_id=self.installation.workspace_id,
+                    workspace=self.installation.workspace,
+                ),
+                repo="https://github.com/test-org/repo1.git",
+                push="",
+            ),
+        )
+        repository = GithubAppRepository(
+            ".", branch="main", component=component, local=True
+        )
+
+        with self.assertRaisesRegex(
+            RepositoryError, "Could not obtain GitHub App access token"
+        ):
+            repository.get_credentials_by_hostname("api.github.com")
+
+        self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
     def test_github_repository_clone_uses_installation_token(self):
@@ -281,6 +339,52 @@ class TestGitHubInstallationManager(TestCase):
         self.assertIn("clone", clone_args)
         self.assertTrue(
             any("http.extraHeader=Authorization: Basic" in arg for arg in clone_args)
+        )
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    def test_github_repository_remote_compatibility_deepen_uses_installation_token(
+        self,
+    ):
+        _make_credentials()
+        cache.clear()
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_test"},
+        )
+        component = cast(
+            "Component",
+            SimpleNamespace(
+                pk=None,
+                full_slug="test/project/component",
+                project_id=1,
+                project=SimpleNamespace(
+                    workspace_id=self.installation.workspace_id,
+                    workspace=self.installation.workspace,
+                ),
+                repo="https://github.com/test-org/repo1.git",
+            ),
+        )
+        repository = GithubAppRepository(
+            ".", branch="main", component=component, local=True
+        )
+
+        with (
+            patch.object(GithubAppRepository, "execute", return_value="") as execute,
+            patch.object(
+                GithubAppRepository,
+                "get_config",
+                return_value="https://github.com/test-org/repo1.git",
+            ),
+        ):
+            repository.deepen_remote_compatibility_history("main")
+
+        deepen_args = execute.call_args.args[0]
+        self.assertIn("fetch", deepen_args)
+        self.assertIn(f"--deepen={repository.remote_compatibility_deepen}", deepen_args)
+        self.assertTrue(
+            any("http.extraHeader=Authorization: Basic" in arg for arg in deepen_args)
         )
         self.assertEqual(len(responses.calls), 1)
 

@@ -482,6 +482,116 @@ def _refresh_github_installations(installations) -> None:
         installation.save(update_fields=["repositories", "repositories_updated"])
 
 
+def _github_http_host(hostname: str) -> str:
+    """Return the hostname used in GitHub repository URLs."""
+    return "github.com" if hostname == "github.com" else hostname
+
+
+def _rename_github_repository(
+    repo: dict,
+    *,
+    hostname: str,
+    old_login: str,
+    new_login: str,
+) -> tuple[dict, str | None, str | None]:
+    """Return repository metadata updated after a GitHub account rename."""
+    full_name = repo.get("full_name")
+    old_prefix = f"{old_login}/"
+    if not isinstance(full_name, str) or not full_name.startswith(old_prefix):
+        return repo, None, None
+
+    new_full_name = f"{new_login}/{full_name.removeprefix(old_prefix)}"
+    http_host = _github_http_host(hostname)
+    renamed = {**repo, "full_name": new_full_name}
+    old_clone_url = repo.get("clone_url")
+    new_clone_url = None
+    if isinstance(old_clone_url, str):
+        new_clone_url = f"https://{http_host}/{new_full_name}.git"
+        renamed["clone_url"] = new_clone_url
+    if "ssh_url" in renamed:
+        renamed["ssh_url"] = f"git@{http_host}:{new_full_name}.git"
+    if "html_url" in renamed:
+        renamed["html_url"] = f"https://{http_host}/{new_full_name}"
+    return (
+        renamed,
+        old_clone_url if isinstance(old_clone_url, str) else None,
+        new_clone_url,
+    )
+
+
+def _get_github_installation_old_login(data: dict, installation) -> str:
+    """Return the previous GitHub login from the payload or stored row."""
+    changes = data.get("changes")
+    if isinstance(changes, Mapping):
+        login = changes.get("login")
+        if isinstance(login, Mapping):
+            old_login = login.get("from")
+            if isinstance(old_login, str):
+                return old_login
+    return installation.target_login if installation is not None else ""
+
+
+def _handle_github_installation_target_event(
+    data: dict, installation, hostname: str | None
+) -> None:
+    """Handle GitHub account or organization rename events."""
+    if data.get("action") != "renamed":
+        return
+
+    payload = data.get("installation") or {}
+    installation_id = str(payload.get("id", ""))
+    new_login = data["account"]["login"]
+    if not installation_id or not new_login:
+        return
+
+    hostname = installation.hostname if installation is not None else hostname
+    if hostname is None:
+        return
+
+    old_login = _get_github_installation_old_login(data, installation)
+    if not old_login:
+        return
+
+    installations = list(
+        GitHubInstallation.objects.filter_for_installation(hostname, installation_id)
+    )
+    if not installations:
+        return
+
+    for item in installations:
+        repo_updates = []
+        repositories = []
+        for repo in item.repositories:
+            renamed, old_clone_url, new_clone_url = _rename_github_repository(
+                repo,
+                hostname=item.hostname,
+                old_login=old_login,
+                new_login=new_login,
+            )
+            repositories.append(renamed)
+            if old_clone_url and new_clone_url:
+                repo_updates.append((old_clone_url, new_clone_url))
+
+        item.target_login = new_login
+        item.repositories = repositories
+        item.save(update_fields=["target_login", "repositories"])
+
+        for old_clone_url, new_clone_url in repo_updates:
+            Component.objects.filter(
+                project__workspace_id=item.workspace_id,
+                vcs="github-app",
+                repo=old_clone_url,
+            ).update(repo=new_clone_url, push="", push_branch="")
+
+    LOGGER.info(
+        "Connected GitHub account %s/%s renamed from %s to %s",
+        hostname,
+        installation_id,
+        old_login,
+        new_login,
+    )
+
+
 def _handle_github_installation_event(  # noqa: C901
     data: dict, installation, hostname: str | None
 ) -> None:
@@ -570,7 +680,7 @@ def _handle_github_installation_event(  # noqa: C901
         )
         if not installations:
             return
-        http_host = "github.com" if hostname == "github.com" else hostname
+        http_host = _github_http_host(hostname)
         removed_names = {
             repo["full_name"]
             for repo in data.get("repositories_removed") or []
@@ -719,6 +829,10 @@ def github_integration_hook_helper(
     if event in {"installation", "installation_repositories"}:
         installation = _lookup_github_installation(data, hostname)
         _handle_github_installation_event(data, installation, hostname)
+        return None
+    if event == "installation_target":
+        installation = _lookup_github_installation(data, hostname)
+        _handle_github_installation_target_event(data, installation, hostname)
         return None
     if event != "push":
         return None

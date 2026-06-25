@@ -794,6 +794,12 @@ class CreateComponentSelection(CreateComponent):
         return ComponentSelectForm
 
     def redirect_create(self, **kwargs):
+        vcs = kwargs.get("vcs")
+        if vcs:
+            vcs_backend = VCS_REGISTRY.get(vcs)
+            if vcs_backend is not None and not vcs_backend.manual_component_creation:
+                kwargs.setdefault(INTEGRATION_IMPORT_VCS_KEY, vcs)
+
         # Store params in session
         self.request.session[SESSION_CREATE_KEY] = kwargs
 

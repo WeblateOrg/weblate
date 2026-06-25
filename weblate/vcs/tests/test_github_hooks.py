@@ -13,6 +13,7 @@ from django.core.cache import cache
 from rest_framework.test import APIClient
 
 from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
 from weblate.vcs.tests.utils import generate_private_key, sign_webhook_payload
@@ -268,6 +269,54 @@ class TestGitHubAppHooks(ViewTestCase):
         names = [r["full_name"] for r in installation.repositories]
         self.assertNotIn("test-org/repo1", names)
         self.assertIn("test-org/repo2", names)
+
+    def test_installation_target_renamed_updates_components_and_repositories(self):
+        self.project.workspace = self.workspace
+        self.project.save(update_fields=["workspace"])
+        old_clone_url = "https://github.com/old-org/local-repo.git"
+        new_clone_url = "https://github.com/new-org/local-repo.git"
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github-app",
+            repo=old_clone_url,
+            push=old_clone_url,
+            push_branch="translations",
+        )
+        installation = self._create_installation(
+            target_login="old-org",
+            repositories=[
+                {
+                    "full_name": "old-org/local-repo",
+                    "clone_url": old_clone_url,
+                    "ssh_url": "git@github.com:old-org/local-repo.git",
+                    "html_url": "https://github.com/old-org/local-repo",
+                    "default_branch": self.component.branch,
+                    "private": False,
+                    "description": "",
+                }
+            ],
+        )
+        data = {
+            "action": "renamed",
+            "installation": {"id": 12345, "app_id": 99999},
+            "account": {"login": "new-org", "type": "Organization"},
+            "changes": {"login": {"from": "old-org"}},
+            "target_type": "Organization",
+        }
+
+        response = self._post("installation_target", data)
+
+        self.assertEqual(response.status_code, 201)
+        installation.refresh_from_db()
+        self.assertEqual(installation.target_login, "new-org")
+        repo = installation.repositories[0]
+        self.assertEqual(repo["full_name"], "new-org/local-repo")
+        self.assertEqual(repo["clone_url"], new_clone_url)
+        self.assertEqual(repo["ssh_url"], "git@github.com:new-org/local-repo.git")
+        self.assertEqual(repo["html_url"], "https://github.com/new-org/local-repo")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repo, new_clone_url)
+        self.assertEqual(self.component.push, "")
+        self.assertEqual(self.component.push_branch, "")
 
     def test_signature_required_when_secret_configured(self):
         """An App webhook on a configured integration requires a valid signature."""
