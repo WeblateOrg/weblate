@@ -1270,6 +1270,8 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @property
     def enable_suggestions(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.enable_suggestions
         return True
 
     @property
@@ -1444,6 +1446,12 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
         return self.project.enable_review
 
     @property
+    def enable_suggestions(self) -> bool:
+        return any(
+            translation.enable_suggestions for translation in self.translation_set
+        )
+
+    @property
     def is_readonly(self) -> bool:
         return False
 
@@ -1520,6 +1528,20 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     @cached_property
     def is_source(self):
         return self.language.id in self.category.source_language_ids
+
+    @cached_property
+    def workflow_settings(self):
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.workflow import WorkflowSetting
+
+        workflow_settings = WorkflowSetting.objects.filter(
+            Q(project=None) | Q(project=self.project),
+            language=self.language,
+        ).order_by(F("project").desc(nulls_last=True))
+        if len(workflow_settings) == 0:
+            return None
+        # Project specific is first, project NULL is last
+        return workflow_settings[0]
 
     @cached_property
     def change_set(self):
