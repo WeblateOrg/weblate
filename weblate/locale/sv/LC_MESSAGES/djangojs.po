@@ -10,9 +10,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
-"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
-"\n"
-"POT-Creation-Date: 2026-06-17 21:40-0500\n"
+"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
+"javascript/\n"
+"POT-Creation-Date: 2026-06-24 23:02-0500\n"
 "PO-Revision-Date: 2026-06-18 13:36+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
@@ -110,52 +110,78 @@ msgstr[1] "%s matchande strängar"
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Det finns osparade ändringar, är du säker att du vill överge dessa?"
 
-#: weblate/static/js/bulk-accept-suggestions.js:31
+#: weblate/static/js/bulk-accept-suggestions.js:29
 msgid "Security token missing. Please reload the page."
 msgstr "Säkerhetstoken saknas. Ladda om sidan."
 
-#: weblate/static/js/bulk-accept-suggestions.js:45
+#: weblate/static/js/bulk-accept-suggestions.js:37
 #, javascript-format
-msgid "Processing bulk accept for %s"
+msgid "Loading suggestion count for %s"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:55
+msgid "Bulk accept cancelled."
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:60
+#, javascript-format
+msgid "Scheduling bulk accept for %s"
 msgstr ""
 
 #: weblate/static/js/bulk-accept-suggestions.js:75
+msgid "Unknown error"
+msgstr "Okänt fel"
+
+#: weblate/static/js/bulk-accept-suggestions.js:80
+msgid "Network error"
+msgstr "Nätverksfel"
+
+#: weblate/static/js/bulk-accept-suggestions.js:108
+#: weblate/static/js/bulk-accept-suggestions.js:126
+msgid "Invalid server response"
+msgstr "Ogiltigt server-svar"
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
 #, javascript-format
 msgid "Server error (%s)"
 msgstr "Server-fel (%s)"
 
-#: weblate/static/js/bulk-accept-suggestions.js:86
-msgid "Invalid server response"
-msgstr "Ogiltigt server-svar"
-
-#: weblate/static/js/bulk-accept-suggestions.js:99
+#: weblate/static/js/bulk-accept-suggestions.js:140
 #, javascript-format
-msgid "%s accepted"
-msgid_plural "%s accepted"
-msgstr[0] "%s accepterad"
-msgstr[1] "%s accepterade"
+msgid "There are no pending suggestions from %s in this translation."
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:117
-msgid "Done"
-msgstr "Klar"
-
-#: weblate/static/js/bulk-accept-suggestions.js:124
+#: weblate/static/js/bulk-accept-suggestions.js:149
 #, javascript-format
-msgid "Processed %s suggestion. Page will reload in 2 seconds."
-msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
-msgstr[0] "Bearbetade %s förslag. Sidan uppdateras om 2 sekunder."
-msgstr[1] "Bearbetade %s förslag. Sidan uppdateras om 2 sekunder."
+msgid "This will accept %s suggestion from %s in this translation."
+msgid_plural "This will accept %s suggestions from %s in this translation."
+msgstr[0] ""
+msgstr[1] ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:134
-msgid "Unknown error"
-msgstr "Okänt fel"
+#: weblate/static/js/bulk-accept-suggestions.js:212
+msgid "Accept all suggestions?"
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:139
-msgid "Network error"
-msgstr "Nätverksfel"
+#: weblate/static/js/bulk-accept-suggestions.js:218
+#: weblate/static/loader-bootstrap.js:107
+msgid "Close"
+msgstr "Stäng"
 
-#: weblate/static/js/bulk-accept-suggestions.js:147
-#: weblate/static/js/bulk-accept-suggestions.js:153
+#: weblate/static/js/bulk-accept-suggestions.js:230
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: weblate/static/js/bulk-accept-suggestions.js:235
+msgid "Accept suggestions"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:240
+#, fuzzy
+#| msgid "Accept and approve"
+msgid "Accept and approve suggestions"
+msgstr "Acceptera och godkänn"
+
+#: weblate/static/js/bulk-accept-suggestions.js:258
 #, javascript-format
 msgid "Error: %s"
 msgstr "Fel: %s"
@@ -338,62 +364,124 @@ msgstr "Någonting gick fel!"
 msgid "No image found in clipboard"
 msgstr "Ingen bild hittades i urklipp"
 
-#: weblate/static/loader-bootstrap.js:78
-msgid "Close"
-msgstr "Stäng"
+#: weblate/static/js/vcs-push-help.js:38 weblate/static/js/vcs-push-help.js:48
+msgid ""
+"A pull or merge request will be created from a branch in the repository."
+msgstr ""
 
-#: weblate/static/loader-bootstrap.js:313
+#: weblate/static/js/vcs-push-help.js:41
+msgid ""
+"A push URL is set but no push branch is given. Set a push branch that "
+"differs from the translated branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:51
+msgid ""
+"The push branch must differ from the translated branch when creating a pull "
+"or merge request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:58
+msgid "A pull or merge request will be created from a fork of the repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:65
+#, javascript-format
+msgid ""
+"A pull or merge request will be created from the “%s” branch in the "
+"repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:77
+#, javascript-format
+msgid ""
+"Changes will be sent as a Gerrit review request targeting the “%s” branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:84
+msgid "Changes will be sent as a Gerrit review request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:92
+msgid ""
+"Changes will not be pushed automatically. You can still push them manually "
+"from the repository maintenance."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:100
+#: weblate/static/js/vcs-push-help.js:110
+#, javascript-format
+msgid ""
+"Changes will be pushed directly to the “%s” branch in the push repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:118
+msgid ""
+"Changes will be pushed directly to the default branch of the push repository."
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:323
 msgid "Some source strings could not be assigned."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:353
+#: weblate/static/loader-bootstrap.js:363
 msgid "Error loading search results!"
 msgstr "Fel vid inläsning av sökresultat!"
 
-#: weblate/static/loader-bootstrap.js:357
+#: weblate/static/loader-bootstrap.js:367
 msgid "No new matching source strings found."
 msgstr "Inga nya matchande källsträngar hittades."
 
-#: weblate/static/loader-bootstrap.js:445
+#: weblate/static/loader-bootstrap.js:451
 msgid "Sort this column"
 msgstr "Sortera denna kolumn"
 
-#: weblate/static/loader-bootstrap.js:777
+#: weblate/static/loader-bootstrap.js:799
 msgid "Error while loading page:"
 msgstr "Fel vid inläsning av sida:"
 
-#: weblate/static/loader-bootstrap.js:1103
+#: weblate/static/loader-bootstrap.js:1204
 msgid "Text copied to clipboard."
 msgstr "Text kopierad till urklipp."
 
-#: weblate/static/loader-bootstrap.js:1107
+#: weblate/static/loader-bootstrap.js:1208
 msgid "Please press Ctrl+C to copy."
 msgstr "Tryck på Ctrl+C för att kopiera."
 
-#: weblate/static/loader-bootstrap.js:1111
+#: weblate/static/loader-bootstrap.js:1212
 msgid "Error copying to clipboard."
 msgstr "Fel vid kopiering till urklipp."
 
-#: weblate/static/loader-bootstrap.js:1138
-#: weblate/static/loader-bootstrap.js:1153
+#: weblate/static/loader-bootstrap.js:1256
+#: weblate/static/loader-bootstrap.js:1301
 msgid "Search…"
 msgstr "Sök…"
 
-#: weblate/static/loader-bootstrap.js:1615
+#: weblate/static/loader-bootstrap.js:1425
+msgid "Loading…"
+msgstr "Läser in…"
+
+#: weblate/static/loader-bootstrap.js:1451
+#, fuzzy
+#| msgid "Error while loading page:"
+msgid "Error while loading form:"
+msgstr "Fel vid inläsning av sida:"
+
+#: weblate/static/loader-bootstrap.js:1934
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate skannar nu arkivet, ha tålamod."
 
-#: weblate/static/loader-bootstrap.js:1795
+#: weblate/static/loader-bootstrap.js:2121
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "Aviseringsinställningar borttagna, glöm inte att spara ändringarna."
 
-#: weblate/static/loader-bootstrap.js:2033
+#: weblate/static/loader-bootstrap.js:2389
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "Stopp!"
 
-#: weblate/static/loader-bootstrap.js:2039
+#: weblate/static/loader-bootstrap.js:2395
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -403,44 +491,59 @@ msgstr ""
 "sagt åt dig att kopiera och klistra in något här försöker de troligen "
 "äventyra ditt Weblate-konto."
 
-#: weblate/static/loader-bootstrap.js:2045
+#: weblate/static/loader-bootstrap.js:2401
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr "Se https://en.wikipedia.org/wiki/Self-XSS för mer information."
 
-#: weblate/static/loader-bootstrap.js:2117
+#: weblate/static/loader-bootstrap.js:2484
 msgid "just now"
 msgstr "precis nu"
 
-#: weblate/static/loader-bootstrap.js:2122
+#: weblate/static/loader-bootstrap.js:2489
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s sekund sedan"
 msgstr[1] "%s sekunder sedan"
 
-#: weblate/static/loader-bootstrap.js:2128
+#: weblate/static/loader-bootstrap.js:2495
 msgid "a minute ago"
 msgstr "för 1 minut sedan"
 
-#: weblate/static/loader-bootstrap.js:2131
+#: weblate/static/loader-bootstrap.js:2498
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s minut sedan"
 msgstr[1] "%s minuter sedan"
 
-#: weblate/static/loader-bootstrap.js:2138
+#: weblate/static/loader-bootstrap.js:2505
 #, fuzzy
 #| msgid "a hour ago"
 msgid "an hour ago"
 msgstr "för 1 timme sedan"
 
-#: weblate/static/loader-bootstrap.js:2140
+#: weblate/static/loader-bootstrap.js:2507
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s timme sedan"
 msgstr[1] "%s timmar sedan"
+
+#, javascript-format
+#~ msgid "%s accepted"
+#~ msgid_plural "%s accepted"
+#~ msgstr[0] "%s accepterad"
+#~ msgstr[1] "%s accepterade"
+
+#~ msgid "Done"
+#~ msgstr "Klar"
+
+#, javascript-format
+#~ msgid "Processed %s suggestion. Page will reload in 2 seconds."
+#~ msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
+#~ msgstr[0] "Bearbetade %s förslag. Sidan uppdateras om 2 sekunder."
+#~ msgstr[1] "Bearbetade %s förslag. Sidan uppdateras om 2 sekunder."
 
 #~ msgid "Available:"
 #~ msgstr "Tillgängliga:"
@@ -595,9 +698,6 @@ msgstr[1] "%s timmar sedan"
 #~ msgid "Now"
 #~ msgstr "Nov"
 
-#~ msgid "Cancel"
-#~ msgstr "Avbryt"
-
 #~ msgid "Strings with any failing checks"
 #~ msgstr "Strängar med kontroller som misslyckats"
 
@@ -612,9 +712,6 @@ msgstr[1] "%s timmar sedan"
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "AJAX-begäran att läsa in detta innehåll misslyckades!"
-
-#~ msgid "Loading…"
-#~ msgstr "Läser in…"
 
 #~ msgid "Confirm resetting repository"
 #~ msgstr "Bekräfta återställning av förråd"

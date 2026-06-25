@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-06-17 21:40-0500\n"
+"POT-Creation-Date: 2026-06-24 23:02-0500\n"
 "PO-Revision-Date: 2026-04-18 07:54+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/weblate/"
@@ -106,52 +106,76 @@ msgstr[1] "%s kongruaj ĉenoj"
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Estas kelkaj nekonservitaj ŝanĝoj, ĉu vi certas, ke vi volas foriri?"
 
-#: weblate/static/js/bulk-accept-suggestions.js:31
+#: weblate/static/js/bulk-accept-suggestions.js:29
 msgid "Security token missing. Please reload the page."
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:45
+#: weblate/static/js/bulk-accept-suggestions.js:37
 #, javascript-format
-msgid "Processing bulk accept for %s"
+msgid "Loading suggestion count for %s"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:55
+msgid "Bulk accept cancelled."
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:60
+#, javascript-format
+msgid "Scheduling bulk accept for %s"
 msgstr ""
 
 #: weblate/static/js/bulk-accept-suggestions.js:75
+msgid "Unknown error"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:80
+msgid "Network error"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:108
+#: weblate/static/js/bulk-accept-suggestions.js:126
+msgid "Invalid server response"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
 #, javascript-format
 msgid "Server error (%s)"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:86
-msgid "Invalid server response"
+#: weblate/static/js/bulk-accept-suggestions.js:140
+#, javascript-format
+msgid "There are no pending suggestions from %s in this translation."
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:99
+#: weblate/static/js/bulk-accept-suggestions.js:149
 #, javascript-format
-msgid "%s accepted"
-msgid_plural "%s accepted"
+msgid "This will accept %s suggestion from %s in this translation."
+msgid_plural "This will accept %s suggestions from %s in this translation."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:117
-msgid "Done"
+#: weblate/static/js/bulk-accept-suggestions.js:212
+msgid "Accept all suggestions?"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:124
-#, javascript-format
-msgid "Processed %s suggestion. Page will reload in 2 seconds."
-msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
-msgstr[0] ""
-msgstr[1] ""
-
-#: weblate/static/js/bulk-accept-suggestions.js:134
-msgid "Unknown error"
+#: weblate/static/js/bulk-accept-suggestions.js:218
+#: weblate/static/loader-bootstrap.js:107
+msgid "Close"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:139
-msgid "Network error"
+#: weblate/static/js/bulk-accept-suggestions.js:230
+msgid "Cancel"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:147
-#: weblate/static/js/bulk-accept-suggestions.js:153
+#: weblate/static/js/bulk-accept-suggestions.js:235
+msgid "Accept suggestions"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:240
+msgid "Accept and approve suggestions"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:258
 #, javascript-format
 msgid "Error: %s"
 msgstr ""
@@ -336,64 +360,126 @@ msgstr "Io misfunkciis!"
 msgid "No image found in clipboard"
 msgstr "Neniu bildo trovita en la tondujo"
 
-#: weblate/static/loader-bootstrap.js:78
-msgid "Close"
+#: weblate/static/js/vcs-push-help.js:38 weblate/static/js/vcs-push-help.js:48
+msgid ""
+"A pull or merge request will be created from a branch in the repository."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:313
+#: weblate/static/js/vcs-push-help.js:41
+msgid ""
+"A push URL is set but no push branch is given. Set a push branch that "
+"differs from the translated branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:51
+msgid ""
+"The push branch must differ from the translated branch when creating a pull "
+"or merge request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:58
+msgid "A pull or merge request will be created from a fork of the repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:65
+#, javascript-format
+msgid ""
+"A pull or merge request will be created from the “%s” branch in the "
+"repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:77
+#, javascript-format
+msgid ""
+"Changes will be sent as a Gerrit review request targeting the “%s” branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:84
+msgid "Changes will be sent as a Gerrit review request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:92
+msgid ""
+"Changes will not be pushed automatically. You can still push them manually "
+"from the repository maintenance."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:100
+#: weblate/static/js/vcs-push-help.js:110
+#, javascript-format
+msgid ""
+"Changes will be pushed directly to the “%s” branch in the push repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:118
+msgid ""
+"Changes will be pushed directly to the default branch of the push repository."
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:323
 msgid "Some source strings could not be assigned."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:353
+#: weblate/static/loader-bootstrap.js:363
 msgid "Error loading search results!"
 msgstr "Eraro dum ŝarĝado de serĉrezultoj!"
 
-#: weblate/static/loader-bootstrap.js:357
+#: weblate/static/loader-bootstrap.js:367
 msgid "No new matching source strings found."
 msgstr "Ne troviĝis novaj kongruitaj fontaj ĉenoj."
 
-#: weblate/static/loader-bootstrap.js:445
+#: weblate/static/loader-bootstrap.js:451
 msgid "Sort this column"
 msgstr "Ordigu ĉi tiun kolumnon"
 
-#: weblate/static/loader-bootstrap.js:777
+#: weblate/static/loader-bootstrap.js:799
 msgid "Error while loading page:"
 msgstr "Eraro dum ŝarĝado de paĝo:"
 
-#: weblate/static/loader-bootstrap.js:1103
+#: weblate/static/loader-bootstrap.js:1204
 msgid "Text copied to clipboard."
 msgstr "Teksto kopiita al tondujo."
 
-#: weblate/static/loader-bootstrap.js:1107
+#: weblate/static/loader-bootstrap.js:1208
 msgid "Please press Ctrl+C to copy."
 msgstr "Bonvolu premi Ctrl+C por kopii."
 
-#: weblate/static/loader-bootstrap.js:1111
+#: weblate/static/loader-bootstrap.js:1212
 #, fuzzy
 #| msgid "Text copied to clipboard."
 msgid "Error copying to clipboard."
 msgstr "Teksto kopiita al tondujo."
 
-#: weblate/static/loader-bootstrap.js:1138
-#: weblate/static/loader-bootstrap.js:1153
+#: weblate/static/loader-bootstrap.js:1256
+#: weblate/static/loader-bootstrap.js:1301
 msgid "Search…"
 msgstr "Serĉi…"
 
-#: weblate/static/loader-bootstrap.js:1615
+#: weblate/static/loader-bootstrap.js:1425
+msgid "Loading…"
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:1451
+#, fuzzy
+#| msgid "Error while loading page:"
+msgid "Error while loading form:"
+msgstr "Eraro dum ŝarĝado de paĝo:"
+
+#: weblate/static/loader-bootstrap.js:1934
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate nun skanas la deponejon, bonvolu pacienci."
 
-#: weblate/static/loader-bootstrap.js:1795
+#: weblate/static/loader-bootstrap.js:2121
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "Sciigaj agordoj forigitaj, bonvolu ne forgesi konservi la ŝanĝojn."
 
-#: weblate/static/loader-bootstrap.js:2033
+#: weblate/static/loader-bootstrap.js:2389
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "Haltu!"
 
-#: weblate/static/loader-bootstrap.js:2039
+#: weblate/static/loader-bootstrap.js:2395
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -402,37 +488,37 @@ msgstr ""
 "Ĉi tio estas retumila funkcio destinita por programistoj. Se iu diris al vi "
 "kopii-alglui ion ĉi tie, ili verŝajne provas kompromiti vian Weblate-konton."
 
-#: weblate/static/loader-bootstrap.js:2045
+#: weblate/static/loader-bootstrap.js:2401
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr "Legu https://en.wikipedia.org/wiki/Self-XSS por pli da informo."
 
-#: weblate/static/loader-bootstrap.js:2117
+#: weblate/static/loader-bootstrap.js:2484
 msgid "just now"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2122
+#: weblate/static/loader-bootstrap.js:2489
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/loader-bootstrap.js:2128
+#: weblate/static/loader-bootstrap.js:2495
 msgid "a minute ago"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2131
+#: weblate/static/loader-bootstrap.js:2498
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/loader-bootstrap.js:2138
+#: weblate/static/loader-bootstrap.js:2505
 msgid "an hour ago"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2140
+#: weblate/static/loader-bootstrap.js:2507
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
