@@ -1924,6 +1924,21 @@ a.language:hover {
   text-decoration: underline;
 }
 
+input.color_edit {
+  position: absolute;
+  visibility: hidden;
+}
+
+input.color_edit + label {
+  width: 5em;
+  margin: 3px;
+  border: 2px solid transparent;
+}
+
+input.color_edit:checked + label {
+  border: 2px solid var(--wl-color-text-strong);
+}
+
 .editor-wrap {
   padding: 0;
   border: none;

@@ -68,12 +68,18 @@
   --wl-navi-text-color: #fffdfa;
   --wl-focus-color: #4eeac9;
   --wl-hover-color: #ddd9d1;
+
 }
 
 [data-bs-theme="dark"] {
   --bs-body-bg: #1a1d1e !important;
   --bs-body-color: #fffdfa !important;
   --bs-border-color: #484d50 !important;
+
+  --bs-link-color: #6cf8d8;
+  --bs-link-color-rgb: 108, 248, 216;
+  --bs-link-hover-color: #ddd9d1;
+  --bs-link-hover-color-rgb: 221, 217, 209;
 
   --bs-dark: #25303b;
   --bs-dark-rgb: 37, 48, 59;
@@ -123,6 +129,20 @@
     --bs-btn-border-color: #484d50;
     --bs-btn-border-radius: 4px;
     border-color: var(--bs-btn-border-color) !important;
+  }
+
+  .btn-primary {
+    --bs-btn-color: var(--wl-color-text-strong);
+    --bs-btn-bg: var(--wl-color-primary);
+    --bs-btn-border-color: var(--wl-color-primary);
+    --bs-btn-disabled-color: var(--wl-color-text-strong);
+    --bs-btn-disabled-bg: var(--wl-color-primary-strong);
+  }
+
+  .btn-info {
+    --bs-btn-color: var(--wl-color-link);
+    --bs-btn-bg: var(--wl-color-bg);
+    --bs-btn-border-color: var(--wl-color-accent-bg);
   }
 
   #search-preview {
