@@ -104,6 +104,51 @@ class WidgetsTest(FixtureTestCase):
         )
         self.assertContains(response, "Test")
 
+    def get_svg_badge_url(self) -> str:
+        return reverse(
+            "widget-image",
+            kwargs={
+                "path": self.project.get_url_path(),
+                "widget": "svg",
+                "color": "badge",
+                "extension": "svg",
+            },
+        )
+
+    def test_svg_badge_default_lowercase(self) -> None:
+        """The badge label is lowercase by default."""
+        response = self.client.get(self.get_svg_badge_url())
+        self.assert_svg(response)
+        self.assertContains(response, "translated")
+        self.assertNotContains(response, "Translated")
+
+    def test_svg_badge_capitalize(self) -> None:
+        """The capitalize parameter capitalizes the first letter of the label."""
+        response = self.client.get(self.get_svg_badge_url(), {"capitalize": "1"})
+        self.assert_svg(response)
+        self.assertContains(response, "Translated")
+
+    def test_svg_badge_capitalize_disabled(self) -> None:
+        """An explicit zero keeps the default lowercase label."""
+        response = self.client.get(self.get_svg_badge_url(), {"capitalize": "0"})
+        self.assert_svg(response)
+        self.assertContains(response, "translated")
+        self.assertNotContains(response, "Translated")
+
+    def test_svg_badge_capitalize_invalid(self) -> None:
+        """A non-integer value falls back to the default without breaking rendering."""
+        response = self.client.get(self.get_svg_badge_url(), {"capitalize": "invalid"})
+        self.assert_svg(response)
+        self.assertContains(response, "translated")
+        self.assertNotContains(response, "Translated")
+
+    def test_status_badge_capitalize(self) -> None:
+        """PNGBadgeWidget inherits the capitalize parameter from SVGBadgeWidget."""
+        self.assertEqual(
+            WIDGETS["status"].extra_parameters,
+            WIDGETS["svg"].extra_parameters,
+        )
+
     def test_view_engage(self) -> None:
         response = self.client.get(
             reverse("engage", kwargs={"path": self.project.get_url_path()})
