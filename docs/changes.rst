@@ -69,6 +69,7 @@ Weblate 2026.7
 * :ref:`check-max-size` no longer wraps text when checking strings configured to fit on one line.
 * :ref:`check-max-size` now checks source strings and refreshes rendered previews after source edits.
 * Watched translations on the dashboard now include category path segments.
+* Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints.
 
 .. rubric:: Compatibility
 
