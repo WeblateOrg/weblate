@@ -76,6 +76,22 @@ Input is provided as JSON with the following schema:
     "strings": [                                // strings to translate
         {{
             "source": "source @@PH1@@string",   // text to translate with a non-translatable placeable
+            "parts": [                           // ordered representation of the same complete source string
+                {{
+                    "type": "text",
+                    "text": "source "
+                }},
+                {{
+                    "type": "placeholder",
+                    "id": "@@PH1@@",
+                    "text": "",
+                    "translatable": false
+                }},
+                {{
+                    "type": "text",
+                    "text": "string"
+                }}
+            ],
             "context": "gettext context",       // optional source context for bilingual strings
             "key": "app.menu.save",             // optional key for monolingual strings
             "explanation": "button label",      // optional explanation of meaning or usage
@@ -113,27 +129,30 @@ Input is provided as JSON with the following schema:
 
 Rules:
 1. Translate each string in "strings" in order, producing one output per input string.
-2. Placeholders matching the regular expression @@PH\\d+@@ must be preserved exactly (byte-identical). They may be reordered if required by target language grammar, but must not be modified, duplicated, or removed.
+2. Placeholders matching the regular expression @@PH\\d+@@ must be preserved exactly (byte-identical). Grammar placeholders may be reordered if required by target language grammar; markup and syntax placeholders must keep source order. Placeholders must not be modified, duplicated, or removed.
 3. If a string has a "translation" field, use it as the base. Correct errors and improve fluency/style, but stay close to its meaning. Do not re-translate from source unless the existing translation is fundamentally wrong.
 4. Apply glossary terms as written; inflect only when target language grammar requires it. Use glossary explanations and flags to disambiguate duplicate source terms. Preserve original capitalization pattern unless the glossary specifies exact casing. Do not partially apply glossary entries.
 5. Preserve tone, register, formatting, whitespace, and line breaks.
 6. Do not add, omit, reinterpret, summarize, or expand content.
 7. Do not transliterate or explain translations.
 8.  Output must be entirely in the target_language except preserved placeholders.
-9. Output must be valid JSON.
-10. Output must be a single JSON array containing only JSON strings.
-11. Do not include markdown code fences or any additional text.
-12. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings, objects, diagnostics, explanations, or metadata.
-13. Ensure all output strings are properly JSON-escaped.
-14. Internally verify placeholder integrity and JSON validity before responding.
-15. Placeholder contract: Tokens like @@PH44@@ are opaque atoms. Never translate, inflect, split, rename, reorder characters inside, wrap, or escape them. Never convert them to another syntax.
-16. Markup contract: Preserve markup, tags, attributes, entities, and similar control sequences exactly. Translate only human-readable text outside markup and outside placeholder tokens.
-17. Output contract: Return exactly one JSON array of strings, with no characters before `[` or after `]`.
-18. Treat context, key, explanation, secondary, plural, failing_checks, and placeholders fields as reference material only. Do not translate them directly and do not add, copy, or emit their contents unless they are present in source.
-19. Placeholder mappings explain what opaque placeholder tokens represent. This information may guide wording, but the output must still contain the exact placeholder tokens, not the mapped content.
-20. Failing checks describe issues to avoid or fix when improving an existing translation. They are context only; do not include their check_id, name, description, or generated diagnostics in output.
-21. Target-language project instructions, when present above, contain additional requirements for the target language. Follow them unless they conflict with preserving the source meaning, placeholders, markup, or output contract.
-22. For translatable markup placeholders that wrap text, translate the whole text between the placeholders. Example: @@PH1@@Reset and reapply@@PH2@@ can become @@PH1@@Zurucksetzen und erneut anwenden@@PH2@@, never @@PH1@@Zurucksetzen und @@PH2@@erneut anwenden@@PH2@@.
+9. The "parts" array, when present, is one complete source string split into ordered pieces. Translate the whole string as a unit; do not translate parts independently.
+10. Output must be valid JSON.
+11. Output must be a single JSON array containing one item per input string. Prefer structured objects with a "parts" array when the input has "parts"; legacy JSON strings are accepted only if placeholders are preserved exactly.
+12. Do not include markdown code fences or any additional text.
+13. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings, diagnostics, explanations, or metadata.
+14. For structured output, each item must be an object containing only "parts". The output parts array must have the same number of text parts and the same placeholder parts as the input. Grammar placeholder parts may be reordered if required by target language grammar; markup and syntax placeholder parts must keep source order. Placeholder part type, id, close_id, and translatable values must be preserved.
+15. For structured text parts, translate the "text" value. For structured placeholder parts, preserve metadata and translate "text" only when "translatable" is true; when "translatable" is false, keep "text" unchanged.
+16. Ensure all output strings are properly JSON-escaped.
+17. Internally verify placeholder integrity and JSON validity before responding.
+18. Placeholder contract: Tokens like @@PH44@@ are opaque atoms. Never translate, inflect, split, rename, reorder characters inside, wrap, or escape them. Never convert them to another syntax.
+19. Markup contract: Preserve markup, tags, attributes, entities, and similar control sequences exactly. Translate only human-readable text outside markup and outside placeholder tokens.
+20. Output contract: Return exactly one JSON array, with no characters before `[` or after `]`.
+21. Treat context, key, explanation, secondary, plural, failing_checks, placeholders, and source fields as reference material only. Do not translate them directly and do not add, copy, or emit their contents unless they are present in source or parts.
+22. Placeholder mappings explain what opaque placeholder tokens represent. This information may guide wording, but the output must still contain the exact placeholder tokens in legacy string output, or the exact placeholder metadata in structured output, not the mapped content.
+23. Failing checks describe issues to avoid or fix when improving an existing translation. They are context only; do not include their check_id, name, description, or generated diagnostics in output.
+24. Target-language project instructions, when present above, contain additional requirements for the target language. Follow them unless they conflict with preserving the source meaning, placeholders, markup, or output contract.
+25. For translatable markup placeholders that wrap text, translate the whole text between the placeholders. Example: @@PH1@@Reset and reapply@@PH2@@ can become @@PH1@@Zurucksetzen und erneut anwenden@@PH2@@, never @@PH1@@Zurucksetzen und @@PH2@@erneut anwenden@@PH2@@.
 
 Valid placeholder and markup handling:
 ["Click <a href=\"/x\">log out</a> and use @@PH195@@."]
@@ -141,9 +160,9 @@ Valid placeholder and markup handling:
 Invalid placeholder handling:
 ["Click <a href=\"/x\">log out</a> and use \\@\\@PH195\\@\\@."]
 
-Respond ONLY with a valid JSON array of strings, one per input string, in the same order. Do not include JSON objects or any values other than strings:
+Respond ONLY with a valid JSON array, one per input string, in the same order. Prefer structured objects when "parts" are present:
 
-["translation 1", "translation 2", ...]
+[{{"parts": [{{"type": "text", "text": "translation 1"}}]}}, {{"parts": [{{"type": "text", "text": "translation 2"}}]}}]
 """
 
 LLM_PLACEHOLDER_RE = re.compile(r"@@PH(?P<id>\d+)@@")
@@ -162,6 +181,23 @@ LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES = (
     "Weblate",
     "<code>API</code> @@PH2@@",
 )
+LLM_JSON_ARRAY_STRING_TERMINATORS = frozenset({",", "]"})
+LLM_JSON_OBJECT_KEY_STRING_TERMINATORS = frozenset({":"})
+LLM_JSON_OBJECT_VALUE_STRING_TERMINATORS = frozenset({",", "}"})
+LLM_MARKUP_PLACEHOLDER_MARKERS = ("<", ">", "&lt;", "&gt;", "`", "*")
+LLM_CONTROL_PLACEHOLDER_MARKERS = (
+    *LLM_MARKUP_PLACEHOLDER_MARKERS,
+    "%",
+    "&",
+    "$",
+    "\\",
+    "[",
+    "]",
+    "{",
+    "}",
+)
+LLM_SINGLE_CHARACTER_MARKUP_DELIMITERS = frozenset({"`", "*"})
+LLM_TRANSLATABLE_RST_ROLES = frozenset({"guilabel", "menuselection"})
 
 
 class LLMGlossaryEntry(TypedDict, total=False):
@@ -197,6 +233,22 @@ class LLMFailingCheckContext(TypedDict):
     description: NotRequired[str]
 
 
+class LLMTextPart(TypedDict):
+    type: Literal["text"]
+    text: str
+
+
+class LLMPlaceholderPart(TypedDict):
+    type: Literal["placeholder"]
+    id: str
+    text: str
+    translatable: bool
+    close_id: NotRequired[str]
+
+
+type LLMStringPart = LLMTextPart | LLMPlaceholderPart
+
+
 class LLMStringContext(TypedDict, total=False):
     context: str
     key: str
@@ -209,6 +261,7 @@ class LLMStringContext(TypedDict, total=False):
 
 class LLMStringPayload(LLMStringContext):
     source: str
+    parts: list[LLMStringPart]
     translation: NotRequired[str]
 
 
@@ -518,6 +571,117 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return {}
         return dict(placeholder_specs)
 
+    @staticmethod
+    def _get_rst_prefix_role(opening: str) -> str | None:
+        if opening.startswith(":") and opening.endswith(":`"):
+            role = opening[1:-2]
+            if role:
+                return role.lower()
+        return None
+
+    @staticmethod
+    def _get_rst_suffix_role(closing: str) -> str | None:
+        if closing.startswith("`:") and closing.endswith(":"):
+            role = closing[2:-1]
+            if role:
+                return role.lower()
+        return None
+
+    @classmethod
+    def _is_rst_placeholder_wrapper(cls, opening: str, closing: str) -> bool:
+        return (
+            cls._get_rst_prefix_role(opening) is not None and closing.endswith("`")
+        ) or (opening == "`" and cls._get_rst_suffix_role(closing) is not None)
+
+    @staticmethod
+    def _is_angle_placeholder_wrapper(opening: str, closing: str) -> bool:
+        return (opening, closing) in {("<", ">"), ("&lt;", "&gt;")}
+
+    @classmethod
+    def _is_placeholder_wrapper(cls, opening: str, closing: str) -> bool:
+        return cls._is_rst_placeholder_wrapper(
+            opening, closing
+        ) or cls._is_angle_placeholder_wrapper(opening, closing)
+
+    @classmethod
+    def _is_translatable_placeholder_wrapper(cls, opening: str, closing: str) -> bool:
+        role = cls._get_rst_prefix_role(opening)
+        if role is not None:
+            return closing != "`" or role in LLM_TRANSLATABLE_RST_ROLES
+
+        role = cls._get_rst_suffix_role(closing)
+        if role is not None and opening == "`":
+            return role in LLM_TRANSLATABLE_RST_ROLES
+
+        return False
+
+    @staticmethod
+    def _append_llm_text_part(parts: list[LLMStringPart], text: str) -> None:
+        if not text:
+            return
+        if parts and parts[-1]["type"] == "text":
+            parts[-1]["text"] = f"{parts[-1]['text']}{text}"
+            return
+        parts.append({"type": "text", "text": text})
+
+    @classmethod
+    def _get_string_parts(
+        cls, source_text: str, unit: Unit | None, source_occurrence: int = 0
+    ) -> list[LLMStringPart]:
+        placeholder_matches = cls._iter_placeholder_matches(source_text)
+        if not placeholder_matches:
+            return [{"type": "text", "text": source_text}]
+
+        placeholders = cls._get_placeholder_context(
+            source_text, unit, source_occurrence
+        )
+        parts: list[LLMStringPart] = []
+        current = 0
+        index = 0
+        while index < len(placeholder_matches):
+            start, end, token = placeholder_matches[index]
+            cls._append_llm_text_part(parts, source_text[current:start])
+
+            if index + 1 < len(placeholder_matches):
+                next_start, next_end, next_token = placeholder_matches[index + 1]
+                inner_text = source_text[end:next_start]
+                opening = placeholders.get(token)
+                closing = placeholders.get(next_token)
+                if (
+                    inner_text
+                    and opening is not None
+                    and closing is not None
+                    and cls._is_placeholder_wrapper(opening, closing)
+                ):
+                    parts.append(
+                        {
+                            "type": "placeholder",
+                            "id": token,
+                            "close_id": next_token,
+                            "text": inner_text,
+                            "translatable": cls._is_translatable_placeholder_wrapper(
+                                opening, closing
+                            ),
+                        }
+                    )
+                    current = next_end
+                    index += 2
+                    continue
+
+            parts.append(
+                {
+                    "type": "placeholder",
+                    "id": token,
+                    "text": "",
+                    "translatable": False,
+                }
+            )
+            current = end
+            index += 1
+
+        cls._append_llm_text_part(parts, source_text[current:])
+        return parts or [{"type": "text", "text": ""}]
+
     @classmethod
     def _find_plural_indexes(cls, source_text: str, unit: Unit) -> list[int]:
         for source_variants in (
@@ -768,6 +932,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
     ) -> LLMStringPayload:
         return {
             "source": source_text,
+            "parts": self._get_string_parts(source_text, unit, source_occurrence),
             **self._get_string_context(
                 source_text, unit, source_language, source_occurrence=source_occurrence
             ),
@@ -1077,7 +1242,13 @@ class BaseLLMTranslation(BatchMachineTranslation):
             self._build_message(
                 source_language,
                 target_language,
-                [{"source": example["source"]} for example in examples],
+                [
+                    {
+                        "source": example["source"],
+                        "parts": self._get_string_parts(example["source"], None),
+                    }
+                    for example in examples
+                ],
                 [],
             ),
             json.dumps([example["target"] for example in examples]),
@@ -1133,7 +1304,17 @@ class BaseLLMTranslation(BatchMachineTranslation):
         )
 
     @classmethod
-    def _repair_json_string(cls, content: str, index: int) -> tuple[str | None, int]:
+    def _has_valid_json_container_end(cls, content: str, index: int) -> bool:
+        if content[index] not in "]}":
+            return True
+
+        next_index = cls._skip_json_whitespace(content, index + 1)
+        return next_index == len(content) or content[next_index] in ",]}"
+
+    @classmethod
+    def _repair_json_string(
+        cls, content: str, index: int, terminators: frozenset[str]
+    ) -> tuple[str | None, int]:
         if index >= len(content) or content[index] != '"':
             return None, index
 
@@ -1172,7 +1353,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 next_index = cls._skip_json_whitespace(content, index + 1)
                 if next_index < len(content) and content[next_index] == '"':
                     return None, index
-                if next_index < len(content) and content[next_index] not in {",", "]"}:
+                if next_index < len(content) and (
+                    content[next_index] not in terminators
+                    or not cls._has_valid_json_container_end(content, next_index)
+                ):
                     repaired.append('\\"')
                     index += 1
                     continue
@@ -1186,10 +1370,44 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return None, index
 
     @classmethod
-    def _repair_json_string_array(cls, content: str) -> str | None:
-        index = cls._skip_json_whitespace(content, 0)
+    def _repair_json_literal(cls, content: str, index: int) -> tuple[str | None, int]:
+        for literal in ("true", "false", "null"):
+            if content.startswith(literal, index):
+                return literal, index + len(literal)
+        return None, index
+
+    @classmethod
+    def _repair_json_number(cls, content: str, index: int) -> tuple[str | None, int]:
+        match = re.match(
+            r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?", content[index:]
+        )
+        if match is None:
+            return None, index
+        number = match.group()
+        return number, index + len(number)
+
+    @classmethod
+    def _repair_json_value(
+        cls, content: str, index: int, string_terminators: frozenset[str]
+    ) -> tuple[str | None, int]:
+        index = cls._skip_json_whitespace(content, index)
+        if index >= len(content):
+            return None, index
+
+        if content[index] == '"':
+            return cls._repair_json_string(content, index, string_terminators)
+        if content[index] == "[":
+            return cls._repair_json_array(content, index)
+        if content[index] == "{":
+            return cls._repair_json_object(content, index)
+        if content[index] in "-0123456789":
+            return cls._repair_json_number(content, index)
+        return cls._repair_json_literal(content, index)
+
+    @classmethod
+    def _repair_json_array(cls, content: str, index: int) -> tuple[str | None, int]:
         if index >= len(content) or content[index] != "[":
-            return None
+            return None, index
 
         repaired = ["["]
         index += 1
@@ -1198,7 +1416,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         while True:
             index = cls._skip_json_whitespace(content, index)
             if index >= len(content):
-                return None
+                return None, index
 
             if content[index] == "]":
                 repaired.append("]")
@@ -1207,22 +1425,83 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
             if item_count:
                 if content[index] != ",":
-                    return None
+                    return None, index
+                repaired.append(",")
+                index += 1
+
+            item, index = cls._repair_json_value(
+                content, index, LLM_JSON_ARRAY_STRING_TERMINATORS
+            )
+            if item is None:
+                return None, index
+
+            repaired.append(item)
+            item_count += 1
+
+        return "".join(repaired), index
+
+    @classmethod
+    def _repair_json_object(cls, content: str, index: int) -> tuple[str | None, int]:
+        if index >= len(content) or content[index] != "{":
+            return None, index
+
+        repaired = ["{"]
+        index += 1
+        item_count = 0
+
+        while True:
+            index = cls._skip_json_whitespace(content, index)
+            if index >= len(content):
+                return None, index
+
+            if content[index] == "}":
+                repaired.append("}")
+                index += 1
+                break
+
+            if item_count:
+                if content[index] != ",":
+                    return None, index
                 repaired.append(",")
                 index += 1
                 index = cls._skip_json_whitespace(content, index)
 
-            string_item, index = cls._repair_json_string(content, index)
-            if string_item is None:
-                return None
+            object_key, index = cls._repair_json_string(
+                content, index, LLM_JSON_OBJECT_KEY_STRING_TERMINATORS
+            )
+            if object_key is None:
+                return None, index
 
-            repaired.append(string_item)
+            index = cls._skip_json_whitespace(content, index)
+            if index >= len(content) or content[index] != ":":
+                return None, index
+            index += 1
+
+            value, index = cls._repair_json_value(
+                content, index, LLM_JSON_OBJECT_VALUE_STRING_TERMINATORS
+            )
+            if value is None:
+                return None, index
+
+            repaired.extend((object_key, ":", value))
             item_count += 1
+
+        return "".join(repaired), index
+
+    @classmethod
+    def _repair_json_string_array(cls, content: str) -> str | None:
+        index = cls._skip_json_whitespace(content, 0)
+        if index >= len(content) or content[index] != "[":
+            return None
+
+        repaired, index = cls._repair_json_array(content, index)
+        if repaired is None:
+            return None
 
         if cls._skip_json_whitespace(content, index) != len(content):
             return None
 
-        return "".join(repaired)
+        return repaired
 
     @classmethod
     def _iter_placeholders(cls, text: str) -> list[tuple[str, int]]:
@@ -1520,31 +1799,322 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def _normalize_translations(
         cls, translations: JSONValue, expected_length: int
     ) -> JSONValue:
-        if (
-            isinstance(translations, list)
-            and len(translations) > expected_length
-            and all(isinstance(item, str) for item in translations[:expected_length])
-            and not any(
-                isinstance(item, str) and item
-                for item in translations[expected_length:]
-            )
-        ):
-            return translations[:expected_length]
+        if isinstance(translations, list) and len(translations) > expected_length:
+            expected_items = translations[:expected_length]
+            extra_items = translations[expected_length:]
+
+            if all(isinstance(item, (str, dict)) for item in expected_items) and all(
+                isinstance(item, str) and not item for item in extra_items
+            ):
+                return expected_items
+
+            if all(isinstance(item, str) for item in expected_items) and not any(
+                isinstance(item, str) and item for item in extra_items
+            ):
+                return expected_items
         return translations
+
+    @staticmethod
+    def _is_protected_syntax_fragment(
+        text: str, include_single_character: bool
+    ) -> bool:
+        if text in LLM_SINGLE_CHARACTER_MARKUP_DELIMITERS:
+            return include_single_character
+        return any(marker in text for marker in LLM_CONTROL_PLACEHOLDER_MARKERS)
+
+    @staticmethod
+    def _is_markup_placeholder_text(text: str) -> bool:
+        return any(marker in text for marker in LLM_MARKUP_PLACEHOLDER_MARKERS)
+
+    @staticmethod
+    def _extract_single_character_syntax_counts(text: str) -> Counter[str]:
+        return Counter(
+            character
+            for character in text
+            if character in LLM_SINGLE_CHARACTER_MARKUP_DELIMITERS
+        )
+
+    @classmethod
+    def _has_protected_syntax(
+        cls,
+        text: str,
+        source_text: str,
+        unit: Unit | None,
+        source_occurrence: int,
+        *,
+        include_single_character: bool = False,
+    ) -> bool:
+        return any(
+            protected in text
+            for protected in cls._get_placeholder_context(
+                source_text, unit, source_occurrence
+            ).values()
+            if cls._is_protected_syntax_fragment(protected, include_single_character)
+        )
+
+    @classmethod
+    def _is_structured_placeholder_reorderable(
+        cls, expected: LLMPlaceholderPart, placeholders: dict[str, str]
+    ) -> bool:
+        placeholder_texts = [placeholders.get(expected["id"], "")]
+        if close_id := expected.get("close_id"):
+            placeholder_texts.append(placeholders.get(close_id, ""))
+        return not any(
+            cls._is_markup_placeholder_text(text) for text in placeholder_texts
+        )
+
+    @classmethod
+    def _get_structured_part_text(
+        cls,
+        actual: JSONValue,
+        source_text: str,
+        unit: Unit | None,
+        source_occurrence: int,
+        *,
+        include_single_character_protected_syntax: bool = False,
+    ) -> str | None:
+        if not isinstance(actual, dict):
+            return None
+
+        actual_text = actual.get("text")
+        if not isinstance(actual_text, str):
+            return None
+        if cls._extract_placeholders(actual_text) or cls._has_protected_syntax(
+            actual_text,
+            source_text,
+            unit,
+            source_occurrence,
+            include_single_character=include_single_character_protected_syntax,
+        ):
+            return None
+        return actual_text
+
+    @classmethod
+    def _normalize_structured_placeholder_part(
+        cls,
+        actual: dict[str, JSONValue],
+        expected: LLMPlaceholderPart,
+        actual_text: str,
+    ) -> str | None:
+        expected_keys = {"type", "id", "text", "translatable"}
+        expected_close_id = expected.get("close_id")
+        if expected_close_id is not None:
+            expected_keys.add("close_id")
+        if set(actual) != expected_keys:
+            return None
+        if actual.get("id") != expected["id"]:
+            return None
+        if actual.get("translatable") != expected["translatable"]:
+            return None
+        if (
+            expected_close_id is not None
+            and actual.get("close_id") != expected_close_id
+        ):
+            return None
+
+        if expected["translatable"]:
+            if expected_close_id is None or cls._is_markup_placeholder_text(
+                actual_text
+            ):
+                return None
+            return f"{expected['id']}{actual_text}{expected_close_id}"
+
+        if actual_text != expected["text"]:
+            return None
+        if expected_close_id is not None:
+            return f"{expected['id']}{expected['text']}{expected_close_id}"
+        return expected["id"]
+
+    @classmethod
+    def _normalize_reorderable_structured_placeholder_part(
+        cls,
+        actual: dict[str, JSONValue],
+        expected_parts: list[LLMPlaceholderPart],
+        actual_text: str,
+    ) -> str | None:
+        for index, expected in enumerate(expected_parts):
+            normalized = cls._normalize_structured_placeholder_part(
+                actual, expected, actual_text
+            )
+            if normalized is None:
+                continue
+            del expected_parts[index]
+            return normalized
+        return None
+
+    @classmethod
+    def _normalize_ordered_structured_placeholder_part(
+        cls,
+        actual: dict[str, JSONValue],
+        expected_ordered_parts: list[LLMPlaceholderPart],
+        expected_reorderable_parts: list[LLMPlaceholderPart],
+        actual_text: str,
+    ) -> str | None:
+        if expected_ordered_parts:
+            normalized = cls._normalize_structured_placeholder_part(
+                actual, expected_ordered_parts[0], actual_text
+            )
+            if normalized is not None:
+                del expected_ordered_parts[0]
+                return normalized
+
+            if any(
+                cls._normalize_structured_placeholder_part(
+                    actual, expected, actual_text
+                )
+                is not None
+                for expected in expected_ordered_parts
+            ):
+                return None
+
+        return cls._normalize_reorderable_structured_placeholder_part(
+            actual, expected_reorderable_parts, actual_text
+        )
+
+    @classmethod
+    def _normalize_structured_translation(
+        cls,
+        translation: JSONValue,
+        source_text: str,
+        unit: Unit | None,
+        source_occurrence: int,
+    ) -> str | None:
+        if not isinstance(translation, dict) or set(translation) != {"parts"}:
+            return None
+
+        parts = translation["parts"]
+        if not isinstance(parts, list):
+            return None
+
+        expected_parts = cls._get_string_parts(source_text, unit, source_occurrence)
+        if len(parts) != len(expected_parts):
+            return None
+
+        placeholders = cls._get_placeholder_context(
+            source_text, unit, source_occurrence
+        )
+        expected_text_count = 0
+        expected_text_syntax_counts: Counter[str] = Counter()
+        expected_ordered_placeholder_parts: list[LLMPlaceholderPart] = []
+        expected_reorderable_placeholder_parts: list[LLMPlaceholderPart] = []
+        for expected in expected_parts:
+            if expected["type"] == "text":
+                expected_text_count += 1
+                expected_text_syntax_counts.update(
+                    cls._extract_single_character_syntax_counts(expected["text"])
+                )
+            elif cls._is_structured_placeholder_reorderable(expected, placeholders):
+                expected_reorderable_placeholder_parts.append(expected)
+            else:
+                expected_ordered_placeholder_parts.append(expected)
+
+        text_count = 0
+        actual_text_syntax_counts: Counter[str] = Counter()
+        result: list[str] = []
+        for actual in parts:
+            if not isinstance(actual, dict):
+                return None
+            actual_type = actual.get("type")
+            actual_text = cls._get_structured_part_text(
+                actual,
+                source_text,
+                unit,
+                source_occurrence,
+                include_single_character_protected_syntax=actual_type == "placeholder",
+            )
+            if actual_text is None:
+                return None
+
+            if actual_type == "text":
+                if set(actual) != {"type", "text"}:
+                    return None
+                text_count += 1
+                actual_text_syntax_counts.update(
+                    cls._extract_single_character_syntax_counts(actual_text)
+                )
+                result.append(actual_text)
+                continue
+
+            if actual_type != "placeholder":
+                return None
+            normalized_placeholder = cls._normalize_ordered_structured_placeholder_part(
+                actual,
+                expected_ordered_placeholder_parts,
+                expected_reorderable_placeholder_parts,
+                actual_text,
+            )
+            if normalized_placeholder is None:
+                return None
+            result.append(normalized_placeholder)
+
+        if (
+            text_count != expected_text_count
+            or actual_text_syntax_counts - expected_text_syntax_counts
+            or expected_ordered_placeholder_parts
+            or expected_reorderable_placeholder_parts
+        ):
+            return None
+        return "".join(result)
+
+    @classmethod
+    def _normalize_translation_item(
+        cls,
+        translation: JSONValue,
+        source_text: str,
+        unit: Unit | None,
+        source_occurrence: int,
+    ) -> str | None:
+        if isinstance(translation, str):
+            return translation
+        return cls._normalize_structured_translation(
+            translation, source_text, unit, source_occurrence
+        )
+
+    @classmethod
+    def _normalize_translation_items(
+        cls,
+        translations: JSONValue,
+        sources: list[tuple[str, Unit | None]],
+        source_occurrences: list[int] | None = None,
+    ) -> list[str] | None:
+        if not isinstance(translations, list) or len(translations) != len(sources):
+            return None
+
+        occurrence_counts: dict[tuple[int | None, str], int] = defaultdict(int)
+        result: list[str] = []
+        for index, (source_text, unit) in enumerate(sources):
+            if source_occurrences is None:
+                occurrence_key = (id(unit) if unit is not None else None, source_text)
+                source_occurrence = occurrence_counts[occurrence_key]
+                occurrence_counts[occurrence_key] += 1
+            else:
+                source_occurrence = source_occurrences[index]
+
+            normalized = cls._normalize_translation_item(
+                translations[index], source_text, unit, source_occurrence
+            )
+            if normalized is None:
+                return None
+            result.append(normalized)
+        return result
 
     @classmethod
     def _validate_translations(
         cls,
         translations: JSONValue,
         sources: list[tuple[str, Unit | None]],
+        source_occurrences: list[int] | None = None,
     ) -> list[str]:
         translations = cls._normalize_translations(translations, len(sources))
-        if not cls._is_string_list(translations, len(sources)):
+        translation_list = cls._normalize_translation_items(
+            translations, sources, source_occurrences
+        )
+        if translation_list is None:
             msg = "Mismatching assistant reply."
             raise MachineTranslationError(msg)
 
         normalized_translations: list[str] = []
-        for index, translation in enumerate(translations):
+        for index, translation in enumerate(translation_list):
             source_text = sources[index][0]
             normalized_translation = cls._placeholderize_assistant_reply(
                 translation,
@@ -1672,7 +2242,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
             add_breadcrumb(self.name, "response-repaired")
 
         try:
-            translations = self._validate_translations(translations, sources)
+            translations = self._validate_translations(
+                translations, sources, source_occurrences
+            )
         except MachineTranslationError as error:
             msg = "Mismatching assistant reply."
             self.log_handled_error(msg, extra_log=translations_string)
