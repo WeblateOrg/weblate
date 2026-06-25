@@ -1170,6 +1170,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         seed_source_component_id = getattr(self, "seed_source_component_id", None)
         copy_seed_addons = getattr(self, "copy_seed_addons", False)
         seed_author = getattr(self, "seed_author", None)
+        acting_user_id = self.acting_user.pk if self.acting_user else None
 
         self.drop_file_format_cache()
         self.set_default_branch()
@@ -1331,6 +1332,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 seed_source_component_id=seed_source_component_id,
                 copy_seed_addons=copy_seed_addons,
                 seed_author=seed_author,
+                acting_user_id=acting_user_id,
             )
 
         if (
@@ -2323,35 +2325,57 @@ class Component(  # ruff: ignore[too-many-public-methods]
         )
 
     @perform_on_link
-    def update_remote_repository(self) -> str | None:
+    def update_remote_repository(self) -> tuple[str | None, RepositoryError | None]:
         with self.repository.lock:
             start = time.monotonic()
             try:
                 previous_revision = self.repository.last_remote_revision
             except RepositoryError:
                 previous_revision = None
-            self.repository.update_remote()
+            try:
+                self.repository.update_remote()
+            except RepositoryError as error:
+                report_error(
+                    "Could not update the repository",
+                    project=self.project,
+                    skip_error_reporting=not settings.DEBUG,
+                )
+                return previous_revision, error
             timediff = time.monotonic() - start
             self.log_info("update took %.2f seconds", timediff)
-            return previous_revision
+            return previous_revision, None
 
     @perform_on_link
-    def update_remote_branch(self, validate: bool = False, retry: bool = True) -> bool:
+    def update_remote_branch(
+        self,
+        validate: bool = False,
+        retry: bool = True,
+        user: User | None = None,
+    ) -> bool:
         """Pull from remote repository."""
+        user = user or self.acting_user
         # Update
         self.log_info("updating repository")
-        try:
-            previous_revision = self.update_remote_repository()
-        except RepositoryError as error:
-            report_error(
-                "Could not update the repository",
-                project=self.project,
-                skip_error_reporting=not settings.DEBUG,
-            )
+        previous_revision, error = self.update_remote_repository()
+        if error is not None:
             error_text = self.error_text(error)
+            if validate and retry and should_auto_add_ssh_host_key(error_text):
+                self.handle_update_error(error_text, retry)
+                return self.update_remote_branch(True, False, user=user)
+            if self.id and not validate:
+                details = {"error": error_text, "branch": self.branch}
+                if previous_revision is not None:
+                    details["previous_remote_revision"] = previous_revision
+                self.change_set.create(
+                    action=ActionEvents.FAILED_REMOTE_UPDATE,
+                    target=error_text,
+                    user=user,
+                    author=user,
+                    details=details,
+                )
             if validate:
                 self.handle_update_error(error_text, retry)
-                return self.update_remote_branch(True, False)
+                return self.update_remote_branch(True, False, user=user)
             if self.id:
                 self.add_alert("UpdateFailure", error=error_text)
             return False
@@ -2372,7 +2396,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     previous_revision,
                     remote_revision,
                 )
-        if self.id:
+        if self.id and not validate:
             self.delete_alert("UpdateFailure")
             if remote_revision and previous_revision != remote_revision:
                 with transaction.atomic():
@@ -2380,6 +2404,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     self.remote_revision = remote_revision
                     Component.objects.filter(pk=self.pk).update(
                         remote_revision=remote_revision
+                    )
+                if previous_revision:
+                    self.change_set.create(
+                        action=ActionEvents.REMOTE_UPDATE,
+                        user=user,
+                        author=user,
+                        details={
+                            "branch": self.branch,
+                            "previous_remote_revision": previous_revision,
+                            "remote_revision": remote_revision,
+                        },
                     )
         return True
 
@@ -2472,7 +2507,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.configure_repo(pull=False)
 
             # pull remote
-            if not self.update_remote_branch():
+            if not self.update_remote_branch(user=user):
                 return False
 
             self.configure_branch()
@@ -2734,7 +2769,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             previous_head = head_change.previous_head or "N/A"
             # First check we're up to date
-            self.update_remote_branch()
+            self.update_remote_branch(user=user)
 
             if keep_changes:
                 # Mark all strings as pending when keeping changes
@@ -3612,15 +3647,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
                 # In case merge has failure recover
                 error_text = self.error_text(error)
-                status = self.repository.status()
+                try:
+                    status = self.repository.status()
+                    status_error = ""
+                except RepositoryError as status_exception:
+                    status = ""
+                    status_error = self.error_text(status_exception)
 
                 # Log error
                 if self.id:
+                    details = {
+                        "error": error_text,
+                        "previous_head": previous_head,
+                        "status": status,
+                    }
+                    if status_error:
+                        details["status_error"] = status_error
                     self.change_set.create(
                         action=action_failed,
                         target=error_text,
                         user=user,
-                        details={"error": error_text, "status": status},
+                        author=user,
+                        details=details,
                     )
                     self.add_alert("MergeFailure", error=error_text)
 
@@ -3651,6 +3699,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.change_set.create(
                     action=action,
                     user=user,
+                    author=user,
                     details={
                         "new_head": new_head,
                         "previous_head": previous_head,
@@ -4389,7 +4438,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.configure_repo(validate, pull=False)
         if self.id:
-            if not self.update_remote_branch(validate):
+            if not self.update_remote_branch(validate, user=self.acting_user):
                 return False
             if not skip_commit:
                 self.commit_pending("sync", None, skip_push=skip_push)
@@ -4406,7 +4455,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Reset to upstream in case not yet saved model (this is called
         # from the clean method only)
         with self.repository.lock:
-            self.update_remote_branch(validate)
+            self.update_remote_branch(validate, user=self.acting_user)
             self.configure_branch()
             self.repository.reset()
         return True

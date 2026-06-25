@@ -132,7 +132,7 @@ def perform_update(
         if settings.AUTO_UPDATE in {"full", True} or not auto:
             obj.do_update(request)
         else:
-            obj.update_remote_branch()
+            obj.update_remote_branch(user=obj.get_update_user(request))
 
 
 @app.task(
@@ -687,8 +687,11 @@ def component_after_save(
     seed_source_component_id: int | None = None,
     copy_seed_addons: bool = False,
     seed_author: str | None = None,
+    acting_user_id: int | None = None,
 ) -> dict[Literal["component"], int]:
     component = Component.objects.get(pk=pk)
+    if acting_user_id is not None:
+        component.acting_user = User.objects.get(pk=acting_user_id)
     component.after_save(
         changed_git=changed_git,
         changed_setup=changed_setup,
