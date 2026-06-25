@@ -2991,6 +2991,28 @@ class ProjectAPITest(APIBaseTest):
         request = self.do_request("api:project-changes", self.project_kwargs)
         self.assertEqual(request.data["count"], 30)
 
+    def test_changes_skip_restricted_component_changes(self) -> None:
+        secret = "SECRET-RESTRICTED-STRING-XYZZY"
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_cache()
+
+        Change.objects.create(
+            action=ActionEvents.NEW,
+            component=self.component,
+            user=self.user,
+            target=secret,
+            old="",
+        )
+
+        self.do_request("api:component-detail", self.component_kwargs, code=404)
+
+        global_changes = self.do_request("api:change-list")
+        self.assertNotIn(secret, global_changes.content.decode())
+
+        project_changes = self.do_request("api:project-changes", self.project_kwargs)
+        self.assertNotIn(secret, project_changes.content.decode())
+
     def test_statistics(self) -> None:
         request = self.do_request("api:project-statistics", self.project_kwargs)
         self.assertEqual(request.data["total"], 16)
