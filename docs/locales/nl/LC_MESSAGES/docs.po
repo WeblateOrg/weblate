@@ -21,9 +21,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-25 06:03+0200\n"
-"PO-Revision-Date: 2026-06-25 05:12+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-25 11:39+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -459,10 +458,8 @@ msgstr ""
 "project zien, maar zij zullen niet in staat zijn deel te nemen."
 
 #: admin/access.rst:222
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Cleaning up user contributions"
-msgstr "Bijgedragen vertalingen"
+msgstr "Bijdragen van gebruikers opruimen"
 
 #: admin/access.rst:224
 msgid ""
@@ -474,10 +471,8 @@ msgid ""
 msgstr ""
 
 #: admin/access.rst:230
-#, fuzzy
-#| msgid "The options are:"
 msgid "The available cleanup actions are:"
-msgstr "De opties zijn:"
+msgstr "De beschikbare acties voor opruimen zijn:"
 
 #: admin/access.rst:232
 msgid ""
@@ -1010,10 +1005,8 @@ msgid "Group `Spanish Admin-Reviewers`"
 msgstr "Groep `Spaans Beheer-Nakijken`"
 
 #: admin/access.rst:486
-#, fuzzy
-#| msgid "`Review Strings`, `Manage repository`"
 msgid "`Review strings`, `Manage repository`"
-msgstr "`Tekenreeksen nakijken`, `Opslagplaats beheren`"
+msgstr "`Tekenreeksen beoordelen`, `Opslagplaats beheren`"
 
 #: admin/access.rst:487 api.rst:1539
 msgid "Components"
@@ -4080,16 +4073,13 @@ msgid "``max-size:500`` / ``max-size:300:5``"
 msgstr "``max-size:500`` / ``max-size:300:5``"
 
 #: admin/checks.rst:174
-#, fuzzy
-#| msgid ""
-#| "Defines maximal width in pixels and, optionally, the maximum number of "
-#| "lines (word wrapping is applied)."
 msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of "
 "lines. Word wrapping is applied when more than one line is configured."
 msgstr ""
 "Definieert de maximale breedte in pixels en, optioneel, het maximum aantal "
-"regels (tekstterugloop wordt toegepast)."
+"regels. Tekstterugloop wordt toegepast als meer dan een regel is "
+"geconfigureerd."
 
 #: admin/checks.rst:176
 msgid "Defines font group to use by specifying its identifier."
@@ -8529,13 +8519,6 @@ msgstr ""
 "geselecteerde object kan worden vergrendeld."
 
 #: admin/continuous.rst:190
-#, fuzzy
-#| msgid ""
-#| "Operations that read repository content, such as updating, resetting, or "
-#| "rescanning, also reconcile translation files in Weblate. Added or removed "
-#| "translation files are reflected after this processing finishes. Glossary "
-#| "translations are cleaned up only for Weblate-managed glossaries and only "
-#| "when no non-glossary component still uses the language."
 msgid ""
 "Operations that read repository content, such as updating, resetting, or "
 "rescanning, also reconcile translation files in Weblate. Added or removed "
@@ -8546,9 +8529,8 @@ msgstr ""
 "Bewerkingen die inhoud uit de opslagruimte lezen, zoals updaten, herstellen "
 "of opnieuw scannen, betreffen ook vertaalbestanden in Weblate. Toegevoegde "
 "of verwijderde vertaalbestanden worden weergegeven nadat de verwerking is "
-"voltooid. Vertalingen van woordenlijsten worden alleen opgeschoond voor door "
-"Weblate beheerde woordenlijsten en alleen als er geen niet-"
-"woordenlijstonderdeel is dat de taal nog steeds gebruikt."
+"voltooid. Talen synchroniseren voor woordenlijsten en opruimen worden "
+"beschreven in :ref:`glossary-language-sync`."
 
 #: admin/continuous.rst:199
 msgid "Action"
@@ -17647,10 +17629,6 @@ msgstr ""
 "installeren:"
 
 #: admin/optionals.rst:30
-#, fuzzy
-#| msgid ""
-#| "Git exporter is turned on in our official Docker image. To turn it of, "
-#| "use:"
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it off, use:"
 msgstr ""
@@ -17695,17 +17673,12 @@ msgstr ""
 "uw :ref:`gebruikersprofiel <user-profile>`:"
 
 #: admin/optionals.rst:63
-#, fuzzy
-#| msgid ""
-#| "By default members or :guilabel:`Users` group and anonymous user have "
-#| "access to the repositories for public projects via :guilabel:`Access "
-#| "repository` and :guilabel:`Power user` roles."
 msgid ""
 "By default members of :guilabel:`Users` group and anonymous user have access "
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
-"Standaard hebben leden of de groep :guilabel:`Gebruikers` en anonieme "
+"Standaard hebben leden van de groep :guilabel:`Gebruikers` en anonieme "
 "gebruikers toegang tot de opslagruimten voor publieke projecten via de "
 "rollen :guilabel:`Toegang opslagruimte` en :guilabel:`Poweruser`."
 
@@ -18246,15 +18219,6 @@ msgid "The rate limiting no longer applies to signed in superusers."
 msgstr "De opvraaglimiet is niet meer van toepassing op aangemelde superusers."
 
 #: admin/optionals.rst:361
-#, fuzzy
-#| msgid ""
-#| "Several operations in Weblate are rate limited. At "
-#| "most :setting:`RATELIMIT_ATTEMPTS` attempts are allowed "
-#| "within :setting:`RATELIMIT_WINDOW` seconds. The user is then blocked "
-#| "for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to "
-#| "scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or "
-#| "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
-#| "available scopes."
 msgid ""
 "Several operations in Weblate are rate limited. Rate limits are evaluated "
 "independently for each scope. At most :setting:`RATELIMIT_ATTEMPTS` attempts "
@@ -18267,10 +18231,14 @@ msgid ""
 "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
 "available scopes."
 msgstr ""
-"Verscheidene bewerkingen in Weblate zijn beperkt in hun opvragen. Ten "
-"hoogste :setting:`RATELIMIT_ATTEMPTS` pogingen zijn toegestaan "
-"binnen :setting:`RATELIMIT_WINDOW` seconden. De gebruiker wordt dan "
-"geblokkeerd voor :setting:`RATELIMIT_LOCKOUT`. Er zijn ook specifieke "
+"Verscheidene bewerkingen in Weblate zijn beperkt in hun opvragen. Limieten "
+"worden voor elk bereik afzonderlijk geëvalueerd. Ten hoogste "
+":setting:`RATELIMIT_ATTEMPTS` pogingen zijn toegestaan binnen "
+":setting:`RATELIMIT_WINDOW` seconden in een bereik. Dat bereik wordt dan "
+"geblokkeerd voor :setting:`RATELIMIT_LOCKOUT`. ; Weblate maakt hier geen "
+"sitebrede tijdelijke IP-ban van. Overschrijden van een bereik, zoals "
+"``TRANSLATE`` of ``SEARCH``, blokkeert op zichzelf geen niet-gerelateerde "
+"bereiken, zoals ``LOGIN`` of ``SECOND_FACTOR``. Er zijn ook specifieke "
 "instellingen voor bereiken, bijvoorbeeld ``RATELIMIT_CONTACT_ATTEMPTS`` of "
 "``RATELIMIT_TRANSLATE_ATTEMPTS``. De tabel hieronder is een volledige lijst "
 "van beschikbare bereiken."
@@ -18340,16 +18308,12 @@ msgid "Creating new project"
 msgstr "Nieuw project aanmaken"
 
 #: admin/optionals.rst:396
-#, fuzzy
-#| msgid ""
-#| "The rate limiting is based on sessions when user is signed in and on IP "
-#| "address if not."
 msgid ""
 "Within each scope, the rate limiting is based on sessions when user is "
 "signed in and on IP address if not."
 msgstr ""
-"De opvraaglimiet is gebaseerd op sessies, als de gebruiker is aangemeld, en "
-"anders op IP-adres."
+"Binnen elk bereik is de opvraaglimiet gebaseerd op sessies, als de gebruiker "
+"is aangemeld, en anders op IP-adres."
 
 #: admin/optionals.rst:399
 msgid ""
@@ -22506,13 +22470,12 @@ msgstr ""
 "automatische suggesties."
 
 #: changes.rst:12
-#, fuzzy
-#| msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
 msgid ""
 ":ref:`projectbackup` backups can now be created and downloaded via "
 "the :ref:`api`."
 msgstr ""
-":ref:`file_format_params` kan nu worden geconfigureerd via de :ref:`api`."
+":ref:`projectbackup` back-ups kunnen nu worden gemaakt en gedownload via de "
+":ref:`api`."
 
 #: changes.rst:13
 msgid ""
@@ -22744,16 +22707,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:43
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` now validates secure broker "
 "connections and exposes delivery timing settings."
 msgstr ""
-"Integratie van :ref:`addon-weblate.fedora_messaging.publish` is nu "
-"beschikbaar als add-on."
+":ref:`addon-weblate.fedora_messaging.publish` valideert nu veilige "
+"tussenverbindingen en laat instellingen voor aflevertijden zien."
 
 #: changes.rst:46 changes.rst:95 changes.rst:133 changes.rst:196
 #: changes/v5.rst:36 changes/v5.rst:144 changes/v5.rst:213 changes/v5.rst:248
@@ -22938,15 +22897,11 @@ msgid ""
 msgstr ""
 
 #: changes.rst:70
-#, fuzzy
-#| msgid ""
-#| "Watched translations on the dashboard now use a stable language-aware "
-#| "ordering."
 msgid ""
 "Watched translations on the dashboard now include category path segments."
 msgstr ""
-"Gevolgde vertalingen op het dashboard gebruiken nu een stabiele taalbewuste "
-"volgorde."
+"Gevolgde vertalingen op het dashboard bevatten nu segmenten van "
+"categoriepaden."
 
 #: changes.rst:73 changes.rst:212 changes/v5.rst:66 changes/v5.rst:176
 #: changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451 changes/v5.rst:594
@@ -23031,19 +22986,14 @@ msgstr ""
 "Volg :ref:`generic-upgrade-instructions` om het bijwerken uit te voeren."
 
 #: changes.rst:81
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are changes in :file:`settings_example.py`, most notably in "
 "``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please "
 "adjust your settings accordingly."
 msgstr ""
-"Er zijn verscheidene wijzigingen in :file:`settings_example.py`, de meest "
-"opvallende wijzigingen zijn in ``CACHES`` en ``SOCIAL_AUTH_PIPELINE``, pas "
-"uw instellingen overeenkomstig aan."
+"Er zijn wijzigingen in :file:`settings_example.py`, de meest opvallende in "
+"``SOCIAL_AUTH_PIPELINE`` en ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; pas uw "
+"instellingen overeenkomstig aan."
 
 #: changes.rst:84 changes.rst:103 changes.rst:157 changes.rst:228
 #: changes/v5.rst:77 changes/v5.rst:193 changes/v5.rst:227 changes/v5.rst:266
@@ -49387,14 +49337,6 @@ msgstr ""
 "gebruik :ref:`mdx`."
 
 #: formats/markdown.rst:13
-#, fuzzy
-#| msgid ""
-#| "Markdown units automatically get the ``md-text`` and ``auto-safe-html`` "
-#| "flags. This keeps the unsafe HTML check active for plain text, standard "
-#| "HTML, and custom elements while avoiding HTML cleanup on non-HTML angle-"
-#| "bracket syntax such as MDX or JSX-like components. Use the explicit "
-#| "``safe-html`` flag for strings that are known to contain HTML and should "
-#| "always be sanitized, including SVG or MathML snippets."
 msgid ""
 "Markdown units automatically get the ``md-text``, ``auto-safe-html`` and "
 "``strict-same`` flags. This keeps the unsafe HTML check active for plain "
@@ -49403,13 +49345,13 @@ msgid ""
 "explicit ``safe-html`` flag for strings that are known to contain HTML and "
 "should always be sanitized, including SVG or MathML snippets."
 msgstr ""
-"Eenheden van Markdown krijgen automatisch de vlaggen ``md-text`` en ``auto-"
-"safe-html``. Dat houdt de controle voor niet veilige HTMLactief voor platte "
-"tekst, standaard HTML en aangepaste elementen, terwijl opruimen van HTML in "
-"niet-HTML syntaxis tussen vierkante haken, zoals MDX of JSX-achtige "
-"componenten wordt vermeden. Gebruik de expliciete vlag ``safe-html`` voor "
-"tekenreeksen waarvan bekend is dat ze HTML bevatten en altijd zouden moeten "
-"worden schoongemaakt, inclusief SVG of snippers van MathML."
+"Eenheden van Markdown krijgen automatisch de vlaggen ``md-text``, ``auto-"
+"safe-html`` en ``strict-same``. Dat houdt de controle voor niet-veilige HTML "
+"actief voor platte tekst, standaard HTML en aangepaste elementen, terwijl "
+"opruimen van HTML in niet-HTML syntaxis tussen vierkante haken, zoals MDX of "
+"JSX-achtige componenten, wordt vermeden. Gebruik de expliciete vlag ``safe-"
+"html`` voor tekenreeksen waarvan bekend is dat ze HTML bevatten en altijd "
+"zouden moeten worden schoongemaakt, inclusief SVG of snippers van MathML."
 
 #: formats/markdown.rst:45
 msgid "`Markdown file`"
@@ -49458,14 +49400,6 @@ msgstr ""
 "exporteren, componenten van JSX en expressies."
 
 #: formats/mdx.rst:13
-#, fuzzy
-#| msgid ""
-#| "MDX units automatically get the ``md-text`` and ``auto-safe-html`` flags. "
-#| "This keeps the unsafe HTML check active for plain text, standard HTML, "
-#| "and custom elements while avoiding HTML cleanup on MDX and JSX-like "
-#| "syntax. Use the explicit ``safe-html`` flag for strings that are known to "
-#| "contain HTML and should always be sanitized, including SVG or MathML "
-#| "snippets."
 msgid ""
 "MDX units automatically get the ``md-text``, ``auto-safe-html``, ``strict-"
 "same`` and ``safe-mdx`` flags. This keeps the unsafe HTML check active for "
@@ -49474,12 +49408,13 @@ msgid ""
 "that are known to contain HTML and should always be sanitized, including SVG "
 "or MathML snippets."
 msgstr ""
-"Eenheden van MDX krijgen automatisch de vlaggen ``md-text`` en ``auto-safe-"
-"html``. Dat houdt de controle voor niet veilige HTMLactief voor platte "
-"tekst, standaard HTML en aangepaste elementen, terwijl opruimen van HTML in "
-"syntaxis als MDX of JSX wordt vermeden. Gebruik de expliciete vlag ``safe-"
-"html`` voor tekenreeksen waarvan bekend is dat ze HTML bevatten en altijd "
-"zouden moeten worden schoongemaakt, inclusief SVG of snippers van MathML."
+"Eenheden van MDX krijgen automatisch de vlaggen ``md-text``, ``auto-safe-"
+"html``, ``strict-same`` en ``safe-mdx``. Dat houdt de controle voor niet-"
+"veilige HTML actief voor platte tekst, standaard HTML en aangepaste "
+"elementen, terwijl opruimen van HTML in syntaxis als MDX of JSX wordt "
+"vermeden. Gebruik de expliciete vlag ``safe-html`` voor tekenreeksen waarvan "
+"bekend is dat ze HTML bevatten en altijd zouden moeten worden schoongemaakt, "
+"inclusief SVG of snippers van MathML."
 
 #: formats/mdx.rst:44
 msgid "`MDX file`"
@@ -49809,45 +49744,35 @@ msgstr ""
 "descrip>``."
 
 #: formats/tbx.rst:27
-#, fuzzy
-#| msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
 msgid ""
 "Source string description is stored as ``<descrip type=\"Usage note\"></"
 "descrip>`` tag."
 msgstr ""
-"Uitleg van de brontekenreeks wordt opgeslagen als de tag ``<descrip></"
-"descrip>``."
+"Beschrijving van de brontekenreeks wordt opgeslagen als de tag ``<descrip "
+"type=\"Usage note\"></descrip>``."
 
 #: formats/tbx.rst:30
 msgid "Glossary flags and read-only metadata"
 msgstr ""
 
 #: formats/tbx.rst:32
-#, fuzzy
-#| msgid ""
-#| "Terms with administrative status ``forbidden`` or ``obsolete`` in "
-#| "``<termNote type=\"administrativeStatus\">`` are marked with the "
-#| "``forbidden`` flag (:ref:`glossary-forbidden`).,"
 msgid ""
 "Weblate imports terms with ``forbidden`` or ``obsolete`` administrative "
 "status in ``<termNote type=\"administrativeStatus\">`` as :ref:`glossary-"
 "forbidden`."
 msgstr ""
-"Termen met de beheersstatus ``forbidden`` of ``obsolete`` in ``<termNote "
-"type=\"administrativeStatus\">`` worden gemarkeerd met de vlag ``forbidden`` "
-"(:ref:`glossary-forbidden`).,"
+"Weblate importeert termen met administratieve status ``forbidden`` of "
+"``obsolete`` in ``<termNote type=\"administrativeStatus\">`` als "
+"(:ref:`glossary-forbidden`)."
 
 #: formats/tbx.rst:36
-#, fuzzy
-#| msgid ""
-#| "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
-#| "marked as read-only (:ref:`glossary-untranslatable`).,"
 msgid ""
 "Terms with ``<descrip type=\"Translation needed\">No</descrip>`` are "
 "imported as read-only strings, see :ref:`glossary-untranslatable`."
 msgstr ""
-"Termen met ``<termNote type=\"translationNote\">`` die ``no`` bevatten "
-"worden gemarkeerd als alleen-lezen (:ref:`glossary-untranslatable`).,"
+"Termen met ``<descrip type=\"Translation needed\">No</descrip>`` worden "
+"geïmporteerd als tekenreeksen alleen-lezen, bekijk (:ref:`glossary-"
+"untranslatable`)."
 
 #: formats/tbx.rst:40
 #, fuzzy
@@ -54542,12 +54467,12 @@ msgid "Project backup import/export"
 msgstr "Projectback-up importeren/exporteren"
 
 #: security/threat-model.rst:77
-#, fuzzy
-#| msgid ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
 msgid ""
 ":ref:`projectbackup`, :doc:`/api` project backup "
 "endpoints, :wladmin:`import_projectbackup`"
-msgstr ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
+msgstr ""
+":ref:`projectbackup`, :doc:`/api` projectback-up eindpunten, "
+":wladmin:`import_projectbackup`"
 
 #: security/threat-model.rst:79
 #, fuzzy
@@ -54559,16 +54484,12 @@ msgstr ""
 "Geüploade ZIP-archieven, herstellen bestandssysteem, status opslagruimte"
 
 #: security/threat-model.rst:81
-#, fuzzy
-#| msgid ""
-#| "In scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/admin/"
-#| "management`)"
 msgid ""
 "In scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`, :doc:`/"
 "admin/management`)"
 msgstr ""
-"In bereik. *(documented)* (source: :doc:`/admin/backup`, :doc:`/admin/"
-"management`)"
+"In bereik. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`, :doc:`/"
+"admin/management`)"
 
 #: security/threat-model.rst:83
 msgid "Service backup"
@@ -54905,18 +54826,16 @@ msgid "Project backup archives and Weblate filesystem"
 msgstr "Back-uparchief naar Weblate bestandssysteem"
 
 #: security/threat-model.rst:189
-#, fuzzy
-#| msgid ""
-#| "Uploaded ZIP members and metadata become restored project state. "
-#| "*(documented)* (source: :doc:`/admin/backup`)"
 msgid ""
 "Uploaded ZIP members and metadata become restored project state; generated "
 "project backups are written to and read from local backup storage. "
 "*(documented)* (source: :doc:`/admin/backup`, :doc:`/"
 "api`, :ref:`projectbackup`)"
 msgstr ""
-"Geüploade ZIP-leden en metadata worden herstelde status project. "
-"*(documented)* (source: :doc:`/admin/backup`)"
+"Geüploade ZIP-leden en metadata worden herstelde status project; "
+"gegenereerde projectback-ups worden geschreven naar en gelezen vanuit lokale "
+"opslag van de back-up. *(documented)* (source: :doc:`/admin/backup`, :doc:`/"
+"api`, :ref:`projectbackup`)"
 
 #: security/threat-model.rst:194
 msgid "Reachability preconditions:"
@@ -54980,22 +54899,17 @@ msgstr ""
 "(source: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
 
 #: security/threat-model.rst:212
-#, fuzzy
-#| msgid ""
-#| "A backup import finding is in model only when reachable from a project "
-#| "backup uploaded through Weblate or supplied "
-#| "to :wladmin:`import_projectbackup`. *(documented)* "
-#| "(source: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
 msgid ""
 "A backup export finding is in model only when reachable from documented "
 "project backup creation or download routes, including the REST API for users "
 "or project-scoped tokens with project edit permission. *(documented)* "
 "(source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)"
 msgstr ""
-"Een uitkomst voor importeren van back-up staat alleen in het model als het "
-"bereikbaar is vanuit een projectback-up die is geüpload via Weblate of is "
-"aangeboden bij :wladmin:`import_projectbackup`. *(documented)* "
-"(source: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
+"Een uitkomst voor exporteren van back-up staat alleen in het model als het "
+"bereikbaar is vanuit gedocumenteerd projectback-up maken of downloadroutes, "
+"inclusief de REST API voor gebruikers of tokens in het bereik project met "
+"rechten voor bewerken van het project. *(documented)* (source: :doc:`/api`, "
+":ref:`projectbackup`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:216
 msgid ""
@@ -55657,29 +55571,22 @@ msgid "Backup creation requests and requested backup file names"
 msgstr ""
 
 #: security/threat-model.rst:407
-#, fuzzy
-#| msgid ""
-#| "Project-scoped API tokens are limited by assigned project/team "
-#| "permissions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgid ""
 "Yes, for users or project-scoped tokens with project edit permission. "
 "*(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/"
 "access`)"
 msgstr ""
-"API-tokens in het bereik project zijn beperkt door toegewezen rechten voor "
-"project/team. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
+"Ja, voor gebruikers of tokens in het bereik project met rechten voor "
+"bewerken van project. *(documented)* (source: :doc:`/api`, "
+":ref:`projectbackup`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:409
-#, fuzzy
-#| msgid ""
-#| "Assign VCS and project management permissions only to trusted users. "
-#| "*(documented)* (source: :doc:`/admin/access`)"
 msgid ""
 "Grant project edit permission only to trusted project administrators. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"VCS toewijzen en rechten voor beheren van project alleen voor vertrouwde "
-"gebruikers. *(documented)* (source: :doc:`/admin/access`)"
+"Geef rechten voor bewerken van project alleen aan vertrouwde "
+"projectbeheerders. *(documented)* (source: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:411
 msgid "Machine translation and external service configuration"
@@ -55853,10 +55760,6 @@ msgid "Project-scoped API token holder"
 msgstr "API-tokenhouder in bereik project"
 
 #: security/threat-model.rst:462
-#, fuzzy
-#| msgid ""
-#| "Use API permissions assigned to the token's team memberships. "
-#| "*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgid ""
 "Use API permissions assigned to the token's team memberships, including "
 "project backup creation and download where project edit permission is "
@@ -55864,7 +55767,9 @@ msgid ""
 "access`, :ref:`projectbackup`)"
 msgstr ""
 "API-rechten gebruiken die zijn toegewezen aan teamlidmaatschappen voor het "
-"token. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
+"token, inclusief maken en downloaden van projectback-up waar rechten voor "
+"bewerken van het project zijn toegekend. *(documented)* (source: :doc:`/"
+"api`, :doc:`/admin/access`, :ref:`projectbackup`)"
 
 #: security/threat-model.rst:466
 msgid ""
@@ -55989,11 +55894,6 @@ msgid "Severity tier"
 msgstr "Niveau ernst"
 
 #: security/threat-model.rst:504
-#, fuzzy
-#| msgid ""
-#| "Web authorization separates site, project, component, language, glossary, "
-#| "VCS, translation memory, screenshot, review, and access management "
-#| "permissions. *(documented)* (source: :doc:`/admin/access`)"
 msgid ""
 "Web authorization separates site, project, component, language, glossary, "
 "VCS, translation memory, screenshot, review, and access management "
@@ -56002,7 +55902,8 @@ msgid ""
 msgstr ""
 "Webautorisatie scheidt rechten voor site, project, onderdeel, taal, "
 "woordenlijst, VCS, vertaalgeheugen, schermafdruk, beoordelen en "
-"toegangsbeheer. *(documented)* (source: :doc:`/admin/access`)"
+"toegangsbeheer. *(documented)* (source: :doc:`/admin/access`, :doc:`/admin/"
+"auth`)"
 
 #: security/threat-model.rst:508
 msgid ""
@@ -56248,13 +56149,6 @@ msgstr ""
 "Beschikbaarheid/beveiliging verharden afhankelijk van gevoeligheid eindpunt."
 
 #: security/threat-model.rst:570
-#, fuzzy
-#| msgid ""
-#| "Weblate does not intentionally expose database, datastore, backup "
-#| "storage, or raw internal storage directly through the public web "
-#| "interface; exported VCS repositories are intentionally exposed "
-#| "by :ref:`git-exporter` when that optional module is enabled. "
-#| "*(maintainer)*"
 msgid ""
 "Weblate does not intentionally expose database, datastore, backup storage, "
 "or raw internal storage directly through the public web interface; exported "
@@ -56266,7 +56160,10 @@ msgstr ""
 "Weblate geeft niet met opzet database, gegevensopslag, opslag voor back-up "
 "of ruwe interne opslag direct weer via de publieke webinterface; "
 "geëxporteerde VCS-opslagruimten worden met opzet weergegeven door :ref:`git-"
-"exporter` als die optionele module is ingeschakeld. *(maintainer)*"
+"exporter` als die optionele module is ingeschakeld; geautoriseerde downloads "
+"van projectback-ups worden opzettelijk weergegeven via gedocumenteerde "
+"routes voor projectback-ups. *(documented)* (source: :doc:`/api`, "
+":ref:`projectbackup`) *(maintainer)*"
 
 #: security/threat-model.rst:577
 msgid ""
@@ -57673,10 +57570,8 @@ msgid "ID"
 msgstr ""
 
 #: snippets/addon-parameters-autogenerated.rst:246
-#, fuzzy
-#| msgid "API identifier"
 msgid "Identifier"
-msgstr "API-identificatie"
+msgstr "Identificatie"
 
 #: snippets/addon-parameters-autogenerated.rst:250
 msgid "Resource updated"
@@ -58833,13 +58728,6 @@ msgid "Message topic"
 msgstr "Onderwerp bericht"
 
 #: snippets/addons-autogenerated.rst:469
-#, fuzzy
-#| msgid ""
-#| "All messages have topic ``weblate.<action>.<project>.<component>."
-#| "<translation>``. The action is lowercase textual representation of action "
-#| "with underscores instead of space, for example ``resource_update``, all "
-#| "other parts are optional and represent slug of the object or a language "
-#| "code."
 msgid ""
 "All messages have topic ``weblate.<action>.<project>.<category...>."
 "<component>.<translation>``. The action is lowercase textual representation "
@@ -58847,11 +58735,12 @@ msgid ""
 "``resource_updated``; see :ref:`change-actions` for all action identifiers. "
 "The remaining parts match Weblate object path segments."
 msgstr ""
-"Alle berichten hebben het onderwerp ``weblate.<action>.<project>.<component>."
-"<translation>``. De actie is een tekstuele weergave in kleine letters van de "
-"actie met underscores in plaats van spaties, bijvoorbeeld "
-"``resource_update``, alle andere delen zijn optioneel en geven de slug weer "
-"van het object of een taalcode."
+"Alle berichten hebben het onderwerp ``weblate.<action>.<project>.<component>"
+".<translation>``. De actie is een tekstuele weergave in kleine letters van "
+"de actie met underscores in plaats van spaties, bijvoorbeeld "
+"``resource_update``; bekijk :ref:`change-actions` voor alle identificaties "
+"van acties. De resterende delen komen overeen met segmenten van Weblate voor "
+"objectpaden."
 
 #: snippets/addons-autogenerated.rst:476
 msgid ""
@@ -60240,19 +60129,15 @@ msgstr ""
 "gebeurtenissen, volgens de specificatie van Standard Webhooks."
 
 #: snippets/addons-autogenerated.rst:1680
-#, fuzzy
-#| msgid ""
-#| "The request payload complies with the :ref:`schema-messaging` schema. The "
-#| "OpenAPI description can also be found at ``/api/docs/``. Sample request "
-#| "body:"
 msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "``action`` field uses the action name listed in :ref:`change-actions`. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
-"De aangevraagde lading voldoet aan het schema :ref:`schema-messaging`. De "
-"OpenAPI-beschrijving is ook te vinden op ``/api/docs/``. Voorbeeld tekstblok "
-"voor aanvraag:"
+"De aangevraagde lading voldoet aan het schema :ref:`schema-messaging`. Het "
+"veld ``actie`` gebruikt de naam van de actie die is vermeld in :ref:`change-"
+"actions`. De OpenAPI-beschrijving is ook te vinden op ``/api/docs/``. "
+"Voorbeeld tekstblok voor aanvraag:"
 
 #: snippets/addons-autogenerated.rst:1702
 msgid "Sample request body with categories:"
@@ -60799,10 +60684,8 @@ msgid "Enables the :ref:`check-regex` quality check."
 msgstr "Schakelt de kwaliteitscontrole :ref:`check-regex` in."
 
 #: snippets/check-flags-autogenerated.rst:136
-#, fuzzy
-#| msgid "Enables the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-safe-mdx` quality check."
-msgstr "Schakelt de kwaliteitscontrole :ref:`check-safe-html` in."
+msgstr "Schakelt de kwaliteitscontrole :ref:`check-safe-mdx` in."
 
 #: snippets/check-flags-autogenerated.rst:138
 msgid "Enables the :ref:`check-safe-html` quality check."
@@ -60844,10 +60727,8 @@ msgid "Ignore all quality checks."
 msgstr "Alle kwaliteitscontroles negeren."
 
 #: snippets/check-flags-autogenerated.rst:159
-#, fuzzy
-#| msgid "Skip the :ref:`check-placeholders` quality check."
 msgid "Skip the :ref:`check-accelerator` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-placeholders` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-accelerator` over."
 
 #: snippets/check-flags-autogenerated.rst:161
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -61096,10 +60977,8 @@ msgid "Skip the :ref:`check-reused` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-reused` over."
 
 #: snippets/check-flags-autogenerated.rst:283
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid "Skip the :ref:`check-safe-mdx` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-safe-html` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-safe-mdx` over."
 
 #: snippets/check-flags-autogenerated.rst:285
 msgid "Skip the :ref:`check-same-plurals` quality check."
@@ -61174,10 +61053,8 @@ msgid "Skip the :ref:`check-unnamed-format` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-unnamed-format` over."
 
 #: snippets/check-flags-autogenerated.rst:321
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-length` quality check."
 msgid "Skip the :ref:`check-source-max-length` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-max-length` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-source-max-length` over."
 
 #: snippets/check-flags-autogenerated.rst:323
 msgid "Skip the :ref:`check-optional-plural` quality check."
@@ -65362,10 +65239,8 @@ msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
 msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
 
 #: snippets/format-features/mdx-features.rst:28
-#, fuzzy
-#| msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
-msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
+msgstr "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -67592,20 +67467,17 @@ msgstr ""
 "credentials`."
 
 #: user/checks.rst:4
-#, fuzzy
-#| msgid ""
-#| "The quality checks help catch common translator errors, ensuring the "
-#| "translation is in good shape. The checks can be ignored in case of false "
-#| "positives."
 msgid ""
 "The quality checks help catch common translator errors, ensuring the "
 "translation is in good shape. The checks can be ignored in case of false "
 "positives. For practical translation guidance around placeholders, markup, "
 "punctuation, and plural forms, see :ref:`translating-special-text`."
 msgstr ""
-"De kwaliteitscontroles helpen bij het vinden van veel voorkomende fouten van "
+"De kwaliteitscontroles helpen bij het vinden van veelvoorkomende fouten van "
 "vertalers, wat ervoor zorgt dat de vertaling in goede conditie is. De "
-"controles kunnen worden genegeerd in het geval van valse positieven."
+"controles kunnen worden genegeerd in het geval van valse positieven. Voor "
+"praktische richtlijnen voor vertalingen rondom plaatsvervangers, opmaak, "
+"punctuatie en meervoudsvormen, bekijk :ref:`translating-special-text`."
 
 #: user/checks.rst:9
 msgid ""
@@ -68204,10 +68076,8 @@ msgstr ""
 "informatie."
 
 #: user/glossary.rst:24
-#, fuzzy
-#| msgid "Improved glossary matching."
 msgid "How glossary matching works"
-msgstr "Verbeterde overeenkomsten woordenlijst."
+msgstr "Hoe overeenkomsten in woordenlijst werkt"
 
 #: user/glossary.rst:26
 msgid ""
@@ -70217,10 +70087,8 @@ msgid ""
 msgstr ""
 
 #: user/translating.rst:163
-#, fuzzy
-#| msgid "XML markup"
 msgid "Markup"
-msgstr "XML-opmaak"
+msgstr "Opmaak"
 
 #: user/translating.rst:164
 msgid ""
