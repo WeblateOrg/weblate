@@ -6,13 +6,14 @@ from __future__ import annotations
 
 import os.path
 from io import StringIO
-from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict
+from typing import TYPE_CHECKING, ClassVar, Literal, NotRequired, TypedDict
 
 import cairo
 import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import format_html
+from django.utils.text import capfirst
 from django.utils.translation import (
     get_language,
     gettext,
@@ -75,11 +76,11 @@ def register_widget(widget):
 class ExtraParametersDict(TypedDict):
     name: str
     label: StrOrPromise
-    type: Literal["number"]
-    default: int
-    min: int
-    max: int
-    step: int
+    type: Literal["number", "boolean"]
+    default: int | bool
+    min: NotRequired[int]
+    max: NotRequired[int]
+    step: NotRequired[int]
 
 
 class Widget:
@@ -433,9 +434,19 @@ class SVGBadgeWidget(BaseSVGBadgeWidget):
     order = 80
     # Translators: status widget name
     verbose = gettext_lazy("SVG status badge")
+    extra_parameters: ClassVar[list[ExtraParametersDict]] = [
+        {
+            "name": "capitalize",
+            "label": gettext_lazy("Capitalize"),
+            "type": "boolean",
+            "default": False,
+        }
+    ]
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
         translated_text = gettext("translated")
+        if request.GET.get("capitalize") == "1":
+            translated_text = capfirst(translated_text)
         percent_text = self.get_percent_text()
         if self.percent >= 90:
             color = "#4c1"

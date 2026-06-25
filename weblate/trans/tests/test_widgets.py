@@ -381,5 +381,21 @@ class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
             ),
             follow=True,
         )
-
         self.assert_widget(widget, response)
+
+
+class WidgetsCapitalizeTest(FixtureTestCase):
+    def test_capitalize_parameter(self) -> None:
+        response = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.project.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            ),
+            {"capitalize": "1"},
+        )
+        self.assertContains(response, ">Translated<")

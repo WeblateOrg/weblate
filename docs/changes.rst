@@ -11,6 +11,7 @@ Weblate 2026.7
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
+* Added an option to capitalize the text in status badge widgets.
 
 .. rubric:: Improvements
 
