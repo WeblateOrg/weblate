@@ -101,6 +101,46 @@ class Installation(models.Model):
         return f"{self.target_login} ({self.hostname}/{self.installation_id})"
 
 
+class PendingInstallation(models.Model):
+    """
+    Signed provider webhook payload waiting for workspace authorization.
+
+    Rows here are intentionally not workspace-scoped. A provider webhook can
+    arrive before the redirect that proves which Weblate workspace may use the
+    installation. Provider-specific setup code replays the payload only after
+    that authority is validated.
+    """
+
+    provider = models.CharField(
+        max_length=20,
+        choices=InstallationProvider,
+        verbose_name=gettext_lazy("Provider"),
+    )
+    hostname = models.CharField(
+        max_length=255,
+        verbose_name=gettext_lazy("Hostname"),
+    )
+    installation_id = models.CharField(
+        max_length=50,
+        verbose_name=gettext_lazy("Installation ID"),
+    )
+    payload = models.JSONField(
+        default=dict,
+        blank=True,
+        verbose_name=gettext_lazy("Webhook payload"),
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = gettext_lazy("pending code-hosting installation")
+        verbose_name_plural = gettext_lazy("pending code-hosting installations")
+        unique_together = (("provider", "hostname", "installation_id"),)
+
+    def __str__(self) -> str:
+        return f"{self.provider}:{self.hostname}/{self.installation_id}"
+
+
 # Import provider-specific proxies so Django registers them with the VCS app
 # during app loading, regardless of backend-registry import order.  Placed after
 # Installation so github.py can import it back without a circular-import failure.

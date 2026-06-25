@@ -22,6 +22,7 @@ from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,
 )
+from weblate.vcs.models import InstallationProvider, PendingInstallation
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import Workspace
 
@@ -88,6 +89,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         *,
         hostname: str = "github.com",
         accessible_ids: tuple[str, ...] = ("12345",),
+        installations: list[dict] | None = None,
         token: str = "ghu_user",  # noqa: S107
     ) -> None:
         """Mock the install-time user-authorization (OAuth) verification."""
@@ -107,7 +109,11 @@ class GitHubInstallationViewTest(ViewTestCase):
         responses.add(
             responses.GET,
             f"{api_base}/user/installations?per_page=100",
-            json={"installations": [{"id": int(i)} for i in accessible_ids]},
+            json={
+                "installations": installations
+                if installations is not None
+                else [{"id": int(i)} for i in accessible_ids]
+            },
         )
 
     def _mock_setup_api(
@@ -384,6 +390,76 @@ class GitHubInstallationViewTest(ViewTestCase):
                     "https://api.github.com/installation/repositories?per_page=100",
                 ),
             ],
+        )
+
+    @responses.activate
+    def test_setup_persists_pending_installation_when_api_not_ready(self):
+        next_url = "/create/component/#github"
+        install_url = self._start_install(next_url)
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(
+            installations=[
+                {
+                    "id": 12345,
+                    "account": {"login": "test-org", "type": "Organization"},
+                }
+            ]
+        )
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertRedirects(response, next_url)
+        connected = GitHubInstallation.objects.get(
+            installation_id="12345", workspace=self.workspace
+        )
+        self.assertTrue(connected.enabled)
+        self.assertEqual(connected.target_login, "test-org")
+        self.assertEqual(connected.target_type, "Organization")
+        self.assertEqual(connected.repositories, [])
+
+    @responses.activate
+    def test_setup_applies_pending_installation_webhook(self):
+        repositories = [_repo_entry("test-org/repo1", default_branch="stable")]
+        PendingInstallation.objects.create(
+            provider=InstallationProvider.GITHUB,
+            hostname="github.com",
+            installation_id="12345",
+            payload={
+                "action": "created",
+                "installation": {
+                    "id": 12345,
+                    "app_id": 99999,
+                    "account": {"login": "test-org", "type": "Organization"},
+                },
+                "repositories": repositories,
+            },
+        )
+        next_url = "/create/component/#github"
+        install_url = self._start_install(next_url)
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(accessible_ids=("12345",))
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertRedirects(response, next_url)
+        connected = GitHubInstallation.objects.get(
+            installation_id="12345", workspace=self.workspace
+        )
+        self.assertEqual(connected.target_login, "test-org")
+        self.assertEqual(connected.target_type, "Organization")
+        self.assertEqual(connected.repositories, repositories)
+        self.assertFalse(
+            PendingInstallation.objects.filter(
+                provider=InstallationProvider.GITHUB,
+                hostname="github.com",
+                installation_id="12345",
+            ).exists()
         )
 
     def test_setup_rejects_missing_oauth_code(self):

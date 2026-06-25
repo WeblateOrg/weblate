@@ -49,6 +49,7 @@ from weblate.vcs.github import (
     get_github_app_settings,
     verify_webhook_signature,
 )
+from weblate.vcs.models import InstallationProvider, PendingInstallation
 
 if TYPE_CHECKING:
     import uuid
@@ -487,6 +488,64 @@ def _github_http_host(hostname: str) -> str:
     return "github.com" if hostname == "github.com" else hostname
 
 
+def _github_repository_entry(repo: Mapping[str, object], hostname: str) -> dict:
+    """Return cached repository metadata from a GitHub webhook repository object."""
+    full_name = cast("str", repo["full_name"])
+    http_host = _github_http_host(hostname)
+    return {
+        "name": repo.get("name") or full_name.rsplit("/", 1)[-1],
+        "full_name": full_name,
+        "clone_url": repo.get("clone_url") or f"https://{http_host}/{full_name}.git",
+        "ssh_url": repo.get("ssh_url") or f"git@{http_host}:{full_name}.git",
+        "html_url": repo.get("html_url") or f"https://{http_host}/{full_name}",
+        "default_branch": repo.get("default_branch", "main"),
+        "private": repo.get("private", False),
+        "description": repo.get("description", ""),
+    }
+
+
+def _github_repository_entries(repositories, hostname: str) -> list[dict]:
+    return [_github_repository_entry(repo, hostname) for repo in repositories or []]
+
+
+def _store_pending_github_installation_event(
+    data: dict, hostname: str, installation_id: str
+) -> None:
+    """Persist a signed installation event until setup validates a workspace."""
+    PendingInstallation.objects.update_or_create(
+        provider=InstallationProvider.GITHUB,
+        hostname=hostname,
+        installation_id=installation_id,
+        defaults={"payload": data},
+    )
+    LOGGER.info(
+        "Stored pending GitHub account %s/%s webhook until setup completes",
+        hostname,
+        installation_id,
+    )
+
+
+def apply_pending_github_installation_event(
+    hostname: str, installation_id: str | int
+) -> bool:
+    """Apply a previously signed installation webhook to authorized workspace rows."""
+    installation_id = str(installation_id)
+    pending = PendingInstallation.objects.filter(
+        provider=InstallationProvider.GITHUB,
+        hostname=hostname,
+        installation_id=installation_id,
+    ).first()
+    if pending is None:
+        return False
+
+    installation = GitHubInstallation.objects.get_for_installation(
+        hostname, installation_id
+    )
+    _handle_github_installation_event(pending.payload, installation, hostname)
+    pending.delete()
+    return True
+
+
 def _rename_github_repository(
     repo: dict,
     *,
@@ -653,18 +712,33 @@ def _handle_github_installation_event(  # noqa: C901
             )
         )
         if not installations:
-            # The setup view will create the row after GitHub redirects the user.
+            _store_pending_github_installation_event(data, hostname, installation_id)
             return
+        repositories = _github_repository_entries(data.get("repositories"), hostname)
         for item in installations:
-            GitHubInstallation.objects.upsert_from_data(
+            updated = GitHubInstallation.objects.upsert_from_data(
                 hostname,
                 installation_id,
                 payload,
                 workspace=item.workspace,
                 enabled=True,
             )
+            if repositories:
+                updated.repositories = repositories
+                updated.save(update_fields=["repositories"])
         if config is not None:
-            _refresh_github_installations(installations)
+            _refresh_github_installations(
+                list(
+                    GitHubInstallation.objects.filter_for_installation(
+                        hostname, installation_id
+                    )
+                )
+            )
+        PendingInstallation.objects.filter(
+            provider=InstallationProvider.GITHUB,
+            hostname=hostname,
+            installation_id=installation_id,
+        ).delete()
         LOGGER.info(
             "Connected GitHub account %s/%s synchronized",
             hostname,
@@ -680,34 +754,19 @@ def _handle_github_installation_event(  # noqa: C901
         )
         if not installations:
             return
-        http_host = _github_http_host(hostname)
         removed_names = {
-            repo["full_name"]
-            for repo in data.get("repositories_removed") or []
-            if "full_name" in repo
+            repo["full_name"] for repo in data.get("repositories_removed") or []
         }
         for item in installations:
             repos = list(item.repositories)
             existing_names = {r.get("full_name") for r in repos}
 
             for repo in data.get("repositories_added") or []:
-                name = repo.get("name")
-                full_name = repo.get("full_name")
-                if not name or not full_name or full_name in existing_names:
+                entry = _github_repository_entry(repo, hostname)
+                if entry["full_name"] in existing_names:
                     continue
-                repos.append(
-                    {
-                        "name": name,
-                        "full_name": full_name,
-                        "clone_url": f"https://{http_host}/{full_name}.git",
-                        "ssh_url": f"git@{http_host}:{full_name}.git",
-                        "html_url": f"https://{http_host}/{full_name}",
-                        "default_branch": repo.get("default_branch", "main"),
-                        "private": repo.get("private", False),
-                        "description": repo.get("description", ""),
-                    }
-                )
-                existing_names.add(full_name)
+                repos.append(entry)
+                existing_names.add(entry["full_name"])
 
             if removed_names:
                 repos = [r for r in repos if r.get("full_name") not in removed_names]

@@ -470,6 +470,16 @@ def user_can_access_installation(
     config: GitHubAppCredentials, user_token: str, installation_id: str | int
 ) -> bool:
     """Return whether the authenticated user can access ``installation_id``."""
+    return (
+        get_user_accessible_installation(config, user_token, installation_id)
+        is not None
+    )
+
+
+def get_user_accessible_installation(
+    config: GitHubAppCredentials, user_token: str, installation_id: str | int
+) -> dict | None:
+    """Return the user-visible installation metadata for ``installation_id``."""
     installation_id = str(installation_id)
     api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
     url: str | None = f"{api_base}/user/installations?per_page=100"
@@ -482,9 +492,9 @@ def user_can_access_installation(
         response.raise_for_status()
         for installation in response.json().get("installations", []):
             if str(installation.get("id")) == installation_id:
-                return True
+                return installation
         url = response.links.get("next", {}).get("url")
-    return False
+    return None
 
 
 class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
@@ -567,6 +577,39 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             setattr(installation, name, value)
         installation.save()
         return installation
+
+    def upsert_pending_from_data(
+        self,
+        hostname: str,
+        installation_id: str | int,
+        data: dict,
+        *,
+        workspace: Workspace,
+        enabled: bool = True,
+    ) -> tuple[GitHubInstallation, bool]:
+        """Create or update a workspace-scoped row before App API sync succeeds."""
+        hostname = normalize_github_app_hostname(hostname)
+        installation_id = str(installation_id)
+        account = data.get("account") or {}
+        installation = self.filter(
+            hostname=hostname,
+            installation_id=installation_id,
+            workspace=workspace,
+        ).first()
+        created = installation is None
+        if installation is None:
+            installation = self.model(
+                hostname=hostname,
+                installation_id=installation_id,
+                workspace=workspace,
+            )
+        installation.enabled = enabled
+        if login := account.get("login"):
+            installation.target_login = login
+        if target_type := account.get("type"):
+            installation.target_type = target_type
+        installation.save()
+        return installation, created
 
     def sync_from_api(
         self,

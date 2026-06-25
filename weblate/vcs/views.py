@@ -27,6 +27,7 @@ from django.views import View
 from weblate.auth.decorators import management_access
 from weblate.trans.models import Category, Project
 from weblate.trans.views.create import INTEGRATION_IMPORT_VCS_KEY, SESSION_CREATE_KEY
+from weblate.trans.views.hooks import apply_pending_github_installation_event
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
@@ -44,9 +45,9 @@ from weblate.vcs.github import (
     get_github_app_manifest_new_url,
     get_github_app_settings,
     get_github_repository_import_url,
+    get_user_accessible_installation,
     github_app_is_configured,
     normalize_github_app_hostname,
-    user_can_access_installation,
 )
 from weblate.wladmin.views import MENU
 from weblate.workspaces.models import Workspace
@@ -515,21 +516,21 @@ def github_app_install(request):
     return redirect(install_url)
 
 
-def _user_authorized_for_installation(request, config, code, installation_id) -> bool:
+def _get_authorized_installation(request, config, code, installation_id) -> dict | None:
     """
-    Confirm the current user controls ``installation_id`` via OAuth.
+    Return the installation when the current user controls it via OAuth.
 
     Exchanges the install-time ``code`` for a user-to-server token and checks
     that the installation appears in the user's own installation list.
     """
     if not code:
-        return False
+        return None
     try:
         user_token = exchange_github_user_code(config, code)
-        return user_can_access_installation(config, user_token, installation_id)
+        return get_user_accessible_installation(config, user_token, installation_id)
     except Exception:
         report_error("Failed to verify GitHub installation ownership")
-        return False
+        return None
 
 
 @login_required
@@ -585,7 +586,10 @@ def github_app_setup(request):
         return redirect(next_url)
 
     code = request.GET.get("code", "").strip()
-    if not _user_authorized_for_installation(request, config, code, installation_id):
+    authorized_installation = _get_authorized_installation(
+        request, config, code, installation_id
+    )
+    if authorized_installation is None:
         messages.error(
             request,
             gettext(
@@ -595,10 +599,21 @@ def github_app_setup(request):
             ),
         )
         return redirect(next_url)
+    installation, is_new_install = GitHubInstallation.objects.upsert_pending_from_data(
+        config.hostname,
+        installation_id,
+        authorized_installation,
+        workspace=workspace,
+        enabled=True,
+    )
+    apply_pending_github_installation_event(config.hostname, installation_id)
     try:
-        installation, is_new_install = GitHubInstallation.objects.connect_workspace(
-            config.hostname, installation_id, workspace
+        installation, synced_is_new_install = (
+            GitHubInstallation.objects.connect_workspace(
+                config.hostname, installation_id, workspace
+            )
         )
+        is_new_install = is_new_install or synced_is_new_install
     except Exception:
         report_error("Failed to connect GitHub account to workspace")
         messages.info(

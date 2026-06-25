@@ -15,7 +15,11 @@ from rest_framework.test import APIClient
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
+from weblate.vcs.github import (
+    GitHubAppCredentials,
+    GitHubInstallation,
+)
+from weblate.vcs.models import InstallationProvider, PendingInstallation
 from weblate.vcs.tests.utils import generate_private_key, sign_webhook_payload
 from weblate.workspaces.models import Workspace
 
@@ -162,8 +166,8 @@ class TestGitHubAppHooks(ViewTestCase):
             [call.request.method for call in responses.calls], ["POST", "GET"]
         )
 
-    def test_installation_created_without_row_is_noop(self):
-        """Without a setup-created row, the App webhook does not auto-create one."""
+    def test_installation_created_without_row_is_pending(self):
+        """Without an authorized workspace row, the App webhook only stores metadata."""
         data = {
             "action": "created",
             "installation": {
@@ -177,6 +181,12 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertFalse(
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
+        pending = PendingInstallation.objects.get(
+            provider=InstallationProvider.GITHUB,
+            hostname="github.com",
+            installation_id="12345",
+        )
+        self.assertEqual(pending.payload["action"], "created")
 
     def test_unknown_integration_token_is_rejected(self):
         """A delivery to an unknown integration token cannot be authenticated."""
