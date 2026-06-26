@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-25 05:12+0000\n"
+"PO-Revision-Date: 2026-06-26 21:26+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -3735,8 +3735,6 @@ msgid "User invitation e-mail was sent."
 msgstr "Användarinbjudan har skickats via mejl."
 
 #: weblate/auth/forms.py:320
-#, fuzzy
-#| msgid "Email addresses"
 msgid "E-mail addresses"
 msgstr "E-postadresser"
 
@@ -3760,25 +3758,22 @@ msgid "%(email)s: pending invitation already exists"
 msgstr ""
 
 #: weblate/auth/forms.py:420
-#, fuzzy, python-format
-#| msgid "User invitation e-mail was sent."
+#, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Användarinbjudan har skickats via mejl."
-msgstr[1] "Användarinbjudan har skickats via mejl."
+msgstr[0] "%(count)d e-brev med inbjudan skickades."
+msgstr[1] "%(count)d e-brev med inbjudningar skickades."
 
 #: weblate/auth/forms.py:431
 #, python-format
 msgid "Skipped %(count)d address: %(details)s"
 msgid_plural "Skipped %(count)d addresses: %(details)s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hoppade över %(count)d adress: %(details)s"
+msgstr[1] "Hoppade över %(count)d adresser: %(details)s"
 
 #: weblate/auth/forms.py:442
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No invitations were created."
-msgstr "Användarinbjudan togs bort."
+msgstr "Ingen inbjudan skapades."
 
 #: weblate/auth/forms.py:449 weblate/auth/models.py:681
 #: weblate/auth/models.py:1723
@@ -3938,12 +3933,11 @@ msgstr "Kräver att användarna har tvåfaktorsautentisering konfigurerat."
 #: weblate/auth/models.py:323
 msgid "Team can be scoped either to a project or to a workspace."
 msgstr ""
+"En grupp kan kopplas antingen till ett projekt eller till ett arbetområde."
 
 #: weblate/auth/models.py:376 weblate/auth/models.py:1729
-#, fuzzy
-#| msgid "languages"
 msgid "Limit languages"
-msgstr "språk"
+msgstr "Begränsa språk"
 
 #: weblate/auth/models.py:379 weblate/auth/models.py:1732
 msgid ""
@@ -3952,6 +3946,10 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"Begränsa behörigheterna för denna grupp till dessa språk. "
+"Projektbehörigheter, komponentbehörigheter och globala behörigheter från "
+"denna grupp beviljas inte när en språkbegränsning har ställts in. Om inget "
+"val görs används gruppens språkval utan ytterligare begränsning."
 
 #: weblate/auth/models.py:660 weblate/utils/forms.py:94
 #: weblate/utils/validators.py:269
@@ -4806,74 +4804,53 @@ msgid "Format"
 msgstr "Format"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Översättningsminne"
+msgstr "Översättningsbeteende"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Översättning"
+msgstr "Validering"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Granska strängar"
+msgstr "Rendering"
 
 #: weblate/checks/flags.py:466 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
 #: weblate/checks/flags.py:467
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgid "Disabled check"
-msgstr "Fallerande kontroller"
+msgstr "Inaktiverad kontroll"
 
 #: weblate/checks/flags.py:468
 msgid "Automatic detection"
 msgstr "Automatisk igenkänning"
 
 #: weblate/checks/flags.py:469
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgid "Other"
-msgstr "Övriga"
+msgstr "Övrigt"
 
 #: weblate/checks/fluent/inner_html.py:129
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
 msgstr ""
-"Fluent-referensen i {sequence} kan expandera till en HTML-tagg. Använd "
-"hellre {suggestion}."
+"Fluent-referensen i {sequence} kan expanderas till en HTML-tagg. Använd "
+"kanske {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:144
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
 msgstr ""
-"Fluent-referensen i {sequence} kan utvidgas till en HTML-teckenreferens. "
-"Använd hellre {suggestion}."
+"Fluent-referensen i {sequence} kan expanderas till en teckenreferens i HTML. "
+"Använd kanske {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:172
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML closing tag, but the name or "
-#| "syntax is not valid. If you do not want a closing tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
@@ -4883,23 +4860,16 @@ msgstr ""
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:185
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
 msgstr ""
 "Sekvensen {sequence} börjar med en HTML-tagg, men namnet är inte giltigt. Om "
-"du inte vill inleda en HTML-tagg använder du {suggestion}."
+"du inte vill inleda en HTML-tagg, använd du {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:198
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
@@ -4915,11 +4885,7 @@ msgstr ""
 "Fluent inre HTML bör inte innehålla {sequence}. Använd hellre {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:228
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
@@ -4973,11 +4939,7 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "HTML-taggen {tag} saknar en matchande sluttagg: {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5000,22 +4962,18 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Fluent-källkod ska vara giltig inre HTML."
 
 #: weblate/checks/fluent/inner_html.py:1023
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "Fluent-värde saknar en HTML-tagg {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1028
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
 msgstr ""
-"Fluent-värde saknar en HTML-tagg {tag} för följande varianter: "
-"{variant_list}."
+"Fluent-värde saknar en HTML-tagg {tag} för följande varianter: {variant_list}"
+"."
 
 #: weblate/checks/fluent/inner_html.py:1042
 #, python-brace-format
@@ -5242,10 +5200,8 @@ msgid "Fluent syntax error in the translation."
 msgstr "Fluent-syntaxfel i översättningen."
 
 #: weblate/checks/format.py:530
-#, fuzzy
-#| msgid "The following format strings are in the wrong order: %s"
 msgid "The following format strings are in the wrong order:"
-msgstr "Följande formatsträngar är i fel ordning: %s"
+msgstr "Följande formatsträngar är i fel ordning:"
 
 #: weblate/checks/format.py:619
 msgid "Python format"
@@ -5272,16 +5228,12 @@ msgid "C format string does not match source."
 msgstr "C-formatsträngen stämmer inte överens med källan."
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Object Pascal-format"
+msgstr "Objective-C-format"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "C-formatsträngen stämmer inte överens med källan."
+msgstr "Objective-C-formatsträngen stämmer inte överens med källan."
 
 #: weblate/checks/format.py:653
 msgid "Perl brace format"
@@ -5471,78 +5423,52 @@ msgid ""
 msgstr "Syntaxfel och/eller platshållarfel i ICU MessageFormat-strängar."
 
 #: weblate/checks/icu.py:466
-#, fuzzy
-#| msgid "Syntax error: %s"
 msgid "Syntax error:"
-msgstr "Syntaxfel: %s"
+msgstr "Syntaxfel:"
 
 #: weblate/checks/icu.py:478
-#, fuzzy
-#| msgid "One or more unknown placeholders in the translation: %s"
 msgid "One or more unknown placeholders in the translation:"
-msgstr "En eller flera okända platshållare i översättningen: %s"
+msgstr "En eller flera okända platshållare i översättningen:"
 
 #: weblate/checks/icu.py:485
-#, fuzzy
-#| msgid "One or more placeholders missing in the translation: %s"
 msgid "One or more placeholders missing in the translation:"
-msgstr "En eller flera platshållare saknas i översättningen: %s"
+msgstr "En eller flera platshållare saknas i översättningen:"
 
 #: weblate/checks/icu.py:492
-#, fuzzy
-#| msgid "One or more placeholder types are incorrect: %s"
 msgid "One or more placeholder types are incorrect:"
-msgstr "En eller flera platshållartyper är felaktiga: %s"
+msgstr "En eller flera platshållartyper är felaktiga:"
 
 #: weblate/checks/icu.py:499
-#, fuzzy
-#| msgid "Missing other sub-message for: %s"
 msgid "Missing other sub-message for:"
-msgstr "Saknar annat undermeddelande för: %s"
+msgstr "Saknar annat undermeddelande för:"
 
 #: weblate/checks/icu.py:506
-#, fuzzy
-#| msgid "Incorrect plural selectors for: %s"
 msgid "Incorrect plural selectors for:"
-msgstr "Felaktiga pluralväljare för: %s"
+msgstr "Felaktiga pluralväljare för:"
 
 #: weblate/checks/icu.py:515
-#, fuzzy
-#| msgid "Incorrect sub-message selectors for: %s"
 msgid "Incorrect sub-message selectors for:"
-msgstr "Felaktiga undermeddelandeväljare för: %s"
+msgstr "Felaktiga undermeddelandeväljare för:"
 
 #: weblate/checks/icu.py:526
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should have a corresponding XML tag in the "
-#| "translation: %s"
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation:"
 msgstr ""
-"En eller flera platshållare ska ha en motsvarande XML-tagg i översättningen: "
-"%s"
+"En eller flera platshållare ska ha en motsvarande XML-tagg i översättningen:"
 
 #: weblate/checks/icu.py:535
-#, fuzzy
-#| msgid ""
-#| "One or more placeholders should not be an XML tag in the translation: %s"
 msgid "One or more placeholders should not be an XML tag in the translation:"
 msgstr ""
-"En eller flera platshållare ska inte vara en XML-tagg i översättningen: %s"
+"En eller flera platshållare skall inte vara en XML-tagg i översättningen:"
 
 #: weblate/checks/icu.py:544
-#, fuzzy
-#| msgid "One or more XML tags has unexpected content in the translation: %s"
 msgid "One or more XML tags has unexpected content in the translation:"
-msgstr "En eller flera XML-taggar har oväntat innehåll i översättningen: %s"
+msgstr "En eller flera XML-taggar har oväntat innehåll i översättningen:"
 
 #: weblate/checks/icu.py:552
-#, fuzzy
-#| msgid "One or more XML tags missing content in the translation: %s"
 msgid "One or more XML tags missing content in the translation:"
-msgstr "En eller flera XML-taggar saknar innehåll i översättningen: %s"
+msgstr "En eller flera XML-taggar saknar innehåll i översättningen:"
 
 #: weblate/checks/markup.py:239
 msgid "BBCode markup"
@@ -5570,14 +5496,14 @@ msgstr "XML-taggarna i översättningen stämmer inte överens med källtexten."
 
 #: weblate/checks/markup.py:407
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Tecken runt XML-taggar"
 
 #: weblate/checks/markup.py:409
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "XML-taggarna i översättningen stämmer inte överens med källtexten."
+msgstr ""
+"Tecknen som omger XML-taggarna i översättningen stämmer inte överens med "
+"källan."
 
 #: weblate/checks/markup.py:476
 msgid "Markdown references"
@@ -5604,8 +5530,6 @@ msgid "Markdown syntax does not match source."
 msgstr "Markdown-syntaxen stämmer inte överens med källan."
 
 #: weblate/checks/markup.py:556
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "Översättningen innehåller ingen URL."
 
@@ -5644,7 +5568,7 @@ msgstr "reStructuredText-syntaxfel i översättningen."
 #: weblate/checks/markup.py:976
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
-msgstr ""
+msgstr "reStructuredText-rollen skall inte omges av grava accenter: {role}"
 
 #: weblate/checks/markup.py:985
 msgid "The translation should not start with a list marker."
