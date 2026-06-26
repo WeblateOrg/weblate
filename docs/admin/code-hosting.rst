@@ -229,13 +229,18 @@ GitHub notifications
 
 Weblate comes with native support for GitHub.
 
-If you are using Hosted Weblate, the recommended approach is to install the
-`Weblate app <https://github.com/apps/weblate>`_. The app delivers GitHub
-notifications to Hosted Weblate, so you do not need to configure a separate
-:guilabel:`Webhook` in GitHub. However, it does not by itself grant Hosted Weblate write
-access to the repository. To push changes back, you still need to add
-the Hosted Weblate :guilabel:`weblate` GitHub user as a collaborator with write
-access, see :ref:`hosted-push`.
+If you are using Hosted Weblate, the recommended approach for new installs is
+to install the `Hosted Weblate app <https://github.com/apps/hosted-weblate>`_.
+It uses the GitHub App integration documented below, so you do not need to
+configure a separate :guilabel:`Webhook` in GitHub. For direct pushes outside
+the App-backed workflow, add the Hosted Weblate :guilabel:`weblate` GitHub user
+as a collaborator with write access, see :ref:`hosted-push`.
+
+The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. Use
+it only when you need the legacy app to deliver GitHub notifications to Hosted
+Weblate.
+
+.. _Hosted Weblate legacy app: https://github.com/apps/hosted-weblate-legacy
 
 For self-hosted Weblate, register the GitHub App using the in-app registration
 flow described below. Weblate generates the App manifest, GitHub returns the
