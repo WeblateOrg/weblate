@@ -211,15 +211,15 @@ class GitHubInstallationViewTest(ViewTestCase):
 
     def test_account_vcs_integrations_uses_workspace_scope(self):
         user = self.anotheruser
-        self.project.add_user(user, "Administration")
+        self.workspace.add_owner(user)
         other_workspace = Workspace.objects.create(name="Other Workspace")
-        other_project = Project.objects.create(
+        Project.objects.create(
             name="Other GitHub Project",
             slug="other-github-project",
             web="https://example.com/",
             workspace=other_workspace,
         )
-        other_project.add_user(user, "Administration")
+        other_workspace.add_owner(user)
         hidden_workspace = Workspace.objects.create(name="Hidden Workspace")
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
@@ -258,6 +258,61 @@ class GitHubInstallationViewTest(ViewTestCase):
                 f"{urlencode({'next': reverse('account-vcs'), 'host': 'github.com', 'workspace': workspace.pk})}"
             )
             self.assertContains(response, install_url.replace("&", "&amp;"))
+
+    def test_project_admin_cannot_manage_account_vcs_integrations(self):
+        user = self.anotheruser
+        self.project.add_user(user, "Administration")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        response = self.client.get(reverse("account-vcs"))
+
+        self.assertContains(response, "test-org")
+        self.assertContains(response, self.workspace.name)
+        self.assertContains(
+            response,
+            f"{reverse('github-app-repositories')}?workspace={self.workspace.pk}",
+        )
+        self.assertNotContains(
+            response,
+            reverse("manage-github-account-refresh", kwargs={"pk": installation.pk}),
+        )
+        self.assertNotContains(
+            response,
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+    def test_project_admin_cannot_manage_github_installation(self):
+        user = self.anotheruser
+        self.project.add_user(user, "Administration")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        detail_response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+        self.assertEqual(detail_response.status_code, 403)
+        for view_name in (
+            "manage-github-account-refresh",
+            "manage-github-account-remove",
+        ):
+            response = self.client.post(
+                reverse(view_name, kwargs={"pk": installation.pk})
+            )
+            self.assertEqual(response.status_code, 403)
+        self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
 
     def test_account_vcs_integrations_filters_selected_workspace(self):
         user = self.anotheruser

@@ -234,15 +234,26 @@ def _get_workspace_install_url(
     )
 
 
+def _user_can_use_installation(user, installation: GitHubInstallation) -> bool:
+    return _managed_workspaces(user).filter(pk=installation.workspace_id).exists()
+
+
 def _user_can_manage_installation(user, installation: GitHubInstallation) -> bool:
     return (
         user.has_perm("management.use")
-        or _managed_workspaces(user).filter(pk=installation.workspace_id).exists()
+        or user.workspaces_with_perm("workspace.edit")
+        .filter(pk=installation.workspace_id)
+        .exists()
     )
 
 
 def _require_installation_access(request, installation: GitHubInstallation) -> None:
     if not _user_can_manage_installation(request.user, installation):
+        raise PermissionDenied
+
+
+def _require_installation_use(request, installation: GitHubInstallation) -> None:
+    if not _user_can_use_installation(request.user, installation):
         raise PermissionDenied
 
 
@@ -311,6 +322,11 @@ class UserVCSIntegrationListView(View):
             .select_related("workspace")
             .order_by("hostname", "workspace__name", "target_login")
         )
+        manageable_installations = {
+            installation.pk
+            for installation in installations
+            if _user_can_manage_installation(request.user, installation)
+        }
         installations_by_host: defaultdict[str, list[GitHubInstallation]] = defaultdict(
             list
         )
@@ -339,6 +355,7 @@ class UserVCSIntegrationListView(View):
                     "html_url": config.html_url if config is not None else "",
                     "configured": config is not None,
                     "installations": installations_by_host.get(hostname, []),
+                    "manageable_installations": manageable_installations,
                     "workspace_links": workspace_links,
                 }
             )
@@ -695,6 +712,9 @@ def github_app_repository_list(request):
     )
     all_repos = []
     for installation in installations:
+        installation.can_manage = _user_can_manage_installation(
+            request.user, installation
+        )
         for repo in installation.repositories:
             if repo.get("archived", False):
                 continue
@@ -738,7 +758,7 @@ def github_app_import_repository(request, pk, repo_full_name):
         enabled=True,
         hostname__in=configured_hosts,
     )
-    _require_installation_access(request, installation)
+    _require_installation_use(request, installation)
 
     repository = None
     for entry in installation.repositories:
