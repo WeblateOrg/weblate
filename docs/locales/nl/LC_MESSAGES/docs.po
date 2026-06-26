@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-25 06:03+0200\n"
-"PO-Revision-Date: 2026-06-25 11:57+0000\n"
+"PO-Revision-Date: 2026-06-26 12:02+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -469,6 +469,12 @@ msgid ""
 "the cleanup actions in the block form. For users who are already blocked, "
 "use :guilabel:`Clean up user contributions` in the blocked users list."
 msgstr ""
+"Bij het blokkeren van spam of kwetsende accounts kunnen projectbeheerders "
+"ook de bestaande bijdragen van de gebruiker in dat project opruimen. Gebruik "
+":guilabel:`Bewerkingen` ↓ :guilabel:`Gebruikers`, blokkeer de gebruiker en "
+"selecteer de acties voor opruimen in het formulier voor het blokkeren. Voor "
+"gebruikers die al geblokkeerd zijn, gebruik :guilabel:`Gebruikersbijdragen "
+"opruimen` in de lijst met geblokkeerde gebruikers."
 
 #: admin/access.rst:230
 msgid "The available cleanup actions are:"
@@ -479,15 +485,21 @@ msgid ""
 ":guilabel:`Revert user edits` reverts the latest editable translations by "
 "the user."
 msgstr ""
+":guilabel:`Bewerkingen gebruiker terugdraaien` draait de laatste door de "
+"gebruiker bewerkte vertalingen terug."
 
 #: admin/access.rst:234
 msgid ""
 ":guilabel:`Reject user suggestions` rejects pending suggestions by the user."
 msgstr ""
+":guilabel:`Suggesties gebruiker weigeren` weigert openstaande suggesties van "
+"de gebruiker."
 
 #: admin/access.rst:235
 msgid ":guilabel:`Delete user comments` deletes comments by the user."
 msgstr ""
+":guilabel:`Opmerkingen gebruiker verwijderen` verwijdert opmerkingen van de "
+"gebruiker."
 
 #: admin/access.rst:237
 msgid ""
@@ -497,6 +509,11 @@ msgid ""
 "user's profile, select the :guilabel:`Edit` tab, and "
 "use :guilabel:`Contribution cleanup`."
 msgstr ""
+"Sitebeheerders met het sitebrede recht ``user.edit`` kunnen hetzelfde in "
+"bulk opruimen over alle projecten vanuit de :ref:`beheersinterface "
+"<management-interface>` op de tab :guilabel:`Gebruikers`. Open het profiel "
+"van de gebruiker, selecteer de tab :guilabel:`Bewerken` en gebruik "
+":guilabel:`Bijdrage opruimen`."
 
 #: admin/access.rst:244
 msgid "Per-project permission management"
@@ -1618,6 +1635,8 @@ msgid ""
 "Users and teams, see :ref:`custom-acl`; site administrators can "
 "also :ref:`clean up user contributions <cleanup-user-contributions>`."
 msgstr ""
+"Gebruikers en teams, bekijk :ref:`custom-acl`; sitebeheerders kunnen ook "
+":ref:`bijdragen van gebruikers opruimen <cleanup-user-contributions>`."
 
 #: admin/admin.rst:22
 msgid ":ref:`manage-appearance`."
@@ -2875,6 +2894,8 @@ msgid ""
 "Project backups can also be created, listed, and downloaded through "
 "the :ref:`api` since version 2026.7;"
 msgstr ""
+"Projectback-ups kunnen ook worden gemaakt, vermeld en gedownload met de "
+":ref:`api` vanaf versie 2026.7;"
 
 #: admin/backup.rst:26
 msgid ""
@@ -22446,12 +22467,17 @@ msgid ""
 "Added :ref:`check-safe-mdx` check to ensure that the target string contains "
 "the same JSX expressions as the source string for :ref:`mdx` files."
 msgstr ""
+"Toegevoegde controle :ref:`check-safe-mdx` om ervoor te zorgen dat de "
+"doeltekenreeks dezelfde JSX-expressies bevat als de brontekenreeks voor "
+"bestanden :ref:`mdx`."
 
 #: changes.rst:9
 msgid ""
 "Added :ref:`check-source-max-length` check for source strings near ``max-"
 "length``."
 msgstr ""
+"Toegevoegde controle :ref:`check-source-max-length` voor brontekenreeksen in "
+"de buurt van ``max-length``."
 
 #: changes.rst:10
 msgid ""
@@ -22460,6 +22486,10 @@ msgid ""
 "translation. Enable it with the ``accelerator:`` flag and the marker "
 "character, for example ``accelerator:&``."
 msgstr ""
+"Toegevoegd de kwaliteitscontrole :ref:`check-accelerator`, die verifieert of "
+"de gebruikte acceleratortoetsen consistent zijn tussen de bron en de "
+"vertaling. Inschakelen met de vlag ``accelerator:`` en het markeringsteken, "
+"bijvoorbeeld ``accelerator:&``."
 
 #: changes.rst:11
 msgid ""
@@ -22483,6 +22513,9 @@ msgid ""
 "values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like "
 "values in :ref:`csv` files."
 msgstr ""
+"Parameters voor bestandsindeling toegevoegd voor vertalen van individuele "
+"waarden van YAML-voorwerk in bestanden :ref:`markdown` en :ref:`mdx` en "
+"escapen van formule-achtige waarden in bestanden :ref:`csv`."
 
 #: changes.rst:16 changes.rst:122 changes.rst:179 changes/v5.rst:18
 #: changes/v5.rst:104 changes/v5.rst:208 changes/v5.rst:243 changes/v5.rst:290
@@ -22565,6 +22598,9 @@ msgid ""
 "pages, and broad-scope add-ons can list affected components with "
 "compatibility details."
 msgstr ""
+"Add-ons geïnstalleerd op hoger niveau worden nu weergegeven op pagina's op "
+"een lager niveau, en add-ons met een breed bereik kunnen nu beïnvloede "
+"onderdelen vermelden met details over compatibiliteit."
 
 #: changes.rst:25
 msgid ""
@@ -22627,6 +22663,8 @@ msgid ""
 "Add-on management pages now load recent add-on history more efficiently on "
 "large sites."
 msgstr ""
+"Add-on-beheerspagina's laden nu de recente geschiedenis van de add-on "
+"efficiënter op grote sites."
 
 #: changes.rst:33
 msgid ""
@@ -22693,18 +22731,27 @@ msgid ""
 "affected suggestions, can approve them for reviewers, and processes the "
 "acceptance in the background."
 msgstr ""
+":ref:`Suggesties in bulk accepteren <suggestions>` bevestigt nu het aantal "
+"betrokken suggesties, kan ze goedkeuren voor beoordelaars en verwerkt het "
+"accepteren op de achtergrond."
 
 #: changes.rst:41
 msgid ""
 "Committing large numbers of pending translations now queues browser requests "
 "in the background and avoids duplicate repository commit tasks."
 msgstr ""
+"Indienen van grote aantallen openstaande vertalingen verzamelt nu "
+"browserverzoeken op de achtergrond en vermijdt duplicate taken voor indienen "
+"in de opslagruimte."
 
 #: changes.rst:42
 msgid ""
 "Change-event notification add-ons can now use presets for translation "
 "content events, all events, or selected individual events."
 msgstr ""
+"Add-ons voor notificaties van wijzigingsgebeurtenissen kunnen nu voorkeuzen "
+"gebruiken voor gebeurtenissen van vertaalinhoud, alle gebeurtenissen of "
+"geselecteerde individuele gebeurtenissen."
 
 #: changes.rst:43
 msgid ""
@@ -22740,6 +22787,8 @@ msgstr "Gerepareerde bugs"
 #: changes.rst:47
 msgid "Malformed ``replacements`` flags no longer abort source length checks."
 msgstr ""
+"Misvormde vlaggen ``replacements`` breken niet langer controles van de "
+"lengte van bronnen af."
 
 #: changes.rst:48
 msgid "Scoped team assignments can no longer be expanded through the API."
@@ -22752,6 +22801,8 @@ msgid ""
 "Empty component lists are no longer exposed to users without component list "
 "management permission."
 msgstr ""
+"Lege onderdeelslijsten worden niet langer weergegeven aan gebruikers zonder "
+"het recht om onderdeelslijsten te beheren."
 
 #: changes.rst:50
 msgid ""
@@ -22814,6 +22865,8 @@ msgid ""
 "ZIP downloads no longer follow repository symbolic links outside the "
 "downloaded tree."
 msgstr ""
+"ZIP-downloads volgen niet langer symbolische links voor de opslagruimte "
+"buiten de gedownloade boom."
 
 #: changes.rst:58
 msgid ""
@@ -22837,6 +22890,8 @@ msgid ""
 ":ref:`check-safe-html` now efficiently detects changed placeholder-only HTML "
 "attribute values in translations."
 msgstr ""
+":ref:`check-safe-html` detecteert nu efficiënt gewijzigde HTML-"
+"attribuutwaarden alleen-plaatsvervanger in vertalingen."
 
 #: changes.rst:61
 msgid ""
@@ -22851,6 +22906,9 @@ msgid ""
 "Updating repository URLs now validates compatible Git history without "
 "requiring an immediate successful merge."
 msgstr ""
+"Bijwerken van URL's voor de opslagruimte valideert nu compatibele "
+"geschiedenis van Git zonder een onmiddellijk succesvol samenvoegen te "
+"vereisen."
 
 #: changes.rst:63
 msgid ""
@@ -22865,36 +22923,51 @@ msgid ""
 ":guilabel:`Strings marked for edit` links now include all strings needing "
 "editing, checking, or rewriting."
 msgstr ""
+"Koppelingen van :guilabel:`Tekenreeksen gemarkeerd voor bewerken` bevatten "
+"nu alle tekenreeksen die moeten worden bewerkt, gecontroleerd of opnieuw "
+"worden geschreven."
 
 #: changes.rst:65
 msgid ""
 "Anonymous permission checks no longer fail when loading teams scoped to "
 "projects or workspaces."
 msgstr ""
+"Controles op anonieme rechten mislukken niet langer bij het laden van teams "
+"in de bereiken projecten of werkruimte."
 
 #: changes.rst:66
 msgid ""
 "API project creation can again use the user's only eligible workspace when "
 "no explicit workspace is supplied."
 msgstr ""
+"Maken van een project met de API kan nu opnieuw de enige voor de gebruiker "
+"beschikbare werkruimte gebruiken als geen expliciete werkruimte is opgegeven."
 
 #: changes.rst:67
 msgid ""
 "Git auto-maintenance is now disabled for Weblate-managed repositories to "
 "avoid concurrent detached maintenance jobs."
 msgstr ""
+"Git automatisch onderhoud is nu uitgeschakeld voor door Weblate beheerde "
+"opslagruimten om opeenvolgende niet-verbonden taken voor onderhoud te "
+"vermijden."
 
 #: changes.rst:68
 msgid ""
 "Component diagnostics now sort entries by severity, color-code severity "
 "badges, and show the error count on the :guilabel:`Diagnostics` tab."
 msgstr ""
+"Diagnostieken voor onderdelen sorteren nu items op ernst, badges voor de "
+"ernst in kleurcode en geven het aantal fouten weer op de tab "
+":guilabel:`Diagnostiek`."
 
 #: changes.rst:69
 msgid ""
 ":ref:`check-max-size` no longer wraps text when checking strings configured "
 "to fit on one line."
 msgstr ""
+":ref:`check-max-size` laat tekst niet langer doorlopen bij het controleren "
+"van tekenreeksen die zijn geconfigureerd om op een regel te passen."
 
 #: changes.rst:70
 msgid ""
@@ -22919,6 +22992,8 @@ msgid ""
 "Teams enforcing two-factor authentication now also withhold site-wide "
 "permissions from human members without 2FA configured."
 msgstr ""
+"Teams die twee-factorauthenticatie afdwingen, weigeren nu ook sitebrede "
+"rechten voor menselijke leden zonder geconfigureerde 2FA."
 
 #: changes.rst:75
 msgid ""
@@ -22926,6 +23001,10 @@ msgid ""
 "path segments, and broker settings are stored as an AMQP URL with existing "
 "host and SSL settings migrated automatically."
 msgstr ""
+"Onderwerpen van :ref:`addon-weblate.fedora_messaging.publish` bevatten nu "
+"segmenten van categoriepaden en instellingen voor tussen-verbindingen worden "
+"opgeslagen als een URL AMQP met de bestaande host en automatisch gemigreerde "
+"instellingen voor SSL."
 
 #: changes.rst:78 changes.rst:99 changes.rst:150 changes.rst:220
 #: changes/v4.rst:54 changes/v4.rst:86 changes/v4.rst:169 changes/v4.rst:237
@@ -49382,6 +49461,12 @@ msgid ""
 "string values while preserving keys, structure, comments, and formatting "
 "when possible. The same setting is available for :ref:`mdx` files."
 msgstr ""
+"Standaard wordt YAML-voorwerk uitgenomen als een enkel vertaalbaar blok. "
+"Schakel :guilabel:`Waarden voor voorwerk vertalen` in :ref:`component-"
+"file_format_params` in om YAML-voorwerk te parsen en alleen scalaire "
+"tekenreeksen te vertalen, terwijl sleutels, structuur, opmerkingen en "
+"opmaak, waar mogelijk, worden behouden. Dezelfde instelling is beschikbaar "
+"voor bestanden :ref:`mdx`."
 
 #: formats/mdx.rst:4
 msgid "MDX files"
@@ -49751,7 +49836,7 @@ msgstr ""
 
 #: formats/tbx.rst:30
 msgid "Glossary flags and read-only metadata"
-msgstr ""
+msgstr "Vlaggen woordenlijst en alleen-lezen metadata"
 
 #: formats/tbx.rst:32
 msgid ""
@@ -49784,6 +49869,12 @@ msgid ""
 "source terms and the language parsed from the file name is used as the "
 "target glossary language."
 msgstr ""
+"TBX kan meerdere talen in een XML-bestand opslaan, maar Weblate zal nog "
+"steeds elk onderdeelsbestand koppelen aan een vertaaltaal met het "
+"bestandsmasker voor het onderdeel. Voor een onderdeel van een TBX-"
+"woordenlijst wordt de brontaal van het onderdeel gebruikt voor brontermen en "
+"de taal die wordt geparsed uit de bestandsnaam wordt gebruikt als de taal "
+"voor de doelwoordenlijst."
 
 #: formats/tbx.rst:48
 msgid ""
@@ -49791,6 +49882,9 @@ msgid ""
 "component source language, because the source language already exists in "
 "Weblate and the file can be detected as a duplicate language."
 msgstr ""
+"Vermijd het benoemen van een TBX-vertaalbestand met dezelfde taalcode als de "
+"brontaal van het onderdeel, omdat de brontaal al bestaat in Weblate en het "
+"bestand zou kunnen worden gedetecteerd als een duplicaattaal."
 
 #: formats/tbx.rst:78
 msgid "`TermBase eXchange file`"
@@ -49847,7 +49941,7 @@ msgstr "Er zijn verscheidene smaken van deze indeling:"
 
 #: formats/txt.rst:13 snippets/addon-parameters-autogenerated.rst:196
 msgid "Plain text file"
-msgstr "Plattetekstbestand"
+msgstr "Platte tekstbestand"
 
 #: formats/txt.rst:14 snippets/addon-parameters-autogenerated.rst:104
 msgid "DokuWiki text file"
@@ -55541,6 +55635,7 @@ msgstr "Projectback-up exporteren"
 #: security/threat-model.rst:406
 msgid "Backup creation requests and requested backup file names"
 msgstr ""
+"Verzoeken voor maken van back-ups en verzochte bestandsnamen voor back-ups"
 
 #: security/threat-model.rst:407
 msgid ""
@@ -55883,6 +55978,9 @@ msgid ""
 "enforced 2FA is satisfied by human users before team-derived permissions "
 "apply."
 msgstr ""
+"Toegewezen rechten komen overeen met de bedoelde vertrouwensrelatie. Op "
+"teamniveau afgedwongen 2FA wordt bevestigd door menselijke gebruikers, "
+"voordat van het team afgeleide rechten worden toegepast."
 
 #: security/threat-model.rst:511
 msgid "User or token can read or mutate data outside assigned scope."
@@ -57531,10 +57629,14 @@ msgid ""
 "Messaging uses the identifier column in message topics, while webhook "
 "payloads use the name column in the ``action`` field."
 msgstr ""
+"De volgende acties voor wijzigingen kunnen tevoorschijn komen in ladingen "
+"van notificaties. Fedora Messaging gebruikt de kolom Identificatie in "
+"onderwerpen van berichten, terwijl ladingen van webhaken de kolom Naam "
+"gebruiken in het veld ``action``."
 
 #: snippets/addon-parameters-autogenerated.rst:245
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: snippets/addon-parameters-autogenerated.rst:246
 msgid "Identifier"
@@ -58608,6 +58710,8 @@ msgstr "Time-out publiceren"
 #: snippets/addons-autogenerated.rst:439
 msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgstr ""
+"Hoeveel seconden te wachten voor de bevestiging van het afleveren door de "
+"tussen-verbinding."
 
 #: snippets/addons-autogenerated.rst:441
 msgid "Connection attempts"
@@ -58615,15 +58719,15 @@ msgstr "Verbindingspogingen"
 
 #: snippets/addons-autogenerated.rst:441
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Hoeveel keer proberen te verbinden met de tussen-verbinding."
 
 #: snippets/addons-autogenerated.rst:443
 msgid "Retry delay"
-msgstr ""
+msgstr "Vertraging opnieuw proberen"
 
 #: snippets/addons-autogenerated.rst:443
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Hoeveel seconden te wachten tussen pogingne om te verbinden."
 
 #: snippets/addons-autogenerated.rst:445
 msgid "CA certificate bundle (PEM)"
@@ -58634,16 +58738,20 @@ msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Alleen PEM-certificaatblokken plakken, elk beginnend met \"-----BEGIN "
+"CERTIFICATE-----\" en eindigend met \"-----END CERTIFICATE-----\"."
 
 #: snippets/addons-autogenerated.rst:447
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Cliënt private sleutel (PEM)"
 
 #: snippets/addons-autogenerated.rst:447
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Plak een enkel niet-versleuteld blok met een PEM-private sleutel. "
+"Versleutelde private sleutels worden niet ondersteund."
 
 #: snippets/addons-autogenerated.rst:449
 msgid "Client certificate (PEM)"
@@ -58654,6 +58762,8 @@ msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Plak alleen het PEM certificaatblok dat begint met \"-----BEGIN "
+"CERTIFICATE-----\"; plak geen uitvoer vanuit \"openssl x509 -text\"."
 
 #: snippets/addons-autogenerated.rst:451 snippets/addons-autogenerated.rst:1627
 #: snippets/addons-autogenerated.rst:1667
@@ -58661,6 +58771,8 @@ msgid ""
 "Choose which change events should trigger this add-on. :ref:`addon-choice-"
 "event_filter`"
 msgstr ""
+"Kies welke gebeurtenissen van wijzigingen deze add-on. :ref:`addon-choice-"
+"event_filter` zouden moeten activeren"
 
 #: snippets/addons-autogenerated.rst:459
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
@@ -58706,6 +58818,13 @@ msgid ""
 "``frontend`` component inside the ``parent`` and ``child`` categories uses "
 "``weblate.translation_changed.website.parent.child.frontend.cs``."
 msgstr ""
+"Bijvoorbeeld een gebeurtenis voor een projectback-up voor het project "
+"``website`` gebruikt ``weblate.project_backed_up.website``. Een wijziging in "
+"een vertaling in het project ``website``, onderdeel ``frontend`` en "
+"Tsjechische vertaling gebruikt "
+"``weblate.translation_changed.website.frontend.cs``. Dezelfde wijziging in "
+"het onderdeel ``frontend`` binnen de categorieën ``parent`` en ``child`` "
+"gebruikt ``weblate.translation_changed.website.parent.child.frontend.cs``."
 
 #: snippets/addons-autogenerated.rst:484
 msgid "Message body"
@@ -59320,6 +59439,10 @@ msgid ""
 "invoking a project's :program:`manage.py makemessages`, so it does not load "
 "project Django settings or applications."
 msgstr ""
+"Deze add-on vereist :program:`xgettext` en :program:`msguniq`. Het voert "
+"Weblate's interne extractiewrapper voor berichten van Django uit, in plaats "
+"van :program:`manage.py makemessages` voor een project uit te voeren, dus "
+"het laadt geen instellingen voor het project van Django of toepassingen."
 
 #: snippets/addons-autogenerated.rst:1064
 msgid ""
@@ -59329,6 +59452,11 @@ msgid ""
 "and :file:`djangojs.po`. Weblate infers the source directory from the "
 "template path and skips repository locale directories while extracting."
 msgstr ""
+"Het sjabloon voor nieuwe vertalingen moet het domein ``django`` of "
+"``djangojs`` gebruiken. Ondersteunde namen voor sjablonen zijn "
+":file:`django.pot`, :file:`djangojs.pot`, :file:`django.po` en "
+":file:`djangojs.po`. Weblate leid de bronmap af uit het pad van het sjabloon "
+"en slaat lokale mappen van de opslagruimte over bij het uitnemen."
 
 #: snippets/addons-autogenerated.rst:1075
 msgid "Update LINGUAS file"
@@ -59463,6 +59591,10 @@ msgid ""
 "or :file:`POTFILES.in` from the gettext directory and passing the GLib "
 "keyword and format-flag preset to :program:`xgettext`."
 msgstr ""
+"Deze add-on vereist :program:`xgettext`; het activeert Meson niet. Het volgt "
+"Meson gettext-conventies door :file:`POTFILES` of :file:`POTFILES.in` te "
+"lezen vanuit de gettextmap en het sleutelwoord GLib en de format-vlag door "
+"te geven aan :program:`xgettext`."
 
 #: snippets/addons-autogenerated.rst:1165
 msgid ""
@@ -59474,6 +59606,13 @@ msgid ""
 "exist, :file:`POTFILES` is used. An adjacent :file:`POTFILES.skip` excludes "
 "listed source files from extraction."
 msgstr ""
+"De gettext-map is de map die het sjabloon bevat dat is geconfigureerd in "
+":ref:`component-new_base`. Het moet :file:`meson.build` en :file:`POTFILES` "
+"of :file:`POTFILES.in` bevatten. Een Meson projectbestand "
+":file:`meson.build` moet in die map aanwezig zijn of in een van zijn "
+"oudermappen. Als zowel :file:`POTFILES` als :file:`POTFILES.in` bestaan, "
+"wordt :file:`POTFILES` gebruikt. Een aansluitend bestand "
+":file:`POTFILES.skip` sluit vermelde bronbestanden uit van het uitnemen."
 
 #: snippets/addons-autogenerated.rst:1172
 msgid ""
@@ -59484,6 +59623,13 @@ msgid ""
 "example :file:`po/example.pot`, and keep :file:`POTFILES` "
 "or :file:`POTFILES.in` next to that :file:`meson.build` file."
 msgstr ""
+"Configureer deze add-on vanuit de bestaande opstelling voor Meson gettext. "
+"In de meeste projecten van Meson is de gettextmap :file:`po/`, het sjabloon "
+"is genoemd naar het domein gettext en :file:`po/meson.build` roept Meson's "
+"gettexthelper aan. Gebruik hetzelfde pad voor het sjabloon in "
+":ref:`component-new_base`, bijvoorbeeld :file:`po/example.pot` en houd "
+":file:`POTFILES` of :file:`POTFILES.in` naast dat bestand "
+":file:`meson.build`."
 
 #: snippets/addons-autogenerated.rst:1179
 msgid ""
@@ -59492,6 +59638,11 @@ msgid ""
 "convention. When the Meson project uses a non-default gettext directory or "
 "domain, mirror that layout in the component template path."
 msgstr ""
+"Weblate leest niet de lijst met bronbestanden uit :file:`meson.build`. Het "
+"gebruikt :file:`POTFILES` of :file:`POTFILES.in`, wta overeenkomst met de "
+"conventie voor gettext van Meson. Wanneer het project van Meson een niet-"
+"standaardmap voor gettext of domein gebruikt, spiegel die lay-out dan in het "
+"pad voor het sjabloon van het onderdeel."
 
 #: snippets/addons-autogenerated.rst:1190
 msgid "Generate MO files"
@@ -59640,6 +59791,11 @@ msgid ""
 "file below a :file:`locales` directory. The directory before :file:`locales` "
 "is used as the Sphinx source directory and must contain :file:`conf.py`."
 msgstr ""
+"Deze add-on vereist :program:`sphinx-build`, verschaft door de extra "
+"installatie van ``sphinx``. Het sjabloon voor nieuwe vertalingen moet een "
+"bestand :file:`.pot` zijn, naast een map :file:`locales`. De map voor "
+":file:`locales` wordt gebruikt als de Sphinx bronmap en moet :file:`conf.py` "
+"bevatten."
 
 #: snippets/addons-autogenerated.rst:1310
 msgid ""
@@ -59648,6 +59804,11 @@ msgid ""
 "source references to paths relative to the source directory, and copies the "
 "generated template back to the configured template path."
 msgstr ""
+"Uitnemen gebruikt Weblate's gebundelde configuratie van Sphinx en laadt niet "
+"de projectconfiguratie. Weblate voert de Sphinx gettextbouwer uit, "
+"normaliseert bronverwijzingen naar paden relatief aan de bronmap en kopieert "
+"het gegenereerde sjabloon terug naar het geconfigureerde pad voor het "
+"sjabloon."
 
 #: snippets/addons-autogenerated.rst:1321
 msgid "Update POT file (xgettext)"
@@ -59725,6 +59886,11 @@ msgid ""
 "patterns are repository-relative glob patterns and only matching repository "
 "files are passed to :program:`xgettext`."
 msgstr ""
+"Deze add-on vereist :program:`xgettext`. Configureer ofwel patronen voor "
+"bronbestanden of een manifest :file:`POTFILES` / :file:`POTFILES.in`. "
+"Patronen voor bronbestanden zijn opslagruimte-relatieve globpatronen en "
+"komen alleen overeen met bestanden voor de opslagruimte die zijn doorgegeven "
+"aan :program:`xgettext`."
 
 #: snippets/addons-autogenerated.rst:1404
 msgid ""
@@ -59734,6 +59900,12 @@ msgid ""
 "``#`` are ignored. If a :file:`POTFILES.skip` file exists next to the "
 "manifest, its entries are excluded from extraction."
 msgstr ""
+"Items in :file:`POTFILES` of :file:`POTFILES.in` worden opgelost, relatief "
+"vergeleken met hun bron in de opslagruimte. Het moeten relatieve paden zijn, "
+"binnen de opslagruimte blijven en wijzen naar bestaande bestanden. Blanco "
+"regels en regels die beginnen met ``#`` worden genegeerd. Als een bestand "
+":file:`POTFILES.skip` naast het manifest bestaat, worden de items daarvan "
+"uitgesloten bij het uitnemen."
 
 #: snippets/addons-autogenerated.rst:1410
 msgid ""
@@ -59741,6 +59913,10 @@ msgid ""
 "the configured source patterns, match files listed in the manifest, change a "
 "watched manifest, or change the add-on configuration."
 msgstr ""
+"Automatisch vernieuwen van de opslagruimte wordt opgeschort, tenzij de "
+"gewijzigde bestanden overeenkomen met de geconfigureerde bronpatronen, "
+"overeenkomende bestanden in het manifest, een gevolgd manifest wijzigen, of "
+"de configuratie van de add-on wijzigen."
 
 #: snippets/addons-autogenerated.rst:1414
 msgid ""
@@ -59753,6 +59929,15 @@ msgid ""
 "settings, for example the language, comment extraction, checks, and "
 "additional keyword."
 msgstr ""
+"Begin vanuit de opstelling voor het uitnemen van het bouwsysteem bij het "
+"configureren van deze add-on. Autotools-projecten behouden gewoonlijk invoer "
+"voor gettext in :file:`po/POTFILES.in` en opties, zoals het domein gettext "
+"en vlaggen voor :program:`xgettext` in :file:`po/Makevars` of gerelateerde "
+"bestanden :file:`Makefile.am`. Gebruik de modus manifest met hetzelfde "
+"bestand :file:`POTFILES.in` wanneer de items ervan platte opslagruimte-"
+"relatieve bronpaden zijn, kopieer relevant gedrag voor uitnemen naar de "
+"instellingen voor de add-on, bijvoorbeeld de taal, uitnemen van opmerkingen, "
+"controles en aanvullende sleutelwoorden."
 
 #: snippets/addons-autogenerated.rst:1422
 msgid ""
@@ -59765,6 +59950,15 @@ msgid ""
 "file paths, convert it to plain repository-relative paths before using it "
 "as :file:`POTFILES`."
 msgstr ""
+"Voor andere bouwsystemen, gebruik de bronlijst, of de opdracht extraction "
+"die ze al uitvoeren, als bronwaarde. CMake, aangepaste Makefiles, npm-"
+"scripts, of projectspecifieke scripts voor uitnemen roepen vaak "
+":program:`xgettext` direct aan of genereren een tussenliggende "
+"bestandenlijst. Configureer bronpatronen voor eenvoudige lay-outs, of "
+"gebruik modus manifest als het project een platte bestandenlijst bijhoudt. "
+"Als een manifest voor een bouwsysteem transformaties bevat of voorvoegsels "
+"die geen bestandenpaden zijn, converteer die dan naar opslagruimte-relatieve "
+"paden, voor ze te gebruiken als :file:`POTFILES`."
 
 #: snippets/addons-autogenerated.rst:1436
 msgid "Squash Git commits"
@@ -60149,6 +60343,9 @@ msgid ""
 "is available for gettext PO components, and the component must define a "
 "template for new translations."
 msgstr ""
+"Deze add-on werkt het sjabloon bij dat is geconfigureerd in :ref:`component-"
+"new_base`. Het is beschikbaar voor gettext PO-onderdelen en het onderdeel "
+"moet een sjabloon voor nieuwe vertalingen definiëren."
 
 #: snippets/addons/gettext-pot-common.rst:5
 msgid ""
@@ -60158,6 +60355,12 @@ msgid ""
 "schedule. After a successful update, Weblate commits the changed template "
 "and reloads source strings."
 msgstr ""
+"De geselecteerde frequentie voor bijwerken wordt toegepast op automatische "
+"uitvoeringen nadat de opslagruimte wordt vernieuwd. Installeren of opnieuw "
+"configureren van de add-on laat het onmiddellijk uitvoeren en handmatig "
+"uitvoeren vanuit add-onbeheer of de API omzeilt ook het frequentieschema. Na "
+"succesvol bijwerken dient Weblate het gewijzigde sjabloon in en herlaadt "
+"brontekenreeksen."
 
 #: snippets/addons/gettext-pot-common.rst:11
 msgid ""
@@ -60167,6 +60370,12 @@ msgid ""
 "on can install that add-on, but existing add-on settings do not show that "
 "installation option again."
 msgstr ""
+"Het bijwerken van het sjabloon werkt niet de vertaalde PO-bestanden zelf "
+"bij. Houd :ref:`addon-weblate.gettext.msgmerge` geïnstalleerd als "
+"vertaalbestanden wijzigingen in sjablonen automatisch zouden moeten volgen. "
+"Het formulier voor het installeren van deze add-on kan die add-on "
+"installeren, maar bestaande instellingen voor add-ons geven die optie voor "
+"instaleren niet opnieuw aan."
 
 #: snippets/basics.rst:2
 msgid "Weblate basics"
@@ -60445,6 +60654,9 @@ msgid ""
 "``accelerator:&``, ``accelerator:_``, or ``accelerator:~``. Enables "
 "the :ref:`check-accelerator` quality check."
 msgstr ""
+"Specificeer de enkele markering voor de punctuatie van de accelerator, "
+"bijvoorbeeld ``accelerator:&``, ``accelerator:_`` of ``accelerator:~``. "
+"Schakelt de kwaliteitscontrole :ref:`check-accelerator` in."
 
 #: snippets/check-flags-autogenerated.rst:54
 msgid ""
@@ -61021,7 +61233,7 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:13
 msgid "Accelerator key"
-msgstr ""
+msgstr "Toets voor accelerator"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Summary"
@@ -61158,6 +61370,14 @@ msgid ""
 "explicitly choose the marker, for example ``accelerator:&``, "
 "``accelerator:_``, or ``accelerator:~``."
 msgstr ""
+"Toetsen voor accelerator (ook wel mnemonics genoemd) laten gebruikers een "
+"actie voor de interface activeren vanaf het toetsenbord. Ze zijn in de "
+"tekenreeks geaccentueerd door een enkel teken voor punctuatie, gewoonlijk "
+"``&`` (Qt, Windows), ``_`` (GTK) of ``~``. Letterlijke markeringstekens "
+"kunnen gewoonlijk worden geëscaped door ze te verdubbelen en worden door "
+"deze controle genegeerd. Schakel deze controle in met de vlag "
+"``accelerator:`` om expliciet de markering te kiezen, bijvoorbeeld "
+"``accelerator:&``, ``accelerator:_`` of ``accelerator:~``."
 
 #: snippets/checks-autogenerated.rst:34
 msgid ""
@@ -61165,6 +61385,9 @@ msgid ""
 "number of accelerator keys, and that the translation does not contain more "
 "than one."
 msgstr ""
+"Deze controle verifieert dat de bron en de vertaling hetzelfde aantal "
+"toetsen voor accelerator bevatten en dat de vertaling er niet meer dan een "
+"bevat."
 
 #: snippets/checks-autogenerated.rst:39
 msgid ""
@@ -61172,6 +61395,9 @@ msgid ""
 "and trigger a false positive. Use the ``ignore-accelerator`` flag to skip "
 "the check for such strings."
 msgstr ""
+"Een tekenreeks zoals ``Walter & Sons`` zou kunnen worden vertaald zonder de "
+"ampersand en een valse positieve kunnen activeren. Gebruik de vlag ``ignore-"
+"accelerator`` om de controle voor dergelijke tekenreeksen over te slaan."
 
 #: snippets/checks-autogenerated.rst:49
 msgid "BBCode markup"
@@ -62626,6 +62852,12 @@ msgid ""
 "leave room for translation expansion. For other source languages, the "
 "configured ``max-length`` is used directly."
 msgstr ""
+"De vlag ``max-length`` activeert ook :ref:`check-source-max-length` voor "
+"brontekenreeksen. Voor Engelse brontekenreeksen, inclusief Engelse "
+"varianten, waarschuwt deze controle als de bron meer dan 85% van de "
+"geconfigureerde lengte gebruikt om ruimte te laten voor uitbreiding door de "
+"vertaling. Voor andere brontalen wordt de geconfigureerde ``max-length`` "
+"direct gebruikt."
 
 #: snippets/checks-autogenerated.rst:1411
 msgid ""
@@ -63824,6 +64056,8 @@ msgstr "Lengte van brontekenreeks"
 #: snippets/checks-autogenerated.rst:2584
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Brontekenreeks is te lang om te passen binnen de geconfigureerde maximale "
+"lengte."
 
 #: snippets/checks-autogenerated.rst:2593
 msgid ""
@@ -63832,6 +64066,11 @@ msgid ""
 "that are already close to their configured ``max-length`` before translators "
 "have to shorten or omit meaning to fit the limit."
 msgstr ""
+"Vertalingen hebben vaak meer ruimte nodig dan de brontekst, speciaal als de "
+"brontaal Engels is. Deze controle helpt onderhouders om brontekenreeksen te "
+"zoeken die al dicht bij hun geconfigureerde ``max-length`` liggen, voordat "
+"vertalers ze moeten verkorten of betekenis weg moeten laten om de limiet te "
+"bereiken."
 
 #: snippets/checks-autogenerated.rst:2598
 msgid ""
@@ -63840,6 +64079,10 @@ msgid ""
 "source languages, it reports source strings longer than the configured ``max-"
 "length``."
 msgstr ""
+"Voor Engelse brontekenreeksen, inclusief Engelse varianten, rapporteert de "
+"controle tekenreeksen die meer dan 85% van de geconfigureerde ``max-length`` "
+"gebruiken. Voor andere brontalen rapporteert het brontekenreeksen die langer "
+"zijn dan de geconfigureerde ``max-length``."
 
 #: snippets/checks-autogenerated.rst:2603
 msgid ""
@@ -63847,6 +64090,9 @@ msgid ""
 "fail :ref:`check-max-length`, and source strings that already do not fit the "
 "declared limit."
 msgstr ""
+"Dit ondervangt brontekenreeksen die vertalingen waarschijnlijk laten "
+"mislukken voor :ref:`check-max-length` en brontekenreeksen die al niet "
+"passen binnen de gedeclareerde limiet."
 
 #: snippets/checks-autogenerated.rst:2613
 msgid "Unpluralised"
@@ -64020,17 +64266,19 @@ msgstr "UTF-8"
 
 #: snippets/file-format-parameters.rst:17
 msgid "csv_escape_formulas"
-msgstr ""
+msgstr "csv_escape_formules"
 
 #: snippets/file-format-parameters.rst:17
 msgid "Escape spreadsheet formulas"
-msgstr ""
+msgstr "Werkbladformules escapen"
 
 #: snippets/file-format-parameters.rst:17
 msgid ""
 "Prefix values that look like spreadsheet formulas with an apostrophe when "
 "saving CSV files."
 msgstr ""
+"Waarden voor voorvoegsels die eruitzien als werkbladformules met een "
+"apostrof bij het opslaan als CSV-bestanden."
 
 #: snippets/file-format-parameters.rst:21
 msgid "csv_simple_encoding"
@@ -64183,7 +64431,7 @@ msgstr ""
 
 #: snippets/file-format-parameters.rst:105
 msgid "md_frontmatter_translate_values"
-msgstr ""
+msgstr "md_frontmatter_translate_values"
 
 #: snippets/file-format-parameters.rst:105
 msgid "Translate front matter values"
@@ -64194,6 +64442,8 @@ msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
 "structure, comments, and formatting are preserved when possible."
 msgstr ""
+"Parseer YAML-voorwerk en vertaal alleen scalaire waarden voor tekenreeksen. "
+"Sleutels, structuur, opmerkingen en opmaak worden, waar mogelijk, behouden."
 
 #: snippets/file-format-parameters.rst:108
 msgid "md_no_placeholders"
@@ -67994,12 +68244,18 @@ msgid ""
 "Each glossary translation stores the preferred term, forbidden term, or "
 "untranslatable entry for one target language."
 msgstr ""
+"Woordenlijsten zijn normale vertaalonderdelen met speciaal gedrag. De "
+"brontaal slaat de termen op waar Weblate naar zoekt in brontekenreeksen. "
+"Elke vertaling in een woordenlijst slaat de betreffende term, verboden term "
+"of niet te vertalen item op voor een doeltaal."
 
 #: user/glossary.rst:15
 msgid ""
 "Terms from the glossary containing words from the currently translated "
 "source string are displayed in the sidebar of the translation editor."
 msgstr ""
+"Termen vanuit de woordenlijst die woorden bevatten uit de momenteel "
+"vertaalde brontekenreeks zijn zichtbaar in de zijbalk van de vertaalbewerker."
 
 #: user/glossary.rst:20
 msgid ""
@@ -68021,6 +68277,11 @@ msgid ""
 "matches, Weblate looks up the corresponding glossary entry for the language "
 "currently being translated and shows it in the editor."
 msgstr ""
+"Wanneer u een normaal onderdeel vertaalt, zoekt Weblate in de brontekenreeks "
+"naar termen in de brontaal van de woordenlijsten voor het project. Als een "
+"term overeenkomt, zoekt Weblate het corresponderende item in de woordenlijst "
+"op voor de taal die momenteel wordt vertaald en geeft die weer in de "
+"bewerker."
 
 #: user/glossary.rst:31
 msgid ""
@@ -68029,6 +68290,11 @@ msgid ""
 "glossary can still store definitions and context, but it will not provide "
 "target-language matches for languages that do not have glossary entries."
 msgstr ""
+"Dat betekent dat items voor de woordenlijst moeten bestaan in de "
+"doelwoordenlijst voor de taal om te worden weergegeven en bij het vertalen "
+"van die doeltaal. Een woordenlijst met alleen-woorden-voor-de-brontaal kan "
+"nog steeds definities en context opslaan, maar zal geen overeenkomsten in de "
+"doeltaal verschaffen voor talen die geen items voor de woordenlijst hebben."
 
 #: user/glossary.rst:36
 msgid ""
@@ -68038,6 +68304,11 @@ msgid ""
 "terminology only when you want Weblate to create and maintain entries for "
 "all glossary languages."
 msgstr ""
+"Als u wilt dat een term aanwezig is in elke taal voor de woordenlijst, "
+"markeer het bronitem als :ref:`glossary-terminology`. Als de term in elke "
+"taal niet gewijzigd zou moeten worden, gebruik dan :ref:`glossary-"
+"untranslatable`; combineer die alleen met terminologie als u wilt dat "
+"Weblate items voor alle talen voor woordenlijsten maakt en onderhoudt."
 
 #: user/glossary.rst:42
 msgid "Managing glossaries"
@@ -68108,11 +68379,11 @@ msgstr "Typen items woordenlijst"
 
 #: user/glossary.rst:84
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: user/glossary.rst:85
 msgid "Purpose"
-msgstr ""
+msgstr "Doel"
 
 #: user/glossary.rst:87
 msgid "Regular glossary term"
@@ -68121,17 +68392,20 @@ msgstr "Normaal item woordenlijst"
 #: user/glossary.rst:88
 msgid ""
 "Preferred translation or explanation for a term in one or more languages."
-msgstr ""
+msgstr "Voorkeursvertaling of uitleg voor een term in een of meer talen."
 
 #: user/glossary.rst:92
 msgid ""
 "Source term Weblate keeps present in every glossary language so missing "
 "translations can be tracked and filled."
 msgstr ""
+"Bronterm die Weblate aanwezig houdt in elke taal voor een woordenlijst, "
+"zodat ontbrekende vertalingen kunnen worden bijgehouden en gevuld."
 
 #: user/glossary.rst:96
 msgid "Term that should stay unchanged or should not be translated."
 msgstr ""
+"Term die niet gewijzigd zou moeten worden of niet vertaald zou moeten worden."
 
 #: user/glossary.rst:99
 msgid "Translation that should not be used for the source term."
@@ -68142,6 +68416,8 @@ msgid ""
 "Alternative wording, abbreviation, or shorter form grouped with another "
 "glossary term."
 msgstr ""
+"Alternatieve bewoording, afkorting, of kortere vorm gegroepeerd met een "
+"andere term uit de woordenlijst."
 
 #: user/glossary.rst:108
 msgid "Choosing glossary terms"
@@ -68153,6 +68429,9 @@ msgid ""
 "shape. If a source term is ambiguous, add an explanation so translators know "
 "which meaning applies in the project."
 msgstr ""
+"Kies termen voor de woordenlijst om hun betekenis en publiek, niet alleen om "
+"hun letterlijke woordvorm. Als een term niet uniek is, voeg dan een uitleg "
+"toe, zodat vertalers weten welke mening van toepassing is in het project."
 
 #: user/glossary.rst:114
 msgid ""
@@ -68163,6 +68442,13 @@ msgid ""
 "as :ref:`glossary-untranslatable`, and mark misleading translations "
 "as :ref:`glossary-forbidden`."
 msgstr ""
+"Items voor woordenlijsten zijn speciaal handig voor merknamen, acroniemen, "
+"productmogelijkheden, technische termen en nieuw bedachte of "
+"getranslitereerde woorden. Gebruik varianten voor afkortingen of minder "
+"woorden, markeer belangrijke termen tussen talen als :ref:`glossary-"
+"terminology`, markeer termen die ongewijzigd zouden moeten blijven als "
+":ref:`glossary-untranslatable`, en markeer misleidende vertalingen als "
+":ref:`glossary-forbidden`."
 
 #: user/glossary.rst:124
 msgid "Untranslatable terms"
@@ -68192,6 +68478,11 @@ msgid ""
 "flag as well only when Weblate should create and maintain the untranslatable "
 "entry in every glossary language."
 msgstr ""
+"De vlag ``read-only`` is voldoende als het item voor de woordenlijst al "
+"bestaat in de talen waarvoor het zou moeten worden weergegeven. Voeg alleen "
+"ook de vlag :ref:`glossary-terminology` toe wanneer Weblate het niet te "
+"vertalen item in elke taal voor een woordenlijst zou moeten maken en "
+"onderhouden."
 
 #: user/glossary.rst:147 user/glossary.rst:276
 msgid "Forbidden translations"
@@ -68217,6 +68508,8 @@ msgid ""
 "Use forbidden entries for translations that should be avoided. Use regular "
 "glossary entries for preferred translations."
 msgstr ""
+"Gebruik verboden items voor vertalingen die zouden moeten worden vermeden. "
+"Gebruik gewone items voor de woordenlijst als voorkeursvertalingen."
 
 #: user/glossary.rst:167
 msgid "Terminology"
@@ -68266,6 +68559,9 @@ msgid ""
 "difference is that Weblate does not recreate missing language entries for a "
 "regular term after they are removed."
 msgstr ""
+"Een normaal item voor de woordenlijst mag ook vertalingen in elke taal "
+"hebben. Het verschil is dat Weblate geen ontbrekende taalitems maakt voor "
+"een normale term als die is verwijderd."
 
 #: user/glossary.rst:197 user/translating.rst:97
 msgid "Variants"
@@ -68307,6 +68603,8 @@ msgid ""
 "TBX files can include explanations, read-only metadata, and glossary flags; "
 "see :ref:`tbx` for the exact metadata mapping."
 msgstr ""
+"TBX-bestanden mogen uitleg bevatten, alleen-lezen metadata en vlaggen voor "
+"woordnelijsten; bekijk :ref:`tbx` voor de exacte koppeling met metadata."
 
 #: user/glossary.rst:220
 msgid ""
@@ -68318,6 +68616,14 @@ msgid ""
 "component source language, because the source language already exists in "
 "Weblate and this can lead to duplicate language detection."
 msgstr ""
+"Zelfs hoewel TBX meerdere talen kan bevatten, koppelt Weblate nog steeds "
+"onderdeelsbestanden aan talen met het onderdeelsbestandsmasker en "
+"taalinstellingen. Voor een onderdeel TBX-woordnelijst, houd de "
+"onderdeelsbrontaal als de taal voor de bronterm en geef vertaalbestanden een "
+"naam die weergeeft welke doeltaal ze weergeven. Vermijd het geven van een "
+"naam aan een vertaalbestand met dezelfde taal als de brontaal voor het "
+"onderdeel, omdat de brontaal al bestaat in Weblate en dat kan leiden tot het "
+"detecteren van duplicaattalen."
 
 #: user/glossary.rst:236
 msgid "Language files and synchronization"
@@ -68330,6 +68636,11 @@ msgid ""
 "adds the missing glossary language as well so glossary matches can be shown "
 "for that language."
 msgstr ""
+"Onderdelen voor woordenlijsten volgen de talen die worden gebruikt door de "
+"normale onderdelen in hetzelfde project. Wanneer een taal aan een normaal "
+"onderdeel wordt toegevoegd, voegt Weblate de ontbrekende taal voor de "
+"woordenlijst ook toe, zodat overeenkomsten voor die taal in de woordenlijst "
+"kunnen worden weergegeven."
 
 #: user/glossary.rst:243
 msgid ""
@@ -68338,6 +68649,11 @@ msgid ""
 "managed files, but it also means Weblate has no glossary entries to show for "
 "filtered-out target languages."
 msgstr ""
+"Deze automatische taalsynchronisatie is opzettelijk. Filteren van "
+"taalbestanden van woordenlijsten met :ref:`component-language_regex` kan het "
+"aantal beheerde bestanden verminderen, maar het betekent ook dat Weblate "
+"geen items voor woordenlijsten heeft om weer te geven voor de uitgefilterde "
+"doeltalen."
 
 #: user/glossary.rst:248
 msgid ""
@@ -68345,6 +68661,10 @@ msgid ""
 "marked as terminology, Weblate creates missing entries in all glossary "
 "languages and recreates them if they are removed while the flag is still set."
 msgstr ""
+"Items voor terminologie worden ook gesynchroniseerd. Wanneer een term voor "
+"een bronwoordenlijst wordt gemarkeerd als, maakt Weblate ontbrekende items "
+"in alle talen voor woordenlijsten en maakt ze opnieuw als ze zijn "
+"verwijderd, terwijl de vlag nog steeds is ingesteld."
 
 #: user/glossary.rst:252
 msgid ""
@@ -68354,6 +68674,12 @@ msgid ""
 "terms. If the stale glossary language still contains terms, Weblate keeps it "
 "and reports it as an unused glossary language."
 msgstr ""
+"Weblate kan verouderde vertalingen van woordenlijsten alleen opruimen voor "
+"door Weblate beheerde woordenlijsten, alleen als geen normaal onderdeel in "
+"het project die taal nog steeds gebruikt, en alleen als de verouderde "
+"vertaalde woordenlijst geen vertaalde termen heeft. Als de verouderde "
+"vertaalde woordenlijst nog steeds termen bevat, zal Weblate die behouden en "
+"rapporteren als een niet-gebruikte taal voor woordenlijsten."
 
 #: user/glossary.rst:259
 msgid "Common setup patterns"
@@ -68361,7 +68687,7 @@ msgstr "Veelgebruikte patronen voor opstellingen"
 
 #: user/glossary.rst:261
 msgid "English-only explanatory glossary"
-msgstr ""
+msgstr "Alleen-Engels uitleg woordenlijst"
 
 #: user/glossary.rst:262
 msgid ""
@@ -68369,6 +68695,10 @@ msgid ""
 "maintained term list, but it will not show target-language glossary matches "
 "unless you also create entries in the target glossary languages."
 msgstr ""
+"Voeg termen voor de woordenlijst voor de brontaal toe met uitleg. Dit werkt "
+"als een onderhouden lijst met termen, maar zal geen overeenkomsten in de "
+"woordenlijst voor de doeltaal weergeven, tenzij u ook items maakt in de "
+"doeltaal-woordenlijsten."
 
 #: user/glossary.rst:266
 msgid "Required terminology"
@@ -68380,6 +68710,9 @@ msgid ""
 "terminology`, and let translators fill the created entries in each target "
 "language. Use explanations to document the intended meaning."
 msgstr ""
+"Voeg termen toe in de woordenlijst voor de brontaal, markeer ze als "
+":ref:`glossary-terminology`, en laat vertalers de gemaakte items vullen in "
+"elke doeltaal. Gebruik uitleg om de bedoelde betekenis te documenteren."
 
 #: user/glossary.rst:271
 msgid "Non-translatable terms"
@@ -68391,6 +68724,10 @@ msgid ""
 "unchanged. Add :ref:`glossary-terminology` only when the term should be "
 "present in every glossary language for matching and review."
 msgstr ""
+"Markeer termen als :ref:`glossary-untranslatable` als ze niet gewijzigd "
+"zouden moeten worden. Voeg alleen :ref:`glossary-terminology` toe als de "
+"term in elke taal voor een woordenlijst aanwezig zou moeten zijn om overeen "
+"te komen en om te beoordelen."
 
 #: user/glossary.rst:277
 msgid ""
@@ -68398,6 +68735,10 @@ msgid ""
 "preferred wording as a separate regular glossary entry when translators "
 "should use a specific translation instead."
 msgstr ""
+"Voeg de misleidende vertaling toe als een item :ref:`glossary-forbidden`. "
+"Voeg de voorkeursspelling in als een afzonderlijk normaal item voor de "
+"woordenlijst dat vertalers in plaats daarvan als een specifieke vertaling "
+"zouden moeten gebruiken."
 
 #: user/glossary.rst:284
 msgid "Glossaries in automatic suggestion"
@@ -69954,10 +70295,8 @@ msgstr ""
 "vertaalvelden (📑)of verwijderd (🗑)."
 
 #: user/translating.rst:150
-#, fuzzy
-#| msgid "Translation states"
 msgid "Translating special text safely"
-msgstr "Statussen voor vertalingen"
+msgstr "Veilig speciale tekst vertalen"
 
 #: user/translating.rst:152
 msgid ""
@@ -69965,12 +70304,14 @@ msgid ""
 "Translate the human-readable parts, but keep technical markers intact unless "
 "the project instructions say otherwise."
 msgstr ""
+"Sommige brontekenreeksen bevatten tekst die de toepassing in runtime "
+"interpreteert. Vertaal de door mensen te lezen delen, maar laat de "
+"technische markeringen intact, tenzij de instructies voor het project iets "
+"anders zeggen."
 
 #: user/translating.rst:156
-#, fuzzy
-#| msgid "Simple format string"
 msgid "Placeholders and format strings"
-msgstr "Eenvoudige opmaak voor tekenreeks"
+msgstr "Plaatsvervangers en tekenreeksen opmaken"
 
 #: user/translating.rst:157
 msgid ""
@@ -69981,6 +70322,12 @@ msgid ""
 "language. Use the placeable copy shortcuts to insert them without typing "
 "mistakes."
 msgstr ""
+"Behoud variabelen, zoals ``%s``, ``%1$d``, ``%(name)s``, ``{count}``, ``{{ "
+"value }}`` of soortgelijke markeringen in de vertaling. Benoemde "
+"plaatsvervangers beschrijven de ingevoegde waarde, maar de namen zelf worden "
+"niet vertaald. U kunt gewoonlijk genummerde of benoemde plaatsvervangers "
+"opnieuw schikken om te passen binnen de doeltaal. Gebruik de sneltoetsen om "
+"een kopie te plaatsen om ze in te voegen, zonder fouten te typen."
 
 #: user/translating.rst:163
 msgid "Markup"
@@ -69994,12 +70341,16 @@ msgid ""
 "the translatable string. Make sure opening and closing tags still match "
 "after reordering the sentence."
 msgstr ""
+"Houd tags voor HTML- en XML-tags, tagnamen en attribuutnamen ongewijzigd. "
+"Vertaal de zichtbare tekst tussen tags en elke attribuutwaarde die voor "
+"gebruikers bedoeld is, bijvoorbeeld alternatieve tekst of een helptip, als "
+"die verschijnt als deel van de te vertalen tekenreeks. Zorg ervoor dat "
+"openings- en sluittags nog steeds overeenkomen na het opnieuw schikken van "
+"de zin."
 
 #: user/translating.rst:169
-#, fuzzy
-#| msgid "Markdown syntax"
 msgid "Program syntax"
-msgstr "Markdown-syntaxis"
+msgstr "Syntaxis programma"
 
 #: user/translating.rst:170
 msgid ""
@@ -70007,12 +70358,13 @@ msgid ""
 "functions, SQL keywords, and similar program syntax untranslated unless the "
 "project explicitly documents a localized form."
 msgstr ""
+"Laat functienamen, opdrachten, omgevingsvariabelen, werkbladfuncties, SQL-"
+"sleutelwoorden en soortgelijke syntaxis voor programma's onvertaald, tenzij "
+"het project expliciet een gelokaliseerde vorm documenteert."
 
 #: user/translating.rst:173
-#, fuzzy
-#| msgid "Punctuation spacing"
 msgid "Punctuation and whitespace"
-msgstr "Interpunctie-afstand"
+msgstr "Punctuatie en witruimte"
 
 #: user/translating.rst:174
 msgid ""
@@ -70021,12 +70373,15 @@ msgid ""
 "placeholders. Follow the target language's typography when it differs from "
 "the source, and use comments when a source punctuation choice looks wrong."
 msgstr ""
+"Behoud punctuatie en spaties die de interface beïnvloeden, zoals "
+"achterliggende dubbele punten, beletseltekens, voorafgaande of "
+"achterliggende spaties en punctuatie naast plaatsvervangers. Volg de "
+"typografie voor de doeltaal als die verschilt van de bron, en gebruik "
+"opmerkingen als een keuze voor punctuatie in de bron fout lijkt te zijn."
 
 #: user/translating.rst:179
-#, fuzzy
-#| msgid "Field operators"
 msgid "Accelerators"
-msgstr "Veld operatoren"
+msgstr "Acceleratoren"
 
 #: user/translating.rst:180
 msgid ""
@@ -70035,12 +70390,14 @@ msgid ""
 "translation. Choose a readable key in the translated label and avoid obvious "
 "conflicts with nearby menu items or buttons."
 msgstr ""
+"Menulabels kunnen acceleratoren voor het toetsenbord markeren met tekens "
+"zoals ``&``, ``_``, or ``~``. Wanneer de bron een accelerator heeft, behoud "
+"er dan een in de vertaling. Kies een leesbare toets in het vertaalde label "
+"en vermijd duidelijke conflicten met nabijgelegen menu-items of knoppen."
 
 #: user/translating.rst:184
-#, fuzzy
-#| msgid "Plural formula"
 msgid "Plural forms"
-msgstr "Meervoudsvorm"
+msgstr "Meervoudsvormen"
 
 #: user/translating.rst:185
 msgid ""
@@ -70049,6 +70406,11 @@ msgid ""
 "target language and project. If the source string uses an ambiguous plural, "
 "report it with a source string comment or review."
 msgstr ""
+"Vertaal elk veld voor meervoud dat Weblate laat zien. Combineer geen vormen "
+"naar een enkele constructie, zoals ``bestand(en)``, tenzij dat correct is "
+"voor de doeltaal en het project. Als de brontekenreeks een niet duidelijk "
+"meervoud gebruikt, rapporteer het met een opmerking of beoordeling voor een "
+"brontekenreeks."
 
 #: user/translating.rst:190
 msgid ""
@@ -70057,6 +70419,11 @@ msgid ""
 "translator judgment, so use :ref:`source-context`, :doc:`/user/glossary`, "
 "and :ref:`user-comments` when the source text needs clarification."
 msgstr ""
+"Weblate's kwaliteitscontroles ondervangen vele technische fouten in "
+"plaatsvervangers, opmaak, punctuatie, witruimte en meervoudsvormen. Ze "
+"vervangen niet de beoordeling door een vertaler, gebruik dus :ref:`source-"
+"context`, :doc:`/user/glossary` en :ref:`user-comments` als de brontekst "
+"verduidelijking nodig heeft."
 
 #: user/translating.rst:205
 msgid "Plurals"
@@ -72566,10 +72933,8 @@ msgstr ""
 "vinden in het menu :guilabel:`Bewerkingen` → :guilabel:`Instellingen`):"
 
 #: workflows.rst:214
-#, fuzzy
-#| msgid "Per language"
 msgid "Per-language reviews"
-msgstr "Per taal"
+msgstr "Per taal beoordelingen"
 
 #: workflows.rst:216
 msgid ""
@@ -72580,6 +72945,12 @@ msgid ""
 "turn :guilabel:`Enable reviews` off for languages that should not require "
 "review."
 msgstr ""
+"Beoordelen alleen voor geselecteerde talen vragen: schakel eerst "
+":ref:`project-translation_review` voor het gehele project in. Open dan elke "
+"taalpagina voor het project dat ander gedrag zou moeten gebruiken, schakel "
+":guilabel:`Werkstroom voor vertalen voor deze taal in het project aanpassen` "
+"in en schakel :guilabel:`Beoordelen inschakelen` uit voor talen waarvoor "
+"beoordelen niet vereist is."
 
 #: workflows.rst:223
 msgid ""
@@ -72588,6 +72959,11 @@ msgid ""
 "user membership to the language they should review. See :ref:`manage-acl` "
 "and :ref:`custom-acl` for language-scoped access setup."
 msgstr ""
+"Beoordelaars hebben ook toegang voor beoordelen nodig voor dezelfde taal. "
+"Voeg ze toe aan een team waarvan de rollen :guilabel:`Tekenreeksen "
+"beoordelen` bevat, en beperk dat team of lidmaatschap voor de gebruiker tot "
+"de taal die ze zouden moeten beoordelen. Bekijk :ref:`manage-acl` en "
+":ref:`custom-acl` voor het opstellen van toegang tot bereik van talen."
 
 #: workflows.rst:228
 msgid ""
@@ -72595,6 +72971,9 @@ msgid ""
 "have to be enabled for that translation, and the signed-in user has to have "
 "review permission for that language."
 msgstr ""
+"Als knoppen voor goedkeuring niet zichtbaar zijn, controleer beide delen van "
+"de opstelling: beoordelaars moeten zijn ingeschakeld voor die vertaling en "
+"de aangemelde gebruiker moet het recht voor beoordelen hebben voor die taal."
 
 #: workflows.rst:235
 msgid "Quality gateway for the source strings"
