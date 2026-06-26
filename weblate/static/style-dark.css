@@ -144,6 +144,20 @@
     --bs-btn-border-color: var(--wl-color-accent-bg);
   }
 
+  .btn-warning {
+    --bs-btn-color: var(--wl-color-text-strong) !important;
+    --bs-btn-bg: var(--bs-dark) !important;
+    --bs-btn-border-color: var(--bs-dark) !important;
+    --bs-btn-hover-color: var(--wl-color-text-strong) !important;
+    --bs-btn-hover-bg: var(--wl-color-primary) !important;
+    --bs-btn-hover-border-color: var(--wl-color-success) !important;
+  }
+
+  .badge.length,
+  .badge.license {
+    color: var(--wl-color-text-strong);
+  }
+
   #search-preview {
     background-color: var(--bs-body-bg);
     border-color: var(--bs-border-color);
@@ -647,4 +661,33 @@ a.red:hover path {
 
 .navbar-form .form-control {
   color: #d9d3cc;
+}
+
+.state-icon path {
+  fill: #bfc3c7;
+}
+
+.state-icon.red path,
+.red path {
+  fill: #ff7559;
+}
+
+.state-icon.grey path,
+.grey path {
+  fill: #3c4240;
+}
+
+.state-icon.green path,
+.green path {
+  fill: #6cf8d8;
+}
+
+footer li,
+footer a {
+  color: var(--wl-color-text-muted);
+}
+
+.hlcheck,
+.token.placeable {
+  outline-color: #394461;
 }
