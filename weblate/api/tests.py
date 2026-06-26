@@ -88,6 +88,7 @@ from weblate.utils.state import (
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
+from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
@@ -5313,6 +5314,29 @@ class ComponentAPITest(APIBaseTest):
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
 
+    def configure_github_app_component(self) -> None:
+        workspace = Workspace.objects.create(name="API GitHub App workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+            repositories=[
+                {"full_name": "test-org/repo"},
+                {"full_name": "test-org/other"},
+            ],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github-app",
+            repo="https://github.com/test-org/repo.git",
+            branch="main",
+            push="",
+            push_branch="",
+        )
+        self.component.refresh_from_db()
+
     def test_list_components(self) -> None:
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 2)
@@ -5802,6 +5826,48 @@ class ComponentAPITest(APIBaseTest):
             is_valid_index,
             "Component row should be locked before serializer validation runs",
         )
+
+    def test_patch_rejects_github_app_repository_change(self) -> None:
+        self.configure_github_app_component()
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"repo": "https://github.com/test-org/other.git"},
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "This field is managed by the repository integration and can not be changed.",
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repo, "https://github.com/test-org/repo.git")
+
+    def test_patch_rejects_github_app_vcs_change(self) -> None:
+        self.configure_github_app_component()
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"vcs": "git"},
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "vcs")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "This field is managed by the repository integration and can not be changed.",
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "github-app")
 
     def test_patch_acquires_repository_lock_before_row_lock(self) -> None:
         events: list[tuple[str, int]] = []
