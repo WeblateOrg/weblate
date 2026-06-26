@@ -1,0 +1,22 @@
+{% load i18n translations %}
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">
+      {% documentation_icon 'user/files' 'upload' right=True %}
+      {% translate "Upload" %}
+    </h4>
+  </div>
+  <div class="card-body">
+    <p>
+      {% blocktranslate trimmed %}
+        Uploading translations at this level is not supported. Open an individual
+        translation and upload the file there.
+      {% endblocktranslate %}
+    </p>
+    <a class="btn btn-primary"
+       data-bs-target="{{ upload_translation_tab }}"
+       data-bs-toggle="tab"
+       href="#">{{ upload_translation_label }}</a>
+  </div>
+</div>

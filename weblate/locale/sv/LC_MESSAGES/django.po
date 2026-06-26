@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-19 23:11-0500\n"
-"PO-Revision-Date: 2026-06-23 11:01+0000\n"
+"PO-Revision-Date: 2026-06-25 05:12+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -3451,17 +3451,13 @@ msgstr "Redigera arbetsområdets inställningar"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:121
-#, fuzzy
-#| msgid "Add a project message"
 msgid "Add projects to workspace"
-msgstr "Lägg till ett projektmeddelande"
+msgstr "Lägg till projekt i arbetsområdet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Hantera projektåtkomst"
+msgstr "Hantera åtkomst till arbetsområdet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
@@ -3470,10 +3466,8 @@ msgstr "Använd administrationsgränssnittet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Weblate-konfiguration"
+msgstr "Hantera webbplatsens konfiguration"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -3482,10 +3476,8 @@ msgstr "Lägga till nya projekt"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137
-#, fuzzy
-#| msgid "Add new word"
 msgid "Add new workspaces"
-msgstr "Lägg till nytt ord"
+msgstr "Lägg till nya arbetsområden"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
@@ -3634,18 +3626,14 @@ msgid "Manage repository"
 msgstr "Hantera arkiv"
 
 #: weblate/auth/data.py:272
-#, fuzzy
-#| msgid "Revoke administration"
 msgctxt "Access-control role"
 msgid "Workspace administration"
-msgstr "Återkalla administration"
+msgstr "Administration av arbetsområden"
 
 #: weblate/auth/data.py:280
-#, fuzzy
-#| msgid "Add new projects"
 msgctxt "Access-control role"
 msgid "Add workspace projects"
-msgstr "Lägga till nya projekt"
+msgstr "Lägg till projekt i arbetsområdet"
 
 #: weblate/auth/data.py:284
 msgctxt "Access-control role"
@@ -3759,7 +3747,7 @@ msgstr "Ange en eller flera e-postadresser som åtskilda av mellanslag."
 #: weblate/auth/forms.py:361
 #, python-format
 msgid "%(email)s: duplicate address in the submission"
-msgstr ""
+msgstr "%(email)s: dubbla adresser i inmatningen"
 
 #: weblate/auth/forms.py:371
 #, python-format
@@ -4201,18 +4189,16 @@ msgid "The file format does not support updating source strings."
 msgstr "Filformatet stöder inte uppdatering av källsträngar."
 
 #: weblate/auth/utils.py:100
-#, fuzzy
-#| msgid "The filename can not be an absolute path."
 msgid "The anonymous user can not be assigned to teams."
-msgstr "Filnamnet kan inte vara en absolut sökväg."
+msgstr "Den anonyma användaren kan inte tilldelas till någon grupp."
 
 #: weblate/auth/utils.py:103
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "Inaktiva användare kan inte tilldelas till någon grupp."
 
 #: weblate/auth/utils.py:106
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "Projekt-token kan inte tilldelas till grupper här."
 
 #: weblate/auth/views.py:168
 msgid "Cannot remove built-in team!"
@@ -4246,14 +4232,11 @@ msgstr "Faktureringsplan"
 #: weblate/trans/forms.py:3551 weblate/trans/forms.py:3581
 #: weblate/trans/models/project.py:258
 msgid "Workspace"
-msgstr ""
+msgstr "Arbetsområde"
 
 #: weblate/billing/models.py:243 weblate/templates/billing/status.html:19
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgid "Customer name"
-msgstr "Anpassat modellnamn"
+msgstr "Kundnamn"
 
 #: weblate/billing/models.py:248 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:12
@@ -4290,42 +4273,32 @@ msgid "In limits"
 msgstr "Inom gränserna"
 
 #: weblate/billing/models.py:279
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Inactive recurring payment notification"
-msgstr "Stoppa återkommande betalning"
+msgstr "Avisering om inaktiv återkommande betalning"
 
 #: weblate/billing/models.py:284
-#, fuzzy
-#| msgid "Last remote commit"
 msgid "Latest upstream commit"
-msgstr "Senaste arkivering i fjärrarkivet"
+msgstr "Senaste uppströms incheckning"
 
 #: weblate/billing/models.py:289
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Oldest pending Weblate change"
-msgstr "Arkivera väntande ändringar"
+msgstr "Äldsta väntande Weblate-ändring"
 
 #: weblate/billing/models.py:294
-#, fuzzy
-#| msgid "Repository changes"
 msgid "Repository changes alert"
-msgstr "Arkivändringar"
+msgstr "Varning om ändringar i förrådet"
 
 #: weblate/billing/models.py:299
 msgid "Push failure alert"
-msgstr ""
+msgstr "Varning om fel vid sändning"
 
 #: weblate/billing/models.py:304
-#, fuzzy
-#| msgid "Terminate recurring payment"
 msgid "Scheduled recurring payment disablement"
-msgstr "Stoppa återkommande betalning"
+msgstr "Deaktivering av schemalagda återkommande betalningar"
 
 #: weblate/billing/models.py:403
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "Faktureringsarbetsområdet kan inte ändras."
 
 #: weblate/billing/models.py:415 weblate/billing/models.py:1188
 #: weblate/templates/accounts/user.html:191
@@ -4341,15 +4314,15 @@ msgstr "Fakturering"
 
 #: weblate/billing/models.py:461
 msgid "Billing needs to be saved before assigning projects."
-msgstr ""
+msgstr "Faktureringen måste sparas innan projekten tilldelas."
 
 #: weblate/billing/models.py:469
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "Projektet tillhör redan ett annat arbetsområde."
 
 #: weblate/billing/models.py:472
 msgid "Project needs to be saved before assigning it to billing."
-msgstr ""
+msgstr "Projektet måste sparas innan det tilldelas till fakturering."
 
 #: weblate/billing/models.py:533
 msgid "Changes in last month"
@@ -4437,10 +4410,8 @@ msgstr ""
 "eller projektet har tagits bort."
 
 #: weblate/billing/views.py:243 weblate/billing/views.py:262
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Kan inte ändra detta för en inbyggd grupp."
+msgstr "Kan inte infoga en sådan fakturering."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -4463,10 +4434,8 @@ msgid "The following errors were found:"
 msgstr "Följande fel har upptäckts:"
 
 #: weblate/checks/base.py:457
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "Kunde inte tolka flaggor: %s"
+msgstr "Kunde inte tolka flaggan {}: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -4628,16 +4597,12 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Saknat fast mellanslag före dubbelt skiljetecken."
 
 #: weblate/checks/chars.py:623
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Flera namnlösa variabler"
+msgstr "Flera versaler"
 
 #: weblate/checks/chars.py:625
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Översättningen innehåller extra nollbreddstecken."
+msgstr "Översättningen innehåller ord med flera felplacerade versaler."
 
 #: weblate/checks/consistency.py:34
 msgid "Missing plurals"
@@ -4676,13 +4641,10 @@ msgid "Different strings are translated the same."
 msgstr "Olika strängar översätts likadant."
 
 #: weblate/checks/consistency.py:202
-#, fuzzy
-#| msgid "Other source string: %s"
-#| msgid_plural "Other source strings: %s"
 msgid "Other source string:"
 msgid_plural "Other source strings:"
-msgstr[0] "Annan källsträng: %s"
-msgstr[1] "Andra källsträngar: %s"
+msgstr[0] "Annan källsträng:"
+msgstr[1] "Andra källsträngar:"
 
 #: weblate/checks/consistency.py:205
 #, python-format
@@ -4717,10 +4679,8 @@ msgstr[0] "Följande ord är duplicerat:"
 msgstr[1] "Följande ord är duplicerade:"
 
 #: weblate/checks/flags.py:79
-#, fuzzy
-#| msgid "Unsafe HTML"
 msgid "Conditional safe HTML"
-msgstr "Osäker HTML"
+msgstr "Villkorlig säker HTML"
 
 #: weblate/checks/flags.py:85
 msgid "Automatically detect Java MessageFormat"
@@ -4842,11 +4802,8 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Parametrar saknas för översättningsflagga: \"%s\""
 
 #: weblate/checks/flags.py:462
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Formalitet"
+msgstr "Format"
 
 #: weblate/checks/flags.py:463
 #, fuzzy

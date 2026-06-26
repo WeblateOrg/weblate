@@ -8,13 +8,14 @@
 # Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2026.
 # Hosted Weblate user 54392 <hamburger2048@users.noreply.hosted.weblate.org>, 2026.
+# Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
 "\n"
-"POT-Creation-Date: 2026-06-17 21:40-0500\n"
-"PO-Revision-Date: 2026-06-18 14:40+0000\n"
+"POT-Creation-Date: 2026-06-24 23:02-0500\n"
+"PO-Revision-Date: 2026-06-25 10:39+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -111,50 +112,75 @@ msgstr[0] "%s 条匹配的字符串"
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "某些修改尚未保存。您确定要离开吗？"
 
-#: weblate/static/js/bulk-accept-suggestions.js:31
+#: weblate/static/js/bulk-accept-suggestions.js:29
 msgid "Security token missing. Please reload the page."
 msgstr "缺少安全令牌。请重新加载此页。"
 
-#: weblate/static/js/bulk-accept-suggestions.js:45
+#: weblate/static/js/bulk-accept-suggestions.js:37
 #, javascript-format
-msgid "Processing bulk accept for %s"
-msgstr "正在处理 %s 的批量接受"
+msgid "Loading suggestion count for %s"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:55
+msgid "Bulk accept cancelled."
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:60
+#, javascript-format
+msgid "Scheduling bulk accept for %s"
+msgstr "安排批量接受 %s 的时间"
 
 #: weblate/static/js/bulk-accept-suggestions.js:75
+msgid "Unknown error"
+msgstr "未知错误"
+
+#: weblate/static/js/bulk-accept-suggestions.js:80
+msgid "Network error"
+msgstr "网络错误"
+
+#: weblate/static/js/bulk-accept-suggestions.js:108
+#: weblate/static/js/bulk-accept-suggestions.js:126
+msgid "Invalid server response"
+msgstr "无效的服务器响应"
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
 #, javascript-format
 msgid "Server error (%s)"
 msgstr "服务器错误（%s）"
 
-#: weblate/static/js/bulk-accept-suggestions.js:86
-msgid "Invalid server response"
-msgstr "无效的服务器响应"
-
-#: weblate/static/js/bulk-accept-suggestions.js:99
+#: weblate/static/js/bulk-accept-suggestions.js:140
 #, javascript-format
-msgid "%s accepted"
-msgid_plural "%s accepted"
-msgstr[0] "已接受 %s 个"
+msgid "There are no pending suggestions from %s in this translation."
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:117
-msgid "Done"
-msgstr "完成"
-
-#: weblate/static/js/bulk-accept-suggestions.js:124
+#: weblate/static/js/bulk-accept-suggestions.js:149
 #, javascript-format
-msgid "Processed %s suggestion. Page will reload in 2 seconds."
-msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
-msgstr[0] "处理了 %s 个建议。将在 2 秒内重新加载页面。"
+msgid "This will accept %s suggestion from %s in this translation."
+msgid_plural "This will accept %s suggestions from %s in this translation."
+msgstr[0] ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:134
-msgid "Unknown error"
-msgstr "未知错误"
+#: weblate/static/js/bulk-accept-suggestions.js:212
+msgid "Accept all suggestions?"
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:139
-msgid "Network error"
-msgstr "网络错误"
+#: weblate/static/js/bulk-accept-suggestions.js:218
+#: weblate/static/loader-bootstrap.js:107
+msgid "Close"
+msgstr "关闭"
 
-#: weblate/static/js/bulk-accept-suggestions.js:147
-#: weblate/static/js/bulk-accept-suggestions.js:153
+#: weblate/static/js/bulk-accept-suggestions.js:230
+msgid "Cancel"
+msgstr "取消"
+
+#: weblate/static/js/bulk-accept-suggestions.js:235
+msgid "Accept suggestions"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:240
+msgid "Accept and approve suggestions"
+msgstr "接受并批准建议"
+
+#: weblate/static/js/bulk-accept-suggestions.js:258
 #, javascript-format
 msgid "Error: %s"
 msgstr "错误：%s"
@@ -333,62 +359,122 @@ msgstr "出了点问题！"
 msgid "No image found in clipboard"
 msgstr "剪贴板中找不到图片"
 
-#: weblate/static/loader-bootstrap.js:78
-msgid "Close"
-msgstr "关闭"
+#: weblate/static/js/vcs-push-help.js:38 weblate/static/js/vcs-push-help.js:48
+msgid ""
+"A pull or merge request will be created from a branch in the repository."
+msgstr ""
 
-#: weblate/static/loader-bootstrap.js:313
+#: weblate/static/js/vcs-push-help.js:41
+msgid ""
+"A push URL is set but no push branch is given. Set a push branch that "
+"differs from the translated branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:51
+msgid ""
+"The push branch must differ from the translated branch when creating a pull "
+"or merge request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:58
+msgid "A pull or merge request will be created from a fork of the repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:65
+#, javascript-format
+msgid ""
+"A pull or merge request will be created from the “%s” branch in the "
+"repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:77
+#, javascript-format
+msgid ""
+"Changes will be sent as a Gerrit review request targeting the “%s” branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:84
+msgid "Changes will be sent as a Gerrit review request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:92
+msgid ""
+"Changes will not be pushed automatically. You can still push them manually "
+"from the repository maintenance."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:100
+#: weblate/static/js/vcs-push-help.js:110
+#, javascript-format
+msgid ""
+"Changes will be pushed directly to the “%s” branch in the push repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:118
+msgid ""
+"Changes will be pushed directly to the default branch of the push repository."
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:323
 msgid "Some source strings could not be assigned."
 msgstr "无法分配一些源字符串。"
 
-#: weblate/static/loader-bootstrap.js:353
+#: weblate/static/loader-bootstrap.js:363
 msgid "Error loading search results!"
 msgstr "加载搜索结果出错！"
 
-#: weblate/static/loader-bootstrap.js:357
+#: weblate/static/loader-bootstrap.js:367
 msgid "No new matching source strings found."
 msgstr "未找到新的匹配的源字符串。"
 
-#: weblate/static/loader-bootstrap.js:445
+#: weblate/static/loader-bootstrap.js:451
 msgid "Sort this column"
 msgstr "对此列进行排序"
 
-#: weblate/static/loader-bootstrap.js:777
+#: weblate/static/loader-bootstrap.js:799
 msgid "Error while loading page:"
 msgstr "载入页面时出错："
 
-#: weblate/static/loader-bootstrap.js:1103
+#: weblate/static/loader-bootstrap.js:1204
 msgid "Text copied to clipboard."
 msgstr "文本已复制到剪贴板。"
 
-#: weblate/static/loader-bootstrap.js:1107
+#: weblate/static/loader-bootstrap.js:1208
 msgid "Please press Ctrl+C to copy."
 msgstr "请按 Ctrl+C 来复制。"
 
-#: weblate/static/loader-bootstrap.js:1111
+#: weblate/static/loader-bootstrap.js:1212
 msgid "Error copying to clipboard."
 msgstr "复制到剪贴板出错。"
 
-#: weblate/static/loader-bootstrap.js:1138
-#: weblate/static/loader-bootstrap.js:1153
+#: weblate/static/loader-bootstrap.js:1256
+#: weblate/static/loader-bootstrap.js:1301
 msgid "Search…"
 msgstr "搜索…"
 
-#: weblate/static/loader-bootstrap.js:1615
+#: weblate/static/loader-bootstrap.js:1425
+msgid "Loading…"
+msgstr "正在加载…"
+
+#: weblate/static/loader-bootstrap.js:1451
+msgid "Error while loading form:"
+msgstr "加载表单时出错："
+
+#: weblate/static/loader-bootstrap.js:1934
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate 正在扫描仓库，请耐心等待。"
 
-#: weblate/static/loader-bootstrap.js:1795
+#: weblate/static/loader-bootstrap.js:2121
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "通知设置被删除，请不要忘了保存更改。"
 
-#: weblate/static/loader-bootstrap.js:2033
+#: weblate/static/loader-bootstrap.js:2389
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "停止！"
 
-#: weblate/static/loader-bootstrap.js:2039
+#: weblate/static/loader-bootstrap.js:2395
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -397,39 +483,52 @@ msgstr ""
 "这是面向开发人员的浏览器功能。如果有人告诉您在此处复制粘贴某些内容，他们很可"
 "能会试图入侵你的 Weblate 账户。"
 
-#: weblate/static/loader-bootstrap.js:2045
+#: weblate/static/loader-bootstrap.js:2401
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr "更多信息，见 https://en.wikipedia.org/wiki/Self-XSS。"
 
-#: weblate/static/loader-bootstrap.js:2117
+#: weblate/static/loader-bootstrap.js:2484
 msgid "just now"
 msgstr "刚才"
 
-#: weblate/static/loader-bootstrap.js:2122
+#: weblate/static/loader-bootstrap.js:2489
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s 秒前"
 
-#: weblate/static/loader-bootstrap.js:2128
+#: weblate/static/loader-bootstrap.js:2495
 msgid "a minute ago"
 msgstr "1 分钟前"
 
-#: weblate/static/loader-bootstrap.js:2131
+#: weblate/static/loader-bootstrap.js:2498
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s 分钟前"
 
-#: weblate/static/loader-bootstrap.js:2138
+#: weblate/static/loader-bootstrap.js:2505
 msgid "an hour ago"
 msgstr "1 小时前"
 
-#: weblate/static/loader-bootstrap.js:2140
+#: weblate/static/loader-bootstrap.js:2507
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s 小时前"
+
+#, javascript-format
+#~ msgid "%s accepted"
+#~ msgid_plural "%s accepted"
+#~ msgstr[0] "已接受 %s 个"
+
+#~ msgid "Done"
+#~ msgstr "完成"
+
+#, javascript-format
+#~ msgid "Processed %s suggestion. Page will reload in 2 seconds."
+#~ msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
+#~ msgstr[0] "处理了 %s 个建议。将在 2 秒内重新加载页面。"
 
 #~ msgid "Available:"
 #~ msgstr "可用："
@@ -588,9 +687,6 @@ msgstr[0] "%s 小时前"
 #~ msgid "Now"
 #~ msgstr "十一月"
 
-#~ msgid "Cancel"
-#~ msgstr "取消"
-
 #~ msgid "Strings with any failing checks"
 #~ msgstr "未通过检查的条目"
 
@@ -605,9 +701,6 @@ msgstr[0] "%s 小时前"
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "通过 AJAX 加载内容失败！"
-
-#~ msgid "Loading…"
-#~ msgstr "正在加载…"
 
 #~ msgid "Confirm resetting repository"
 #~ msgstr "确认代码库重设"

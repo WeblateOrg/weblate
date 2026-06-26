@@ -44,7 +44,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.15.19
+    - ruff==0.15.20
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -84,7 +84,7 @@ repos:
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
-  rev: v1.39.2
+  rev: v1.39.4
   hooks:
   - id: djlint-reformat-django
     types_or: [html, text]
@@ -176,7 +176,7 @@ repos:
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.25.2
+  rev: v1.26.1
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint
@@ -185,12 +185,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.103.0
+  rev: v1.104.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.20
+  rev: v0.2.22
   hooks:
   - id: rumdl
   - id: rumdl-fmt

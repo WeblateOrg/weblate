@@ -12,6 +12,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 from unittest import TestCase
+from unittest.mock import patch
 from urllib.parse import parse_qs, urlparse, urlsplit
 from zipfile import ZipFile
 
@@ -31,7 +32,13 @@ from openpyxl import load_workbook
 from PIL import Image
 
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, Permission, Role, setup_project_groups
+from weblate.auth.models import (
+    Group,
+    Permission,
+    Role,
+    TeamMembership,
+    setup_project_groups,
+)
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
@@ -50,6 +57,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import zip_download
 from weblate.utils.xml import parse_xml
 
@@ -74,6 +82,37 @@ class PaginatorTemplateTest(TestCase):
 
 
 class ZipDownloadTest(TestCase):
+    def test_zip_download_rejects_symlink_to_other_allowed_root(self) -> None:
+        sentinel = b"other component"
+
+        with TemporaryDirectory() as root_name:
+            root = Path(root_name)
+            component = root / "component"
+            other_component = root / "other-component"
+            component.mkdir()
+            other_component.mkdir()
+            (component / "regular.txt").write_bytes(b"inside component")
+            (component / "shared.txt").write_bytes(b"shared translation")
+            (other_component / "secret.txt").write_bytes(sentinel)
+            os.symlink(component / "shared.txt", component / "safe_link.txt")
+            os.symlink(other_component / "secret.txt", component / "cross_link.txt")
+
+            response = zip_download(
+                str(root),
+                [str(component)],
+                allowed_roots=[str(component), str(other_component)],
+            )
+
+        with ZipFile(BytesIO(response.content), "r") as archive:
+            self.assertIn("component/regular.txt", archive.namelist())
+            self.assertEqual(
+                archive.read("component/safe_link.txt"), b"shared translation"
+            )
+            self.assertNotIn("component/cross_link.txt", archive.namelist())
+            archived_files = [archive.read(name) for name in archive.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
+
     def test_zip_download_validates_symlinked_file(self) -> None:
         sentinel = b"outside repository"
 
@@ -846,10 +885,177 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
 
 
 class BasicViewTest(ViewTestCase):
+    def assert_upload_placeholder(self, response, tab: str) -> None:
+        self.assertContains(response, "Upload translation")
+        self.assertContains(
+            response, "Uploading translations at this level is not supported."
+        )
+        self.assertContains(response, f'data-bs-target="{tab}"')
+
+    def assert_no_upload_placeholder(self, response) -> None:
+        self.assertNotContains(response, "Upload translation")
+
     def test_view_project(self) -> None:
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
+
+    def test_view_project_upload_placeholder(self) -> None:
+        response = self.client.get(self.project.get_absolute_url())
+
+        self.assert_upload_placeholder(response, "#languages")
+
+    def test_upload_placeholder_for_membership_limited_translator(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Limited upload", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(Role.objects.get(name="Power user"))
+        self.user.groups.add(group)
+        membership = TeamMembership.objects.get(user=self.user, group=group)
+        membership.limit_languages.set([self.translation.language])
+        self.user.clear_cache()
+
+        for url, tab in (
+            (self.project.get_absolute_url(), "#languages"),
+            (self.component.get_absolute_url(), "#translations"),
+            (category.get_absolute_url(), "#languages"),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+
+                self.assert_upload_placeholder(response, tab)
+
+    def test_upload_placeholder_skips_children_without_upload_scope(self) -> None:
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Project access only", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        with patch(
+            "weblate.auth.permissions._get_upload_child_translations"
+        ) as get_upload_child_translations:
+            response = self.client.get(self.project.get_absolute_url())
+
+        self.assert_no_upload_placeholder(response)
+        get_upload_child_translations.assert_not_called()
+
+    def test_upload_placeholder_requires_uploadable_child_translation(self) -> None:
+        project = self.create_project(
+            name="Restricted upload", slug="restricted-upload"
+        )
+        category = self.create_category(project)
+        self.create_po(
+            project=project,
+            category=category,
+            name="restricted-upload",
+            restricted=True,
+        )
+
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Restricted project upload", language_selection=SELECTION_ALL
+        )
+        group.projects.add(project)
+        group.roles.add(Role.objects.get(name="Power user"))
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        for url in (project.get_absolute_url(), category.get_absolute_url()):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+
+                self.assert_no_upload_placeholder(response)
+
+    def test_upload_placeholder_uses_component_scoped_permissions(self) -> None:
+        project = self.create_project(
+            name="Component scoped upload", slug="component-scoped-upload"
+        )
+        category = self.create_category(project)
+        component = self.create_po(
+            project=project,
+            category=category,
+            name="restricted-component-upload",
+            restricted=True,
+        )
+        translation = component.translation_set.get(language=self.translation.language)
+
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Component scoped upload", language_selection=SELECTION_ALL
+        )
+        group.components.add(component)
+        group.roles.add(Role.objects.get(name="Power user"))
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        for url, tab in (
+            (project.get_absolute_url(), "#languages"),
+            (
+                ProjectLanguage(project, translation.language).get_absolute_url(),
+                "#components",
+            ),
+            (category.get_absolute_url(), "#languages"),
+            (
+                CategoryLanguage(category, translation.language).get_absolute_url(),
+                "#components",
+            ),
+            (component.get_absolute_url(), "#translations"),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+
+                self.assert_upload_placeholder(response, tab)
+
+    def test_upload_placeholder_uses_component_link_category(self) -> None:
+        source_project = self.create_project(
+            name="Shared upload source", slug="shared-upload-source"
+        )
+        shared_component = self.create_po(
+            project=source_project, name="shared-category-upload"
+        )
+        linked_category = Category.objects.create(
+            name="Linked category",
+            slug="linked-category",
+            project=self.project,
+        )
+        unrelated_category = Category.objects.create(
+            name="Unrelated category",
+            slug="unrelated-category",
+            project=self.project,
+        )
+        ComponentLink.objects.create(
+            component=shared_component,
+            project=self.project,
+            category=linked_category,
+        )
+
+        self.user.groups.clear()
+        access_group = Group.objects.create(
+            name="Shared target access", language_selection=SELECTION_ALL
+        )
+        access_group.projects.add(self.project)
+        upload_group = Group.objects.create(
+            name="Shared component upload", language_selection=SELECTION_ALL
+        )
+        upload_group.components.add(shared_component)
+        upload_group.roles.add(Role.objects.get(name="Power user"))
+        self.user.groups.add(access_group, upload_group)
+        self.user.clear_cache()
+
+        response = self.client.get(linked_category.get_absolute_url())
+        self.assert_upload_placeholder(response, "#languages")
+
+        response = self.client.get(unrelated_category.get_absolute_url())
+        self.assert_no_upload_placeholder(response)
 
     def test_view_project_preloads_workflow_settings(self) -> None:
         self.project.translation_review = True
@@ -909,6 +1115,53 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "Test/Test")
         self.assertNotContains(response, "Spanish")
 
+    def test_view_component_upload_placeholder(self) -> None:
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assert_upload_placeholder(response, "#translations")
+
+    def test_glossary_component_upload_placeholder(self) -> None:
+        category = self.create_category(self.project)
+        self.component.create_glossary()
+        glossary = Component.objects.get(project=self.project, is_glossary=True)
+        glossary.category = category
+        glossary.save(update_fields=["category"])
+        glossary_translation = glossary.translation_set.exclude(
+            language=glossary.source_language
+        ).first()
+        if glossary_translation is None:
+            glossary_translation = glossary.translation_set.first()
+        self.assertIsNotNone(glossary_translation)
+        assert glossary_translation is not None
+        language = glossary_translation.language
+
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Glossary upload", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(Role.objects.get(name="Manage glossary"))
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        for url, tab in (
+            (self.project.get_absolute_url(), "#languages"),
+            (
+                ProjectLanguage(self.project, language).get_absolute_url(),
+                "#components",
+            ),
+            (category.get_absolute_url(), "#languages"),
+            (
+                CategoryLanguage(category, language).get_absolute_url(),
+                "#components",
+            ),
+            (glossary.get_absolute_url(), "#translations"),
+        ):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+
+                self.assert_upload_placeholder(response, tab)
+
     def test_view_component_ghost(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="es"))
         response = self.client.get(self.component.get_absolute_url())
@@ -967,6 +1220,13 @@ class BasicViewTest(ViewTestCase):
     def test_view_translation(self) -> None:
         response = self.client.get(self.translation.get_absolute_url())
         self.assertContains(response, "Test/Test")
+
+    def test_view_project_language_upload_placeholder(self) -> None:
+        project_language = ProjectLanguage(self.project, self.translation.language)
+
+        response = self.client.get(project_language.get_absolute_url())
+
+        self.assert_upload_placeholder(response, "#components")
 
     def test_view_translation_others(self) -> None:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -1122,6 +1382,74 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, category.name)
         self.assertContains(response, cat_component.name)
         self.assertContains(response, "Spanish")
+
+    def test_view_category_upload_placeholder(self) -> None:
+        category = self.create_category(self.project)
+        self.create_po(
+            project=self.project, category=category, name="Category Component"
+        )
+
+        response = self.client.get(category.get_absolute_url())
+
+        self.assert_upload_placeholder(response, "#languages")
+
+    def test_view_category_language_upload_placeholder(self) -> None:
+        category = self.create_category(self.project)
+        self.create_po(
+            project=self.project, category=category, name="Category Component"
+        )
+        category_language = CategoryLanguage(category, self.translation.language)
+
+        response = self.client.get(category_language.get_absolute_url())
+
+        self.assert_upload_placeholder(response, "#components")
+
+    def test_category_language_upload_placeholder_respects_suggestions(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        self.user.groups.clear()
+        role = Role.objects.create(name="Upload suggestions")
+        role.permissions.add(
+            Permission.objects.get(codename="suggestion.add"),
+            Permission.objects.get(codename="upload.perform"),
+        )
+        group = Group.objects.create(
+            name="Upload suggestions", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+        category_language = CategoryLanguage(category, self.translation.language)
+
+        response = self.client.get(category_language.get_absolute_url())
+
+        self.assert_upload_placeholder(response, "#components")
+
+        self.component.enable_suggestions = False
+        self.component.save(update_fields=["enable_suggestions"])
+        self.user.clear_cache()
+        category_language = CategoryLanguage(category, self.translation.language)
+
+        response = self.client.get(category_language.get_absolute_url())
+
+        self.assert_no_upload_placeholder(response)
+
+        self.component.enable_suggestions = True
+        self.component.save(update_fields=["enable_suggestions"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=False,
+        )
+        self.user.clear_cache()
+        category_language = CategoryLanguage(category, self.translation.language)
+
+        response = self.client.get(category_language.get_absolute_url())
+
+        self.assertNotContains(response, "Upload translation")
 
 
 class BasicMonolingualViewTest(BasicViewTest):

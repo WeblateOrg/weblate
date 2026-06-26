@@ -48,6 +48,7 @@ Weblate 2026.7
 * Scoped team assignments can no longer be expanded through the API.
 * Empty component lists are no longer exposed to users without component list management permission.
 * TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
+* Glossary terms are no longer shown in both columns when translating the glossary source language.
 * :ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
 * Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
@@ -67,7 +68,10 @@ Weblate 2026.7
 * Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs.
 * Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
 * :ref:`check-max-size` no longer wraps text when checking strings configured to fit on one line.
+* :ref:`check-max-size` now checks source strings and refreshes rendered previews after source edits.
 * Watched translations on the dashboard now include category path segments.
+* Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints.
+* Unsupported upload levels now show an upload placeholder pointing to individual translations.
 
 .. rubric:: Compatibility
 
