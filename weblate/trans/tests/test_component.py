@@ -1746,6 +1746,7 @@ class ComponentErrorTest(RepoTestCase):
             changed_template=False,
             from_link=False,
             change=None,
+            preserve_pending_units=False,
         )
         queue_task.assert_not_called()
 

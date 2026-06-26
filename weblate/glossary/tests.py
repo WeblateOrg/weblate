@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import csv
 import json
+from copy import deepcopy
 from io import StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -15,6 +16,7 @@ from unittest.mock import patch
 
 from django.db import transaction
 from django.urls import reverse
+from lxml import etree
 
 from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
 from weblate.glossary.tasks import (
@@ -30,6 +32,7 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.hash import calculate_hash
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.xml import PARSER
 
 if TYPE_CHECKING:
     from weblate.trans.models import Translation
@@ -94,6 +97,54 @@ more options)</p>
 
 def unit_sources_and_positions(units):
     return {(unit.source, unit.glossary_positions) for unit in units}
+
+
+def tbx_source_contexts(filename: str) -> list[tuple[str, str | None]]:
+    """Return stored TBX source terms grouped by termEntry id."""
+    root = etree.parse(filename, PARSER).getroot()
+    xml_lang = "{http://www.w3.org/XML/1998/namespace}lang"
+    result = []
+    for term_entry in root.findall(".//termEntry"):
+        context = term_entry.get("id") or ""
+        source = None
+        for lang_set in term_entry.findall("langSet"):
+            if lang_set.get(xml_lang) != "en":
+                continue
+            term = lang_set.find(".//term")
+            if term is not None:
+                source = term.text
+                break
+        result.append((context, source))
+    return result
+
+
+def duplicate_tbx_source_term(filename: str, source: str) -> None:
+    tree = etree.parse(filename, PARSER)
+    root = tree.getroot()
+    body = root.find("./text/body")
+    if body is None:
+        msg = "TBX body is missing"
+        raise AssertionError(msg)
+    xml_lang = "{http://www.w3.org/XML/1998/namespace}lang"
+    snippet = None
+    for term_entry in body.findall("termEntry"):
+        for lang_set in term_entry.findall("langSet"):
+            term = lang_set.find(".//term")
+            if (
+                lang_set.get(xml_lang) == "en"
+                and term is not None
+                and term.text == source
+            ):
+                snippet = term_entry
+                break
+        if snippet is not None:
+            break
+    if snippet is None:
+        msg = f"{source} term is missing"
+        raise AssertionError(msg)
+    for _unused in range(2):
+        body.insert(0, deepcopy(snippet))
+    tree.write(filename, encoding="utf-8", xml_declaration=True)
 
 
 class GlossaryTest(ViewTestCase):
@@ -453,6 +504,176 @@ class GlossaryTest(ViewTestCase):
     def test_add_duplicate(self) -> None:
         self.do_add_unit()
         self.do_add_unit()
+
+    def test_managed_tbx_remove_duplicate_terms_operation(self) -> None:
+        self.make_manager()
+        self.do_add_unit(
+            language="it",
+            context="",
+            source_0="Snippet",
+            target_0="Snippet",
+            terminology=1,
+        )
+        self.glossary_component.commit_pending("test", None)
+
+        filename = self.glossary.get_filename()
+        if filename is None:
+            self.fail("Glossary translation file is missing")
+        other_glossary = self.glossary_component.translation_set.get(
+            language__code="it"
+        )
+        other_filename = other_glossary.get_filename()
+        if other_filename is None:
+            self.fail("Italian glossary translation file is missing")
+
+        duplicate_tbx_source_term(filename, "Snippet")
+        duplicate_tbx_source_term(other_filename, "Snippet")
+
+        self.glossary_component.create_translations_immediate(
+            force=True, request=self.get_request()
+        )
+        alert = self.glossary_component.alert_set.get(name="DuplicateString")
+        rendered = alert.render(self.user)
+        cleanup_url = reverse(
+            "remove_duplicate_units", kwargs={"path": self.glossary.get_url_path()}
+        )
+        repository_response = self.client.get(
+            reverse("git_status", kwargs={"path": self.glossary.get_url_path()})
+        )
+        self.assertContains(repository_response, "File management")
+        self.assertContains(repository_response, cleanup_url)
+        self.assertIn(cleanup_url, rendered)
+
+        unit = self.glossary.unit_set.get(source="Snippet")
+        self.assertTrue(unit.translate(self.user, "Úryvek", STATE_TRANSLATED))
+        self.assertEqual(
+            PendingUnitChange.objects.for_translation(
+                self.glossary, apply_filters=False
+            ).count(),
+            1,
+        )
+        pending = PendingUnitChange.objects.for_translation(
+            self.glossary, apply_filters=False
+        ).get()
+        self.assertEqual(pending.target, "Úryvek")
+        self.assertEqual(
+            PendingUnitChange.objects.for_translation(
+                self.glossary, apply_filters=True
+            ).count(),
+            1,
+        )
+        self.do_add_unit(
+            context="",
+            source_0="Pending snippet",
+            target_0="Čekající",
+            terminology=1,
+        )
+        pending_add_unit = self.glossary.unit_set.get(source="Pending snippet")
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit=pending_add_unit, add_unit=True
+            ).exists()
+        )
+        duplicate_language_occurrence = {
+            "language_code": self.glossary.language.code,
+            "codes": f"{self.glossary.language_code}, duplicate",
+            "filenames": f"{self.glossary.filename}, duplicate.tbx",
+        }
+        self.glossary_component.add_alert(
+            "DuplicateLanguage", occurrences=[duplicate_language_occurrence]
+        )
+
+        response = self.client.post(cleanup_url)
+        self.assertRedirects(response, f"{self.glossary.get_absolute_url()}#repository")
+        alert = self.glossary_component.alert_set.get(name="DuplicateString")
+        self.assertEqual(
+            {
+                occurrence["language_code"]
+                for occurrence in alert.details["occurrences"]
+            },
+            {other_glossary.language.code},
+        )
+        duplicate_language_alert = self.glossary_component.alert_set.get(
+            name="DuplicateLanguage"
+        )
+        self.assertEqual(
+            duplicate_language_alert.details["occurrences"],
+            [duplicate_language_occurrence],
+        )
+        self.assertEqual(
+            PendingUnitChange.objects.for_translation(
+                self.glossary, apply_filters=False
+            ).count(),
+            2,
+        )
+        self.assertTrue(Unit.objects.filter(pk=pending_add_unit.pk).exists())
+        self.assertTrue(
+            PendingUnitChange.objects.filter(
+                unit=pending_add_unit, add_unit=True
+            ).exists()
+        )
+        self.assertEqual(
+            [
+                context
+                for context, source in tbx_source_contexts(filename)
+                if source == "Snippet"
+            ],
+            [""],
+        )
+
+        self.glossary_component.commit_pending("test", self.user)
+        self.assertEqual(
+            PendingUnitChange.objects.for_translation(
+                self.glossary, apply_filters=False
+            ).count(),
+            0,
+        )
+
+        self.assertEqual(
+            [
+                context
+                for context, source in tbx_source_contexts(filename)
+                if source == "Snippet"
+            ],
+            [""],
+        )
+
+        file_content = Path(filename).read_text(encoding="utf-8")
+        self.assertEqual(file_content.count("<term>Snippet</term>"), 1)
+        self.assertEqual(file_content.count("<term>Úryvek</term>"), 1, file_content)
+        self.assertEqual(file_content.count("<term>Pending snippet</term>"), 1)
+        self.assertEqual(file_content.count("<term>Čekající</term>"), 1, file_content)
+
+    def test_file_cleanup_skips_alert_refresh_without_reparse(self) -> None:
+        store = self.glossary.store
+        with (
+            patch.object(store, "remove_duplicate_units", return_value=[]),
+            patch.object(store, "save"),
+            patch.object(self.glossary, "git_commit", return_value=True),
+            patch.object(self.glossary, "handle_store_change", return_value=False),
+            patch.object(self.glossary, "update_single_file_import_alerts") as update,
+        ):
+            self.assertTrue(self.glossary.do_remove_duplicate_units(self.get_request()))
+        update.assert_not_called()
+
+    def test_file_cleanup_keeps_parse_alert_after_failed_reparse(self) -> None:
+        store = self.glossary.store
+        occurrence = {
+            "language_code": self.glossary.language.code,
+            "error": "Broken file",
+            "filename": self.glossary.filename,
+        }
+        self.glossary_component.alerts_trigger = {"ParseError": [occurrence]}
+        with (
+            patch.object(store, "remove_duplicate_units", return_value=[]),
+            patch.object(store, "save"),
+            patch.object(self.glossary, "git_commit", return_value=True),
+            patch.object(self.glossary, "handle_store_change", return_value=False),
+        ):
+            self.assertTrue(self.glossary.do_remove_duplicate_units(self.get_request()))
+
+        alert = self.glossary_component.alert_set.get(name="ParseError")
+        self.assertEqual(alert.details["occurrences"], [occurrence])
 
     def test_duplicate_pending_add_entries_commit_once(self) -> None:
         self.do_add_unit(context="")

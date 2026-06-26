@@ -3960,6 +3960,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """Load translations from VCS."""
         if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -3975,6 +3976,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
+                preserve_pending_units=preserve_pending_units,
             )
 
         # When already in a Celery repository task, scan inline so the same
@@ -3990,6 +3992,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     changed_template=changed_template,
                     from_link=from_link,
                     change=change,
+                    preserve_pending_units=preserve_pending_units,
                 )
             except WeblateLockTimeoutError:
                 self.log_info("scheduling update in background after lock timeout")
@@ -4009,6 +4012,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             changed_template=changed_template,
             from_link=from_link,
             change=change,
+            preserve_pending_units=preserve_pending_units,
             user_id=load_user.id if load_user is not None else None,
         )
         return False
@@ -4024,6 +4028,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """
         Load translations from VCS synchronously.
@@ -4045,6 +4050,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
+                preserve_pending_units=preserve_pending_units,
             )
 
     def check_template_valid(self) -> None:
@@ -4078,6 +4084,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """Load translations from VCS."""
         # ruff: ignore[import-outside-top-level]
@@ -4178,10 +4185,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         lang,
                         code,
                         path,
-                        force,
+                        force=force,
                         request=request,
                         user=user,
                         change=change,
+                        preserve_pending_units=preserve_pending_units,
                     )
                 except InvalidTemplateError as error:
                     self.log_warning(
@@ -4261,6 +4269,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     request=request,
                     user=user,
                     from_link=True,
+                    preserve_pending_units=preserve_pending_units,
                 )
             except FileParseError as error:
                 if not isinstance(error.__cause__, FileNotFoundError):

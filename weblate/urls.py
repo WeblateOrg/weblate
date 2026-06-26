@@ -431,6 +431,16 @@ real_patterns = [
         name="file_scan",
     ),
     path(
+        "remove-duplicate-units/<object_path:path>/",
+        weblate.trans.views.git.remove_duplicate_units,
+        name="remove_duplicate_units",
+    ),
+    path(
+        "cleanup-unused/<object_path:path>/",
+        weblate.trans.views.git.cleanup_unused,
+        name="cleanup_unused",
+    ),
+    path(
         "progress/<object_path:path>/",
         weblate.trans.views.settings.show_progress,
         name="show_progress",

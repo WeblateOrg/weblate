@@ -150,6 +150,7 @@ def perform_load(
     changed_template: bool = False,
     from_link: bool = False,
     change: int | None = None,
+    preserve_pending_units: bool = False,
     user_id: int | None = None,
 ) -> None:
     request: AuthenticatedHttpRequest | None = None
@@ -170,6 +171,7 @@ def perform_load(
         changed_template=changed_template,
         from_link=from_link,
         change=change,
+        preserve_pending_units=preserve_pending_units,
         request=request,
         user=user,
     )

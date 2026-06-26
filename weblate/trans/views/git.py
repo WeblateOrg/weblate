@@ -207,6 +207,42 @@ def file_scan(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
 
 @login_required
 @require_repository_action_post
+def remove_duplicate_units(
+    request: AuthenticatedHttpRequest, path: list[str]
+) -> HttpResponseBase:
+    obj = parse_path(request, path, (Translation,))
+    if not request.user.has_perm("vcs.reset", obj):
+        raise PermissionDenied
+
+    return execute_locked(
+        request,
+        obj,
+        gettext("Duplicate strings have been removed from the translation file."),
+        obj.do_remove_duplicate_units,
+        request,
+    )
+
+
+@login_required
+@require_repository_action_post
+def cleanup_unused(
+    request: AuthenticatedHttpRequest, path: list[str]
+) -> HttpResponseBase:
+    obj = parse_path(request, path, (Translation,))
+    if not request.user.has_perm("vcs.reset", obj):
+        raise PermissionDenied
+
+    return execute_locked(
+        request,
+        obj,
+        gettext("Unused strings have been removed from the translation file."),
+        obj.do_cleanup_unused,
+        request,
+    )
+
+
+@login_required
+@require_repository_action_post
 def commit(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.commit", obj):

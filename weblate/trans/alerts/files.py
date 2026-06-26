@@ -29,6 +29,26 @@ class DuplicateString(MultiAlert):
 
     # Note: The removal of this alert can be also done in Translation.delete_unit
 
+    def get_analysis(self) -> dict[str, Any]:
+        translations = []
+        seen = set()
+        for occurrence in self.occurrences:
+            unit = occurrence.get("unit")
+            if unit is None:
+                continue
+            translation = unit.translation
+            if (
+                not translation.filename
+                or translation.pk in seen
+                or not translation.supports_remove_duplicate_units(
+                    translation.component
+                )
+            ):
+                continue
+            seen.add(translation.pk)
+            translations.append(translation)
+        return {"cleanup_translations": translations}
+
 
 @register
 class DuplicateLanguage(MultiAlert):
