@@ -43,8 +43,11 @@ TOKEN_CACHE_TTL = 50 * 60
 # GitHub enforces a 10-minute maximum on App JWTs
 JWT_MAX_LIFETIME = 9 * 60
 
-# Permissions and events Weblate needs when registering a GitHub App via
-# the manifest flow. Keep aligned with the documented manual setup.
+# Permissions and manifest-selectable events Weblate needs when registering a
+# GitHub App via the manifest flow. GitHub delivers App lifecycle events such as
+# ``installation`` and ``installation_repositories`` to every App webhook
+# automatically, so requesting them in ``default_events`` makes GitHub reject the
+# manifest instead of enabling anything extra.
 GITHUB_APP_MANIFEST_PERMISSIONS: dict[str, str] = {
     "contents": "write",
     "metadata": "read",
@@ -52,8 +55,6 @@ GITHUB_APP_MANIFEST_PERMISSIONS: dict[str, str] = {
     "workflows": "write",
 }
 GITHUB_APP_MANIFEST_EVENTS: tuple[str, ...] = (
-    "installation",
-    "installation_repositories",
     "installation_target",
     "meta",
     "push",
