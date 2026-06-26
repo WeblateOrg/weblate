@@ -271,11 +271,11 @@ manifest with the correct permissions, events, and webhook URL pre-filled:
 
 The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
-``Workflows`` read/write, and the ``Installation target``, ``Meta`` and ``Push``
-events), and sets the callback, setup and per-integration webhook URLs
-automatically, so no manual GitHub App configuration is required.
-GitHub delivers the ``Installation`` and ``Installation repositories`` events
-to all GitHub Apps by default.
+``Organization administration`` read-only, ``Workflows`` read/write, and the
+``Installation``, ``Meta`` and ``Push`` events), and sets the callback, setup
+and per-integration webhook URLs automatically, so no manual GitHub App
+configuration is required. GitHub delivers the ``Installation`` and
+``Installation repositories`` events to all GitHub Apps by default.
 
 GitHub only offers accounts where the signed-in GitHub user can install or
 request the app. If an organization is not shown during the install flow, check
@@ -290,7 +290,8 @@ Connected GitHub accounts are bound to a Weblate :ref:`workspace <workspaces>`.
 A user with project administration rights for any project in a workspace can
 connect a GitHub account on that workspace. After connecting, every project in
 the workspace can import components from repositories the app installation has
-access to.
+access to. For organization installations, Weblate verifies that the install-time
+GitHub user can administer the organization installation.
 
 Projects that are not in a workspace cannot connect a GitHub App installation.
 

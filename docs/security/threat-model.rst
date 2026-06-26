@@ -390,6 +390,14 @@ Input assumptions
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)
      - Hook enablement only where needed, request limits, and monitoring.
        *(maintainer)*
+   * - GitHub App connection callbacks
+     - GitHub OAuth code, signed Weblate state, installation ID, account metadata
+     - Yes, from authenticated Weblate users and GitHub redirect query strings.
+       *(documented)* (source: :ref:`code-hosting-github-app-register`)
+     - Weblate requires workspace management rights and verifies that the
+       GitHub user owns the personal installation or can administer the
+       organization installation before saving it. *(documented)* (source:
+       :ref:`code-hosting-github-app-register`)
    * - Repository configuration
      - Repository URLs, branches, push URLs, credentials, Gerrit review push
        options, add-on settings

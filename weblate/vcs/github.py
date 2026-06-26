@@ -13,7 +13,7 @@ import logging
 import time
 import uuid
 from typing import TYPE_CHECKING, ClassVar
-from urllib.parse import urlencode, urlparse
+from urllib.parse import quote, urlencode, urlparse
 
 import jwt
 import requests
@@ -51,6 +51,7 @@ JWT_MAX_LIFETIME = 9 * 60
 GITHUB_APP_MANIFEST_PERMISSIONS: dict[str, str] = {
     "contents": "write",
     "metadata": "read",
+    "organization_administration": "read",
     "pull_requests": "write",
     "workflows": "write",
 }
@@ -465,27 +466,35 @@ def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
     return token
 
 
-def user_can_access_installation(
-    config: GitHubAppCredentials, user_token: str, installation_id: str | int
-) -> bool:
-    """Return whether the authenticated user can access ``installation_id``."""
-    return (
-        get_user_accessible_installation(config, user_token, installation_id)
-        is not None
+def get_authenticated_github_user(
+    config: GitHubAppCredentials, user_token: str
+) -> dict:
+    """Return metadata for the authenticated GitHub user."""
+    api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
+    response = requests.get(
+        f"{api_base}/user",
+        headers=_get_github_user_headers(user_token),
+        timeout=30,
     )
+    response.raise_for_status()
+    return response.json()
 
 
-def get_user_accessible_installation(
+def _get_github_user_headers(user_token: str) -> dict[str, str]:
+    return {
+        "Authorization": f"Bearer {user_token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+
+
+def _get_user_accessible_installation(
     config: GitHubAppCredentials, user_token: str, installation_id: str | int
 ) -> dict | None:
     """Return the user-visible installation metadata for ``installation_id``."""
     installation_id = str(installation_id)
     api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
     url: str | None = f"{api_base}/user/installations?per_page=100"
-    headers = {
-        "Authorization": f"Bearer {user_token}",
-        "Accept": "application/vnd.github.v3+json",
-    }
+    headers = _get_github_user_headers(user_token)
     while url:
         response = requests.get(url, headers=headers, timeout=30)
         response.raise_for_status()
@@ -493,6 +502,68 @@ def get_user_accessible_installation(
             if str(installation.get("id")) == installation_id:
                 return installation
         url = response.links.get("next", {}).get("url")
+    return None
+
+
+def user_can_administer_org_installation(
+    config: GitHubAppCredentials,
+    user_token: str,
+    org: str,
+    installation_id: str | int,
+) -> bool:
+    """Return whether the authenticated user can administer an org installation."""
+    installation_id = str(installation_id)
+    api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
+    url: str | None = (
+        f"{api_base}/orgs/{quote(org, safe='')}/installations?per_page=100"
+    )
+    headers = _get_github_user_headers(user_token)
+    while url:
+        response = requests.get(url, headers=headers, timeout=30)
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as error:
+            if error.response is not None and error.response.status_code in {403, 404}:
+                return False
+            raise
+        for installation in response.json().get("installations", []):
+            if str(installation.get("id")) == installation_id:
+                return True
+        url = response.links.get("next", {}).get("url")
+    return False
+
+
+def get_user_admin_installation(
+    config: GitHubAppCredentials, user_token: str, installation_id: str | int
+) -> dict | None:
+    """
+    Return installation metadata only when the user owns or administers it.
+
+    ``GET /user/installations`` is repository-access based, so organization
+    installations need an additional owner/admin check before Weblate can bind
+    the installation and mint installation tokens for all repositories.
+    """
+    installation = _get_user_accessible_installation(
+        config, user_token, installation_id
+    )
+    if installation is None:
+        return None
+
+    account = installation["account"]
+    target_login: str = account["login"]
+    target_type: str = account["type"].lower()
+
+    if target_type == "user":
+        user = get_authenticated_github_user(config, user_token)
+        if user.get("login") == target_login:
+            return installation
+        return None
+
+    if target_type == "organization" and user_can_administer_org_installation(
+        config, user_token, target_login, installation_id
+    ):
+        return installation
+
     return None
 
 

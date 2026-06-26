@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+from typing import cast
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import responses
@@ -89,6 +90,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         *,
         hostname: str = "github.com",
         accessible_ids: tuple[str, ...] = ("12345",),
+        managed_installation_ids: tuple[str, ...] | None = None,
         installations: list[dict] | None = None,
         token: str = "ghu_user",  # noqa: S107
     ) -> None:
@@ -106,30 +108,61 @@ class GitHubInstallationViewTest(ViewTestCase):
             f"{oauth_base}/login/oauth/access_token",
             json={"access_token": token, "token_type": "bearer"},
         )
+        installation_rows = (
+            installations
+            if installations is not None
+            else [
+                {
+                    "id": int(i),
+                    "account": {"login": "test-org", "type": "Organization"},
+                }
+                for i in accessible_ids
+            ]
+        )
         responses.add(
             responses.GET,
             f"{api_base}/user/installations?per_page=100",
-            json={
-                "installations": installations
-                if installations is not None
-                else [{"id": int(i)} for i in accessible_ids]
-            },
+            json={"installations": installation_rows},
         )
+        if managed_installation_ids is None:
+            managed_installation_ids = tuple(
+                str(installation.get("id")) for installation in installation_rows
+            )
+        managed_ids = set(managed_installation_ids)
+        org_rows: dict[str, list[dict]] = {}
+        for installation in installation_rows:
+            account: dict[str, str] = (
+                cast("dict[str, str]", installation.get("account")) or {}
+            )
+            if account.get("type") != "Organization":
+                continue
+            login = account.get("login")
+            if not login:
+                continue
+            rows = org_rows.setdefault(str(login), [])
+            if str(installation.get("id")) in managed_ids:
+                rows.append(installation)
+        for org, rows in org_rows.items():
+            responses.add(
+                responses.GET,
+                f"{api_base}/orgs/{org}/installations?per_page=100",
+                json={"installations": rows},
+            )
 
     def _mock_setup_api(
         self,
         *,
         repositories: list[dict] | None = None,
+        account: dict | None = None,
     ) -> list[dict]:
         if repositories is None:
             repositories = [_repo_entry("test-org/repo1")]
+        if account is None:
+            account = {"login": "test-org", "type": "Organization"}
         responses.add(
             responses.GET,
             "https://api.github.com/app/installations/12345",
-            json={
-                "id": 12345,
-                "account": {"login": "test-org", "type": "Organization"},
-            },
+            json={"id": 12345, "account": account},
         )
         responses.add(
             responses.POST,
@@ -398,6 +431,61 @@ class GitHubInstallationViewTest(ViewTestCase):
             [
                 ("POST", "https://github.com/login/oauth/access_token"),
                 ("GET", "https://api.github.com/user/installations?per_page=100"),
+                (
+                    "GET",
+                    "https://api.github.com/orgs/test-org/installations?per_page=100",
+                ),
+                ("GET", "https://api.github.com/app/installations/12345"),
+                (
+                    "POST",
+                    "https://api.github.com/app/installations/12345/access_tokens",
+                ),
+                (
+                    "GET",
+                    "https://api.github.com/installation/repositories?per_page=100",
+                ),
+            ],
+        )
+
+    @responses.activate
+    def test_setup_connects_personal_installation_for_account_owner(self):
+        repositories = [_repo_entry("octocat/repo1", default_branch="stable")]
+        next_url = "/create/component/#github"
+        install_url = self._start_install(next_url)
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(
+            installations=[
+                {"id": 12345, "account": {"login": "octocat", "type": "User"}}
+            ]
+        )
+        responses.add(
+            responses.GET,
+            "https://api.github.com/user",
+            json={"login": "octocat"},
+        )
+        self._mock_setup_api(
+            repositories=repositories,
+            account={"login": "octocat", "type": "User"},
+        )
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertRedirects(response, next_url)
+        connected = GitHubInstallation.objects.get(
+            installation_id="12345", workspace=self.workspace
+        )
+        self.assertEqual(connected.target_login, "octocat")
+        self.assertEqual(connected.target_type, "User")
+        self.assertEqual(connected.repositories, repositories)
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in responses.calls],
+            [
+                ("POST", "https://github.com/login/oauth/access_token"),
+                ("GET", "https://api.github.com/user/installations?per_page=100"),
+                ("GET", "https://api.github.com/user"),
                 ("GET", "https://api.github.com/app/installations/12345"),
                 (
                     "POST",
@@ -522,6 +610,69 @@ class GitHubInstallationViewTest(ViewTestCase):
             [
                 ("POST", "https://github.com/login/oauth/access_token"),
                 ("GET", "https://api.github.com/user/installations?per_page=100"),
+            ],
+        )
+
+    @responses.activate
+    def test_setup_rejects_personal_installation_for_non_owner(self):
+        install_url = self._start_install("/create/component/#github")
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(
+            installations=[
+                {"id": 12345, "account": {"login": "octocat", "type": "User"}}
+            ]
+        )
+        responses.add(
+            responses.GET,
+            "https://api.github.com/user",
+            json={"login": "repo-collaborator"},
+        )
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="12345").exists()
+        )
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in responses.calls],
+            [
+                ("POST", "https://github.com/login/oauth/access_token"),
+                ("GET", "https://api.github.com/user/installations?per_page=100"),
+                ("GET", "https://api.github.com/user"),
+            ],
+        )
+
+    @responses.activate
+    def test_setup_rejects_org_installation_without_admin_access(self):
+        # ``GET /user/installations`` can list organization installations where
+        # the user merely has repository access. Weblate must require the
+        # stronger organization-admin installation list before connecting it.
+        install_url = self._start_install("/create/component/#github")
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(accessible_ids=("12345",), managed_installation_ids=())
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="12345").exists()
+        )
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in responses.calls],
+            [
+                ("POST", "https://github.com/login/oauth/access_token"),
+                ("GET", "https://api.github.com/user/installations?per_page=100"),
+                (
+                    "GET",
+                    "https://api.github.com/orgs/test-org/installations?per_page=100",
+                ),
             ],
         )
 
@@ -868,7 +1019,26 @@ class GitHubAppAccessControlTest(ViewTestCase):
         responses.add(
             responses.GET,
             "https://api.github.com/user/installations?per_page=100",
-            json={"installations": [{"id": 12345}]},
+            json={
+                "installations": [
+                    {
+                        "id": 12345,
+                        "account": {"login": "test-org", "type": "Organization"},
+                    }
+                ]
+            },
+        )
+        responses.add(
+            responses.GET,
+            "https://api.github.com/orgs/test-org/installations?per_page=100",
+            json={
+                "installations": [
+                    {
+                        "id": 12345,
+                        "account": {"login": "test-org", "type": "Organization"},
+                    }
+                ]
+            },
         )
         responses.add(
             responses.GET,

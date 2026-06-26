@@ -45,7 +45,7 @@ from weblate.vcs.github import (
     get_github_app_manifest_new_url,
     get_github_app_settings,
     get_github_repository_import_url,
-    get_user_accessible_installation,
+    get_user_admin_installation,
     github_app_is_configured,
     normalize_github_app_hostname,
 )
@@ -531,13 +531,13 @@ def _get_authorized_installation(request, config, code, installation_id) -> dict
     Return the installation when the current user controls it via OAuth.
 
     Exchanges the install-time ``code`` for a user-to-server token and checks
-    that the installation appears in the user's own installation list.
+    that the user owns or administers the selected installation.
     """
     if not code:
         return None
     try:
         user_token = exchange_github_user_code(config, code)
-        return get_user_accessible_installation(config, user_token, installation_id)
+        return get_user_admin_installation(config, user_token, installation_id)
     except Exception:
         report_error("Failed to verify GitHub installation ownership")
         return None
@@ -603,9 +603,9 @@ def github_app_setup(request):
         messages.error(
             request,
             gettext(
-                "Weblate could not confirm that you have access to this GitHub "
-                "installation. Start the installation again and approve the "
-                "authorization request."
+                "Weblate could not confirm that you can administer this GitHub "
+                "installation. Start the installation again with a GitHub user "
+                "who owns the account or can administer the organization."
             ),
         )
         return redirect(next_url)
