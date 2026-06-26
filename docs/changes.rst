@@ -59,6 +59,7 @@ Weblate 2026.7
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * :ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations.
+* :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags.
 * Repository reset and update progress now includes follow-up translation-file reconciliation.
 * Updating repository URLs now validates compatible Git history without requiring an immediate successful merge.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
