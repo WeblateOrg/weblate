@@ -132,7 +132,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         org_rows: dict[str, list[dict]] = {}
         for installation in installation_rows:
             account: dict[str, str] = (
-                cast(dict[str, str], installation.get("account")) or {}
+                cast("dict[str, str]", installation.get("account")) or {}
             )
             if account.get("type") != "Organization":
                 continue
