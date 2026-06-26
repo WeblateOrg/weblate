@@ -12,6 +12,7 @@ Weblate 2026.7
 * Added :ref:`code-hosting-github-app-register` for connecting GitHub repositories through a Weblate GitHub App.
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
+* Added an option to capitalize the text in status badge widgets.
 
 .. rubric:: Improvements
 
