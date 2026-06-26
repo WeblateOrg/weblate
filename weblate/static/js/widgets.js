@@ -120,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
       option.textContent = color;
       colorSelect.append(option);
     }
-    updateLivePreviewAndEmbedCode();
   }
 
   function updateQueryParams() {
@@ -149,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
         input.id = param.name;
         input.name = param.name;
 
+        let supported = false;
         if (param.type === "number") {
           input.type = param.type;
           input.min = param.min;
@@ -156,13 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
           input.step = param.step;
           input.value = param.default;
           input.className = "form-control mt-2";
+          supported = true;
         } else if (param.type === "boolean") {
           input.type = "checkbox";
           input.checked = param.default;
           input.className = "form-check-input ms-2 mt-2";
+          supported = true;
         }
 
-        if (input.type) {
+        if (supported) {
           extraParamsContainer.append(input);
           // Add change event listener to update query params and live preview
           input.addEventListener("change", () => {
@@ -172,6 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
+    
+    updateLivePreviewAndEmbedCode();
   }
 
   widgetTypeSelect.addEventListener("change", () => {
