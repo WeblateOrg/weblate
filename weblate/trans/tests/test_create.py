@@ -400,7 +400,7 @@ class CreateTest(ViewTestCase):
         )
 
         # Simulate a worker whose VCS registry was loaded before any App existed.
-        VCS_REGISTRY.__dict__.pop("data", None)
+        VCS_REGISTRY.clear_cache()
         try:
             response = self.client.get(
                 reverse("create-component-vcs"),
@@ -418,7 +418,7 @@ class CreateTest(ViewTestCase):
             self.assertEqual(form["branch"].value(), "main")
             self.assertNotIn("github-app", dict(form.fields["vcs"].choices))
         finally:
-            VCS_REGISTRY.__dict__.pop("data", None)
+            VCS_REGISTRY.clear_cache()
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_rejects_manual_github_app_vcs(self) -> None:

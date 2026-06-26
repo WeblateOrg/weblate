@@ -1514,7 +1514,7 @@ class SettingsTest(ViewTestCase):
     def test_component_settings_reject_manual_github_app_vcs(self) -> None:
         self.project.add_user(self.user, "Administration")
 
-        VCS_REGISTRY.__dict__.pop("git_based", None)
+        VCS_REGISTRY.clear_cache()
         form = ComponentSettingsForm(self.get_request(), instance=self.component)
 
         self.assertNotIn("github-app", dict(form.fields["vcs"].choices))
