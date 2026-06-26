@@ -4463,6 +4463,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def set_default_branch(self) -> None:
         """Set default VCS branch if empty."""
         if not self.branch and not self.is_repo_link:
+            if self.repository_class.component_requires_branch:
+                return
             self.branch = self.repository_class.get_remote_branch(self.repo)
 
     def clean_category(self) -> None:
@@ -4801,6 +4803,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
             raise ValidationError(
                 {"push": gettext("Push URL is not used without a remote repository.")}
             )
+
+        for field in self.repository_class.component_clear_fields:
+            setattr(self, field, "")
+
+        if self.repository_class.component_requires_branch and not self.branch:
+            raise ValidationError(
+                {
+                    "branch": gettext(
+                        "Repository branch is required for this integration."
+                    )
+                }
+            )
+
+        self.repository_class.validate_component(self)
 
         # Validate VCS repo
         try:

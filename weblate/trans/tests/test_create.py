@@ -15,7 +15,7 @@ from translation_finder import DiscoveryResult
 
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
-from weblate.trans.forms import ComponentCreateForm
+from weblate.trans.forms import ComponentCreateForm, ComponentInitCreateForm
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import (
@@ -23,10 +23,18 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     get_test_file,
 )
-from weblate.trans.views.create import CreateComponentSelection
+from weblate.trans.views.create import (
+    INTEGRATION_IMPORT_VCS_KEY,
+    SESSION_CREATE_KEY,
+    CreateComponent,
+    CreateComponentSelection,
+)
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
 from weblate.vcs.git import GitRepository
+from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
+from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 if TYPE_CHECKING:
@@ -377,6 +385,120 @@ class CreateTest(ViewTestCase):
             response = self.client.post(reverse("create-component-vcs"), params)
         self.assertContains(response, self.component.get_repo_link_url())
         self.assertContains(response, "po/*.po")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_does_not_offer_manual_github_app_vcs(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="99999",
+            app_slug="weblate-app",
+            private_key=generate_private_key(),
+            webhook_secret="secret",
+        )
+
+        # Simulate a worker whose VCS registry was loaded before any App existed.
+        VCS_REGISTRY.clear_cache()
+        try:
+            response = self.client.get(
+                reverse("create-component-vcs"),
+                {
+                    "repo": "https://github.com/test-org/repo1.git",
+                    "branch": "main",
+                    "vcs": "github-app",
+                    "project": self.project.pk,
+                },
+            )
+            form = response.context["form"]
+            self.assertEqual(
+                form["repo"].value(), "https://github.com/test-org/repo1.git"
+            )
+            self.assertEqual(form["branch"].value(), "main")
+            self.assertNotIn("github-app", dict(form.fields["vcs"].choices))
+        finally:
+            VCS_REGISTRY.clear_cache()
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_rejects_manual_github_app_vcs(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        form = ComponentInitCreateForm(
+            self.get_request(),
+            data={
+                "name": "GitHub App Component",
+                "slug": "github-app-component",
+                "project": self.project.pk,
+                "source_language": get_default_lang(),
+                "vcs": "github-app",
+                "repo": "https://github.com/test-org/repo1.git",
+                "branch": "main",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("vcs", form.errors)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_hides_github_app_imports_without_credentials(
+        self,
+    ) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.project.workspace = Workspace.objects.create(name="GitHub App workspace")
+        self.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="stale-org",
+            hostname="github.example.com",
+            workspace=self.project.workspace,
+            repositories=[
+                {
+                    "name": "repo1",
+                    "full_name": "stale-org/repo1",
+                    "clone_url": "https://github.example.com/stale-org/repo1.git",
+                    "ssh_url": "git@github.example.com:stale-org/repo1.git",
+                    "html_url": "https://github.example.com/stale-org/repo1",
+                    "default_branch": "main",
+                    "private": False,
+                    "description": "",
+                }
+            ],
+        )
+
+        response = self.client.get(
+            reverse("create-component"), {"project": self.project.pk}
+        )
+
+        self.assertEqual(response.context["github_app_repositories"], [])
+        self.assertNotContains(response, "stale-org/repo1")
+
+    def test_create_component_locks_github_app_integration_fields(self) -> None:
+        form = ComponentCreateForm(
+            self.get_request(),
+            initial={
+                "vcs": "github-app",
+                "repo": "https://github.com/test-org/repo.git",
+                "push": "https://github.com/test-org/repo.git",
+                "push_branch": "translations",
+            },
+            instance=Component(project=self.project),
+        )
+        view = CreateComponent()
+        view.initial = {"vcs": "github-app"}
+        view.integration_import_vcs = "github-app"
+
+        view.patch_integration_vcs_choice(form)
+
+        for field in ("vcs", "repo", "push", "push_branch"):
+            self.assertTrue(form.fields[field].disabled)
+        self.assertEqual(form.initial["push"], "")
+        self.assertEqual(form.fields["push"].initial, "")
+        self.assertEqual(form.initial["push_branch"], "")
+        self.assertEqual(form.fields["push_branch"].initial, "")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_wizard_discovery_file_format_params(self) -> None:
@@ -787,6 +909,34 @@ class CreateTest(ViewTestCase):
 
         change = new_component.change_set.get(action=ActionEvents.CREATE_COMPONENT)
         self.assertEqual(change.details["origin"], "vcs")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_existing_preserves_github_app_vcs(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo.git"
+        self.component.save(update_fields=["vcs", "repo"])
+
+        response = self.client.post(
+            reverse("create-component"),
+            {
+                "origin": "existing",
+                "name": "Create Component From GitHub App",
+                "slug": "create-component-from-github-app",
+                "component": self.component.pk,
+                "is_glossary": self.component.is_glossary,
+            },
+        )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1",
+            fetch_redirect_response=False,
+        )
+        session_data = self.client.session[SESSION_CREATE_KEY]
+        self.assertEqual(session_data["vcs"], "github-app")
+        self.assertEqual(session_data[INTEGRATION_IMPORT_VCS_KEY], "github-app")
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_create_component_rejects_inaccessible_source_component(self) -> None:

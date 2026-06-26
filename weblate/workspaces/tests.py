@@ -115,11 +115,13 @@ class WorkspaceViewTest(BaseTestCase):
         workspace = Workspace.objects.create(name="Settings workspace")
         workspace.add_owner(user)
         settings_url = reverse("settings", kwargs={"path": workspace.get_url_path()})
+        integrations_url = f"{reverse('account-vcs')}?workspace={workspace.pk}"
 
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(workspace.get_absolute_url())
 
         self.assertContains(response, settings_url)
+        self.assertContains(response, integrations_url)
         self.assertNotContains(response, 'data-bs-target="#settings"', status_code=200)
 
         response = self.client.get(settings_url)
@@ -494,6 +496,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertNotContains(response, access_url, status_code=200)
         self.assertNotContains(response, 'data-bs-target="#access"', status_code=200)
         self.assertNotContains(response, "Access control", status_code=200)
+        self.assertNotContains(response, "VCS integrations", status_code=200)
 
         response = self.client.get(access_url)
 

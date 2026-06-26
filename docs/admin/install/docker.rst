@@ -1429,6 +1429,10 @@ Or the path to a file containing the Python dictionary:
 
        :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
 
+GitHub Apps are registered through the in-app manifest flow and stored in the
+database, so there are no GitHub App environment variables to configure. See
+:ref:`code-hosting-github-notifications`.
+
 .. envvar:: WEBLATE_GITLAB_USERNAME
 .. envvar:: WEBLATE_GITLAB_TOKEN
 .. envvar:: WEBLATE_GITLAB_HOST

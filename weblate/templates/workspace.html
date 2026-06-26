@@ -53,6 +53,10 @@
               <li>
                 <a class="dropdown-item" href="{% url 'settings' path=workspace.get_url_path %}">{% translate "Settings" %}</a>
               </li>
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'account-vcs' %}?workspace={{ workspace.pk }}">{% translate "VCS integrations" %}</a>
+              </li>
             {% endif %}
             {% if can_manage_access %}
               <li>

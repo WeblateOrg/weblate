@@ -9,6 +9,7 @@ DEFAULT_VCS_BACKENDS: tuple[str, ...] = (
     "weblate.vcs.git.GitWithGerritRepository",
     "weblate.vcs.git.SubversionRepository",
     "weblate.vcs.git.GithubRepository",
+    "weblate.vcs.github.GithubAppRepository",
     "weblate.vcs.git.AzureDevOpsRepository",
     "weblate.vcs.git.GiteaRepository",
     "weblate.vcs.git.GitLabRepository",

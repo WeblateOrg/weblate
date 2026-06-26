@@ -5,7 +5,8 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from functools import partial
+from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
@@ -13,9 +14,11 @@ from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import parsers, serializers
 from rest_framework.exceptions import (
+    APIException,
     MethodNotAllowed,
     NotFound,
     ParseError,
+    PermissionDenied,
     ValidationError,
 )
 from rest_framework.permissions import AllowAny
@@ -40,8 +43,16 @@ from weblate.trans.hooks.matching import HOOK_MATCH_EXACT, HOOK_MATCH_FALLBACK
 from weblate.trans.models import Component
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
+from weblate.vcs.github import (
+    GitHubAppCredentials,
+    GitHubInstallation,
+    get_github_app_settings,
+    verify_webhook_signature,
+)
+from weblate.vcs.models import InstallationProvider, PendingInstallation
 
 if TYPE_CHECKING:
+    import uuid
     from collections.abc import Generator
 
     from django.db.models import QuerySet
@@ -100,6 +111,10 @@ class HandlerResponse(TypedDict):
     repos: list[str]
     branch: str | None
     full_name: str | None
+    exact_match: NotRequired[bool]
+    project_ids: NotRequired[list[int]]
+    component_vcs: NotRequired[str]
+    exclude_component_vcs: NotRequired[list[str]]
 
 
 HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
@@ -112,9 +127,11 @@ class HookPayloadError(Exception):
     """Raised for malformed but expected webhook payload problems."""
 
 
-def exact_repositories_filter(repos: list[str]) -> Q:
+def exact_repositories_filter(repos: list[str], *, include_variants: bool = True) -> Q:
     """Build a filter for exact repository URL matching."""
     spfilter = Q(repo__in=repos)
+    if not include_variants:
+        return spfilter
     for repo in repos:
         # We need to match also URLs which include username and password
         if repo.startswith("http://"):
@@ -139,16 +156,32 @@ def inexact_hook_alert_details(details: Mapping[str, object]) -> dict[str, str]:
 
 
 def get_hook_components(
-    repos: list[str], full_name: str | None
+    repos: list[str],
+    full_name: str | None,
+    *,
+    exact_match: bool = False,
+    project_ids: list[int] | None = None,
+    component_vcs: str | None = None,
+    exclude_component_vcs: list[str] | None = None,
 ) -> tuple[QuerySet[Component], str]:
     """Return hook target components and repository match method."""
-    repo_components = Component.objects.filter(exact_repositories_filter(repos))
+    components = Component.objects.all()
+    if project_ids is not None:
+        components = components.filter(project_id__in=project_ids)
+    if component_vcs is not None:
+        components = components.filter(vcs=component_vcs)
+    if exclude_component_vcs is not None:
+        components = components.exclude(vcs__in=exclude_component_vcs)
+
+    repo_components = components.filter(
+        exact_repositories_filter(repos, include_variants=not exact_match)
+    )
+    if exact_match:
+        return repo_components, HOOK_MATCH_EXACT
     if repo_components.exists():
         return repo_components, HOOK_MATCH_EXACT
 
-    fallback_components = get_fallback_components(
-        Component.objects.all(), repos, full_name
-    )
+    fallback_components = get_fallback_components(components, repos, full_name)
     if fallback_components is None:
         return repo_components, HOOK_MATCH_EXACT
 
@@ -413,12 +446,349 @@ def bitbucket_hook_helper(data, request: Request | None) -> HandlerResponse | No
     }
 
 
-@register_hook
-def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
-    """Parse hooks from GitHub."""
-    # Ignore non push events
-    if request and request.headers.get("x-github-event") != "push":
+def _lookup_github_installation(data: dict, hostname: str | None = None):
+    """Return the GitHubInstallation referenced by the webhook payload, if any."""
+    installation_id = (data.get("installation") or {}).get("id")
+    if not installation_id:
         return None
+
+    if hostname is not None:
+        return GitHubInstallation.objects.get_for_installation(
+            hostname, installation_id
+        )
+
+    matches = list(
+        GitHubInstallation.objects.filter(installation_id=str(installation_id))[:2]
+    )
+    if len(matches) == 1:
+        return matches[0]
+    return None
+
+
+def _refresh_github_installations(installations) -> None:
+    """Refresh repositories once and copy the result to matching project rows."""
+    if not installations:
+        return
+    try:
+        repositories = installations[0].refresh_repositories()
+    except Exception:
+        report_error("Failed to refresh connected GitHub account repositories")
+        return
+
+    repositories_updated = installations[0].repositories_updated
+    for installation in installations[1:]:
+        installation.repositories = repositories
+        installation.repositories_updated = repositories_updated
+        installation.save(update_fields=["repositories", "repositories_updated"])
+
+
+def _github_http_host(hostname: str) -> str:
+    """Return the hostname used in GitHub repository URLs."""
+    return "github.com" if hostname == "github.com" else hostname
+
+
+def _github_repository_entry(repo: Mapping[str, object], hostname: str) -> dict:
+    """Return cached repository metadata from a GitHub webhook repository object."""
+    full_name = cast("str", repo["full_name"])
+    http_host = _github_http_host(hostname)
+    return {
+        "name": repo.get("name") or full_name.rsplit("/", 1)[-1],
+        "full_name": full_name,
+        "clone_url": repo.get("clone_url") or f"https://{http_host}/{full_name}.git",
+        "ssh_url": repo.get("ssh_url") or f"git@{http_host}:{full_name}.git",
+        "html_url": repo.get("html_url") or f"https://{http_host}/{full_name}",
+        "default_branch": repo.get("default_branch", "main"),
+        "private": repo.get("private", False),
+        "description": repo.get("description", ""),
+    }
+
+
+def _github_repository_entries(repositories, hostname: str) -> list[dict]:
+    return [_github_repository_entry(repo, hostname) for repo in repositories or []]
+
+
+def _store_pending_github_installation_event(
+    data: dict, hostname: str, installation_id: str
+) -> None:
+    """Persist a signed installation event until setup validates a workspace."""
+    PendingInstallation.objects.update_or_create(
+        provider=InstallationProvider.GITHUB,
+        hostname=hostname,
+        installation_id=installation_id,
+        defaults={"payload": data},
+    )
+    LOGGER.info(
+        "Stored pending GitHub account %s/%s webhook until setup completes",
+        hostname,
+        installation_id,
+    )
+
+
+def apply_pending_github_installation_event(
+    hostname: str, installation_id: str | int
+) -> bool:
+    """Apply a previously signed installation webhook to authorized workspace rows."""
+    installation_id = str(installation_id)
+    pending = PendingInstallation.objects.filter(
+        provider=InstallationProvider.GITHUB,
+        hostname=hostname,
+        installation_id=installation_id,
+    ).first()
+    if pending is None:
+        return False
+
+    installation = GitHubInstallation.objects.get_for_installation(
+        hostname, installation_id
+    )
+    _handle_github_installation_event(pending.payload, installation, hostname)
+    pending.delete()
+    return True
+
+
+def _rename_github_repository(
+    repo: dict,
+    *,
+    hostname: str,
+    old_login: str,
+    new_login: str,
+) -> tuple[dict, str | None, str | None]:
+    """Return repository metadata updated after a GitHub account rename."""
+    full_name = repo.get("full_name")
+    old_prefix = f"{old_login}/"
+    if not isinstance(full_name, str) or not full_name.startswith(old_prefix):
+        return repo, None, None
+
+    new_full_name = f"{new_login}/{full_name.removeprefix(old_prefix)}"
+    http_host = _github_http_host(hostname)
+    renamed = {**repo, "full_name": new_full_name}
+    old_clone_url = repo.get("clone_url")
+    new_clone_url = None
+    if isinstance(old_clone_url, str):
+        new_clone_url = f"https://{http_host}/{new_full_name}.git"
+        renamed["clone_url"] = new_clone_url
+    if "ssh_url" in renamed:
+        renamed["ssh_url"] = f"git@{http_host}:{new_full_name}.git"
+    if "html_url" in renamed:
+        renamed["html_url"] = f"https://{http_host}/{new_full_name}"
+    return (
+        renamed,
+        old_clone_url if isinstance(old_clone_url, str) else None,
+        new_clone_url,
+    )
+
+
+def _get_github_installation_old_login(data: dict, installation) -> str:
+    """Return the previous GitHub login from the payload or stored row."""
+    changes = data.get("changes")
+    if isinstance(changes, Mapping):
+        login = changes.get("login")
+        if isinstance(login, Mapping):
+            old_login = login.get("from")
+            if isinstance(old_login, str):
+                return old_login
+    return installation.target_login if installation is not None else ""
+
+
+def _handle_github_installation_target_event(
+    data: dict, installation, hostname: str | None
+) -> None:
+    """Handle GitHub account or organization rename events."""
+    if data.get("action") != "renamed":
+        return
+
+    payload = data.get("installation") or {}
+    installation_id = str(payload.get("id", ""))
+    new_login = data["account"]["login"]
+    if not installation_id or not new_login:
+        return
+
+    hostname = installation.hostname if installation is not None else hostname
+    if hostname is None:
+        return
+
+    old_login = _get_github_installation_old_login(data, installation)
+    if not old_login:
+        return
+
+    installations = list(
+        GitHubInstallation.objects.filter_for_installation(hostname, installation_id)
+    )
+    if not installations:
+        return
+
+    for item in installations:
+        repo_updates = []
+        repositories = []
+        for repo in item.repositories:
+            renamed, old_clone_url, new_clone_url = _rename_github_repository(
+                repo,
+                hostname=item.hostname,
+                old_login=old_login,
+                new_login=new_login,
+            )
+            repositories.append(renamed)
+            if old_clone_url and new_clone_url:
+                repo_updates.append((old_clone_url, new_clone_url))
+
+        item.target_login = new_login
+        item.repositories = repositories
+        item.save(update_fields=["target_login", "repositories"])
+
+        for old_clone_url, new_clone_url in repo_updates:
+            Component.objects.filter(
+                project__workspace_id=item.workspace_id,
+                vcs="github-app",
+                repo=old_clone_url,
+            ).update(repo=new_clone_url, push="", push_branch="")
+
+    LOGGER.info(
+        "Connected GitHub account %s/%s renamed from %s to %s",
+        hostname,
+        installation_id,
+        old_login,
+        new_login,
+    )
+
+
+def _handle_github_installation_event(  # noqa: C901
+    data: dict, installation, hostname: str | None
+) -> None:
+    """Handle ``installation`` and ``installation_repositories`` events."""
+    action = data.get("action", "")
+    payload = data.get("installation") or {}
+    installation_id = str(payload.get("id", ""))
+    if not installation_id:
+        return
+
+    config = get_github_app_settings(hostname) if hostname is not None else None
+    hostname = (
+        installation.hostname
+        if installation is not None
+        else config.hostname
+        if config is not None
+        else None
+    )
+    if hostname is None:
+        return
+
+    if action in {"deleted", "suspend"}:
+        GitHubInstallation.objects.filter(
+            hostname=hostname, installation_id=installation_id
+        ).update(enabled=False)
+        LOGGER.info(
+            "Connected GitHub account %s/%s %s",
+            hostname,
+            installation_id,
+            action,
+        )
+        return
+
+    if action == "unsuspend":
+        installations = list(
+            GitHubInstallation.objects.filter_for_installation(
+                hostname, installation_id
+            )
+        )
+        if not installations:
+            # Nothing to do until the setup flow binds the installation to a workspace.
+            return
+        for item in installations:
+            item.enabled = True
+            item.save(update_fields=["enabled"])
+        if any(item.repositories for item in installations):
+            _refresh_github_installations(installations)
+        LOGGER.info(
+            "Connected GitHub account %s/%s unsuspended",
+            hostname,
+            installation_id,
+        )
+        return
+
+    if action in {"created", "new_permissions_accepted"}:
+        installations = list(
+            GitHubInstallation.objects.filter_for_installation(
+                hostname, installation_id
+            )
+        )
+        if not installations:
+            _store_pending_github_installation_event(data, hostname, installation_id)
+            return
+        repositories = _github_repository_entries(data.get("repositories"), hostname)
+        for item in installations:
+            updated = GitHubInstallation.objects.upsert_from_data(
+                hostname,
+                installation_id,
+                payload,
+                workspace=item.workspace,
+                enabled=True,
+            )
+            if repositories:
+                updated.repositories = repositories
+                updated.save(update_fields=["repositories"])
+        if config is not None:
+            _refresh_github_installations(
+                list(
+                    GitHubInstallation.objects.filter_for_installation(
+                        hostname, installation_id
+                    )
+                )
+            )
+        PendingInstallation.objects.filter(
+            provider=InstallationProvider.GITHUB,
+            hostname=hostname,
+            installation_id=installation_id,
+        ).delete()
+        LOGGER.info(
+            "Connected GitHub account %s/%s synchronized",
+            hostname,
+            installation_id,
+        )
+        return
+
+    if action in {"added", "removed"}:
+        installations = list(
+            GitHubInstallation.objects.filter_for_installation(
+                hostname, installation_id
+            )
+        )
+        if not installations:
+            return
+        removed_names = {
+            repo["full_name"] for repo in data.get("repositories_removed") or []
+        }
+        for item in installations:
+            repos = list(item.repositories)
+            existing_names = {r.get("full_name") for r in repos}
+
+            for repo in data.get("repositories_added") or []:
+                entry = _github_repository_entry(repo, hostname)
+                if entry["full_name"] in existing_names:
+                    continue
+                repos.append(entry)
+                existing_names.add(entry["full_name"])
+
+            if removed_names:
+                repos = [r for r in repos if r.get("full_name") not in removed_names]
+
+            item.repositories = repos
+            item.save(update_fields=["repositories"])
+        LOGGER.info(
+            "Connected GitHub account %s/%s repositories updated: +%d -%d",
+            hostname,
+            installation_id,
+            len(data.get("repositories_added") or []),
+            len(data.get("repositories_removed") or []),
+        )
+
+
+def _github_push_hook_response(
+    data: dict,
+    *,
+    repos: list[str] | None = None,
+    exact_match: bool = False,
+    project_ids: list[int] | None = None,
+    component_vcs: str | None = None,
+) -> HandlerResponse:
     # Parse owner, branch and repository name
     repository = require_mapping(data.get("repository"), "repository")
     o_data = require_mapping(repository.get("owner"), "repository.owner")
@@ -431,10 +801,10 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
 
     params = {"owner": owner, "slug": slug}
 
-    if "clone_url" not in repository:
+    if repos is None and "clone_url" not in repository:
         # Construct possible repository URLs
         repos = [repo % params for repo in GITHUB_REPOS]
-    else:
+    elif repos is None:
         repos = []
         keys = ["clone_url", "git_url", "ssh_url", "svn_url", "html_url", "url"]
         for key in keys:
@@ -445,13 +815,116 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
             if url.endswith(".git"):
                 repos.append(url[:-4])
 
-    return {
+    response: HandlerResponse = {
         "service_long_name": "GitHub",
         "repo_url": repo_url,
         "repos": sorted(set(repos)),
         "branch": branch,
         "full_name": f"{owner}/{slug}",
     }
+    if exact_match:
+        response["exact_match"] = True
+    if project_ids is not None:
+        response["project_ids"] = project_ids
+    if component_vcs is not None:
+        response["component_vcs"] = component_vcs
+    return response
+
+
+@register_hook
+def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse | None:
+    """Parse generic repository hooks from GitHub."""
+    if request:
+        event = request.headers.get("x-github-event", "")
+        if data.get("installation"):
+            msg = "GitHub App webhooks must use the per-integration hook URL"
+            raise PermissionDenied(msg)
+        if event != "push":
+            return None
+
+    response = _github_push_hook_response(data)
+    response["exclude_component_vcs"] = ["github-app"]
+    return response
+
+
+def github_integration_hook_helper(
+    data: dict, request: Request | None, *, integration_token: str
+) -> HandlerResponse | None:
+    """
+    Parse a signed webhook delivered to a single GitHub App integration.
+
+    The integration is identified by the ``integration_token`` embedded in the
+    hook URL.
+    """
+    if request is None:
+        msg = "GitHub App webhooks require a request"
+        raise PermissionDenied(msg)
+
+    try:
+        config = GitHubAppCredentials.objects.get(webhook_token=integration_token)
+    except GitHubAppCredentials.DoesNotExist:
+        LOGGER.warning(
+            "Rejected GitHub App webhook for unknown integration token %s",
+            integration_token,
+        )
+        msg = "Unknown GitHub App integration"
+        raise PermissionDenied(msg) from None
+
+    signature = request.headers.get("x-hub-signature-256", "")
+    if not verify_webhook_signature(request.body, signature, config.webhook_secret):
+        LOGGER.warning(
+            "Rejected GitHub App webhook with invalid signature for %s",
+            config.hostname,
+        )
+        msg = "Invalid webhook signature"
+        raise PermissionDenied(msg)
+
+    hostname = config.hostname
+    event = request.headers.get("x-github-event", "")
+    if event in {"installation", "installation_repositories"}:
+        installation = _lookup_github_installation(data, hostname)
+        _handle_github_installation_event(data, installation, hostname)
+        return None
+    if event == "installation_target":
+        installation = _lookup_github_installation(data, hostname)
+        _handle_github_installation_target_event(data, installation, hostname)
+        return None
+    if event != "push":
+        return None
+
+    repository = data["repository"]
+    repo_url = repository.get("clone_url")
+    if not repo_url:
+        msg = "Missing repository clone URL in GitHub App webhook"
+        raise HookPayloadError(msg)
+
+    installation_id = str((data.get("installation") or {}).get("id", ""))
+    project_ids: list[int] = []
+    if installation_id:
+        workspace_ids = list(
+            GitHubInstallation.objects.filter_for_installation(
+                hostname, installation_id
+            )
+            .filter(enabled=True)
+            .values_list("workspace_id", flat=True)
+            .distinct()
+        )
+        if workspace_ids:
+            from weblate.trans.models import Project  # noqa: PLC0415
+
+            project_ids = list(
+                Project.objects.filter(workspace_id__in=workspace_ids)
+                .values_list("pk", flat=True)
+                .distinct()
+            )
+
+    return _github_push_hook_response(
+        data,
+        repos=[repo_url],
+        exact_match=True,
+        project_ids=project_ids,
+        component_vcs="github-app",
+    )
 
 
 def _gitea_like_hook_helper(
@@ -611,20 +1084,7 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
     }
 
 
-# ServiceHookView is defined after all @register_hook calls so the OpenAPI
-# service enum is derived automatically from HOOK_HANDLERS.
-@extend_schema(
-    responses=HookResponseSerializer,
-    request=HookRequestSerializer,
-    parameters=[
-        OpenApiParameter(
-            "service",
-            enum=sorted(HOOK_HANDLERS.keys()),
-            location=OpenApiParameter.PATH,
-        ),
-    ],
-)
-class ServiceHookView(APIView):
+class BaseHookView(APIView):
     # ruff: ignore[mutable-class-default]
     authentication_classes = []
     # ruff: ignore[mutable-class-default]
@@ -638,6 +1098,7 @@ class ServiceHookView(APIView):
         parsers.MultiPartParser,
         parsers.FormParser,
     )
+    default_exclude_component_vcs: tuple[str, ...] = ()
 
     def hook_response(
         self,
@@ -658,19 +1119,19 @@ class ServiceHookView(APIView):
         )
         return Response(serializer.data, status=status)
 
-    def post(self, request: Request, service: str) -> Response:
-        """Process incoming webhook from a code hosting site."""
+    def run_hook(
+        self, request: Request, hook_helper: HandlerType, service: str
+    ) -> Response:
+        """Validate the payload, dispatch to ``hook_helper`` and trigger updates."""
         # We support only post methods
         if not settings.ENABLE_HOOKS:
             msg = "POST"
             raise MethodNotAllowed(msg)
 
-        # Get service helper
-        try:
-            hook_helper = HOOK_HANDLERS[service]
-        except KeyError as exc:
-            msg = f"Hook {service} not supported"
-            raise NotFound(msg) from exc
+        # Cache the raw request body before DRF's parser consumes the input
+        # stream, so webhook signature verification can read the unparsed
+        # bytes later (e.g. in :func:`github_integration_hook_helper`).
+        _ = request.body
 
         request_data = extract_request_data(request.content_type, request.data)
         request_serializer = HookRequestSerializer(data=request_data)
@@ -688,6 +1149,10 @@ class ServiceHookView(APIView):
         except HookPayloadError as exc:
             msg = f"Invalid data in json payload: {exc}"
             raise ValidationError(msg) from exc
+        except APIException:
+            # Auth/permission errors raised by hook handlers (e.g. invalid
+            # webhook signature) must surface as their original status code.
+            raise
         except Exception as exc:
             report_error("Invalid service data")
             msg = "Invalid data in json payload!"
@@ -697,9 +1162,21 @@ class ServiceHookView(APIView):
         if service_data is None:
             return self.hook_response("Hook working", status=201)
 
+        if self.default_exclude_component_vcs and "component_vcs" not in service_data:
+            service_data = {
+                **service_data,
+                "exclude_component_vcs": [
+                    *service_data.get("exclude_component_vcs", []),
+                    *(
+                        vcs
+                        for vcs in self.default_exclude_component_vcs
+                        if vcs not in service_data.get("exclude_component_vcs", [])
+                    ),
+                ],
+            }
+
         # Log data
         service_long_name = service_data["service_long_name"]
-        repos = service_data["repos"]
         repo_url = service_data["repo_url"]
         branch = service_data["branch"]
         full_name = service_data["full_name"]
@@ -710,7 +1187,14 @@ class ServiceHookView(APIView):
             verbose=f"{service_data['service_long_name']} webhook",
         )
 
-        repo_components, match_method = get_hook_components(repos, full_name)
+        repo_components, match_method = get_hook_components(
+            service_data["repos"],
+            full_name,
+            exact_match=service_data.get("exact_match", False),
+            project_ids=service_data.get("project_ids"),
+            component_vcs=service_data.get("component_vcs"),
+            exclude_component_vcs=service_data.get("exclude_component_vcs"),
+        )
 
         if branch is not None:
             all_components = repo_components.filter(branch=branch)
@@ -770,3 +1254,42 @@ class ServiceHookView(APIView):
             match_status=match_status,
             updated_components=updated_components,
         )
+
+
+# ServiceHookView is defined after all @register_hook calls so the OpenAPI
+# service enum is derived automatically from HOOK_HANDLERS.
+@extend_schema(
+    responses=HookResponseSerializer,
+    request=HookRequestSerializer,
+    parameters=[
+        OpenApiParameter(
+            "service",
+            enum=sorted(HOOK_HANDLERS.keys()),
+            location=OpenApiParameter.PATH,
+        ),
+    ],
+)
+class ServiceHookView(BaseHookView):
+    default_exclude_component_vcs = ("github-app",)
+
+    def post(self, request: Request, service: str) -> Response:
+        """Process incoming webhook from a code hosting site."""
+        try:
+            hook_helper = HOOK_HANDLERS[service]
+        except KeyError as exc:
+            msg = f"Hook {service} not supported"
+            raise NotFound(msg) from exc
+        return self.run_hook(request, hook_helper, service)
+
+
+@extend_schema(exclude=True)
+class IntegrationHookView(BaseHookView):
+    """Authenticated webhook endpoint for a single registered integration."""
+
+    def post(self, request: Request, integration_token: uuid.UUID) -> Response:
+        """Process a signed webhook addressed to one integration token."""
+        hook_helper = partial(
+            github_integration_hook_helper,
+            integration_token=str(integration_token),
+        )
+        return self.run_hook(request, hook_helper, "github-integration")

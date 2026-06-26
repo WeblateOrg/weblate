@@ -9,6 +9,7 @@ Weblate 2026.7
 * Added :ref:`check-source-max-length` check for source strings near ``max-length``.
 * Added the :ref:`check-accelerator` quality check, which verifies that accelerator keys are used consistently between the source and the translation. Enable it with the ``accelerator:`` flag and the marker character, for example ``accelerator:&``.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
+* Added :ref:`code-hosting-github-app-register` for connecting GitHub repositories through a Weblate GitHub App.
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
 

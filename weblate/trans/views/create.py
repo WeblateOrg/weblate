@@ -50,6 +50,12 @@ from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.base import RepositoryError
+from weblate.vcs.github import (
+    GitHubInstallation,
+    get_github_app_configurations,
+    get_github_repository_import_url,
+    github_app_is_configured,
+)
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
@@ -63,6 +69,7 @@ if TYPE_CHECKING:
     from weblate.trans.models.component import ComponentQuerySet
 
 SESSION_CREATE_KEY = "session_component"
+INTEGRATION_IMPORT_VCS_KEY = "integration_import_vcs"
 
 
 class BaseCreateView(CreateView):
@@ -289,11 +296,13 @@ class CreateComponent(BaseCreateView):
             for field in ComponentCreateForm.CREATE_INHERITABLE_SETTINGS
         ),
     )
+    initial_fields = (*basic_fields, "branch", *passthrough_fields)
     empty_form = False
     form_class: type[ComponentProjectForm] = ComponentInitCreateForm
     origin = "vcs"
     object: Component
     duplicate_existing_component: int | None = None
+    integration_import_vcs = ""
 
     def get_form_class(self):
         """Return the form class to use."""
@@ -402,6 +411,7 @@ class CreateComponent(BaseCreateView):
     def get_form(self, form_class=None, empty=False):
         self.empty_form = empty
         form = super().get_form(form_class)
+        self.patch_integration_vcs_choice(form)
         if "project" in form.fields:
             project_field = form.fields["project"]
             category_field = form.fields["category"]
@@ -425,6 +435,43 @@ class CreateComponent(BaseCreateView):
                 form.fields["source_component"].queryset = components
                 form.initial["source_component"] = self.duplicate_existing_component
         return form
+
+    def patch_integration_vcs_choice(self, form) -> None:
+        vcs_field = form.fields.get("vcs")
+        if vcs_field is None:
+            return
+
+        integration_choices = [
+            choice
+            for choice in VCS_REGISTRY.get_choices(exclude={"local"})
+            if not VCS_REGISTRY[choice[0]].manual_component_creation
+        ]
+        vcs_field.choices = [
+            choice
+            for choice in vcs_field.choices
+            if VCS_REGISTRY[choice[0]].manual_component_creation
+        ]
+        if (
+            self.integration_import_vcs
+            and self.integration_import_vcs == self.initial.get("vcs")
+        ):
+            vcs_backend = VCS_REGISTRY.get(self.integration_import_vcs)
+            vcs_field.choices = [
+                *vcs_field.choices,
+                *(
+                    choice
+                    for choice in integration_choices
+                    if choice[0] == self.integration_import_vcs
+                ),
+            ]
+            if vcs_backend is not None:
+                for field in vcs_backend.component_lock_fields:
+                    if field in form.fields:
+                        form.fields[field].disabled = True
+                for field in vcs_backend.component_clear_fields:
+                    if field in form.fields:
+                        form.initial[field] = ""
+                        form.fields[field].initial = ""
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
@@ -460,7 +507,8 @@ class CreateComponent(BaseCreateView):
         session_data = {}
         if SESSION_CREATE_KEY in request.GET and SESSION_CREATE_KEY in request.session:
             session_data = request.session[SESSION_CREATE_KEY]
-        for field in (*self.basic_fields, *self.passthrough_fields):
+        self.integration_import_vcs = session_data.get(INTEGRATION_IMPORT_VCS_KEY, "")
+        for field in self.initial_fields:
             if field in session_data:
                 self.initial[field] = session_data[field]
             elif field in request.GET:
@@ -649,6 +697,78 @@ class CreateComponentSelection(CreateComponent):
             kwargs["scratch_form"] = kwargs["form"]
         else:
             kwargs["existing_form"] = kwargs["form"]
+        workspace_ids = list(
+            self.projects.filter(workspace__isnull=False)
+            .values_list("workspace_id", flat=True)
+            .distinct()
+        )
+        configured_hosts = set(get_github_app_configurations())
+        installations = GitHubInstallation.objects.filter(
+            enabled=True,
+            hostname__in=configured_hosts,
+            workspace_id__in=workspace_ids,
+        ).select_related("workspace")
+        selected_project_obj = None
+        if self.selected_project:
+            selected_project_obj = self.projects.filter(
+                pk=self.selected_project
+            ).first()
+            if selected_project_obj is not None and selected_project_obj.workspace_id:
+                installations = installations.filter(
+                    workspace_id=selected_project_obj.workspace_id
+                )
+            else:
+                installations = installations.none()
+        installations = installations.order_by(
+            "workspace__name", "target_login", "hostname"
+        )
+        kwargs["github_app_available"] = github_app_is_configured() or (
+            installations.exists()
+        )
+        repositories: list[dict] = []
+        for installation in installations:
+            for repo in installation.repositories:
+                if repo.get("archived", False):
+                    continue
+                entry = dict(repo)
+                entry["account_name"] = installation.target_login
+                entry["workspace_id"] = str(installation.workspace_id)
+                entry["workspace_name"] = installation.workspace.name
+                entry["import_url"] = get_github_repository_import_url(
+                    entry,
+                    installation_id=installation.pk,
+                    project_id=(
+                        selected_project_obj.pk
+                        if selected_project_obj is not None
+                        else None
+                    ),
+                    category_id=self.selected_category,
+                )
+                repositories.append(entry)
+        kwargs["github_app_repositories"] = repositories
+        if github_app_is_configured() and selected_project_obj is not None:
+            if selected_project_obj.workspace_id:
+                kwargs["github_app_install_url"] = (
+                    reverse("github-app-install")
+                    + "?"
+                    + urlencode(
+                        {
+                            "next": f"{self.request.get_full_path()}#github",
+                            "workspace": selected_project_obj.workspace_id,
+                        }
+                    )
+                )
+        elif github_app_is_configured() and len(workspace_ids) == 1:
+            kwargs["github_app_install_url"] = (
+                reverse("github-app-install")
+                + "?"
+                + urlencode(
+                    {
+                        "next": f"{self.request.get_full_path()}#github",
+                        "workspace": workspace_ids[0],
+                    }
+                )
+            )
         return kwargs
 
     def get_form(self, form_class=None, empty=False):
@@ -674,6 +794,12 @@ class CreateComponentSelection(CreateComponent):
         return ComponentSelectForm
 
     def redirect_create(self, **kwargs):
+        vcs = kwargs.get("vcs")
+        if vcs:
+            vcs_backend = VCS_REGISTRY.get(vcs)
+            if vcs_backend is not None and not vcs_backend.manual_component_creation:
+                kwargs.setdefault(INTEGRATION_IMPORT_VCS_KEY, vcs)
+
         # Store params in session
         self.request.session[SESSION_CREATE_KEY] = kwargs
 

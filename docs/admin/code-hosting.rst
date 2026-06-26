@@ -237,7 +237,75 @@ access to the repository. To push changes back, you still need to add
 the Hosted Weblate :guilabel:`weblate` GitHub user as a collaborator with write
 access, see :ref:`hosted-push`.
 
-If you are not using the app, add the Weblate webhook in the repository
+For self-hosted Weblate, register the GitHub App using the in-app registration
+flow described below. Weblate generates the App manifest, GitHub returns the
+credentials, and they are stored in the database - there is no settings-based
+configuration.
+
+.. _code-hosting-github-app-register:
+
+Registering the GitHub App from Weblate
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The fastest way to add the GitHub App is to let Weblate generate a GitHub App
+manifest with the correct permissions, events, and webhook URL pre-filled:
+
+1. Sign in to Weblate with an account that has management access.
+2. Open :guilabel:`Manage → VCS Installations → Register Weblate GitHub
+   App`.
+3. Fill in the form. The :guilabel:`GitHub host` defaults to ``github.com``;
+   change it to your GitHub Enterprise hostname if needed. Leave
+   :guilabel:`Organization` blank to register the App under your personal
+   account, or enter an organization slug to register it under that org.
+4. Click :guilabel:`Continue to GitHub` and confirm on GitHub's
+   :guilabel:`Create GitHub App` page (you can still rename the App there).
+5. GitHub redirects back to Weblate, which exchanges the temporary code for
+   the App ID, private key, webhook secret, and slug and stores them in the
+   database. The :guilabel:`Connect GitHub account` button is available
+   immediately afterwards.
+
+The manifest requests the permissions and event subscriptions Weblate needs
+(``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
+``Workflows`` read/write, and the ``Installation``, ``Installation
+repositories``, ``Installation target``, ``Meta`` and ``Push`` events), and sets
+the callback, setup and per-integration webhook URLs automatically, so no manual
+GitHub App configuration is required.
+
+GitHub only offers accounts where the signed-in GitHub user can install or
+request the app. If an organization is not shown during the install flow, check
+the user's organization role and the organization's GitHub App installation
+restrictions. On GitHub.com, public apps can be installed on other accounts;
+private apps can only be installed on the account that owns the app.
+
+Connecting a workspace
+^^^^^^^^^^^^^^^^^^^^^^
+
+Connected GitHub accounts are bound to a Weblate :ref:`workspace <workspaces>`.
+A user with project administration rights for any project in a workspace can
+connect a GitHub account on that workspace. After connecting, every project in
+the workspace can import components from repositories the app installation has
+access to.
+
+Projects that are not in a workspace cannot connect a GitHub App installation.
+
+Components imported through the GitHub App flow use the dedicated
+:guilabel:`GitHub (via Weblate GitHub app)` VCS backend. The component
+settings UI keeps the repository URL read-only to prevent the App-issued
+credentials from being redirected to an unrelated repository.
+
+.. _code-hosting-github-app-webhook:
+
+App webhook URL
+^^^^^^^^^^^^^^^
+
+Each registered GitHub App integration has its own webhook URL containing an
+opaque token that uniquely identifies a single integration:
+
+.. code-block:: text
+
+   https://weblate.example.com/hooks/integrations/<webhook_token>/
+
+If you are not using a GitHub App, add the Weblate webhook in the repository
 settings (:guilabel:`Webhooks`) to receive notifications on every push to a
 GitHub repository, as shown on the image below:
 
