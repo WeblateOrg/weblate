@@ -5047,6 +5047,36 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 unit_args={"flags": "rst-text"},
             )
 
+    def test_translate_accepts_structured_text_rst_role_translation(self) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            self.assertEqual(len(parts), 1)
+            self.assertEqual(parts[0]["type"], "placeholder")
+            self.assertTrue(parts[0]["translatable"])
+            output_part = parts[0].copy()
+            output_part["text"] = "Enregistrer"
+            return json.dumps([{"parts": [output_part]}])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                ":code:`Save`",
+                1,
+                machine=machine,
+                unit_args={"flags": "rst-text"},
+            )
+
+        self.assertEqual(translation[0][0]["text"], ":code:`Enregistrer`")
+
     def test_translate_rejects_structured_single_character_protected_syntax(
         self,
     ) -> None:
@@ -5388,6 +5418,49 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_translate_accepts_split_text_around_reordered_structured_placeholder(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            placeholders = [part for part in parts if part["type"] == "placeholder"]
+            self.assertEqual(len(placeholders), 1)
+            return json.dumps(
+                [
+                    {
+                        "parts": [
+                            {"type": "text", "text": "Deleted "},
+                            placeholders[0],
+                            {"type": "text", "text": " files"},
+                        ]
+                    }
+                ]
+            )
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "%s files deleted",
+                1,
+                machine=machine,
+                unit_args={"flags": "python-format"},
+            )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Deleted %s files",
+        )
+
+    @responses.activate
     def test_translate_rejects_reordered_structured_markup_placeholders(self) -> None:
         machine = self.get_machine()
 
@@ -5464,6 +5537,126 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             self.assert_translate(
                 "fr",
                 "&lt;strong&gt;bold&lt;/strong&gt;",
+                1,
+                machine=machine,
+                unit_args={"flags": 'placeholders:r"&lt;[a-z/]+&gt;", xml-text'},
+            )
+
+    @responses.activate
+    def test_translate_rejects_reordered_structured_bbcode_placeholders(self) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            placeholders = [part for part in parts if part["type"] == "placeholder"]
+            self.assertEqual(len(placeholders), 2)
+            return json.dumps(
+                [
+                    {
+                        "parts": [
+                            placeholders[1],
+                            {"type": "text", "text": "Enregistrer"},
+                            placeholders[0],
+                        ]
+                    }
+                ]
+            )
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "[b]Save[/b]",
+                1,
+                machine=machine,
+                unit_args={"flags": "bbcode-text"},
+            )
+
+    @responses.activate
+    def test_translate_rejects_structured_placeholder_moved_outside_markup(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            placeholders = [part for part in parts if part["type"] == "placeholder"]
+            self.assertEqual(len(placeholders), 3)
+            return json.dumps(
+                [
+                    {
+                        "parts": [
+                            placeholders[1],
+                            placeholders[0],
+                            placeholders[2],
+                        ]
+                    }
+                ]
+            )
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "[b]%s[/b]",
+                1,
+                machine=machine,
+                unit_args={"flags": "bbcode-text, python-format"},
+            )
+
+    @responses.activate
+    def test_translate_rejects_structured_text_moved_inside_markup(self) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            placeholders = [part for part in parts if part["type"] == "placeholder"]
+            self.assertEqual(len(placeholders), 2)
+            return json.dumps(
+                [
+                    {
+                        "parts": [
+                            placeholders[0],
+                            {"type": "text", "text": "Enregistrer le bouton"},
+                            placeholders[1],
+                            {"type": "text", "text": ""},
+                        ]
+                    }
+                ]
+            )
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "&lt;strong&gt;Save&lt;/strong&gt; button",
                 1,
                 machine=machine,
                 unit_args={"flags": 'placeholders:r"&lt;[a-z/]+&gt;", xml-text'},

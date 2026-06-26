@@ -141,7 +141,7 @@ Rules:
 11. Output must be a single JSON array containing one item per input string. Prefer structured objects with a "parts" array when the input has "parts"; legacy JSON strings are accepted only if placeholders are preserved exactly.
 12. Do not include markdown code fences or any additional text.
 13. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings, diagnostics, explanations, or metadata.
-14. For structured output, each item must be an object containing only "parts". The output parts array must have the same number of text parts and the same placeholder parts as the input. Grammar placeholder parts may be reordered if required by target language grammar; markup and syntax placeholder parts must keep source order. Placeholder part type, id, close_id, and translatable values must be preserved.
+14. For structured output, each item must be an object containing only "parts". The output parts array must have the same placeholder parts as the input. Text parts may be split or merged. Grammar placeholder parts may be reordered within the same surrounding markup if required by target language grammar; markup and syntax placeholder parts must keep source order. Placeholder part type, id, close_id, and translatable values must be preserved.
 15. For structured text parts, translate the "text" value. For structured placeholder parts, preserve metadata and translate "text" only when "translatable" is true; when "translatable" is false, keep "text" unchanged.
 16. Ensure all output strings are properly JSON-escaped.
 17. Internally verify placeholder integrity and JSON validity before responding.
@@ -184,7 +184,7 @@ LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES = (
 LLM_JSON_ARRAY_STRING_TERMINATORS = frozenset({",", "]"})
 LLM_JSON_OBJECT_KEY_STRING_TERMINATORS = frozenset({":"})
 LLM_JSON_OBJECT_VALUE_STRING_TERMINATORS = frozenset({",", "}"})
-LLM_MARKUP_PLACEHOLDER_MARKERS = ("<", ">", "&lt;", "&gt;", "`", "*")
+LLM_MARKUP_PLACEHOLDER_MARKERS = ("<", ">", "&lt;", "&gt;", "[", "]", "`", "*")
 LLM_CONTROL_PLACEHOLDER_MARKERS = (
     *LLM_MARKUP_PLACEHOLDER_MARKERS,
     "%",
@@ -197,7 +197,20 @@ LLM_CONTROL_PLACEHOLDER_MARKERS = (
     "}",
 )
 LLM_SINGLE_CHARACTER_MARKUP_DELIMITERS = frozenset({"`", "*"})
-LLM_TRANSLATABLE_RST_ROLES = frozenset({"guilabel", "menuselection"})
+LLM_TRANSLATABLE_RST_ROLES = frozenset(
+    {
+        "abbr",
+        "code",
+        "dfn",
+        "guilabel",
+        "index",
+        "kbd",
+        "menuselection",
+        "samp",
+        "sub",
+        "sup",
+    }
+)
 
 
 class LLMGlossaryEntry(TypedDict, total=False):
@@ -1929,17 +1942,20 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def _normalize_reorderable_structured_placeholder_part(
         cls,
         actual: dict[str, JSONValue],
-        expected_parts: list[LLMPlaceholderPart],
+        expected_parts: list[tuple[LLMPlaceholderPart, int]],
         actual_text: str,
-    ) -> str | None:
-        for index, expected in enumerate(expected_parts):
+        current_segment: int,
+    ) -> tuple[str, int] | None:
+        for index, (expected, expected_segment) in enumerate(expected_parts):
             normalized = cls._normalize_structured_placeholder_part(
                 actual, expected, actual_text
             )
             if normalized is None:
                 continue
+            if expected_segment != current_segment:
+                return None
             del expected_parts[index]
-            return normalized
+            return normalized, current_segment
         return None
 
     @classmethod
@@ -1947,16 +1963,17 @@ class BaseLLMTranslation(BatchMachineTranslation):
         cls,
         actual: dict[str, JSONValue],
         expected_ordered_parts: list[LLMPlaceholderPart],
-        expected_reorderable_parts: list[LLMPlaceholderPart],
+        expected_reorderable_parts: list[tuple[LLMPlaceholderPart, int]],
         actual_text: str,
-    ) -> str | None:
+        current_segment: int,
+    ) -> tuple[str, int] | None:
         if expected_ordered_parts:
             normalized = cls._normalize_structured_placeholder_part(
                 actual, expected_ordered_parts[0], actual_text
             )
             if normalized is not None:
                 del expected_ordered_parts[0]
-                return normalized
+                return normalized, current_segment + 1
 
             if any(
                 cls._normalize_structured_placeholder_part(
@@ -1968,7 +1985,53 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 return None
 
         return cls._normalize_reorderable_structured_placeholder_part(
-            actual, expected_reorderable_parts, actual_text
+            actual, expected_reorderable_parts, actual_text, current_segment
+        )
+
+    @classmethod
+    def _get_structured_expected_part_state(
+        cls, expected_parts: list[LLMStringPart], placeholders: dict[str, str]
+    ) -> tuple[
+        Counter[str],
+        list[LLMPlaceholderPart],
+        list[tuple[LLMPlaceholderPart, int]],
+        list[bool],
+    ]:
+        text_syntax_counts: Counter[str] = Counter()
+        ordered_placeholder_parts: list[LLMPlaceholderPart] = []
+        reorderable_placeholder_parts: list[tuple[LLMPlaceholderPart, int]] = []
+        segment_has_text = [False]
+        segment = 0
+        for expected in expected_parts:
+            if expected["type"] == "text":
+                if expected["text"]:
+                    segment_has_text[segment] = True
+                text_syntax_counts.update(
+                    cls._extract_single_character_syntax_counts(expected["text"])
+                )
+            elif cls._is_structured_placeholder_reorderable(expected, placeholders):
+                reorderable_placeholder_parts.append((expected, segment))
+            else:
+                ordered_placeholder_parts.append(expected)
+                segment += 1
+                segment_has_text.append(False)
+
+        return (
+            text_syntax_counts,
+            ordered_placeholder_parts,
+            reorderable_placeholder_parts,
+            segment_has_text,
+        )
+
+    @staticmethod
+    def _has_structured_segment_text_mismatch(
+        actual_segment_has_text: list[bool], expected_segment_has_text: list[bool]
+    ) -> bool:
+        return any(
+            actual != expected
+            for actual, expected in zip(
+                actual_segment_has_text, expected_segment_has_text, strict=True
+            )
         )
 
     @classmethod
@@ -1987,28 +2050,18 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return None
 
         expected_parts = cls._get_string_parts(source_text, unit, source_occurrence)
-        if len(parts) != len(expected_parts):
-            return None
-
         placeholders = cls._get_placeholder_context(
             source_text, unit, source_occurrence
         )
-        expected_text_count = 0
-        expected_text_syntax_counts: Counter[str] = Counter()
-        expected_ordered_placeholder_parts: list[LLMPlaceholderPart] = []
-        expected_reorderable_placeholder_parts: list[LLMPlaceholderPart] = []
-        for expected in expected_parts:
-            if expected["type"] == "text":
-                expected_text_count += 1
-                expected_text_syntax_counts.update(
-                    cls._extract_single_character_syntax_counts(expected["text"])
-                )
-            elif cls._is_structured_placeholder_reorderable(expected, placeholders):
-                expected_reorderable_placeholder_parts.append(expected)
-            else:
-                expected_ordered_placeholder_parts.append(expected)
+        (
+            expected_text_syntax_counts,
+            expected_ordered_placeholder_parts,
+            expected_reorderable_placeholder_parts,
+            expected_segment_has_text,
+        ) = cls._get_structured_expected_part_state(expected_parts, placeholders)
 
-        text_count = 0
+        current_segment = 0
+        actual_segment_has_text = [False for _segment in expected_segment_has_text]
         actual_text_syntax_counts: Counter[str] = Counter()
         result: list[str] = []
         for actual in parts:
@@ -2028,7 +2081,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
             if actual_type == "text":
                 if set(actual) != {"type", "text"}:
                     return None
-                text_count += 1
+                if current_segment >= len(actual_segment_has_text):
+                    return None
+                if actual_text:
+                    actual_segment_has_text[current_segment] = True
                 actual_text_syntax_counts.update(
                     cls._extract_single_character_syntax_counts(actual_text)
                 )
@@ -2042,14 +2098,20 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 expected_ordered_placeholder_parts,
                 expected_reorderable_placeholder_parts,
                 actual_text,
+                current_segment,
             )
             if normalized_placeholder is None:
                 return None
-            result.append(normalized_placeholder)
+            normalized_text, current_segment = normalized_placeholder
+            if current_segment >= len(actual_segment_has_text):
+                return None
+            result.append(normalized_text)
 
         if (
-            text_count != expected_text_count
-            or actual_text_syntax_counts - expected_text_syntax_counts
+            actual_text_syntax_counts - expected_text_syntax_counts
+            or cls._has_structured_segment_text_mismatch(
+                actual_segment_has_text, expected_segment_has_text
+            )
             or expected_ordered_placeholder_parts
             or expected_reorderable_placeholder_parts
         ):
