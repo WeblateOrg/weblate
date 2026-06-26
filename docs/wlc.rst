@@ -45,9 +45,10 @@ Installing:
 
     docker pull weblate/wlc
 
-The Docker container uses Weblate's default settings and connects to the API
-deployed in localhost. The API URL and API_KEY can be configured through the
-arguments accepted by Weblate.
+The Docker container uses Weblate Client defaults and connects to the API
+deployed on localhost. Configure the API URL and API key using the normal
+:program:`wlc` arguments or environment variables, for example :option:`--url`,
+:option:`--key`, :envvar:`WLC_URL`, and :envvar:`WLC_KEY`.
 
 The command to launch the container uses the following syntax:
 
@@ -69,6 +70,11 @@ easiest approach is to add your current directory as the
 .. code-block:: sh
 
    docker run --volume $PWD:/home/weblate --rm weblate/wlc show
+
+When the mounted repository provides the API URL in project configuration and
+you pass an unscoped API key to the container, also pin the URL explicitly:
+:envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and :option:`--key` requires
+:option:`--url`.
 
 
 Getting started
@@ -112,7 +118,7 @@ Migrate legacy configuration:
 .. code-block:: ini
 
    [weblate]
-   url = https://hosted.weblate.org/api
+   url = https://hosted.weblate.org/api/
    key = YOUR_KEY_HERE
 
 To a configuration with key scoped to an API URL:
@@ -120,10 +126,10 @@ To a configuration with key scoped to an API URL:
 .. code-block:: ini
 
    [weblate]
-   url = https://hosted.weblate.org/api
+   url = https://hosted.weblate.org/api/
 
    [keys]
-   https://hosted.weblate.org/api = YOUR_KEY_HERE
+   https://hosted.weblate.org/api/ = YOUR_KEY_HERE
 
 Synopsis
 ++++++++
@@ -160,6 +166,8 @@ Weblate instance to use. These must be entered before any command.
 
     Specify the API user key to use. Overrides any value found in the configuration file, see :ref:`wlc-config`.
     You can find your key in your profile on Weblate.
+    When the API URL is loaded from automatically discovered project
+    configuration, :option:`--key` must be used together with :option:`--url`.
 
 .. option:: --config PATH
 
@@ -374,9 +382,13 @@ The API keys are stored in the ``[keys]`` section:
     https://hosted.weblate.org/api/ = APIKEY
 
 This allows you to store keys in your personal settings, while using the
-:file:`.weblate` configuration in the VCS repository so that :program:`wlc` knows which
-server it should talk to. In CI, keep only the repository configuration in
-version control and inject the API key using :envvar:`WLC_KEY`.
+:file:`.weblate` configuration in the VCS repository so that :program:`wlc`
+knows which server it should talk to. The ``[keys]`` lookup is scoped to the
+exact API URL.
+
+In CI, unscoped keys must pin the API URL explicitly: set both
+:envvar:`WLC_URL` and :envvar:`WLC_KEY`, or use :option:`--url` together with
+:option:`--key`.
 
 
 Environment variables
@@ -384,9 +396,14 @@ Environment variables
 
 .. versionadded:: 1.18.0
 
+.. versionchanged:: 2.0.1
+
+   Unscoped API keys require an explicit API URL when project configuration is
+   discovered automatically.
+
 The API URL and key can also be configured using environment variables. This is
-especially useful for CI workflows where the repository provides the project
-configuration and :envvar:`WLC_KEY` is injected as a secret:
+especially useful for CI workflows where :envvar:`WLC_URL` pins the destination
+and :envvar:`WLC_KEY` is injected as a secret:
 
 .. envvar:: WLC_URL
 
@@ -394,7 +411,13 @@ configuration and :envvar:`WLC_KEY` is injected as a secret:
 
 .. envvar:: WLC_KEY
 
-   API key
+   API key. When the API URL would otherwise come from automatically discovered
+   project configuration, :envvar:`WLC_KEY` is accepted only together with
+   :envvar:`WLC_URL`.
+
+The same protection applies to command-line arguments: :option:`--key` is
+accepted with automatically discovered project configuration only when
+:option:`--url` is provided.
 
 The configuration precedence (highest to lowest) is:
 
