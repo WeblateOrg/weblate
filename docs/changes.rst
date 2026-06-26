@@ -49,6 +49,7 @@ Weblate 2026.7
 * Scoped team assignments can no longer be expanded through the API.
 * Empty component lists are no longer exposed to users without component list management permission.
 * TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
+* Duplicate string alerts now offer a cleanup action to remove repeated strings from translation files.
 * Glossary terms are no longer shown in both columns when translating the glossary source language.
 * :ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.

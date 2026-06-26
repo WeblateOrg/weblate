@@ -2196,6 +2196,12 @@ class CSVFormatTest(BaseFormatTest):
             ["jeden soubor", "%(count)s soubory", "%(count)s souboru"],
         )
         self.assertTrue(all(row.isfuzzy() for row in storage.store.units))
+        self.assertIsNone(storage.remove_duplicate_units())
+        self.assertEqual(len(storage.store.units), 3)
+        self.assertEqual(
+            [row.target_plural_form for row in storage.store.units],
+            ["0", "1", "2"],
+        )
 
     def test_plural_metadata_missing_template_rows_are_materialized(self) -> None:
         if self.format_class is not CSVFormat:
