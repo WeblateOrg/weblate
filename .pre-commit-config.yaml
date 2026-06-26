@@ -94,6 +94,12 @@ repos:
     files: ^weblate/.*templates/.*\.(txt|html|tmx)$
 - repo: local
   hooks:
+  - id: html-inline-event-handler
+    name: inline JavaScript event handler in template
+    description: Prevent inline HTML event handlers blocked by Content-Security-Policy
+    files: ^weblate/.*templates/.*\.html$
+    entry: (?i)(^|\s)on(?!ly\s*=)[a-z]+\s*=
+    language: pygrep
   - id: rst-double-space
     name: rst text with double space
     description: Detect mistake of rst containing double space
