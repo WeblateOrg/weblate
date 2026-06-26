@@ -652,8 +652,7 @@ class Repository:
             merge_err=False,
         )
 
-    @classmethod
-    def _clone(cls, source: str, target: str, branch: str) -> None:
+    def _clone(self, source: str, target: str, branch: str) -> None:
         """Clone repository."""
         raise NotImplementedError
 

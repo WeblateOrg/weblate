@@ -25,7 +25,7 @@ from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.vcs.base import RepositoryError
-from weblate.vcs.git import GithubRepository, GitRepository
+from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
 
 if TYPE_CHECKING:
@@ -839,23 +839,6 @@ class GithubAppRepository(GithubRepository):
             )
         return self.component.project.workspace
 
-    def clone_from(self, source: str) -> None:
-        """Clone repository using installation credentials for the component workspace."""
-        self.validate_pull_url(source)
-        branch = self.validate_branch_name(self.branch)
-        self._popen(
-            [
-                *self._get_auth_args(source),
-                "clone",
-                *self.get_depth(),
-                "--branch",
-                branch,
-                "--",
-                source,
-                self.path,
-            ]
-        )
-
     def push(self, branch: str) -> None:
         # Translations must not push onto the pull branch — there's no fork
         # to absorb them. Substitute a dedicated weblate-* branch on the
@@ -910,7 +893,7 @@ class GithubAppRepository(GithubRepository):
                 0, gettext("No Weblate GitHub app installation available.")
             )
 
-        yield from GitRepository._get_auth_args(repo)  # noqa: SLF001
+        yield from super()._get_auth_args(repo)
         yield from get_github_git_auth_args(app_creds["username"], app_creds["token"])
 
     def get_auth_args(self) -> list[str]:
