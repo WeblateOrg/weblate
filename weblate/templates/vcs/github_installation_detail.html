@@ -31,14 +31,12 @@
                  value="{% url 'manage-github-account-detail' installation.pk %}" />
           <button type="submit" class="btn btn-outline-primary btn-sm" id="refresh-repos">{% translate "Refresh repositories" %}</button>
         </form>
-        <form method="post"
-              action="{% url 'manage-github-account-remove' installation.pk %}"
-              class="d-inline float-end"
-              onsubmit="return confirm('{% translate "Remove this connected GitHub account from Weblate? The Weblate GitHub app will stay installed on GitHub." %}');">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-outline-danger btn-sm">{% translate "Remove" %}</button>
-        </form>
+        <button type="button"
+                class="btn btn-outline-danger btn-sm float-end"
+                data-bs-toggle="modal"
+                data-bs-target="#remove-github-account-{{ installation.pk }}">{% translate "Remove" %}</button>
       </h4>
+      {% include "vcs/snippets/github_account_remove_modal.html" with installation=installation csrf_token=csrf_token only %}
     </div>
     <div class="card-body">
       {% if not app_configured %}

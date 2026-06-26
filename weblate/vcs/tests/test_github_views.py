@@ -185,6 +185,29 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(response.status_code, 302)
         return response["Location"]
 
+    def assert_installation_remove_modal(
+        self, response, installation: GitHubInstallation
+    ) -> None:
+        self.assertContains(
+            response,
+            f'data-bs-target="#remove-github-account-{installation.pk}"',
+        )
+        self.assertContains(
+            response,
+            f'id="remove-github-account-{installation.pk}"',
+        )
+        self.assertContains(response, "Remove connected GitHub account?")
+        self.assertContains(
+            response,
+            f'action="{reverse("manage-github-account-remove", kwargs={"pk": installation.pk})}"',
+        )
+        html = response.content.decode()
+        action = f'action="{reverse("manage-github-account-remove", kwargs={"pk": installation.pk})}"'
+        form_start = html.index(action)
+        form_end = html.index("</form>", form_start)
+        self.assertIn('name="csrfmiddlewaretoken"', html[form_start:form_end])
+        self.assertNotContains(response, "onsubmit=")
+
     def test_install_redirects_to_github(self):
         location = self._start_install(reverse("github-app-repositories"))
         parsed = urlparse(location)
@@ -261,6 +284,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             response,
             reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
         )
+        self.assert_installation_remove_modal(response, installation)
         for workspace in (self.workspace, other_workspace):
             install_url = (
                 f"{reverse('github-app-install')}?"
@@ -752,6 +776,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertNotIn("import_url", response.context["repositories"][0])
         self.assertNotContains(response, _import_url(installation, repo))
         self.assertContains(response, "Unavailable")
+        self.assert_installation_remove_modal(response, installation)
 
     def test_installation_detail_hides_import_link_without_credentials(self):
         repo = _repo_entry(
@@ -797,6 +822,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             import_path,
         )
         self.assertContains(response, import_path.replace("&", "&amp;"))
+        self.assert_installation_remove_modal(response, installation)
 
     def test_repository_import_uses_create_session(self):
         repo = _repo_entry("test-org/repo1", default_branch="stable")
@@ -1206,6 +1232,8 @@ class GitHubAppManifestViewTest(TestCase):
             manifest["default_permissions"], dict(GITHUB_APP_MANIFEST_PERMISSIONS)
         )
         self.assertEqual(manifest["default_events"], list(GITHUB_APP_MANIFEST_EVENTS))
+        self.assertNotIn("installation", manifest["default_events"])
+        self.assertNotIn("installation_repositories", manifest["default_events"])
 
         url, _manifest = self._capture_github_call(host="github.example.com")
 
