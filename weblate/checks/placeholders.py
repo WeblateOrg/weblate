@@ -15,15 +15,23 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.base import TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag, single_value_flag
 from weblate.checks.utils import merge_highlight_spans
+from weblate.utils.errors import report_error
+from weblate.utils.regex import regex_findall, regex_finditer
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
+def report_regex_timeout(message: str, unit: Unit) -> None:
+    report_error(message, project=unit.translation.component.project)
+
+
 def parse_regex(val):
-    if isinstance(val, str):
-        return regex.compile(val)
-    return val
+    if isinstance(val, regex.Pattern):
+        return val
+    if not isinstance(val, str):
+        val = val.pattern
+    return regex.compile(val)
 
 
 def parse_placeholders(val):
@@ -69,8 +77,15 @@ class PlaceholderCheck(TargetCheckParametrized):
 
     @staticmethod
     def get_matches(value, text: str):
-        for match in value.finditer(text, concurrent=True):
+        for match in regex_finditer(value, text, concurrent=True):
             yield match.group()
+
+    def get_match_set(self, value, text: str, unit: Unit) -> set[str] | None:
+        try:
+            return set(self.get_matches(value, text))
+        except TimeoutError:
+            report_regex_timeout("Placeholder regex check timed out", unit)
+            return None
 
     def diff_case_sensitive(self, expected, found):
         return expected - found, found - expected
@@ -96,9 +111,13 @@ class PlaceholderCheck(TargetCheckParametrized):
     def check_target_params(  # type: ignore[override]
         self, sources: list[str], targets: list[str], unit: Unit, value
     ) -> Literal[False] | dict[str, Any]:
-        expected = set(self.get_matches(value, sources[0]))
+        expected = self.get_match_set(value, sources[0], unit)
+        if expected is None:
+            return False
         if not expected and len(sources) > 1:
-            expected = set(self.get_matches(value, sources[-1]))
+            expected = self.get_match_set(value, sources[-1], unit)
+            if expected is None:
+                return False
         plural_examples = SimpleLazyObject(lambda: unit.translation.plural.examples)
 
         if "case-insensitive" in unit.all_flags:
@@ -110,7 +129,9 @@ class PlaceholderCheck(TargetCheckParametrized):
         extra = set()
 
         for pluralno, target in enumerate(targets):
-            found = set(self.get_matches(value, target))
+            found = self.get_match_set(value, target, unit)
+            if found is None:
+                return False
             diff = diff_func(expected, found)
             plural_example = plural_examples[pluralno]
             # Allow to skip format string in case there is single plural or in special
@@ -146,10 +167,14 @@ class PlaceholderCheck(TargetCheckParametrized):
                     continue
                 pattern = regex.compile(param.pattern, regex_flags)
 
-            spans.extend(
-                (match.start(), match.end(), match.group())
-                for match in pattern.finditer(source)
-            )
+            try:
+                spans.extend(
+                    (match.start(), match.end(), match.group())
+                    for match in regex_finditer(pattern, source)
+                )
+            except TimeoutError:
+                report_regex_timeout("Placeholder regex highlight timed out", unit)
+                return
 
         if not spans:
             return
@@ -197,7 +222,11 @@ class RegexCheck(TargetCheckParametrized):
     def check_target_params(
         self, sources: list[str], targets: list[str], unit: Unit, value
     ):
-        return any(not value.findall(target) for target in targets)
+        try:
+            return any(not regex_findall(value, target) for target in targets)
+        except TimeoutError:
+            report_regex_timeout("Regular expression check timed out", unit)
+            return False
 
     def should_skip(self, unit: Unit) -> bool:
         if super().should_skip(unit):

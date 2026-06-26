@@ -4,6 +4,8 @@
 
 """Tests for placeholder quality checks."""
 
+from unittest.mock import patch
+
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.lang.models import Language
@@ -178,6 +180,38 @@ class PlaceholdersTest(CheckTestCase):
             [(7, 12, "$URL$"), (13, 16, "$2$")],
         )
 
+    def test_regexp_timeout(self) -> None:
+        unit = make_unit(
+            source="string $URL$",
+            target="string $URL$",
+            flags=r"""placeholders:r"(\$)([^$]*)(\$)" """,
+        )
+        with (
+            patch(
+                "weblate.checks.placeholders.regex_finditer",
+                side_effect=TimeoutError,
+            ),
+            patch("weblate.checks.placeholders.report_error"),
+        ):
+            self.assertFalse(
+                self.check.check_target(["string $URL$"], ["string $URL$"], unit)
+            )
+
+    def test_highlight_regexp_timeout(self) -> None:
+        unit = make_unit(
+            source="string $URL$",
+            target="string $URL$",
+            flags=r"""placeholders:r"(\$)([^$]*)(\$)" """,
+        )
+        with (
+            patch(
+                "weblate.checks.placeholders.regex_finditer",
+                side_effect=TimeoutError,
+            ),
+            patch("weblate.checks.placeholders.report_error"),
+        ):
+            self.assertEqual(list(self.check.check_highlight(unit.source, unit)), [])
+
 
 class PluralPlaceholdersTest(FixtureComponentTestCase):
     def test_plural(self) -> None:
@@ -261,3 +295,20 @@ class RegexTest(CheckTestCase):
             list(self.check.check_highlight(unit.source, unit)),
             [],
         )
+
+    def test_regexp_timeout(self) -> None:
+        unit = make_unit(
+            source="string URL",
+            target="string URL",
+            flags="regex:URL",
+        )
+        with (
+            patch(
+                "weblate.checks.placeholders.regex_findall",
+                side_effect=TimeoutError,
+            ),
+            patch("weblate.checks.placeholders.report_error"),
+        ):
+            self.assertFalse(
+                self.check.check_target(["string URL"], ["string URL"], unit)
+            )
