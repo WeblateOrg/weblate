@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+from unittest.mock import patch
 
 import responses
 from django.core.cache import cache
@@ -173,8 +174,22 @@ class TestGitHubAppHooks(ViewTestCase):
             "installation": {
                 "id": 12345,
                 "app_id": 99999,
-                "account": {"login": "test-org", "type": "Organization"},
+                "account": {
+                    "login": "test-org",
+                    "type": "Organization",
+                    "avatar_url": "https://avatars.example/test-org",
+                },
             },
+            "repositories": [
+                {
+                    "name": "repo",
+                    "full_name": "test-org/repo",
+                    "private": False,
+                    "description": "A repo",
+                    "owner": {"login": "test-org"},
+                }
+            ],
+            "sender": {"login": "octocat"},
         }
         response = self._post("installation", data)
         self.assertEqual(response.status_code, 201)
@@ -187,6 +202,41 @@ class TestGitHubAppHooks(ViewTestCase):
             installation_id="12345",
         )
         self.assertEqual(pending.payload["action"], "created")
+        self.assertEqual(pending.payload["installation"]["id"], 12345)
+        self.assertEqual(
+            pending.payload["installation"]["account"],
+            {"login": "test-org", "type": "Organization"},
+        )
+        self.assertEqual(
+            pending.payload["repositories"][0]["full_name"], "test-org/repo"
+        )
+        self.assertNotIn("sender", pending.payload)
+        self.assertNotIn("owner", pending.payload["repositories"][0])
+        self.assertNotIn("avatar_url", pending.payload["installation"]["account"])
+
+    @patch("weblate.trans.views.hooks.PENDING_GITHUB_INSTALLATION_HOST_LIMIT", 1)
+    def test_installation_created_pending_host_limit(self):
+        PendingInstallation.objects.create(
+            provider=InstallationProvider.GITHUB,
+            hostname="github.com",
+            installation_id="existing",
+            payload={"action": "created"},
+        )
+        data = {
+            "action": "created",
+            "installation": {
+                "id": 12345,
+                "app_id": 99999,
+                "account": {"login": "test-org", "type": "Organization"},
+            },
+        }
+
+        response = self._post("installation", data)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertFalse(
+            PendingInstallation.objects.filter(installation_id="12345").exists()
+        )
 
     def test_unknown_integration_token_is_rejected(self):
         """A delivery to an unknown integration token cannot be authenticated."""

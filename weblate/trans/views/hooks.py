@@ -5,12 +5,14 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
+from datetime import timedelta
 from functools import partial
 from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
 from django.db.models import Q
+from django.utils import timezone
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import parsers, serializers
 from rest_framework.exceptions import (
@@ -73,6 +75,9 @@ BITBUCKET_HG_REPOS = (
     "hg::ssh://hg@{server}/{full_name}",
     "hg::https://{server}/{full_name}",
 )
+
+PENDING_GITHUB_INSTALLATION_RETENTION = timedelta(days=1)
+PENDING_GITHUB_INSTALLATION_HOST_LIMIT = 1000
 
 GITHUB_REPOS = (
     "git://github.com/%(owner)s/%(slug)s.git",
@@ -507,15 +512,64 @@ def _github_repository_entries(repositories, hostname: str) -> list[dict]:
     return [_github_repository_entry(repo, hostname) for repo in repositories or []]
 
 
+def _pending_github_installation_payload(data: dict, hostname: str) -> dict:
+    """Return the minimal webhook metadata needed to complete delayed setup."""
+    payload = data.get("installation") or {}
+    account = payload.get("account") if isinstance(payload, Mapping) else None
+    return {
+        "action": data.get("action"),
+        "installation": {
+            "id": payload.get("id"),
+            "app_id": payload.get("app_id"),
+            "account": {
+                "login": account.get("login"),
+                "type": account.get("type"),
+            }
+            if isinstance(account, Mapping)
+            else {},
+        },
+        "repositories": _github_repository_entries(data.get("repositories"), hostname),
+    }
+
+
+def _prune_pending_github_installation_events(hostname: str) -> None:
+    """Remove stale unauthorised GitHub installation webhook payloads."""
+    PendingInstallation.objects.filter(
+        provider=InstallationProvider.GITHUB,
+        hostname=hostname,
+        updated__lt=timezone.now() - PENDING_GITHUB_INSTALLATION_RETENTION,
+    ).delete()
+
+
 def _store_pending_github_installation_event(
     data: dict, hostname: str, installation_id: str
 ) -> None:
     """Persist a signed installation event until setup validates a workspace."""
+    _prune_pending_github_installation_events(hostname)
+    pending = PendingInstallation.objects.filter(
+        provider=InstallationProvider.GITHUB,
+        hostname=hostname,
+        installation_id=installation_id,
+    )
+    if (
+        not pending.exists()
+        and PendingInstallation.objects.filter(
+            provider=InstallationProvider.GITHUB, hostname=hostname
+        ).count()
+        >= PENDING_GITHUB_INSTALLATION_HOST_LIMIT
+    ):
+        LOGGER.warning(
+            "Skipped pending GitHub account %s/%s webhook; host limit reached",
+            hostname,
+            installation_id,
+        )
+        return
+
     PendingInstallation.objects.update_or_create(
         provider=InstallationProvider.GITHUB,
         hostname=hostname,
         installation_id=installation_id,
-        defaults={"payload": data},
+        defaults={"payload": _pending_github_installation_payload(data, hostname)},
     )
     LOGGER.info(
         "Stored pending GitHub account %s/%s webhook until setup completes",
