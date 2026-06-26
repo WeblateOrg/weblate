@@ -10,8 +10,8 @@ Weblate's Python API
 Installation
 ============
 
-The Python API is shipped separately, you need to install the
-:ref:`wlc` (wlc) to have it.
+The Python API is shipped separately as the :pypi:`Weblate Client <wlc>`
+package:
 
 .. code-block:: sh
 
@@ -33,11 +33,11 @@ The Python API is shipped separately, you need to install the
 :class:`Weblate`
 ----------------
 
-.. class:: Weblate(key='', url=None, config=None, retries=0, status_forcelist=None, allowed_methods=None, backoff_factor=0, timeout=300)
+.. class:: Weblate(key='', url='http://127.0.0.1:8000/api/', config=None, retries=0, status_forcelist=None, allowed_methods=None, backoff_factor=0, timeout=300)
 
     :param key: User key
     :type key: str
-    :param url: API server URL, if not specified default is used.
+    :param url: API server URL.
     :type url: str
     :param config: Configuration object, overrides any other parameters.
     :type config: wlc.config.WeblateConfig
@@ -68,7 +68,7 @@ The Python API is shipped separately, you need to install the
         :type path: str
         :rtype: object
 
-        Performs a single API GET call.
+        Performs a single API POST call.
 
 
 :mod:`wlc.config`
@@ -77,10 +77,15 @@ The Python API is shipped separately, you need to install the
 .. module:: wlc.config
     :synopsis: Configuration parsing
 
+.. exception:: WLCConfigurationError
+
+    Raised when configuration can not be loaded or combines an unscoped API key
+    with an automatically discovered project API URL.
+
 :class:`WeblateConfig`
 ----------------------
 
-.. class:: WeblateConfig(section='wlc')
+.. class:: WeblateConfig(section='weblate')
 
     :param section: Configuration section to use
     :type section: str
@@ -98,6 +103,24 @@ The Python API is shipped separately, you need to install the
         project configuration file (:file:`.weblate`,
         :file:`.weblate.ini`, or :file:`weblate.ini`) from the current
         directory or its parents.
+
+    .. method:: validate_url_key()
+
+        Validates the resolved API URL and key sources.
+
+        When the API URL comes from an automatically discovered project
+        configuration file, unscoped keys must pin the destination explicitly:
+        :envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and a key set through the
+        command-line configuration path requires an explicit URL from the same
+        path. URL-scoped ``[keys]`` entries continue to work with project
+        configuration.
+
+    .. method:: get_url_key()
+
+        :returns: tuple with the resolved API URL and API key
+
+        Returns the resolved API URL and key and performs the same validation as
+        :meth:`validate_url_key`.
 
 
 :mod:`wlc.main`
