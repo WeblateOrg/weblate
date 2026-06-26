@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+from typing import cast
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import responses
