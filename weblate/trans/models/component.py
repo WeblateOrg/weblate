@@ -532,6 +532,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     LINKED_REPOSITORY_SETTING_MESSAGE = gettext_lazy(
         "Option is not available for linked repositories. Setting from linked component will be used."
     )
+    INTEGRATION_LOCKED_FIELD_MESSAGE = gettext_lazy(
+        "This field is managed by the repository integration and can not be changed."
+    )
 
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
@@ -4907,6 +4910,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 ) % {"param": param.name, "format": self.file_format}
                 raise ValidationError({"file_format_params": message})
 
+    def clean_integration_locked_fields(self, old: Component) -> None:
+        """Validate fields managed by an existing repository integration."""
+        vcs_backend = VCS_REGISTRY.get(old.vcs)
+        if vcs_backend is None:
+            return
+
+        errors: dict[str, Any] = {}
+        for field in vcs_backend.component_lock_fields:
+            old_value = getattr(old, field)
+            value = getattr(self, field)
+            if field in vcs_backend.component_clear_fields and not value:
+                setattr(self, field, "")
+                continue
+            if old_value == value:
+                if field in vcs_backend.component_clear_fields:
+                    setattr(self, field, "")
+                continue
+            errors[field] = self.INTEGRATION_LOCKED_FIELD_MESSAGE
+
+        if errors:
+            raise ValidationError(errors)
+
     def clean(self) -> None:
         """
         Validate component parameters.
@@ -4951,6 +4976,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            self.clean_integration_locked_fields(old)
             self.check_rename(old, validate=True)
             if old.source_language != self.source_language:
                 # Might be implemented in future, but needs to handle:
