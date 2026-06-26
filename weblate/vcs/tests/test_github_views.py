@@ -12,7 +12,7 @@ from django.core.cache import cache
 from django.test import TestCase
 from django.urls import reverse
 
-from weblate.auth.models import User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.site import get_site_url
@@ -1004,6 +1004,19 @@ class GitHubAppManifestViewTest(TestCase):
         )
         self.client.login(username="admin", password="testpassword")
 
+    def _grant_global_permissions(self, user: User, *permissions: str) -> None:
+        role, _created = Role.objects.get_or_create(name="Test GitHub App role")
+        permission_objects = list(Permission.objects.filter(codename__in=permissions))
+        self.assertEqual(
+            {permission.codename for permission in permission_objects},
+            set(permissions),
+        )
+        role.permissions.add(*permission_objects)
+        group, _created = Group.objects.get_or_create(name="Test GitHub App team")
+        group.roles.add(role)
+        user.groups.add(group)
+        user.clear_cache()
+
     def _post_register(self, **fields):
         return self.client.post(reverse("github-app-register-submit"), fields)
 
@@ -1168,16 +1181,64 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertRedirects(response, reverse("manage-github-accounts"))
         self.assertFalse(GitHubAppCredentials.objects.exists())
 
-    def test_register_requires_management_access(self):
-        non_admin = User.objects.create_user(
-            username="plain",
-            email="plain@example.org",
+    def test_register_requires_management_configure(self):
+        user = User.objects.create_user(
+            username="manager",
+            email="manager@example.org",
             password="testpassword",
         )
-        self.client.login(username=non_admin.username, password="testpassword")
+        self._grant_global_permissions(user, "management.use")
+        self.client.login(username=user.username, password="testpassword")
+
+        protected_urls = (
+            ("get", reverse("github-app-register"), {}),
+            ("post", reverse("github-app-register-submit"), {}),
+            ("post", reverse("github-app-register-redirect"), {}),
+            ("get", reverse("github-app-register-callback"), {}),
+        )
+        for method, url, data in protected_urls:
+            with self.subTest(url=url):
+                response = getattr(self.client, method)(url, data)
+                self.assertEqual(response.status_code, 403)
+
+        self._grant_global_permissions(user, "management.configure")
 
         response = self.client.get(reverse("github-app-register"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_remove_app_requires_management_configure(self):
+        user = User.objects.create_user(
+            username="manager",
+            email="manager@example.org",
+            password="testpassword",
+        )
+        self._grant_global_permissions(user, "management.use")
+        self.client.login(username=user.username, password="testpassword")
+        credentials = GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="111",
+            app_slug="weblate",
+            private_key="pem",
+            webhook_secret="wh",
+        )
+
+        response = self.client.post(
+            reverse("manage-github-app-remove", kwargs={"pk": credentials.pk})
+        )
+
         self.assertEqual(response.status_code, 403)
+        self.assertTrue(GitHubAppCredentials.objects.filter(pk=credentials.pk).exists())
+
+        self._grant_global_permissions(user, "management.configure")
+
+        response = self.client.post(
+            reverse("manage-github-app-remove", kwargs={"pk": credentials.pk})
+        )
+
+        self.assertRedirects(response, reverse("manage-github-accounts"))
+        self.assertFalse(
+            GitHubAppCredentials.objects.filter(pk=credentials.pk).exists()
+        )
 
     def test_register_form_warns_about_existing_host(self):
         GitHubAppCredentials.objects.create(
