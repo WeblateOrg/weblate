@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
-    
+
     updateLivePreviewAndEmbedCode();
   }
 
