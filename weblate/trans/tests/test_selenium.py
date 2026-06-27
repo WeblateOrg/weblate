@@ -76,6 +76,8 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
+from weblate.utils.data import data_dir
+from weblate.utils.files import remove_tree
 from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -367,6 +369,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ),
         ]
         cache.delete_many({stat.cache_key for stat in stats})
+
+    def clear_weblateorg_fixture_path(self) -> None:
+        """Drop VCS state left by earlier flushed Selenium tests."""
+        remove_tree(os.path.join(data_dir("vcs"), "weblateorg"), ignore_errors=True)
 
     def populate_global_activity_metrics(self) -> None:
         """Create deterministic metric rows for the generated activity history."""
@@ -1274,6 +1280,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
+        self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         Component.objects.create(
             name="Language names",
@@ -2015,6 +2022,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:
         """Test user adding project and component."""
+        self.clear_weblateorg_fixture_path()
         user = self.do_login()
         with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
             billing = create_test_billing(user, invoice=False)
@@ -2089,6 +2097,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("user-add-component.png")
 
     def test_alerts(self) -> None:
+        self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         duplicates = Component.objects.create(
             name="Duplicates",
