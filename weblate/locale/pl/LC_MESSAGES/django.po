@@ -23,8 +23,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
 "PO-Revision-Date: 2026-06-27 05:39+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -1876,6 +1875,8 @@ msgid ""
 "Fedora Messaging publish timed out; the broker did not confirm delivery: "
 "%(error)s"
 msgstr ""
+"Przekroczono limit czasu publikacji Fedora Messaging; broker nie potwierdził "
+"dostarczenia: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:254
 #, python-format
@@ -1883,50 +1884,57 @@ msgid ""
 "Fedora Messaging publisher service was unavailable; the connection will be "
 "recreated on the next attempt: %(error)s"
 msgstr ""
+"Usługa publikowania Fedora Messaging była niedostępna. Połączenie zostanie "
+"utworzone ponownie przy następnej próbie: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:258
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr ""
+msgstr "Broker Fedora Messaging zwrócił komunikat: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:262
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr ""
+msgstr "Broker Fedora Messaging odrzucił komunikat: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:264
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
-msgstr ""
+msgstr "Publikacja Fedora Messaging nie powiodła się: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:337
-#, fuzzy
-#| msgid "Configure"
 msgid "configured"
-msgstr "Skonfiguruj"
+msgstr "skonfigurowano"
 
 #: weblate/addons/fedora_messaging.py:475
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Certyfikaty CA muszą być ważnymi certyfikatami X.509 zakodowanymi w formacie "
+"PEM."
 
 #: weblate/addons/fedora_messaging.py:479
 msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
+"Klucz SSL klienta musi być niezaszyfrowanym kluczem prywatnym zakodowanym w "
+"formacie PEM."
 
 #: weblate/addons/fedora_messaging.py:484
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Certyfikaty SSL klienta muszą być ważnymi certyfikatami X.509 zakodowanymi w "
+"formacie PEM."
 
 #: weblate/addons/fedora_messaging.py:501
 #, python-format
 msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr ""
+msgstr "Adres URL brokera Fedora Messaging jest nieprawidłowy: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:522
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Nie można zweryfikować połączenia TLS z brokerem Fedora Messaging: %(error)s"
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
@@ -2688,76 +2696,74 @@ msgstr ""
 "Tajny klucz standardowych webhooków to ciąg zakodowany w standardzie base64."
 
 #: weblate/addons/forms.py:1625
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Host brokera AMQP"
+msgstr "Adres URL brokera AMQP"
 
 #: weblate/addons/forms.py:1626
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Broker AMQP, z którym chcesz się połączyć."
+msgstr "Adres URL brokera AMQP, z którym chcesz się połączyć."
 
 #: weblate/addons/forms.py:1631
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "Certyfikaty CA"
+msgstr "Pakiet certyfikatów CA (PEM)"
 
 #: weblate/addons/forms.py:1633
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Wklej tylko bloki certyfikatu PEM, każdy zaczynający się od „-----BEGIN "
+"CERTIFICATE-----” i kończący się na „-----END CERTIFICATE-----”."
 
 #: weblate/addons/forms.py:1639
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Klucz prywatny klienta (PEM)"
 
 #: weblate/addons/forms.py:1641
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Wklej pojedynczy, niezaszyfrowany blok klucza prywatnego PEM. Zaszyfrowane "
+"klucze prywatne nie są obsługiwane."
 
 #: weblate/addons/forms.py:1648
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Certyfikaty SSL klienta"
+msgstr "Certyfikat klienta (PEM)"
 
 #: weblate/addons/forms.py:1650
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Wklej tylko blok certyfikatu PEM zaczynający się od „-----BEGIN "
+"CERTIFICATE-----”; nie wklejaj danych wyjściowych z polecenia „openssl x509 -"
+"text”."
 
 #: weblate/addons/forms.py:1655
 msgid "Publish timeout"
-msgstr ""
+msgstr "Limit czasu publikacji"
 
 #: weblate/addons/forms.py:1657
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "Ile sekund należy czekać na potwierdzenie dostawy od brokera."
 
 #: weblate/addons/forms.py:1665
 msgid "Connection attempts"
-msgstr ""
+msgstr "Próby połączenia"
 
 #: weblate/addons/forms.py:1666
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Ile razy należy próbować nawiązać połączenie z brokerem."
 
 #: weblate/addons/forms.py:1673
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Szczegóły repozytorium"
+msgstr "Opóźnienie ponownej próby"
 
 #: weblate/addons/forms.py:1674
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+"Ile sekund należy odczekać między kolejnymi próbami nawiązania połączenia."
 
 #: weblate/addons/forms.py:1738
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3224,10 +3230,8 @@ msgid "This role cannot be assigned to this team."
 msgstr "Ta rola nie może zostać przypisana temu zespołowi."
 
 #: weblate/api/views.py:1111 weblate/api/views.py:1148
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Cannot change languages on a workspace team."
-msgstr "Nie można zmieniać komponentów w zespole obszaru roboczego."
+msgstr "Nie można zmieniać języków w zespole obszaru roboczego."
 
 #: weblate/api/views.py:1168 weblate/api/views.py:1196
 msgid "Cannot change projects on a scoped team."
@@ -4593,13 +4597,11 @@ msgstr "Nie udało się przeanalizować flagi {}: {}"
 
 #: weblate/checks/chars.py:58
 msgid "Accelerator key"
-msgstr ""
+msgstr "Klawisz skrótu"
 
 #: weblate/checks/chars.py:60
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "Źródło i tłumaczenie nie kończą się dwukropkiem."
+msgstr "Źródło i tłumaczenie zawierają niespójne klawisze skrótu."
 
 #: weblate/checks/chars.py:109
 msgid "Starting newline"
@@ -5802,11 +5804,8 @@ msgid "Maximum size of translation"
 msgstr "Maksymalny rozmiar tłumaczenia"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr ""
-"Tłumaczenie renderowanego tekstu nie powinno przekraczać podanego rozmiaru."
+msgstr "Wyświetlany tekst nie powinien przekraczać określonego rozmiaru."
 
 #: weblate/checks/render.py:131
 msgid ""
@@ -5856,6 +5855,8 @@ msgstr "Długość ciągu źródłowego"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Ciąg źródłowy jest zbyt długi, aby zmieścić się w ustawionej maksymalnej "
+"długości."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -8660,20 +8661,18 @@ msgstr "Dodaj nową tożsamość użytkownika"
 #: weblate/templates/vcs/account_integrations.html:14
 #: weblate/templates/vcs/account_integrations.html:21
 #: weblate/templates/workspace.html:58
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "VCS integrations"
-msgstr "Testuj integrację Sentry"
+msgstr "Integracje VCS"
 
 #: weblate/templates/accounts/profile.html:264
 msgid "Manage code hosting accounts connected to workspaces you administer."
 msgstr ""
+"Zarządzaj kontami hostingu kodu połączonymi z administrowanymi przez Ciebie "
+"obszarami roboczymi."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Manage site configuration"
 msgid "Manage VCS integrations"
-msgstr "Zarządzaj konfiguracją strony"
+msgstr "Zarządzaj integracjami VCS"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:416
@@ -10812,10 +10811,8 @@ msgstr "Zastosuj"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "Przeglądaj wszystkie komponenty"
+msgstr "Przeglądaj komponenty"
 
 #: weblate/templates/category.html:40
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:42
@@ -10873,10 +10870,8 @@ msgstr "Przeglądaj wszystkie zmiany w kategorii"
 
 #: weblate/templates/category.html:266 weblate/templates/component.html:327
 #: weblate/templates/project.html:332
-#, fuzzy
-#| msgid "Allow translation"
 msgid "Browse translations"
-msgstr "Zezwalaj na tłumaczenie"
+msgstr "Przeglądaj tłumaczenia"
 
 #: weblate/templates/category.html:277 weblate/templates/project.html:369
 msgid "Add a category"
@@ -11026,13 +11021,11 @@ msgid "Diagnostics"
 msgstr "Diagnostyka"
 
 #: weblate/templates/component.html:31
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
-msgstr[0] "Błąd"
-msgstr[1] "Błąd"
-msgstr[2] "Błąd"
+msgstr[0] "błąd"
+msgstr[1] "błędy"
+msgstr[2] "błędy"
 
 #: weblate/templates/component.html:52 weblate/templates/project.html:47
 msgid "Download language statistics (CSV)"
@@ -11787,76 +11780,55 @@ msgstr ""
 "Używaj tych operacji ostrożnie, ponieważ mogą doprowadzić do utraty danych."
 
 #: weblate/templates/js/git-status.html:229
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Nazwy plików"
+msgstr "Zarządzanie plikami"
 
 #: weblate/templates/js/git-status.html:237
-#, fuzzy
-#| msgid "Removed category"
 msgid "Remove duplicates"
-msgstr "Usunięto kategorię"
+msgstr "Usuń duplikaty"
 
 #: weblate/templates/js/git-status.html:238
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove duplicated strings from the translation file"
-msgstr "Wymusza zapisanie wszystkich ciągów do plików tłumaczeń."
+msgstr "Usuń zduplikowane ciągi znaków z pliku tłumaczenia"
 
 #: weblate/templates/js/git-status.html:240
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
 msgstr ""
-"Napraw to, usuwając zduplikowane ciągi o tym samym identyfikatorze z plików "
-"tłumaczeń."
+"Usuwa z pliku tłumaczenia powtarzające się ciągi znaków o tym samym "
+"identyfikatorze."
 
 #: weblate/templates/js/git-status.html:241
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
 msgstr ""
-"Może się tak zdarzyć, jeśli ścieżka w plikach tłumaczenia zawiera odwołania "
-"do katalogu nadrzędnego lub jest bezwzględna."
+"Użyj tej opcji, jeśli plik tłumaczenia zawiera zduplikowane ciągi, których "
+"nie ma w Weblate."
 
 #: weblate/templates/js/git-status.html:249
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Cleanup unused"
-msgstr "Oczyszczanie"
+msgstr "Wyczyść nieużywane"
 
 #: weblate/templates/js/git-status.html:250
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove unused strings from the translation file"
-msgstr "Wymusza zapisanie wszystkich ciągów do plików tłumaczeń."
+msgstr "Usuń nieużywane ciągi z pliku tłumaczenia"
 
 #: weblate/templates/js/git-status.html:252
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid "Removes strings that are no longer present in the base file."
-msgstr "Usuwa ciągi bez tłumaczenia z plików tłumaczeń."
+msgstr "Usuwa ciągi, których nie ma już w pliku bazowym."
 
 #: weblate/templates/js/git-status.html:253
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The cleanup translation files add-on can perform this automatically."
-msgstr "Dodatek plików tłumaczeń CDN nie może publikować weblate.js."
+msgstr ""
+"Dodatek do czyszczenia plików tłumaczeń może wykonać tę czynność "
+"automatycznie."
 
 #: weblate/templates/js/git-status.html:259
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid "Use these operations with caution, they rewrite the translation file."
 msgstr ""
-"Używaj tych operacji ostrożnie, ponieważ mogą doprowadzić do utraty danych."
+"Należy zachować ostrożność podczas wykonywania tych operacji, ponieważ "
+"powodują one nadpisanie pliku tłumaczenia."
 
 #: weblate/templates/js/git-status.html:268
 #, python-format
@@ -14983,6 +14955,8 @@ msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
 msgstr ""
+"Przesyłanie tłumaczeń na tym poziomie nie jest obsługiwane. Otwórz "
+"pojedyncze tłumaczenie i prześlij plik."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:10
 #: weblate/trans/forms.py:1565
@@ -15079,45 +15053,35 @@ msgid "Watch component %(component)s"
 msgstr "Obserwuj komponent %(component)s"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:32
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid ""
 "You are about to continue resetting the password for your Weblate account."
-msgstr "Ustaw hasło do swojego konta Weblate"
+msgstr "Zamierzasz kontynuować resetowanie hasła do konta Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:34
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid "You are about to continue removing your Weblate account."
-msgstr "Ustaw hasło do swojego konta Weblate"
+msgstr "Zamierzasz kontynuować usuwanie swojego konta Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:36
 msgid "You are about to accept an invitation and create a Weblate account."
-msgstr ""
+msgstr "Zamierzasz zaakceptować zaproszenie i utworzyć konto Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:38
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "You are about to complete registration and create a Weblate account."
-msgstr "Nie możesz dokończyć rejestracji po zalogowaniu."
+msgstr "Zakończysz rejestrację i utworzysz konto Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:42
-#, fuzzy
-#| msgid "You will find the confirmation link in your e-mail inbox."
 msgid "Continue only if you opened the confirmation link from your e-mail."
-msgstr "Link potwierdzający znajdziesz w swojej skrzynce e-mail."
+msgstr ""
+"Kontynuuj tylko po otworzeniu potwierdzającego linku otrzymanego w "
+"wiadomości e-mail."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:56
-#, fuzzy
-#| msgid "Confirm password reset"
 msgid "Continue password reset"
-msgstr "Potwierdź resetowanie hasła"
+msgstr "Kontynuuj resetowanie hasła"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:58
-#, fuzzy
-#| msgid "Confirm account removal"
 msgid "Continue account removal"
-msgstr "Potwierdź usunięcie konta"
+msgstr "Kontynuuj usuwanie konta"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:60
 #: weblate/templates/weblate_auth/invitation_detail.html:54
@@ -15125,10 +15089,8 @@ msgid "Accept invitation"
 msgstr "Zaakceptuj zaproszenie"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:62
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create account"
-msgstr "Utwórz konto za pomocą:"
+msgstr "Utwórz konto"
 
 #: weblate/templates/trans/alert/addonscripterror.html:3
 msgid "Weblate could not execute script add-on."
@@ -15409,10 +15371,8 @@ msgstr ""
 "tłumaczeń."
 
 #: weblate/templates/trans/alert/duplicatestring.html:42
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
-msgstr "Usuń puste ciągi"
+msgstr "Usuń zduplikowane ciągi"
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:3
 msgid ""
