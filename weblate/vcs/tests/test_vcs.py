@@ -868,6 +868,7 @@ class GitBranchValidationTest(SimpleTestCase):
             title, body = repo.get_merge_message()
         self.assertEqual(title, "chore(l10n): update translations")
         self.assertIn("Test\nproject/Test\ncomponent", body)
+        self.assertIn("/matrix-auto.svg", body)
 
 
 class RepositoryHostKeyErrorTest(SimpleTestCase):

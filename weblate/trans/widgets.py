@@ -12,6 +12,7 @@ import cairo
 import gi
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.text import capfirst
 from django.utils.translation import (
@@ -26,7 +27,7 @@ from django.utils.translation import (
 
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.lang.models import Language
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode, translation_percent
 from weblate.utils import messages
@@ -81,6 +82,21 @@ class ExtraParametersDict(TypedDict):
     min: NotRequired[int]
     max: NotRequired[int]
     step: NotRequired[int]
+
+
+class MatrixCellDict(TypedDict):
+    name: str
+    percent: int
+    progress_percent: float
+    color: str
+    url: str
+    x: NotRequired[int]
+    y: NotRequired[int]
+    label_x: NotRequired[int]
+    percent_x: NotRequired[int]
+    text_y: NotRequired[int]
+    label: NotRequired[str]
+    progress_width: NotRequired[int]
 
 
 class Widget:
@@ -479,21 +495,35 @@ class MultiLanguageWidget(SVGWidget):
         "auto": None,
     }
 
+    def get_language_stats(self) -> list[BaseStats | ProjectLanguage]:
+        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
+            return [self.stats]
+        if isinstance(self.obj, ProjectLanguage):
+            return [self.obj]
+        if isinstance(self.obj, Language):
+            return [self.obj.stats]
+        return self.stats.get_language_stats()
+
+    def get_language_url(self, language: Language) -> str:
+        if isinstance(self.obj, Component):
+            return get_site_url(
+                reverse(
+                    "translate",
+                    kwargs={"path": [*self.obj.get_url_path(), language.code]},
+                )
+            )
+        if self.obj is None:
+            project_language = language
+        else:
+            project_language = ProjectLanguage(self.obj, language)
+        return get_site_url(project_language.get_absolute_url())
+
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
         translations = []
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
-        languages: list[BaseStats | ProjectLanguage]
-        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
-            languages = [self.stats]
-        elif isinstance(self.obj, ProjectLanguage):
-            languages = [self.obj]
-        elif isinstance(self.obj, Language):
-            languages = [self.obj.stats]
-        else:
-            languages = self.stats.get_language_stats()
-        for stats in sort_unicode(languages, lambda x: str(x.language)):
+        for stats in sort_unicode(self.get_language_stats(), lambda x: str(x.language)):
             # Skip empty translations
             if stats.translated == 0:
                 continue
@@ -507,10 +537,6 @@ class MultiLanguageWidget(SVGWidget):
                 language_width,
                 (render_size(text=language_name)[0].width + 10),
             )
-            if self.obj is None:
-                project_language = language
-            else:
-                project_language = ProjectLanguage(self.obj, language)
             translations.append(
                 (
                     # Language name
@@ -526,7 +552,7 @@ class MultiLanguageWidget(SVGWidget):
                     # Bar color
                     color,
                     # Row URL
-                    get_site_url(project_language.get_absolute_url()),
+                    self.get_language_url(language),
                     # Top offset for horizontal
                     10 + int((100 - percent) * 1.5),
                 )
@@ -560,9 +586,180 @@ class HorizontalMultiLanguageWidget(MultiLanguageWidget):
 
 
 @register_widget
+class MatrixMultiLanguageWidget(MultiLanguageWidget):
+    name = "matrix"
+    order = 83
+    template_name = "svg/multi-language-matrix.svg"
+    verbose = pgettext_lazy("Status widget name", "Language progress matrix")
+
+    min_cell_width = 100
+    max_cell_width = 130
+    max_width = 820
+    cell_height = 20
+    gap = 3
+    margin = 6
+    text_padding = 8
+    percent_gap = 5
+    text_size = 9
+
+    def get_column_count(self, count: int, cell_width: int) -> int:
+        max_columns = min(
+            count,
+            max(
+                1,
+                (self.max_width - self.margin * 2 + self.gap)
+                // (cell_width + self.gap),
+            ),
+        )
+        if count <= max_columns:
+            return max(1, count)
+
+        if count <= 12:
+            desired = (count + 1) // 2
+        elif count <= 40:
+            desired = 5
+        elif count <= 80:
+            desired = 6
+        else:
+            desired = 8
+
+        desired = min(max(1, desired), max_columns)
+
+        def score(columns: int) -> tuple[int, int, int]:
+            row_count, remainder = divmod(count, columns)
+            if remainder:
+                row_count += 1
+            return (row_count, 1 if remainder == 1 else 0, abs(columns - desired))
+
+        return min(range(1, max_columns + 1), key=score)
+
+    def get_cell_width(self, language_names: list[str]) -> int:
+        widest_language = max(
+            (
+                render_size(
+                    language_name,
+                    font=WIDGET_FONT,
+                    weight=Pango.Weight.BOLD,
+                    size=self.text_size,
+                )[0].width
+                for language_name in language_names
+            ),
+            default=0,
+        )
+        percent_width = render_size("100%", font=WIDGET_FONT, size=self.text_size)[
+            0
+        ].width
+        return min(
+            self.max_cell_width,
+            max(
+                self.min_cell_width,
+                widest_language + percent_width + self.percent_gap + self.text_padding,
+            ),
+        )
+
+    def fit_text(self, text: str, max_width: int) -> str:
+        if (
+            render_size(
+                text, font=WIDGET_FONT, weight=Pango.Weight.BOLD, size=self.text_size
+            )[0].width
+            <= max_width
+        ):
+            return text
+
+        suffix = "..."
+        low = 0
+        high = len(text)
+        while low < high:
+            middle = (low + high + 1) // 2
+            candidate = f"{text[:middle].rstrip()}{suffix}"
+            if (
+                render_size(
+                    candidate,
+                    font=WIDGET_FONT,
+                    weight=Pango.Weight.BOLD,
+                    size=self.text_size,
+                )[0].width
+                <= max_width
+            ):
+                low = middle
+            else:
+                high = middle - 1
+        if low == 0:
+            return suffix
+        return f"{text[:low].rstrip()}{suffix}"
+
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
+        cells: list[MatrixCellDict] = []
+        color = self.COLOR_MAP[self.color]
+        for stats in sort_unicode(self.get_language_stats(), lambda x: str(x.language)):
+            # Skip empty translations
+            if stats.translated == 0:
+                continue
+            language = stats.language
+            percent = stats.translated_percent
+            if self.color == "auto" or color is None:
+                cell_color = get_percent_color(percent)
+            else:
+                cell_color = color
+
+            cells.append(
+                {
+                    "name": str(language),
+                    "percent": int(percent),
+                    "progress_percent": min(max(percent, 0), 100),
+                    "color": cell_color,
+                    "url": self.get_language_url(language),
+                }
+            )
+
+        cell_width = self.get_cell_width([cell["name"] for cell in cells])
+        columns = self.get_column_count(len(cells), cell_width)
+        percent_width = render_size("100%", font=WIDGET_FONT, size=self.text_size)[
+            0
+        ].width
+        text_offset = self.text_padding // 2
+        label_width = cell_width - self.text_padding - self.percent_gap - percent_width
+        for index, cell in enumerate(cells):
+            column = index % columns
+            row = index // columns
+            x = self.margin + column * (cell_width + self.gap)
+            y = self.margin + row * (self.cell_height + self.gap)
+            progress_percent = cell["progress_percent"]
+            progress_width = round(cell_width * progress_percent / 100)
+            if progress_percent:
+                progress_width = max(1, progress_width)
+            cell["x"] = x
+            cell["y"] = y
+            cell["label_x"] = x + text_offset
+            cell["percent_x"] = x + cell_width - text_offset
+            cell["text_y"] = y + 14
+            cell["label"] = self.fit_text(cell["name"], label_width)
+            cell["progress_width"] = progress_width
+
+        rows = max(1, (len(cells) + columns - 1) // columns)
+        width = columns * cell_width + (columns - 1) * self.gap + self.margin * 2
+        height = rows * self.cell_height + (rows - 1) * self.gap + self.margin * 2
+
+        response.write(
+            render_to_string(
+                self.template_name,
+                {
+                    "title": gettext("Translation status"),
+                    "width": width,
+                    "height": height,
+                    "cell_width": cell_width,
+                    "cell_height": self.cell_height,
+                    "cells": cells,
+                    "site_url": get_site_url(),
+                },
+            )
+        )
+
+
+@register_widget
 class LanguageBadgeWidget(BaseSVGBadgeWidget):
     name = "language"
-    order = 83
+    order = 84
     # Translators: status widget name
     verbose = gettext_lazy("Language count badge")
     extra_parameters: ClassVar[list[ExtraParametersDict]] = [

@@ -77,7 +77,7 @@ def render_template(template: str, **kwargs):
                 "widget-image",
                 kwargs={
                     "path": component.get_url_path(),
-                    "widget": "horizontal",
+                    "widget": "matrix",
                     "color": "auto",
                     "extension": "svg",
                 },
