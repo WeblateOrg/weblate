@@ -408,6 +408,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     supports_location: bool = False
     supports_flags: bool = False
     supports_read_only: bool = False
+    supports_remove_obsolete_units: bool = False
     has_hierarchical_contexts: ClassVar[bool] = False
     additional_states: tuple[StringState, ...] = ()
     can_edit_base: bool = True
@@ -608,6 +609,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         if removed:
             self._invalidate_units()
             return extra_files
+        return None
+
+    def remove_obsolete_units(self) -> list[str] | None:
+        """Remove obsolete units from the underlying store."""
         return None
 
     def add_unit(self, unit: T) -> None:

@@ -261,6 +261,10 @@ language synchronization and cleanup are described in
      - Removes strings no longer present in the base file from one translation file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this automatically.
      - Run a one-time cleanup without installing the add-on.
 
+   * - :guilabel:`Remove obsolete`
+     - Removes obsolete strings from one PO translation file.
+     - Run a one-time PO cleanup without enabling automatic obsolete string removal.
+
 .. _manage-vcs-reset-reapply:
 
 Reset and reapply recovery behavior

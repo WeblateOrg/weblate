@@ -857,6 +857,10 @@ class Translation(
             != TranslationFormat.cleanup_unused
         )
 
+    @staticmethod
+    def supports_remove_obsolete_units(component: Component) -> bool:
+        return component.file_format_cls.supports_remove_obsolete_units
+
     def _do_file_cleanup(
         self,
         request: AuthenticatedHttpRequest | None,
@@ -979,6 +983,24 @@ class Translation(
             request,
             lambda store: store.cleanup_unused(),
             gettext("No unused strings were found in the translation file."),
+        )
+
+    @transaction.atomic
+    def do_remove_obsolete_units(
+        self, request: AuthenticatedHttpRequest | None = None
+    ) -> bool:
+        if not self.supports_remove_obsolete_units(self.component):
+            messages.info(
+                request,
+                gettext(
+                    "Removing obsolete strings is not supported for this file format."
+                ),
+            )
+            return False
+        return self._do_file_cleanup(
+            request,
+            lambda store: store.remove_obsolete_units(),
+            gettext("No obsolete strings were found in the translation file."),
         )
 
     def can_push(self) -> bool:

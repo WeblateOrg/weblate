@@ -243,6 +243,24 @@ def cleanup_unused(
 
 @login_required
 @require_repository_action_post
+def remove_obsolete_units(
+    request: AuthenticatedHttpRequest, path: list[str]
+) -> HttpResponseBase:
+    obj = parse_path(request, path, (Translation,))
+    if not request.user.has_perm("vcs.reset", obj):
+        raise PermissionDenied
+
+    return execute_locked(
+        request,
+        obj,
+        gettext("Obsolete strings have been removed from the translation file."),
+        obj.do_remove_obsolete_units,
+        request,
+    )
+
+
+@login_required
+@require_repository_action_post
 def commit(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
     if not request.user.has_perm("vcs.commit", obj):

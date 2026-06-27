@@ -1696,6 +1696,7 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
     supports_context = True
     supports_location = True
     supports_flags = True
+    supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
 
     def add_unit(self, unit: TranslationUnit) -> None:
@@ -1706,11 +1707,17 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
             self.store.removeunit(old_unit)
         super().add_unit(unit)
 
-    def remove_obsolete_units(self) -> None:
+    def remove_obsolete_units(self) -> list[str] | None:
         """Remove obsolete units from the underlying store."""
+        removed = False
         for unit in list(self.store.units):
             if unit.isobsolete():
                 self.store.removeunit(unit)
+                removed = True
+        if not removed:
+            return None
+        self._invalidate_units()
+        return []
 
     def save_content(self, handle: IO[bytes]) -> None:
         if GettextRemoveObsolete.get_value(self.file_format_params):
