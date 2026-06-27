@@ -15,9 +15,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 05:39+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-27 10:21+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -1868,6 +1867,8 @@ msgid ""
 "Fedora Messaging publish timed out; the broker did not confirm delivery: "
 "%(error)s"
 msgstr ""
+"Времето за изчакване на публикуването чрез съобщения на Fedora изтече; "
+"брокерът не потвърди получаването: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:254
 #, python-format
@@ -1875,27 +1876,27 @@ msgid ""
 "Fedora Messaging publisher service was unavailable; the connection will be "
 "recreated on the next attempt: %(error)s"
 msgstr ""
+"Услугата за публикуване съобщения на Fedora не беше налична; връзката ще "
+"бъде създадена наново при следващия опит: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:258
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr ""
+msgstr "Брокерът на съобщения на Fedora върна съобщението: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:262
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr ""
+msgstr "Брокерът на съобщения на Fedora отхвърли съобщението: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:264
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
-msgstr ""
+msgstr "Публикуването на съобщение на Fedora беше неуспешно: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:337
-#, fuzzy
-#| msgid "Configure"
 msgid "configured"
-msgstr "Настройка"
+msgstr "настроено"
 
 #: weblate/addons/fedora_messaging.py:475
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -15379,10 +15380,8 @@ msgstr ""
 "идентификатор от файловете за превод."
 
 #: weblate/templates/trans/alert/duplicatestring.html:42
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
-msgstr "Премахване на празни низове"
+msgstr "Премахване на дублираните низове"
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:3
 msgid ""
@@ -15760,7 +15759,7 @@ msgstr "Започване отначало"
 
 #: weblate/templates/trans/component_create.html:45
 msgid "From GitHub"
-msgstr ""
+msgstr "От GitHub"
 
 #: weblate/templates/trans/component_create.html:53
 #: weblate/templates/trans/component_form.html:13
@@ -15841,22 +15840,21 @@ msgid ""
 "form will be pre-filled with the clone URL, default branch, and GitHub VCS "
 "driver."
 msgstr ""
+"Изберете хранилище от свързан акаунт в GitHub. Формулярът за създаване на "
+"компонент ще бъда предварително попълнен с адреса за клониране, клона по "
+"подразбиране и драйвера за GitHub."
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add or configure account"
-msgstr "Лоша настройка"
+msgstr "Добавяне или настройване на акаунт"
 
 #: weblate/templates/trans/component_create.html:206
 #: weblate/templates/vcs/github_app_register.html:105
 #: weblate/templates/vcs/github_installation_detail.html:99
 #: weblate/templates/vcs/github_repository_list.html:77
-#, fuzzy
-#| msgid "Visibility changed"
 msgid "Visibility"
-msgstr "Видимостта е променена"
+msgstr "Видимост"
 
 #: weblate/templates/trans/component_create.html:231
 #: weblate/templates/vcs/github_installation_detail.html:123
@@ -15869,18 +15867,25 @@ msgid ""
 "No repositories available yet. Install the Weblate GitHub app on a GitHub "
 "organization or user account to make repositories available here."
 msgstr ""
+"Все още няма налични хранилища. Инсталирайте приложението на Weblate за "
+"GitHub чрез потребителски акаунт за такъв за организация в GitHub, за да "
+"станат налични хранилищата тук."
 
 #: weblate/templates/trans/component_create.html:242
 msgid ""
 "No repositories are available from connected GitHub accounts for this "
 "project workspace."
 msgstr ""
+"Няма налични хранилища от свързани акаунти за GitHub за работното "
+"пространство на този проект."
 
 #: weblate/templates/trans/component_create.html:244
 msgid ""
 "Select a project with a workspace to connect a GitHub account or import "
 "repositories from an existing connection."
 msgstr ""
+"Изберете проект с работно пространство, за са свържете акаунт от GitHub или "
+"да внесете хранилищата от вече налично свързване."
 
 #: weblate/templates/trans/component_form.html:40
 msgid ""
@@ -16714,12 +16719,17 @@ msgid ""
 "You do not manage any workspaces. VCS accounts can be connected only to "
 "workspaces you manage."
 msgstr ""
+"Вие не управлявате никакви работни пространства. Акаунтите за системи за "
+"контрол на версиите могат да бъдат свързани само към работни пространства, "
+"които Вие управлявате."
 
 #: weblate/templates/vcs/account_integrations.html:30
 msgid ""
 "No VCS integrations are available. A site administrator needs to register a "
 "Weblate GitHub App first."
 msgstr ""
+"Няма налични интеграции за системи за контрол на версиите. Администратор "
+"трябва първо да регистрира приложение на Weblate за GitHub."
 
 #: weblate/templates/vcs/account_integrations.html:35
 #, python-format
