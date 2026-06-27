@@ -77,7 +77,7 @@ class PlaceholderCheck(TargetCheckParametrized):
 
     @staticmethod
     def get_matches(value, text: str):
-        for match in regex_finditer(value, text, concurrent=True):
+        for match in regex_finditer(value, text):
             yield match.group()
 
     def get_match_set(self, value, text: str, unit: Unit) -> set[str] | None:
