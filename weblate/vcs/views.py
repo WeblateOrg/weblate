@@ -24,7 +24,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext
 from django.views import View
 
-from weblate.auth.decorators import management_access
+from weblate.auth.decorators import management_access, management_permission_required
 from weblate.trans.models import Category, Project
 from weblate.trans.views.create import INTEGRATION_IMPORT_VCS_KEY, SESSION_CREATE_KEY
 from weblate.trans.views.hooks import apply_pending_github_installation_event
@@ -271,7 +271,10 @@ class GitHubInstallationListView(View):
                     "html_url": config.html_url,
                     "credentials_pk": config.pk,
                     "installations": host_installations,
-                    "can_remove": not host_installations,
+                    "can_remove": (
+                        request.user.has_perm("management.configure")
+                        and not host_installations
+                    ),
                     "install_url": _get_install_link(
                         request,
                         reverse("manage-github-accounts"),
@@ -288,7 +291,11 @@ class GitHubInstallationListView(View):
                 "github_app_install_url": _get_install_link(
                     request, reverse("manage-github-accounts")
                 ),
-                "github_app_register_url": reverse("github-app-register"),
+                "github_app_register_url": (
+                    reverse("github-app-register")
+                    if request.user.has_perm("management.configure")
+                    else None
+                ),
                 **_MENU_CONTEXT,
             },
         )
@@ -414,7 +421,7 @@ def remove_installation(request, pk):
     return redirect(next_url)
 
 
-@management_access
+@management_permission_required("management.configure")
 def remove_github_app(request, pk):
     """Delete the Weblate GitHub App credentials registered for one host."""
     if request.method != "POST":
@@ -887,7 +894,7 @@ def _read_register_fields(request) -> tuple[str, str, str, bool]:
     return hostname, org, name, public
 
 
-@management_access
+@management_permission_required("management.configure")
 def github_app_register(request):
     """Render the GitHub App registration form (editable host/org/name)."""
     hostname, org, name, public = _read_register_fields(request)
@@ -926,7 +933,7 @@ def github_app_register(request):
     )
 
 
-@management_access
+@management_permission_required("management.configure")
 def github_app_register_submit(request):
     """Render the intermediate page that posts the manifest to GitHub."""
     if request.method != "POST":
@@ -975,7 +982,7 @@ def github_app_register_submit(request):
     )
 
 
-@management_access
+@management_permission_required("management.configure")
 def github_app_register_redirect(request):
     """
     307-redirect the POSTed manifest to GitHub, preserving the body.
@@ -1003,7 +1010,7 @@ def github_app_register_redirect(request):
     return response
 
 
-@management_access
+@management_permission_required("management.configure")
 def github_app_register_callback(request):
     """Exchange a temporary manifest code for the App's credentials."""
     accounts_url = reverse("manage-github-accounts")
