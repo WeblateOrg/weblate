@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 05:39+0000\n"
+"PO-Revision-Date: 2026-06-27 07:37+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -1841,6 +1841,8 @@ msgid ""
 "Fedora Messaging publish timed out; the broker did not confirm delivery: "
 "%(error)s"
 msgstr ""
+"Časový limit publikovania Fedora Messaging vypršal; broker nepotvrdil "
+"doručenie: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:254
 #, python-format
@@ -1848,21 +1850,23 @@ msgid ""
 "Fedora Messaging publisher service was unavailable; the connection will be "
 "recreated on the next attempt: %(error)s"
 msgstr ""
+"Služba vydavateľa Fedora Messaging bola nedostupná; spojenie bude znovu "
+"vytvorené pri ďalšom pokuse: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:258
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr ""
+msgstr "Broker Fedora Messaging vrátil správu: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:262
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr ""
+msgstr "Broker Fedora Messaging zamietol správu: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:264
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
-msgstr ""
+msgstr "Publikovanie Fedora Messaging zlyhalo: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:337
 #, fuzzy
@@ -1873,25 +1877,31 @@ msgstr "Konfigurovať"
 #: weblate/addons/fedora_messaging.py:475
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Certifikáty CA musia byť platné certifikáty X.509 kódované vo formáte PEM."
 
 #: weblate/addons/fedora_messaging.py:479
 msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
+"Klientsky kľúč SSL musí byť nešifrovaný súkromný kľúč kódovaný vo formáte "
+"PEM."
 
 #: weblate/addons/fedora_messaging.py:484
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Klientske certifikáty SSL musia byť platné certifikáty X.509 kódované vo "
+"formáte PEM."
 
 #: weblate/addons/fedora_messaging.py:501
 #, python-format
 msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr ""
+msgstr "URL brokera Fedora Messaging je neplatná: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:522
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Nepodarilo sa overiť TLS spojenie s brokerom Fedora Messaging: %(error)s"
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
@@ -2667,16 +2677,20 @@ msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Vložte iba bloky certifikátov PEM, každý začínajúci „-----BEGIN "
+"CERTIFICATE-----“ a končiaci „-----END CERTIFICATE-----“."
 
 #: weblate/addons/forms.py:1639
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Súkromný kľúč klienta (PEM)"
 
 #: weblate/addons/forms.py:1641
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Vložte jeden blok nešifrovaného súkromného kľúča PEM. Šifrované súkromné "
+"kľúče nie sú podporované."
 
 #: weblate/addons/forms.py:1648
 #, fuzzy
@@ -2689,30 +2703,32 @@ msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Vložte iba blok certifikátu PEM začínajúci „-----BEGIN CERTIFICATE-----“; "
+"nevkladajte výstup z „openssl x509 -text“."
 
 #: weblate/addons/forms.py:1655
 msgid "Publish timeout"
-msgstr ""
+msgstr "Časový limit publikovania"
 
 #: weblate/addons/forms.py:1657
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "Koľko sekúnd čakať na potvrdenie doručenia brokerom."
 
 #: weblate/addons/forms.py:1665
 msgid "Connection attempts"
-msgstr ""
+msgstr "Pokusy o pripojenie"
 
 #: weblate/addons/forms.py:1666
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Koľkokrát sa má skúsiť pripojiť k brokerovi."
 
 #: weblate/addons/forms.py:1673
 msgid "Retry delay"
-msgstr ""
+msgstr "Oneskorenie opakovania"
 
 #: weblate/addons/forms.py:1674
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Koľko sekúnd čakať medzi pokusmi o pripojenie."
 
 #: weblate/addons/forms.py:1738
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -4543,7 +4559,7 @@ msgstr "Nepodarilo sa spracovať príznak {}: {}"
 
 #: weblate/checks/chars.py:58
 msgid "Accelerator key"
-msgstr ""
+msgstr "Klávesová skratka"
 
 #: weblate/checks/chars.py:60
 #, fuzzy
@@ -5796,6 +5812,8 @@ msgstr "Dĺžka zdrojového reťazca"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Zdrojový reťazec je príliš dlhý na to, aby sa zmestil do nastavenej "
+"maximálnej dĺžky."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -8583,6 +8601,8 @@ msgstr "Testovať integráciu Sentry"
 #: weblate/templates/accounts/profile.html:264
 msgid "Manage code hosting accounts connected to workspaces you administer."
 msgstr ""
+"Spravujte účty hosťovania kódu pripojené k pracovným priestorom, ktoré "
+"spravujete."
 
 #: weblate/templates/accounts/profile.html:267
 #, fuzzy
@@ -10931,9 +10951,9 @@ msgstr "Diagnostika"
 #: weblate/templates/component.html:31
 msgid "error"
 msgid_plural "errors"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "chyba"
+msgstr[1] "chyby"
+msgstr[2] "chýb"
 
 #: weblate/templates/component.html:52 weblate/templates/project.html:47
 msgid "Download language statistics (CSV)"
@@ -11691,7 +11711,7 @@ msgstr "Odstránená kategória"
 
 #: weblate/templates/js/git-status.html:238
 msgid "Remove duplicated strings from the translation file"
-msgstr ""
+msgstr "Odstrániť duplikované reťazce z prekladového súboru"
 
 #: weblate/templates/js/git-status.html:240
 #, fuzzy
@@ -11724,7 +11744,7 @@ msgstr "Čistenie"
 
 #: weblate/templates/js/git-status.html:250
 msgid "Remove unused strings from the translation file"
-msgstr ""
+msgstr "Odstrániť nepoužité reťazce z prekladového súboru"
 
 #: weblate/templates/js/git-status.html:252
 #, fuzzy
@@ -11734,7 +11754,7 @@ msgstr "Odstraňuje reťazce bez prekladu zo súborov prekladov."
 
 #: weblate/templates/js/git-status.html:253
 msgid "The cleanup translation files add-on can perform this automatically."
-msgstr ""
+msgstr "Doplnok na čistenie prekladových súborov to môže vykonať automaticky."
 
 #: weblate/templates/js/git-status.html:259
 #, fuzzy
@@ -14831,6 +14851,8 @@ msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
 msgstr ""
+"Nahrávanie prekladov na tejto úrovni nie je podporované. Otvorte jednotlivý "
+"preklad a nahrajte súbor tam."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:10
 #: weblate/trans/forms.py:1565
@@ -14934,21 +14956,19 @@ msgstr "Sledovať komponent %(component)s"
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:32
 msgid ""
 "You are about to continue resetting the password for your Weblate account."
-msgstr ""
+msgstr "Chystáte sa pokračovať v resetovaní hesla pre váš účet Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:34
 msgid "You are about to continue removing your Weblate account."
-msgstr ""
+msgstr "Chystáte sa pokračovať v odstraňovaní vášho účtu Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:36
 msgid "You are about to accept an invitation and create a Weblate account."
-msgstr ""
+msgstr "Chystáte sa prijať pozvánku a vytvoriť účet Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:38
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "You are about to complete registration and create a Weblate account."
-msgstr "Nemôžete dokončiť registráciu, keď ste prihlásení."
+msgstr "Chystáte sa dokončiť registráciu a vytvoriť účet Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:42
 #, fuzzy
