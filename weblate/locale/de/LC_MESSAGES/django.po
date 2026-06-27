@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 10:21+0000\n"
+"PO-Revision-Date: 2026-06-27 14:57+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -1854,7 +1854,7 @@ msgid ""
 "The given language maps to a different language. Check language aliases "
 "settings."
 msgstr ""
-"Die angegebene Sprache ist einer anderen Sprache zugeordnet. Prüfen Sie die "
+"e angegebene Sprache ist einer anderen Sprache zugeordnet. Prüfen Sie die "
 "Einstellungen der Sprachaliasnamen."
 
 #: weblate/addons/consistency.py:251 weblate/trans/models/component.py:5722
@@ -1969,6 +1969,8 @@ msgstr "Fedora-Messaging-Broker-URL ist ungültig: %(error)s"
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Die TLS-Verbindung zum Fedora-Messaging-Broker konnte nicht überprüft "
+"werden: %(error)s"
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
@@ -2743,76 +2745,76 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "Das Standard-Webhook-Geheimnis ist eine base64-kodierte Zeichenkette."
 
 #: weblate/addons/forms.py:1625
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "AMQP-Broker-Host"
+msgstr "AMQP-Broker-URL"
 
 #: weblate/addons/forms.py:1626
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Der AMQP-Broker, mit dem eine Verbindung hergestellt werden soll."
+msgstr "Die AMQP-Broker-URL, mit dem eine Verbindung hergestellt werden soll."
 
 #: weblate/addons/forms.py:1631
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "CA-Zertifikate"
+msgstr "CA-Zertifikatsbündel (PEM)"
 
 #: weblate/addons/forms.py:1633
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Fügen Sie nur PEM-Zertifikatsblöcke ein, die jeweils mit „-----BEGIN "
+"CERTIFICATE-----“ beginnen und mit „-----END CERTIFICATE-----“ enden."
 
 #: weblate/addons/forms.py:1639
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Privater Client-Schlüssel (PEM)"
 
 #: weblate/addons/forms.py:1641
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Fügen Sie einen einzelnen, unverschlüsselten PEM-Block für einen privaten "
+"Schlüssel ein. Verschlüsselte private Schlüssel werden nicht unterstützt."
 
 #: weblate/addons/forms.py:1648
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Client-SSL-Zertifikate"
+msgstr "Client-Zertifikat (PEM)"
 
 #: weblate/addons/forms.py:1650
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Fügen Sie nur den PEM-Zertifikatsblock ein, der mit „-----BEGIN "
+"CERTIFICATE-----“ beginnt; fügen Sie nicht die Ausgabe von „openssl x509 -"
+"text“ ein."
 
 #: weblate/addons/forms.py:1655
 msgid "Publish timeout"
-msgstr ""
+msgstr "Zeitüberschreitung für die Veröffentlichung"
 
 #: weblate/addons/forms.py:1657
 msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgstr ""
+"Wie viele Sekunden auf die Zustellbestätigung des Brokers gewartet werden "
+"soll."
 
 #: weblate/addons/forms.py:1665
 msgid "Connection attempts"
-msgstr ""
+msgstr "Verbindungsversuche"
 
 #: weblate/addons/forms.py:1666
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Wie oft ein Verbindungsaufbau zum Broker versucht werden soll."
 
 #: weblate/addons/forms.py:1673
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Repository-Details"
+msgstr "Wiederholungsverzögerung"
 
 #: weblate/addons/forms.py:1674
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+"Wie viele Sekunden zwischen den Verbindungsversuchen gewartet werden soll."
 
 #: weblate/addons/forms.py:1738
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3287,11 +3289,8 @@ msgid "This role cannot be assigned to this team."
 msgstr "Diese Rolle kann diesem Team nicht zugewiesen werden."
 
 #: weblate/api/views.py:1111 weblate/api/views.py:1148
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Cannot change languages on a workspace team."
-msgstr ""
-"Komponenten können bei einem bereichsbezogenen Team nicht geändert werden."
+msgstr "Sprachen können bei einem bereichsbezogenen Team nicht geändert werden."
 
 #: weblate/api/views.py:1168 weblate/api/views.py:1196
 msgid "Cannot change projects on a scoped team."
@@ -5918,12 +5917,8 @@ msgid "Maximum size of translation"
 msgstr "Maximaler Umfang der Übersetzung"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr ""
-"Der übersetzte, gerenderte Text sollte die vorgegebene Größe nicht "
-"überschreiten."
+msgstr "Der gerenderte Text sollte die vorgegebene Größe nicht überschreiten."
 
 #: weblate/checks/render.py:131
 msgid ""
@@ -5976,6 +5971,8 @@ msgstr "Länge der Ausgangszeichenkette"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Die Ausgangszeichenkette ist zu lang, um die konfigurierte maximale Länge "
+"einzuhalten."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -8818,20 +8815,16 @@ msgstr "Neue Benutzeridentität hinzufügen"
 #: weblate/templates/vcs/account_integrations.html:14
 #: weblate/templates/vcs/account_integrations.html:21
 #: weblate/templates/workspace.html:58
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "VCS integrations"
-msgstr "Sentry-Integration testen"
+msgstr "VCS-Integrationen"
 
 #: weblate/templates/accounts/profile.html:264
 msgid "Manage code hosting accounts connected to workspaces you administer."
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Manage site configuration"
 msgid "Manage VCS integrations"
-msgstr "Plattformkonfiguration verwalten"
+msgstr "VCS-Integrationen verwalten"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:416
@@ -10960,10 +10953,8 @@ msgstr "Übernehmen"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "Alle Komponenten durchsuchen"
+msgstr "Komponenten durchsuchen"
 
 #: weblate/templates/category.html:40
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:42
@@ -11021,10 +11012,8 @@ msgstr "Alle Kategorieänderungen durchsuchen"
 
 #: weblate/templates/category.html:266 weblate/templates/component.html:327
 #: weblate/templates/project.html:332
-#, fuzzy
-#| msgid "Allow translation"
 msgid "Browse translations"
-msgstr "Übersetzung zulassen"
+msgstr "Übersetzungen durchsuchen"
 
 #: weblate/templates/category.html:277 weblate/templates/project.html:369
 msgid "Add a category"
@@ -11176,8 +11165,6 @@ msgid "Diagnostics"
 msgstr "Diagnose"
 
 #: weblate/templates/component.html:31
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
 msgstr[0] "Fehler"
@@ -11941,16 +11928,12 @@ msgstr ""
 "führen."
 
 #: weblate/templates/js/git-status.html:229
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Dateinamen"
+msgstr "Dateiverwaltung"
 
 #: weblate/templates/js/git-status.html:237
-#, fuzzy
-#| msgid "Removed category"
 msgid "Remove duplicates"
-msgstr "Kategorie entfernt"
+msgstr "Duplikate entfernen"
 
 #: weblate/templates/js/git-status.html:238
 #, fuzzy
@@ -15300,10 +15283,8 @@ msgid "Accept invitation"
 msgstr "Einladung annehmen"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:62
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create account"
-msgstr "Erstellen Sie ein Konto mit:"
+msgstr "Konto erstellen"
 
 #: weblate/templates/trans/alert/addonscripterror.html:3
 msgid "Weblate could not execute script add-on."
@@ -15590,10 +15571,8 @@ msgstr ""
 "Kennung aus den Übersetzungsdateien entfernen."
 
 #: weblate/templates/trans/alert/duplicatestring.html:42
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
-msgstr "Leere Zeichenketten entfernen"
+msgstr "Doppelte Zeichenketten entfernen"
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:3
 msgid ""
@@ -16071,19 +16050,15 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add or configure account"
-msgstr "Fehlkonfiguration"
+msgstr "Konto hinzufügen oder konfigurieren"
 
 #: weblate/templates/trans/component_create.html:206
 #: weblate/templates/vcs/github_app_register.html:105
 #: weblate/templates/vcs/github_installation_detail.html:99
 #: weblate/templates/vcs/github_repository_list.html:77
-#, fuzzy
-#| msgid "Visibility changed"
 msgid "Visibility"
-msgstr "Sichtbarkeit geändert"
+msgstr "Sichtbarkeit"
 
 #: weblate/templates/trans/component_create.html:231
 #: weblate/templates/vcs/github_installation_detail.html:123
@@ -16976,18 +16951,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/account_integrations.html:56
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub App"
-msgstr "GitHub-Stern"
+msgstr "GitHub-App"
 
 #: weblate/templates/vcs/account_integrations.html:60
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not registered"
-msgstr "Noch nicht gemessen"
+msgstr "Nicht registriert"
 
 #: weblate/templates/vcs/account_integrations.html:67
 #, python-format
@@ -16998,10 +16967,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/account_integrations.html:76
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connect accounts"
-msgstr "Benutzerkonto löschen"
+msgstr "Konten verbinden"
 
 #: weblate/templates/vcs/account_integrations.html:89
 #: weblate/templates/vcs/github_installation_list.html:58
@@ -17012,20 +16979,14 @@ msgstr ""
 #: weblate/templates/vcs/account_integrations.html:97
 #: weblate/templates/vcs/github_installation_list.html:134
 #: weblate/templates/vcs/github_repository_list.html:28
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connected accounts"
-msgstr "Benutzerkonto löschen"
+msgstr "Verbundene Konten"
 
 #: weblate/templates/vcs/account_integrations.html:104
 #: weblate/templates/vcs/github_installation_detail.html:51
 #: weblate/templates/vcs/github_installation_list.html:142
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub installation ID"
-msgstr "GitHub-Stern"
+msgstr "GitHub-Installations-ID"
 
 #: weblate/templates/vcs/account_integrations.html:105
 #: weblate/templates/vcs/account_integrations.html:129
@@ -17038,15 +16999,13 @@ msgstr "Repositorys"
 #: weblate/templates/vcs/account_integrations.html:124
 #: weblate/templates/vcs/github_installation_detail.html:72
 #: weblate/templates/vcs/github_installation_list.html:162
-#, fuzzy
-#| msgid "Disable"
 msgid "Disabled"
-msgstr "Deaktivieren"
+msgstr "Deaktiviert"
 
 #: weblate/templates/vcs/account_integrations.html:135
 #: weblate/templates/vcs/github_repository_list.html:53
 msgid "Refresh"
-msgstr ""
+msgstr "Aktualisieren"
 
 #: weblate/templates/vcs/account_integrations.html:148
 #, fuzzy
@@ -17059,19 +17018,15 @@ msgstr "Sie haben noch kein Konto?"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/wladmin/views.py:112
-#, fuzzy
-#| msgid "Invitations"
 msgid "VCS Installations"
-msgstr "Einladungen"
+msgstr "VCS-Installationen"
 
 #: weblate/templates/vcs/github_app_register.html:12
 #: weblate/templates/vcs/github_app_register.html:19
 #: weblate/templates/vcs/github_app_register_submit.html:13
 #: weblate/templates/vcs/github_installation_list.html:21
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
-msgstr "Bei Weblate registrieren"
+msgstr "Weblate-GitHub-App registrieren"
 
 #: weblate/templates/vcs/github_app_register.html:23
 msgid ""
@@ -17095,12 +17050,8 @@ msgstr ""
 #: weblate/templates/vcs/github_app_register.html:52
 #: weblate/templates/vcs/github_app_register_submit.html:34
 #: weblate/templates/vcs/github_installation_list.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub host"
-msgstr "GitHub-Stern"
+msgstr "GitHub-Host"
 
 #: weblate/templates/vcs/github_app_register.html:61
 msgid ""
@@ -17109,10 +17060,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:69
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Organization (optional)"
-msgstr "Übersetzungserklärung"
+msgstr "Organisation (optional)"
 
 #: weblate/templates/vcs/github_app_register.html:76
 msgid "Leave blank to register on your personal account"
@@ -17126,10 +17075,8 @@ msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:86
 #: weblate/templates/vcs/github_app_register_submit.html:44
-#, fuzzy
-#| msgid "Group name"
 msgid "App name"
-msgstr "Gruppenname"
+msgstr "App-Name"
 
 #: weblate/templates/vcs/github_app_register.html:96
 #, python-format
@@ -17150,10 +17097,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:147
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Subscribed events"
-msgstr "Abonnierte Projekte"
+msgstr "Abonnierte Ereignisse"
 
 #: weblate/templates/vcs/github_app_register.html:161
 #: weblate/templates/vcs/github_app_register_submit.html:15
@@ -17216,12 +17161,8 @@ msgid "Install Weblate GitHub app"
 msgstr "Internes Weblate-Team"
 
 #: weblate/templates/vcs/github_install_select.html:13
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "Choose GitHub host"
-msgstr "GitHub-Stern"
+msgstr "GitHub-Host auswählen"
 
 #: weblate/templates/vcs/github_install_select.html:17
 msgid ""
@@ -17230,10 +17171,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_install_select.html:22
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Install on %(hostname)s"
-msgstr "Einladung zu %(project_name)s"
+msgstr "Installieren auf %(hostname)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
@@ -17241,10 +17181,8 @@ msgid "Connected GitHub account: %(login)s"
 msgstr ""
 
 #: weblate/templates/vcs/github_installation_detail.html:32
-#, fuzzy
-#| msgid "Repositories"
 msgid "Refresh repositories"
-msgstr "Repositorys"
+msgstr "Repositorys aktualisieren"
 
 #: weblate/templates/vcs/github_installation_detail.html:44
 #, python-format
@@ -17255,20 +17193,14 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_installation_detail.html:76
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Repositories updated"
-msgstr "Das Repository ist veraltet."
+msgstr "Repositorys aktualisiert"
 
 #: weblate/templates/vcs/github_installation_detail.html:88
-#, fuzzy
-#| msgid "Repositories"
 msgid "Available Repositories"
-msgstr "Repositorys"
+msgstr "Verfügbare Repositorys"
 
 #: weblate/templates/vcs/github_installation_detail.html:125
-#, fuzzy
-#| msgid "Not available"
 msgid "Unavailable"
 msgstr "Nicht verfügbar"
 
@@ -17279,10 +17211,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_installation_list.html:19
-#, fuzzy
-#| msgid "Weblate status"
 msgid "Weblate GitHub Apps"
-msgstr "Weblate-Status"
+msgstr "Weblate-GitHub-Apps"
 
 #: weblate/templates/vcs/github_installation_list.html:28
 msgid ""
@@ -17301,10 +17231,8 @@ msgstr ""
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
 #: weblate/templates/vcs/github_installation_list.html:126
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove app"
-msgstr "Löschen"
+msgstr "App entfernen"
 
 #: weblate/templates/vcs/github_installation_list.html:69
 msgid "Remove connected GitHub accounts first."
