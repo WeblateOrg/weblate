@@ -20,9 +20,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 05:39+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-27 19:25+0000\n"
+"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -1846,6 +1845,8 @@ msgid ""
 "Fedora Messaging publish timed out; the broker did not confirm delivery: "
 "%(error)s"
 msgstr ""
+"Vypršel časový limit pro odeslání zprávy ve Fedora Messaging; "
+"zprostředkovatel nepotvrdil doručení: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:254
 #, python-format
@@ -1853,50 +1854,52 @@ msgid ""
 "Fedora Messaging publisher service was unavailable; the connection will be "
 "recreated on the next attempt: %(error)s"
 msgstr ""
+"Služba vydavatele Fedora Messaging nebyla dostupná; připojení bude obnoveno "
+"při příštím pokusu: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:258
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr ""
+msgstr "Zprostředkovatel zpráv Fedora vrátil zprávu: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:262
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr ""
+msgstr "Zprostředkovatel zpráv Fedora odmítl zprávu: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:264
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
-msgstr ""
+msgstr "Zveřejnění zprávy ve Fedora Messaging se nezdařilo: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:337
-#, fuzzy
-#| msgid "Configure"
 msgid "configured"
-msgstr "Nastavit"
+msgstr "nastavené"
 
 #: weblate/addons/fedora_messaging.py:475
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
+msgstr "Certifikáty CA musí být platné certifikáty X.509 v kódování PEM."
 
 #: weblate/addons/fedora_messaging.py:479
 msgid "Client SSL key must be an unencrypted PEM encoded private key."
-msgstr ""
+msgstr "SSL klíč klienta musí být nešifrovaný soukromý klíč v kódování PEM."
 
 #: weblate/addons/fedora_messaging.py:484
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"SSL certifikáty klientů musí být platné certifikáty X.509 v kódování PEM."
 
 #: weblate/addons/fedora_messaging.py:501
 #, python-format
 msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr ""
+msgstr "URL zprostředkovatele zpráv Fedory je neplatná: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:522
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Nelze ověřit připojení TLS k zprostředkovateli Fedora Messaging: %(error)s"
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
@@ -2645,76 +2648,72 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "Klíč standardních webhooků je řetězec kódovaný pomocí base64."
 
 #: weblate/addons/forms.py:1625
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Hostitel AMQP brokera"
+msgstr "URL zprostředkovatele AMQP"
 
 #: weblate/addons/forms.py:1626
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Broker AMQP, ke kterému se připojit."
+msgstr "URL zprostředkovatele AMQP, ke kterému se má navázat spojení."
 
 #: weblate/addons/forms.py:1631
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "Certifikáty CA"
+msgstr "Balíček certifikátů CA (PEM)"
 
 #: weblate/addons/forms.py:1633
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Vložte pouze bloky certifikátu ve formátu PEM, z nichž každý začíná řetězcem "
+"„-----BEGIN CERTIFICATE-----“ a končí řetězcem „-----END CERTIFICATE-----“."
 
 #: weblate/addons/forms.py:1639
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Soukromý klíč klienta (PEM)"
 
 #: weblate/addons/forms.py:1641
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Vložte jeden nešifrovaný blok soukromého klíče ve formátu PEM. Šifrované "
+"soukromé klíče nejsou podporovány."
 
 #: weblate/addons/forms.py:1648
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "SSL certifikáty klienta"
+msgstr "Klientský certifikát (PEM)"
 
 #: weblate/addons/forms.py:1650
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Vložte pouze blok certifikátu ve formátu PEM, který začíná „-----BEGIN "
+"CERTIFICATE-----“; nevkládejte výstup příkazu „openssl x509 -text“."
 
 #: weblate/addons/forms.py:1655
 msgid "Publish timeout"
-msgstr ""
+msgstr "Časový limit pro zveřejnění"
 
 #: weblate/addons/forms.py:1657
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "Kolik sekund je třeba čekat na potvrzení doručení od zprostředkovatele."
 
 #: weblate/addons/forms.py:1665
 msgid "Connection attempts"
-msgstr ""
+msgstr "Pokusy o připojení"
 
 #: weblate/addons/forms.py:1666
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Kolikrát se má pokusit o připojení k brokerovi."
 
 #: weblate/addons/forms.py:1673
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Podrobnosti repozitáře"
+msgstr "Časová prodleva mezi pokusy"
 
 #: weblate/addons/forms.py:1674
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Kolik sekund se má čekat mezi jednotlivými pokusy o připojení."
 
 #: weblate/addons/forms.py:1738
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3171,10 +3170,8 @@ msgid "This role cannot be assigned to this team."
 msgstr "Tuto roli nelze přiřadit tomuto týmu."
 
 #: weblate/api/views.py:1111 weblate/api/views.py:1148
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Cannot change languages on a workspace team."
-msgstr "V týmu pracovního prostoru nelze měnit součásti."
+msgstr "V týmu pracovního prostoru nelze změnit jazyk."
 
 #: weblate/api/views.py:1168 weblate/api/views.py:1196
 msgid "Cannot change projects on a scoped team."
@@ -4531,7 +4528,7 @@ msgstr "Nepodařilo se zpracovat {} příznak: {}"
 
 #: weblate/checks/chars.py:58
 msgid "Accelerator key"
-msgstr ""
+msgstr "Klávesová zkratka"
 
 #: weblate/checks/chars.py:60
 #, fuzzy
