@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 10:21+0000\n"
+"PO-Revision-Date: 2026-06-27 18:28+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1901,25 +1901,31 @@ msgstr "настроено"
 #: weblate/addons/fedora_messaging.py:475
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"CA сертификатите трябва да бъдат правилно кодирани чрез PEM от вида X.509."
 
 #: weblate/addons/fedora_messaging.py:479
 msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
+"Клиентския SSL ключ трябва да бъде нешифрован частен ключ кодиран чрез PEM."
 
 #: weblate/addons/fedora_messaging.py:484
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Клиентските SSL сертификати трябва да бъдат правилно кодирани чрез PEM от "
+"вида X.509."
 
 #: weblate/addons/fedora_messaging.py:501
 #, python-format
 msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr ""
+msgstr "Адресът на брокера за съобщения на Fedora е неправилен: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:522
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Не може да бъде потвърдена връзката от вида TLS към брокера за съобщения на "
+"Fedora: %(error)s"
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
@@ -2692,76 +2698,72 @@ msgstr ""
 "Стандартната тайна за уеб-куките е във вида на низ кодиран чрез base64."
 
 #: weblate/addons/forms.py:1625
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Брокер на AMPQ"
+msgstr "Адрес на брокера на AMPQ"
 
 #: weblate/addons/forms.py:1626
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Брокерът на AMPQ, с който да се направи връзка."
+msgstr "Адресът на брокера на AMPQ, с който да се направи връзка."
 
 #: weblate/addons/forms.py:1631
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "CA сертификати"
+msgstr "Пакет CA сертификати (PEM)"
 
 #: weblate/addons/forms.py:1633
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Поставете само блоковете от сертификати PEM, като всеки започва с „-----"
+"BEGIN CERTIFICATE-----“ и завършва с „-----END CERTIFICATE-----“."
 
 #: weblate/addons/forms.py:1639
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Клиентски частен ключ (PEM)"
 
 #: weblate/addons/forms.py:1641
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Поставете един блок от нешифрован частен ключ PEM. Шифровани частни ключове "
+"не се поддържат."
 
 #: weblate/addons/forms.py:1648
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Клиентски SSL сертификати"
+msgstr "Клиентски сертификат (PEM)"
 
 #: weblate/addons/forms.py:1650
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Поставете само блока от сертификата PEM, който започва с „-----BEGIN "
+"CERTIFICATE-----“. Не поставяйте резултата от „openssl x509 -text“."
 
 #: weblate/addons/forms.py:1655
 msgid "Publish timeout"
-msgstr ""
+msgstr "Време за изчакване на публикуването"
 
 #: weblate/addons/forms.py:1657
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "Колко секунди да се чака брокерът за потвърждение на доставката."
 
 #: weblate/addons/forms.py:1665
 msgid "Connection attempts"
-msgstr ""
+msgstr "Опити за свързване"
 
 #: weblate/addons/forms.py:1666
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Колко пъти да се прави опит за свързване с брокера."
 
 #: weblate/addons/forms.py:1673
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Подробности за хранилището"
+msgstr "Изчакване преди повторен опит"
 
 #: weblate/addons/forms.py:1674
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Колко секунди да се изчаква преди всеки нов опит за свързване."
 
 #: weblate/addons/forms.py:1738
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3235,11 +3237,8 @@ msgid "This role cannot be assigned to this team."
 msgstr "Тази роля не може да бъде добавена към този екип."
 
 #: weblate/api/views.py:1111 weblate/api/views.py:1148
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Cannot change languages on a workspace team."
-msgstr ""
-"Не могат да бъдат променяни компонентите на екип в работно пространство."
+msgstr "Не могат да бъдат променяни езиците на екип в работно пространство."
 
 #: weblate/api/views.py:1168 weblate/api/views.py:1196
 msgid "Cannot change projects on a scoped team."
@@ -4603,13 +4602,11 @@ msgstr "Флагът {} не може да бъде анализиран: {}"
 
 #: weblate/checks/chars.py:58
 msgid "Accelerator key"
-msgstr ""
+msgstr "Клавиш за бърз достъп"
 
 #: weblate/checks/chars.py:60
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "Изходният низ и преводът не завършват с двоеточие."
+msgstr "Изходният низ и преводът не съдържат еднакви клавиши за бърз достъп."
 
 #: weblate/checks/chars.py:109
 msgid "Starting newline"
@@ -5813,10 +5810,8 @@ msgid "Maximum size of translation"
 msgstr "Максимален размер на превода"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr "При представянето си преводът не трябва да превишава зададения размер."
+msgstr "Изписаният текст не трябва да превишава зададения размер."
 
 #: weblate/checks/render.py:131
 msgid ""
@@ -5866,6 +5861,7 @@ msgstr "Дължина на изходния низ"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Изходният низ е твърде дълъг и не се побира в зададената максимална дължина."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -8682,20 +8678,18 @@ msgstr "Добавяне на нов потребител"
 #: weblate/templates/vcs/account_integrations.html:14
 #: weblate/templates/vcs/account_integrations.html:21
 #: weblate/templates/workspace.html:58
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "VCS integrations"
-msgstr "Проверка на интеграцията със Sentry"
+msgstr "Интеграции със системи за контрол на версиите"
 
 #: weblate/templates/accounts/profile.html:264
 msgid "Manage code hosting accounts connected to workspaces you administer."
 msgstr ""
+"Управление на акаунтите за съхранение на код, които са свързани с "
+"администрираните от Вас работни пространства."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Manage site configuration"
 msgid "Manage VCS integrations"
-msgstr "Управление на настройките на уеб сайта"
+msgstr "Управление на интеграциите със системи за контрол на версиите"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:416
@@ -11023,12 +11017,10 @@ msgid "Diagnostics"
 msgstr "Диагностика"
 
 #: weblate/templates/component.html:31
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
-msgstr[0] "Грешка"
-msgstr[1] "Грешка"
+msgstr[0] "грешка"
+msgstr[1] "грешки"
 
 #: weblate/templates/component.html:52 weblate/templates/project.html:47
 msgid "Download language statistics (CSV)"
@@ -11775,78 +11767,55 @@ msgstr ""
 "на данни."
 
 #: weblate/templates/js/git-status.html:229
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Имена на файлове"
+msgstr "Управление на файловете"
 
 #: weblate/templates/js/git-status.html:237
-#, fuzzy
-#| msgid "Removed category"
 msgid "Remove duplicates"
-msgstr "Премахната е категория"
+msgstr "Премахване на дубликатите"
 
 #: weblate/templates/js/git-status.html:238
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove duplicated strings from the translation file"
-msgstr "Записва принудително всички низове във файловете за превод."
+msgstr "Премахване на дублираните низове от файла за превод."
 
 #: weblate/templates/js/git-status.html:240
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
 msgstr ""
-"Поправете грешката, като премахнете дублираните низове с еднакъв "
-"идентификатор от файловете за превод."
+"Премахване на повтарящите се низове с еднакъв идентификатор от файла за "
+"превод."
 
 #: weblate/templates/js/git-status.html:241
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
 msgstr ""
-"Това може да се случи, ако пътят във файловете за превод съдържа препратка "
-"към по-горна директория, или ако е абсолютен."
+"Използвайте това, когато файла за превод съдържа дублирани низове, които не "
+"са налични в Weblate."
 
 #: weblate/templates/js/git-status.html:249
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Cleanup unused"
-msgstr "Почистване"
+msgstr "Почистване на неизползваните"
 
 #: weblate/templates/js/git-status.html:250
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove unused strings from the translation file"
-msgstr "Записва принудително всички низове във файловете за превод."
+msgstr "Премахване на неизползваните низове от файла за превод"
 
 #: weblate/templates/js/git-status.html:252
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid "Removes strings that are no longer present in the base file."
-msgstr "Премахва низовете без превод от файловете с преводите."
+msgstr "Премахва низовете, които вече не присъстват в основния файл."
 
 #: weblate/templates/js/git-status.html:253
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The cleanup translation files add-on can perform this automatically."
 msgstr ""
-"Добавката за CDN за файловете за превод не може да публикува weblate.js."
+"Добавката за почистване на файловете за превод може да прави това "
+"автоматично."
 
 #: weblate/templates/js/git-status.html:259
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid "Use these operations with caution, they rewrite the translation file."
 msgstr ""
-"Използвайте тези операции внимателно, тъй като те могат да доведат до загуба "
-"на данни."
+"Използвайте тези операции внимателно, тъй като те презаписват файла за "
+"превод."
 
 #: weblate/templates/js/git-status.html:268
 #, python-format
@@ -14950,6 +14919,8 @@ msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
 msgstr ""
+"Качването на преводи не се поддържа на това ниво. Отворете конкретен превод "
+"и качете файла там."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:10
 #: weblate/trans/forms.py:1565
