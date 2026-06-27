@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 10:21+0000\n"
+"PO-Revision-Date: 2026-06-27 14:57+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1765,58 +1765,56 @@ msgstr "发送通知到兼容 Fedora Messaging 的 AMQP 交换。"
 msgid ""
 "Fedora Messaging publish timed out; the broker did not confirm delivery: "
 "%(error)s"
-msgstr ""
+msgstr "Fedora Messaging 发布超时；代理未确认送达：%(error)s"
 
 #: weblate/addons/fedora_messaging.py:254
 #, python-format
 msgid ""
 "Fedora Messaging publisher service was unavailable; the connection will be "
 "recreated on the next attempt: %(error)s"
-msgstr ""
+msgstr "Fedora Messaging 发布者服务不可用；下次尝试时将重新创建连接：%(error)s"
 
 #: weblate/addons/fedora_messaging.py:258
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr ""
+msgstr "Fedora Messaging 代理返回如下消息：%(error)s"
 
 #: weblate/addons/fedora_messaging.py:262
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr ""
+msgstr "Fedora Messaging 代理拒绝了消息：%(error)s"
 
 #: weblate/addons/fedora_messaging.py:264
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
-msgstr ""
+msgstr "Fedora Messaging 发布失败了：%(error)s"
 
 #: weblate/addons/fedora_messaging.py:337
-#, fuzzy
-#| msgid "Configure"
 msgid "configured"
-msgstr "配置"
+msgstr "已配置"
 
 #: weblate/addons/fedora_messaging.py:475
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
+msgstr "CA 证书必须是有效的 PEM 编码的 X.509 证书。"
 
 #: weblate/addons/fedora_messaging.py:479
 msgid "Client SSL key must be an unencrypted PEM encoded private key."
-msgstr ""
+msgstr "客户端 SSL key 须为不加密的 PEM 编码的私钥。"
 
 #: weblate/addons/fedora_messaging.py:484
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
-msgstr ""
+msgstr "客户端 SSL 证书须为有效的 PEM 编码的 X.509 证书。"
 
 #: weblate/addons/fedora_messaging.py:501
 #, python-format
 msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr ""
+msgstr "Fedora Messaging 代理 URL 无效：%(error)s"
 
 #: weblate/addons/fedora_messaging.py:522
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
-msgstr ""
+msgstr "无法验证到 Fedora Messaging 代理的 TLS 连接：%(error)s"
 
 #: weblate/addons/flags.py:51
 msgid "Flag new source strings as \"Needs checking\""
@@ -2543,16 +2541,18 @@ msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"只粘贴 PEM 证书块，每个证书块以 \"-----BEGIN CERTIFICATE-----\" 开头，以 "
+"\"-----END CERTIFICATE-----\" 结尾。"
 
 #: weblate/addons/forms.py:1639
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "客户端密钥（PEM）"
 
 #: weblate/addons/forms.py:1641
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
-msgstr ""
+msgstr "粘贴单个未加密的 PEM 私钥块。不支持加密的私钥。"
 
 #: weblate/addons/forms.py:1648
 msgid "Client certificate (PEM)"
@@ -2563,6 +2563,8 @@ msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"只粘贴以 \"-----BEGIN CERTIFICATE-----\" 开头的 PEM 证书块；不粘贴来自 "
+"\"openssl x509 -text\" 的输出。"
 
 #: weblate/addons/forms.py:1655
 msgid "Publish timeout"
@@ -2570,7 +2572,7 @@ msgstr "发布超时"
 
 #: weblate/addons/forms.py:1657
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "代理传输确认等待秒数。"
 
 #: weblate/addons/forms.py:1665
 msgid "Connection attempts"
@@ -2578,7 +2580,7 @@ msgstr "连接尝试"
 
 #: weblate/addons/forms.py:1666
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "尝试连接代理的次数。"
 
 #: weblate/addons/forms.py:1673
 msgid "Retry delay"
@@ -2586,7 +2588,7 @@ msgstr "重试延迟时间"
 
 #: weblate/addons/forms.py:1674
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "两次连接尝试间相隔的秒数。"
 
 #: weblate/addons/forms.py:1738
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3022,10 +3024,8 @@ msgid "This role cannot be assigned to this team."
 msgstr "此角色无法被分配到该团队。"
 
 #: weblate/api/views.py:1111 weblate/api/views.py:1148
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Cannot change languages on a workspace team."
-msgstr "无法对工作空间团队更改部件。"
+msgstr "无法更改工作空间团队的语言。"
 
 #: weblate/api/views.py:1168 weblate/api/views.py:1196
 msgid "Cannot change projects on a scoped team."
@@ -4356,7 +4356,7 @@ msgstr "无法解析 {} 标记：{}"
 
 #: weblate/checks/chars.py:58
 msgid "Accelerator key"
-msgstr ""
+msgstr "加速器键"
 
 #: weblate/checks/chars.py:60
 msgid "Source and translation contain inconsistent accelerator keys."
@@ -5511,10 +5511,8 @@ msgid "Maximum size of translation"
 msgstr "译文最大尺寸"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr "翻译呈现的文本不应超过给定的尺寸。"
+msgstr "渲染的文本不应超过给定的大小。"
 
 #: weblate/checks/render.py:131
 msgid ""
@@ -5561,7 +5559,7 @@ msgstr "源字符串长度"
 
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
-msgstr ""
+msgstr "源字符串过长无法适配配置的最大长度。"
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -8235,20 +8233,16 @@ msgstr "添加新的用户身份"
 #: weblate/templates/vcs/account_integrations.html:14
 #: weblate/templates/vcs/account_integrations.html:21
 #: weblate/templates/workspace.html:58
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "VCS integrations"
-msgstr "测试 Sentry 集成"
+msgstr "VCS 集成"
 
 #: weblate/templates/accounts/profile.html:264
 msgid "Manage code hosting accounts connected to workspaces you administer."
-msgstr ""
+msgstr "管理连接到你管理的工作空间的代码托管账户。"
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Manage site configuration"
 msgid "Manage VCS integrations"
-msgstr "管理站点配置"
+msgstr "管理 VCS 集成"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:416
@@ -10256,10 +10250,8 @@ msgstr "应用"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "浏览所有部件"
+msgstr "浏览部件"
 
 #: weblate/templates/category.html:40
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:42
@@ -10317,10 +10309,8 @@ msgstr "浏览所有分类更改"
 
 #: weblate/templates/category.html:266 weblate/templates/component.html:327
 #: weblate/templates/project.html:332
-#, fuzzy
-#| msgid "Allow translation"
 msgid "Browse translations"
-msgstr "允许翻译"
+msgstr "浏览翻译"
 
 #: weblate/templates/category.html:277 weblate/templates/project.html:369
 msgid "Add a category"
@@ -10459,11 +10449,9 @@ msgid "Diagnostics"
 msgstr "诊断信息"
 
 #: weblate/templates/component.html:31
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
-msgstr[0] "出错"
+msgstr[0] "错误"
 
 #: weblate/templates/component.html:52 weblate/templates/project.html:47
 msgid "Download language statistics (CSV)"
@@ -11136,65 +11124,47 @@ msgid "Use these operations with caution, they can lead to data loss."
 msgstr "请小心使用这些操作，它们可能导致数据丢失。"
 
 #: weblate/templates/js/git-status.html:229
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "文件名"
+msgstr "文件管理"
 
 #: weblate/templates/js/git-status.html:237
-#, fuzzy
-#| msgid "Removed category"
 msgid "Remove duplicates"
-msgstr "删除了分类"
+msgstr "删除重复"
 
 #: weblate/templates/js/git-status.html:238
 msgid "Remove duplicated strings from the translation file"
 msgstr "从翻译文件删除重复字符串"
 
 #: weblate/templates/js/git-status.html:240
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
-msgstr "请通过从翻译文件中删除具有相同标识符的重复字符串来解决此问题。"
+msgstr "从翻译文件删除标记符相同的重复字符串。"
 
 #: weblate/templates/js/git-status.html:241
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
-msgstr "如果翻译文件路径包含父目录的引用或者是绝对路径，则可能发生此情况。"
+msgstr "当翻译文件包含 Weblate 中不存在在的重复字符串时使用。"
 
 #: weblate/templates/js/git-status.html:249
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Cleanup unused"
-msgstr "清理"
+msgstr "清理未使用项"
 
 #: weblate/templates/js/git-status.html:250
 msgid "Remove unused strings from the translation file"
 msgstr "从翻译文件删除未写入的文件"
 
 #: weblate/templates/js/git-status.html:252
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid "Removes strings that are no longer present in the base file."
-msgstr "从翻译文件中删除没有译文的字符串。"
+msgstr "删除基文件中不再存在的字符串。"
 
 #: weblate/templates/js/git-status.html:253
 msgid "The cleanup translation files add-on can perform this automatically."
 msgstr "“清理翻译文件”附加组件可以自动执行此操作。"
 
 #: weblate/templates/js/git-status.html:259
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid "Use these operations with caution, they rewrite the translation file."
-msgstr "请小心使用这些操作，它们可能导致数据丢失。"
+msgstr "请谨慎进行这些操作，它们可能覆盖翻译文件。"
 
 #: weblate/templates/js/git-status.html:268
 #, python-format
@@ -14130,7 +14100,7 @@ msgstr "源字符串无法被编辑。"
 msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
-msgstr ""
+msgstr "不支持在此层级上传翻译。打开单独翻译并在那儿上传文件。"
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:10
 #: weblate/trans/forms.py:1565
@@ -14221,45 +14191,33 @@ msgid "Watch component %(component)s"
 msgstr "关注 %(component)s 部件"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:32
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid ""
 "You are about to continue resetting the password for your Weblate account."
-msgstr "设置 Weblate 账户密码"
+msgstr "你将继续重置 Weblate 账户的密码。"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:34
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid "You are about to continue removing your Weblate account."
-msgstr "设置 Weblate 账户密码"
+msgstr "你将继续删除 Weblate 账户。"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:36
 msgid "You are about to accept an invitation and create a Weblate account."
-msgstr ""
+msgstr "你将接受邀请并创建 Weblate 账户。"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:38
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "You are about to complete registration and create a Weblate account."
-msgstr "已登录时无法完成注册。"
+msgstr "你将完成注册并创建 Weblate 账户。"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:42
-#, fuzzy
-#| msgid "You will find the confirmation link in your e-mail inbox."
 msgid "Continue only if you opened the confirmation link from your e-mail."
-msgstr "你会在你的电子邮箱找到激活电子邮件。"
+msgstr "仅在打开过电子邮件确认链接情况下继续。"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:56
-#, fuzzy
-#| msgid "Confirm password reset"
 msgid "Continue password reset"
-msgstr "确认密码重置"
+msgstr "继续密码重置"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:58
-#, fuzzy
-#| msgid "Confirm account removal"
 msgid "Continue account removal"
-msgstr "确认账户删除"
+msgstr "继续账户删除"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:60
 #: weblate/templates/weblate_auth/invitation_detail.html:54
@@ -14267,10 +14225,8 @@ msgid "Accept invitation"
 msgstr "接受邀请"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:62
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create account"
-msgstr "使用以下方式创建账户："
+msgstr "创建账户"
 
 #: weblate/templates/trans/alert/addonscripterror.html:3
 msgid "Weblate could not execute script add-on."
@@ -14516,10 +14472,8 @@ msgid ""
 msgstr "请通过从翻译文件中删除具有相同标识符的重复字符串来解决此问题。"
 
 #: weblate/templates/trans/alert/duplicatestring.html:42
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
-msgstr "移除空白字符串"
+msgstr "删除重复字符串"
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:3
 msgid ""
@@ -14858,7 +14812,7 @@ msgstr "从头开始"
 
 #: weblate/templates/trans/component_create.html:45
 msgid "From GitHub"
-msgstr ""
+msgstr "来自 GitHub"
 
 #: weblate/templates/trans/component_create.html:53
 #: weblate/templates/trans/component_form.html:13
@@ -14929,22 +14883,20 @@ msgid ""
 "form will be pre-filled with the clone URL, default branch, and GitHub VCS "
 "driver."
 msgstr ""
+"挑选一个来自已连接的 GitHub 账户的仓库 部件创建表单将预填充克隆 URL、默认分支"
+"和 GitHub VCS 驱动。"
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add or configure account"
-msgstr "坏的设定"
+msgstr "添加或配置账户"
 
 #: weblate/templates/trans/component_create.html:206
 #: weblate/templates/vcs/github_app_register.html:105
 #: weblate/templates/vcs/github_installation_detail.html:99
 #: weblate/templates/vcs/github_repository_list.html:77
-#, fuzzy
-#| msgid "Visibility changed"
 msgid "Visibility"
-msgstr "更改了可见性"
+msgstr "可见性"
 
 #: weblate/templates/trans/component_create.html:231
 #: weblate/templates/vcs/github_installation_detail.html:123
@@ -14957,18 +14909,20 @@ msgid ""
 "No repositories available yet. Install the Weblate GitHub app on a GitHub "
 "organization or user account to make repositories available here."
 msgstr ""
+"还没有仓库可用。在 GitHub 组织或用户账户上安装 Weblate GitHub 应用让仓库在这"
+"些地方可用。"
 
 #: weblate/templates/trans/component_create.html:242
 msgid ""
 "No repositories are available from connected GitHub accounts for this "
 "project workspace."
-msgstr ""
+msgstr "没有来自此项目工作空间已连接的 GitHub 账户的仓库。"
 
 #: weblate/templates/trans/component_create.html:244
 msgid ""
 "Select a project with a workspace to connect a GitHub account or import "
 "repositories from an existing connection."
-msgstr ""
+msgstr "选择有工作空间的项目来连接 GitHub 账户或从现有连接导入仓库。"
 
 #: weblate/templates/trans/component_form.html:40
 msgid ""
@@ -15733,40 +15687,34 @@ msgstr "在到期或被删除前，该消息将一直显示在翻译页面上。
 msgid ""
 "You do not manage any workspaces. VCS accounts can be connected only to "
 "workspaces you manage."
-msgstr ""
+msgstr "你不管理任何工作空间。VCS 账户只能连接到你管理的工作空间。"
 
 #: weblate/templates/vcs/account_integrations.html:30
 msgid ""
 "No VCS integrations are available. A site administrator needs to register a "
 "Weblate GitHub App first."
-msgstr ""
+msgstr "无 VCS 集成可用。站点管理员需要先注册 Weblate GitHub 应用。"
 
 #: weblate/templates/vcs/account_integrations.html:35
 #, python-format
 msgid ""
 "Connect code hosting accounts to %(workspace)s. These accounts can then be "
 "used when creating components from version control."
-msgstr ""
+msgstr "连接代码托管账户到 %(workspace)s。从版本控制创建部件时可以使用这些账户。"
 
 #: weblate/templates/vcs/account_integrations.html:40
 msgid ""
 "Connect code hosting accounts to workspaces you manage. These accounts can "
 "then be used when creating components from version control."
-msgstr ""
+msgstr "连接代码托管账户到你管理的工作空间。从版本控制创建部件时可以使用这些账户。"
 
 #: weblate/templates/vcs/account_integrations.html:56
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub App"
-msgstr "GitHub 星标"
+msgstr "GitHub 应用"
 
 #: weblate/templates/vcs/account_integrations.html:60
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not registered"
-msgstr "尚未测量"
+msgstr "未注册"
 
 #: weblate/templates/vcs/account_integrations.html:67
 #, python-format
@@ -15775,36 +15723,30 @@ msgid ""
 "connected accounts can be removed, but new accounts cannot be connected "
 "until a site administrator registers the App again."
 msgstr ""
+"未注册 %(hostname)s Weblate GitHub 应用凭证。可以删除现有的已连接账户，但在站"
+"点管理员再次注册该应用前无法连接新账户。"
 
 #: weblate/templates/vcs/account_integrations.html:76
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connect accounts"
-msgstr "删除账户"
+msgstr "连接账户"
 
 #: weblate/templates/vcs/account_integrations.html:89
 #: weblate/templates/vcs/github_installation_list.html:58
 #: weblate/templates/vcs/github_repository_list.html:19
 msgid "Connect GitHub account"
-msgstr ""
+msgstr "连接 GitHub 账户"
 
 #: weblate/templates/vcs/account_integrations.html:97
 #: weblate/templates/vcs/github_installation_list.html:134
 #: weblate/templates/vcs/github_repository_list.html:28
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connected accounts"
-msgstr "删除账户"
+msgstr "连接的账户"
 
 #: weblate/templates/vcs/account_integrations.html:104
 #: weblate/templates/vcs/github_installation_detail.html:51
 #: weblate/templates/vcs/github_installation_list.html:142
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub installation ID"
-msgstr "GitHub 星标"
+msgstr "GitHub 安装 ID"
 
 #: weblate/templates/vcs/account_integrations.html:105
 #: weblate/templates/vcs/account_integrations.html:129
@@ -15817,40 +15759,32 @@ msgstr "仓库"
 #: weblate/templates/vcs/account_integrations.html:124
 #: weblate/templates/vcs/github_installation_detail.html:72
 #: weblate/templates/vcs/github_installation_list.html:162
-#, fuzzy
-#| msgid "Disable"
 msgid "Disabled"
-msgstr "禁用"
+msgstr "已禁用"
 
 #: weblate/templates/vcs/account_integrations.html:135
 #: weblate/templates/vcs/github_repository_list.html:53
 msgid "Refresh"
-msgstr ""
+msgstr "刷新"
 
 #: weblate/templates/vcs/account_integrations.html:148
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No connected GitHub accounts yet."
-msgstr "还没有账户？"
+msgstr "还没有连接的 GitHub 账户。"
 
 #: weblate/templates/vcs/github_app_register.html:10
 #: weblate/templates/vcs/github_app_register_submit.html:10
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/wladmin/views.py:112
-#, fuzzy
-#| msgid "Invitations"
 msgid "VCS Installations"
-msgstr "邀请"
+msgstr "VCS 安装"
 
 #: weblate/templates/vcs/github_app_register.html:12
 #: weblate/templates/vcs/github_app_register.html:19
 #: weblate/templates/vcs/github_app_register_submit.html:13
 #: weblate/templates/vcs/github_installation_list.html:21
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
-msgstr "注册 Weblate"
+msgstr "注册 Weblate GitHub 应用"
 
 #: weblate/templates/vcs/github_app_register.html:23
 msgid ""
@@ -15859,6 +15793,8 @@ msgid ""
 "GitHub, you will be redirected back here and the credentials will be stored "
 "automatically."
 msgstr ""
+"提交下方表单创建一个 GitHub 应用，其拥有全部权限和已经填好的 Weblate 需要的事"
+"件。你在 GitHub 上确认该应用名称后会被重定向回这里，相关凭证会被自动存储。"
 
 #: weblate/templates/vcs/github_app_register.html:34
 #, python-format
@@ -15874,12 +15810,8 @@ msgstr ""
 #: weblate/templates/vcs/github_app_register.html:52
 #: weblate/templates/vcs/github_app_register_submit.html:34
 #: weblate/templates/vcs/github_installation_list.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub host"
-msgstr "GitHub 星标"
+msgstr "GitHub 主机"
 
 #: weblate/templates/vcs/github_app_register.html:61
 msgid ""
@@ -15888,10 +15820,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:69
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Organization (optional)"
-msgstr "译文解释"
+msgstr "组织（可选）"
 
 #: weblate/templates/vcs/github_app_register.html:76
 msgid "Leave blank to register on your personal account"
@@ -15905,10 +15835,8 @@ msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:86
 #: weblate/templates/vcs/github_app_register_submit.html:44
-#, fuzzy
-#| msgid "Group name"
 msgid "App name"
-msgstr "组名"
+msgstr "应用名"
 
 #: weblate/templates/vcs/github_app_register.html:96
 #, python-format
@@ -15929,17 +15857,13 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:147
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Subscribed events"
-msgstr "已订阅项目"
+msgstr "已订阅事件"
 
 #: weblate/templates/vcs/github_app_register.html:161
 #: weblate/templates/vcs/github_app_register_submit.html:15
-#, fuzzy
-#| msgid "Continue"
 msgid "Continue to GitHub"
-msgstr "继续"
+msgstr "继续前往 GitHub"
 
 #: weblate/templates/vcs/github_app_register.html:162
 #: weblate/templates/vcs/github_installation_list.html:125
@@ -15948,10 +15872,8 @@ msgid "Cancel"
 msgstr "取消"
 
 #: weblate/templates/vcs/github_app_register.html:170
-#, fuzzy
-#| msgid "Live Preview"
 msgid "Manifest preview"
-msgstr "实时预览"
+msgstr "清单预览"
 
 #: weblate/templates/vcs/github_app_register.html:174
 msgid ""
@@ -15976,10 +15898,9 @@ msgid "Organization"
 msgstr "组织"
 
 #: weblate/templates/vcs/github_app_register_submit.html:54
-#, fuzzy, python-format
-#| msgid "Continue to %(return_target)s"
+#, python-format
 msgid "Continue to %(host)s"
-msgstr "继续前往 %(return_target)s"
+msgstr "继续访问 %(host)s"
 
 #: weblate/templates/vcs/github_install_help.html:4
 msgid ""
@@ -15989,18 +15910,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_install_select.html:6
-#, fuzzy
-#| msgid "Internal Weblate team"
 msgid "Install Weblate GitHub app"
-msgstr "内部 Weblate 团队"
+msgstr "安装 Weblate GitHub 应用"
 
 #: weblate/templates/vcs/github_install_select.html:13
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "Choose GitHub host"
-msgstr "GitHub 星标"
+msgstr "选择 GitHub 主机"
 
 #: weblate/templates/vcs/github_install_select.html:17
 msgid ""
@@ -16009,10 +15924,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_install_select.html:22
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Install on %(hostname)s"
-msgstr "加入 %(project_name)s 项目的邀请"
+msgstr "在 %(hostname)s 上安装"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
@@ -16020,10 +15934,8 @@ msgid "Connected GitHub account: %(login)s"
 msgstr ""
 
 #: weblate/templates/vcs/github_installation_detail.html:32
-#, fuzzy
-#| msgid "Repositories"
 msgid "Refresh repositories"
-msgstr "仓库"
+msgstr "刷线仓库"
 
 #: weblate/templates/vcs/github_installation_detail.html:44
 #, python-format
@@ -16034,20 +15946,14 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_installation_detail.html:76
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Repositories updated"
-msgstr "仓库已过时。"
+msgstr "仓库已更新"
 
 #: weblate/templates/vcs/github_installation_detail.html:88
-#, fuzzy
-#| msgid "Repositories"
 msgid "Available Repositories"
-msgstr "仓库"
+msgstr "可用仓库"
 
 #: weblate/templates/vcs/github_installation_detail.html:125
-#, fuzzy
-#| msgid "Not available"
 msgid "Unavailable"
 msgstr "不可用"
 
@@ -16058,10 +15964,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_installation_list.html:19
-#, fuzzy
-#| msgid "Weblate status"
 msgid "Weblate GitHub Apps"
-msgstr "Weblate 状态"
+msgstr "Weblate GitHub 应用"
 
 #: weblate/templates/vcs/github_installation_list.html:28
 msgid ""
@@ -16080,10 +15984,8 @@ msgstr ""
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
 #: weblate/templates/vcs/github_installation_list.html:126
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove app"
-msgstr "删除"
+msgstr "删除应用"
 
 #: weblate/templates/vcs/github_installation_list.html:69
 msgid "Remove connected GitHub accounts first."
@@ -16152,22 +16054,16 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_repository_list.html:117
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not registered on this Weblate instance."
-msgstr "此 Weblate 实例中的条目总数"
+msgstr "Weblate GitHub 应用未在此 Weblate 实例上注册。"
 
 #: weblate/templates/vcs/github_repository_list.html:120
-#, fuzzy
-#| msgid "Push the repository"
 msgid "Try refreshing the repository list."
-msgstr "推送仓库"
+msgstr "尝试刷新仓库列表。"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:15
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected GitHub account?"
-msgstr "删除我的账户"
+msgstr "删除连接的 GitHub 账户？"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:25
 #, python-format
@@ -16776,17 +16672,13 @@ msgstr "移动了项目"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:213
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Remote repository updated"
-msgstr "仓库已过时。"
+msgstr "远程仓库已更新"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:215
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Remote repository update failed"
-msgstr "变基仓库失败"
+msgstr "远程仓库更新失败"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -17614,10 +17506,8 @@ msgid "Labeled: {}"
 msgstr "带有标签：{}"
 
 #: weblate/trans/forms.py:172 weblate/trans/models/component.py:4823
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is required for this integration."
-msgstr "在连接仓库时未使用导出URL！"
+msgstr "此集成一定要有仓库分支。"
 
 #: weblate/trans/forms.py:241
 msgid "Invalid date!"
@@ -19359,10 +19249,9 @@ msgid "Push URL is not used without a remote repository."
 msgstr "没有远程仓库不会使用推送 URL。"
 
 #: weblate/trans/models/component.py:4779
-#, fuzzy, python-format
-#| msgid "Could not update repository: %s"
+#, python-format
 msgid "Could not validate push URL: %s"
-msgstr "无法更新仓库：%s"
+msgstr "无法验证推送 URL：%s"
 
 #: weblate/trans/models/component.py:4787
 msgid ""
@@ -19718,28 +19607,20 @@ msgid "Could not parse file %(file)s: %(error)s"
 msgstr "无法解析%(file)s 文件: 错误 %(error)s"
 
 #: weblate/trans/models/translation.py:956
-#, fuzzy
-#| msgid "Adding and removing strings is not supported with this file format."
 msgid "Removing duplicate strings is not supported for this file format."
-msgstr "此文件格式不支持添加和移除字符串。"
+msgstr "此文件格式不支持删除重复字符串。"
 
 #: weblate/trans/models/translation.py:963
-#, fuzzy
-#| msgid "Duplicated string found in the file."
 msgid "No duplicate strings were found in the translation file."
-msgstr "在文件中找到重复的字符串。"
+msgstr "翻译文件中没找到重复字符串。"
 
 #: weblate/trans/models/translation.py:974
-#, fuzzy
-#| msgid "Adding and removing strings is not supported with this file format."
 msgid "Cleanup of unused strings is not supported for this file format."
-msgstr "此文件格式不支持添加和移除字符串。"
+msgstr "此文件格式不支持清理未使用的字符串。"
 
 #: weblate/trans/models/translation.py:981
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "No unused strings were found in the translation file."
-msgstr "强制将所有字符串写入翻译文件。"
+msgstr "翻译文件中没找到未使用的字符串。"
 
 #: weblate/trans/models/translation.py:1605
 msgid "“{}”"
@@ -20594,16 +20475,12 @@ msgid "Updates of translations are in progress."
 msgstr "翻译的更新正在进行中。"
 
 #: weblate/trans/views/git.py:220
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "Duplicate strings have been removed from the translation file."
-msgstr "请通过删除其中一个翻译文件来解决此问题。"
+msgstr "已经从翻译文件删除了重复字符串。"
 
 #: weblate/trans/views/git.py:238
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "Unused strings have been removed from the translation file."
-msgstr "请通过删除其中一个翻译文件来解决此问题。"
+msgstr "已经从翻译文件删除了未使用的字符串。"
 
 #: weblate/trans/views/git.py:255
 msgid "Pending translations are being committed."
@@ -21529,57 +21406,40 @@ msgid "Bitbucket Cloud merge request"
 msgstr "Bitbucket Cloud 合并请求"
 
 #: weblate/vcs/github.py:398
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub hostname"
-msgstr "GitHub 用户名"
+msgstr "GitHub 主机名"
 
 #: weblate/vcs/github.py:401
-#, fuzzy
-#| msgid "URL slug"
 msgid "App slug"
-msgstr "URL 标识串"
+msgstr "应用标识串"
 
 #: weblate/vcs/github.py:402
 msgid "Private key (PEM)"
 msgstr ""
 
 #: weblate/vcs/github.py:404
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "OAuth client ID"
-msgstr "客户 ID"
+msgstr "OAuth 客户 ID"
 
 #: weblate/vcs/github.py:407
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client secret"
 msgid "OAuth client secret"
-msgstr "客户端 secret"
+msgstr "OAuth 客户端 secret"
 
 #: weblate/vcs/github.py:420
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook token"
-msgstr "Webhook"
+msgstr "Webhook 令牌"
 
 #: weblate/vcs/github.py:422
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "API URL"
 msgid "App URL"
-msgstr "API 地址"
+msgstr "应用地址"
 
 #: weblate/vcs/github.py:427 weblate/vcs/github.py:428
 msgid "Weblate GitHub App credentials"
 msgstr ""
 
 #: weblate/vcs/github.py:752
-#, fuzzy
-#| msgid "Delete this account"
 msgid "connected GitHub account"
-msgstr "删除此账户"
+msgstr "连接的 GitHub 账户"
 
 #: weblate/vcs/github.py:753
 msgid "connected GitHub accounts"
@@ -21590,19 +21450,15 @@ msgid "GitHub (via Weblate GitHub app)"
 msgstr ""
 
 #: weblate/vcs/github.py:835
-#, fuzzy
-#| msgid "This will push changes and create a GitHub pull request."
 msgid ""
 "This will push changes and create a GitHub pull request via the Weblate "
 "GitHub app."
-msgstr "这会推送更改并创建 GitHub 拉取请求。"
+msgstr "这会通过 Weblate GitHub 应用推送更改并创建 GitHub 拉取请求。"
 
 #: weblate/vcs/github.py:860 weblate/vcs/github.py:910
 #: weblate/vcs/github.py:974 weblate/vcs/github.py:988
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "GitHub App components require a project with a workspace."
-msgstr "选择项目或工作空间。"
+msgstr "GitHub 应用部件要求有工作空间的项目。"
 
 #: weblate/vcs/github.py:876
 msgid "GitHub App components require a GitHub HTTPS repository URL."
@@ -21640,70 +21496,48 @@ msgid "Provider"
 msgstr "提供商"
 
 #: weblate/vcs/models.py:63 weblate/vcs/models.py:125
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Installation ID"
-msgstr "翻译信息"
+msgstr "安装 ID"
 
 #: weblate/vcs/models.py:67
-#, fuzzy
-#| msgid "Target string"
 msgid "Target type"
-msgstr "目标字符串"
+msgstr "目标类型"
 
 #: weblate/vcs/models.py:68
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organization or User"
-msgstr "组织或删除"
+msgstr "组织或用户"
 
 #: weblate/vcs/models.py:72
-#, fuzzy
-#| msgid "Target string"
 msgid "Target login"
-msgstr "目标字符串"
+msgstr "目标登录"
 
 #: weblate/vcs/models.py:73
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Hosting organization or user login"
-msgstr "托管翻译项目"
+msgstr "托管组织或用户登录"
 
 #: weblate/vcs/models.py:91
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "Available repositories"
-msgstr "版本控制系统仓库"
+msgstr "可用仓库"
 
 #: weblate/vcs/models.py:96
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installation"
-msgstr "托管翻译项目"
+msgstr "代码托管安装"
 
 #: weblate/vcs/models.py:97
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installations"
-msgstr "托管翻译项目"
+msgstr "代码托管安装"
 
 #: weblate/vcs/models.py:130
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook payload"
-msgstr "Webhook"
+msgstr "Webhook 载荷"
 
 #: weblate/vcs/models.py:136
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "待处理的邀请"
+msgstr "未完成的代码托管安装"
 
 #: weblate/vcs/models.py:137
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "pending code-hosting installations"
-msgstr "待处理的邀请"
+msgstr "待完成的代码托管安装"
 
 #: weblate/vcs/ssh.py:73
 msgctxt "SSH key type"
@@ -21799,10 +21633,8 @@ msgid "Removed Weblate GitHub App credentials for %(hostname)s."
 msgstr ""
 
 #: weblate/vcs/views.py:458
-#, fuzzy
-#| msgid "Failed to fetch repository: %s"
 msgid "Failed to refresh repositories from GitHub."
-msgstr "获取代码库失败：%s"
+msgstr "从 GitHub 刷新仓库失败。"
 
 #: weblate/vcs/views.py:463
 #, python-format
@@ -21810,10 +21642,8 @@ msgid "Refreshed %(count)d repositories from GitHub."
 msgstr ""
 
 #: weblate/vcs/views.py:479 weblate/vcs/views.py:522 weblate/vcs/views.py:587
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not configured on this Weblate instance."
-msgstr "此 Weblate 实例中的条目总数"
+msgstr "此 Weblate 实例未配置 Weblate GitHub 应用。"
 
 #: weblate/vcs/views.py:487
 msgid "Select a workspace before connecting a GitHub account."
@@ -21830,10 +21660,8 @@ msgid ""
 msgstr ""
 
 #: weblate/vcs/views.py:571 weblate/vcs/views.py:594
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "你无权编辑目标工作空间。"
+msgstr "你无权连接 GitHub 到此工作空间。"
 
 #: weblate/vcs/views.py:579
 msgid "GitHub did not return an installation ID."
@@ -21859,10 +21687,8 @@ msgid ""
 msgstr ""
 
 #: weblate/vcs/views.py:653
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "创建用户账户 {}。"
+msgstr "添加了连接的 GitHub 账户。"
 
 #: weblate/vcs/views.py:658
 msgid "Connected GitHub account updated."
@@ -21880,30 +21706,22 @@ msgid "Start the Weblate GitHub App registration again to refresh the request."
 msgstr ""
 
 #: weblate/vcs/views.py:1014
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a registration code."
-msgstr "无法完成注册。"
+msgstr "GitHub 未返回注册码。"
 
 #: weblate/vcs/views.py:1026
-#, fuzzy
-#| msgid "The invitation link is no longer valid."
 msgid ""
 "The GitHub App registration link is no longer valid. Start the registration "
 "again."
-msgstr "邀请链接不再有效。"
+msgstr "GitHub 应用注册链接不再有效。请再次启动注册。"
 
 #: weblate/vcs/views.py:1039
-#, fuzzy
-#| msgid "Please complete the registration to accept the invitation."
 msgid "GitHub rejected the registration code. Start the registration again."
-msgstr "要接受邀请，请先完成注册。"
+msgstr "GitHub 拒绝了注册码。请再次启动注册。"
 
 #: weblate/vcs/views.py:1062
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "GitHub returned an incomplete App registration response."
-msgstr "已登录时无法完成注册。"
+msgstr "GitHub 返回了不完整的应用注册响应。"
 
 #: weblate/vcs/views.py:1091
 msgid "Weblate GitHub App registered. You can now connect a GitHub account."
