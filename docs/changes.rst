@@ -38,6 +38,7 @@ Weblate 2026.7
 * Clarified security metadata, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
 * Large component imports now avoid duplicate translation-memory processing.
 * :ref:`gettext` files can now be configured to remove obsolete strings on save.
+* Repository maintenance can now remove obsolete strings from individual :ref:`gettext` translation files.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
 * :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
 * :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.

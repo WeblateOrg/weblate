@@ -254,6 +254,18 @@
             </p>
           </li>
         {% endif %}
+        {% if supports_remove_obsolete_units %}
+          <li class="list-group-item">
+            <a href="#"
+               class="float-end link-post btn btn-danger"
+               data-href="{% url "remove_obsolete_units" path=object.get_url_path %}">{% translate "Remove obsolete" %}</a>
+            <h6 class="mb-1 fw-bold">{% translate "Remove obsolete strings from the translation file" %}</h6>
+            <p class="mb-0">
+              {% translate "Removes obsolete strings from PO files." %}
+              {% translate "Use when obsolete entries should be pruned without enabling automatic removal on save." %}
+            </p>
+          </li>
+        {% endif %}
       </ul>
       <div class="card-footer">
         <small>{% translate "Use these operations with caution, they rewrite the translation file." %}</small>

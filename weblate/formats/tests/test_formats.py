@@ -978,6 +978,18 @@ class PoFormatTest(BaseFormatTest):
         content = Path(test_file).read_text(encoding="utf-8")
         self.assertNotIn("#~ msgid", content)
 
+    def test_remove_obsolete_units(self) -> None:
+        storage = self.format_class(TEST_PO)
+
+        self.assertTrue(self.format_class.supports_remove_obsolete_units)
+        self.assertEqual(storage.remove_obsolete_units(), [])
+        self.assertIsNone(storage.remove_obsolete_units())
+
+        handle = BytesIO()
+        storage.save_content(handle)
+        content = handle.getvalue().decode()
+        self.assertNotIn("#~ msgid", content)
+
     def test_new_unit_plural(self) -> None:
         # Read test content
         testdata = Path(self.FILE).read_bytes()

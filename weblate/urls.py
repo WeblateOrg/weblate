@@ -441,6 +441,11 @@ real_patterns = [
         name="cleanup_unused",
     ),
     path(
+        "remove-obsolete-units/<object_path:path>/",
+        weblate.trans.views.git.remove_obsolete_units,
+        name="remove_obsolete_units",
+    ),
+    path(
         "progress/<object_path:path>/",
         weblate.trans.views.settings.show_progress,
         name="show_progress",
