@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{ width }}" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}" xml:lang="en" role="img" aria-label="{{ title }}">
+<title>{{ title }}</title>
+<defs>
+{% include "svg/style.svg" %}
+</defs>
+<rect width="{{ width }}" height="{{ height }}" rx="4" fill="#fff"/>
+<g id="layer1">
+
+{% for cell in cells %}
+<a xlink:href="{{ cell.url }}" xlink:title="{{ cell.name }}">
+<title>{{ cell.name }}: {{ cell.percent }}%</title>
+<rect
+   x="{{ cell.x }}"
+   y="{{ cell.y }}"
+   width="{{ cell_width }}"
+   height="{{ cell_height }}"
+   rx="3"
+   fill="#f7f7f7" />
+<rect
+   x="{{ cell.x }}"
+   y="{{ cell.y }}"
+   width="{{ cell.progress_width }}"
+   height="{{ cell_height }}"
+   rx="3"
+   fill="{{ cell.color }}"
+   fill-opacity=".24" />
+<rect
+   x="{{ cell.x }}"
+   y="{{ cell.y }}"
+   width="{{ cell_width }}"
+   height="{{ cell_height }}"
+   rx="3"
+   fill="none"
+   stroke="#ddd"
+   stroke-width="1" />
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:600;font-size:9px;font-family:'Source Sans 3',sans-serif;fill:#444;text-anchor:start;"
+   x="{{ cell.label_x }}"
+   y="{{ cell.text_y }}">{{ cell.label }}</text>
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:9px;font-family:'Source Sans 3',sans-serif;fill:#555;text-anchor:end;"
+   x="{{ cell.percent_x }}"
+   y="{{ cell.text_y }}">{{ cell.percent }}%</text>
+</a>
+{% endfor %}
+
+</g>
+</svg>

@@ -18,6 +18,7 @@ from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
@@ -239,6 +240,69 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
         )
 
         self.assert_widget(widget, response)
+
+
+class MatrixWidgetTest(FixtureTestCase):
+    def test_matrix_columns_avoid_dangling_rows(self) -> None:
+        widget = WIDGETS["matrix"](self.project, "auto")
+
+        self.assertEqual(widget.get_column_count(5, 100), 5)
+        self.assertEqual(widget.get_column_count(5, 180), 3)
+        self.assertEqual(widget.get_column_count(7, 130), 4)
+        self.assertEqual(widget.get_column_count(13, 130), 5)
+
+    def test_matrix_component_uses_translation_links(self) -> None:
+        response = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.component.get_url_path(),
+                    "widget": "matrix",
+                    "color": "auto",
+                    "extension": "svg",
+                },
+            )
+        )
+
+        self.assert_svg(response)
+        content = response.content.decode()
+        translation_url = reverse(
+            "translate", kwargs={"path": [*self.component.get_url_path(), "de"]}
+        )
+        self.assertIn(
+            f'xlink:href="http://example.com{translation_url}"',
+            content,
+        )
+        self.assertNotIn("/test/test/-/de/", content)
+
+    def test_matrix_uses_language_names_and_progress_bars(self) -> None:
+        response = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.project.get_url_path(),
+                    "widget": "matrix",
+                    "color": "auto",
+                    "extension": "svg",
+                },
+            )
+        )
+
+        self.assert_svg(response)
+        content = response.content.decode()
+        self.assertIn(">German</text>", content)
+        self.assertNotIn(">de</text>", content)
+
+        tree = parse_xml(response.content)
+        progress_bars = [
+            element
+            for element in tree.findall(".//{http://www.w3.org/2000/svg}rect")
+            if element.attrib.get("fill-opacity") == ".24"
+        ]
+        self.assertGreater(len(progress_bars), 0)
+        self.assertTrue(
+            any(int(element.attrib["width"]) > 5 for element in progress_bars)
+        )
 
 
 class WidgetsPercentRenderTest(WidgetsRenderTest):
