@@ -1190,7 +1190,7 @@ class GitHubAppManifestViewTest(TestCase):
         self._grant_global_permissions(user, "management.use")
         self.client.login(username=user.username, password="testpassword")
 
-        protected_urls = (
+        protected_urls: tuple[tuple[str, str, dict[str, str]], ...] = (
             ("get", reverse("github-app-register"), {}),
             ("post", reverse("github-app-register-submit"), {}),
             ("post", reverse("github-app-register-redirect"), {}),
