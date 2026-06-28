@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 10:21+0000\n"
+"PO-Revision-Date: 2026-06-29 07:01+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -6127,10 +6127,8 @@ msgstr "XLIFF 1.2 med gettext-tillägg"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1912
-#, fuzzy
-#| msgid "XLIFF 1.2 with gettext extensions"
 msgid "XLIFF 1.2 with Apple extensions"
-msgstr "XLIFF 1.2 med gettext-tillägg"
+msgstr "XLIFF 1.2 med Apple-tillägg"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1920
@@ -6144,10 +6142,8 @@ msgstr "XLIFF 2.0-översättningsfil med stöd för placerbara objekt"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1988
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Java-properties (UTF-8)"
+msgstr "Java-egenskaper"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2004
@@ -6191,7 +6187,7 @@ msgstr "Kunde inte tolka nyckeln: %s"
 
 #: weblate/formats/ttkit.py:2177 weblate/formats/ttkit.py:2192
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "Denna nyckel står i konflikt med en befintlig hierarkisk nyckel."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2204
@@ -6266,27 +6262,25 @@ msgstr "CSV-fil"
 #: weblate/formats/ttkit.py:2439
 #, python-format
 msgid "Plural form metadata in CSV file is missing form %d."
-msgstr ""
+msgstr "Metadata för pluralform i CSV-filen saknar form %d."
 
 #: weblate/formats/ttkit.py:2515
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "Metadata för pluralformer i en CSV-fil kräver target_plural_form."
 
 #: weblate/formats/ttkit.py:2524
 msgid "Plural form metadata in CSV file requires source_plural_form."
-msgstr ""
+msgstr "Metadata för pluralform i en CSV-fil kräver source_plural_form."
 
 #: weblate/formats/ttkit.py:2545
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "Duplicerad sträng hittades i filen."
+msgstr "Dubblett av målets pluralform i CSV-filen: %s"
 
 #: weblate/formats/ttkit.py:2554
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "Kodning som används för CSV-filer"
+msgstr "Motstridig pluralform i källan i CSV-filen: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2737
@@ -6387,6 +6381,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Sändning stödjs inte via exportfunktionen i Weblate Git. Sänd istället till "
+"uppströmsförrådet."
 
 #: weblate/gitexport/views.py:107
 #, python-brace-format
@@ -6394,12 +6390,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Sändning stödjs inte via exportfunktionen i Weblate Git. Sänd istället till "
+"uppströmsförrådet: {location}"
 
 #: weblate/gitexport/views.py:117
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Den begärda versionen är inte tillgänglig i Weblates lokala Git-utcheckning. "
+"Hämta den från uppströmsförrådet först."
 
 #: weblate/gitexport/views.py:122
 #, python-brace-format
@@ -6407,16 +6407,16 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Den begärda versionen är inte tillgänglig i Weblates lokala Git-utcheckning. "
+"Hämta den från uppströmsförrådet först: {location}"
 
 #: weblate/gitexport/views.py:142
 msgid "Git export failed."
 msgstr "Git-exporteringen misslyckades."
 
 #: weblate/gitexport/views.py:295
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported Git service."
-msgstr "Filen stöds inte!"
+msgstr "Git-tjänsten stödjs inte."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -6433,12 +6433,12 @@ msgid "Glossary"
 msgstr "Ordlista"
 
 #: weblate/glossary/views.py:50
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
-msgstr "Kunde inte låsa arkivet. En annan operation pågår."
+msgstr ""
+"Det gick inte att lägga till termen i ordlistan eftersom en annan "
+"bakgrundsprocess pågår. Försök igen senare."
 
 #: weblate/lang/apps.py:13
 msgid "Weblate languages"
@@ -6516,25 +6516,21 @@ msgstr "Tre"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Lämna fältet tomt för att använda gruppens språkval utan ytterligare "
+"begränsningar."
 
 #: weblate/lang/forms.py:87 weblate/templates/auth/team.html:127
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
 msgstr "Språkbegränsning"
 
 #: weblate/lang/forms.py:94
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "Språkbegränsning"
+msgstr "Ingen språkbegränsning"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid suggestion!"
 msgid "Enter a valid language code."
-msgstr "Ogiltigt förslag!"
+msgstr "Ange en giltig språkkod."
 
 #: weblate/lang/models.py:1009 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -6807,10 +6803,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "Du måste godkänna de allmänna villkoren"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "Läs följande licensavtal för bidragsgivare:"
+msgstr "Läs följande juridiska dokument:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -6829,10 +6823,8 @@ msgid "Privacy Policy"
 msgstr "Integritetspolicy"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
-msgstr "Läs följande dokument för allmänna villkor:"
+msgstr "Läs följande dokument om allmänna bestämmelser och villkor:"
 
 #: weblate/legal/templates/legal/confirm.html:41
 #: weblate/templates/contributor-agreement.html:33
