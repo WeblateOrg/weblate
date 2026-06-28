@@ -123,6 +123,68 @@
         </table>
       </div>
 
+      {# TODO(2028.1): Remove this migration status card once Weblate no longer supports direct upgrades from 2026 releases. #}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/memory' 'memory-scopes' right=True %}
+            {% translate "Translation memory migration" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>{% translate "Scope backfill" %}</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar {% if memory_migration_status.backfill_completed %}progress-bar-success{% else %}progress-bar-warning{% endif %}"
+                       role="progressbar"
+                       aria-valuenow="{{ memory_migration_status.backfill_percent }}"
+                       aria-valuemin="0"
+                       aria-valuemax="100"
+                       aria-label="{% translate "Translation memory scope backfill" %}"
+                       style="width: {{ memory_migration_status.backfill_percent }}%">
+                    {{ memory_migration_status.backfill_percent }}%
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Entries processed" %}</td>
+              <td class="number">{{ memory_migration_status.processed|intcomma }} / {{ memory_migration_status.total|intcomma }}</td>
+            </tr>
+            <tr>
+              <td>{% translate "Duplicate groups pending consolidation" %}</td>
+              <td class="number">{{ memory_migration_status.duplicate_groups|intcomma }}</td>
+            </tr>
+            <tr>
+              <td>{% translate "Last update" %}</td>
+              <td>
+                {% if memory_migration_status.updated %}
+                  {{ memory_migration_status.updated }}
+                {% elif memory_migration_status.backfill_completed %}
+                  {% translate "Not needed" %}
+                {% else %}
+                  {% translate "Not yet started" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Status" %}</td>
+              <td>
+                {% if memory_migration_status.completed %}
+                  {% translate "Completed" %}
+                {% elif memory_migration_status.backfill_completed %}
+                  {% translate "Consolidating duplicate entries" %}
+                {% else %}
+                  {% translate "Backfilling scopes" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       {% if disk_usage %}
         <div class="card">
           <div class="card-header">

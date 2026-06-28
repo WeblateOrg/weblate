@@ -47,6 +47,7 @@ from weblate.auth.models import (
 )
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
+from weblate.memory.models import Memory, MemoryScopeMigrationState
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
@@ -380,6 +381,71 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
     return render(request, "manage/backups.html", context)
 
 
+def get_memory_duplicate_group_count() -> int:
+    # TODO(2028.1): Remove this migration status helper once Weblate no longer
+    # supports direct upgrades from 2026 releases.
+    """Return translation memory duplicate group count."""
+    return (
+        Memory.objects.values(
+            "source_language_id",
+            "target_language_id",
+            "source",
+            "target",
+            "origin",
+            "context",
+            "status",
+            "legacy_from_file",
+        )
+        .annotate(count=Count("id"))
+        .filter(count__gt=1)
+        .count()
+    )
+
+
+def get_memory_migration_status() -> dict[str, Any]:
+    # TODO(2028.1): Remove this migration status helper once Weblate no longer
+    # supports direct upgrades from 2026 releases.
+    """Return translation memory background migration status."""
+    state = MemoryScopeMigrationState.objects.filter(
+        name="memory-scope-backfill"
+    ).first()
+    total = Memory.objects.count()
+    last_memory_id = state.last_memory_id if state is not None else 0
+    needs_backfill = state is not None and not state.completed
+    if state is None and total:
+        needs_backfill = (
+            Memory.objects.alias(memory_has_scope=Memory.objects.get_has_scope_exists())
+            .filter(memory_has_scope=False)
+            .exists()
+        )
+    backfill_completed = total == 0 or not needs_backfill
+
+    if backfill_completed:
+        backfill_percent = 100
+        processed = total
+    else:
+        processed = Memory.objects.filter(id__lte=last_memory_id).count()
+        backfill_percent = min(round(processed * 100 / total), 100)
+
+    duplicate_groups = (
+        get_memory_duplicate_group_count()
+        if state is not None and state.completed
+        else 0
+    )
+
+    return {
+        "backfill_completed": backfill_completed,
+        "backfill_percent": backfill_percent,
+        "completed": backfill_completed and duplicate_groups == 0,
+        "duplicate_groups": duplicate_groups,
+        "last_memory_id": last_memory_id,
+        "processed": processed,
+        "state": state,
+        "total": total,
+        "updated": state.updated if state is not None else None,
+    }
+
+
 def handle_dismiss(request: AuthenticatedHttpRequest) -> HttpResponse:
     try:
         error = ConfigurationError.objects.get(pk=int(request.POST["pk"]))
@@ -433,6 +499,7 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "cache_latency": measure_cache_latency(),
         "disk_usage": disk_usage_bytes,
         "disk_usage_percent": disk_usage_percent,
+        "memory_migration_status": get_memory_migration_status(),
     }
 
     return render(request, "manage/performance.html", context)

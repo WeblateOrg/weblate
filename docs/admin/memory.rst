@@ -35,7 +35,8 @@ Sharing of translations is also available.
    migrations. Until this backfill finishes, existing entries can be
    temporarily unavailable in suggestions and memory management views. Keep
    Celery workers and the broker running during the upgrade so the backfill can
-   complete.
+   complete. Site administrators can monitor the backfill and duplicate-entry
+   consolidation in :guilabel:`Administration` > :guilabel:`Performance report`.
 
 Imported translation memory
 +++++++++++++++++++++++++++
