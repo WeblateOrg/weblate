@@ -267,12 +267,14 @@ def update_memory(  # noqa: PLR0913
     from weblate.trans.models import Project
 
     project = Project.objects.select_related("workspace").get(pk=project_id)
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
     check_matching = True
     memory_status = get_memory_status(project, unit_state)
     if memory_status == Memory.STATUS_ACTIVE:
         if project.autoclean_tm:
             # delete old entries, including those with different targets
-            matching_memory = Memory.objects.filter(
+            matching_memory = memory_objects.filter(
                 source=source,
                 origin=origin,
                 context=context,
@@ -294,7 +296,7 @@ def update_memory(  # noqa: PLR0913
     if check_matching:
         # Check matching entries in memory
         for matching in (
-            Memory.objects.filter(
+            memory_objects.filter(
                 source=source,
                 target=target,
                 origin=origin,
@@ -378,12 +380,12 @@ def update_memory(  # noqa: PLR0913
         to_create.append(memory)
 
     if to_create:
-        with transaction.atomic():
-            Memory.objects.bulk_create(to_create)
-            MemoryScope.objects.bulk_create_for_memories(to_create)
+        with transaction.atomic(using="default"):
+            memory_objects.bulk_create(to_create)
+            memory_scope_objects.bulk_create_for_memories(to_create)
 
     if to_update:
-        Memory.objects.bulk_update(to_update, fields=["status"])
+        memory_objects.bulk_update(to_update, fields=["status"])
 
 
 @app.task(trail=False)
@@ -619,6 +621,7 @@ def get_group_matching_memory(
     expected_key_set = set(expected_keys)
     existing = defaultdict(set)
     to_update: list[Memory] = []
+    memory_objects = Memory.objects.using("default")
 
     for offset in range(0, len(expected_keys), MEMORY_UPDATE_LOOKUP_CHUNK_SIZE):
         matching_pairs = Q()
@@ -630,7 +633,7 @@ def get_group_matching_memory(
                 target__md5=MD5(Value(target)),
             )
 
-        matches = Memory.objects.filter(
+        matches = memory_objects.filter(
             matching_pairs,
             origin__md5=MD5(Value(origin)),
             source_language_id=source_language_id,
@@ -769,6 +772,8 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
     fallback = []
     grouped_entries = defaultdict(list)
     statuses = {}
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
 
     for position, entry in enumerate(entries):
         project = projects[entry["project_id"]]
@@ -795,9 +800,9 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
         to_create.extend(create_missing_memory_entries(group_entries, existing))
 
     if to_create:
-        with transaction.atomic():
-            Memory.objects.bulk_create(to_create, batch_size=MEMORY_UPDATE_BATCH_SIZE)
-            MemoryScope.objects.bulk_create_for_memories(to_create)
+        with transaction.atomic(using="default"):
+            memory_objects.bulk_create(to_create, batch_size=MEMORY_UPDATE_BATCH_SIZE)
+            memory_scope_objects.bulk_create_for_memories(to_create)
 
     if to_update:
-        Memory.objects.bulk_update(to_update, fields=["status"])
+        memory_objects.bulk_update(to_update, fields=["status"])
