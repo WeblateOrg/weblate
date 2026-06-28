@@ -13,6 +13,7 @@ Weblate 2026.7
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
 * Added an option to capitalize the text in status badge widgets.
+* Added :ref:`workspace translation memory <memory-scopes>` with asynchronous scope backfill for existing translation memory entries.
 
 .. rubric:: Improvements
 
@@ -92,6 +93,7 @@ Weblate 2026.7
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are changes in :file:`settings_example.py`, most notably in ``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please adjust your settings accordingly.
+* Existing translation-memory entries are moved to scoped storage by a Celery background task after database migrations. Keep Celery workers and the broker running during the upgrade; translation-memory suggestions can be incomplete until the backfill finishes.
 
 .. rubric:: Contributors
 

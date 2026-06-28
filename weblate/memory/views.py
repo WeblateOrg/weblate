@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING, NotRequired, TypedDict
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.db.models import Count
-from django.http import JsonResponse
+from django.db.models import Count, Exists, OuterRef, Q
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -18,8 +18,14 @@ from django.views.generic.base import TemplateView
 
 from weblate.lang.models import Language
 from weblate.memory.forms import DeleteForm, UploadForm
-from weblate.memory.models import Memory, MemoryImportError
+from weblate.memory.models import Memory, MemoryImportError, MemoryScope
 from weblate.memory.tasks import import_memory
+from weblate.memory.utils import (
+    CATEGORY_FILE,
+    CATEGORY_PRIVATE_OFFSET,
+    CATEGORY_SHARED,
+    CATEGORY_USER_OFFSET,
+)
 from weblate.metrics.models import Metric
 from weblate.trans.models import Project
 from weblate.utils import messages
@@ -57,6 +63,43 @@ def check_perm(user: User, permission: str, objects: ObjectsDict):
     return False
 
 
+def get_scope_delete_query(objects: ObjectsDict) -> Q:
+    if "project" in objects:
+        project = objects["project"]
+        return Q(
+            scope__in=(MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE),
+            project=project,
+        )
+    if "user" in objects:
+        user = objects["user"]
+        return Q(
+            scope__in=(MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE), user=user
+        )
+    if "from_file" in objects:
+        return Q(scope=MemoryScope.SCOPE_GLOBAL_FILE)
+    return Q(pk__isnull=True)
+
+
+def get_language_filter(request: AuthenticatedHttpRequest, name: str) -> int | None:
+    value = request.GET.get(name)
+    if value is None:
+        return None
+    if not value.isdecimal():
+        msg = gettext("Invalid language identifier.")
+        raise Http404(msg)
+    return int(value)
+
+
+def get_export_category(objects: ObjectsDict) -> int | None:
+    if "project" in objects:
+        return CATEGORY_PRIVATE_OFFSET + objects["project"].pk
+    if "user" in objects:
+        return CATEGORY_USER_OFFSET + objects["user"].pk
+    if "from_file" in objects:
+        return CATEGORY_FILE
+    return None
+
+
 @method_decorator(login_required, name="dispatch")
 class MemoryFormView(ErrorFormView):
     def get_success_url(self):
@@ -79,7 +122,7 @@ class DeleteView(MemoryFormView):
         entries = Memory.objects.filter_type(**self.objects)
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
-        entries.using("default").delete()
+        entries.using("default").delete_scope(get_scope_delete_query(self.objects))
         messages.success(self.request, gettext("Entries were deleted."))
         return super().form_valid(form)
 
@@ -106,7 +149,7 @@ class RebuildView(MemoryFormView):
         entries = Memory.objects.filter_type(**self.objects)
         if origin:
             entries = entries.filter(origin=origin)
-        entries.using("default").delete()
+        entries.using("default").delete_scope(get_scope_delete_query(self.objects))
         # Delete possible shared entries
         if origin:
             slugs = [origin]
@@ -114,7 +157,13 @@ class RebuildView(MemoryFormView):
             slugs = [
                 component.full_slug for component in project.component_set.prefetch()
             ]
-        Memory.objects.filter(origin__in=slugs, shared=True).using("default").delete()
+        Memory.objects.filter(origin__in=slugs).using("default").delete_scope(
+            Q(
+                scope__in=(MemoryScope.SCOPE_SHARED, MemoryScope.SCOPE_WORKSPACE),
+                source_project=project,
+            ),
+            delete_legacy=False,
+        )
         # Rebuild memory in background
         import_memory.delay(project_id=project.id, component_id=component_id)
         messages.success(
@@ -176,14 +225,23 @@ class MemoryView(TemplateView):
                 return ""
             return reverse("show", kwargs={"path": slug.split("/")})
 
+        file_scopes = (
+            MemoryScope.SCOPE_GLOBAL_FILE,
+            MemoryScope.SCOPE_PROJECT_FILE,
+            MemoryScope.SCOPE_USER_FILE,
+        )
+        file_scope = MemoryScope.objects.using(self.entries.db).filter(
+            memory_id=OuterRef("pk"), scope__in=file_scopes
+        )
+        entries = self.entries.alias(has_file_scope=Exists(file_scope))
         from_file = list(
-            self.entries.filter(from_file=True)
+            entries.filter(has_file_scope=True)
             .values("origin")
             .order_by("origin")
             .annotate(Count("id"))
         )
         result = list(
-            self.entries.filter(from_file=False)
+            entries.filter(has_file_scope=False)
             .values("origin")
             .order_by("origin")
             .annotate(Count("id"))
@@ -259,25 +317,43 @@ class MemoryView(TemplateView):
         if "from_file" in self.objects or (
             "project" in self.objects and self.objects["project"].use_shared_tm
         ):
-            context["shared_entries"] = Memory.objects.filter(shared=True).count()
+            context["shared_entries"] = Memory.objects.filter_scope(
+                Q(
+                    scope=MemoryScope.SCOPE_SHARED,
+                    source_project__contribute_shared_tm=True,
+                ),
+            ).count()
         return context
 
 
 class DownloadView(MemoryView):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         fmt = request.GET.get("format", "json")
-        data = Memory.objects.filter_type(**self.objects).prefetch_lang()
+        data = (
+            Memory.objects.filter_type(**self.objects).prefetch_scopes().prefetch_lang()
+        )
+        category = get_export_category(self.objects)
         if "origin" in request.GET:
             data = data.filter(origin=request.GET["origin"])
-        if "source_language" in request.GET:
-            data = data.filter(source_language_id=request.GET["source_language"])
-        if "target_language" in request.GET:
-            data = data.filter(target_language_id=request.GET["target_language"])
+        source_language_id = get_language_filter(request, "source_language")
+        if source_language_id is not None:
+            data = data.filter(source_language_id=source_language_id)
+        target_language_id = get_language_filter(request, "target_language")
+        if target_language_id is not None:
+            data = data.filter(target_language_id=target_language_id)
         if "from_file" in self.objects and "kind" in request.GET:
             if request.GET["kind"] == "shared":
-                data = Memory.objects.filter_type(use_shared=True).prefetch_lang()
+                data = (
+                    Memory.objects.filter_type(use_shared=True)
+                    .prefetch_scopes()
+                    .prefetch_lang()
+                )
+                category = CATEGORY_SHARED
             elif request.GET["kind"] == "all":
-                data = Memory.objects.prefetch_lang()
+                data = (
+                    Memory.objects.filter_scope(Q()).prefetch_scopes().prefetch_lang()
+                )
+                category = None
         if fmt == "tmx":
             response = render(
                 request,
@@ -287,6 +363,10 @@ class DownloadView(MemoryView):
             )
         else:
             fmt = "json"
-            response = JsonResponse([item.as_dict() for item in data], safe=False)
+            if category is None:
+                payload = [entry for item in data for entry in item.as_dicts()]
+            else:
+                payload = [item.as_dict(category=category) for item in data]
+            response = JsonResponse(payload, safe=False)
         response["Content-Disposition"] = CD_TEMPLATE.format(fmt)
         return response

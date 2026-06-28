@@ -1119,11 +1119,26 @@ def check_memory_perms(
     from weblate.memory.models import Memory
 
     if isinstance(memory, Memory):
-        if memory.user_id == user.id:
-            return True
-        project = memory.project
-    else:
-        project = memory
+        for scope in memory.get_scope_list():
+            if scope.user_id == user.id:
+                return True
+            if scope.project_id:
+                project = scope.project
+                if project is not None and check_permission(user, permission, project):
+                    return True
+            if scope.workspace_id:
+                source_project = scope.source_project
+                if source_project is not None and check_permission(
+                    user, permission, source_project
+                ):
+                    return True
+                if scope.workspace is not None and check_permission(
+                    user, permission, scope.workspace
+                ):
+                    return True
+        return check_global_permission(user, "memory.manage")
+
+    project = memory
     if project is None:
         return check_global_permission(user, "memory.manage")
     return check_permission(user, permission, project)
