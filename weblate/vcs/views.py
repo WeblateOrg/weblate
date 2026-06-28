@@ -49,6 +49,10 @@ from weblate.vcs.github import (
     github_app_is_configured,
     normalize_github_app_hostname,
 )
+from weblate.vcs.permissions import (
+    github_app_installation_workspaces,
+    user_can_install_github_app_in_workspace,
+)
 from weblate.wladmin.views import MENU
 from weblate.workspaces.models import Workspace
 
@@ -70,10 +74,7 @@ def _managed_workspaces(user):
 
 
 def _installation_workspaces(user):
-    """Return workspaces where the user can connect GitHub accounts."""
-    if user.has_perm("management.use"):
-        return Workspace.objects.order()
-    return user.workspaces_with_perm("workspace.edit")
+    return github_app_installation_workspaces(user)
 
 
 def _user_can_install_github_app(user) -> bool:
@@ -142,7 +143,7 @@ def _get_install_workspace(request) -> Workspace | None:
 
 
 def _user_can_install_in_workspace(user, workspace: Workspace) -> bool:
-    return user.has_perm("management.use") or user.has_perm("workspace.edit", workspace)
+    return user_can_install_github_app_in_workspace(user, workspace)
 
 
 def _get_install_link(
