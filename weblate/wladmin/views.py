@@ -47,6 +47,7 @@ from weblate.auth.models import (
 )
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
+from weblate.memory.models import Memory, MemoryScopeMigrationState
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
@@ -380,6 +381,51 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
     return render(request, "manage/backups.html", context)
 
 
+def get_memory_migration_status() -> dict[str, Any]:
+    """Return translation memory background migration status."""
+    state = MemoryScopeMigrationState.objects.filter(
+        name="memory-scope-backfill"
+    ).first()
+    total = Memory.objects.count()
+    last_memory_id = state.last_memory_id if state is not None else 0
+    processed = Memory.objects.filter(id__lte=last_memory_id).count()
+
+    if total == 0 or (state is not None and state.completed):
+        backfill_percent = 100
+        processed = total
+    else:
+        backfill_percent = min(round(processed * 100 / total), 100)
+
+    duplicate_groups = (
+        Memory.objects.values(
+            "source_language_id",
+            "target_language_id",
+            "source",
+            "target",
+            "origin",
+            "context",
+            "status",
+            "legacy_from_file",
+        )
+        .annotate(count=Count("id"))
+        .filter(count__gt=1)
+        .count()
+    )
+
+    return {
+        "backfill_completed": total == 0 or (state is not None and state.completed),
+        "backfill_percent": backfill_percent,
+        "completed": total == 0
+        or (state is not None and state.completed and duplicate_groups == 0),
+        "duplicate_groups": duplicate_groups,
+        "last_memory_id": last_memory_id,
+        "processed": processed,
+        "state": state,
+        "total": total,
+        "updated": state.updated if state is not None else None,
+    }
+
+
 def handle_dismiss(request: AuthenticatedHttpRequest) -> HttpResponse:
     try:
         error = ConfigurationError.objects.get(pk=int(request.POST["pk"]))
@@ -433,6 +479,7 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "cache_latency": measure_cache_latency(),
         "disk_usage": disk_usage_bytes,
         "disk_usage_percent": disk_usage_percent,
+        "memory_migration_status": get_memory_migration_status(),
     }
 
     return render(request, "manage/performance.html", context)

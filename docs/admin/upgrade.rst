@@ -114,6 +114,11 @@ releases should work, but is not as well tested as single version upgrades!
 
 #. Restart the Celery worker (see :ref:`celery`).
 
+   Some upgrades schedule translation-memory scope backfill and consolidation in
+   the background. Keep Celery workers running after the upgrade and monitor
+   progress in :guilabel:`Administration` > :guilabel:`Performance report`. See
+   :ref:`memory-scopes` for details.
+
 .. _version-specific-instructions:
 
 Version-specific instructions
