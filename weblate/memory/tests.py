@@ -8,10 +8,9 @@ import json
 import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, cast
+from typing import Any, cast
 from unittest.mock import MagicMock, call, patch
 
-from django.apps import apps as django_apps
 from django.core.exceptions import FieldDoesNotExist, FieldError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -21,9 +20,9 @@ from django.db.models.functions import MD5
 from django.test import SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
+from django.utils import timezone
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
-from kombu.exceptions import OperationalError
 from weblate_schemas import load_schema
 
 from weblate.lang.data import FORMULA_WITH_ZERO
@@ -34,16 +33,20 @@ from weblate.memory.models import (
     MemoryImportError,
     MemoryQuerySet,
     MemoryScope,
+    MemoryScopeMigrationState,
     load_memory_json_data,
     load_memory_tmx_store,
 )
 from weblate.memory.tasks import (
+    MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
     MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
+    MemoryGroupEntry,
     cleanup_orphaned_memory,
     compact_memory_scopes,
     get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
+    resume_memory_scope_backfill,
     set_scope_source_project_ids,
     update_memory,
     update_memory_bulk,
@@ -60,10 +63,6 @@ from weblate.trans.tests.utils import create_another_user, get_test_file
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
-
-if TYPE_CHECKING:
-    from weblate.memory.apps import MemoryConfig
-    from weblate.memory.tasks import MemoryGroupEntry
 
 
 def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
@@ -1001,23 +1000,49 @@ msgstr "Nazdar svete!\n"
 
         mocked_cleanup.assert_called_once_with()
 
-    def test_post_migrate_fails_on_celery_publish_failure(self) -> None:
-        add_document()
-        memory_config = cast("MemoryConfig", django_apps.get_app_config("memory"))
+    def test_resume_memory_scope_backfill_reschedules_stale_state(self) -> None:
+        state = MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill",
+            last_memory_id=1,
+            updated=timezone.now()
+            - timezone.timedelta(seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS + 1),
+        )
 
-        with (
-            patch(
-                "weblate.memory.tasks.backfill_memory_scopes.delay",
-                side_effect=OperationalError("broker unavailable"),
-            ) as mocked_backfill,
-            self.assertRaisesMessage(
-                CommandError,
-                "Could not schedule translation memory scope migration task",
-            ),
-        ):
-            memory_config.post_migrate(memory_config)
+        with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
+            resume_memory_scope_backfill()
 
-        mocked_backfill.assert_called_once_with()
+        mocked_delay.assert_called_once_with()
+        state.refresh_from_db()
+        self.assertFalse(state.completed)
+
+    def test_resume_memory_scope_backfill_keeps_recent_state(self) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill", updated=timezone.now()
+        )
+
+        with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
+            resume_memory_scope_backfill()
+
+        mocked_delay.assert_not_called()
+
+    def test_resume_memory_scope_backfill_without_state_detects_unscoped_rows(
+        self,
+    ) -> None:
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Resumed unscoped source",
+            target="Obnoveny cil",
+            origin=self.component.full_slug,
+            legacy_project=self.project,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.filter(memory=memory).delete()
+
+        with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
+            resume_memory_scope_backfill()
+
+        mocked_delay.assert_called_once_with()
 
     def test_project_delete_removes_legacy_shared_scoped_memory(self) -> None:
         memory = Memory.objects.create(

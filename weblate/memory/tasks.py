@@ -26,6 +26,7 @@ if TYPE_CHECKING:
 
 MEMORY_UPDATE_BATCH_SIZE = 1000
 MEMORY_UPDATE_LOOKUP_CHUNK_SIZE = 50
+MEMORY_SCOPE_BACKFILL_STALE_SECONDS = 15 * 60
 
 
 class MemoryUpdatePayload(TypedDict):
@@ -210,39 +211,82 @@ def set_scope_source_project_ids(memories: list[Memory]) -> None:
 def backfill_memory_scopes(batch_size: int = 5000) -> None:
     # TODO(2028.1): Remove this background TM scope backfill once Weblate no
     # longer supports direct upgrades from 2026 releases.
-    state, _created = MemoryScopeMigrationState.objects.get_or_create(
-        name="memory-scope-backfill"
-    )
-    if state.completed:
-        return
+    with transaction.atomic():
+        state, _created = (
+            MemoryScopeMigrationState.objects.select_for_update().get_or_create(
+                name="memory-scope-backfill"
+            )
+        )
+        if state.completed:
+            return
 
-    memories = list(
-        Memory.objects.filter(id__gt=state.last_memory_id)
-        .order_by("id")
-        .select_related(
-            "legacy_project",
-            "legacy_user",
-        )[:batch_size]
-    )
-    if not memories:
-        state.completed = True
-        state.updated = timezone.now()
-        state.save(update_fields=["completed", "updated"])
-        compact_memory_scopes.delay()
-        return
+        memories = list(
+            Memory.objects.filter(id__gt=state.last_memory_id)
+            .order_by("id")
+            .select_related(
+                "legacy_project",
+                "legacy_user",
+            )[:batch_size]
+        )
+        if not memories:
+            state.completed = True
+            state.updated = timezone.now()
+            state.save(update_fields=["completed", "updated"])
+            run_compact = True
+            run_next = False
+        else:
+            set_scope_source_project_ids(memories)
+            MemoryScope.objects.bulk_create_for_memories(memories)
+            state.last_memory_id = memories[-1].id
+            state.updated = timezone.now()
 
-    set_scope_source_project_ids(memories)
-    MemoryScope.objects.bulk_create_for_memories(memories)
-    state.last_memory_id = memories[-1].id
-    state.updated = timezone.now()
+            if len(memories) == batch_size:
+                state.save(update_fields=["last_memory_id", "updated"])
+                run_next = True
+                run_compact = False
+            else:
+                state.completed = True
+                state.save(update_fields=["last_memory_id", "completed", "updated"])
+                run_next = False
+                run_compact = True
 
-    if len(memories) == batch_size:
-        state.save(update_fields=["last_memory_id", "updated"])
+    if run_next:
         backfill_memory_scopes.delay(batch_size=batch_size)
-    else:
-        state.completed = True
-        state.save(update_fields=["last_memory_id", "completed", "updated"])
+    elif run_compact:
         compact_memory_scopes.delay()
+
+
+@app.task(trail=False)
+def resume_memory_scope_backfill() -> None:
+    # TODO(2028.1): Remove this background TM scope backfill once Weblate no
+    # longer supports direct upgrades from 2026 releases.
+    state = MemoryScopeMigrationState.objects.filter(
+        name="memory-scope-backfill", completed=False
+    ).first()
+    if state is None:
+        needs_backfill = (
+            Memory.objects.alias(memory_has_scope=Memory.objects.get_has_scope_exists())
+            .filter(memory_has_scope=False)
+            .exists()
+        )
+        if needs_backfill:
+            backfill_memory_scopes.delay()
+        return
+
+    stale_before = timezone.now() - timezone.timedelta(
+        seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS
+    )
+    if state.updated <= stale_before:
+        backfill_memory_scopes.delay()
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs) -> None:
+    sender.add_periodic_task(
+        MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
+        resume_memory_scope_backfill.s(),
+        name="resume-memory-scope-backfill",
+    )
 
 
 @app.task(trail=False)
