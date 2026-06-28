@@ -45,7 +45,7 @@
                 <td>{{ installation.workspace }}</td>
                 <td>{{ installation.repositories|length }}</td>
                 <td>
-                  {% if installation.can_manage %}
+                  {% if installation.pk in manageable_installations %}
                     <form method="post"
                           action="{% url 'manage-github-account-refresh' installation.pk %}"
                           class="d-inline">

@@ -12,7 +12,7 @@ from django.core.cache import cache
 from django.test import TestCase
 from django.urls import reverse
 
-from weblate.auth.models import User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.site import get_site_url
@@ -83,6 +83,14 @@ class GitHubInstallationViewTest(ViewTestCase):
         }
         defaults.update(overrides)
         return GitHubAppCredentials.objects.create(hostname=hostname, **defaults)
+
+    def _grant_management_permission(self, user: User) -> None:
+        role = Role.objects.create(name=f"GitHub management {user.pk}")
+        role.permissions.add(Permission.objects.get(codename="management.use"))
+        group = Group.objects.create(name=f"GitHub management {user.pk}")
+        group.roles.add(role)
+        user.groups.add(group)
+        user.clear_cache()
 
     def _mock_oauth(
         self,
@@ -279,6 +287,12 @@ class GitHubInstallationViewTest(ViewTestCase):
             response,
             f"{reverse('github-app-repositories')}?workspace={self.workspace.pk}",
         )
+        install_url = (
+            f"{reverse('github-app-install')}?"
+            f"{urlencode({'next': reverse('account-vcs'), 'host': 'github.com', 'workspace': self.workspace.pk})}"
+        )
+        self.assertNotContains(response, install_url.replace("&", "&amp;"))
+        self.assertNotContains(response, "Connect GitHub account")
         self.assertNotContains(
             response,
             reverse("manage-github-account-refresh", kwargs={"pk": installation.pk}),
@@ -287,6 +301,16 @@ class GitHubInstallationViewTest(ViewTestCase):
             response,
             reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
         )
+
+        install_response = self.client.get(
+            reverse("github-app-install"),
+            {
+                "next": reverse("account-vcs"),
+                "host": "github.com",
+                "workspace": str(self.workspace.pk),
+            },
+        )
+        self.assertEqual(install_response.status_code, 403)
 
     def test_project_admin_cannot_manage_github_installation(self):
         user = self.anotheruser
@@ -355,7 +379,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             f"{reverse('github-app-install')}?"
             f"{urlencode({'next': next_url, 'host': 'github.com', 'workspace': self.workspace.pk})}"
         )
-        self.assertContains(response, install_url.replace("&", "&amp;"))
+        self.assertNotContains(response, install_url.replace("&", "&amp;"))
 
     def test_account_vcs_integrations_accepts_workspace_owner(self):
         owner = User.objects.create_user(
@@ -707,6 +731,39 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertNotContains(response, _import_url(installation, repo))
         self.assertContains(response, "Unavailable")
 
+    def test_site_manager_can_import_from_installation_detail(self):
+        manager = User.objects.create_user(
+            username="site manager",
+            email="sitemanager@example.org",
+            password="testpassword",
+        )
+        self._grant_management_permission(manager)
+        repo = _repo_entry("test-org/repo1")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        self.client.login(username=manager.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+
+        import_path = _import_url(installation, repo)
+        self.assertContains(response, import_path)
+        response = self.client.get(import_path)
+        self.assertRedirects(
+            response,
+            f"{reverse('create-component-vcs')}?session_component=1",
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(
+            self.client.session["session_component"]["repo"], repo["clone_url"]
+        )
+
     def test_repository_import_link_preselects_github_app_vcs(self):
         repo = _repo_entry("test-org/repo1", default_branch="stable")
         installation = GitHubInstallation.objects.create(
@@ -906,6 +963,7 @@ class GitHubAppAccessControlTest(ViewTestCase):
             email="mainuser@example.org",
             password="testpassword",
         )
+        self.workspace.add_owner(self.user)
         self.project.add_user(self.user, "Administration")
 
         self.other_user = User.objects.create_user(
@@ -975,13 +1033,13 @@ class GitHubAppAccessControlTest(ViewTestCase):
         # A valid signed state for ``self.workspace`` produced by its admin.
         state = self._start_install(self.user)
 
-        # A user who manages an unrelated workspace must not be able to bind
+        # A user who owns an unrelated workspace must not be able to bind
         # GitHub to a workspace they don't manage.
         other_workspace = Workspace.objects.create(name="Other ACL Workspace")
-        other_project = self.create_project(
+        self.create_project(
             name="Other ACL", slug="other-acl", workspace=other_workspace
         )
-        other_project.add_user(self.other_user, "Administration")
+        other_workspace.add_owner(self.other_user)
         self.client.login(username=self.other_user.username, password="testpassword")
 
         response = self.client.get(

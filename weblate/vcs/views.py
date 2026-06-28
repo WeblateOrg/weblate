@@ -69,8 +69,15 @@ def _managed_workspaces(user):
     ).distinct()
 
 
+def _installation_workspaces(user):
+    """Return workspaces where the user can connect GitHub accounts."""
+    if user.has_perm("management.use"):
+        return Workspace.objects.order()
+    return user.workspaces_with_perm("workspace.edit")
+
+
 def _user_can_install_github_app(user) -> bool:
-    return _managed_workspaces(user).exists()
+    return _installation_workspaces(user).exists()
 
 
 def _require_github_app_access(request) -> None:
@@ -101,21 +108,41 @@ def _get_next_url(request) -> str:
     return default_url
 
 
-def _get_managed_workspace(user, workspace_id) -> Workspace:
+def _get_workspace(workspaces, workspace_id) -> Workspace:
     try:
-        return _managed_workspaces(user).get(pk=workspace_id)
+        return workspaces.get(pk=workspace_id)
     except (Workspace.DoesNotExist, ValidationError, ValueError) as error:
         raise PermissionDenied from error
 
 
-def _get_install_workspace(request) -> Workspace | None:
+def _get_managed_workspace(user, workspace_id) -> Workspace:
+    return _get_workspace(_managed_workspaces(user), workspace_id)
+
+
+def _get_installation_workspace(user, workspace_id) -> Workspace:
+    return _get_workspace(_installation_workspaces(user), workspace_id)
+
+
+def _get_requested_workspace(request, workspaces) -> Workspace | None:
     workspace_id = request.GET.get("workspace", "").strip()
     if workspace_id:
-        return _get_managed_workspace(request.user, workspace_id)
-    workspaces = list(_managed_workspaces(request.user))
+        return _get_workspace(workspaces, workspace_id)
+    workspaces = list(workspaces)
     if len(workspaces) == 1:
         return workspaces[0]
     return None
+
+
+def _get_managed_request_workspace(request) -> Workspace | None:
+    return _get_requested_workspace(request, _managed_workspaces(request.user))
+
+
+def _get_install_workspace(request) -> Workspace | None:
+    return _get_requested_workspace(request, _installation_workspaces(request.user))
+
+
+def _user_can_install_in_workspace(user, workspace: Workspace) -> bool:
+    return user.has_perm("management.use") or user.has_perm("workspace.edit", workspace)
 
 
 def _get_install_link(
@@ -125,6 +152,8 @@ def _get_install_link(
         return None
     if workspace is None:
         workspace = _get_install_workspace(request)
+    elif not _user_can_install_in_workspace(request.user, workspace):
+        return None
     if workspace is None:
         return None
     target = next_url or request.get_full_path()
@@ -235,16 +264,14 @@ def _get_workspace_install_url(
 
 
 def _user_can_use_installation(user, installation: GitHubInstallation) -> bool:
-    return _managed_workspaces(user).filter(pk=installation.workspace_id).exists()
+    return (
+        user.has_perm("management.use")
+        or _managed_workspaces(user).filter(pk=installation.workspace_id).exists()
+    )
 
 
 def _user_can_manage_installation(user, installation: GitHubInstallation) -> bool:
-    return (
-        user.has_perm("management.use")
-        or user.workspaces_with_perm("workspace.edit")
-        .filter(pk=installation.workspace_id)
-        .exists()
-    )
+    return _installation_workspaces(user).filter(pk=installation.workspace_id).exists()
 
 
 def _require_installation_access(request, installation: GitHubInstallation) -> None:
@@ -347,6 +374,7 @@ class UserVCSIntegrationListView(View):
                         ),
                     }
                     for workspace in workspaces
+                    if _user_can_install_in_workspace(request.user, workspace)
                 ]
             apps.append(
                 {
@@ -572,7 +600,7 @@ def github_app_setup(request):
         state = _load_install_state(request, request.GET.get("state", ""))
         next_url = str(state["next"])
         hostname = str(state["host"])
-        workspace = _get_managed_workspace(request.user, state["workspace"])
+        workspace = _get_installation_workspace(request.user, state["workspace"])
     except (BadSignature, SignatureExpired):
         messages.error(
             request,
@@ -684,7 +712,7 @@ def github_app_repository_list(request):
     if not workspaces.exists():
         raise PermissionDenied
 
-    selected_workspace = _get_install_workspace(request)
+    selected_workspace = _get_managed_request_workspace(request)
     selected_project = None
     selected_project_without_workspace = False
     project_id = request.GET.get("project", "").strip()
@@ -710,11 +738,13 @@ def github_app_repository_list(request):
     installations = installations.order_by(
         "workspace__name", "target_login", "hostname"
     )
+    manageable_installations = {
+        installation.pk
+        for installation in installations
+        if _user_can_manage_installation(request.user, installation)
+    }
     all_repos = []
     for installation in installations:
-        installation.can_manage = _user_can_manage_installation(
-            request.user, installation
-        )
         for repo in installation.repositories:
             if repo.get("archived", False):
                 continue
@@ -737,6 +767,7 @@ def github_app_repository_list(request):
         {
             "repositories": all_repos,
             "installations": installations,
+            "manageable_installations": manageable_installations,
             "selected_workspace": selected_workspace,
             "selected_project": selected_project,
             "next_url": request.get_full_path(),
