@@ -28,6 +28,15 @@ Translation-memory scopes
 The translation-memory scopes ensure privacy for different projects and users.
 Sharing of translations is also available.
 
+.. note::
+
+   When upgrading from older Weblate releases, existing translation-memory
+   entries are converted to scopes by a Celery background task after database
+   migrations. Until this backfill finishes, existing entries can be
+   temporarily unavailable in suggestions and memory management views. Keep
+   Celery workers and the broker running during the upgrade so the backfill can
+   complete.
+
 Imported translation memory
 +++++++++++++++++++++++++++
 

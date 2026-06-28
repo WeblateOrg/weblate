@@ -938,23 +938,35 @@ class Memory(models.Model):
         return text.format(self.origin)
 
     def get_category(self) -> int:
+        return self.get_categories()[0]
+
+    def get_categories(self) -> list[int]:
+        categories = []
+        has_workspace = False
         for scope in self.get_scope_list():
             if (
                 scope.scope
                 in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE}
                 and scope.project_id is not None
             ):
-                return CATEGORY_PRIVATE_OFFSET + scope.project_id
+                categories.append(CATEGORY_PRIVATE_OFFSET + scope.project_id)
             if (
                 scope.scope in {MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE}
                 and scope.user_id is not None
             ):
-                return CATEGORY_USER_OFFSET + scope.user_id
+                categories.append(CATEGORY_USER_OFFSET + scope.user_id)
             if scope.scope == MemoryScope.SCOPE_SHARED:
-                return CATEGORY_SHARED
+                categories.append(CATEGORY_SHARED)
             if scope.scope == MemoryScope.SCOPE_GLOBAL_FILE:
-                return CATEGORY_FILE
-        return 0
+                categories.append(CATEGORY_FILE)
+            if scope.scope == MemoryScope.SCOPE_WORKSPACE:
+                has_workspace = True
+        if has_workspace:
+            # The legacy JSON memory format has no workspace category. Keep
+            # using 0 for workspace exports until the format grows explicit
+            # scope metadata.
+            categories.append(0)
+        return list(dict.fromkeys(categories)) or [0]
 
     def as_dict(self, *, category: int | None = None) -> MemoryDict:
         """Convert to dict suitable for JSON export."""
@@ -968,6 +980,10 @@ class Memory(models.Model):
             "category": self.get_category() if category is None else category,
             "status": self.status,
         }
+
+    def as_dicts(self) -> list[MemoryDict]:
+        """Convert to JSON export dictionaries for all represented scopes."""
+        return [self.as_dict(category=category) for category in self.get_categories()]
 
 
 class MemoryScopeManager(models.Manager["MemoryScope"]):

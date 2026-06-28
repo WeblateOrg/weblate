@@ -48,7 +48,11 @@ from weblate.memory.tasks import (
     update_memory,
     update_memory_bulk,
 )
-from weblate.memory.utils import CATEGORY_FILE, CATEGORY_SHARED
+from weblate.memory.utils import (
+    CATEGORY_FILE,
+    CATEGORY_PRIVATE_OFFSET,
+    CATEGORY_SHARED,
+)
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -566,6 +570,43 @@ class MemoryModelTest(FixtureTestCase):
                     "context": "",
                 }
             ],
+        )
+
+    def test_dump_command_expands_compacted_project_scopes(self) -> None:
+        other_project = Project.objects.create(
+            name="Other dump project", slug="other-dump-project"
+        )
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Compacted dump source",
+            target="Kompaktni exportovany cil",
+            origin="test",
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=other_project,
+        )
+
+        output = StringIO()
+        call_command("dump_memory", stdout=output)
+        data = json.loads(output.getvalue())
+        entries = [entry for entry in data if entry["source"] == memory.source]
+
+        self.assertEqual(len(entries), 2)
+        self.assertEqual(
+            {entry["category"] for entry in entries},
+            {
+                CATEGORY_PRIVATE_OFFSET + self.project.pk,
+                CATEGORY_PRIVATE_OFFSET + other_project.pk,
+            },
         )
 
     def test_import_invalid_command(self) -> None:
@@ -1453,6 +1494,51 @@ msgstr "Nazdar svete!\n"
         legacy_file.refresh_from_db()
         self.assertTrue(legacy_file.legacy_from_file)
         self.assertFalse(legacy_file.scopes.exists())
+        self.assertTrue(
+            Memory.objects.filter(
+                source=source,
+                target="Novy automaticky cil",
+                scopes__scope=MemoryScope.SCOPE_PROJECT,
+                scopes__project=self.project,
+            ).exists()
+        )
+
+    def test_autoclean_removes_unbackfilled_legacy_automatic_memory(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        source = "Autoclean legacy automatic source"
+        origin = self.component.full_slug
+        self.project.autoclean_tm = True
+        self.project.save(update_fields=["autoclean_tm"])
+        legacy_automatic = Memory.objects.create(
+            source_language=source_language,
+            target_language=target_language,
+            source=source,
+            target="Stary automaticky cil",
+            origin=origin,
+            legacy_project=self.project,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.filter(memory=legacy_automatic).delete()
+
+        update_memory(
+            source_language_id=source_language.id,
+            target_language_id=target_language.id,
+            source=source,
+            context="",
+            target="Novy automaticky cil",
+            origin=origin,
+            add_shared=False,
+            add_workspace=False,
+            add_project=True,
+            add_user=False,
+            user_id=None,
+            workspace_id=None,
+            project_id=self.project.id,
+            unit_state=STATE_TRANSLATED,
+        )
+
+        self.assertFalse(Memory.objects.filter(pk=legacy_automatic.pk).exists())
         self.assertTrue(
             Memory.objects.filter(
                 source=source,
@@ -2474,6 +2560,87 @@ class MemoryViewTest(FixtureTestCase):
         )
 
         self.assertEqual(response.json()[0]["category"], CATEGORY_SHARED)
+
+    def test_global_memory_download_all_expands_compacted_scopes(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        other_project = Project.objects.create(
+            name="Other download project", slug="other-download-project"
+        )
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Global all download source",
+            target="Globalni stazeny cil",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=other_project,
+        )
+
+        response = self.client.get(
+            reverse("manage-memory-download"),
+            {"format": "json", "kind": "all"},
+        )
+        entries = [
+            entry for entry in response.json() if entry["source"] == memory.source
+        ]
+
+        self.assertEqual(len(entries), 2)
+        self.assertEqual(
+            {entry["category"] for entry in entries},
+            {
+                CATEGORY_PRIVATE_OFFSET + self.project.pk,
+                CATEGORY_PRIVATE_OFFSET + other_project.pk,
+            },
+        )
+
+    def test_project_memory_download_uses_project_category(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        other_project = Project.objects.create(
+            name="Other project download category",
+            slug="other-project-download-category",
+        )
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Project download source",
+            target="Projektovy stazeny cil",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=other_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+
+        response = self.client.get(
+            reverse("memory-download", kwargs=self.kw_project),
+            {"format": "json"},
+        )
+        entries = [
+            entry for entry in response.json() if entry["source"] == memory.source
+        ]
+
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(
+            entries[0]["category"], CATEGORY_PRIVATE_OFFSET + self.project.pk
+        )
 
     def test_memory_download_rejects_invalid_language_filter(self) -> None:
         self.user.is_superuser = True

@@ -20,7 +20,12 @@ from weblate.lang.models import Language
 from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError, MemoryScope
 from weblate.memory.tasks import import_memory
-from weblate.memory.utils import CATEGORY_SHARED
+from weblate.memory.utils import (
+    CATEGORY_FILE,
+    CATEGORY_PRIVATE_OFFSET,
+    CATEGORY_SHARED,
+    CATEGORY_USER_OFFSET,
+)
 from weblate.metrics.models import Metric
 from weblate.trans.models import Project
 from weblate.utils import messages
@@ -83,6 +88,16 @@ def get_language_filter(request: AuthenticatedHttpRequest, name: str) -> int | N
         msg = gettext("Invalid language identifier.")
         raise Http404(msg)
     return int(value)
+
+
+def get_export_category(objects: ObjectsDict) -> int | None:
+    if "project" in objects:
+        return CATEGORY_PRIVATE_OFFSET + objects["project"].pk
+    if "user" in objects:
+        return CATEGORY_USER_OFFSET + objects["user"].pk
+    if "from_file" in objects:
+        return CATEGORY_FILE
+    return None
 
 
 @method_decorator(login_required, name="dispatch")
@@ -317,7 +332,7 @@ class DownloadView(MemoryView):
         data = (
             Memory.objects.filter_type(**self.objects).prefetch_scopes().prefetch_lang()
         )
-        category = None
+        category = get_export_category(self.objects)
         if "origin" in request.GET:
             data = data.filter(origin=request.GET["origin"])
         source_language_id = get_language_filter(request, "source_language")
@@ -338,6 +353,7 @@ class DownloadView(MemoryView):
                 data = (
                     Memory.objects.filter_scope(Q()).prefetch_scopes().prefetch_lang()
                 )
+                category = None
         if fmt == "tmx":
             response = render(
                 request,
@@ -347,8 +363,10 @@ class DownloadView(MemoryView):
             )
         else:
             fmt = "json"
-            response = JsonResponse(
-                [item.as_dict(category=category) for item in data], safe=False
-            )
+            if category is None:
+                payload = [entry for item in data for entry in item.as_dicts()]
+            else:
+                payload = [item.as_dict(category=category) for item in data]
+            response = JsonResponse(payload, safe=False)
         response["Content-Disposition"] = CD_TEMPLATE.format(fmt)
         return response

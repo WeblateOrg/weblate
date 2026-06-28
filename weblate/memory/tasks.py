@@ -272,13 +272,19 @@ def update_memory(  # noqa: PLR0913
     if memory_status == Memory.STATUS_ACTIVE:
         if project.autoclean_tm:
             # delete old entries, including those with different targets
-            Memory.objects.filter(
+            matching_memory = Memory.objects.filter(
                 source=source,
                 origin=origin,
                 context=context,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
-            ).delete_scope(Q(scope__in=AUTOMATIC_SCOPE_TYPES), delete_legacy=False)
+            )
+            matching_memory.alias(
+                memory_has_scope=matching_memory.get_has_scope_exists()
+            ).filter(memory_has_scope=False, legacy_from_file=False).delete()
+            matching_memory.delete_scope(
+                Q(scope__in=AUTOMATIC_SCOPE_TYPES), delete_legacy=False
+            )
             check_matching = False
     else:
         memory_status = Memory.STATUS_PENDING
