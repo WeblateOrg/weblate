@@ -12,9 +12,9 @@ from django.utils.html import escape, format_html, format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy
 
-from weblate.checks.base import TargetCheckParametrized
+from weblate.checks.base import Highlight, TargetCheckParametrized
 from weblate.checks.parser import multi_value_flag, single_value_flag
-from weblate.checks.utils import merge_highlight_spans
+from weblate.checks.utils import merge_highlight_spans, pair_markup_highlights
 from weblate.utils.errors import report_error
 from weblate.utils.regex import regex_findall, regex_finditer
 
@@ -154,7 +154,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             return
 
         regex_flags = regex.IGNORECASE if "case-insensitive" in unit.all_flags else 0
-        spans: list[tuple[int, int, str]] = []
+        spans: list[Highlight] = []
 
         # get raw list of patterns from unit to run each independently                    continue
         for param in unit.all_flags.get_value_raw(self.enable_string):
@@ -169,7 +169,7 @@ class PlaceholderCheck(TargetCheckParametrized):
 
             try:
                 spans.extend(
-                    (match.start(), match.end(), match.group())
+                    Highlight(match.start(), match.end(), match.group(), kind="grammar")
                     for match in regex_finditer(pattern, source)
                 )
             except TimeoutError:
@@ -179,8 +179,10 @@ class PlaceholderCheck(TargetCheckParametrized):
         if not spans:
             return
 
-        spans.sort(key=lambda x: (x[0], -x[1]))
-        yield from merge_highlight_spans(source, spans)
+        spans.sort(key=lambda highlight: (highlight.start, -highlight.end))
+        yield from pair_markup_highlights(
+            merge_highlight_spans(source, spans), group_prefix="placeholder"
+        )
 
     def get_description(self, check_obj):
         unit = check_obj.unit

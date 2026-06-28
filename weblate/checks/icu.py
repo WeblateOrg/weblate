@@ -11,7 +11,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 from pyicumessageformat import Parser
 
-from weblate.checks.base import SourceCheck
+from weblate.checks.base import Highlight, SourceCheck
 from weblate.checks.format import BaseFormatCheck
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 
@@ -158,7 +158,7 @@ def extract_highlights(token, source: str):
         yield from extract_highlights(token["contents"], source)
 
     if usable:
-        yield (start, end, source[start:end])
+        yield Highlight(start, end, source[start:end], kind="grammar")
 
 
 def extract_placeholders(token, variables=None):

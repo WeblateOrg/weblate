@@ -4817,6 +4817,19 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 placeholder_texts,
                 ["management interface", "Users", "Edit", "Contribution cleanup"],
             )
+            self.assertEqual(
+                [
+                    (part["kind"], part.get("role"))
+                    for part in parts
+                    if part["type"] == "placeholder" and part["translatable"]
+                ],
+                [
+                    ("markup", "ref"),
+                    ("markup", "guilabel"),
+                    ("markup", "guilabel"),
+                    ("markup", "guilabel"),
+                ],
+            )
 
             text_translations = iter(
                 [
@@ -4847,14 +4860,8 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                         {"type": "text", "text": next(text_translations)}
                     )
                 else:
-                    output_part = {
-                        "type": "placeholder",
-                        "id": part["id"],
-                        "text": placeholder_translations[part["text"]],
-                        "translatable": part["translatable"],
-                    }
-                    if "close_id" in part:
-                        output_part["close_id"] = part["close_id"]
+                    output_part = part.copy()
+                    output_part["text"] = placeholder_translations[part["text"]]
                     output_parts.append(output_part)
 
             return json.dumps([{"parts": output_parts}])
@@ -4877,6 +4884,125 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertIn(":guilabel:`Benutzer`", translation[0][0]["text"])
         self.assertIn(":guilabel:`Bearbeiten`", translation[0][0]["text"])
         self.assertIn(":guilabel:`Beitragsbereinigung`", translation[0][0]["text"])
+
+    def test_translate_rejects_structured_markdown_autolink_target_change(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+        source = "See <https://example.com> or <noreply@example.com>."
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            protected_parts = [
+                part
+                for part in parts
+                if part["type"] == "placeholder"
+                and part["text"] in {"https://example.com", "noreply@example.com"}
+            ]
+            self.assertEqual(
+                [(part["text"], part["translatable"]) for part in protected_parts],
+                [("https://example.com", False), ("noreply@example.com", False)],
+            )
+
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "text":
+                    output_part["text"] = {"See ": "Voir ", " or ": " ou ", ".": "."}[
+                        part["text"]
+                    ]
+                elif part["text"] == "https://example.com":
+                    output_part["text"] = "https://example.org"
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                source,
+                1,
+                machine=machine,
+                unit_args={"flags": "md-text"},
+            )
+
+    def test_translate_rejects_structured_markdown_delimiter_in_wrapper_text(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "placeholder":
+                    output_part["text"] = "gras *"
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "Use **bold**.",
+                1,
+                machine=machine,
+                unit_args={"flags": "md-text"},
+            )
+
+    def test_translate_accepts_structured_markdown_existing_delimiter_in_wrapper_text(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            self.assertEqual(parts[1]["text"], "snake_case")
+            self.assertTrue(parts[1]["translatable"])
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "text":
+                    output_part["text"] = {"Use ": "Utiliser ", ".": "."}[part["text"]]
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "Use __snake_case__.",
+                1,
+                machine=machine,
+                unit_args={"flags": "md-text"},
+            )
+
+        self.assertEqual(translation[0][0]["text"], "Utiliser __snake_case__.")
 
     def test_translate_accepts_mixed_structured_and_legacy_reply(self) -> None:
         machine = self.get_machine()
@@ -5014,6 +5140,174 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 1,
                 machine=machine,
                 unit_args={"flags": "rst-text"},
+            )
+
+    def test_translate_rejects_structured_rst_delimiter_in_wrapper_text(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "placeholder":
+                    output_part["text"] = "Premier `second"
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "See :ref:`First <first>`.",
+                1,
+                machine=machine,
+                unit_args={"flags": "rst-text"},
+            )
+
+    def test_translate_rejects_structured_xml_delimiter_in_wrapper_text(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "placeholder":
+                    output_part["text"] = "ici <"
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "Click <b>here</b>",
+                1,
+                machine=machine,
+                unit_args={"flags": "xml-text"},
+            )
+
+    def test_translate_rejects_structured_escaped_markup_raw_delimiter_in_wrapper_text(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "placeholder":
+                    output_part["text"] = "ici <"
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "&lt;strong&gt;Save&lt;/strong&gt;",
+                1,
+                machine=machine,
+                unit_args={"flags": 'placeholders:r"&lt;[a-z/]+&gt;", xml-text'},
+            )
+
+    def test_translate_rejects_structured_empty_wrapper_text(self) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "placeholder":
+                    output_part["text"] = ""
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "Click <b>here</b>",
+                1,
+                machine=machine,
+                unit_args={"flags": "xml-text"},
+            )
+
+    def test_translate_rejects_structured_bbcode_delimiter_in_wrapper_text(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            output_parts = []
+            for part in parts:
+                output_part = part.copy()
+                if part["type"] == "placeholder":
+                    output_part["text"] = "ici ["
+                output_parts.append(output_part)
+            return json.dumps([{"parts": output_parts}])
+
+        with (
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            self.assert_translate(
+                "fr",
+                "Click [b]here[/b]",
+                1,
+                machine=machine,
+                unit_args={"flags": "bbcode-text"},
             )
 
     def test_translate_rejects_structured_non_text_rst_role_translation(self) -> None:
@@ -5458,6 +5752,144 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self.assertEqual(
             translation[0][0]["text"],
             "Deleted %s files",
+        )
+
+    def test_translate_accepts_reordered_structured_icu_placeholders(self) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            placeholders = [part for part in parts if part["type"] == "placeholder"]
+            self.assertEqual(
+                [part["kind"] for part in placeholders], ["grammar", "grammar"]
+            )
+            return json.dumps(
+                [
+                    {
+                        "parts": [
+                            {"type": "text", "text": "Entre "},
+                            placeholders[1],
+                            {"type": "text", "text": " et "},
+                            placeholders[0],
+                        ]
+                    }
+                ]
+            )
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "From {start} to {end}",
+                1,
+                machine=machine,
+                unit_args={"flags": "icu-message-format"},
+            )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Entre {end} et {start}",
+        )
+
+    def test_translate_accepts_reordered_structured_custom_placeholders(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            parts = json.loads(content)["strings"][0]["parts"]
+            placeholders = [part for part in parts if part["type"] == "placeholder"]
+            self.assertEqual(
+                [part["kind"] for part in placeholders], ["grammar", "grammar"]
+            )
+            return json.dumps(
+                [
+                    {
+                        "parts": [
+                            {"type": "text", "text": "Entre "},
+                            placeholders[1],
+                            {"type": "text", "text": " et "},
+                            placeholders[0],
+                        ]
+                    }
+                ]
+            )
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "From $1 to $2",
+                1,
+                machine=machine,
+                unit_args={"flags": r'placeholders:r"\$\d+"'},
+            )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Entre $2 et $1",
+        )
+
+    def test_translate_accepts_reordered_structured_overlapping_grammar_placeholders(
+        self,
+    ) -> None:
+        machine = self.get_machine()
+
+        def request_callback(
+            _prompt: str,
+            content: str,
+            _previous_content: str,
+            _previous_response: str,
+        ) -> str:
+            string = json.loads(content)["strings"][0]
+            parts = string["parts"]
+            placeholders = [part for part in parts if part["type"] == "placeholder"]
+            self.assertEqual(
+                [string["placeholders"][part["id"]] for part in placeholders],
+                ["${user.name}", "{other.name}"],
+            )
+            self.assertEqual(
+                [part["kind"] for part in placeholders], ["grammar", "grammar"]
+            )
+            return json.dumps(
+                [
+                    {
+                        "parts": [
+                            {"type": "text", "text": "Entre "},
+                            placeholders[1],
+                            {"type": "text", "text": " et "},
+                            placeholders[0],
+                        ]
+                    }
+                ]
+            )
+
+        with patch.object(
+            machine, "fetch_llm_translations", side_effect=request_callback
+        ):
+            translation = self.assert_translate(
+                "fr",
+                "From ${user.name} to {other.name}",
+                1,
+                machine=machine,
+                unit_args={"flags": r'python-brace-format, placeholders:r"\$\{\w+"'},
+            )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Entre {other.name} et ${user.name}",
         )
 
     @responses.activate
