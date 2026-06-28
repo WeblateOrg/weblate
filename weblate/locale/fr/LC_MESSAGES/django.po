@@ -35,9 +35,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 05:39+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-29 07:01+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -2749,7 +2748,7 @@ msgstr "Évènements de modification"
 
 #: weblate/addons/forms.py:1514
 msgid "Choose which change events should trigger this add-on."
-msgstr ""
+msgstr "Sélectionnez les événements qui doivent déclencher cette extension."
 
 #: weblate/addons/forms.py:1585
 #: weblate/templates/vcs/github_app_register.html:129
@@ -2790,7 +2789,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:1639
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Clé privée du client (PEM)"
 
 #: weblate/addons/forms.py:1641
 msgid ""
@@ -2820,17 +2819,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:1665
 msgid "Connection attempts"
-msgstr ""
+msgstr "Tentatives de connexion"
 
 #: weblate/addons/forms.py:1666
 msgid "How many times to try connecting to the broker."
 msgstr ""
 
 #: weblate/addons/forms.py:1673
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Détails du dépôt"
+msgstr "Délai avant nouvelle tentative"
 
 #: weblate/addons/forms.py:1674
 msgid "How many seconds to wait between connection attempts."
@@ -3047,17 +3044,13 @@ msgid "component"
 msgstr "composant"
 
 #: weblate/addons/views.py:127 weblate/addons/views.py:132
-#, fuzzy
-#| msgid "Move category"
 msgid "parent category"
-msgstr "Déplacer la catégorie"
+msgstr "catégorie parente"
 
 #: weblate/addons/views.py:133 weblate/trans/forms.py:2228
 #: weblate/trans/forms.py:2618 weblate/trans/forms.py:3210
-#, fuzzy
-#| msgid "Category"
 msgid "category"
-msgstr "Catégorie"
+msgstr "catégorie"
 
 #: weblate/addons/views.py:135
 #, fuzzy
@@ -5103,23 +5096,16 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Paramètres manquants pour le drapeau de traduction : « %s »"
 
 #: weblate/checks/flags.py:462
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Formalité"
+msgstr "Format"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Mémoire de traduction"
+msgstr "Comportement de la traduction"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Traduction"
+msgstr "Validation"
 
 #: weblate/checks/flags.py:465
 #, fuzzy
@@ -5132,11 +5118,8 @@ msgid "ICU MessageFormat"
 msgstr "ICU MessageFormat"
 
 #: weblate/checks/flags.py:467
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgid "Disabled check"
-msgstr "Erreurs de validation"
+msgstr "Vérification désactivée"
 
 #: weblate/checks/flags.py:468
 msgid "Automatic detection"
@@ -6026,6 +6009,8 @@ msgstr "Longueur de chaîne source"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"La chaîne source est trop longue et ne respecte pas la longueur maximale "
+"définie."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -6033,7 +6018,7 @@ msgstr "Plusieurs vérifications en échec"
 
 #: weblate/checks/source.py:89
 msgid "The translations in several languages have failing checks."
-msgstr "Les traductions dans plusieurs langues ont des vérifications échouées."
+msgstr "Les traductions dans plusieurs langues ont des vérifications en échec."
 
 #: weblate/checks/source.py:156
 msgid "Following checks are failing:"
@@ -7474,11 +7459,9 @@ msgstr ""
 "informel. »"
 
 #: weblate/machinery/forms.py:463
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Instructions pour l’intégration"
+msgstr "Instructions spécifiques à la langue"
 
 #: weblate/machinery/forms.py:468
 #, python-format
@@ -7555,17 +7538,11 @@ msgid "Choose custom model here to enable it."
 msgstr "Sélectionnez un modèle personnalisé pour l’activer."
 
 #: weblate/machinery/forms.py:598
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Sélection automatique"
 
 #: weblate/machinery/forms.py:602
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Modèle personnalisé"
@@ -7687,7 +7664,7 @@ msgstr "Nombre maximal de jetons à générer dans la réponse."
 #: weblate/machinery/llm.py:156
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Bonjour, @@PH1@@ !"
 
 #: weblate/machinery/llm.py:157
 msgctxt "LLM translation example"
@@ -8064,7 +8041,7 @@ msgstr "La source a été retirée."
 #, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "%(count)s chaînes sources correspondantes trouvées."
+msgstr[0] "%(count)s chaîne source correspondante trouvée."
 msgstr[1] "%(count)s chaînes sources correspondantes trouvées."
 
 #: weblate/screenshots/views.py:545
@@ -9813,33 +9790,24 @@ msgid "Add-ons"
 msgstr "Extensions"
 
 #: weblate/templates/addons/addon_components.html:40
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Compatibility"
-msgstr "Formalité"
+msgstr "Compatibilité"
 
 #: weblate/templates/addons/addon_components.html:56
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project root"
-msgstr "Projet supprimé"
+msgstr "Racine du projet"
 
 #: weblate/templates/addons/addon_components.html:61
 msgid "Compatible"
-msgstr ""
+msgstr "Compatible"
 
 #: weblate/templates/addons/addon_components.html:63
-#, fuzzy
-#| msgid "Not available"
 msgid "Not compatible"
-msgstr "Non disponible"
+msgstr "Non compatible"
 
 #: weblate/templates/addons/addon_components.html:69
-#, fuzzy
-#| msgid "No components specified"
 msgid "No components found."
-msgstr "Aucun composant spécifié"
+msgstr "Aucun composant trouvé."
 
 #: weblate/templates/addons/addon_detail.html:45
 msgid "Configure add-on"
@@ -9848,10 +9816,8 @@ msgstr "Paramétrer l’extension"
 #: weblate/templates/addons/addon_detail.html:58
 #: weblate/templates/addons/addon_detail.html:74
 #: weblate/templates/addons/addon_list.html:96
-#, fuzzy
-#| msgid "Other components"
 msgid "View components"
-msgstr "Autres composants"
+msgstr "Afficher les composants"
 
 #: weblate/templates/addons/addon_detail.html:64
 msgid "This add-on has no settings."
@@ -9922,10 +9888,8 @@ msgstr[0] "Module complémentaire installé : %(count)s"
 msgstr[1] "Modules complémentaires installés : %(count)s"
 
 #: weblate/templates/addons/addon_list.html:68
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherited from"
-msgstr "Drapeaux hérités"
+msgstr "Hérité de"
 
 #: weblate/templates/addons/addon_list.html:77
 #, fuzzy, python-format
@@ -11260,12 +11224,10 @@ msgid "Diagnostics"
 msgstr "Diagnostics"
 
 #: weblate/templates/component.html:31
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
-msgstr[0] "Erreur"
-msgstr[1] "Erreur"
+msgstr[0] "erreur"
+msgstr[1] "erreurs"
 
 #: weblate/templates/component.html:52 weblate/templates/project.html:47
 msgid "Download language statistics (CSV)"
@@ -12021,23 +11983,16 @@ msgstr ""
 "données."
 
 #: weblate/templates/js/git-status.html:229
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Noms de fichiers"
+msgstr "Gestion des fichiers"
 
 #: weblate/templates/js/git-status.html:237
-#, fuzzy
-#| msgid "Removed category"
 msgid "Remove duplicates"
-msgstr "Catégorie supprimée"
+msgstr "Supprimer les doublons"
 
 #: weblate/templates/js/git-status.html:238
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove duplicated strings from the translation file"
-msgstr ""
-"Force l’écriture de toutes les chaînes dans les fichiers de traduction."
+msgstr "Supprimer les chaînes en double du fichier de traduction"
 
 #: weblate/templates/js/git-status.html:240
 #, fuzzy
@@ -12228,7 +12183,7 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:155
 msgid "Ignore one item in the list of failing checks."
-msgstr "Ignorer un élément de la liste des contrôles de qualité défaillants."
+msgstr "Ignorer un élément de la liste des vérifications en échec."
 
 #: weblate/templates/keyboard-shortcuts.html:163
 msgid "Shows the Nearby strings tab."
@@ -14973,7 +14928,7 @@ msgstr "Chaînes avec des commentaires vous mentionnant"
 #: weblate/templates/snippets/query-builder.html:155 weblate/trans/filter.py:40
 #: weblate/trans/filter.py:129
 msgid "Strings with any failing checks"
-msgstr "Chaînes avec des erreurs de validation"
+msgstr "Chaînes avec des vérifications en échec"
 
 #: weblate/templates/snippets/query-builder.html:164
 msgid "Strings with suggestions from others"
@@ -15322,21 +15277,21 @@ msgid "Watch component %(component)s"
 msgstr "Surveiller le composant %(component)s"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:32
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid ""
 "You are about to continue resetting the password for your Weblate account."
-msgstr "Définissez le mot de passe de votre compte Weblate"
+msgstr ""
+"Vous êtes sur le point de réinitialiser le mot de passe de votre compte "
+"Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:34
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid "You are about to continue removing your Weblate account."
-msgstr "Définissez le mot de passe de votre compte Weblate"
+msgstr "Vous êtes sur le point de supprimer votre compte Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:36
 msgid "You are about to accept an invitation and create a Weblate account."
 msgstr ""
+"Vous êtes sur le point d'accepter une invitation et de créer un compte "
+"Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:38
 #, fuzzy
@@ -15368,10 +15323,8 @@ msgid "Accept invitation"
 msgstr "Accepter l’invitation"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:62
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create account"
-msgstr "Créer un compte en utilisant :"
+msgstr "Créer un compte"
 
 #: weblate/templates/trans/alert/addonscripterror.html:3
 msgid "Weblate could not execute script add-on."
@@ -15656,10 +15609,8 @@ msgstr ""
 "identifiant dans les fichiers de traduction."
 
 #: weblate/templates/trans/alert/duplicatestring.html:42
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
-msgstr "Supprimer les chaînes constituées d’espaces"
+msgstr "Supprimer les chaînes en double"
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:3
 msgid ""
@@ -16052,7 +16003,7 @@ msgstr "Démarrer de zéro"
 
 #: weblate/templates/trans/component_create.html:45
 msgid "From GitHub"
-msgstr ""
+msgstr "Depuis GitHub"
 
 #: weblate/templates/trans/component_create.html:53
 #: weblate/templates/trans/component_form.html:13
@@ -16141,19 +16092,15 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add or configure account"
-msgstr "Configuration incorrecte"
+msgstr "Ajouter ou configurer un compte"
 
 #: weblate/templates/trans/component_create.html:206
 #: weblate/templates/vcs/github_app_register.html:105
 #: weblate/templates/vcs/github_installation_detail.html:99
 #: weblate/templates/vcs/github_repository_list.html:77
-#, fuzzy
-#| msgid "Visibility changed"
 msgid "Visibility"
-msgstr "Visibilité changée"
+msgstr "Visibilité"
 
 #: weblate/templates/trans/component_create.html:231
 #: weblate/templates/vcs/github_installation_detail.html:123
@@ -16480,7 +16427,7 @@ msgstr "Ceci est votre clé personnelle d’API, ne la partagez avec personne."
 
 #: weblate/templates/trans/project-access.html:483
 msgid "Error while loading form:"
-msgstr ""
+msgstr "Erreur lors du chargement du formulaire :"
 
 #: weblate/templates/trans/project_form.html:12
 msgid "Import translation project"
@@ -17041,12 +16988,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/account_integrations.html:56
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub App"
-msgstr "Étoile GitHub"
+msgstr "GitHub App"
 
 #: weblate/templates/vcs/account_integrations.html:60
 #, fuzzy
@@ -17072,15 +17015,13 @@ msgstr "Supprimer le compte"
 #: weblate/templates/vcs/github_installation_list.html:58
 #: weblate/templates/vcs/github_repository_list.html:19
 msgid "Connect GitHub account"
-msgstr ""
+msgstr "Connecter un compte GitHub"
 
 #: weblate/templates/vcs/account_integrations.html:97
 #: weblate/templates/vcs/github_installation_list.html:134
 #: weblate/templates/vcs/github_repository_list.html:28
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connected accounts"
-msgstr "Supprimer le compte"
+msgstr "Comptes connectés"
 
 #: weblate/templates/vcs/account_integrations.html:104
 #: weblate/templates/vcs/github_installation_detail.html:51
@@ -17111,7 +17052,7 @@ msgstr "Désactiver"
 #: weblate/templates/vcs/account_integrations.html:135
 #: weblate/templates/vcs/github_repository_list.html:53
 msgid "Refresh"
-msgstr ""
+msgstr "Actualiser"
 
 #: weblate/templates/vcs/account_integrations.html:148
 #, fuzzy
@@ -17124,10 +17065,8 @@ msgstr "Vous n’avez pas encore de compte ?"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/wladmin/views.py:112
-#, fuzzy
-#| msgid "Invitations"
 msgid "VCS Installations"
-msgstr "Invitations"
+msgstr "Installations VCS"
 
 #: weblate/templates/vcs/github_app_register.html:12
 #: weblate/templates/vcs/github_app_register.html:19
@@ -17160,12 +17099,8 @@ msgstr ""
 #: weblate/templates/vcs/github_app_register.html:52
 #: weblate/templates/vcs/github_app_register_submit.html:34
 #: weblate/templates/vcs/github_installation_list.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub host"
-msgstr "Étoile GitHub"
+msgstr "Hôte GitHub"
 
 #: weblate/templates/vcs/github_app_register.html:61
 msgid ""
@@ -17181,7 +17116,7 @@ msgstr "Justification de cette traduction"
 
 #: weblate/templates/vcs/github_app_register.html:76
 msgid "Leave blank to register on your personal account"
-msgstr ""
+msgstr "Ne rien indiquer pour vous connecter à votre compte personnel"
 
 #: weblate/templates/vcs/github_app_register.html:78
 msgid ""
@@ -17205,7 +17140,7 @@ msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:115
 msgid "Public (any GitHub account can install it)"
-msgstr ""
+msgstr "Public (n'importe quel compte GitHub peut l'installer)"
 
 #: weblate/templates/vcs/github_app_register.html:119
 msgid ""
@@ -17262,10 +17197,9 @@ msgid "Organization"
 msgstr "Organisation"
 
 #: weblate/templates/vcs/github_app_register_submit.html:54
-#, fuzzy, python-format
-#| msgid "Continue to %(return_target)s"
+#, python-format
 msgid "Continue to %(host)s"
-msgstr "Continuer jusqu’à %(return_target)s"
+msgstr "Continuer sur %(host)s"
 
 #: weblate/templates/vcs/github_install_help.html:4
 msgid ""
@@ -17295,15 +17229,14 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_install_select.html:22
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Install on %(hostname)s"
-msgstr "Invitation à %(project_name)s"
+msgstr "Installer %(hostname)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
 msgid "Connected GitHub account: %(login)s"
-msgstr ""
+msgstr "Compte GitHub connecté : %(login)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:32
 #, fuzzy
@@ -17378,11 +17311,11 @@ msgstr ""
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:400
 msgid "App ID"
-msgstr ""
+msgstr "App ID"
 
 #: weblate/templates/vcs/github_installation_list.html:79
 msgid "Slug"
-msgstr ""
+msgstr "Slug"
 
 #: weblate/templates/vcs/github_installation_list.html:101
 msgid "Remove Weblate GitHub App?"
@@ -18426,10 +18359,9 @@ msgid "No workspace"
 msgstr "Aucun espace de travail"
 
 #: weblate/trans/change_display.py:297
-#, fuzzy, python-format
-#| msgid "%(setting)s changed from \"%(old)s\" to \"%(target)s\"."
+#, python-format
 msgid "Project moved from \"%(old)s\" to \"%(target)s\"."
-msgstr "%(setting)s a changé de \"%(old)s\" à \"%(target)s\"."
+msgstr "Projet déplacé de \"%(old)s\" vers \"%(target)s\"."
 
 #: weblate/trans/change_display.py:380
 msgid "Original revision: {}"
@@ -18921,7 +18853,7 @@ msgstr "Chaînes non terminées sans suggestions"
 
 #: weblate/trans/filter.py:43
 msgid "Translated strings with any failing checks"
-msgstr "Chaînes traduites avec des erreurs de validation"
+msgstr "Chaînes traduites avec des vérifications en échec"
 
 #: weblate/trans/filter.py:48
 msgid "Translated strings with dismissed checks"
@@ -21925,15 +21857,12 @@ msgid "File upload has failed: %s"
 msgstr "Échec de téléversement du fichier : %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Il est traduit en <strong>%(count)s langue</strong>."
-msgstr[1] "Il est traduit en <strong>%(count)s langues</strong>."
+msgstr[0] "Le {project} est traduit dans {count} langue à l’aide de Weblate."
+msgstr[1] "Le {project} est traduit dans {count} langues à l’aide de Weblate."
 
 #: weblate/trans/util.py:292
 #, fuzzy
@@ -22252,11 +22181,11 @@ msgid_plural ""
 "The translation has been saved, however there are some newly failing checks: "
 "{checks}"
 msgstr[0] ""
-"La traduction a été enregistrée mais il y a de nouvelles erreurs de "
-"vérifications : {checks}"
+"La traduction a été enregistrée mais il y a une nouvelle vérification en "
+"échec : {checks}"
 msgstr[1] ""
-"Les traductions ont été enregistrées mais il y a de nouvelles erreurs de "
-"vérifications : {checks}"
+"La traduction a été enregistrée mais il y a de nouvelles vérifications en "
+"échec : {checks}"
 
 #: weblate/trans/views/edit.py:798
 msgid "Your suggestion is empty!"
@@ -22643,7 +22572,7 @@ msgstr "Badge de statut SVG"
 
 #: weblate/trans/widgets.py:440
 msgid "Capitalize"
-msgstr ""
+msgstr "Mettre en majuscules"
 
 #: weblate/trans/widgets.py:447
 msgid "translated"
@@ -23259,7 +23188,7 @@ msgstr "Nombre de commentaires"
 
 #: weblate/utils/views.py:240
 msgid "Number of failing checks"
-msgstr "Nombre de validations en échec"
+msgstr "Nombre de vérifications en échec"
 
 #: weblate/utils/views.py:242
 msgid "String location"
@@ -23312,10 +23241,9 @@ msgid "This will push changes to the upstream repository."
 msgstr "Cela va pousser les modifications vers le dépôt en amont."
 
 #: weblate/vcs/git.py:124 weblate/vcs/git.py:1671
-#, fuzzy, python-format
-#| msgid "Too many messages sent, please try again later."
+#, python-format
 msgid "%(message)s Please retry later."
-msgstr "Trop de messages envoyés, veuillez réessayer plus tard."
+msgstr "%(message)s Veuillez réessayer plus tard."
 
 #: weblate/vcs/git.py:172
 msgid "This will push changes to the upstream Git repository."
@@ -23455,7 +23383,7 @@ msgstr "Abrégé de l’URL"
 
 #: weblate/vcs/github.py:402
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "Clé privée (PEM)"
 
 #: weblate/vcs/github.py:404
 #, fuzzy
@@ -23787,7 +23715,7 @@ msgstr "Compte utilisateur {} créé."
 
 #: weblate/vcs/views.py:658
 msgid "Connected GitHub account updated."
-msgstr ""
+msgstr "Le compte GitHub connecté a été mis à jour."
 
 #: weblate/vcs/views.py:940
 #, python-format
