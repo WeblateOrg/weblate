@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, BinaryIO, NotRequired, Self, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
-from django.db import models, transaction
+from django.db import models, router, transaction
 from django.db.models import Exists, F, OuterRef, Prefetch, Q, Value
 from django.db.models.functions import MD5
 from django.utils import timezone
@@ -99,6 +99,11 @@ def load_memory_tmx_store(fileobj: BinaryIO):
 
 
 class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
+    def using_write_db(self) -> Self:
+        if self.db != "memory_db":
+            return self
+        return self.using(router.db_for_write(self.model) or "default")
+
     def get_scope_exists(self, scope_query: Q) -> Exists:
         return Exists(
             MemoryScope.objects.using(self.db).filter(
@@ -206,28 +211,29 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         # TODO(2028.1): Remove legacy unscoped cleanup once Weblate no longer
         # supports direct upgrades from 2026 releases. Runtime visibility is
         # scope-only; this exists for the temporary migration/backfill window.
-        memory_query = self.order_by().values("pk")
+        queryset = self.using_write_db()
+        memory_query = queryset.order_by().values("pk")
         if delete_legacy:
-            self.alias(memory_has_scope=self.get_has_scope_exists()).filter(
+            queryset.alias(memory_has_scope=queryset.get_has_scope_exists()).filter(
                 memory_has_scope=False
             ).delete()
 
-        matching_scope = MemoryScope.objects.using(self.db).filter(
+        matching_scope = MemoryScope.objects.using(queryset.db).filter(
             scope_query, memory_id=OuterRef("pk")
         )
         remaining_scope = (
-            MemoryScope.objects.using(self.db)
+            MemoryScope.objects.using(queryset.db)
             .filter(memory_id=OuterRef("pk"))
             .exclude(scope_query)
         )
-        Memory.objects.using(self.db).filter(pk__in=memory_query).alias(
+        Memory.objects.using(queryset.db).filter(pk__in=memory_query).alias(
             has_matching_scope=Exists(matching_scope),
             has_remaining_scope=Exists(remaining_scope),
         ).filter(has_matching_scope=True, has_remaining_scope=False).delete()
 
-        MemoryScope.objects.using(self.db).filter(memory_id__in=memory_query).filter(
-            scope_query
-        ).delete()
+        MemoryScope.objects.using(queryset.db).filter(
+            memory_id__in=memory_query
+        ).filter(scope_query).delete()
 
     def filter(self, *args, **kwargs) -> Self:
         # Use MD5 for filtering to utilize MD5 index
@@ -987,6 +993,14 @@ class Memory(models.Model):
 
 
 class MemoryScopeManager(models.Manager["MemoryScope"]):
+    def get_write_db_for_memory(self, memory: Memory | None = None) -> str:
+        if self._db is not None and self._db != "memory_db":
+            return self._db
+        memory_db = None if memory is None else memory._state.db  # noqa: SLF001
+        if memory_db is not None and memory_db != "memory_db":
+            return memory_db
+        return router.db_for_write(self.model, instance=memory) or "default"
+
     def get_for_update_entry(
         self,
         *,
@@ -1095,14 +1109,20 @@ class MemoryScopeManager(models.Manager["MemoryScope"]):
     def create_for_memory(self, memory: Memory) -> None:
         scopes = self.get_for_memory(memory)
         if scopes:
-            self.bulk_create(scopes, ignore_conflicts=True)
+            self.db_manager(self.get_write_db_for_memory(memory)).bulk_create(
+                scopes, ignore_conflicts=True
+            )
 
     def bulk_create_for_memories(self, memories) -> None:
+        memories = list(memories)
         scopes = []
         for memory in memories:
             scopes.extend(self.get_for_memory(memory))
         if scopes:
-            self.bulk_create(scopes, ignore_conflicts=True)
+            memory = memories[0] if memories else None
+            self.db_manager(self.get_write_db_for_memory(memory)).bulk_create(
+                scopes, ignore_conflicts=True
+            )
 
 
 class MemoryScopeChoices(models.IntegerChoices):

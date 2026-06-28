@@ -15,7 +15,7 @@ from django.apps import apps as django_apps
 from django.core.exceptions import FieldDoesNotExist, FieldError
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.db import connection
+from django.db import connection, models
 from django.db.models import Q
 from django.db.models.functions import MD5
 from django.test import SimpleTestCase
@@ -79,6 +79,18 @@ def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
     )
 
 
+class MemoryReadReplicaRouter:
+    def db_for_read(self, model: type[models.Model], **_hints: object) -> str | None:
+        if model._meta.app_label == "memory":  # noqa: SLF001
+            return "memory_db"
+        return None
+
+    def db_for_write(self, model: type[models.Model], **_hints: object) -> str | None:
+        if model._meta.app_label == "memory":  # noqa: SLF001
+            return "default"
+        return None
+
+
 class MemoryParserTest(SimpleTestCase):
     def test_load_memory_json_data(self) -> None:
         data = load_memory_json_data(Path(get_test_file("memory.json")).read_bytes())
@@ -129,13 +141,17 @@ class MemoryParserTest(SimpleTestCase):
         exact_match = self.get_matching_memory("source 1", "target 1")
         cross_pair = self.get_matching_memory("source 1", "target 2")
 
+        memory_objects = MagicMock()
+        memory_objects.filter.return_value = [exact_match, cross_pair]
         with patch.object(
-            Memory.objects, "filter", return_value=[exact_match, cross_pair]
-        ) as filter_mock:
+            Memory.objects, "using", return_value=memory_objects
+        ) as using_mock:
             existing, to_update = get_group_matching_memory(
                 ("origin", 1, 2), entries, statuses
             )
 
+        using_mock.assert_called_once_with("default")
+        filter_mock = memory_objects.filter
         args, kwargs = filter_mock.call_args
         self.assertNotIn("source__in", kwargs)
         self.assertNotIn("target__in", kwargs)
@@ -169,9 +185,15 @@ class MemoryParserTest(SimpleTestCase):
         ]
         statuses = {key: status for _, key, _, status in entries}
 
-        with patch.object(Memory.objects, "filter", return_value=[]) as filter_mock:
+        memory_objects = MagicMock()
+        memory_objects.filter.return_value = []
+        with patch.object(
+            Memory.objects, "using", return_value=memory_objects
+        ) as using_mock:
             get_group_matching_memory(("origin", 1, 2), entries, statuses)
 
+        using_mock.assert_called_once_with("default")
+        filter_mock = memory_objects.filter
         self.assertEqual(filter_mock.call_count, 2)
         first_args, first_kwargs = filter_mock.call_args_list[0]
         second_args, second_kwargs = filter_mock.call_args_list[1]
@@ -1907,6 +1929,29 @@ msgstr "Nazdar svete!\n"
                 scope=MemoryScope.SCOPE_USER, user=self.user
             ).exists()
         )
+
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReadReplicaRouter"]
+    )
+    def test_delete_scope_uses_write_database_alias(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        memory = Memory.objects.create(
+            source_language=source_language,
+            target_language=target_language,
+            source="Delete scope routed source",
+            target="Smazat smerovany rozsah",
+            origin="delete-scope-routed",
+            legacy_project=self.project,
+            status=Memory.STATUS_ACTIVE,
+        )
+        queryset = Memory.objects.filter(origin="delete-scope-routed")
+
+        self.assertEqual(queryset.db, "memory_db")
+
+        queryset.delete_scope(Q(scope=MemoryScope.SCOPE_PROJECT, project=self.project))
+
+        self.assertFalse(Memory.objects.using("default").filter(pk=memory.pk).exists())
 
     def test_filter_type_skips_unbackfilled_legacy_entries(self) -> None:
         workspace = Workspace.objects.create(
