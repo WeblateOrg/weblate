@@ -37,6 +37,7 @@ from weblate.utils.translation import pgettext_noop
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.checks.base import Highlight, HighlightKind
     from weblate.lang.models import Plural
     from weblate.trans.models import Component, Translation, Unit
 
@@ -84,6 +85,7 @@ Input is provided as JSON with the following schema:
                 {{
                     "type": "placeholder",
                     "id": "@@PH1@@",
+                    "kind": "syntax",
                     "text": "",
                     "translatable": false
                 }},
@@ -141,7 +143,7 @@ Rules:
 11. Output must be a single JSON array containing one item per input string. Prefer structured objects with a "parts" array when the input has "parts"; legacy JSON strings are accepted only if placeholders are preserved exactly.
 12. Do not include markdown code fences or any additional text.
 13. The number of output elements must exactly match the number of input strings. Do not emit empty extra strings, diagnostics, explanations, or metadata.
-14. For structured output, each item must be an object containing only "parts". The output parts array must have the same placeholder parts as the input. Text parts may be split or merged. Grammar placeholder parts may be reordered within the same surrounding markup if required by target language grammar; markup and syntax placeholder parts must keep source order. Placeholder part type, id, close_id, and translatable values must be preserved.
+14. For structured output, each item must be an object containing only "parts". The output parts array must have the same placeholder parts as the input. Text parts may be split or merged. Grammar placeholder parts may be reordered within the same surrounding markup if required by target language grammar; markup and syntax placeholder parts must keep source order. Placeholder part type, id, kind, role, close_id, and translatable values must be preserved.
 15. For structured text parts, translate the "text" value. For structured placeholder parts, preserve metadata and translate "text" only when "translatable" is true; when "translatable" is false, keep "text" unchanged.
 16. Ensure all output strings are properly JSON-escaped.
 17. Internally verify placeholder integrity and JSON validity before responding.
@@ -184,33 +186,6 @@ LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES = (
 LLM_JSON_ARRAY_STRING_TERMINATORS = frozenset({",", "]"})
 LLM_JSON_OBJECT_KEY_STRING_TERMINATORS = frozenset({":"})
 LLM_JSON_OBJECT_VALUE_STRING_TERMINATORS = frozenset({",", "}"})
-LLM_MARKUP_PLACEHOLDER_MARKERS = ("<", ">", "&lt;", "&gt;", "[", "]", "`", "*")
-LLM_CONTROL_PLACEHOLDER_MARKERS = (
-    *LLM_MARKUP_PLACEHOLDER_MARKERS,
-    "%",
-    "&",
-    "$",
-    "\\",
-    "[",
-    "]",
-    "{",
-    "}",
-)
-LLM_SINGLE_CHARACTER_MARKUP_DELIMITERS = frozenset({"`", "*"})
-LLM_TRANSLATABLE_RST_ROLES = frozenset(
-    {
-        "abbr",
-        "code",
-        "dfn",
-        "guilabel",
-        "index",
-        "kbd",
-        "menuselection",
-        "samp",
-        "sub",
-        "sup",
-    }
-)
 
 
 class LLMGlossaryEntry(TypedDict, total=False):
@@ -254,9 +229,11 @@ class LLMTextPart(TypedDict):
 class LLMPlaceholderPart(TypedDict):
     type: Literal["placeholder"]
     id: str
+    kind: HighlightKind
     text: str
     translatable: bool
     close_id: NotRequired[str]
+    role: NotRequired[str]
 
 
 type LLMStringPart = LLMTextPart | LLMPlaceholderPart
@@ -574,9 +551,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return hash_to_checksum(calculate_hash(json.dumps(entries, sort_keys=True)))
 
     @classmethod
-    def _get_placeholder_context(
+    def _get_placeholder_specs(
         cls, source_text: str, unit: Unit | None, source_occurrence: int = 0
-    ) -> dict[str, str]:
+    ) -> dict[str, Highlight]:
         placeholder_specs = cls._iter_source_placeholder_specs(
             source_text, unit, source_occurrence
         )
@@ -584,49 +561,19 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return {}
         return dict(placeholder_specs)
 
-    @staticmethod
-    def _get_rst_prefix_role(opening: str) -> str | None:
-        if opening.startswith(":") and opening.endswith(":`"):
-            role = opening[1:-2]
-            if role:
-                return role.lower()
-        return None
-
-    @staticmethod
-    def _get_rst_suffix_role(closing: str) -> str | None:
-        if closing.startswith("`:") and closing.endswith(":"):
-            role = closing[2:-1]
-            if role:
-                return role.lower()
-        return None
-
     @classmethod
-    def _is_rst_placeholder_wrapper(cls, opening: str, closing: str) -> bool:
-        return (
-            cls._get_rst_prefix_role(opening) is not None and closing.endswith("`")
-        ) or (opening == "`" and cls._get_rst_suffix_role(closing) is not None)
-
-    @staticmethod
-    def _is_angle_placeholder_wrapper(opening: str, closing: str) -> bool:
-        return (opening, closing) in {("<", ">"), ("&lt;", "&gt;")}
-
-    @classmethod
-    def _is_placeholder_wrapper(cls, opening: str, closing: str) -> bool:
-        return cls._is_rst_placeholder_wrapper(
-            opening, closing
-        ) or cls._is_angle_placeholder_wrapper(opening, closing)
-
-    @classmethod
-    def _is_translatable_placeholder_wrapper(cls, opening: str, closing: str) -> bool:
-        role = cls._get_rst_prefix_role(opening)
-        if role is not None:
-            return closing != "`" or role in LLM_TRANSLATABLE_RST_ROLES
-
-        role = cls._get_rst_suffix_role(closing)
-        if role is not None and opening == "`":
-            return role in LLM_TRANSLATABLE_RST_ROLES
-
-        return False
+    def _get_placeholder_context(
+        cls, source_text: str, unit: Unit | None, source_occurrence: int = 0
+    ) -> dict[str, str]:
+        placeholder_specs = cls._get_placeholder_specs(
+            source_text, unit, source_occurrence
+        )
+        if not placeholder_specs:
+            return {}
+        return {
+            placeholder: highlight.text
+            for placeholder, highlight in placeholder_specs.items()
+        }
 
     @staticmethod
     def _append_llm_text_part(parts: list[LLMStringPart], text: str) -> None:
@@ -637,58 +584,67 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return
         parts.append({"type": "text", "text": text})
 
+    @staticmethod
+    def _get_placeholder_part(
+        token: str, highlight: Highlight | None
+    ) -> LLMPlaceholderPart:
+        part: LLMPlaceholderPart = {
+            "type": "placeholder",
+            "id": token,
+            "kind": highlight.kind if highlight is not None else "syntax",
+            "text": "",
+            "translatable": False,
+        }
+        if highlight is not None and highlight.role is not None:
+            part["role"] = highlight.role
+        return part
+
     @classmethod
     def _get_string_parts(
-        cls, source_text: str, unit: Unit | None, source_occurrence: int = 0
+        cls,
+        source_text: str,
+        unit: Unit | None,
+        source_occurrence: int = 0,
+        placeholder_specs: dict[str, Highlight] | None = None,
     ) -> list[LLMStringPart]:
         placeholder_matches = cls._iter_placeholder_matches(source_text)
         if not placeholder_matches:
             return [{"type": "text", "text": source_text}]
 
-        placeholders = cls._get_placeholder_context(
-            source_text, unit, source_occurrence
-        )
+        if placeholder_specs is None:
+            placeholder_specs = cls._get_placeholder_specs(
+                source_text, unit, source_occurrence
+            )
         parts: list[LLMStringPart] = []
         current = 0
         index = 0
         while index < len(placeholder_matches):
             start, end, token = placeholder_matches[index]
             cls._append_llm_text_part(parts, source_text[current:start])
+            highlight = placeholder_specs.get(token)
 
             if index + 1 < len(placeholder_matches):
                 next_start, next_end, next_token = placeholder_matches[index + 1]
                 inner_text = source_text[end:next_start]
-                opening = placeholders.get(token)
-                closing = placeholders.get(next_token)
+                opening = highlight
+                closing = placeholder_specs.get(next_token)
                 if (
                     inner_text
                     and opening is not None
                     and closing is not None
-                    and cls._is_placeholder_wrapper(opening, closing)
+                    and opening.group is not None
+                    and opening.group == closing.group
                 ):
-                    parts.append(
-                        {
-                            "type": "placeholder",
-                            "id": token,
-                            "close_id": next_token,
-                            "text": inner_text,
-                            "translatable": cls._is_translatable_placeholder_wrapper(
-                                opening, closing
-                            ),
-                        }
-                    )
+                    part = cls._get_placeholder_part(token, opening)
+                    part["close_id"] = next_token
+                    part["text"] = inner_text
+                    part["translatable"] = opening.translatable or closing.translatable
+                    parts.append(part)
                     current = next_end
                     index += 2
                     continue
 
-            parts.append(
-                {
-                    "type": "placeholder",
-                    "id": token,
-                    "text": "",
-                    "translatable": False,
-                }
-            )
+            parts.append(cls._get_placeholder_part(token, highlight))
             current = end
             index += 1
 
@@ -1548,26 +1504,26 @@ class BaseLLMTranslation(BatchMachineTranslation):
     @classmethod
     def _cleanup_source_variant(
         cls, source_variant: str, unit: Unit
-    ) -> tuple[str, list[tuple[str, str]]]:
+    ) -> tuple[str, list[tuple[str, Highlight]]]:
         parts: list[str] = []
-        specs: list[tuple[str, str]] = []
+        specs: list[tuple[str, Highlight]] = []
         start = 0
-        for highlight_start, highlight_end, highlight_text in highlight_string(
+        for highlight in highlight_string(
             source_variant,
             unit,
             highlight_syntax=cls.highlight_syntax,
         ):
-            token = f"{cls.replacement_start}{highlight_start}{cls.replacement_end}"
-            parts.extend((source_variant[start:highlight_start], token))
-            specs.append((token, highlight_text))
-            start = highlight_end
+            token = f"{cls.replacement_start}{highlight.start}{cls.replacement_end}"
+            parts.extend((source_variant[start : highlight.start], token))
+            specs.append((token, highlight))
+            start = highlight.end
         parts.append(source_variant[start:])
         return "".join(parts), specs
 
     @classmethod
     def _iter_source_placeholder_specs(
         cls, source_text: str, unit: Unit | None, source_occurrence: int = 0
-    ) -> list[tuple[str, str]] | None:
+    ) -> list[tuple[str, Highlight]] | None:
         source_placeholders = [
             token for token, _end in cls._iter_placeholders(source_text)
         ]
@@ -1577,7 +1533,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         source_variants = dict.fromkeys(
             chain(getattr(unit, "plural_map", ()), unit.get_source_plurals())
         )
-        matching_specs: list[list[tuple[str, str]]] = []
+        matching_specs: list[list[tuple[str, Highlight]]] = []
         for source_variant in source_variants:
             cleaned_source, specs = cls._cleanup_source_variant(source_variant, unit)
             if cleaned_source == source_text:
@@ -1595,17 +1551,17 @@ class BaseLLMTranslation(BatchMachineTranslation):
         translation: str,
         unit: Unit,
         placeholder_matches: list[tuple[int, int, str]],
-    ) -> list[tuple[int, int, str]]:
-        highlights: list[tuple[int, int, str]] = []
-        for start, end, highlight_text in highlight_string(
+    ) -> list[Highlight]:
+        highlights: list[Highlight] = []
+        for highlight in highlight_string(
             translation, unit, highlight_syntax=cls.highlight_syntax
         ):
             if any(
-                start < placeholder_end and end > placeholder_start
+                highlight.start < placeholder_end and highlight.end > placeholder_start
                 for placeholder_start, placeholder_end, _token in placeholder_matches
             ):
                 continue
-            highlights.append((start, end, highlight_text))
+            highlights.append(highlight)
         return highlights
 
     @classmethod
@@ -1664,8 +1620,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return None
 
         remaining_source_specs = [
-            (token, highlight_text)
-            for token, highlight_text in source_specs
+            (token, highlight.text)
+            for token, highlight in source_specs
             if token not in placeholder_tokens
         ]
         tokens_by_highlight_text: defaultdict[str, list[str]] = defaultdict(list)
@@ -1673,11 +1629,13 @@ class BaseLLMTranslation(BatchMachineTranslation):
             tokens_by_highlight_text[highlight_text].append(token)
 
         highlight_replacements: list[tuple[int, int, str]] = []
-        for start, end, highlight_text in translation_highlights:
-            tokens = tokens_by_highlight_text.get(highlight_text)
+        for highlight in translation_highlights:
+            tokens = tokens_by_highlight_text.get(highlight.text)
             if not tokens:
                 return None
-            highlight_replacements.append((start, end, tokens.pop(0)))
+            highlight_replacements.append(
+                (highlight.start, highlight.end, tokens.pop(0))
+            )
 
         replacements = [
             *placeholder_matches,
@@ -1700,7 +1658,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         source_text: str,
         unit: Unit | None,
         placeholder_matches: list[tuple[int, int, str]],
-        translation_highlights: list[tuple[int, int, str]],
+        translation_highlights: list[Highlight],
     ) -> str | None:
         if unit is None:
             return None
@@ -1718,7 +1676,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return None
 
         extra_token = next(iter(extras))
-        source_highlights = dict(source_specs)
+        source_highlights = {token: highlight.text for token, highlight in source_specs}
         if extra_token not in source_highlights:
             return None
         extra_index = source_tokens.index(extra_token)
@@ -1741,7 +1699,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if len(matches_by_token) != expected_counts[extra_token] + 1:
             return None
 
-        highlight_starts = [start for start, _end, _text in translation_highlights]
+        highlight_starts = [highlight.start for highlight in translation_highlights]
         candidates = [
             (start, end)
             for start, end in matches_by_token
@@ -1828,63 +1786,81 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return translations
 
     @staticmethod
-    def _is_protected_syntax_fragment(
-        text: str, include_single_character: bool
-    ) -> bool:
-        if text in LLM_SINGLE_CHARACTER_MARKUP_DELIMITERS:
-            return include_single_character
-        return any(marker in text for marker in LLM_CONTROL_PLACEHOLDER_MARKERS)
-
-    @staticmethod
-    def _is_markup_placeholder_text(text: str) -> bool:
-        return any(marker in text for marker in LLM_MARKUP_PLACEHOLDER_MARKERS)
-
-    @staticmethod
-    def _extract_single_character_syntax_counts(text: str) -> Counter[str]:
-        return Counter(
-            character
-            for character in text
-            if character in LLM_SINGLE_CHARACTER_MARKUP_DELIMITERS
-        )
+    def _is_protected_highlight(highlight: Highlight) -> bool:
+        return highlight.kind in {"markup", "syntax"}
 
     @classmethod
-    def _has_protected_syntax(
+    def _get_protected_highlight_texts(
+        cls, placeholder_specs: dict[str, Highlight]
+    ) -> frozenset[str]:
+        return frozenset(
+            highlight.text
+            for highlight in placeholder_specs.values()
+            if highlight.text and cls._is_protected_highlight(highlight)
+        )
+
+    @staticmethod
+    def _is_atomic_protected_highlight_text(text: str) -> bool:
+        return len(text) == 1
+
+    @classmethod
+    def _has_protected_highlight_text(
         cls,
         text: str,
-        source_text: str,
-        unit: Unit | None,
-        source_occurrence: int,
+        protected_texts: frozenset[str],
         *,
-        include_single_character: bool = False,
+        include_atomic: bool = False,
     ) -> bool:
         return any(
             protected in text
-            for protected in cls._get_placeholder_context(
-                source_text, unit, source_occurrence
-            ).values()
-            if cls._is_protected_syntax_fragment(protected, include_single_character)
+            for protected in protected_texts
+            if include_atomic or not cls._is_atomic_protected_highlight_text(protected)
+        )
+
+    @classmethod
+    def _extract_atomic_protected_highlight_counts(
+        cls, text: str, protected_texts: frozenset[str]
+    ) -> Counter[str]:
+        atomic_protected_texts = {
+            protected
+            for protected in protected_texts
+            if cls._is_atomic_protected_highlight_text(protected)
+        }
+        return Counter(
+            character for character in text if character in atomic_protected_texts
         )
 
     @classmethod
     def _is_structured_placeholder_reorderable(
-        cls, expected: LLMPlaceholderPart, placeholders: dict[str, str]
+        cls, expected: LLMPlaceholderPart
     ) -> bool:
-        placeholder_texts = [placeholders.get(expected["id"], "")]
-        if close_id := expected.get("close_id"):
-            placeholder_texts.append(placeholders.get(close_id, ""))
-        return not any(
-            cls._is_markup_placeholder_text(text) for text in placeholder_texts
-        )
+        return expected["kind"] == "grammar"
+
+    @classmethod
+    def _has_structured_placeholder_forbidden_text(
+        cls,
+        expected: LLMPlaceholderPart,
+        actual_text: str,
+        placeholder_specs: dict[str, Highlight],
+    ) -> bool:
+        for token in (expected["id"], expected.get("close_id")):
+            if token is None:
+                continue
+            highlight = placeholder_specs.get(token)
+            if highlight is None:
+                continue
+            for forbidden in highlight.forbidden_text:
+                if actual_text.count(forbidden) > expected["text"].count(forbidden):
+                    return True
+        return False
 
     @classmethod
     def _get_structured_part_text(
         cls,
         actual: JSONValue,
-        source_text: str,
-        unit: Unit | None,
-        source_occurrence: int,
+        protected_texts: frozenset[str],
         *,
-        include_single_character_protected_syntax: bool = False,
+        include_atomic: bool = False,
     ) -> str | None:
         if not isinstance(actual, dict):
             return None
@@ -1892,12 +1868,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
         actual_text = actual.get("text")
         if not isinstance(actual_text, str):
             return None
-        if cls._extract_placeholders(actual_text) or cls._has_protected_syntax(
-            actual_text,
-            source_text,
-            unit,
-            source_occurrence,
-            include_single_character=include_single_character_protected_syntax,
+        if cls._extract_placeholders(actual_text) or cls._has_protected_highlight_text(
+            actual_text, protected_texts, include_atomic=include_atomic
         ):
             return None
         return actual_text
@@ -1908,14 +1880,24 @@ class BaseLLMTranslation(BatchMachineTranslation):
         actual: dict[str, JSONValue],
         expected: LLMPlaceholderPart,
         actual_text: str,
+        protected_texts: frozenset[str],
+        placeholder_specs: dict[str, Highlight],
     ) -> str | None:
         expected_keys = {"type", "id", "text", "translatable"}
+        expected_keys.add("kind")
         expected_close_id = expected.get("close_id")
         if expected_close_id is not None:
             expected_keys.add("close_id")
+        expected_role = expected.get("role")
+        if expected_role is not None:
+            expected_keys.add("role")
         if set(actual) != expected_keys:
             return None
         if actual.get("id") != expected["id"]:
+            return None
+        if actual.get("kind") != expected["kind"]:
+            return None
+        if expected_role is not None and actual.get("role") != expected_role:
             return None
         if actual.get("translatable") != expected["translatable"]:
             return None
@@ -1926,8 +1908,15 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return None
 
         if expected["translatable"]:
-            if expected_close_id is None or cls._is_markup_placeholder_text(
-                actual_text
+            if (
+                expected_close_id is None
+                or (not actual_text and expected["text"])
+                or cls._has_protected_highlight_text(
+                    actual_text, protected_texts, include_atomic=True
+                )
+                or cls._has_structured_placeholder_forbidden_text(
+                    expected, actual_text, placeholder_specs
+                )
             ):
                 return None
             return f"{expected['id']}{actual_text}{expected_close_id}"
@@ -1944,11 +1933,17 @@ class BaseLLMTranslation(BatchMachineTranslation):
         actual: dict[str, JSONValue],
         expected_parts: list[tuple[LLMPlaceholderPart, int]],
         actual_text: str,
+        protected_texts: frozenset[str],
+        placeholder_specs: dict[str, Highlight],
         current_segment: int,
     ) -> tuple[str, int] | None:
         for index, (expected, expected_segment) in enumerate(expected_parts):
             normalized = cls._normalize_structured_placeholder_part(
-                actual, expected, actual_text
+                actual,
+                expected,
+                actual_text,
+                protected_texts,
+                placeholder_specs,
             )
             if normalized is None:
                 continue
@@ -1965,11 +1960,17 @@ class BaseLLMTranslation(BatchMachineTranslation):
         expected_ordered_parts: list[LLMPlaceholderPart],
         expected_reorderable_parts: list[tuple[LLMPlaceholderPart, int]],
         actual_text: str,
+        protected_texts: frozenset[str],
+        placeholder_specs: dict[str, Highlight],
         current_segment: int,
     ) -> tuple[str, int] | None:
         if expected_ordered_parts:
             normalized = cls._normalize_structured_placeholder_part(
-                actual, expected_ordered_parts[0], actual_text
+                actual,
+                expected_ordered_parts[0],
+                actual_text,
+                protected_texts,
+                placeholder_specs,
             )
             if normalized is not None:
                 del expected_ordered_parts[0]
@@ -1977,7 +1978,11 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
             if any(
                 cls._normalize_structured_placeholder_part(
-                    actual, expected, actual_text
+                    actual,
+                    expected,
+                    actual_text,
+                    protected_texts,
+                    placeholder_specs,
                 )
                 is not None
                 for expected in expected_ordered_parts
@@ -1985,19 +1990,24 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 return None
 
         return cls._normalize_reorderable_structured_placeholder_part(
-            actual, expected_reorderable_parts, actual_text, current_segment
+            actual,
+            expected_reorderable_parts,
+            actual_text,
+            protected_texts,
+            placeholder_specs,
+            current_segment,
         )
 
     @classmethod
     def _get_structured_expected_part_state(
-        cls, expected_parts: list[LLMStringPart], placeholders: dict[str, str]
+        cls, expected_parts: list[LLMStringPart], protected_texts: frozenset[str]
     ) -> tuple[
         Counter[str],
         list[LLMPlaceholderPart],
         list[tuple[LLMPlaceholderPart, int]],
         list[bool],
     ]:
-        text_syntax_counts: Counter[str] = Counter()
+        text_atomic_counts: Counter[str] = Counter()
         ordered_placeholder_parts: list[LLMPlaceholderPart] = []
         reorderable_placeholder_parts: list[tuple[LLMPlaceholderPart, int]] = []
         segment_has_text = [False]
@@ -2006,10 +2016,12 @@ class BaseLLMTranslation(BatchMachineTranslation):
             if expected["type"] == "text":
                 if expected["text"]:
                     segment_has_text[segment] = True
-                text_syntax_counts.update(
-                    cls._extract_single_character_syntax_counts(expected["text"])
+                text_atomic_counts.update(
+                    cls._extract_atomic_protected_highlight_counts(
+                        expected["text"], protected_texts
+                    )
                 )
-            elif cls._is_structured_placeholder_reorderable(expected, placeholders):
+            elif cls._is_structured_placeholder_reorderable(expected):
                 reorderable_placeholder_parts.append((expected, segment))
             else:
                 ordered_placeholder_parts.append(expected)
@@ -2017,7 +2029,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 segment_has_text.append(False)
 
         return (
-            text_syntax_counts,
+            text_atomic_counts,
             ordered_placeholder_parts,
             reorderable_placeholder_parts,
             segment_has_text,
@@ -2049,20 +2061,26 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if not isinstance(parts, list):
             return None
 
-        expected_parts = cls._get_string_parts(source_text, unit, source_occurrence)
-        placeholders = cls._get_placeholder_context(
+        placeholder_specs = cls._get_placeholder_specs(
             source_text, unit, source_occurrence
         )
+        expected_parts = cls._get_string_parts(
+            source_text,
+            unit,
+            source_occurrence,
+            placeholder_specs=placeholder_specs,
+        )
+        protected_texts = cls._get_protected_highlight_texts(placeholder_specs)
         (
-            expected_text_syntax_counts,
+            expected_text_atomic_counts,
             expected_ordered_placeholder_parts,
             expected_reorderable_placeholder_parts,
             expected_segment_has_text,
-        ) = cls._get_structured_expected_part_state(expected_parts, placeholders)
+        ) = cls._get_structured_expected_part_state(expected_parts, protected_texts)
 
         current_segment = 0
         actual_segment_has_text = [False for _segment in expected_segment_has_text]
-        actual_text_syntax_counts: Counter[str] = Counter()
+        actual_text_atomic_counts: Counter[str] = Counter()
         result: list[str] = []
         for actual in parts:
             if not isinstance(actual, dict):
@@ -2070,10 +2088,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
             actual_type = actual.get("type")
             actual_text = cls._get_structured_part_text(
                 actual,
-                source_text,
-                unit,
-                source_occurrence,
-                include_single_character_protected_syntax=actual_type == "placeholder",
+                protected_texts,
+                include_atomic=actual_type == "placeholder",
             )
             if actual_text is None:
                 return None
@@ -2085,8 +2101,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
                     return None
                 if actual_text:
                     actual_segment_has_text[current_segment] = True
-                actual_text_syntax_counts.update(
-                    cls._extract_single_character_syntax_counts(actual_text)
+                actual_text_atomic_counts.update(
+                    cls._extract_atomic_protected_highlight_counts(
+                        actual_text, protected_texts
+                    )
                 )
                 result.append(actual_text)
                 continue
@@ -2098,6 +2116,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 expected_ordered_placeholder_parts,
                 expected_reorderable_placeholder_parts,
                 actual_text,
+                protected_texts,
+                placeholder_specs,
                 current_segment,
             )
             if normalized_placeholder is None:
@@ -2108,7 +2128,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
             result.append(normalized_text)
 
         if (
-            actual_text_syntax_counts - expected_text_syntax_counts
+            actual_text_atomic_counts - expected_text_atomic_counts
             or cls._has_structured_segment_text_mismatch(
                 actual_segment_has_text, expected_segment_has_text
             )

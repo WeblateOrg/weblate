@@ -13,6 +13,12 @@ from weblate.trans.tests.factories import make_check, make_unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 
 
+def highlight_spans(highlights):
+    return [
+        (highlight.start, highlight.end, highlight.text) for highlight in highlights
+    ]
+
+
 class PlaceholdersTest(CheckTestCase):
     check = PlaceholderCheck()
 
@@ -128,13 +134,17 @@ class PlaceholdersTest(CheckTestCase):
             self.default_lang,
             "&lt;strong&gt;Not limit the amount of videos&lt;/strong&gt; new users can upload",
         )
+        highlights = list(self.check.check_highlight(unit.source, unit))
         self.assertEqual(
-            list(self.check.check_highlight(unit.source, unit)),
+            highlight_spans(highlights),
             [
                 (0, 14, "&lt;strong&gt;"),
                 (44, 59, "&lt;/strong&gt;"),
             ],
         )
+        self.assertEqual(highlights[0].kind, "markup")
+        self.assertEqual(highlights[0].group, highlights[1].group)
+        self.assertEqual(highlights[0].forbidden_text, ("&lt;", "&gt;", "<", ">"))
 
     def test_overlapping_non_nested(self) -> None:
         # The 2 flags match partially overlapping spans
@@ -146,10 +156,12 @@ class PlaceholdersTest(CheckTestCase):
             self.default_lang,
             "nested ${user.name} non-overlapping",
         )
+        highlights = list(self.check.check_highlight(unit.source, unit))
         self.assertEqual(
-            list(self.check.check_highlight(unit.source, unit)),
+            highlight_spans(highlights),
             [(7, 19, "${user.name}")],
         )
+        self.assertEqual(highlights[0].kind, "grammar")
 
     def test_empty_placeholder_flags_do_not_match(self) -> None:
         for flags in ("placeholders:", 'placeholders:""', 'placeholders:r""'):
@@ -176,8 +188,15 @@ class PlaceholdersTest(CheckTestCase):
             )
         )
         self.assertEqual(
-            list(self.check.check_highlight(unit.source, unit)),
+            highlight_spans(list(self.check.check_highlight(unit.source, unit))),
             [(7, 12, "$URL$"), (13, 16, "$2$")],
+        )
+        self.assertEqual(
+            [
+                highlight.kind
+                for highlight in self.check.check_highlight(unit.source, unit)
+            ],
+            ["grammar", "grammar"],
         )
 
     def test_regexp_timeout(self) -> None:

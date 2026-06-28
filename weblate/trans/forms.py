@@ -449,7 +449,9 @@ class PluralTextarea(forms.Textarea):
         plural = translation.plural
         placeables_set: set[str] = set()
         for text in plurals:
-            placeables_set.update(hl[2] for hl in highlight_string(text, unit))
+            placeables_set.update(
+                highlight.text for highlight in highlight_string(text, unit)
+            )
         placeables = list(placeables_set)
         show_plural_labels = len(values) > 1 and not translation.component.is_multivalue
 

@@ -600,8 +600,8 @@ class PunctuationSpacingCheck(TargetCheck):
         # Enable syntax highlighting so RST inline literals/strong/emph spans
         # are also excluded (previously handled by RST_MATCH).
         highlighted_ranges = [
-            (start, end)
-            for start, end, _ in highlight_string(
+            (highlight.start, highlight.end)
+            for highlight in highlight_string(
                 target, unit, highlight_syntax="rst-text" in unit.all_flags
             )
         ]

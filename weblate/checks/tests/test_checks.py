@@ -12,6 +12,7 @@ from unittest import SkipTest
 
 from django.test import SimpleTestCase
 
+from weblate.checks.base import Highlight
 from weblate.checks.format import BaseFormatCheck
 from weblate.trans.tests.factories import make_unit
 
@@ -272,7 +273,14 @@ class CheckTestCase(SimpleTestCase, ABC):
             self.default_lang,
             source=self.test_highlight[1],
         )
+        highlights = list(self.check.check_highlight(self.test_highlight[1], unit))
+        self.assertTrue(
+            all(isinstance(highlight, Highlight) for highlight in highlights)
+        )
         self.assertEqual(
-            list(self.check.check_highlight(self.test_highlight[1], unit)),
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
             self.test_highlight[2],
         )

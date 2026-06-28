@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import re
 from contextlib import nullcontext
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 from django.http import Http404
@@ -35,6 +36,21 @@ if TYPE_CHECKING:
 FixupType = (
     tuple[Literal["regex"], str, str, str] | tuple[Literal["plurals"], list[str]]
 )
+type HighlightKind = Literal["grammar", "markup", "syntax"]
+
+
+@dataclass(frozen=True, slots=True)
+class Highlight:
+    """Highlighted source span and its translation semantics."""
+
+    start: int
+    end: int
+    text: str
+    kind: HighlightKind = "syntax"
+    group: str | None = None
+    role: str | None = None
+    translatable: bool = False
+    forbidden_text: tuple[str, ...] = ()
 
 
 class MissingExtraDict(TypedDict, total=False):
@@ -225,12 +241,13 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         """Return link to documentation."""
         return get_doc_url("user/checks", self.doc_id, user=user)
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         """
         Return parts of the text that match to highlight them.
 
-        Result is list that contains lists of two elements with start position of the
-        match and the value of the match
+        Result contains highlighted spans with semantic information used by
+        formatting, automatic translation cleanup, and LLM structured
+        placeholders.
         """
         return []
 
