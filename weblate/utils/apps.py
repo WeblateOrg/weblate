@@ -40,6 +40,8 @@ from .db import (
     PostgreSQLRegexLookup,
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
+    get_database_disk_usage,
+    get_database_size,
     measure_database_latency,
 )
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
@@ -504,6 +506,41 @@ def check_encoding(
             "System encoding is not UTF-8, processing non-ASCII strings will break",
         )
     ]
+
+
+@register(deploy=True)
+def check_database_size(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    """Check that PostgreSQL database size can be collected."""
+    connection = connections["default"]
+    if connection.vendor != "postgresql":
+        return []
+
+    database_size = get_database_size()
+    if database_size is None:
+        return [
+            weblate_check(
+                "weblate.C045",
+                "Could not determine PostgreSQL database disk usage",
+            )
+        ]
+
+    usage = get_database_disk_usage()
+    if usage is None:
+        return []
+
+    if usage.free < database_size:
+        message = (
+            "There is not enough free space on the PostgreSQL database server "
+            "to store a database dump"
+        )
+        return [weblate_check("weblate.C046", message)]
+
+    return []
 
 
 @register(deploy=True)

@@ -47,6 +47,7 @@ Weblate 2026.7
 * Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events.
 * :ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing settings.
 * Pull request messages now use a compact language progress matrix widget that scales better for projects with many languages.
+* :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected or there is not enough free space on the database server to store a database dump.
 
 .. rubric:: Bug fixes
 

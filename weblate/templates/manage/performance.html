@@ -198,7 +198,7 @@
 
             <tbody>
               <tr>
-                <td colspan="3">
+                <td colspan="4">
                   <div class="progress">
                     <div class="progress-bar {% if disk_usage_percent < 90 %}progress-bar-success{% elif disk_usage_percent < 95 %}progress-bar-warning{% else %}progress-bar-danger{% endif %}"
                          role="progressbar"
@@ -211,15 +211,33 @@
                 </td>
               </tr>
               <tr>
+                <th>{% translate "Storage" %}</th>
                 <th>{% translate "Disk size" %}</th>
                 <th>{% translate "Disk used" %}</th>
                 <th>{% translate "Disk free" %}</th>
               </tr>
               <tr>
+                <th scope="row">{% translate "Server" %}</th>
                 <td>{{ disk_usage.total|filesizeformat }}</td>
                 <td>{{ disk_usage.used|filesizeformat }}</td>
                 <td>{{ disk_usage.free|filesizeformat }}</td>
               </tr>
+              {% if database_size is not None %}
+                <tr>
+                  <th scope="row">{% translate "PostgreSQL database" %}</th>
+                  {% if database_disk_usage %}
+                    <td>{{ database_disk_usage.total|filesizeformat }}</td>
+                  {% else %}
+                    <td>{% translate "Not available" %}</td>
+                  {% endif %}
+                  <td>{{ database_size|filesizeformat }}</td>
+                  {% if database_disk_usage %}
+                    <td>{{ database_disk_usage.free|filesizeformat }}</td>
+                  {% else %}
+                    <td>{% translate "Not available" %}</td>
+                  {% endif %}
+                </tr>
+              {% endif %}
             </tbody>
           </table>
         </div>
