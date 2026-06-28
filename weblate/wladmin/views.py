@@ -381,22 +381,11 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
     return render(request, "manage/backups.html", context)
 
 
-def get_memory_migration_status() -> dict[str, Any]:
-    """Return translation memory background migration status."""
-    state = MemoryScopeMigrationState.objects.filter(
-        name="memory-scope-backfill"
-    ).first()
-    total = Memory.objects.count()
-    last_memory_id = state.last_memory_id if state is not None else 0
-    processed = Memory.objects.filter(id__lte=last_memory_id).count()
-
-    if total == 0 or (state is not None and state.completed):
-        backfill_percent = 100
-        processed = total
-    else:
-        backfill_percent = min(round(processed * 100 / total), 100)
-
-    duplicate_groups = (
+def get_memory_duplicate_group_count() -> int:
+    # TODO(2028.1): Remove this migration status helper once Weblate no longer
+    # supports direct upgrades from 2026 releases.
+    """Return translation memory duplicate group count."""
+    return (
         Memory.objects.values(
             "source_language_id",
             "target_language_id",
@@ -412,11 +401,42 @@ def get_memory_migration_status() -> dict[str, Any]:
         .count()
     )
 
+
+def get_memory_migration_status() -> dict[str, Any]:
+    # TODO(2028.1): Remove this migration status helper once Weblate no longer
+    # supports direct upgrades from 2026 releases.
+    """Return translation memory background migration status."""
+    state = MemoryScopeMigrationState.objects.filter(
+        name="memory-scope-backfill"
+    ).first()
+    total = Memory.objects.count()
+    last_memory_id = state.last_memory_id if state is not None else 0
+    needs_backfill = state is not None and not state.completed
+    if state is None and total:
+        needs_backfill = (
+            Memory.objects.alias(memory_has_scope=Memory.objects.get_has_scope_exists())
+            .filter(memory_has_scope=False)
+            .exists()
+        )
+    backfill_completed = total == 0 or not needs_backfill
+
+    if backfill_completed:
+        backfill_percent = 100
+        processed = total
+    else:
+        processed = Memory.objects.filter(id__lte=last_memory_id).count()
+        backfill_percent = min(round(processed * 100 / total), 100)
+
+    duplicate_groups = (
+        get_memory_duplicate_group_count()
+        if state is not None and state.completed
+        else 0
+    )
+
     return {
-        "backfill_completed": total == 0 or (state is not None and state.completed),
+        "backfill_completed": backfill_completed,
         "backfill_percent": backfill_percent,
-        "completed": total == 0
-        or (state is not None and state.completed and duplicate_groups == 0),
+        "completed": backfill_completed and duplicate_groups == 0,
         "duplicate_groups": duplicate_groups,
         "last_memory_id": last_memory_id,
         "processed": processed,

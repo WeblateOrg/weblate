@@ -28,7 +28,7 @@ from django.utils import timezone
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation, Permission, Role
-from weblate.memory.models import Memory, MemoryScopeMigrationState
+from weblate.memory.models import Memory, MemoryScope, MemoryScopeMigrationState
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Project
 from weblate.trans.tests.test_views import ViewTestCase
@@ -989,6 +989,57 @@ class AdminTest(ViewTestCase):
 
         self.assertContains(response, "Backfilling scopes")
         self.assertEqual(response.context["memory_migration_status"]["total"], 2)
+        self.assertEqual(
+            response.context["memory_migration_status"]["duplicate_groups"], 0
+        )
+        self.assertFalse(response.context["memory_migration_status"]["completed"])
+
+    def test_performance_memory_migration_status_without_state(self) -> None:
+        Memory.objects.all().delete()
+        MemoryScopeMigrationState.objects.all().delete()
+        memory = Memory.objects.create(
+            source="Hello",
+            target="Ahoj",
+            origin="project/component",
+            source_language_id=1,
+            target_language_id=2,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_GLOBAL_FILE,
+        )
+
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Not needed")
+        self.assertContains(response, "Completed")
+        self.assertEqual(response.context["memory_migration_status"]["processed"], 1)
+        self.assertTrue(response.context["memory_migration_status"]["completed"])
+
+    def test_performance_memory_migration_status_with_duplicates(self) -> None:
+        Memory.objects.all().delete()
+        MemoryScopeMigrationState.objects.all().delete()
+        memory = Memory.objects.create(
+            source="Hello",
+            target="Ahoj",
+            origin="project/component",
+            source_language_id=1,
+            target_language_id=2,
+        )
+        Memory.objects.create(
+            source=memory.source,
+            target=memory.target,
+            origin=memory.origin,
+            source_language_id=memory.source_language_id,
+            target_language_id=memory.target_language_id,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill", last_memory_id=memory.id, completed=True
+        )
+
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Consolidating duplicate entries")
         self.assertEqual(
             response.context["memory_migration_status"]["duplicate_groups"], 1
         )

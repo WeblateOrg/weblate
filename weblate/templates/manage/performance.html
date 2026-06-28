@@ -123,6 +123,7 @@
         </table>
       </div>
 
+      {# TODO(2028.1): Remove this migration status card once Weblate no longer supports direct upgrades from 2026 releases. #}
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">
@@ -161,6 +162,8 @@
               <td>
                 {% if memory_migration_status.updated %}
                   {{ memory_migration_status.updated }}
+                {% elif memory_migration_status.backfill_completed %}
+                  {% translate "Not needed" %}
                 {% else %}
                   {% translate "Not yet started" %}
                 {% endif %}
