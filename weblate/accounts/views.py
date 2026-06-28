@@ -90,6 +90,10 @@ from social_django.views import complete, disconnect
 
 from weblate.accounts.auth import WeblateUserBackend
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
+from weblate.accounts.data import (
+    NotificationFrequency,
+    NotificationScope,
+)
 from weblate.accounts.flows import (
     PASSWORD_RESET_EMAIL_SESSION,
     PASSWORD_RESET_SCOPE_SESSION,
@@ -125,8 +129,6 @@ from weblate.accounts.forms import (
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
-    NotificationFrequency,
-    NotificationScope,
     get_email_headers,
     send_notification_email,
 )

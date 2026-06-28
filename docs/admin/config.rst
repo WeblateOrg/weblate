@@ -811,6 +811,35 @@ DEFAULT_MERGE_STYLE
    * :ref:`component`
    * :ref:`component-merge_style`
 
+.. setting:: DEFAULT_NOTIFICATIONS
+
+DEFAULT_NOTIFICATIONS
+---------------------
+
+Default notification settings for every newly created user.
+
+A list of 3-tuples consisting of notification scope, notification frequency and notification handler.
+
+.. include:: /snippets/notifications-config.rst
+
+.. note::
+
+   This setting affects only newly created users.
+
+Example:
+
+.. code-block:: python
+
+   DEFAULT_NOTIFICATIONS = [
+       (0, 1, "MentionCommentNotificaton"),
+       (10, 1, "LastAuthorCommentNotificaton"),
+   ]
+
+.. seealso::
+
+   * :ref:`notifications`
+
+
 .. setting:: DEFAULT_SHARED_TM
 
 DEFAULT_SHARED_TM

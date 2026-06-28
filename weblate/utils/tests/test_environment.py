@@ -24,6 +24,7 @@ from weblate.utils.environment import (
     get_env_ratelimit,
     get_env_redis_url,
     get_env_str,
+    get_env_tuples,
     get_saml_idp,
     modify_env_list,
 )
@@ -206,6 +207,27 @@ class EnvTest(SimpleTestCase):
         del os.environ["TEST_DATA"]
         self.assertIsNone(get_env_json("TEST_DATA"))
         self.assertEqual(get_env_json("TEST_DATA", {}), {})
+
+    def test_tuples_or_none(self) -> None:
+        os.environ["TEST_DATA"] = "foo:bar:baz,bag:bak:bam"
+        self.assertEqual(
+            get_env_tuples("TEST_DATA"),
+            [("foo", "bar", "baz"), ("bag", "bak", "bam")],
+        )
+        os.environ["TEST_DATA"] = "foo:bar"
+        self.assertEqual(get_env_tuples("TEST_DATA"), [("foo", "bar")])
+        os.environ["TEST_DATA"] = ""
+        self.assertEqual(get_env_tuples("TEST_DATA"), [])
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_tuples("TEST_DATA"))
+        os.environ["TEST_DATA"] = "foo:bar,"
+        self.assertEqual(get_env_tuples("TEST_DATA"), [("foo", "bar")])
+        os.environ["TEST_DATA"] = ",foo:bar"
+        self.assertEqual(get_env_tuples("TEST_DATA"), [("foo", "bar")])
+        os.environ["TEST_DATA"] = "foo,bar"
+        self.assertEqual(get_env_tuples("TEST_DATA"), [("foo",), ("bar",)])
+        os.environ["TEST_DATA"] = "foo:,:bar,:"
+        self.assertEqual(get_env_tuples("TEST_DATA"), [("foo",), ("bar",), ()])
 
     def test_bool(self) -> None:
         os.environ["TEST_DATA"] = "1"

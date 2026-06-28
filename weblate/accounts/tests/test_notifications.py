@@ -15,8 +15,7 @@ from django.core import mail
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.accounts.data import DEFAULT_NOTIFICATIONS
-from weblate.accounts.models import AuditLog, Profile, Subscription
+from weblate.accounts.models import AuditLog, Profile, Subscription, WeblateAccountsConf
 from weblate.accounts.notifications import (
     RECIPIENT_USERNAME_HEADER,
     MergeFailureNotification,
@@ -146,7 +145,7 @@ class NotificationHeadersTest(SimpleTestCase):
                 NotificationFrequency.FREQ_WEEKLY,
                 "TranslationActivitySummaryNotification",
             ),
-            DEFAULT_NOTIFICATIONS,
+            WeblateAccountsConf.DEFAULT_NOTIFICATIONS,
         )
         self.assertNotIn(
             (
@@ -154,7 +153,7 @@ class NotificationHeadersTest(SimpleTestCase):
                 NotificationFrequency.FREQ_WEEKLY,
                 "NewStringNotificaton",
             ),
-            DEFAULT_NOTIFICATIONS,
+            WeblateAccountsConf.DEFAULT_NOTIFICATIONS,
         )
 
 

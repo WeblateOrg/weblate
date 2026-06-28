@@ -884,6 +884,17 @@ Lists automatic suggestions services in reStructuredText as a template for :doc:
 
    :doc:`/contributing/documentation`
 
+list_notification_config
+------------------------
+
+.. weblate-admin:: list_notification_config
+
+Lists notification scopes, frequencies and handlers in reStructuredText as a template for :doc:`/admin/config`.
+
+.. seealso::
+
+   :doc:`/contributing/documentation`
+
 list_translators
 ----------------
 

@@ -4,6 +4,11 @@
 
 from __future__ import annotations
 
+from weblate.accounts.data import (
+    NotificationFrequency,
+    NotificationScope,
+)
+
 DEFAULT_ENABLE_AVATARS = True
 DEFAULT_AVATAR_URL_PREFIX = "https://www.gravatar.com/"
 DEFAULT_AVATAR_DEFAULT_IMAGE = "identicon"
@@ -43,3 +48,56 @@ DEFAULT_RATELIMIT_NOTIFICATION_LIMITS: tuple[tuple[int, int], ...] = (
     (10, 3_600),
     (50, 86_400),
 )
+
+DEFAULT_NOTIFICATIONS: list[tuple[int, int, str]] = [
+    (
+        NotificationScope.SCOPE_ALL,
+        NotificationFrequency.FREQ_INSTANT,
+        "MentionCommentNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_INSTANT,
+        "LastAuthorCommentNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_INSTANT,
+        "MentionCommentNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewAnnouncementNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_WATCHED,
+        NotificationFrequency.FREQ_WEEKLY,
+        "TranslationActivitySummaryNotification",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "MergeFailureNotification",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "ParseErrorNotification",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewTranslationNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewAlertNotificaton",
+    ),
+    (
+        NotificationScope.SCOPE_ADMIN,
+        NotificationFrequency.FREQ_INSTANT,
+        "NewAnnouncementNotificaton",
+    ),
+]
