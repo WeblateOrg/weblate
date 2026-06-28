@@ -10,6 +10,7 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.auth.results import PermissionResult
 
 
 def github_app_installation_workspaces(user: User):
@@ -19,5 +20,7 @@ def github_app_installation_workspaces(user: User):
     return user.workspaces_with_perm("workspace.edit")
 
 
-def user_can_install_github_app_in_workspace(user: User, workspace: Workspace) -> bool:
+def user_can_install_github_app_in_workspace(
+    user: User, workspace: Workspace
+) -> PermissionResult | bool:
     return user.has_perm("management.use") or user.has_perm("workspace.edit", workspace)
