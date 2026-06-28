@@ -1,8 +1,6 @@
 Weblate 2026.7
 --------------
 
-* Added translation-memory scope backfill and consolidation progress to the :guilabel:`Performance report`.
-
 *Not yet released.*
 
 .. rubric:: New features
