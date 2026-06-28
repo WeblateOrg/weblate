@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 14:57+0000\n"
+"PO-Revision-Date: 2026-06-28 06:25+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -15802,10 +15802,12 @@ msgid ""
 "A Weblate GitHub App is already registered for <code>%(host)s</code>. Remove "
 "it from the Weblate GitHub Apps page before registering a replacement."
 msgstr ""
+"已经为 <code>%(host)s</code> 注册了 Weblate Github 应用。注册替代前从 "
+"Weblate GitHub 应用页面删除它。"
 
 #: weblate/templates/vcs/github_app_register.html:40
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
-msgstr ""
+msgstr "已经注册了 Weblate GitHub 应用的 GitHub 主机："
 
 #: weblate/templates/vcs/github_app_register.html:52
 #: weblate/templates/vcs/github_app_register_submit.html:34
@@ -15817,7 +15819,7 @@ msgstr "GitHub 主机"
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
-msgstr ""
+msgstr "对 GitHub.com 使用 github.com, 或者 GitHub 企业服务器的 web 主机名。"
 
 #: weblate/templates/vcs/github_app_register.html:69
 msgid "Organization (optional)"
@@ -15825,13 +15827,13 @@ msgstr "组织（可选）"
 
 #: weblate/templates/vcs/github_app_register.html:76
 msgid "Leave blank to register on your personal account"
-msgstr ""
+msgstr "留空注册个人账户"
 
 #: weblate/templates/vcs/github_app_register.html:78
 msgid ""
 "Enter a GitHub organization slug to register the App under that organization "
 "instead of your personal account."
-msgstr ""
+msgstr "输入 GitHub 组织标识串将应用注册在组织而不是你的个人账户下。"
 
 #: weblate/templates/vcs/github_app_register.html:86
 #: weblate/templates/vcs/github_app_register_submit.html:44
@@ -15844,10 +15846,12 @@ msgid ""
 "GitHub App names must be unique and at most %(limit)s characters. You will "
 "still be able to change the name on GitHub before confirming."
 msgstr ""
+"GitHub 应用名必须唯一，最多 %(limit)s 个字符。确认前你仍可以在 GitHub 上更改"
+"该名称。"
 
 #: weblate/templates/vcs/github_app_register.html:115
 msgid "Public (any GitHub account can install it)"
-msgstr ""
+msgstr "公开（任何 GitHub 账户均可安装它）"
 
 #: weblate/templates/vcs/github_app_register.html:119
 msgid ""
@@ -15855,6 +15859,8 @@ msgid ""
 "here only means the App is not restricted to its owner; it does not list the "
 "App on the GitHub Marketplace."
 msgstr ""
+"如果超过一个用户或组织要安装该应用，这是必需的。此处的“公开”仅表示该应用不是"
+"仅限其所有者；它不在 GitHub 市场中列出该应用。"
 
 #: weblate/templates/vcs/github_app_register.html:147
 msgid "Subscribed events"
@@ -15879,12 +15885,12 @@ msgstr "清单预览"
 msgid ""
 "The JSON document below is the manifest that GitHub will use to pre-fill the "
 "new App's settings."
-msgstr ""
+msgstr "下方的 JSON 文档是 GitHub 用来预填充新应用设置的清单。"
 
 #: weblate/templates/vcs/github_app_register_submit.html:23
 #, python-format
 msgid "Sending you to %(host)s"
-msgstr ""
+msgstr "正把你发送到 %(host)s"
 
 #: weblate/templates/vcs/github_app_register_submit.html:28
 #, python-format
@@ -15892,6 +15898,8 @@ msgid ""
 "Click the button below to send the pre-filled GitHub App manifest to "
 "%(host)s. You will be redirected back here once GitHub confirms."
 msgstr ""
+"单击下方按钮发送预填充的 GitHub 应用清单到 %(host)s。GitHub 确认后你会被重定"
+"向回这里。"
 
 #: weblate/templates/vcs/github_app_register_submit.html:39
 msgid "Organization"
@@ -15908,6 +15916,8 @@ msgid ""
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+"GitHub 只显示你的 GitHub 用户可以安装或请求此应用的账户。如果找不到组织，在 "
+"GitHub 检查你的组织角色和 GitHub 应用安装限制。"
 
 #: weblate/templates/vcs/github_install_select.html:6
 msgid "Install Weblate GitHub app"
@@ -15921,7 +15931,7 @@ msgstr "选择 GitHub 主机"
 msgid ""
 "Select the GitHub or GitHub Enterprise instance where you want to install "
 "the Weblate GitHub app."
-msgstr ""
+msgstr "选择你想安装 Weblate GitHub 应用的 GitHub 或 GitHub 企业实例。"
 
 #: weblate/templates/vcs/github_install_select.html:22
 #, python-format
@@ -15931,7 +15941,7 @@ msgstr "在 %(hostname)s 上安装"
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
 msgid "Connected GitHub account: %(login)s"
-msgstr ""
+msgstr "已连接的 GitHub 账户：%(login)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:32
 msgid "Refresh repositories"
@@ -15944,6 +15954,8 @@ msgid ""
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
+"%(hostname)s 未注册 Weblate GitHub 应用凭证。再次注册应用凭证前令牌刷新和 "
+"webook 签名检查不会工作。"
 
 #: weblate/templates/vcs/github_installation_detail.html:76
 msgid "Repositories updated"
@@ -15961,7 +15973,7 @@ msgstr "不可用"
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
-msgstr ""
+msgstr "未找到仓库。单击“刷新仓库”从 GitHub 获取列表。"
 
 #: weblate/templates/vcs/github_installation_list.html:19
 msgid "Weblate GitHub Apps"
@@ -15973,6 +15985,8 @@ msgid ""
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
+"尚未注册 Weblate GitHub 应用。使用上方按钮创建一个权限正确，填好 webhook URL"
+"的 Weblate GitHub 应用 − GitHub 重定向回来后 Weblate 会自动存储凭证。"
 
 #: weblate/templates/vcs/github_installation_list.html:37
 msgid ""
@@ -15980,6 +15994,8 @@ msgid ""
 "Connect a GitHub account to each App to import repositories from that "
 "account."
 msgstr ""
+"下方的 GitHub 应用提供 Weblate 用来和 GitHub 通信的凭证。连接 GitHub 账户到每"
+"个应用来从那个账户导入仓库。"
 
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
@@ -15989,16 +16005,16 @@ msgstr "删除应用"
 
 #: weblate/templates/vcs/github_installation_list.html:69
 msgid "Remove connected GitHub accounts first."
-msgstr ""
+msgstr "先删除已连接的GitHub 账户。"
 
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:400
 msgid "App ID"
-msgstr ""
+msgstr "应用 ID"
 
 #: weblate/templates/vcs/github_installation_list.html:79
 msgid "Slug"
-msgstr ""
+msgstr "标识串"
 
 #: weblate/templates/vcs/github_installation_list.html:101
 msgid "Remove Weblate GitHub App?"
@@ -17367,7 +17383,7 @@ msgstr ""
 msgid ""
 "Prefix values that look like spreadsheet formulas with an apostrophe when "
 "saving CSV files."
-msgstr ""
+msgstr "看上去像保存 CSV 文件时带撇号电子表格公式的前缀值。"
 
 #: weblate/trans/file_format_params.py:685
 msgid "Encoding used for GWT Properties files"
@@ -17419,6 +17435,8 @@ msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
 "structure, comments, and formatting are preserved when possible."
 msgstr ""
+"解析 YAML front matter 且只翻译 scalar 字符串值。将尽可能保留键、结构、注释和"
+"格式。"
 
 #: weblate/trans/file_format_params.py:754
 msgid "Disable placeholders"
@@ -20669,7 +20687,7 @@ msgstr "SVG 状态徽章"
 
 #: weblate/trans/widgets.py:440
 msgid "Capitalize"
-msgstr ""
+msgstr "大写"
 
 #: weblate/trans/widgets.py:447
 msgid "translated"
@@ -21298,12 +21316,12 @@ msgstr "这会推送更改到上游 Git 仓库。"
 #: weblate/vcs/git.py:461
 msgid ""
 "Remote branch could not be verified against the shallow existing repository."
-msgstr ""
+msgstr "无法将远程分支与现有的浅层仓库进行验证。"
 
 #: weblate/vcs/git.py:476
 msgid ""
 "Remote branch does not share common history with the existing repository."
-msgstr ""
+msgstr "远程分支和现有仓库不共享共同的历史记录。"
 
 #: weblate/vcs/git.py:1015
 msgid "Possible cleanups:"
@@ -21415,7 +21433,7 @@ msgstr "应用标识串"
 
 #: weblate/vcs/github.py:402
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "私钥 (PEM)"
 
 #: weblate/vcs/github.py:404
 msgid "OAuth client ID"
@@ -21435,7 +21453,7 @@ msgstr "应用地址"
 
 #: weblate/vcs/github.py:427 weblate/vcs/github.py:428
 msgid "Weblate GitHub App credentials"
-msgstr ""
+msgstr "Weblate GitHub 应用凭证"
 
 #: weblate/vcs/github.py:752
 msgid "connected GitHub account"
@@ -21443,11 +21461,11 @@ msgstr "连接的 GitHub 账户"
 
 #: weblate/vcs/github.py:753
 msgid "connected GitHub accounts"
-msgstr ""
+msgstr "已连接的 GitHub 账户"
 
 #: weblate/vcs/github.py:824
 msgid "GitHub (via Weblate GitHub app)"
-msgstr ""
+msgstr "GitHub （通过 Weblate GitHub 应用）"
 
 #: weblate/vcs/github.py:835
 msgid ""
@@ -21462,26 +21480,26 @@ msgstr "GitHub 应用部件要求有工作空间的项目。"
 
 #: weblate/vcs/github.py:876
 msgid "GitHub App components require a GitHub HTTPS repository URL."
-msgstr ""
+msgstr "GitHub 应用部件需要 GitHub HTTPS 仓库 URL。"
 
 #: weblate/vcs/github.py:892
 msgid ""
 "Repository is not available from a connected GitHub account for this "
 "workspace."
-msgstr ""
+msgstr "无法从这个工作空间的已连接 GitHub 账户获取仓库。"
 
 #: weblate/vcs/github.py:949
 #, python-format
 msgid "Could not obtain GitHub App access token: %s"
-msgstr ""
+msgstr "无法获得 GitHub 应用访问令牌：%s"
 
 #: weblate/vcs/github.py:965
 msgid "No Weblate GitHub app installation available."
-msgstr ""
+msgstr "无 Weblate GitHub 应用安装可用。"
 
 #: weblate/vcs/github.py:981
 msgid "GitHub App repositories must be imported with a branch."
-msgstr ""
+msgstr "GitHub 应用仓库必须通过分支导入。"
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
@@ -21618,19 +21636,19 @@ msgstr "删除了 %(host)s 指纹为 %(fingerprint)s 的主机密钥 (%(keytype)
 #: weblate/vcs/views.py:412
 #, python-format
 msgid "Removed connected GitHub account %(target)s."
-msgstr ""
+msgstr "删除了已连接的 GitHub 账户 %(target)s。"
 
 #: weblate/vcs/views.py:428
 #, python-format
 msgid ""
 "Remove connected GitHub accounts on %(hostname)s before removing the app "
 "credentials."
-msgstr ""
+msgstr "删除应用凭证前删除 %(hostname)s 的已连接 GitHub 账户。"
 
 #: weblate/vcs/views.py:436
 #, python-format
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
-msgstr ""
+msgstr "删除了 %(hostname)s 的 Weblate GitHub 应用凭证。"
 
 #: weblate/vcs/views.py:458
 msgid "Failed to refresh repositories from GitHub."
@@ -21639,7 +21657,7 @@ msgstr "从 GitHub 刷新仓库失败。"
 #: weblate/vcs/views.py:463
 #, python-format
 msgid "Refreshed %(count)d repositories from GitHub."
-msgstr ""
+msgstr "刷新了 %(count)d 个 GitHub 仓库。"
 
 #: weblate/vcs/views.py:479 weblate/vcs/views.py:522 weblate/vcs/views.py:587
 msgid "Weblate GitHub app is not configured on this Weblate instance."
@@ -21647,11 +21665,11 @@ msgstr "此 Weblate 实例未配置 Weblate GitHub 应用。"
 
 #: weblate/vcs/views.py:487
 msgid "Select a workspace before connecting a GitHub account."
-msgstr ""
+msgstr "连接 GitHub 账户前选择一个工作空间。"
 
 #: weblate/vcs/views.py:497
 msgid "Weblate GitHub app is not configured for the selected host."
-msgstr ""
+msgstr "所选主机未配置 Weblate GitHub 应用。"
 
 #: weblate/vcs/views.py:563
 msgid ""
