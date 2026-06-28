@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-27 19:25+0000\n"
+"PO-Revision-Date: 2026-06-29 07:01+0000\n"
 "Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -4531,10 +4531,8 @@ msgid "Accelerator key"
 msgstr "Klávesová zkratka"
 
 #: weblate/checks/chars.py:60
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "Překlad a zdroj oba nekončí dvojtečkou."
+msgstr "V originále i v překladu se vyskytují nesouhlasné klávesové zkratky."
 
 #: weblate/checks/chars.py:109
 msgid "Starting newline"
@@ -5723,10 +5721,8 @@ msgid "Maximum size of translation"
 msgstr "Maximální velikost překladu"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr "Renderovaný text překladu by neměl překročit danou velikost."
+msgstr "Vykreslený text by neměl překročit stanovenou velikost."
 
 #: weblate/checks/render.py:131
 msgid ""
@@ -5775,6 +5771,7 @@ msgstr "Délka zdrojového řetězce"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Zdrojový řetězec je příliš dlouhý a nepřesahuje nastavenou maximální délku."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -8552,20 +8549,18 @@ msgstr "Přidat novou identitu uživatele"
 #: weblate/templates/vcs/account_integrations.html:14
 #: weblate/templates/vcs/account_integrations.html:21
 #: weblate/templates/workspace.html:58
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "VCS integrations"
-msgstr "Otestovat integraci Sentry"
+msgstr "Integrace VCS"
 
 #: weblate/templates/accounts/profile.html:264
 msgid "Manage code hosting accounts connected to workspaces you administer."
 msgstr ""
+"Spravujte účty pro hostování kódu propojené s pracovními prostory, které "
+"spravujete."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Manage site configuration"
 msgid "Manage VCS integrations"
-msgstr "Správa konfigurace webu"
+msgstr "Správa integrací systémů pro správu verzí (VCS)"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:416
@@ -10689,10 +10684,8 @@ msgstr "Použít"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "Procházet všechny součásti"
+msgstr "Procházet součásti"
 
 #: weblate/templates/category.html:40
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:42
@@ -10750,10 +10743,8 @@ msgstr "Prohlédnout si všechny změny v kategoriích"
 
 #: weblate/templates/category.html:266 weblate/templates/component.html:327
 #: weblate/templates/project.html:332
-#, fuzzy
-#| msgid "Allow translation"
 msgid "Browse translations"
-msgstr "Povolit překlad"
+msgstr "Procházet překlady"
 
 #: weblate/templates/category.html:277 weblate/templates/project.html:369
 msgid "Add a category"
@@ -10903,13 +10894,11 @@ msgid "Diagnostics"
 msgstr "Diagnostika"
 
 #: weblate/templates/component.html:31
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
-msgstr[0] "Chyba"
-msgstr[1] "Chyba"
-msgstr[2] "Chyba"
+msgstr[0] "chyba"
+msgstr[1] "chyby"
+msgstr[2] "chyb"
 
 #: weblate/templates/component.html:52 weblate/templates/project.html:47
 msgid "Download language statistics (CSV)"
@@ -11655,57 +11644,39 @@ msgid "Use these operations with caution, they can lead to data loss."
 msgstr "Tyto operace používejte opatrně, mohou vést ke ztrátě dat."
 
 #: weblate/templates/js/git-status.html:229
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Názvy souboru"
+msgstr "Správa souborů"
 
 #: weblate/templates/js/git-status.html:237
-#, fuzzy
-#| msgid "Removed user"
 msgid "Remove duplicates"
-msgstr "Uživatel odebrán"
+msgstr "Odstranit duplicity"
 
 #: weblate/templates/js/git-status.html:238
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove duplicated strings from the translation file"
-msgstr "Vynutí zápis všech řetězců do souborů překladů."
+msgstr "Odeber duplicitní řetězce z překladového souboru"
 
 #: weblate/templates/js/git-status.html:240
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
 msgstr ""
-"Opravte to, prosím, odstraněním řetězců se stejným identifikátorem z "
-"překladových souborů."
+"Odstraní z překladového souboru opakující se řetězce se stejným "
+"identifikátorem."
 
 #: weblate/templates/js/git-status.html:241
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
 msgstr ""
-"Toto se může stát, když popis umístění v překladových souborech odhazuje na "
-"nadřazenou složku nebo je absolutní."
+"Použijte v případě, že překladový soubor obsahuje duplicitní řetězce, které "
+"ve Weblate nejsou."
 
 #: weblate/templates/js/git-status.html:249
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Cleanup unused"
-msgstr "Úklid"
+msgstr "Vyčištění nepoužívaných"
 
 #: weblate/templates/js/git-status.html:250
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove unused strings from the translation file"
-msgstr "Vynutí zápis všech řetězců do souborů překladů."
+msgstr "Odstraňte nepoužívané řetězce z překladového souboru"
 
 #: weblate/templates/js/git-status.html:252
 #, fuzzy
