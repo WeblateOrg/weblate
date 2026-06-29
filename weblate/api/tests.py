@@ -5361,6 +5361,38 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["slug"], "test")
         self.assertEqual(response.data["project"]["slug"], "test")
 
+    def test_get_component_exposes_vcs_view_fields(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            git_export="https://example.com/export.git",
+            push_branch="translations",
+            repoweb="https://example.com/src/{{filename}}#L{{line}}",
+        )
+        response = self.client.get(
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+        )
+        self.assertEqual(response.data["git_export"], "https://example.com/export.git")
+        self.assertEqual(response.data["push_branch"], "translations")
+        self.assertEqual(
+            response.data["repoweb"], "https://example.com/src/{{filename}}#L{{line}}"
+        )
+
+    def test_get_component_hides_vcs_view_fields_without_permission(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            git_export="https://example.com/export.git",
+            push_branch="translations",
+            repoweb="https://example.com/src/{{filename}}#L{{line}}",
+        )
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+
+        response = self.client.get(
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+        )
+
+        self.assertIsNone(response.data["git_export"])
+        self.assertIsNone(response.data["push_branch"])
+        self.assertIsNone(response.data["repoweb"])
+
     def test_get_component_uses_effective_linked_repository_settings(self) -> None:
         self.component.push_on_commit = True
         self.component.commit_pending_age = 12

@@ -1345,6 +1345,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["filemask"] = None
             result["screenshot_filemask"] = None
             result["push"] = None
+            result["git_export"] = None
+            result["push_branch"] = None
+            result["repoweb"] = None
         return result
 
     def to_internal_value(self, data):
