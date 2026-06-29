@@ -93,7 +93,7 @@ Weblate 2026.7
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are changes in :file:`settings_example.py`, most notably in ``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please adjust your settings accordingly.
-* Existing translation-memory entries are moved to scoped storage by a periodic Celery background task. Keep Celery workers running after the upgrade; translation-memory suggestions can be incomplete until the backfill finishes.
+* Existing translation-memory entries are moved to scoped storage by a periodic Celery background task. Keep Celery running after the upgrade; translation-memory suggestions can be incomplete until the backfill finishes.
 
 .. rubric:: Contributors
 

@@ -33,9 +33,10 @@ Sharing of translations is also available.
    When upgrading from older Weblate releases, existing translation-memory
    entries are converted to scopes by a periodic Celery background task. Until
    this backfill finishes, existing entries can be temporarily unavailable in
-   suggestions and memory management views. Site administrators can monitor the
-   backfill and duplicate-entry consolidation in :guilabel:`Administration` >
-   :guilabel:`Performance report`.
+   suggestions and memory management views. Keep Celery running after the
+   upgrade so the periodic task can start or resume the migration. Site
+   administrators can monitor the backfill and duplicate-entry consolidation in
+   :guilabel:`Administration` > :guilabel:`Performance report`.
 
 Imported translation memory
 +++++++++++++++++++++++++++

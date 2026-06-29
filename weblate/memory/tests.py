@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import tempfile
+from datetime import timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from typing import Any, cast
@@ -1005,7 +1006,7 @@ msgstr "Nazdar svete!\n"
             name="memory-scope-backfill",
             last_memory_id=1,
             updated=timezone.now()
-            - timezone.timedelta(seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS + 1),
+            - timedelta(seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS + 1),
         )
 
         with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
@@ -1043,6 +1044,52 @@ msgstr "Nazdar svete!\n"
             resume_memory_scope_backfill()
 
         mocked_delay.assert_called_once_with()
+
+    def test_resume_memory_scope_backfill_reschedules_completed_compaction(
+        self,
+    ) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Resumed duplicate source",
+            "target": "Obnoveny duplicitni cil",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        Memory.objects.create(**values)
+        Memory.objects.create(**values)
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill",
+            completed=True,
+        )
+
+        with (
+            patch("weblate.memory.tasks.backfill_memory_scopes.delay") as backfill,
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
+            resume_memory_scope_backfill()
+
+        backfill.assert_not_called()
+        compact.assert_called_once_with()
+
+    def test_resume_memory_scope_backfill_keeps_completed_without_duplicates(
+        self,
+    ) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill",
+            completed=True,
+        )
+
+        with (
+            patch("weblate.memory.tasks.backfill_memory_scopes.delay") as backfill,
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
+            resume_memory_scope_backfill()
+
+        backfill.assert_not_called()
+        compact.assert_not_called()
 
     def test_project_delete_removes_legacy_shared_scoped_memory(self) -> None:
         memory = Memory.objects.create(

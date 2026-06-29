@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from datetime import timedelta
 from operator import itemgetter
 from typing import TYPE_CHECKING, TypedDict
 from uuid import UUID
@@ -256,12 +257,32 @@ def backfill_memory_scopes(batch_size: int = 5000) -> None:
         compact_memory_scopes.delay()
 
 
+def has_duplicate_memory_groups() -> bool:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    return (
+        Memory.objects.values(
+            "source_language_id",
+            "target_language_id",
+            "source",
+            "target",
+            "origin",
+            "context",
+            "status",
+            "legacy_from_file",
+        )
+        .annotate(count=Count("id"))
+        .filter(count__gt=1)
+        .exists()
+    )
+
+
 @app.task(trail=False)
 def resume_memory_scope_backfill() -> None:
     # TODO(2028.1): Remove this background TM scope backfill once Weblate no
     # longer supports direct upgrades from 2026 releases.
     state = MemoryScopeMigrationState.objects.filter(
-        name="memory-scope-backfill", completed=False
+        name="memory-scope-backfill",
     ).first()
     if state is None:
         needs_backfill = (
@@ -273,7 +294,12 @@ def resume_memory_scope_backfill() -> None:
             backfill_memory_scopes.delay()
         return
 
-    stale_before = timezone.now() - timezone.timedelta(
+    if state.completed:
+        if has_duplicate_memory_groups():
+            compact_memory_scopes.delay()
+        return
+
+    stale_before = timezone.now() - timedelta(
         seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS
     )
     if state.updated <= stale_before:
