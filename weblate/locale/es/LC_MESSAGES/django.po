@@ -37,7 +37,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-28 06:25+0000\n"
+"PO-Revision-Date: 2026-06-29 18:40+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -2731,16 +2731,12 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "El secreto estándar de webhooks es una cadena codificada en base64."
 
 #: weblate/addons/forms.py:1625
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "URL interruptor de AMQP"
+msgstr "URL de interruptor AMQP"
 
 #: weblate/addons/forms.py:1626
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "El broker AMQP al que conectar."
+msgstr "La URL broker AMQP a la que conectar."
 
 #: weblate/addons/forms.py:1631
 msgid "CA certificate bundle (PEM)"
@@ -5875,11 +5871,8 @@ msgid "Maximum size of translation"
 msgstr "Tamaño máximo de la traducción"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr ""
-"El texto representado de la traducción no debe superar el tamaño indicado."
+msgstr "El texto representado no superaría el tamaño indicado."
 
 #: weblate/checks/render.py:131
 msgid ""
@@ -5931,6 +5924,8 @@ msgstr "Longitud de la cadena de origen"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"La cadena original es demasiado larga para caber con la longitud máxima "
+"configurada."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -8748,20 +8743,18 @@ msgstr "Añadir una nueva identidad al usuario"
 #: weblate/templates/vcs/account_integrations.html:14
 #: weblate/templates/vcs/account_integrations.html:21
 #: weblate/templates/workspace.html:58
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "VCS integrations"
-msgstr "Probar integración con Sentry"
+msgstr "Integraciones con VCS"
 
 #: weblate/templates/accounts/profile.html:264
 msgid "Manage code hosting accounts connected to workspaces you administer."
 msgstr ""
+"Gestiona código hospedando cuentas conectadas a espacios de trabajo que "
+"administras."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Manage site configuration"
 msgid "Manage VCS integrations"
-msgstr "Gestionar configuración del sitio"
+msgstr "Gestionar integraciones VCS"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:416
@@ -10884,10 +10877,8 @@ msgstr "Aplicar"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "Explorar todos los componentes"
+msgstr "Explorar componentes"
 
 #: weblate/templates/category.html:40
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:42
@@ -10945,10 +10936,8 @@ msgstr "Examinar todos los cambios de categoría"
 
 #: weblate/templates/category.html:266 weblate/templates/component.html:327
 #: weblate/templates/project.html:332
-#, fuzzy
-#| msgid "Allow translation"
 msgid "Browse translations"
-msgstr "Permitir traducción"
+msgstr "Explorar traducciones"
 
 #: weblate/templates/category.html:277 weblate/templates/project.html:369
 msgid "Add a category"
@@ -11100,12 +11089,10 @@ msgid "Diagnostics"
 msgstr "Diagnósticos"
 
 #: weblate/templates/component.html:31
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
-msgstr[0] "Error"
-msgstr[1] "Error"
+msgstr[0] "error"
+msgstr[1] "errores"
 
 #: weblate/templates/component.html:52 weblate/templates/project.html:47
 msgid "Download language statistics (CSV)"
@@ -11858,81 +11845,55 @@ msgstr ""
 "datos."
 
 #: weblate/templates/js/git-status.html:229
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Nombres de los archivos"
+msgstr "Gestión de archivo"
 
 #: weblate/templates/js/git-status.html:237
-#, fuzzy
-#| msgid "Removed user"
 msgid "Remove duplicates"
-msgstr "Usuario quitado"
+msgstr "Quitar duplicados"
 
 #: weblate/templates/js/git-status.html:238
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove duplicated strings from the translation file"
-msgstr ""
-"Fuerza la escritura de todas las cadenas en los archivos de traducción."
+msgstr "Quita cadenas duplicadas desde el archivo de traducción"
 
 #: weblate/templates/js/git-status.html:240
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
 msgstr ""
-"Arregle esto quitando las cadenas duplicadas con el mismo identificador de "
-"los archivos de traducción."
+"Retira cadenas repetidas con el mismo identificador desde el archivo de "
+"traducción."
 
 #: weblate/templates/js/git-status.html:241
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
 msgstr ""
-"Esto puede suceder si la ruta dentro de los archivos de traducción contiene "
-"referencias al directorio contenedor o es absoluta."
+"Utilizar cuando el archivo de traducción contenga cadenas duplicadas que no "
+"estén presentes en Weblate."
 
 #: weblate/templates/js/git-status.html:249
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Cleanup unused"
-msgstr "Limpieza"
+msgstr "Purgar no utilizados"
 
 #: weblate/templates/js/git-status.html:250
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove unused strings from the translation file"
-msgstr ""
-"Fuerza la escritura de todas las cadenas en los archivos de traducción."
+msgstr "Retira cadenas no utilizadas desde el archivo de traducción"
 
 #: weblate/templates/js/git-status.html:252
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid "Removes strings that are no longer present in the base file."
-msgstr ""
-"Quita las cadenas que carecen de traducción de los archivos de traducción."
+msgstr "Retira cadenas que ya no estén presentes en el archivo base."
 
 #: weblate/templates/js/git-status.html:253
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The cleanup translation files add-on can perform this automatically."
 msgstr ""
-"Los complementos de archivos de traducción CDN no pueden publicar weblate.js."
+"La purga de los complementos de archivos de traducción pueden realizar esto "
+"automáticamente."
 
 #: weblate/templates/js/git-status.html:259
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid "Use these operations with caution, they rewrite the translation file."
 msgstr ""
-"Utiliza estas operaciones con cuidado, ya que pueden provocar una pérdida de "
-"datos."
+"Utiliza estas operaciones con cuidado, ya que reescribe el archivo de "
+"traducción."
 
 #: weblate/templates/js/git-status.html:268
 #, python-format
@@ -15055,6 +15016,8 @@ msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
 msgstr ""
+"En este nivel no está admitido subir traducciones. Abre una traducción "
+"individual y sube el archivo allí."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:10
 #: weblate/trans/forms.py:1565
@@ -15156,46 +15119,35 @@ msgid "Watch component %(component)s"
 msgstr "Monitorizar componente %(component)s"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:32
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid ""
 "You are about to continue resetting the password for your Weblate account."
-msgstr "Establezca la contraseña para su cuenta de Weblate"
+msgstr ""
+"Esto es para continuar el restablecimiento de la contraseña en su cuenta de "
+"Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:34
-#, fuzzy
-#| msgid "Set password for your Weblate account"
 msgid "You are about to continue removing your Weblate account."
-msgstr "Establezca la contraseña para su cuenta de Weblate"
+msgstr "Esto es para continuar la eliminación de tu cuenta de Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:36
 msgid "You are about to accept an invitation and create a Weblate account."
-msgstr ""
+msgstr "Esto es para aceptar una invitación y crear una cuenta en Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:38
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "You are about to complete registration and create a Weblate account."
-msgstr "No puede completar el registro mientras haya accedido a su cuenta."
+msgstr "Esto es para completar un registro y crear una cuenta de Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:42
-#, fuzzy
-#| msgid "You will find the confirmation link in your e-mail inbox."
 msgid "Continue only if you opened the confirmation link from your e-mail."
-msgstr ""
-"Encontrará el enlace de confirmación en su buzón de correo electrónico."
+msgstr "Continúa solo si abriste el enlace de confirmación desde tu correo-e."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:56
-#, fuzzy
-#| msgid "Confirm password reset"
 msgid "Continue password reset"
-msgstr "Confirmar restablecimiento de contraseña"
+msgstr "Continuar restablecimiento de contraseña"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:58
-#, fuzzy
-#| msgid "Confirm account removal"
 msgid "Continue account removal"
-msgstr "Confirmar eliminación de cuenta"
+msgstr "Continúa la eliminación de cuenta"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:60
 #: weblate/templates/weblate_auth/invitation_detail.html:54
@@ -15203,10 +15155,8 @@ msgid "Accept invitation"
 msgstr "Aceptar invitación"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:62
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create account"
-msgstr "Crear una cuenta a través de:"
+msgstr "Crear cuenta"
 
 #: weblate/templates/trans/alert/addonscripterror.html:3
 msgid "Weblate could not execute script add-on."
@@ -15491,10 +15441,8 @@ msgstr ""
 "los archivos de traducción."
 
 #: weblate/templates/trans/alert/duplicatestring.html:42
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
-msgstr "Quitar cadenas vacías"
+msgstr "Quitar cadenas duplicadas"
 
 #: weblate/templates/trans/alert/extractpotmissingmsgmerge.html:3
 msgid ""
@@ -15965,19 +15913,15 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Add or configure account"
-msgstr "Configuración errónea"
+msgstr "Añadir o configurar cuenta"
 
 #: weblate/templates/trans/component_create.html:206
 #: weblate/templates/vcs/github_app_register.html:105
 #: weblate/templates/vcs/github_installation_detail.html:99
 #: weblate/templates/vcs/github_repository_list.html:77
-#, fuzzy
-#| msgid "Visibility changed"
 msgid "Visibility"
-msgstr "Cambios en la visualización"
+msgstr "Visibilidad"
 
 #: weblate/templates/trans/component_create.html:231
 #: weblate/templates/vcs/github_installation_detail.html:123
@@ -16865,12 +16809,17 @@ msgid ""
 "Connect code hosting accounts to %(workspace)s. These accounts can then be "
 "used when creating components from version control."
 msgstr ""
+"Conecta código hospedando cuentas a %(workspace)s. Entonces estas cuentas "
+"pueden ser utilizadas cuando creen componentes desde el control de versión."
 
 #: weblate/templates/vcs/account_integrations.html:40
 msgid ""
 "Connect code hosting accounts to workspaces you manage. These accounts can "
 "then be used when creating components from version control."
 msgstr ""
+"Conecte las cuentas hospedadas del código en espacios de trabajo que "
+"gestione. Estas cuentas entonces pueden ser utilizadas cunado creen "
+"componentes desde el control de versión."
 
 #: weblate/templates/vcs/account_integrations.html:56
 msgid "GitHub App"
@@ -16887,12 +16836,14 @@ msgid ""
 "connected accounts can be removed, but new accounts cannot be connected "
 "until a site administrator registers the App again."
 msgstr ""
+"Las credenciales de Weblate GitHub App no están registradas en %(hostname)s. "
+"Las cuentas existentes conectadas pueden ser retiradas, pero las cuentas "
+"nuevas no pueden ser conectadas hasta que un administrados del sitio "
+"registre la Aplicación de nuevo."
 
 #: weblate/templates/vcs/account_integrations.html:76
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connect accounts"
-msgstr "Eliminar cuenta"
+msgstr "Conectar cuentas"
 
 #: weblate/templates/vcs/account_integrations.html:89
 #: weblate/templates/vcs/github_installation_list.html:58
@@ -23141,15 +23092,15 @@ msgstr ""
 #: weblate/vcs/github.py:949
 #, python-format
 msgid "Could not obtain GitHub App access token: %s"
-msgstr ""
+msgstr "No se pudo obtener el vale de acceso a GitHub App: %s"
 
 #: weblate/vcs/github.py:965
 msgid "No Weblate GitHub app installation available."
-msgstr ""
+msgstr "No está disponible la aplicación GitHub de Weblate."
 
 #: weblate/vcs/github.py:981
 msgid "GitHub App repositories must be imported with a branch."
-msgstr ""
+msgstr "Deben ser importados los repositorios de App GitHub con una rama."
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
@@ -23196,16 +23147,12 @@ msgid "code-hosting installations"
 msgstr "Instalaciones code-hosting"
 
 #: weblate/vcs/models.py:130
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook payload"
-msgstr "Webhook"
+msgstr "Carga Webhook"
 
 #: weblate/vcs/models.py:136
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "Invitación pendiente"
+msgstr "esperando instalación del código hospedado"
 
 #: weblate/vcs/models.py:137
 msgid "pending code-hosting installations"
@@ -23295,7 +23242,7 @@ msgstr ""
 #: weblate/vcs/views.py:412
 #, python-format
 msgid "Removed connected GitHub account %(target)s."
-msgstr ""
+msgstr "Cuenta %(target)s conectada en GitHub eliminada."
 
 #: weblate/vcs/views.py:428
 #, python-format
@@ -23303,6 +23250,8 @@ msgid ""
 "Remove connected GitHub accounts on %(hostname)s before removing the app "
 "credentials."
 msgstr ""
+"Elimina cuentas de GitHub conectadas en %(hostname)s antes de eliminar las "
+"credenciales de la app."
 
 #: weblate/vcs/views.py:436
 #, python-format
@@ -23328,27 +23277,27 @@ msgstr ""
 
 #: weblate/vcs/views.py:487
 msgid "Select a workspace before connecting a GitHub account."
-msgstr ""
+msgstr "Seleccione un espacio de trabajo antes de conectar a una cuenta GitHub."
 
 #: weblate/vcs/views.py:497
 msgid "Weblate GitHub app is not configured for the selected host."
-msgstr ""
+msgstr "No está configurada la app GitHub en Weblate para el host seleccionado."
 
 #: weblate/vcs/views.py:563
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr ""
+"El enlace de instalación de la app GitHue de Weblate ya no es válido más. "
+"Inicie la instalación nuevamente."
 
 #: weblate/vcs/views.py:571 weblate/vcs/views.py:594
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "No tienes permiso para editar el destino del espacio de trabajo."
+msgstr "No tienes permiso para conectarse a GitHub en este espacio de trabajo."
 
 #: weblate/vcs/views.py:579
 msgid "GitHub did not return an installation ID."
-msgstr ""
+msgstr "GitHub no devuelve un ID de instalación."
 
 #: weblate/vcs/views.py:606
 msgid ""
@@ -23356,24 +23305,29 @@ msgid ""
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
 msgstr ""
+"Weblate no pudo confirmar eso que puede administrar esta instalación de "
+"GitHub. Inicie la instalación otra vez con un usuario de GitHub el cual "
+"posea la cuenta o pueda administrar la organización."
 
 #: weblate/vcs/views.py:632
 msgid ""
 "GitHub is still syncing the connected account. The repositories will appear "
 "here once the webhook is processed."
 msgstr ""
+"GitHub aún está sincronizando la cuenta conectada. Los repositorios "
+"aparecerán aquí una vez que el gancho web esté procesado."
 
 #: weblate/vcs/views.py:645
 msgid ""
 "The connected GitHub account was saved, but refreshing the repository list "
 "failed. Try again in a moment."
 msgstr ""
+"La cuenta GitHub conectada ha sido guardada, pero ha fallado la recarga del "
+"listado del repositorio. Intente esto de nuevo en un momento."
 
 #: weblate/vcs/views.py:653
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "Se creó la cuenta de usuario {}."
+msgstr "Se ha añadido la cuenta GitHub conectada."
 
 #: weblate/vcs/views.py:658
 msgid "Connected GitHub account updated."
@@ -23385,6 +23339,8 @@ msgid ""
 "A Weblate GitHub App is already registered for %(hostname)s. Remove it "
 "before registering another one."
 msgstr ""
+"Ya está registrada una App GitHub de Weblate para %(hostname)s. Retírela "
+"antes de registrar otra."
 
 #: weblate/vcs/views.py:995
 msgid "Start the Weblate GitHub App registration again to refresh the request."
