@@ -6,12 +6,12 @@ from __future__ import annotations
 
 import json
 import tempfile
+from datetime import timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, cast
+from typing import Any, cast
 from unittest.mock import MagicMock, call, patch
 
-from django.apps import apps as django_apps
 from django.core.exceptions import FieldDoesNotExist, FieldError
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -21,9 +21,9 @@ from django.db.models.functions import MD5
 from django.test import SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
+from django.utils import timezone
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
-from kombu.exceptions import OperationalError
 from weblate_schemas import load_schema
 
 from weblate.lang.data import FORMULA_WITH_ZERO
@@ -34,16 +34,24 @@ from weblate.memory.models import (
     MemoryImportError,
     MemoryQuerySet,
     MemoryScope,
+    MemoryScopeMigrationState,
     load_memory_json_data,
     load_memory_tmx_store,
 )
 from weblate.memory.tasks import (
+    MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
+    MEMORY_SCOPE_BACKFILL_STATE,
+    MEMORY_SCOPE_COMPACTION_STALE_SECONDS,
+    MEMORY_SCOPE_COMPACTION_STATE,
     MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
+    MemoryGroupEntry,
+    backfill_memory_scopes,
     cleanup_orphaned_memory,
     compact_memory_scopes,
     get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
+    resume_memory_scope_backfill,
     set_scope_source_project_ids,
     update_memory,
     update_memory_bulk,
@@ -60,10 +68,6 @@ from weblate.trans.tests.utils import create_another_user, get_test_file
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
-
-if TYPE_CHECKING:
-    from weblate.memory.apps import MemoryConfig
-    from weblate.memory.tasks import MemoryGroupEntry
 
 
 def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
@@ -89,6 +93,21 @@ class MemoryReadReplicaRouter:
         if model._meta.app_label == "memory":  # noqa: SLF001
             return "default"
         return None
+
+
+class MemoryReplicaWriteRouter:
+    def db_for_read(self, model: type[models.Model], **_hints: object) -> str | None:
+        if model._meta.app_label == "memory":  # noqa: SLF001
+            return "memory_db"
+        return None
+
+    def db_for_write(self, model: type[models.Model], **_hints: object) -> str | None:
+        if model._meta.app_label == "memory":  # noqa: SLF001
+            return "memory_db"
+        return None
+
+    def allow_relation(self, obj1: models.Model, obj2: models.Model) -> bool | None:
+        return True
 
 
 class MemoryParserTest(SimpleTestCase):
@@ -1001,23 +1020,257 @@ msgstr "Nazdar svete!\n"
 
         mocked_cleanup.assert_called_once_with()
 
-    def test_post_migrate_fails_on_celery_publish_failure(self) -> None:
-        add_document()
-        memory_config = cast("MemoryConfig", django_apps.get_app_config("memory"))
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReplicaWriteRouter"]
+    )
+    def test_backfill_memory_scopes_uses_default_database_alias(self) -> None:
+        memory = Memory.objects.using("default").create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Backfill routed source",
+            target="Doplneny smerovany cil",
+            origin=self.component.full_slug,
+            legacy_project=self.project,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.using("default").filter(memory=memory).delete()
+        MemoryScopeMigrationState.objects.using("default").all().delete()
 
         with (
-            patch(
-                "weblate.memory.tasks.backfill_memory_scopes.delay",
-                side_effect=OperationalError("broker unavailable"),
-            ) as mocked_backfill,
-            self.assertRaisesMessage(
-                CommandError,
-                "Could not schedule translation memory scope migration task",
-            ),
+            patch("weblate.memory.tasks.schedule_memory_scope_compaction"),
+            patch.object(
+                MemoryScope.objects,
+                "db_manager",
+                wraps=MemoryScope.objects.db_manager,
+            ) as db_manager,
         ):
-            memory_config.post_migrate(memory_config)
+            backfill_memory_scopes()
 
-        mocked_backfill.assert_called_once_with()
+        db_manager.assert_any_call("default")
+        self.assertNotIn(call("memory_db"), db_manager.call_args_list)
+        self.assertTrue(
+            MemoryScope.objects.using("default")
+            .filter(
+                memory=memory,
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=self.project,
+            )
+            .exists()
+        )
+
+    def test_resume_memory_scope_backfill_reschedules_stale_state(self) -> None:
+        state = MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            last_memory_id=1,
+            updated=timezone.now()
+            - timedelta(seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS + 1),
+        )
+
+        with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
+            resume_memory_scope_backfill()
+
+        mocked_delay.assert_called_once_with()
+        state.refresh_from_db()
+        self.assertFalse(state.completed)
+
+    def test_resume_memory_scope_backfill_keeps_recent_state(self) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE, updated=timezone.now()
+        )
+
+        with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
+            resume_memory_scope_backfill()
+
+        mocked_delay.assert_not_called()
+
+    def test_resume_memory_scope_backfill_without_state_detects_unscoped_rows(
+        self,
+    ) -> None:
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Resumed unscoped source",
+            target="Obnoveny cil",
+            origin=self.component.full_slug,
+            legacy_project=self.project,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.filter(memory=memory).delete()
+
+        with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
+            resume_memory_scope_backfill()
+
+        mocked_delay.assert_called_once_with()
+
+    def test_resume_memory_scope_backfill_without_state_marks_scoped_rows_completed(
+        self,
+    ) -> None:
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Already scoped source",
+            target="Jiz rozsahovy cil",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(memory=memory, scope=MemoryScope.SCOPE_GLOBAL_FILE)
+
+        with (
+            patch("weblate.memory.tasks.backfill_memory_scopes.delay") as backfill,
+            patch(
+                "weblate.memory.tasks.has_duplicate_memory_groups",
+                return_value=False,
+            ) as has_duplicates,
+        ):
+            resume_memory_scope_backfill()
+
+        backfill.assert_not_called()
+        has_duplicates.assert_called_once_with()
+        backfill_state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_BACKFILL_STATE
+        )
+        self.assertTrue(backfill_state.completed)
+        compaction_state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(compaction_state.completed)
+
+        with (
+            patch.object(MemoryQuerySet, "get_has_scope_exists") as has_scope,
+            patch("weblate.memory.tasks.has_duplicate_memory_groups") as has_duplicates,
+        ):
+            resume_memory_scope_backfill()
+
+        has_scope.assert_not_called()
+        has_duplicates.assert_not_called()
+
+    def test_resume_memory_scope_backfill_reschedules_completed_compaction(
+        self,
+    ) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Resumed duplicate source",
+            "target": "Obnoveny duplicitni cil",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        Memory.objects.create(**values)
+        Memory.objects.create(**values)
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+
+        with (
+            patch("weblate.memory.tasks.backfill_memory_scopes.delay") as backfill,
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
+            resume_memory_scope_backfill()
+
+        backfill.assert_not_called()
+        compact.assert_called_once_with()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertFalse(state.completed)
+
+    def test_resume_memory_scope_backfill_keeps_completed_without_duplicates(
+        self,
+    ) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+
+        with (
+            patch("weblate.memory.tasks.backfill_memory_scopes.delay") as backfill,
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
+            resume_memory_scope_backfill()
+
+        backfill.assert_not_called()
+        compact.assert_not_called()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
+
+    def test_resume_memory_scope_backfill_skips_completed_compaction(
+        self,
+    ) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_COMPACTION_STATE,
+            completed=True,
+        )
+
+        with (
+            patch("weblate.memory.tasks.has_duplicate_memory_groups") as has_duplicates,
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
+            resume_memory_scope_backfill()
+
+        has_duplicates.assert_not_called()
+        compact.assert_not_called()
+
+    def test_resume_memory_scope_backfill_skips_recent_compaction(
+        self,
+    ) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_COMPACTION_STATE,
+            completed=False,
+            updated=timezone.now(),
+        )
+
+        with (
+            patch("weblate.memory.tasks.has_duplicate_memory_groups") as has_duplicates,
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
+            resume_memory_scope_backfill()
+
+        has_duplicates.assert_not_called()
+        compact.assert_not_called()
+
+    def test_resume_memory_scope_backfill_recovers_stale_compaction(
+        self,
+    ) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Stale compaction source",
+            "target": "Zastarala kompaktace cil",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        Memory.objects.create(**values)
+        Memory.objects.create(**values)
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_COMPACTION_STATE,
+            completed=False,
+            updated=timezone.now()
+            - timedelta(seconds=MEMORY_SCOPE_COMPACTION_STALE_SECONDS + 1),
+        )
+
+        with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
+            resume_memory_scope_backfill()
+
+        compact.assert_called_once_with()
 
     def test_project_delete_removes_legacy_shared_scoped_memory(self) -> None:
         memory = Memory.objects.create(
@@ -1714,6 +1967,58 @@ msgstr "Nazdar svete!\n"
         self.assertEqual(
             set(memory.scopes.values_list("scope", flat=True)),
             {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_SHARED},
+        )
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
+
+    def test_compact_memory_scopes_marks_completion_without_duplicates(self) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+
+        with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
+            compact_memory_scopes()
+
+        compact.assert_not_called()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
+
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReplicaWriteRouter"]
+    )
+    def test_compact_memory_scopes_uses_default_database_alias(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Compacted routed source",
+            "target": "Kompaktni smerovany cil",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        Memory.objects.using("default").create(legacy_project=self.project, **values)
+        Memory.objects.using("default").create(legacy_shared=True, **values)
+
+        with patch.object(
+            MemoryScope.objects,
+            "db_manager",
+            wraps=MemoryScope.objects.db_manager,
+        ) as db_manager:
+            compact_memory_scopes()
+
+        db_manager.assert_any_call("default")
+        self.assertNotIn(call("memory_db"), db_manager.call_args_list)
+        self.assertEqual(
+            Memory.objects.using("default")
+            .filter(source="Compacted routed source")
+            .count(),
+            1,
         )
 
     def test_compact_preserves_shared_source_projects(self) -> None:

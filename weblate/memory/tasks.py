@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from datetime import timedelta
 from operator import itemgetter
 from typing import TYPE_CHECKING, TypedDict
 from uuid import UUID
@@ -26,6 +27,10 @@ if TYPE_CHECKING:
 
 MEMORY_UPDATE_BATCH_SIZE = 1000
 MEMORY_UPDATE_LOOKUP_CHUNK_SIZE = 50
+MEMORY_SCOPE_BACKFILL_STALE_SECONDS = 15 * 60
+MEMORY_SCOPE_COMPACTION_STALE_SECONDS = 4 * MEMORY_SCOPE_BACKFILL_STALE_SECONDS
+MEMORY_SCOPE_BACKFILL_STATE = "memory-scope-backfill"
+MEMORY_SCOPE_COMPACTION_STATE = "memory-scope-compaction"
 
 
 class MemoryUpdatePayload(TypedDict):
@@ -210,39 +215,174 @@ def set_scope_source_project_ids(memories: list[Memory]) -> None:
 def backfill_memory_scopes(batch_size: int = 5000) -> None:
     # TODO(2028.1): Remove this background TM scope backfill once Weblate no
     # longer supports direct upgrades from 2026 releases.
-    state, _created = MemoryScopeMigrationState.objects.get_or_create(
-        name="memory-scope-backfill"
-    )
-    if state.completed:
-        return
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
+    migration_state_objects = MemoryScopeMigrationState.objects.db_manager("default")
 
-    memories = list(
-        Memory.objects.filter(id__gt=state.last_memory_id)
-        .order_by("id")
-        .select_related(
-            "legacy_project",
-            "legacy_user",
-        )[:batch_size]
-    )
-    if not memories:
-        state.completed = True
-        state.updated = timezone.now()
-        state.save(update_fields=["completed", "updated"])
-        compact_memory_scopes.delay()
-        return
+    with transaction.atomic(using="default"):
+        state, _created = migration_state_objects.select_for_update().get_or_create(
+            name=MEMORY_SCOPE_BACKFILL_STATE
+        )
+        if state.completed:
+            return
 
-    set_scope_source_project_ids(memories)
-    MemoryScope.objects.bulk_create_for_memories(memories)
-    state.last_memory_id = memories[-1].id
-    state.updated = timezone.now()
+        memories = list(
+            memory_objects.filter(id__gt=state.last_memory_id)
+            .order_by("id")
+            .select_related(
+                "legacy_project",
+                "legacy_user",
+            )[:batch_size]
+        )
+        if not memories:
+            state.completed = True
+            state.updated = timezone.now()
+            state.save(using="default", update_fields=["completed", "updated"])
+            run_compact = True
+            run_next = False
+        else:
+            set_scope_source_project_ids(memories)
+            memory_scope_objects.bulk_create_for_memories(memories)
+            state.last_memory_id = memories[-1].id
+            state.updated = timezone.now()
 
-    if len(memories) == batch_size:
-        state.save(update_fields=["last_memory_id", "updated"])
+            if len(memories) == batch_size:
+                state.save(using="default", update_fields=["last_memory_id", "updated"])
+                run_next = True
+                run_compact = False
+            else:
+                state.completed = True
+                state.save(
+                    using="default",
+                    update_fields=["last_memory_id", "completed", "updated"],
+                )
+                run_next = False
+                run_compact = True
+
+    if run_next:
         backfill_memory_scopes.delay(batch_size=batch_size)
+    elif run_compact:
+        schedule_memory_scope_compaction()
+
+
+def set_memory_scope_compaction_completed(completed: bool) -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    MemoryScopeMigrationState.objects.using("default").update_or_create(
+        name=MEMORY_SCOPE_COMPACTION_STATE,
+        defaults={"completed": completed, "updated": timezone.now()},
+    )
+
+
+def set_memory_scope_backfill_completed() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    MemoryScopeMigrationState.objects.using("default").update_or_create(
+        name=MEMORY_SCOPE_BACKFILL_STATE,
+        defaults={"completed": True, "updated": timezone.now()},
+    )
+
+
+def get_memory_scope_compaction_state() -> MemoryScopeMigrationState | None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    return (
+        MemoryScopeMigrationState.objects.using("default")
+        .filter(name=MEMORY_SCOPE_COMPACTION_STATE)
+        .first()
+    )
+
+
+def resume_memory_scope_compaction() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    state = get_memory_scope_compaction_state()
+    if state is not None:
+        if state.completed:
+            return
+        stale_before = timezone.now() - timedelta(
+            seconds=MEMORY_SCOPE_COMPACTION_STALE_SECONDS
+        )
+        if state.updated > stale_before:
+            return
+
+    if has_duplicate_memory_groups():
+        schedule_memory_scope_compaction()
     else:
-        state.completed = True
-        state.save(update_fields=["last_memory_id", "completed", "updated"])
-        compact_memory_scopes.delay()
+        set_memory_scope_compaction_completed(True)
+
+
+def schedule_memory_scope_compaction() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    set_memory_scope_compaction_completed(False)
+    compact_memory_scopes.delay()
+
+
+def has_duplicate_memory_groups() -> bool:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    return (
+        Memory.objects.using("default")
+        .values(
+            "source_language_id",
+            "target_language_id",
+            "source",
+            "target",
+            "origin",
+            "context",
+            "status",
+            "legacy_from_file",
+        )
+        .annotate(count=Count("id"))
+        .filter(count__gt=1)
+        .exists()
+    )
+
+
+@app.task(trail=False)
+def resume_memory_scope_backfill() -> None:
+    # TODO(2028.1): Remove this background TM scope backfill once Weblate no
+    # longer supports direct upgrades from 2026 releases.
+    state = (
+        MemoryScopeMigrationState.objects.using("default")
+        .filter(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+        )
+        .first()
+    )
+    if state is None:
+        memory_objects = Memory.objects.using("default")
+        needs_backfill = (
+            memory_objects.alias(memory_has_scope=memory_objects.get_has_scope_exists())
+            .filter(memory_has_scope=False)
+            .exists()
+        )
+        if needs_backfill:
+            backfill_memory_scopes.delay()
+        else:
+            set_memory_scope_backfill_completed()
+            resume_memory_scope_compaction()
+        return
+
+    if state.completed:
+        resume_memory_scope_compaction()
+        return
+
+    stale_before = timezone.now() - timedelta(
+        seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS
+    )
+    if state.updated <= stale_before:
+        backfill_memory_scopes.delay()
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs) -> None:
+    sender.add_periodic_task(
+        MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
+        resume_memory_scope_backfill.s(),
+        name="resume-memory-scope-backfill",
+    )
 
 
 @app.task(trail=False)
@@ -392,15 +532,21 @@ def update_memory(  # noqa: PLR0913
 def compact_memory_scopes(batch_size: int = 100) -> None:
     # TODO(2028.1): Remove this background TM scope compaction once Weblate no
     # longer supports direct upgrades from 2026 releases.
-    state = MemoryScopeMigrationState.objects.filter(
-        name="memory-scope-backfill"
-    ).first()
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
+
+    state = (
+        MemoryScopeMigrationState.objects.using("default")
+        .filter(name=MEMORY_SCOPE_BACKFILL_STATE)
+        .first()
+    )
     if state is not None and not state.completed:
         backfill_memory_scopes.delay()
         return
 
+    set_memory_scope_compaction_completed(False)
     duplicate_groups = list(
-        Memory.objects.values(
+        memory_objects.values(
             "source_language_id",
             "target_language_id",
             "source",
@@ -415,6 +561,7 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
         .order_by("first_id")[:batch_size]
     )
     if not duplicate_groups:
+        set_memory_scope_compaction_completed(True)
         return
 
     for group in duplicate_groups:
@@ -432,7 +579,7 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
             )
         }
         memories = list(
-            Memory.objects.filter(**filters)
+            memory_objects.filter(**filters)
             .order_by("id")
             .select_related(
                 "legacy_project",
@@ -442,18 +589,23 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
         if len(memories) < 2:
             continue
         set_scope_source_project_ids(memories)
-        MemoryScope.objects.bulk_create_for_memories(memories)
+        memory_scope_objects.bulk_create_for_memories(memories)
         memories = list(
-            Memory.objects.filter(id__in=[memory.id for memory in memories])
-            .order_by("id")
-            .prefetch_related("scopes")
+            memory_objects.filter(id__in=[memory.id for memory in memories]).order_by(
+                "id"
+            )
         )
+        scopes_by_memory = defaultdict(list)
+        for scope in memory_scope_objects.filter(
+            memory_id__in=[memory.id for memory in memories]
+        ):
+            scopes_by_memory[scope.memory_id].append(scope)
         survivor = memories[0]
         duplicate_ids = [memory.id for memory in memories[1:]]
         scope_keys = {
             get_memory_scope_key(scope)
             for memory in memories
-            for scope in memory.scopes.all()
+            for scope in scopes_by_memory[memory.id]
         }
         scopes = []
         for memory in memories[1:]:
@@ -467,17 +619,19 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
                         source_project_id=scope.source_project_id,
                         user_id=scope.user_id,
                     )
-                    for scope in memory.scopes.all()
+                    for scope in scopes_by_memory[memory.id]
                 ]
             )
         if scopes:
-            MemoryScope.objects.bulk_create(scopes, ignore_conflicts=True)
+            memory_scope_objects.bulk_create(scopes, ignore_conflicts=True)
         if len(scope_keys) >= 2:
             normalize_compacted_memory_owner(survivor)
-        Memory.objects.filter(id__in=duplicate_ids).delete()
+        memory_objects.filter(id__in=duplicate_ids).delete()
 
     if len(duplicate_groups) == batch_size:
         compact_memory_scopes.delay(batch_size=batch_size)
+    else:
+        set_memory_scope_compaction_completed(True)
 
 
 @app.task(trail=False)
