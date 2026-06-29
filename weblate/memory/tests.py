@@ -42,6 +42,7 @@ from weblate.memory.tasks import (
     MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
     MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
     MemoryGroupEntry,
+    backfill_memory_scopes,
     cleanup_orphaned_memory,
     compact_memory_scopes,
     get_group_matching_memory,
@@ -89,6 +90,21 @@ class MemoryReadReplicaRouter:
         if model._meta.app_label == "memory":  # noqa: SLF001
             return "default"
         return None
+
+
+class MemoryReplicaWriteRouter:
+    def db_for_read(self, model: type[models.Model], **_hints: object) -> str | None:
+        if model._meta.app_label == "memory":  # noqa: SLF001
+            return "memory_db"
+        return None
+
+    def db_for_write(self, model: type[models.Model], **_hints: object) -> str | None:
+        if model._meta.app_label == "memory":  # noqa: SLF001
+            return "memory_db"
+        return None
+
+    def allow_relation(self, obj1: models.Model, obj2: models.Model) -> bool | None:
+        return True
 
 
 class MemoryParserTest(SimpleTestCase):
@@ -1001,6 +1017,44 @@ msgstr "Nazdar svete!\n"
 
         mocked_cleanup.assert_called_once_with()
 
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReplicaWriteRouter"]
+    )
+    def test_backfill_memory_scopes_uses_default_database_alias(self) -> None:
+        memory = Memory.objects.using("default").create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Backfill routed source",
+            target="Doplneny smerovany cil",
+            origin=self.component.full_slug,
+            legacy_project=self.project,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.using("default").filter(memory=memory).delete()
+        MemoryScopeMigrationState.objects.using("default").all().delete()
+
+        with (
+            patch("weblate.memory.tasks.compact_memory_scopes.delay"),
+            patch.object(
+                MemoryScope.objects,
+                "db_manager",
+                wraps=MemoryScope.objects.db_manager,
+            ) as db_manager,
+        ):
+            backfill_memory_scopes()
+
+        db_manager.assert_any_call("default")
+        self.assertNotIn(call("memory_db"), db_manager.call_args_list)
+        self.assertTrue(
+            MemoryScope.objects.using("default")
+            .filter(
+                memory=memory,
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=self.project,
+            )
+            .exists()
+        )
+
     def test_resume_memory_scope_backfill_reschedules_stale_state(self) -> None:
         state = MemoryScopeMigrationState.objects.create(
             name="memory-scope-backfill",
@@ -1786,6 +1840,39 @@ msgstr "Nazdar svete!\n"
         self.assertEqual(
             set(memory.scopes.values_list("scope", flat=True)),
             {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_SHARED},
+        )
+
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReplicaWriteRouter"]
+    )
+    def test_compact_memory_scopes_uses_default_database_alias(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Compacted routed source",
+            "target": "Kompaktni smerovany cil",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        Memory.objects.using("default").create(legacy_project=self.project, **values)
+        Memory.objects.using("default").create(legacy_shared=True, **values)
+
+        with patch.object(
+            MemoryScope.objects,
+            "db_manager",
+            wraps=MemoryScope.objects.db_manager,
+        ) as db_manager:
+            compact_memory_scopes()
+
+        db_manager.assert_any_call("default")
+        self.assertNotIn(call("memory_db"), db_manager.call_args_list)
+        self.assertEqual(
+            Memory.objects.using("default")
+            .filter(source="Compacted routed source")
+            .count(),
+            1,
         )
 
     def test_compact_preserves_shared_source_projects(self) -> None:
