@@ -12,6 +12,7 @@ from collections import defaultdict
 from typing import TYPE_CHECKING
 from urllib.parse import urlencode
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -967,7 +968,7 @@ def _load_register_state(request, state: str) -> tuple[str, str]:
 
 def _default_register_name(request) -> str:
     host = request.get_host().split(":", 1)[0]
-    return f"Weblate ({host})"[:GITHUB_APP_NAME_MAX_LENGTH]
+    return f"{settings.SITE_TITLE} ({host})"[:GITHUB_APP_NAME_MAX_LENGTH]
 
 
 def _build_manifest_for_request(

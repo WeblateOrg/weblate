@@ -1558,6 +1558,14 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(parsed.netloc, "github.example.com")
         self.assertEqual(parsed.path, "/organizations/acme/settings/apps/new")
 
+    @override_settings(SITE_TITLE="Acme Translate")
+    def test_register_default_name_uses_site_title(self):
+        response = self.client.get(reverse("github-app-register"))
+
+        self.assertEqual(response.context["name"], "Acme Translate (testserver)")
+        manifest = json.loads(response.context["manifest_json"])
+        self.assertEqual(manifest["name"], "Acme Translate (testserver)")
+
     @responses.activate
     def test_register_callback_stores_credentials(self):
         responses.add(

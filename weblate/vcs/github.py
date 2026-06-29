@@ -29,8 +29,6 @@ from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
-
     from django_stubs_ext import StrOrPromise
 
     from weblate.trans.models import Component
@@ -234,9 +232,9 @@ def get_github_basic_auth_header(username: str, token: str) -> str:
     return f"Authorization: Basic {auth}"
 
 
-def get_github_git_auth_args(username: str, token: str) -> Iterator[str]:
+def get_github_git_auth_environment(username: str, token: str) -> dict[str, str]:
     """
-    Yield git CLI flags that inject GitHub HTTPS auth for one command.
+    Return environment variables that inject GitHub HTTPS auth for one git command.
 
     ``http.extraHeader`` is sent on every request, which is enough for the
     initial smart-protocol probe to succeed. Combining it with
@@ -245,9 +243,15 @@ def get_github_git_auth_args(username: str, token: str) -> Iterator[str]:
     knows about (URL, credential helper) — it does not consume
     ``extraHeader`` — so Git falls back to prompting and the clone fails
     with "terminal prompts disabled".
+
+    Use Git's environment-backed config instead of ``git -c`` so installation
+    tokens are not exposed in process arguments or VCS breadcrumbs.
     """
-    yield "-c"
-    yield f"http.extraHeader={get_github_basic_auth_header(username, token)}"
+    return {
+        "GIT_CONFIG_COUNT": "1",
+        "GIT_CONFIG_KEY_0": "http.extraHeader",
+        "GIT_CONFIG_VALUE_0": get_github_basic_auth_header(username, token),
+    }
 
 
 def get_github_api_base(hostname: str) -> str:
@@ -955,7 +959,7 @@ class GithubAppRepository(GithubRepository):
             "github_app": "1",
         }
 
-    def _get_auth_args(self, repo: str) -> Iterator[str]:
+    def _get_auth_environment(self, repo: str) -> dict[str, str]:
         workspace = self._get_component_workspace()
         app_creds = GithubAppRepository._resolve_github_app_credentials_for_repo(
             repo, workspace=workspace
@@ -965,15 +969,18 @@ class GithubAppRepository(GithubRepository):
                 0, gettext("No Weblate GitHub app installation available.")
             )
 
-        yield from super()._get_auth_args(repo)
-        yield from get_github_git_auth_args(app_creds["username"], app_creds["token"])
+        environment = super()._get_auth_environment(repo)
+        environment.update(
+            get_github_git_auth_environment(app_creds["username"], app_creds["token"])
+        )
+        return environment
 
-    def get_auth_args(self) -> list[str]:
+    def get_auth_environment(self) -> dict[str, str]:
         if self.component is None:
             raise RepositoryError(
                 0, gettext("GitHub App components require a project with a workspace.")
             )
-        return list(self._get_auth_args(self.component.repo))
+        return self._get_auth_environment(self.component.repo)
 
     @classmethod
     def get_remote_branch(cls, _repo: str) -> str:

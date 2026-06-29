@@ -56,6 +56,25 @@ def _make_installation(**overrides) -> GitHubInstallation:
     return GitHubInstallation.objects.create(**defaults)
 
 
+def _assert_no_github_app_auth_args(testcase: TestCase, args: list[str]) -> None:
+    testcase.assertFalse(
+        any("http.extraHeader" in arg or "Authorization: Basic" in arg for arg in args)
+    )
+
+
+def _assert_github_app_auth_environment(
+    testcase: TestCase, environment: dict[str, str]
+) -> None:
+    testcase.assertEqual(environment["GIT_CONFIG_COUNT"], "1")
+    testcase.assertEqual(environment["GIT_CONFIG_KEY_0"], "http.extraHeader")
+    testcase.assertEqual(
+        b64decode(
+            environment["GIT_CONFIG_VALUE_0"].removeprefix("Authorization: Basic ")
+        ).decode("utf-8"),
+        "x-access-token:ghs_test",
+    )
+
+
 class TestGitHubInstallationManager(TestCase):
     def setUp(self):
         self.installation = _make_installation(
@@ -197,7 +216,7 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
-    def test_github_repository_auth_args_use_installation_token(self):
+    def test_github_repository_auth_environment_uses_installation_token(self):
         _make_credentials()
         cache.clear()
         responses.add(
@@ -207,13 +226,11 @@ class TestGitHubInstallationManager(TestCase):
         )
         repository = self._make_app_repository()
 
-        args = list(
-            repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
-        )
+        args = repository.get_auth_args()
+        environment = repository.get_auth_environment()
 
-        self.assertTrue(
-            any("http.extraHeader=Authorization: Basic" in arg for arg in args)
-        )
+        _assert_no_github_app_auth_args(self, args)
+        _assert_github_app_auth_environment(self, environment)
         self.assertEqual(len(responses.calls), 1)
         self.assertEqual(
             responses.calls[0].request.url,
@@ -240,20 +257,18 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(component.branch, "")
 
     @responses.activate
-    def test_github_repository_auth_args_require_workspace(self):
+    def test_github_repository_auth_environment_requires_workspace(self):
         repository = GithubAppRepository(".", branch="main", local=True)
 
         with self.assertRaisesRegex(
             RepositoryError, "GitHub App components require a project with a workspace"
         ):
-            list(
-                repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
-            )
+            repository.get_auth_environment()
 
         self.assertEqual(len(responses.calls), 0)
 
     @responses.activate
-    def test_github_repository_auth_args_require_installation(self):
+    def test_github_repository_auth_environment_require_installation(self):
         _make_credentials()
         cache.clear()
         repository = self._make_app_repository("https://github.com/other/repo.git")
@@ -261,14 +276,14 @@ class TestGitHubInstallationManager(TestCase):
         with self.assertRaisesRegex(
             RepositoryError, "No Weblate GitHub app installation available"
         ):
-            list(
-                repository._get_auth_args("https://github.com/other/repo.git")  # noqa: SLF001
-            )
+            repository.get_auth_environment()
 
         self.assertEqual(len(responses.calls), 0)
 
     @responses.activate
-    def test_github_repository_auth_args_token_failure_raises_repository_error(self):
+    def test_github_repository_auth_environment_token_failure_raises_repository_error(
+        self,
+    ):
         _make_credentials()
         cache.clear()
         responses.add(
@@ -281,9 +296,7 @@ class TestGitHubInstallationManager(TestCase):
         with self.assertRaisesRegex(
             RepositoryError, "Could not obtain GitHub App access token"
         ):
-            list(
-                repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
-            )
+            repository.get_auth_environment()
 
         self.assertEqual(len(responses.calls), 1)
 
@@ -297,7 +310,7 @@ class TestGitHubInstallationManager(TestCase):
         with self.assertRaisesRegex(
             RepositoryError, "GitHub App components require a project with a workspace"
         ):
-            repository.get_auth_args()
+            repository.get_auth_environment()
         with self.assertRaisesRegex(
             RepositoryError, "GitHub App components require a project with a workspace"
         ):
@@ -345,10 +358,34 @@ class TestGitHubInstallationManager(TestCase):
             repository.clone_from("https://github.com/test-org/repo1.git")
 
         clone_args = popen.call_args_list[-1].args[0]
+        environment = popen.call_args_list[-1].kwargs["environment"]
         self.assertIn("clone", clone_args)
-        self.assertTrue(
-            any("http.extraHeader=Authorization: Basic" in arg for arg in clone_args)
+        _assert_no_github_app_auth_args(self, clone_args)
+        _assert_github_app_auth_environment(self, environment)
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    def test_github_repository_push_uses_installation_token_environment(self):
+        _make_credentials()
+        cache.clear()
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_test"},
         )
+        repository = self._make_app_repository()
+
+        with (
+            patch.object(GithubAppRepository, "execute", return_value="") as execute,
+            patch.object(GithubAppRepository, "create_pull_request"),
+        ):
+            repository.push("weblate-test")
+
+        push_args = execute.call_args.args[0]
+        environment = execute.call_args.kwargs["environment"]
+        self.assertIn("push", push_args)
+        _assert_no_github_app_auth_args(self, push_args)
+        _assert_github_app_auth_environment(self, environment)
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
@@ -378,11 +415,11 @@ class TestGitHubInstallationManager(TestCase):
             repository.deepen_remote_compatibility_history("main")
 
         deepen_args = execute.call_args.args[0]
+        environment = execute.call_args.kwargs["environment"]
         self.assertIn("fetch", deepen_args)
         self.assertIn(f"--deepen={repository.remote_compatibility_deepen}", deepen_args)
-        self.assertTrue(
-            any("http.extraHeader=Authorization: Basic" in arg for arg in deepen_args)
-        )
+        _assert_no_github_app_auth_args(self, deepen_args)
+        _assert_github_app_auth_environment(self, environment)
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
@@ -408,11 +445,12 @@ class TestGitHubInstallationManager(TestCase):
                 "https://github.com/test-org/repo1.git", "main"
             )
 
-        fetch_args = next(
-            call.args[0] for call in execute.call_args_list if "fetch" in call.args[0]
+        fetch_call = next(
+            call for call in execute.call_args_list if "fetch" in call.args[0]
         )
+        fetch_args = fetch_call.args[0]
+        environment = fetch_call.kwargs["environment"]
         self.assertIn("fetch", fetch_args)
-        self.assertTrue(
-            any("http.extraHeader=Authorization: Basic" in arg for arg in fetch_args)
-        )
+        _assert_no_github_app_auth_args(self, fetch_args)
+        _assert_github_app_auth_environment(self, environment)
         self.assertEqual(len(responses.calls), 1)
