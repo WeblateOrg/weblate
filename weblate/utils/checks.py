@@ -83,7 +83,6 @@ DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "weblate.E043": ("admin/install", "hardware"),
     "weblate.C044": ("admin/config", "std-setting-CACHE_DIR"),
     "weblate.C045": ("admin/install", "production-database"),
-    "weblate.C046": ("admin/backup",),
 }
 
 

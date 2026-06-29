@@ -36,7 +36,7 @@ Weblate 2026.7
 * Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events.
 * :ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing settings.
 * Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
-* :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected or there is not enough free space in the backup destination to store a database dump.
+* :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected.
 
 .. rubric:: Bug fixes
 

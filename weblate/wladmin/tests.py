@@ -1139,6 +1139,7 @@ class AdminTest(ViewTestCase):
             {"weblate.E002": "Test Error", "weblate.C044": "Cache Error"},
         )
         # No triggered checks
+        ConfigurationError.objects.create(name="weblate.C046", message="Retired check")
         ConfigurationError.objects.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
 
