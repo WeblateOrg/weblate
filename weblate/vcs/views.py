@@ -9,6 +9,7 @@ import logging
 import secrets
 import uuid
 from collections import defaultdict
+from typing import TYPE_CHECKING
 from urllib.parse import urlencode
 
 from django.contrib.auth.decorators import login_required
@@ -55,6 +56,9 @@ from weblate.vcs.permissions import (
 )
 from weblate.wladmin.views import MENU
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.auth.results import PermissionResult
 
 logger = logging.getLogger(__name__)
 
@@ -142,7 +146,9 @@ def _get_install_workspace(request) -> Workspace | None:
     return _get_requested_workspace(request, _installation_workspaces(request.user))
 
 
-def _user_can_install_in_workspace(user, workspace: Workspace) -> bool:
+def _user_can_install_in_workspace(
+    user, workspace: Workspace
+) -> PermissionResult | bool:
     return user_can_install_github_app_in_workspace(user, workspace)
 
 
