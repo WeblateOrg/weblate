@@ -37,9 +37,18 @@ Accessing repositories from Hosted Weblate
    running your own self-hosted Weblate instance, please see
    :ref:`the next section <vcs-repos-code-hosting>` instead.
 
-For Hosted Weblate, there is a dedicated push user registered on GitHub,
-Bitbucket, Codeberg, and GitLab (with the username :guilabel:`weblate`, e-mail
-``hosted@weblate.org``, and a name or profile description :guilabel:`Weblate push user`).
+For GitHub repositories on Hosted Weblate, use the
+`Hosted Weblate app <https://github.com/apps/hosted-weblate>`_ from Weblate's
+:guilabel:`Connect GitHub account` flow whenever possible. The App grants
+repository access, receives incoming notifications, pushes translation
+branches, and creates pull requests without inviting the Hosted Weblate
+:guilabel:`weblate` user. See :ref:`code-hosting-github-repositories` for the
+full setup.
+
+For direct SSH access outside the GitHub App workflow, and for Bitbucket,
+Codeberg, and GitLab repositories, Hosted Weblate has a dedicated push user
+(with the username :guilabel:`weblate`, e-mail ``hosted@weblate.org``, and a
+name or profile description :guilabel:`Weblate push user`).
 
 .. hint::
 
@@ -52,17 +61,14 @@ repository (read-only is okay for cloning, write is required for pushing).
 Depending on the service and your organization’s settings, this happens immediately,
 or requires confirmation on the Weblate side.
 
-On GitHub, you need to add or invite the Hosted Weblate :guilabel:`weblate`
-user with write access even when you use the Hosted Weblate GitHub app. The
-app handles incoming notifications from GitHub, but pushing changes back
-still uses the Hosted Weblate :guilabel:`weblate` user.
+The :guilabel:`weblate` user on GitHub accepts invitations automatically within
+five minutes when you intentionally use direct SSH access there. Manual
+processing might be needed on the other services, so please be patient.
 
-The :guilabel:`weblate` user on GitHub accepts invitations automatically within five minutes.
-Manual processing might be needed on the other services, so please be patient.
-
-Once the :guilabel:`weblate` user is added to your repository, you can configure
-:ref:`component-repo` and :ref:`component-push` using the SSH protocol (for example
-``git@github.com:WeblateOrg/weblate.git``).
+For this direct SSH-user setup, once the :guilabel:`weblate` user is added to
+your repository, you can configure :ref:`component-repo` and
+:ref:`component-push` using the SSH protocol, for example
+``git@example.com:group/project.git``.
 
 .. _vcs-repos-code-hosting:
 
