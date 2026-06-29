@@ -7,11 +7,16 @@
 from __future__ import annotations
 
 import time
+from shutil import disk_usage
+from typing import TYPE_CHECKING
 
-from django.db import ProgrammingError, connections, transaction
+from django.db import DatabaseError, ProgrammingError, connections, transaction
 from django.db.models.lookups import Lookup, PatternLookup, Regex
 
 from .inv_regex import invert_re
+
+if TYPE_CHECKING:
+    from django.db.backends.base.base import BaseDatabaseWrapper
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
@@ -53,6 +58,48 @@ def adjust_similarity_threshold(value: float, *, alias: str | None = None) -> No
         # Adjust threshold
         cursor.execute("SELECT set_limit(%s)", [value])
         connection.weblate_similarity = value  # type: ignore[attr-defined]
+
+
+def is_local_database(connection: BaseDatabaseWrapper) -> bool:
+    """Return whether the database connection points to the local host."""
+    host = connection.settings_dict.get("HOST", "")
+    return host in {"", "localhost", "127.0.0.1", "::1"} or host.startswith("/")
+
+
+def get_database_disk_usage(*, alias: str = "default"):
+    """Return disk usage for the local PostgreSQL data directory."""
+    connection = connections[alias]
+    if connection.vendor != "postgresql" or not is_local_database(connection):
+        return None
+
+    def get_data_directory() -> str:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT current_setting('data_directory')")
+            return cursor.fetchone()[0]
+
+    try:
+        if connection.in_atomic_block is True:
+            with transaction.atomic(using=alias):
+                data_directory = get_data_directory()
+        else:
+            data_directory = get_data_directory()
+        return disk_usage(data_directory)
+    except (DatabaseError, OSError):
+        return None
+
+
+def get_database_size(*, alias: str = "default") -> int | None:
+    """Return size of the current PostgreSQL database in bytes."""
+    connection = connections[alias]
+    if connection.vendor != "postgresql":
+        return None
+
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT pg_database_size(current_database())")
+            return cursor.fetchone()[0]
+    except DatabaseError:
+        return None
 
 
 def count_alnum(string):

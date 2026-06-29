@@ -959,9 +959,19 @@ class AdminTest(ViewTestCase):
         self.assertNotContains(response, settings.BACKUP_DIR)
 
     def test_performance(self) -> None:
-        response = self.client.get(reverse("manage-performance"))
+        with (
+            patch("weblate.wladmin.views.get_database_size", return_value=123456789),
+            patch(
+                "weblate.wladmin.views.get_database_disk_usage",
+                return_value=SimpleNamespace(total=987654321, free=876543210),
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "weblate.E005")
         self.assertContains(response, "Translation memory migration")
+        self.assertContains(response, "PostgreSQL database")
+        self.assertEqual(response.context["database_size"], 123456789)
+        self.assertEqual(response.context["database_disk_usage"].free, 876543210)
         self.assertIn("total", response.context["memory_migration_status"])
 
     def test_performance_memory_migration_status(self) -> None:
