@@ -5,89 +5,74 @@ Weblate 2026.7
 
 .. rubric:: New features
 
-* Added :ref:`check-safe-mdx` check to ensure that the target string contains the same JSX expressions as the source string for :ref:`mdx` files.
-* Added :ref:`check-source-max-length` check for source strings near ``max-length``.
-* Added the :ref:`check-accelerator` quality check, which verifies that accelerator keys are used consistently between the source and the translation. Enable it with the ``accelerator:`` flag and the marker character, for example ``accelerator:&``.
+* Added :ref:`check-safe-mdx`, :ref:`check-source-max-length`, and :ref:`check-accelerator` quality checks for :ref:`mdx` JSX expressions, source length limits, and accelerator key consistency.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 * Added :ref:`code-hosting-github-app-register` for connecting GitHub repositories through a Weblate GitHub App.
 * :ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`.
 * Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files.
 * Added an option to capitalize the text in status badge widgets.
 * Added :ref:`workspace translation memory <memory-scopes>` with asynchronous scope backfill for existing translation memory entries.
+* Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
 
 .. rubric:: Improvements
 
-* :ref:`visual-keyboard` for RTL languages now includes Unicode isolate controls for better mixed-direction text editing.
+* RTL editing and translation display now handle bidirectional text better, including Unicode isolate controls in the :ref:`visual-keyboard`.
 * Management interface access control is now more fine-grained with dedicated site-wide permissions.
-* Default commit and merge request message templates now use Conventional Commits, and settings forms can restore installation defaults for individual message templates.
+* Default commit and merge request message templates now use Conventional Commits, settings forms can restore installation defaults, and pull request messages use a compact language progress matrix.
 * Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering.
-* Expanded :doc:`/security/data-residency` with EU cloud sovereignty guidance.
+* Expanded :doc:`security documentation </security/index>` for data residency, EU cloud sovereignty, release artifacts, supported versions, release verification, SBOMs, dependency handling, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
 * :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
 * Add-ons installed at higher scopes are now shown on lower-scope add-on pages, and broad-scope add-ons can list affected components with compatibility details.
 * :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
-* LLM automatic suggestions now use translated examples, language-specific instructions, and richer glossary context for more reliable output.
-* LLM automatic suggestions now use structured placeholder context to preserve markup and formatting more reliably.
-* Improved bidirectional text handling for RTL translation display and editor previews.
+* LLM automatic suggestions now use translated examples, language-specific instructions, richer glossary context, and structured placeholder context for more reliable output.
 * Meta descriptions now better match single-project and self-hosted installations.
-* Zen mode now loads large search results and glossary-heavy projects more efficiently.
-* Translate pages with filtered searches and nearby strings now load more efficiently.
-* Translation form submissions now avoid loading complete search result sets when saving strings.
-* Add-on management pages now load recent add-on history more efficiently on large sites.
+* Zen mode, filtered searches, nearby strings, translation form submissions, and add-on management pages now load more efficiently on large sites.
 * Added :ref:`distribution-packaging` guidance for distribution maintainers.
-* Expanded security documentation for release artifacts, supported versions, security updates, release verification, SBOMs, and dependency handling.
-* Clarified security metadata, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
 * Large component imports now avoid duplicate translation-memory processing.
-* :ref:`gettext` files can now be configured to remove obsolete strings on save.
-* Repository maintenance can now remove obsolete strings from individual :ref:`gettext` translation files.
-* Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
-* :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
+* :ref:`gettext` files can now be configured to remove obsolete strings on save, including during repository maintenance.
 * :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.
 * Committing large numbers of pending translations now queues browser requests in the background and avoids duplicate repository commit tasks.
 * Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events.
 * :ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing settings.
-* Pull request messages now use a compact language progress matrix widget that scales better for projects with many languages.
+* Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
 * :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected.
 
 .. rubric:: Bug fixes
 
-* Restricted GitHub App installation management actions to workspace administrators.
+* :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags.
+* Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints.
+* ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree.
+* Globally scoped HTML and AJAX object lookups no longer disclose object existence in private projects.
+* Team API access checks now prevent project managers from reading private-project team data or expanding scoped team assignments outside their allowed projects.
 * Malformed ``replacements`` flags no longer abort source length checks.
-* Scoped team assignments can no longer be expanded through the API.
 * Empty component lists are no longer exposed to users without component list management permission.
-* TBX glossary files no longer duplicate terms when repeated pending add operations are saved.
+* Glossary handling no longer duplicates TBX terms or shows source-language terms in both translation columns.
 * Duplicate string alerts now offer a cleanup action to remove repeated strings from translation files.
-* Glossary terms are no longer shown in both columns when translating the glossary source language.
 * :ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch.
 * Webhook target fallback matching is now stricter and reported in component diagnostics.
 * Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request.
 * Project and workspace translation license defaults now follow component and project licenses more closely.
 * Component and category API ``PATCH`` requests no longer remove the category when the field is omitted.
-* Hardened HTML and AJAX object lookups against private project enumeration.
-* ZIP downloads no longer follow repository symbolic links outside the downloaded tree.
 * Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions.
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * :ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations.
-* :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags.
-* Repository reset and update progress now includes follow-up translation-file reconciliation.
+* :ref:`check-max-size` no longer wraps text configured to fit on one line, checks source strings, and refreshes rendered previews after source edits.
+* Repository reset and update history now keeps attribution, records remote update failures, and includes follow-up translation-file reconciliation.
 * Updating repository URLs now validates compatible Git history without requiring an immediate successful merge.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
 * :guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting.
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
 * API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
 * Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs.
-* Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
-* :ref:`check-max-size` no longer wraps text when checking strings configured to fit on one line.
-* :ref:`check-max-size` now checks source strings and refreshes rendered previews after source edits.
 * Watched translations on the dashboard now include category path segments.
-* Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints.
 * Unsupported upload levels now show an upload placeholder pointing to individual translations.
-* Repository update history keeps attribution and records remote update failures for easier hook debugging.
-* Existing :ref:`code-hosting-github-app-register` components can no longer be retargeted to another repository through the API.
+* Component API responses no longer expose repository export, push branch, or repository browser links to users without repository access.
 
 .. rubric:: Compatibility
 
 * Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured.
+* :ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1.
 * :ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, and broker settings are stored as an AMQP URL with existing host and SSL settings migrated automatically.
 
 .. rubric:: Upgrading
