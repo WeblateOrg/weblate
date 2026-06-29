@@ -16,8 +16,14 @@ Setup overview
 
 1. Grant Weblate access to the repository.
 
-   * For Hosted Weblate, add the hosted :guilabel:`weblate` user where it is
-     available, see :ref:`hosted-push`.
+   * For GitHub repositories on Hosted Weblate, use the
+     `Hosted Weblate app <https://github.com/apps/hosted-weblate>`_ from
+     Weblate's :guilabel:`Connect GitHub account` flow. The App gives Hosted
+     Weblate repository access without inviting the hosted :guilabel:`weblate`
+     user.
+   * For other Hosted Weblate repositories, and for direct SSH pushes outside
+     the GitHub App workflow, add the hosted :guilabel:`weblate` user where it
+     is available, see :ref:`hosted-push`.
    * For self-hosted Weblate, create a dedicated code hosting user and grant
      access using Weblate's SSH key or an HTTPS token, see
      :ref:`vcs-repos-code-hosting`.
@@ -188,6 +194,26 @@ GitHub
 GitHub repository access
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+Hosted Weblate GitHub App
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On Hosted Weblate, the recommended setup is to connect the
+`Hosted Weblate app <https://github.com/apps/hosted-weblate>`_ from the
+Weblate workspace where your project lives. Use the :guilabel:`Connect GitHub
+account` flow, install the App on the GitHub user or organization that owns
+your repositories, grant it access to the repositories you want to translate,
+and import components from the connected GitHub account.
+
+The App-backed workflow uses GitHub installation access tokens for cloning,
+pushing translation branches, creating pull requests, and receiving incoming
+notifications. You do not need to invite the Hosted Weblate
+:guilabel:`weblate` GitHub user or configure a separate repository webhook for
+components imported this way.
+
+Use the Hosted Weblate :guilabel:`weblate` GitHub user only when you
+intentionally configure direct SSH pushes outside the GitHub App workflow, see
+:ref:`hosted-push`.
+
 HTTPS with personal access token
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -212,8 +238,9 @@ For GitHub, create a dedicated user, for example ``weblate-bot``, and use
 GitHub SSH URLs for your repositories, for example
 ``git@github.com:owner/repo.git``.
 
-This approach is also used for Hosted Weblate, which has a dedicated
-:guilabel:`weblate` user for that purpose.
+On Hosted Weblate, use this SSH-user workflow only for direct SSH pushes outside
+the recommended `Hosted Weblate app <https://github.com/apps/hosted-weblate>`_
+workflow.
 
 .. note::
 
@@ -229,12 +256,13 @@ GitHub notifications
 
 Weblate comes with native support for GitHub.
 
-If you are using Hosted Weblate, the recommended approach for new installs is
-to install the `Hosted Weblate app <https://github.com/apps/hosted-weblate>`_.
-It uses the GitHub App integration documented below, so you do not need to
-configure a separate :guilabel:`Webhook` in GitHub. For direct pushes outside
-the App-backed workflow, add the Hosted Weblate :guilabel:`weblate` GitHub user
-as a collaborator with write access, see :ref:`hosted-push`.
+If you are using Hosted Weblate, use the
+`Hosted Weblate app <https://github.com/apps/hosted-weblate>`_ from
+Weblate's :guilabel:`Connect GitHub account` flow. It uses GitHub App
+webhooks, so you do not need to configure a separate :guilabel:`Webhook` in
+GitHub. Components imported from the connected GitHub account also use the App
+for repository access and pull requests, without inviting the Hosted Weblate
+:guilabel:`weblate` GitHub user.
 
 The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. Use
 it only when you need the legacy app to deliver GitHub notifications to Hosted
