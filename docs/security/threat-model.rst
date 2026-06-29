@@ -302,7 +302,8 @@ Build-time and configuration variants
        generation assumptions. *(maintainer)*
      - Production deployments restrict this to instance hostnames. *(maintainer)*
    * - :envvar:`WEBLATE_API_RATELIMIT_ANON`,
-       :envvar:`WEBLATE_API_RATELIMIT_USER`, and :setting:`RATELIMIT_ATTEMPTS`
+       :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,
+       and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``
      - Rate limits are configurable. *(documented)* (source: :doc:`/api`,
        :doc:`/admin/config`)
      - Availability claims assume rate limits appropriate to deployment size

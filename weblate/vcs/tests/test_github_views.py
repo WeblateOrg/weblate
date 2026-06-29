@@ -645,7 +645,8 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
         self.assertEqual(connected.target_login, "test-org")
         self.assertEqual(connected.repositories, repositories)
-        self.assertFalse(PendingInstallation.objects.filter(pk=pending.pk).exists())
+        # Expired pending rows are ignored here and left for the periodic cleanup task.
+        self.assertTrue(PendingInstallation.objects.filter(pk=pending.pk).exists())
 
     def test_setup_rejects_missing_oauth_code(self):
         # Without the install-time OAuth code there is nothing proving the user
