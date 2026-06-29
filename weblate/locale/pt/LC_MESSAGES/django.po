@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-29 15:53+0000\n"
+"PO-Revision-Date: 2026-06-29 18:40+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -17041,34 +17041,28 @@ msgstr ""
 "funcionarão até que as credenciais da Aplicação sejam registadas novamente."
 
 #: weblate/templates/vcs/github_installation_detail.html:76
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Repositories updated"
-msgstr "Repositório desatualizado."
+msgstr "Repositórios atualizados"
 
 #: weblate/templates/vcs/github_installation_detail.html:88
-#, fuzzy
-#| msgid "Repositories"
 msgid "Available Repositories"
-msgstr "Repositórios"
+msgstr "Repositórios Disponíveis"
 
 #: weblate/templates/vcs/github_installation_detail.html:125
-#, fuzzy
-#| msgid "Not available"
 msgid "Unavailable"
-msgstr "Não disponível"
+msgstr "Indisponível"
 
 #: weblate/templates/vcs/github_installation_detail.html:134
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
 msgstr ""
+"Nenhum repositório encontrado. Clique em 'Atualizar repositórios' para "
+"buscar a lista a partir do GitHub."
 
 #: weblate/templates/vcs/github_installation_list.html:19
-#, fuzzy
-#| msgid "Weblate status"
 msgid "Weblate GitHub Apps"
-msgstr "Estado do Weblate"
+msgstr "Aplicações Weblate GitHub"
 
 #: weblate/templates/vcs/github_installation_list.html:28
 msgid ""
@@ -17076,6 +17070,9 @@ msgid ""
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
+"Nenhuma Aplicação Weblate GitHub ainda registada. Use o botão acima para "
+"criar uma com as permissões corretas e o URL já preenchido — o Weblate "
+"armazenará as credenciais quando o GitHub redirecionar de volta."
 
 #: weblate/templates/vcs/github_installation_list.html:37
 msgid ""
@@ -17797,17 +17794,13 @@ msgstr "Projeto movido"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:213
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Remote repository updated"
-msgstr "Repositório desatualizado."
+msgstr "Repositório remoto atualizado"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:215
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Remote repository update failed"
-msgstr "Falha na rebase do repositório"
+msgstr "Falha na atualização do repositório remoto"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -18520,13 +18513,15 @@ msgstr "Codificação utilizada para os ficheiros CSV simples"
 
 #: weblate/trans/file_format_params.py:660
 msgid "Escape spreadsheet formulas"
-msgstr ""
+msgstr "Escapar fórmulas de folha de cálculo"
 
 #: weblate/trans/file_format_params.py:664
 msgid ""
 "Prefix values that look like spreadsheet formulas with an apostrophe when "
 "saving CSV files."
 msgstr ""
+"Valores de prefixo que parecem fórmulas de folha de cálculo com um apóstrofe "
+"ao gravar ficheiros CSV."
 
 #: weblate/trans/file_format_params.py:685
 msgid "Encoding used for GWT Properties files"
@@ -18576,16 +18571,17 @@ msgstr ""
 "Markdown e MDX."
 
 #: weblate/trans/file_format_params.py:741
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translate front matter values"
-msgstr "Estado da memória de tradução"
+msgstr "Traduzir valores de matéria frontal"
 
 #: weblate/trans/file_format_params.py:745
 msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
 "structure, comments, and formatting are preserved when possible."
 msgstr ""
+"Analizar matéria frontal YAML e traduzir apenas valores de cadeias de "
+"carateres escalares. Chaves, estrutura, comentários, e formatação são "
+"preservados quando possível."
 
 #: weblate/trans/file_format_params.py:754
 msgid "Disable placeholders"
@@ -18675,10 +18671,8 @@ msgid "Labeled: {}"
 msgstr "Rotulado: {}"
 
 #: weblate/trans/forms.py:172 weblate/trans/models/component.py:4823
-#, fuzzy
-#| msgid "Export URL is not used when repository is linked!"
 msgid "Repository branch is required for this integration."
-msgstr "O URL de exportação não é usado quando o repositório está ligado!"
+msgstr "O ramo do repositório é necessário para esta integração."
 
 #: weblate/trans/forms.py:241
 msgid "Invalid date!"
@@ -20615,10 +20609,9 @@ msgid "Push URL is not used without a remote repository."
 msgstr "A URL de envio não é usado sem um repositório remoto."
 
 #: weblate/trans/models/component.py:4779
-#, fuzzy, python-format
-#| msgid "Could not update repository: %s"
+#, python-format
 msgid "Could not validate push URL: %s"
-msgstr "Não foi possível atualizar o repositório: %s"
+msgstr "Não foi possível validar o URL de push: %s"
 
 #: weblate/trans/models/component.py:4787
 msgid ""
@@ -21020,31 +21013,27 @@ msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Não foi possível analisar o ficheiro %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:956
-#, fuzzy
-#| msgid "Adding and removing strings is not supported with this file format."
 msgid "Removing duplicate strings is not supported for this file format."
 msgstr ""
-"A adição e remoção de cadeias não é compatível com este formato de ficheiro."
+"Remover cadeias de carateres duplicadas não é suportado para este formato de "
+"ficheiro."
 
 #: weblate/trans/models/translation.py:963
-#, fuzzy
-#| msgid "Duplicated string found in the file."
 msgid "No duplicate strings were found in the translation file."
-msgstr "Cadeia duplicada encontrada no ficheiro."
+msgstr ""
+"Nenhuma cadeia de carateres duplicada foi encontrada no ficheiro de tradução."
 
 #: weblate/trans/models/translation.py:974
-#, fuzzy
-#| msgid "Adding and removing strings is not supported with this file format."
 msgid "Cleanup of unused strings is not supported for this file format."
 msgstr ""
-"A adição e remoção de cadeias não é compatível com este formato de ficheiro."
+"A limpeza de cadeias de carateres inutilizadas não é suportada neste formato "
+"de ficheiro."
 
 #: weblate/trans/models/translation.py:981
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "No unused strings were found in the translation file."
 msgstr ""
-"Força a escrita de todos as cadeias de carateres nos ficheiros de tradução."
+"Nenhuma cadeia de carateres inutilizada foi encontrada no ficheiro de "
+"tradução."
 
 #: weblate/trans/models/translation.py:1605
 msgid "“{}”"
@@ -21981,16 +21970,13 @@ msgid "Updates of translations are in progress."
 msgstr "Atualizações das traduções estão em andamento."
 
 #: weblate/trans/views/git.py:220
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "Duplicate strings have been removed from the translation file."
-msgstr "Por favor, corrija isto removendo um dos ficheiros de tradução."
+msgstr "Cadeias de carateres foram removidas do ficheiro de tradução."
 
 #: weblate/trans/views/git.py:238
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "Unused strings have been removed from the translation file."
-msgstr "Por favor, corrija isto removendo um dos ficheiros de tradução."
+msgstr ""
+"Cadeias de carateres inutilizadas foram removidas do ficheiro de tradução."
 
 #: weblate/trans/views/git.py:255
 msgid "Pending translations are being committed."
@@ -22187,7 +22173,7 @@ msgstr "Emblema de estado SVG"
 
 #: weblate/trans/widgets.py:440
 msgid "Capitalize"
-msgstr ""
+msgstr "Capitalizar"
 
 #: weblate/trans/widgets.py:447
 msgid "translated"
