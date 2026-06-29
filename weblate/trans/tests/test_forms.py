@@ -44,7 +44,9 @@ class InheritedSettingsLabelTest(SimpleTestCase):
         self.assertEqual(
             get_inherited_settings_label("workspace"), "Inherit from workspace"
         )
-        self.assertEqual(get_inherited_settings_label("project"), "Inherit from project")
+        self.assertEqual(
+            get_inherited_settings_label("project"), "Inherit from project"
+        )
         self.assertEqual(
             get_inherited_settings_label("category"), "Inherit from category"
         )
