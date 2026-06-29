@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load crispy_forms_tags i18n %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -29,12 +29,12 @@
       </p>
 
       {% if existing_hosts %}
-        <div class="alert {% if host_already_registered %}alert-danger{% else %}alert-info{% endif %}">
+        <div class="alert {% if host_already_registered %}alert-warning{% else %}alert-info{% endif %}">
           {% if host_already_registered %}
             {% blocktranslate trimmed with host=hostname %}
-              A Weblate GitHub App is already registered for <code>{{ host }}</code>.
-              Remove it from the Weblate GitHub Apps page before registering a
-              replacement.
+              The <code>{{ host }}</code> host already has stored GitHub App
+              credentials. You can edit the form, but submitting this host
+              again will be rejected.
             {% endblocktranslate %}
           {% else %}
             {% translate "GitHub hosts that already have a Weblate GitHub App registered:" %}
@@ -48,83 +48,7 @@
 
       <form method="post" action="{% url 'github-app-register-submit' %}">
         {% csrf_token %}
-        <div class="mb-3 row">
-          <label for="register-host" class="col-sm-3 col-form-label">{% translate "GitHub host" %}</label>
-          <div class="col-sm-9">
-            <input type="text"
-                   id="register-host"
-                   name="host"
-                   class="form-control"
-                   value="{{ hostname }}"
-                   placeholder="github.com">
-            <div class="form-text">
-              {% blocktranslate trimmed %}
-                Use github.com for GitHub.com, or the web hostname for GitHub
-                Enterprise Server.
-              {% endblocktranslate %}
-            </div>
-          </div>
-        </div>
-        <div class="mb-3 row">
-          <label for="register-org" class="col-sm-3 col-form-label">{% translate "Organization (optional)" %}</label>
-          <div class="col-sm-9">
-            <input type="text"
-                   id="register-org"
-                   name="org"
-                   class="form-control"
-                   value="{{ org }}"
-                   placeholder="{% translate "Leave blank to register on your personal account" %}">
-            <div class="form-text">
-              {% blocktranslate trimmed %}
-                Enter a GitHub organization slug to register the App under
-                that organization instead of your personal account.
-              {% endblocktranslate %}
-            </div>
-          </div>
-        </div>
-        <div class="mb-3 row">
-          <label for="register-name" class="col-sm-3 col-form-label">{% translate "App name" %}</label>
-          <div class="col-sm-9">
-            <input type="text"
-                   id="register-name"
-                   name="name"
-                   class="form-control"
-                   value="{{ name }}"
-                   maxlength="{{ name_max_length }}"
-                   required>
-            <div class="form-text">
-              {% blocktranslate trimmed with limit=name_max_length %}
-                GitHub App names must be unique and at most {{ limit }}
-                characters. You will still be able to change the name on
-                GitHub before confirming.
-              {% endblocktranslate %}
-            </div>
-          </div>
-        </div>
-        <div class="mb-3 row">
-          <label class="col-sm-3 col-form-label">{% translate "Visibility" %}</label>
-          <div class="col-sm-9">
-            <div class="form-check">
-              <input type="checkbox"
-                     id="register-public"
-                     name="public"
-                     value="1"
-                     class="form-check-input"
-                     {% if public %}checked{% endif %}>
-              <label class="form-check-label" for="register-public">
-                {% translate "Public (any GitHub account can install it)" %}
-              </label>
-            </div>
-            <div class="form-text">
-              {% blocktranslate trimmed %}
-                Required to install the App on more than one user or
-                organization. Public here only means the App is not
-                restricted to its owner; it does not list the App on the
-                GitHub Marketplace.
-              {% endblocktranslate %}
-            </div>
-          </div>
-        </div>
+        {% crispy register_form %}
         <div class="mb-3 row">
           <label class="col-sm-3 col-form-label">{% translate "Webhook URL" %}</label>
           <div class="col-sm-9">
@@ -156,9 +80,7 @@
           </div>
         </div>
         <div class="d-flex gap-2">
-          <button type="submit"
-                  class="btn btn-primary"
-                  {% if host_already_registered %}disabled{% endif %}>{% translate "Continue to GitHub" %}</button>
+          <button type="submit" class="btn btn-primary">{% translate "Continue to GitHub" %}</button>
           <a href="{% url 'manage-github-accounts' %}" class="btn btn-outline-secondary">{% translate "Cancel" %}</a>
         </div>
       </form>

@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.signing import BadSignature, SignatureExpired
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -32,6 +32,7 @@ from weblate.trans.views.hooks import apply_pending_github_installation_event
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.site import get_site_url
+from weblate.vcs.forms import GitHubAppRegisterForm, clean_github_app_hostname
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
@@ -936,27 +937,26 @@ def _build_manifest_for_request(
     return manifest, webhook_url
 
 
-def _read_register_fields(request) -> tuple[str, str, str, bool]:
-    """Pull (hostname, org, name, public) from the request."""
-    source = request.POST if request.method == "POST" else request.GET
-    hostname_raw = source.get("host", "").strip() or "github.com"
-    hostname = normalize_github_app_hostname(hostname_raw)
-    org = source.get("org", "").strip()
-    name = source.get("name", "").strip() or _default_register_name(request)
-    # GitHub rejects App names longer than 34 characters; truncate so we never
-    # build a manifest GitHub will refuse.
-    name = name[:GITHUB_APP_NAME_MAX_LENGTH]
-    # Unticked checkboxes are absent from POST data; default the form to
-    # public on the initial GET so the visibility checkbox starts checked.
-    public = source.get("public") == "1" if request.method == "POST" else True
-    return hostname, org, name, public
+def _get_register_initial(request) -> dict[str, str | bool]:
+    hostname = request.GET.get("host", "").strip()
+    name = request.GET.get("name", "").strip() or _default_register_name(request)
+    return {
+        "host": clean_github_app_hostname(hostname) if hostname else "github.com",
+        "org": request.GET.get("org", "").strip(),
+        "name": name[:GITHUB_APP_NAME_MAX_LENGTH],
+        "public": True,
+    }
 
 
-@management_permission_required("management.configure")
-def github_app_register(request):
-    """Render the GitHub App registration form (editable host/org/name)."""
-    hostname, org, name, public = _read_register_fields(request)
-
+def _render_github_app_register(
+    request,
+    register_form: GitHubAppRegisterForm,
+    *,
+    hostname: str,
+    name: str,
+    public: bool,
+    status: int = 200,
+):
     webhook_token = _get_register_webhook_token(request)
     manifest, webhook_url = _build_manifest_for_request(
         request,
@@ -976,11 +976,8 @@ def github_app_register(request):
         "vcs/github_app_register.html",
         {
             "manifest_json": json.dumps(manifest, indent=2, sort_keys=True),
+            "register_form": register_form,
             "hostname": hostname,
-            "org": org,
-            "name": name,
-            "public": public,
-            "name_max_length": GITHUB_APP_NAME_MAX_LENGTH,
             "permissions": GITHUB_APP_MANIFEST_PERMISSIONS,
             "events": GITHUB_APP_MANIFEST_EVENTS,
             "webhook_url": webhook_url,
@@ -988,6 +985,34 @@ def github_app_register(request):
             "host_already_registered": hostname in existing_hosts,
             **_MENU_CONTEXT,
         },
+        status=status,
+    )
+
+
+@management_permission_required("management.configure")
+def github_app_register(request):
+    """Render the GitHub App registration form (editable host/org/name)."""
+    try:
+        initial = _get_register_initial(request)
+    except ValidationError:
+        messages.error(request, gettext("Enter a valid GitHub host."))
+        initial = {
+            "host": "github.com",
+            "org": "",
+            "name": _default_register_name(request),
+            "public": True,
+        }
+    register_form = GitHubAppRegisterForm(initial=initial)
+    hostname = str(initial["host"])
+    name = str(initial["name"])
+    public = bool(initial["public"])
+
+    return _render_github_app_register(
+        request,
+        register_form,
+        hostname=hostname,
+        name=name,
+        public=public,
     )
 
 
@@ -997,17 +1022,33 @@ def github_app_register_submit(request):
     if request.method != "POST":
         return redirect("github-app-register")
 
-    hostname, org, name, public = _read_register_fields(request)
-    if GitHubAppCredentials.objects.filter(hostname=hostname).exists():
+    form = GitHubAppRegisterForm(data=request.POST)
+    if not form.is_valid():
         messages.error(
             request,
+            gettext("Enter a valid GitHub App name and host."),
+        )
+        return redirect("github-app-register")
+    hostname = form.cleaned_data["host"]
+    org = form.cleaned_data["org"]
+    name = form.cleaned_data["name"]
+    public = form.cleaned_data["public"]
+    if GitHubAppCredentials.objects.filter(hostname=hostname).exists():
+        form.add_error(
+            "host",
             gettext(
                 "A Weblate GitHub App is already registered for %(hostname)s. "
                 "Remove it before registering another one."
             )
             % {"hostname": hostname},
         )
-        return redirect("manage-github-accounts")
+        return _render_github_app_register(
+            request,
+            form,
+            hostname=hostname,
+            name=name,
+            public=public,
+        )
 
     webhook_token = _get_register_webhook_token(request)
     manifest, _webhook_url = _build_manifest_for_request(
@@ -1022,15 +1063,13 @@ def github_app_register_submit(request):
         f"{get_github_app_manifest_new_url(hostname, org or None)}"
         f"?{urlencode({'state': state})}"
     )
-    # The intermediate form posts to ``github_app_register_redirect`` (same
-    # origin, allowed by CSP form-action 'self'); that view answers with a 307
-    # that re-sends the manifest body to GitHub.
-    request.session["github_app_register_action_url"] = action_url
+    request.csp_form_action_sources = (f"https://{hostname}",)
 
     return render(
         request,
         "vcs/github_app_register_submit.html",
         {
+            "action_url": action_url,
             "manifest_json": json.dumps(manifest),
             "hostname": hostname,
             "org": org,
@@ -1038,34 +1077,6 @@ def github_app_register_submit(request):
             **_MENU_CONTEXT,
         },
     )
-
-
-@management_permission_required("management.configure")
-def github_app_register_redirect(request):
-    """
-    307-redirect the POSTed manifest to GitHub, preserving the body.
-
-    The browser's CSP only checks the form ``action`` URL against
-    ``form-action``; redirects are not validated, so we can stay within
-    ``'self'`` while still POSTing the manifest cross-origin to GitHub.
-    """
-    if request.method != "POST":
-        return redirect("github-app-register")
-
-    action_url = request.session.pop("github_app_register_action_url", None)
-    if not action_url or not action_url.startswith("https://"):
-        messages.error(
-            request,
-            gettext(
-                "Start the Weblate GitHub App registration again to refresh "
-                "the request."
-            ),
-        )
-        return redirect("github-app-register")
-
-    response = HttpResponse(status=307)
-    response["Location"] = action_url
-    return response
 
 
 @management_permission_required("management.configure")

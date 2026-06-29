@@ -12,7 +12,6 @@ from weblate.vcs.views import (
     github_app_install,
     github_app_register,
     github_app_register_callback,
-    github_app_register_redirect,
     github_app_register_submit,
     github_app_repository_list,
     github_app_setup,
@@ -41,11 +40,6 @@ urlpatterns = [
         "manage/integrations/register/submit/",
         github_app_register_submit,
         name="github-app-register-submit",
-    ),
-    path(
-        "manage/integrations/register/redirect/",
-        github_app_register_redirect,
-        name="github-app-register-redirect",
     ),
     path(
         "manage/integrations/register/callback/",
