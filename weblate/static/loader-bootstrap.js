@@ -472,10 +472,10 @@ function loadTableSorting() {
               const parentA = a.dataset.parent;
               const parentB = b.dataset.parent;
               if (parentA) {
-                rowA = tbody.querySelector(`#${parentA}`) || rowA;
+                rowA = tbody.querySelector(`#${CSS.escape(parentA)}`) || rowA;
               }
               if (parentB) {
-                rowB = tbody.querySelector(`#${parentB}`) || rowB;
+                rowB = tbody.querySelector(`#${CSS.escape(parentB)}`) || rowB;
               }
               return (
                 inverse *
