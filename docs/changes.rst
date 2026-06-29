@@ -37,6 +37,8 @@ Weblate 2026.7
 * :ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing settings.
 * Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
 * :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected.
+* :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected or there is not enough free space in the backup destination to store a database dump.
+* The :ref:`search-replace` preview now keeps the search parameters editable so the query can be refined before applying replacements.
 
 .. rubric:: Bug fixes
 

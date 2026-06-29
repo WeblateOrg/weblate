@@ -556,6 +556,56 @@ class ReplaceTest(ViewTestCase):
     def test_replace(self) -> None:
         self.do_replace_test(reverse("replace", kwargs=self.kw_translation))
 
+    def test_replace_preview_parameters_are_editable(self) -> None:
+        url = reverse("replace", kwargs=self.kw_translation)
+
+        response = self.client.post(
+            url,
+            {"q": "", "search": "Nazdar", "replacement": "Ahoj"},
+            follow=True,
+        )
+
+        self.assertContains(
+            response, "Please review and confirm the search and replace results."
+        )
+        self.assertContains(response, "Update preview")
+        self.assertContains(response, 'id="id_replace_search"')
+        self.assertContains(response, 'id="id_replace_replacement"')
+        content = response.content.decode()
+        self.assertEqual(content.count('id="id_replace_search"'), 1)
+        self.assertEqual(content.count('id="id_replace_replacement"'), 1)
+
+        response = self.client.post(
+            url,
+            {"q": "", "search": "Nazdar", "replacement": "Cau"},
+            follow=True,
+        )
+
+        unit = self.get_unit()
+        self.assertContains(
+            response, "Please review and confirm the search and replace results."
+        )
+        self.assertContains(response, 'value="Cau"')
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+
+        response = self.client.post(
+            url,
+            {
+                "q": "",
+                "search": "Nazdar",
+                "replacement": "Cau",
+                "confirm": "1",
+                "units": unit.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(
+            response, "Search and replace completed, 1 string was updated."
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.target, "Cau svete!\n")
+
     def test_replace_project(self) -> None:
         self.do_replace_test(
             reverse("replace", kwargs={"path": self.project.get_url_path()})

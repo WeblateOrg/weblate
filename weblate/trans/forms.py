@@ -3783,10 +3783,19 @@ class ReplaceForm(forms.Form):
 
 
 class ReplaceConfirmForm(forms.Form):
+    q = forms.CharField(required=False, widget=forms.HiddenInput)
+    path = forms.CharField(required=False, widget=forms.HiddenInput)
+    search = forms.CharField(
+        min_length=1, required=True, strip=False, widget=forms.HiddenInput
+    )
+    replacement = forms.CharField(
+        min_length=1, required=True, strip=False, widget=forms.HiddenInput
+    )
     units = forms.ModelMultipleChoiceField(queryset=Unit.objects.none(), required=False)
     confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)
 
     def __init__(self, units, *args, **kwargs) -> None:
+        kwargs.setdefault("auto_id", False)
         super().__init__(*args, **kwargs)
         self.fields["units"].queryset = units
 
