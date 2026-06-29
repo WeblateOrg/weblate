@@ -1867,6 +1867,17 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
         self.helper.form_tag = False
 
 
+InheritedSettingsScope = Literal["workspace", "project", "category"]
+
+
+def get_inherited_settings_label(parent_scope: InheritedSettingsScope) -> str:
+    if parent_scope == "workspace":
+        return gettext("Inherit from workspace")
+    if parent_scope == "project":
+        return gettext("Inherit from project")
+    return gettext("Inherit from category")
+
+
 class InheritedSettingsFormMixin(forms.ModelForm):
     _inherited_setting_fields: set[str]
     _inherited_setting_restore_values: dict[str, Any]
@@ -1905,16 +1916,18 @@ class InheritedSettingsFormMixin(forms.ModelForm):
             "" if override_value is None else override_value
         )
 
-    def setup_inherited_settings(self, parent_name: str, *, has_parent: bool) -> None:
+    def setup_inherited_settings(
+        self, parent_scope: InheritedSettingsScope, *, has_parent: bool
+    ) -> None:
         setup_message_setting_site_defaults(self.fields)
         self._inherited_setting_fields = set()
         for field_name in INHERITABLE_COMPONENT_SETTINGS:
             inherit_field = get_inherit_field_name(field_name)
             if inherit_field not in self.fields:
                 continue
-            self.fields[inherit_field].label = gettext("Inherit from %(scope)s") % {
-                "scope": parent_name
-            }
+            self.fields[inherit_field].label = get_inherited_settings_label(
+                parent_scope
+            )
             if not has_parent:
                 self.fields[inherit_field].initial = False
                 self.fields[inherit_field].widget = forms.HiddenInput()
@@ -2226,10 +2239,10 @@ class ComponentSettingsForm(
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        parent_name = (
-            gettext("category") if self.instance.category_id else gettext("project")
+        parent_scope: InheritedSettingsScope = (
+            "category" if self.instance.category_id else "project"
         )
-        self.setup_inherited_settings(parent_name, has_parent=True)
+        self.setup_inherited_settings(parent_scope, has_parent=True)
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
         self.helper.layout = Layout(
@@ -2614,15 +2627,16 @@ class ComponentCreateForm(
 
     def setup_create_inherited_settings(self) -> None:
         parent = self.get_selected_parent()
+        parent_scope: InheritedSettingsScope
         if isinstance(parent, Category):
             self.instance.category = parent
             self.instance.project = parent.project
-            parent_name = gettext("category")
+            parent_scope = "category"
         elif isinstance(parent, Project):
             self.instance.project = parent
-            parent_name = gettext("project")
+            parent_scope = "project"
         else:
-            parent_name = gettext("project")
+            parent_scope = "project"
 
         for field_name in self.CREATE_INHERITABLE_SETTINGS:
             if field_name in self.initial:
@@ -2652,7 +2666,7 @@ class ComponentCreateForm(
             self.initial["inherit_license"] = False
             self.instance.inherit_license = False
 
-        self.setup_inherited_settings(parent_name, has_parent=parent is not None)
+        self.setup_inherited_settings(parent_scope, has_parent=parent is not None)
 
     def disables_inheritance_for_explicit_setting(self, field: str) -> bool:
         inherit_field = get_inherit_field_name(field)
@@ -3208,10 +3222,10 @@ class CategorySettingsForm(
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        parent_name = (
-            gettext("category") if self.instance.category_id else gettext("project")
+        parent_scope: InheritedSettingsScope = (
+            "category" if self.instance.category_id else "project"
         )
-        self.setup_inherited_settings(parent_name, has_parent=True)
+        self.setup_inherited_settings(parent_scope, has_parent=True)
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -3443,8 +3457,9 @@ class ProjectSettingsForm(
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
+        parent_scope: InheritedSettingsScope = "workspace"
         self.setup_inherited_settings(
-            gettext("workspace"), has_parent=self.instance.workspace_id is not None
+            parent_scope, has_parent=self.instance.workspace_id is not None
         )
         self.user = request.user
         self.user_can_change_access = request.user.has_perm(
