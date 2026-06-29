@@ -392,6 +392,8 @@ The following operations are subject to rate limiting:
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Creating new project              | ``PROJECT``        | 5                | 600              | 600            |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
+| Connecting a GitHub account       | ``GITHUB_SETUP``   | 100              | 3600             | 600            |
++-----------------------------------+--------------------+------------------+------------------+----------------+
 
 Within each scope, the rate limiting is based on sessions when user is signed in
 and on IP address if not.

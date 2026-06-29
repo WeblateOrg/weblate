@@ -10,8 +10,10 @@ from typing import cast
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import responses
+from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -528,6 +530,40 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(connected.target_login, "test-org")
         self.assertEqual(connected.target_type, "Organization")
         self.assertEqual(connected.repositories, [])
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("connection is pending", response_messages[0])
+        self.assertIn("Try connecting the account again later", response_messages[0])
+
+    @override_settings(RATELIMIT_GITHUB_SETUP_ATTEMPTS=0)
+    def test_setup_rate_limited(self):
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.workspace.add_owner(self.user)
+        next_url = "/create/component/#github"
+        install_url = self._start_install(next_url)
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertRedirects(response, next_url)
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="12345").exists()
+        )
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn(
+            "Too many GitHub account connection attempts", response_messages[0]
+        )
+        self.assertIn("might still be pending", response_messages[0])
+        self.assertIn("Try connecting the account again later", response_messages[0])
 
     @responses.activate
     def test_setup_applies_pending_installation_webhook(self):
