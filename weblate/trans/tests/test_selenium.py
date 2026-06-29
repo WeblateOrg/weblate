@@ -710,6 +710,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     "weblate.wladmin.views.measure_cache_latency",
                     measure_cache_latency,
                 ),
+                patch(
+                    "weblate.wladmin.views.get_database_size",
+                    return_value=123456789,
+                ),
+                patch(
+                    "weblate.wladmin.views.get_database_disk_usage",
+                    return_value=None,
+                ),
             ):
                 yield
         finally:

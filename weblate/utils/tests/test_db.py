@@ -5,9 +5,16 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
+from django.db import DatabaseError
+
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
-from weblate.utils.db import adjust_similarity_threshold, re_escape
+from weblate.utils.db import (
+    adjust_similarity_threshold,
+    get_database_disk_usage,
+    get_database_size,
+    re_escape,
+)
 
 BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
 
@@ -48,6 +55,84 @@ class DbTest(TestCase):
         adjust_similarity_threshold(0.966)
 
         cursor.execute.assert_called_once_with("SELECT set_limit(%s)", [0.966])
+
+    @patch("weblate.utils.db.connections")
+    def test_get_database_size_postgresql(self, connections_mock) -> None:
+        cursor = MagicMock()
+        cursor.__enter__.return_value = cursor
+        cursor.fetchone.return_value = [123456]
+        connection = MagicMock(vendor="postgresql")
+        connection.cursor.return_value = cursor
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertEqual(get_database_size(), 123456)
+        cursor.execute.assert_called_once_with(
+            "SELECT pg_database_size(current_database())"
+        )
+
+    @patch("weblate.utils.db.connections")
+    def test_get_database_size_non_postgresql(self, connections_mock) -> None:
+        connection = MagicMock(vendor="sqlite")
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertIsNone(get_database_size())
+        connection.cursor.assert_not_called()
+
+    @patch("weblate.utils.db.connections")
+    def test_get_database_size_database_error(self, connections_mock) -> None:
+        connection = MagicMock(vendor="postgresql")
+        connection.cursor.side_effect = DatabaseError
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertIsNone(get_database_size())
+
+    @patch("weblate.utils.db.disk_usage", return_value="usage")
+    @patch("weblate.utils.db.connections")
+    def test_get_database_disk_usage_postgresql(
+        self, connections_mock, disk_usage_mock
+    ) -> None:
+        cursor = MagicMock()
+        cursor.__enter__.return_value = cursor
+        cursor.fetchone.return_value = ["/var/lib/postgresql/data"]
+        connection = MagicMock(vendor="postgresql")
+        connection.settings_dict = {"HOST": ""}
+        connection.cursor.return_value = cursor
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertEqual(get_database_disk_usage(), "usage")
+        cursor.execute.assert_called_once_with(
+            "SELECT current_setting('data_directory')"
+        )
+        disk_usage_mock.assert_called_once_with("/var/lib/postgresql/data")
+
+    @patch("weblate.utils.db.disk_usage")
+    @patch("weblate.utils.db.connections")
+    def test_get_database_disk_usage_remote_postgresql(
+        self, connections_mock, disk_usage_mock
+    ) -> None:
+        connection = MagicMock(vendor="postgresql")
+        connection.settings_dict = {"HOST": "database.example.com"}
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertIsNone(get_database_disk_usage())
+        connection.cursor.assert_not_called()
+        disk_usage_mock.assert_not_called()
+
+    @patch("weblate.utils.db.disk_usage", side_effect=OSError)
+    @patch("weblate.utils.db.connections")
+    def test_get_database_disk_usage_error(
+        self, connections_mock, disk_usage_mock
+    ) -> None:
+        cursor = MagicMock()
+        cursor.__enter__.return_value = cursor
+        cursor.fetchone.return_value = ["/var/lib/postgresql/data"]
+        connection = MagicMock(vendor="postgresql")
+        connection.settings_dict = {"HOST": "localhost"}
+        connection.cursor.return_value = cursor
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertIsNone(get_database_disk_usage())
+        disk_usage_mock.assert_called_once_with("/var/lib/postgresql/data")
 
 
 class PostgreSQLOperatorTest(TestCase):

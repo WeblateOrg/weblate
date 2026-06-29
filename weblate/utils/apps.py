@@ -35,11 +35,12 @@ from .celery import is_celery_queue_long
 from .checks import weblate_check
 from .classloader import ClassLoader
 from .const import HEARTBEAT_FREQUENCY
-from .data import data_path
+from .data import data_dir, data_path
 from .db import (
     PostgreSQLRegexLookup,
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
+    get_database_size,
     measure_database_latency,
 )
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
@@ -504,6 +505,58 @@ def check_encoding(
             "System encoding is not UTF-8, processing non-ASCII strings will break",
         )
     ]
+
+
+def get_database_backup_disk_usage():
+    """Return disk usage for the database backup destination."""
+    path = Path(data_dir("backups"))
+    while not path.exists():
+        if path == path.parent:
+            return None
+        path = path.parent
+    try:
+        return disk_usage(path)
+    except OSError:
+        return None
+
+
+@register(deploy=True)
+def check_database_size(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    """Check that PostgreSQL database size can be collected."""
+    connection = connections["default"]
+    if connection.vendor != "postgresql":
+        return []
+
+    database_size = get_database_size()
+    if database_size is None:
+        return [
+            weblate_check(
+                "weblate.C045",
+                "Could not determine PostgreSQL database disk usage",
+            )
+        ]
+
+    if settings.DATABASE_BACKUP == "none":
+        return []
+
+    usage = get_database_backup_disk_usage()
+    if usage is None:
+        return []
+
+    if usage.free < database_size:
+        backup_dir = data_dir("backups")
+        message = (
+            f"There is not enough free space in {backup_dir} "
+            "to store a PostgreSQL database dump"
+        )
+        return [weblate_check("weblate.C046", message)]
+
+    return []
 
 
 @register(deploy=True)

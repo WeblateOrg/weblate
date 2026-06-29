@@ -56,7 +56,11 @@ from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
-from weblate.utils.db import measure_database_latency
+from weblate.utils.db import (
+    get_database_disk_usage,
+    get_database_size,
+    measure_database_latency,
+)
 from weblate.utils.encoding import get_encoding_list
 from weblate.utils.errors import report_error
 from weblate.utils.stats import prefetch_stats
@@ -486,6 +490,9 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
     else:
         disk_usage_percent = round(disk_usage_bytes.used * 100 / disk_usage_bytes.total)
 
+    database_size = get_database_size()
+    database_disk_usage = get_database_disk_usage()
+
     context = {
         "checks": checks,
         "errors": ConfigurationError.objects.filter(ignored=False),
@@ -499,6 +506,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "cache_latency": measure_cache_latency(),
         "disk_usage": disk_usage_bytes,
         "disk_usage_percent": disk_usage_percent,
+        "database_size": database_size,
+        "database_disk_usage": database_disk_usage,
         "memory_migration_status": get_memory_migration_status(),
     }
 
