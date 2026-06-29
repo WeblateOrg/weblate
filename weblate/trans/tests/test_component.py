@@ -44,7 +44,7 @@ from weblate.trans.tests.test_views import (
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositoryRecoveryEvent
 from weblate.vcs.git import GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
@@ -69,6 +69,74 @@ class ComponentTest(RepoTestCase):
         self.assertTrue(queryset.query.select_for_update)
         self.assertEqual(queryset.query.select_for_update_of, ("self",))
         self.assertTrue(queryset.query.select_for_no_key_update)
+
+    def test_handle_repository_recovery_records_change_and_clears_alert(self) -> None:
+        component = self.create_component()
+        component.add_alert("RepositoryOperationFailure", error="failed")
+
+        component.handle_repository_recovery(
+            [RepositoryRecoveryEvent(operation="rebase", details={"branch": "main"})]
+        )
+
+        change = component.change_set.get(action=ActionEvents.REPO_CLEANUP)
+        self.assertEqual(
+            change.details,
+            {"recovery": True, "operation": "rebase", "branch": "main"},
+        )
+        self.assertFalse(
+            component.alert_set.filter(name="RepositoryOperationFailure").exists()
+        )
+
+    def test_handle_repository_recovery_failure_adds_alert(self) -> None:
+        component = self.create_component()
+
+        component.handle_repository_recovery_failure(
+            RepositoryError(128, "fatal: rebase abort failed")
+        )
+
+        alert = component.alert_set.get(name="RepositoryOperationFailure")
+        self.assertIn("fatal: rebase abort failed", alert.details["error"])
+
+    def test_clean_lock_recovery_clears_stale_failure_alert(self) -> None:
+        component = self.create_component()
+        component.add_alert("RepositoryOperationFailure", error="failed")
+        repository = component.repository
+        recover_lock_session = Mock(return_value=[])
+
+        with (
+            patch.object(repository, "recover_lock_session", recover_lock_session),
+            repository.lock,
+        ):
+            pass
+
+        recover_lock_session.assert_called_once_with()
+        self.assertFalse(
+            component.alert_set.filter(name="RepositoryOperationFailure").exists()
+        )
+
+    def test_reset_bypasses_failed_repository_recovery(self) -> None:
+        component = self.create_component()
+        repository = component.repository
+
+        def reset_repository_to_remote(request, user, *, keep_changes: bool):
+            with repository.lock:
+                return "old"
+
+        with (
+            patch.object(
+                repository,
+                "recover_lock_session",
+                side_effect=RepositoryError(128, "fatal: rebase abort failed"),
+            ) as recover_lock_session,
+            patch.object(
+                component,
+                "reset_repository_to_remote",
+                side_effect=reset_repository_to_remote,
+            ),
+        ):
+            self.assertTrue(component.do_reset(None))
+
+        recover_lock_session.assert_not_called()
 
     def verify_component(
         self,
@@ -2775,6 +2843,7 @@ class ResetDiscardRevisionTest(ComponentTestCase):
 
     def test_reset_updates_stored_local_revision(self) -> None:
         start_rev = self.component.repository.last_revision
+        self.component.add_alert("RepositoryOperationFailure", error="failed")
 
         self.change_unit("Ahoj svete!\n")
         self.component.commit_pending("test", self.user)
@@ -2789,6 +2858,9 @@ class ResetDiscardRevisionTest(ComponentTestCase):
         self.component.refresh_from_db()
         self.assertEqual(start_rev, self.component.repository.last_revision)
         self.assertEqual(start_rev, self.component.local_revision)
+        self.assertFalse(
+            self.component.alert_set.filter(name="RepositoryOperationFailure").exists()
+        )
 
     def test_file_scan_removes_stale_translation_with_change(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")

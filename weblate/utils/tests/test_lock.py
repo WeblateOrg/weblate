@@ -207,6 +207,51 @@ class RepositoryLockTest(SimpleTestCase):
                 self.assertTrue(inner_lock.begin_recovery())
                 inner_lock.finish_recovery()
 
+    def test_reused_lock_shares_active_recovery_skip(self) -> None:
+        with (
+            TemporaryDirectory() as lock_path,
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+        ):
+            first_lock = WeblateLock(
+                lock_path=lock_path,
+                scope="repository",
+                key=1,
+                slug="component",
+                timeout=5,
+                origin="project/component",
+            )
+            second_lock = WeblateLock(
+                lock_path=lock_path,
+                scope="repository",
+                key=1,
+                slug="component",
+                timeout=5,
+                origin="project/component",
+            )
+            first_repository = cast(
+                "Repository",
+                SimpleNamespace(ensure_lock_session_recovered=lambda: None),
+            )
+            second_recovery = MagicMock()
+            second_repository = cast(
+                "Repository",
+                SimpleNamespace(ensure_lock_session_recovered=second_recovery),
+            )
+            outer_lock = RepositoryLock(first_repository, first_lock)
+            inner_lock = RepositoryLock(second_repository, second_lock)
+
+            with outer_lock.without_recovery():
+                self.assertTrue(inner_lock.replace_lock_if_matching(outer_lock))
+                with inner_lock:
+                    pass
+
+            second_recovery.assert_not_called()
+
+            with inner_lock:
+                pass
+
+        second_recovery.assert_called_once_with()
+
     def test_component_repository_lock_name_is_stable_across_path_changes(self) -> None:
         with (
             TemporaryDirectory() as temp_dir,

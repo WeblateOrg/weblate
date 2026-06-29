@@ -67,6 +67,7 @@ Weblate 2026.7
 * Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces.
 * API project creation can again use the user's only eligible workspace when no explicit workspace is supplied.
 * Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs.
+* Interrupted Git repository operations are now either recovered and recorded or surfaced as a repository alert.
 * Watched translations on the dashboard now include category path segments.
 * Unsupported upload levels now show an upload placeholder pointing to individual translations.
 * Component API responses no longer expose repository export, push branch, or repository browser links to users without repository access.

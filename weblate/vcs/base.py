@@ -12,11 +12,13 @@ import os
 import os.path
 import signal
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
-from contextlib import suppress
+from contextlib import contextmanager, suppress
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
+    Any,
     ClassVar,
     Literal,
     NotRequired,
@@ -125,6 +127,17 @@ class CommitInfo(TypedDict):
 type RemoteOperation = Literal["none", "pull", "push"]
 
 
+@dataclass(slots=True)
+class RepositoryRecoveryEvent:
+    operation: str
+    details: dict[str, Any]
+
+
+@dataclass(slots=True)
+class RepositoryLockSkipState:
+    count: int = 0
+
+
 def parse_commit_date(value: str | datetime) -> datetime:
     """Parse a commit date string into a datetime object."""
     result = value if isinstance(value, datetime) else parser.parse(value)
@@ -139,6 +152,7 @@ class RepositoryLock:
         self._lock = lock
         self._recovery_pending = False
         self._recovering = False
+        self._skip_recovery = RepositoryLockSkipState()
 
     @property
     def lock_object(self) -> WeblateLock:
@@ -148,6 +162,7 @@ class RepositoryLock:
         self._lock = lock._lock
         self._recovery_pending = lock._recovery_pending
         self._recovering = lock._recovering
+        self._skip_recovery = lock._skip_recovery
 
     def replace_lock_if_matching(self, lock: Self) -> bool:
         if self._lock.name != lock._lock.name:
@@ -158,10 +173,11 @@ class RepositoryLock:
     def __enter__(self) -> None:
         outermost_enter = not self._lock.is_locked
         self._lock.__enter__()
-        if outermost_enter:
+        if outermost_enter and not self._skip_recovery.count:
             self._recovery_pending = True
         try:
-            self.repository.ensure_lock_session_recovered()
+            if not self._skip_recovery.count:
+                self.repository.ensure_lock_session_recovered()
         except Exception as error:
             self._lock.__exit__(type(error), error, error.__traceback__)
             if not self._lock.is_locked:
@@ -191,6 +207,14 @@ class RepositoryLock:
 
     def finish_recovery(self) -> None:
         self._recovering = False
+
+    @contextmanager
+    def without_recovery(self) -> Generator[None]:
+        self._skip_recovery.count += 1
+        try:
+            yield
+        finally:
+            self._skip_recovery.count -= 1
 
     def _reset_recovery_state(self) -> None:
         self._recovering = False
@@ -571,15 +595,21 @@ class Repository:
     def should_retry_popen(errormessage: str) -> bool:
         return False
 
-    def recover_lock_session(self) -> None:
+    def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
         self.cleanup_repo_temp_dir()
+        return []
 
     def ensure_lock_session_recovered(self) -> None:
         if not self.lock.begin_recovery():
             return
         try:
-            self.recover_lock_session()
-        except Exception:
+            recovery_events = self.recover_lock_session()
+            if self.component is not None:
+                self.component.handle_repository_recovery(recovery_events)
+        except Exception as error:
+            if self.component is not None:
+                with suppress(Exception):
+                    self.component.handle_repository_recovery_failure(error)
             self.lock.fail_recovery()
             raise
         self.lock.finish_recovery()

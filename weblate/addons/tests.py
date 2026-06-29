@@ -6276,6 +6276,53 @@ class GitSquashAddonTest(ViewTestCase):
     def test_squash_sitewide(self) -> None:
         self.test_squash(sitewide=True)
 
+    def test_squash_skips_interrupted_repository_operation(self) -> None:
+        addon = self.create("all")
+        repository = self.component.repository
+
+        with (
+            patch.object(
+                repository,
+                "ensure_no_interrupted_operation",
+                side_effect=RepositoryError(
+                    1, "Repository has an interrupted Git rebase operation."
+                ),
+            ),
+            self.assertRaises(RepositoryError),
+        ):
+            addon.post_commit(self.component, True)
+
+        alert = self.component.alert_set.get(name="RepositoryOperationFailure")
+        self.assertIn("interrupted Git rebase operation", alert.details["error"])
+
+    def test_author_squash_stops_on_interrupted_repository_operation(self) -> None:
+        addon = self.create("author")
+        repository = self.component.repository
+        error = RepositoryError(
+            1, "Repository has an interrupted Git cherry-pick operation."
+        )
+
+        with (
+            patch.object(
+                repository, "get_remote_branch_name", return_value="origin/main"
+            ),
+            patch.object(repository, "execute", return_value="") as execute,
+            patch.object(repository, "get_gpg_sign_args", return_value=[]),
+            patch.object(repository, "delete_branch"),
+            patch.object(
+                repository, "get_interrupted_operation", return_value="cherry-pick"
+            ),
+            patch.object(addon, "squash_author_commits", side_effect=error),
+            self.assertRaises(RepositoryError) as context,
+        ):
+            addon.squash_author(self.component, repository)
+
+        self.assertIs(context.exception, error)
+        execute.assert_called_once_with(
+            ["log", "--no-merges", "--format=%H %aE", "origin/main..HEAD"],
+            remote_op="none",
+        )
+
     def test_languages(self) -> None:
         self.test_squash("language", 2)
 

@@ -6,15 +6,13 @@
 
 from __future__ import annotations
 
-from types import SimpleNamespace
-from typing import cast
 from unittest.mock import patch
 
 import responses
 from django.core.cache import cache
 from django.test import TestCase
 
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Project
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -64,22 +62,31 @@ class TestGitHubInstallationManager(TestCase):
             repositories=[{"full_name": "test-org/repo1"}]
         )
 
+    def _make_component(
+        self,
+        repo: str = "https://github.com/test-org/repo1.git",
+        *,
+        has_workspace: bool = True,
+        push: str = "",
+    ) -> Component:
+        project = Project(
+            id=1,
+            name="Test",
+            slug="test",
+            workspace=self.installation.workspace if has_workspace else None,
+        )
+        return Component(
+            name="Component",
+            slug="component",
+            project=project,
+            repo=repo,
+            push=push,
+        )
+
     def _make_app_repository(
         self, repo: str = "https://github.com/test-org/repo1.git"
     ) -> GithubAppRepository:
-        component = cast(
-            "Component",
-            SimpleNamespace(
-                pk=None,
-                full_slug="test/project/component",
-                project_id=1,
-                project=SimpleNamespace(
-                    workspace_id=self.installation.workspace_id,
-                    workspace=self.installation.workspace,
-                ),
-                repo=repo,
-            ),
-        )
+        component = self._make_component(repo)
         return GithubAppRepository(".", branch="main", component=component, local=True)
 
     def test_get_for_repo(self):
@@ -282,16 +289,7 @@ class TestGitHubInstallationManager(TestCase):
 
     @responses.activate
     def test_github_repository_instance_auth_requires_workspace(self):
-        component = cast(
-            "Component",
-            SimpleNamespace(
-                pk=None,
-                full_slug="test/project/component",
-                project_id=1,
-                project=SimpleNamespace(workspace_id=None, workspace=None),
-                repo="https://github.com/test-org/repo1.git",
-            ),
-        )
+        component = self._make_component(has_workspace=False)
         repository = GithubAppRepository(
             ".", branch="main", component=component, local=True
         )
@@ -317,20 +315,7 @@ class TestGitHubInstallationManager(TestCase):
             "https://api.github.com/app/installations/67890/access_tokens",
             status=500,
         )
-        component = cast(
-            "Component",
-            SimpleNamespace(
-                pk=None,
-                full_slug="test/project/component",
-                project_id=1,
-                project=SimpleNamespace(
-                    workspace_id=self.installation.workspace_id,
-                    workspace=self.installation.workspace,
-                ),
-                repo="https://github.com/test-org/repo1.git",
-                push="",
-            ),
-        )
+        component = self._make_component()
         repository = GithubAppRepository(
             ".", branch="main", component=component, local=True
         )
@@ -351,19 +336,7 @@ class TestGitHubInstallationManager(TestCase):
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
-        component = cast(
-            "Component",
-            SimpleNamespace(
-                pk=None,
-                full_slug="test/project/component",
-                project_id=1,
-                project=SimpleNamespace(
-                    workspace_id=self.installation.workspace_id,
-                    workspace=self.installation.workspace,
-                ),
-                repo="https://github.com/test-org/repo1.git",
-            ),
-        )
+        component = self._make_component()
         repository = GithubAppRepository(
             ".", branch="main", component=component, local=True
         )
@@ -389,19 +362,7 @@ class TestGitHubInstallationManager(TestCase):
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
-        component = cast(
-            "Component",
-            SimpleNamespace(
-                pk=None,
-                full_slug="test/project/component",
-                project_id=1,
-                project=SimpleNamespace(
-                    workspace_id=self.installation.workspace_id,
-                    workspace=self.installation.workspace,
-                ),
-                repo="https://github.com/test-org/repo1.git",
-            ),
-        )
+        component = self._make_component()
         repository = GithubAppRepository(
             ".", branch="main", component=component, local=True
         )
@@ -433,19 +394,7 @@ class TestGitHubInstallationManager(TestCase):
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
-        component = cast(
-            "Component",
-            SimpleNamespace(
-                pk=None,
-                full_slug="test/project/component",
-                project_id=1,
-                project=SimpleNamespace(
-                    workspace_id=self.installation.workspace_id,
-                    workspace=self.installation.workspace,
-                ),
-                repo="https://github.com/test-org/repo1.git",
-            ),
-        )
+        component = self._make_component()
         repository = GithubAppRepository(
             ".", branch="main", component=component, local=True
         )

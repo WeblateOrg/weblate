@@ -137,6 +137,16 @@ class MergeFailure(ErrorAlert):
     doc_anchor = "merge"
 
 
+@register
+class RepositoryOperationFailure(ErrorAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not recover the repository.")
+    category = AlertCategory.VCS
+    link_wide = True
+    doc_page = "admin/projects"
+    doc_anchor = "component-repo"
+
+
 class BaseGitFailure(ErrorAlert):
     category = AlertCategory.VCS
     link_wide = True
