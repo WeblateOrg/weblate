@@ -500,6 +500,8 @@ strings using :guilabel:`Search and replace` in the :guilabel:`Operations` menu.
 
     Don't worry about messing up the strings, as it is a two-step process.
     A preview of edited strings is shown before confirming the change.
+    You can adjust the search parameters from the preview and update it before
+    applying the replacement.
 
 .. _bulk-edit:
 
