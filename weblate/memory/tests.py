@@ -40,6 +40,8 @@ from weblate.memory.models import (
 )
 from weblate.memory.tasks import (
     MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
+    MEMORY_SCOPE_BACKFILL_STATE,
+    MEMORY_SCOPE_COMPACTION_STATE,
     MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
     MemoryGroupEntry,
     backfill_memory_scopes,
@@ -1034,7 +1036,7 @@ msgstr "Nazdar svete!\n"
         MemoryScopeMigrationState.objects.using("default").all().delete()
 
         with (
-            patch("weblate.memory.tasks.compact_memory_scopes.delay"),
+            patch("weblate.memory.tasks.schedule_memory_scope_compaction"),
             patch.object(
                 MemoryScope.objects,
                 "db_manager",
@@ -1057,7 +1059,7 @@ msgstr "Nazdar svete!\n"
 
     def test_resume_memory_scope_backfill_reschedules_stale_state(self) -> None:
         state = MemoryScopeMigrationState.objects.create(
-            name="memory-scope-backfill",
+            name=MEMORY_SCOPE_BACKFILL_STATE,
             last_memory_id=1,
             updated=timezone.now()
             - timedelta(seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS + 1),
@@ -1072,7 +1074,7 @@ msgstr "Nazdar svete!\n"
 
     def test_resume_memory_scope_backfill_keeps_recent_state(self) -> None:
         MemoryScopeMigrationState.objects.create(
-            name="memory-scope-backfill", updated=timezone.now()
+            name=MEMORY_SCOPE_BACKFILL_STATE, updated=timezone.now()
         )
 
         with patch("weblate.memory.tasks.backfill_memory_scopes.delay") as mocked_delay:
@@ -1115,7 +1117,7 @@ msgstr "Nazdar svete!\n"
         Memory.objects.create(**values)
         Memory.objects.create(**values)
         MemoryScopeMigrationState.objects.create(
-            name="memory-scope-backfill",
+            name=MEMORY_SCOPE_BACKFILL_STATE,
             completed=True,
         )
 
@@ -1127,12 +1129,16 @@ msgstr "Nazdar svete!\n"
 
         backfill.assert_not_called()
         compact.assert_called_once_with()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertFalse(state.completed)
 
     def test_resume_memory_scope_backfill_keeps_completed_without_duplicates(
         self,
     ) -> None:
         MemoryScopeMigrationState.objects.create(
-            name="memory-scope-backfill",
+            name=MEMORY_SCOPE_BACKFILL_STATE,
             completed=True,
         )
 
@@ -1143,6 +1149,31 @@ msgstr "Nazdar svete!\n"
             resume_memory_scope_backfill()
 
         backfill.assert_not_called()
+        compact.assert_not_called()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
+
+    def test_resume_memory_scope_backfill_skips_completed_compaction(
+        self,
+    ) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_COMPACTION_STATE,
+            completed=True,
+        )
+
+        with (
+            patch("weblate.memory.tasks.has_duplicate_memory_groups") as has_duplicates,
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
+            resume_memory_scope_backfill()
+
+        has_duplicates.assert_not_called()
         compact.assert_not_called()
 
     def test_project_delete_removes_legacy_shared_scoped_memory(self) -> None:
@@ -1841,6 +1872,25 @@ msgstr "Nazdar svete!\n"
             set(memory.scopes.values_list("scope", flat=True)),
             {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_SHARED},
         )
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
+
+    def test_compact_memory_scopes_marks_completion_without_duplicates(self) -> None:
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+            completed=True,
+        )
+
+        with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
+            compact_memory_scopes()
+
+        compact.assert_not_called()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
 
     @override_settings(
         DATABASE_ROUTERS=["weblate.memory.tests.MemoryReplicaWriteRouter"]

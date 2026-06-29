@@ -28,6 +28,8 @@ if TYPE_CHECKING:
 MEMORY_UPDATE_BATCH_SIZE = 1000
 MEMORY_UPDATE_LOOKUP_CHUNK_SIZE = 50
 MEMORY_SCOPE_BACKFILL_STALE_SECONDS = 15 * 60
+MEMORY_SCOPE_BACKFILL_STATE = "memory-scope-backfill"
+MEMORY_SCOPE_COMPACTION_STATE = "memory-scope-compaction"
 
 
 class MemoryUpdatePayload(TypedDict):
@@ -218,7 +220,7 @@ def backfill_memory_scopes(batch_size: int = 5000) -> None:
 
     with transaction.atomic(using="default"):
         state, _created = migration_state_objects.select_for_update().get_or_create(
-            name="memory-scope-backfill"
+            name=MEMORY_SCOPE_BACKFILL_STATE
         )
         if state.completed:
             return
@@ -259,7 +261,33 @@ def backfill_memory_scopes(batch_size: int = 5000) -> None:
     if run_next:
         backfill_memory_scopes.delay(batch_size=batch_size)
     elif run_compact:
-        compact_memory_scopes.delay()
+        schedule_memory_scope_compaction()
+
+
+def set_memory_scope_compaction_completed(completed: bool) -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    MemoryScopeMigrationState.objects.using("default").update_or_create(
+        name=MEMORY_SCOPE_COMPACTION_STATE,
+        defaults={"completed": completed, "updated": timezone.now()},
+    )
+
+
+def has_completed_memory_scope_compaction() -> bool:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    return (
+        MemoryScopeMigrationState.objects.using("default")
+        .filter(name=MEMORY_SCOPE_COMPACTION_STATE, completed=True)
+        .exists()
+    )
+
+
+def schedule_memory_scope_compaction() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    set_memory_scope_compaction_completed(False)
+    compact_memory_scopes.delay()
 
 
 def has_duplicate_memory_groups() -> bool:
@@ -290,7 +318,7 @@ def resume_memory_scope_backfill() -> None:
     state = (
         MemoryScopeMigrationState.objects.using("default")
         .filter(
-            name="memory-scope-backfill",
+            name=MEMORY_SCOPE_BACKFILL_STATE,
         )
         .first()
     )
@@ -306,8 +334,12 @@ def resume_memory_scope_backfill() -> None:
         return
 
     if state.completed:
+        if has_completed_memory_scope_compaction():
+            return
         if has_duplicate_memory_groups():
-            compact_memory_scopes.delay()
+            schedule_memory_scope_compaction()
+        else:
+            set_memory_scope_compaction_completed(True)
         return
 
     stale_before = timezone.now() - timedelta(
@@ -478,7 +510,7 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
 
     state = (
         MemoryScopeMigrationState.objects.using("default")
-        .filter(name="memory-scope-backfill")
+        .filter(name=MEMORY_SCOPE_BACKFILL_STATE)
         .first()
     )
     if state is not None and not state.completed:
@@ -501,6 +533,7 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
         .order_by("first_id")[:batch_size]
     )
     if not duplicate_groups:
+        set_memory_scope_compaction_completed(True)
         return
 
     for group in duplicate_groups:
@@ -569,6 +602,8 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
 
     if len(duplicate_groups) == batch_size:
         compact_memory_scopes.delay(batch_size=batch_size)
+    else:
+        set_memory_scope_compaction_completed(True)
 
 
 @app.task(trail=False)
