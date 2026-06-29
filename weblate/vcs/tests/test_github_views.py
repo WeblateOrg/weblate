@@ -5,13 +5,17 @@
 from __future__ import annotations
 
 import json
+from datetime import timedelta
 from typing import cast
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import responses
+from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Project
@@ -24,6 +28,7 @@ from weblate.vcs.github import (
     GitHubInstallation,
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
+from weblate.vcs.pending import PENDING_GITHUB_INSTALLATION_RETENTION
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import Workspace
 
@@ -604,6 +609,40 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(connected.target_login, "test-org")
         self.assertEqual(connected.target_type, "Organization")
         self.assertEqual(connected.repositories, [])
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("connection is pending", response_messages[0])
+        self.assertIn("Try connecting the account again later", response_messages[0])
+
+    @override_settings(RATELIMIT_GITHUB_SETUP_ATTEMPTS=0)
+    def test_setup_rate_limited(self):
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.workspace.add_owner(self.user)
+        next_url = "/create/component/#github"
+        install_url = self._start_install(next_url)
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertRedirects(response, next_url)
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="12345").exists()
+        )
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn(
+            "Too many GitHub account connection attempts", response_messages[0]
+        )
+        self.assertIn("might still be pending", response_messages[0])
+        self.assertIn("Try connecting the account again later", response_messages[0])
 
     @responses.activate
     def test_setup_applies_pending_installation_webhook(self):
@@ -619,7 +658,6 @@ class GitHubInstallationViewTest(ViewTestCase):
                     "app_id": 99999,
                     "account": {"login": "test-org", "type": "Organization"},
                 },
-                "repositories": repositories,
             },
         )
         next_url = "/create/component/#github"
@@ -627,6 +665,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         state = parse_qs(urlparse(install_url).query)["state"][0]
 
         self._mock_oauth(accessible_ids=("12345",))
+        self._mock_setup_api(repositories=repositories)
         response = self.client.get(
             reverse("github-app-setup"),
             {"installation_id": "12345", "state": state, "code": "oauth-code"},
@@ -646,6 +685,47 @@ class GitHubInstallationViewTest(ViewTestCase):
                 installation_id="12345",
             ).exists()
         )
+
+    @responses.activate
+    def test_setup_ignores_stale_pending_installation_webhook(self):
+        pending = PendingInstallation.objects.create(
+            provider=InstallationProvider.GITHUB,
+            hostname="github.com",
+            installation_id="12345",
+            payload={
+                "action": "created",
+                "installation": {
+                    "id": 12345,
+                    "app_id": 99999,
+                    "account": {"login": "stale-org", "type": "Organization"},
+                },
+            },
+        )
+        PendingInstallation.objects.filter(pk=pending.pk).update(
+            updated=timezone.now()
+            - PENDING_GITHUB_INSTALLATION_RETENTION
+            - timedelta(seconds=1)
+        )
+        repositories = [_repo_entry("test-org/repo1", default_branch="stable")]
+        next_url = "/create/component/#github"
+        install_url = self._start_install(next_url)
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(accessible_ids=("12345",))
+        self._mock_setup_api(repositories=repositories)
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "state": state, "code": "oauth-code"},
+        )
+
+        self.assertRedirects(response, next_url)
+        connected = GitHubInstallation.objects.get(
+            installation_id="12345", workspace=self.workspace
+        )
+        self.assertEqual(connected.target_login, "test-org")
+        self.assertEqual(connected.repositories, repositories)
+        # Expired pending rows are ignored here and left for the periodic cleanup task.
+        self.assertTrue(PendingInstallation.objects.filter(pk=pending.pk).exists())
 
     def test_setup_rejects_missing_oauth_code(self):
         # Without the install-time OAuth code there is nothing proving the user

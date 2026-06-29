@@ -7,9 +7,11 @@
 from __future__ import annotations
 
 import json
+from datetime import timedelta
 
 import responses
 from django.core.cache import cache
+from django.utils import timezone
 from rest_framework.test import APIClient
 
 from weblate.trans.actions import ActionEvents
@@ -20,6 +22,8 @@ from weblate.vcs.github import (
     GitHubInstallation,
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
+from weblate.vcs.pending import PENDING_GITHUB_INSTALLATION_RETENTION
+from weblate.vcs.tasks import cleanup_pending_installations
 from weblate.vcs.tests.utils import generate_private_key, sign_webhook_payload
 from weblate.workspaces.models import Workspace
 
@@ -150,8 +154,22 @@ class TestGitHubAppHooks(ViewTestCase):
             "installation": {
                 "id": 12345,
                 "app_id": 99999,
-                "account": {"login": "test-org", "type": "Organization"},
+                "account": {
+                    "login": "test-org",
+                    "type": "Organization",
+                    "avatar_url": "https://avatars.example/test-org",
+                },
             },
+            "repositories": [
+                {
+                    "name": "repo",
+                    "full_name": "test-org/repo",
+                    "private": False,
+                    "description": "A repo",
+                    "owner": {"login": "test-org"},
+                }
+            ],
+            "sender": {"login": "octocat"},
         }
         response = self._post("installation", data)
         self.assertEqual(response.status_code, 201)
@@ -186,7 +204,41 @@ class TestGitHubAppHooks(ViewTestCase):
             hostname="github.com",
             installation_id="12345",
         )
-        self.assertEqual(pending.payload["action"], "created")
+        self.assertEqual(
+            pending.payload,
+            {
+                "action": "created",
+                "installation": {
+                    "id": 12345,
+                    "app_id": 99999,
+                    "account": {"login": "test-org", "type": "Organization"},
+                },
+            },
+        )
+
+    def test_cleanup_pending_installations_task(self):
+        old = PendingInstallation.objects.create(
+            provider=InstallationProvider.GITHUB,
+            hostname="github.com",
+            installation_id="old",
+            payload={"action": "created"},
+        )
+        current = PendingInstallation.objects.create(
+            provider=InstallationProvider.GITHUB,
+            hostname="github.com",
+            installation_id="current",
+            payload={"action": "created"},
+        )
+        PendingInstallation.objects.filter(pk=old.pk).update(
+            updated=timezone.now()
+            - PENDING_GITHUB_INSTALLATION_RETENTION
+            - timedelta(seconds=1)
+        )
+
+        cleanup_pending_installations()
+
+        self.assertFalse(PendingInstallation.objects.filter(pk=old.pk).exists())
+        self.assertTrue(PendingInstallation.objects.filter(pk=current.pk).exists())
 
     def test_unknown_integration_token_is_rejected(self):
         """A delivery to an unknown integration token cannot be authenticated."""

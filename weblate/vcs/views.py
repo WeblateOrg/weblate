@@ -31,6 +31,7 @@ from weblate.trans.views.create import INTEGRATION_IMPORT_VCS_KEY, SESSION_CREAT
 from weblate.trans.views.hooks import apply_pending_github_installation_event
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.site import get_site_url
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
@@ -654,6 +655,17 @@ def github_app_setup(request):
         )
         return redirect(next_url)
 
+    if not check_rate_limit("github_setup", request):
+        messages.error(
+            request,
+            gettext(
+                "Too many GitHub account connection attempts. "
+                "The GitHub installation was not connected and might still be "
+                "pending. Try connecting the account again later."
+            ),
+        )
+        return redirect(next_url)
+
     code = request.GET.get("code", "").strip()
     authorized_installation = _get_authorized_installation(
         request, config, code, installation_id
@@ -685,11 +697,12 @@ def github_app_setup(request):
         is_new_install = is_new_install or synced_is_new_install
     except Exception:
         report_error("Failed to connect GitHub account to workspace")
-        messages.info(
+        messages.warning(
             request,
             gettext(
                 "GitHub is still syncing the connected account. "
-                "The repositories will appear here once the webhook is processed."
+                "The connection is pending and repositories might not appear yet. "
+                "Try connecting the account again later if they do not show up."
             ),
         )
         return redirect(next_url)

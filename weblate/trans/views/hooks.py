@@ -50,6 +50,7 @@ from weblate.vcs.github import (
     verify_webhook_signature,
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
+from weblate.vcs.pending import pending_github_installation_cutoff
 
 if TYPE_CHECKING:
     import uuid
@@ -511,11 +512,25 @@ def _store_pending_github_installation_event(
     data: dict, hostname: str, installation_id: str
 ) -> None:
     """Persist a signed installation event until setup validates a workspace."""
+    payload = data["installation"]
+    account = payload["account"]
     PendingInstallation.objects.update_or_create(
         provider=InstallationProvider.GITHUB,
         hostname=hostname,
         installation_id=installation_id,
-        defaults={"payload": data},
+        defaults={
+            "payload": {
+                "action": data["action"],
+                "installation": {
+                    "id": payload["id"],
+                    "app_id": payload["app_id"],
+                    "account": {
+                        "login": account["login"],
+                        "type": account["type"],
+                    },
+                },
+            }
+        },
     )
     LOGGER.info(
         "Stored pending GitHub account %s/%s webhook until setup completes",
@@ -533,14 +548,26 @@ def apply_pending_github_installation_event(
         provider=InstallationProvider.GITHUB,
         hostname=hostname,
         installation_id=installation_id,
+        updated__gte=pending_github_installation_cutoff(),
     ).first()
     if pending is None:
         return False
 
-    installation = GitHubInstallation.objects.get_for_installation(
-        hostname, installation_id
+    installations = list(
+        GitHubInstallation.objects.filter_for_installation(hostname, installation_id)
     )
-    _handle_github_installation_event(pending.payload, installation, hostname)
+    if not installations:
+        return False
+
+    payload = pending.payload["installation"]
+    for installation in installations:
+        GitHubInstallation.objects.upsert_from_data(
+            hostname,
+            installation_id,
+            payload,
+            workspace=installation.workspace,
+            enabled=True,
+        )
     pending.delete()
     return True
 
