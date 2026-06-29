@@ -45,18 +45,20 @@
                 <td>{{ installation.workspace }}</td>
                 <td>{{ installation.repositories|length }}</td>
                 <td>
-                  <form method="post"
-                        action="{% url 'manage-github-account-refresh' installation.pk %}"
-                        class="d-inline">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ next_url }}" />
-                    <button type="submit" class="btn btn-outline-primary btn-sm">{% translate "Refresh" %}</button>
-                  </form>
-                  <button type="button"
-                          class="btn btn-outline-danger btn-sm"
-                          data-bs-toggle="modal"
-                          data-bs-target="#remove-github-account-{{ installation.pk }}">{% translate "Remove" %}</button>
-                  {% include "vcs/snippets/github_account_remove_modal.html" with installation=installation next_url=next_url csrf_token=csrf_token only %}
+                  {% if installation.pk in manageable_installations %}
+                    <form method="post"
+                          action="{% url 'manage-github-account-refresh' installation.pk %}"
+                          class="d-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="next" value="{{ next_url }}" />
+                      <button type="submit" class="btn btn-outline-primary btn-sm">{% translate "Refresh" %}</button>
+                    </form>
+                    <button type="button"
+                            class="btn btn-outline-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#remove-github-account-{{ installation.pk }}">{% translate "Remove" %}</button>
+                    {% include "vcs/snippets/github_account_remove_modal.html" with installation=installation next_url=next_url csrf_token=csrf_token only %}
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}

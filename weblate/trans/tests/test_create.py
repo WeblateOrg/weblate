@@ -476,6 +476,30 @@ class CreateTest(ViewTestCase):
         self.assertEqual(response.context["github_app_repositories"], [])
         self.assertNotContains(response, "stale-org/repo1")
 
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_hides_github_app_install_link_for_project_admin(
+        self,
+    ) -> None:
+        self.project.workspace = Workspace.objects.create(name="GitHub App workspace")
+        self.project.save(update_fields=["workspace"])
+        self.project.add_user(self.user, "Administration")
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="99999",
+            app_slug="weblate-app",
+            private_key=generate_private_key(),
+            webhook_secret="secret",
+        )
+
+        response = self.client.get(
+            reverse("create-component"), {"project": self.project.pk}
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["github_app_available"])
+        self.assertNotIn("github_app_install_url", response.context)
+        self.assertNotContains(response, "Add or configure account")
+
     def test_create_component_locks_github_app_integration_fields(self) -> None:
         form = ComponentCreateForm(
             self.get_request(),

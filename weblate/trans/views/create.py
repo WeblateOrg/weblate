@@ -57,6 +57,7 @@ from weblate.vcs.github import (
     github_app_is_configured,
 )
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.permissions import github_app_installation_workspaces
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -746,26 +747,33 @@ class CreateComponentSelection(CreateComponent):
                 )
                 repositories.append(entry)
         kwargs["github_app_repositories"] = repositories
-        if github_app_is_configured() and selected_project_obj is not None:
-            if selected_project_obj.workspace_id:
-                kwargs["github_app_install_url"] = (
-                    reverse("github-app-install")
-                    + "?"
-                    + urlencode(
-                        {
-                            "next": f"{self.request.get_full_path()}#github",
-                            "workspace": selected_project_obj.workspace_id,
-                        }
-                    )
-                )
-        elif github_app_is_configured() and len(workspace_ids) == 1:
+        install_workspace_id = None
+        installation_workspaces = github_app_installation_workspaces(self.request.user)
+        if (
+            github_app_is_configured()
+            and selected_project_obj is not None
+            and selected_project_obj.workspace_id
+            and installation_workspaces.filter(
+                pk=selected_project_obj.workspace_id
+            ).exists()
+        ):
+            install_workspace_id = selected_project_obj.workspace_id
+        elif (
+            github_app_is_configured()
+            and selected_project_obj is None
+            and len(workspace_ids) == 1
+            and installation_workspaces.filter(pk=workspace_ids[0]).exists()
+        ):
+            install_workspace_id = workspace_ids[0]
+
+        if install_workspace_id is not None:
             kwargs["github_app_install_url"] = (
                 reverse("github-app-install")
                 + "?"
                 + urlencode(
                     {
                         "next": f"{self.request.get_full_path()}#github",
-                        "workspace": workspace_ids[0],
+                        "workspace": install_workspace_id,
                     }
                 )
             )

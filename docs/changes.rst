@@ -51,6 +51,7 @@ Weblate 2026.7
 
 .. rubric:: Bug fixes
 
+* Restricted GitHub App installation management actions to workspace administrators.
 * Malformed ``replacements`` flags no longer abort source length checks.
 * Scoped team assignments can no longer be expanded through the API.
 * Empty component lists are no longer exposed to users without component list management permission.

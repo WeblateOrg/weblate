@@ -85,6 +85,14 @@ class GitHubInstallationViewTest(ViewTestCase):
         defaults.update(overrides)
         return GitHubAppCredentials.objects.create(hostname=hostname, **defaults)
 
+    def _grant_management_permission(self, user: User) -> None:
+        role = Role.objects.create(name=f"GitHub management {user.pk}")
+        role.permissions.add(Permission.objects.get(codename="management.use"))
+        group = Group.objects.create(name=f"GitHub management {user.pk}")
+        group.roles.add(role)
+        user.groups.add(group)
+        user.clear_cache()
+
     def _mock_oauth(
         self,
         *,
@@ -244,15 +252,15 @@ class GitHubInstallationViewTest(ViewTestCase):
 
     def test_account_vcs_integrations_uses_workspace_scope(self):
         user = self.anotheruser
-        self.project.add_user(user, "Administration")
+        self.workspace.add_owner(user)
         other_workspace = Workspace.objects.create(name="Other Workspace")
-        other_project = Project.objects.create(
+        Project.objects.create(
             name="Other GitHub Project",
             slug="other-github-project",
             web="https://example.com/",
             workspace=other_workspace,
         )
-        other_project.add_user(user, "Administration")
+        other_workspace.add_owner(user)
         hidden_workspace = Workspace.objects.create(name="Hidden Workspace")
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
@@ -291,6 +299,77 @@ class GitHubInstallationViewTest(ViewTestCase):
                 f"{urlencode({'next': reverse('account-vcs'), 'host': 'github.com', 'workspace': workspace.pk})}"
             )
             self.assertContains(response, install_url.replace("&", "&amp;"))
+
+    def test_project_admin_cannot_manage_account_vcs_integrations(self):
+        user = self.anotheruser
+        self.project.add_user(user, "Administration")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        response = self.client.get(reverse("account-vcs"))
+
+        self.assertContains(response, "test-org")
+        self.assertContains(response, self.workspace.name)
+        self.assertContains(
+            response,
+            f"{reverse('github-app-repositories')}?workspace={self.workspace.pk}",
+        )
+        install_url = (
+            f"{reverse('github-app-install')}?"
+            f"{urlencode({'next': reverse('account-vcs'), 'host': 'github.com', 'workspace': self.workspace.pk})}"
+        )
+        self.assertNotContains(response, install_url.replace("&", "&amp;"))
+        self.assertNotContains(response, "Connect GitHub account")
+        self.assertNotContains(
+            response,
+            reverse("manage-github-account-refresh", kwargs={"pk": installation.pk}),
+        )
+        self.assertNotContains(
+            response,
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+        install_response = self.client.get(
+            reverse("github-app-install"),
+            {
+                "next": reverse("account-vcs"),
+                "host": "github.com",
+                "workspace": str(self.workspace.pk),
+            },
+        )
+        self.assertEqual(install_response.status_code, 403)
+
+    def test_project_admin_cannot_manage_github_installation(self):
+        user = self.anotheruser
+        self.project.add_user(user, "Administration")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        detail_response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+        self.assertEqual(detail_response.status_code, 403)
+        for view_name in (
+            "manage-github-account-refresh",
+            "manage-github-account-remove",
+        ):
+            response = self.client.post(
+                reverse(view_name, kwargs={"pk": installation.pk})
+            )
+            self.assertEqual(response.status_code, 403)
+        self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
 
     def test_account_vcs_integrations_filters_selected_workspace(self):
         user = self.anotheruser
@@ -333,7 +412,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             f"{reverse('github-app-install')}?"
             f"{urlencode({'next': next_url, 'host': 'github.com', 'workspace': self.workspace.pk})}"
         )
-        self.assertContains(response, install_url.replace("&", "&amp;"))
+        self.assertNotContains(response, install_url.replace("&", "&amp;"))
 
     def test_account_vcs_integrations_accepts_workspace_owner(self):
         owner = User.objects.create_user(
@@ -803,6 +882,39 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertNotContains(response, _import_url(installation, repo))
         self.assertContains(response, "Unavailable")
 
+    def test_site_manager_can_import_from_installation_detail(self):
+        manager = User.objects.create_user(
+            username="site manager",
+            email="sitemanager@example.org",
+            password="testpassword",
+        )
+        self._grant_management_permission(manager)
+        repo = _repo_entry("test-org/repo1")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        self.client.login(username=manager.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+
+        import_path = _import_url(installation, repo)
+        self.assertContains(response, import_path)
+        response = self.client.get(import_path)
+        self.assertRedirects(
+            response,
+            f"{reverse('create-component-vcs')}?session_component=1",
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(
+            self.client.session["session_component"]["repo"], repo["clone_url"]
+        )
+
     def test_repository_import_link_preselects_github_app_vcs(self):
         repo = _repo_entry("test-org/repo1", default_branch="stable")
         installation = GitHubInstallation.objects.create(
@@ -1002,6 +1114,7 @@ class GitHubAppAccessControlTest(ViewTestCase):
             email="mainuser@example.org",
             password="testpassword",
         )
+        self.workspace.add_owner(self.user)
         self.project.add_user(self.user, "Administration")
 
         self.other_user = User.objects.create_user(
@@ -1090,13 +1203,13 @@ class GitHubAppAccessControlTest(ViewTestCase):
         # A valid signed state for ``self.workspace`` produced by its admin.
         state = self._start_install(self.user)
 
-        # A user who manages an unrelated workspace must not be able to bind
+        # A user who owns an unrelated workspace must not be able to bind
         # GitHub to a workspace they don't manage.
         other_workspace = Workspace.objects.create(name="Other ACL Workspace")
-        other_project = self.create_project(
+        self.create_project(
             name="Other ACL", slug="other-acl", workspace=other_workspace
         )
-        other_project.add_user(self.other_user, "Administration")
+        other_workspace.add_owner(self.other_user)
         self.client.login(username=self.other_user.username, password="testpassword")
 
         response = self.client.get(
