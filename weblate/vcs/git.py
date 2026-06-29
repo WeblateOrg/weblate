@@ -60,6 +60,7 @@ from weblate.vcs.base import (
     Repository,
     RepositoryCommandError,
     RepositoryError,
+    RepositoryRecoveryEvent,
 )
 from weblate.vcs.gpg import get_gpg_sign_key
 
@@ -88,6 +89,7 @@ RECOVERABLE_ABORT_LOCKS = frozenset(
         "MERGE_HEAD.lock",
         "ORIG_HEAD.lock",
         "REBASE_HEAD.lock",
+        "REVERT_HEAD.lock",
     }
 )
 
@@ -303,28 +305,81 @@ class GitRepository(Repository):
             ("gc", "auto", "0"),
         )
 
-    def recover_lock_session(self) -> None:
-        super().recover_lock_session()
-        if not self.is_valid():
-            return
-        current_branch = self.get_current_branch()
-        merge_in_progress = self.has_git_file("MERGE_HEAD")
-        rebase_in_progress = self.has_git_file("rebase-apply") or self.has_git_file(
-            "rebase-merge"
-        )
-        if merge_in_progress:
-            with suppress(RepositoryCommandError):
+    def get_interrupted_operation(self) -> str | None:
+        if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
+            return "rebase"
+        if self.has_git_file("MERGE_HEAD"):
+            return "merge"
+        if self.has_git_file("CHERRY_PICK_HEAD"):
+            return "cherry-pick"
+        if self.has_git_file("REVERT_HEAD"):
+            return "revert"
+        return None
+
+    def ensure_no_interrupted_operation(self) -> None:
+        operation = self.get_interrupted_operation()
+        if operation is not None:
+            msg = gettext(
+                "Repository has an interrupted Git %(operation)s operation."
+            ) % {"operation": operation}
+            raise RepositoryError(1, msg)
+
+    def abort_interrupted_operation(self, operation: str) -> None:
+        match operation:
+            case "merge":
                 self.merge(abort=True)
-        if rebase_in_progress:
-            with suppress(RepositoryCommandError):
+            case "rebase":
                 self.rebase(abort=True)
+            case "cherry-pick":
+                self.execute_abort(["cherry-pick", "--abort"])
+                if self.needs_commit():
+                    self.execute(["reset", "--hard"], remote_op="none")
+            case "revert":
+                self.execute_abort(["revert", "--abort"])
+                if self.needs_commit():
+                    self.execute(["reset", "--hard"], remote_op="none")
+            case _:
+                msg = gettext(
+                    "Unsupported interrupted Git operation: %(operation)s"
+                ) % {"operation": operation}
+                raise RepositoryError(1, msg)
+        self.clean_revision_cache()
+
+    def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
+        recovery_events = super().recover_lock_session()
+        if not self.is_valid():
+            return recovery_events
+        current_branch = self.get_current_branch()
+        while operation := self.get_interrupted_operation():
+            self.abort_interrupted_operation(operation)
+            if self.get_interrupted_operation() is not None:
+                msg = gettext(
+                    "Could not recover interrupted Git %(operation)s operation."
+                ) % {"operation": operation}
+                raise RepositoryError(1, msg)
+            recovery_events.append(
+                RepositoryRecoveryEvent(
+                    operation=operation,
+                    details={"branch": current_branch},
+                )
+            )
         if current_branch not in TEMPORARY_BRANCHES:
-            return
+            return recovery_events
         self.execute(["reset", "--hard"], remote_op="none")
         self.checkout_with_temp_cleanup(self.branch)
         with suppress(RepositoryCommandError):
             self.execute(["branch", "-D", current_branch], remote_op="none")
         self.clean_revision_cache()
+        recovery_events.append(
+            RepositoryRecoveryEvent(
+                operation="temporary-branch",
+                details={
+                    "branch": current_branch,
+                    "target_branch": self.branch,
+                },
+            )
+        )
+        return recovery_events
 
     def get_current_branch(self) -> str:
         return self.execute(
@@ -506,12 +561,37 @@ class GitRepository(Repository):
         """Configure committer name."""
         self.config_update(("user", "name", name), ("user", "email", mail))
 
+    def clear_interrupted_operation(self) -> None:
+        """Clear interrupted Git operation metadata before a hard reset."""
+        for directory in ("rebase-apply", "rebase-merge", "sequencer"):
+            remove_tree(self.get_git_file_path(directory), ignore_errors=True)
+        for filename in (
+            "AUTO_MERGE",
+            "CHERRY_PICK_HEAD",
+            "MERGE_HEAD",
+            "MERGE_MODE",
+            "MERGE_MSG",
+            "REBASE_HEAD",
+            "REVERT_HEAD",
+        ):
+            with suppress(OSError):
+                self.get_git_file_path(filename).unlink()
+
     def reset(self) -> None:
         """Reset working copy to match remote branch."""
+        self.clear_interrupted_operation()
+        current_branch = self.get_current_branch()
+        local_branch = self.get_local_branch_name()
+        if current_branch != local_branch:
+            self.execute(["checkout", "--force", local_branch], remote_op="none")
+            if current_branch in TEMPORARY_BRANCHES:
+                with suppress(RepositoryCommandError):
+                    self.execute(["branch", "-D", current_branch], remote_op="none")
         self.execute(
             ["reset", "--hard", self.get_remote_branch_name()],
             remote_op="none",
         )
+        self.clear_interrupted_operation()
         self.clean_revision_cache()
 
     def reset_to_revision(self, revision: str) -> None:
@@ -559,9 +639,14 @@ class GitRepository(Repository):
         except RepositoryCommandError as error:
             if not self.cleanup_interrupted_abort_lock(error.args[0]):
                 raise
-            self.execute(args, remote_op="none")
+            if self.get_interrupted_operation() == args[0]:
+                self.execute(args, remote_op="none")
         else:
-            self.cleanup_interrupted_abort_lock(output)
+            if (
+                self.cleanup_interrupted_abort_lock(output)
+                and self.get_interrupted_operation() == args[0]
+            ):
+                self.execute(args, remote_op="none")
 
     def rebase(self, abort=False) -> None:
         """Rebase working copy on top of remote branch."""
@@ -1272,7 +1357,7 @@ class SubversionRepository(GitRepository):
         Git-svn does not support merge.
         """
         if abort:
-            self.execute(["rebase", "--abort"], remote_op="none")
+            self.execute_abort(["rebase", "--abort"])
         else:
             self.execute(["svn", "rebase"], remote_op="pull")
         self.clean_revision_cache()
@@ -1396,7 +1481,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         # as we're expecting there will be an additional merge
         # commit created from the merge request.
         if abort:
-            self.execute(["merge", "--abort"], remote_op="none")
+            self.execute_abort(["merge", "--abort"])
             # Needed for compatibility with original merge code
             self.execute(["checkout", current_branch], remote_op="none")
         else:
