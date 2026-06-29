@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-25 06:03+0200\n"
-"PO-Revision-Date: 2026-06-28 06:25+0000\n"
+"PO-Revision-Date: 2026-06-29 07:02+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -2531,36 +2531,30 @@ msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
 msgstr ""
 
 #: admin/auth.rst:584
-#, fuzzy
 msgid ""
 "The example above and the Docker image define an IdP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IdP."
 msgstr ""
-"O exemplo acima e a imagem do Docker definem um IDP chamado``weblate``. Pode "
-"ser preciso configurar esta cadeia como :guilabel:`Relay` noseu IDP."
+"O exemplo acima e a imagem do Docker definem um IDP chamado ``weblate``. "
+"Pode ser preciso configurar esta cadeia como :guilabel:`Relay` noseu IDP."
 
 #: admin/auth.rst:589
-#, fuzzy
 msgid ""
 "Weblate authentication relies on the ``RelayState`` parameter to be passed "
 "through the authentication process. This needs to be configured with some "
 "identity providers:"
 msgstr ""
-"A autenticação Weblate baseia-se no parâmetro ``RelayState``para ser passado "
-"pelo processo de autenticação. Isto precisa de ser configurado com alguns "
-"provedores de identidade:"
+"A autenticação Weblate baseia-se no parâmetro ``RelayState`` para ser "
+"passado pelo processo de autenticação. Isto precisa de ser configurado com "
+"alguns provedores de identidade:"
 
 #: admin/auth.rst:593
 msgid "`How to Send a Custom RelayState with Okta`_"
 msgstr ""
 
 #: admin/auth.rst:599
-#, fuzzy
-#| msgid ""
-#| ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
-msgstr ""
-":ref:`Configurando SAML no Docker <docker-saml>`, :doc:`psa:backends/saml`"
+msgstr ":ref:`Configurando SAML no Docker <docker-saml>`"
 
 #: admin/auth.rst:605
 msgid "LDAP authentication"
@@ -3451,21 +3445,15 @@ msgid "Native database backup"
 msgstr "Backup nativo da base de dados"
 
 #: admin/backup.rst:342
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to save a dump of the database using database-"
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump`. It usually performs better than "
 "Django backup, and it restores complete tables with all their data."
 msgstr ""
 "A abordagem recomendada é gravar um despejo da base de dados a usar "
-"ferramentas nativas, tais como :program:`pg_dump` ou :program:`mysqldump`. "
-"Esta abordagem normalmente tem um desempenho melhor do que o backup do "
-"Django e restaura tabelas completas com todos os seus dados."
+"ferramentas nativas, tais como :program:`pg_dump`. Esta abordagem "
+"normalmente tem um desempenho melhor do que o backup do Django e restaura "
+"tabelas completas com todos os seus dados."
 
 #: admin/backup.rst:346
 msgid ""
@@ -3720,11 +3708,6 @@ msgstr ""
 "backup e restauração acima."
 
 #: admin/backup.rst:486
-#, fuzzy
-#| msgid ""
-#| "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
-#| "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-#| "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgid ""
 "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
@@ -3732,7 +3715,7 @@ msgid ""
 msgstr ""
 "`Atualizando do Python 2 para o Python 3 na documentação do Weblate 3.11.1 "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-"from-python-2-to-python-3>`_, :ref:`database-migration`"
+"from-python-2-to-python-3>`_"
 
 #: admin/checks.rst:2 user/checks.rst:2
 msgid "Checks and fixups"
@@ -3933,16 +3916,13 @@ msgstr ""
 "ficheiros reStructuredText, se a extensão do local for ``.rst``."
 
 #: admin/checks.rst:99
-#, fuzzy
-#| msgid ""
-#| "``md-text``: This flag is automatically added to strings in Markdown "
-#| "files, if location extension is ``.md`` or ``.markdown``."
 msgid ""
 "``md-text``: This flag is automatically added to strings in Markdown and MDX "
 "files, if location extension is ``.md``, ``.markdown``, or ``.mdx``."
 msgstr ""
 "``md-text``: Este marcador é automaticamente adicionado às cadeias em "
-"ficheiros Markdown, se a extensão do local for ``.md`` ou ``.markdown``."
+"ficheiros Markdown, se a extensão do local for ``.md``, ``.markdown``, ou "
+"``.mdx``."
 
 #: admin/checks.rst:104
 msgid "Enforcing checks"
@@ -4193,16 +4173,12 @@ msgid "Grant Weblate access to the repository."
 msgstr "Mescle as alterações do Weblate no repositório remoto."
 
 #: admin/code-hosting.rst:19
-#, fuzzy
-#| msgid ""
-#| "On a Hosted Weblate, this is pre-configured for most of the public sites, "
-#| "please see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate, add the hosted :guilabel:`weblate` user where it is "
 "available, see :ref:`hosted-push`."
 msgstr ""
-"Num Hosted Weblate, isto é pré-configurado para a maioria dos sites "
-"públicos, consulte :ref:`hosted-push`."
+"Para o Hosted Weblate, adicione o utilizador :guilabel:`weblate` onde está "
+"disponível, veja :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:21
 msgid ""
@@ -4212,10 +4188,10 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:25
-#, fuzzy
-#| msgid "Configures if and how Weblate should update repositories."
 msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
-msgstr "Configura se e como o Weblate deve atualizar os repositórios."
+msgstr ""
+"Configura :ref:`component-repo` para que o Weblate possa clonar o "
+"repositório."
 
 #: admin/code-hosting.rst:27
 msgid ""
@@ -4252,16 +4228,6 @@ msgid "Pushing changes from Weblate"
 msgstr "Fazendo push das alterações do Weblate"
 
 #: admin/code-hosting.rst:47
-#, fuzzy
-#| msgid ""
-#| "Each translation component can have a push URL set up "
-#| "(see :ref:`component-push`), and in that case Weblate will be able to "
-#| "push change to the remote repository. Weblate can be also be configured "
-#| "to automatically push changes on every commit (this is default, "
-#| "see :ref:`component-push_on_commit`). If you do not want changes to be "
-#| "pushed automatically, you can do that manually "
-#| "under :guilabel:`Repository maintenance` or using the API "
-#| "via :option:`wlc push`."
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
 "push`), and in that case Weblate will be able to push changes to the remote "
@@ -4269,14 +4235,11 @@ msgid ""
 "every commit; this is enabled by default, see :ref:`component-"
 "push_on_commit`."
 msgstr ""
-"Cada componente de tradução pode ter uma URL de push configurada "
-"(veja :ref:`component-push`) e, nesse caso, o Weblate será capaz de fazer "
-"push da alteração ao repositório remoto. O Weblate também pode ser "
-"configurado para fazer push automaticamente das alterações em cada commit "
-"(isso é a predefinição, veja :ref:`component-push_on_commit`). Se não quiser "
-"que seja feito push automático das alterações, pode fazer-lo manualmente "
-"em :guilabel:`Manutenção do repositório` ou a usar API via :option:`wlc "
-"push`."
+"Cada componente de tradução pode ter uma URL de push configurada (veja "
+":ref:`component-push`) e, nesse caso, o Weblate será capaz de fazer push das "
+"alterações ao repositório remoto. O Weblate também pode ser configurado para "
+"fazer push automaticamente das alterações em cada commit; isso é ativo por "
+"predefinição, veja :ref:`component-push_on_commit`."
 
 #: admin/code-hosting.rst:53
 msgid ""
@@ -4286,15 +4249,6 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:57
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-"
@@ -4304,12 +4258,14 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Caso não queira pushes diretos pelo Weblate, há suporte para :ref:`vcs-"
-"github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, "
-"solicitações pull :ref:`vcs-azure-devops` ou revisões :ref:`vcs-gerrit`, "
-"pode ativá-las "
-"escolhendo :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-"DevOps` ou :guilabel:`Pagure` como :ref:`component-vcs` em :ref:`component`."
+"Caso não queira pushes diretos pelo Weblate, há suporte para :ref:`code-"
+"hosting-github-pull-requests`, :ref:`code-hosting-gitlab-merge-requests`, "
+":ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-pagure-merge-"
+"requests`, :ref:`code-hosting-azure-devops-pull-requests`, ou revisões "
+":ref:`code-hosting-gerrit`. Pode ativar estes ao escolher "
+":guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
+":guilabel:`Gerrit`, :guilabel:`Azure DevOps`, ou :guilabel:`Pagure` tal como "
+":ref:`component-vcs` em :ref:`component`."
 
 #: admin/code-hosting.rst:68
 #, fuzzy
@@ -4456,10 +4412,8 @@ msgid "GitHub repository access"
 msgstr "Repositórios do GitHub"
 
 #: admin/code-hosting.rst:192
-#, fuzzy
-#| msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
 msgid "HTTPS with personal access token"
-msgstr ":ref:`vcs-gitea`, `Criar um código de acesso pessoal Gitea`_"
+msgstr "HTTPS com token de acesso pessoal"
 
 #: admin/code-hosting.rst:196
 msgid "To use this approach:"
@@ -4508,20 +4462,17 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:220
-#, fuzzy
-#| msgid ""
-#| "In case the :ref:`component-push_branch` is not set, the project is "
-#| "forked and changes pushed through a fork. In case it is set, changes are "
-#| "pushed to the upstream repository and chosen branch."
 msgid ""
 "When using :guilabel:`GitHub` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"Caso o :ref:`component-push_branch` não seja definido, é criado um fork do "
-"projeto e feito um push das alterações através do fork. Caso seja definido, "
-"os pushes são feitos para o repositório upstream e para o ramo escolhido."
+"U usar o :guilabel:`GitHub` para pedidos de integração, a configuração "
+":ref:`component-push_branch` afeta o comportamento: se não for definido, o "
+"projeto é bifurcado e as mudanças são submetidas através de uma bifurcação. "
+"Se definido, mudanças são enviadas para o repositório fonte e do ramo "
+"escolhido."
 
 #: admin/code-hosting.rst:228
 #, fuzzy
@@ -4578,22 +4529,17 @@ msgstr ""
 "hosted.weblate.org/hooks/github/``."
 
 #: admin/code-hosting.rst:250
-#, fuzzy
-#| msgid ""
-#| "You can leave other values at default settings (Weblate can handle both "
-#| "content types and consumes just the `push` event)."
 msgid ""
 "You can leave other values at default settings. Weblate can handle both "
 "content types and consumes just the :guilabel:`push` event."
 msgstr ""
-"Pode deixar outros valores nas configurações predefinidas (o Weblate pode "
-"lidar com ambos os tipos de conteúdo e consome apenas o evento `push`)."
+"Pode deixar outros valores nas configurações predefinidas. O Weblate pode "
+"lidar com ambos os tipos de conteúdo e consome apenas o evento "
+":guilabel:`push`."
 
 #: admin/code-hosting.rst:255
-#, fuzzy
-#| msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
 msgid ":http:post:`/hooks/github/`"
-msgstr ":http:post:`/hooks/github/`, :ref:`hosted-push`"
+msgstr ":http:post:`/hooks/github/`"
 
 #: admin/code-hosting.rst:261 vcs.rst:328
 msgid "GitHub pull requests"
@@ -4610,19 +4556,14 @@ msgstr ""
 "requests, ao invés de fazer push diretamente para o repositório."
 
 #: admin/code-hosting.rst:267
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
-#| "github` creates pull requests. The latter is not needed for merely "
-#| "accessing Git repositories."
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while "
 "the :guilabel:`GitHub` backend creates pull requests. The latter is not "
 "needed for merely accessing Git repositories."
 msgstr ""
 ":ref:`vcs-git` faz push das alterações diretamente para um repositório, "
-"enquanto :ref:`vcs-github` cria pull requests. Este último não é necessário "
-"se for apenas para aceder a repositórios Git."
+"enquanto que o backend :guilabel:`GitHub` cria pull requests. Este último "
+"não é necessário se for apenas para aceder a repositórios Git."
 
 #: admin/code-hosting.rst:271
 msgid ""
@@ -4644,10 +4585,8 @@ msgid "GitLab repository access"
 msgstr "Repositórios do GitHub"
 
 #: admin/code-hosting.rst:291
-#, fuzzy
-#| msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
 msgid "HTTPS with personal or project access token"
-msgstr ":ref:`vcs-gitea`, `Criar um código de acesso pessoal Gitea`_"
+msgstr "HTTPS com token de acesso pessoal ou de projeto"
 
 #: admin/code-hosting.rst:295
 msgid ""
@@ -4714,10 +4653,8 @@ msgid "The response payload contains information about matched components."
 msgstr "Por favor, reveja e confirme os componentes coincidentes."
 
 #: admin/code-hosting.rst:338
-#, fuzzy
-#| msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
 msgid ":http:post:`/hooks/gitlab/`"
-msgstr ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
+msgstr ":http:post:`/hooks/gitlab/`"
 
 #: admin/code-hosting.rst:344 vcs.rst:337
 msgid "GitLab merge requests"
@@ -4739,13 +4676,6 @@ msgstr ""
 "requests, ao invés de fazer push diretamente para o repositório."
 
 #: admin/code-hosting.rst:350
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-gitlab` creates merge "
-#| "request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4755,8 +4685,8 @@ msgstr ""
 "Não há necessidade de usar isto para aceder a repositórios Git, o :ref:`vcs-"
 "git` comum funciona da mesma forma, sendo a única diferença o modo como o "
 "envio para um repositório é manipulado. Com :ref:`vcs-git`, o envio das "
-"alterações é feito diretamente para o repositório, enquanto :ref:`vcs-"
-"gitlab` cria pedidos de fusão."
+"alterações é feito diretamente para o repositório, enquanto que o backend "
+":guilabel:`GitLab` cria um pedido de fusão."
 
 #: admin/code-hosting.rst:355
 msgid ""
@@ -4793,10 +4723,8 @@ msgstr "Repositórios do GitHub"
 #: admin/code-hosting.rst:376 admin/code-hosting.rst:453
 #: admin/code-hosting.rst:547 admin/code-hosting.rst:606
 #: admin/code-hosting.rst:662
-#, fuzzy
-#| msgid ":ref:`vcs-gitea`, `Creating a Gitea personal access token`_"
 msgid "HTTPS with an access token"
-msgstr ":ref:`vcs-gitea`, `Criar um código de acesso pessoal Gitea`_"
+msgstr "HTTPS com um token de acesso"
 
 #: admin/code-hosting.rst:385
 msgid ""
@@ -4833,20 +4761,12 @@ msgstr ""
 "em :guilabel:`Settings` do repositório."
 
 #: admin/code-hosting.rst:400
-#, fuzzy
-#| msgid ""
-#| "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/"
-#| ">`_, :http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
-msgstr ""
-"`Webhooks no manual do Gitea <https://docs.gitea.io/en-us/webhooks/"
-">`_, :http:post:`/hooks/gitea/`, :ref:`hosted-push`"
+msgstr "`Webhooks no manual do Gitea <https://docs.gitea.io/en-us/webhooks/>`_"
 
 #: admin/code-hosting.rst:401
-#, fuzzy
-#| msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
 msgid ":http:post:`/hooks/gitea/`"
-msgstr ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
+msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/code-hosting.rst:407
 #, fuzzy
@@ -4876,16 +4796,12 @@ msgstr ""
 "em :guilabel:`Settings` do repositório."
 
 #: admin/code-hosting.rst:417
-#, fuzzy
-#| msgid ""
-#| "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/"
-#| ">`_, :http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgid ""
 "`Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/"
 "webhooks/>`_"
 msgstr ""
-"`Webhooks no manual do Gitea <https://docs.gitea.io/en-us/webhooks/"
-">`_, :http:post:`/hooks/gitea/`, :ref:`hosted-push`"
+"`Webhooks na documentação Forgejo <https://forgejo.org/docs/latest/user/"
+"webhooks/>`_"
 
 #: admin/code-hosting.rst:418
 msgid ":http:post:`/hooks/forgejo/`"
@@ -4911,13 +4827,6 @@ msgstr ""
 "requests, ao invés de fazer push diretamente ao repositório."
 
 #: admin/code-hosting.rst:432
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-gitea` creates pull "
-#| "requests."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -4927,8 +4836,8 @@ msgstr ""
 "Não há necessidade de usar isto para aceder a repositórios Git, o :ref:`vcs-"
 "git` comum funciona da mesma forma, sendo a única diferença o modo como o "
 "envio para um repositório é manipulado. Com :ref:`vcs-git`, o envio das "
-"alterações é feito diretamente para o repositório, enquanto :ref:`vcs-gitea` "
-"cria pedidos de fusão."
+"alterações é feito diretamente para o repositório, enquanto the backend "
+":guilabel:`Gitea` cria pedidos de fusão."
 
 #: admin/code-hosting.rst:437
 msgid ""
@@ -4983,10 +4892,8 @@ msgstr ""
 "bitbucket/``)."
 
 #: admin/code-hosting.rst:481
-#, fuzzy
-#| msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
 msgid ":http:post:`/hooks/bitbucket/`"
-msgstr ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
+msgstr ":http:post:`/hooks/bitbucket/`"
 
 #: admin/code-hosting.rst:487 vcs.rst:356
 msgid "Bitbucket Data Center pull requests"
@@ -5013,13 +4920,6 @@ msgid "This does not support Bitbucket Cloud API."
 msgstr "Isto não é compatível com a API do Bitbucket Cloud."
 
 #: admin/code-hosting.rst:499
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-bitbucket-data-center` "
-#| "creates pull request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -5029,20 +4929,17 @@ msgstr ""
 "Não há necessidade de usá-lo para aceder repositórios Git, o :ref:`vcs-git` "
 "comum funciona da mesma forma, o que é a única diferença como o push para um "
 "repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é feito "
-"diretamente para o repositório, enquanto :ref:`vcs-bitbucket-data-center` "
-"cria pull requests."
+"diretamente para o repositório, enquanto que o backend :guilabel:`Bitbucket "
+"Data Center` cria pull requests."
 
 #: admin/code-hosting.rst:505
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-data-center` by "
-#| "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Data Center` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Configura :ref:`vcs-bitbucket-data-center` "
-"alterando :setting:`BITBUCKETSERVER_CREDENTIALS`."
+"Para criar pull requests, selecione :guilabel:`Bitbucket Data Center` "
+"enquanto :ref:`component-vcs` e configure "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: admin/code-hosting.rst:513 vcs.rst:365
 msgid "Bitbucket Cloud pull requests"
@@ -5068,13 +4965,6 @@ msgid "This is different from Bitbucket Data Center API."
 msgstr "Isto é diferente da API do Bitbucket Data Center."
 
 #: admin/code-hosting.rst:525
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-bitbucket-cloud` "
-#| "creates pull request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -5084,20 +4974,16 @@ msgstr ""
 "Não há necessidade de usá-lo para aceder repositórios Git, o :ref:`vcs-git` "
 "comum funciona da mesma forma, a ser a única diferença como o push para um "
 "repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é feito "
-"diretamente para o repositório, enquanto :ref:`vcs-bitbucket-cloud` cria "
-"pull request."
+"diretamente para o repositório, enquanto o backend :guilabel:`Bitbucket "
+"Cloud` cria um pull request."
 
 #: admin/code-hosting.rst:531
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-cloud` by "
-#| "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Cloud` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"Configura :ref:`vcs-bitbucket-cloud` "
-"alterando :setting:`BITBUCKETCLOUD_CREDENTIALS`."
+"Para criar pull requests, selecione  :guilabel:`Bitbucket Cloud` enquanto "
+":ref:`component-vcs` e configure :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/code-hosting.rst:539
 #, fuzzy
@@ -5147,24 +5033,16 @@ msgstr ""
 "em :guilabel:`Configurações do projeto`."
 
 #: admin/code-hosting.rst:573
-#, fuzzy
-#| msgid ""
-#| "`Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/"
-#| "azure/devops/service-hooks/services/webhooks?view=azure-"
-#| "devops>`_, :http:post:`/hooks/azure/`, :ref:`hosted-push`"
 msgid ""
 "`Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/"
 "devops/service-hooks/services/webhooks?view=azure-devops>`_"
 msgstr ""
 "`Webhooks no manual do Azure DevOps <https://learn.microsoft.com/pt-br/azure/"
-"devops/service-hooks/services/webhooks?view=azure-devops>`_, :http:post:`/"
-"hooks/azure/`, :ref:`hosted-push`"
+"devops/service-hooks/services/webhooks?view=azure-devops>`_"
 
 #: admin/code-hosting.rst:574
-#, fuzzy
-#| msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 msgid ":http:post:`/hooks/azure/`"
-msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
+msgstr ":http:post:`/hooks/azure/`"
 
 #: admin/code-hosting.rst:580 vcs.rst:391
 msgid "Azure DevOps pull requests"
@@ -5370,6 +5248,14 @@ msgid ""
 "Gerrit interprets these options as the configured Weblate Gerrit account and "
 "applies its own permissions."
 msgstr ""
+"A definição opcional :ref:`component-push_branch` seleciona o ramo alvo a "
+"partir da revisão Gerrit. Deixe-o vazio para usar :ref:`component-branch`. "
+"Use o nome curto do ramo, como ``main``; Weblate and ``git-review`` envia a "
+"revisão para ``refs/for/<branch>`` automaticamente. O Gerrit envia opções "
+"que podem ser adicionadas depois de ``%`` em qualquer uma das configurações, "
+"por exemplo ``main%topic=l10n``. O Gerrit interpreta estas opções enquanto "
+"as contas de Weblate Gerrit configuradas e aplica as suas próprias "
+"permissões."
 
 #: admin/code-hosting.rst:705
 #, fuzzy
@@ -7012,13 +6898,6 @@ msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL e LOCALIZE_CDN_PATH"
 
 #: admin/config.rst:1519
-#, fuzzy
-#| msgid ""
-#| "These settings configure the :ref:`addon-weblate.cdn.cdnjs` add-"
-#| "on. :setting:`LOCALIZE_CDN_URL` defines root URL where the localization "
-#| "CDN is available and :setting:`LOCALIZE_CDN_PATH` defines path where "
-#| "Weblate should store generated files which will be served at "
-#| "the :setting:`LOCALIZE_CDN_URL`."
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
 "weblate.cdn.cdnjs` and :ref:`addon-"
@@ -7029,11 +6908,14 @@ msgid ""
 "CDN, not by Weblate; see :ref:`cdn-server-security` for secure serving "
 "guidance."
 msgstr ""
-"Essas configurações definem a extensão :ref:`addon-"
-"weblate.cdn.cdnjs`. :setting:`LOCALIZE_CDN_URL` define a URL raiz onde o CDN "
-"de localização está disponível e :setting:`LOCALIZE_CDN_PATH` define o "
-"caminho onde o Weblate deve armazenar ficheiros gerados que serão servidos "
-"em :setting:`LOCALIZE_CDN_URL`."
+"Essas configurações configuram os extras CDN, incluindo :ref:`addon-"
+"weblate.cdn.cdnjs` e :ref:`addon-weblate.cdn.files`. "
+":setting:`LOCALIZE_CDN_URL` definem URL raiz onde a localização do CDN está "
+"disponível e :setting:`LOCALIZE_CDN_PATH` define o caminho onde o Weblate "
+"deve armazenar ficheiros gerados que serão servidos no "
+":setting:`LOCALIZE_CDN_URL`. Os ficheiros são servidos pelo seu servidor web "
+"ou CDN, e não pelo Weblate; veja :ref:`cdn-server-security` para orientação "
+"de serviço seguro."
 
 #: admin/config.rst:1529
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -17429,6 +17311,12 @@ msgid ""
 "translation is then stored again as an active entry in the scopes that are "
 "enabled for that change."
 msgstr ""
+"Para a mesma cadeias de carateres fonte, componente, contexto, e pares de "
+"idiomas fonte/alvo, o Weblate remove entradas correspondentes a não-"
+"ficheiros da memória de tradução, incluindo entradas com um texto alvo "
+"diferente. Isto aplica-se a projetos de tradução em âmbitos pessoais, "
+"projeto, ou partilhados. A tradução atual é então armazenada em uma entrada "
+"ativa nos âmbitos que estão ativos para essa mudança."
 
 #: admin/memory.rst:105
 msgid ""
@@ -17497,6 +17385,12 @@ msgid ""
 "rebuild translation memory for the whole project or for individual "
 "components from the current translations."
 msgstr ""
+"A página de memória de tradução mostra a contagem de entradas para o escopo "
+"selecionado. Dependendo do escopo, também lista entradas por origem, "
+"componente, ou par de idiomas. As entradas listadas podem ser descarregadas "
+"como JSON ou TMX. Utilizadores com as permissões necessárias podem eliminar "
+"entradas, e a vista de projeto pode reconstruir a memória de tradução para o "
+"projeto inteiro ou para componentes individuais das traduções atuais."
 
 #: admin/memory.rst:144
 msgid ""
@@ -17835,6 +17729,13 @@ msgid ""
 "notification e-mails are sent to these users. See :ref:`workspace-billing` "
 "for details."
 msgstr ""
+"Ao criar o projeto o utilizador pode escolher que espaço de trabalho deve "
+"conter o projeto. Projetos criados em um espaço de trabalho com uma "
+"faturação são contabilizados no plano de faturação atribuído a esse espaço "
+"de trabalho. Utilizadores com a permissão :guilabel:`Editar configurações de "
+"espaços de trabalho` podem ver e pagar o plano de faturação; e-mails de "
+"notificação de faturação são enviados a estes utilizadores. Veja "
+":ref:`workspace-billing` para detalhes."
 
 #: admin/optionals.rst:129
 msgid "Legal module"
@@ -23825,6 +23726,12 @@ msgid ""
 "Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
 "Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 msgstr ""
+"xuars, Fjuro, Yaron Shahrabani, VfBFan, Michal Čihař, Yauhen, RViktor, cat, "
+"Andrei Stepanov, Ettore Atalan, 大学没毕业, Miguel A. Bouzada, ssantos, Emin "
+"Tufan Çetin, Jeff Huang, Christian Wia, Murun Battulga, Сергей, Peter Vančo, "
+"Dick Groskamp, amano, Julien Humbert, தமிழ்நேரம், WofWca, dedakir923, Rafael "
+"Fontenelle, Heimen Stoffels, Manuela Silva, ball, Francisco Serrador, "
+"Linerly, Sveinn í Felli, Floee Rozario, Ricky Tigg"
 
 #: changes/contributors/5.11.1.rst:15
 msgid "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
@@ -39759,6 +39666,11 @@ msgid ""
 "individuals involved and the community as a whole. Depending on the severity "
 "of a violation, lower rungs on the ladder may be skipped."
 msgstr ""
+"Se a investigação pelos Moderadores da Comunidade descobre que o Código de "
+"Conduta foi violado, a seguinte escala de medidas coercivas pode ser usada "
+"para determinar a melhor forma de reparar danos, baseados no impacto do "
+"incidente nos indivíduos envolvidos e na comunidade como um todo. Dependendo "
+"da gravidade da violação, etapas mais baixas na escala podem ser ignoradas."
 
 #: contributing/code_of_conduct.rst:64
 msgid "Warning"
@@ -41514,6 +41426,11 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"Os testes permitem-nos verificar rapidamente que as funcionalidades estão a "
+"funcionar como é suposto. Para manter esta situação e melhorá-la, todas as "
+"novas funcionalidades e funções que são adicionadas precisam de ser testadas "
+"no conjunto de testes. Cada funcionalidade que é adicionada deve ter pelo "
+"menos um caso de teste válido que verifica que funciona conforme documentado."
 
 #: contributing/snippets/code-guide.rst:65
 msgid "Commit messages"
@@ -41585,6 +41502,12 @@ msgid ""
 "scope, affect import sorting, or get between another tool's ``disable-next`` "
 "comment and the code it targets."
 msgstr ""
+"Ao suprimir um diagnóstico :program:`ruff`, é preferível ``# ruff: "
+"ignore[rule-name]`` com o nome da regra legível para humanos. Coloque o "
+"comentário na linha acima da proposição ou bloco lógico quando isso não "
+"torna mais abrangente o escopo da supressão. Mantenha o comentário em linha "
+"quando movê-lo mudaria o escopo, afeta ordenação de importação, ou intromete-"
+"se no comentário de outra ferramenta ``disable-next`` e o seu código alvo."
 
 #: contributing/snippets/code-guide.rst:99
 msgid ""
@@ -42090,6 +42013,15 @@ msgid ""
 "screenshot includes volatile runtime data, prefer deterministic server-side "
 "test inputs over post-render DOM changes."
 msgstr ""
+"Os testes de captura de ecrã do Selenium em :file:`weblate/trans/tests/"
+"test_selenium.py` tem duas finalidades. Eles geram imagens para testes de "
+"mudanças visuais em CI, e as mesmas imagens são convertidas em capturas de "
+"ecrã de documentação por :command:`make -C docs update-screenshots`. "
+"Mantenha os testes de captura de ecrã o mais próximos possível das páginas "
+"renderizadas reais, para que a CI detete regressões na interface do "
+"utilizador. Quando uma captura de ecrã inclui dados de execução voláteis, "
+"prefere entradas do servidor determinísticas do que mudanças de pós "
+"renderização DOM."
 
 #: contributing/tests.rst:50
 msgid "The simple execution can look like:"
@@ -42855,12 +42787,6 @@ msgid "Review translations"
 msgstr "Revisar traduções"
 
 #: devel/community.rst:31
-#, fuzzy
-#| msgid ""
-#| "The translations should be reviewed by a second person after the post-"
-#| "editing. With an impartial and competent revisor, the two man rule "
-#| "reduces the errors and improves the quality and consistency of the "
-#| "content."
 msgid ""
 "The translations should be reviewed by a second person after the post-"
 "editing. With an impartial and competent reviewer, the two people rule "
@@ -42870,10 +42796,11 @@ msgid ""
 "context."
 msgstr ""
 "As traduções devem ser revisadas por uma segunda pessoa após a pós-edição. "
-"Com um revisor imparcial e competente, a *two people rule* (\"regra de duas "
-"pessoas\") reduz os erros e melhora a qualidade e consistência do conteúdo. "
-"Capturas de ecrã e explicações também ajudam a revisar as cadeias em "
-"contexto."
+"Com um revisor imparcial e competente, a regra de duas pessoas reduz os "
+"erros e melhora a qualidade e consistência do conteúdo. Fornecer aos "
+"revisores com pré-visualizações ou traduções alpha será o melhor para a "
+"revisão. Capturas de ecrã, explicações também ajuda a rever as cadeias de "
+"carateres em contexto."
 
 #: devel/community.rst:36
 msgid "Structured feedback"
@@ -45530,6 +45457,12 @@ msgid ""
 "frameworks have good support for this, so please follow their instructions "
 "for all these areas."
 msgstr ""
+"Internacionalização de software não se trata apenas e conseguir traduzir "
+"cadeias de carateres mas sim de tornar a aparência do software inteiro "
+"nativa para o utilizador de outro país. isto também inclui coisas como data "
+"ou formatação de números, exibição de moeda, ou introdução de texto na "
+"direção certa. A maior parte das estruturas de software têm um bom suporte "
+"para isto, por isso siga as instruções das mesmas para estas áreas todas."
 
 #: devel/starting.rst:97
 msgid ""
@@ -48631,6 +48564,13 @@ msgid ""
 "explicit ``safe-html`` flag for strings that are known to contain HTML and "
 "should always be sanitized, including SVG or MathML snippets."
 msgstr ""
+"Unidades Markdown obtêm automaticamente os sinalizadores ``md-text``, ``auto-"
+"safe-html`` and ``strict-same``. Isto mantêm a verificação de HTML inseguro "
+"ativa para texto simples, HTML padrão, e elementos personalizados enquanto "
+"que evita limpeza HTML em sintaxe de parêntesis retos não HTML tal como "
+"componentes MDX ou do tipo JSX. Use o sinalizador ``safe-html`` para cadeias "
+"de carateres que se sabe que contêm HTML e devem ser sempre sanitizadas, "
+"incluindo porções SVG ou MathML."
 
 #: formats/markdown.rst:45
 msgid "`Markdown file`"
@@ -54880,6 +54820,13 @@ msgid ""
 "rate limits, CSP, private-network access, or backup import limits. "
 "*(maintainer)*"
 msgstr ""
+"Reveja este modelo quando o Weblate adiciona uma nova família de endpoint "
+"pública, um novo modo de autenticação ou token, um novo modo de "
+"implementação novo, um novo formato de cópia de segurança ou importação, um "
+"novo caminho de execução VCS, uma nova classe de integração de saída, uma "
+"nova capacidade de execução de extras, ou uma mudança de predefinições para "
+"hooks, HTTPS, taxas limite, CSP, acesso a rede privada, ou a limites de "
+"importações de cópias de segurança. *(maintainer)*"
 
 #: security/threat-model.rst:737
 msgid ""
@@ -62102,14 +62049,6 @@ msgstr ""
 "só podem ser referenciadas nos seletores de Expressões de Seleção Fluent."
 
 #: snippets/checks-autogenerated.rst:2344
-#, fuzzy
-#| msgid ""
-#| "Generally, most Fluent values are not expected to contain any HTML "
-#| "markup. Therefore, this check does not expect or want translators and "
-#| "developers to have to care about strictly avoiding *any* technical HTML5 "
-#| "parsing errors (let alone XHTML parsing errors). Instead, this check will "
-#| "just want to warn them when they may have unintentionally opened a HTML "
-#| "tag or inserted a character reference."
 msgid ""
 "Generally, most Fluent values are not expected to contain any HTML markup. "
 "Therefore, this check does not expect or want translators and developers to "
@@ -62476,6 +62415,12 @@ msgid ""
 "user be granted access to multiple repositories without reusing the key in "
 "several places."
 msgstr ""
+"Isto também evita restrições de fornecedor na regra de reutilização da chave "
+"SSH. Alguns sites de hospedagem de código permitem uma chave SSH pública que "
+"seja adicionada apenas uma vez, ou que um utilizador único ou entrada de "
+"chave de implementação. Manter a chave SSH do Weblate em um utilizador "
+"dedicado permite que o utilizador seja concedido acesso a múltiplos "
+"repositórios sem reutilizar a chave em vários sítios."
 
 #: snippets/code-hosting-ssh-repository-access.rst:16
 msgid ""
@@ -68503,11 +68448,6 @@ msgstr ""
 "Weblate."
 
 #: user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "Anonymous users (by default) can only forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about a "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
@@ -68515,9 +68455,12 @@ msgid ""
 "existing suggestion into the translation fields, including plural forms, and "
 "use it as the basis for a new suggestion or translation."
 msgstr ""
-"Utilizadores anônimos (por padrão) só podem enviar sugestões. Isso ainda "
+"Utilizadores anónimos (por padrão) só podem enviar sugestões. Isso ainda "
 "está disponível para os utilizadores autenticados, nos casos em que surge "
-"uma incerteza sobre a tradução, levando outros tradutores a revisá-la."
+"uma incerteza sobre a tradução, levando outros tradutores a revisá-la. "
+"Qualquer utilizador pode clonar uma sugestão existente para os campos de "
+"tradução, incluindo formas plurais, e usá-las como base para a nova sugestão "
+"ou tradução."
 
 #: user/translating.rst:60
 msgid ""
@@ -71317,15 +71260,6 @@ msgid "Quality gateway for the source strings"
 msgstr "Portal de qualidade para cadeias fonte"
 
 #: workflows.rst:237
-#, fuzzy
-#| msgid ""
-#| "In many cases the original source language strings are coming from "
-#| "developers, because they write the code and provide initial strings. "
-#| "However developers are often not native speakers in the source language "
-#| "and do not provide desired quality of the source strings. The "
-#| "intermediate translation can help you address this - there is an "
-#| "additional quality gateway for the strings between developers and "
-#| "translators."
 msgid ""
 "The original source language strings usually come from developers, since "
 "they write the code and provide the initial strings. However, developers are "
@@ -71334,20 +71268,14 @@ msgid ""
 "you address this - there is an additional quality gateway for the strings "
 "between developers and translators."
 msgstr ""
-"Em muitos casos, as cadeias fonte do idioma de origem vêm de programadores, "
-"porque eles escrevem o código e fornecem cadeias iniciais. No entanto, os "
-"programadores muitas vezes não são falantes nativos do idioma fonte e não "
-"fornecem a qualidade desejada das cadeias fonte. A tradução intermediária "
-"pode ajudá-lo a lidar com isto, é uma rota de qualidade adicional para as "
-"cadeias entre programadores e tradutores."
+"As cadeias de carateres fonte do idioma de origem normalmente vêm de "
+"programadores, uma vez que eles escrevem o código e fornecem as cadeias "
+"iniciais. No entanto, os programadores muitas vezes não são falantes nativos "
+"do idioma fonte e não fornecem a qualidade desejada das cadeias fonte. A "
+"tradução intermediária pode ajudá-lo a lidar com isto, é uma rota de "
+"qualidade adicional para as cadeias entre programadores e tradutores."
 
 #: workflows.rst:244
-#, fuzzy
-#| msgid ""
-#| "By setting :ref:`component-intermediate`, this file will be used as "
-#| "source for the strings, but it will be edited to source language to "
-#| "polish it.  Once the string is ready in the source language, it will be "
-#| "also available for translators to translate into additional languages."
 msgid ""
 "By setting the :ref:`component-intermediate`, this file is used for "
 "translating strings to the source language by translators/editors while it "
@@ -71356,10 +71284,12 @@ msgid ""
 "translations to target languages, based on what is now a polished source "
 "language stored in the :ref:`component-template`."
 msgstr ""
-"Ao definir um :ref:`component-intermediate`, este ficheiro será usado como "
-"fonte para as cadeias, mas será editado para o idioma de origem para poli-"
-"lo. Uma vez que o texto esteja pronto no idioma de origem, também estará "
-"disponível para os tradutores traduzirem em idiomas adicionais."
+"Ao definir o :ref:`component-intermediate`, este ficheiro é usado para "
+"traduzir cadeias de carateres para a linguagem fonte por tradutores/editores "
+"enquanto que é propriedade dos desenvolvedores (usando idiomas arbitrários "
+"como ``en_devel``). Uma vez que este passo é completo, cadeias de carateres "
+"estão disponíveis para que as traduções com idiomas de destino, baseados no "
+"que é agora um idioma fonte polido armazenado no :ref:`component-template`."
 
 #: workflows.rst:297
 msgid "String consolidation using secondary language"
