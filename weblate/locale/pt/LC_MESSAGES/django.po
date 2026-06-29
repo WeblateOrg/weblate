@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-29 18:40+0000\n"
+"PO-Revision-Date: 2026-06-30 12:03+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -22844,11 +22844,13 @@ msgstr "Isto enviará as alterações para o repositório Git upstream."
 msgid ""
 "Remote branch could not be verified against the shallow existing repository."
 msgstr ""
+"Ramo remoto não pôde ser verificado em relação ao repositório superficial "
+"existente."
 
 #: weblate/vcs/git.py:476
 msgid ""
 "Remote branch does not share common history with the existing repository."
-msgstr ""
+msgstr "O ramo remoto não partilha história comum com o repositório existente."
 
 #: weblate/vcs/git.py:1015
 msgid "Possible cleanups:"
@@ -22957,27 +22959,20 @@ msgid "Bitbucket Cloud merge request"
 msgstr "Solicitação de mesclagem do Bitbucket Cloud"
 
 #: weblate/vcs/github.py:398
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub hostname"
-msgstr "Nome de utilizador do GitHub"
+msgstr "Nome de anfitrião do GitHub"
 
 #: weblate/vcs/github.py:401
-#, fuzzy
-#| msgid "URL slug"
 msgid "App slug"
-msgstr "URL amigável"
+msgstr "Abreviatura da Aplicação"
 
 #: weblate/vcs/github.py:402
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "Chave privada (PEM)"
 
 #: weblate/vcs/github.py:404
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "OAuth client ID"
-msgstr "Id. do Cliente"
+msgstr "ID do cliente OAuth"
 
 #: weblate/vcs/github.py:407
 msgid "OAuth client secret"
@@ -23093,22 +23088,16 @@ msgid "code-hosting installations"
 msgstr "Instalações de hospedagem de código"
 
 #: weblate/vcs/models.py:130
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook payload"
-msgstr "Webhook"
+msgstr "Carga útil do webhook"
 
 #: weblate/vcs/models.py:136
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "Convite pendente"
+msgstr "Instalação de código anfitrião pendente"
 
 #: weblate/vcs/models.py:137
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "pending code-hosting installations"
-msgstr "Convites pendentes"
+msgstr "Instalações de hospedagem de código pendentes"
 
 #: weblate/vcs/ssh.py:73
 msgctxt "SSH key type"
@@ -23195,7 +23184,7 @@ msgstr ""
 #: weblate/vcs/views.py:412
 #, python-format
 msgid "Removed connected GitHub account %(target)s."
-msgstr ""
+msgstr "Conta GitHub conectada removida %(target)s."
 
 #: weblate/vcs/views.py:428
 #, python-format
@@ -23203,52 +23192,53 @@ msgid ""
 "Remove connected GitHub accounts on %(hostname)s before removing the app "
 "credentials."
 msgstr ""
+"Remova as contas GitHub conectadas em %(hostname)s antes de remover as "
+"credenciais de aplicação."
 
 #: weblate/vcs/views.py:436
 #, python-format
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
-msgstr ""
+msgstr "Credenciais da Aplicação Weblate GitHub removidas para %(hostname)s."
 
 #: weblate/vcs/views.py:458
-#, fuzzy
-#| msgid "Failed to fetch repository: %s"
 msgid "Failed to refresh repositories from GitHub."
-msgstr "Impossível obter o repositório: %s"
+msgstr "Falha ao atualizar repositórios do GitHub."
 
 #: weblate/vcs/views.py:463
 #, python-format
 msgid "Refreshed %(count)d repositories from GitHub."
-msgstr ""
+msgstr "Repositórios %(count)d atualizados do GitHub."
 
 #: weblate/vcs/views.py:479 weblate/vcs/views.py:522 weblate/vcs/views.py:587
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not configured on this Weblate instance."
-msgstr "Número total de entradas nesta instância do Weblate"
+msgstr ""
+"A aplicação Weblate GitHub não está configurada nesta instância Weblate."
 
 #: weblate/vcs/views.py:487
 msgid "Select a workspace before connecting a GitHub account."
-msgstr ""
+msgstr "Selecione um espaço de trabalho antes de conectar a uma conta GitHub."
 
 #: weblate/vcs/views.py:497
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
+"A aplicação Weblate GitHub não está configurada para o anfitrião selecionado."
 
 #: weblate/vcs/views.py:563
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr ""
+"O link de instalação da aplicação Weblate GitHub já não é válido. Começe a "
+"instalação novamente."
 
 #: weblate/vcs/views.py:571 weblate/vcs/views.py:594
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Não tem permissão para editar o espaço de trabalho alvo."
+msgstr ""
+"Não tem permissão para editar conectar o GitHub a este espaço de trabalho."
 
 #: weblate/vcs/views.py:579
 msgid "GitHub did not return an installation ID."
-msgstr ""
+msgstr "O GitHub não devolveu um ID de instalação."
 
 #: weblate/vcs/views.py:606
 msgid ""
@@ -23256,28 +23246,33 @@ msgid ""
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
 msgstr ""
+"O Weblate não pôde confirmar se pode administrar esta instalação do GitHub. "
+"Começe a instalação novamente com um utilizador GitHub que possui a conta ou "
+"pode administrar a organização."
 
 #: weblate/vcs/views.py:632
 msgid ""
 "GitHub is still syncing the connected account. The repositories will appear "
 "here once the webhook is processed."
 msgstr ""
+"O GitHub ainda está a sincronizar com a conta conectada. Os repositórios "
+"aparecerão aqui quando o webhook é processado."
 
 #: weblate/vcs/views.py:645
 msgid ""
 "The connected GitHub account was saved, but refreshing the repository list "
 "failed. Try again in a moment."
 msgstr ""
+"A conta GitHub conectada foi guardada, mas atualizar a lista de repositório "
+"falhou. Tente novamente daqui a pouco."
 
 #: weblate/vcs/views.py:653
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "Criada conta de utilizador {}."
+msgstr "Conta de GitHub conectada adicionada."
 
 #: weblate/vcs/views.py:658
 msgid "Connected GitHub account updated."
-msgstr ""
+msgstr "Conta GitHub conectada atualizada."
 
 #: weblate/vcs/views.py:940
 #, python-format
@@ -23285,44 +23280,43 @@ msgid ""
 "A Weblate GitHub App is already registered for %(hostname)s. Remove it "
 "before registering another one."
 msgstr ""
+"A Aplicação Weblate GitHub já está registada para %(hostname)s. Remova-a "
+"primeiro antes de registar outra."
 
 #: weblate/vcs/views.py:995
 msgid "Start the Weblate GitHub App registration again to refresh the request."
 msgstr ""
+"Comece o registo da Aplicação Weblate GitHub novamente para atualizar o "
+"pedido."
 
 #: weblate/vcs/views.py:1014
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a registration code."
-msgstr "Não foi possível concluir o registo."
+msgstr "O GitHub não devolveu um código de registo."
 
 #: weblate/vcs/views.py:1026
-#, fuzzy
-#| msgid "The invitation link is no longer valid."
 msgid ""
 "The GitHub App registration link is no longer valid. Start the registration "
 "again."
-msgstr "A hiperligação de convite já não é válida."
+msgstr ""
+"O link de registo da Aplicação GitHub já não é válido. Começe o registo "
+"novamente."
 
 #: weblate/vcs/views.py:1039
-#, fuzzy
-#| msgid "Please complete the registration to accept the invitation."
 msgid "GitHub rejected the registration code. Start the registration again."
-msgstr "Por favor, complete o registo para aceitar o convite."
+msgstr "O GitHub rejeitou o código de registo. Começe o registo novamente."
 
 #: weblate/vcs/views.py:1062
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "GitHub returned an incomplete App registration response."
-msgstr "Não pode concluir o registo enquanto autenticado."
+msgstr "O GitHub devolveu uma resposta de registo de Aplicação incompleto."
 
 #: weblate/vcs/views.py:1091
 msgid "Weblate GitHub App registered. You can now connect a GitHub account."
 msgstr ""
+"Aplicação Weblate GitHub registada. Agora pode conectar uma conta Github."
 
 #: weblate/vcs/views.py:1097
 msgid "Weblate GitHub App credentials updated."
-msgstr ""
+msgstr "Credenciais da Aplicação Weblate GitHub atualizadas."
 
 #: weblate/wladmin/forms.py:18
 msgid "Activation token"
