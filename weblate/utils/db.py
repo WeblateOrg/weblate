@@ -8,12 +8,15 @@ from __future__ import annotations
 
 import time
 from shutil import disk_usage
+from typing import TYPE_CHECKING
 
 from django.db import DatabaseError, ProgrammingError, connections, transaction
-from django.db.backends.base.base import BaseDatabaseWrapper
 from django.db.models.lookups import Lookup, PatternLookup, Regex
 
 from .inv_regex import invert_re
+
+if TYPE_CHECKING:
+    from django.db.backends.base.base import BaseDatabaseWrapper
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
