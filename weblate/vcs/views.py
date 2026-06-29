@@ -604,12 +604,57 @@ def _get_authorized_installation(request, config, code, installation_id) -> dict
         return None
 
 
+def _get_update_callback_installation(
+    request, installation_id: str
+) -> GitHubInstallation | None:
+    """
+    Return an existing accessible installation for GitHub's update callback.
+
+    GitHub redirects users to the App setup URL after changing repository access
+    when ``setup_on_update`` is enabled. That callback is not started by Weblate,
+    so it might not carry a current signed ``state``. Only accept it for rows
+    already connected to a workspace the current Weblate user can manage.
+    """
+    if request.GET.get("setup_action") != "update" or not installation_id:
+        return None
+
+    configured_hosts = set(get_github_app_configurations())
+    if not configured_hosts:
+        return None
+
+    return (
+        GitHubInstallation.objects.filter(
+            hostname__in=configured_hosts,
+            installation_id=installation_id,
+            workspace__in=_managed_workspaces(request.user),
+        )
+        .select_related("workspace")
+        .order_by("workspace__name", "target_login", "hostname")
+        .first()
+    )
+
+
+def _get_update_callback_next_url(request, installation: GitHubInstallation) -> str:
+    if request.user.has_perm("management.use"):
+        return reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+    return _get_installation_repository_url(installation)
+
+
 @login_required
 def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
     _require_github_app_access(request)
 
     next_url = _default_next_url(request)
+    installation_id = request.GET.get("installation_id", "").strip()
+    installation = _get_update_callback_installation(request, installation_id)
+    if installation:
+        messages.success(
+            request,
+            gettext("Connected GitHub account updated."),
+        )
+        return redirect(_get_update_callback_next_url(request, installation))
+
     hostname = ""
     workspace = None
     try:
@@ -633,7 +678,6 @@ def github_app_setup(request):
         )
         return redirect(next_url)
 
-    installation_id = request.GET.get("installation_id", "").strip()
     if not installation_id:
         messages.error(
             request,

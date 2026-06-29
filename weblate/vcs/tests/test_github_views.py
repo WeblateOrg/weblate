@@ -743,6 +743,55 @@ class GitHubInstallationViewTest(ViewTestCase):
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
 
+    def test_setup_update_accepts_existing_installation_without_state(self):
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.project.add_user(self.user, "Administration")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "setup_action": "update"},
+        )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('github-app-repositories')}?workspace={self.workspace.pk}",
+        )
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(response_messages, ["Connected GitHub account updated."])
+
+    def test_setup_update_rejects_inaccessible_installation_without_state(self):
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.project.add_user(self.user, "Administration")
+        other_workspace = Workspace.objects.create(name="Other GitHub Workspace")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=other_workspace,
+        )
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {"installation_id": "12345", "setup_action": "update"},
+        )
+
+        self.assertRedirects(response, reverse("github-app-repositories"))
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("installation link is no longer valid", response_messages[0])
+
     @responses.activate
     def test_setup_rejects_foreign_installation_id(self):
         # The attacker holds a valid signed state for their own workspace and a
