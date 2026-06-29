@@ -46,8 +46,7 @@
           {{ name }}
         </dd>
       </dl>
-      <form method="post" action="{% url 'github-app-register-redirect' %}">
-        {% csrf_token %}
+      <form method="post" action="{{ action_url }}">
         <input type="hidden" name="manifest" value="{{ manifest_json }}">
         <div class="d-flex gap-2">
           <button type="submit" class="btn btn-primary">

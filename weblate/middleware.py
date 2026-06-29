@@ -316,6 +316,7 @@ class CSPBuilder:
         self.request = request
         self.response = response
         self.apply_csp_settings()
+        self.apply_request_csp_settings()
         self.build_csp_inline()
         self.build_csp_sentry()
         self.build_csp_piwik()
@@ -338,6 +339,12 @@ class CSPBuilder:
             value = getattr(settings, name)
             if value:
                 self.directives[rule].update(value)
+
+    def apply_request_csp_settings(self) -> None:
+        form_action_sources = getattr(self.request, "csp_form_action_sources", ())
+        if isinstance(form_action_sources, str):
+            form_action_sources = (form_action_sources,)
+        self.directives["form-action"].update(form_action_sources)
 
     def add_csp_host(self, url: str, *directives: CSP_KIND) -> str | None:
         domain = urlparse(url).hostname
