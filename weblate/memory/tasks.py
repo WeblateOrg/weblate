@@ -28,6 +28,7 @@ if TYPE_CHECKING:
 MEMORY_UPDATE_BATCH_SIZE = 1000
 MEMORY_UPDATE_LOOKUP_CHUNK_SIZE = 50
 MEMORY_SCOPE_BACKFILL_STALE_SECONDS = 15 * 60
+MEMORY_SCOPE_COMPACTION_STALE_SECONDS = 4 * MEMORY_SCOPE_BACKFILL_STALE_SECONDS
 MEMORY_SCOPE_BACKFILL_STATE = "memory-scope-backfill"
 MEMORY_SCOPE_COMPACTION_STATE = "memory-scope-compaction"
 
@@ -273,14 +274,42 @@ def set_memory_scope_compaction_completed(completed: bool) -> None:
     )
 
 
-def has_completed_memory_scope_compaction() -> bool:
+def set_memory_scope_backfill_completed() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    MemoryScopeMigrationState.objects.using("default").update_or_create(
+        name=MEMORY_SCOPE_BACKFILL_STATE,
+        defaults={"completed": True, "updated": timezone.now()},
+    )
+
+
+def get_memory_scope_compaction_state() -> MemoryScopeMigrationState | None:
     # TODO(2028.1): Remove this helper once Weblate no longer supports direct
     # upgrades from 2026 releases.
     return (
         MemoryScopeMigrationState.objects.using("default")
-        .filter(name=MEMORY_SCOPE_COMPACTION_STATE, completed=True)
-        .exists()
+        .filter(name=MEMORY_SCOPE_COMPACTION_STATE)
+        .first()
     )
+
+
+def resume_memory_scope_compaction() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    state = get_memory_scope_compaction_state()
+    if state is not None:
+        if state.completed:
+            return
+        stale_before = timezone.now() - timedelta(
+            seconds=MEMORY_SCOPE_COMPACTION_STALE_SECONDS
+        )
+        if state.updated > stale_before:
+            return
+
+    if has_duplicate_memory_groups():
+        schedule_memory_scope_compaction()
+    else:
+        set_memory_scope_compaction_completed(True)
 
 
 def schedule_memory_scope_compaction() -> None:
@@ -331,15 +360,13 @@ def resume_memory_scope_backfill() -> None:
         )
         if needs_backfill:
             backfill_memory_scopes.delay()
+        else:
+            set_memory_scope_backfill_completed()
+            resume_memory_scope_compaction()
         return
 
     if state.completed:
-        if has_completed_memory_scope_compaction():
-            return
-        if has_duplicate_memory_groups():
-            schedule_memory_scope_compaction()
-        else:
-            set_memory_scope_compaction_completed(True)
+        resume_memory_scope_compaction()
         return
 
     stale_before = timezone.now() - timedelta(
@@ -517,6 +544,7 @@ def compact_memory_scopes(batch_size: int = 100) -> None:
         backfill_memory_scopes.delay()
         return
 
+    set_memory_scope_compaction_completed(False)
     duplicate_groups = list(
         memory_objects.values(
             "source_language_id",
