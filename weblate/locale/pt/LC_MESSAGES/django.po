@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-29 13:18+0000\n"
+"PO-Revision-Date: 2026-06-29 15:53+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -16967,7 +16967,7 @@ msgstr ""
 #: weblate/templates/vcs/github_app_register_submit.html:23
 #, python-format
 msgid "Sending you to %(host)s"
-msgstr ""
+msgstr "A enviá-lo para %(host)s"
 
 #: weblate/templates/vcs/github_app_register_submit.html:28
 #, python-format
@@ -16975,16 +16975,18 @@ msgid ""
 "Click the button below to send the pre-filled GitHub App manifest to "
 "%(host)s. You will be redirected back here once GitHub confirms."
 msgstr ""
+"Clique o botão abaixo para enviar o manifesto já preenchido da Aplicação do "
+"GitHub para %(host)s. Será redirecionado para aqui novamente após a "
+"confirmação do GitHub."
 
 #: weblate/templates/vcs/github_app_register_submit.html:39
 msgid "Organization"
 msgstr "Organização"
 
 #: weblate/templates/vcs/github_app_register_submit.html:54
-#, fuzzy, python-format
-#| msgid "Continue to %(return_target)s"
+#, python-format
 msgid "Continue to %(host)s"
-msgstr "Continuar para %(return_target)s"
+msgstr "Continuar para %(host)s"
 
 #: weblate/templates/vcs/github_install_help.html:4
 msgid ""
@@ -16992,43 +16994,40 @@ msgid ""
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+"O GitHub apenas mostra contas onde o seu utilizador GitHub pode instalar ou "
+"pedir esta aplicação. Se uma organização está em falta, verifique a sua "
+"função na organização e as restrições de instalação da Aplicação GitHub no "
+"GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:6
-#, fuzzy
-#| msgid "Internal Weblate team"
 msgid "Install Weblate GitHub app"
-msgstr "Equipa interna do Weblate"
+msgstr "Instalar aplicação Weblate GitHub"
 
 #: weblate/templates/vcs/github_install_select.html:13
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "Choose GitHub host"
-msgstr "Estrela do GitHub"
+msgstr "Escolher anfitrião GitHub"
 
 #: weblate/templates/vcs/github_install_select.html:17
 msgid ""
 "Select the GitHub or GitHub Enterprise instance where you want to install "
 "the Weblate GitHub app."
 msgstr ""
+"Selecione a instância de GitHub ou GitHub enterprise onde quer instalar a "
+"aplicação Weblate GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:22
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Install on %(hostname)s"
-msgstr "Convite para %(project_name)s"
+msgstr "Instalar em %(hostname)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
 msgid "Connected GitHub account: %(login)s"
-msgstr ""
+msgstr "Conta GitHub conectada: %(login)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:32
-#, fuzzy
-#| msgid "Repositories"
 msgid "Refresh repositories"
-msgstr "Repositórios"
+msgstr "Atualizar repositórios"
 
 #: weblate/templates/vcs/github_installation_detail.html:44
 #, python-format
@@ -17037,6 +17036,9 @@ msgid ""
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
+"As credenciais de aplicação Weblate GitHub não estão registadas para %"
+"(hostname)s. Atualização de token e verificações de assinatura webhook não "
+"funcionarão até que as credenciais da Aplicação sejam registadas novamente."
 
 #: weblate/templates/vcs/github_installation_detail.html:76
 #, fuzzy
@@ -17081,31 +17083,32 @@ msgid ""
 "Connect a GitHub account to each App to import repositories from that "
 "account."
 msgstr ""
+"A Aplicação GitHub abaixo fornece as credenciais que o Weblate usa para "
+"comunicar com o GitHub. Conecte uma conta GitHub a cada Aplicação para "
+"importar repositórios dessa conta."
 
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
 #: weblate/templates/vcs/github_installation_list.html:126
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove app"
-msgstr "Remover"
+msgstr "Remover Aplicação"
 
 #: weblate/templates/vcs/github_installation_list.html:69
 msgid "Remove connected GitHub accounts first."
-msgstr ""
+msgstr "Remova as contas GitHub conectadas primeiro."
 
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:400
 msgid "App ID"
-msgstr ""
+msgstr "Aplicação ID"
 
 #: weblate/templates/vcs/github_installation_list.html:79
 msgid "Slug"
-msgstr ""
+msgstr "Abreviação"
 
 #: weblate/templates/vcs/github_installation_list.html:101
 msgid "Remove Weblate GitHub App?"
-msgstr ""
+msgstr "Remover Aplicação Weblate GitHub?"
 
 #: weblate/templates/vcs/github_installation_list.html:111
 #, python-format
@@ -17113,79 +17116,87 @@ msgid ""
 "This deletes the stored credentials for the <code>%(slug)s</code> App on "
 "<code>%(host)s</code>."
 msgstr ""
+"Isto elimina as credenciais armazenadas para a Aplicação <code>%(slug)s</"
+"code> em <code>%(host)s</code>."
 
 #: weblate/templates/vcs/github_installation_list.html:118
 msgid ""
 "The App itself stays installed on GitHub. Delete it from GitHub separately "
 "if you no longer need it."
 msgstr ""
+"A Aplicação em si continua instalada no GitHub. Elimine-a separadamente no "
+"GitHub se já não precisa da mesma."
 
 #: weblate/templates/vcs/github_installation_list.html:175
 msgid ""
 "No connected GitHub accounts yet. Use the button above to connect a GitHub "
 "organization or user account."
 msgstr ""
+"Ainda não há contas GitHub conectadas. Use o botão acima para conectar uma "
+"organização ou conta de utilizador GitHub."
 
 #: weblate/templates/vcs/github_repository_list.html:9
 msgid "From connected GitHub account"
-msgstr ""
+msgstr "A partir da conta GitHub conectada"
 
 #: weblate/templates/vcs/github_repository_list.html:17
 msgid "Import from connected GitHub account"
-msgstr ""
+msgstr "Importar a partir da conta GitHub conectada"
 
 #: weblate/templates/vcs/github_repository_list.html:68
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
 "form with the repository URL and branch."
 msgstr ""
+"Selecione um repositório a importar. Isto preencherá o formulário de criação "
+"de componente com o URL e ramo do repositório."
 
 #: weblate/templates/vcs/github_repository_list.html:110
 msgid "No repositories available from connected GitHub accounts."
-msgstr ""
+msgstr "Nenhum repositório disponível a partir das contas GitHub conectadas."
 
 #: weblate/templates/vcs/github_repository_list.html:113
 msgid ""
 "Install the Weblate GitHub app to connect a GitHub organization or user "
 "account."
 msgstr ""
+"Instale a aplicação Weblate GitHub para conectar-se a uma organização ou "
+"conta de utilizador GitHub."
 
 #: weblate/templates/vcs/github_repository_list.html:115
 msgid ""
 "Select a project with a workspace before connecting a GitHub account. GitHub "
 "accounts are connected to workspaces."
 msgstr ""
+"Selecione um projeto com um espaço de trabalho antes de conectar-se a uma "
+"conta GitHub. Contas GitHub estão conectadas a espaços de trabalho."
 
 #: weblate/templates/vcs/github_repository_list.html:117
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not registered on this Weblate instance."
-msgstr "Número total de entradas nesta instância do Weblate"
+msgstr "A aplicação Weblate GitHub não está registada nesta instância Weblate."
 
 #: weblate/templates/vcs/github_repository_list.html:120
-#, fuzzy
-#| msgid "Push the repository"
 msgid "Try refreshing the repository list."
-msgstr "Enviar para o repositório"
+msgstr "Tente atualizar a lista de repositórios."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:15
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected GitHub account?"
-msgstr "Remover Minha Conta"
+msgstr "Remover conta GitHub conectada?"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:25
 #, python-format
 msgid ""
 "This removes the connected GitHub account <code>%(login)s</code> from "
 "Weblate."
-msgstr ""
+msgstr "Isto remove a conta GitHub <code>%(login)s</code> conectada do Weblate."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:31
 msgid ""
 "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
 "separately if you no longer need it."
 msgstr ""
+"A aplicação Weblate Github continua instalada no GitHub. Remova-a do GitHub "
+"separadamente se já não precisa da mesma."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:7
 msgid "Invitations"
@@ -22721,7 +22732,7 @@ msgid ""
 "hosting site."
 msgstr ""
 "O URL do site de código deve ser um link para um perfil de utilizador ou uma "
-"página de repositório em site de alojamento de código."
+"página de repositório em site de hospedagem de código."
 
 #: weblate/utils/validators.py:722
 msgid "Contact URL cannot include username or password credentials."
@@ -22983,80 +22994,73 @@ msgid "OAuth client ID"
 msgstr "Id. do Cliente"
 
 #: weblate/vcs/github.py:407
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client secret"
 msgid "OAuth client secret"
-msgstr "Segredo do cliente"
+msgstr "Segredo OAuth do cliente"
 
 #: weblate/vcs/github.py:420
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook token"
-msgstr "Webhook"
+msgstr "Token webhook"
 
 #: weblate/vcs/github.py:422
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "API URL"
 msgid "App URL"
-msgstr "URL da API"
+msgstr "URL da Aplicação"
 
 #: weblate/vcs/github.py:427 weblate/vcs/github.py:428
 msgid "Weblate GitHub App credentials"
-msgstr ""
+msgstr "Credenciais da Aplicação Weblate GitHub"
 
 #: weblate/vcs/github.py:752
-#, fuzzy
-#| msgid "Delete this account"
 msgid "connected GitHub account"
-msgstr "Eliminar esta conta"
+msgstr "conta GitHub conectadas"
 
 #: weblate/vcs/github.py:753
 msgid "connected GitHub accounts"
-msgstr ""
+msgstr "contas GitHub conectadas"
 
 #: weblate/vcs/github.py:824
 msgid "GitHub (via Weblate GitHub app)"
-msgstr ""
+msgstr "GitHub (através da aplicação Weblate GitHub)"
 
 #: weblate/vcs/github.py:835
-#, fuzzy
-#| msgid "This will push changes and create a GitHub pull request."
 msgid ""
 "This will push changes and create a GitHub pull request via the Weblate "
 "GitHub app."
-msgstr "Isto fará o push das alterações e criará um pull request do GitHub."
+msgstr ""
+"Isto fará o push das alterações e criará um pull request do GitHub através "
+"da aplicação Weblate GitHub."
 
 #: weblate/vcs/github.py:860 weblate/vcs/github.py:910
 #: weblate/vcs/github.py:974 weblate/vcs/github.py:988
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "GitHub App components require a project with a workspace."
-msgstr "Escolha um projeto ou um espaço de trabalho."
+msgstr ""
+"Componentes da Aplicação GitHub requerem um projeto com um espaço de "
+"trabalho."
 
 #: weblate/vcs/github.py:876
 msgid "GitHub App components require a GitHub HTTPS repository URL."
 msgstr ""
+"Componentes da Aplicação GitHub requerem um URL de repositório GitHub HTTPS."
 
 #: weblate/vcs/github.py:892
 msgid ""
 "Repository is not available from a connected GitHub account for this "
 "workspace."
 msgstr ""
+"O repositório não está disponível a partir de uma conta GitHub conectada "
+"para este espaço de trabalho."
 
 #: weblate/vcs/github.py:949
 #, python-format
 msgid "Could not obtain GitHub App access token: %s"
-msgstr ""
+msgstr "Não foi possível obtem o token de acesso da Aplicação GitHub: %s"
 
 #: weblate/vcs/github.py:965
 msgid "No Weblate GitHub app installation available."
-msgstr ""
+msgstr "Nenhuma instalação de aplicação Weblate GitHub disponível."
 
 #: weblate/vcs/github.py:981
 msgid "GitHub App repositories must be imported with a branch."
-msgstr ""
+msgstr "Repositórios de Aplicação do GitHub têm que ser importados com um ramo."
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
@@ -23071,52 +23075,36 @@ msgid "Provider"
 msgstr "Empresa"
 
 #: weblate/vcs/models.py:63 weblate/vcs/models.py:125
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Installation ID"
-msgstr "Informação da tradução"
+msgstr "ID de instalação"
 
 #: weblate/vcs/models.py:67
-#, fuzzy
-#| msgid "Target string"
 msgid "Target type"
-msgstr "Cadeia de carateres de destino"
+msgstr "Tipo do alvo"
 
 #: weblate/vcs/models.py:68
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organization or User"
-msgstr "Organizar ou remover"
+msgstr "Organização ou Utilizador"
 
 #: weblate/vcs/models.py:72
-#, fuzzy
-#| msgid "Target string"
 msgid "Target login"
-msgstr "Cadeia de carateres de destino"
+msgstr "Início de sessão alvo"
 
 #: weblate/vcs/models.py:73
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Hosting organization or user login"
-msgstr "Alojamento de traduções"
+msgstr "Organização de hospedagem ou início de sessão de utilizador"
 
 #: weblate/vcs/models.py:91
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "Available repositories"
-msgstr "Repositórios VCS"
+msgstr "Repositórios disponíveis"
 
 #: weblate/vcs/models.py:96
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installation"
-msgstr "Alojamento de traduções"
+msgstr "Instalação de hospedagem de código"
 
 #: weblate/vcs/models.py:97
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installations"
-msgstr "Alojamento de traduções"
+msgstr "Instalações de hospedagem de código"
 
 #: weblate/vcs/models.py:130
 #, fuzzy
