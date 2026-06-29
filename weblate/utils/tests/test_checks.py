@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import time
 from pathlib import Path
-from types import SimpleNamespace
 from unittest.mock import Mock, patch
 from weakref import WeakSet
 
@@ -153,70 +152,19 @@ class DataWritableCheckTestCase(SimpleTestCase):
 
 
 class DatabaseSizeCheckTestCase(SimpleTestCase):
-    @patch(
-        "weblate.utils.apps.get_database_backup_disk_usage",
-        return_value=SimpleNamespace(free=123457),
-    )
     @patch("weblate.utils.apps.get_database_size", return_value=123456)
     @patch("weblate.utils.apps.connections")
     def test_database_size_available(
-        self, connections_mock, database_size_mock, disk_usage_mock
+        self,
+        connections_mock,
+        database_size_mock,
     ) -> None:
         connections_mock.__getitem__.return_value.vendor = "postgresql"
 
         errors = list(check_database_size(app_configs=None, databases=None))
 
-        self.assertFalse(
-            any(error.id in {"weblate.C045", "weblate.C046"} for error in errors)
-        )
+        self.assertFalse(any(error.id == "weblate.C045" for error in errors))
         database_size_mock.assert_called_once_with()
-        disk_usage_mock.assert_called_once_with()
-
-    @patch(
-        "weblate.utils.apps.get_database_backup_disk_usage",
-        return_value=SimpleNamespace(free=123455),
-    )
-    @patch("weblate.utils.apps.get_database_size", return_value=123456)
-    @patch("weblate.utils.apps.connections")
-    def test_database_size_not_enough_space(
-        self, connections_mock, database_size_mock, disk_usage_mock
-    ) -> None:
-        connections_mock.__getitem__.return_value.vendor = "postgresql"
-
-        errors = list(check_database_size(app_configs=None, databases=None))
-
-        self.assertTrue(any(error.id == "weblate.C046" for error in errors))
-        database_size_mock.assert_called_once_with()
-        disk_usage_mock.assert_called_once_with()
-
-    @override_settings(DATABASE_BACKUP="none")
-    @patch("weblate.utils.apps.get_database_backup_disk_usage")
-    @patch("weblate.utils.apps.get_database_size", return_value=123456)
-    @patch("weblate.utils.apps.connections")
-    def test_database_size_backup_disabled(
-        self, connections_mock, database_size_mock, disk_usage_mock
-    ) -> None:
-        connections_mock.__getitem__.return_value.vendor = "postgresql"
-
-        errors = list(check_database_size(app_configs=None, databases=None))
-
-        self.assertFalse(any(error.id == "weblate.C046" for error in errors))
-        database_size_mock.assert_called_once_with()
-        disk_usage_mock.assert_not_called()
-
-    @patch("weblate.utils.apps.get_database_backup_disk_usage", return_value=None)
-    @patch("weblate.utils.apps.get_database_size", return_value=123456)
-    @patch("weblate.utils.apps.connections")
-    def test_database_size_backup_usage_unavailable(
-        self, connections_mock, database_size_mock, disk_usage_mock
-    ) -> None:
-        connections_mock.__getitem__.return_value.vendor = "postgresql"
-
-        errors = list(check_database_size(app_configs=None, databases=None))
-
-        self.assertFalse(any(error.id == "weblate.C046" for error in errors))
-        database_size_mock.assert_called_once_with()
-        disk_usage_mock.assert_called_once_with()
 
     @patch("weblate.utils.apps.get_database_size", return_value=None)
     @patch("weblate.utils.apps.connections")

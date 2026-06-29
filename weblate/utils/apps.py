@@ -35,7 +35,7 @@ from .celery import is_celery_queue_long
 from .checks import weblate_check
 from .classloader import ClassLoader
 from .const import HEARTBEAT_FREQUENCY
-from .data import data_dir, data_path
+from .data import data_path
 from .db import (
     PostgreSQLRegexLookup,
     PostgreSQLSearchLookup,
@@ -507,19 +507,6 @@ def check_encoding(
     ]
 
 
-def get_database_backup_disk_usage():
-    """Return disk usage for the database backup destination."""
-    path = Path(data_dir("backups"))
-    while not path.exists():
-        if path == path.parent:
-            return None
-        path = path.parent
-    try:
-        return disk_usage(path)
-    except OSError:
-        return None
-
-
 @register(deploy=True)
 def check_database_size(
     *,
@@ -540,21 +527,6 @@ def check_database_size(
                 "Could not determine PostgreSQL database disk usage",
             )
         ]
-
-    if settings.DATABASE_BACKUP == "none":
-        return []
-
-    usage = get_database_backup_disk_usage()
-    if usage is None:
-        return []
-
-    if usage.free < database_size:
-        backup_dir = data_dir("backups")
-        message = (
-            f"There is not enough free space in {backup_dir} "
-            "to store a PostgreSQL database dump"
-        )
-        return [weblate_check("weblate.C046", message)]
 
     return []
 
