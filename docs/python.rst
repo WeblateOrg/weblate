@@ -133,7 +133,8 @@ package:
 
         Resolves the insecure HTTP opt-in from command-line configuration,
         :envvar:`WLC_ALLOW_INSECURE_HTTP`, or the ``allow_insecure_http``
-        configuration option.
+        configuration option. Automatically discovered project configuration
+        cannot enable this option.
 
 
 :mod:`wlc.main`

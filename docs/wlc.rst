@@ -373,7 +373,10 @@ customize this by :option:`--config-section`):
     Allow API keys over non-local ``http://`` URLs, defaults to ``false``.
     Loopback HTTP URLs, such as ``http://127.0.0.1:8000/api/``, remain allowed
     for local development without this option. Prefer HTTPS instead of enabling
-    this setting.
+    this setting. Automatically discovered project configuration files cannot
+    enable this option; set it in user configuration, an explicit
+    :option:`--config` file, :envvar:`WLC_ALLOW_INSECURE_HTTP`, or
+    :option:`--allow-insecure-http`.
 
 .. describe:: retries, timeout, allowed_methods, backoff_factor, status_forcelist
 
@@ -457,6 +460,10 @@ The configuration precedence (highest to lowest) is:
 3. Configuration loaded from :option:`--config`, or from the discovered global
    configuration plus the nearest project configuration when
    :option:`--config` is not used.
+
+Automatically discovered project configuration cannot enable
+``allow_insecure_http``. Set it in user configuration or pass an explicit
+:option:`--config` file instead.
 
 Examples
 ++++++++
