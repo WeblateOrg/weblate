@@ -374,7 +374,7 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
-    def test_github_repository_auth_args_malformed_installation_id_raises_repository_error(
+    def test_github_repository_auth_environment_malformed_installation_id_raises_repository_error(
         self,
     ):
         _make_credentials()
@@ -385,9 +385,7 @@ class TestGitHubInstallationManager(TestCase):
         with self.assertRaisesRegex(
             RepositoryError, "Invalid GitHub App installation ID"
         ):
-            list(
-                repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
-            )
+            repository.get_auth_environment()
 
         self.assertEqual(len(responses.calls), 0)
 

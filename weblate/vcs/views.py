@@ -1098,6 +1098,7 @@ def _render_github_app_register(
             "manifest_json": json.dumps(manifest, indent=2, sort_keys=True),
             "register_form": register_form,
             "hostname": hostname,
+            "name": name,
             "permissions": GITHUB_APP_MANIFEST_PERMISSIONS,
             "events": GITHUB_APP_MANIFEST_EVENTS,
             "webhook_url": webhook_url,
