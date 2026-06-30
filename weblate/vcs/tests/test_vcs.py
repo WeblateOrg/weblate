@@ -40,6 +40,7 @@ from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
+    RepositoryRestrictedPathError,
     RepositorySymlinkError,
     RepositoryValidationError,
     get_config_check_cache_key,
@@ -1251,6 +1252,20 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
         with self.assertRaises(RepositorySymlinkError):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
+
+    def test_resolve_symlinks_rejects_vcs_metadata_path(self) -> None:
+        with self.assertRaises(RepositoryRestrictedPathError):
+            self.repo.resolve_symlinks(".git/config")
+
+    def test_resolve_symlinks_allows_missing_excluded_repository_path(self) -> None:
+        filename = "dist/appstream/messages.pot"
+
+        self.assertEqual(self.repo.resolve_symlinks(filename), filename)
+
+    def test_resolve_symlinks_allows_missing_regular_repository_path(self) -> None:
+        filename = "locale/missing.po"
+
+        self.assertEqual(self.repo.resolve_symlinks(filename), filename)
 
     def test_resolve_symlinks_allows_regular_repository_path(self) -> None:
         filename = "locale/cs.po"
