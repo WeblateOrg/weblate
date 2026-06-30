@@ -58,18 +58,34 @@
       <div class="search-results">{% include "screenshots/screenshot_sources_search.html" %}</div>
       <div class="card-footer">
         <div class="d-flex flex-column flex-xl-row gap-2 align-items-stretch">
-          <form class="double-submission flex-grow-1">
+          <form class="double-submission flex-grow-1"
+                id="screenshots-search-form"
+                data-href="{% url 'screenshot-js-search' pk=object.pk %}">
             {% csrf_token %}
             <div class="input-group">
-              <input class="textinput form-control"
-                     type="text"
-                     required="yes"
-                     name="q"
-                     id="search-input"
-                     placeholder="{% translate "Source string search" %}" />
+              <div class="flex-grow-1">
+                <textarea class="textarea form-control"
+                          required
+                          name="q"
+                          id="search-input"
+                          aria-describedby="screenshots-search-help"
+                          rows="1"
+                          placeholder="{% translate "Source string search" %}"></textarea>
+              </div>
               <button data-href="{% url 'screenshot-js-search' pk=object.pk %}"
                       class="btn btn-primary"
+                      type="submit"
                       id="screenshots-search">{% translate "Search" %}</button>
+            </div>
+            <div id="screenshots-search-help" class="form-text">
+              {% blocktranslate trimmed %}
+                Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, and <code>NOT</code> are case-insensitive.
+              {% endblocktranslate %}
+              <a class="doc-link"
+                 href="{% documentation 'user/search' 'search-boolean' %}"
+                 title="{% translate "Documentation" %}"
+                 target="_blank"
+                 rel="noopener">{% icon "info.svg" %}<span class="visually-hidden">{% translate "Search query syntax documentation" %}</span></a>
             </div>
           </form>
           <form>
@@ -81,9 +97,10 @@
               {% translate "Find strings in image" %}
             </button>
           </form>
-          <button class="btn btn-primary" id="screenshots-add-selected" type="button" disabled>
-            {% translate "Add selected" %}
-          </button>
+          <button class="btn btn-primary align-self-xl-start"
+                  id="screenshots-add-selected"
+                  type="button"
+                  disabled>{% translate "Add selected" %}</button>
         </div>
         <div id="screenshots-search-summary"
              class="small text-body-secondary mt-2"
