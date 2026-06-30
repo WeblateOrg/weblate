@@ -744,6 +744,30 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @responses.activate
+    def test_setup_rejects_malformed_installation_id(self):
+        install_url = self._start_install("/create/component/#github")
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {
+                "installation_id": "12345/access_tokens",
+                "state": state,
+                "code": "oauth-code",
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(GitHubInstallation.objects.exists())
+        self.assertEqual(len(responses.calls), 0)
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(
+            response_messages, ["GitHub did not return a valid installation ID."]
+        )
+
+    @responses.activate
     def test_setup_rejects_foreign_installation_id(self):
         # The attacker holds a valid signed state for their own workspace and a
         # valid OAuth code for *their* GitHub account, then swaps in another
@@ -1538,6 +1562,33 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(credentials.client_id, "Iv1.manifestclientid")
         self.assertEqual(credentials.client_secret, "manifest-client-secret")
         self.assertIn("manifest", credentials.private_key)
+
+    @responses.activate
+    def test_register_callback_quotes_code_path_segment(self):
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app-manifests/"
+            "..%2Finstallations%2F123%2Faccess_tokens/conversions",
+            json=MANIFEST_RESPONSE,
+        )
+        submit = self._post_register(host="github.com")
+        state = parse_qs(urlparse(self._action_url(submit)).query)["state"][0]
+
+        response = self.client.get(
+            reverse("github-app-register-callback"),
+            {
+                "code": "../installations/123/access_tokens",
+                "state": state,
+            },
+        )
+
+        self.assertRedirects(response, reverse("manage-github-accounts"))
+        self.assertTrue(GitHubAppCredentials.objects.exists())
+        self.assertEqual(
+            responses.calls[0].request.url,
+            "https://api.github.com/app-manifests/"
+            "..%2Finstallations%2F123%2Faccess_tokens/conversions",
+        )
 
     @responses.activate
     def test_register_callback_updates_existing(self):

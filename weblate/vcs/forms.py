@@ -44,6 +44,18 @@ def clean_github_app_hostname(value: str) -> str:
     return hostname
 
 
+class GitHubAppSetupCallbackForm(forms.Form):
+    installation_id = forms.IntegerField(min_value=1)
+    code = forms.CharField()
+
+    def clean_installation_id(self) -> str:
+        return str(self.cleaned_data["installation_id"])
+
+
+class GitHubAppRegisterCallbackForm(forms.Form):
+    code = forms.CharField()
+
+
 class GitHubAppRegisterForm(forms.Form):
     host = forms.CharField(
         label=gettext_lazy("GitHub host"),

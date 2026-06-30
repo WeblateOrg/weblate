@@ -47,6 +47,7 @@ from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,
     get_github_app_settings,
+    normalize_github_installation_id,
     verify_webhook_signature,
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
@@ -449,8 +450,10 @@ def bitbucket_hook_helper(data, request: Request | None) -> HandlerResponse | No
 
 def _lookup_github_installation(data: dict, hostname: str | None = None):
     """Return the GitHubInstallation referenced by the webhook payload, if any."""
-    installation_id = (data.get("installation") or {}).get("id")
-    if not installation_id:
+    installation_id = _normalize_github_payload_installation_id(
+        (data.get("installation") or {}).get("id")
+    )
+    if installation_id is None:
         return None
 
     if hostname is not None:
@@ -459,7 +462,7 @@ def _lookup_github_installation(data: dict, hostname: str | None = None):
         )
 
     matches = list(
-        GitHubInstallation.objects.filter(installation_id=str(installation_id))[:2]
+        GitHubInstallation.objects.filter(installation_id=installation_id)[:2]
     )
     if len(matches) == 1:
         return matches[0]
@@ -539,11 +542,25 @@ def _store_pending_github_installation_event(
     )
 
 
+def _normalize_github_payload_installation_id(value: object) -> str | None:
+    if isinstance(value, bool) or not isinstance(value, str | int):
+        return None
+    try:
+        return normalize_github_installation_id(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def apply_pending_github_installation_event(
     hostname: str, installation_id: str | int
 ) -> bool:
     """Apply a previously signed installation webhook to authorized workspace rows."""
-    installation_id = str(installation_id)
+    normalized_installation_id = _normalize_github_payload_installation_id(
+        installation_id
+    )
+    if normalized_installation_id is None:
+        return False
+    installation_id = normalized_installation_id
     pending = PendingInstallation.objects.filter(
         provider=InstallationProvider.GITHUB,
         hostname=hostname,
@@ -624,9 +641,9 @@ def _handle_github_installation_target_event(
         return
 
     payload = data.get("installation") or {}
-    installation_id = str(payload.get("id", ""))
+    installation_id = _normalize_github_payload_installation_id(payload.get("id"))
     new_login = data["account"]["login"]
-    if not installation_id or not new_login:
+    if installation_id is None or not new_login:
         return
 
     hostname = installation.hostname if installation is not None else hostname
@@ -683,8 +700,8 @@ def _handle_github_installation_event(  # noqa: C901
     """Handle ``installation`` and ``installation_repositories`` events."""
     action = data.get("action", "")
     payload = data.get("installation") or {}
-    installation_id = str(payload.get("id", ""))
-    if not installation_id:
+    installation_id = _normalize_github_payload_installation_id(payload.get("id"))
+    if installation_id is None:
         return
 
     config = get_github_app_settings(hostname) if hostname is not None else None
@@ -925,9 +942,11 @@ def github_integration_hook_helper(
         msg = "Missing repository clone URL in GitHub App webhook"
         raise HookPayloadError(msg)
 
-    installation_id = str((data.get("installation") or {}).get("id", ""))
+    installation_id = _normalize_github_payload_installation_id(
+        (data.get("installation") or {}).get("id")
+    )
     project_ids: list[int] = []
-    if installation_id:
+    if installation_id is not None:
         workspace_ids = list(
             GitHubInstallation.objects.filter_for_installation(
                 hostname, installation_id

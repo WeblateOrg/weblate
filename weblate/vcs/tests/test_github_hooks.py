@@ -216,6 +216,20 @@ class TestGitHubAppHooks(ViewTestCase):
             },
         )
 
+    def test_installation_created_with_malformed_id_is_ignored(self):
+        data = {
+            "action": "created",
+            "installation": {
+                "id": "12345/access_tokens",
+                "app_id": 99999,
+                "account": {"login": "test-org", "type": "Organization"},
+            },
+        }
+        response = self._post("installation", data)
+        self.assertEqual(response.status_code, 201)
+        self.assertFalse(GitHubInstallation.objects.exists())
+        self.assertFalse(PendingInstallation.objects.exists())
+
     def test_cleanup_pending_installations_task(self):
         old = PendingInstallation.objects.create(
             provider=InstallationProvider.GITHUB,

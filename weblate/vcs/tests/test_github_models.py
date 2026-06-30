@@ -21,6 +21,10 @@ from weblate.vcs.github import (
     GitHubAppNotConfiguredError,
     GithubAppRepository,
     GitHubInstallation,
+    exchange_github_app_manifest_code,
+    get_installation_token,
+    normalize_github_callback_code,
+    normalize_github_installation_id,
 )
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import Workspace
@@ -135,6 +139,74 @@ class TestGitHubInstallationManager(TestCase):
             GitHubInstallation.objects.get_for_installation("github.com", "67890"),
             self.installation,
         )
+
+    def test_normalize_installation_id(self):
+        self.assertEqual(normalize_github_installation_id(67890), "67890")
+        self.assertEqual(normalize_github_installation_id(" 0067890 "), "67890")
+        self.assertEqual(
+            normalize_github_installation_id("\uff16\uff17\uff18\uff19\uff10"),
+            "67890",
+        )
+
+        for installation_id in (
+            "",
+            "0",
+            "67890/access_tokens",
+            "../67890",
+        ):
+            with (
+                self.subTest(installation_id=installation_id),
+                self.assertRaises(ValueError),
+            ):
+                normalize_github_installation_id(installation_id)
+
+        with self.assertRaises(TypeError):
+            normalize_github_installation_id(True)
+
+    def test_normalize_callback_code(self):
+        self.assertEqual(
+            normalize_github_callback_code(" temp.code-123_abc "),
+            "temp.code-123_abc",
+        )
+        self.assertEqual(
+            normalize_github_callback_code(" t\u00e9mpcode/with/slash?x=1 "),
+            "t\u00e9mpcode/with/slash?x=1",
+        )
+
+        for code in (
+            "",
+            ".",
+            "..",
+        ):
+            with self.subTest(code=code), self.assertRaises(ValueError):
+                normalize_github_callback_code(code)
+
+    @responses.activate
+    def test_installation_token_rejects_malformed_installation_id(self):
+        with self.assertRaises(ValueError):
+            get_installation_token(
+                "99999",
+                SETTINGS_PRIVATE_KEY,
+                "67890/access_tokens",
+                "github.com",
+            )
+
+        self.assertEqual(len(responses.calls), 0)
+
+    @responses.activate
+    def test_manifest_code_quotes_code_path_segment(self):
+        responses.add(
+            responses.POST,
+            "https://api.github.com/app-manifests/"
+            "..%2Finstallations%2F67890%2Faccess_tokens%3Fx%3D1/conversions",
+            json={"id": 99},
+        )
+
+        exchange_github_app_manifest_code(
+            "../installations/67890/access_tokens?x=1", "github.com"
+        )
+
+        self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
     def test_sync_from_api(self):
@@ -279,6 +351,24 @@ class TestGitHubInstallationManager(TestCase):
             )
 
         self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    def test_github_repository_auth_args_malformed_installation_id_raises_repository_error(
+        self,
+    ):
+        _make_credentials()
+        self.installation.installation_id = "67890/access_tokens"
+        self.installation.save(update_fields=["installation_id"])
+        repository = self._make_app_repository()
+
+        with self.assertRaisesRegex(
+            RepositoryError, "Invalid GitHub App installation ID"
+        ):
+            list(
+                repository._get_auth_args("https://github.com/test-org/repo1.git")  # noqa: SLF001
+            )
+
+        self.assertEqual(len(responses.calls), 0)
 
     @responses.activate
     def test_github_repository_instance_auth_requires_workspace(self):
