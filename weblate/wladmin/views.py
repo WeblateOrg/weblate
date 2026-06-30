@@ -48,6 +48,10 @@ from weblate.auth.models import (
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
 from weblate.memory.models import Memory, MemoryScopeMigrationState
+from weblate.memory.tasks import (
+    MEMORY_SCOPE_COMPACTION_STATE,
+    get_duplicate_memory_candidate_group_count,
+)
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
@@ -118,6 +122,9 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
+
+MEMORY_DUPLICATE_GROUP_COUNT_CACHE_KEY = "memory-duplicate-group-count"
+MEMORY_DUPLICATE_GROUP_COUNT_CACHE_TIMEOUT = 5 * 60
 
 
 @management_access
@@ -385,25 +392,24 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
     return render(request, "manage/backups.html", context)
 
 
-def get_memory_duplicate_group_count() -> int:
+def get_memory_duplicate_group_count(total: int | None = None) -> int:
     # TODO(2028.1): Remove this migration status helper once Weblate no longer
     # supports direct upgrades from 2026 releases.
     """Return translation memory duplicate group count."""
-    return (
-        Memory.objects.values(
-            "source_language_id",
-            "target_language_id",
-            "source",
-            "target",
-            "origin",
-            "context",
-            "status",
-            "legacy_from_file",
-        )
-        .annotate(count=Count("id"))
-        .filter(count__gt=1)
-        .count()
+    if total is None:
+        total = Memory.objects.count()
+    cache_key = f"{MEMORY_DUPLICATE_GROUP_COUNT_CACHE_KEY}:{total}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
+
+    count = get_duplicate_memory_candidate_group_count()
+    cache.set(
+        cache_key,
+        count,
+        MEMORY_DUPLICATE_GROUP_COUNT_CACHE_TIMEOUT,
     )
+    return count
 
 
 def get_memory_migration_status() -> dict[str, Any]:
@@ -412,6 +418,9 @@ def get_memory_migration_status() -> dict[str, Any]:
     """Return translation memory background migration status."""
     state = MemoryScopeMigrationState.objects.filter(
         name="memory-scope-backfill"
+    ).first()
+    compaction_state = MemoryScopeMigrationState.objects.filter(
+        name=MEMORY_SCOPE_COMPACTION_STATE
     ).first()
     total = Memory.objects.count()
     last_memory_id = state.last_memory_id if state is not None else 0
@@ -431,11 +440,12 @@ def get_memory_migration_status() -> dict[str, Any]:
         processed = Memory.objects.filter(id__lte=last_memory_id).count()
         backfill_percent = min(round(processed * 100 / total), 100)
 
-    duplicate_groups = (
-        get_memory_duplicate_group_count()
-        if state is not None and state.completed
-        else 0
-    )
+    if not backfill_completed or (
+        compaction_state is not None and compaction_state.completed
+    ):
+        duplicate_groups = 0
+    else:
+        duplicate_groups = get_memory_duplicate_group_count(total)
 
     return {
         "backfill_completed": backfill_completed,
@@ -446,7 +456,13 @@ def get_memory_migration_status() -> dict[str, Any]:
         "processed": processed,
         "state": state,
         "total": total,
-        "updated": state.updated if state is not None else None,
+        "updated": (
+            compaction_state.updated
+            if backfill_completed and compaction_state is not None
+            else state.updated
+            if state is not None
+            else None
+        ),
     }
 
 

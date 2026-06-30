@@ -6,7 +6,7 @@ from __future__ import annotations
 from collections import defaultdict
 from datetime import timedelta
 from operator import itemgetter
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict
 from uuid import UUID
 
 from django.db import transaction
@@ -29,6 +29,7 @@ MEMORY_UPDATE_BATCH_SIZE = 1000
 MEMORY_UPDATE_LOOKUP_CHUNK_SIZE = 50
 MEMORY_SCOPE_BACKFILL_STALE_SECONDS = 15 * 60
 MEMORY_SCOPE_COMPACTION_STALE_SECONDS = 4 * MEMORY_SCOPE_BACKFILL_STALE_SECONDS
+MEMORY_SCOPE_COMPACTION_BATCH_SIZE = 50000
 MEMORY_SCOPE_BACKFILL_STATE = "memory-scope-backfill"
 MEMORY_SCOPE_COMPACTION_STATE = "memory-scope-compaction"
 
@@ -55,6 +56,7 @@ type MemoryGroupKey = tuple[str, int, int]
 type MemoryCategory = tuple[str, int | None] | tuple[str, UUID | None, int | None]
 type MemoryGroupEntry = tuple[int, MemoryKey, MemoryUpdatePayload, int]
 type MemoryScopeKey = tuple[int, int | None, UUID | None, int | None, int | None]
+type MemoryDuplicateIdentity = tuple[int, int, str, str, str, str, int, bool]
 AUTOMATIC_SCOPE_TYPES = (
     MemoryScope.SCOPE_PROJECT,
     MemoryScope.SCOPE_SHARED,
@@ -265,12 +267,17 @@ def backfill_memory_scopes(batch_size: int = 5000) -> None:
         schedule_memory_scope_compaction()
 
 
-def set_memory_scope_compaction_completed(completed: bool) -> None:
+def set_memory_scope_compaction_completed(
+    completed: bool, *, last_memory_id: int | None = None
+) -> None:
     # TODO(2028.1): Remove this helper once Weblate no longer supports direct
     # upgrades from 2026 releases.
+    defaults: dict[str, Any] = {"completed": completed, "updated": timezone.now()}
+    if last_memory_id is not None:
+        defaults["last_memory_id"] = last_memory_id
     MemoryScopeMigrationState.objects.using("default").update_or_create(
         name=MEMORY_SCOPE_COMPACTION_STATE,
-        defaults={"completed": completed, "updated": timezone.now()},
+        defaults=defaults,
     )
 
 
@@ -315,28 +322,96 @@ def resume_memory_scope_compaction() -> None:
 def schedule_memory_scope_compaction() -> None:
     # TODO(2028.1): Remove this helper once Weblate no longer supports direct
     # upgrades from 2026 releases.
-    set_memory_scope_compaction_completed(False)
+    state = get_memory_scope_compaction_state()
+    reset_cursor = state is None or state.completed
+    set_memory_scope_compaction_completed(
+        False, last_memory_id=0 if reset_cursor else None
+    )
     compact_memory_scopes.delay()
 
 
 def has_duplicate_memory_groups() -> bool:
     # TODO(2028.1): Remove this helper once Weblate no longer supports direct
     # upgrades from 2026 releases.
-    return (
-        Memory.objects.using("default")
+    last_memory_id = 0
+    memory_objects = Memory.objects.using("default")
+
+    while True:
+        duplicate_groups = get_duplicate_memory_candidate_groups(
+            memory_objects,
+            last_memory_id=last_memory_id,
+            batch_size=MEMORY_SCOPE_COMPACTION_BATCH_SIZE,
+        )
+        if not duplicate_groups:
+            return False
+        for group in duplicate_groups:
+            memories = get_duplicate_memory_candidate_memories(memory_objects, group)
+            if get_exact_duplicate_memory_groups(memories):
+                return True
+        last_memory_id = duplicate_groups[-1]["first_id"]
+
+
+def get_duplicate_memory_candidate_group_queryset(
+    memory_objects, *, last_memory_id: int = 0
+):
+    # Group on the expressions covered by memory_md5_index. Exact identity
+    # splitting, including context/status/file ownership, happens after loading
+    # these candidates.
+    queryset = (
+        memory_objects.annotate(
+            origin_md5=MD5("origin"),
+            source_md5=MD5("source"),
+            target_md5=MD5("target"),
+        )
         .values(
             "source_language_id",
             "target_language_id",
-            "source",
-            "target",
-            "origin",
-            "context",
-            "status",
-            "legacy_from_file",
+            "origin_md5",
+            "source_md5",
+            "target_md5",
         )
-        .annotate(count=Count("id"))
+        .annotate(first_id=Min("id"), count=Count("id"))
         .filter(count__gt=1)
-        .exists()
+    )
+    if last_memory_id:
+        queryset = queryset.filter(first_id__gt=last_memory_id)
+    return queryset
+
+
+def get_duplicate_memory_candidate_groups(
+    memory_objects, *, last_memory_id: int, batch_size: int
+) -> list[dict[str, Any]]:
+    return list(
+        get_duplicate_memory_candidate_group_queryset(
+            memory_objects, last_memory_id=last_memory_id
+        ).order_by("first_id")[:batch_size]
+    )
+
+
+def get_duplicate_memory_candidate_group_count() -> int:
+    # TODO(2028.1): Remove this migration status helper once Weblate no longer
+    # supports direct upgrades from 2026 releases.
+    return get_duplicate_memory_candidate_group_queryset(
+        Memory.objects.using("default")
+    ).count()
+
+
+def get_duplicate_memory_candidate_memories(
+    memory_objects, group: dict[str, Any]
+) -> list[Memory]:
+    return list(
+        memory_objects.filter(
+            source_language_id=group["source_language_id"],
+            target_language_id=group["target_language_id"],
+            origin__md5=group["origin_md5"],
+            source__md5=group["source_md5"],
+            target__md5=group["target_md5"],
+        )
+        .order_by("id")
+        .select_related(
+            "legacy_project",
+            "legacy_user",
+        )
     )
 
 
@@ -529,109 +604,126 @@ def update_memory(  # noqa: PLR0913
 
 
 @app.task(trail=False)
-def compact_memory_scopes(batch_size: int = 100) -> None:
+def compact_memory_scopes(batch_size: int = MEMORY_SCOPE_COMPACTION_BATCH_SIZE) -> None:
     # TODO(2028.1): Remove this background TM scope compaction once Weblate no
     # longer supports direct upgrades from 2026 releases.
     memory_objects = Memory.objects.using("default")
     memory_scope_objects = MemoryScope.objects.db_manager("default")
+    migration_state_objects = MemoryScopeMigrationState.objects.using("default")
 
-    state = (
-        MemoryScopeMigrationState.objects.using("default")
-        .filter(name=MEMORY_SCOPE_BACKFILL_STATE)
-        .first()
-    )
+    state = migration_state_objects.filter(name=MEMORY_SCOPE_BACKFILL_STATE).first()
     if state is not None and not state.completed:
         backfill_memory_scopes.delay()
         return
 
-    set_memory_scope_compaction_completed(False)
-    duplicate_groups = list(
-        memory_objects.values(
-            "source_language_id",
-            "target_language_id",
-            "source",
-            "target",
-            "origin",
-            "context",
-            "status",
-            "legacy_from_file",
-        )
-        .annotate(first_id=Min("id"), count=Count("id"))
-        .filter(count__gt=1)
-        .order_by("first_id")[:batch_size]
+    compaction_state, _created = migration_state_objects.get_or_create(
+        name=MEMORY_SCOPE_COMPACTION_STATE,
+        defaults={"completed": False, "updated": timezone.now()},
+    )
+    if compaction_state.completed:
+        return
+
+    compaction_state.updated = timezone.now()
+    compaction_state.save(using="default", update_fields=["updated"])
+
+    duplicate_groups = get_duplicate_memory_candidate_groups(
+        memory_objects,
+        last_memory_id=compaction_state.last_memory_id,
+        batch_size=batch_size,
     )
     if not duplicate_groups:
+        if compaction_state.last_memory_id and has_duplicate_memory_groups():
+            set_memory_scope_compaction_completed(False, last_memory_id=0)
+            compact_memory_scopes.delay(batch_size=batch_size)
+            return
         set_memory_scope_compaction_completed(True)
         return
 
     for group in duplicate_groups:
-        filters = {
-            key: group[key]
-            for key in (
-                "source_language_id",
-                "target_language_id",
-                "source",
-                "target",
-                "origin",
-                "context",
-                "status",
-                "legacy_from_file",
+        memories = get_duplicate_memory_candidate_memories(memory_objects, group)
+        for exact_group in get_exact_duplicate_memory_groups(memories):
+            compact_exact_memory_group(
+                exact_group, memory_objects, memory_scope_objects
             )
-        }
-        memories = list(
-            memory_objects.filter(**filters)
-            .order_by("id")
-            .select_related(
-                "legacy_project",
-                "legacy_user",
-            )
-        )
-        if len(memories) < 2:
-            continue
-        set_scope_source_project_ids(memories)
-        memory_scope_objects.bulk_create_for_memories(memories)
-        memories = list(
-            memory_objects.filter(id__in=[memory.id for memory in memories]).order_by(
-                "id"
-            )
-        )
-        scopes_by_memory = defaultdict(list)
-        for scope in memory_scope_objects.filter(
-            memory_id__in=[memory.id for memory in memories]
-        ):
-            scopes_by_memory[scope.memory_id].append(scope)
-        survivor = memories[0]
-        duplicate_ids = [memory.id for memory in memories[1:]]
-        scope_keys = {
-            get_memory_scope_key(scope)
-            for memory in memories
-            for scope in scopes_by_memory[memory.id]
-        }
-        scopes = []
-        for memory in memories[1:]:
-            scopes.extend(
-                [
-                    MemoryScope(
-                        memory=survivor,
-                        scope=scope.scope,
-                        project_id=scope.project_id,
-                        workspace_id=scope.workspace_id,
-                        source_project_id=scope.source_project_id,
-                        user_id=scope.user_id,
-                    )
-                    for scope in scopes_by_memory[memory.id]
-                ]
-            )
-        if scopes:
-            memory_scope_objects.bulk_create(scopes, ignore_conflicts=True)
-        if len(scope_keys) >= 2:
-            normalize_compacted_memory_owner(survivor)
-        memory_objects.filter(id__in=duplicate_ids).delete()
+
+    last_memory_id = duplicate_groups[-1]["first_id"]
+    set_memory_scope_compaction_completed(False, last_memory_id=last_memory_id)
 
     if len(duplicate_groups) == batch_size:
         compact_memory_scopes.delay(batch_size=batch_size)
+    elif has_duplicate_memory_groups():
+        set_memory_scope_compaction_completed(False, last_memory_id=0)
+        compact_memory_scopes.delay(batch_size=batch_size)
     else:
         set_memory_scope_compaction_completed(True)
+
+
+def get_memory_duplicate_identity(memory: Memory) -> MemoryDuplicateIdentity:
+    return (
+        memory.source_language_id,
+        memory.target_language_id,
+        memory.source,
+        memory.target,
+        memory.origin,
+        memory.context,
+        memory.status,
+        memory.legacy_from_file,
+    )
+
+
+def get_exact_duplicate_memory_groups(memories: list[Memory]) -> list[list[Memory]]:
+    exact_groups: defaultdict[MemoryDuplicateIdentity, list[Memory]] = defaultdict(list)
+    for memory in memories:
+        exact_groups[get_memory_duplicate_identity(memory)].append(memory)
+    return [group for group in exact_groups.values() if len(group) > 1]
+
+
+def compact_exact_memory_group(
+    memories: list[Memory], memory_objects, memory_scope_objects
+) -> None:
+    if len(memories) < 2:
+        return
+
+    set_scope_source_project_ids(memories)
+    memory_scope_objects.bulk_create_for_memories(memories)
+    memories = list(
+        memory_objects.filter(id__in=[memory.id for memory in memories]).order_by("id")
+    )
+    if len(memories) < 2:
+        return
+
+    scopes_by_memory = defaultdict(list)
+    for scope in memory_scope_objects.filter(
+        memory_id__in=[memory.id for memory in memories]
+    ):
+        scopes_by_memory[scope.memory_id].append(scope)
+    survivor = memories[0]
+    duplicate_ids = [memory.id for memory in memories[1:]]
+    scope_keys = {
+        get_memory_scope_key(scope)
+        for memory in memories
+        for scope in scopes_by_memory[memory.id]
+    }
+    scopes = []
+    for memory in memories[1:]:
+        scopes.extend(
+            [
+                MemoryScope(
+                    memory=survivor,
+                    scope=scope.scope,
+                    project_id=scope.project_id,
+                    workspace_id=scope.workspace_id,
+                    source_project_id=scope.source_project_id,
+                    user_id=scope.user_id,
+                )
+                for scope in scopes_by_memory[memory.id]
+            ]
+        )
+    if scopes:
+        memory_scope_objects.bulk_create(scopes, ignore_conflicts=True)
+    if len(scope_keys) >= 2:
+        normalize_compacted_memory_owner(survivor)
+    memory_objects.filter(id__in=duplicate_ids).delete()
 
 
 @app.task(trail=False)

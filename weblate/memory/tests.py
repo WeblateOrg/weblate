@@ -41,6 +41,7 @@ from weblate.memory.models import (
 from weblate.memory.tasks import (
     MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
     MEMORY_SCOPE_BACKFILL_STATE,
+    MEMORY_SCOPE_COMPACTION_BATCH_SIZE,
     MEMORY_SCOPE_COMPACTION_STALE_SECONDS,
     MEMORY_SCOPE_COMPACTION_STATE,
     MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
@@ -48,6 +49,7 @@ from weblate.memory.tasks import (
     backfill_memory_scopes,
     cleanup_orphaned_memory,
     compact_memory_scopes,
+    get_duplicate_memory_candidate_groups,
     get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
@@ -2020,6 +2022,172 @@ msgstr "Nazdar svete!\n"
             .count(),
             1,
         )
+
+    def test_compact_memory_scopes_advances_cursor_and_queues_next_batch(
+        self,
+    ) -> None:
+        MemoryScopeMigrationState.objects.all().delete()
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        first_values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Cursor compacted source 1",
+            "target": "Kompaktni kurzorovy cil 1",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        second_values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Cursor compacted source 2",
+            "target": "Kompaktni kurzorovy cil 2",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        first = Memory.objects.create(legacy_project=self.project, **first_values)
+        Memory.objects.create(legacy_shared=True, **first_values)
+        Memory.objects.create(legacy_project=self.project, **second_values)
+        Memory.objects.create(legacy_shared=True, **second_values)
+
+        with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
+            compact_memory_scopes(batch_size=1)
+
+        compact.assert_called_once_with(batch_size=1)
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertFalse(state.completed)
+        self.assertEqual(state.last_memory_id, first.id)
+        self.assertEqual(Memory.objects.filter(source=first.source).count(), 1)
+        self.assertEqual(
+            Memory.objects.filter(source=second_values["source"]).count(), 2
+        )
+
+    def test_compact_memory_scopes_keeps_different_exact_identities(self) -> None:
+        MemoryScopeMigrationState.objects.all().delete()
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Candidate-only compacted source",
+            "target": "Pouze kandidatni kompaktni cil",
+            "origin": self.component.full_slug,
+        }
+        context_entry = Memory.objects.create(
+            legacy_project=self.project,
+            context="button",
+            status=Memory.STATUS_ACTIVE,
+            **values,
+        )
+        status_entry = Memory.objects.create(
+            legacy_user=self.user,
+            context="button",
+            status=Memory.STATUS_PENDING,
+            **values,
+        )
+        other_context_entry = Memory.objects.create(
+            legacy_shared=True,
+            context="menu",
+            status=Memory.STATUS_ACTIVE,
+            **values,
+        )
+
+        compact_memory_scopes()
+
+        self.assertTrue(Memory.objects.filter(pk=context_entry.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=status_entry.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=other_context_entry.pk).exists())
+        self.assertEqual(
+            Memory.objects.filter(source="Candidate-only compacted source").count(),
+            3,
+        )
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
+
+    def test_duplicate_candidate_cursor_skips_processed_bucket(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        origin = "duplicate-candidate-cursor"
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "target": "Kandidatni kurzorovy cil",
+            "origin": origin,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        processed = Memory.objects.create(
+            source="Processed candidate source",
+            context="context 1",
+            legacy_project=self.project,
+            **values,
+        )
+        later = Memory.objects.create(
+            source="Later duplicate source",
+            context="same context",
+            legacy_project=self.project,
+            **values,
+        )
+        Memory.objects.create(
+            source="Processed candidate source",
+            context="context 2",
+            legacy_shared=True,
+            **values,
+        )
+        Memory.objects.create(
+            source="Later duplicate source",
+            context="same context",
+            legacy_shared=True,
+            **values,
+        )
+        Memory.objects.create(
+            source="Processed candidate source",
+            context="context 3",
+            legacy_user=self.user,
+            **values,
+        )
+
+        groups = get_duplicate_memory_candidate_groups(
+            Memory.objects.using("default").filter(origin=origin),
+            last_memory_id=processed.id,
+            batch_size=10,
+        )
+
+        self.assertEqual([group["first_id"] for group in groups], [later.id])
+
+    def test_compact_memory_scopes_resets_cursor_when_duplicates_remain(
+        self,
+    ) -> None:
+        MemoryScopeMigrationState.objects.all().delete()
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Reset compacted source",
+            "target": "Resetovany kompaktni cil",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        first = Memory.objects.create(legacy_project=self.project, **values)
+        Memory.objects.create(legacy_shared=True, **values)
+        MemoryScopeMigrationState.objects.create(
+            name=MEMORY_SCOPE_COMPACTION_STATE,
+            last_memory_id=first.id + 100,
+        )
+
+        with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
+            compact_memory_scopes()
+
+        compact.assert_called_once_with(batch_size=MEMORY_SCOPE_COMPACTION_BATCH_SIZE)
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertFalse(state.completed)
+        self.assertEqual(state.last_memory_id, 0)
 
     def test_compact_preserves_shared_source_projects(self) -> None:
         source_language = Language.objects.get(code="en")
