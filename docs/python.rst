@@ -33,7 +33,7 @@ package:
 :class:`Weblate`
 ----------------
 
-.. class:: Weblate(key='', url='http://127.0.0.1:8000/api/', config=None, retries=0, status_forcelist=None, allowed_methods=None, backoff_factor=0, timeout=300)
+.. class:: Weblate(key='', url='http://127.0.0.1:8000/api/', config=None, retries=0, status_forcelist=None, allowed_methods=None, backoff_factor=0, timeout=300, allow_insecure_http=False)
 
     :param key: User key
     :type key: str
@@ -51,8 +51,13 @@ package:
     :type backoff_factor: float
     :param timeout: HTTP request timeout in seconds.
     :type timeout: int
+    :param allow_insecure_http: Allow API keys over non-local ``http://`` URLs.
+    :type allow_insecure_http: bool
 
-    Access class to the API, define API key and optionally API URL.
+    Access class to the API, define API key and optionally API URL. When an API
+    key is configured, non-local ``http://`` URLs are rejected by default. Use
+    HTTPS, loopback HTTP for local development, or set ``allow_insecure_http``
+    only for legacy deployments where HTTPS is not available.
 
     .. method:: get(path)
 
@@ -121,6 +126,14 @@ package:
 
         Returns the resolved API URL and key and performs the same validation as
         :meth:`validate_url_key`.
+
+    .. method:: get_allow_insecure_http()
+
+        :returns: whether API keys may be sent over non-local ``http://`` URLs
+
+        Resolves the insecure HTTP opt-in from command-line configuration,
+        :envvar:`WLC_ALLOW_INSECURE_HTTP`, or the ``allow_insecure_http``
+        configuration option.
 
 
 :mod:`wlc.main`
