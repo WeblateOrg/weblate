@@ -154,15 +154,35 @@
               <td class="number">{{ memory_migration_status.processed|intcomma }} / {{ memory_migration_status.total|intcomma }}</td>
             </tr>
             <tr>
-              <td>{% translate "Duplicate groups pending consolidation" %}</td>
+              <td>{% translate "Candidate duplicate buckets" %}</td>
               <td class="number">{{ memory_migration_status.duplicate_groups|intcomma }}</td>
+            </tr>
+            <tr>
+              <td>{% translate "Duplicate candidate scan" %}</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar {% if memory_migration_status.compaction_completed %}progress-bar-success{% elif memory_migration_status.compaction_active %}progress-bar-warning{% endif %}"
+                       role="progressbar"
+                       aria-valuenow="{{ memory_migration_status.compaction_percent }}"
+                       aria-valuemin="0"
+                       aria-valuemax="100"
+                       aria-label="{% translate "Translation memory duplicate candidate scan" %}"
+                       style="width: {{ memory_migration_status.compaction_percent }}%">
+                    {{ memory_migration_status.compaction_percent }}%
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Candidate scan cursor" %}</td>
+              <td class="number">{{ memory_migration_status.compaction_last_memory_id|intcomma }} / {{ memory_migration_status.compaction_max_memory_id|intcomma }}</td>
             </tr>
             <tr>
               <td>{% translate "Last update" %}</td>
               <td>
                 {% if memory_migration_status.updated %}
                   {{ memory_migration_status.updated }}
-                {% elif memory_migration_status.backfill_completed %}
+                {% elif memory_migration_status.completed %}
                   {% translate "Not needed" %}
                 {% else %}
                   {% translate "Not yet started" %}
@@ -174,8 +194,8 @@
               <td>
                 {% if memory_migration_status.completed %}
                   {% translate "Completed" %}
-                {% elif memory_migration_status.backfill_completed %}
-                  {% translate "Consolidating duplicate entries" %}
+                {% elif memory_migration_status.compaction_active %}
+                  {% translate "Scanning duplicate candidates" %}
                 {% else %}
                   {% translate "Backfilling scopes" %}
                 {% endif %}
@@ -183,6 +203,11 @@
             </tr>
           </tbody>
         </table>
+        <div class="card-footer">
+          <p class="help-block">
+            {% translate "Candidate buckets can include entries that are not mergeable because context, status, or file ownership differs." %}
+          </p>
+        </div>
       </div>
 
       {% if disk_usage %}

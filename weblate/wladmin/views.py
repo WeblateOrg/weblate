@@ -16,7 +16,7 @@ from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Max, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -423,7 +423,11 @@ def get_memory_migration_status() -> dict[str, Any]:
         name=MEMORY_SCOPE_COMPACTION_STATE
     ).first()
     total = Memory.objects.count()
+    max_memory_id = Memory.objects.aggregate(max_id=Max("id"))["max_id"] or 0
     last_memory_id = state.last_memory_id if state is not None else 0
+    compaction_last_memory_id = (
+        compaction_state.last_memory_id if compaction_state is not None else 0
+    )
     needs_backfill = state is not None and not state.completed
     if state is None and total:
         needs_backfill = (
@@ -446,11 +450,29 @@ def get_memory_migration_status() -> dict[str, Any]:
         duplicate_groups = 0
     else:
         duplicate_groups = get_memory_duplicate_group_count(total)
+    compaction_completed = (
+        backfill_completed
+        and compaction_state is not None
+        and compaction_state.completed
+    )
+    compaction_active = backfill_completed and total > 0 and not compaction_completed
+    compaction_percent = (
+        min(round(compaction_last_memory_id * 100 / max_memory_id), 100)
+        if max_memory_id and compaction_active
+        else 100
+        if compaction_completed or not total
+        else 0
+    )
 
     return {
         "backfill_completed": backfill_completed,
         "backfill_percent": backfill_percent,
-        "completed": backfill_completed and duplicate_groups == 0,
+        "completed": backfill_completed and not compaction_active,
+        "compaction_active": compaction_active,
+        "compaction_completed": compaction_completed,
+        "compaction_last_memory_id": compaction_last_memory_id,
+        "compaction_max_memory_id": max_memory_id,
+        "compaction_percent": compaction_percent,
         "duplicate_groups": duplicate_groups,
         "last_memory_id": last_memory_id,
         "processed": processed,
