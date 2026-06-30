@@ -83,6 +83,26 @@ class SearchTestCase(TestCase):
         return sql, params
 
 
+class BooleanOperatorParserTest(TestCase):
+    def test_boolean_operators_are_case_insensitive(self) -> None:
+        parsers: tuple[Literal["unit", "screenshot", "user", "superuser"], ...] = (
+            "unit",
+            "screenshot",
+            "user",
+            "superuser",
+        )
+        for parser in parsers:
+            with self.subTest(parser=parser):
+                self.assertEqual(
+                    parse_query("alpha and not beta", parser=parser),
+                    parse_query("alpha AND NOT beta", parser=parser),
+                )
+                self.assertEqual(
+                    parse_query("alpha Or beta", parser=parser),
+                    parse_query("alpha OR beta", parser=parser),
+                )
+
+
 class UnitQueryParserTest(SearchTestCase):
     def test_simple(self) -> None:
         self.assert_query(

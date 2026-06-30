@@ -1,13 +1,115 @@
 Searching
 =========
 
+Search query syntax
++++++++++++++++++++
+
+Advanced searches support boolean operations, parentheses, field-specific
+lookup, field operators, exact match, date values, and regular expressions.
+The available fields depend on what kind of object is being searched.
+
+.. _search-boolean:
+
+Boolean operators
+-----------------
+
+You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to
+form complex queries. Boolean operators are case-insensitive, so ``and``,
+``And`` and ``AND`` are equivalent.
+
+The ``NOT`` operator has higher precedence than the ``AND`` operator; the
+``AND`` operator has higher precedence than the ``OR`` operator. You can add
+parenthesis to define a precedence of your own.
+
+Omitting the operator will make the query behave like the ``AND`` operator was
+used.
+
+.. list-table:: Equivalent expressions
+
+   * - ``(state:translated AND source:hello) OR source:bar``
+     - Parenthesized expression to clearly show the precedence.
+   * - ``state:translated AND source:hello OR source:bar``
+     - The ``AND`` operator has higher precedence than the ``OR`` operator.
+   * - ``state:translated source:hello OR source:bar``
+     - Query using an implicit ``AND`` operator.
+
+.. _search-operators:
+
+Field operators
+---------------
+
+You can specify operators, ranges or partial lookups for date or numeric
+searches:
+
+``state:>=translated``
+   State is ``translated`` or better (``approved``).
+``changed:[2019-03-01 to 2019-04-01]``
+   Changed between two given dates (inclusive).
+``position:[10 to 100]``
+   Strings with position between 10 and 100 (inclusive).
+
+.. _date-search:
+
+Searching for DATETIME fields
+-----------------------------
+
+Timestamp searching supports multiple ways to specify the value. It supports
+wide range of ways to specify date and time.
+
+* ISO 8601 formatted like :samp:`2025-09-08T12:16:55.336146+00:00`.
+* English written date and time like :samp:`July 4, 2013 PST`.
+* English adverbs of time like :samp:`yesterday`, :samp:`last month`, and :samp:`2 days ago`.
+
+Whenever only the date is specified, it is always used as inclusive and covers
+that date. Specify the exact timestamp if you need to override this behavior.
+
+Examples:
+
+``changed:>=2019-03-01``
+   Changed on 1st March 2019 and later (inclusive).
+``changed:>="2 weeks ago"``
+   Changed 2 weeks ago from the current date and time.
+``changed:>=yesterday``
+   Changed starting yesterday.
+``changed:2019``
+   Changed in the year 2019.
+``changed:[2019-03-01 to 2019-04-01]``
+   Changed between two given dates (inclusive).
+``changed:[20_days_ago to yesterday]``
+   Changed between two relative dates (inclusive).
+
+Exact operators
+---------------
+
+You can do an exact match query on different string fields using ``=``
+operator. For example, to search for all source strings exactly matching
+``hello world``, use: ``source:="hello world"``. For searching single word
+expressions, you can skip quotes. For example, to search for all source strings
+matching ``hello``, you can use: ``source:=hello``.
+
+Regular expressions
+-------------------
+
+Anywhere text is accepted you can also specify a regular expression as
+``r"regexp"``.
+
+For example, to search for all source strings which contain any digit between 2
+and 5, use ``source:r"[2-5]"``.
+
+.. hint::
+
+   The regular expressions are evaluated by the database backend and might use
+   different extensions, please consult the database documentation for
+   more details:
+
+   * `PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_
+
 .. _search-strings:
 
 Searching for strings
 +++++++++++++++++++++
 
-Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
-find the strings you want.
+String search supports the shared query syntax above.
 
 When no field is defined, the lookup happens on source, target, and context strings.
 
@@ -124,82 +226,6 @@ Fields
 ``labels_count:NUMBER``
    Filter by count of labels
 
-.. _search-boolean:
-
-Boolean operators
------------------
-
-You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to
-form complex queries.
-
-The ``NOT`` operator has higher precedence than the ``AND`` operator; the
-``AND`` operator has higher precedence than the ``OR`` operator. You can add
-parenthesis to define a precedence of your own.
-
-Omitting the operator will make the query behave like the ``AND`` operator was
-used.
-
-.. list-table:: Equivalent expressions
-
-   * - ``(state:translated AND source:hello) OR source:bar``
-     - Parenthesized expression to clearly show the precedence.
-   * - ``state:translated AND source:hello OR source:bar``
-     - The ``AND`` operator has higher precedence than the ``OR`` operator.
-   * - ``state:translated source:hello OR source:bar``
-     - Query using an implicit ``AND`` operator.
-
-.. _search-operators:
-
-Field operators
----------------
-
-You can specify operators, ranges or partial lookups for date or numeric searches:
-
-``state:>=translated``
-   State is ``translated`` or better (``approved``).
-``changed:[2019-03-01 to 2019-04-01]``
-   Changed between two given dates (inclusive).
-``position:[10 to 100]``
-   Strings with position between 10 and 100 (inclusive).
-
-.. _date-search:
-
-Searching for DATETIME fields
------------------------------
-
-Timestamp searching supports multiple ways to specify the value. It supports
-wide range of ways to specify date and time.
-
-* ISO 8601 formatted like :samp:`2025-09-08T12:16:55.336146+00:00`.
-* English written date and time like :samp:`July 4, 2013 PST`.
-* English adverbs of time like :samp:`yesterday`, :samp:`last month`, and :samp:`2 days ago`.
-
-Whenever only the date is specified, it is always used as inclusive and covers
-that date. Specify the exact timestamp if you need to override this behavior.
-
-Examples:
-
-``changed:>=2019-03-01``
-   Changed on 1st March 2019 and later (inclusive).
-``changed:>="2 weeks ago"``
-   Changed 2 weeks ago from the current date and time.
-``changed:>=yesterday``
-   Changed starting yesterday.
-``changed:2019``
-   Changed in the year 2019.
-``changed:[2019-03-01 to 2019-04-01]``
-   Changed between two given dates (inclusive).
-``changed:[20_days_ago to yesterday]``
-   Changed between two relative dates (inclusive).
-
-Exact operators
----------------
-
-You can do an exact match query on different string fields using ``=`` operator. For example, to
-search for all source strings exactly matching ``hello world``, use: ``source:="hello world"``.
-For searching single word expressions, you can skip quotes. For example, to search for all source strings
-matching ``hello``, you can use: ``source:=hello``.
-
 .. _search-changes:
 
 Searching for changes
@@ -214,22 +240,6 @@ For example, searching for strings marked for edit in 2018 can be entered as
 ``change_time:2018 AND change_action:marked-for-edit`` or
 ``change_time:2018 AND change_action:"Marked for edit"``.
 
-
-Regular expressions
--------------------
-
-Anywhere text is accepted you can also specify a regular expression as ``r"regexp"``.
-
-For example, to search for all source strings which contain any digit between 2
-and 5, use ``source:r"[2-5]"``.
-
-.. hint::
-
-   The regular expressions are evaluated by the database backend and might use
-   different extensions, please consult the database documentation for
-   more details:
-
-   * `PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_
 
 Predefined queries
 ------------------
