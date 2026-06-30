@@ -364,6 +364,12 @@ nitpick_ignore = [
     ("http:obj", "string"),
     ("http:obj", "timestamp"),
     ("http:obj", "file"),
+    # Autodoc renders these standard-library type annotations from wlc
+    # signatures, but intersphinx references for them are disabled here.
+    ("py:class", "Path"),
+    ("py:class", "builtins.list"),
+    ("py:class", "collections.abc.Iterator"),
+    ("py:class", "collections.abc.Mapping"),
 ]
 
 # Number of retries and timeout for linkcheck

@@ -113,6 +113,15 @@ wheels = [
 ]
 
 [[package]]
+name = "argcomplete"
+version = "3.6.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/38/61/0b9ae6399dd4a58d8c1b1dc5a27d6f2808023d0b5dd3104bb99f45a33ff6/argcomplete-3.6.3.tar.gz", hash = "sha256:62e8ed4fd6a45864acc8235409461b72c9a28ee785a2011cc5eb78318786c89c", size = 73754, upload-time = "2025-10-20T03:33:34.741Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/74/f5/9373290775639cb67a2fce7f629a1c240dce9f12fe927bc32b2736e16dfc/argcomplete-3.6.3-py3-none-any.whl", hash = "sha256:f5007b3a600ccac5d25bbce33089211dfd49eab4a7718da3f10e3082525a92ce", size = 43846, upload-time = "2025-10-20T03:33:33.021Z" },
+]
+
+[[package]]
 name = "argon2-cffi"
 version = "25.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -3993,6 +4002,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pyxdg"
+version = "0.28"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b0/25/7998cd2dec731acbd438fbf91bc619603fc5188de0a9a17699a781840452/pyxdg-0.28.tar.gz", hash = "sha256:3267bb3074e934df202af2ee0868575484108581e6f3cb006af1da35395e88b4", size = 77776, upload-time = "2022-06-05T11:35:01Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/8d/cf41b66a8110670e3ad03dab9b759704eeed07fa96e90fdc0357b2ba70e2/pyxdg-0.28-py2.py3-none-any.whl", hash = "sha256:bdaf595999a0178ecea4052b7f4195569c1ff4d344567bccdc12dfdf02d545ab", size = 49520, upload-time = "2022-06-05T11:34:58.832Z" },
+]
+
+[[package]]
 name = "pyyaml"
 version = "6.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -5730,6 +5748,7 @@ dev = [
     { name = "types-regex" },
     { name = "types-setuptools" },
     { name = "weblate-fonts" },
+    { name = "wlc" },
 ]
 docs = [
     { name = "furo" },
@@ -5744,6 +5763,7 @@ docs = [
     { name = "sphinxcontrib-httpdomain" },
     { name = "sphinxext-opengraph" },
     { name = "weblate-fonts" },
+    { name = "wlc" },
 ]
 fuzzing = [
     { name = "atheris" },
@@ -5969,6 +5989,7 @@ dev = [
     { name = "types-regex", specifier = "==2026.6.28.20260630" },
     { name = "types-setuptools", specifier = "==82.0.0.20260518" },
     { name = "weblate-fonts", specifier = "==2026.1" },
+    { name = "wlc", specifier = "==2.0.1" },
 ]
 docs = [
     { name = "furo", specifier = "==2025.12.19" },
@@ -5983,6 +6004,7 @@ docs = [
     { name = "sphinxcontrib-httpdomain", specifier = "==2.0.0" },
     { name = "sphinxext-opengraph", specifier = "==0.13.0" },
     { name = "weblate-fonts", specifier = "==2026.1" },
+    { name = "wlc", specifier = "==2.0.1" },
 ]
 fuzzing = [{ name = "atheris", specifier = "==3.1.0" }]
 lint = [
@@ -6087,6 +6109,22 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/38/be/726dab762b770d0417e505c58e26d661aac1ec0c831e483cda4817ca2417/wheel_filename-1.4.2.tar.gz", hash = "sha256:87891c465dcbb40b40394a906f01a93214bdd51aa5d25e3a9a59cae62bc298fd", size = 7911, upload-time = "2024-12-01T13:03:16.012Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b4/0f/6e97a3bc38cdde32e3ec49f8c0903fe3559ec9ec9db181782f0bb4417717/wheel_filename-1.4.2-py3-none-any.whl", hash = "sha256:3fa599046443d4ca830d06e3d180cd0a675d5871af0a68daa5623318bb4d17e3", size = 6195, upload-time = "2024-12-01T13:03:00.536Z" },
+]
+
+[[package]]
+name = "wlc"
+version = "2.0.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "argcomplete" },
+    { name = "python-dateutil" },
+    { name = "pyxdg" },
+    { name = "requests" },
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1d/3c/d187ba8fd78e5aa7bd1b301ab955c5c80cefe6f66f898db7e7ec72efa6a4/wlc-2.0.1.tar.gz", hash = "sha256:da0e930dc5f90172e358a4a52064ede89d5146e66fc660145fd9522820306276", size = 97181, upload-time = "2026-06-26T11:25:00.51Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/db/4d/214741145f39560dfcfd6bd9778b5413ca1bf4e60c06e654b16ce83885b9/wlc-2.0.1-py3-none-any.whl", hash = "sha256:18c0f70f32e7ffa6075fad7437cc2a8724dc808f8614c57781774888c88eb6f5", size = 38496, upload-time = "2026-06-26T11:24:59.247Z" },
 ]
 
 [[package]]
