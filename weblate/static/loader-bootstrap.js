@@ -776,12 +776,14 @@ onReady(() => {
   document.addEventListener("shown.bs.tab", adjustColspan);
 
   /* Color theme management */
-  const theme = document.querySelector("body").getAttribute("data-theme");
-  if (
-    (theme === "auto") &
-    (window.matchMedia("(prefers-color-scheme: dark)").matches === true)
-  ) {
-    document.documentElement.setAttribute("data-bs-theme", "dark");
+  const theme = document.documentElement.getAttribute("data-bs-theme");
+  if (!theme || theme === "auto") {
+    document.documentElement.setAttribute(
+      "data-bs-theme",
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light",
+    );
   }
 
   /* AJAX loading of tabs/pills */
