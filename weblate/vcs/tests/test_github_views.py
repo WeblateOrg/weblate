@@ -817,6 +817,30 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @responses.activate
+    def test_setup_rejects_malformed_installation_id(self):
+        install_url = self._start_install("/create/component/#github")
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {
+                "installation_id": "12345/access_tokens",
+                "state": state,
+                "code": "oauth-code",
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(GitHubInstallation.objects.exists())
+        self.assertEqual(len(responses.calls), 0)
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(
+            response_messages, ["GitHub did not return a valid installation ID."]
+        )
+
+    @responses.activate
     def test_setup_rejects_foreign_installation_id(self):
         # The attacker holds a valid signed state for their own workspace and a
         # valid OAuth code for *their* GitHub account, then swaps in another

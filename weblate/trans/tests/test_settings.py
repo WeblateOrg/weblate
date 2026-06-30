@@ -1066,6 +1066,28 @@ class SettingsTest(ViewTestCase):
             'Project moved from "Current workspace" to "Target workspace".',
         )
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_to_billing_workspace_updates_name(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        self.project.refresh_from_db()
+        current_workspace.add_owner(self.user)
+        billing = create_test_billing(self.user)
+        self.user.clear_cache()
+
+        response = self.client.post(
+            reverse("move", kwargs={"path": self.project.get_url_path()}),
+            {"workspace": str(billing.workspace_id)},
+            follow=True,
+        )
+
+        self.assertContains(response, "Project moved.")
+        self.project.refresh_from_db()
+        billing.workspace.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, billing.workspace_id)
+        self.assertEqual(billing.workspace.name, self.project.name)
+
     def test_project_move_requires_target_add_project(self) -> None:
         self.project.add_user(self.user, "Administration")
         current_workspace = Workspace.objects.create(name="Current workspace")

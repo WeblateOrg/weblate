@@ -3962,6 +3962,30 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(change.details["old_workspace_name"], "Current workspace")
         self.assertEqual(change.details["workspace_name"], "Target workspace")
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_patch_workspace_move_to_billing_workspace_updates_name(self) -> None:
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        current_workspace.add_owner(self.user)
+        billing = create_test_billing(self.user)
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_cache()
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"workspace": str(billing.workspace_id)},
+        )
+
+        self.assertEqual(response.data["workspace"], billing.workspace_id)
+        self.project.refresh_from_db()
+        billing.workspace.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, billing.workspace_id)
+        self.assertEqual(billing.workspace.name, self.project.name)
+
     def test_patch_workspace_requires_source_and_target_edit(self) -> None:
         current_workspace = Workspace.objects.create(name="Current workspace")
         target_workspace = Workspace.objects.create(name="Target workspace")

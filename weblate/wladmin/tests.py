@@ -998,10 +998,13 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse("manage-performance"))
 
         self.assertContains(response, "Backfilling scopes")
-        self.assertEqual(response.context["memory_migration_status"]["total"], 2)
-        self.assertEqual(
-            response.context["memory_migration_status"]["duplicate_groups"], 0
-        )
+        status = response.context["memory_migration_status"]
+        first_memory = Memory.objects.order_by("-id").first()
+        assert first_memory is not None
+        self.assertEqual(status["total"], first_memory.id)
+        self.assertEqual(status["processed"], memory.id)
+        self.assertIsNone(status["duplicate_groups"])
+        self.assertFalse(status["duplicate_groups_known"])
         self.assertFalse(response.context["memory_migration_status"]["completed"])
 
     def test_performance_memory_migration_status_without_state(self) -> None:
@@ -1021,10 +1024,14 @@ class AdminTest(ViewTestCase):
 
         response = self.client.get(reverse("manage-performance"))
 
-        self.assertContains(response, "Not needed")
-        self.assertContains(response, "Completed")
-        self.assertEqual(response.context["memory_migration_status"]["processed"], 1)
-        self.assertTrue(response.context["memory_migration_status"]["completed"])
+        self.assertContains(response, "Not yet started")
+        self.assertContains(response, "Scanning duplicate candidates")
+        status = response.context["memory_migration_status"]
+        self.assertEqual(status["processed"], memory.id)
+        self.assertFalse(status["completed"])
+        self.assertTrue(status["compaction_active"])
+        self.assertIsNone(status["duplicate_groups"])
+        self.assertFalse(status["duplicate_groups_known"])
 
     def test_performance_memory_migration_status_with_duplicates(self) -> None:
         Memory.objects.all().delete()
@@ -1049,11 +1056,105 @@ class AdminTest(ViewTestCase):
 
         response = self.client.get(reverse("manage-performance"))
 
-        self.assertContains(response, "Consolidating duplicate entries")
-        self.assertEqual(
-            response.context["memory_migration_status"]["duplicate_groups"], 1
+        self.assertContains(response, "Scanning duplicate candidates")
+        self.assertContains(response, "Candidate duplicate buckets")
+        self.assertContains(response, "Duplicate candidate scan")
+        self.assertContains(
+            response,
+            "Candidate buckets can include entries that are not mergeable",
+        )
+        self.assertContains(response, "Not calculated during active scan")
+        self.assertNotContains(response, "Duplicate groups pending consolidation")
+        self.assertIsNone(
+            response.context["memory_migration_status"]["duplicate_groups"]
+        )
+        self.assertFalse(
+            response.context["memory_migration_status"]["duplicate_groups_known"]
         )
         self.assertFalse(response.context["memory_migration_status"]["completed"])
+        self.assertEqual(
+            response.context["memory_migration_status"]["compaction_last_memory_id"], 0
+        )
+        self.assertEqual(
+            response.context["memory_migration_status"]["compaction_max_memory_id"],
+            Memory.objects.order_by("-id").values_list("id", flat=True).first(),
+        )
+        self.assertEqual(
+            response.context["memory_migration_status"]["compaction_percent"], 0
+        )
+
+    def test_performance_memory_migration_status_with_compaction_progress(
+        self,
+    ) -> None:
+        Memory.objects.all().delete()
+        MemoryScopeMigrationState.objects.all().delete()
+        first = Memory.objects.create(
+            source="Hello",
+            target="Ahoj",
+            origin="project/component",
+            source_language_id=1,
+            target_language_id=2,
+        )
+        Memory.objects.create(
+            source=first.source,
+            target=first.target,
+            origin=first.origin,
+            source_language_id=first.source_language_id,
+            target_language_id=first.target_language_id,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill", last_memory_id=first.id, completed=True
+        )
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-compaction", last_memory_id=first.id
+        )
+
+        response = self.client.get(reverse("manage-performance"))
+
+        status = response.context["memory_migration_status"]
+        self.assertContains(response, "Scanning duplicate candidates")
+        self.assertTrue(status["compaction_active"])
+        self.assertFalse(status["compaction_completed"])
+        self.assertEqual(status["compaction_last_memory_id"], first.id)
+        self.assertGreater(status["compaction_percent"], 0)
+        self.assertLessEqual(status["compaction_percent"], 100)
+
+    def test_performance_memory_migration_status_completed_compaction(self) -> None:
+        Memory.objects.all().delete()
+        MemoryScopeMigrationState.objects.all().delete()
+        memory = Memory.objects.create(
+            source="Hello",
+            target="Ahoj",
+            origin="project/component",
+            source_language_id=1,
+            target_language_id=2,
+        )
+        Memory.objects.create(
+            source=memory.source,
+            target=memory.target,
+            origin=memory.origin,
+            source_language_id=memory.source_language_id,
+            target_language_id=memory.target_language_id,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill", last_memory_id=memory.id, completed=True
+        )
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-compaction",
+            last_memory_id=memory.id,
+            completed=True,
+        )
+
+        response = self.client.get(reverse("manage-performance"))
+
+        status = response.context["memory_migration_status"]
+        self.assertContains(response, "Completed")
+        self.assertTrue(status["completed"])
+        self.assertTrue(status["compaction_completed"])
+        self.assertFalse(status["compaction_active"])
+        self.assertEqual(status["duplicate_groups"], 0)
+        self.assertTrue(status["duplicate_groups_known"])
+        self.assertEqual(status["compaction_percent"], 100)
 
     def test_performance_ordering(self) -> None:
         with (

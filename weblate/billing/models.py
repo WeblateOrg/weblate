@@ -409,11 +409,31 @@ class Billing(models.Model):
 
         if self.customer_name:
             name = self.customer_name
+        elif project_name := self.get_single_project_workspace_name(using=using):
+            name = project_name
         elif self.workspace_id:
             name = self.workspace.name
         else:
-            name = gettext("Billing")
+            name = "Billing"
         return name[:WORKSPACE_NAME_LENGTH]
+
+    def get_single_project_workspace_name(self, using=None) -> str | None:
+        if not self.workspace_id:
+            return None
+
+        project_objects = Project.objects
+        database = using or self._state.db
+        if database is not None:
+            project_objects = project_objects.db_manager(database)
+
+        project_names = list(
+            project_objects.filter(workspace_id=self.workspace_id)
+            .order_by("id")
+            .values_list("name", flat=True)[:2]
+        )
+        if len(project_names) != 1:
+            return None
+        return project_names[0]
 
     def update_workspace_name(self, using=None) -> None:
         # ruff: ignore[import-outside-top-level]
@@ -480,6 +500,7 @@ class Billing(models.Model):
             raise Project.DoesNotExist
         project.workspace = self.workspace
         project.billing_original_workspace_id = self.workspace_id
+        self.update_workspace_name()
         for key in ("billings", "paid", "is_trial", "is_libre_trial"):
             project.__dict__.pop(key, None)
         if previous_workspace_id and previous_workspace_id != self.workspace_id:
@@ -1262,6 +1283,11 @@ def update_project_bill(sender, instance, using=None, **kwargs) -> None:
         billings = instance.billing_set.all()
     for billing in billings:
         billing.check_limits()
+        if (
+            isinstance(instance, Project)
+            and billing.workspace_id == instance.workspace_id
+        ):
+            billing.update_workspace_name(using=using)
     if isinstance(instance, Project):
         instance.billing_original_workspace_id = instance.workspace_id
 

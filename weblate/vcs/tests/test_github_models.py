@@ -374,7 +374,7 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
-    def test_github_repository_auth_environment_malformed_installation_id_raises_repository_error(
+    def test_github_repository_auth_args_malformed_installation_id_raises_repository_error(
         self,
     ):
         _make_credentials()

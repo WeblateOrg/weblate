@@ -2,12 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import importlib
 import os.path
 from datetime import timedelta
 from io import StringIO
 from unittest.mock import patch
 from uuid import UUID
 
+from django.apps import apps
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
@@ -15,7 +17,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.test.utils import override_settings
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, translation
 from lxml import html
 
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
@@ -449,6 +451,14 @@ class BillingTest(BaseTestCase):
         self.assertIsInstance(billing.workspace_id, UUID)
         self.assertTrue(billing.workspace.name_managed)
 
+    def test_default_workspace_name_is_not_localized(self) -> None:
+        with translation.override("de"):
+            self.assertEqual(translation.gettext("Billing"), "Abrechnung")
+            billing = Billing.objects.create(plan=self.plan)
+
+        self.assertEqual(billing.workspace.name, "Billing")
+        self.assertTrue(billing.workspace.name_managed)
+
     def test_customer_name_used_for_workspace(self) -> None:
         billing = Billing.objects.create(
             plan=self.plan, customer_name="Acme Billing LLC"
@@ -456,6 +466,128 @@ class BillingTest(BaseTestCase):
 
         self.assertEqual(billing.workspace.name, "Acme Billing LLC")
         self.assertTrue(billing.workspace.name_managed)
+
+    def test_first_project_updates_managed_workspace_name(self) -> None:
+        project = Project.objects.create(
+            name="Hosted app",
+            slug="hosted-app",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+
+        self.billing.add_project(project)
+
+        self.billing.workspace.refresh_from_db()
+        self.assertEqual(self.billing.workspace.name, "Hosted app")
+        self.assertTrue(self.billing.workspace.name_managed)
+
+    def test_second_project_keeps_managed_workspace_name(self) -> None:
+        first = Project.objects.create(
+            name="Hosted app",
+            slug="hosted-app",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+        second = Project.objects.create(
+            name="Another hosted app",
+            slug="another-hosted-app",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+        self.billing.add_project(first)
+
+        self.billing.add_project(second)
+
+        self.billing.workspace.refresh_from_db()
+        self.assertEqual(self.billing.workspace.name, "Hosted app")
+
+    def test_first_project_preserves_customer_workspace_name(self) -> None:
+        billing = Billing.objects.create(
+            plan=self.plan, customer_name="Acme Billing LLC"
+        )
+        project = Project.objects.create(
+            name="Hosted app",
+            slug="hosted-app",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+
+        billing.add_project(project)
+
+        billing.workspace.refresh_from_db()
+        self.assertEqual(billing.workspace.name, "Acme Billing LLC")
+
+        billing.customer_name = ""
+        billing.save(update_fields=["customer_name"])
+
+        billing.workspace.refresh_from_db()
+        self.assertEqual(billing.workspace.name, project.name)
+
+    def test_first_project_preserves_manual_workspace_name(self) -> None:
+        self.billing.workspace.name = "Manual workspace name"
+        self.billing.workspace.save(update_fields=["name"])
+        project = Project.objects.create(
+            name="Hosted app",
+            slug="hosted-app",
+            access_control=Project.ACCESS_PROTECTED,
+        )
+
+        self.billing.add_project(project)
+
+        self.billing.workspace.refresh_from_db()
+        self.assertEqual(self.billing.workspace.name, "Manual workspace name")
+        self.assertFalse(self.billing.workspace.name_managed)
+
+    def test_managed_workspace_project_name_migration(self) -> None:
+        migration = importlib.import_module(
+            "weblate.billing.migrations.0013_managed_workspace_project_names"
+        )
+        repaired = Billing.objects.create(plan=self.plan)
+        Project.objects.create(
+            name="Migration repaired project",
+            slug="migration-repaired-project",
+            workspace=repaired.workspace,
+        )
+        Workspace.objects.filter(pk=repaired.workspace_id).update(name="Abrechnung")
+        manual = Billing.objects.create(plan=self.plan)
+        Project.objects.create(
+            name="Manual migration project",
+            slug="manual-migration-project",
+            workspace=manual.workspace,
+        )
+        Workspace.objects.filter(pk=manual.workspace_id).update(
+            name="Manual workspace name", name_managed=False
+        )
+        customer = Billing.objects.create(
+            plan=self.plan, customer_name="Acme Billing LLC"
+        )
+        Project.objects.create(
+            name="Customer migration project",
+            slug="customer-migration-project",
+            workspace=customer.workspace,
+        )
+        multiple = Billing.objects.create(plan=self.plan)
+        Project.objects.create(
+            name="First migration project",
+            slug="first-migration-project",
+            workspace=multiple.workspace,
+        )
+        Project.objects.create(
+            name="Second migration project",
+            slug="second-migration-project",
+            workspace=multiple.workspace,
+        )
+        Workspace.objects.filter(pk=multiple.workspace_id).update(name="Billing")
+        empty = Billing.objects.create(plan=self.plan)
+
+        migration.rename_single_project_billing_workspaces(apps, None)
+
+        repaired.workspace.refresh_from_db()
+        manual.workspace.refresh_from_db()
+        customer.workspace.refresh_from_db()
+        multiple.workspace.refresh_from_db()
+        empty.workspace.refresh_from_db()
+        self.assertEqual(repaired.workspace.name, "Migration repaired project")
+        self.assertEqual(manual.workspace.name, "Manual workspace name")
+        self.assertEqual(customer.workspace.name, "Acme Billing LLC")
+        self.assertEqual(multiple.workspace.name, "Billing")
+        self.assertEqual(empty.workspace.name, "Billing")
 
     def test_customer_name_updates_workspace_after_plan_change(self) -> None:
         paid_plan = Plan.objects.create(
@@ -1101,6 +1233,23 @@ class BillingTest(BaseTestCase):
         self.assertTrue(self.billing.in_limits)
         self.assertEqual(other.count_projects, 1)
         self.assertTrue(other.in_limits)
+        other.workspace.refresh_from_db()
+        self.assertEqual(other.workspace.name, project.name)
+
+    def test_project_workspace_change_preserves_previous_billing_name(self) -> None:
+        project = self.add_project()
+        remaining = self.add_project()
+        previous_name = self.billing.workspace.name
+        other = Billing.objects.create(plan=self.plan)
+
+        project.workspace = other.workspace
+        project.save(update_fields=["workspace"])
+
+        self.billing.workspace.refresh_from_db()
+        other.workspace.refresh_from_db()
+        self.assertEqual(self.billing.workspace.name, previous_name)
+        self.assertEqual(other.workspace.name, project.name)
+        self.assertEqual(self.billing.get_projects_queryset().get(), remaining)
 
     def test_project_billing_workspace_recording_ignores_unrelated_updates(
         self,
@@ -1272,6 +1421,26 @@ class BillingTest(BaseTestCase):
         target_custom_group = other.workspace.defined_groups.get(name=custom_group.name)
         self.assertEqual(set(target_custom_group.roles.all()), {custom_role})
         self.assertTrue(target_custom_group.user_set.filter(pk=custom_user.pk).exists())
+
+    def test_merge_updates_single_project_target_workspace_name(self) -> None:
+        other = Billing.objects.create(plan=self.billing.plan)
+        project = self.add_project()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.post(
+            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+            {"other": other.pk, "confirm": 1},
+        )
+
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": other.pk})
+        )
+        project.refresh_from_db()
+        other.workspace.refresh_from_db()
+        self.assertEqual(project.workspace_id, other.workspace_id)
+        self.assertEqual(other.workspace.name, project.name)
 
     def test_workspace_access_controls_billing_view(self) -> None:
         second_user = create_another_user()

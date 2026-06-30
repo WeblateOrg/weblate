@@ -270,6 +270,7 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             other.payment.setdefault("all", []).extend(billing.payment["all"])
         other.save()
         billing.get_projects_queryset().update(workspace=other.workspace)
+        other.update_workspace_name()
         merge_workspace_access(billing, other)
         billing.invoice_set.update(billing=other)
         billing.billinglog_set.update(billing=other)
