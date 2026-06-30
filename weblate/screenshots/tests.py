@@ -180,6 +180,22 @@ class ViewTest(FixtureTestCase):
             response,
             "Suggests source strings by recognizing text in this screenshot.",
         )
+        self.assertContains(response, 'id="screenshots-search-form"')
+        self.assertContains(
+            response,
+            f'data-href="{reverse("screenshot-js-search", kwargs={"pk": screenshot.pk})}"',
+        )
+        self.assertContains(response, '<textarea class="textarea form-control"')
+        self.assertContains(response, 'name="q"')
+        self.assertContains(response, 'aria-describedby="screenshots-search-help"')
+        self.assertContains(
+            response,
+            "Use query syntax; boolean operators like",
+        )
+        self.assertContains(response, "<code>AND</code>")
+        self.assertContains(
+            response, get_doc_url("user/search", "search-boolean", user=self.user)
+        )
         self.assertContains(response, 'id="screenshots-toggle-selection"')
 
     @override_settings(ALLOWED_ASSET_SIZE=1)

@@ -1061,10 +1061,25 @@ onReady(() => {
     }
   });
   /* Screenshot management */
-  for (const button of document.querySelectorAll(
-    "#screenshots-search, #screenshots-auto",
-  )) {
-    button.addEventListener("click", async function (event) {
+  async function screenshotLoadResults(url, form) {
+    screenshotStart();
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+      });
+      if (!response.ok) {
+        screenshotFailure();
+        return;
+      }
+      screenshotLoaded(await response.json());
+    } catch (_error) {
+      screenshotFailure();
+    }
+  }
+  for (const button of document.querySelectorAll("#screenshots-auto")) {
+    button.addEventListener("click", function (event) {
       event.preventDefault();
       const url = this.getAttribute("data-href");
       const form = this.closest("form");
@@ -1072,24 +1087,20 @@ onReady(() => {
         screenshotFailure();
         return;
       }
-
-      screenshotStart();
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          body: new FormData(form),
-          headers: { "X-Requested-With": "XMLHttpRequest" },
-        });
-        if (!response.ok) {
-          screenshotFailure();
-          return;
-        }
-        screenshotLoaded(await response.json());
-      } catch (_error) {
-        screenshotFailure();
-      }
+      void screenshotLoadResults(url, form);
     });
   }
+  document
+    .getElementById("screenshots-search-form")
+    ?.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const url = this.getAttribute("data-href");
+      if (url === null) {
+        screenshotFailure();
+        return;
+      }
+      void screenshotLoadResults(url, this);
+    });
   document.addEventListener("change", (event) => {
     if (
       event.target instanceof Element &&
