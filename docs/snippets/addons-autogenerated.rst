@@ -186,6 +186,10 @@ For formats containing additional content besides translation strings (such as
 :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the translation file
 in sync with the base file.
 
+For a one-time cleanup of a single translation file, use
+:guilabel:`Cleanup unused` in :ref:`repository-maintenance` on that translation
+instead of installing the add-on.
+
 .. seealso::
 
    :ref:`faq-cleanup`
@@ -433,22 +437,26 @@ Fedora Messaging
 .. versionadded:: 5.15
 
 :Add-on ID: ``weblate.fedora_messaging.publish``
-:Configuration: +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``amqp_host``    | AMQP broker host            | The AMQP broker to connect to.                                                                  |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``amqp_ssl``     | Use SSL for AMQP connection |                                                                                                 |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``ca_cert``      | CA certificates             | Bundle of PEM encoded CA certificates used to validate the certificate presented by the server. |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``client_key``   | Client SSL key              | PEM encoded client private SSL key.                                                             |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``client_cert``  | Client SSL certificates     | PEM encoded client SSL certificate.                                                             |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``event_filter`` | Change events to trigger    | Choose which change events should trigger this add-on.                                          |
-                |                  |                             | :ref:`addon-choice-event_filter`                                                                |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
-                | ``events``       | Selected change events      | :ref:`addon-choice-events`                                                                      |
-                +------------------+-----------------------------+-------------------------------------------------------------------------------------------------+
+:Configuration: +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``amqp_url``            | AMQP broker URL             | The AMQP broker URL to connect to.                                                                                                   |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``publish_timeout``     | Publish timeout             | How many seconds to wait for the broker delivery acknowledgement.                                                                    |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``connection_attempts`` | Connection attempts         | How many times to try connecting to the broker.                                                                                      |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``retry_delay``         | Retry delay                 | How many seconds to wait between connection attempts.                                                                                |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``ca_cert``             | CA certificate bundle (PEM) | Paste only PEM certificate blocks, each starting with "-----BEGIN CERTIFICATE-----" and ending with "-----END CERTIFICATE-----".     |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``client_key``          | Client private key (PEM)    | Paste a single unencrypted PEM private key block. Encrypted private keys are not supported.                                          |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``client_cert``         | Client certificate (PEM)    | Paste only the PEM certificate block starting with "-----BEGIN CERTIFICATE-----"; do not paste the output from "openssl x509 -text". |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``event_filter``        | Change events to trigger    | Choose which change events should trigger this add-on.                                                                               |
+                |                         |                             | :ref:`addon-choice-event_filter`                                                                                                     |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``events``              | Selected change events      | :ref:`addon-choice-events`                                                                                                           |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-event-change`
 

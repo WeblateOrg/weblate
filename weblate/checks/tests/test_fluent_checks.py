@@ -207,8 +207,12 @@ class FluentCheckTestBase(SimpleTestCase):
         highlights: list[tuple[int, str]],
     ) -> None:
         unit = self._create_target_unit(source, "", fluent_type)
+        actual_highlights = check.check_highlight(source, unit)
         self.assertEqual(
-            check.check_highlight(source, unit),
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in actual_highlights
+            ],
             [(start, start + len(string), string) for start, string in highlights],
             f"Highlights for {check.check_id} should match for {unit}",
         )
@@ -622,6 +626,18 @@ class FluentPartsCheckTest(FluentCheckTestBase):
 
 class TestFluentReferencesCheck(FluentCheckTestBase):
     check = FluentReferencesCheck()
+
+    def test_highlight_kind(self) -> None:
+        unit = self._create_target_unit(
+            "source { $num } and { message }",
+            "",
+            "Message",
+        )
+        highlights = self.check.check_highlight(unit.source, unit)
+        self.assertEqual(
+            [(highlight.text, highlight.kind) for highlight in highlights],
+            [("{ $num }", "grammar"), ("{ message }", "grammar")],
+        )
 
     def test_same_refs(self) -> None:
         for matching_sources in (

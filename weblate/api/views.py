@@ -25,7 +25,7 @@ from django.core.exceptions import (
     ValidationError as DjangoValidationError,
 )
 from django.db import DatabaseError, IntegrityError, transaction
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Prefetch, Q
 from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -71,6 +71,7 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    BackupSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
     BilingualUnitSerializer,
@@ -129,10 +130,11 @@ from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
-from weblate.memory.models import MEMORY_LOOKUP_LIMIT, Memory
+from weblate.memory.models import MEMORY_LOOKUP_LIMIT, Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.backups import list_backups
 from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
@@ -153,11 +155,20 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
-from weblate.trans.tasks import category_removal, component_removal, project_removal
+from weblate.trans.tasks import (
+    category_removal,
+    component_removal,
+    create_project_backup,
+    project_removal,
+)
 from weblate.trans.util import get_upload_error_message
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
-from weblate.utils.celery import get_task_metadata, get_task_progress
+from weblate.utils.celery import (
+    get_task_metadata,
+    get_task_progress,
+    store_task_metadata,
+)
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
@@ -520,7 +531,7 @@ class WeblateViewSet(DownloadViewSet):
             data["weblate_commit"] = component.get_last_commit()
             data["status"] = component.repository.status()
             changes = component.change_set.filter(
-                action__in=Change.ACTIONS_REPOSITORY
+                action__in=Change.ACTIONS_REPOSITORY_STATUS
             ).order_by("-id")
 
             if changes.exists() and changes[0].is_merge_failure():
@@ -625,7 +636,22 @@ class MemoryFilter(filters.FilterSet):
     source = filters.CharFilter(field_name="source", lookup_expr="substring")
     source_language = filters.CharFilter(field_name="source_language__code")
     target_language = filters.CharFilter(field_name="target_language__code")
-    project = filters.CharFilter(field_name="project__slug")
+    project = filters.CharFilter(method="filter_project")
+
+    def filter_project(self, queryset, _name, value):
+        user = self.request.user
+        project_scope = MemoryScope.objects.using(queryset.db).filter(
+            memory_id=OuterRef("pk"),
+            project__slug=value,
+            scope__in=(MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE),
+        )
+        if not (user.is_superuser or user.has_perm("memory.manage")):
+            project_scope = project_scope.filter(
+                project__in=user.allowed_projects.using(queryset.db)
+            )
+        return queryset.alias(has_project_scope=Exists(project_scope)).filter(
+            has_project_scope=True
+        )
 
     class Meta:
         model = Memory
@@ -1094,6 +1120,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "language_code",
+            gettext("Cannot change languages on a workspace team."),
+        )
 
         if "language_code" not in request.data:
             msg = "Missing language_code parameter"
@@ -1126,6 +1157,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     def delete_languages(self, request: Request, id, language_code):  # ruff: ignore[builtin-argument-shadowing]
         obj = self.get_object()
         self.perm_check(request, obj)
+        self.workspace_assignment_check(
+            obj,
+            "language_code",
+            gettext("Cannot change languages on a workspace team."),
+        )
 
         try:
             language = obj.languages.get(code=language_code)
@@ -1264,8 +1300,10 @@ class GroupViewSet(viewsets.ModelViewSet):
         field_name = "component_id"
         if obj.defining_project_id is not None:
             component_queryset = obj.defining_project.component_set
-        else:
+        elif request.user.has_perm("group.edit"):
             component_queryset = Component.objects
+        else:
+            component_queryset = Component.objects.filter_access(request.user)
         try:
             component = component_queryset.get(pk=int(request.data[field_name]))
         except (TypeError, ValueError) as error:
@@ -1730,7 +1768,7 @@ class ProjectViewSet(
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.change_set.prefetch().order()
+        queryset = Change.objects.last_changes(request.user, project=obj)
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
         page = Change.objects.preload_list(page)
@@ -2176,6 +2214,65 @@ class ProjectViewSet(
             ProjectLanguage(obj, language), request, announcement_id, **kwargs
         )
 
+    @extend_schema(
+        description="Return a list of project backups.",
+        methods=["get"],
+        responses=BackupSerializer(many=True),
+    )
+    @extend_schema(
+        description="Create a new project backup.",
+        methods=["post"],
+        responses={
+            HTTP_202_ACCEPTED: inline_serializer(
+                "CreateBackupResponse",
+                fields={
+                    "detail": serializers.CharField(),
+                    "task_url": serializers.URLField(),
+                },
+            )
+        },
+    )
+    @action(detail=True, methods=["get", "post"])
+    def backups(self, request: Request, **kwargs):
+        obj = self.get_object()
+        if not request.user.has_perm("project.edit", obj):
+            raise PermissionDenied
+
+        if request.method == "POST":
+            task = create_project_backup.delay(obj.pk, request.user.pk)
+            store_task_metadata(task.id, user_id=request.user.id)
+            return Response(
+                {
+                    "detail": "Backup scheduled. It will be available soon.",
+                    "task_url": reverse("api:task-detail", kwargs={"pk": task.id}),
+                },
+                status=HTTP_202_ACCEPTED,
+            )
+        return Response(
+            data=BackupSerializer(list_backups(obj.pk), many=True).data,
+            status=HTTP_200_OK,
+        )
+
+    @extend_schema(
+        description="Download a project backup.",
+        methods=["get"],
+        operation_id="api_projects_backups_download_retrieve",
+        parameters=[OpenApiParameter("backup", str, OpenApiParameter.PATH)],
+        responses=binary_download_response_schema("Project backup download."),
+    )
+    @action(detail=True, methods=["get"], url_path="backups/(?P<backup>[0-9]+\\.zip)")
+    def backups_download(self, request: Request, **kwargs):
+        obj = self.get_object()
+        if not request.user.has_perm("project.edit", obj):
+            self.permission_denied(request, "Can not download backup")
+
+        for backup in list_backups(obj.pk):
+            if backup["name"] != kwargs["backup"]:
+                continue
+            return self.download_file(backup["path"], "application/zip")
+        msg = "Project backup"
+        raise not_found_http404(msg)
+
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of translation components."),
@@ -2459,7 +2556,7 @@ class ComponentViewSet(
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.change_set.prefetch().order()
+        queryset = Change.objects.last_changes(request.user, component=obj)
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
         page = Change.objects.preload_list(page)
@@ -2607,34 +2704,61 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         return "default"
 
     def get_scoped_queryset(self, *, alias: str):
-        user = self.request.user
+        user = cast("User", self.request.user)
         if not user.is_authenticated:
             return Memory.objects.none()
 
         if user.is_superuser or user.has_perm("memory.manage"):
-            query = Q()
+            queryset = Memory.objects.using(alias).filter_scope(Q())
         else:
-            query = Q(user=user) | Q(shared=True) | Memory.objects.global_file_query()
-            query |= Q(project__in=user.allowed_projects.using(alias))
+            queryset = Memory.objects.using(alias).visible_to_user(user, alias=alias)
 
         # Reads can use a dedicated memory_db alias when configured, but delete
         # object resolution stays on default because memory_db is typically
         # deployed as a read-only replica.
-        return Memory.objects.using(alias).filter(query).order_by("id")
+        return queryset.prefetch_scopes().order_by("id")
 
     def get_queryset(self):
         alias = "default" if self.action == "destroy" else self.get_read_db_alias()
         return self.get_scoped_queryset(alias=alias)
 
-    def perm_check(self, request: Request, instance) -> None:
-        if not request.user.has_perm("memory.delete", instance):
-            self.permission_denied(request, "Can not delete memory entry")
+    def get_deletable_scope_ids(self, request: Request, instance: Memory) -> list[int]:
+        scopes = instance.get_scope_list()
+        user = cast("User", request.user)
+        if user.is_superuser or user.has_perm("memory.manage"):
+            return [scope.id for scope in scopes]
+
+        result = []
+        for scope in scopes:
+            if scope.user_id == user.id:
+                result.append(scope.id)
+            elif scope.project_id:
+                project = scope.project
+                if project is not None and user.has_perm("memory.delete", project):
+                    result.append(scope.id)
+            elif scope.workspace_id:
+                source_project = scope.source_project
+                if (
+                    source_project is not None
+                    and user.has_perm("memory.delete", source_project)
+                ) or (
+                    scope.workspace is not None
+                    and user.has_perm("memory.delete", scope.workspace)
+                ):
+                    result.append(scope.id)
+        return result
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a memory object."""
         instance = self.get_object()
-        self.perm_check(request, instance)
-        return super().destroy(request, *args, **kwargs)
+        scope_ids = self.get_deletable_scope_ids(request, instance)
+        if scope_ids:
+            Memory.objects.filter(pk=instance.pk).delete_scope(
+                Q(id__in=scope_ids), delete_legacy=False
+            )
+        else:
+            self.permission_denied(request, "Can not delete memory entry")
+        return Response(status=HTTP_204_NO_CONTENT)
 
     def get_language_from_query_param(self, param_name: str) -> Language:
         try:
@@ -2655,7 +2779,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
 
     def get_lookup_queryset(self):
         queryset = self.get_queryset()
-        user = self.request.user
+        user = cast("User", self.request.user)
         can_manage_all = user.is_superuser or user.has_perm("memory.manage")
 
         project_slug = self.request.query_params.get("project")
@@ -2670,6 +2794,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
                 project=project,
                 use_shared=project.use_shared_tm,
                 from_file=True,
+                use_workspace=True,
             )
 
         return queryset
@@ -3042,7 +3167,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.change_set.prefetch().order()
+        queryset = Change.objects.last_changes(request.user, translation=obj)
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
@@ -3652,14 +3777,16 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     request: Request  # type: ignore[assignment]
 
     def get_queryset(self):
+        component_queryset = Component.objects.select_related("project")
+        if not self.request.user.has_perm("componentlist.edit"):
+            component_queryset = component_queryset.filter_access(self.request.user)
         return (
-            ComponentList.objects.filter(
-                Q(components__project__in=self.request.user.allowed_projects)
-                | Q(components__isnull=True)
+            ComponentList.objects.filter_access(self.request.user)
+            .prefetch_related(
+                Prefetch("components", queryset=component_queryset),
+                "autocomponentlist_set",
             )
-            .prefetch_related("components__project", "autocomponentlist_set")
             .order_by("id")
-            .distinct()
         )
 
     def perm_check(self, request: Request) -> None:

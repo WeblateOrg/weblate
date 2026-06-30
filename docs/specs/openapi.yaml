@@ -2480,6 +2480,8 @@ paths:
             - 0
             - 1
             - 100
+            - 101
+            - 102
             - 13
             - 14
             - 15
@@ -2668,6 +2670,8 @@ paths:
           * `98` - Workspace created
           * `99` - Workspace setting changed
           * `100` - Project moved
+          * `101` - Remote repository updated
+          * `102` - Remote repository update failed
         explode: true
         style: form
       - in: query
@@ -14569,6 +14573,482 @@ paths:
           description: ''
         '204':
           description: No response body
+  /api/projects/{slug}/backups/:
+    get:
+      operationId: api_projects_backups_list
+      description: Return a list of project backups.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBackupList'
+          description: ''
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+    post:
+      operationId: api_projects_backups_create
+      description: Create a new project backup.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBackupResponse'
+          description: ''
+  /api/projects/{slug}/backups/{backup}/:
+    get:
+      operationId: api_projects_backups_download_retrieve
+      description: Download a project backup.
+      parameters:
+      - in: path
+        name: backup
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      tags:
+      - projects
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+          description: Project backup download.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/categories/:
     get:
       operationId: api_projects_categories_list
@@ -28420,6 +28900,8 @@ components:
       - 98
       - 99
       - 100
+      - 101
+      - 102
       type: integer
       description: |-
         * `0` - Resource updated
@@ -28517,6 +28999,8 @@ components:
         * `98` - Workspace created
         * `99` - Workspace setting changed
         * `100` - Project moved
+        * `101` - Remote repository updated
+        * `102` - Remote repository update failed
     Addon:
       type: object
       properties:
@@ -28572,13 +29056,7 @@ components:
         severity:
           allOf:
           - $ref: '#/components/schemas/SeverityEnum'
-          description: |-
-            Severity defines color used for the message.
-
-            * `info` - Info (light blue)
-            * `warning` - Warning (yellow)
-            * `danger` - Danger (red)
-            * `success` - Success (green)
+          description: Severity defines color used for the message.
         expiry:
           type:
           - string
@@ -28607,6 +29085,20 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    Backup:
+      type: object
+      properties:
+        name:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        size:
+          type: integer
+      required:
+      - name
+      - size
+      - timestamp
     BilingualSourceUnit:
       type: object
       properties:
@@ -28731,13 +29223,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -28747,23 +29233,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -28998,12 +29469,8 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommentScopeEnum'
           writeOnly: true
-          description: |-
-            Is your comment specific to this translation, or generic for all of them?
-
-            * `report` - report
-            * `global` - global
-            * `translation` - translation
+          description: Is your comment specific to this translation, or generic for
+            all of them?
         comment:
           type: string
           title: Comment text
@@ -29147,15 +29614,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -29292,13 +29753,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -29308,23 +29763,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -29347,14 +29787,7 @@ components:
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -29380,12 +29813,8 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
@@ -29826,6 +30255,17 @@ components:
       type: string
       description: "* `` - \n* `ignore` - ignore\n* `replace-translated` - replace-translated\n*
         `replace-approved` - replace-approved"
+    CreateBackupResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     DirectionEnum:
       enum:
       - ltr
@@ -30726,13 +31166,19 @@ components:
           type:
           - integer
           - 'null'
+          readOnly: true
         from_file:
           type: boolean
+          readOnly: true
         shared:
           type: boolean
+          readOnly: true
       required:
+      - from_file
       - id
       - origin
+      - project
+      - shared
       - source
       - source_language
       - target
@@ -31076,6 +31522,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Announcement'
+    PaginatedBackupList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Backup'
     PaginatedCategoryList:
       type: object
       required:
@@ -31576,13 +32043,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -31592,23 +32053,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -31739,15 +32185,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -31884,13 +32324,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -31900,23 +32334,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -31939,14 +32358,7 @@ components:
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -31972,12 +32384,8 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
@@ -32502,12 +32910,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommitPolicyEnum'
           title: Translation quality filter
-          description: |-
-            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
-
-            * `0` - Commit all translations regardless of quality
-            * `20` - Skip translations marked as needing editing
-            * `30` - Only include approved translations
+          description: Select which translations should be included when committing
+            changes. More restrictive options will skip translations with potential
+            quality issues.
           minimum: -2147483648
           maximum: 2147483647
         workspace:
@@ -32559,13 +32964,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -32574,23 +32973,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -32924,12 +33308,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/CommitPolicyEnum'
           title: Translation quality filter
-          description: |-
-            Select which translations should be included when committing changes. More restrictive options will skip translations with potential quality issues.
-
-            * `0` - Commit all translations regardless of quality
-            * `20` - Skip translations marked as needing editing
-            * `30` - Only include approved translations
+          description: Select which translations should be included when committing
+            changes. More restrictive options will skip translations with potential
+            quality issues.
           minimum: -2147483648
           maximum: 2147483647
         workspace:
@@ -32981,13 +33362,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -32996,23 +33371,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -33182,15 +33542,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/VcsEnum'
           title: Version control system
-          description: |-
-            Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.
-
-            * `gerrit` - Gerrit
-            * `git` - Git
-            * `git-force-push` - Git with force push
-            * `local` - No remote repository
-            * `mercurial` - Mercurial
-            * `subversion` - Subversion
+          description: Version control system to use to access your repository containing
+            translations. You can also choose additional integration with third party
+            providers to submit pull/merge requests.
         repo:
           type: string
           maxLength: 300
@@ -33327,13 +33681,7 @@ components:
           allOf:
           - $ref: '#/components/schemas/NewLangEnum'
           title: Adding new translation
-          description: |-
-            How to handle requests for creating new translations.
-
-            * `contact` - Contact maintainers
-            * `url` - Point to translation instructions URL
-            * `add` - Create new language file
-            * `none` - Disable adding new translations
+          description: How to handle requests for creating new translations.
         inherit_new_lang:
           type: boolean
           title: Inherit adding new translations
@@ -33343,23 +33691,8 @@ components:
           type: string
           readOnly: true
         language_code_style:
-          description: |-
-            Customize language code used to generate the filename for translations created by Weblate.
-
-            * `` - Default based on the file format
-            * `posix` - POSIX style using underscore as a separator
-            * `posix_lowercase` - POSIX style using underscore as a separator, lower cased
-            * `bcp` - BCP style using hyphen as a separator
-            * `posix_long` - POSIX style using underscore as a separator, including country code
-            * `posix_long_lowercase` - POSIX style using underscore as a separator, including country code, lower cased
-            * `bcp_long` - BCP style using hyphen as a separator, including country code
-            * `bcp_legacy` - BCP style using hyphen as a separator, legacy language codes
-            * `bcp_lower` - BCP style using hyphen as a separator, lower cased
-            * `android` - Android style
-            * `appstore` - Apple App Store metadata style
-            * `googleplay` - Google Play metadata style
-            * `linux` - Linux style
-            * `linux_lowercase` - Linux style, lower cased
+          description: Customize language code used to generate the filename for translations
+            created by Weblate.
           oneOf:
           - $ref: '#/components/schemas/LanguageCodeStyleEnum'
           - $ref: '#/components/schemas/BlankEnum'
@@ -33382,14 +33715,7 @@ components:
         priority:
           allOf:
           - $ref: '#/components/schemas/PriorityEnum'
-          description: |-
-            Components with higher priority are offered first to translators.
-
-            * `60` - Very high
-            * `80` - High
-            * `100` - Medium
-            * `120` - Low
-            * `140` - Very low
+          description: Components with higher priority are offered first to translators.
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
@@ -33415,12 +33741,8 @@ components:
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
-          description: |-
-            Define whether Weblate should merge the upstream repository or rebase changes onto it.
-
-            * `merge` - Merge
-            * `rebase` - Rebase
-            * `merge_noff` - Merge without fast-forward
+          description: Define whether Weblate should merge the upstream repository
+            or rebase changes onto it.
         commit_message:
           type: string
           title: Commit message when translating
@@ -34470,19 +34792,35 @@ components:
       - uploaded
     VcsEnum:
       enum:
+      - azure_devops
+      - bitbucketcloud
+      - bitbucketserver
       - gerrit
       - git
       - git-force-push
+      - gitea
+      - github
+      - github-app
+      - gitlab
       - local
       - mercurial
+      - pagure
       - subversion
       type: string
       description: |-
+        * `azure_devops` - Azure DevOps pull request
+        * `bitbucketcloud` - Bitbucket Cloud merge request
+        * `bitbucketserver` - Bitbucket Data Center pull request
         * `gerrit` - Gerrit
         * `git` - Git
         * `git-force-push` - Git with force push
+        * `gitea` - Gitea pull request
+        * `github` - GitHub pull request
+        * `github-app` - GitHub (via Weblate GitHub app)
+        * `gitlab` - GitLab merge request
         * `local` - No remote repository
         * `mercurial` - Mercurial
+        * `pagure` - Pagure merge request
         * `subversion` - Subversion
     UserGroupDeleteRequest:
       type: object

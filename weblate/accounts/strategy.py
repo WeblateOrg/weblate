@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from importlib import import_module
 from urllib.parse import urlparse
 
 from django.conf import settings
@@ -15,18 +14,7 @@ from weblate.accounts.flows import PASSWORD_RESET_EMAIL_SESSION
 from weblate.utils.site import get_site_url
 
 
-def create_session(*args):
-    engine = import_module(settings.SESSION_ENGINE)
-    return engine.SessionStore(*args)
-
-
 class WeblateStrategy(DjangoStrategy):
-    def __init__(self, storage, request=None, tpl=None) -> None:
-        """Restore session data based on passed ID."""
-        super().__init__(storage, request, tpl)
-        if request and "verification_code" in request.GET and "id" in request.GET:
-            self.session = create_session(request.GET["id"])
-
     @cached_property
     def _site_url(self):
         return urlparse(get_site_url())
@@ -48,9 +36,7 @@ class WeblateStrategy(DjangoStrategy):
             and "partial_token" not in data
         ):
             data["email"] = self.session[PASSWORD_RESET_EMAIL_SESSION]
-        # This is mostly fix for lack of next validation in Python Social Auth
-        # - https://github.com/python-social-auth/social-core/pull/92
-        # - https://github.com/python-social-auth/social-core/issues/62
+        # Weblate defaults invalid return URLs to the account page.
         if "next" in data and not url_has_allowed_host_and_scheme(
             data["next"], allowed_hosts=None
         ):
@@ -62,15 +48,6 @@ class WeblateStrategy(DjangoStrategy):
             # ruff: ignore[private-member-access]
             self.request._current_scheme_host = get_site_url()
         return super().build_absolute_uri(path)
-
-    def clean_partial_pipeline(self, token) -> None:
-        # The cleanup somehow breaks our partial pipelines, simply skip
-        # it for now
-        # See https://github.com/python-social-auth/social-core/issues/287
-        return
-
-    def really_clean_partial_pipeline(self, token) -> None:
-        super().clean_partial_pipeline(token)
 
     def request_is_secure(self):
         return settings.ENABLE_HTTPS

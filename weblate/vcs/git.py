@@ -60,6 +60,7 @@ from weblate.vcs.base import (
     Repository,
     RepositoryCommandError,
     RepositoryError,
+    RepositoryRecoveryEvent,
 )
 from weblate.vcs.gpg import get_gpg_sign_key
 
@@ -88,6 +89,7 @@ RECOVERABLE_ABORT_LOCKS = frozenset(
         "MERGE_HEAD.lock",
         "ORIG_HEAD.lock",
         "REBASE_HEAD.lock",
+        "REVERT_HEAD.lock",
     }
 )
 
@@ -104,6 +106,10 @@ class GitCredentials(TypedDict):
     workspace: NotRequired[str]
     organization: NotRequired[str]
     workItemIds: NotRequired[list[str]]
+    # Set on GitHub-App-resolved credentials. Signals that the token has
+    # write access to the source repo directly, so the fork workflow should
+    # be skipped (Apps can't fork anyway).
+    github_app: NotRequired[bool]
 
 
 class GitAPIRequestError(RepositoryError):
@@ -125,6 +131,8 @@ class GitRepository(Repository):
     """Repository implementation for Git."""
 
     metadata_dir_name: ClassVar[str] = ".git"
+    supports_remote_compatibility_validation: ClassVar[bool] = True
+    remote_compatibility_deepen: ClassVar[int] = 50
 
     RESERVED_BRANCH_NAMES: ClassVar[frozenset[str]] = frozenset(
         {
@@ -291,30 +299,87 @@ class GitRepository(Repository):
 
     def check_config(self) -> None:
         """Check VCS configuration."""
-        self.config_update(("push", "default", "current"))
-
-    def recover_lock_session(self) -> None:
-        super().recover_lock_session()
-        if not self.is_valid():
-            return
-        current_branch = self.get_current_branch()
-        merge_in_progress = self.has_git_file("MERGE_HEAD")
-        rebase_in_progress = self.has_git_file("rebase-apply") or self.has_git_file(
-            "rebase-merge"
+        self.config_update(
+            ("push", "default", "current"),
+            ("maintenance", "auto", "0"),
+            ("gc", "auto", "0"),
         )
-        if merge_in_progress:
-            with suppress(RepositoryCommandError):
+
+    def get_interrupted_operation(self) -> str | None:
+        if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
+            return "rebase"
+        if self.has_git_file("MERGE_HEAD"):
+            return "merge"
+        if self.has_git_file("CHERRY_PICK_HEAD"):
+            return "cherry-pick"
+        if self.has_git_file("REVERT_HEAD"):
+            return "revert"
+        return None
+
+    def ensure_no_interrupted_operation(self) -> None:
+        operation = self.get_interrupted_operation()
+        if operation is not None:
+            msg = gettext(
+                "Repository has an interrupted Git %(operation)s operation."
+            ) % {"operation": operation}
+            raise RepositoryError(1, msg)
+
+    def abort_interrupted_operation(self, operation: str) -> None:
+        match operation:
+            case "merge":
                 self.merge(abort=True)
-        if rebase_in_progress:
-            with suppress(RepositoryCommandError):
+            case "rebase":
                 self.rebase(abort=True)
+            case "cherry-pick":
+                self.execute_abort(["cherry-pick", "--abort"])
+                if self.needs_commit():
+                    self.execute(["reset", "--hard"], remote_op="none")
+            case "revert":
+                self.execute_abort(["revert", "--abort"])
+                if self.needs_commit():
+                    self.execute(["reset", "--hard"], remote_op="none")
+            case _:
+                msg = gettext(
+                    "Unsupported interrupted Git operation: %(operation)s"
+                ) % {"operation": operation}
+                raise RepositoryError(1, msg)
+        self.clean_revision_cache()
+
+    def recover_lock_session(self) -> list[RepositoryRecoveryEvent]:
+        recovery_events = super().recover_lock_session()
+        if not self.is_valid():
+            return recovery_events
+        current_branch = self.get_current_branch()
+        while operation := self.get_interrupted_operation():
+            self.abort_interrupted_operation(operation)
+            if self.get_interrupted_operation() is not None:
+                msg = gettext(
+                    "Could not recover interrupted Git %(operation)s operation."
+                ) % {"operation": operation}
+                raise RepositoryError(1, msg)
+            recovery_events.append(
+                RepositoryRecoveryEvent(
+                    operation=operation,
+                    details={"branch": current_branch},
+                )
+            )
         if current_branch not in TEMPORARY_BRANCHES:
-            return
+            return recovery_events
         self.execute(["reset", "--hard"], remote_op="none")
         self.checkout_with_temp_cleanup(self.branch)
         with suppress(RepositoryCommandError):
             self.execute(["branch", "-D", current_branch], remote_op="none")
         self.clean_revision_cache()
+        recovery_events.append(
+            RepositoryRecoveryEvent(
+                operation="temporary-branch",
+                details={
+                    "branch": current_branch,
+                    "target_branch": self.branch,
+                },
+            )
+        )
+        return recovery_events
 
     def get_current_branch(self) -> str:
         return self.execute(
@@ -338,8 +403,7 @@ class GitRepository(Repository):
             yield "--depth"
             yield str(settings.VCS_CLONE_DEPTH)
 
-    @staticmethod
-    def _get_auth_args(repo: str) -> Iterator[str]:
+    def _get_auth_args(self, repo: str) -> Iterator[str]:
         if repo.startswith("https://"):
             parsed = urlparse(repo)
             if parsed.password:
@@ -352,15 +416,130 @@ class GitRepository(Repository):
             return list(self._get_auth_args(self.component.repo))
         return []
 
-    @classmethod
-    def _clone(cls, source: str, target: str, branch: str) -> None:
-        """Clone repository."""
-        branch = cls.validate_branch_name(branch)
-        cls._popen(
+    def revision_exists(self, revision: str) -> bool:
+        try:
+            self.execute(
+                ["rev-parse", "--verify", "--quiet", f"{revision}^{{commit}}"],
+                remote_op="none",
+                needs_lock=False,
+                merge_err=False,
+            )
+        except RepositoryError:
+            return False
+        return True
+
+    def has_common_history(self, revision: str, other_revision: str) -> bool:
+        if not self.revision_exists(other_revision):
+            return False
+        try:
+            return bool(
+                self.execute(
+                    ["merge-base", revision, other_revision],
+                    remote_op="none",
+                    needs_lock=False,
+                    merge_err=False,
+                ).strip()
+            )
+        except RepositoryError:
+            return False
+
+    def is_shallow(self) -> bool:
+        return self.has_git_file("shallow")
+
+    def deepen_remote_compatibility_history(self, branch: str) -> None:
+        """Fetch bounded history for the currently configured remote branch."""
+        remote_url = self.get_config("remote.origin.url")
+        self.validate_pull_url(remote_url)
+        refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
+        self.execute(
             [
-                *cls._get_auth_args(source),
+                *self._get_auth_args(remote_url),
+                "fetch",
+                f"--deepen={self.remote_compatibility_deepen}",
+                "--no-tags",
+                "--",
+                remote_url,
+                refspec,
+            ],
+            remote_op="none",
+            merge_err=False,
+        )
+        self.clean_revision_cache()
+
+    def get_compatibility_revisions(self, branch: str) -> Iterator[str]:
+        yield "HEAD"
+        yield self.get_remote_branch_name(branch)
+        if self.component is None:
+            return
+        for revision in (self.component.local_revision, self.component.remote_revision):
+            if revision:
+                yield revision
+
+    def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
+        """Validate that a remote branch shares history with this checkout."""
+        self.validate_pull_url(pull_url)
+        branch = self.validate_branch_name(branch)
+        validation_ref = f"refs/weblate/validation/{branch}"
+        refspec = f"+refs/heads/{branch}:{validation_ref}"
+
+        with self.lock:
+            try:
+                self.execute(
+                    [
+                        *self._get_auth_args(pull_url),
+                        "fetch",
+                        "--no-tags",
+                        "--",
+                        pull_url,
+                        refspec,
+                    ],
+                    remote_op="none",
+                    merge_err=False,
+                )
+                if any(
+                    self.has_common_history(validation_ref, revision)
+                    for revision in self.get_compatibility_revisions(branch)
+                ):
+                    return
+                if self.is_shallow():
+                    with suppress(RepositoryError):
+                        self.deepen_remote_compatibility_history(branch)
+                    if any(
+                        self.has_common_history(validation_ref, revision)
+                        for revision in self.get_compatibility_revisions(branch)
+                    ):
+                        return
+                    if self.is_shallow():
+                        raise RepositoryError(
+                            0,
+                            gettext(
+                                "Remote branch could not be verified against the "
+                                "shallow existing repository."
+                            ),
+                        )
+            finally:
+                with suppress(RepositoryError):
+                    self.execute(
+                        ["update-ref", "-d", validation_ref],
+                        remote_op="none",
+                        merge_err=False,
+                    )
+
+        raise RepositoryError(
+            0,
+            gettext(
+                "Remote branch does not share common history with the existing repository."
+            ),
+        )
+
+    def _clone(self, source: str, target: str, branch: str) -> None:
+        """Clone repository."""
+        branch = self.validate_branch_name(branch)
+        self._popen(
+            [
+                *self._get_auth_args(source),
                 "clone",
-                *cls.get_depth(),
+                *self.get_depth(),
                 "--branch",
                 branch,
                 "--",
@@ -382,12 +561,37 @@ class GitRepository(Repository):
         """Configure committer name."""
         self.config_update(("user", "name", name), ("user", "email", mail))
 
+    def clear_interrupted_operation(self) -> None:
+        """Clear interrupted Git operation metadata before a hard reset."""
+        for directory in ("rebase-apply", "rebase-merge", "sequencer"):
+            remove_tree(self.get_git_file_path(directory), ignore_errors=True)
+        for filename in (
+            "AUTO_MERGE",
+            "CHERRY_PICK_HEAD",
+            "MERGE_HEAD",
+            "MERGE_MODE",
+            "MERGE_MSG",
+            "REBASE_HEAD",
+            "REVERT_HEAD",
+        ):
+            with suppress(OSError):
+                self.get_git_file_path(filename).unlink()
+
     def reset(self) -> None:
         """Reset working copy to match remote branch."""
+        self.clear_interrupted_operation()
+        current_branch = self.get_current_branch()
+        local_branch = self.get_local_branch_name()
+        if current_branch != local_branch:
+            self.execute(["checkout", "--force", local_branch], remote_op="none")
+            if current_branch in TEMPORARY_BRANCHES:
+                with suppress(RepositoryCommandError):
+                    self.execute(["branch", "-D", current_branch], remote_op="none")
         self.execute(
             ["reset", "--hard", self.get_remote_branch_name()],
             remote_op="none",
         )
+        self.clear_interrupted_operation()
         self.clean_revision_cache()
 
     def reset_to_revision(self, revision: str) -> None:
@@ -435,9 +639,14 @@ class GitRepository(Repository):
         except RepositoryCommandError as error:
             if not self.cleanup_interrupted_abort_lock(error.args[0]):
                 raise
-            self.execute(args, remote_op="none")
+            if self.get_interrupted_operation() == args[0]:
+                self.execute(args, remote_op="none")
         else:
-            self.cleanup_interrupted_abort_lock(output)
+            if (
+                self.cleanup_interrupted_abort_lock(output)
+                and self.get_interrupted_operation() == args[0]
+            ):
+                self.execute(args, remote_op="none")
 
     def rebase(self, abort=False) -> None:
         """Rebase working copy on top of remote branch."""
@@ -757,6 +966,9 @@ class GitRepository(Repository):
                 # Default committer
                 ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
                 ("user", "name", settings.DEFAULT_COMMITER_NAME),
+                # Weblate schedules repository maintenance under its own lock.
+                ("maintenance", "auto", "0"),
+                ("gc", "auto", "0"),
             )
         )
         # Merge driver
@@ -863,7 +1075,10 @@ class GitRepository(Repository):
             if branch
             else current_branch
         )
-        self.execute([*self._cmd_push, "origin", refspec], remote_op="push")
+        self.execute(
+            [*self.get_auth_args(), *self._cmd_push, "origin", refspec],
+            remote_op="push",
+        )
 
     def unshallow(self) -> None:
         self.execute([*self.get_auth_args(), "fetch", "--unshallow"], remote_op="pull")
@@ -1003,6 +1218,7 @@ class GitWithGerritRepository(GitRepository):
 class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
     default_branch: ClassVar[str] = "master"
+    supports_remote_compatibility_validation: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will commit changes to the Subversion repository."
     )
@@ -1111,19 +1327,17 @@ class SubversionRepository(GitRepository):
             self.execute(["svn", "fetch", "--parent"], remote_op="pull")
         self.clean_revision_cache()
 
-    @classmethod
     def _clone(
-        cls,
+        self,
         source: str,
         target: str,
-        # ruff: ignore[unused-class-method-argument]
         branch: str,
     ) -> None:
         """Clone svn repository with git-svn."""
-        args, revision = cls.get_remote_args(source, target)
+        args, revision = self.get_remote_args(source, target)
         if revision:
             args.insert(0, revision)
-        cls._popen(["svn", "clone", *args])
+        self._popen(["svn", "clone", *args])
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
@@ -1143,7 +1357,7 @@ class SubversionRepository(GitRepository):
         Git-svn does not support merge.
         """
         if abort:
-            self.execute(["rebase", "--abort"], remote_op="none")
+            self.execute_abort(["rebase", "--abort"])
         else:
             self.execute(["svn", "rebase"], remote_op="pull")
         self.clean_revision_cache()
@@ -1267,7 +1481,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         # as we're expecting there will be an additional merge
         # commit created from the merge request.
         if abort:
-            self.execute(["merge", "--abort"], remote_op="none")
+            self.execute_abort(["merge", "--abort"])
             # Needed for compatibility with original merge code
             self.execute(["checkout", current_branch], remote_op="none")
         else:
@@ -1383,12 +1597,13 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         # Credentials from URL
         push_scheme = scheme
-        if not username or not password:
+        using_configured_credentials = not username or not password
+        if using_configured_credentials:
             push_scheme = "ssh"
             username = credentials["username"]
             password = credentials["token"]
 
-        return {
+        result: GitCredentials = {
             "url": self.format_url(scheme, hostname, owner, slug),
             "owner": owner,
             "slug": slug,
@@ -1398,6 +1613,9 @@ class GitMergeRequestBase(GitForcePushRepository):
             "scheme": scheme,
             "push_scheme": push_scheme,
         }
+        if using_configured_credentials and credentials.get("github_app"):
+            result["github_app"] = True
+        return result
 
     def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
         configuration = self.get_credentials_configuration()
@@ -2484,18 +2702,15 @@ class LocalRepository(GitRepository):
         cls._popen(["add", "README.md"], cwd=path)
         cls._popen(["commit", "--message", "Repository created by Weblate"], cwd=path)
 
-    @classmethod
     def _clone(
-        cls,
-        # ruff: ignore[unused-class-method-argument]
+        self,
         source: str,
         target: str,
-        # ruff: ignore[unused-class-method-argument]
         branch: str,
     ) -> None:
         if not os.path.exists(target):
             os.makedirs(target)
-        cls.create_blank_repository(target)
+        self.create_blank_repository(target)
 
     def clone_from(self, source: str) -> None:
         """Create the local repository without validating an upstream URL."""
@@ -2513,7 +2728,7 @@ class LocalRepository(GitRepository):
             # Create empty repo
             if os.path.exists(target):
                 remove_tree(target)
-            cls._clone("local:", target, cls.default_branch)
+            repo.clone_from("local:")
             # Populate files
             success = False
             try:

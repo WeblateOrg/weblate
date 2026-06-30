@@ -58,6 +58,22 @@ Workspace name
 
 Verbose workspace name used in workspace listings and project organization.
 
+.. _workspace-use-workspace-tm:
+
+Use workspace translation memory
+++++++++++++++++++++++++++++++++
+
+Whether projects in this workspace can use translation memory shared within the
+workspace. Individual projects also have to enable workspace translation memory.
+
+.. _workspace-contribute-workspace-tm:
+
+Contribute to workspace translation memory
+++++++++++++++++++++++++++++++++++++++++++
+
+Whether projects in this workspace can contribute translations to the workspace
+translation memory. Individual projects also have to enable contribution.
+
 .. _workspace-license:
 
 Translation license

@@ -27,14 +27,35 @@ def sorter(check: BaseCheck):
         pos = 0
     else:
         pos = 2
-    return (check.source, pos, check.name.lower())
+    return (check.source and not check.target, pos, check.name.lower())
 
 
 def escape(text: StrOrPromise):
     return text.replace("\\", "\\\\")
 
 
+def get_scope(check: BaseCheck) -> str | None:
+    if check.glossary:
+        return "glossary strings"
+    if check.source and check.target:
+        if check.ignore_untranslated:
+            return "source and translated strings"
+        return "all strings"
+    if check.target:
+        if check.ignore_untranslated:
+            return "translated strings"
+        return "all strings"
+    if check.source:
+        return "source strings"
+    return None
+
+
 EXTRA_ENABLE_FLAG_DESCRIPTION = {
+    "accelerator": (
+        "Specify the single punctuation accelerator marker, for example "
+        "``accelerator:&``, "
+        "``accelerator:_``, or ``accelerator:~``."
+    ),
     "rst-text": "Treat a text as an reStructuredText document, affects :ref:`check-same`.",
     "bbcode-text": "Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:`check-same`.",
     "md-text": "Treat a text as a Markdown document, and provide Markdown syntax highlighting on the translation text area.",
@@ -72,15 +93,8 @@ class Command(DocGeneratorCommand):
         if version_lines := check.get_versions_rst_lines():
             lines.extend(version_lines)
         lines.extend(("", f":Summary: {escape(check.description)}"))
-        if check.glossary:
-            lines.append(":Scope: glossary strings")
-        elif check.target:
-            if check.ignore_untranslated:
-                lines.append(":Scope: translated strings")
-            else:
-                lines.append(":Scope: all strings")
-        elif check.source:
-            lines.append(":Scope: source strings")
+        if scope := get_scope(check):
+            lines.append(f":Scope: {scope}")
         lines.extend(
             (
                 f":Check class: ``{check_class.__module__}.{check_class.__qualname__}``",

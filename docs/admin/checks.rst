@@ -171,7 +171,7 @@ To use the fonts for checking the string length, pass it the appropriate
 flags (see :ref:`custom-checks`). You will probably need the following ones:
 
 ``max-size:500`` / ``max-size:300:5``
-   Defines maximal width in pixels and, optionally, the maximum number of lines (word wrapping is applied).
+   Defines maximal width in pixels and, optionally, the maximum number of lines. Word wrapping is applied when more than one line is configured.
 ``font-family:ubuntu``
    Defines font group to use by specifying its identifier.
 ``font-size:22``

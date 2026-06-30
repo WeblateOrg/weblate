@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n metrics translations %}
+{% load crispy_forms_tags i18n metrics permissions translations %}
 
 {% block nav_pills %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
+
   <ul class="nav nav-pills">
     <li class="nav-item">
       <a class="nav-link active"
@@ -38,6 +40,11 @@
              href="{% url 'download' path=object.get_url_path %}?format=zip"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
         </li>
+        {% if user_can_upload_translation %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
     <li class="nav-item dropdown">
@@ -76,6 +83,7 @@
 {% block content %}
 
   {% get_translate_url object as translate_url %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
 
@@ -146,6 +154,12 @@
             </div>
           </div>
         </form>
+      </div>
+    {% endif %}
+
+    {% if user_can_upload_translation %}
+      <div class="tab-pane" id="upload">
+        {% include "snippets/upload-placeholder.html" with upload_translation_tab="#components" upload_translation_label=_("Browse components") %}
       </div>
     {% endif %}
 

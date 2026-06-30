@@ -39,7 +39,7 @@ from docutils.parsers.rst.states import Inliner
 from docutils.readers.standalone import Reader
 from docutils.writers.null import Writer
 
-from weblate.checks.base import TargetCheck
+from weblate.checks.base import Highlight, TargetCheck
 from weblate.checks.format import (
     ES_TEMPLATE_MATCH,
     FLAG_RULES,
@@ -48,6 +48,7 @@ from weblate.checks.format import (
     PERCENT_MATCH,
     VUE_MATCH,
 )
+from weblate.checks.utils import pair_markup_highlights
 from weblate.utils.html import (
     MD_BROKEN_LINK,
     MD_LINK,
@@ -139,6 +140,18 @@ RST_TRANSLATABLE = {
     "index",
     "samp",
 }
+RST_LLM_TRANSLATABLE = {
+    "abbr",
+    "code",
+    "dfn",
+    "guilabel",
+    "index",
+    "kbd",
+    "menuselection",
+    "samp",
+    "sub",
+    "sup",
+}
 
 RST_ROLE_RE = [
     re.compile(r"""Unknown interpreted text role "([^"]*)"\."""),
@@ -157,7 +170,7 @@ RST_HIGHLIGHT_ROLE_TARGET = "role-target"
 
 
 type RSTHighlightKind = str
-type RSTHighlight = tuple[int, int, str]
+type RSTHighlight = Highlight
 
 
 class RSTRoleMatch(NamedTuple):
@@ -295,8 +308,17 @@ class BBCodeCheck(TargetCheck):
         if self.should_skip(unit):
             return
         for match in BBCODE_MATCH.finditer(source):
+            group = f"bbcode:{match.start()}:{match.end()}"
             for tag in ("start", "end"):
-                yield match.start(tag), match.end(tag), match.group(tag)
+                yield Highlight(
+                    match.start(tag),
+                    match.end(tag),
+                    match.group(tag),
+                    kind="markup",
+                    group=group,
+                    translatable=True,
+                    forbidden_text=("[", "]"),
+                )
 
 
 class BaseXMLCheck(TargetCheck):
@@ -408,11 +430,12 @@ class XMLTagsCheck(BaseXMLCheck):
             return []
         # Include XML markup
         ret = [
-            (match.start(), match.end(), match.group())
+            Highlight(match.start(), match.end(), match.group(), kind="markup")
             for match in XML_MATCH.finditer(source)
         ]
+        ret = pair_markup_highlights(ret, group_prefix="xml")
         # Add XML entities
-        skipranges = [x[:2] for x in ret]
+        skipranges = [(highlight.start, highlight.end) for highlight in ret]
         skipranges.append((len(source), len(source)))
         offset = 0
         for match in XML_ENTITY_MATCH.finditer(source):
@@ -423,7 +446,7 @@ class XMLTagsCheck(BaseXMLCheck):
             # Avoid including entities inside markup
             if start > skipranges[offset][0] and end < skipranges[offset][1]:
                 continue
-            ret.append((start, end, match.group()))
+            ret.append(Highlight(start, end, match.group(), kind="syntax"))
         return ret
 
 
@@ -573,8 +596,27 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
                     break
             start = match.start()
             end = match.end()
-            yield (start, start + len(value), value)
-            yield (end - len(value), end, value if value != "<" else ">")
+            group = f"markdown:{start}:{end}"
+            translatable = value != "<"
+            forbidden_text = (value[0],) if translatable and len(value) > 1 else ()
+            yield Highlight(
+                start,
+                start + len(value),
+                value,
+                kind="markup",
+                group=group,
+                translatable=translatable,
+                forbidden_text=forbidden_text,
+            )
+            yield Highlight(
+                end - len(value),
+                end,
+                value if value != "<" else ">",
+                kind="markup",
+                group=group,
+                translatable=translatable,
+                forbidden_text=forbidden_text,
+            )
 
 
 class URLCheck(TargetCheck):
@@ -680,27 +722,60 @@ def get_rst_role_highlight(
     end: int,
 ) -> list[RSTHighlight]:
     if (matched_role := get_rst_role_match(rawsource)) is None:
-        return [(start, end, rawsource)]
+        return [Highlight(start, end, rawsource, kind="syntax")]
 
     prefix_end = start + len(matched_role.syntax_prefix)
+    group = f"rst-role:{start}:{end}"
     if matched_role.role in RST_TRANSLATABLE:
+        translatable = matched_role.role in RST_LLM_TRANSLATABLE
         return [
-            (start, prefix_end, matched_role.syntax_prefix),
-            (end - len(matched_role.syntax_suffix), end, matched_role.syntax_suffix),
+            Highlight(
+                start,
+                prefix_end,
+                matched_role.syntax_prefix,
+                kind="markup",
+                group=group,
+                role=matched_role.role,
+                translatable=translatable,
+            ),
+            Highlight(
+                end - len(matched_role.syntax_suffix),
+                end,
+                matched_role.syntax_suffix,
+                kind="markup",
+                group=group,
+                role=matched_role.role,
+                translatable=translatable,
+            ),
         ]
 
     if matched := RST_EXPLICIT_TITLE_RE.match(matched_role.inner):
         suffix_start = prefix_end + len(matched.group(1))
+        forbidden_text = ("`", "<", ">")
         return [
-            (start, prefix_end, matched_role.syntax_prefix),
-            (
+            Highlight(
+                start,
+                prefix_end,
+                matched_role.syntax_prefix,
+                kind="markup",
+                group=group,
+                role=matched_role.role,
+                translatable=True,
+                forbidden_text=forbidden_text,
+            ),
+            Highlight(
                 suffix_start,
                 end,
                 rawsource[len(matched_role.syntax_prefix) + len(matched.group(1)) :],
+                kind="markup",
+                group=group,
+                role=matched_role.role,
+                translatable=True,
+                forbidden_text=forbidden_text,
             ),
         ]
 
-    return [(start, end, rawsource)]
+    return [Highlight(start, end, rawsource, kind="syntax", role=matched_role.role)]
 
 
 def normalize_rst_node_token(token: str) -> str:
@@ -796,12 +871,12 @@ def extract_rst_references(
             name, highlight_type = role_reference
             result.append((name, token))
             if highlight_type == RST_HIGHLIGHT_WHOLE:
-                highlights.append((start, end, token))
+                highlights.append(Highlight(start, end, token, kind="syntax"))
             else:
                 highlights.extend(get_rst_role_highlight(token, start, end))
         elif isinstance(node, (footnote_reference, substitution_reference)):
             result.append((token, token))
-            highlights.append((start, end, token))
+            highlights.append(Highlight(start, end, token, kind="syntax"))
         elif isinstance(node, reference):
             # Ignore the content as it might be localized, just differentiate
             # references with a link and without
@@ -810,10 +885,11 @@ def extract_rst_references(
             if refuri and (target_start := token.find(f"<{refuri}>")) != -1:
                 target_end = target_start + len(refuri) + 2
                 highlights.append(
-                    (
+                    Highlight(
                         start + target_start,
                         start + target_end,
                         token[target_start:target_end],
+                        kind="syntax",
                     )
                 )
         elif isinstance(node, literal):

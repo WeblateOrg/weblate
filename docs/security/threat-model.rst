@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 97 documented / 65 maintainer / 0 inferred claims.
+Provenance summary: 103 documented / 64 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -58,9 +58,10 @@ Scope and intended use
      - In scope as authenticated actors with delegated project scope.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhooks
-     - :ref:`hooks`, project :ref:`project-enable_hooks`
+     - :ref:`hooks`, project :ref:`project-enable_hooks`,
+       :ref:`code-hosting-github-app-webhook`
      - Background task scheduling and VCS repository updates
-     - In scope as a public, deployment-hardened interface. *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`)
+     - In scope as a public, deployment-hardened interface. *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
    * - VCS integration
      - Repository URLs, branches, pushes, pulls, merge requests, local clones
      - Filesystem, child VCS commands, SSH/HTTPS network connections
@@ -74,9 +75,11 @@ Scope and intended use
      - In scope as Weblate-controlled execution of user or operator actions.
        *(documented)* (source: :doc:`/admin/install`)
    * - Project backup import/export
-     - :ref:`projectbackup`, :wladmin:`import_projectbackup`
-     - Uploaded ZIP archives, filesystem restore, repository state
-     - In scope. *(documented)* (source: :doc:`/admin/backup`,
+     - :ref:`projectbackup`, :doc:`/api` project backup endpoints,
+       :wladmin:`import_projectbackup`
+     - Uploaded ZIP archives, generated backup archives, filesystem restore,
+       repository state
+     - In scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`,
        :doc:`/admin/management`)
    * - Service backup
      - BorgBackup configuration and :wladmin:`backup`
@@ -86,10 +89,11 @@ Scope and intended use
        :doc:`/admin/management`)
    * - Machine translation and outbound integrations
      - Machine translation, avatars, status reporting, telemetry, error
-       reporting, VCS hosts, CDN add-on
-     - Outbound HTTP(S), provider APIs, logs
+       reporting, VCS hosts, GitHub App connections, CDN add-on, Fedora
+       Messaging add-on
+     - Outbound HTTP(S), AMQP(S), provider APIs, logs
      - In scope for Weblate's enforcement of configured access and network
-       restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/addons`)
+       restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/addons`)
    * - Add-ons
      - Built-in add-ons and administrator-configured add-on execution
      - Varies by add-on; can mutate repositories or contact services
@@ -171,8 +175,10 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. *(documented)* (source: :ref:`hooks`,
-       :ref:`project-enable_hooks`)
+       where hooks are enabled. GitHub App integration webhooks additionally
+       authenticate with a per-integration URL token and GitHub signature
+       verification before processing. *(documented)* (source: :ref:`hooks`,
+       :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
    * - Weblate to database/datastore
      - Permission-checked application state becomes persistent data and queued
        work. *(documented)* (source: :doc:`/admin/install`)
@@ -183,9 +189,11 @@ repository state, background tasks, outbound requests, and rendered UI.
      - Configured URLs, credentials, and provider settings drive outbound
        network connections. *(documented)* (source: :doc:`/admin/code-hosting`,
        :doc:`/admin/config`)
-   * - Backup archive to Weblate filesystem
-     - Uploaded ZIP members and metadata become restored project state.
-       *(documented)* (source: :doc:`/admin/backup`)
+   * - Project backup archives and Weblate filesystem
+     - Uploaded ZIP members and metadata become restored project state;
+       generated project backups are written to and read from local backup
+       storage. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`,
+       :ref:`projectbackup`)
 
 Reachability preconditions:
 
@@ -205,6 +213,10 @@ Reachability preconditions:
 * A backup import finding is in model only when reachable from a project backup
   uploaded through Weblate or supplied to :wladmin:`import_projectbackup`.
   *(documented)* (source: :ref:`projectbackup`, :wladmin:`import_projectbackup`)
+* A backup export finding is in model only when reachable from documented
+  project backup creation or download routes, including the REST API for users
+  or project-scoped tokens with project edit permission.
+  *(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)
 * A background-task finding is in model only when the task can be queued from
   an in-scope Weblate surface or scheduled Weblate maintenance path.
   *(documented)* (source: :doc:`/admin/install`)
@@ -238,14 +250,16 @@ or compromised worker is equivalent to a compromised application process.
 
 VCS command execution, SSH, and HTTPS clients are assumed to execute as the
 Weblate service user with the credentials configured for the relevant project
-or integration. *(documented)* (source: :doc:`/admin/code-hosting`,
+or integration, including database-stored GitHub App credentials used for
+installation tokens and webhook signature verification. *(documented)* (source: :doc:`/admin/code-hosting`,
 :setting:`SSH_EXTRA_ARGS`)
 
 What Weblate does to its host:
 
 * It opens outbound network connections for configured VCS, identity-provider,
   avatar, machine-translation, backup, status-reporting, telemetry,
-  error-reporting, and add-on features.
+  error-reporting, and add-on features such as outbound webhooks and Fedora
+  Messaging AMQP delivery.
   *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-hosting`,
   :doc:`/admin/backup`)
 * It runs VCS and backup-related helper commands as part of repository and
@@ -288,7 +302,8 @@ Build-time and configuration variants
        generation assumptions. *(maintainer)*
      - Production deployments restrict this to instance hostnames. *(maintainer)*
    * - :envvar:`WEBLATE_API_RATELIMIT_ANON`,
-       :envvar:`WEBLATE_API_RATELIMIT_USER`, and :setting:`RATELIMIT_ATTEMPTS`
+       :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,
+       and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``
      - Rate limits are configurable. *(documented)* (source: :doc:`/api`,
        :doc:`/admin/config`)
      - Availability claims assume rate limits appropriate to deployment size
@@ -318,8 +333,9 @@ Build-time and configuration variants
        *(documented)*
    * - Private-target restrictions and allowlists for outbound URLs
      - User-configurable outbound URL surfaces documented with private-target
-       restriction settings reject internal or non-public targets by default.
-       *(documented)* (source: :setting:`ASSET_RESTRICT_PRIVATE`,
+       restriction settings, including Fedora Messaging AMQP broker URLs,
+       reject internal or non-public targets by default. *(documented)*
+       (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
      - Allowlist settings and privileged configuration can intentionally expand
@@ -375,6 +391,14 @@ Input assumptions
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)
      - Hook enablement only where needed, request limits, and monitoring.
        *(maintainer)*
+   * - GitHub App connection callbacks
+     - GitHub OAuth code, signed Weblate state, installation ID, account metadata
+     - Yes, from authenticated Weblate users and GitHub redirect query strings.
+       *(documented)* (source: :ref:`code-hosting-github-app-register`)
+     - Weblate requires workspace management rights and verifies that the
+       GitHub user owns the personal installation or can administer the
+       organization installation before saving it. *(documented)* (source:
+       :ref:`code-hosting-github-app-register`)
    * - Repository configuration
      - Repository URLs, branches, push URLs, credentials, Gerrit review push
        options, add-on settings
@@ -392,6 +416,12 @@ Input assumptions
      - ZIP archive members, metadata, translation files, repository state
      - Yes, for whoever can upload or provide the backup. *(documented)* (source: :ref:`projectbackup`)
      - Keep import limits at values appropriate for the instance. *(documented)* (source: :doc:`/admin/config`)
+   * - Project backup export
+     - Backup creation requests and requested backup file names
+     - Yes, for users or project-scoped tokens with project edit permission.
+       *(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)
+     - Grant project edit permission only to trusted project administrators.
+       *(documented)* (source: :doc:`/admin/access`)
    * - Machine translation and external service configuration
      - Provider URLs, credentials, model or service settings
      - Trusted to administrators or users granted configuration permissions.
@@ -443,8 +473,10 @@ Adversary model
      - Become a site administrator unless granted that role or exploiting a
        Weblate flaw. *(maintainer)*
    * - Project-scoped API token holder
-     - Use API permissions assigned to the token's team memberships.
-       *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
+     - Use API permissions assigned to the token's team memberships, including
+       project backup creation and download where project edit permission is
+       granted. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`,
+       :ref:`projectbackup`)
      - Access projects, components, or site-wide functions outside its scope.
        *(documented)* (source: :doc:`/admin/access`)
    * - Webhook sender
@@ -485,8 +517,11 @@ Security properties Weblate provides
      - Severity tier
    * - Web authorization separates site, project, component, language,
        glossary, VCS, translation memory, screenshot, review, and access
-       management permissions. *(documented)* (source: :doc:`/admin/access`)
+       management permissions. *(documented)* (source: :doc:`/admin/access`,
+       :doc:`/admin/auth`)
      - Permission assignments match the intended trust relationship.
+       Team-level enforced 2FA is satisfied by human users before
+       team-derived permissions apply.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team
@@ -530,8 +565,9 @@ Security properties Weblate provides
      - Default private-target checks are enabled and no trusted allowlist
        exemption applies.
      - A user-configurable screenshot URL, remote HTML URL, project website or
-       repository browser URL, outbound webhook URL, or VCS URL reaches an
-       internal or non-public target despite default controls.
+       repository browser URL, outbound webhook URL, Fedora Messaging AMQP
+       broker URL, or VCS URL reaches an internal or non-public target despite
+       default controls.
      - Security-critical when it exposes internal services or metadata.
    * - Weblate records security-relevant account, permission, and project or
        component setting changes in audit logs or history. *(documented)*
@@ -548,7 +584,10 @@ Security properties Weblate provides
    * - Weblate does not intentionally expose database, datastore, backup
        storage, or raw internal storage directly through the public web
        interface; exported VCS repositories are intentionally exposed by
-       :ref:`git-exporter` when that optional module is enabled. *(maintainer)*
+       :ref:`git-exporter` when that optional module is enabled; authorized
+       project backup downloads are intentionally exposed through documented
+       project backup routes. *(documented)* (source: :doc:`/api`,
+       :ref:`projectbackup`) *(maintainer)*
      - Deployment does not serve internal storage paths as static files except
        for documented export features.
      - Public request retrieves raw internal storage, configuration, or

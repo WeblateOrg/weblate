@@ -28,6 +28,7 @@ from django.utils import timezone
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation, Permission, Role
+from weblate.memory.models import Memory, MemoryScope, MemoryScopeMigrationState
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Project
 from weblate.trans.tests.test_views import ViewTestCase
@@ -383,7 +384,9 @@ class WorkspaceCreateTest(ViewTestCase):
 class ManagementAccessControlTest(ViewTestCase):
     """Test site-wide permission checks in the management interface."""
 
-    def grant_global_permissions(self, *permissions: str) -> None:
+    def grant_global_permissions(
+        self, *permissions: str, enforced_2fa: bool = False
+    ) -> None:
         role, _created = Role.objects.get_or_create(name="Test management role")
         permission_objects = list(Permission.objects.filter(codename__in=permissions))
         self.assertEqual(
@@ -392,6 +395,8 @@ class ManagementAccessControlTest(ViewTestCase):
         )
         role.permissions.add(*permission_objects)
         group, _created = Group.objects.get_or_create(name="Test management team")
+        group.enforced_2fa = enforced_2fa
+        group.save(update_fields=["enforced_2fa"])
         group.roles.add(role)
         self.user.groups.add(group)
         self.user.clear_cache()
@@ -431,6 +436,13 @@ class ManagementAccessControlTest(ViewTestCase):
         self.assert_forbidden(
             "manage-performance", method="post", data={"pk": "1", "ignore": "1"}
         )
+
+    def test_management_use_requires_enforced_2fa(self) -> None:
+        self.grant_global_permissions("management.use", enforced_2fa=True)
+
+        response = self.client.get(reverse("manage"))
+
+        self.assertEqual(response.status_code, 403)
 
     def test_user_view_does_not_allow_user_changes(self) -> None:
         self.grant_global_permissions("management.use", "user.view")
@@ -947,8 +959,101 @@ class AdminTest(ViewTestCase):
         self.assertNotContains(response, settings.BACKUP_DIR)
 
     def test_performance(self) -> None:
-        response = self.client.get(reverse("manage-performance"))
+        with (
+            patch("weblate.wladmin.views.get_database_size", return_value=123456789),
+            patch(
+                "weblate.wladmin.views.get_database_disk_usage",
+                return_value=SimpleNamespace(total=987654321, free=876543210),
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "weblate.E005")
+        self.assertContains(response, "Translation memory migration")
+        self.assertContains(response, "PostgreSQL database")
+        self.assertEqual(response.context["database_size"], 123456789)
+        self.assertEqual(response.context["database_disk_usage"].free, 876543210)
+        self.assertIn("total", response.context["memory_migration_status"])
+
+    def test_performance_memory_migration_status(self) -> None:
+        Memory.objects.all().delete()
+        MemoryScopeMigrationState.objects.all().delete()
+        memory = Memory.objects.create(
+            source="Hello",
+            target="Ahoj",
+            origin="project/component",
+            source_language_id=1,
+            target_language_id=2,
+        )
+        Memory.objects.create(
+            source=memory.source,
+            target=memory.target,
+            origin=memory.origin,
+            source_language_id=memory.source_language_id,
+            target_language_id=memory.target_language_id,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill", last_memory_id=memory.id
+        )
+
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Backfilling scopes")
+        self.assertEqual(response.context["memory_migration_status"]["total"], 2)
+        self.assertEqual(
+            response.context["memory_migration_status"]["duplicate_groups"], 0
+        )
+        self.assertFalse(response.context["memory_migration_status"]["completed"])
+
+    def test_performance_memory_migration_status_without_state(self) -> None:
+        Memory.objects.all().delete()
+        MemoryScopeMigrationState.objects.all().delete()
+        memory = Memory.objects.create(
+            source="Hello",
+            target="Ahoj",
+            origin="project/component",
+            source_language_id=1,
+            target_language_id=2,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_GLOBAL_FILE,
+        )
+
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Not needed")
+        self.assertContains(response, "Completed")
+        self.assertEqual(response.context["memory_migration_status"]["processed"], 1)
+        self.assertTrue(response.context["memory_migration_status"]["completed"])
+
+    def test_performance_memory_migration_status_with_duplicates(self) -> None:
+        Memory.objects.all().delete()
+        MemoryScopeMigrationState.objects.all().delete()
+        memory = Memory.objects.create(
+            source="Hello",
+            target="Ahoj",
+            origin="project/component",
+            source_language_id=1,
+            target_language_id=2,
+        )
+        Memory.objects.create(
+            source=memory.source,
+            target=memory.target,
+            origin=memory.origin,
+            source_language_id=memory.source_language_id,
+            target_language_id=memory.target_language_id,
+        )
+        MemoryScopeMigrationState.objects.create(
+            name="memory-scope-backfill", last_memory_id=memory.id, completed=True
+        )
+
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Consolidating duplicate entries")
+        self.assertEqual(
+            response.context["memory_migration_status"]["duplicate_groups"], 1
+        )
+        self.assertFalse(response.context["memory_migration_status"]["completed"])
 
     def test_performance_ordering(self) -> None:
         with (
@@ -1034,6 +1139,7 @@ class AdminTest(ViewTestCase):
             {"weblate.E002": "Test Error", "weblate.C044": "Cache Error"},
         )
         # No triggered checks
+        ConfigurationError.objects.create(name="weblate.C046", message="Retired check")
         ConfigurationError.objects.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
 

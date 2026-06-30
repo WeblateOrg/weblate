@@ -290,10 +290,12 @@ class Formatter:
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
-        for start, end, content in highlights:
-            self.tags[start].append(format_html(HLCHECK, content))
-            self.tags[end].insert(0, "</span>")
-            cleaned_value[start:end] = [" "] * (end - start)
+        for highlight in highlights:
+            self.tags[highlight.start].append(format_html(HLCHECK, highlight.text))
+            self.tags[highlight.end].insert(0, "</span>")
+            cleaned_value[highlight.start : highlight.end] = [" "] * (
+                highlight.end - highlight.start
+            )
 
         # Prepare cleaned up value for glossary terms (we do not want to extract those
         # from format strings)
@@ -1541,6 +1543,15 @@ def path_object_breadcrumbs(path_object, flags: bool = True):
     return format_html_join(
         "\n",
         '<li class="breadcrumb-item"><a href="{}">{}</a></li>',
+        get_breadcrumbs(path_object, flags=flags),
+    )
+
+
+@register.simple_tag
+def path_object_links(path_object, flags: bool = True):
+    return format_html_join(
+        "/",
+        '<a href="{}">{}</a>',
         get_breadcrumbs(path_object, flags=flags),
     )
 

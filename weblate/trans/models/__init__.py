@@ -9,6 +9,7 @@ from functools import partial
 from typing import TYPE_CHECKING
 
 from django.db import transaction
+from django.db.models import Q
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
 from django.dispatch import receiver
 
@@ -70,6 +71,24 @@ def delete_object_dir(instance: Project | Component) -> None:
         remove_tree(project_path)
 
 
+@receiver(pre_delete, sender=Project)
+def project_pre_delete(sender, instance: Project, **kwargs) -> None:
+    # ruff: ignore[import-outside-top-level]
+    from weblate.memory.models import Memory, MemoryScope
+
+    Memory.objects.using("default").delete_scope(
+        Q(
+            scope__in=(MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE),
+            project=instance,
+        )
+        | Q(
+            scope__in=(MemoryScope.SCOPE_SHARED, MemoryScope.SCOPE_WORKSPACE),
+            source_project=instance,
+        ),
+        delete_legacy=False,
+    )
+
+
 @receiver(post_delete, sender=Project)
 def project_post_delete(sender, instance: Project, **kwargs) -> None:
     """
@@ -88,9 +107,21 @@ def project_post_delete(sender, instance: Project, **kwargs) -> None:
     # Remove directory
     delete_object_dir(instance)
 
+    # Project-scoped memory rows are owned by MemoryScope. Once the project FK
+    # cascade removes those scopes, cleanup can delete scope-less rows in the
+    # background without delaying project deletion. By post_delete the scope rows
+    # are gone, and project-file memory origins are upload names rather than
+    # component paths, so a project path prefix would miss them.
+    # ruff: ignore[import-outside-top-level]
+    from weblate.memory.tasks import cleanup_orphaned_memory
+
+    cleanup_orphaned_memory.delay_on_commit()
+
 
 @receiver(pre_delete, sender=Component)
 def component_pre_delete(sender, instance: Component, **kwargs) -> None:
+    instance.memory_full_slug = instance.full_slug
+    instance.memory_workspace_id = instance.project.workspace_id
     batch = instance.removal_batch or get_current_removal_batch()
     if batch is not None:
         batch.collect_stats(instance.stats.get_update_objects())
@@ -115,6 +146,14 @@ def component_post_delete(sender, instance: Component, **kwargs) -> None:
     # Do not delete linked components
     if not instance.is_repo_link:
         delete_object_dir(instance)
+
+    memory_full_slug = getattr(instance, "memory_full_slug", None)
+    if memory_full_slug is not None:
+        instance.delete_automatic_memory_scopes(
+            memory_full_slug,
+            instance.project_id,
+            getattr(instance, "memory_workspace_id", None),
+        )
 
     if batch is None:
         instance.cleanup_conflicting_repository_setup_alerts()

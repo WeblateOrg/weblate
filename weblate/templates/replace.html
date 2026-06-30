@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n icons translations %}
+{% load crispy_forms_tags i18n icons translations %}
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
@@ -17,13 +17,16 @@
     {% show_message "warning" msg %}
   {% endif %}
 
+  <form method="post" class="result-page-form">
+    {% csrf_token %}
+    {% crispy form %}
+    <input type="submit" class="btn btn-primary" value="{% translate "Update preview" %}" />
+  </form>
+
   <form method="post">
     {% csrf_token %}
-    {{ form.q.as_hidden }}
-    {{ form.search.as_hidden }}
-    {{ form.replacement.as_hidden }}
-    {{ form.message.as_hidden }}
-    {{ confirm.confirm }}
+
+    {% for field in confirm.hidden_fields %}{{ field }}{% endfor %}
 
     <table class="table replace-preview">
       {% for unit in matching %}
@@ -51,7 +54,7 @@
         </tr>
       {% endfor %}
     </table>
-    <input type="submit" class="btn btn-primary" value="{% translate "Replace" %}" />
+    <button type="submit" class="btn btn-primary">{% translate "Replace" %}</button>
   </form>
 
 {% endblock content %}

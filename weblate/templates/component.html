@@ -8,6 +8,7 @@
   {% perm 'reports.view' object as user_can_view_reports %}
   {% perm 'translation.add' object as user_can_add_translation %}
   {% perm 'component.edit' object as user_can_edit_component %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -21,7 +22,17 @@
     </li>
     {% if alerts %}
       <li class="nav-item">
-        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">{% translate "Diagnostics" %}</a>
+        <a class="nav-link" data-bs-target="#alerts" data-bs-toggle="tab" href="#">
+          {% translate "Diagnostics" %}
+          {% if problem_alerts_count %}
+            <span class="badge text-bg-danger">
+              {{ problem_alerts_count }}
+              <span class="visually-hidden">
+                {% blocktranslate count count=problem_alerts_count %}error{% plural %}errors{% endblocktranslate %}
+              </span>
+            </span>
+          {% endif %}
+        </a>
       </li>
     {% endif %}
     <li class="nav-item">
@@ -78,6 +89,11 @@
              href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
+        {% if user_can_upload_translation %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
     <li class="nav-item dropdown">
@@ -196,6 +212,7 @@
   {% perm 'reports.view' object as user_can_view_reports %}
   {% perm 'translation.add' object as user_can_add_translation %}
   {% perm 'component.edit' object as user_can_edit_component %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="translations">
@@ -213,7 +230,7 @@
                 {% documentation_icon alert.obj.doc_page alert.obj.doc_anchor right=True %}
               {% endif %}
               {{ alert }}
-              <span class="badge text-bg-secondary">{{ alert.get_severity_display }}</span>
+              <span class="badge {{ alert.severity_class }}">{{ alert.get_severity_display }}</span>
               {% if alert.dismissed %}
                 <span class="badge  text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
@@ -302,6 +319,12 @@
             </div>
           </div>
         </form>
+      </div>
+    {% endif %}
+
+    {% if user_can_upload_translation %}
+      <div class="tab-pane" id="upload">
+        {% include "snippets/upload-placeholder.html" with upload_translation_tab="#translations" upload_translation_label=_("Browse translations") %}
       </div>
     {% endif %}
 

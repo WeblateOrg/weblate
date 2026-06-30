@@ -1,0 +1,44 @@
+{% load i18n %}
+
+<form method="post" action="{% url 'manage-github-account-remove' installation.pk %}">
+  {% csrf_token %}
+  {% if next_url %}<input type="hidden" name="next" value="{{ next_url }}" />{% endif %}
+  <div class="modal fade"
+       tabindex="-1"
+       role="dialog"
+       id="remove-github-account-{{ installation.pk }}"
+       aria-labelledby="remove-github-account-{{ installation.pk }}-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="remove-github-account-{{ installation.pk }}-label">
+            {% translate "Remove connected GitHub account?" %}
+          </h4>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="{% translate "Close" %}"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <strong>
+              {% blocktranslate trimmed with login=installation.target_login %}
+                This removes the connected GitHub account <code>{{ login }}</code> from Weblate.
+              {% endblocktranslate %}
+            </strong>
+          </p>
+          <p class="text-body-secondary">
+            {% blocktranslate trimmed %}
+              The Weblate GitHub app stays installed on GitHub. Remove it on
+              GitHub separately if you no longer need it.
+            {% endblocktranslate %}
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+          <button type="submit" class="btn btn-danger">{% translate "Remove" %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

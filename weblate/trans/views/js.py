@@ -145,6 +145,16 @@ def git_status(request: AuthenticatedHttpRequest, path):
         push_label = ""
 
     pending_units = PendingUnitChange.objects.detailed_count(obj)
+    is_translation = isinstance(obj, Translation)
+    supports_remove_duplicate_units = (
+        is_translation and obj.supports_remove_duplicate_units(obj.component)
+    )
+    supports_cleanup_unused = is_translation and obj.supports_cleanup_unused(
+        obj.component
+    )
+    supports_remove_obsolete_units = (
+        is_translation and obj.supports_remove_obsolete_units(obj.component)
+    )
 
     return render(
         request,
@@ -167,6 +177,16 @@ def git_status(request: AuthenticatedHttpRequest, path):
                 if repo.push_branch
             ),
             "missing_commits": sum(repo.count_repo_missing for repo in repo_components),
+            "file_management": is_translation
+            and bool(obj.filename)
+            and (
+                supports_remove_duplicate_units
+                or supports_cleanup_unused
+                or supports_remove_obsolete_units
+            ),
+            "supports_remove_duplicate_units": supports_remove_duplicate_units,
+            "supports_cleanup_unused": supports_cleanup_unused,
+            "supports_remove_obsolete_units": supports_remove_obsolete_units,
             "supports_push": any(
                 repo.repository_class.supports_push for repo in repo_components
             ),

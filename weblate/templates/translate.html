@@ -781,8 +781,12 @@
                 <table class="table table-sm table-simple">
                   <thead>
                     <tr>
-                      <th>{{ unit.translation.component.source_language }}</th>
-                      <th>{{ unit.translation.language }}</th>
+                      {% if unit.translation.is_source %}
+                        <th colspan="2">{{ unit.translation.language }}</th>
+                      {% else %}
+                        <th>{{ unit.translation.component.source_language }}</th>
+                        <th>{{ unit.translation.language }}</th>
+                      {% endif %}
                       <th></th>
                       <th></th>
                     </tr>

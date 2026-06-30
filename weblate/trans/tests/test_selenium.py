@@ -51,6 +51,8 @@ from weblate.gitexport.models import get_export_url
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.dummy import DummyTranslation
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
@@ -61,6 +63,7 @@ from weblate.trans.models import (
     ComponentList,
     ContributorAgreement,
     Project,
+    Translation,
     Unit,
 )
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
@@ -73,7 +76,9 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
-from weblate.utils.stats import GlobalStats
+from weblate.utils.data import data_dir
+from weblate.utils.files import remove_tree
+from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
@@ -85,7 +90,6 @@ if TYPE_CHECKING:
     from selenium.webdriver.remote.webelement import WebElement
 
     from weblate.machinery.types import DownloadTranslations
-    from weblate.trans.models import Translation
     from weblate.utils.stats import BaseStats
 
 
@@ -189,7 +193,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @staticmethod
     def is_page_loaded(driver: WebDriver) -> bool:
         try:
-            return driver.execute_script("return document.readyState") == "complete"
+            return bool(
+                driver.execute_script(
+                    """
+                    if (document.readyState !== "complete") {
+                        return false;
+                    }
+                    if (!document.querySelector('meta[name="argon2id-worker-url"]')) {
+                        return true;
+                    }
+                    const status = {
+                        slugify: typeof window.slugify !== "undefined",
+                        DateRangePicker: typeof window.DateRangePicker !== "undefined",
+                        getNumber: typeof window.getNumber === "function",
+                        quoteSearch: typeof window.quoteSearch === "function",
+                        compareCells: typeof window.compareCells === "function",
+                    };
+                    return Object.values(status).every(Boolean);
+                    """
+                )
+            )
         except WebDriverException:
             return False
 
@@ -232,13 +255,33 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         else:
             # Increase webdriver timeout to avoid occasional errors in CI
             cls._driver.command_executor.client_config.timeout = 300
-            # The screenshot browser is reused across tests while several
-            # fixtures use identical slugs. Avoid cached widget images showing
-            # status badges from an earlier fixture.
             cls._driver.execute_cdp_cmd(
                 "Network.setCacheDisabled", {"cacheDisabled": True}
             )
             cls._driver.execute_cdp_cmd("Network.clearBrowserCache", {})
+            # Track in-flight fetch() requests so screenshots can wait for AJAX
+            cls._driver.execute_cdp_cmd(
+                "Page.addScriptToEvaluateOnNewDocument",
+                {
+                    "source": """
+                    (() => {
+                        window.__weblateActiveFetches = 0;
+                        const original = window.fetch;
+                        if (typeof original !== "function" || original.__weblateWrapped) {
+                            return;
+                        }
+                        const wrapped = (...args) => {
+                            window.__weblateActiveFetches += 1;
+                            return original.apply(window, args).finally(() => {
+                                window.__weblateActiveFetches -= 1;
+                            });
+                        };
+                        wrapped.__weblateWrapped = true;
+                        window.fetch = wrapped;
+                    })();
+                    """
+                },
+            )
 
         # Restore custom fontconfig settings
         if backup_fc is not None:
@@ -271,8 +314,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self) -> None:
         super().setUp()
-        self.driver.get(f"{self.live_server_url}{reverse('home')}")
+        self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
         self.driver.set_window_size(1200, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.site_domain = settings.SITE_DOMAIN
         settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"
 
@@ -307,6 +352,63 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 encoding="utf-8",
             )
 
+    def clear_project_stats_cache(self, project: Project) -> None:
+        """Drop stats cache entries that can survive the flushed test database."""
+        translations = list(
+            Translation.objects.filter(component__project=project).select_related(
+                "language"
+            )
+        )
+        stats = [
+            project.stats,
+            *(component.stats for component in project.component_set.all()),
+            *(translation.stats for translation in translations),
+            *(
+                ProjectLanguage(project, language).stats
+                for language in {translation.language for translation in translations}
+            ),
+        ]
+        cache.delete_many({stat.cache_key for stat in stats})
+
+    def clear_weblateorg_fixture_path(self) -> None:
+        """Drop VCS state left by earlier flushed Selenium tests."""
+        remove_tree(os.path.join(data_dir("vcs"), "weblateorg"), ignore_errors=True)
+
+    def populate_global_activity_metrics(self) -> None:
+        """Create deterministic metric rows for the generated activity history."""
+        today = timezone.now().date()
+        scope = Metric.SCOPE_GLOBAL
+        relation = 0
+        cache.delete(GlobalStats().cache_key)
+        Metric.objects.filter_metric(scope, relation).filter(date=today).delete()
+
+        wrapper = MetricsWrapper(None, scope, relation)
+        cache_keys = []
+        last_month_date = today.replace(day=1) - timedelta(days=1)
+        month = last_month_date.month
+        year = last_month_date.year
+        for _unused in range(12):
+            cache_keys.extend(
+                (
+                    wrapper.get_month_cache_key(year, month),
+                    wrapper.get_month_cache_key(year - 1, month),
+                )
+            )
+            month -= 1
+            if month < 1:
+                month = 12
+                year -= 1
+        cache.delete_many(cache_keys)
+
+        for day in range(366):
+            Metric.objects.calculate_changes(
+                today - timedelta(days=day),
+                None,
+                scope,
+                relation,
+            )
+        Metric.objects.collect_global()
+
     def count_elements(self, css_selector: str) -> int:
         """Return the count of elements matching css_selector on the current page."""
         return len(self.driver.find_elements(By.CSS_SELECTOR, css_selector))
@@ -339,11 +441,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                         element.getAttribute("data-bs-target") === tabTarget,
                 );
                 const content = document.querySelector(tabTarget);
-                if (!tab || !content || typeof window.jQuery === "undefined") {
+                if (!tab || !content) {
                     return false;
                 }
                 const text = content.textContent || "";
-                return Boolean(window.jQuery(tab).data("loaded")) &&
+                return Boolean(tab.dataset.loaded) &&
                     !text.includes("Loading") &&
                     text.includes(expectedText);
                 """,
@@ -405,7 +507,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     return !source || (image.complete && image.naturalWidth > 0);
                 });
                 const ajaxIdle =
-                    typeof window.jQuery === "undefined" || window.jQuery.active === 0;
+                    typeof window.__weblateActiveFetches === "undefined" ||
+                    window.__weblateActiveFetches === 0;
                 const loadingIdle = Array.from(
                     document.querySelectorAll('[id^="loading-"]')
                 ).every((element) => {
@@ -607,6 +710,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     "weblate.wladmin.views.measure_cache_latency",
                     measure_cache_latency,
                 ),
+                patch(
+                    "weblate.wladmin.views.get_database_size",
+                    return_value=123456789,
+                ),
+                patch(
+                    "weblate.wladmin.views.get_database_disk_usage",
+                    return_value=None,
+                ),
             ):
                 yield
         finally:
@@ -751,12 +862,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("type"), "submit")
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
-    def test_js_assets_are_loaded(self) -> None:
-        """Check that the main JS bundle is active and globals are available."""
-        self.assertTrue(
-            self.driver.execute_script(
-                "return typeof window.jQuery !== 'undefined' && typeof window.slugify !== 'undefined' && typeof window.DateRangePicker !== 'undefined';"
-            )
+    def test_slug_autofill(self) -> None:
+        """Check that base JavaScript initializes slug autogeneration."""
+        self.do_login(superuser=True)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('create-project')}")
+
+        name_input = self.driver.find_element(By.ID, "id_name")
+        slug_input = self.driver.find_element(By.ID, "id_slug")
+        name_input.send_keys("Example.Project Name")
+
+        WebDriverWait(self.driver, 5).until(
+            lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
     def test_js_unit_tests(self) -> None:
@@ -902,29 +1020,31 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.driver.execute_script(
             """
-            const $translations = $("#machinery-translations");
-            $translations.empty();
+            const translations = document.getElementById("machinery-translations");
+            translations.replaceChildren();
             ["stale replacement 1", "current replacement 2"].forEach((text, idx) => {
                 const key = String((idx + 1) % 10);
-                const $row = $("<tr/>")
-                    .attr("data-machinery-key", key)
-                    .attr("data-raw", JSON.stringify({
-                        plural_forms: [0],
-                        text: text,
-                    }));
-                $row.append(
-                    $("<td/>")
-                        .addClass("machinery-number")
-                        .append($("<kbd/>").text(key)),
-                );
-                $row.append(
-                    $("<td/>").append(
-                        $("<a/>").addClass("js-copy-machinery").text("Clone"),
-                    ),
-                );
-                $translations.append($row);
+                const row = document.createElement("tr");
+                row.setAttribute("data-machinery-key", key);
+                row.setAttribute("data-raw", JSON.stringify({
+                    plural_forms: [0],
+                    text: text,
+                }));
+                const numberCell = document.createElement("td");
+                numberCell.className = "machinery-number";
+                const kbd = document.createElement("kbd");
+                kbd.textContent = key;
+                numberCell.appendChild(kbd);
+                row.appendChild(numberCell);
+                const cloneCell = document.createElement("td");
+                const cloneLink = document.createElement("a");
+                cloneLink.className = "js-copy-machinery";
+                cloneLink.textContent = "Clone";
+                cloneCell.appendChild(cloneLink);
+                row.appendChild(cloneCell);
+                translations.appendChild(row);
             });
-            $(".translator .translation-editor").val("");
+            document.querySelector(".translator .translation-editor").value = "";
             """
         )
 
@@ -942,7 +1062,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.assertEqual(
             self.driver.execute_script(
-                'return $(".translator .translation-editor").val();'
+                'return document.querySelector(".translator .translation-editor").value;'
             ),
             "current replacement 2",
         )
@@ -1094,6 +1214,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Confirm account
         self.driver.get(url)
+        if "Confirm registration" in self.driver.find_element(By.TAG_NAME, "body").text:
+            self.screenshot("registration-confirmation.png")
+            with self.wait_for_page_load():
+                self.click(
+                    self.driver.find_element(
+                        By.CSS_SELECTOR, "form button[type='submit']"
+                    )
+                )
 
         # Check we got message
         self.assertIn(
@@ -1160,6 +1288,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
+        self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         Component.objects.create(
             name="Language names",
@@ -1180,6 +1309,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             new_base="weblate/locale/django.pot",
             file_format="po",
         )
+        self.clear_project_stats_cache(project)
         return project
 
     def create_glossary(
@@ -1237,7 +1367,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_android_component(self, project: Project) -> Component:
         """Create Android component used by translation screenshots."""
-        return Component.objects.create(
+        component = Component.objects.create(
             name="Android",
             slug="android",
             project=project,
@@ -1246,15 +1376,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             template="app/src/main/res/values/strings.xml",
             file_format="aresource",
         )
+        self.clear_project_stats_cache(project)
+        return component
 
     def test_dashboard(self) -> None:
         self.do_login()
+        self.create_component()
         # Generate nice changes data
         for day in range(365):
             for _unused in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
                 change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
                 change.timestamp -= timedelta(days=day)
                 change.save()
+        self.populate_global_activity_metrics()
 
         # Screenshot search
         self.click("Search")
@@ -1896,6 +2030,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:
         """Test user adding project and component."""
+        self.clear_weblateorg_fixture_path()
         user = self.do_login()
         with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
             billing = create_test_billing(user, invoice=False)
@@ -1970,6 +2105,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("user-add-component.png")
 
     def test_alerts(self) -> None:
+        self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         duplicates = Component.objects.create(
             name="Duplicates",
@@ -1992,7 +2128,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Duplicates")
-        self.click("Diagnostics")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, 'a[data-bs-target="#alerts"]')
+        )
         self.screenshot("alerts.png")
         self.assertGreater(self.count_elements("#alerts .card"), 0)
 
@@ -2007,7 +2145,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         guidance.add_alert("MissingTranslationInstructions")
         self.driver.get(f"{self.live_server_url}{guidance.get_absolute_url()}")
-        self.click("Diagnostics")
+        self.click(
+            self.driver.find_element(By.CSS_SELECTOR, 'a[data-bs-target="#alerts"]')
+        )
         self.screenshot("component-diagnostics.png")
         self.assert_text_contains("#alerts", "Define translation instructions")
 

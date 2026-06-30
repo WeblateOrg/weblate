@@ -82,7 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams();
     for (const input of extraParamsContainer.querySelectorAll("input")) {
       const paramName = input.getAttribute("name");
-      const paramValue = input.value;
+      let paramValue = input.value;
+      if (input.type === "checkbox") {
+        paramValue = input.checked ? "1" : "";
+      }
       if (paramValue) {
         params.set(paramName, paramValue);
       }
@@ -117,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
       option.textContent = color;
       colorSelect.append(option);
     }
-    updateLivePreviewAndEmbedCode();
   }
 
   function updateQueryParams() {
@@ -142,18 +144,28 @@ document.addEventListener("DOMContentLoaded", () => {
         label.className = "form-label mt-2";
         extraParamsContainer.append(label);
 
+        const input = document.createElement("input");
+        input.id = param.name;
+        input.name = param.name;
+
+        let supported = false;
         if (param.type === "number") {
-          const input = document.createElement("input");
           input.type = param.type;
-          input.id = param.name;
-          input.name = param.name;
           input.min = param.min;
           input.max = param.max;
           input.step = param.step;
           input.value = param.default;
           input.className = "form-control mt-2";
-          extraParamsContainer.append(input);
+          supported = true;
+        } else if (param.type === "boolean") {
+          input.type = "checkbox";
+          input.checked = param.default;
+          input.className = "form-check-input ms-2 mt-2";
+          supported = true;
+        }
 
+        if (supported) {
+          extraParamsContainer.append(input);
           // Add change event listener to update query params and live preview
           input.addEventListener("change", () => {
             updateQueryParams();
@@ -162,6 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     }
+
+    updateLivePreviewAndEmbedCode();
   }
 
   widgetTypeSelect.addEventListener("change", () => {

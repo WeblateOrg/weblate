@@ -11,6 +11,7 @@ from django.http import Http404
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group
 from weblate.billing.models import Billing, BillingQuerySet
 from weblate.trans.actions import ActionEvents
@@ -114,11 +115,13 @@ class WorkspaceViewTest(BaseTestCase):
         workspace = Workspace.objects.create(name="Settings workspace")
         workspace.add_owner(user)
         settings_url = reverse("settings", kwargs={"path": workspace.get_url_path()})
+        integrations_url = f"{reverse('account-vcs')}?workspace={workspace.pk}"
 
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(workspace.get_absolute_url())
 
         self.assertContains(response, settings_url)
+        self.assertContains(response, integrations_url)
         self.assertNotContains(response, 'data-bs-target="#settings"', status_code=200)
 
         response = self.client.get(settings_url)
@@ -493,6 +496,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertNotContains(response, access_url, status_code=200)
         self.assertNotContains(response, 'data-bs-target="#access"', status_code=200)
         self.assertNotContains(response, "Access control", status_code=200)
+        self.assertNotContains(response, "VCS integrations", status_code=200)
 
         response = self.client.get(access_url)
 
@@ -506,3 +510,24 @@ class WorkspaceViewTest(BaseTestCase):
             ValidationError, "A team with this name already exists in this workspace."
         ):
             Group.objects.create(name="Owners", defining_workspace=workspace)
+
+    def test_workspace_teams_use_all_languages(self) -> None:
+        workspace = Workspace.objects.create(name="Language workspace")
+
+        groups = workspace.setup_groups()
+
+        self.assertEqual(
+            groups[WORKSPACE_PROJECT_CREATORS_GROUP].language_selection, SELECTION_ALL
+        )
+
+    def test_workspace_team_save_normalizes_languages(self) -> None:
+        workspace = Workspace.objects.create(name="Saved language workspace")
+        group = Group.objects.create(name="Team", defining_workspace=workspace)
+        Group.objects.filter(pk=group.pk).update(language_selection=SELECTION_MANUAL)
+
+        group.refresh_from_db()
+        group.name = "Renamed team"
+        group.save(update_fields=["name"])
+
+        group.refresh_from_db()
+        self.assertEqual(group.language_selection, SELECTION_ALL)

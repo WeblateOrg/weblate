@@ -172,6 +172,8 @@ from weblate.utils.validators import (
 )
 from weblate.vcs.base import (
     RepositoryError,
+    RepositoryRecoveryEvent,
+    RepositoryRestrictedPathError,
     RepositorySymlinkError,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
@@ -189,6 +191,7 @@ from weblate.vcs.ssh import add_host_key, extract_url_host_port
 if TYPE_CHECKING:
     from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
+    from uuid import UUID
 
     from django_stubs_ext import StrOrPromise
 
@@ -208,7 +211,13 @@ MERGE_CHOICES = (
     ("merge_noff", gettext_lazy("Merge without fast-forward")),
 )
 
-LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure", "ParseError"}
+LOCKING_ALERTS = {
+    "MergeFailure",
+    "UpdateFailure",
+    "PushFailure",
+    "ParseError",
+    "RepositoryOperationFailure",
+}
 
 BITBUCKET_GIT_REPOS_REGEXP = [
     r"(?:ssh|https):\/\/(?:(?:git@|)bitbucket.org)\/([^/]*)\/([^/]*)",
@@ -512,6 +521,11 @@ OldComponentSetting = TypeVar("OldComponentSetting")
 class Component(  # ruff: ignore[too-many-public-methods]
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
+    # Transient values captured before deletion so post_delete can clean up
+    # automatic translation-memory scopes after related project data is gone.
+    memory_full_slug: str | None = None
+    memory_workspace_id: UUID | None = None
+
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "restricted",
         "enable_suggestions",
@@ -531,6 +545,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     )
     LINKED_REPOSITORY_SETTING_MESSAGE = gettext_lazy(
         "Option is not available for linked repositories. Setting from linked component will be used."
+    )
+    INTEGRATION_LOCKED_FIELD_MESSAGE = gettext_lazy(
+        "This field is managed by the repository integration and can not be changed."
     )
 
     name = models.CharField(
@@ -1158,7 +1175,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
         self.new_lang_error_message: str | None = None
 
-    def save(self, *args, **kwargs) -> None:
+    def save(self, *args, **kwargs) -> None:  # ruff: ignore[complex-structure]
         """
         Save wrapper.
 
@@ -1170,9 +1187,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
         seed_source_component_id = getattr(self, "seed_source_component_id", None)
         copy_seed_addons = getattr(self, "copy_seed_addons", False)
         seed_author = getattr(self, "seed_author", None)
+        acting_user_id = self.acting_user.pk if self.acting_user else None
 
         self.drop_file_format_cache()
         self.set_default_branch()
+        locked_repository = self.__dict__.get("repository")
 
         # Repository links change both the effective repository object and
         # the delegated filesystem path.
@@ -1195,12 +1214,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # loop. A full component TM import is only needed when contribution is
         # enabled later for units that already exist.
         update_tm = False
+        old_full_slug = None
+        old_source_project_id = None
+        old_workspace_id = None
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            if (
+                locked_repository is not None
+                and locked_repository.lock.lock_object.is_locked
+            ):
+                # Reuse the lock already held by locked_for_update() when
+                # committing pending changes through the freshly loaded old state.
+                old.__dict__["repository"] = old.build_repository(
+                    lock_override=locked_repository.lock
+                )
+            old_full_slug = old.full_slug
+            old_source_project_id = old.project_id
+            old_workspace_id = old.project.workspace_id
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
+                or (old.push != self.push)
                 or (old.branch != self.branch)
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
@@ -1320,6 +1355,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 seed_source_component_id=seed_source_component_id,
                 copy_seed_addons=copy_seed_addons,
                 seed_author=seed_author,
+                acting_user_id=acting_user_id,
             )
 
         if (
@@ -1339,8 +1375,129 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for project in self.cached_links:
             project.invalidate_source_language_cache()
 
+        new_full_slug = "/".join(self.get_url_path())
+        if old_full_slug is not None and old_full_slug != new_full_slug:
+            update_tm = (
+                self.rename_automatic_memory_origin(
+                    old_full_slug,
+                    new_full_slug,
+                    old_source_project_id,
+                    old_workspace_id,
+                )
+                or update_tm
+            )
+
         if update_tm:
             import_memory.delay_on_commit(self.project.id, self.pk)
+
+    def rename_automatic_memory_origin(
+        self,
+        origin: str,
+        new_origin: str,
+        source_project_id: int | None,
+        workspace_id: UUID | None,
+    ) -> bool:
+        """Rename automatic TM entries when a component origin changes."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        if source_project_id is None:
+            return False
+
+        needs_import = source_project_id != self.project_id and (
+            self.contribute_project_tm
+            or self.project.contribute_shared_tm
+            or self.project.effective_contribute_workspace_tm
+        )
+
+        new_workspace_id = self.project.workspace_id
+        memory_ids = list(
+            Memory.objects.filter(origin=origin)
+            .filter(
+                Q(scopes__source_project_id=source_project_id)
+                | Q(scopes__project_id=source_project_id)
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
+        if not memory_ids:
+            return needs_import
+
+        memories = Memory.objects.filter(id__in=memory_ids)
+        memories.update(origin=new_origin)
+        MemoryScope.objects.filter(
+            memory_id__in=memory_ids,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project_id=source_project_id,
+        ).update(project_id=self.project_id)
+        MemoryScope.objects.filter(
+            memory_id__in=memory_ids,
+            source_project_id=source_project_id,
+        ).update(source_project_id=self.project_id)
+        if source_project_id != self.project_id:
+            # Scope rows own visibility after the TM scope migration. Keeping
+            # the old project FK on moved rows would let deleting the old
+            # project cascade memory now scoped to the new project.
+            memories.filter(legacy_project_id=source_project_id).update(
+                legacy_project=None
+            )
+        if workspace_id is not None and new_workspace_id is not None:
+            MemoryScope.objects.filter(
+                memory_id__in=memory_ids,
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+            ).update(workspace_id=new_workspace_id)
+
+        scope_query = Q()
+        if not self.contribute_project_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_PROJECT, project_id=self.project_id
+            )
+        if not self.project.contribute_shared_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_SHARED, source_project_id=self.project_id
+            )
+        if not self.project.effective_contribute_workspace_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                source_project_id=self.project_id,
+            )
+        if scope_query:
+            Memory.objects.filter(id__in=memory_ids).delete_scope(
+                scope_query, delete_legacy=False
+            )
+        return needs_import
+
+    def delete_automatic_memory_scopes(
+        self,
+        origin: str | None = None,
+        source_project_id: int | None = None,
+        workspace_id: UUID | None = None,
+    ) -> None:
+        """Remove automatic shared/workspace TM visibility for a component origin."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        if origin is None:
+            origin = self.full_slug
+        if source_project_id is None:
+            source_project_id = self.project_id
+        if workspace_id is None:
+            workspace_id = self.project.workspace_id
+
+        scope_query = Q(
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project_id=source_project_id,
+        )
+        if workspace_id is not None:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+                source_project_id=source_project_id,
+            )
+        Memory.objects.filter(origin=origin).delete_scope(
+            scope_query, delete_legacy=False
+        )
 
     def disable_inheritance_for_changed_settings(
         self, old: Component, update_fields: Collection[str] | None
@@ -2312,35 +2469,57 @@ class Component(  # ruff: ignore[too-many-public-methods]
         )
 
     @perform_on_link
-    def update_remote_repository(self) -> str | None:
+    def update_remote_repository(self) -> tuple[str | None, RepositoryError | None]:
         with self.repository.lock:
             start = time.monotonic()
             try:
                 previous_revision = self.repository.last_remote_revision
             except RepositoryError:
                 previous_revision = None
-            self.repository.update_remote()
+            try:
+                self.repository.update_remote()
+            except RepositoryError as error:
+                report_error(
+                    "Could not update the repository",
+                    project=self.project,
+                    skip_error_reporting=not settings.DEBUG,
+                )
+                return previous_revision, error
             timediff = time.monotonic() - start
             self.log_info("update took %.2f seconds", timediff)
-            return previous_revision
+            return previous_revision, None
 
     @perform_on_link
-    def update_remote_branch(self, validate: bool = False, retry: bool = True) -> bool:
+    def update_remote_branch(
+        self,
+        validate: bool = False,
+        retry: bool = True,
+        user: User | None = None,
+    ) -> bool:
         """Pull from remote repository."""
+        user = user or self.acting_user
         # Update
         self.log_info("updating repository")
-        try:
-            previous_revision = self.update_remote_repository()
-        except RepositoryError as error:
-            report_error(
-                "Could not update the repository",
-                project=self.project,
-                skip_error_reporting=not settings.DEBUG,
-            )
+        previous_revision, error = self.update_remote_repository()
+        if error is not None:
             error_text = self.error_text(error)
+            if validate and retry and should_auto_add_ssh_host_key(error_text):
+                self.handle_update_error(error_text, retry)
+                return self.update_remote_branch(True, False, user=user)
+            if self.id and not validate:
+                details = {"error": error_text, "branch": self.branch}
+                if previous_revision is not None:
+                    details["previous_remote_revision"] = previous_revision
+                self.change_set.create(
+                    action=ActionEvents.FAILED_REMOTE_UPDATE,
+                    target=error_text,
+                    user=user,
+                    author=user,
+                    details=details,
+                )
             if validate:
                 self.handle_update_error(error_text, retry)
-                return self.update_remote_branch(True, False)
+                return self.update_remote_branch(True, False, user=user)
             if self.id:
                 self.add_alert("UpdateFailure", error=error_text)
             return False
@@ -2361,7 +2540,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     previous_revision,
                     remote_revision,
                 )
-        if self.id:
+        if self.id and not validate:
             self.delete_alert("UpdateFailure")
             if remote_revision and previous_revision != remote_revision:
                 with transaction.atomic():
@@ -2369,6 +2548,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     self.remote_revision = remote_revision
                     Component.objects.filter(pk=self.pk).update(
                         remote_revision=remote_revision
+                    )
+                if previous_revision:
+                    self.change_set.create(
+                        action=ActionEvents.REMOTE_UPDATE,
+                        user=user,
+                        author=user,
+                        details={
+                            "branch": self.branch,
+                            "previous_remote_revision": previous_revision,
+                            "remote_revision": remote_revision,
+                        },
                     )
         return True
 
@@ -2461,7 +2651,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.configure_repo(pull=False)
 
             # pull remote
-            if not self.update_remote_branch():
+            if not self.update_remote_branch(user=user):
                 return False
 
             self.configure_branch()
@@ -2723,7 +2913,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             previous_head = head_change.previous_head or "N/A"
             # First check we're up to date
-            self.update_remote_branch()
+            self.update_remote_branch(user=user)
 
             if keep_changes:
                 # Mark all strings as pending when keeping changes
@@ -2753,6 +2943,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.delete_alert("MergeFailure")
             self.delete_alert("RepositoryOutdated")
             self.delete_alert("PushFailure")
+            self.delete_alert("RepositoryOperationFailure")
 
             if keep_changes and not self.restore_pending_translation_files(
                 request=request, user=user
@@ -2785,9 +2976,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         user = request.user if request else self.acting_user
         try:
-            previous_head = self.reset_repository_to_remote(
-                request, user, keep_changes=keep_changes
-            )
+            with self.repository.lock.without_recovery():
+                previous_head = self.reset_repository_to_remote(
+                    request, user, keep_changes=keep_changes
+                )
         except RepositoryError:
             report_error(
                 "Could not reset the repository",
@@ -3518,6 +3710,33 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def get_local_head_revision(self) -> str:
         return self.repository.last_revision
 
+    def handle_repository_recovery(
+        self, recovery_events: list[RepositoryRecoveryEvent]
+    ) -> None:
+        """Record automatic recovery from interrupted repository operations."""
+        if self._state.adding:
+            return
+        for event in recovery_events:
+            self.change_set.create(
+                action=ActionEvents.REPO_CLEANUP,
+                details={
+                    "recovery": True,
+                    "operation": event.operation,
+                    **event.details,
+                },
+            )
+        self.delete_alert("RepositoryOperationFailure")
+
+    def handle_repository_recovery_failure(self, error: Exception) -> None:
+        """Surface failed recovery from interrupted repository operations."""
+        if self._state.adding:
+            return
+        if isinstance(error, RepositoryError):
+            error_text = self.error_text(error)
+        else:
+            error_text = str(error)
+        self.add_alert("RepositoryOperationFailure", error=error_text)
+
     @perform_on_link
     @contextmanager
     def track_local_head_change(self) -> Generator[LocalHeadChange]:
@@ -3549,7 +3768,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         skip_push: bool = False,
         parse_after_update: bool = False,
         user: User | None = None,
-    ) -> bool:
+        raise_update_errors: bool = True,
+    ) -> bool | None:
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
@@ -3600,15 +3820,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
                 # In case merge has failure recover
                 error_text = self.error_text(error)
-                status = self.repository.status()
+                try:
+                    status = self.repository.status()
+                    status_error = ""
+                except RepositoryError as status_exception:
+                    status = ""
+                    status_error = self.error_text(status_exception)
 
                 # Log error
                 if self.id:
+                    details = {
+                        "error": error_text,
+                        "previous_head": previous_head,
+                        "status": status,
+                    }
+                    if status_error:
+                        details["status_error"] = status_error
                     self.change_set.create(
                         action=action_failed,
                         target=error_text,
                         user=user,
-                        details={"error": error_text, "status": status},
+                        author=user,
+                        details=details,
                     )
                     self.add_alert("MergeFailure", error=error_text)
 
@@ -3618,7 +3851,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 # Tell user (if there is any)
                 messages.error(request, error_msg % self)
 
-                raise
+                if raise_update_errors:
+                    raise
+                return None
 
             # Delete alerts
             if self.id:
@@ -3637,6 +3872,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.change_set.create(
                     action=action,
                     user=user,
+                    author=user,
                     details={
                         "new_head": new_head,
                         "previous_head": previous_head,
@@ -3897,6 +4133,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """Load translations from VCS."""
         if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -3912,6 +4149,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
+                preserve_pending_units=preserve_pending_units,
             )
 
         # When already in a Celery repository task, scan inline so the same
@@ -3927,6 +4165,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     changed_template=changed_template,
                     from_link=from_link,
                     change=change,
+                    preserve_pending_units=preserve_pending_units,
                 )
             except WeblateLockTimeoutError:
                 self.log_info("scheduling update in background after lock timeout")
@@ -3946,6 +4185,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             changed_template=changed_template,
             from_link=from_link,
             change=change,
+            preserve_pending_units=preserve_pending_units,
             user_id=load_user.id if load_user is not None else None,
         )
         return False
@@ -3961,6 +4201,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """
         Load translations from VCS synchronously.
@@ -3982,6 +4223,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
+                preserve_pending_units=preserve_pending_units,
             )
 
     def check_template_valid(self) -> None:
@@ -4015,6 +4257,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """Load translations from VCS."""
         # ruff: ignore[import-outside-top-level]
@@ -4115,10 +4358,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         lang,
                         code,
                         path,
-                        force,
+                        force=force,
                         request=request,
                         user=user,
                         change=change,
+                        preserve_pending_units=preserve_pending_units,
                     )
                 except InvalidTemplateError as error:
                     self.log_warning(
@@ -4198,6 +4442,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     request=request,
                     user=user,
                     from_link=True,
+                    preserve_pending_units=preserve_pending_units,
                 )
             except FileParseError as error:
                 if not isinstance(error.__cause__, FileNotFoundError):
@@ -4362,36 +4607,46 @@ class Component(  # ruff: ignore[too-many-public-methods]
         skip_push: bool = False,
         skip_commit: bool = False,
         parse_after_update: bool = False,
-    ) -> None:
+        raise_update_errors: bool = True,
+    ) -> bool:
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
-            return
+            return True
         if skip_push is None:
             skip_push = validate
         if not self.is_repo_local and not self.repository.is_valid():
             with self.repository.lock:
                 self.repository.clone_from(self.repo)
 
-        self.configure_repo(validate)
-        if not skip_commit and self.id:
-            self.commit_pending("sync", None, skip_push=skip_push)
-        self.configure_branch()
+        self.configure_repo(validate, pull=False)
         if self.id:
+            if not self.update_remote_branch(validate, user=self.acting_user):
+                return False
+            if not skip_commit:
+                self.commit_pending("sync", None, skip_push=skip_push)
+            self.configure_branch()
             # Update existing repo
-            self.update_branch(
-                skip_push=skip_push,
-                parse_after_update=parse_after_update,
+            return (
+                self.update_branch(
+                    skip_push=skip_push,
+                    parse_after_update=parse_after_update,
+                    raise_update_errors=raise_update_errors,
+                )
+                is not None
             )
-        else:
-            # Reset to upstream in case not yet saved model (this is called
-            # from the clean method only)
-            with self.repository.lock:
-                self.update_remote_branch()
-                self.repository.reset()
+        # Reset to upstream in case not yet saved model (this is called
+        # from the clean method only)
+        with self.repository.lock:
+            self.update_remote_branch(validate, user=self.acting_user)
+            self.configure_branch()
+            self.repository.reset()
+        return True
 
     def set_default_branch(self) -> None:
         """Set default VCS branch if empty."""
         if not self.branch and not self.is_repo_link:
+            if self.repository_class.component_requires_branch:
+                return
             self.branch = self.repository_class.get_remote_branch(self.repo)
 
     def clean_category(self) -> None:
@@ -4657,8 +4912,65 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             raise ValidationError({"template": msg})
 
-    def clean_repo(self) -> None:
+    def validate_repository_compatibility(self, *, retry: bool = True) -> None:
+        """Validate repository URLs without merging remote changes."""
+        self.repository.validate_pull_url(self.repo)
+        if self.push:
+            self.repository.validate_push_url(self.push)
+        while True:
+            try:
+                self.repository.validate_remote_compatibility(self.repo, self.branch)
+            except RepositoryError as error:
+                error_text = self.error_text(error)
+                if retry and should_auto_add_ssh_host_key(error_text):
+                    self.add_ssh_host_key()
+                    retry = False
+                    continue
+                raise
+            return
+
+    def validate_repository_access(self, *, validate_worktree: bool) -> None:
+        """Validate repository access using the appropriate depth."""
+        if (
+            validate_worktree
+            or not self.repository_class.supports_remote_compatibility_validation
+            or not self.repository.is_valid()
+        ):
+            self.sync_git_repo(validate=True, skip_push=True)
+        else:
+            self.validate_repository_compatibility()
+
+    def clean_push_url(self) -> None:
+        """Validate push URL without accessing the pull repository."""
+        if self.is_repo_local and self.push:
+            raise ValidationError(
+                {"push": gettext("Push URL is not used without a remote repository.")}
+            )
+        try:
+            self.repository.validate_push_url(self.push)
+        except RepositoryError as error:
+            msg = gettext("Could not validate push URL: %s") % self.error_text(error)
+            raise ValidationError({"push": msg}) from error
+
+    def clean_push_branch_settings(self) -> None:
+        """Validate push branch settings."""
+        if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
+            if self.branch == self.push_branch:
+                msg = gettext(
+                    "Pull and push branches cannot be the same when using pull/merge requests and not pushing to a fork."
+                )
+                raise ValidationError({"push_branch": msg})
+
+            if not self.push_branch:
+                msg = gettext(
+                    "Push branch cannot be empty when using pull/merge requests and not pushing to a fork."
+                )
+                raise ValidationError({"push_branch": msg})
+
+    def clean_repo(self, *, validate_worktree: bool = True) -> None:
         self.clean_repo_link()
+        if self.is_repo_link:
+            return
 
         # Bail out on failed repo validation
         if self.repo is None:
@@ -4674,12 +4986,25 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 {"push": gettext("Push URL is not used without a remote repository.")}
             )
 
+        for field in self.repository_class.component_clear_fields:
+            setattr(self, field, "")
+
+        if self.repository_class.component_requires_branch and not self.branch:
+            raise ValidationError(
+                {
+                    "branch": gettext(
+                        "Repository branch is required for this integration."
+                    )
+                }
+            )
+
+        self.repository_class.validate_component(self)
+
         # Validate VCS repo
         try:
             self.set_default_branch()
             self.clean_branches()
-
-            self.sync_git_repo(validate=True, skip_push=True)
+            self.validate_repository_access(validate_worktree=validate_worktree)
         except RepositoryError as error:
             text = self.error_text(error)
             if is_ssh_host_key_mismatch_error(text):
@@ -4702,18 +5027,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg}) from error
 
-        if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
-            if self.branch == self.push_branch:
-                msg = gettext(
-                    "Pull and push branches cannot be the same when using pull/merge requests and not pushing to a fork."
-                )
-                raise ValidationError({"push_branch": msg})
+        self.clean_push_branch_settings()
 
-            if not self.push_branch:
-                msg = gettext(
-                    "Push branch cannot be empty when using pull/merge requests and not pushing to a fork."
-                )
-                raise ValidationError({"push_branch": msg})
+    def has_only_push_url_changed(self, old: Component | None) -> bool:
+        """Check whether repository validation can be limited to push URL."""
+        return (
+            old is not None
+            and old.vcs == self.vcs
+            and old.repo == self.repo
+            and old.push != self.push
+            and old.branch == self.branch
+            and old.filemask == self.filemask
+            and old.language_regex == self.language_regex
+        )
 
     def clean_branches(self) -> None:
         """Validate VCS branch names."""
@@ -4754,6 +5080,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 ) % {"param": param.name, "format": self.file_format}
                 raise ValidationError({"file_format_params": message})
 
+    def clean_integration_locked_fields(self, old: Component) -> None:
+        """Validate fields managed by an existing repository integration."""
+        vcs_backend = VCS_REGISTRY.get(old.vcs)
+        if vcs_backend is None:
+            return
+
+        errors: dict[str, Any] = {}
+        for field in vcs_backend.component_lock_fields:
+            old_value = getattr(old, field)
+            value = getattr(self, field)
+            if field in vcs_backend.component_clear_fields and not value:
+                setattr(self, field, "")
+                continue
+            if old_value == value:
+                if field in vcs_backend.component_clear_fields:
+                    setattr(self, field, "")
+                continue
+            errors[field] = self.INTEGRATION_LOCKED_FIELD_MESSAGE
+
+        if errors:
+            raise ValidationError(errors)
+
     def clean(self) -> None:
         """
         Validate component parameters.
@@ -4763,6 +5111,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """
         self.clean_model_settings()
         self._clean_repository_settings()
+
+    def can_validate_repository_compatibility(self, old: Component | None) -> bool:
+        """Check whether repository validation can avoid worktree updates."""
+        return (
+            old is not None
+            and self.repository_class.supports_remote_compatibility_validation
+            and old.vcs == self.vcs
+            and old.branch == self.branch
+            and old.filemask == self.filemask
+            and old.language_regex == self.language_regex
+            and old.template == self.template
+            and old.intermediate == self.intermediate
+            and old.new_base == self.new_base
+            and old.file_format == self.file_format
+            and old.file_format_params == self.file_format_params
+        )
 
     def clean_model_settings(self) -> None:
         """Validate component settings that do not require repository access."""
@@ -4782,6 +5146,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            self.clean_integration_locked_fields(old)
             self.check_rename(old, validate=True)
             if old.source_language != self.source_language:
                 # Might be implemented in future, but needs to handle:
@@ -4831,6 +5196,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Check if we should rename
         changed_git = True
         was_renamed = False
+        old = None
         if self.id:
             old = Component.objects.get(pk=self.id)
             was_renamed = self.check_rename(old, validate=True)
@@ -4847,7 +5213,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if changed_git or was_renamed:
             self.drop_repository_cache()
         if changed_git:
-            self.clean_repo()
+            if self.has_only_push_url_changed(old):
+                self.clean_repo_link()
+                if not self.is_repo_link:
+                    self.clean_branches()
+                    self.clean_push_url()
+                    self.clean_push_branch_settings()
+            else:
+                self.clean_repo(
+                    validate_worktree=not self.can_validate_repository_compatibility(
+                        old
+                    )
+                )
         else:
             self.clean_branches()
 
@@ -4944,6 +5321,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 files=[fullname],
             )
 
+    def create_template_if_repository_updated(
+        self, repository_update_succeeded: bool
+    ) -> None:
+        """Create blank template only when checkout is current."""
+        if repository_update_succeeded:
+            self.create_template_if_missing()
+
     def after_save(
         self,
         *,
@@ -4969,28 +5353,30 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.translations_count = 0
         self.progress_step(0)
         has_seed_source = create and seed_source_component_id is not None
+        repository_update_succeeded = True
         # Configure git repo if there were changes
         if changed_git and (not create or not self.is_repo_link):
             # Bring VCS repo in sync with current model
-            self.sync_git_repo(
+            repository_update_succeeded = self.sync_git_repo(
                 skip_push=skip_push,
                 skip_commit=create,
                 parse_after_update=True,
+                raise_update_errors=create,
             )
 
         # Create template in case intermediate file is present
-        self.create_template_if_missing()
+        self.create_template_if_repository_updated(repository_update_succeeded)
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
         was_change = False
         if has_seed_source:
             was_change = False
-        elif changed_setup:
+        elif changed_setup and repository_update_succeeded:
             was_change = self.create_translations(
                 force=True, changed_template=changed_template
             )
-        elif changed_git:
+        elif changed_git and repository_update_succeeded:
             was_change = self.create_translations()
 
         # Update variants (create_translation does this on change)
@@ -6001,6 +6387,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # This might throw an exception in case of invalid link
         try:
             self.repository.resolve_symlinks(filename)
+        except RepositoryRestrictedPathError as error:
+            raise ValidationError(
+                gettext("File path is in a restricted location in the repository.")
+            ) from error
         except RepositorySymlinkError as error:
             raise ValidationError(
                 gettext("Invalid symbolic link in a repository.")

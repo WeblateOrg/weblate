@@ -115,7 +115,9 @@ class PunctuationSpacing(AutoFix):
             highlights = highlight_string(
                 target, unit, highlight_syntax="rst-text" in unit.all_flags
             )
-            highlight_ranges = sorted((start, end) for start, end, _ in highlights)
+            highlight_ranges = sorted(
+                (highlight.start, highlight.end) for highlight in highlights
+            )
 
             def make_replacer(replacement_char: str):
                 highlight_index = 0

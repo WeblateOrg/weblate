@@ -23,6 +23,7 @@ from .forms import MicrosoftMachineryForm
 if TYPE_CHECKING:
     from datetime import datetime
 
+    from weblate.checks.base import Highlight
     from weblate.trans.models import Unit
 
     from .base import (
@@ -179,10 +180,10 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
         }
 
     def format_replacement(
-        self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
+        self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
     ):
         """Generate a single replacement."""
-        if h_kind is None:
+        if h_kind is None or not hasattr(h_kind, "all_flags"):
             return f'<span class="notranslate" id="{h_start}">{self.escape_text(h_text)}</span>'
         # Glossary
         flags = h_kind.all_flags

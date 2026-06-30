@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import operator
 import os
 import tempfile
 import zipfile
@@ -21,6 +22,7 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
 from django.db import DatabaseError
+from django.db.models import Q
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
@@ -35,6 +37,7 @@ from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.models import Addon
+from weblate.api.docs import DOCS_OPENAPI_ALL_VCS_CHOICES_ENV
 from weblate.api.serializers import (
     CommentSerializer,
     ComponentSerializer,
@@ -42,11 +45,11 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     RepoOperations,
 )
-from weblate.api.views import MemoryViewSet
+from weblate.api.views import MemoryFilter, MemoryViewSet
 from weblate.auth.data import ROLES, SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.lang.models import Language
-from weblate.memory.models import Memory
+from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
@@ -86,6 +89,8 @@ from weblate.utils.state import (
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
+from weblate.vcs.github import GitHubInstallation
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 TEST_PO = get_test_file("cs.po")
@@ -2272,16 +2277,20 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": group.id},
             method="post",
             authenticated=False,
-            code=200,
+            code=400,
             request={"language_code": "cs"},
         )
-        self.assertTrue(group.languages.filter(code="cs").exists())
+        self.assertContains(
+            response, "Cannot change languages on a workspace team.", status_code=400
+        )
+        self.assertFalse(group.languages.filter(code="cs").exists())
+        group.languages.add(Language.objects.get(code="cs"))
         self.do_request(
             "api:group-delete-languages",
             kwargs={"id": group.id, "language_code": "cs"},
             method="delete",
             authenticated=False,
-            code=204,
+            code=400,
         )
         self.do_request(
             "api:group-detail",
@@ -2292,7 +2301,8 @@ class GroupAPITest(APIBaseTest):
             request={"language_selection": SELECTION_MANUAL},
         )
         group.refresh_from_db()
-        self.assertEqual(group.language_selection, SELECTION_MANUAL)
+        self.assertEqual(group.language_selection, SELECTION_ALL)
+        self.assertFalse(group.languages.exists())
         self.do_request(
             "api:group-delete-roles",
             kwargs={"id": group.id, "role_id": role.id},
@@ -2982,6 +2992,28 @@ class ProjectAPITest(APIBaseTest):
     def test_changes(self) -> None:
         request = self.do_request("api:project-changes", self.project_kwargs)
         self.assertEqual(request.data["count"], 30)
+
+    def test_changes_skip_restricted_component_changes(self) -> None:
+        secret = "SECRET-RESTRICTED-STRING-XYZZY"
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_cache()
+
+        Change.objects.create(
+            action=ActionEvents.NEW,
+            component=self.component,
+            user=self.user,
+            target=secret,
+            old="",
+        )
+
+        self.do_request("api:component-detail", self.component_kwargs, code=404)
+
+        global_changes = self.do_request("api:change-list")
+        self.assertNotIn(secret, global_changes.content.decode())
+
+        project_changes = self.do_request("api:project-changes", self.project_kwargs)
+        self.assertNotIn(secret, project_changes.content.decode())
 
     def test_statistics(self) -> None:
         request = self.do_request("api:project-statistics", self.project_kwargs)
@@ -5184,6 +5216,95 @@ class ProjectAPITest(APIBaseTest):
         self.assertIn("site administrator", str(response.data))
         self.assertIn("site-wide or allowlisted", str(response.data))
 
+    def test_project_backups(self) -> None:
+        self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            superuser=False,
+        )
+
+        self.do_request(
+            "api:project-backups-download",
+            self.project_kwargs | {"backup": "123456.zip"},
+            method="get",
+            code=403,
+            superuser=False,
+        )
+
+        self.component.project.add_user(self.user, "Administration")
+
+        response = self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=False,
+        )
+        initial_count = len(response.data)
+
+        response = self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="post",
+            code=202,
+            superuser=False,
+        )
+        self.assertEqual(
+            "Backup scheduled. It will be available soon.", response.data["detail"]
+        )
+        task_url = response.data["task_url"]
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "SUCCESS"
+
+            def ready(self):
+                return True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                task_url,
+                method="get",
+                code=200,
+                superuser=False,
+            )
+
+        response = self.do_request(
+            "api:project-backups",
+            self.project_kwargs,
+            method="get",
+            code=200,
+            superuser=False,
+        )
+
+        self.assertEqual(len(response.data), initial_count + 1)
+
+        backup_name = max(response.data, key=operator.itemgetter("timestamp"))["name"]
+
+        self.do_request(
+            "api:project-backups-download",
+            self.project_kwargs | {"backup": "99999999.zip"},
+            method="get",
+            code=404,
+            superuser=False,
+        )
+
+        response = self.do_request(
+            "api:project-backups-download",
+            self.project_kwargs | {"backup": backup_name},
+            method="get",
+            code=200,
+            superuser=False,
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        if response.streaming:
+            # consume stream to avoid unclosed file warnings
+            b"".join(response.streaming_content)
+
 
 class ComponentAPITest(APIBaseTest):
     def setUp(self) -> None:
@@ -5193,6 +5314,29 @@ class ComponentAPITest(APIBaseTest):
         )
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
+
+    def configure_github_app_component(self) -> None:
+        workspace = Workspace.objects.create(name="API GitHub App workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+            repositories=[
+                {"full_name": "test-org/repo"},
+                {"full_name": "test-org/other"},
+            ],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github-app",
+            repo="https://github.com/test-org/repo.git",
+            branch="main",
+            push="",
+            push_branch="",
+        )
+        self.component.refresh_from_db()
 
     def test_list_components(self) -> None:
         response = self.client.get(reverse("api:component-list"))
@@ -5216,6 +5360,38 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["slug"], "test")
         self.assertEqual(response.data["project"]["slug"], "test")
+
+    def test_get_component_exposes_vcs_view_fields(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            git_export="https://example.com/export.git",
+            push_branch="translations",
+            repoweb="https://example.com/src/{{filename}}#L{{line}}",
+        )
+        response = self.client.get(
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+        )
+        self.assertEqual(response.data["git_export"], "https://example.com/export.git")
+        self.assertEqual(response.data["push_branch"], "translations")
+        self.assertEqual(
+            response.data["repoweb"], "https://example.com/src/{{filename}}#L{{line}}"
+        )
+
+    def test_get_component_hides_vcs_view_fields_without_permission(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            git_export="https://example.com/export.git",
+            push_branch="translations",
+            repoweb="https://example.com/src/{{filename}}#L{{line}}",
+        )
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save(update_fields=["access_control"])
+
+        response = self.client.get(
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+        )
+
+        self.assertIsNone(response.data["git_export"])
+        self.assertIsNone(response.data["push_branch"])
+        self.assertIsNone(response.data["repoweb"])
 
     def test_get_component_uses_effective_linked_repository_settings(self) -> None:
         self.component.push_on_commit = True
@@ -5313,6 +5489,35 @@ class ComponentAPITest(APIBaseTest):
         pending = response.data["pending_units"]
         self.assertIsNotNone(pending)
         self.assertEqual(pending["total"], 0)
+
+    def test_repo_status_remote_update_failure(self) -> None:
+        self.component.change_set.create(
+            action=ActionEvents.FAILED_REMOTE_UPDATE,
+            target="fetch failed",
+        )
+
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertIsNone(response.data["merge_failure"])
+
+    def test_repo_status_remote_update_preserves_merge_failure(self) -> None:
+        self.component.change_set.create(
+            action=ActionEvents.FAILED_REBASE,
+            target="rebase failed",
+        )
+        self.component.change_set.create(action=ActionEvents.REMOTE_UPDATE)
+
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertEqual(response.data["merge_failure"], "rebase failed")
 
     def test_repo_status_detailed(self) -> None:
         """Test component repository status with detailed field verification."""
@@ -5467,6 +5672,32 @@ class ComponentAPITest(APIBaseTest):
             "api:component-monolingual-base",
             {"project__slug": component.project.slug, "slug": component.slug},
         )
+
+    def test_monolingual_directory_base_skips_symlinked_file(self) -> None:
+        component = self.create_appstore(
+            name="appstore", project=self.component.project
+        )
+        template_path = os.path.join(component.full_path, component.template)
+        sentinel = b"outside repository"
+
+        with tempfile.NamedTemporaryFile(delete=False) as handle:
+            handle.write(sentinel)
+        self.addCleanup(os.unlink, handle.name)
+
+        os.symlink(handle.name, os.path.join(template_path, "leak_host.bin"))
+
+        response = self.do_request(
+            "api:component-monolingual-base",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            superuser=True,
+        )
+
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            self.assertNotIn("leak_host.bin", zf.namelist())
+            archived_files = [zf.read(name) for name in zf.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
 
     def test_monolingual_download_prohibited(self) -> None:
         component = self.create_po_mono(name="mono", project=self.component.project)
@@ -5628,6 +5859,48 @@ class ComponentAPITest(APIBaseTest):
             is_valid_index,
             "Component row should be locked before serializer validation runs",
         )
+
+    def test_patch_rejects_github_app_repository_change(self) -> None:
+        self.configure_github_app_component()
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"repo": "https://github.com/test-org/other.git"},
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "This field is managed by the repository integration and can not be changed.",
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repo, "https://github.com/test-org/repo.git")
+
+    def test_patch_rejects_github_app_vcs_change(self) -> None:
+        self.configure_github_app_component()
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"vcs": "git"},
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "vcs")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "This field is managed by the repository integration and can not be changed.",
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "github-app")
 
     def test_patch_acquires_repository_lock_before_row_lock(self) -> None:
         events: list[tuple[str, int]] = []
@@ -6983,6 +7256,36 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def test_download_translation_zip_skips_cross_component_symlink(self) -> None:
+        component = self.create_appstore(
+            name="appstore", project=self.component.project
+        )
+        template_path = os.path.join(component.full_path, component.template)
+        other_project = self.create_project(name="Other project", slug="other-project")
+        other_component = self.create_po(name="Other component", project=other_project)
+        sentinel = b"other component"
+        target = os.path.join(other_component.full_path, "secret.txt")
+        Path(target).write_bytes(sentinel)
+
+        os.symlink(target, os.path.join(template_path, "leak_host.bin"))
+
+        response = self.do_request(
+            "api:component-file",
+            {"project__slug": component.project.slug, "slug": component.slug},
+            method="get",
+            code=200,
+            superuser=True,
+        )
+
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            self.assertFalse(
+                any(name.endswith("leak_host.bin") for name in zf.namelist())
+            )
+            archived_files = [zf.read(name) for name in zf.namelist()]
+
+        self.assertFalse(any(sentinel in content for content in archived_files))
+
     def test_download_translation_zip_converted(self) -> None:
         response = self.do_request(
             "api:component-file",
@@ -7716,19 +8019,28 @@ class MemoryAPITest(APIBaseTest):
         shared: bool = False,
         source_language: str = "en",
         target_language: str = "cs",
+        source_project: Project | None = None,
     ) -> Memory:
-        return Memory.objects.create(
+        if source_project is None and project is not None:
+            source_project = project
+        if source_project is None and shared:
+            source_project = self.component.project
+        memory = Memory(
             source=source,
             target=target,
-            user=user,
-            project=project,
+            legacy_user=user,
+            legacy_project=project,
             origin=origin,
-            from_file=from_file,
-            shared=shared,
+            legacy_from_file=from_file,
+            legacy_shared=shared,
             status=Memory.STATUS_ACTIVE,
             source_language=Language.objects.get(code=source_language),
             target_language=Language.objects.get(code=target_language),
         )
+        if source_project is not None:
+            memory.scope_source_project_id = source_project.id
+        memory.save()
+        return memory
 
     def test_memory_lookup_request_serializer_preserves_whitespace(self) -> None:
         serializer = MemoryLookupRequestSerializer(data={"strings": ["  padded  "]})
@@ -7863,6 +8175,82 @@ class MemoryAPITest(APIBaseTest):
         self.assertIn(component_match.id, ids)
         self.assertNotIn(language_match.id, ids)
 
+    def test_project_filter_uses_queryset_database_alias(self) -> None:
+        queryset = self.mock_queryset(db="memory_db")
+        queryset.alias.return_value = queryset
+        queryset.filter.return_value = queryset
+        filterset = MemoryFilter()
+        filterset.request = SimpleNamespace(
+            user=self.mock_user_with_allowed_projects(
+                [self.component.project.id],
+                has_manage_perm=True,
+            )
+        )
+
+        with patch.object(
+            MemoryScope.objects, "using", wraps=MemoryScope.objects.using
+        ) as using:
+            result = filterset.filter_project(
+                queryset,
+                "project",
+                self.component.project.slug,
+            )
+
+        self.assertIs(result, queryset)
+        using.assert_called_once_with("memory_db")
+
+    def test_get_filters_return_visible_project_scope(self) -> None:
+        self.authenticate()
+        private_component = self.create_acl()
+        memory = self.create_memory(
+            source="Memory visible project scope",
+            target="Viditelny rozsah projektu",
+            project=private_component.project,
+            origin=private_component.full_slug,
+            from_file=True,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=self.component.project,
+        )
+
+        response = self.client.get(
+            reverse("api:memory-list"),
+            {
+                "project": self.component.project.slug,
+                "source": "Memory visible project scope",
+            },
+        )
+
+        results = response.data["results"]
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0]["project"], self.component.project.id)
+
+    def test_project_filter_restricts_project_scope_to_allowed_projects(self) -> None:
+        self.authenticate()
+        private_component = self.create_acl()
+        memory = self.create_memory(
+            source="Memory hidden project association",
+            target="Skryte spojeni projektu",
+            user=self.user,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=private_component.project,
+        )
+
+        response = self.client.get(
+            reverse("api:memory-list"),
+            {
+                "project": private_component.project.slug,
+                "source": "Memory hidden project association",
+            },
+        )
+
+        self.assertEqual(response.data["results"], [])
+
     def test_delete(self) -> None:
         self.authenticate()
         deletable = self.create_memory(
@@ -7904,6 +8292,88 @@ class MemoryAPITest(APIBaseTest):
             method="delete",
             code=404,
         )
+
+    def test_delete_removes_only_authorized_scope_from_compacted_entry(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        self.authenticate()
+        compacted = self.create_memory(
+            source="Delete compacted project scope",
+            target="Smazat rozsah projektu",
+            project=self.component.project,
+            source_project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        shared_scope = MemoryScope.objects.create(
+            memory=compacted,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.component.project,
+        )
+
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": compacted.pk},
+            method="delete",
+            code=204,
+        )
+
+        self.assertTrue(Memory.objects.filter(pk=compacted.pk).exists())
+        self.assertFalse(
+            compacted.scopes.filter(scope=MemoryScope.SCOPE_PROJECT).exists()
+        )
+        self.assertTrue(MemoryScope.objects.filter(pk=shared_scope.pk).exists())
+
+    def test_delete_workspace_scope_requires_source_project_permission(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Memory delete workspace",
+            use_workspace_tm=True,
+            contribute_workspace_tm=True,
+        )
+        Project.objects.filter(pk=self.component.project_id).update(
+            workspace=workspace,
+            use_workspace_tm=True,
+        )
+        self.component.project.refresh_from_db()
+        source_project = Project.objects.create(
+            name="Memory source project",
+            slug="memory-source-project",
+            workspace=workspace,
+            contribute_workspace_tm=True,
+        )
+        self.component.project.add_user(self.user, "Administration")
+        self.authenticate()
+        workspace_entry = self.create_memory(
+            source="Delete workspace scope",
+            target="Smazat rozsah pracoviste",
+            source_project=source_project,
+            origin=self.component.full_slug,
+        )
+        MemoryScope.objects.create(
+            memory=workspace_entry,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+            source_project=source_project,
+        )
+
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": workspace_entry.pk},
+            method="delete",
+            code=403,
+        )
+        self.assertTrue(
+            MemoryScope.objects.filter(
+                memory=workspace_entry, scope=MemoryScope.SCOPE_WORKSPACE
+            ).exists()
+        )
+
+        source_project.add_user(self.user, "Administration")
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": workspace_entry.pk},
+            method="delete",
+            code=204,
+        )
+        self.assertFalse(Memory.objects.filter(pk=workspace_entry.pk).exists())
 
     def test_superuser_can_access_other_users_personal_memory(self) -> None:
         other_user = User.objects.create_user(
@@ -8053,6 +8523,127 @@ class MemoryAPITest(APIBaseTest):
         self.assertEqual(response.data[3]["match"]["id"], file_entry.id)
         self.assertIsNone(response.data[4]["match"])
         self.assertIsNone(response.data[5]["match"])
+
+    def test_lookup_with_project_uses_workspace_scope_when_enabled(self) -> None:
+        self.authenticate()
+        workspace = Workspace.objects.create(
+            name="Memory workspace",
+            use_workspace_tm=True,
+            contribute_workspace_tm=True,
+        )
+        Project.objects.filter(pk=self.component.project_id).update(
+            workspace=workspace,
+            use_workspace_tm=True,
+            contribute_workspace_tm=True,
+        )
+        self.component.project.refresh_from_db()
+        workspace_entry = self.create_memory(
+            source="Workspace scoped memory",
+            target="Pracovni pamet",
+            origin=self.component.full_slug,
+            source_project=self.component.project,
+        )
+        MemoryScope.objects.create(
+            memory=workspace_entry,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+            source_project=self.component.project,
+        )
+
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                f"&project={self.component.project.slug}"
+            ),
+            {"strings": ["Workspace scoped memory"]},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["match"]["id"], workspace_entry.id)
+
+        self.component.project.use_workspace_tm = False
+        self.component.project.save(update_fields=["use_workspace_tm"])
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                f"&project={self.component.project.slug}"
+            ),
+            {"strings": ["Workspace scoped memory"]},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.data[0]["match"])
+
+    def test_lookup_ignores_shared_memory_after_source_project_disables_contribution(
+        self,
+    ) -> None:
+        self.authenticate()
+        self.component.project.use_shared_tm = True
+        self.component.project.contribute_shared_tm = True
+        self.component.project.save(
+            update_fields=["use_shared_tm", "contribute_shared_tm"]
+        )
+        shared_entry = self.create_memory(
+            source="Disabled shared memory",
+            target="Vypnuta sdilena pamet",
+            origin=self.component.full_slug,
+            shared=True,
+            source_project=self.component.project,
+        )
+
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                f"&project={self.component.project.slug}"
+            ),
+            {"strings": ["Disabled shared memory"]},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["match"]["id"], shared_entry.id)
+
+        self.component.project.contribute_shared_tm = False
+        self.component.project.save(update_fields=["contribute_shared_tm"])
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                f"&project={self.component.project.slug}"
+            ),
+            {"strings": ["Disabled shared memory"]},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.data[0]["match"])
+
+    def test_lookup_skips_legacy_shared_memory_before_backfill(self) -> None:
+        self.authenticate()
+        self.component.project.use_shared_tm = True
+        self.component.project.save(update_fields=["use_shared_tm"])
+        Memory.objects.create(
+            source="Legacy shared memory",
+            target="Stara sdilena pamet",
+            origin=self.component.full_slug,
+            legacy_shared=True,
+            status=Memory.STATUS_ACTIVE,
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+        )
+
+        response = self.client.post(
+            (
+                f"{reverse('api:memory-lookup')}?source_language=en&target_language=cs"
+                f"&project={self.component.project.slug}"
+            ),
+            {"strings": ["Legacy shared memory"]},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.data[0]["match"])
 
     def test_lookup_batches_exact_matches_before_fuzzy_fallback(self) -> None:
         self.authenticate()
@@ -8331,15 +8922,14 @@ class MemoryAPITest(APIBaseTest):
 
     def test_get_scoped_queryset_uses_project_subquery_on_memory_db(self) -> None:
         user = self.mock_user_with_allowed_projects([1, 2, 3])
-        allowed_projects = MagicMock()
-        user.allowed_projects.using.return_value = allowed_projects
         request = MagicMock()
         request.user = user
         using_queryset = self.mock_queryset(db="memory_db")
-        filtered_queryset = self.mock_queryset(db="memory_db")
+        visible_queryset = self.mock_queryset(db="memory_db")
         ordered_queryset = self.mock_queryset(db="memory_db")
-        using_queryset.filter.return_value = filtered_queryset
-        filtered_queryset.order_by.return_value = ordered_queryset
+        using_queryset.visible_to_user.return_value = visible_queryset
+        visible_queryset.prefetch_scopes.return_value = visible_queryset
+        visible_queryset.order_by.return_value = ordered_queryset
 
         view = MemoryViewSet()
         view.request = request
@@ -8351,21 +8941,20 @@ class MemoryAPITest(APIBaseTest):
 
         self.assertIs(result, ordered_queryset)
         using.assert_called_once_with("memory_db")
-        user.allowed_projects.using.assert_called_once_with("memory_db")
-        query = using_queryset.filter.call_args.args[0]
-        self.assertIn(("project__in", allowed_projects), query.children)
+        using_queryset.visible_to_user.assert_called_once_with(user, alias="memory_db")
+        visible_queryset.prefetch_scopes.assert_called_once_with()
+        user.allowed_projects.using.assert_not_called()
 
     def test_get_scoped_queryset_uses_project_subquery_on_default(self) -> None:
         user = self.mock_user_with_allowed_projects([1, 2, 3])
-        allowed_projects = MagicMock()
-        user.allowed_projects.using.return_value = allowed_projects
         request = MagicMock()
         request.user = user
         using_queryset = self.mock_queryset(db="default")
-        filtered_queryset = self.mock_queryset(db="default")
+        visible_queryset = self.mock_queryset(db="default")
         ordered_queryset = self.mock_queryset(db="default")
-        using_queryset.filter.return_value = filtered_queryset
-        filtered_queryset.order_by.return_value = ordered_queryset
+        using_queryset.visible_to_user.return_value = visible_queryset
+        visible_queryset.prefetch_scopes.return_value = visible_queryset
+        visible_queryset.order_by.return_value = ordered_queryset
 
         view = MemoryViewSet()
         view.request = request
@@ -8377,19 +8966,20 @@ class MemoryAPITest(APIBaseTest):
 
         self.assertIs(result, ordered_queryset)
         using.assert_called_once_with("default")
-        user.allowed_projects.using.assert_called_once_with("default")
-        query = using_queryset.filter.call_args.args[0]
-        self.assertIn(("project__in", allowed_projects), query.children)
+        using_queryset.visible_to_user.assert_called_once_with(user, alias="default")
+        visible_queryset.prefetch_scopes.assert_called_once_with()
+        user.allowed_projects.using.assert_not_called()
 
     def test_get_scoped_queryset_superuser_skips_project_materialization(self) -> None:
         user = self.mock_user_with_allowed_projects([1, 2, 3], is_superuser=True)
         request = MagicMock()
         request.user = user
         using_queryset = self.mock_queryset(db="memory_db")
-        filtered_queryset = self.mock_queryset(db="memory_db")
+        scoped_queryset = self.mock_queryset(db="memory_db")
         ordered_queryset = self.mock_queryset(db="memory_db")
-        using_queryset.filter.return_value = filtered_queryset
-        filtered_queryset.order_by.return_value = ordered_queryset
+        using_queryset.filter_scope.return_value = scoped_queryset
+        scoped_queryset.prefetch_scopes.return_value = scoped_queryset
+        scoped_queryset.order_by.return_value = ordered_queryset
 
         view = MemoryViewSet()
         view.request = request
@@ -8401,6 +8991,10 @@ class MemoryAPITest(APIBaseTest):
 
         self.assertIs(result, ordered_queryset)
         using.assert_called_once_with("memory_db")
+        using_queryset.all.assert_not_called()
+        scope_query = using_queryset.filter_scope.call_args.args[0]
+        self.assertEqual(scope_query.deconstruct(), Q().deconstruct())
+        scoped_queryset.prefetch_scopes.assert_called_once_with()
         user.allowed_projects.using.assert_not_called()
 
 
@@ -11035,6 +11629,7 @@ class ComponentListAPITest(APIBaseTest):
         super().setUp()
         clist = ComponentList.objects.create(name="Name", slug="name")
         clist.autocomponentlist_set.create()
+        clist.components.add(self.component)
 
     def test_list(self) -> None:
         response = self.client.get(reverse("api:componentlist-list"))
@@ -11048,6 +11643,126 @@ class ComponentListAPITest(APIBaseTest):
             )
         )
         self.assertIn("components", response.data)
+
+    def test_component_lists_hidden_without_management_permission(self) -> None:
+        empty = ComponentList.objects.create(name="Empty", slug="empty")
+        empty.autocomponentlist_set.create(
+            project_match="^internal-", component_match="^.*$"
+        )
+        private = ComponentList.objects.create(name="Private", slug="private")
+        private.components.add(self.create_acl())
+        restricted = ComponentList.objects.create(name="Restricted", slug="restricted")
+        restricted.components.add(
+            self.create_po(project=self.project, name="Restricted", restricted=True)
+        )
+
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["slug"], "name")
+
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": empty.slug},
+            authenticated=False,
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": private.slug},
+            authenticated=False,
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": restricted.slug},
+            authenticated=False,
+            code=404,
+        )
+
+        self.authenticate(False)
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["slug"], "name")
+
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": empty.slug},
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": private.slug},
+            code=404,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": restricted.slug},
+            code=404,
+        )
+
+    def test_component_links_filtered_without_management_permission(self) -> None:
+        clist = ComponentList.objects.get(slug="name")
+        restricted_component = self.create_po(
+            project=self.project, name="Restricted", restricted=True
+        )
+        private_component = self.create_acl()
+        clist.components.add(restricted_component, private_component)
+        expected_url = (
+            f"http://example.com"
+            f"{reverse('api:component-detail', kwargs=self.component_kwargs)}"
+        )
+
+        response = self.client.get(
+            reverse("api:componentlist-detail", kwargs={"slug": clist.slug})
+        )
+        self.assertEqual(response.data["components"], [expected_url])
+
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["results"][0]["components"], [expected_url])
+
+    def test_component_lists_visible_with_management_permission(self) -> None:
+        empty = ComponentList.objects.create(name="Empty", slug="empty")
+        empty.autocomponentlist_set.create(
+            project_match="^internal-", component_match="^.*$"
+        )
+        private = ComponentList.objects.create(name="Private", slug="private")
+        private.components.add(self.create_acl())
+        restricted = ComponentList.objects.create(name="Restricted", slug="restricted")
+        restricted.components.add(
+            self.create_po(project=self.project, name="Restricted", restricted=True)
+        )
+
+        self.grant_perm_to_user("componentlist.edit")
+        self.user.clear_cache()
+        self.authenticate(False)
+
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["count"], 4)
+        self.assertCountEqual(
+            [item["slug"] for item in response.data["results"]],
+            ["name", "empty", "private", "restricted"],
+        )
+
+        response = self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": empty.slug},
+            code=200,
+        )
+        self.assertEqual(response.data["auto_assign"][0]["project_match"], "^internal-")
+
+        response = self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": private.slug},
+            code=200,
+        )
+        self.assertEqual(response.data["slug"], "private")
+
+        response = self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": restricted.slug},
+            code=200,
+        )
+        self.assertEqual(response.data["slug"], "restricted")
 
     def test_create(self) -> None:
         self.do_request(
@@ -13169,6 +13884,48 @@ class OpenAPITest(APIBaseTest):
         schema = self.get_schema()
         required = schema["components"]["schemas"]["Metrics"]["required"]
         self.assertNotIn("version", required)
+
+    def test_vcs_enum_schema_matches_runtime_choices(self) -> None:
+        schema = self.get_schema()
+        schemas = schema["components"]["schemas"]
+        vcs_schema = schemas["VcsEnum"]
+        field_description = schemas["Component"]["properties"]["vcs"]["description"]
+        severity_description = schemas["Announcement"]["properties"]["severity"][
+            "description"
+        ]
+        enum = vcs_schema["enum"]
+        expected = [value for value, _label in VCS_REGISTRY.get_choices()]
+
+        self.assertEqual(enum, expected)
+        self.assertNotIn("github", enum)
+        self.assertIn("* `git` - Git", vcs_schema["description"])
+        self.assertEqual(
+            field_description,
+            "Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.",
+        )
+        self.assertNotIn("* `git`", field_description)
+        self.assertEqual(
+            severity_description,
+            "Severity defines color used for the message.",
+        )
+        self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
+        self.assertNotIn("* `info`", severity_description)
+
+    def test_static_vcs_enum_schema_includes_all_configured_choices(self) -> None:
+        with patch.dict(os.environ, {DOCS_OPENAPI_ALL_VCS_CHOICES_ENV: "1"}):
+            schema = self.get_schema()
+
+        schemas = schema["components"]["schemas"]
+        vcs_schema = schemas["VcsEnum"]
+        field_description = schemas["Component"]["properties"]["vcs"]["description"]
+        enum = vcs_schema["enum"]
+        expected = [value for value, _label in VCS_REGISTRY.get_unfiltered_choices()]
+
+        self.assertEqual(enum, expected)
+        self.assertIn("github", enum)
+        self.assertIn("* `github` - GitHub pull request", vcs_schema["description"])
+        self.assertNotIn("* `git`", field_description)
+        self.assertNotIn("* `github`", field_description)
 
     def test_user_groups_schema_includes_language_limits(self) -> None:
         schema = self.get_schema()

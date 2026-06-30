@@ -16,9 +16,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
 "\n"
-"POT-Creation-Date: 2026-06-17 21:40-0500\n"
-"PO-Revision-Date: 2026-06-18 13:35+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"POT-Creation-Date: 2026-06-24 23:02-0500\n"
+"PO-Revision-Date: 2026-06-26 12:01+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "javascript/uk/>\n"
 "Language: uk\n"
@@ -117,60 +117,78 @@ msgstr[3] "%s відповідний рядок"
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Деякі зміни не збережені. Ви справді бажаєте вийти?"
 
-#: weblate/static/js/bulk-accept-suggestions.js:31
+#: weblate/static/js/bulk-accept-suggestions.js:29
 msgid "Security token missing. Please reload the page."
 msgstr "Відсутній токен безпеки. Будь ласка, перезавантажте сторінку."
 
-#: weblate/static/js/bulk-accept-suggestions.js:45
+#: weblate/static/js/bulk-accept-suggestions.js:37
 #, javascript-format
-msgid "Processing bulk accept for %s"
-msgstr "Обробка масового прийому для %s"
+msgid "Loading suggestion count for %s"
+msgstr "Завантажуємо кількість пропозицій для %s"
+
+#: weblate/static/js/bulk-accept-suggestions.js:55
+msgid "Bulk accept cancelled."
+msgstr "Пакетне прийняття скасовано."
+
+#: weblate/static/js/bulk-accept-suggestions.js:60
+#, javascript-format
+msgid "Scheduling bulk accept for %s"
+msgstr "Плануємо пакетне прийняння для %s"
 
 #: weblate/static/js/bulk-accept-suggestions.js:75
+msgid "Unknown error"
+msgstr "Невідома помилка"
+
+#: weblate/static/js/bulk-accept-suggestions.js:80
+msgid "Network error"
+msgstr "Помилка мережі"
+
+#: weblate/static/js/bulk-accept-suggestions.js:108
+#: weblate/static/js/bulk-accept-suggestions.js:126
+msgid "Invalid server response"
+msgstr "Недійсна відповідь сервера"
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
 #, javascript-format
 msgid "Server error (%s)"
 msgstr "Помилка сервера (%s)"
 
-#: weblate/static/js/bulk-accept-suggestions.js:86
-msgid "Invalid server response"
-msgstr "Недійсна відповідь сервера"
-
-#: weblate/static/js/bulk-accept-suggestions.js:99
+#: weblate/static/js/bulk-accept-suggestions.js:140
 #, javascript-format
-msgid "%s accepted"
-msgid_plural "%s accepted"
-msgstr[0] "%s прийнято"
-msgstr[1] "%s прийнятий"
-msgstr[2] "%s прийнят"
-msgstr[3] "%s прийнят"
+msgid "There are no pending suggestions from %s in this translation."
+msgstr "Немає пропозицій у черзі від %s у цьому перекладі."
 
-#: weblate/static/js/bulk-accept-suggestions.js:117
-msgid "Done"
-msgstr "Готово"
-
-#: weblate/static/js/bulk-accept-suggestions.js:124
+#: weblate/static/js/bulk-accept-suggestions.js:149
 #, javascript-format
-msgid "Processed %s suggestion. Page will reload in 2 seconds."
-msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
-msgstr[0] ""
-"Оброблено пропозицію %s. Сторінка перезавантажиться через 2 секунди."
-msgstr[1] ""
-"Оброблено %s пропозицій. Сторінка перезавантажиться через 2 секунди."
-msgstr[2] ""
-"Оброблено %s пропозиції. Сторінка перезавантажиться через 2 секунди."
-msgstr[3] ""
-"Оброблено %s пропозиції. Сторінка перезавантажиться через 2 секунди."
+msgid "This will accept %s suggestion from %s in this translation."
+msgid_plural "This will accept %s suggestions from %s in this translation."
+msgstr[0] "У результаті буде прийнято %s пропозицію від %s у цьому перекладі."
+msgstr[1] "У результаті буде прийнято %s пропозиції від %s у цьому перекладі."
+msgstr[2] "У результаті буде прийнято %s пропозицій від %s у цьому перекладі."
+msgstr[3] "У результаті буде прийнято %s пропозицію від %s у цьому перекладі."
 
-#: weblate/static/js/bulk-accept-suggestions.js:134
-msgid "Unknown error"
-msgstr "Невідома помилка"
+#: weblate/static/js/bulk-accept-suggestions.js:212
+msgid "Accept all suggestions?"
+msgstr "Прийняти усі пропозиції?"
 
-#: weblate/static/js/bulk-accept-suggestions.js:139
-msgid "Network error"
-msgstr "Помилка мережі"
+#: weblate/static/js/bulk-accept-suggestions.js:218
+#: weblate/static/loader-bootstrap.js:107
+msgid "Close"
+msgstr "Закрити"
 
-#: weblate/static/js/bulk-accept-suggestions.js:147
-#: weblate/static/js/bulk-accept-suggestions.js:153
+#: weblate/static/js/bulk-accept-suggestions.js:230
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: weblate/static/js/bulk-accept-suggestions.js:235
+msgid "Accept suggestions"
+msgstr "Прийняти пропозиції"
+
+#: weblate/static/js/bulk-accept-suggestions.js:240
+msgid "Accept and approve suggestions"
+msgstr "Прийняти і затвердити пропозиції"
+
+#: weblate/static/js/bulk-accept-suggestions.js:258
 #, javascript-format
 msgid "Error: %s"
 msgstr "Помилка: %s"
@@ -328,13 +346,15 @@ msgstr "Нетиповий"
 
 #: weblate/static/js/flag-editor.js:130
 msgid "Add a flag…"
-msgstr ""
+msgstr "Додати прапорець…"
 
 #: weblate/static/js/flag-editor.js:149
 #, javascript-format
 msgid ""
 "No matching flag found for \"%s\"; press Enter to add it as a custom flag."
 msgstr ""
+"Не знайдено відповідного прапорця для «%s»; натисніть Enter, щоб додати його "
+"як нетиповий прапорець."
 
 #: weblate/static/js/screenshots/clipboard-paste.js:44
 msgid "Image Pasted!"
@@ -349,62 +369,132 @@ msgstr "Сталися якісь негаразди!"
 msgid "No image found in clipboard"
 msgstr "У буфері обміну не знайдено зображення"
 
-#: weblate/static/loader-bootstrap.js:78
-msgid "Close"
-msgstr "Закрити"
+#: weblate/static/js/vcs-push-help.js:38 weblate/static/js/vcs-push-help.js:48
+msgid ""
+"A pull or merge request will be created from a branch in the repository."
+msgstr "З гілки цього сховища буде створено запит на злиття або об'єднання."
 
-#: weblate/static/loader-bootstrap.js:313
-msgid "Some source strings could not be assigned."
+#: weblate/static/js/vcs-push-help.js:41
+msgid ""
+"A push URL is set but no push branch is given. Set a push branch that "
+"differs from the translated branch."
 msgstr ""
+"Вказано адресу для запису, але не вказано гілки. Встановіть гілку для "
+"запису, яка відрізняється від гілки перекладу."
 
-#: weblate/static/loader-bootstrap.js:353
+#: weblate/static/js/vcs-push-help.js:51
+msgid ""
+"The push branch must differ from the translated branch when creating a pull "
+"or merge request."
+msgstr ""
+"Гілка запису має відрізнятися від гілки перекладу при створенні запиту на "
+"злиття або об'єднання."
+
+#: weblate/static/js/vcs-push-help.js:58
+msgid "A pull or merge request will be created from a fork of the repository."
+msgstr "Запит щодо злиття або об'єднання буде створено з відгалуження сховища."
+
+#: weblate/static/js/vcs-push-help.js:65
+#, javascript-format
+msgid ""
+"A pull or merge request will be created from the “%s” branch in the "
+"repository."
+msgstr "Запит щодо злиття або об'єднання буде створено з гілки «%s» сховища."
+
+#: weblate/static/js/vcs-push-help.js:77
+#, javascript-format
+msgid ""
+"Changes will be sent as a Gerrit review request targeting the “%s” branch."
+msgstr ""
+"Зміни буде надіслано як запит щодо рецензування Gerrit з призначенням для "
+"гілки «%s»."
+
+#: weblate/static/js/vcs-push-help.js:84
+msgid "Changes will be sent as a Gerrit review request."
+msgstr "Зміни буде надіслано як запит щодо рецензування Gerrit."
+
+#: weblate/static/js/vcs-push-help.js:92
+msgid ""
+"Changes will not be pushed automatically. You can still push them manually "
+"from the repository maintenance."
+msgstr ""
+"Зміни не буде записано автоматично. Втім, ви зможете записати їх вручну зі "
+"сторінки супроводу сховища."
+
+#: weblate/static/js/vcs-push-help.js:100
+#: weblate/static/js/vcs-push-help.js:110
+#, javascript-format
+msgid ""
+"Changes will be pushed directly to the “%s” branch in the push repository."
+msgstr ""
+"Зміни буде записано безпосередньо до гілки «%s» у сховищі для записування."
+
+#: weblate/static/js/vcs-push-help.js:118
+msgid ""
+"Changes will be pushed directly to the default branch of the push repository."
+msgstr ""
+"Зміни буде записано безпосередньо до типової гілки сховища для записування."
+
+#: weblate/static/loader-bootstrap.js:323
+msgid "Some source strings could not be assigned."
+msgstr "Деякі початкові рядки не вдалося пов'язати."
+
+#: weblate/static/loader-bootstrap.js:363
 msgid "Error loading search results!"
 msgstr "Помилка при завантаженні підсумків пошуку!"
 
-#: weblate/static/loader-bootstrap.js:357
+#: weblate/static/loader-bootstrap.js:367
 msgid "No new matching source strings found."
 msgstr "Нові відповідності у початкових рядках не знайдені."
 
-#: weblate/static/loader-bootstrap.js:445
+#: weblate/static/loader-bootstrap.js:451
 msgid "Sort this column"
 msgstr "Відсортувати цей стовпець"
 
-#: weblate/static/loader-bootstrap.js:777
+#: weblate/static/loader-bootstrap.js:799
 msgid "Error while loading page:"
 msgstr "Помилка під час завантаження сторінки:"
 
-#: weblate/static/loader-bootstrap.js:1103
+#: weblate/static/loader-bootstrap.js:1204
 msgid "Text copied to clipboard."
 msgstr "Текст скопійовано до буфера обміну даними."
 
-#: weblate/static/loader-bootstrap.js:1107
+#: weblate/static/loader-bootstrap.js:1208
 msgid "Please press Ctrl+C to copy."
 msgstr "Будь ласка, натисніть Ctrl+C, щоб скопіювати."
 
-#: weblate/static/loader-bootstrap.js:1111
+#: weblate/static/loader-bootstrap.js:1212
 msgid "Error copying to clipboard."
 msgstr "Копіювання тексту помилки до буфера обміну даними."
 
-#: weblate/static/loader-bootstrap.js:1138
-#: weblate/static/loader-bootstrap.js:1153
+#: weblate/static/loader-bootstrap.js:1256
+#: weblate/static/loader-bootstrap.js:1301
 msgid "Search…"
 msgstr "Пошук…"
 
-#: weblate/static/loader-bootstrap.js:1615
+#: weblate/static/loader-bootstrap.js:1425
+msgid "Loading…"
+msgstr "Завантаження…"
+
+#: weblate/static/loader-bootstrap.js:1451
+msgid "Error while loading form:"
+msgstr "Помилка під час завантаження форми:"
+
+#: weblate/static/loader-bootstrap.js:1934
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate зчитує репозиторій, будьте терплячими."
 
-#: weblate/static/loader-bootstrap.js:1795
+#: weblate/static/loader-bootstrap.js:2121
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "Налаштування сповіщень вилучено, не забудьте зберегти зміни."
 
-#: weblate/static/loader-bootstrap.js:2033
+#: weblate/static/loader-bootstrap.js:2389
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "Зупинися!"
 
-#: weblate/static/loader-bootstrap.js:2039
+#: weblate/static/loader-bootstrap.js:2395
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -414,17 +504,17 @@ msgstr ""
 "скопіювати та вставити щось сюди, ймовірно, вони намагаються зламати ваш "
 "обліковий запис Weblate."
 
-#: weblate/static/loader-bootstrap.js:2045
+#: weblate/static/loader-bootstrap.js:2401
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr ""
 "Докладніше про це можна дізнатися тут - https://en.wikipedia.org/wiki/Self-"
 "XSS."
 
-#: weblate/static/loader-bootstrap.js:2117
+#: weblate/static/loader-bootstrap.js:2484
 msgid "just now"
 msgstr "щойно"
 
-#: weblate/static/loader-bootstrap.js:2122
+#: weblate/static/loader-bootstrap.js:2489
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
@@ -433,11 +523,11 @@ msgstr[1] "%s секунди тому"
 msgstr[2] "%s секунд тому"
 msgstr[3] "%s секунда тому"
 
-#: weblate/static/loader-bootstrap.js:2128
+#: weblate/static/loader-bootstrap.js:2495
 msgid "a minute ago"
 msgstr "хвилину тому"
 
-#: weblate/static/loader-bootstrap.js:2131
+#: weblate/static/loader-bootstrap.js:2498
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
@@ -446,11 +536,11 @@ msgstr[1] "%s хвилини тому"
 msgstr[2] "%s хвилин тому"
 msgstr[3] "%s хвилину тому"
 
-#: weblate/static/loader-bootstrap.js:2138
+#: weblate/static/loader-bootstrap.js:2505
 msgid "an hour ago"
 msgstr "годину тому"
 
-#: weblate/static/loader-bootstrap.js:2140
+#: weblate/static/loader-bootstrap.js:2507
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
@@ -458,6 +548,29 @@ msgstr[0] "%s година тому"
 msgstr[1] "%s годину тому"
 msgstr[2] "%s години тому"
 msgstr[3] "%s годин тому"
+
+#, javascript-format
+#~ msgid "%s accepted"
+#~ msgid_plural "%s accepted"
+#~ msgstr[0] "%s прийнято"
+#~ msgstr[1] "%s прийнятий"
+#~ msgstr[2] "%s прийнят"
+#~ msgstr[3] "%s прийнят"
+
+#~ msgid "Done"
+#~ msgstr "Готово"
+
+#, javascript-format
+#~ msgid "Processed %s suggestion. Page will reload in 2 seconds."
+#~ msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
+#~ msgstr[0] ""
+#~ "Оброблено пропозицію %s. Сторінка перезавантажиться через 2 секунди."
+#~ msgstr[1] ""
+#~ "Оброблено %s пропозицій. Сторінка перезавантажиться через 2 секунди."
+#~ msgstr[2] ""
+#~ "Оброблено %s пропозиції. Сторінка перезавантажиться через 2 секунди."
+#~ msgstr[3] ""
+#~ "Оброблено %s пропозиції. Сторінка перезавантажиться через 2 секунди."
 
 #~ msgid "Available:"
 #~ msgstr "Доступно:"
@@ -619,9 +732,6 @@ msgstr[3] "%s годин тому"
 #~ msgid "Now"
 #~ msgstr "Лис"
 
-#~ msgid "Cancel"
-#~ msgstr "Скасувати"
-
 #~ msgid "Strings with any failing checks"
 #~ msgstr "Рядки з будь-яких невдалих перевірок"
 
@@ -636,9 +746,6 @@ msgstr[3] "%s годин тому"
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "Провалився запит AJAX на завантаження цього вмісту!"
-
-#~ msgid "Loading…"
-#~ msgstr "Завантаження…"
 
 #~ msgid "Confirm resetting repository"
 #~ msgstr "Підтвердити переустановку репозиторію"

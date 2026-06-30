@@ -20,8 +20,8 @@ from requests.utils import select_proxy
 from weblate.logger import LOGGER
 from weblate.utils.outbound import (
     is_allowlisted_hostname,
+    validate_connected_peer,
     validate_outbound_url,
-    validate_runtime_ip,
     validate_runtime_url,
 )
 from weblate.utils.validators import validate_asset_url
@@ -302,16 +302,11 @@ def _validate_response_peer(
     hostname = urlparse(response.url).hostname or ""
     if is_allowlisted_hostname(hostname, allowed_domains):
         return
-
-    if (peer_ip := _get_response_peer_ip(response)) is None:
-        raise ValidationError(
-            gettext(
-                "This URL is prohibited because the connected peer address could not be determined."
-            ),
-            code="private_target",
-        )
-
-    validate_runtime_ip(peer_ip, allow_private_targets=allow_private_targets)
+    validate_connected_peer(
+        hostname,
+        _get_response_peer_ip(response),
+        allow_private_targets=allow_private_targets,
+    )
 
 
 def _validated_request_with_redirects(

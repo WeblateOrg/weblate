@@ -50,6 +50,18 @@ class GitSquashAddon(
     icon = "compress.svg"
     repo_scope = True
 
+    @staticmethod
+    def ensure_repository_clean(
+        component: Component, repository: GitRepository
+    ) -> None:
+        try:
+            repository.ensure_no_interrupted_operation()
+        except RepositoryError as error:
+            component.add_alert(
+                "RepositoryOperationFailure", error=component.error_text(error)
+            )
+            raise
+
     def squash_repo(
         self,
         component: Component,
@@ -57,8 +69,10 @@ class GitSquashAddon(
         remote: str,
         author: str | None = None,
     ) -> None:
+        self.ensure_repository_clean(component, repository)
         message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote], remote_op="none")
+        self.ensure_repository_clean(component, repository)
         # Can happen for added and removed translation
         component.commit_files(
             author=author, message=message, signals=False, skip_push=True
@@ -280,6 +294,14 @@ class GitSquashAddon(
             self.squash_author_commits(
                 component, repository, commits, remote, tmp, gpg_sign
             )
+        except RepositoryError:
+            if repository.get_interrupted_operation() is not None:
+                raise
+            report_error("Failed squash", project=component.project)
+            # Revert to original branch without any changes
+            repository.execute(["reset", "--hard"], remote_op="none")
+            repository.execute(["checkout", repository.branch], remote_op="none")
+            repository.delete_branch(tmp)
         except Exception:
             report_error("Failed squash", project=component.project)
             # Revert to original branch without any changes
@@ -297,6 +319,7 @@ class GitSquashAddon(
         repository = cast("GitRepository", component.repository)
         branch_updated = False
         with repository.lock:
+            self.ensure_repository_clean(component, repository)
             # Ensure repository is rebased on current remote prior to squash, otherwise
             # we might be squashing upstream changes as well due to reset.
             if component.repo_needs_merge():

@@ -1,0 +1,16 @@
+{% load i18n permissions %}
+
+<p>{% translate "Weblate could not recover an interrupted repository operation." %}</p>
+
+<pre>{{ error }}</pre>
+
+{% include "trans/alert/common-repo.html" %}
+
+{% perm 'vcs.reset' component as user_can_reset %}
+{% if user_can_reset %}
+  <p>
+    <a href="#"
+       class="btn btn-primary link-post"
+       data-href="{% url "reset" path=component.get_url_path %}">{% translate "Reset the repository" %}</a>
+  </p>
+{% endif %}

@@ -8,15 +8,16 @@ import json
 import math
 import os
 import re
-from typing import TYPE_CHECKING, BinaryIO, NotRequired, TypedDict, cast
+from typing import TYPE_CHECKING, BinaryIO, NotRequired, Self, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
-from django.db import models
-from django.db.models import Q, Value
+from django.db import models, router, transaction
+from django.db.models import Exists, F, OuterRef, Prefetch, Q, Value
 from django.db.models.functions import MD5
+from django.utils import timezone
 from django.utils.encoding import force_str
-from django.utils.translation import gettext, gettext_lazy, pgettext
+from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 from weblate_schemas import load_schema
@@ -98,8 +99,61 @@ def load_memory_tmx_store(fileobj: BinaryIO):
 
 
 class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
-    def global_file_query(self) -> Q:
-        return Q(from_file=True, user__isnull=True, project__isnull=True)
+    def using_write_db(self) -> Self:
+        if self.db != "memory_db":
+            return self
+        return self.using(router.db_for_write(self.model) or "default")
+
+    def get_scope_exists(self, scope_query: Q) -> Exists:
+        return Exists(
+            MemoryScope.objects.using(self.db).filter(
+                scope_query, memory_id=OuterRef("pk")
+            )
+        )
+
+    def get_has_scope_exists(self) -> Exists:
+        return Exists(
+            MemoryScope.objects.using(self.db).filter(memory_id=OuterRef("pk"))
+        )
+
+    def filter_scope(self, scope_query: Q) -> Self:
+        return self.alias(
+            memory_scope_visible=self.get_scope_exists(scope_query),
+        ).filter(memory_scope_visible=True)
+
+    def get_type_scope_query(
+        self,
+        *,
+        user: User | None = None,
+        project: Project | None = None,
+        use_shared: bool = False,
+        from_file: bool = False,
+        use_workspace: bool = False,
+    ) -> Q:
+        query = Q(pk__isnull=True)
+        if from_file:
+            query |= Q(scope=MemoryScope.SCOPE_GLOBAL_FILE)
+        if use_shared:
+            query |= Q(
+                scope=MemoryScope.SCOPE_SHARED,
+                source_project__contribute_shared_tm=True,
+            )
+        if project:
+            query |= Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
+            query |= Q(scope=MemoryScope.SCOPE_PROJECT_FILE, project=project)
+            if use_workspace and project.effective_use_workspace_tm:
+                query |= Q(
+                    scope=MemoryScope.SCOPE_WORKSPACE,
+                    workspace_id=project.workspace_id,
+                ) & Q(
+                    workspace_id=F("source_project__workspace_id"),
+                    source_project__contribute_workspace_tm=True,
+                    source_project__workspace__contribute_workspace_tm=True,
+                )
+        if user:
+            query |= Q(scope=MemoryScope.SCOPE_USER, user=user)
+            query |= Q(scope=MemoryScope.SCOPE_USER_FILE, user=user)
+        return query
 
     def filter_type(
         self,
@@ -108,22 +162,80 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         project: Project | None = None,
         use_shared: bool = False,
         from_file: bool = False,
-    ):
+        use_workspace: bool = False,
+    ) -> Self:
         base = self
         if "memory_db" in settings.DATABASES:
             base = base.using("memory_db")
-        query = Q()
-        if from_file:
-            query |= self.global_file_query()
-        if use_shared:
-            query |= Q(shared=use_shared)
-        if project:
-            query |= Q(project=project)
-        if user:
-            query |= Q(user=user)
-        return base.filter(query)
+        return base.filter_scope(
+            base.get_type_scope_query(
+                user=user,
+                project=project,
+                use_shared=use_shared,
+                from_file=from_file,
+                use_workspace=use_workspace,
+            )
+        )
 
-    def filter(self, *args, **kwargs):
+    def visible_to_user(self, user: User, *, alias: str) -> Self:
+        if user.is_superuser or user.has_perm("memory.manage"):
+            return self.filter_scope(Q())
+
+        allowed_projects = user.allowed_projects.using(alias)
+        allowed_workspaces = allowed_projects.filter(
+            workspace__isnull=False,
+            use_workspace_tm=True,
+            workspace__use_workspace_tm=True,
+        ).values("workspace_id")
+        scope_query = (
+            Q(scope=MemoryScope.SCOPE_USER, user=user)
+            | Q(scope=MemoryScope.SCOPE_USER_FILE, user=user)
+            | Q(
+                scope=MemoryScope.SCOPE_SHARED,
+                source_project__contribute_shared_tm=True,
+            )
+            | Q(scope=MemoryScope.SCOPE_GLOBAL_FILE)
+            | Q(scope=MemoryScope.SCOPE_PROJECT, project__in=allowed_projects)
+            | Q(scope=MemoryScope.SCOPE_PROJECT_FILE, project__in=allowed_projects)
+            | Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace__in=allowed_workspaces,
+                workspace_id=F("source_project__workspace_id"),
+                source_project__contribute_workspace_tm=True,
+                source_project__workspace__contribute_workspace_tm=True,
+            )
+        )
+        return self.filter_scope(scope_query)
+
+    def delete_scope(self, scope_query: Q, *, delete_legacy: bool = True) -> None:
+        # TODO(2028.1): Remove legacy unscoped cleanup once Weblate no longer
+        # supports direct upgrades from 2026 releases. Runtime visibility is
+        # scope-only; this exists for the temporary migration/backfill window.
+        queryset = self.using_write_db()
+        memory_query = queryset.order_by().values("pk")
+        if delete_legacy:
+            queryset.alias(memory_has_scope=queryset.get_has_scope_exists()).filter(
+                memory_has_scope=False
+            ).delete()
+
+        matching_scope = MemoryScope.objects.using(queryset.db).filter(
+            scope_query, memory_id=OuterRef("pk")
+        )
+        remaining_scope = (
+            MemoryScope.objects.using(queryset.db)
+            .filter(memory_id=OuterRef("pk"))
+            .exclude(scope_query)
+        )
+        Memory.objects.using(queryset.db).filter(pk__in=memory_query).alias(
+            has_matching_scope=Exists(matching_scope),
+            has_remaining_scope=Exists(remaining_scope),
+        ).filter(has_matching_scope=True, has_remaining_scope=False).delete()
+
+        MemoryScope.objects.using(queryset.db).filter(
+            memory_id__in=memory_query
+        ).filter(scope_query).delete()
+
+    def filter(self, *args, **kwargs) -> Self:
         # Use MD5 for filtering to utilize MD5 index
         for field in ("source", "target", "origin"):
             if field in kwargs:
@@ -226,12 +338,13 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         use_shared,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
-        base = self.prefetch_project().filter_type(
+        base = self.filter_type(
             user=user,
             project=project,
             use_shared=use_shared,
             from_file=True,
-        )
+            use_workspace=True,
+        ).prefetch_scopes()
 
         if threshold >= 100:
             return base.filter(
@@ -272,14 +385,28 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
 
         return results
 
-    def prefetch_lang(self):
+    def prefetch_lang(self) -> Self:
         return self.prefetch_related("source_language", "target_language")
 
-    def prefetch_project(self):
-        return self.select_related("project")
+    def prefetch_scopes(self) -> Self:
+        return self.prefetch_related(
+            Prefetch(
+                "scopes",
+                queryset=MemoryScope.objects.using(self.db).select_related(
+                    "project",
+                    "workspace",
+                    "source_project",
+                ),
+            )
+        )
 
 
-class MemoryManager(models.Manager):
+class MemoryManager(models.Manager["Memory"]):
+    _hints: dict[str, models.Model]
+
+    def get_queryset(self) -> MemoryQuerySet:
+        return MemoryQuerySet(model=self.model, using=self._db, hints=self._hints)
+
     def import_file(
         self,
         *,
@@ -574,26 +701,42 @@ class MemoryManager(models.Manager):
             target_language=target_language,
             origin=origin,
             context=context,
-            user=user,
-            project=project,
-            from_file=from_file,
-            shared=shared,
+            legacy_user=user,
+            legacy_project=project,
+            legacy_from_file=from_file,
+            legacy_shared=shared,
         ):
             return
-        if not self.filter(
-            source=source,
-            target=target,
-            status=status,
-            source_language=source_language,
-            target_language=target_language,
-            origin=origin,
-            context=context,
+        lookup = {
+            "source": source,
+            "target": target,
+            "status": status,
+            "source_language": source_language,
+            "target_language": target_language,
+            "origin": origin,
+            "context": context,
+        }
+        existing = self.get_queryset().filter(**lookup)
+        scope = MemoryScope.objects.get_for_update_entry(
             user=user,
             project=project,
             from_file=from_file,
             shared=shared,
-        ).exists():
-            self.create(
+        )
+        if scope is not None:
+            if existing.filter_scope(
+                MemoryScope.objects.get_scope_query(scope)
+            ).exists():
+                return
+            memory = existing.filter_scope(Q()).order_by("id").first()
+            if memory is not None:
+                memory.normalize_legacy_owner()
+                scope.memory = memory
+                MemoryScope.objects.bulk_create([scope], ignore_conflicts=True)
+                return
+
+        with transaction.atomic(using=self.db):
+            memory = self.create(
                 source=source,
                 target=target,
                 status=status,
@@ -601,14 +744,22 @@ class MemoryManager(models.Manager):
                 target_language=target_language,
                 origin=origin,
                 context=context,
-                user=user,
-                project=project,
-                from_file=from_file,
-                shared=shared,
             )
+            if scope is not None:
+                scope.memory = memory
+                MemoryScope.objects.bulk_create([scope], ignore_conflicts=True)
 
 
 class Memory(models.Model):
+    # Transient scope metadata used before MemoryScope rows are bulk-created.
+    # The source-project ID is migration-only; normal runtime writes use
+    # pending_scopes instead of the legacy owner columns.
+    scope_source_project_id: int | None = None
+    pending_scopes: list[MemoryScope] | None = None
+    # Transient per-instance cache for serializers that derive legacy API fields
+    # from prefetched scope rows.
+    scope_list: list[MemoryScope] | None = None
+
     # Status choices for the memory entry
     STATUS_PENDING = 0
     STATUS_ACTIVE = 1
@@ -631,22 +782,30 @@ class Memory(models.Model):
     target = models.TextField()
     origin = models.TextField()
     context = models.TextField(default="", blank=True)
-    user = models.ForeignKey(
+    # Scope rows own translation-memory visibility. These legacy columns are
+    # kept only for compatibility with unbackfilled rows and import/backfill
+    # code paths during the supported upgrade window.
+    # TODO(2028.1): Remove legacy ownership columns and backfill/import
+    # compatibility once Weblate no longer supports direct upgrades from 2026
+    # releases.
+    legacy_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.deletion.CASCADE,
         null=True,
         blank=True,
         default=None,
+        related_name="+",
     )
-    project = models.ForeignKey(
+    legacy_project = models.ForeignKey(
         "trans.Project",
         on_delete=models.deletion.CASCADE,
         null=True,
         blank=True,
         default=None,
+        related_name="+",
     )
-    from_file = models.BooleanField(default=False)
-    shared = models.BooleanField(default=False)
+    legacy_from_file = models.BooleanField(default=False)
+    legacy_shared = models.BooleanField(default=False)
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=STATUS_PENDING,
@@ -670,8 +829,8 @@ class Memory(models.Model):
             ),
             # Partial index for to optimize lookup for file based entries
             models.Index(
-                "from_file",
-                condition=Q(from_file=True),
+                "legacy_from_file",
+                condition=Q(legacy_from_file=True),
                 name="memory_from_file",
             ),
             postgres_indexes.GinIndex(
@@ -685,31 +844,137 @@ class Memory(models.Model):
     def __str__(self) -> str:
         return f"Memory: {self.source_language}:{self.target_language}"
 
-    def get_origin_display(self):
-        if self.project:
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        if not getattr(self, "_skip_scope_sync", False):
+            MemoryScope.objects.create_for_memory(self)
+
+    def normalize_legacy_owner(self) -> None:
+        Memory.objects.using(self._state.db or "default").filter(pk=self.pk).update(
+            legacy_project=None,
+            legacy_user=None,
+            legacy_shared=False,
+            legacy_from_file=False,
+        )
+        self.legacy_project_id = None
+        self.legacy_user_id = None
+        self.legacy_shared = False
+        self.legacy_from_file = False
+
+    def get_scope_list(self) -> list[MemoryScope]:
+        if self.scope_list is None:
+            self.scope_list = list(self.scopes.all())
+        return self.scope_list
+
+    def get_context_origin_display(
+        self,
+        scopes: list[MemoryScope],
+        *,
+        project: Project | None,
+        user: User | None,
+    ) -> str | None:
+        if project is not None and any(
+            scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE}
+            and scope.project_id == project.id
+            for scope in scopes
+        ):
+            return pgettext("Translation memory category", "Project: {}")
+        if user is not None and any(
+            scope.scope in {MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE}
+            and scope.user_id == user.id
+            for scope in scopes
+        ):
+            return pgettext("Translation memory category", "Personal: {}")
+        if project is not None and project.use_shared_tm:
+            for scope in scopes:
+                if scope.scope != MemoryScope.SCOPE_SHARED:
+                    continue
+                source_project = scope.source_project
+                if source_project is not None and source_project.contribute_shared_tm:
+                    return pgettext("Translation memory category", "Shared: {}")
+        if any(scope.scope == MemoryScope.SCOPE_GLOBAL_FILE for scope in scopes):
+            return pgettext("Translation memory category", "File: {}")
+        if project is not None and project.effective_use_workspace_tm:
+            for scope in scopes:
+                if (
+                    scope.scope != MemoryScope.SCOPE_WORKSPACE
+                    or scope.workspace_id != project.workspace_id
+                ):
+                    continue
+                source_project = scope.source_project
+                workspace = scope.workspace
+                if (
+                    source_project is not None
+                    and source_project.workspace_id == project.workspace_id
+                    and source_project.contribute_workspace_tm
+                    and workspace is not None
+                    and workspace.contribute_workspace_tm
+                ):
+                    return pgettext("Translation memory category", "Workspace: {}")
+        return None
+
+    def get_origin_display(
+        self,
+        *,
+        project: Project | None = None,
+        user: User | None = None,
+    ) -> str:
+        scopes = self.get_scope_list()
+        text = self.get_context_origin_display(scopes, project=project, user=user)
+        if text is not None:
+            return text.format(self.origin)
+        if any(
+            scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE}
+            for scope in scopes
+        ):
             text = pgettext("Translation memory category", "Project: {}")
-        elif self.user_id:
+        elif any(
+            scope.scope in {MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE}
+            for scope in scopes
+        ):
             text = pgettext("Translation memory category", "Personal: {}")
-        elif self.shared:
+        elif any(scope.scope == MemoryScope.SCOPE_SHARED for scope in scopes):
             text = pgettext("Translation memory category", "Shared: {}")
-        elif self.from_file:
+        elif any(scope.scope == MemoryScope.SCOPE_GLOBAL_FILE for scope in scopes):
             text = pgettext("Translation memory category", "File: {}")
+        elif any(scope.scope == MemoryScope.SCOPE_WORKSPACE for scope in scopes):
+            text = pgettext("Translation memory category", "Workspace: {}")
         else:
             text = "Unknown: {}"
         return text.format(self.origin)
 
     def get_category(self) -> int:
-        if self.from_file:
-            return CATEGORY_FILE
-        if self.shared:
-            return CATEGORY_SHARED
-        if self.project_id:
-            return CATEGORY_PRIVATE_OFFSET + self.project_id
-        if self.user_id:
-            return CATEGORY_USER_OFFSET + self.user_id
-        return 0
+        return self.get_categories()[0]
 
-    def as_dict(self) -> MemoryDict:
+    def get_categories(self) -> list[int]:
+        categories = []
+        has_workspace = False
+        for scope in self.get_scope_list():
+            if (
+                scope.scope
+                in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE}
+                and scope.project_id is not None
+            ):
+                categories.append(CATEGORY_PRIVATE_OFFSET + scope.project_id)
+            if (
+                scope.scope in {MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE}
+                and scope.user_id is not None
+            ):
+                categories.append(CATEGORY_USER_OFFSET + scope.user_id)
+            if scope.scope == MemoryScope.SCOPE_SHARED:
+                categories.append(CATEGORY_SHARED)
+            if scope.scope == MemoryScope.SCOPE_GLOBAL_FILE:
+                categories.append(CATEGORY_FILE)
+            if scope.scope == MemoryScope.SCOPE_WORKSPACE:
+                has_workspace = True
+        if has_workspace:
+            # The legacy JSON memory format has no workspace category. Keep
+            # using 0 for workspace exports until the format grows explicit
+            # scope metadata.
+            categories.append(0)
+        return list(dict.fromkeys(categories)) or [0]
+
+    def as_dict(self, *, category: int | None = None) -> MemoryDict:
         """Convert to dict suitable for JSON export."""
         return {
             "source": self.source,
@@ -718,6 +983,304 @@ class Memory(models.Model):
             "source_language": self.source_language.code,
             "target_language": self.target_language.code,
             "origin": self.origin,
-            "category": self.get_category(),
+            "category": self.get_category() if category is None else category,
             "status": self.status,
         }
+
+    def as_dicts(self) -> list[MemoryDict]:
+        """Convert to JSON export dictionaries for all represented scopes."""
+        return [self.as_dict(category=category) for category in self.get_categories()]
+
+
+class MemoryScopeManager(models.Manager["MemoryScope"]):
+    def get_write_db_for_memory(self, memory: Memory | None = None) -> str:
+        if self._db is not None and self._db != "memory_db":
+            return self._db
+        memory_db = None if memory is None else memory._state.db  # noqa: SLF001
+        if memory_db is not None and memory_db != "memory_db":
+            return memory_db
+        return router.db_for_write(self.model, instance=memory) or "default"
+
+    def get_for_update_entry(
+        self,
+        *,
+        user: User | None,
+        project: Project | None,
+        from_file: bool,
+        shared: bool,
+    ) -> MemoryScope | None:
+        if from_file:
+            if project is not None:
+                return MemoryScope(
+                    scope=MemoryScope.SCOPE_PROJECT_FILE, project=project
+                )
+            if user is not None:
+                return MemoryScope(scope=MemoryScope.SCOPE_USER_FILE, user=user)
+            return MemoryScope(scope=MemoryScope.SCOPE_GLOBAL_FILE)
+        if project is not None:
+            return MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project=project)
+        if shared:
+            return MemoryScope(scope=MemoryScope.SCOPE_SHARED)
+        if user is not None:
+            return MemoryScope(scope=MemoryScope.SCOPE_USER, user=user)
+        return None
+
+    def get_scope_query(self, scope: MemoryScope) -> Q:
+        if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE}:
+            return Q(scope=scope.scope, project_id=scope.project_id)
+        if scope.scope == MemoryScope.SCOPE_WORKSPACE:
+            return Q(
+                scope=scope.scope,
+                workspace_id=scope.workspace_id,
+                source_project_id=scope.source_project_id,
+            )
+        if scope.scope in {MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE}:
+            return Q(scope=scope.scope, user_id=scope.user_id)
+        if scope.scope == MemoryScope.SCOPE_SHARED:
+            return Q(scope=scope.scope, source_project_id=scope.source_project_id)
+        return Q(scope=scope.scope)
+
+    def get_for_memory(self, memory: Memory) -> list[MemoryScope]:
+        if memory.pending_scopes is not None:
+            return [
+                MemoryScope(
+                    memory=memory,
+                    scope=scope.scope,
+                    project_id=scope.project_id,
+                    workspace_id=scope.workspace_id,
+                    source_project_id=scope.source_project_id,
+                    user_id=scope.user_id,
+                )
+                for scope in memory.pending_scopes
+            ]
+
+        scopes = []
+        if memory.legacy_from_file:
+            if memory.legacy_project_id:
+                scopes.append(
+                    MemoryScope(
+                        memory=memory,
+                        scope=MemoryScope.SCOPE_PROJECT_FILE,
+                        project_id=memory.legacy_project_id,
+                    )
+                )
+            elif memory.legacy_user_id:
+                scopes.append(
+                    MemoryScope(
+                        memory=memory,
+                        scope=MemoryScope.SCOPE_USER_FILE,
+                        user_id=memory.legacy_user_id,
+                    )
+                )
+            else:
+                scopes.append(
+                    MemoryScope(memory=memory, scope=MemoryScope.SCOPE_GLOBAL_FILE)
+                )
+        else:
+            if memory.legacy_project_id:
+                scopes.append(
+                    MemoryScope(
+                        memory=memory,
+                        scope=MemoryScope.SCOPE_PROJECT,
+                        project_id=memory.legacy_project_id,
+                    )
+                )
+            if memory.legacy_shared:
+                # Source-project inference runs before scope creation and can
+                # recover renamed projects from history. Runtime visibility is
+                # still gated by the recovered source project settings.
+                scopes.append(
+                    MemoryScope(
+                        memory=memory,
+                        scope=MemoryScope.SCOPE_SHARED,
+                        source_project_id=memory.scope_source_project_id,
+                    )
+                )
+            if memory.legacy_user_id:
+                scopes.append(
+                    MemoryScope(
+                        memory=memory,
+                        scope=MemoryScope.SCOPE_USER,
+                        user_id=memory.legacy_user_id,
+                    )
+                )
+        return scopes
+
+    def create_for_memory(self, memory: Memory) -> None:
+        scopes = self.get_for_memory(memory)
+        if scopes:
+            self.db_manager(self.get_write_db_for_memory(memory)).bulk_create(
+                scopes, ignore_conflicts=True
+            )
+
+    def bulk_create_for_memories(self, memories) -> None:
+        memories = list(memories)
+        scopes = []
+        for memory in memories:
+            scopes.extend(self.get_for_memory(memory))
+        if scopes:
+            memory = memories[0] if memories else None
+            self.db_manager(self.get_write_db_for_memory(memory)).bulk_create(
+                scopes, ignore_conflicts=True
+            )
+
+
+class MemoryScopeChoices(models.IntegerChoices):
+    PROJECT = 1, pgettext_lazy("Translation memory scope", "Project")
+    WORKSPACE = 2, pgettext_lazy("Translation memory scope", "Workspace")
+    SHARED = 3, pgettext_lazy("Translation memory scope", "Shared")
+    USER = 4, pgettext_lazy("Translation memory scope", "Personal")
+    GLOBAL_FILE = 5, pgettext_lazy("Translation memory scope", "File")
+    PROJECT_FILE = 6, pgettext_lazy("Translation memory scope", "Project file")
+    USER_FILE = 7, pgettext_lazy("Translation memory scope", "Personal file")
+
+
+class MemoryScope(models.Model):
+    # Scope is stored separately from Memory because one canonical translation
+    # memory entry can be visible through multiple independent scopes. Keeping
+    # scopes as rows avoids duplicating source/target text for project, shared,
+    # workspace, and personal memory, and lets lookup use indexed scope-existence
+    # checks instead of broad OR predicates over nullable fields.
+    SCOPE_PROJECT = MemoryScopeChoices.PROJECT
+    SCOPE_WORKSPACE = MemoryScopeChoices.WORKSPACE
+    SCOPE_SHARED = MemoryScopeChoices.SHARED
+    SCOPE_USER = MemoryScopeChoices.USER
+    SCOPE_GLOBAL_FILE = MemoryScopeChoices.GLOBAL_FILE
+    SCOPE_PROJECT_FILE = MemoryScopeChoices.PROJECT_FILE
+    SCOPE_USER_FILE = MemoryScopeChoices.USER_FILE
+
+    memory = models.ForeignKey(
+        Memory, on_delete=models.deletion.CASCADE, related_name="scopes"
+    )
+    scope = models.PositiveSmallIntegerField(choices=MemoryScopeChoices)
+    project = models.ForeignKey(
+        "trans.Project",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+    )
+    workspace = models.ForeignKey(
+        "workspaces.Workspace",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+    )
+    source_project = models.ForeignKey(
+        "trans.Project",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    objects = MemoryScopeManager()
+
+    class Meta:
+        verbose_name = "Translation memory scope"
+        verbose_name_plural = "Translation memory scopes"
+        # ruff: ignore[mutable-class-default]
+        indexes = [
+            models.Index(fields=["scope", "memory"], name="memory_scope_scope_memory"),
+            models.Index(
+                fields=["scope", "project", "memory"], name="memory_scope_project"
+            ),
+            models.Index(
+                fields=["scope", "workspace", "memory"],
+                name="memory_scope_workspace",
+            ),
+            models.Index(
+                fields=["scope", "source_project", "memory"],
+                name="memory_scope_source_project",
+            ),
+            models.Index(
+                fields=["scope", "workspace", "source_project", "memory"],
+                name="memory_scope_workspace_source",
+            ),
+            models.Index(fields=["scope", "user", "memory"], name="memory_scope_user"),
+        ]
+        # ruff: ignore[mutable-class-default]
+        constraints = [
+            models.UniqueConstraint(
+                fields=("memory", "scope", "project"),
+                condition=Q(
+                    scope__in=(
+                        MemoryScopeChoices.PROJECT,
+                        MemoryScopeChoices.PROJECT_FILE,
+                    ),
+                    project__isnull=False,
+                ),
+                name="memory_scope_unique_project",
+            ),
+            models.UniqueConstraint(
+                fields=("memory", "scope", "workspace", "source_project"),
+                condition=Q(
+                    scope=MemoryScopeChoices.WORKSPACE,
+                    workspace__isnull=False,
+                    source_project__isnull=False,
+                ),
+                name="memory_scope_unique_workspace",
+            ),
+            models.UniqueConstraint(
+                fields=("memory", "scope", "workspace"),
+                condition=Q(
+                    scope=MemoryScopeChoices.WORKSPACE,
+                    workspace__isnull=False,
+                    source_project__isnull=True,
+                ),
+                name="memory_scope_workspace_null",
+            ),
+            models.UniqueConstraint(
+                fields=("memory", "scope", "user"),
+                condition=Q(
+                    scope__in=(MemoryScopeChoices.USER, MemoryScopeChoices.USER_FILE),
+                    user__isnull=False,
+                ),
+                name="memory_scope_unique_user",
+            ),
+            models.UniqueConstraint(
+                fields=("memory", "scope"),
+                condition=Q(scope=MemoryScopeChoices.GLOBAL_FILE),
+                name="memory_scope_unique_global",
+            ),
+            models.UniqueConstraint(
+                fields=("memory", "scope", "source_project"),
+                condition=Q(
+                    scope=MemoryScopeChoices.SHARED,
+                    source_project__isnull=False,
+                ),
+                name="memory_scope_unique_shared",
+            ),
+            models.UniqueConstraint(
+                fields=("memory", "scope"),
+                condition=Q(
+                    scope=MemoryScopeChoices.SHARED,
+                    source_project__isnull=True,
+                ),
+                name="memory_scope_shared_null",
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.memory_id}:{self.scope}"
+
+
+class MemoryScopeMigrationState(models.Model):
+    # TODO(2028.1): Remove this background TM scope backfill state once Weblate
+    # no longer supports direct upgrades from 2026 releases.
+    name = models.CharField(max_length=50, primary_key=True)
+    last_memory_id = models.IntegerField(default=0)
+    completed = models.BooleanField(default=False)
+    updated = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = "Translation memory scope migration state"
+        verbose_name_plural = "Translation memory scope migration states"
+
+    def __str__(self) -> str:
+        return self.name

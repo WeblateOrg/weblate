@@ -232,6 +232,7 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         self.component.add_alert(RepositoryOutdated.__name__)
         self.component.add_alert(UnusedScreenshot.__name__)
         self.component.add_alert(MissingLicense.__name__)
+        self.component.add_alert(MissingScreenshots.__name__)
 
         alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
         alert.dismissed = True
@@ -239,24 +240,63 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
 
         response = self.client.get(self.component.get_absolute_url())
         alert_names = [alert.name for alert in response.context["alerts"]]
+        content = response.content.decode()
 
         self.assertContains(response, "License info missing.")
         self.assertContains(response, "Repository outdated.")
+        self.assertContains(
+            response, "Add screenshots to show where strings are being used."
+        )
         self.assertNotContains(response, "Unused screenshot")
+        self.assertContains(
+            response,
+            '<span class="badge text-bg-danger">2'
+            '<span class="visually-hidden">errors</span></span>',
+            html=True,
+        )
+        self.assertContains(
+            response, '<span class="badge text-bg-info">Information</span>', html=True
+        )
+        self.assertEqual(response.context["problem_alerts_count"], 2)
+        self.assertLess(
+            content.index("License info missing."),
+            content.index("Repository outdated."),
+        )
+        self.assertLess(
+            content.index("Repository outdated."),
+            content.index("Add screenshots to show where strings are being used."),
+        )
         self.assertEqual(
             alert_names,
-            [MissingLicense.__name__, RepositoryOutdated.__name__],
+            [
+                MissingLicense.__name__,
+                RepositoryOutdated.__name__,
+                MissingScreenshots.__name__,
+            ],
         )
 
         response = self.client.get(f"{self.component.get_absolute_url()}?alerts=1")
         alert_names = [alert.name for alert in response.context["alerts"]]
+        content = response.content.decode()
 
+        self.assertContains(
+            response, '<span class="badge text-bg-warning">Warning</span>', html=True
+        )
+        self.assertLess(
+            content.index("Repository outdated."),
+            content.index("Unused screenshot"),
+        )
+        self.assertLess(
+            content.index("Unused screenshot"),
+            content.index("Add screenshots to show where strings are being used."),
+        )
         self.assertEqual(
             alert_names,
             [
                 MissingLicense.__name__,
                 RepositoryOutdated.__name__,
                 UnusedScreenshot.__name__,
+                MissingScreenshots.__name__,
             ],
         )
 
@@ -420,3 +460,5 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         self.assertFalse(list(component_alerts(self.component)))
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, 'data-bs-target="#alerts"')
+        self.assertEqual(response.context["problem_alerts_count"], 0)
+        self.assertNotContains(response, "text-bg-danger")

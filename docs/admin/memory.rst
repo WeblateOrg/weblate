@@ -28,6 +28,16 @@ Translation-memory scopes
 The translation-memory scopes ensure privacy for different projects and users.
 Sharing of translations is also available.
 
+.. note::
+
+   When upgrading from older Weblate releases, existing translation-memory
+   entries are converted to scopes by a periodic Celery background task. Until
+   this backfill finishes, existing entries can be temporarily unavailable in
+   suggestions and memory management views. Keep Celery running after the
+   upgrade so the periodic task can start or resume the migration. Site
+   administrators can monitor the backfill and duplicate-entry consolidation in
+   :guilabel:`Administration` > :guilabel:`Performance report`.
+
 Imported translation memory
 +++++++++++++++++++++++++++
 
@@ -49,6 +59,21 @@ Per-project translation memory
 All translations within a project are automatically stored in a project
 translation memory only available for this project.
 
+Workspace translation memory
+++++++++++++++++++++++++++++
+
+Projects in the same workspace can share translation memory without enabling
+the global shared translation memory. Workspace translation memory has to be
+enabled both in the workspace settings and in the individual project workflow
+settings.
+
+.. seealso::
+
+   * :ref:`workspace-use-workspace-tm`
+   * :ref:`workspace-contribute-workspace-tm`
+   * :ref:`project-use-workspace-tm`
+   * :ref:`project-contribute-workspace-tm`
+
 .. _shared-tm:
 
 Shared translation memory
@@ -56,6 +81,8 @@ Shared translation memory
 
 All translations within projects with shared translation memory turned on
 are stored in a shared translation memory available to all projects.
+Turning off contribution to shared translation memory stops previously
+contributed automatic entries from being used as shared suggestions.
 
 Please consider carefully whether to turn this feature on for shared Weblate
 installations, as it can have severe implications:

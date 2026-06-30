@@ -27,6 +27,8 @@ from weblate.auth.data import SELECTION_MANUAL
 from weblate.auth.models import AutoGroup, Group, Role, TeamMembership
 from weblate.checks.models import Check
 from weblate.lang.models import Language
+from weblate.memory.models import Memory, MemoryScope
+from weblate.memory.utils import CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup, list_backups
@@ -127,6 +129,93 @@ class BackupsTest(ViewTestCase):
         change = self.project.change_set.get(action=ActionEvents.PROJECT_BACKUP)
         self.assertEqual(change.user, self.user)
         self.assertEqual(change.author, self.user)
+
+    def test_backup_includes_compacted_project_memory(self) -> None:
+        source = "Compacted project memory"
+        memory = Memory.objects.create(
+            legacy_project=self.project,
+            source=source,
+            context="",
+            target="Kompaktni projektova pamet",
+            origin=self.component.full_slug,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        Memory.objects.filter(pk=memory.pk).update(
+            legacy_project=None, legacy_user=None, legacy_shared=False
+        )
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            memory_data = json.loads(zipfile.read("weblate-memory.json"))
+
+        self.assertIn(source, {entry["source"] for entry in memory_data})
+
+    def test_backup_uses_requested_project_memory_category(self) -> None:
+        other_project = Project.objects.create(
+            name="Other memory backup", slug="other-memory-backup"
+        )
+        source = "Multi project scoped memory"
+        memory = Memory.objects.create(
+            source=source,
+            context="",
+            target="Viceprojektova pamet",
+            origin=self.component.full_slug,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=other_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            memory_data = json.loads(zipfile.read("weblate-memory.json"))
+
+        entry = next(item for item in memory_data if item["source"] == source)
+        self.assertEqual(entry["category"], CATEGORY_PRIVATE_OFFSET + self.project.id)
+
+    def test_backup_restores_workspace_tm_flags(self) -> None:
+        self.project.use_workspace_tm = True
+        self.project.contribute_workspace_tm = True
+        self.project.save(update_fields=["use_workspace_tm", "contribute_workspace_tm"])
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            project_data = json.loads(zipfile.read("weblate-backup.json"))["project"]
+
+        self.assertTrue(project_data["use_workspace_tm"])
+        self.assertTrue(project_data["contribute_workspace_tm"])
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored workspace TM",
+            project_slug="restored-workspace-tm",
+            user=self.user,
+        )
+
+        self.assertTrue(restored.use_workspace_tm)
+        self.assertTrue(restored.contribute_workspace_tm)
 
     def test_restore_creates_history_entries(self) -> None:
         backup = ProjectBackup()

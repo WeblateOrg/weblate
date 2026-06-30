@@ -196,6 +196,7 @@
                     {% if user_can_delete_screenshot %}
                       <form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="post">
                         {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}{% querystring page=None %}" />
                         <button type="submit" class="btn btn-sm btn-danger">{% translate "Delete" %}</button>
                       </form>
                     {% endif %}

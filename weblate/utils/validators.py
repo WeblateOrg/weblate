@@ -39,7 +39,7 @@ from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_excluded, read_file_bytes
+from weblate.utils.files import is_unsafe_path, is_vcs_metadata_path, read_file_bytes
 from weblate.utils.outbound import (
     is_allowlisted_hostname,
     validate_outbound_hostname,
@@ -366,7 +366,7 @@ def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
-    if check_prohibited and is_excluded(cleaned):
+    if check_prohibited and (is_unsafe_path(cleaned) or is_vcs_metadata_path(cleaned)):
         raise ValidationError(gettext("The filename contains a prohibited folder."))
 
 
@@ -869,6 +869,31 @@ class WeblateServiceURLValidator(WeblateURLValidator):
         r"(?:[/?#][^\s]*)?"  # resource path
         r"\Z",
         re.IGNORECASE,
+    )
+
+
+class FedoraMessagingURLValidator(WeblateServiceURLValidator):
+    """Validator for Fedora Messaging AMQP URLs."""
+
+    # ruff: ignore[mutable-class-default]
+    schemes: list[str] = [
+        "amqp",
+        "amqps",
+    ]
+
+
+def validate_fedora_messaging_url(value: str) -> None:
+    FedoraMessagingURLValidator()(value)
+    validate_outbound_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+    )
+    _validate_runtime_public_url(
+        value,
+        allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
+        allow_unresolved_hostname=False,
+        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
 

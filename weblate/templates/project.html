@@ -7,6 +7,7 @@
   {% perm 'project.permissions' object as user_can_manage_acl %}
   {% perm 'project.edit' object as user_can_edit_project %}
   {% perm 'reports.view' object as user_can_view_reports %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -82,6 +83,11 @@
              href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
+        {% if user_can_upload_translation %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
     <li class="nav-item dropdown">
@@ -235,6 +241,7 @@
   {% perm 'project.permissions' object as user_can_manage_acl %}
   {% perm 'project.edit' object as user_can_edit_project %}
   {% perm 'reports.view' object as user_can_view_reports %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
     <div class="tab-pane" id="components">
@@ -317,6 +324,12 @@
             </div>
           </div>
         </form>
+      </div>
+    {% endif %}
+
+    {% if user_can_upload_translation %}
+      <div class="tab-pane" id="upload">
+        {% include "snippets/upload-placeholder.html" with upload_translation_tab="#languages" upload_translation_label=_("Browse translations") %}
       </div>
     {% endif %}
 

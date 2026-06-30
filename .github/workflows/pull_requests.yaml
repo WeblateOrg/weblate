@@ -15,7 +15,7 @@ jobs:
   weblate-automerge:
     runs-on: ubuntu-slim
     name: Weblate automerge
-    if: github.actor == 'weblate'
+    if: github.event.pull_request.user.login == 'weblate' || github.event.pull_request.user.login == 'hosted-weblate[bot]'
     steps:
     - name: Enable Pull Request Automerge
       run: gh pr merge --repo "$GITHUB_REPOSITORY" --rebase --auto "$PR_NUMBER"

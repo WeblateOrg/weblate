@@ -109,6 +109,8 @@ class ProjectLanguageFactory(UserDict):
         from weblate.trans.models.workflow import WorkflowSetting
 
         instances = self.preload() if instances is None else list(instances)
+        for instance in instances:
+            self.data[instance.language.id] = instance
 
         pending = {instance.language.id: instance for instance in instances}
 
@@ -213,6 +215,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         "enable_hooks",
         "use_shared_tm",
         "contribute_shared_tm",
+        "use_workspace_tm",
+        "contribute_workspace_tm",
         "check_flags",
     )
 
@@ -277,6 +281,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         default=settings.DEFAULT_SHARED_TM,
         help_text=gettext_lazy(
             "Contributes to the pool of shared translations between projects."
+        ),
+    )
+    use_workspace_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Use workspace translation memory"),
+        default=False,
+        help_text=gettext_lazy(
+            "Uses the pool of shared translations between projects in the workspace."
+        ),
+    )
+    contribute_workspace_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Contribute to workspace translation memory"),
+        default=False,
+        help_text=gettext_lazy(
+            "Contributes translations to the pool shared between projects in the workspace."
         ),
     )
     autoclean_tm = models.BooleanField(
@@ -574,14 +592,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import component_alerts
 
-        update_tm = self.contribute_shared_tm
+        update_tm = self.contribute_shared_tm or self.effective_contribute_workspace_tm
 
         # Renaming detection
         old = None
+        old_effective_contribute_workspace_tm = False
+        old_workspace_id = None
         old_effective_check_flags = ""
         update_fields = kwargs.get("update_fields")
         if self.id:
             old = Project.objects.get(pk=self.id)
+            old_effective_contribute_workspace_tm = (
+                old.effective_contribute_workspace_tm
+            )
+            old_workspace_id = old.workspace_id
             old_effective_check_flags = old.effective_check_flags.format()
             update_fields_set = None if update_fields is None else set(update_fields)
             for field in INHERITABLE_COMPONENT_SETTINGS:
@@ -607,7 +631,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     component.linked_children.update(
                         repo=new_component.get_repo_link_url()
                     )
-            update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
+            update_tm = (
+                self.contribute_shared_tm and not old.contribute_shared_tm
+            ) or (
+                self.effective_contribute_workspace_tm
+                and not old_effective_contribute_workspace_tm
+            )
 
         self.create_path()
 
@@ -638,11 +667,78 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 transaction.on_commit(
                     lambda: self.schedule_component_check_updates(update_state=True)
                 )
+            update_tm = self.update_memory_scope_changes(
+                old,
+                old_effective_contribute_workspace_tm,
+                old_workspace_id,
+                update_tm,
+            )
 
         # Update translation memory on enabled sharing
         if update_tm:
             import_memory.delay_on_commit(self.id)
         self.billing_original_workspace_id = self.workspace_id
+
+    @property
+    def effective_use_workspace_tm(self) -> bool:
+        if not self.use_workspace_tm:
+            return False
+        workspace = self.workspace
+        if workspace is None:
+            return False
+        return workspace.use_workspace_tm
+
+    @property
+    def effective_contribute_workspace_tm(self) -> bool:
+        if not self.contribute_workspace_tm:
+            return False
+        workspace = self.workspace
+        if workspace is None:
+            return False
+        return workspace.contribute_workspace_tm
+
+    def update_memory_scope_changes(
+        self,
+        old: Project,
+        old_effective_contribute_workspace_tm: bool,
+        old_workspace_id: UUID | None,
+        update_tm: bool,
+    ) -> bool:
+        if old.contribute_shared_tm and not self.contribute_shared_tm:
+            self.delete_shared_memory_scope()
+        if old_effective_contribute_workspace_tm and (
+            not self.effective_contribute_workspace_tm
+            or old_workspace_id != self.workspace_id
+        ):
+            self.delete_workspace_memory_scope(old_workspace_id)
+        return update_tm or (
+            self.effective_contribute_workspace_tm
+            and old_workspace_id != self.workspace_id
+        )
+
+    def delete_shared_memory_scope(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        Memory.objects.delete_scope(
+            Q(scope=MemoryScope.SCOPE_SHARED, source_project=self),
+            delete_legacy=False,
+        )
+
+    def delete_workspace_memory_scope(self, workspace_id) -> None:
+        if workspace_id is None:
+            return
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        Memory.objects.delete_scope(
+            Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+                source_project=self,
+            ),
+            delete_legacy=False,
+        )
 
     def _clear_translation_instructions_guidance_alert(self) -> None:
         if (

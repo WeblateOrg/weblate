@@ -27,7 +27,7 @@ from translate.storage.fluent import FluentContentError
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
-from weblate.formats.base import UnitNotFoundError
+from weblate.formats.base import TranslationFormat, UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
@@ -78,16 +78,19 @@ from weblate.utils.stats import GhostStats, TranslationStats
 from weblate.utils.tracing import start_span
 from weblate.utils.version import GIT_VERSION
 
+SINGLE_FILE_IMPORT_ALERTS = {"DuplicateString", "ParseError"}
+
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
-    from weblate.formats.base import TranslationFormat, TranslationUnit
+    from weblate.formats.base import TranslationUnit
     from weblate.utils.state import (
         StringState,
     )
 
+    from .component import Component
     from .project import Project
 
 UploadResult = tuple[int, int, int, int]
@@ -138,10 +141,12 @@ class TranslationManager(models.Manager):
         lang,
         code,
         path,
+        *,
         force=False,
         request: AuthenticatedHttpRequest | None = None,
         user: User | None = None,
         change=None,
+        preserve_pending_units: bool = False,
     ):
         """Parse translation meta info and updates translation object."""
         translation, _created = component.translation_set.get_or_create(
@@ -154,7 +159,13 @@ class TranslationManager(models.Manager):
             translation.language_code = code
             translation.save(update_fields=["filename", "language_code"])
         force |= translation.sync_readonly_check_flag()
-        translation.check_sync(force, request=request, change=change, author=user)
+        translation.check_sync(
+            force,
+            request=request,
+            change=change,
+            author=user,
+            preserve_pending_units=preserve_pending_units,
+        )
         return translation
 
 
@@ -694,7 +705,8 @@ class Translation(
         request: AuthenticatedHttpRequest | None = None,
         change: int | None = None,
         author: User | None = None,
-    ) -> None:
+        preserve_pending_units: bool = False,
+    ) -> bool:
         """Check whether database is in sync with git and possibly updates."""
         with start_span(op="translation.check_sync", name=self.full_slug):
             if change is None:
@@ -711,7 +723,7 @@ class Translation(
                 new_revision = self.get_git_blob_hash()
             except FileNotFoundError:
                 self.reason = ""
-                return
+                return False
             except Exception as exc:
                 report_error("Translation parse error", project=self.component.project)
                 self.component.handle_parse_error(exc, self)
@@ -736,7 +748,7 @@ class Translation(
                 self.reason = "check forced"
             else:
                 self.reason = ""
-                return
+                return False
             details["reason"] = self.reason
 
             self.component.check_template_valid()
@@ -753,10 +765,16 @@ class Translation(
                     )
                 self.log_warning("skipping update due to parse error: %s", error)
                 self.store_update_changes()
-                return
+                return False
 
             # Delete stale units
             stale = set(dbunits) - set(updated)
+            if stale and preserve_pending_units:
+                stale -= set(
+                    PendingUnitChange.objects.for_translation(self, apply_filters=False)
+                    .filter(add_unit=True, unit__id_hash__in=stale)
+                    .values_list("unit__id_hash", flat=True)
+                )
             if stale:
                 self.log_info("deleting %d stale strings", len(stale))
                 self.unit_set.filter(id_hash__in=stale).delete()
@@ -792,6 +810,7 @@ class Translation(
         # further consumers as no further consumer is expected after this and
         # we do not want to parse the file again.
         self.__dict__["store"] = None
+        return True
 
     def store_update_changes(self) -> None:
         # Save change
@@ -825,6 +844,164 @@ class Translation(
 
     def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_file_scan(request)
+
+    @staticmethod
+    def supports_remove_duplicate_units(component: Component) -> bool:
+        return component.file_format_cls.supports_remove_duplicate_units()
+
+    @staticmethod
+    def supports_cleanup_unused(component: Component) -> bool:
+        return component.has_template() and (
+            component.file_format_cls.can_delete_unit
+            or component.file_format_cls.cleanup_unused
+            != TranslationFormat.cleanup_unused
+        )
+
+    @staticmethod
+    def supports_remove_obsolete_units(component: Component) -> bool:
+        return component.file_format_cls.supports_remove_obsolete_units
+
+    def _do_file_cleanup(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        operation: Callable[[TranslationFormat], list[str] | None],
+        no_changes_message: str,
+    ) -> bool:
+        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+
+        if not self.filename:
+            messages.info(request, no_changes_message)
+            return False
+
+        user = self.component.acting_user or (request.user if request else None)
+        if user is None:
+            user = get_anonymous()
+
+        component = self.component
+        with component.repository.lock:
+            store = self.store
+            extra_files = operation(store)
+            if extra_files is None:
+                messages.info(request, no_changes_message)
+                return False
+
+            previous_revision = component.repository.last_revision
+            self.addon_commit_files.extend(extra_files)
+            store.save()
+            self.drop_store_cache()
+            self.git_commit(
+                user,
+                user.get_author_name(),
+                store_hash=False,
+            )
+            reparsed = self.handle_store_change(
+                request, user, previous_revision, preserve_pending_units=True
+            )
+            if not self.is_source:
+                if reparsed:
+                    self.update_single_file_import_alerts()
+                elif "ParseError" in component.alerts_trigger:
+                    self.update_single_file_import_alerts({"ParseError"})
+                else:
+                    component.alerts_trigger = {}
+        return True
+
+    def _is_current_import_alert_occurrence(self, occurrence: dict) -> bool:
+        language_code = occurrence.get("language_code")
+        if language_code is not None:
+            return language_code == self.language.code
+        filename = occurrence.get("filename")
+        return filename is not None and filename == self.filename
+
+    def update_single_file_import_alerts(
+        self, alert_names: set[str] | None = None
+    ) -> None:
+        """Refresh import alerts after a single translation file was parsed."""
+        from weblate.trans.alerts.registry import get_import_alerts  # noqa: PLC0415
+
+        if alert_names is None:
+            alert_names = SINGLE_FILE_IMPORT_ALERTS
+        component = self.component
+        for alert_name in get_import_alerts() & alert_names:
+            occurrences = component.alerts_trigger.pop(alert_name, [])
+            try:
+                alert = component.alert_set.get(name=alert_name)
+            except ObjectDoesNotExist:
+                if occurrences:
+                    component.add_alert(alert_name, occurrences=occurrences)
+                continue
+
+            existing = alert.details.get("occurrences")
+            if not isinstance(existing, list):
+                if occurrences:
+                    component.add_alert(alert_name, occurrences=occurrences)
+                continue
+
+            updated = [
+                occurrence
+                for occurrence in existing
+                if not self._is_current_import_alert_occurrence(occurrence)
+            ]
+            updated.extend(occurrences)
+            if updated:
+                component.add_alert(alert_name, occurrences=updated)
+            else:
+                component.delete_alert(alert_name)
+        component.alerts_trigger = {}
+
+    @transaction.atomic
+    def do_remove_duplicate_units(
+        self, request: AuthenticatedHttpRequest | None = None
+    ) -> bool:
+        if not self.supports_remove_duplicate_units(self.component):
+            messages.info(
+                request,
+                gettext(
+                    "Removing duplicate strings is not supported for this file format."
+                ),
+            )
+            return False
+        return self._do_file_cleanup(
+            request,
+            lambda store: store.remove_duplicate_units(),
+            gettext("No duplicate strings were found in the translation file."),
+        )
+
+    @transaction.atomic
+    def do_cleanup_unused(
+        self, request: AuthenticatedHttpRequest | None = None
+    ) -> bool:
+        if not self.supports_cleanup_unused(self.component):
+            messages.info(
+                request,
+                gettext(
+                    "Cleanup of unused strings is not supported for this file format."
+                ),
+            )
+            return False
+        return self._do_file_cleanup(
+            request,
+            lambda store: store.cleanup_unused(),
+            gettext("No unused strings were found in the translation file."),
+        )
+
+    @transaction.atomic
+    def do_remove_obsolete_units(
+        self, request: AuthenticatedHttpRequest | None = None
+    ) -> bool:
+        if not self.supports_remove_obsolete_units(self.component):
+            messages.info(
+                request,
+                gettext(
+                    "Removing obsolete strings is not supported for this file format."
+                ),
+            )
+            return False
+        return self._do_file_cleanup(
+            request,
+            lambda store: store.remove_obsolete_units(),
+            gettext("No obsolete strings were found in the translation file."),
+        )
 
     def can_push(self) -> bool:
         return self.component.can_push()
@@ -2126,10 +2303,12 @@ class Translation(
                 component.push_if_needed()
 
         # Remove blank directory if still present (appstore)
-        filename = Path(self.get_filename())
-        if filename.is_dir():
-            with suppress(OSError):
-                filename.rmdir()
+        validated_filename = self.get_filename()
+        if validated_filename is not None:
+            filename = Path(validated_filename)
+            if filename.is_dir():
+                with suppress(OSError):
+                    filename.rmdir()
 
         # Record change
         component.change_set.create(
@@ -2147,16 +2326,26 @@ class Translation(
         user: User,
         previous_revision: str,
         change=None,
-    ) -> None:
+        preserve_pending_units: bool = False,
+    ) -> bool:
         self.drop_store_cache()
         # Explicit stats invalidation is needed here as the unit removal in
         # delete_unit might do changes in the database only and not touch the files
         # for pending new units
         if self.is_source:
-            self.component.create_translations(request=request, change=change)
+            reparsed = self.component.create_translations(
+                request=request,
+                change=change,
+                preserve_pending_units=preserve_pending_units,
+            )
             self.component.invalidate_cache()
         else:
-            self.check_sync(request=request, change=change, author=user)
+            reparsed = self.check_sync(
+                request=request,
+                change=change,
+                author=user,
+                preserve_pending_units=preserve_pending_units,
+            )
             self.invalidate_cache()
         # Trigger post-update signal
         self.component.trigger_post_update(
@@ -2164,6 +2353,7 @@ class Translation(
             skip_push=False,
             user=user,
         )
+        return reparsed
 
     def get_store_change_translations(self) -> list[Translation]:
         component = self.component

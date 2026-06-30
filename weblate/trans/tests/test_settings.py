@@ -27,6 +27,7 @@ from weblate.trans.models import (
     CommitPolicyChoices,
     Component,
     ContributorAgreement,
+    PendingUnitChange,
     Project,
     Translation,
     Unit,
@@ -41,6 +42,8 @@ from weblate.utils.render import (
 )
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
+from weblate.vcs.github import GitHubInstallation
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 
@@ -246,6 +249,27 @@ class SettingsTest(ViewTestCase):
 
         self.assertContains(response, 'name="license"')
         self.assertNotContains(response, 'data-inherited-setting="license"')
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_project_settings_mirror_workspace_tm_contribution(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+        self.assertTrue(form.fields["contribute_shared_tm"].widget.is_hidden)
+        self.assertTrue(form.fields["contribute_workspace_tm"].widget.is_hidden)
+
+        data = get_form_data(form.initial)
+        data["use_shared_tm"] = False
+        data["contribute_shared_tm"] = True
+        data["use_workspace_tm"] = True
+        data["contribute_workspace_tm"] = False
+        form = ProjectSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.project,
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertFalse(form.cleaned_data["contribute_shared_tm"])
+        self.assertTrue(form.cleaned_data["contribute_workspace_tm"])
 
     def test_checked_inherited_setting_preserves_override(self) -> None:
         self.project.license = "MIT"
@@ -983,6 +1007,8 @@ class SettingsTest(ViewTestCase):
         self.project.enable_hooks = False
         self.project.use_shared_tm = False
         self.project.contribute_shared_tm = False
+        self.project.use_workspace_tm = True
+        self.project.contribute_workspace_tm = True
         self.project.check_flags = "strict-same"
         self.project.save()
 
@@ -1360,6 +1386,53 @@ class SettingsTest(ViewTestCase):
             1,
         )
 
+    def test_linked_component_reuses_repository_lock_during_setup_commit(self) -> None:
+        linked_component = self.create_link_existing(
+            name="Settings linked lock", slug="settings-linked-lock"
+        )
+        new_target = self.create_po(name="settings-new-target", project=self.project)
+        translation = (
+            linked_component.translation_set.exclude(filename="")
+            .exclude(language_id=linked_component.source_language_id)
+            .first()
+        )
+        if translation is None:
+            self.fail("Expected a linked component translation with a filename.")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one linked component unit.")
+        PendingUnitChange.store_unit_change(unit=unit, author=self.user)
+
+        self.component.drop_repository_cache()
+        linked_component.drop_repository_cache()
+        if linked_component.linked_component is not None:
+            linked_component.linked_component.drop_repository_cache()
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.utils.lock.is_redis_cache", return_value=False),
+            patch.object(Component, "queue_background_task", autospec=True),
+            patch.object(
+                Translation, "_commit_pending", autospec=True, return_value=False
+            ) as commit_pending,
+            patch.object(FileLock, "acquire", autospec=True) as acquire,
+            patch.object(FileLock, "release", autospec=True) as release,
+            linked_component.locked_for_update() as locked_component,
+        ):
+            locked_component.repo = new_target.get_repo_link_url()
+            locked_component.edit_template = False
+            locked_component.save()
+
+        commit_pending.assert_called_once()
+        acquire.assert_called_once()
+        self.assertEqual(
+            sum(
+                call.kwargs.get("force", False) is False
+                for call in release.call_args_list
+            ),
+            1,
+        )
+
     def test_linked_component_repository_settings_show_effective_values(self) -> None:
         self.project.add_user(self.user, "Administration")
         self.component.push_on_commit = True
@@ -1416,6 +1489,70 @@ class SettingsTest(ViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)
+
+    def test_github_app_component_settings_lock_push_settings(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        workspace = Workspace.objects.create(name="GitHub App settings")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+            repositories=[{"full_name": "test-org/repo"}],
+        )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo.git"
+        self.component.push = "https://example.com/other/repo.git"
+        self.component.push_branch = "translations"
+        self.component.save(update_fields=["vcs", "repo", "push", "push_branch"])
+
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        self.assertContains(response, "Settings")
+        form = response.context["form"]
+
+        for field in ("vcs", "repo", "push", "push_branch"):
+            self.assertTrue(form.fields[field].disabled)
+        self.assertEqual(form.initial["push"], "")
+        self.assertEqual(form.initial["push_branch"], "")
+
+        data = get_form_data(form.initial)
+        data["push"] = "https://example.com/other/repo.git"
+        data["push_branch"] = "translations"
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.component,
+        )
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            self.assertTrue(form.is_valid(), form.errors)
+            form.save()
+
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.push, "")
+        self.assertEqual(self.component.push_branch, "")
+
+    def test_component_settings_reject_manual_github_app_vcs(self) -> None:
+        self.project.add_user(self.user, "Administration")
+
+        VCS_REGISTRY.clear_cache()
+        form = ComponentSettingsForm(self.get_request(), instance=self.component)
+
+        self.assertNotIn("github-app", dict(form.fields["vcs"].choices))
+
+        data = get_form_data(form.initial)
+        data["vcs"] = "github-app"
+        data["repo"] = "https://github.com/test-org/repo.git"
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.component,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("vcs", form.errors)
 
     def test_component_settings_drop_repository_setting_overrides_on_link(self) -> None:
         self.project.add_user(self.user, "Administration")

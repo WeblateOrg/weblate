@@ -32,7 +32,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.db import transaction
-from django.db.models import Prefetch
+from django.db.models import Exists, OuterRef, Prefetch
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
@@ -50,7 +50,8 @@ from weblate.auth.models import (
 )
 from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
-from weblate.memory.models import Memory
+from weblate.memory.models import Memory, MemoryDict, MemoryScope
+from weblate.memory.utils import CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
@@ -305,6 +306,25 @@ class ProjectBackup:
                 result.append(membership.user.username)
         return result
 
+    def backup_memory(self, project: Project) -> list[MemoryDict]:
+        project_scope = MemoryScope.objects.using("default").filter(
+            memory_id=OuterRef("pk"),
+            project_id=project.pk,
+            scope__in=(MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE),
+        )
+        memory = (
+            Memory.objects.using("default")
+            .alias(has_project_scope=Exists(project_scope))
+            .filter(has_project_scope=True)
+            .prefetch_scopes()
+            .order_by("id")
+        )
+        category = CATEGORY_PRIVATE_OFFSET + project.pk
+        return [
+            item.as_dict(category=category)
+            for item in memory.iterator(self.IMPORT_BATCH_SIZE)
+        ]
+
     def backup_categories(
         self, obj: Project | Category
     ) -> list[dict[str, BackupValue]]:
@@ -329,6 +349,8 @@ class ProjectBackup:
         self.project = project
         project_fields = self.extend_fields(
             self.project_schema["properties"]["project"]["required"],
+            "use_workspace_tm",
+            "contribute_workspace_tm",
             *PROJECT_INHERITABLE_BACKUP_FIELDS,
         )
         project_extras: dict[str, Callable[[Project], object]] = {
@@ -576,10 +598,7 @@ class ProjectBackup:
             # Translation memory, avoid using memory_db
             self.backup_json(
                 backupzip,
-                [
-                    item.as_dict()
-                    for item in project.memory_set.using("default").iterator()
-                ],
+                self.backup_memory(project),
                 "weblate-memory.json",
             )
 
@@ -1244,25 +1263,32 @@ class ProjectBackup:
         memory = self.load_memory(zipfile)
         memory_batch = []
         for entry in memory:
-            memory_batch.append(
-                Memory(
-                    project=project,
-                    origin=entry["origin"],
-                    source=entry["source"],
-                    context=entry.get("context", ""),
-                    target=entry["target"],
-                    source_language=self.import_language(entry["source_language"]),
-                    target_language=self.import_language(entry["target_language"]),
-                    status=entry.get("status", Memory.STATUS_ACTIVE),
-                )
+            restored = Memory(
+                origin=entry["origin"],
+                source=entry["source"],
+                context=entry.get("context", ""),
+                target=entry["target"],
+                source_language=self.import_language(entry["source_language"]),
+                target_language=self.import_language(entry["target_language"]),
+                status=entry.get("status", Memory.STATUS_ACTIVE),
             )
+            restored.pending_scopes = [
+                MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project=project)
+            ]
+            memory_batch.append(restored)
             if len(memory_batch) >= self.IMPORT_BATCH_SIZE:
+                with transaction.atomic():
+                    Memory.objects.bulk_create(
+                        memory_batch, batch_size=self.IMPORT_BATCH_SIZE
+                    )
+                    MemoryScope.objects.bulk_create_for_memories(memory_batch)
+                memory_batch.clear()
+        if memory_batch:
+            with transaction.atomic():
                 Memory.objects.bulk_create(
                     memory_batch, batch_size=self.IMPORT_BATCH_SIZE
                 )
-                memory_batch.clear()
-        if memory_batch:
-            Memory.objects.bulk_create(memory_batch, batch_size=self.IMPORT_BATCH_SIZE)
+                MemoryScope.objects.bulk_create_for_memories(memory_batch)
 
         memory.clear()
 

@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-github-accounts' %}">{% translate "VCS Installations" %}</a>
+  </li>
+  <li class="breadcrumb-item">{{ installation.target_login }}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card mb-3">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% blocktranslate with login=installation.target_login %}Connected GitHub account: {{ login }}{% endblocktranslate %}
+        {% if github_app_install_url %}
+          <a href="{{ github_app_install_url }}"
+             class="btn btn-primary btn-sm float-end ms-2">{% translate "Add or configure account" %}</a>
+        {% endif %}
+        <form method="post"
+              action="{% url 'manage-github-account-refresh' installation.pk %}"
+              class="d-inline float-end ms-2">
+          {% csrf_token %}
+          <input type="hidden"
+                 name="next"
+                 value="{% url 'manage-github-account-detail' installation.pk %}" />
+          <button type="submit" class="btn btn-outline-primary btn-sm" id="refresh-repos">{% translate "Refresh repositories" %}</button>
+        </form>
+        <button type="button"
+                class="btn btn-outline-danger btn-sm float-end"
+                data-bs-toggle="modal"
+                data-bs-target="#remove-github-account-{{ installation.pk }}">{% translate "Remove" %}</button>
+      </h4>
+      {% include "vcs/snippets/github_account_remove_modal.html" with installation=installation csrf_token=csrf_token only %}
+    </div>
+    <div class="card-body">
+      {% if not app_configured %}
+        <div class="alert alert-warning">
+          {% blocktranslate with hostname=installation.hostname %}Weblate GitHub app credentials are not registered for {{ hostname }}. Token refresh and webhook signature checks will not work until the App credentials are registered again.{% endblocktranslate %}
+        </div>
+      {% endif %}
+      {% if github_app_install_url %}
+        {% include "vcs/github_install_help.html" %}
+      {% endif %}
+      <dl class="row">
+        <dt class="col-sm-3">{% translate "GitHub installation ID" %}</dt>
+        <dd class="col-sm-9">
+          {{ installation.installation_id }}
+        </dd>
+        <dt class="col-sm-3">{% translate "Account" %}</dt>
+        <dd class="col-sm-9">
+          {{ installation.target_login }} ({{ installation.target_type }})
+        </dd>
+        <dt class="col-sm-3">{% translate "Workspace" %}</dt>
+        <dd class="col-sm-9">
+          {{ installation.workspace }}
+        </dd>
+        <dt class="col-sm-3">{% translate "Hostname" %}</dt>
+        <dd class="col-sm-9">
+          {{ installation.hostname }}
+        </dd>
+        <dt class="col-sm-3">{% translate "Status" %}</dt>
+        <dd class="col-sm-9">
+          {% if installation.enabled %}
+            <span class="badge text-bg-success">{% translate "Active" %}</span>
+          {% else %}
+            <span class="badge text-bg-warning">{% translate "Disabled" %}</span>
+          {% endif %}
+        </dd>
+        {% if installation.repositories_updated %}
+          <dt class="col-sm-3">{% translate "Repositories updated" %}</dt>
+          <dd class="col-sm-9">
+            {{ installation.repositories_updated }}
+          </dd>
+        {% endif %}
+      </dl>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% translate "Available Repositories" %}
+        <span class="badge text-bg-secondary">{{ repositories|length }}</span>
+      </h4>
+    </div>
+    <div class="card-body">
+      {% if repositories %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{% translate "Repository" %}</th>
+              <th>{% translate "Branch" %}</th>
+              <th>{% translate "Visibility" %}</th>
+              <th>{% translate "Actions" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for repo in repositories %}
+              <tr>
+                <td>
+                  <strong>{{ repo.full_name }}</strong>
+                  {% if repo.description %}
+                    <br>
+                    <small class="text-body-secondary">{{ repo.description }}</small>
+                  {% endif %}
+                </td>
+                <td>{{ repo.default_branch }}</td>
+                <td>
+                  {% if repo.private %}
+                    <span class="badge text-bg-warning">{% translate "Private" %}</span>
+                  {% else %}
+                    <span class="badge text-bg-success">{% translate "Public" %}</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if repo.import_url %}
+                    <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                  {% else %}
+                    <span class="text-body-secondary">{% translate "Unavailable" %}</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-body-secondary">
+          {% translate "No repositories found. Click 'Refresh repositories' to fetch the list from GitHub." %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock content %}

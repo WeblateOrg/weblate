@@ -1881,6 +1881,38 @@ class EditComplexTest(ViewTestCase):
         self.assertIsNotNone(response.context["addterm_form"])
         self.assertContains(response, "Add term to glossary")
 
+    def test_translate_source_language_renders_glossary_term_once(self) -> None:
+        glossary = self.create_po(
+            name="Glossary",
+            project=self.project,
+            is_glossary=True,
+            manage_units=True,
+        )
+        glossary.source_translation.unit_set.create(
+            source="Hello",
+            target="Hello",
+            context="",
+            id_hash=calculate_hash("Hello", ""),
+            position=glossary.source_translation.unit_set.count() + 1,
+            state=STATE_TRANSLATED,
+        )
+        glossary.invalidate_glossary_cache()
+
+        response = self.client.get(
+            self.component.source_translation.get_translate_url()
+        )
+
+        self.assertEqual(response.context["glossary"][0].source, "Hello")
+        self.assertTrue(response.context["glossary"][0].is_source)
+        content = response.content.decode()
+        glossary_start = content.index('<tbody id="glossary-terms">')
+        glossary_end = content.index("</tbody>", glossary_start)
+        glossary_body = content[glossary_start:glossary_end]
+        self.assertIn('class="source target" colspan="2"', glossary_body)
+        self.assertIn("Hello", glossary_body)
+        self.assertNotIn('class="source">', glossary_body)
+        self.assertNotIn('class="target">', glossary_body)
+
     def test_translate_skips_glossary_fetch_without_glossaries(self) -> None:
         with patch("weblate.trans.views.edit.fetch_glossary_terms") as fetch_terms:
             response = self.client.get(self.translate_url)

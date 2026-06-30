@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar, cast
+from urllib.parse import urlparse
 
 import regex
 from crispy_forms.helper import FormHelper
@@ -14,7 +15,6 @@ from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, pgettext_lazy
-from fedora_messaging.exceptions import ConfigurationException
 from lxml.cssselect import CSSSelector
 
 from weblate.addons.base import (
@@ -23,6 +23,11 @@ from weblate.addons.base import (
     CHANGE_EVENT_FILTER_CUSTOM,
     BaseAddon,
     get_change_event_filter,
+)
+from weblate.addons.defaults import (
+    DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+    DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
+    DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
@@ -43,7 +48,7 @@ from weblate.utils.forms import (
 from weblate.utils.regex import compile_regex, regex_match, regex_sub
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
-    DomainOrIPValidator,
+    validate_fedora_messaging_url,
     validate_filename,
     validate_re,
     validate_re_nonempty,
@@ -1616,40 +1621,68 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
 
 
 class FedoraMessagingAddonForm(ChangeBaseAddonForm):
-    amqp_host = forms.CharField(
-        label=gettext_lazy("AMQP broker host"),
-        help_text=gettext_lazy("The AMQP broker to connect to."),
-        validators=[DomainOrIPValidator()],
-    )
-    amqp_ssl = forms.BooleanField(
-        label=gettext_lazy("Use SSL for AMQP connection"),
-        required=False,
+    amqp_url = forms.CharField(
+        label=gettext_lazy("AMQP broker URL"),
+        help_text=gettext_lazy("The AMQP broker URL to connect to."),
+        validators=[validate_fedora_messaging_url],
     )
     ca_cert = forms.CharField(
         widget=forms.Textarea(),
-        label=gettext_lazy("CA certificates"),
+        label=gettext_lazy("CA certificate bundle (PEM)"),
         help_text=gettext_lazy(
-            "Bundle of PEM encoded CA certificates used to validate the certificate presented by the server."
+            'Paste only PEM certificate blocks, each starting with "-----BEGIN CERTIFICATE-----" and ending with "-----END CERTIFICATE-----".'
         ),
         required=False,
     )
     client_key = forms.CharField(
         widget=forms.Textarea(),
-        label=gettext_lazy("Client SSL key"),
-        help_text=gettext_lazy("PEM encoded client private SSL key."),
+        label=gettext_lazy("Client private key (PEM)"),
+        help_text=gettext_lazy(
+            "Paste a single unencrypted PEM private key block. Encrypted private keys are not supported."
+        ),
         required=False,
     )
 
     client_cert = forms.CharField(
         widget=forms.Textarea(),
-        label=gettext_lazy("Client SSL certificates"),
-        help_text=gettext_lazy("PEM encoded client SSL certificate."),
+        label=gettext_lazy("Client certificate (PEM)"),
+        help_text=gettext_lazy(
+            'Paste only the PEM certificate block starting with "-----BEGIN CERTIFICATE-----"; do not paste the output from "openssl x509 -text".'
+        ),
+        required=False,
+    )
+    publish_timeout = forms.IntegerField(
+        label=gettext_lazy("Publish timeout"),
+        help_text=gettext_lazy(
+            "How many seconds to wait for the broker delivery acknowledgement."
+        ),
+        initial=DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
+        min_value=1,
+        max_value=60,
+        required=False,
+    )
+    connection_attempts = forms.IntegerField(
+        label=gettext_lazy("Connection attempts"),
+        help_text=gettext_lazy("How many times to try connecting to the broker."),
+        initial=DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS,
+        min_value=1,
+        max_value=10,
+        required=False,
+    )
+    retry_delay = forms.IntegerField(
+        label=gettext_lazy("Retry delay"),
+        help_text=gettext_lazy("How many seconds to wait between connection attempts."),
+        initial=DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
+        min_value=0,
+        max_value=60,
         required=False,
     )
 
     field_order = [  # ruff: ignore[mutable-class-default]
-        "amqp_host",
-        "amqp_ssl",
+        "amqp_url",
+        "publish_timeout",
+        "connection_attempts",
+        "retry_delay",
         "ca_cert",
         "client_key",
         "client_cert",
@@ -1657,15 +1690,43 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         "events",
     ]
 
+    def serialize_form(self):
+        # ruff: ignore[import-outside-top-level]
+        from .fedora_messaging import FedoraMessagingAddon
+
+        result = dict(super().serialize_form())
+        if result.get("amqp_url"):
+            result["amqp_url"] = FedoraMessagingAddon.get_broker_amqp_url(
+                result["amqp_url"]
+            )
+        if result.get("publish_timeout") is None:
+            result["publish_timeout"] = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT
+        if result.get("connection_attempts") is None:
+            result["connection_attempts"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS
+        if result.get("retry_delay") is None:
+            result["retry_delay"] = DEFAULT_FEDORA_MESSAGING_RETRY_DELAY
+        return result
+
     def clean(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from fedora_messaging.exceptions import ConfigurationException
+
         # ruff: ignore[import-outside-top-level]
         from .fedora_messaging import (
             FedoraMessagingAddon,
         )
 
-        amqp_ssl = self.cleaned_data.get("amqp_ssl")
-        if amqp_ssl is not None:
-            if amqp_ssl:
+        amqp_url = self.cleaned_data.get("amqp_url")
+        retry_delay = self.cleaned_data.get("retry_delay")
+        connection_attempts = (
+            self.cleaned_data.get("connection_attempts")
+            or DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS
+        )
+        if retry_delay is None:
+            retry_delay = DEFAULT_FEDORA_MESSAGING_RETRY_DELAY
+
+        if amqp_url:
+            if urlparse(amqp_url).scheme == "amqps":
                 if (
                     not self.cleaned_data.get("ca_cert")
                     or not self.cleaned_data.get("client_key")
@@ -1673,7 +1734,7 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
                 ):
                     raise forms.ValidationError(
                         {
-                            "amqp_ssl": gettext(
+                            "amqp_url": gettext(
                                 "The SSL certificates have to be provided for SSL connection."
                             )
                         }
@@ -1686,21 +1747,29 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
             ):
                 raise forms.ValidationError(
                     {
-                        "amqp_ssl": gettext(
+                        "amqp_url": gettext(
                             "The SSL certificates are not used without a SSL connection."
                         )
                     }
                 )
 
-        if amqp_host := self.cleaned_data.get("amqp_host"):
+        if amqp_url:
             try:
                 FedoraMessagingAddon.configure_fedora_messaging(
-                    amqp_host=amqp_host,
-                    amqp_ssl=self.cleaned_data.get("amqp_ssl", False),
+                    amqp_url=amqp_url,
                     ca_cert=self.cleaned_data.get("ca_cert"),
                     client_key=self.cleaned_data.get("client_key"),
                     client_cert=self.cleaned_data.get("client_cert"),
+                    connection_attempts=connection_attempts,
+                    retry_delay=retry_delay,
                     force_update=True,
+                )
+                FedoraMessagingAddon.validate_broker_tls(
+                    FedoraMessagingAddon.get_configured_amqp_url(
+                        amqp_url,
+                        connection_attempts=connection_attempts,
+                        retry_delay=retry_delay,
+                    )
                 )
             except ConfigurationException as error:
                 raise forms.ValidationError(error.message) from error

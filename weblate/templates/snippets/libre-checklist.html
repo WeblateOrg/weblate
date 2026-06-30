@@ -60,7 +60,7 @@
                       {% for item in check.alerts %}
                         <li>
                           {{ item.message }}
-                          <span class="badge text-bg-secondary">{{ item.alert.get_severity_display }}</span>
+                          <span class="badge {{ item.alert.severity_class }}">{{ item.alert.get_severity_display }}</span>
                           {% if item.alert.dismissed %}
                             <span class="badge text-bg-secondary">{% translate "dismissed" %}</span>
                           {% endif %}
