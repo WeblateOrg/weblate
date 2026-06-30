@@ -71,6 +71,44 @@ def normalize_github_app_hostname(hostname: str) -> str:
     return normalized
 
 
+def normalize_github_callback_code(code: str) -> str:
+    """Return a stripped GitHub callback code safe for GitHub API calls."""
+    if not isinstance(code, str):
+        msg = "GitHub callback code must be a string"
+        raise TypeError(msg)
+    code = code.strip()
+    if not code or code in {".", ".."}:
+        msg = "GitHub callback code must be a non-empty token"
+        raise ValueError(msg)
+    return code
+
+
+def normalize_github_installation_id(installation_id: str | int) -> str:
+    """Return a canonical GitHub installation ID string."""
+    if isinstance(installation_id, bool):
+        msg = "GitHub installation ID must be a positive integer"
+        raise TypeError(msg)
+    if isinstance(installation_id, int):
+        if installation_id <= 0:
+            msg = "GitHub installation ID must be a positive integer"
+            raise ValueError(msg)
+        return str(installation_id)
+    if not isinstance(installation_id, str):
+        msg = "GitHub installation ID must be a string or integer"
+        raise TypeError(msg)
+
+    try:
+        value = int(installation_id.strip(), 10)
+    except ValueError as error:
+        msg = "GitHub installation ID must be a positive integer"
+        raise ValueError(msg) from error
+
+    if value <= 0:
+        msg = "GitHub installation ID must be a positive integer"
+        raise ValueError(msg)
+    return str(value)
+
+
 def get_github_app_configurations() -> dict[str, GitHubAppCredentials]:
     """
     Return configured Weblate GitHub app credentials keyed by normalized hostname.
@@ -125,7 +163,7 @@ def get_github_app_install_url(state: str, hostname: str | None = None) -> str:
 def get_github_repository_import_url(
     repo: dict,
     *,
-    installation_id: str | int,
+    installation_id: int,
     project_id: str | int | None = None,
     category_id: str | int | None = None,
 ) -> str:
@@ -137,7 +175,7 @@ def get_github_repository_import_url(
         params["category"] = str(category_id)
     url = reverse(
         "github-app-repository-import",
-        kwargs={"pk": installation_id, "repo_full_name": repo["full_name"]},
+        kwargs={"pk": int(installation_id), "repo_full_name": repo["full_name"]},
     )
     if params:
         return f"{url}?{urlencode(params)}"
@@ -193,6 +231,7 @@ def exchange_github_app_manifest_code(
     code: str, hostname: str = "github.com"
 ) -> dict[str, object]:
     """Exchange a temporary manifest code for the created app's credentials."""
+    code = quote(normalize_github_callback_code(code), safe="")
     api_base = get_github_api_base(normalize_github_app_hostname(hostname))
     response = requests.post(
         f"{api_base}/app-manifests/{code}/conversions",
@@ -268,6 +307,7 @@ def get_installation_token(
     hostname: str,
 ) -> str:
     """Return a cached installation access token for the given installation."""
+    installation_id = normalize_github_installation_id(installation_id)
     cache_key = f"github-app-token:{hostname}:{installation_id}"
     cached_token = cache.get(cache_key)
     if cached_token is not None:
@@ -305,6 +345,7 @@ def get_app_installation(
     hostname: str,
 ) -> dict:
     """Fetch metadata for one installation using app authentication."""
+    installation_id = normalize_github_installation_id(installation_id)
     private_key_pem = validate_private_key(private_key)
     token = generate_jwt(app_id, private_key_pem)
     api_base = get_github_api_base(hostname)
@@ -628,7 +669,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
     ) -> GitHubInstallation:
         """Create or update an installation using trusted GitHub metadata."""
         hostname = normalize_github_app_hostname(hostname)
-        installation_id = str(installation_id)
+        installation_id = normalize_github_installation_id(installation_id)
         account = data.get("account") or {}
         defaults: dict[str, object] = {"enabled": enabled}
         if login := account.get("login"):
@@ -663,7 +704,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
     ) -> tuple[GitHubInstallation, bool]:
         """Create or update a workspace-scoped row before App API sync succeeds."""
         hostname = normalize_github_app_hostname(hostname)
-        installation_id = str(installation_id)
+        installation_id = normalize_github_installation_id(installation_id)
         account = data.get("account") or {}
         installation = self.filter(
             hostname=hostname,
@@ -719,7 +760,6 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
     ) -> tuple[GitHubInstallation, bool]:
         """Connect an existing GitHub installation to a Weblate workspace."""
         hostname = normalize_github_app_hostname(hostname)
-        installation_id = str(installation_id)
 
         installation = self.get_for_installation(
             hostname, installation_id, workspace=workspace
@@ -949,6 +989,9 @@ class GithubAppRepository(GithubRepository):
             token = installation.get_access_token()
         except GitHubAppNotConfiguredError:
             return None
+        except ValueError as error:
+            msg = gettext("Invalid GitHub App installation ID.")
+            raise RepositoryError(0, msg) from error
         except requests.RequestException as error:
             msg = gettext("Could not obtain GitHub App access token: %s") % error
             raise RepositoryError(0, msg) from error

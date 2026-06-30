@@ -34,7 +34,12 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.site import get_site_url
-from weblate.vcs.forms import GitHubAppRegisterForm, clean_github_app_hostname
+from weblate.vcs.forms import (
+    GitHubAppRegisterCallbackForm,
+    GitHubAppRegisterForm,
+    GitHubAppSetupCallbackForm,
+    clean_github_app_hostname,
+)
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
@@ -688,12 +693,14 @@ def github_app_setup(request):
         )
         return redirect(next_url)
 
-    if not installation_id:
+    callback_form = GitHubAppSetupCallbackForm(request.GET)
+    if not callback_form.is_valid() and "installation_id" in callback_form.errors:
         messages.error(
             request,
-            gettext("GitHub did not return an installation ID."),
+            gettext("GitHub did not return a valid installation ID."),
         )
         return redirect(next_url)
+    installation_id = callback_form.cleaned_data["installation_id"]
 
     config = get_github_app_settings(hostname or None)
     if config is None:
@@ -721,7 +728,7 @@ def github_app_setup(request):
         )
         return redirect(next_url)
 
-    code = request.GET.get("code", "").strip()
+    code = callback_form.cleaned_data.get("code", "")
     authorized_installation = _get_authorized_installation(
         request, config, code, installation_id
     )
@@ -1150,13 +1157,14 @@ def github_app_register_submit(request):
 def github_app_register_callback(request):
     """Exchange a temporary manifest code for the App's credentials."""
     accounts_url = reverse("manage-github-accounts")
-    code = request.GET.get("code", "").strip()
-    if not code:
+    callback_form = GitHubAppRegisterCallbackForm(request.GET)
+    if not callback_form.is_valid():
         messages.error(
             request,
-            gettext("GitHub did not return a registration code."),
+            gettext("GitHub did not return a valid registration code."),
         )
         return redirect(accounts_url)
+    code = callback_form.cleaned_data["code"]
 
     try:
         hostname, webhook_token = _load_register_state(
