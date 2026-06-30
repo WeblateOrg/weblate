@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import re
 import socket
 import ssl
 from copy import deepcopy
@@ -45,10 +44,10 @@ if TYPE_CHECKING:
     from weblate.trans.models import Category, Change, Component, Project
 
 
-PEM_BLOCK_RE = re.compile(
-    r"-----BEGIN ([A-Z0-9 ]+)-----\r?\n.*?\r?\n-----END \1-----",
-    re.DOTALL,
-)
+PEM_BEGIN_PREFIX = "-----BEGIN "
+PEM_END_PREFIX = "-----END "
+PEM_BOUNDARY_SUFFIX = "-----"
+PEM_LABEL_CHARACTERS = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ")
 TLS_CREDENTIAL_FIELDS = frozenset({"ca_cert", "client_key", "client_cert"})
 TLS_PROBE_TIMEOUT = 5
 SERVICE_STOP_TIMEOUT = 5
@@ -601,19 +600,38 @@ class FedoraMessagingAddon(ChangeBaseAddon):
 
     @staticmethod
     def _get_pem_block_labels(value: str) -> list[str]:
+        # Cryptography's PEM loaders ignore unrelated PEM blocks and text; validate
+        # the full PEM container before handing it to the type-specific loader.
         labels: list[str] = []
         position = 0
-        text = value.strip()
-        while position < len(text):
-            whitespace = re.match(r"\s*", text[position:])
-            if whitespace is not None:
-                position += whitespace.end()
-            match = PEM_BLOCK_RE.match(text, position)
-            if match is None:
+        lines = value.strip().splitlines()
+        while position < len(lines):
+            if not lines[position].strip():
+                position += 1
+                continue
+            label = FedoraMessagingAddon._get_pem_begin_label(lines[position])
+            if label is None:
                 return []
-            labels.append(match.group(1))
-            position = match.end()
+            end_boundary = f"{PEM_END_PREFIX}{label}{PEM_BOUNDARY_SUFFIX}"
+            position += 1
+            while position < len(lines) and lines[position].rstrip() != end_boundary:
+                position += 1
+            if position == len(lines):
+                return []
+            labels.append(label)
+            position += 1
         return labels
+
+    @staticmethod
+    def _get_pem_begin_label(line: str) -> str | None:
+        if not line.startswith(PEM_BEGIN_PREFIX) or not line.endswith(
+            PEM_BOUNDARY_SUFFIX
+        ):
+            return None
+        label = line[len(PEM_BEGIN_PREFIX) : -len(PEM_BOUNDARY_SUFFIX)]
+        if not label or any(char not in PEM_LABEL_CHARACTERS for char in label):
+            return None
+        return label
 
     @staticmethod
     def _normalize_pem(value: str | None) -> str | None:
