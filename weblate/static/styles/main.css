@@ -15,13 +15,29 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+/* Make links inside comments and markdown stand out */
+.comment-content a,
+.markdown a {
   text-decoration: underline;
+  font-weight: 500;
+  color: #107a62;
 }
 
+.comment-content a:hover,
+.markdown a:hover {
+  text-decoration: underline;
+  color: #144d3f;
+}
+
+/* Keep navbar and navigation unchanged */
 .navbar a:hover,
 .nav a:hover {
   text-decoration: none;
+}
+
+/* Default hover for normal links */
+a:hover {
+  text-decoration: underline;
 }
 
 label {
