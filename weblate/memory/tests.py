@@ -41,7 +41,6 @@ from weblate.memory.models import (
 from weblate.memory.tasks import (
     MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
     MEMORY_SCOPE_BACKFILL_STATE,
-    MEMORY_SCOPE_COMPACTION_BATCH_SIZE,
     MEMORY_SCOPE_COMPACTION_STALE_SECONDS,
     MEMORY_SCOPE_COMPACTION_STATE,
     MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
@@ -2050,10 +2049,13 @@ msgstr "Nazdar svete!\n"
         Memory.objects.create(legacy_project=self.project, **second_values)
         Memory.objects.create(legacy_shared=True, **second_values)
 
-        with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
+        with (
+            patch("weblate.memory.tasks.MEMORY_SCOPE_COMPACTION_BATCH_SIZE", 1),
+            patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact,
+        ):
             compact_memory_scopes(batch_size=1)
 
-        compact.assert_called_once_with(batch_size=1)
+        compact.assert_called_once_with()
         state = MemoryScopeMigrationState.objects.get(
             name=MEMORY_SCOPE_COMPACTION_STATE
         )
@@ -2182,12 +2184,52 @@ msgstr "Nazdar svete!\n"
         with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
             compact_memory_scopes()
 
-        compact.assert_called_once_with(batch_size=MEMORY_SCOPE_COMPACTION_BATCH_SIZE)
+        compact.assert_called_once_with()
         state = MemoryScopeMigrationState.objects.get(
             name=MEMORY_SCOPE_COMPACTION_STATE
         )
         self.assertFalse(state.completed)
         self.assertEqual(state.last_memory_id, 0)
+
+    def test_compact_memory_scopes_ignores_legacy_batch_size_kwarg(self) -> None:
+        MemoryScopeMigrationState.objects.all().delete()
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        first_values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Legacy batch compacted source 1",
+            "target": "Kompaktni cil davky 1",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        second_values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Legacy batch compacted source 2",
+            "target": "Kompaktni cil davky 2",
+            "origin": self.component.full_slug,
+            "status": Memory.STATUS_ACTIVE,
+        }
+        Memory.objects.create(legacy_project=self.project, **first_values)
+        Memory.objects.create(legacy_shared=True, **first_values)
+        Memory.objects.create(legacy_project=self.project, **second_values)
+        Memory.objects.create(legacy_shared=True, **second_values)
+
+        with patch("weblate.memory.tasks.compact_memory_scopes.delay") as compact:
+            compact_memory_scopes(batch_size=1)
+
+        compact.assert_not_called()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_SCOPE_COMPACTION_STATE
+        )
+        self.assertTrue(state.completed)
+        self.assertEqual(
+            Memory.objects.filter(source=first_values["source"]).count(), 1
+        )
+        self.assertEqual(
+            Memory.objects.filter(source=second_values["source"]).count(), 1
+        )
 
     def test_compact_preserves_shared_source_projects(self) -> None:
         source_language = Language.objects.get(code="en")

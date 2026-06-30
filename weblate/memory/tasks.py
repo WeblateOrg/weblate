@@ -604,9 +604,13 @@ def update_memory(  # noqa: PLR0913
 
 
 @app.task(trail=False)
-def compact_memory_scopes(batch_size: int = MEMORY_SCOPE_COMPACTION_BATCH_SIZE) -> None:
+def compact_memory_scopes(**kwargs) -> None:
     # TODO(2028.1): Remove this background TM scope compaction once Weblate no
     # longer supports direct upgrades from 2026 releases.
+    # Accept and ignore legacy Celery kwargs, especially batch_size from queued
+    # tasks created before the default was raised.
+    _ = kwargs
+    batch_size = MEMORY_SCOPE_COMPACTION_BATCH_SIZE
     memory_objects = Memory.objects.using("default")
     memory_scope_objects = MemoryScope.objects.db_manager("default")
     migration_state_objects = MemoryScopeMigrationState.objects.using("default")
@@ -634,7 +638,7 @@ def compact_memory_scopes(batch_size: int = MEMORY_SCOPE_COMPACTION_BATCH_SIZE) 
     if not duplicate_groups:
         if compaction_state.last_memory_id and has_duplicate_memory_groups():
             set_memory_scope_compaction_completed(False, last_memory_id=0)
-            compact_memory_scopes.delay(batch_size=batch_size)
+            compact_memory_scopes.delay()
             return
         set_memory_scope_compaction_completed(True)
         return
@@ -650,10 +654,10 @@ def compact_memory_scopes(batch_size: int = MEMORY_SCOPE_COMPACTION_BATCH_SIZE) 
     set_memory_scope_compaction_completed(False, last_memory_id=last_memory_id)
 
     if len(duplicate_groups) == batch_size:
-        compact_memory_scopes.delay(batch_size=batch_size)
+        compact_memory_scopes.delay()
     elif has_duplicate_memory_groups():
         set_memory_scope_compaction_completed(False, last_memory_id=0)
-        compact_memory_scopes.delay(batch_size=batch_size)
+        compact_memory_scopes.delay()
     else:
         set_memory_scope_compaction_completed(True)
 

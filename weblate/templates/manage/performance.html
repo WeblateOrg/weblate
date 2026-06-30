@@ -155,7 +155,13 @@
             </tr>
             <tr>
               <td>{% translate "Candidate duplicate buckets" %}</td>
-              <td class="number">{{ memory_migration_status.duplicate_groups|intcomma }}</td>
+              <td class="number">
+                {% if memory_migration_status.duplicate_groups_known %}
+                  {{ memory_migration_status.duplicate_groups|intcomma }}
+                {% else %}
+                  {% translate "Not calculated during active scan" %}
+                {% endif %}
+              </td>
             </tr>
             <tr>
               <td>{% translate "Duplicate candidate scan" %}</td>
