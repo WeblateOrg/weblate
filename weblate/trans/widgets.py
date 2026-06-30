@@ -495,6 +495,15 @@ class MultiLanguageWidget(SVGWidget):
         "auto": None,
     }
 
+    def get_sorted_language_stats(self, request: HttpRequest):
+        language_stats = self.get_language_stats()
+        if request.GET.get("sort") == "percent":
+            return sorted(
+                language_stats,
+                key=lambda stats: (-stats.translated_percent, str(stats.language)),
+            )
+        return sort_unicode(language_stats, lambda stats: str(stats.language))
+
     def get_language_stats(self) -> list[BaseStats | ProjectLanguage]:
         if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
             return [self.stats]
@@ -523,7 +532,7 @@ class MultiLanguageWidget(SVGWidget):
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
-        for stats in sort_unicode(self.get_language_stats(), lambda x: str(x.language)):
+        for stats in self.get_sorted_language_stats(request):
             # Skip empty translations
             if stats.translated == 0:
                 continue
@@ -691,7 +700,7 @@ class MatrixMultiLanguageWidget(MultiLanguageWidget):
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
         cells: list[MatrixCellDict] = []
         color = self.COLOR_MAP[self.color]
-        for stats in sort_unicode(self.get_language_stats(), lambda x: str(x.language)):
+        for stats in self.get_sorted_language_stats(request):
             # Skip empty translations
             if stats.translated == 0:
                 continue
