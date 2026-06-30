@@ -31,14 +31,7 @@ the client, and exceptions raised for common API failures.
 :class:`Weblate`
 ----------------
 
-The :class:`Weblate` class is the main API entry point. It accepts an API key,
-an API URL, an optional :class:`wlc.config.WeblateConfig` instance, retry
-configuration, request timeout, and the ``allow_insecure_http`` opt-in.
-
-When an API key is configured, non-local ``http://`` URLs are rejected by
-default. Use HTTPS, loopback HTTP for local development, or set
-``allow_insecure_http`` only for legacy deployments where HTTPS is not
-available.
+The :class:`Weblate` class is the main API entry point.
 
 .. autoclass:: Weblate
    :members: get, post, get_object, get_project, get_component, get_translation, get_unit, list_projects, list_components, list_changes, list_units, list_translations, list_languages, list_categories, add_source_string, create_project, create_component, create_language
