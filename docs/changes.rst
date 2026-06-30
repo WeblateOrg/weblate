@@ -13,6 +13,7 @@ Weblate 2026.7
 * Added an option to capitalize the text in status badge widgets.
 * Added :ref:`workspace translation memory <memory-scopes>` with asynchronous scope backfill for existing translation memory entries.
 * Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history.
+* Added per-translator review status tracking to show which users have approved a translation.
 
 .. rubric:: Improvements
 

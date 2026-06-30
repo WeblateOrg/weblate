@@ -262,6 +262,13 @@ class SearchViewTest(ViewTestCase):
         # Review, partial date
         self.do_search({"q": "changed:>=2010-01-"}, None)
 
+        # Test reviewed_by
+        self.unit = self.get_unit()
+        self.unit.reviews.create(user=self.user)
+        self.do_search({"q": "reviewed_by:me"}, "Hello, world")
+        self.do_search({"q": "reviewed_by:" + self.user.username}, "Hello, world")
+        self.do_search({"q": "reviewed_by:nonexistent"}, None)
+
     def extract_params(self, response):
         search_url = re.findall(r'data-params="([^"]*)"', response.content.decode())[0]
         return QueryDict(search_url, mutable=True)
