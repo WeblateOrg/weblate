@@ -49,6 +49,8 @@ The Docker container uses Weblate Client defaults and connects to the API
 deployed on localhost. Configure the API URL and API key using the normal
 :program:`wlc` arguments or environment variables, for example :option:`--url`,
 :option:`--key`, :envvar:`WLC_URL`, and :envvar:`WLC_KEY`.
+API keys are rejected over non-local ``http://`` URLs by default; use HTTPS,
+loopback HTTP for local development, or explicitly opt in to insecure HTTP.
 
 The command to launch the container uses the following syntax:
 
@@ -75,6 +77,11 @@ When the mounted repository provides the API URL in project configuration and
 you pass an unscoped API key to the container, also pin the URL explicitly:
 :envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and :option:`--key` requires
 :option:`--url`.
+
+If the configured API URL uses non-local ``http://`` and an API key is
+provided, the container refuses to send the key unless insecure HTTP is
+explicitly enabled. Prefer HTTPS; for legacy deployments, pass
+:option:`--allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`.
 
 
 Getting started
@@ -168,6 +175,15 @@ Weblate instance to use. These must be entered before any command.
     You can find your key in your profile on Weblate.
     When the API URL is loaded from automatically discovered project
     configuration, :option:`--key` must be used together with :option:`--url`.
+    API keys are rejected over non-local ``http://`` URLs by default.
+
+.. option:: --allow-insecure-http
+
+    Allow sending API keys over non-local ``http://`` URLs. Prefer HTTPS or
+    loopback HTTP instead; this option is intended only for legacy deployments
+    where HTTPS is not available. This option only enables insecure HTTP for
+    the current run; omitting it does not disable ``allow_insecure_http`` from
+    configuration.
 
 .. option:: --config PATH
 
@@ -354,6 +370,18 @@ customize this by :option:`--config-section`):
 
     Path to the default translation - component or project.
 
+.. describe:: allow_insecure_http
+
+    Allow API keys over non-local ``http://`` URLs, defaults to ``false``.
+    Loopback HTTP URLs, such as ``http://127.0.0.1:8000/api/``, remain allowed
+    for local development without this option. Prefer HTTPS instead of enabling
+    this setting. Automatically discovered project configuration files cannot
+    enable this option; set it in user configuration, an explicit
+    :option:`--config` file, :envvar:`WLC_ALLOW_INSECURE_HTTP`, or
+    :option:`--allow-insecure-http`. The setting is cumulative: any trusted
+    source that enables insecure HTTP is enough, and false or unset values from
+    command-line or environment sources do not disable it.
+
 .. describe:: retries, timeout, allowed_methods, backoff_factor, status_forcelist
 
     Optional HTTP retry and timeout settings passed to ``urllib3``.
@@ -373,6 +401,7 @@ The configuration file is an INI file, for example:
     backoff_factor = 0.2
     status_forcelist = 429,500,502,503,504
     timeout = 30
+    allow_insecure_http = false
 
 The API keys are stored in the ``[keys]`` section:
 
@@ -399,7 +428,8 @@ Environment variables
 .. versionchanged:: 2.0.1
 
    Unscoped API keys require an explicit API URL when project configuration is
-   discovered automatically.
+   discovered automatically. API keys are rejected over non-local ``http://``
+   URLs unless insecure HTTP is explicitly enabled.
 
 The API URL and key can also be configured using environment variables. This is
 especially useful for CI workflows where :envvar:`WLC_URL` pins the destination
@@ -413,19 +443,34 @@ and :envvar:`WLC_KEY` is injected as a secret:
 
    API key. When the API URL would otherwise come from automatically discovered
    project configuration, :envvar:`WLC_KEY` is accepted only together with
-   :envvar:`WLC_URL`.
+   :envvar:`WLC_URL`. API keys are rejected over non-local ``http://`` URLs by
+   default.
+
+.. envvar:: WLC_ALLOW_INSECURE_HTTP
+
+   Set to ``1``, ``true``, ``yes``, or ``on`` to allow API keys over non-local
+   ``http://`` URLs. Prefer HTTPS or loopback HTTP instead. Other values, such
+   as ``0`` or ``false``, are treated as unset and do not disable
+   ``allow_insecure_http`` from configuration.
 
 The same protection applies to command-line arguments: :option:`--key` is
 accepted with automatically discovered project configuration only when
 :option:`--url` is provided.
 
-The configuration precedence (highest to lowest) is:
+The API URL and key configuration precedence (highest to lowest) is:
 
 1. Command-line arguments (:option:`--url`, :option:`--key`).
 2. Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`).
 3. Configuration loaded from :option:`--config`, or from the discovered global
    configuration plus the nearest project configuration when
    :option:`--config` is not used.
+
+The insecure HTTP opt-in is enable-only rather than a normal precedence
+setting. It is enabled when :option:`--allow-insecure-http` is passed, when
+:envvar:`WLC_ALLOW_INSECURE_HTTP` has a true value, or when
+``allow_insecure_http`` is enabled in trusted configuration. Automatically
+discovered project configuration cannot enable it; set it in user
+configuration or pass an explicit :option:`--config` file instead.
 
 Examples
 ++++++++
