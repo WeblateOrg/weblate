@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-25 06:03+0200\n"
-"PO-Revision-Date: 2026-06-29 18:40+0000\n"
+"PO-Revision-Date: 2026-06-30 12:03+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -421,6 +421,12 @@ msgid ""
 "whole instance, including assigning site-wide teams and granting superuser "
 "status to the managed account, even the caller's own account."
 msgstr ""
+"Gestão de utilizadores no site inteiro é controlado pela permissão "
+"``user.edit`` global. Ao contrário de acesso de gestão de projetos, isto é "
+"uma permissão de confiança administrativa que permite editar contas de "
+"utilizador na instância inteira, incluindo atribuir equipas no site inteiro "
+"e garantir estatuto de super utilizador à conta gerida, incluindo a própria "
+"conta do próprio."
 
 #: admin/access.rst:199
 msgid ""
@@ -2040,9 +2046,8 @@ msgstr ""
 "Docker, :envvar:`WEBLATE_ENABLE_HTTPS`."
 
 #: admin/auth.rst:70
-#, fuzzy
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ":doc:`Backend de Python Social Auth <psa:backends/index>`"
+msgstr ":doc:`Backend de Autenticação Social Python <psa:backends/index>`"
 
 #: admin/auth.rst:73
 msgid "OpenID authentication"
@@ -5114,10 +5119,8 @@ msgstr ""
 "hooks` em :guilabel:`Project options`:"
 
 #: admin/code-hosting.rst:629
-#, fuzzy
-#| msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 msgid ":http:post:`/hooks/pagure/`"
-msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
+msgstr ":http:post:`/hooks/pagure/`"
 
 #: admin/code-hosting.rst:635 vcs.rst:374
 msgid "Pagure merge requests"
@@ -5916,16 +5919,12 @@ msgid "All these default to an empty list."
 msgstr "Todos esses tem uma lista vazia como predefinição."
 
 #: admin/config.rst:482
-#, fuzzy
-#| msgid ""
-#| ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/"
-#| "en-US/docs/Web/HTTP/Guides/CSP>`_"
 msgid ""
 "`Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/"
 "HTTP/Guides/CSP>`_"
 msgstr ""
-":ref:`csp`, `Política da Segurança de Conteúdo (CSP) <https://"
-"developer.mozilla.org/pt-BR/docs/Web/HTTP/Guides/CSP>`_"
+"`Política da Segurança de Conteúdo (CSP) <https://developer.mozilla.org/pt-"
+"BR/docs/Web/HTTP/Guides/CSP>`_"
 
 #: admin/config.rst:489
 msgid "List of quality checks to perform on a translation."
@@ -6391,16 +6390,12 @@ msgid ""
 msgstr ""
 
 #: admin/config.rst:1028
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://"
-#| "docs.gitlab.com/user/profile/personal_access_tokens/>`_"
 msgid ""
 "`GitLab: Personal access token <https://docs.gitlab.com/user/profile/"
 "personal_access_tokens/>`_"
 msgstr ""
-":ref:`vcs-gitlab`, `GitLab: Código de acesso pessoal <https://"
-"docs.gitlab.com/user/profile/personal_access_tokens>`_"
+"`GitLab: Código de acesso pessoal <https://docs.gitlab.com/user/profile/"
+"personal_access_tokens>`_"
 
 #: admin/config.rst:1037
 msgid "List for credentials for GitHub servers."
@@ -6442,27 +6437,20 @@ msgid "Use ``api.github.com`` as an API host for https://github.com/."
 msgstr "Use ``api.github.com`` como host da API para https://github.com/."
 
 #: admin/config.rst:1070
-#, fuzzy
-#| msgid ":ref:`vcs-github`, `Creating a GitHub personal access token`_"
 msgid "`Creating a GitHub personal access token`_"
-msgstr ":ref:`vcs-github`, `Criar um código de acesso pessoal do GitHub`_"
+msgstr "`Criar um código de acesso pessoal do GitHub`_"
 
 #: admin/config.rst:1081
 msgid "List for credentials for Bitbucket Data Center."
 msgstr "Lista de credenciais para Data Center Bitbucket."
 
 #: admin/config.rst:1097
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-bitbucket-data-center`, `Bitbucket: HTTP access token <https://"
-#| "confluence.atlassian.com/bitbucketserver/http-access-"
-#| "tokens-939515499.html>`_"
 msgid ""
 "`Bitbucket: HTTP access token <https://confluence.atlassian.com/"
 "bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
-":ref:`vcs-bitbucket-data-center`, `Bitbucket: Código de acesso HTTP <https://"
-"confluence.atlassian.com/bitbucketserver/http-access-tokens-939515499.html>`_"
+"`Bitbucket: Código de acesso HTTP <https://confluence.atlassian.com/"
+"bitbucketserver/http-access-tokens-939515499.html>`_"
 
 #: admin/config.rst:1106
 msgid "List for credentials for Bitbucket Cloud servers."
@@ -6545,19 +6533,14 @@ msgid "API token for the API user, required."
 msgstr "Token de API para o utilizador da API, obrigatório."
 
 #: admin/config.rst:1179
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-azure-devops`, `Azure DevOps: Personal access token <https://"
-#| "learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-"
-#| "personal-access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
 msgid ""
 "`Azure DevOps: Personal access token <https://learn.microsoft.com/en-us/"
 "azure/devops/organizations/accounts/use-personal-access-tokens-to-"
 "authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
-":ref:`vcs-azure-devops`, `Azure DevOps: Código de acesso pessoal <https://"
-"learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-"
-"access-tokens-to-authenticate?view=azure-devops&tabs=Windows>`_"
+"`Azure DevOps: Código de acesso pessoal <https://learn.microsoft.com/en-us/"
+"azure/devops/organizations/accounts/use-personal-access-tokens-to-"
+"authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: admin/config.rst:1186
 msgid ""
@@ -6586,14 +6569,13 @@ msgstr ""
 "as informações relacionadas são mostradas aos utilizadores."
 
 #: admin/config.rst:1202
-#, fuzzy
 msgid ""
 "For example instead of ``https://user:password@git.example.com/repo.git`` it "
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
 "Por exemplo, em vez de ``https://utilizador:palavra-passe@git.example.com/"
-"repo.git``, vai mostrar apenas ''https://git.example.com/repo.git'''. Tenta "
+"repo.git``, vai mostrar apenas ``https://git.example.com/repo.git``. Tenta "
 "limpar mensagens de erro VCS também de forma semelhante."
 
 #: admin/config.rst:1208
@@ -6965,10 +6947,8 @@ msgid "List for credentials for Pagure servers."
 msgstr "Lista para credenciais para servidores de Pagure."
 
 #: admin/config.rst:1617
-#, fuzzy
-#| msgid ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
 msgid "`Pagure API <https://pagure.io/api/0/>`_"
-msgstr ":ref:`vcs-pagure`, `Pagure API <https://pagure.io/api/0/>`_"
+msgstr "`Pagure API <https://pagure.io/api/0/>`_"
 
 #: admin/config.rst:1626
 msgid ""
@@ -8902,21 +8882,18 @@ msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
 msgstr ""
 
 #: admin/continuous.rst:352
-#, fuzzy
 msgid "Automatically updating repositories nightly"
-msgstr "Atualizar repositórios *nightly* automaticamente"
+msgstr "Atualizar repositórios nightly automaticamente"
 
 #: admin/continuous.rst:354
-#, fuzzy
 msgid ""
 "Weblate automatically fetches remote repositories nightly to improve "
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
-"O Weblate busca automaticamente repositórios remotos *nightly* para melhorar "
-"o desempenho ao mesclar alterações mais tarde. Pode opcionalmente "
-"transformar isso em fazer mesclagens noturnas também, "
-"ativando :setting:`AUTO_UPDATE`."
+"O Weblate busca automaticamente repositórios remotos nightly para melhorar o "
+"desempenho ao mesclar alterações mais tarde. Pode opcionalmente transformar "
+"isso em fazer mesclagens noturnas também, ativando :setting:`AUTO_UPDATE`."
 
 #: admin/continuous.rst:363
 #, fuzzy
@@ -10775,10 +10752,8 @@ msgid ":std:setting:`django:EMAIL_BACKEND`"
 msgstr ":std:setting:`django:EMAIL_BACKEND`"
 
 #: admin/install.rst:1077 admin/install/docker.rst:630
-#, fuzzy
-#| msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: admin/install.rst:1078 admin/install/docker.rst:621
 msgid ":std:setting:`django:SERVER_EMAIL`"
@@ -11676,14 +11651,8 @@ msgstr ""
 "api/metrics/` da API."
 
 #: admin/install.rst:1695
-#, fuzzy
-#| msgid ""
-#| ":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Weblate plugin for "
-#| "Munin <https://github.com/WeblateOrg/munin>`_"
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
-msgstr ""
-":ref:`faq-monitoring`, :ref:`monitoring-celery`, `Plugin do Weblate para "
-"Munin <https://github.com/WeblateOrg/munin>`_"
+msgstr "`Plugin do Weblate para Munin <https://github.com/WeblateOrg/munin>`_"
 
 #: admin/install.rst:1700 admin/install/docker.rst:2136
 msgid "Collecting error reports and monitoring performance"
@@ -13832,18 +13801,12 @@ msgstr ""
 "em algumas configurações do :command:`pgbouncer`."
 
 #: admin/install/docker.rst:1921
-#, fuzzy
-#| msgid ""
-#| ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
-#| "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-"
-#| "side-cursors`"
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`"
 msgstr ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
-"DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
-"cursors`"
+"DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: admin/install/docker.rst:1928
 #, fuzzy
@@ -14271,14 +14234,8 @@ msgstr ""
 "em :envvar:`WEBLATE_WORKERS`."
 
 #: admin/install/docker.rst:2359
-#, fuzzy
-#| msgid ""
-#| ":doc:`Celery worker options <celery:reference/"
-#| "celery.bin.worker>`, :ref:`celery`"
 msgid ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
-msgstr ""
-":doc:`Opções de worker do Celery <celery:reference/"
-"celery.bin.worker>`, :ref:`celery`"
+msgstr ":doc:`Opções de worker do Celery <celery:reference/celery.bin.worker>`"
 
 #: admin/install/docker.rst:2366
 msgid ""
@@ -14607,16 +14564,15 @@ msgstr ""
 "personalizada a partir deste ficheiro ``Dockerfile``."
 
 #: admin/install/docker.rst:2588
-#, fuzzy
 msgid ""
 "There is `no clean way <https://github.com/docker/compose/issues/7231>`__ to "
 "do this with ``docker-compose.override.yml``. You *could* add ``build: .`` "
 "to the ``weblate`` node in that file, but then your custom image will be "
 "tagged as ``weblate/weblate`` in your system, which could be problematic."
 msgstr ""
-"Não existe ``nenhuma maneira limpa <https://github.com/docker/compose/issues/"
-"7231>`__ de fazer isso com ``docker-compose.override.yml``. *Poderia* "
-"adicionar ``build: .`` ao nó ``weblate`` nesse ficheiro, mas a sua imagem "
+"Não existe `no clean way <https://github.com/docker/compose/issues/7231>`__ "
+"de fazer isso com ``docker-compose.override.yml``. *Poderia* adicionar "
+"``build: .`` ao nó ``weblate`` nesse ficheiro, mas a sua imagem "
 "personalizada será marcada como ``weblate/weblate`` no seu sistema, o que "
 "pode ser problemático."
 
@@ -15793,16 +15749,12 @@ msgstr ""
 "utilizando :wladmin:`setuplang`."
 
 #: admin/languages.rst:27
-#, fuzzy
-#| msgid ""
-#| ":ref:`extending-languages`, `Current language definitions <https://"
-#| "github.com/WeblateOrg/language-data/blob/main/languages.csv>`_"
 msgid ""
 "`Current language definitions <https://github.com/WeblateOrg/language-data/"
 "blob/main/languages.csv>`_"
 msgstr ""
-":ref:`extending-languages`, `Definições atuais de idiomas <https://"
-"github.com/WeblateOrg/language-data/blob/main/languages.csv>`_"
+"`Definições atuais de idiomas <https://github.com/WeblateOrg/language-data/"
+"blob/main/languages.csv>`_"
 
 #: admin/languages.rst:32
 msgid "Parsing language codes"
@@ -21446,47 +21398,30 @@ msgid "Upgrades from 5.10.x and newer are currently directly supported."
 msgstr "Atualizações de versões anteriores a 3.0.1 não são suportadas."
 
 #: admin/upgrade.rst:143
-#, fuzzy
-#| msgid ""
-#| "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
-#| "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-#| "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgid ""
 "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://"
 "docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 msgstr ""
-"`Atualizando do Python 2 para o Python 3 na documentação do Weblate 3.11.1 "
-"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-"from-python-2-to-python-3>`_, :ref:`database-migration`"
+"`Atualizado do Python 2.2 para o 3.0 na documentação do Weblate 3.0 <https://"
+"docs.weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 
 #: admin/upgrade.rst:144
-#, fuzzy
-#| msgid ""
-#| "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
-#| "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-#| "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgid ""
 "`Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://"
 "docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-"
 "to-4-0>`_"
 msgstr ""
-"`Atualizando do Python 2 para o Python 3 na documentação do Weblate 3.11.1 "
-"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-"from-python-2-to-python-3>`_, :ref:`database-migration`"
+"`Atualizado do 3.11 para 4.0 na documentação do Weblate 4.0 <https://"
+"docs.weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-"
+"0>`_"
 
 #: admin/upgrade.rst:145
-#, fuzzy
-#| msgid ""
-#| "`Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation "
-#| "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-#| "from-python-2-to-python-3>`_, :ref:`database-migration`"
 msgid ""
 "`Upgrade from 4.x to 5.0.2 in Weblate 5.0 documentation <https://"
 "docs.weblate.org/en/weblate-5.0.2/changes.html>`_"
 msgstr ""
-"`Atualizando do Python 2 para o Python 3 na documentação do Weblate 3.11.1 "
-"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
-"from-python-2-to-python-3>`_, :ref:`database-migration`"
+"`Atualizado do 4.x para o 5.0.2 na documentação do Weblate 5.0 <https://"
+"docs.weblate.org/en/weblate-5.0.2/changes.html>`_"
 
 #: admin/upgrade.rst:150
 msgid "Migrating from other databases to PostgreSQL"
@@ -21930,24 +21865,16 @@ msgid "Authentication and generic parameters"
 msgstr "Autenticação e parâmetros genéricos"
 
 #: api.rst:28
-#, fuzzy
-#| msgid ""
-#| "The public project API is available without authentication, though "
-#| "unauthenticated requests are heavily throttled (by default to 100 "
-#| "requests per day), so it is recommended to use authentication. The "
-#| "authentication uses a token, which you can get in your profile. Use it in "
-#| "the ``Authorization`` header:"
 msgid ""
 "The read-only API is available without authentication "
 "unless :setting:`REQUIRE_LOGIN` is turned on. Unauthenticated requests are "
 "heavily throttled (by default to 100 requests per day), so it is recommended "
 "to use authentication."
 msgstr ""
-"A API do projeto público está disponível sem autenticação, embora as "
-"solicitações não autenticadas sejam fortemente limitadas (por padrão a 100 "
-"solicitações por dia), por isso é recomendado usar autenticação. A "
-"autenticação usa um token, que pode obter no seu perfil. Use-o no cabeçalho "
-"``Authorization``:"
+"A API apenas de leitura está disponível sem autenticação, a não ser que "
+":setting:`REQUIRE_LOGIN` esteja ativo. Pedidos não autenticados são "
+"fortemente limitadas (por padrão a 100 solicitações por dia), por isso é "
+"recomendado usar autenticação."
 
 #: api.rst:33
 msgid ""
@@ -21990,9 +21917,8 @@ msgid "**Example request:**"
 msgstr "**Exemplo de solicitação:**"
 
 #: api.rst:105
-#, fuzzy
 msgid "**Example response:**"
-msgstr "*Exemplo de resposta:*"
+msgstr "**Exemplo de resposta:**"
 
 #: api.rst:125 api.rst:165
 msgid "**CURL example:**"
@@ -34750,10 +34676,8 @@ msgid "Added :ref:`check-laravel-format` quality check."
 msgstr ":ref:`check-perl-brace-format` verificação de qualidade."
 
 #: changes/v5.rst:421
-#, fuzzy
-#| msgid "Additional lookups are available in the :ref:`management-interface`:"
 msgid "Added disk usage overview in :ref:`manage-performance`."
-msgstr "Pesquisas adicionais estão disponíveis em :ref:`management-interface`:"
+msgstr "Sinopse de utilização de disco adicionada em :ref:`manage-performance`."
 
 #: changes/v5.rst:422
 #, fuzzy
@@ -35825,10 +35749,8 @@ msgid "Weblate 5.12.1"
 msgstr "Weblate 5.12.1"
 
 #: changes/v5.rst:801 changes/v5.rst:820
-#, fuzzy
-#| msgid "Released on June 15th 2022."
 msgid "*Released on June 16th 2025.*"
-msgstr "Lançado em 15 de junho de 2022."
+msgstr "*Lançado em 16 de junho de 2025.*"
 
 #: changes/v5.rst:805
 #, fuzzy
@@ -36067,10 +35989,8 @@ msgid "Weblate 5.11.4"
 msgstr "Weblate 5.11.4"
 
 #: changes/v5.rst:884
-#, fuzzy
-#| msgid "Released on May 7th 2020."
 msgid "*Released on May 7th 2025.*"
-msgstr "Lançado em 7 de maio de 2020."
+msgstr "*Lançado em 7 de maio de 2020.*"
 
 #: changes/v5.rst:888
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
@@ -36104,10 +36024,8 @@ msgid "Weblate 5.11.3"
 msgstr "Weblate 5.11.3"
 
 #: changes/v5.rst:907 changes/v5.rst:926
-#, fuzzy
-#| msgid "Released on May 3rd 2024."
 msgid "*Released on May 3rd 2025.*"
-msgstr "Lançado em 3 de maio de 2024."
+msgstr "*Lançado em 3 de maio de 2025.*"
 
 #: changes/v5.rst:911
 #, fuzzy
@@ -36184,10 +36102,8 @@ msgid "Weblate 5.11.1"
 msgstr "Weblate 5.11.1"
 
 #: changes/v5.rst:953
-#, fuzzy
-#| msgid "Released on April 19th 2021."
 msgid "*Released on April 25th 2025.*"
-msgstr "Lançado em 19 de abril de 2021."
+msgstr "*Lançado em 25 de Abril de 2025.*"
 
 #: changes/v5.rst:957
 msgid ":ref:`projectbackup` now include teams and categories."
@@ -39816,6 +39732,12 @@ msgid ""
 "official email address, posting via an official social media account, or "
 "acting as an appointed representative at an online or offline event."
 msgstr ""
+"Este Código de Conduta aplica-se em todos os espaços de comunidade, e também "
+"aplica-se quando um indivíduo está a representar oficialmente a comunidade "
+"em público ou outros espaços. Exemplos de representação da comunidade "
+"incluem usar um endereço de email oficial, publicar através de uma conta de "
+"redes sociais, ou na qualidade de representativo nomeado em um evento online "
+"ou offline."
 
 #: contributing/code_of_conduct.rst:98
 msgid "Attribution"
@@ -40623,7 +40545,6 @@ msgstr ""
 "complexos disponíveis:"
 
 #: contributing/frontend.rst:141
-#, fuzzy
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
@@ -42070,15 +41991,11 @@ msgid "Local testing of Weblate"
 msgstr "Bloqueando o Weblate"
 
 #: contributing/tests.rst:64
-#, fuzzy
-#| msgid ""
-#| "Before running test, please ensure test dependencies are installed. This "
-#| "can be done by ``pip install -e .[test]``."
 msgid ""
 "Before running tests, please ensure development dependencies are installed:"
 msgstr ""
-"Antes de executar o teste, certifique-se de que as dependências de teste "
-"estejam instaladas. Isto pode ser feito por ``pip install -e .[test]``."
+"Antes de executar testes, certifique-se de que as dependências de "
+"desenvolvimento estão instaladas:"
 
 #: contributing/tests.rst:71
 msgid "Testing using pytest"
@@ -58490,20 +58407,12 @@ msgstr ""
 "Specification\"."
 
 #: snippets/addons-autogenerated.rst:1747
-#, fuzzy
-#| msgid ""
-#| "`Standard Webhooks Specification <https://github.com/standard-webhooks/"
-#| "standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
-#| "messaging`, `Python library for Standard Webhooks <https://pypi.org/"
-#| "project/standardwebhooks/>`_"
 msgid ""
 "`Standard Webhooks Specification <https://github.com/standard-webhooks/"
 "standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 msgstr ""
-"`Standard Webhooks Specification <https://github.com/standard-webhooks/"
-"standard-webhooks/blob/main/spec/standard-webhooks.md>`_, :ref:`schema-"
-"messaging`, `biblioteca Python para webhooks padrões <https://pypi.org/"
-"project/standardwebhooks/>`_"
+"`Especificação Padrão de Webhooks <https://github.com/standard-webhooks/"
+"standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 
 #: snippets/addons-autogenerated.rst:1749
 #, fuzzy
@@ -61830,13 +61739,12 @@ msgstr ""
 "componente."
 
 #: snippets/checks-autogenerated.rst:2127
-#, fuzzy
 msgid ""
 "With ``check-glossary`` flag (see :ref:`check-check-glossary`), the "
 "untranslatable glossary terms are excluded from the checking."
 msgstr ""
-"Com o marcador``check-glossary`` (consulte :ref:`check-check-glossary`), os "
-"termos intraduzíveis do glossário são excluídos da verificação."
+"Com o marcador ``check-glossary`` (consulte :ref:`check-check-glossary`), os "
+"termos não traduzíveis do glossário são excluídos da verificação."
 
 #: snippets/checks-autogenerated.rst:2142
 msgid "Unsafe HTML"
@@ -61968,13 +61876,12 @@ msgid "Translation contains extra zero-width space character."
 msgstr "A tradução contém um caractere extra de espaço com largura zero."
 
 #: snippets/checks-autogenerated.rst:2267
-#, fuzzy
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
 msgstr ""
 "Os caracteres de largura zero (<U+200B>) são usados para quebrar mensagens "
-"dentro das palavras (*word wrapping*)."
+"dentro das palavras (word wrapping)."
 
 #: snippets/checks-autogenerated.rst:2269
 msgid ""
@@ -62038,14 +61945,12 @@ msgstr ""
 "caractere de reticências (``…``)."
 
 #: snippets/checks-autogenerated.rst:2301
-#, fuzzy
 msgid ""
 "Using the Unicode character is in most cases the better approach and looks "
 "better rendered, and may sound better with text-to-speech."
 msgstr ""
 "O uso do caractere Unicode é, na maioria dos casos, a melhor abordagem e "
-"parece melhor renderizado e pode soar melhor com texto para fala (*text-to-"
-"speech*)."
+"parece melhor renderizado e pode soar melhor com texto para fala."
 
 #: snippets/checks-autogenerated.rst:2314
 msgid "Fluent source inner HTML"
@@ -66145,14 +66050,13 @@ msgid "Trailing and leading whitespace fixer"
 msgstr "Corretor de espaço no início e no final"
 
 #: user/checks.rst:90
-#, fuzzy
 msgid ""
 "Makes leading and trailing whitespace consistent with the source string. The "
 "behavior can be fine-tuned using ``ignore-begin-space`` and ``ignore-end-"
 "space`` flags to skip processing parts of the string."
 msgstr ""
 "Torna os espaços em branco no início e no final consistentes com a cadeia "
-"fonte. O comportamento pode ser ajustado usando os marcadores``ignore-begin-"
+"fonte. O comportamento pode ser ajustado usando os marcadores ``ignore-begin-"
 "space`` e ``ignore-end-space`` para pular partes do processamento da cadeia."
 
 #: user/checks.rst:97
