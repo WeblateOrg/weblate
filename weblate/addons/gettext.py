@@ -528,14 +528,23 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     def get_template_filename(self, component: Component) -> str | None:
         return component.get_new_base_filename()
 
+    def get_xgettext_location_mode(self) -> str:
+        return str(self.instance.configuration.get("location_mode", "file"))
+
     def get_gettext_format_args(self, component: Component) -> list[str]:
         """Return gettext CLI flags implied by component file-format settings."""
         file_format_cls = cast("PoFormat", component.file_format_cls)
-        return [
+        args = [
             arg
             for arg in file_format_cls.get_msgmerge_args(component)
             if arg in {"--no-location", "--no-wrap"}
         ]
+        location_mode = self.get_xgettext_location_mode()
+        if location_mode == "keep":
+            return [arg for arg in args if arg != "--no-location"]
+        if location_mode == "omit" and "--no-location" not in args:
+            args.append("--no-location")
+        return args
 
     def ensure_msgmerge_addon(self) -> bool:
         from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]

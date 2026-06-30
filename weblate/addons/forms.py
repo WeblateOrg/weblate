@@ -246,6 +246,21 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             "Optional extra keyword passed to xgettext using --keyword."
         ),
     )
+    location_mode = forms.ChoiceField(
+        label=gettext_lazy("Source locations"),
+        choices=(
+            ("file", gettext_lazy("Use file format settings")),
+            ("keep", gettext_lazy("Extract locations to the POT file")),
+            ("omit", gettext_lazy("Do not extract locations")),
+        ),
+        required=True,
+        initial="file",
+        help_text=gettext_lazy(
+            "Choose how xgettext writes source locations to the POT file. "
+            "Use this to keep locations in the template while omitting them "
+            "from translated PO files."
+        ),
+    )
 
     @staticmethod
     def ensure_default_bound_value(data, key: str, value: str):
@@ -263,6 +278,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         data = self.ensure_default_bound_value(
             kwargs.get("data"), "comment_mode", "off"
         )
+        data = self.ensure_default_bound_value(data, "location_mode", "file")
         if data is not None:
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
@@ -277,6 +293,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             comment_tag = ""
         cleaned_data["comment_tag"] = comment_tag
         cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        cleaned_data["location_mode"] = cleaned_data.get("location_mode", "file")
         return cleaned_data
 
 
@@ -350,6 +367,7 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_tag"),
             Field("checks"),
             Field("keyword"),
+            Field("location_mode"),
         ]
 
     @staticmethod
@@ -423,6 +441,7 @@ class MesonExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_tag"),
             Field("checks"),
             Field("keyword"),
+            Field("location_mode"),
         )
 
     def clean(self) -> dict[str, Any]:
