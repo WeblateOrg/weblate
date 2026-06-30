@@ -91,6 +91,12 @@ def search_replace(request: AuthenticatedHttpRequest, path):
 
         matching = Unit.objects.filter(id__in=matching_ids).prefetch()
 
+        confirm_initial = {
+            "q": query,
+            "path": form.cleaned_data.get("path", ""),
+            "search": search_text,
+            "replacement": replacement,
+        }
         confirm = ReplaceConfirmForm(matching, request.POST)
 
         if not confirm.is_valid():
@@ -104,7 +110,7 @@ def search_replace(request: AuthenticatedHttpRequest, path):
                     "replacement": replacement,
                     "form": form,
                     "limited": limited,
-                    "confirm": ReplaceConfirmForm(matching),
+                    "confirm": ReplaceConfirmForm(matching, initial=confirm_initial),
                 }
             )
             return render(request, "replace.html", context)

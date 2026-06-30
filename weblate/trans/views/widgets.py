@@ -7,6 +7,7 @@ import json
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_not_required
+from django.core.serializers.json import DjangoJSONEncoder
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -104,7 +105,8 @@ def widgets(request: AuthenticatedHttpRequest, path: list[str]):
                     ],
                     "translation_status": gettext("Translation status"),
                     "widgets": widgets_json,
-                }
+                },
+                cls=DjangoJSONEncoder,
             ),
         },
     )

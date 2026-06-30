@@ -116,7 +116,7 @@ class BaseReportsTest(ViewTestCase):
             source=source,
             target="Translation memory result",
             origin="test",
-            project=self.project,
+            legacy_project=self.project,
             status=Memory.STATUS_ACTIVE,
         )
 

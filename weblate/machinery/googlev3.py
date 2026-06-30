@@ -32,6 +32,7 @@ from .forms import GoogleV3MachineryForm
 from .google import GoogleBaseTranslation
 
 if TYPE_CHECKING:
+    from weblate.checks.base import Highlight
     from weblate.trans.models import Unit
 
     from .base import (
@@ -136,7 +137,7 @@ class GoogleV3Translation(
         }
 
     def format_replacement(
-        self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
+        self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
     ) -> str:
         """Generate a single replacement."""
         return f'<span translate="no" id="{h_start}">{self.escape_text(h_text)}</span>'

@@ -186,6 +186,10 @@ For formats containing additional content besides translation strings (such as
 :ref:`html`, :ref:`winrc`, or :ref:`odf`) this also brings the translation file
 in sync with the base file.
 
+For a one-time cleanup of a single translation file, use
+:guilabel:`Cleanup unused` in :ref:`repository-maintenance` on that translation
+instead of installing the add-on.
+
 .. seealso::
 
    :ref:`faq-cleanup`

@@ -189,6 +189,7 @@ from weblate.vcs.ssh import add_host_key, extract_url_host_port
 if TYPE_CHECKING:
     from collections.abc import Collection, Generator, Iterable
     from datetime import datetime
+    from uuid import UUID
 
     from django_stubs_ext import StrOrPromise
 
@@ -512,6 +513,11 @@ OldComponentSetting = TypeVar("OldComponentSetting")
 class Component(  # ruff: ignore[too-many-public-methods]
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
+    # Transient values captured before deletion so post_delete can clean up
+    # automatic translation-memory scopes after related project data is gone.
+    memory_full_slug: str | None = None
+    memory_workspace_id: UUID | None = None
+
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "restricted",
         "enable_suggestions",
@@ -531,6 +537,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     )
     LINKED_REPOSITORY_SETTING_MESSAGE = gettext_lazy(
         "Option is not available for linked repositories. Setting from linked component will be used."
+    )
+    INTEGRATION_LOCKED_FIELD_MESSAGE = gettext_lazy(
+        "This field is managed by the repository integration and can not be changed."
     )
 
     name = models.CharField(
@@ -1158,7 +1167,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
         self.new_lang_error_message: str | None = None
 
-    def save(self, *args, **kwargs) -> None:
+    def save(self, *args, **kwargs) -> None:  # ruff: ignore[complex-structure]
         """
         Save wrapper.
 
@@ -1170,6 +1179,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         seed_source_component_id = getattr(self, "seed_source_component_id", None)
         copy_seed_addons = getattr(self, "copy_seed_addons", False)
         seed_author = getattr(self, "seed_author", None)
+        acting_user_id = self.acting_user.pk if self.acting_user else None
 
         self.drop_file_format_cache()
         self.set_default_branch()
@@ -1196,6 +1206,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # loop. A full component TM import is only needed when contribution is
         # enabled later for units that already exist.
         update_tm = False
+        old_full_slug = None
+        old_source_project_id = None
+        old_workspace_id = None
 
         if self.id:
             old = Component.objects.get(pk=self.id)
@@ -1208,6 +1221,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 old.__dict__["repository"] = old.build_repository(
                     lock_override=locked_repository.lock
                 )
+            old_full_slug = old.full_slug
+            old_source_project_id = old.project_id
+            old_workspace_id = old.project.workspace_id
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
@@ -1331,6 +1347,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 seed_source_component_id=seed_source_component_id,
                 copy_seed_addons=copy_seed_addons,
                 seed_author=seed_author,
+                acting_user_id=acting_user_id,
             )
 
         if (
@@ -1350,8 +1367,129 @@ class Component(  # ruff: ignore[too-many-public-methods]
         for project in self.cached_links:
             project.invalidate_source_language_cache()
 
+        new_full_slug = "/".join(self.get_url_path())
+        if old_full_slug is not None and old_full_slug != new_full_slug:
+            update_tm = (
+                self.rename_automatic_memory_origin(
+                    old_full_slug,
+                    new_full_slug,
+                    old_source_project_id,
+                    old_workspace_id,
+                )
+                or update_tm
+            )
+
         if update_tm:
             import_memory.delay_on_commit(self.project.id, self.pk)
+
+    def rename_automatic_memory_origin(
+        self,
+        origin: str,
+        new_origin: str,
+        source_project_id: int | None,
+        workspace_id: UUID | None,
+    ) -> bool:
+        """Rename automatic TM entries when a component origin changes."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        if source_project_id is None:
+            return False
+
+        needs_import = source_project_id != self.project_id and (
+            self.contribute_project_tm
+            or self.project.contribute_shared_tm
+            or self.project.effective_contribute_workspace_tm
+        )
+
+        new_workspace_id = self.project.workspace_id
+        memory_ids = list(
+            Memory.objects.filter(origin=origin)
+            .filter(
+                Q(scopes__source_project_id=source_project_id)
+                | Q(scopes__project_id=source_project_id)
+            )
+            .distinct()
+            .values_list("id", flat=True)
+        )
+        if not memory_ids:
+            return needs_import
+
+        memories = Memory.objects.filter(id__in=memory_ids)
+        memories.update(origin=new_origin)
+        MemoryScope.objects.filter(
+            memory_id__in=memory_ids,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project_id=source_project_id,
+        ).update(project_id=self.project_id)
+        MemoryScope.objects.filter(
+            memory_id__in=memory_ids,
+            source_project_id=source_project_id,
+        ).update(source_project_id=self.project_id)
+        if source_project_id != self.project_id:
+            # Scope rows own visibility after the TM scope migration. Keeping
+            # the old project FK on moved rows would let deleting the old
+            # project cascade memory now scoped to the new project.
+            memories.filter(legacy_project_id=source_project_id).update(
+                legacy_project=None
+            )
+        if workspace_id is not None and new_workspace_id is not None:
+            MemoryScope.objects.filter(
+                memory_id__in=memory_ids,
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+            ).update(workspace_id=new_workspace_id)
+
+        scope_query = Q()
+        if not self.contribute_project_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_PROJECT, project_id=self.project_id
+            )
+        if not self.project.contribute_shared_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_SHARED, source_project_id=self.project_id
+            )
+        if not self.project.effective_contribute_workspace_tm:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                source_project_id=self.project_id,
+            )
+        if scope_query:
+            Memory.objects.filter(id__in=memory_ids).delete_scope(
+                scope_query, delete_legacy=False
+            )
+        return needs_import
+
+    def delete_automatic_memory_scopes(
+        self,
+        origin: str | None = None,
+        source_project_id: int | None = None,
+        workspace_id: UUID | None = None,
+    ) -> None:
+        """Remove automatic shared/workspace TM visibility for a component origin."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        if origin is None:
+            origin = self.full_slug
+        if source_project_id is None:
+            source_project_id = self.project_id
+        if workspace_id is None:
+            workspace_id = self.project.workspace_id
+
+        scope_query = Q(
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project_id=source_project_id,
+        )
+        if workspace_id is not None:
+            scope_query |= Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+                source_project_id=source_project_id,
+            )
+        Memory.objects.filter(origin=origin).delete_scope(
+            scope_query, delete_legacy=False
+        )
 
     def disable_inheritance_for_changed_settings(
         self, old: Component, update_fields: Collection[str] | None
@@ -2323,35 +2461,57 @@ class Component(  # ruff: ignore[too-many-public-methods]
         )
 
     @perform_on_link
-    def update_remote_repository(self) -> str | None:
+    def update_remote_repository(self) -> tuple[str | None, RepositoryError | None]:
         with self.repository.lock:
             start = time.monotonic()
             try:
                 previous_revision = self.repository.last_remote_revision
             except RepositoryError:
                 previous_revision = None
-            self.repository.update_remote()
+            try:
+                self.repository.update_remote()
+            except RepositoryError as error:
+                report_error(
+                    "Could not update the repository",
+                    project=self.project,
+                    skip_error_reporting=not settings.DEBUG,
+                )
+                return previous_revision, error
             timediff = time.monotonic() - start
             self.log_info("update took %.2f seconds", timediff)
-            return previous_revision
+            return previous_revision, None
 
     @perform_on_link
-    def update_remote_branch(self, validate: bool = False, retry: bool = True) -> bool:
+    def update_remote_branch(
+        self,
+        validate: bool = False,
+        retry: bool = True,
+        user: User | None = None,
+    ) -> bool:
         """Pull from remote repository."""
+        user = user or self.acting_user
         # Update
         self.log_info("updating repository")
-        try:
-            previous_revision = self.update_remote_repository()
-        except RepositoryError as error:
-            report_error(
-                "Could not update the repository",
-                project=self.project,
-                skip_error_reporting=not settings.DEBUG,
-            )
+        previous_revision, error = self.update_remote_repository()
+        if error is not None:
             error_text = self.error_text(error)
+            if validate and retry and should_auto_add_ssh_host_key(error_text):
+                self.handle_update_error(error_text, retry)
+                return self.update_remote_branch(True, False, user=user)
+            if self.id and not validate:
+                details = {"error": error_text, "branch": self.branch}
+                if previous_revision is not None:
+                    details["previous_remote_revision"] = previous_revision
+                self.change_set.create(
+                    action=ActionEvents.FAILED_REMOTE_UPDATE,
+                    target=error_text,
+                    user=user,
+                    author=user,
+                    details=details,
+                )
             if validate:
                 self.handle_update_error(error_text, retry)
-                return self.update_remote_branch(True, False)
+                return self.update_remote_branch(True, False, user=user)
             if self.id:
                 self.add_alert("UpdateFailure", error=error_text)
             return False
@@ -2372,7 +2532,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     previous_revision,
                     remote_revision,
                 )
-        if self.id:
+        if self.id and not validate:
             self.delete_alert("UpdateFailure")
             if remote_revision and previous_revision != remote_revision:
                 with transaction.atomic():
@@ -2380,6 +2540,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     self.remote_revision = remote_revision
                     Component.objects.filter(pk=self.pk).update(
                         remote_revision=remote_revision
+                    )
+                if previous_revision:
+                    self.change_set.create(
+                        action=ActionEvents.REMOTE_UPDATE,
+                        user=user,
+                        author=user,
+                        details={
+                            "branch": self.branch,
+                            "previous_remote_revision": previous_revision,
+                            "remote_revision": remote_revision,
+                        },
                     )
         return True
 
@@ -2472,7 +2643,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.configure_repo(pull=False)
 
             # pull remote
-            if not self.update_remote_branch():
+            if not self.update_remote_branch(user=user):
                 return False
 
             self.configure_branch()
@@ -2734,7 +2905,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             previous_head = head_change.previous_head or "N/A"
             # First check we're up to date
-            self.update_remote_branch()
+            self.update_remote_branch(user=user)
 
             if keep_changes:
                 # Mark all strings as pending when keeping changes
@@ -3612,15 +3783,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
                 # In case merge has failure recover
                 error_text = self.error_text(error)
-                status = self.repository.status()
+                try:
+                    status = self.repository.status()
+                    status_error = ""
+                except RepositoryError as status_exception:
+                    status = ""
+                    status_error = self.error_text(status_exception)
 
                 # Log error
                 if self.id:
+                    details = {
+                        "error": error_text,
+                        "previous_head": previous_head,
+                        "status": status,
+                    }
+                    if status_error:
+                        details["status_error"] = status_error
                     self.change_set.create(
                         action=action_failed,
                         target=error_text,
                         user=user,
-                        details={"error": error_text, "status": status},
+                        author=user,
+                        details=details,
                     )
                     self.add_alert("MergeFailure", error=error_text)
 
@@ -3651,6 +3835,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.change_set.create(
                     action=action,
                     user=user,
+                    author=user,
                     details={
                         "new_head": new_head,
                         "previous_head": previous_head,
@@ -3911,6 +4096,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """Load translations from VCS."""
         if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -3926,6 +4112,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
+                preserve_pending_units=preserve_pending_units,
             )
 
         # When already in a Celery repository task, scan inline so the same
@@ -3941,6 +4128,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     changed_template=changed_template,
                     from_link=from_link,
                     change=change,
+                    preserve_pending_units=preserve_pending_units,
                 )
             except WeblateLockTimeoutError:
                 self.log_info("scheduling update in background after lock timeout")
@@ -3960,6 +4148,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             changed_template=changed_template,
             from_link=from_link,
             change=change,
+            preserve_pending_units=preserve_pending_units,
             user_id=load_user.id if load_user is not None else None,
         )
         return False
@@ -3975,6 +4164,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """
         Load translations from VCS synchronously.
@@ -3996,6 +4186,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 changed_template=changed_template,
                 from_link=from_link,
                 change=change,
+                preserve_pending_units=preserve_pending_units,
             )
 
     def check_template_valid(self) -> None:
@@ -4029,6 +4220,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
+        preserve_pending_units: bool = False,
     ) -> bool:
         """Load translations from VCS."""
         # ruff: ignore[import-outside-top-level]
@@ -4129,10 +4321,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         lang,
                         code,
                         path,
-                        force,
+                        force=force,
                         request=request,
                         user=user,
                         change=change,
+                        preserve_pending_units=preserve_pending_units,
                     )
                 except InvalidTemplateError as error:
                     self.log_warning(
@@ -4212,6 +4405,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     request=request,
                     user=user,
                     from_link=True,
+                    preserve_pending_units=preserve_pending_units,
                 )
             except FileParseError as error:
                 if not isinstance(error.__cause__, FileNotFoundError):
@@ -4389,7 +4583,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.configure_repo(validate, pull=False)
         if self.id:
-            if not self.update_remote_branch(validate):
+            if not self.update_remote_branch(validate, user=self.acting_user):
                 return False
             if not skip_commit:
                 self.commit_pending("sync", None, skip_push=skip_push)
@@ -4406,7 +4600,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Reset to upstream in case not yet saved model (this is called
         # from the clean method only)
         with self.repository.lock:
-            self.update_remote_branch(validate)
+            self.update_remote_branch(validate, user=self.acting_user)
             self.configure_branch()
             self.repository.reset()
         return True
@@ -4414,6 +4608,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def set_default_branch(self) -> None:
         """Set default VCS branch if empty."""
         if not self.branch and not self.is_repo_link:
+            if self.repository_class.component_requires_branch:
+                return
             self.branch = self.repository_class.get_remote_branch(self.repo)
 
     def clean_category(self) -> None:
@@ -4753,6 +4949,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 {"push": gettext("Push URL is not used without a remote repository.")}
             )
 
+        for field in self.repository_class.component_clear_fields:
+            setattr(self, field, "")
+
+        if self.repository_class.component_requires_branch and not self.branch:
+            raise ValidationError(
+                {
+                    "branch": gettext(
+                        "Repository branch is required for this integration."
+                    )
+                }
+            )
+
+        self.repository_class.validate_component(self)
+
         # Validate VCS repo
         try:
             self.set_default_branch()
@@ -4833,6 +5043,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 ) % {"param": param.name, "format": self.file_format}
                 raise ValidationError({"file_format_params": message})
 
+    def clean_integration_locked_fields(self, old: Component) -> None:
+        """Validate fields managed by an existing repository integration."""
+        vcs_backend = VCS_REGISTRY.get(old.vcs)
+        if vcs_backend is None:
+            return
+
+        errors: dict[str, Any] = {}
+        for field in vcs_backend.component_lock_fields:
+            old_value = getattr(old, field)
+            value = getattr(self, field)
+            if field in vcs_backend.component_clear_fields and not value:
+                setattr(self, field, "")
+                continue
+            if old_value == value:
+                if field in vcs_backend.component_clear_fields:
+                    setattr(self, field, "")
+                continue
+            errors[field] = self.INTEGRATION_LOCKED_FIELD_MESSAGE
+
+        if errors:
+            raise ValidationError(errors)
+
     def clean(self) -> None:
         """
         Validate component parameters.
@@ -4877,6 +5109,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if self.id:
             old = Component.objects.get(pk=self.id)
+            self.clean_integration_locked_fields(old)
             self.check_rename(old, validate=True)
             if old.source_language != self.source_language:
                 # Might be implemented in future, but needs to handle:

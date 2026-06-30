@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
+  </li>
+  <li class="breadcrumb-item">{% translate "From connected GitHub account" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% translate "Import from connected GitHub account" %}
+        {% if github_app_install_url %}
+          <a href="{{ github_app_install_url }}" class="btn btn-primary btn-sm float-end">{% translate "Connect GitHub account" %}</a>
+        {% endif %}
+      </h4>
+    </div>
+    <div class="card-body">
+      {% if github_app_install_url %}
+        {% include "vcs/github_install_help.html" %}
+      {% endif %}
+      {% if installations %}
+        <h5>{% translate "Connected accounts" %}</h5>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{% translate "Account" %}</th>
+              <th>{% translate "Workspace" %}</th>
+              <th>{% translate "Repositories" %}</th>
+              <th>{% translate "Actions" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for installation in installations %}
+              <tr>
+                <td>
+                  <strong>{{ installation.target_login }}</strong>
+                  <small class="text-body-secondary">({{ installation.target_type }})</small>
+                </td>
+                <td>{{ installation.workspace }}</td>
+                <td>{{ installation.repositories|length }}</td>
+                <td>
+                  {% if installation.pk in manageable_installations %}
+                    <form method="post"
+                          action="{% url 'manage-github-account-refresh' installation.pk %}"
+                          class="d-inline">
+                      {% csrf_token %}
+                      <input type="hidden" name="next" value="{{ next_url }}" />
+                      <button type="submit" class="btn btn-outline-primary btn-sm">{% translate "Refresh" %}</button>
+                    </form>
+                    <button type="button"
+                            class="btn btn-outline-danger btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#remove-github-account-{{ installation.pk }}">{% translate "Remove" %}</button>
+                    {% include "vcs/snippets/github_account_remove_modal.html" with installation=installation next_url=next_url csrf_token=csrf_token only %}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+      {% if repositories %}
+        <p>
+          {% translate "Select a repository to import. This will pre-fill the component creation form with the repository URL and branch." %}
+        </p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{% translate "Repository" %}</th>
+              <th>{% translate "Workspace" %}</th>
+              <th>{% translate "Account" %}</th>
+              <th>{% translate "Branch" %}</th>
+              <th>{% translate "Visibility" %}</th>
+              <th>{% translate "Actions" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for repo in repositories %}
+              <tr>
+                <td>
+                  <strong>{{ repo.full_name }}</strong>
+                  {% if repo.description %}
+                    <br>
+                    <small class="text-body-secondary">{{ repo.description }}</small>
+                  {% endif %}
+                </td>
+                <td>{{ repo.workspace_name }}</td>
+                <td>{{ repo.account_name }}</td>
+                <td>{{ repo.default_branch }}</td>
+                <td>
+                  {% if repo.private %}
+                    <span class="badge text-bg-warning">{% translate "Private" %}</span>
+                  {% else %}
+                    <span class="badge text-bg-success">{% translate "Public" %}</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-body-secondary">
+          {% translate "No repositories available from connected GitHub accounts." %}
+          {% if not installations %}
+            {% if github_app_install_url %}
+              {% translate "Install the Weblate GitHub app to connect a GitHub organization or user account." %}
+            {% elif github_app_configured %}
+              {% translate "Select a project with a workspace before connecting a GitHub account. GitHub accounts are connected to workspaces." %}
+            {% else %}
+              {% translate "Weblate GitHub app is not registered on this Weblate instance." %}
+            {% endif %}
+          {% else %}
+            {% translate "Try refreshing the repository list." %}
+          {% endif %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock content %}

@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import importlib
 import inspect
@@ -457,6 +458,28 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             self.store.addunit(unit.unit, new=True)
         else:
             self.store.addunit(unit.unit)
+
+    def remove_duplicate_unit(self, unit: T) -> str | None:
+        """Remove duplicate unit from Translate Toolkit store."""
+        ttkit_unit = unit.unit
+        xmlelement = getattr(ttkit_unit, "xmlelement", None)
+        if xmlelement is None:
+            return super().remove_duplicate_unit(unit)
+
+        for index, existing in enumerate(self.store.units):
+            if existing is ttkit_unit:
+                del self.store.units[index]
+                break
+        else:
+            return super().remove_duplicate_unit(unit)
+
+        with contextlib.suppress(AttributeError, KeyError, ValueError):
+            self.store.remove_unit_from_index(ttkit_unit)
+
+        parent = xmlelement.getparent()
+        if parent is not None:
+            parent.remove(xmlelement)
+        return None
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
@@ -1673,6 +1696,7 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
     supports_context = True
     supports_location = True
     supports_flags = True
+    supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
 
     def add_unit(self, unit: TranslationUnit) -> None:
@@ -1683,11 +1707,17 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
             self.store.removeunit(old_unit)
         super().add_unit(unit)
 
-    def remove_obsolete_units(self) -> None:
+    def remove_obsolete_units(self) -> list[str] | None:
         """Remove obsolete units from the underlying store."""
+        removed = False
         for unit in list(self.store.units):
             if unit.isobsolete():
                 self.store.removeunit(unit)
+                removed = True
+        if not removed:
+            return None
+        self._invalidate_units()
+        return []
 
     def save_content(self, handle: IO[bytes]) -> None:
         if GettextRemoveObsolete.get_value(self.file_format_params):
@@ -2616,6 +2646,9 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
         for row in plural_rows:
             self._remove_store_unit(row)
         return None
+
+    def get_duplicate_cleanup_units(self) -> list[CSVUnit]:
+        return self._get_all_bilingual_units()
 
     def _get_all_bilingual_units(self) -> list[CSVUnit]:
         return [

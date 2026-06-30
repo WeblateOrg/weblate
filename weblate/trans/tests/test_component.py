@@ -46,7 +46,9 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository
+from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.workspaces.models import Workspace
 
 HOST_KEY_MISMATCH_ERROR = """remote: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 remote: @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
@@ -720,6 +722,43 @@ class ComponentTest(RepoTestCase):
         component.push_branch = "branch"
         component.clean()
 
+    def test_github_app_validation_requires_branch_and_clears_push(self) -> None:
+        component = self.create_po()
+        component.vcs = "github-app"
+        component.repo = "https://github.com/test-org/repo.git"
+        component.branch = ""
+        component.push = "https://example.com/other/repo.git"
+        component.push_branch = "translations"
+
+        with self.assertRaises(ValidationError) as cm:
+            component.clean_repo()
+
+        self.assertIn(
+            "Repository branch is required for this integration.",
+            str(cm.exception),
+        )
+        self.assertEqual(component.push, "")
+        self.assertEqual(component.push_branch, "")
+
+        component.branch = "main"
+        component.push = "https://example.com/other/repo.git"
+        component.push_branch = "translations"
+        workspace = Workspace.objects.create(name="GitHub App component")
+        component.project.workspace = workspace
+        component.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+            repositories=[{"full_name": "test-org/repo"}],
+        )
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            component.clean_repo()
+
+        self.assertEqual(component.push, "")
+        self.assertEqual(component.push_branch, "")
+
     def test_invalid_git_branch_validation(self) -> None:
         component = self.create_po()
         component.branch = "--orphan"
@@ -1105,6 +1144,29 @@ class ComponentValidationTest(RepoTestCase):
         # Ensure we have correct component
         self.component.full_clean()
 
+    def configure_github_app_component(self, *, push: str = "") -> None:
+        workspace = Workspace.objects.create(name="GitHub App validation")
+        self.component.project.workspace = workspace
+        self.component.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+            repositories=[
+                {"full_name": "test-org/repo"},
+                {"full_name": "test-org/other"},
+            ],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github-app",
+            repo="https://github.com/test-org/repo.git",
+            branch="main",
+            push=push,
+            push_branch="translations" if push else "",
+        )
+        self.component.refresh_from_db()
+
     def test_commit_message(self) -> None:
         """Invalid commit message."""
         self.component.commit_message = "{% if %}"
@@ -1213,6 +1275,44 @@ class ComponentValidationTest(RepoTestCase):
         ):
             self.component.full_clean()
         self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_github_app_rejects_locked_repository_field_changes(self) -> None:
+        self.configure_github_app_component()
+
+        for field, value in (
+            ("repo", "https://github.com/test-org/other.git"),
+            ("vcs", "git"),
+        ):
+            with self.subTest(field=field):
+                component = Component.objects.get(pk=self.component.pk)
+                setattr(component, field, value)
+
+                with self.assertRaises(ValidationError) as error:
+                    component.full_clean()
+
+                self.assertIn(field, error.exception.message_dict)
+                self.assertIn(
+                    "managed by the repository integration", str(error.exception)
+                )
+
+    def test_github_app_clears_locked_push_fields(self) -> None:
+        self.configure_github_app_component(push="https://example.com/other/repo.git")
+
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            self.component.full_clean()
+
+        self.assertEqual(self.component.push, "")
+        self.assertEqual(self.component.push_branch, "")
+
+    def test_github_app_rejects_locked_push_field_changes(self) -> None:
+        self.configure_github_app_component()
+
+        self.component.push = "https://example.com/other/repo.git"
+        with self.assertRaises(ValidationError) as error:
+            self.component.full_clean()
+
+        self.assertIn("push", error.exception.message_dict)
+        self.assertIn("managed by the repository integration", str(error.exception))
 
     def create_unrelated_git_repo(self, branch: str) -> str:
         path = self.get_repo_path("unrelated-repo.git")
@@ -1707,6 +1807,7 @@ class ComponentErrorTest(RepoTestCase):
             changed_template=False,
             from_link=False,
             change=None,
+            preserve_pending_units=False,
         )
         queue_task.assert_not_called()
 

@@ -61,6 +61,8 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
 class Workspace(models.Model):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "name",
+        "use_workspace_tm",
+        "contribute_workspace_tm",
         "license",
         "agreement",
         "new_lang",
@@ -86,6 +88,20 @@ class Workspace(models.Model):
         editable=False,
         verbose_name=gettext_lazy("Managed name"),
         help_text=gettext_lazy("Whether Weblate can update the name automatically."),
+    )
+    use_workspace_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Use workspace translation memory"),
+        default=False,
+        help_text=gettext_lazy(
+            "Uses the pool of shared translations between projects in this workspace."
+        ),
+    )
+    contribute_workspace_tm = models.BooleanField(
+        verbose_name=gettext_lazy("Contribute to workspace translation memory"),
+        default=False,
+        help_text=gettext_lazy(
+            "Contributes translations to the pool shared between projects in this workspace."
+        ),
     )
     license = models.CharField(
         verbose_name=gettext_lazy("Translation license"),
@@ -252,6 +268,18 @@ class Workspace(models.Model):
         super().save(*args, **kwargs)
         if old is not None and old.check_flags != self.check_flags:
             transaction.on_commit(self.schedule_component_check_updates)
+        if (
+            old is not None
+            and old.contribute_workspace_tm
+            and not self.contribute_workspace_tm
+        ):
+            self.delete_workspace_memory_scope()
+        if (
+            old is not None
+            and self.contribute_workspace_tm
+            and not old.contribute_workspace_tm
+        ):
+            self.schedule_workspace_memory_updates()
         if create_groups:
             self.setup_groups()
         self.workspace_original_name = self.name
@@ -290,6 +318,24 @@ class Workspace(models.Model):
 
         for component in Component.objects.filter(project__workspace=self).iterator():
             component.schedule_update_checks(update_state=True)
+
+    def schedule_workspace_memory_updates(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.tasks import import_memory
+
+        for project_id in self.projects.filter(
+            contribute_workspace_tm=True
+        ).values_list("id", flat=True):
+            import_memory.delay_on_commit(project_id)
+
+    def delete_workspace_memory_scope(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        Memory.objects.delete_scope(
+            models.Q(scope=MemoryScope.SCOPE_WORKSPACE, workspace=self),
+            delete_legacy=False,
+        )
 
     def setup_groups(self) -> dict[str, Group]:
         # ruff: ignore[import-outside-top-level]

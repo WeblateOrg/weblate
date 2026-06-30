@@ -1,4 +1,4 @@
-{% load i18n translations %}
+{% load i18n permissions translations %}
 
 <p>{% translate "The component contains several duplicated translation strings." %}</p>
 
@@ -32,5 +32,16 @@
 <p>
   {% translate "Please fix this by removing duplicated strings with same identifier from the translation files." %}
 </p>
+
+{% for translation in analysis.cleanup_translations %}
+  {% perm "vcs.reset" translation as user_can_cleanup_translation %}
+  {% if user_can_cleanup_translation %}
+    <p>
+      <a href="#"
+         class="btn btn-danger link-post"
+         data-href="{% url "remove_duplicate_units" path=translation.get_url_path %}">{% translate "Remove duplicate strings" %}</a>
+    </p>
+  {% endif %}
+{% endfor %}
 
 {% include "trans/alert/occurrences-limit.html" %}

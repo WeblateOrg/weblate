@@ -37,13 +37,14 @@ class WeblateMemory(InternalMachineTranslation):
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
+        project = unit.translation.component.project
         for result in Memory.objects.lookup(
             source_language,
             target_language,
             text,
             user,
-            unit.translation.component.project,
-            unit.translation.component.project.use_shared_tm,
+            project,
+            project.use_shared_tm,
             threshold=threshold,
         ):
             quality = self.comparer.similarity(text, result.source)
@@ -59,7 +60,7 @@ class WeblateMemory(InternalMachineTranslation):
                 "text": result.target,
                 "quality": quality,
                 "service": self.name,
-                "origin": result.get_origin_display(),
+                "origin": result.get_origin_display(project=project, user=user),
                 "source": result.source,
                 "show_quality": True,
                 "delete_url": reverse("api:memory-detail", kwargs={"pk": result.id})

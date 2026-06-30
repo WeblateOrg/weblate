@@ -64,7 +64,7 @@ from weblate.trans.views.changes import (
     ChangesView,
     show_change,
 )
-from weblate.trans.views.hooks import ServiceHookView
+from weblate.trans.views.hooks import IntegrationHookView, ServiceHookView
 from weblate.utils.version import VERSION
 
 handler400 = weblate.trans.views.error.bad_request
@@ -431,6 +431,21 @@ real_patterns = [
         name="file_scan",
     ),
     path(
+        "remove-duplicate-units/<object_path:path>/",
+        weblate.trans.views.git.remove_duplicate_units,
+        name="remove_duplicate_units",
+    ),
+    path(
+        "cleanup-unused/<object_path:path>/",
+        weblate.trans.views.git.cleanup_unused,
+        name="cleanup_unused",
+    ),
+    path(
+        "remove-obsolete-units/<object_path:path>/",
+        weblate.trans.views.git.remove_obsolete_units,
+        name="remove_obsolete_units",
+    ),
+    path(
         "progress/<object_path:path>/",
         weblate.trans.views.settings.show_progress,
         name="show_progress",
@@ -711,6 +726,11 @@ real_patterns = [
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks
     path(
+        "hooks/integrations/<uuid:integration_token>/",
+        IntegrationHookView.as_view(),
+        name="integration-webhook",
+    ),
+    path(
         "hooks/<slug:service>/",
         ServiceHookView.as_view(),
         name="webhook",
@@ -916,6 +936,8 @@ real_patterns = [
         weblate.wladmin.views.performance,
         name="manage-performance",
     ),
+    # VCS
+    path("", include("weblate.vcs.urls")),
     # Accounts
     path("accounts/", include(weblate.accounts.urls)),
     # Auth

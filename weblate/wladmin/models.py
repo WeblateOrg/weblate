@@ -89,6 +89,10 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
             "weblate.C041",
             "weblate.E006",
             "weblate.C044",
+            "weblate.C045",
+        }
+        retired_checks = {
+            "weblate.C046",
         }
         removals = []
         existing = {error.name: error for error in self.all()}
@@ -105,6 +109,8 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
                     self.create(name=check_id, message=check.msg)
             elif check_id in existing:
                 removals.append(check_id)
+
+        removals.extend(retired_checks.intersection(existing))
 
         if removals:
             self.filter(name__in=removals).delete()

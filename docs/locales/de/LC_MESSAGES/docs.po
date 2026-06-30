@@ -23,9 +23,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-25 06:03+0200\n"
-"PO-Revision-Date: 2026-06-25 05:12+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-06-29 07:01+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -469,10 +468,8 @@ msgstr ""
 "beitragen."
 
 #: admin/access.rst:222
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Cleaning up user contributions"
-msgstr "Beiträge zu Übersetzungen"
+msgstr "Benutzerbeiträge bereinigen"
 
 #: admin/access.rst:224
 msgid ""
@@ -482,27 +479,36 @@ msgid ""
 "the cleanup actions in the block form. For users who are already blocked, "
 "use :guilabel:`Clean up user contributions` in the blocked users list."
 msgstr ""
+"Beim Sperren von Spam- oder missbräuchlichen Konten können "
+"Projektadministratoren auch die bestehenden Beiträge des Benutzers in diesem "
+"Projekt löschen. Verwenden Sie :guilabel:`Operationen` ↓ "
+":guilabel:`Benutzer`, sperren Sie den Benutzer und wählen Sie im "
+"Sperrformular die entsprechenden Bereinigungsvorgänge aus. Für bereits "
+"gesperrte Benutzer verwenden Sie :guilabel:`Benutzerbeiträge bereinigen` in "
+"der Liste der gesperrten Benutzer."
 
 #: admin/access.rst:230
-#, fuzzy
-#| msgid "The options are:"
 msgid "The available cleanup actions are:"
-msgstr "Die Optionen sind:"
+msgstr "Die verfügbaren Bereinigungsvorgänge sind:"
 
 #: admin/access.rst:232
 msgid ""
 ":guilabel:`Revert user edits` reverts the latest editable translations by "
 "the user."
 msgstr ""
+":guilabel:`Benutzerbearbeitungen rückgängig machen` macht die zuletzt vom "
+"Benutzer bearbeiteten Übersetzungen rückgängig."
 
 #: admin/access.rst:234
 msgid ""
 ":guilabel:`Reject user suggestions` rejects pending suggestions by the user."
 msgstr ""
+":guilabel:`Benutzervorschläge ablehnen` lehnt ausstehende "
+"Übersetzungsvorschläge des Benutzers ab."
 
 #: admin/access.rst:235
 msgid ":guilabel:`Delete user comments` deletes comments by the user."
-msgstr ""
+msgstr ":guilabel:`Benutzerkommentare löschen` löscht Kommentare des Benutzers."
 
 #: admin/access.rst:237
 msgid ""
@@ -512,6 +518,12 @@ msgid ""
 "user's profile, select the :guilabel:`Edit` tab, and "
 "use :guilabel:`Contribution cleanup`."
 msgstr ""
+"Website-Administratoren mit der plattformweiten ``user.edit``-Berechtigung "
+"können den gleichen Massenbereinigungsvorgang für alle Projekte über die "
+":ref:`Verwaltungsoberfläche <management-interface>` auf dem Reiter "
+":guilabel:`Benutzer` durchführen. Öffnen Sie das Profil des Benutzers, "
+"wählen Sie den Reiter :guilabel:`Bearbeiten` und verwenden Sie die Funktion "
+":guilabel:`Bereinigungsvorgang für Beiträge`."
 
 #: admin/access.rst:244
 msgid "Per-project permission management"
@@ -1026,8 +1038,6 @@ msgid "Group `Spanish Admin-Reviewers`"
 msgstr "Gruppe ` Administrator-Prüfer Spanisch`"
 
 #: admin/access.rst:486
-#, fuzzy
-#| msgid "`Review Strings`, `Manage repository`"
 msgid "`Review strings`, `Manage repository`"
 msgstr "`Zeichenketten überprüfen`, `Repository verwalten`"
 
@@ -1650,6 +1660,8 @@ msgid ""
 "Users and teams, see :ref:`custom-acl`; site administrators can "
 "also :ref:`clean up user contributions <cleanup-user-contributions>`."
 msgstr ""
+"Benutzer und Teams, siehe :ref:`custom-acl`; Website-Administratoren können "
+"außerdem :ref:`Benutzerbeiträge bereinigen <cleanup-user-contributions>`."
 
 #: admin/admin.rst:22
 msgid ":ref:`manage-appearance`."
@@ -2904,6 +2916,8 @@ msgid ""
 "Project backups can also be created, listed, and downloaded through "
 "the :ref:`api` since version 2026.7;"
 msgstr ""
+"Seit Version 2026.7 können Projektsicherungen auch über die :ref:`api` "
+"erstellt, aufgelistet und heruntergeladen werden;"
 
 #: admin/backup.rst:26
 msgid ""
@@ -4114,16 +4128,13 @@ msgid "``max-size:500`` / ``max-size:300:5``"
 msgstr "``max-size:500`` / ``max-size:300:5``"
 
 #: admin/checks.rst:174
-#, fuzzy
-#| msgid ""
-#| "Defines maximal width in pixels and, optionally, the maximum number of "
-#| "lines (word wrapping is applied)."
 msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of "
 "lines. Word wrapping is applied when more than one line is configured."
 msgstr ""
 "Definiert die maximale Breite in Pixeln und optional die maximale Anzahl von "
-"Zeilen (Wortumbruch wird angewendet)."
+"Zeilen. Wortumbruch wird angewendet, wenn mehr als eine Zeile konfiguriert "
+"ist."
 
 #: admin/checks.rst:176
 msgid "Defines font group to use by specifying its identifier."
@@ -8579,13 +8590,6 @@ msgstr ""
 "davon ab, ob das ausgewählte Objekt gesperrt werden kann."
 
 #: admin/continuous.rst:190
-#, fuzzy
-#| msgid ""
-#| "Operations that read repository content, such as updating, resetting, or "
-#| "rescanning, also reconcile translation files in Weblate. Added or removed "
-#| "translation files are reflected after this processing finishes. Glossary "
-#| "translations are cleaned up only for Weblate-managed glossaries and only "
-#| "when no non-glossary component still uses the language."
 msgid ""
 "Operations that read repository content, such as updating, resetting, or "
 "rescanning, also reconcile translation files in Weblate. Added or removed "
@@ -8596,10 +8600,9 @@ msgstr ""
 "Vorgänge, bei denen Repository-Inhalte gelesen werden, wie beispielsweise "
 "Aktualisieren, Zurücksetzen oder erneutes Scannen, führen auch zu einem "
 "Abgleich der Übersetzungsdateien in Weblate. Hinzugefügte oder entfernte "
-"Übersetzungsdateien werden nach Abschluss dieses Vorgangs übernommen. "
-"Glossarübersetzungen werden nur für von Weblate verwaltete Glossare "
-"bereinigt und nur dann, wenn keine Komponente außerhalb des Glossars diese "
-"Sprache mehr verwendet."
+"Übersetzungsdateien werden nach Abschluss dieses Vorgangs übernommen. Die "
+"Synchronisierung und der Bereinigungsvorgang für das Glossar werden unter "
+":ref:`glossary-language-sync` beschrieben."
 
 #: admin/continuous.rst:199
 msgid "Action"
@@ -10056,16 +10059,17 @@ msgstr ""
 "installiert werden."
 
 #: admin/install.rst:369 security/release-artifacts.rst:121
-#, fuzzy
-#| msgid "Verifying release signatures"
 msgid "Verifying release artifacts"
-msgstr "Veröffentlichungssignaturen überprüfen"
+msgstr "Release-Artefakte überprüfen"
 
 #: admin/install.rst:371
 msgid ""
 "Release archives can be verified using the signatures, attestations, and "
 "SBOMs published with GitHub release assets. See :ref:`verify`."
 msgstr ""
+"Release-Archive können anhand der Signaturen, Nachweise und SBOMs überprüft "
+"werden, die zusammen mit den GitHub-Release-Assets veröffentlicht werden. "
+"Siehe :ref:`verify`."
 
 #: admin/install.rst:377
 msgid "Filesystem permissions"
@@ -12086,6 +12090,12 @@ msgid ""
 "changes. Weblate application updates are delivered through Docker image "
 "tags; there is no release-bound update path for customized Compose files."
 msgstr ""
+"Die Docker-Compose-Dateien sind Beispielkonfigurationen für die "
+"Bereitstellung. Die Betreiber passen diese in der Regel an ihre eigene "
+"Bereitstellung an und verwalten diese lokalen Änderungen selbst. "
+"Aktualisierungen der Weblate-Anwendung werden über Docker-Image-Tags "
+"bereitgestellt; für angepasste Compose-Dateien gibt es keinen an Versionen "
+"gebundenen Aktualisierungspfad."
 
 #: admin/install/docker.rst:40
 msgid ""
@@ -12423,11 +12433,6 @@ msgstr ""
 "unter :ref:`version-specific-instructions` aufgeführt ist."
 
 #: admin/install/docker.rst:263
-#, fuzzy
-#| msgid ""
-#| "You might also want to update the ``docker-compose`` repository, though "
-#| "it's not needed in most case. See :ref:`docker-postgres-upgrade` for "
-#| "upgrading the PostgreSQL server."
 msgid ""
 "If you use the example Compose files without local changes, you can also "
 "review updates in the ``docker-compose`` repository, though this is not "
@@ -12435,9 +12440,12 @@ msgid ""
 "maintained as part of your deployment. See :ref:`docker-postgres-upgrade` "
 "for upgrading the PostgreSQL server."
 msgstr ""
-"Sie können auch das ``docker-compose`` Repository aktualisieren, obwohl dies "
-"in den meisten Fällen nicht notwendig ist. Siehe :ref:`docker-postgres-"
-"upgrade` für die Aktualisierung des PostgreSQL-Servers."
+"Wenn Sie die Beispiel-Compose-Dateien ohne lokale Änderungen verwenden, "
+"können Sie die Aktualisierungen auch im ``docker-compose``-Repository "
+"überprüfen, obwohl dies für die meisten Weblate-Upgrades nicht erforderlich "
+"ist. Angepasste Compose-Dateien müssen im Rahmen Ihrer Bereitstellung "
+"gepflegt werden. Informationen zum Upgrade des PostgreSQL-Servers finden Sie "
+"unter :ref:`docker-postgres-upgrade`."
 
 #: admin/install/docker.rst:272
 msgid "Upgrading PostgreSQL container"
@@ -15407,7 +15415,7 @@ msgstr ""
 
 #: admin/install/source.rst:54
 msgid "Packaging Weblate for distributions"
-msgstr ""
+msgstr "Weblate für Distributionen paketieren"
 
 #: admin/install/source.rst:56
 msgid ""
@@ -15417,6 +15425,11 @@ msgid ""
 "cannot validate every dependency-version combination covered by wider "
 "version ranges."
 msgstr ""
+"Die Versionen der Abhängigkeiten in :file:`pyproject.toml` beschreiben die "
+"vom Weblate-Projekt getestete Einsatzumgebung. Sie sind bewusst streng für "
+"Installationen über PyPI und für den Weblate-Release-Prozess gehalten, da "
+"Weblate nicht jede Kombination aus Abhängigkeiten und Versionen überprüfen "
+"kann, die von breiteren Versionsbereichen abgedeckt wird."
 
 #: admin/install/source.rst:61
 msgid ""
@@ -15425,24 +15438,34 @@ msgid ""
 "against the packaged dependency set and treat passing tests as the "
 "compatibility signal for the distribution package."
 msgstr ""
+"Distributionspakete können diese Python-Pakete durch Versionen aus dem "
+"Distributionspaket-Satz ersetzen. Führen Sie in diesem Fall die Testsuite "
+"von Weblate für den gepackten Abhängigkeitssatz aus und betrachten Sie "
+"bestandene Tests als Kompatibilitätsnachweis für das Distributionspaket."
 
 #: admin/install/source.rst:66
 msgid ""
 "Keep Weblate's tightly coupled companion packages in sync with the Weblate "
 "release:"
 msgstr ""
+"Halten Sie die eng mit Weblate verknüpften Begleitpakete mit der Weblate-"
+"Version synchron:"
 
 #: admin/install/source.rst:75
 msgid ""
 "Mismatched versions of these packages are more likely to break at runtime or "
 "during tests than other Python dependency substitutions."
 msgstr ""
+"Nicht kompatible Versionen dieser Pakete führen häufiger zu Fehlern zur "
+"Laufzeit oder bei Tests als andere Ersetzungen von Python-Abhängigkeiten."
 
 #: admin/install/source.rst:80
 msgid ""
 "See :ref:`local-tests` for test setup and :ref:`release-cycle` for Weblate's "
 "release cadence."
 msgstr ""
+"Siehe :ref:`local-tests` zum Testaufbau und :ref:`release-cycle` zum Release-"
+"Rhythmus von Weblate."
 
 #: admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -16592,6 +16615,12 @@ msgid ""
 "skip obvious outliers, bots, bulk imports, uploads, and other events that "
 "would pollute the result."
 msgstr ""
+"Analysiert den Änderungsverlauf, um einen realistischen täglichen Durchsatz "
+"der Übersetzer abzuschätzen. Der Befehl berücksichtigt ausschließlich aktive "
+"menschliche Benutzer und durch Einheiten unterstützte manuelle "
+"Übersetzungsänderungen und wendet tägliche Mindest- und Höchstschwellenwerte "
+"an, um offensichtliche Ausreißer, Bots, Massenimporte, Uploads und andere "
+"Ereignisse auszuschließen, die das Ergebnis verfälschen würden."
 
 #: admin/management.rst:159
 msgid "Added parameter for translation mode."
@@ -17738,15 +17767,11 @@ msgstr ""
 "Installation migrieren:"
 
 #: admin/optionals.rst:30
-#, fuzzy
-#| msgid ""
-#| "Git exporter is turned on in our official Docker image. To turn it of, "
-#| "use:"
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it off, use:"
 msgstr ""
 "Der Git-Exporter ist in unserem offiziellen Docker-Image aktiviert. Um ihn "
-"auszuschalten, verwenden Sie:"
+"zu deaktivieren, verwenden Sie:"
 
 #: admin/optionals.rst:37 admin/optionals.rst:104 admin/optionals.rst:210
 #: faq.rst:340
@@ -17787,19 +17812,14 @@ msgstr ""
 "können:"
 
 #: admin/optionals.rst:63
-#, fuzzy
-#| msgid ""
-#| "By default members or :guilabel:`Users` group and anonymous user have "
-#| "access to the repositories for public projects via :guilabel:`Access "
-#| "repository` and :guilabel:`Power user` roles."
 msgid ""
 "By default members of :guilabel:`Users` group and anonymous user have access "
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
 "Standardmäßig haben Mitglieder der Gruppe :guilabel:`Benutzer` und anonyme "
-"Benutzer über die Rollen :guilabel:`Auf Repository zugreifen` "
-"und :guilabel:`Hauptbenutzer` Zugriff auf die Repositorys für öffentliche "
+"Benutzer über die Rollen :guilabel:`Auf Repository zugreifen` und "
+":guilabel:`Hauptbenutzer` Zugriff auf die Repositorys für öffentliche "
 "Projekte."
 
 #: admin/optionals.rst:71 admin/workspaces.rst:239
@@ -18346,15 +18366,6 @@ msgid "The rate limiting no longer applies to signed in superusers."
 msgstr "Die Ratenbegrenzung gilt nicht mehr für angemeldete Superuser."
 
 #: admin/optionals.rst:361
-#, fuzzy
-#| msgid ""
-#| "Several operations in Weblate are rate limited. At "
-#| "most :setting:`RATELIMIT_ATTEMPTS` attempts are allowed "
-#| "within :setting:`RATELIMIT_WINDOW` seconds. The user is then blocked "
-#| "for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to "
-#| "scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or "
-#| "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
-#| "available scopes."
 msgid ""
 "Several operations in Weblate are rate limited. Rate limits are evaluated "
 "independently for each scope. At most :setting:`RATELIMIT_ATTEMPTS` attempts "
@@ -18367,14 +18378,18 @@ msgid ""
 "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
 "available scopes."
 msgstr ""
-"Mehrere Vorgänge in Weblate sind ratenbegrenzt. Innerhalb "
-"von :setting:`RATELIMIT_WINDOW` Sekunden sind "
-"maximal :setting:`RATELIMIT_ATTEMPTS` Versuche erlaubt. Danach wird der "
-"Benutzer für :setting:`RATELIMIT_LOCKOUT` gesperrt. Es gibt auch "
-"bereichsspezifische Einstellungen, zum Beispiel "
+"Einige Vorgänge in Weblate sind ratenbegrenzt. Die Ratenbegrenzungen werden "
+"für jeden Bereich separat ausgewertet. Höchstens "
+":setting:`RATELIMIT_ATTEMPTS` Versuche sind innerhalb von "
+":setting:`RATELIMIT_WINDOW` Sekunden in einem Bereich zulässig. Dieser "
+"Bereich wird dann gesperrt für :setting:`RATELIMIT_LOCKOUT`; Weblate wandelt "
+"dies nicht in eine vorübergehende, plattformweite IP-Sperre um. Das "
+"Überschreiten eines Bereichs, wie beispielsweise ``TRANSLATE`` oder "
+"``SEARCH``, führt für sich genommen nicht zur Sperrung nicht damit "
+"zusammenhängender Bereiche wie ``LOGIN`` oder ``SECOND_FACTOR``. Es gibt "
+"auch bereichsspezifische Einstellungen, zum Beispiel "
 "``RATELIMIT_CONTACT_ATTEMPTS`` oder ``RATELIMIT_TRANSLATE_ATTEMPTS``. Die "
-"nachstehende Tabelle enthält eine vollständige Liste der verfügbaren "
-"Bereiche."
+"folgende Tabelle enthält eine vollständige Liste der verfügbaren Bereiche."
 
 #: admin/optionals.rst:371
 msgid "The following operations are subject to rate limiting:"
@@ -18439,16 +18454,12 @@ msgid "Creating new project"
 msgstr "Neues Projekt erstellen"
 
 #: admin/optionals.rst:396
-#, fuzzy
-#| msgid ""
-#| "The rate limiting is based on sessions when user is signed in and on IP "
-#| "address if not."
 msgid ""
 "Within each scope, the rate limiting is based on sessions when user is "
 "signed in and on IP address if not."
 msgstr ""
-"Die Ratenbegrenzung basiert auf Sitzungen, wenn der Benutzer angemeldet ist, "
-"und andernfalls auf der IP-Adresse."
+"Innerhalb jedes Bereichs basiert die Ratenbegrenzung auf Sitzungen, wenn der "
+"Benutzer angemeldet ist, und andernfalls auf der IP-Adresse."
 
 #: admin/optionals.rst:399
 msgid ""
@@ -19344,12 +19355,6 @@ msgid "This setting is ignored for Mercurial and Subversion."
 msgstr "Diese Einstellung wird bei Mercurial und Subversion ignoriert."
 
 #: admin/projects.rst:580
-#, fuzzy
-#| msgid ""
-#| "For Gerrit, this selects the target branch for the review request. Leave "
-#| "it empty to review against :ref:`component-branch`. Use the short branch "
-#| "name, not ``refs/heads/<branch>``, ``refs/for/<branch>``, or Gerrit push "
-#| "options such as ``%submit``."
 msgid ""
 "For Gerrit, this selects the target branch for the review request. Leave it "
 "empty to review against :ref:`component-branch`. Use the short branch name, "
@@ -19358,10 +19363,13 @@ msgid ""
 "``main%topic=l10n``; Gerrit interprets them as the configured Weblate Gerrit "
 "account."
 msgstr ""
-"Bei Gerrit wird damit der Branch für den Review-Request ausgewählt. Lassen "
-"Sie es leer, um gegen den :ref:`component-branch` zu überprüfen. Verwenden "
-"Sie den Kurznamen des Branches, nicht ``refs/heads/<branch>``, ``refs/for/"
-"<branch>`` oder Gerrit-Push-Optionen wie ``%submit``."
+"Bei Gerrit wird hiermit der Ziel-Branch für die Überprüfungsanfrage "
+"ausgewählt. Lassen Sie das Feld leer, um die Überprüfung anhand vom "
+":ref:`component-branch` durchzuführen. Verwenden Sie den Kurznamen des "
+"Branches, nicht ``refs/heads/<branch>`` oder ``refs/for/<branch>``. Gerrit-"
+"Push-Optionen können in beiden Einstellungen an ``%`` angehängt werden, zum "
+"Beispiel ``main%topic=l10n``; Gerrit interpretiert diese als das "
+"konfigurierte Weblate-Gerrit-Konto."
 
 #: admin/projects.rst:594 devel/gettext.rst:233 formats/android.rst:78
 #: formats/apple.rst:31 formats/appstore.rst:31 formats/arb.rst:34
@@ -22419,9 +22427,9 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
-"Die Anzahl der API-Anfragen ist begrenzt; die Standardkonfiguration "
-"beschränkt sie auf 100 Anfragen pro Tag für anonyme Benutzer und 5000 "
-"Anfragen pro Stunde für authentifizierte Benutzer."
+"Die API-Anfragen sind ratenbegrenzt; die Standardkonfiguration begrenzt die "
+"Anzahl auf 100 Anfragen pro Tag für anonyme Benutzer und auf 5000 Anfragen "
+"pro Stunde für authentifizierte Benutzer."
 
 #: api.rst:204
 msgid ""
@@ -22643,12 +22651,17 @@ msgid ""
 "Added :ref:`check-safe-mdx` check to ensure that the target string contains "
 "the same JSX expressions as the source string for :ref:`mdx` files."
 msgstr ""
+"Prüfung auf :ref:`check-safe-mdx` hinzugefügt, um sicherzustellen, dass die "
+"Zielzeichenkette dieselben JSX-Ausdrücke enthält wie die "
+"Ausgangszeichenkette bei :ref:`mdx`."
 
 #: changes.rst:9
 msgid ""
 "Added :ref:`check-source-max-length` check for source strings near ``max-"
 "length``."
 msgstr ""
+"Prüfung auf :ref:`check-source-max-length` für Ausgangszeichenketten, die "
+"nahe ``max-length`` liegen, hinzugefügt."
 
 #: changes.rst:10
 msgid ""
@@ -22657,26 +22670,26 @@ msgid ""
 "translation. Enable it with the ``accelerator:`` flag and the marker "
 "character, for example ``accelerator:&``."
 msgstr ""
+"Qualitätsprüfung :ref:`check-accelerator` hinzugefügt, die überprüft, ob die "
+"Schnelltasten in der Quelle und Übersetzung konsistent sind. Mit der "
+"Markierung ``accelerator:`` und dem Markierungszeichen aktivieren, zum "
+"Beispiel ``accelerator:&``."
 
 #: changes.rst:11
-#, fuzzy
-#| msgid ""
-#| "Gracefully handle temporary machine translation errors in automatic "
-#| "suggestions."
 msgid ""
 "Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic "
 "suggestions."
 msgstr ""
-"Vorübergehende maschinelle Übersetzungsfehler in automatischen Vorschlägen "
-"werden problemlos verarbeitet."
+"Integration von :ref:`mt-mistral`-Maschinendienste für automatische "
+"Vorschläge von Mistral LLM hinzugefügt."
 
 #: changes.rst:12
-#, fuzzy
-#| msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
 msgid ""
 ":ref:`projectbackup` backups can now be created and downloaded via "
 "the :ref:`api`."
-msgstr ":ref:`file_format_params` können über :ref:`api` konfiguriert werden."
+msgstr ""
+":ref:`projectbackup` können nun über :ref:`api` erstellt und heruntergeladen "
+"werden."
 
 #: changes.rst:13
 msgid ""
@@ -22684,6 +22697,9 @@ msgid ""
 "values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like "
 "values in :ref:`csv` files."
 msgstr ""
+"Dateiformat-Parameter hinzugefügt, um einzelne YAML-Front-Matter-Werte in "
+":ref:`markdown` und :ref:`mdx` zu übersetzen und formelähnliche Werte in "
+":ref:`csv` zu maskieren."
 
 #: changes.rst:16 changes.rst:122 changes.rst:179 changes/v5.rst:18
 #: changes/v5.rst:104 changes/v5.rst:208 changes/v5.rst:243 changes/v5.rst:290
@@ -30884,7 +30900,7 @@ msgstr ""
 
 #: changes/v4.rst:424
 msgid "Improved API for creating components from a file."
-msgstr "Verbesserte API für die Erstellung von Komponenten aus einer Datei."
+msgstr "Verbesserte API für das Erstellen von Komponenten aus einer Datei."
 
 #: changes/v4.rst:425
 msgid "Add copy and clone buttons to other translations."
@@ -32029,9 +32045,8 @@ msgid ""
 "API for creating components now automatically uses :ref:`internal-urls`, "
 "see :http:post:`/api/projects/(string:project)/components/`."
 msgstr ""
-"API zur Erstellung von Komponenten verwendet jetzt "
-"automatisch :ref:`internal-urls`, siehe :http:post:`/api/projects/"
-"(string:project)/components/`."
+"API zum Erstellen von Komponenten verwendet jetzt automatisch :ref:`internal-"
+"urls`, siehe :http:post:`/api/projects/(string:project)/components/`."
 
 #: changes/v4.rst:775
 msgid ""
@@ -33538,7 +33553,7 @@ msgstr "Korrektur von Tippfehlern in der Dokumentation."
 #: changes/v4.rst:1188
 msgid "Fixed creating components using the API in some cases."
 msgstr ""
-"Die Erstellung von Komponenten über die API in einigen Fällen korrigiert."
+"Das Erstellen von Komponenten über die API in einigen Fällen korrigiert."
 
 #: changes/v4.rst:1189
 msgid "Fixed JavaScript errors breaking mobile navigation."
@@ -53519,13 +53534,11 @@ msgstr "Anmerkung"
 
 #: security/release-artifacts.rst:29
 msgid "Source releases and GitHub release assets"
-msgstr ""
+msgstr "Quellcode-Veröffentlichungen und GitHub-Release-Assets"
 
 #: security/release-artifacts.rst:30
-#, fuzzy
-#| msgid ":file:`~/.config/weblate`"
 msgid ":file:`WeblateOrg/weblate`"
-msgstr ":file:`~/.config/weblate`"
+msgstr ":file:`WeblateOrg/weblate`"
 
 #: security/release-artifacts.rst:31
 msgid "`GitHub releases`_"
@@ -53536,6 +53549,8 @@ msgid ""
 ":file:`.github/workflows/setup.yml`, :file:`scripts/create-"
 "release`, :file:`scripts/prepare-release`, and :doc:`/contributing/release`"
 msgstr ""
+":file:`.github/workflows/setup.yml`, :file:`scripts/create-release`, "
+":file:`scripts/prepare-release`, und :doc:`/contributing/release`"
 
 #: security/release-artifacts.rst:34
 msgid ""
@@ -53544,14 +53559,12 @@ msgid ""
 msgstr ""
 
 #: security/release-artifacts.rst:36
-#, fuzzy
-#| msgid "Python packages"
 msgid "Python package"
-msgstr "Python-Pakete"
+msgstr "Python-Paket"
 
 #: security/release-artifacts.rst:37
 msgid ":file:`pyproject.toml`, :file:`setup.py`, and :file:`MANIFEST.in`"
-msgstr ""
+msgstr ":file:`pyproject.toml`, :file:`setup.py`, und :file:`MANIFEST.in`"
 
 #: security/release-artifacts.rst:39
 msgid ""
@@ -53565,16 +53578,12 @@ msgid ""
 msgstr ""
 
 #: security/release-artifacts.rst:42
-#, fuzzy
-#| msgid "Docker usage"
 msgid "Docker images"
-msgstr "Docker-Nutzung"
+msgstr "Docker-Images"
 
 #: security/release-artifacts.rst:43
-#, fuzzy
-#| msgid "Weblate to local VCS repositories"
 msgid "`Weblate Docker repository`_"
-msgstr "Weblate zu lokalen VCS-Repositorys"
+msgstr "`Weblate-Docker-Repository`_"
 
 #: security/release-artifacts.rst:44
 msgid "`Docker Hub`_ and `GitHub Packages Docker registry`_"
@@ -53626,17 +53635,15 @@ msgstr ""
 
 #: security/release-artifacts.rst:64
 msgid ":file:`docs/`, :file:`docs/conf.py`, and :file:`.readthedocs.yml`"
-msgstr ""
+msgstr ":file:`docs/`, :file:`docs/conf.py`, und :file:`.readthedocs.yml`"
 
 #: security/release-artifacts.rst:65
-#, fuzzy
-#| msgid "Weblate documentation"
 msgid "`Weblate documentation`_"
-msgstr "Weblate-Dokumentation"
+msgstr "`Weblate-Dokumentation`_"
 
 #: security/release-artifacts.rst:66
 msgid ":file:`.github/workflows/docs.yml` and :file:`.readthedocs.yml`"
-msgstr ""
+msgstr ":file:`.github/workflows/docs.yml` und :file:`.readthedocs.yml`"
 
 #: security/release-artifacts.rst:67
 #, fuzzy
@@ -53764,80 +53771,78 @@ msgid ""
 msgstr ""
 
 #: security/release-artifacts.rst:136
-#, fuzzy
-#| msgid "Verifying release signatures"
 msgid "Release signatures"
-msgstr "Veröffentlichungssignaturen überprüfen"
+msgstr "Veröffentlichungssignaturen"
 
 #: security/release-artifacts.rst:138
-#, fuzzy
-#| msgid ""
-#| "Weblate release are cryptographically signed using `Sigstore signatures "
-#| "<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub "
-#| "release."
 msgid ""
 "Weblate package archives are cryptographically signed using Sigstore "
 "signatures. The signature bundles are attached to the GitHub release next to "
 "the signed :file:`.tar.gz` and :file:`.whl` files."
 msgstr ""
-"Weblate-Versionen sind kryptografisch signiert mit `Sigstore-Signaturen "
-"<https://www.sigstore.dev/>`_. Die Signaturen sind der GitHub-"
-"Veröffentlichung beigefügt."
+"Weblate-Paketarchive werden mit Sigstore-Signaturen kryptografisch signiert. "
+"Die Signaturbündel werden der GitHub-Veröffentlichung neben den signierten "
+"Dateien :file:`.tar.gz` und :file:`.whl` beigefügt."
 
 #: security/release-artifacts.rst:142
-#, fuzzy
-#| msgid ""
-#| "The verification can be performed using `sigstore package <https://"
-#| "pypi.org/project/sigstore/>`_. The following example verifies signature "
-#| "of the 5.4 release:"
 msgid ""
 "The verification can be performed using the :pypi:`sigstore package "
 "<sigstore>`. The following example verifies the wheel from the 5.4 release; "
 "adjust the version and filenames for the release you are checking:"
 msgstr ""
-"Die Verifizierung kann mit dem `Sigstore-Paket <https://pypi.org/project/"
-"sigstore/>`_ durchgeführt werden. Das folgende Beispiel verifiziert die "
-"Signatur der Version 5.4:"
+"Die Überprüfung kann mithilfe des :pypi:`Sigstore-Pakets <sigstore>` "
+"durchgeführt werden. Das folgende Beispiel überprüft das Wheel aus der "
+"Version 5.4; passen Sie die Versionsangabe und die Dateinamen an die von "
+"Ihnen zu überprüfende Version an:"
 
 #: security/release-artifacts.rst:154
-#, fuzzy
-#| msgid "Reused translation"
 msgid "Release attestations"
-msgstr "Wiederverwendete Übersetzung"
+msgstr "Veröffentlichungsnachweise"
 
 #: security/release-artifacts.rst:156
 msgid ""
 "The release workflow creates two kinds of `GitHub artifact attestations`_ "
 "for the package archives:"
 msgstr ""
+"Der Veröffentlichungsablauf erstellt zwei Arten von `GitHub-Artefakt-"
+"Nachweisen`_ für die Paketarchive:"
 
 #: security/release-artifacts.rst:159
 msgid ""
 "Build provenance attestations generated by :file:`.github/workflows/"
 "setup.yml` using :program:`actions/attest-build-provenance`."
 msgstr ""
+"Erstellen Sie Herkunftsnachweise, die von :file:`.github/workflows/"
+"setup.yml` mithilfe von :program:`actions/attest-build-provenance` generiert "
+"werden."
 
 #: security/release-artifacts.rst:162
 msgid ""
 "SBOM attestations generated by :file:`.github/workflows/setup.yml` "
 "using :program:`actions/attest` with the CycloneDX release SBOM."
 msgstr ""
+"SBOM-Nachweise, die über :file:`.github/workflows/setup.yml` mithilfe von "
+":program:`actions/attest` und CycloneDX-Release-SBOM generiert wurden."
 
 #: security/release-artifacts.rst:165
 msgid ""
 "The attestations can be verified using :program:`gh`. The following example "
 "checks the build provenance attestation for the 5.4 wheel:"
 msgstr ""
+"Die Nachweise können mit :program:`gh` überprüft werden. Das folgende "
+"Beispiel überprüft den Build-Herkunftsnachweis für das 5.4-Wheel:"
 
 #: security/release-artifacts.rst:175
 msgid ""
 "Use the CycloneDX predicate type to verify the SBOM attestation attached to "
 "the same package artifact:"
 msgstr ""
+"Verwenden Sie den CycloneDX-Prädikatstyp, um den demselben Paket-Artefakt "
+"beigefügten SBOM-Nachweis zu überprüfen:"
 
 #: security/release-artifacts.rst:187
 msgid "SBOM and checksums"
-msgstr ""
+msgstr "SBOM und Prüfsummen"
 
 #: security/release-artifacts.rst:189
 msgid ""
@@ -53854,10 +53859,8 @@ msgid ""
 msgstr ""
 
 #: security/release-artifacts.rst:198
-#, fuzzy
-#| msgid "Other services"
 msgid "Other release channels"
-msgstr "Andere Dienste"
+msgstr "Andere Veröffentlichungskanäle"
 
 #: security/release-artifacts.rst:200
 msgid ""
@@ -53870,7 +53873,7 @@ msgstr ""
 
 #: security/releases.rst:2
 msgid "Releases and supported versions"
-msgstr ""
+msgstr "Veröffentlichungen und unterstützte Versionen"
 
 #: security/releases.rst:4
 msgid ""
@@ -53880,6 +53883,13 @@ msgid ""
 "published release artifacts, SBOMs, signatures, and provenance attestations, "
 "see :doc:`release-artifacts`."
 msgstr ""
+"Auf dieser Seite werden die Richtlinien zu öffentlichen Veröffentlichungen, "
+"Sicherheitsupdates und Upgrades für Weblate zusammengefasst. Informationen "
+"zu den Veröffentlichungsschritten für Betreuer finden Sie unter :doc:`/"
+"contributing/release`. Informationen zu Upgrade-Befehlen finden Sie unter "
+":doc:`/admin/upgrade`. Informationen zu veröffentlichten Release-Artefakten, "
+"SBOMs, Signaturen und Herkunftsnachweisen finden Sie unter :doc:`release-"
+"artifacts`."
 
 #: security/releases.rst:15
 msgid ""
@@ -53889,6 +53899,13 @@ msgid ""
 "be ``0``, for example ``2026.5``. Patch releases use the full version "
 "number, for example ``2026.5.1``."
 msgstr ""
+"Weblate verwendet eine kalenderbasierte Versionierung mit monatlichen "
+"Veröffentlichungen. Das Versionsformat lautet ``<YEAR>.<MONTH>.<PATCH>``, "
+"wobei der Monat numerisch angegeben wird und nicht mit Nullen aufgefüllt "
+"wird. Der ``<PATCH>``-Teil wird bei der ersten Veröffentlichung eines Monats "
+"weggelassen; in diesem Fall würde die Version beispielsweise ``0`` lauten, "
+"also ``2026.5``. Bei Patch-Veröffentlichungen wird die vollständige "
+"Versionsnummer verwendet, zum Beispiel ``2026.5.1``."
 
 #: security/releases.rst:21
 msgid ""
@@ -53896,6 +53913,10 @@ msgid ""
 "releases include bug fixes, security fixes, and dependency updates which "
 "should not wait for the next monthly release."
 msgstr ""
+"Monatliche Veröffentlichungen erfolgen normalerweise am Monatsanfang. Patch-"
+"Veröffentlichungen enthalten Fehlerbehebungen, Sicherheitsupdates und "
+"Aktualisierungen von Abhängigkeiten, die nicht bis zur nächsten monatlichen "
+"Veröffentlichung warten sollten."
 
 #: security/releases.rst:25
 #, fuzzy
@@ -53945,97 +53966,75 @@ msgid ""
 msgstr ""
 
 #: security/releases.rst:46
-#, fuzzy
-#| msgid "Subversion"
 msgid "Version"
-msgstr "Subversion"
+msgstr "Version"
 
 #: security/releases.rst:47
-#, fuzzy
-#| msgid "Security updates"
 msgid "Security update coverage"
-msgstr "Sicherheitsupdates"
+msgstr "Umfang der Sicherheitsupdates"
 
 #: security/releases.rst:48
-#, fuzzy
-#| msgid "Only the latest release is guaranteed to receive security updates."
 msgid "End of guaranteed security updates"
-msgstr ""
-"Nur bei der neuesten Version ist gewährleistet, dass sie Sicherheitsupdates "
-"erhält."
+msgstr "Ende der garantierten Sicherheitsupdates"
 
 #: security/releases.rst:49
 msgid "Direct upgrade support"
-msgstr ""
+msgstr "Unterstützung für direkte Upgrades"
 
 #: security/releases.rst:50
-#, fuzzy
-#| msgid "Weblate stable release"
 msgid "Latest Weblate release"
-msgstr "Stabile Weblate-Version"
+msgstr "Neueste Weblate-Version"
 
 #: security/releases.rst:51
 msgid "Guaranteed."
-msgstr ""
+msgstr "Sichergestellt."
 
 #: security/releases.rst:52
 msgid ""
 "When the next Weblate release is published, normally the following month."
 msgstr ""
+"Wenn die nächste Weblate-Version veröffentlicht wird, normalerweise im "
+"folgenden Monat."
 
 #: security/releases.rst:54
-#, fuzzy
-#| msgid "Support"
 msgid "Supported."
-msgstr "Unterstützung"
+msgstr "Unterstützt."
 
 #: security/releases.rst:55
 msgid "Older releases from the current or previous calendar year"
-msgstr ""
+msgstr "Ältere Versionen aus dem aktuellen oder vorherigen Kalenderjahr"
 
 #: security/releases.rst:56
-#, fuzzy
-#| msgid "Only the latest release is guaranteed to receive security updates."
 msgid ""
 "Not guaranteed. Upgrade to the latest release to receive guaranteed security "
 "updates."
 msgstr ""
-"Nur bei der neuesten Version ist gewährleistet, dass sie Sicherheitsupdates "
-"erhält."
+"Nicht sichergestellt. Ein Upgrade auf die neueste Version durchführen, um "
+"garantiert Sicherheitsupdates zu erhalten."
 
 #: security/releases.rst:58 security/releases.rst:62
 msgid "Ended when a newer Weblate release was published."
-msgstr ""
+msgstr "Endet, sobald eine neuere Version von Weblate veröffentlicht wurde."
 
 #: security/releases.rst:59
 msgid "Direct upgrades are supported."
-msgstr ""
+msgstr "Direkte Upgrades werden unterstützt."
 
 #: security/releases.rst:60
-#, fuzzy
-#| msgid "Initial release."
 msgid "Older releases"
-msgstr "Erstveröffentlichung."
+msgstr "Ältere Versionen"
 
 #: security/releases.rst:61
-#, fuzzy
-#| msgid "Not used."
 msgid "Not guaranteed."
-msgstr "Nicht verwendet."
+msgstr "Nicht sichergestellt."
 
 #: security/releases.rst:63
-#, fuzzy
-#| msgid ""
-#| "Upgrade the configuration file by following "
-#| "either :file:`settings_example.py`, or :ref:`version-specific-"
-#| "instructions`."
 msgid ""
 "Upgrade through the intermediate versions listed in :ref:`version-specific-"
 "instructions`."
 msgstr ""
-"Die Konfigurationsdatei aktualisieren, indem Sie "
-"entweder :file:`settings_example.py`, oder :ref:`version-specific-"
-"instructions` befolgen."
+"Upgrade über die unter :ref:`version-specific-instructions` aufgeführten "
+"Zwischenversionen durchführen."
 
 #: security/releases.rst:66
 msgid ""
@@ -54043,6 +54042,10 @@ msgid ""
 "calendar year. The first release in a new year drops direct upgrade support "
 "for releases from the year before the previous year."
 msgstr ""
+"Direkte Upgrades werden von Versionen des aktuellen oder vorherigen "
+"Kalenderjahres unterstützt. Mit der ersten Version eines neuen Jahres wird "
+"die Unterstützung für direkte Upgrades von Versionen aus dem vorletzten Jahr "
+"eingestellt."
 
 #: security/threat-model.rst:2
 msgid "Weblate threat model"
@@ -56819,13 +56822,11 @@ msgstr ""
 
 #: snippets/addon-parameters-autogenerated.rst:245
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: snippets/addon-parameters-autogenerated.rst:246
-#, fuzzy
-#| msgid "API identifier"
 msgid "Identifier"
-msgstr "API-Kennung"
+msgstr "Kennung"
 
 #: snippets/addon-parameters-autogenerated.rst:250
 msgid "Resource updated"
@@ -57860,78 +57861,76 @@ msgid "Fedora Messaging"
 msgstr "Fedora Messaging"
 
 #: snippets/addons-autogenerated.rst:437
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "AMQP-Broker-Host"
+msgstr "AMQP-Broker-URL"
 
 #: snippets/addons-autogenerated.rst:437
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Der AMQP-Broker, mit dem eine Verbindung hergestellt werden soll."
+msgstr "Die AMQP-Broker-URL, mit dem eine Verbindung hergestellt werden soll."
 
 #: snippets/addons-autogenerated.rst:439
-#, fuzzy
-#| msgid "Publishing translation files"
 msgid "Publish timeout"
-msgstr "Übersetzungsdateien veröffentlichen"
+msgstr "Zeitüberschreitung für die Veröffentlichung"
 
 #: snippets/addons-autogenerated.rst:439
 msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgstr ""
+"Wie viele Sekunden auf die Zustellbestätigung des Brokers gewartet werden "
+"soll."
 
 #: snippets/addons-autogenerated.rst:441
-#, fuzzy
-#| msgid "Allowed attempts"
 msgid "Connection attempts"
-msgstr "Erlaubte Versuche"
+msgstr "Verbindungsversuche"
 
 #: snippets/addons-autogenerated.rst:441
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Wie oft ein Verbindungsaufbau zum Broker versucht werden soll."
 
 #: snippets/addons-autogenerated.rst:443
 msgid "Retry delay"
-msgstr ""
+msgstr "Wiederholungsverzögerung"
 
 #: snippets/addons-autogenerated.rst:443
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
+"Wie viele Sekunden zwischen den Verbindungsversuchen gewartet werden soll."
 
 #: snippets/addons-autogenerated.rst:445
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "CA-Zertifikate"
+msgstr "CA-Zertifikatsbündel (PEM)"
 
 #: snippets/addons-autogenerated.rst:445
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Fügen Sie nur PEM-Zertifikatsblöcke ein, die jeweils mit „-----BEGIN "
+"CERTIFICATE-----“ beginnen und mit „-----END CERTIFICATE-----“ enden."
 
 #: snippets/addons-autogenerated.rst:447
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Privater Client-Schlüssel (PEM)"
 
 #: snippets/addons-autogenerated.rst:447
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Fügen Sie einen einzelnen, unverschlüsselten PEM-Block für einen privaten "
+"Schlüssel ein. Verschlüsselte private Schlüssel werden nicht unterstützt."
 
 #: snippets/addons-autogenerated.rst:449
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Client-SSL-Zertifikate"
+msgstr "Client-Zertifikat (PEM)"
 
 #: snippets/addons-autogenerated.rst:449
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Fügen Sie nur den PEM-Zertifikatsblock ein, der mit „-----BEGIN "
+"CERTIFICATE-----“ beginnt; fügen Sie nicht die Ausgabe von „openssl x509 -"
+"text“ ein."
 
 #: snippets/addons-autogenerated.rst:451 snippets/addons-autogenerated.rst:1627
 #: snippets/addons-autogenerated.rst:1667
@@ -59927,10 +59926,8 @@ msgid "Enables the :ref:`check-regex` quality check."
 msgstr "Aktiviert die Qualitätsprüfung :ref:`check-regex`."
 
 #: snippets/check-flags-autogenerated.rst:136
-#, fuzzy
-#| msgid "Enables the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-safe-mdx` quality check."
-msgstr "Aktiviert die Qualitätsprüfung :ref:`check-safe-html`."
+msgstr "Aktiviert die Qualitätsprüfung :ref:`check-safe-mdx`."
 
 #: snippets/check-flags-autogenerated.rst:138
 msgid "Enables the :ref:`check-safe-html` quality check."
@@ -59966,10 +59963,8 @@ msgid "Ignore all quality checks."
 msgstr "Ignoriert alle Qualitätsprüfungen."
 
 #: snippets/check-flags-autogenerated.rst:159
-#, fuzzy
-#| msgid "Skip the :ref:`check-placeholders` quality check."
 msgid "Skip the :ref:`check-accelerator` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-placeholders`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-accelerator`."
 
 #: snippets/check-flags-autogenerated.rst:161
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -60219,10 +60214,8 @@ msgid "Skip the :ref:`check-reused` quality check."
 msgstr "Überspringt die Qualitätsprüfung :ref:`check-reused`."
 
 #: snippets/check-flags-autogenerated.rst:283
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid "Skip the :ref:`check-safe-mdx` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-safe-html`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-safe-mdx`."
 
 #: snippets/check-flags-autogenerated.rst:285
 msgid "Skip the :ref:`check-same-plurals` quality check."
@@ -60299,10 +60292,8 @@ msgid "Skip the :ref:`check-unnamed-format` quality check."
 msgstr "Überspringt die Qualitätsprüfung :ref:`check-unnamed-format`."
 
 #: snippets/check-flags-autogenerated.rst:321
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-length` quality check."
 msgid "Skip the :ref:`check-source-max-length` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-max-length`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-source-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:323
 msgid "Skip the :ref:`check-optional-plural` quality check."
@@ -60322,19 +60313,16 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:13
 msgid "Accelerator key"
-msgstr ""
+msgstr "Schnelltaste"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Summary"
 msgstr "Zusammenfassung"
 
 #: snippets/checks-autogenerated.rst:17
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
 msgstr ""
-"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem "
-"Doppelpunkt."
+"Ausgangs- und übersetzte Zeichenkette enthalten inkonsistente Schnelltasten."
 
 #: snippets/checks-autogenerated.rst:18 snippets/checks-autogenerated.rst:56
 #: snippets/checks-autogenerated.rst:84 snippets/checks-autogenerated.rst:111
@@ -61957,18 +61945,15 @@ msgstr ""
 "überschreiten."
 
 #: snippets/checks-autogenerated.rst:1438
-#, fuzzy
-#| msgid ""
-#| "Translation rendered text should not exceed given size. It renders the "
-#| "text with line wrapping and checks if it fits into given boundaries."
 msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "and checks if it fits into given boundaries. Word wrapping is applied when "
 "more than one line is configured."
 msgstr ""
 "Der übersetzte, gerenderte Text sollte die vorgegebene Größe nicht "
-"überschreiten. Es wird der Text mit Zeilenumbruch gerendert und überprüft, "
-"ob er innerhalb der vorgegebenen Grenzen liegt."
+"überschreiten. Es wird der Text gerendert und überprüft, ob er innerhalb der "
+"vorgegebenen Grenzen liegt. Wortumbruch wird angewendet, wenn mehr als eine "
+"Zeile konfiguriert ist."
 
 #: snippets/checks-autogenerated.rst:1442
 msgid ""
@@ -63146,6 +63131,8 @@ msgstr "Länge der Ausgangszeichenkette"
 #: snippets/checks-autogenerated.rst:2584
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Die Ausgangszeichenkette ist zu lang, um die konfigurierte maximale Länge "
+"einzuhalten."
 
 #: snippets/checks-autogenerated.rst:2593
 msgid ""
@@ -63323,7 +63310,7 @@ msgstr ""
 
 #: snippets/file-format-parameters.rst:17
 msgid "Escape spreadsheet formulas"
-msgstr ""
+msgstr "Tabellenkalkulationsformeln maskieren"
 
 #: snippets/file-format-parameters.rst:17
 msgid ""
@@ -63485,10 +63472,8 @@ msgid "md_frontmatter_translate_values"
 msgstr ""
 
 #: snippets/file-format-parameters.rst:105
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translate front matter values"
-msgstr "Übersetzungsspeicherstatus"
+msgstr "Front-Matter-Werte übersetzen"
 
 #: snippets/file-format-parameters.rst:105
 msgid ""
@@ -64483,10 +64468,8 @@ msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
 msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
 
 #: snippets/format-features/mdx-features.rst:28
-#, fuzzy
-#| msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
-msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
+msgstr "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -64551,10 +64534,8 @@ msgstr ""
 "betrieben werden, wie beispielsweise Hosted Weblate und Weblate Cloud."
 
 #: snippets/hosted-legal-documents.rst:6
-#, fuzzy
-#| msgid "`General terms and conditions`_"
 msgid "`General terms and conditions <https://weblate.org/terms/>`__"
-msgstr "`Allgemeine Geschäftsbedingungen`_"
+msgstr "`Allgemeine Geschäftsbedingungen <https://weblate.org/terms/>`__"
 
 #: snippets/hosted-legal-documents.rst:7
 #, fuzzy
@@ -64563,14 +64544,12 @@ msgid "`Privacy policy <https://weblate.org/privacy/>`__"
 msgstr "Das Kundenbetreuungsportal ` <https://care.weblate.org/>`_"
 
 #: snippets/hosted-legal-documents.rst:8
-#, fuzzy
-#| msgid ""
-#| "The data processing agreement can be obtained in the `Customer area`_."
 msgid ""
 "The data processing agreement can be obtained in the `Customer area <https://"
 "weblate.org/user/>`__."
 msgstr ""
-"Der Auftragsverarbeitungsvertrag kann im `Kundenbereich`_ eingesehen werden."
+"Der Auftragsverarbeitungsvertrag kann im `Kundenbereich <https://weblate.org/"
+"user/>`__ eingesehen werden."
 
 #: snippets/linked-repository-setting.rst:1
 msgid ""
@@ -65064,19 +65043,13 @@ msgstr ""
 "maschinelle Übersetzungen bevorzugen."
 
 #: snippets/machines-autogenerated.rst:342
-#, fuzzy
-#| msgid ""
-#| "DeepL is paid service providing good machine translation for a few "
-#| "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
-#| "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgid ""
 "DeepL is paid service providing good machine translation for a few "
 "languages. You need to purchase :guilabel:`DeepL API` subscription."
 msgstr ""
 "DeepL ist ein kostenpflichtiger Dienst, der eine gute maschinelle "
 "Übersetzung für einige Sprachen bietet. Sie müssen ein :guilabel:`DeepL API`-"
-"Abonnement erwerben oder Sie können den alten :guilabel:`DeepL Pro "
-"(classic)`-Plan verwenden."
+"Abonnement erwerben."
 
 #: snippets/machines-autogenerated.rst:345
 msgid ""
@@ -67365,10 +67338,8 @@ msgstr ""
 "Informationen."
 
 #: user/glossary.rst:24
-#, fuzzy
-#| msgid "Improved glossary matching."
 msgid "How glossary matching works"
-msgstr "Verbesserter Abgleich von Glossaren."
+msgstr "So funktioniert der Glossarabgleich"
 
 #: user/glossary.rst:26
 msgid ""
@@ -69351,10 +69322,8 @@ msgstr ""
 "löschen (🗑) können."
 
 #: user/translating.rst:150
-#, fuzzy
-#| msgid "Translation states"
 msgid "Translating special text safely"
-msgstr "Übersetzungsstatus"
+msgstr "Spezielle Texte sicher übersetzen"
 
 #: user/translating.rst:152
 msgid ""
@@ -69362,12 +69331,14 @@ msgid ""
 "Translate the human-readable parts, but keep technical markers intact unless "
 "the project instructions say otherwise."
 msgstr ""
+"Einige Ausgangszeichenketten enthalten Text, den die Anwendung zur Laufzeit "
+"auswertet. Übersetzen Sie die für Menschen lesbaren Teile, lassen Sie "
+"technische Markierungen jedoch unverändert, sofern in den Projektanweisungen "
+"nichts anderes angegeben ist."
 
 #: user/translating.rst:156
-#, fuzzy
-#| msgid "Simple format string"
 msgid "Placeholders and format strings"
-msgstr "Einfache Formatzeichenkette"
+msgstr "Platzhalter und Formatzeichenketten"
 
 #: user/translating.rst:157
 msgid ""
@@ -69378,12 +69349,17 @@ msgid ""
 "language. Use the placeable copy shortcuts to insert them without typing "
 "mistakes."
 msgstr ""
+"Behalten Sie Variablen wie ``%s``, ``%1$d``, ``%(name)s``, ``{count}``, ``{{ "
+"value }}`` oder ähnliche Markierungen in der Übersetzung bei. Benannte "
+"Platzhalter beschreiben den eingefügten Wert, die Namen selbst werden jedoch "
+"nicht übersetzt. In der Regel können Sie nummerierte oder benannte "
+"Platzhalter neu anordnen, um sie an die Zielsprache anzupassen. Verwenden "
+"Sie die Tastaturkürzel zum Kopieren der Platzhalter, um sie ohne Tippfehler "
+"einzufügen."
 
 #: user/translating.rst:163
-#, fuzzy
-#| msgid "XML markup"
 msgid "Markup"
-msgstr "XML-Auszeichnung"
+msgstr "Auszeichnung"
 
 #: user/translating.rst:164
 msgid ""
@@ -69393,12 +69369,16 @@ msgid ""
 "the translatable string. Make sure opening and closing tags still match "
 "after reordering the sentence."
 msgstr ""
+"Behalten Sie HTML- und XML-Tags, Tag-Namen und Attributnamen unverändert "
+"bei. Übersetzen Sie den sichtbaren Text zwischen den Tags sowie alle "
+"Attributwerte, die für Benutzer bestimmt sind, beispielsweise Alternativtext "
+"oder einen Tooltip, sofern diese als Teil der zu übersetzenden Zeichenkette "
+"erscheinen. Achten Sie darauf, dass die öffnenden und schließenden Tags auch "
+"nach der Umstellung der Satzreihenfolge noch übereinstimmen."
 
 #: user/translating.rst:169
-#, fuzzy
-#| msgid "Markdown syntax"
 msgid "Program syntax"
-msgstr "Markdown-Syntax"
+msgstr "Programmsyntax"
 
 #: user/translating.rst:170
 msgid ""
@@ -69406,12 +69386,14 @@ msgid ""
 "functions, SQL keywords, and similar program syntax untranslated unless the "
 "project explicitly documents a localized form."
 msgstr ""
+"Funktionsnamen, Befehle, Umgebungsvariablen, Tabellenkalkulationsfunktionen, "
+"SQL-Schlüsselwörter und ähnliche Programmsyntax sollten nicht übersetzt "
+"werden, es sei denn, im Projekt wird ausdrücklich eine lokalisierte Form "
+"angegeben."
 
 #: user/translating.rst:173
-#, fuzzy
-#| msgid "Punctuation spacing"
 msgid "Punctuation and whitespace"
-msgstr "Interpunktionszeichenabstand"
+msgstr "Interpunktion und Leerzeichen"
 
 #: user/translating.rst:174
 msgid ""
@@ -69420,12 +69402,17 @@ msgid ""
 "placeholders. Follow the target language's typography when it differs from "
 "the source, and use comments when a source punctuation choice looks wrong."
 msgstr ""
+"Behalten Sie Satzzeichen und Leerzeichen bei, die sich auf die "
+"Bedienoberfläche auswirken, wie z. B. Doppelpunkte am Ende, "
+"Auslassungspunkte, führende oder nachgestellte Leerzeichen sowie Satzzeichen "
+"neben Platzhaltern. Halten Sie sich an die typografischen Konventionen der "
+"Zielsprache, wenn diese von denen der Ausgangssprache abweichen, und fügen "
+"Sie Kommentare hinzu, wenn die Wahl der Satzzeichen in der Ausgangssprache "
+"nicht korrekt zu sein scheint."
 
 #: user/translating.rst:179
-#, fuzzy
-#| msgid "Field operators"
 msgid "Accelerators"
-msgstr "Feld-Operatoren"
+msgstr "Schnelltasten"
 
 #: user/translating.rst:180
 msgid ""
@@ -69434,12 +69421,15 @@ msgid ""
 "translation. Choose a readable key in the translated label and avoid obvious "
 "conflicts with nearby menu items or buttons."
 msgstr ""
+"Menülabels können Tastaturkürzel mit Zeichen wie ``&``, ``_`` oder ``~`` "
+"kennzeichnen. Wenn die Ausgangssprache eine Schnelltaste enthält, behalten "
+"Sie diese in der Übersetzung bei. Wählen Sie für das übersetzte Label eine "
+"gut lesbare Taste und vermeiden Sie offensichtliche Konflikte mit "
+"benachbarten Menüelementen oder Schaltflächen."
 
 #: user/translating.rst:184
-#, fuzzy
-#| msgid "Plural formula"
 msgid "Plural forms"
-msgstr "Pluralformel"
+msgstr "Pluralformen"
 
 #: user/translating.rst:185
 msgid ""
@@ -69448,6 +69438,12 @@ msgid ""
 "target language and project. If the source string uses an ambiguous plural, "
 "report it with a source string comment or review."
 msgstr ""
+"Übersetzen Sie jede Pluralform, die Weblate anzeigt. Fassen Sie Formen nicht "
+"zu einer einzigen Konstruktion wie ``Datei(en)`` zusammen, es sei denn, dies "
+"ist für die Zielsprache und das Projekt korrekt. Wenn die "
+"Ausgangszeichenkette einen mehrdeutigen Plural verwendet, weisen Sie darauf "
+"in einem Kommentar zur Ausgangszeichenkette mit oder markieren Sie diese als "
+"bearbeitungsbedürftig."
 
 #: user/translating.rst:190
 msgid ""
@@ -69456,6 +69452,11 @@ msgid ""
 "translator judgment, so use :ref:`source-context`, :doc:`/user/glossary`, "
 "and :ref:`user-comments` when the source text needs clarification."
 msgstr ""
+"Die Qualitätsprüfungen von Weblate erkennen viele technische Fehler in "
+"Platzhaltern, Auszeichnung, Zeichensetzung, Leerzeichen und Pluralformen. "
+"Sie ersetzen jedoch nicht das Urteilsvermögen des Übersetzers. Nutzen Sie "
+"daher :ref:`source-context`, :doc:`/user/glossary` und :ref:`user-comments`, "
+"wenn der Quelltext einer Klärung bedarf."
 
 #: user/translating.rst:205
 msgid "Plurals"

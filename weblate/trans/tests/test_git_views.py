@@ -12,6 +12,7 @@ from django.urls import reverse
 
 from weblate.trans.models import Component, PendingUnitChange
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import get_optional_path
 
 
 class GitNoChangeProjectTest(ViewTestCase):
@@ -159,6 +160,31 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
     """Testing of translation git manipulations."""
 
     TEST_TYPE = "translation"
+
+    def test_status_shows_remove_obsolete_units(self) -> None:
+        cleanup_url = reverse(
+            "remove_obsolete_units", kwargs={"path": self.translation.get_url_path()}
+        )
+
+        response = self.client.get(self.get_test_url("git_status"))
+
+        self.assertContains(response, "File management")
+        self.assertContains(response, cleanup_url)
+        self.assertContains(response, "Remove obsolete")
+
+    def test_remove_obsolete_units(self) -> None:
+        translation_file = get_optional_path(self.translation.get_filename())
+        translation_file.write_text(
+            translation_file.read_text(encoding="utf-8")
+            + '\n#~ msgid "Obsolete string"\n#~ msgstr "Zastaraly retezec"\n',
+            encoding="utf-8",
+        )
+        self.translation.drop_store_cache()
+
+        response = self.client.post(self.get_test_url("remove_obsolete_units"))
+
+        self.assertRedirects(response, self.get_expected_redirect())
+        self.assertNotIn("#~ msgid", translation_file.read_text(encoding="utf-8"))
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_commit_clean_translation_does_not_queue_sibling_changes(self) -> None:

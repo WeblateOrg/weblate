@@ -27,6 +27,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
     from weblate.auth.models import User
+    from weblate.checks.base import Highlight
     from weblate.lang.models import Language
     from weblate.trans.models import Unit
 
@@ -225,7 +226,7 @@ class DeepLTranslation(
         return result
 
     def format_replacement(
-        self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
+        self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
     ) -> str:
         """Generate a single replacement."""
         return f'<x id="{h_start}"></x>'

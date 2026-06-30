@@ -221,6 +221,58 @@
     </div>
   {% endif %}
 
+  {% if user_can_reset_translation and file_management %}
+    <div class="card">
+      <div class="card-header text-bg-danger">
+        <h4 class="card-title">
+          {% documentation_icon 'admin/continuous' 'repository-maintenance' right=True %}
+          {% translate "File management" %}
+        </h4>
+      </div>
+      <ul class="list-group">
+        {% if supports_remove_duplicate_units %}
+          <li class="list-group-item">
+            <a href="#"
+               class="float-end link-post btn btn-danger"
+               data-href="{% url "remove_duplicate_units" path=object.get_url_path %}">{% translate "Remove duplicates" %}</a>
+            <h6 class="mb-1 fw-bold">{% translate "Remove duplicated strings from the translation file" %}</h6>
+            <p class="mb-0">
+              {% translate "Removes repeated strings with the same identifier from the translation file." %}
+              {% translate "Use when the translation file contains duplicate strings that are not present in Weblate." %}
+            </p>
+          </li>
+        {% endif %}
+        {% if supports_cleanup_unused %}
+          <li class="list-group-item">
+            <a href="#"
+               class="float-end link-post btn btn-danger"
+               data-href="{% url "cleanup_unused" path=object.get_url_path %}">{% translate "Cleanup unused" %}</a>
+            <h6 class="mb-1 fw-bold">{% translate "Remove unused strings from the translation file" %}</h6>
+            <p class="mb-0">
+              {% translate "Removes strings that are no longer present in the base file." %}
+              {% translate "The cleanup translation files add-on can perform this automatically." %}
+            </p>
+          </li>
+        {% endif %}
+        {% if supports_remove_obsolete_units %}
+          <li class="list-group-item">
+            <a href="#"
+               class="float-end link-post btn btn-danger"
+               data-href="{% url "remove_obsolete_units" path=object.get_url_path %}">{% translate "Remove obsolete" %}</a>
+            <h6 class="mb-1 fw-bold">{% translate "Remove obsolete strings from the translation file" %}</h6>
+            <p class="mb-0">
+              {% translate "Removes obsolete strings from PO files." %}
+              {% translate "Use when obsolete entries should be pruned without enabling automatic removal on save." %}
+            </p>
+          </li>
+        {% endif %}
+      </ul>
+      <div class="card-footer">
+        <small>{% translate "Use these operations with caution, they rewrite the translation file." %}</small>
+      </div>
+    </div>
+  {% endif %}
+
   {% for component in repositories %}
     <div class="card">
       <div class="card-header">

@@ -104,6 +104,10 @@ class GitCredentials(TypedDict):
     workspace: NotRequired[str]
     organization: NotRequired[str]
     workItemIds: NotRequired[list[str]]
+    # Set on GitHub-App-resolved credentials. Signals that the token has
+    # write access to the source repo directly, so the fork workflow should
+    # be skipped (Apps can't fork anyway).
+    github_app: NotRequired[bool]
 
 
 class GitAPIRequestError(RepositoryError):
@@ -344,8 +348,7 @@ class GitRepository(Repository):
             yield "--depth"
             yield str(settings.VCS_CLONE_DEPTH)
 
-    @staticmethod
-    def _get_auth_args(repo: str) -> Iterator[str]:
+    def _get_auth_args(self, repo: str) -> Iterator[str]:
         if repo.startswith("https://"):
             parsed = urlparse(repo)
             if parsed.password:
@@ -474,15 +477,14 @@ class GitRepository(Repository):
             ),
         )
 
-    @classmethod
-    def _clone(cls, source: str, target: str, branch: str) -> None:
+    def _clone(self, source: str, target: str, branch: str) -> None:
         """Clone repository."""
-        branch = cls.validate_branch_name(branch)
-        cls._popen(
+        branch = self.validate_branch_name(branch)
+        self._popen(
             [
-                *cls._get_auth_args(source),
+                *self._get_auth_args(source),
                 "clone",
-                *cls.get_depth(),
+                *self.get_depth(),
                 "--branch",
                 branch,
                 "--",
@@ -988,7 +990,10 @@ class GitRepository(Repository):
             if branch
             else current_branch
         )
-        self.execute([*self._cmd_push, "origin", refspec], remote_op="push")
+        self.execute(
+            [*self.get_auth_args(), *self._cmd_push, "origin", refspec],
+            remote_op="push",
+        )
 
     def unshallow(self) -> None:
         self.execute([*self.get_auth_args(), "fetch", "--unshallow"], remote_op="pull")
@@ -1237,19 +1242,17 @@ class SubversionRepository(GitRepository):
             self.execute(["svn", "fetch", "--parent"], remote_op="pull")
         self.clean_revision_cache()
 
-    @classmethod
     def _clone(
-        cls,
+        self,
         source: str,
         target: str,
-        # ruff: ignore[unused-class-method-argument]
         branch: str,
     ) -> None:
         """Clone svn repository with git-svn."""
-        args, revision = cls.get_remote_args(source, target)
+        args, revision = self.get_remote_args(source, target)
         if revision:
             args.insert(0, revision)
-        cls._popen(["svn", "clone", *args])
+        self._popen(["svn", "clone", *args])
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
@@ -1509,12 +1512,13 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         # Credentials from URL
         push_scheme = scheme
-        if not username or not password:
+        using_configured_credentials = not username or not password
+        if using_configured_credentials:
             push_scheme = "ssh"
             username = credentials["username"]
             password = credentials["token"]
 
-        return {
+        result: GitCredentials = {
             "url": self.format_url(scheme, hostname, owner, slug),
             "owner": owner,
             "slug": slug,
@@ -1524,6 +1528,9 @@ class GitMergeRequestBase(GitForcePushRepository):
             "scheme": scheme,
             "push_scheme": push_scheme,
         }
+        if using_configured_credentials and credentials.get("github_app"):
+            result["github_app"] = True
+        return result
 
     def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
         configuration = self.get_credentials_configuration()
@@ -2610,18 +2617,15 @@ class LocalRepository(GitRepository):
         cls._popen(["add", "README.md"], cwd=path)
         cls._popen(["commit", "--message", "Repository created by Weblate"], cwd=path)
 
-    @classmethod
     def _clone(
-        cls,
-        # ruff: ignore[unused-class-method-argument]
+        self,
         source: str,
         target: str,
-        # ruff: ignore[unused-class-method-argument]
         branch: str,
     ) -> None:
         if not os.path.exists(target):
             os.makedirs(target)
-        cls.create_blank_repository(target)
+        self.create_blank_repository(target)
 
     def clone_from(self, source: str) -> None:
         """Create the local repository without validating an upstream URL."""
@@ -2639,7 +2643,7 @@ class LocalRepository(GitRepository):
             # Create empty repo
             if os.path.exists(target):
                 remove_tree(target)
-            cls._clone("local:", target, cls.default_branch)
+            repo.clone_from("local:")
             # Populate files
             success = False
             try:

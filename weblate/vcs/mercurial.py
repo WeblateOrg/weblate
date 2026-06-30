@@ -86,10 +86,9 @@ class HgRepository(Repository):
         """Check VCS configuration."""
         self.set_config_values(("ui", "ssh", SSH_WRAPPER.filename.as_posix()))
 
-    @classmethod
-    def _clone(cls, source: str, target: str, branch: str) -> None:
+    def _clone(self, source: str, target: str, branch: str) -> None:
         """Clone repository."""
-        cls._popen(["clone", f"--branch={branch}", "--", source, target])
+        self._popen(["clone", f"--branch={branch}", "--", source, target])
 
     def get_config(self, section: str, option: str) -> str | None:
         """Read entry from configuration."""

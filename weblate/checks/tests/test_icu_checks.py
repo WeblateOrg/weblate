@@ -265,7 +265,10 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         )
 
         self.assertListEqual(
-            highlights,
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
             [
                 (14, 22, "{na<>me}"),
             ],
@@ -386,7 +389,10 @@ class ICUXMLFormatCheckTest(ICUMessageFormatCheckTest):
         )
 
         self.assertListEqual(
-            highlights,
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
             [
                 (14, 22, "{na<>me}"),
             ],
