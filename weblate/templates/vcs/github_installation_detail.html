@@ -58,7 +58,7 @@
         </dd>
         <dt class="col-sm-3">{% translate "Workspace" %}</dt>
         <dd class="col-sm-9">
-          {{ installation.workspace }}
+          <a href="{{ installation.workspace.get_absolute_url }}">{{ installation.workspace }}</a>
         </dd>
         <dt class="col-sm-3">{% translate "Hostname" %}</dt>
         <dd class="col-sm-9">

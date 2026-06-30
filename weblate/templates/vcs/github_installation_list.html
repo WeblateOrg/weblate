@@ -152,7 +152,7 @@
                     <strong>{{ installation.target_login }}</strong>
                     <small class="text-body-secondary">({{ installation.target_type }})</small>
                   </td>
-                  <td>{{ installation.workspace }}</td>
+                  <td><a href="{{ installation.workspace.get_absolute_url }}">{{ installation.workspace }}</a></td>
                   <td>{{ installation.installation_id }}</td>
                   <td>{{ installation.repositories|length }}</td>
                   <td>
