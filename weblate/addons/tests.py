@@ -8550,6 +8550,52 @@ class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
         self.do_translation_added_test(response_code=410, body=b"channel_is_archived")
 
 
+class FedoraMessagingPEMBlockTest(SimpleTestCase):
+    @staticmethod
+    def get_certificate() -> str:
+        return Path("weblate/trans/tests/data/saml.crt").read_text(encoding="utf-8")
+
+    @staticmethod
+    def get_private_key() -> str:
+        return Path("weblate/trans/tests/data/saml.key").read_text(encoding="utf-8")
+
+    def test_pem_block_labels_accept_multiple_blocks(self) -> None:
+        cert = self.get_certificate()
+
+        labels = FedoraMessagingAddon._get_pem_block_labels(  # noqa: SLF001
+            f"{cert}\n{cert}"
+        )
+
+        self.assertEqual(labels, ["CERTIFICATE", "CERTIFICATE"])
+
+    def test_pem_block_labels_reject_malformed_delimiter_input(self) -> None:
+        value = "-----BEGIN CERTIFICATE-----\n" + "\n".join(
+            "-----END PRIVATE KEY-----" for _ in range(100)
+        )
+
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # noqa: SLF001
+
+        self.assertEqual(labels, [])
+
+    def test_pem_block_labels_include_blocks_after_trailing_whitespace_end(
+        self,
+    ) -> None:
+        cert = self.get_certificate()
+        key = self.get_private_key()
+        value = (
+            cert.replace("-----END CERTIFICATE-----", "-----END CERTIFICATE-----   ", 1)
+            + f"\n{key}\n{cert}"
+        )
+
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # noqa: SLF001
+
+        self.assertEqual(labels, ["CERTIFICATE", "PRIVATE KEY", "CERTIFICATE"])
+        with self.assertRaisesMessage(ConfigurationException, "invalid certificate"):
+            FedoraMessagingAddon._validate_pem_certificates(  # noqa: SLF001
+                value, "invalid certificate"
+            )
+
+
 class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = FedoraMessagingAddon
     # Not really used
