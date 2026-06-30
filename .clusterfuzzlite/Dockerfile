@@ -45,12 +45,28 @@ COPY .clusterfuzzlite/build.sh $SRC/build.sh
 
 RUN ./ci/pip-install latest
 #
-# Reinstall lxml and xmlsec from the locked manylinux wheels. The shared
-# installer builds them from source against system libraries, which are not
-# available in ClusterFuzzLite's bad-build runtime.
-RUN uv sync --frozen --all-extras --dev \
-    --reinstall-package lxml \
-    --reinstall-package xmlsec
+# Reinstall selected native wheels for the oldest runtime ABI used by
+# ClusterFuzzLite. Keep the platform override scoped to these packages; using it
+# with uv sync makes uv validate unrelated build-only packages for that target.
+RUN python3 - <<'PY' > /tmp/cflite-native-wheels.txt
+import tomllib
+
+with open("uv.lock", "rb") as handle:
+    versions = {
+        package["name"]: package["version"]
+        for package in tomllib.load(handle)["package"]
+    }
+
+for package in ("cryptography", "lxml", "xmlsec"):
+    print(f"{package}=={versions[package]}")
+PY
+RUN uv pip install \
+    --python .venv/bin/python \
+    --python-platform x86_64-manylinux_2_28 \
+    --reinstall \
+    --no-deps \
+    --only-binary :all: \
+    -r /tmp/cflite-native-wheels.txt
 RUN uv sync --frozen --group fuzzing --inexact
 
 CMD ["compile"]
