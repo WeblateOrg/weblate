@@ -181,7 +181,9 @@ Weblate instance to use. These must be entered before any command.
 
     Allow sending API keys over non-local ``http://`` URLs. Prefer HTTPS or
     loopback HTTP instead; this option is intended only for legacy deployments
-    where HTTPS is not available.
+    where HTTPS is not available. This option only enables insecure HTTP for
+    the current run; omitting it does not disable ``allow_insecure_http`` from
+    configuration.
 
 .. option:: --config PATH
 
@@ -376,7 +378,9 @@ customize this by :option:`--config-section`):
     this setting. Automatically discovered project configuration files cannot
     enable this option; set it in user configuration, an explicit
     :option:`--config` file, :envvar:`WLC_ALLOW_INSECURE_HTTP`, or
-    :option:`--allow-insecure-http`.
+    :option:`--allow-insecure-http`. The setting is cumulative: any trusted
+    source that enables insecure HTTP is enough, and false or unset values from
+    command-line or environment sources do not disable it.
 
 .. describe:: retries, timeout, allowed_methods, backoff_factor, status_forcelist
 
@@ -445,25 +449,28 @@ and :envvar:`WLC_KEY` is injected as a secret:
 .. envvar:: WLC_ALLOW_INSECURE_HTTP
 
    Set to ``1``, ``true``, ``yes``, or ``on`` to allow API keys over non-local
-   ``http://`` URLs. Prefer HTTPS or loopback HTTP instead.
+   ``http://`` URLs. Prefer HTTPS or loopback HTTP instead. Other values, such
+   as ``0`` or ``false``, are treated as unset and do not disable
+   ``allow_insecure_http`` from configuration.
 
 The same protection applies to command-line arguments: :option:`--key` is
 accepted with automatically discovered project configuration only when
 :option:`--url` is provided.
 
-The configuration precedence (highest to lowest) is:
+The API URL and key configuration precedence (highest to lowest) is:
 
-1. Command-line arguments (:option:`--url`, :option:`--key`,
-   :option:`--allow-insecure-http`).
-2. Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`,
-   :envvar:`WLC_ALLOW_INSECURE_HTTP`).
+1. Command-line arguments (:option:`--url`, :option:`--key`).
+2. Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`).
 3. Configuration loaded from :option:`--config`, or from the discovered global
    configuration plus the nearest project configuration when
    :option:`--config` is not used.
 
-Automatically discovered project configuration cannot enable
-``allow_insecure_http``. Set it in user configuration or pass an explicit
-:option:`--config` file instead.
+The insecure HTTP opt-in is enable-only rather than a normal precedence
+setting. It is enabled when :option:`--allow-insecure-http` is passed, when
+:envvar:`WLC_ALLOW_INSECURE_HTTP` has a true value, or when
+``allow_insecure_http`` is enabled in trusted configuration. Automatically
+discovered project configuration cannot enable it; set it in user
+configuration or pass an explicit :option:`--config` file instead.
 
 Examples
 ++++++++
