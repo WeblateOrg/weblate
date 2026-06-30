@@ -39,8 +39,9 @@ from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.files import (
     REPO_TEMP_DIRNAME,
-    is_excluded,
     is_path_within_resolved_directory,
+    is_unsafe_path,
+    is_vcs_metadata_path,
     remove_tree,
 )
 from weblate.utils.lock import WeblateLock
@@ -249,6 +250,10 @@ class RepositorySymlinkError(ValueError):
     """Raised when symlink resolution fails due to links outside the repository tree or excessive symlink depth."""
 
 
+class RepositoryRestrictedPathError(RepositorySymlinkError):
+    """Raised when a resolved repository path points to a restricted location."""
+
+
 def is_ssh_host_key_verification_error(errormessage: str) -> bool:
     """Detect SSH host key verification failures."""
     return SSH_HOST_KEY_VERIFICATION_FAILED.lower() in errormessage.lower()
@@ -436,13 +441,14 @@ class Repository:
 
         relative_path = os.path.relpath(real_path, repository_path)
 
-        if is_excluded(path_separator(relative_path)):
+        resolved_path = path_separator(relative_path)
+        if is_unsafe_path(resolved_path) or is_vcs_metadata_path(resolved_path):
             msg = "Link to a restricted location"
-            raise RepositorySymlinkError(msg)
+            raise RepositoryRestrictedPathError(msg)
 
         if relative_path == ".":
             return ""
-        return path_separator(relative_path)
+        return resolved_path
 
     @staticmethod
     def _getenv(

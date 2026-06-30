@@ -678,6 +678,40 @@ class ComponentTest(RepoTestCase):
         )
         self.verify_component(component, 4, "cs", 4)
 
+    def test_restricted_component_filename_validation_message(self) -> None:
+        component = self.create_po()
+        filename = os.path.join(component.full_path, ".git/config")
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "File path is in a restricted location in the repository.",
+        ):
+            component.check_file_is_valid(filename)
+
+    def test_excluded_component_filename_validation_allowed(self) -> None:
+        component = self.create_po()
+        filename = os.path.join(component.full_path, "dist/appstream/messages.pot")
+
+        self.assertEqual(component.check_file_is_valid(filename), filename)
+
+    def test_symlink_component_filename_validation_message(self) -> None:
+        component = self.create_po()
+        outside_path = pathlib.Path(component.full_path).with_name(
+            f"{component.slug}-outside"
+        )
+        outside_path.mkdir()
+        self.addCleanup(remove_tree, outside_path, True)
+        (outside_path / "secrets.po").write_text("TOPSECRET\n", encoding="utf-8")
+
+        link_path = pathlib.Path(component.full_path, "outside-link")
+        os.symlink(outside_path, link_path)
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "Invalid symbolic link in a repository.",
+        ):
+            component.check_file_is_valid(str(link_path / "secrets.po"))
+
     @override_settings(
         GITHUB_CREDENTIALS={
             "api.github.com": {

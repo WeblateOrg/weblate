@@ -172,6 +172,7 @@ from weblate.utils.validators import (
 )
 from weblate.vcs.base import (
     RepositoryError,
+    RepositoryRestrictedPathError,
     RepositorySymlinkError,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
@@ -6350,6 +6351,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # This might throw an exception in case of invalid link
         try:
             self.repository.resolve_symlinks(filename)
+        except RepositoryRestrictedPathError as error:
+            raise ValidationError(
+                gettext("File path is in a restricted location in the repository.")
+            ) from error
         except RepositorySymlinkError as error:
             raise ValidationError(
                 gettext("Invalid symbolic link in a repository.")
