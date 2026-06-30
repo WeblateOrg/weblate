@@ -378,6 +378,7 @@ class TestGitHubInstallationManager(TestCase):
         with (
             patch.object(GithubAppRepository, "execute", return_value="") as execute,
             patch.object(GithubAppRepository, "create_pull_request"),
+            patch.object(GithubAppRepository, "validate_pull_url"),
         ):
             repository.push("weblate-test")
 

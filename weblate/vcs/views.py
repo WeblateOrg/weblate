@@ -644,8 +644,6 @@ def _get_update_callback_next_url(request, installation: GitHubInstallation) -> 
 @login_required
 def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
-    _require_github_app_access(request)
-
     next_url = _default_next_url(request)
     installation_id = request.GET.get("installation_id", "").strip()
     installation = _get_update_callback_installation(request, installation_id)
@@ -655,6 +653,17 @@ def github_app_setup(request):
             gettext("Connected GitHub account updated."),
         )
         return redirect(_get_update_callback_next_url(request, installation))
+    if request.GET.get("setup_action") == "update":
+        messages.error(
+            request,
+            gettext(
+                "The Weblate GitHub app installation link is no longer valid. "
+                "Start the installation again."
+            ),
+        )
+        return redirect(next_url)
+
+    _require_github_app_access(request)
 
     hostname = ""
     workspace = None
