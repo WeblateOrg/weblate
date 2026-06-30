@@ -102,4 +102,4 @@ loads missing data from the API when needed.
 .. autoexception:: WLCConfigurationError
 
 .. autoclass:: WeblateConfig
-   :members: find_config, find_project_config, load, validate_url_key, get_url_key, get_request_options
+   :members: find_config, find_project_config, load, validate_url_key, get_url_key, get_request_options, get_allow_insecure_http
