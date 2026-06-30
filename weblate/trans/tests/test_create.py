@@ -89,6 +89,8 @@ class CreateTest(ViewTestCase):
         # Create one project
         self.client_create_project(False, workspace=0)
         self.client_create_project(True, workspace=billing.workspace_id)
+        billing.workspace.refresh_from_db()
+        self.assertEqual(billing.workspace.name, "Create Project")
 
         # No more billings left
         self.client_create_project(
