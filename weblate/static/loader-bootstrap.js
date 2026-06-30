@@ -1730,7 +1730,7 @@ onReady(() => {
       event.preventDefault();
       const form = this.closest("form");
       positionInputs.forEach(hide);
-      form.querySelectorAll("input[name=offset]").forEach((input) => {
+      form?.querySelectorAll("input[name=offset]").forEach((input) => {
         input.disabled = false;
       });
       positionInputEditables.forEach(show);
