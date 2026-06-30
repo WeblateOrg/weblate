@@ -48,10 +48,7 @@ from weblate.auth.models import (
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.configuration.views import CustomCSSView
 from weblate.memory.models import Memory, MemoryScopeMigrationState
-from weblate.memory.tasks import (
-    MEMORY_SCOPE_COMPACTION_STATE,
-    get_duplicate_memory_candidate_group_count,
-)
+from weblate.memory.tasks import MEMORY_SCOPE_COMPACTION_STATE
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
@@ -122,9 +119,6 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
-
-MEMORY_DUPLICATE_GROUP_COUNT_CACHE_KEY = "memory-duplicate-group-count"
-MEMORY_DUPLICATE_GROUP_COUNT_CACHE_TIMEOUT = 5 * 60
 
 
 @management_access
@@ -392,26 +386,6 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
     return render(request, "manage/backups.html", context)
 
 
-def get_memory_duplicate_group_count(total: int | None = None) -> int:
-    # TODO(2028.1): Remove this migration status helper once Weblate no longer
-    # supports direct upgrades from 2026 releases.
-    """Return translation memory duplicate group count."""
-    if total is None:
-        total = Memory.objects.count()
-    cache_key = f"{MEMORY_DUPLICATE_GROUP_COUNT_CACHE_KEY}:{total}"
-    cached = cache.get(cache_key)
-    if cached is not None:
-        return cached
-
-    count = get_duplicate_memory_candidate_group_count()
-    cache.set(
-        cache_key,
-        count,
-        MEMORY_DUPLICATE_GROUP_COUNT_CACHE_TIMEOUT,
-    )
-    return count
-
-
 def get_memory_migration_status() -> dict[str, Any]:
     # TODO(2028.1): Remove this migration status helper once Weblate no longer
     # supports direct upgrades from 2026 releases.
@@ -422,47 +396,45 @@ def get_memory_migration_status() -> dict[str, Any]:
     compaction_state = MemoryScopeMigrationState.objects.filter(
         name=MEMORY_SCOPE_COMPACTION_STATE
     ).first()
-    total = Memory.objects.count()
     max_memory_id = Memory.objects.aggregate(max_id=Max("id"))["max_id"] or 0
     last_memory_id = state.last_memory_id if state is not None else 0
     compaction_last_memory_id = (
         compaction_state.last_memory_id if compaction_state is not None else 0
     )
     needs_backfill = state is not None and not state.completed
-    if state is None and total:
+    if state is None and max_memory_id:
         needs_backfill = (
             Memory.objects.alias(memory_has_scope=Memory.objects.get_has_scope_exists())
             .filter(memory_has_scope=False)
             .exists()
         )
-    backfill_completed = total == 0 or not needs_backfill
+    backfill_completed = max_memory_id == 0 or not needs_backfill
 
     if backfill_completed:
         backfill_percent = 100
-        processed = total
+        processed = max_memory_id
     else:
-        processed = Memory.objects.filter(id__lte=last_memory_id).count()
-        backfill_percent = min(round(processed * 100 / total), 100)
+        processed = last_memory_id
+        backfill_percent = (
+            min(round(processed * 100 / max_memory_id), 100) if max_memory_id else 0
+        )
 
-    if not backfill_completed or (
-        compaction_state is not None and compaction_state.completed
-    ):
-        duplicate_groups = 0
-    else:
-        duplicate_groups = get_memory_duplicate_group_count(total)
     compaction_completed = (
         backfill_completed
         and compaction_state is not None
         and compaction_state.completed
     )
-    compaction_active = backfill_completed and total > 0 and not compaction_completed
+    compaction_active = (
+        backfill_completed and max_memory_id > 0 and not compaction_completed
+    )
     compaction_percent = (
         min(round(compaction_last_memory_id * 100 / max_memory_id), 100)
         if max_memory_id and compaction_active
         else 100
-        if compaction_completed or not total
+        if compaction_completed or not max_memory_id
         else 0
     )
+    duplicate_groups = 0 if compaction_completed or not max_memory_id else None
 
     return {
         "backfill_completed": backfill_completed,
@@ -474,10 +446,11 @@ def get_memory_migration_status() -> dict[str, Any]:
         "compaction_max_memory_id": max_memory_id,
         "compaction_percent": compaction_percent,
         "duplicate_groups": duplicate_groups,
+        "duplicate_groups_known": duplicate_groups is not None,
         "last_memory_id": last_memory_id,
         "processed": processed,
         "state": state,
-        "total": total,
+        "total": max_memory_id,
         "updated": (
             compaction_state.updated
             if backfill_completed and compaction_state is not None
