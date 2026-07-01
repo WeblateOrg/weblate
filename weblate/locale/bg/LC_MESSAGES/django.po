@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-06-26 19:26-0500\n"
-"PO-Revision-Date: 2026-06-29 07:01+0000\n"
+"PO-Revision-Date: 2026-06-30 14:30+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -16774,19 +16774,15 @@ msgstr "Все още няма свързани акаунти за GitHub."
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/wladmin/views.py:112
-#, fuzzy
-#| msgid "Invitations"
 msgid "VCS Installations"
-msgstr "Покани"
+msgstr "Инсталации на системи за контрол на версиите"
 
 #: weblate/templates/vcs/github_app_register.html:12
 #: weblate/templates/vcs/github_app_register.html:19
 #: weblate/templates/vcs/github_app_register_submit.html:13
 #: weblate/templates/vcs/github_installation_list.html:21
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
-msgstr "Регистрирайте се в Weblate"
+msgstr "Регистриране на приложение за Weblate в GitHub"
 
 #: weblate/templates/vcs/github_app_register.html:23
 msgid ""
@@ -16795,6 +16791,10 @@ msgid ""
 "GitHub, you will be redirected back here and the credentials will be stored "
 "automatically."
 msgstr ""
+"Изпратете формуляра по-долу, за да създадете приложение в GitHub с вече "
+"подготвени всички права и събития, от които Weblate се нуждае. След като "
+"потвърдите името на приложението в GitHub, ще се прехвърлите автоматично "
+"обратно тук, а данните за удостоверяване ще бъдат запазени автоматично."
 
 #: weblate/templates/vcs/github_app_register.html:34
 #, python-format
@@ -16802,49 +16802,51 @@ msgid ""
 "A Weblate GitHub App is already registered for <code>%(host)s</code>. Remove "
 "it from the Weblate GitHub Apps page before registering a replacement."
 msgstr ""
+"Вече има регистрирано приложение на Weblate в GitHub за <code>%(host)s</code>"
+". Премахнете го от страницата за приложения на Weblate в GitHub, преди да "
+"регистрирате ново."
 
 #: weblate/templates/vcs/github_app_register.html:40
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
 msgstr ""
+"Сървъри на GitHub, които вече имат регистрирано приложение на Weblate в "
+"GitHub:"
 
 #: weblate/templates/vcs/github_app_register.html:52
 #: weblate/templates/vcs/github_app_register_submit.html:34
 #: weblate/templates/vcs/github_installation_list.html:83
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub host"
-msgstr "Звезда в Github"
+msgstr "Сървър на Github"
 
 #: weblate/templates/vcs/github_app_register.html:61
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
 msgstr ""
+"Използвайте github.com за GitHub.com, или съответния уеб адрес за GitHub "
+"Enterprise Server."
 
 #: weblate/templates/vcs/github_app_register.html:69
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Organization (optional)"
-msgstr "Обяснение на превода"
+msgstr "Организация (незадължително)"
 
 #: weblate/templates/vcs/github_app_register.html:76
 msgid "Leave blank to register on your personal account"
 msgstr ""
+"Оставете празно, ако искате регистрацията да е свързана с Вашия личен акаунт"
 
 #: weblate/templates/vcs/github_app_register.html:78
 msgid ""
 "Enter a GitHub organization slug to register the App under that organization "
 "instead of your personal account."
 msgstr ""
+"Въведете краткото име на организация в GitHub, за да регистрирате "
+"приложението под тази организация, вместо към Вашия личен акаунт."
 
 #: weblate/templates/vcs/github_app_register.html:86
 #: weblate/templates/vcs/github_app_register_submit.html:44
-#, fuzzy
-#| msgid "Group name"
 msgid "App name"
-msgstr "Име на групата"
+msgstr "Име на приложението"
 
 #: weblate/templates/vcs/github_app_register.html:96
 #, python-format
@@ -16852,10 +16854,13 @@ msgid ""
 "GitHub App names must be unique and at most %(limit)s characters. You will "
 "still be able to change the name on GitHub before confirming."
 msgstr ""
+"Името на приложението в GitHub трябва да бъде уникално и с дължина не повече "
+"от %(limit)s знака. Ще имате възможност да промените името в GitHub преди да "
+"потвърдите."
 
 #: weblate/templates/vcs/github_app_register.html:115
 msgid "Public (any GitHub account can install it)"
-msgstr ""
+msgstr "Публично (всеки акаунт в GitHub може да го инсталира)"
 
 #: weblate/templates/vcs/github_app_register.html:119
 msgid ""
@@ -16863,6 +16868,10 @@ msgid ""
 "here only means the App is not restricted to its owner; it does not list the "
 "App on the GitHub Marketplace."
 msgstr ""
+"Това е необходимо, за да може приложението да се инсталира от повече от един "
+"потребител или организация. Тук „публично“ означава само, че приложението не "
+"е ограничено само за собственика му. Въпреки това, приложението няма да се "
+"вижда в магазина на GitHub."
 
 #: weblate/templates/vcs/github_app_register.html:147
 msgid "Subscribed events"
@@ -16945,21 +16954,18 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_install_select.html:22
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Install on %(hostname)s"
-msgstr "Покана за %(project_name)s"
+msgstr "Инсталиране на %(hostname)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
 msgid "Connected GitHub account: %(login)s"
-msgstr ""
+msgstr "Свързан акаунт от GitHub: %(login)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:32
-#, fuzzy
-#| msgid "Repositories"
 msgid "Refresh repositories"
-msgstr "Хранилища"
+msgstr "Опресняване на хранилищата"
 
 #: weblate/templates/vcs/github_installation_detail.html:44
 #, python-format
@@ -16968,6 +16974,10 @@ msgid ""
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
+"Данните за удостоверяване на приложението на Weblate в GitHub не са "
+"регистрирани за %(hostname)s. Опресняването на идентификатора и подписът на "
+"уеб-куката няма да работят, докато данните за приложението не бъдат "
+"регистрирани отново."
 
 #: weblate/templates/vcs/github_installation_detail.html:76
 #, fuzzy
