@@ -1,5 +1,7 @@
 Weblate 2026.7.1
 ----------------
+Weblate 2026.8
+--------------
 
 *Not yet released.*
 
@@ -56,6 +58,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: /changes/contributors/2026.7.1.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/170?closed=1>`__.
+* Added API endpoints for listing, adding, accepting, and rejecting translation suggestions.
 
 Weblate 2026.7
 --------------
