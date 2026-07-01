@@ -154,16 +154,6 @@
               <td class="number">{{ memory_migration_status.processed|intcomma }} / {{ memory_migration_status.total|intcomma }}</td>
             </tr>
             <tr>
-              <td>{% translate "Candidate duplicate buckets" %}</td>
-              <td class="number">
-                {% if memory_migration_status.duplicate_groups_known %}
-                  {{ memory_migration_status.duplicate_groups|intcomma }}
-                {% else %}
-                  {% translate "Not calculated during active scan" %}
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
               <td>{% translate "Duplicate candidate scan" %}</td>
               <td>
                 <div class="progress">
@@ -209,11 +199,6 @@
             </tr>
           </tbody>
         </table>
-        <div class="card-footer">
-          <p class="help-block">
-            {% translate "Candidate buckets can include entries that are not mergeable because context, status, or file ownership differs." %}
-          </p>
-        </div>
       </div>
 
       {% if disk_usage %}

@@ -1003,8 +1003,6 @@ class AdminTest(ViewTestCase):
         assert first_memory is not None
         self.assertEqual(status["total"], first_memory.id)
         self.assertEqual(status["processed"], memory.id)
-        self.assertIsNone(status["duplicate_groups"])
-        self.assertFalse(status["duplicate_groups_known"])
         self.assertFalse(response.context["memory_migration_status"]["completed"])
 
     def test_performance_memory_migration_status_without_state(self) -> None:
@@ -1030,8 +1028,6 @@ class AdminTest(ViewTestCase):
         self.assertEqual(status["processed"], memory.id)
         self.assertFalse(status["completed"])
         self.assertTrue(status["compaction_active"])
-        self.assertIsNone(status["duplicate_groups"])
-        self.assertFalse(status["duplicate_groups_known"])
 
     def test_performance_memory_migration_status_with_duplicates(self) -> None:
         Memory.objects.all().delete()
@@ -1057,20 +1053,10 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse("manage-performance"))
 
         self.assertContains(response, "Scanning duplicate candidates")
-        self.assertContains(response, "Candidate duplicate buckets")
+        self.assertNotContains(response, "Candidate duplicate buckets")
         self.assertContains(response, "Duplicate candidate scan")
-        self.assertContains(
-            response,
-            "Candidate buckets can include entries that are not mergeable",
-        )
-        self.assertContains(response, "Not calculated during active scan")
+        self.assertNotContains(response, "Not calculated during active scan")
         self.assertNotContains(response, "Duplicate groups pending consolidation")
-        self.assertIsNone(
-            response.context["memory_migration_status"]["duplicate_groups"]
-        )
-        self.assertFalse(
-            response.context["memory_migration_status"]["duplicate_groups_known"]
-        )
         self.assertFalse(response.context["memory_migration_status"]["completed"])
         self.assertEqual(
             response.context["memory_migration_status"]["compaction_last_memory_id"], 0
@@ -1152,8 +1138,6 @@ class AdminTest(ViewTestCase):
         self.assertTrue(status["completed"])
         self.assertTrue(status["compaction_completed"])
         self.assertFalse(status["compaction_active"])
-        self.assertEqual(status["duplicate_groups"], 0)
-        self.assertTrue(status["duplicate_groups_known"])
         self.assertEqual(status["compaction_percent"], 100)
 
     def test_performance_ordering(self) -> None:
