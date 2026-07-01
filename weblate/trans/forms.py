@@ -166,7 +166,11 @@ def clean_integration_component_data(
         if field in data:
             data[field] = ""
 
-    if vcs_backend.component_requires_branch and not data.get("branch"):
+    if (
+        vcs_backend.component_requires_branch
+        and not data.get("branch")
+        and not is_repo_link(data.get("repo") or "")
+    ):
         form.add_error(
             "branch",
             gettext("Repository branch is required for this integration."),

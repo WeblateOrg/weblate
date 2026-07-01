@@ -416,6 +416,14 @@ class GitRepository(Repository):
             return list(self._get_auth_args(self.component.repo))
         return []
 
+    def _get_auth_environment(self, repo: str) -> dict[str, str]:
+        return {}
+
+    def get_auth_environment(self) -> dict[str, str]:
+        if self.component:
+            return self._get_auth_environment(self.component.repo)
+        return {}
+
     def revision_exists(self, revision: str) -> bool:
         try:
             self.execute(
@@ -462,6 +470,7 @@ class GitRepository(Repository):
                 refspec,
             ],
             remote_op="none",
+            environment=self._get_auth_environment(remote_url),
             merge_err=False,
         )
         self.clean_revision_cache()
@@ -494,6 +503,7 @@ class GitRepository(Repository):
                         refspec,
                     ],
                     remote_op="none",
+                    environment=self._get_auth_environment(pull_url),
                     merge_err=False,
                 )
                 if any(
@@ -545,7 +555,8 @@ class GitRepository(Repository):
                 "--",
                 source,
                 target,
-            ]
+            ],
+            environment=self._get_auth_environment(source),
         )
 
     def get_config(self, path):
@@ -1015,12 +1026,23 @@ class GitRepository(Repository):
 
     def remove_stale_branches(self) -> None:
         """Remove stale branches and tags from the repository."""
-        # Prune remote branches, this can fail if repository is unreachable
-        with suppress(RepositoryCommandError):
-            self.execute(
-                [*self.get_auth_args(), "remote", "prune", "origin"],
-                remote_op="pull",
-            )
+        # Resolving the authentication environment can fail for GitHub App
+        # repositories when an installation token cannot be minted. That is
+        # non-fatal for this optional prune, so skip it instead of aborting
+        # maintenance. The remote URL is still validated inside execute(), so
+        # unreachable or private remotes keep being rejected as before.
+        try:
+            auth_environment = self.get_auth_environment()
+        except RepositoryError:
+            auth_environment = None
+        if auth_environment is not None:
+            # Prune remote branches, this can fail if repository is unreachable
+            with suppress(RepositoryCommandError):
+                self.execute(
+                    [*self.get_auth_args(), "remote", "prune", "origin"],
+                    remote_op="pull",
+                    environment=auth_environment,
+                )
         # Remove possible stale branches
         local_branch = self.get_local_branch_name()
         for branch in self.list_branches():
@@ -1046,6 +1068,7 @@ class GitRepository(Repository):
             [*self.get_auth_args(), "ls-remote", "--heads", "origin"],
             remote_op="pull",
             needs_lock=False,
+            environment=self.get_auth_environment(),
             merge_err=False,
         )
         return [
@@ -1064,6 +1087,7 @@ class GitRepository(Repository):
         self.execute(
             [*self.get_auth_args(), "fetch", "--no-tags", "origin", refspec],
             remote_op="pull",
+            environment=self.get_auth_environment(),
         )
         self.clean_revision_cache()
 
@@ -1078,10 +1102,15 @@ class GitRepository(Repository):
         self.execute(
             [*self.get_auth_args(), *self._cmd_push, "origin", refspec],
             remote_op="push",
+            environment=self.get_auth_environment(),
         )
 
     def unshallow(self) -> None:
-        self.execute([*self.get_auth_args(), "fetch", "--unshallow"], remote_op="pull")
+        self.execute(
+            [*self.get_auth_args(), "fetch", "--unshallow"],
+            remote_op="pull",
+            environment=self.get_auth_environment(),
+        )
 
     def parse_changed_files(self, lines: list[str]) -> Iterator[str]:
         """Parse output with changed files."""

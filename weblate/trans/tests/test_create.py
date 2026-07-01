@@ -444,6 +444,35 @@ class CreateTest(ViewTestCase):
         self.assertIn("vcs", form.errors)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_accepts_github_app_repository_link(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        repo = self.component.get_repo_link_url()
+
+        form = ComponentInitCreateForm(
+            self.get_request(),
+            data={
+                "name": "GitHub App Linked Component",
+                "slug": "github-app-linked-component",
+                "project": self.project.pk,
+                "source_language": get_default_lang(),
+                "vcs": "github-app",
+                "repo": repo,
+                "branch": "",
+            },
+            initial={"vcs": "github-app", "repo": repo, "branch": ""},
+        )
+        form.fields["project"].queryset = Project.objects.filter(pk=self.project.pk)
+        view = CreateComponent()
+        view.initial = {"vcs": "github-app", "repo": repo, "branch": ""}
+        view.integration_import_vcs = "github-app"
+        view.patch_integration_vcs_choice(form)
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["repo"], repo)
+        self.assertEqual(form.cleaned_data["branch"], "")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_hides_github_app_imports_without_credentials(
         self,
     ) -> None:

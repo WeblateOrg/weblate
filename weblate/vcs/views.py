@@ -12,6 +12,7 @@ from collections import defaultdict
 from typing import TYPE_CHECKING
 from urllib.parse import urlencode
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -609,12 +610,84 @@ def _get_authorized_installation(request, config, code, installation_id) -> dict
         return None
 
 
+def _get_update_callback_installation(
+    request, installation_id: str
+) -> GitHubInstallation | None:
+    """
+    Return an existing accessible installation for GitHub's update callback.
+
+    GitHub redirects users to the App setup URL after changing repository access
+    when ``setup_on_update`` is enabled. That callback is not started by Weblate,
+    so it does not carry a signed ``state``; when a signed ``state`` is present
+    the request is a Weblate-initiated install flow and must be handled by the
+    normal setup path instead.
+
+    Only accept the callback for installations the current Weblate user can use:
+    site-wide managers (``management.use``) may update any installation, other
+    users only those in a workspace they manage.
+    """
+    if (
+        request.GET.get("setup_action") != "update"
+        or not installation_id
+        or request.GET.get("state")
+    ):
+        return None
+
+    configured_hosts = set(get_github_app_configurations())
+    if not configured_hosts:
+        return None
+
+    installations = GitHubInstallation.objects.filter(
+        hostname__in=configured_hosts,
+        installation_id=installation_id,
+    )
+    if not request.user.has_perm("management.use"):
+        installations = installations.filter(
+            workspace__in=_managed_workspaces(request.user)
+        )
+
+    return (
+        installations.select_related("workspace")
+        .order_by("workspace__name", "target_login", "hostname")
+        .first()
+    )
+
+
+def _get_update_callback_next_url(request, installation: GitHubInstallation) -> str:
+    if request.user.has_perm("management.use"):
+        return reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+    return _get_installation_repository_url(installation)
+
+
 @login_required
 def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
+    next_url = _default_next_url(request)
+    installation_id = request.GET.get("installation_id", "").strip()
+
+    # Handle GitHub's stateless ``setup_on_update`` callback before the stricter
+    # install permission gate: it is not started by Weblate and carries no
+    # signed ``state``. Signed callbacks fall through to the normal setup flow
+    # below.
+    if request.GET.get("setup_action") == "update" and not request.GET.get("state"):
+        installation = _get_update_callback_installation(request, installation_id)
+        if installation:
+            messages.success(
+                request,
+                gettext("Connected GitHub account updated."),
+            )
+            return redirect(_get_update_callback_next_url(request, installation))
+        messages.error(
+            request,
+            gettext(
+                "The Weblate GitHub app installation link is no longer valid. "
+                "Start the installation again."
+            ),
+        )
+        return redirect(next_url)
+
     _require_github_app_access(request)
 
-    next_url = _default_next_url(request)
     hostname = ""
     workspace = None
     try:
@@ -929,7 +1002,7 @@ def _load_register_state(request, state: str) -> tuple[str, str]:
 
 def _default_register_name(request) -> str:
     host = request.get_host().split(":", 1)[0]
-    return f"Weblate ({host})"[:GITHUB_APP_NAME_MAX_LENGTH]
+    return f"{settings.SITE_TITLE} ({host})"[:GITHUB_APP_NAME_MAX_LENGTH]
 
 
 def _build_manifest_for_request(
@@ -997,6 +1070,7 @@ def _render_github_app_register(
             "manifest_json": json.dumps(manifest, indent=2, sort_keys=True),
             "register_form": register_form,
             "hostname": hostname,
+            "name": name,
             "permissions": GITHUB_APP_MANIFEST_PERMISSIONS,
             "events": GITHUB_APP_MANIFEST_EVENTS,
             "webhook_url": webhook_url,

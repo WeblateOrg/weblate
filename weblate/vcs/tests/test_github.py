@@ -20,7 +20,7 @@ from weblate.vcs.github import (
     get_github_app_configurations,
     get_github_app_install_url,
     get_github_app_settings,
-    get_github_git_auth_args,
+    get_github_git_auth_environment,
     github_app_is_configured,
     validate_private_key,
     verify_webhook_signature,
@@ -129,15 +129,17 @@ class TestGithubAppHookUtils(TestCase):
             "https://github.example.com/github-apps/weblate-enterprise-app/installations/select_target?state=signed-state",
         )
 
-    def test_git_auth_args(self):
-        args = list(get_github_git_auth_args("x-access-token", "ghs_test"))
-        self.assertEqual(args[0], "-c")
-        self.assertTrue(args[1].startswith("http.extraHeader=Authorization: Basic "))
+    def test_git_auth_environment(self):
+        environment = get_github_git_auth_environment("x-access-token", "ghs_test")
+        self.assertEqual(environment["GIT_CONFIG_COUNT"], "1")
+        self.assertEqual(environment["GIT_CONFIG_KEY_0"], "http.extraHeader")
         # proactiveAuth must NOT be set: it causes Git to skip the
         # unauthenticated probe and prompt for credentials instead of using
         # the extraHeader we provided.
-        self.assertFalse(any("proactiveAuth" in arg for arg in args))
-        header = args[1].removeprefix("http.extraHeader=")
+        self.assertFalse(
+            any("proactiveAuth" in value for value in environment.values())
+        )
+        header = environment["GIT_CONFIG_VALUE_0"]
         self.assertEqual(
             b64decode(header.removeprefix("Authorization: Basic ")).decode("utf-8"),
             "x-access-token:ghs_test",
