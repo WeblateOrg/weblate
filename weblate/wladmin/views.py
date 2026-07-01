@@ -434,8 +434,6 @@ def get_memory_migration_status() -> dict[str, Any]:
         if compaction_completed or not max_memory_id
         else 0
     )
-    duplicate_groups = 0 if compaction_completed or not max_memory_id else None
-
     return {
         "backfill_completed": backfill_completed,
         "backfill_percent": backfill_percent,
@@ -445,8 +443,6 @@ def get_memory_migration_status() -> dict[str, Any]:
         "compaction_last_memory_id": compaction_last_memory_id,
         "compaction_max_memory_id": max_memory_id,
         "compaction_percent": compaction_percent,
-        "duplicate_groups": duplicate_groups,
-        "duplicate_groups_known": duplicate_groups is not None,
         "last_memory_id": last_memory_id,
         "processed": processed,
         "state": state,

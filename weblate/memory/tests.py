@@ -2160,6 +2160,30 @@ msgstr "Nazdar svete!\n"
 
         self.assertEqual([group["first_id"] for group in groups], [later.id])
 
+    def test_duplicate_candidate_groups_skip_unique_memory(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        origin = "duplicate-candidate-unique"
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "target": "Kandidatni unikatni cil",
+            "origin": origin,
+            "status": Memory.STATUS_ACTIVE,
+            "legacy_project": self.project,
+        }
+        Memory.objects.create(source="Unique candidate source", **values)
+        duplicate = Memory.objects.create(source="Duplicate candidate source", **values)
+        Memory.objects.create(source="Duplicate candidate source", **values)
+
+        groups = get_duplicate_memory_candidate_groups(
+            Memory.objects.using("default").filter(origin=origin),
+            last_memory_id=0,
+            batch_size=10,
+        )
+
+        self.assertEqual([group["first_id"] for group in groups], [duplicate.id])
+
     def test_compact_memory_scopes_resets_cursor_when_duplicates_remain(
         self,
     ) -> None:
