@@ -2277,10 +2277,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
             )
             self.screenshot("backups.png")
-        SupportStatus.objects.create(secret="123", name="community")
-        with self.wait_for_page_load():
-            self.click("Weblate status")
-        self.screenshot("support-discovery.png")
+            # The login session was created with the patched clock and expires
+            # once the real clock is restored.
+            SupportStatus.objects.create(secret="123", name="community")
+            with self.wait_for_page_load():
+                self.click("Weblate status")
+            self.assert_text_contains("h4.card-title", "Weblate support status")
+            self.screenshot("support-discovery.png")
 
     def test_manage(self) -> None:
         with (
