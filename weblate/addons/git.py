@@ -216,11 +216,29 @@ class GitSquashAddon(
                 message=message, files=[filename], signals=False, skip_push=True
             )
 
+    def get_commit_language(
+        self, repository: GitRepository, commit: str, languages: dict[str, list[str]]
+    ) -> str:
+        filenames = set(
+            repository.execute(
+                ["diff-tree", "--no-commit-id", "--name-only", "-r", commit],
+                remote_op="none",
+            ).splitlines()
+        )
+        matches = [
+            code
+            for code, language_filenames in languages.items()
+            if filenames.intersection(language_filenames)
+        ]
+        if len(matches) == 1:
+            return matches[0]
+        return commit
+
     def squash_author_commits(
         self,
         component: Component,
         repository: GitRepository,
-        commits: list[tuple[str, str]],
+        commits: list[tuple[str, str, tuple[str, str]]],
         remote: str,
         tmp: str,
         gpg_sign: list[str],
@@ -230,7 +248,7 @@ class GitSquashAddon(
         # Checkout upstream branch
         repository.execute(["checkout", tmp], remote_op="none")
         while commits:
-            commit, author = commits.pop(0)
+            commit, author, group_key = commits.pop(0)
             # Remember current revision for final squash
             base = repository.get_last_revision()
             # Cherry pick current commit (this should work
@@ -246,9 +264,9 @@ class GitSquashAddon(
                     repository.execute(["cherry-pick", "--abort"], remote_op="none")
                 raise
             handled = []
-            # Pick other commits by same author
+            # Pick other commits matching the requested squash grouping key.
             for i, other in enumerate(commits):
-                if other[1] != author:
+                if other[2] != group_key:
                     continue
                 try:
                     repository.execute(
@@ -266,7 +284,7 @@ class GitSquashAddon(
             # Remove processed commits from list
             for i in reversed(handled):
                 del commits[i]
-            # Squash all current commits from one author
+            # Squash all current commits from one author, keeping the author metadata.
             self.squash_repo(component, repository, base, author)
 
         # Update working copy with squashed commits
@@ -274,16 +292,32 @@ class GitSquashAddon(
         repository.execute(["reset", "--hard", tmp], remote_op="none")
         repository.delete_branch(tmp)
 
-    def squash_author(self, component: Component, repository: GitRepository) -> None:
+    def squash_author(
+        self,
+        component: Component,
+        repository: GitRepository,
+        *,
+        include_language: bool = False,
+    ) -> None:
         remote = repository.get_remote_branch_name()
+        languages = self.get_filenames(component) if include_language else {}
         # Get list of pending commits with authors
-        commits: list[tuple[str, str]] = [
-            x.split(None, 1)
-            for x in reversed(
-                repository.execute(
-                    ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"],
-                    remote_op="none",
-                ).splitlines()
+        commits: list[tuple[str, str, tuple[str, str]]] = [
+            (
+                commit,
+                author,
+                (author, self.get_commit_language(repository, commit, languages))
+                if include_language
+                else (author, ""),
+            )
+            for commit, author in (
+                x.split(None, 1)
+                for x in reversed(
+                    repository.execute(
+                        ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"],
+                        remote_op="none",
+                    ).splitlines()
+                )
             )
         ]
         gpg_sign = repository.get_gpg_sign_args()
@@ -343,6 +377,8 @@ class GitSquashAddon(
                     self.squash_file(component, repository)
                 case "author":
                     self.squash_author(component, repository)
+                case "author-language":
+                    self.squash_author(component, repository, include_language=True)
                 case _:
                     msg = f"Unsupported squash style: {squash}"
                     raise ValueError(msg)
