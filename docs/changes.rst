@@ -23,6 +23,7 @@ Weblate 2026.7
 * Expanded :doc:`security documentation </security/index>` for data residency, EU cloud sovereignty, release artifacts, supported versions, release verification, SBOMs, dependency handling, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities.
 * :ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence.
 * :ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions.
+* :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` can now keep source locations in generated POT files even when translated PO files omit locations.
 * Add-ons installed at higher scopes are now shown on lower-scope add-on pages, and broad-scope add-ons can list affected components with compatibility details.
 * :envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container.
 * LLM automatic suggestions now use translated examples, language-specific instructions, richer glossary context, and structured placeholder context for more reliable output.

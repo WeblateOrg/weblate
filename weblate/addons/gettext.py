@@ -528,14 +528,23 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     def get_template_filename(self, component: Component) -> str | None:
         return component.get_new_base_filename()
 
+    def get_location_mode(self) -> str:
+        return str(self.instance.configuration.get("location_mode", "file"))
+
     def get_gettext_format_args(self, component: Component) -> list[str]:
         """Return gettext CLI flags implied by component file-format settings."""
         file_format_cls = cast("PoFormat", component.file_format_cls)
-        return [
+        args = [
             arg
             for arg in file_format_cls.get_msgmerge_args(component)
             if arg in {"--no-location", "--no-wrap"}
         ]
+        location_mode = self.get_location_mode()
+        if location_mode == "keep":
+            return [arg for arg in args if arg != "--no-location"]
+        if location_mode == "omit" and "--no-location" not in args:
+            args.append("--no-location")
+        return args
 
     def ensure_msgmerge_addon(self) -> bool:
         from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
@@ -1908,9 +1917,18 @@ class SphinxAddon(ExtractPotBaseAddon):
         source_root = source_dir.resolve()
         build_root = build_dir.resolve()
         file_format_cls = cast("PoFormat", component.file_format_cls)
+        file_format_params = dict(component.file_format_params)
+        location_mode = self.get_location_mode()
+        if location_mode == "keep":
+            effective_no_location = False
+        elif location_mode == "omit":
+            effective_no_location = True
+        else:
+            effective_no_location = bool(file_format_params.get("po_no_location"))
+        file_format_params["po_no_location"] = effective_no_location
         store = file_format_cls(
             template,
-            file_format_params=component.file_format_params,
+            file_format_params=file_format_params,
             repo_temp_dir=component.repository.get_repo_temp_dir(),
         )
         changed = False
@@ -1940,6 +1958,15 @@ class SphinxAddon(ExtractPotBaseAddon):
             if len(filtered_units) != len(store.store.units):
                 store.store.units = filtered_units
                 changed = True
+
+        if effective_no_location:
+            for unit in store.content_units:
+                unit.mainunit.sourcecomments = [
+                    comment
+                    for comment in unit.mainunit.sourcecomments
+                    if not comment.startswith("#:")
+                ]
+            changed = True
 
         if changed:
             store.save()
