@@ -257,6 +257,9 @@ class Suggestion(models.Model, UserDisplayMixin):
         """
         return split_plural(self.target)
 
+    def get_target_plurals(self) -> list[str]:
+        return self.target_list
+
 
 class Vote(models.Model):
     """Suggestion voting."""
