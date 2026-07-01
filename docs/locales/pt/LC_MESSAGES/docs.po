@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-30 14:03+0200\n"
-"PO-Revision-Date: 2026-06-30 17:16+0000\n"
+"PO-Revision-Date: 2026-07-01 12:12+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -1219,13 +1219,12 @@ msgstr ""
 "utilizadores. Por padrão, todos os utilizadores são membros dessa equipa."
 
 #: admin/access.rst:578 admin/access.rst:586
-#, fuzzy
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Por padrão, :ref:`associação automática de equipa <autoteam>` faz com que "
-"todos os novos membros de contas desta equipa quando eles entram."
+"Por padrão, :ref:`atribuição automática de equipa <autoteam>` torna todas as "
+"novas contas membros desta equipa assim que se inscrevem."
 
 #: admin/access.rst:581
 msgid "Default roles: none"
@@ -1318,6 +1317,9 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Adicionalmente, mudar :setting:`DEFAULT_ACCESS_CONTROL` para ``100`` tornará "
+"todos os novos projetos criados privados, o que exige que seja concedido "
+"acesso explícito."
 
 #: admin/access.rst:629
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -1333,6 +1335,9 @@ msgid ""
 "be automatically disabled. This is used for :ref:`project-api`, but can be "
 "utilized for regular users as well."
 msgstr ""
+"Cada conta pode ter uma expiração definida. Após a expiração, a conta será "
+"desativada automaticamente. Isto é usado para :ref:`project-api`, mas também "
+"pode ser utilizado para utilizadores regulares."
 
 #: admin/addons.rst:7 api.rst:2867 security/threat-model.rst:97
 msgid "Add-ons"
@@ -1366,12 +1371,13 @@ msgid ""
 "or using the :ref:`API <addons-api>`. Results are recorded in the add-on "
 "activity log."
 msgstr ""
+"Extras que optem por ativação manual podem ser executados a partir de gestão "
+"de extras ou usando a :ref:`API <addons-api>`. Resultados são gravados no "
+"registo de atividade de extras."
 
 #: admin/addons.rst:28
-#, fuzzy
-#| msgid "Delete add-on."
 msgid "Obsolete add-ons"
-msgstr "Apaga extensão."
+msgstr "Extras obsoletos"
 
 #: admin/addons.rst:33
 msgid "Customize XML output"
@@ -1627,6 +1633,9 @@ msgid ""
 "Users and teams, see :ref:`custom-acl`; site administrators can "
 "also :ref:`clean up user contributions <cleanup-user-contributions>`."
 msgstr ""
+"Utilizadores e equipas, vejam :ref:`custom-acl`; administradores de site "
+"também podem :ref:`limpar contribuições de utilizadores <cleanup-user-"
+"contributions>`."
 
 #: admin/admin.rst:22
 msgid ":ref:`manage-appearance`."
@@ -1692,6 +1701,10 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`Ambiente HTTP` permite-lhe ver o ambiente HTTP observado pelo "
+"Weblate. Isto é útil ao depurar configuração de proxy reverso, veja "
+":ref:`reverse-proxy`. :guilabel:`Cabeçalhos HTTP` mostram os cabeçalhos "
+"completos do pedido HTTP para fornecer informação adicional."
 
 #: admin/admin.rst:49
 msgid ""
@@ -1746,16 +1759,12 @@ msgstr ""
 "confortavelmente pela IU do utilizador ou a API do Weblate."
 
 #: admin/admin.rst:85
-#, fuzzy
-#| msgid ""
-#| "Here you can manage objects stored in the database, such as users, "
-#| "translations and other settings:"
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings."
 msgstr ""
 "Aqui pode gerir os objetos guardados na base de dados, tais como "
-"utilizadores, traduções e outras definições:"
+"utilizadores, traduções e outras definições."
 
 #: admin/admin.rst:88
 msgid ""
@@ -1772,12 +1781,12 @@ msgid ""
 "Use the Weblate UI or API for normal operations such as creating projects, "
 "creating components, managing users, or posting announcements."
 msgstr ""
+"Utilize a UI ou API do Weblate para operações normais tais como criar "
+"projetos, criar componente, gerir utilizadores, ou publicar avisos."
 
 #: admin/admin.rst:98
-#, fuzzy
-#| msgid "Project and component structure"
 msgid "Project and component creation"
-msgstr "Estrutura de projetos e componentes"
+msgstr "Criação de projeto e componente"
 
 #: admin/admin.rst:100
 msgid ""
@@ -1787,6 +1796,11 @@ msgid ""
 "and :ref:`component` for the available settings, and :ref:`bimono` for how "
 "bilingual and monolingual formats differ."
 msgstr ""
+"Projetos e componentes são criadas a partir do UI regular do Weblate. "
+"Projetos servem como recipientes para componentes de tradução, e componentes "
+"podem usar ficheiros de tradução bilingue ou monolingue. Veja :ref:`project` "
+"e :ref:`component` para as definições disponíveis, e :ref:`bimono` para como "
+"é que os formatos bilingue e monolingue diferem."
 
 #: admin/announcements.rst:2 snippets/permissions.rst:319
 msgid "Announcements"
@@ -1799,16 +1813,12 @@ msgstr ""
 "comunicações."
 
 #: admin/announcements.rst:8
-#, fuzzy
-#| msgid ""
-#| "Provide info to your translators by posting announcements, site-wide, per "
-#| "project, component, or language."
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, category, component, or language."
 msgstr ""
 "Forneça informações aos seus tradutores postando anúncios, em todo o site, "
-"por projeto, componente ou idioma."
+"por projeto, categoria, componente ou idioma."
 
 #: admin/announcements.rst:11
 msgid ""
@@ -1849,10 +1859,8 @@ msgstr ""
 "se elas atingirem 60%\" no topo da visualização do painel."
 
 #: admin/announcements.rst:25
-#, fuzzy
-#| msgid "The announcements are then shown based on their specified context:"
 msgid "The announcements are shown based on their specified context:"
-msgstr "Os anúncios são então mostrados com base no seu contexto específico:"
+msgstr "Os anúncios são mostrados com base no seu contexto específico:"
 
 #: admin/announcements.rst:27
 msgid "No context specified"
@@ -1873,35 +1881,27 @@ msgstr ""
 "Mostrado dentro do projeto, incluindo todos os seus componentes e traduções."
 
 #: admin/announcements.rst:35
-#, fuzzy
-#| msgid "Project specified"
 msgid "Project and language specified"
-msgstr "Projeto especificado"
+msgstr "Projeto e idioma especificado"
 
 #: admin/announcements.rst:37
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the project for the specified language, including all its "
 "translations."
 msgstr ""
-"Mostrado dentro do projeto, incluindo todos os seus componentes e traduções."
+"Mostrado dentro do projeto, para o idioma especificado, incluindo todas as "
+"suas traduções."
 
 #: admin/announcements.rst:40
-#, fuzzy
-#| msgid "Category id"
 msgid "Category specified"
-msgstr "ID da categoria"
+msgstr "Categoria especificada"
 
 #: admin/announcements.rst:42
-#, fuzzy
-#| msgid ""
-#| "Shown within the project, including all its components and translations."
 msgid ""
 "Shown within the category, including all its components and translations."
 msgstr ""
-"Mostrado dentro do projeto, incluindo todos os seus componentes e traduções."
+"Mostrado dentro da categoria, incluindo todos os seus componentes e "
+"traduções."
 
 #: admin/announcements.rst:44
 msgid "Component specified"
@@ -2162,16 +2162,12 @@ msgid "Google OAuth 2"
 msgstr "Google OAuth 2"
 
 #: admin/auth.rst:199
-#, fuzzy
-#| msgid ""
-#| "To use Google OAuth 2, you need to register an application at <https://"
-#| "console.developers.google.com/> and enable the Google+ API."
 msgid ""
 "To use Google OAuth 2, you need to register an OAuth application at <https://"
 "console.developers.google.com/>."
 msgstr ""
-"Para utilizar OAuth 2 da Google, precisa de registar uma aplicação em "
-"<https://console.developers.google.com/> e ativar a API de Google+."
+"Para utilizar OAuth 2 da Google, precisa de registar uma aplicação OAuth em "
+"<https://console.developers.google.com/>."
 
 #: admin/auth.rst:202
 msgid ""
@@ -2260,6 +2256,10 @@ msgid ""
 "compatibility with the underlying Python Social Auth backends and existing "
 "deployments."
 msgstr ""
+"O Diretório Ativo Azure (Azure AD) agora é o ID do Microsoft Entra. O "
+"Weblate mantém os nomes de backend ``azuread-oauth2`` and ``azuread-tenant-"
+"oauth2`` para compatibilidade com os backends do Python Social Auth e "
+"implementações existentes."
 
 #: admin/auth.rst:337
 msgid ""
@@ -2285,16 +2285,13 @@ msgid "You will need following:"
 msgstr "Precisará do seguinte:"
 
 #: admin/auth.rst:345
-#, fuzzy
-#| msgid ""
-#| "*Application (client) ID* can be obtained from application page. *Object "
-#| "ID* is not used in Weblate."
 msgid ""
 "*Application (client) ID* is available on the app registration overview in "
 "the Microsoft Entra admin center. *Object ID* is not used in Weblate."
 msgstr ""
-"A *ID da aplicação (cliente)* pode ser obtido na página do aplicação. O *ID "
-"do objeto* não é utilizado no Weblate."
+"O *ID da aplicação (cliente)* está disponível na sinopse do registo da "
+"aplicação no centro de administrador do Microsoft Entra. *Object ID* Não é "
+"usado no Weblate."
 
 #: admin/auth.rst:347
 msgid ""
@@ -2305,16 +2302,12 @@ msgstr ""
 "escopo de arrendatário, o que geralmente é desejado."
 
 #: admin/auth.rst:348
-#, fuzzy
-#| msgid ""
-#| "*Secret value* is displayed once you generate a secret for an "
-#| "application. *Secret ID* is not used in Weblate."
 msgid ""
 "*Secret value* is displayed once you create a client secret for the app "
 "registration. *Secret ID* is not used in Weblate."
 msgstr ""
-"O *Valor do Segredo* é exibido quando gera um segredo para uma aplicação. A "
-"*ID do Segredo* não é usada no Weblate."
+"O *Valor Secreto* é exibido quando cria um segredo de cliente para o registo "
+"da aplicação. O *ID Secreto* não é usado no Weblate."
 
 #: admin/auth.rst:393 admin/install/docker.rst:1730
 msgid "Slack"
@@ -2340,21 +2333,14 @@ msgid "Overriding authentication method names and icons"
 msgstr "A substituir nomes e ícones de métodos de autenticação"
 
 #: admin/auth.rst:423
-#, fuzzy
-#| msgid ""
-#| "You can override the authentication method display name and icon using "
-#| "using settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and "
-#| "``SOCIAL_AUTH_<NAME>_TITLE``. For example overriding naming for Auth0 "
-#| "would look like:"
 msgid ""
 "You can override the authentication method display name and icon using "
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
 "Pode substituir o nome de exibição do método de autenticação e o ícone a "
-"usar configurações como ``SOCIAL_AUTH_<NOME>_IMAGE`` e "
-"``SOCIAL_AUTH_<NOME>_TITLE``. Por exemplo, substituir a nomenclatura para "
-"Auth0 ficaria assim:"
+"usar configurações como ``SOCIAL_AUTH_<NOME>_IMAGE`` e ``SOCIAL_AUTH_<NOME>"
+"_TITLE``. Por exemplo, substituir a nomenclatura para Auth0 ficaria assim:"
 
 #: admin/auth.rst:435
 msgid "Turning off password authentication"
@@ -2459,17 +2445,19 @@ msgstr ""
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: admin/auth.rst:500
-#, fuzzy
-#| msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
 msgid ""
 "The SAML XML metadata URL is ``/accounts/metadata/saml/``, which is also an "
 "entity ID."
-msgstr "A URL de metadados XML de SAML é ``/accounts/metadata/saml/``."
+msgstr ""
+"A URL de metadados XML de SAML é ``/accounts/metadata/saml/``, que também é "
+"um ID de identidade."
 
 #: admin/auth.rst:501
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
 msgstr ""
+"O URL de início de sessão é ``/accounts/complete/saml/`` (conhecido também "
+"como URL ACS)."
 
 #: admin/auth.rst:502
 msgid ""
@@ -2488,19 +2476,15 @@ msgstr "Exemplo de configuração:"
 
 #: admin/auth.rst:544
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Pode gerar um novo par de chaves usando:"
 
 #: admin/auth.rst:550
-#, fuzzy
-#| msgid ""
-#| "The default configuration extracts user details from following "
-#| "attributes, configure your IDP to provide them:"
 msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IdP to provide them:"
 msgstr ""
 "A configuração padrão extrai detalhes do utilizador dos seguintes atributos, "
-"configure o seu IDP para fornecê-los:"
+"configure o seu IdP para fornecê-los:"
 
 #: admin/auth.rst:554
 msgid "Attribute"
@@ -2535,6 +2519,8 @@ msgid ""
 "When configuring Weblate SP in your IdP, it is recommended to choose "
 "persistent :guilabel:`Name ID format`."
 msgstr ""
+"Ao configurar um Weblate SP no seu IdP, é recomendado escolher um "
+":guilabel:`Formato de Nome ID` persistente."
 
 #: admin/auth.rst:572
 msgid ""
@@ -2542,10 +2528,13 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"Alguns fornecedores de identidade (como o Microsoft Entra ID com "
+"autenticação multi-fator) requer desativar a predefinição "
+"``requestedAuthnContext`` na configuração de segurança SAML:"
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
-msgstr ""
+msgstr "No Docker, defina :envvar:`WEBLATE_SAML_SECURITY_CONFIG` em vez disso."
 
 #: admin/auth.rst:584
 msgid ""
@@ -2567,7 +2556,7 @@ msgstr ""
 
 #: admin/auth.rst:593
 msgid "`How to Send a Custom RelayState with Okta`_"
-msgstr ""
+msgstr "`Como Enviar um RelayState Personalizado com Okta`_"
 
 #: admin/auth.rst:599
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
@@ -2833,6 +2822,12 @@ msgid ""
 "the default :guilabel:`Users` team, which is assigned automatically to new "
 "users by :ref:`automatic team assignment <autoteam>`."
 msgstr ""
+"Isto pode ser aplicado para utilizadores no projeto (veja :ref:`project-"
+"enforced_2fa`) ou ao nível da equipa. Em implementações no site inteiro, "
+"isto também pode ser usado para aplicar autenticação de dois fatores para "
+"todos os utilizadores ao ativá-la na equipa :guilabel:`Utilizadores` "
+"predefinida, que é atribuída automaticamente a novos utilizadores pela "
+":ref:`atribuição automática de equipa <autoteam>`."
 
 #: admin/auth.rst:864
 msgid ""
@@ -2862,25 +2857,22 @@ msgstr ""
 "para outra instância do Weblate."
 
 #: admin/backup.rst:17
-#, fuzzy
-#| msgid ""
-#| "You can perform a project backup in :guilabel:`Manage` "
-#| "↓ :guilabel:`Backups`. The backup can be restored when creating a project "
-#| "(see :ref:`adding-projects`)."
 msgid ""
 "You can perform a project backup in :guilabel:`Operations` "
 "↓ :guilabel:`Backups`. The backup can be restored when creating a project "
 "(see :ref:`adding-projects`)."
 msgstr ""
-"Pode realizar uma cópia de segurança do projeto em :guilabel:`Gerir` "
-"↓ :guilabel:`Cópias de segurança`. A cópia de segurança pode ser restaurada "
-"ao criar um projeto (ver :ref:`adding-projects`)."
+"Pode realizar uma cópia de segurança do projeto em :guilabel:`Operações` ↓ "
+":guilabel:`Cópias de segurança`. A cópia de segurança pode ser restaurada ao "
+"criar um projeto (ver :ref:`adding-projects`)."
 
 #: admin/backup.rst:23
 msgid ""
 "Project backups can also be created, listed, and downloaded through "
 "the :ref:`api` since version 2026.7;"
 msgstr ""
+"Cópias de seguranças de projeto também podem ser criadas, listadas, e "
+"descarregadas através da :ref:`api` desde a versão 2026.7;"
 
 #: admin/backup.rst:26
 msgid ""
@@ -2890,11 +2882,6 @@ msgstr ""
 "histórico."
 
 #: admin/backup.rst:28
-#, fuzzy
-#| msgid ""
-#| "The comments and suggestions are backed up with an username of user who "
-#| "did create them. Upon import it is assigned to a matching user. If there "
-#| "is no user with such username, it is assigned to anonymous user."
 msgid ""
 "The comments and suggestions are backed up with the username of the user who "
 "did create them. Upon import it is assigned to a matching user. If there is "
@@ -2923,6 +2910,12 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"A validação de importação de cópias de segurança de projetos carregados pode "
+"ser afinado usando :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, e "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:43
 msgid ""
@@ -2964,14 +2957,10 @@ msgstr ""
 "separador :guilabel:`Cópias de Segurança`."
 
 #: admin/backup.rst:65
-#, fuzzy
-#| msgid ""
-#| "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
-#| "backups."
 msgid "PostgreSQL databases are included in the automated backups."
 msgstr ""
-"As base de dados PostgreSQL e MySQL/MariaDB estão incluídos nas cópias de "
-"segurança automatizadas."
+"Bases de dados PostgreSQL estão incluídas nas cópias de segurança "
+"automatizadas."
 
 #: admin/backup.rst:67
 msgid ""
@@ -3153,16 +3142,13 @@ msgstr ""
 "composição do Docker, por exemplo, a usar :file:`/borgbackup`:"
 
 #: admin/backup.rst:159
-#, fuzzy
-#| msgid ""
-#| "The directory where backups will be stored have to be owned by UID 1000, "
-#| "otherwise Weblate won’t be able to write the backups there."
 msgid ""
 "The directory where backups will be stored has to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
-"O diretório onde os backups serão armazenados para serem possuídos por UID "
-"1000, caso o contrário, Weblate não será capaz de escrever os backups lá."
+"O diretório onde as cópias de segurança serão armazenadas têm que ser "
+"possuídas por UID 1000, caso o contrário, Weblate não será capaz de escrever "
+"os backups lá."
 
 #: admin/backup.rst:163
 msgid "Remote backups"
@@ -3206,17 +3192,14 @@ msgstr ""
 "Escolha um utilizador existente ou crie um novo que será usado para backup."
 
 #: admin/backup.rst:173
-#, fuzzy
-#| msgid ""
-#| "Add Weblate SSH key to the user so that Weblate can SSH to the server "
-#| "without a password (see :ref:`weblate-ssh-key`)."
 msgid ""
 "Add Weblate SSH key to the user's `.ssh/authorized_keys` file, so that "
 "Weblate can SSH to the server without a password (see :ref:`weblate-ssh-"
 "key`)."
 msgstr ""
-"Adicione a chave SSH do Weblate ao utilizador para que o Weblate possa usar "
-"o SSH para o servidor sem uma palavra-passe (veja :ref:`weblate-ssh-key`)."
+"Adicione a chave SSH do Weblate ao ficheiro `.ssh/authorized_keys` do "
+"utilizador para que o Weblate possa usar o SSH para o servidor sem uma "
+"palavra-passe (veja :ref:`weblate-ssh-key`)."
 
 #: admin/backup.rst:174
 msgid ""
@@ -3224,18 +3207,17 @@ msgid ""
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"Criar um diretório gravável pelo utilizador onde o Weblate pode configurar "
+"remotamente o repositório de cópia de segurança Borg, por exemplo no "
+"diretório pessoal (p.ex. ``/home/borg/backups``)."
 
 #: admin/backup.rst:175
-#, fuzzy
-#| msgid ""
-#| "Configure the backup location in Weblate as ``user@host:/path/to/"
-#| "backups`` or ``ssh://user@host:port/path/to/backups``."
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/home/borg/backups`` "
 "or ``ssh://user@host:port/home/borg/backups``."
 msgstr ""
-"Configure o local de backup no Weblate como ``utilizador@host:/caminho/para/"
-"backups`` ou ``utilizador@host/caminho/para/backups``."
+"Configure o local de backup no Weblate como ``user@host:/home/borg/backups`` "
+"ou ``ssh://user@host:port/home/borg/backups``."
 
 #: admin/backup.rst:176
 msgid ""
@@ -3243,6 +3225,9 @@ msgid ""
 "also manually trigger a backup from the Weblate UI or using :ref:`backup-"
 "management-command`."
 msgstr ""
+"Uma vez ativo, as cópias de segurança serão ativadas automaticamente "
+"diariamente. Também pode ativar manualmente uma cópia de segurança a partir "
+"do UI do Weblate ou usando :ref:`backup-management-command`."
 
 #: admin/backup.rst:180
 msgid ""
@@ -3331,10 +3316,8 @@ msgid "The Borg session might look like this:"
 msgstr "A sessão dos Borg pode parecer com isso:"
 
 #: admin/backup.rst:234
-#, fuzzy
-#| msgid "Choosing Docker image tag"
 msgid "Restoring Docker based setup"
-msgstr "Escolher a tag de imagem do Docker"
+msgstr "A restaurar configuração baseada no Docker"
 
 #: admin/backup.rst:236
 msgid ""
@@ -3343,6 +3326,11 @@ msgid ""
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"Os seguintes passos assumem que a configuração do Docker Compose oficial "
+"usando os serviços incluídos PostgreSQL e Valkey, veja :doc:`install/"
+"docker`. Se a sua implementação usa uma base de dados externa ou ficheiro "
+"Compose personalizado, adapte os passos de base de dados e volume para esse "
+"ambiente."
 
 #: admin/backup.rst:241
 msgid ""
@@ -3351,6 +3339,10 @@ msgid ""
 "The :file:`environment.yml` file from :ref:`backup-dumps` can help with "
 "this, but it is not imported automatically."
 msgstr ""
+"Comece com ou checkout do Docker Compose que corresponde à implementação "
+"restaurada. Restaure as substituições do Composer originais, segredos, e "
+"variáveis de ambiente. O ficheiro :file:`environment.yml` de :ref:`backup-"
+"dumps` pode ajudar nisto, mas não é importado automaticamente."
 
 #: admin/backup.rst:246
 msgid ""
@@ -3358,16 +3350,19 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Restaure o arquivo de cópia de segurança usando :ref:`restore-borg` ou "
+"desempacote a sua cópia de segurança manual para que o diretório de dados "
+"Weblate e :file:`backups/database.sql` estejam disponíveis."
 
 #: admin/backup.rst:250
 msgid "Stop the services which can write to the database or data volume:"
 msgstr ""
+"Pare os serviços que podem ser escritos para a base de dados ou para o "
+"volume de dados:"
 
 #: admin/backup.rst:256
-#, fuzzy
-#| msgid "Remove the PostgreSQL volume:"
 msgid "Recreate the PostgreSQL volume."
-msgstr "Remova o volume do PostgreSQL:"
+msgstr "Recriar o volume do PostgreSQL."
 
 #: admin/backup.rst:264
 msgid ""
@@ -21510,6 +21505,16 @@ msgid ""
 "delete screenshots. Screenshot API objects include the related translation "
 "and the optional repository path used for repository-based updates."
 msgstr ""
+"Fluxos de trabalho de capturas de ecrã também estão disponíveis através da "
+"REST API. Use :http:get:`/api/components/(string:project)/(string:component)/"
+"screenshots/` para listar capturas de ecrã para um componente, :http:post:`/"
+"api/screenshots/` para criar capturas de ecrã, :http:post:`/api/screenshots/"
+"(int:id)/file/` para substituir a imagem, :http:post:`/api/screenshots/"
+"(int:id)/units/` e :http:delete:`/api/screenshots/(int:id)/units/"
+"(int:unit_id)` para gerir associações de cadeias de carateres fonte, e "
+":http:delete:`/api/screenshots/(int:id)/` para eliminar capturas de ecrã. "
+"Objetos API de captura de ecrã incluem a tradução relacionada e o caminho de "
+"repositório opcional usado para atualizações baseadas em repositório."
 
 #: admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -35287,19 +35292,14 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:458
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; "
 "please adjust your settings accordingly."
 msgstr ""
-"Há várias alterações em :file:`settings_example.py`, mais significativas são "
-"as definições alteradas em ``CRISPY_ALLOWED_TEMPLATE_PACKS` e "
-"``INSTALLED_APPS``. Por favor, ajuste as suas definições de acordo."
+"Há várias alterações em :file:`settings_example.py`, as mais notáveis são "
+"definições mudadas ``CRISPY_ALLOWED_TEMPLATE_PACKS`` e ``INSTALLED_APPS``; "
+"por favor ajuste as suas definições em conformidade."
 
 #: changes/v5.rst:468
 #, fuzzy
@@ -41935,6 +41935,10 @@ msgid ""
 "guidelines. A basic rule of thumb is that if someone can spot that the "
 "contribution was made with the help of AI, you have more work to do."
 msgstr ""
+"Ao contribuir para um pull request deve, claramente, certificar-se que a "
+"proposta é de boa qualidade e que o melhor esforço segue as nossas "
+"diretrizes. Uma regra de prática básica é que se alguém pode identificar que "
+"a contribuição foi feita com a ajuda de IA, tem mais trabalho a fazer."
 
 #: contributing/snippets/code-guide.rst:140
 msgid ""
@@ -42498,6 +42502,14 @@ msgid ""
 "and :file:`weblate/trans/tests/data/test-base-repo.svn.tar` in the Weblate "
 "repository."
 msgstr ""
+"Muitos dos testes no conjunto de testes Weblate usam o repositório de teste. "
+"O repositório de conjuntos de testes é mantido em https://github.com/"
+"WeblateOrg/test. O script :file:`scripts/pack-test-data.sh` é usado para "
+"gerar uma tarball com o repositório de cada sistema de versão de controlo "
+"suportado. Estes são armazenados como :file:`weblate/trans/tests/data/test-"
+"base-repo.git.tar`, :file:`weblate/trans/tests/data/test-base-repo.hg.tar`, "
+"and :file:`weblate/trans/tests/data/test-base-repo.svn.tar` no repositório "
+"Weblate."
 
 #: contributing/tests.rst:149
 msgid ""
@@ -46435,6 +46447,11 @@ msgid ""
 "local commits are already included upstream and might need a repository "
 "reset to recover."
 msgstr ""
+"Se resolver o conflito em um pull request, mescle-o com um merge commit "
+"normal. Não faça squash merge do mesmo. Squash merge cria um novo commit em "
+"vez de preservar os commits Weblate, e por isso o Weblate pode não "
+"reconhecer que os commits locais já estão incluídos na fonte e poderão "
+"precisar de um reiniciar de repositório para recuperar."
 
 #: faq.rst:63
 msgid ""
@@ -47685,20 +47702,12 @@ msgstr ""
 "traduzíveis. Isso pode ser especialmente útil para referências de cadeias:"
 
 #: formats/android.rst:65
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, :doc:`/formats/compose-"
-#| "multiplatform-resources`, :doc:`/formats/moko-"
-#| "resources`, :doc:`tt:formats/android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_"
 msgstr ""
 "`Documentação de recursos de cadeias Android <https://developer.android.com/"
-"guide/topics/resources/string-resource>`_, :doc:`/formats/compose-"
-"multiplatform-resources`, :doc:`/formats/moko-resources`, :doc:`tt:formats/"
-"android`"
+"guide/topics/resources/string-resource>`_"
 
 #: formats/android.rst:73 formats/apple.rst:26 formats/appstore.rst:26
 #: formats/arb.rst:29 formats/asciidoc.rst:25 formats/catkeys.rst:25
@@ -47778,27 +47787,15 @@ msgid "Apple iOS strings are usually used as monolingual."
 msgstr "As cadeias de Apple iOS são geralmente usados como monolingue."
 
 #: formats/apple.rst:19
-#, fuzzy
-#| msgid ""
-#| ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
-#| "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
-#| "BPInternational/MaintaingYourOwnStringsFiles/"
-#| "MaintaingYourOwnStringsFiles.html>`_, `Message Catalog File Format in PWG "
-#| "5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-"
-#| "ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:formats/"
-#| "strings`"
 msgid ""
 "`Apple \"strings files\" documentation <https://developer.apple.com/library/"
 "archive/documentation/MacOSX/Conceptual/BPInternational/"
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 msgstr ""
-":ref:`stringsdict`, `Documentação de \"ficheiros de cadeias\" da Apple "
-"<https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
+"'`Documentação de \"ficheiros de cadeias\" da Apple <https://"
+"developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
 "BPInternational/MaintaingYourOwnStringsFiles/"
-"MaintaingYourOwnStringsFiles.html>`_, `Message Catalog File Format no PWG "
-"5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-"
-"ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:formats/"
-"strings`"
+"MaintaingYourOwnStringsFiles.html>`_"
 
 #: formats/apple.rst:20
 msgid ""
@@ -48233,16 +48230,12 @@ msgstr ""
 "Formato de ficheiro usado ao traduzir aplicações Fde ormat.JS e React-Intl."
 
 #: formats/formatjs.rst:13
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://"
-#| "formatjs.github.io/docs/getting-started/message-extraction>`_"
 msgid ""
 "`Format.JS Message Extraction <https://formatjs.github.io/docs/getting-"
 "started/message-extraction>`_"
 msgstr ""
-":doc:`tt:formats/json`, `Extração de mensagem Format.JS <https://"
-"formatjs.github.io/docs/getting-started/message-extraction>`_"
+"`Extração de mensagem Format.JS <https://formatjs.github.io/docs/getting-"
+"started/message-extraction>`_"
 
 #: formats/formatjs.rst:52
 msgid "`Format.JS JSON file`"
@@ -48880,10 +48873,8 @@ msgid ""
 msgstr ""
 
 #: formats/laravel.rst:21
-#, fuzzy
-#| msgid ":doc:`tt:formats/php`, `Localization in Laravel`_"
 msgid "`Localization in Laravel`_"
-msgstr ":doc:`tt:formats/php`, `Localização de Laravel`_"
+msgstr "`Localização de Laravel`_"
 
 #: formats/laravel.rst:39
 msgid "`Laravel PHP strings`"
@@ -49103,14 +49094,8 @@ msgstr ""
 "Os ficheiros Qt Linguist são usados como traduções bilíngues e monolíngues."
 
 #: formats/qt.rst:16
-#, fuzzy
-#| msgid ""
-#| "`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-"
-#| "index.html>`_, :doc:`tt:formats/ts`, :ref:`bimono`"
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
-msgstr ""
-"`Manual do Qt Linguist <https://doc.qt.io/qt-5/qtlinguist-"
-"index.html>`_, :doc:`tt:formats/ts`, :ref:`bimono`"
+msgstr "`Manual do Qt Linguist <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:31
 msgid "Typical Weblate :ref:`component` when using as bilingual"
@@ -49212,16 +49197,12 @@ msgstr ""
 "plurais de uma cadeia."
 
 #: formats/stringsdict.rst:14
-#, fuzzy
-#| msgid ""
-#| ":ref:`apple`, `Stringsdict File Format <https://developer.apple.com/"
-#| "documentation/xcode/localizing-strings-that-contain-plurals>`_"
 msgid ""
 "`Stringsdict File Format <https://developer.apple.com/documentation/xcode/"
 "localizing-strings-that-contain-plurals>`_"
 msgstr ""
-":ref:`apple`, `Formato de ficheiro Stringsdict <https://developer.apple.com/"
-"documentation/xcode/localizing-strings-that-contain-plurals>`_"
+"`Formato de ficheiro Stringsdict <https://developer.apple.com/documentation/"
+"xcode/localizing-strings-that-contain-plurals>`_"
 
 #: formats/stringsdict.rst:32
 msgid ""
@@ -49342,6 +49323,11 @@ msgid ""
 "source terms and the language parsed from the file name is used as the "
 "target glossary language."
 msgstr ""
+"O TBX pode armazenar múltiplos idiomas em um ficheiro XML, mas o Weblate "
+"mapeia na mesma cada ficheiro de componente para um idioma de tradução "
+"usando a máscara de componente de ficheiro. Para um componente de glossário "
+"TBX, o idioma fonte de componente é usado para termos fonte e o idioma "
+"analisado do nome de ficheiro é usado enquanto glossário do idioma alvo."
 
 #: formats/tbx.rst:48
 msgid ""
@@ -49463,20 +49449,12 @@ msgid ""
 msgstr ""
 
 #: formats/webextension.rst:18
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-#| "docs/extensions/reference/i18n/>`_, `Mozilla Extensions "
-#| "Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/"
-#| "Add-ons/WebExtensions/Internationalization>`_"
 msgid ""
 "`Mozilla Extensions Internationalization <https://developer.mozilla.org/en-"
 "US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_"
 msgstr ""
-":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-"docs/extensions/reference/i18n/>`_, `Mozilla Extensions Internationalization "
-"<https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/"
-"Internationalization>`_"
+"`Mozilla Extensions Internationalization <https://developer.mozilla.org/en-"
+"US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_"
 
 #: formats/webextension.rst:39
 msgid "`WebExtension JSON file`"
@@ -49756,40 +49734,20 @@ msgstr ""
 "favor tenha isso em mente ao nomear o grupo de fontes (veja :ref:`fonts`)."
 
 #: formats/xliff.rst:116
-#, fuzzy
-#| msgid ""
-#| "`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/"
-#| "XLIFF>`_, :doc:`tt:formats/xliff`, `font attribute in XLIFF 1.2 <http://"
-#| "docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth "
-#| "attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
-#| "core.html#maxwidth>`_"
 msgid ""
 "`font attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#font>`_"
 msgstr ""
-"`XLIFF na Wikipédia <https://en.wikipedia.org/wiki/"
-"XLIFF>`_, :doc:`tt:formats/xliff`, `Atributo font no XLIFF 1.2 <http://"
-"docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_, `Atributo "
-"maxwidth no XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
-"core.html#maxwidth>`_"
+"`Atributo font no XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
+"core.html#font>`_"
 
 #: formats/xliff.rst:117
-#, fuzzy
-#| msgid ""
-#| "`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/"
-#| "XLIFF>`_, :doc:`tt:formats/xliff`, `font attribute in XLIFF 1.2 <http://"
-#| "docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth "
-#| "attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
-#| "core.html#maxwidth>`_"
 msgid ""
 "`maxwidth attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#maxwidth>`_"
 msgstr ""
-"`XLIFF na Wikipédia <https://en.wikipedia.org/wiki/"
-"XLIFF>`_, :doc:`tt:formats/xliff`, `Atributo font no XLIFF 1.2 <http://"
-"docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#font>`_, `Atributo "
-"maxwidth no XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
-"core.html#maxwidth>`_"
+"`Atributo maxwidth no XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
+"xliff-core.html#maxwidth>`_"
 
 #: formats/xliff.rst:120
 msgid "String keys"
@@ -52894,6 +52852,13 @@ msgid ""
 "are not covered by the release signatures, SBOMs, or provenance statements "
 "on this page."
 msgstr ""
+"Ficheiros Compose do Docker, incluindo o `Weblate Docker Compose "
+"repository`_ e exemplos de sobrescrita locais, são exemplos de configurações "
+"de implementação em vez dos artefactos de lançamento. Operadores tipicamente "
+"adaptam-nos para as suas próprias implementações e atualização o Weblate "
+"primariamente ao selecionar ou buscar as etiquetas de imagem Docker. Eles "
+"não são cobertos por assinaturas de lançamento, SBOMs, ou declarações de "
+"proveniência nesta página."
 
 #: security/release-artifacts.rst:102
 msgid "Software Bill of Material"
@@ -52908,6 +52873,12 @@ msgid ""
 "can be used to review the dependencies for security issues or license "
 "compliance."
 msgstr ""
+"O weblate publica uma Lista de Material de Software (SBOM) usando o formato "
+"ClycloneDX para versões lançadas. O SBOM está disponível enquanto ficheiro "
+"com versão ``weblate-<version>-sbom.cdx.json`` nos `GitHub release assets`_ "
+"e também está anexado na proveniência de lançamento usando certificados de "
+"artefacto GitHub. Isto pode ser usado para rever as dependências por motivos "
+"de segurança ou conformidade com a licença."
 
 #: security/release-artifacts.rst:111
 msgid ""
@@ -58099,6 +58070,13 @@ msgid ""
 "exist, :file:`POTFILES` is used. An adjacent :file:`POTFILES.skip` excludes "
 "listed source files from extraction."
 msgstr ""
+"O diretório gettext é o diretório que contém o modelo configurado em "
+":ref:`component-new_base`. Tem que conter :file:`meson.build` e "
+":file:`POTFILES` ou :file:`POTFILES.in`. Um projeto Meson "
+":file:`meson.build` têm que estar presente nesse diretório ou em um dos seus "
+"diretórios parentes. Se ambos :file:`POTFILES` e :file:`POTFILES.in` "
+"existem, :file:`POTFILES` é usado. Um :file:`POTFILES.skip` adjacente exclui "
+"ficheiros fonte listados da extração."
 
 #: snippets/addons-autogenerated.rst:1176
 msgid ""
@@ -60340,16 +60318,12 @@ msgid "nor"
 msgstr "nem"
 
 #: snippets/checks-autogenerated.rst:384 snippets/checks-autogenerated.rst:2446
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://"
-#| "projectfluent.org/dom-l10n-documentation/overview.html>`_"
 msgid ""
 "`Fluent DOM <https://projectfluent.org/dom-l10n-documentation/"
 "overview.html>`_"
 msgstr ""
-":ref:`check-fluent-source-inner-html`, `DOM Fluent <https://"
-"projectfluent.org/dom-l10n-documentation/overview.html>`_"
+"`DOM Fluent <https://projectfluent.org/dom-l10n-documentation/overview.html>"
+"`_"
 
 #: snippets/checks-autogenerated.rst:392
 msgid "Fluent translation syntax"
@@ -60378,20 +60352,12 @@ msgid "`Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_"
 msgstr "`Site do projeto Fluent <https://projectfluent.org/>`_"
 
 #: snippets/checks-autogenerated.rst:416 snippets/checks-autogenerated.rst:2478
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-fluent-source-syntax`, `Fluent Syntax Guide <https://"
-#| "projectfluent.org/fluent/guide/>`_ `Mozilla Basic Syntax Guide <https://"
-#| "mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
-#| "basic_syntax.html>`_"
 msgid ""
 "`Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-"
 "documentation/tools/fluent/basic_syntax.html>`_"
 msgstr ""
-":ref:`check-fluent-source-syntax`, `Guia de sintaxe Fluent <https://"
-"projectfluent.org/fluent/guide/>`_ `Guia de sintaxe básica do Mozilla "
-"<https://mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
-"basic_syntax.html>`_"
+"`Guia de sintaxe básica do Mozilla <https://mozilla-l10n.github.io/localizer-"
+"documentation/tools/fluent/basic_syntax.html>`_"
 
 #: snippets/checks-autogenerated.rst:421
 msgid "Formatted strings"
@@ -60497,16 +60463,12 @@ msgid "Simple format string example"
 msgstr "Exemplo de cadeia de formato simples"
 
 #: snippets/checks-autogenerated.rst:500
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
-#| "translation-function/interpolation>`_"
 msgid ""
 "`Interpolate Components <https://github.com/Automattic/wp-calypso/tree/trunk/"
 "packages/interpolate-components>`_"
 msgstr ""
-":ref:`check-formats`, `Interpolação i18next <https://www.i18next.com/"
-"translation-function/interpolation>`_"
+"`Interpolação de Componentes <https://github.com/Automattic/wp-calypso/tree/"
+"trunk/packages/interpolate-components>`_"
 
 #: snippets/checks-autogenerated.rst:508
 msgid "C format"
@@ -60521,16 +60483,12 @@ msgid "Position format string example"
 msgstr "Exemplo de cadeia de formato de posição"
 
 #: snippets/checks-autogenerated.rst:526
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "c_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+"`Cadeias de carateres de formatação C <https://www.gnu.org/software/gettext/"
+"manual/html_node/c_002dformat.html>`_"
 
 #: snippets/checks-autogenerated.rst:527
 #, fuzzy
@@ -60573,16 +60531,12 @@ msgid "Interpolation example"
 msgstr "Exemplo de interpolação"
 
 #: snippets/checks-autogenerated.rst:580
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Template literals <https://developer.mozilla.org/"
-#| "en-US/docs/Web/JavaScript/Reference/Template_literals>`_"
 msgid ""
 "`Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/"
 "Reference/Template_literals>`_"
 msgstr ""
-":ref:`check-formats`, `Template strings <https://developer.mozilla.org/pt-BR/"
-"docs/Web/JavaScript/Reference/Template_literals>`_"
+"`Template literals <https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/"
+"Reference/Template_literals>`_"
 
 #: snippets/checks-autogenerated.rst:588
 msgid "i18next interpolation"
@@ -60603,16 +60557,12 @@ msgid "Nesting example"
 msgstr "Exemplo de aninhamento"
 
 #: snippets/checks-autogenerated.rst:609
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
-#| "translation-function/interpolation>`_"
 msgid ""
 "`i18next interpolation <https://www.i18next.com/translation-function/"
 "interpolation>`_"
 msgstr ""
-":ref:`check-formats`, `Interpolação i18next <https://www.i18next.com/"
-"translation-function/interpolation>`_"
+"`Interpolação i18next <https://www.i18next.com/translation-function/"
+"interpolation>`_"
 
 #: snippets/checks-autogenerated.rst:617
 msgid "ICU MessageFormat"
@@ -60756,15 +60706,11 @@ msgstr ""
 "alterado para consistência com GNU gettext."
 
 #: snippets/checks-autogenerated.rst:714
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/"
-#| "javase/7/docs/api/java/util/Formatter.html>`_"
 msgid ""
 "`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
 "Formatter.html>`_"
 msgstr ""
-":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/javase/7/"
+"`Cadeias de Carateres de Formatação Java <https://docs.oracle.com/javase/7/"
 "docs/api/java/util/Formatter.html>`_"
 
 #: snippets/checks-autogenerated.rst:722
@@ -60824,16 +60770,12 @@ msgstr ""
 "renderizar a cadeia."
 
 #: snippets/checks-autogenerated.rst:752
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/"
-#| "7/docs/api/java/text/MessageFormat.html>`_"
 msgid ""
 "`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
 "MessageFormat.html>`_"
 msgstr ""
-":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/7/"
-"docs/api/java/text/MessageFormat.html>`_"
+"`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
+"MessageFormat.html>`_"
 
 #: snippets/checks-autogenerated.rst:761
 msgid "JavaScript format"
@@ -60844,16 +60786,12 @@ msgid "JavaScript format string does not match source."
 msgstr "A cadeia de formato JavaScript não corresponde à fonte."
 
 #: snippets/checks-autogenerated.rst:778
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/javascript_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+"`Cadeias de carateres de formatação JavaScript <https://www.gnu.org/software/"
+"gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: snippets/checks-autogenerated.rst:787
 msgid "Laravel format"
@@ -60878,15 +60816,11 @@ msgid "Lua format string does not match source."
 msgstr "A cadeia de formato Lua não corresponde à fonte."
 
 #: snippets/checks-autogenerated.rst:831
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgid ""
 "`Lua formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
+"`Cadeias de carateres de formatação Lua <https://www.gnu.org/software/"
 "gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: snippets/checks-autogenerated.rst:840
@@ -60898,17 +60832,14 @@ msgid "Object Pascal format string does not match source."
 msgstr "A cadeia de formato Object Pascal não corresponde à fonte."
 
 #: snippets/checks-autogenerated.rst:857
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgid ""
 "`Object Pascal formatting strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/"
 "object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_"
 msgstr ""
-":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
-"gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
+"`Cadeias de carateres de formatação Lua <https://www.gnu.org/software/"
+"gettext/manual/html_node/"
+"object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_"
 
 #: snippets/checks-autogenerated.rst:858
 msgid ""
@@ -60953,16 +60884,12 @@ msgid "Perl brace format string does not match source."
 msgstr "A cadeia de formato de chaves Perl não corresponde à fonte."
 
 #: snippets/checks-autogenerated.rst:934 snippets/checks-autogenerated.rst:962
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "perl_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+"`Cadeias de formatação de Perl <https://www.gnu.org/software/gettext/manual/"
+"html_node/perl_002dformat.html>`_"
 
 #: snippets/checks-autogenerated.rst:943
 msgid "Perl format"
@@ -60994,16 +60921,12 @@ msgstr ""
 "`Documentação do phpMyAdmin <https://docs.phpmyadmin.net/pt_BR/latest/>`_"
 
 #: snippets/checks-autogenerated.rst:989
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "php_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+"`Cadeias de carateres de formatação PHP <https://www.gnu.org/software/"
+"gettext/manual/html_node/php_002dformat.html>`_"
 
 #: snippets/checks-autogenerated.rst:997
 msgid "Python brace format"
@@ -61025,16 +60948,12 @@ msgstr "Brace format em Python"
 
 #: snippets/checks-autogenerated.rst:1016
 #: snippets/checks-autogenerated.rst:1043
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+"`Cadeias de carateres de formatação Python <https://www.gnu.org/software/"
+"gettext/manual/html_node/python_002dformat.html>`_"
 
 #: snippets/checks-autogenerated.rst:1024
 msgid "Python format"
@@ -61057,14 +60976,8 @@ msgid "Qt format string does not match source."
 msgstr "A cadeia de formato Qt não corresponde à fonte."
 
 #: snippets/checks-autogenerated.rst:1068
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/"
-#| "qstring.html#arg>`_"
 msgid "`Qt QString::arg() <https://doc.qt.io/qt-6/qstring.html#arg>`_"
-msgstr ""
-":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/"
-"qstring.html#arg>`_"
+msgstr "`Qt QString::arg() <https://doc.qt.io/qt-6/qstring.html#arg>`_"
 
 #: snippets/checks-autogenerated.rst:1076
 msgid "Qt plural format"
@@ -61079,16 +60992,12 @@ msgid "Plural format string example"
 msgstr "Exemplo de cadeia de formato de plural"
 
 #: snippets/checks-autogenerated.rst:1093
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-"
-#| "translation.html#handling-plurals>`_"
 msgid ""
 "`Qt i18n guide <https://doc.qt.io/qt-6/i18n-source-translation.html#handle-"
 "plural-forms>`_"
 msgstr ""
-":ref:`check-formats`, `Guia de i18n do Qt <https://doc.qt.io/qt-5/i18n-"
-"source-translation.html#handling-plurals>`_"
+"`Guia de i18n do Qt <https://doc.qt.io/qt-6/i18n-source-"
+"translation.html#handle-plural-forms>`_"
 
 #: snippets/checks-autogenerated.rst:1101
 msgid "Ruby format"
@@ -68957,6 +68866,12 @@ msgid ""
 "language. Use the placeable copy shortcuts to insert them without typing "
 "mistakes."
 msgstr ""
+"Manter variáveis como ``%s``, ``%1$d``, ``%(name)s``, ``{count}``, ``{{ "
+"value }}``, ou marcadores semelhantes na tradução. Marcadores de lugar com "
+"nome descrevem o valor inserido, mas os nomes em si não são traduzidos. "
+"Normalmente pode reordenar marcadores de lugar numerados ou com nome para se "
+"adequar ao idioma alvo. Utilize os atalhos de cópia colocável para inseri-"
+"los sem erros de digitação."
 
 #: user/translating.rst:163
 #, fuzzy
@@ -68972,6 +68887,12 @@ msgid ""
 "the translatable string. Make sure opening and closing tags still match "
 "after reordering the sentence."
 msgstr ""
+"Manter etiquetas XML e HTML, nomes de etiquetas, e nomes de atributo "
+"inalterados. Traduza o texto visível entre etiquetas e qualquer valor de "
+"atributo que se destina a utilizadores, por exemplo texto alternativo ou uma "
+"dica de ferramenta, quando aparece enquanto parte da cadeia de carateres "
+"traduzível. Certifique-se que etiquetas de abertura e fecho ainda "
+"correspondem após reordenar a frase."
 
 #: user/translating.rst:169
 #, fuzzy
@@ -69983,14 +69904,6 @@ msgid ""
 msgstr ""
 
 #: vcs.rst:87
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites is typically done by "
-#| "creating a dedicated user who is associated with a Weblate SSH key "
-#| "(see :ref:`weblate-ssh-key`). This way you associate Weblate SSH key with "
-#| "a single user (platforms frequently enforce single use of a SSH key) and "
-#| "grant this user access to the repository. You can then use SSH URL to "
-#| "access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For multiple repositories, create a dedicated code hosting user associated "
 "with a Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
@@ -69998,13 +69911,12 @@ msgid ""
 "single use of an SSH key. Grant this user access to the repositories, and "
 "use SSH URLs to access them (see :ref:`ssh-repos`)."
 msgstr ""
-"O acesso a repositórios em sites de hospedagem de código é normalmente feito "
-"criando um utilizador dedicado que é associado a uma chave SSH do Weblate "
-"(consulte :ref:`weblate-ssh-key`). Dessa forma, associa a chave SSH do "
-"Weblate a um único utilizador (as plataformas frequentemente impõem o uso "
-"único de uma chave SSH) e concede a este utilizador acesso ao repositório. "
-"Pode então usar a URL SSH para aceder o repositório (consulte :ref:`ssh-"
-"repos`)."
+"Para múltiplos repositóriosm crie um utilizador de hospedagem de código "
+"dedicado que é associado a uma chave SSH do Weblate (consulte :ref:`weblate-"
+"ssh-key`). Dessa forma, associa a chave SSH do Weblate a um único "
+"utilizador, porque as plataformas frequentemente impõem o uso único de uma "
+"chave SSH. Conceda a este utilizador acesso ao repositório, e use um URL SSH "
+"para aceder o repositório (consulte :ref:`ssh-repos`)."
 
 #: vcs.rst:96
 msgid "SSH repositories"
