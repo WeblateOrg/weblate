@@ -792,29 +792,62 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(len(response_messages), 1)
         self.assertIn("installation link is no longer valid", response_messages[0])
 
-    @responses.activate
-    def test_setup_rejects_malformed_installation_id(self):
-        install_url = self._start_install("/create/component/#github")
-        state = parse_qs(urlparse(install_url).query)["state"][0]
+    def test_setup_update_accepts_installation_for_management_user(self):
+        # Site-wide managers (management.use) may handle update callbacks for
+        # installations in any workspace, not just ones they manage directly.
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self._grant_management_permission(self.user)
+        other_workspace = Workspace.objects.create(name="Other GitHub Workspace")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=other_workspace,
+        )
 
         response = self.client.get(
             reverse("github-app-setup"),
-            {
-                "installation_id": "12345/access_tokens",
-                "state": state,
-                "code": "oauth-code",
-            },
+            {"installation_id": "12345", "setup_action": "update"},
         )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertFalse(GitHubInstallation.objects.exists())
-        self.assertEqual(len(responses.calls), 0)
+        self.assertRedirects(
+            response,
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk}),
+        )
         response_messages = [
             str(message) for message in get_messages(response.wsgi_request)
         ]
-        self.assertEqual(
-            response_messages, ["GitHub did not return a valid installation ID."]
+        self.assertEqual(response_messages, ["Connected GitHub account updated."])
+
+    @responses.activate
+    def test_setup_update_with_state_runs_full_setup(self):
+        # An update callback that carries a signed Weblate state is a
+        # Weblate-initiated install flow and must run the full setup (OAuth
+        # verification + repository refresh), not the stateless shortcut.
+        repositories = [_repo_entry("test-org/repo1")]
+        next_url = "/create/component/#github"
+        install_url = self._start_install(next_url)
+        state = parse_qs(urlparse(install_url).query)["state"][0]
+
+        self._mock_oauth(accessible_ids=("12345",))
+        self._mock_setup_api(repositories=repositories)
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {
+                "installation_id": "12345",
+                "state": state,
+                "code": "oauth-code",
+                "setup_action": "update",
+            },
         )
+
+        self.assertRedirects(response, next_url)
+        connected = GitHubInstallation.objects.get(
+            installation_id="12345", workspace=self.workspace
+        )
+        self.assertEqual(connected.repositories, repositories)
+        self.assertIsNotNone(connected.repositories_updated)
 
     @responses.activate
     def test_setup_rejects_malformed_installation_id(self):

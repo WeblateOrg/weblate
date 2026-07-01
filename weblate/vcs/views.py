@@ -618,59 +618,36 @@ def _get_update_callback_installation(
 
     GitHub redirects users to the App setup URL after changing repository access
     when ``setup_on_update`` is enabled. That callback is not started by Weblate,
-    so it might not carry a current signed ``state``. Only accept it for rows
-    already connected to a workspace the current Weblate user can manage.
+    so it does not carry a signed ``state``; when a signed ``state`` is present
+    the request is a Weblate-initiated install flow and must be handled by the
+    normal setup path instead.
+
+    Only accept the callback for installations the current Weblate user can use:
+    site-wide managers (``management.use``) may update any installation, other
+    users only those in a workspace they manage.
     """
-    if request.GET.get("setup_action") != "update" or not installation_id:
+    if (
+        request.GET.get("setup_action") != "update"
+        or not installation_id
+        or request.GET.get("state")
+    ):
         return None
 
     configured_hosts = set(get_github_app_configurations())
     if not configured_hosts:
         return None
 
-    return (
-        GitHubInstallation.objects.filter(
-            hostname__in=configured_hosts,
-            installation_id=installation_id,
-            workspace__in=_managed_workspaces(request.user),
-        )
-        .select_related("workspace")
-        .order_by("workspace__name", "target_login", "hostname")
-        .first()
+    installations = GitHubInstallation.objects.filter(
+        hostname__in=configured_hosts,
+        installation_id=installation_id,
     )
-
-
-def _get_update_callback_next_url(request, installation: GitHubInstallation) -> str:
-    if request.user.has_perm("management.use"):
-        return reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
-    return _get_installation_repository_url(installation)
-
-
-def _get_update_callback_installation(
-    request, installation_id: str
-) -> GitHubInstallation | None:
-    """
-    Return an existing accessible installation for GitHub's update callback.
-
-    GitHub redirects users to the App setup URL after changing repository access
-    when ``setup_on_update`` is enabled. That callback is not started by Weblate,
-    so it might not carry a current signed ``state``. Only accept it for rows
-    already connected to a workspace the current Weblate user can manage.
-    """
-    if request.GET.get("setup_action") != "update" or not installation_id:
-        return None
-
-    configured_hosts = set(get_github_app_configurations())
-    if not configured_hosts:
-        return None
+    if not request.user.has_perm("management.use"):
+        installations = installations.filter(
+            workspace__in=_managed_workspaces(request.user)
+        )
 
     return (
-        GitHubInstallation.objects.filter(
-            hostname__in=configured_hosts,
-            installation_id=installation_id,
-            workspace__in=_managed_workspaces(request.user),
-        )
-        .select_related("workspace")
+        installations.select_related("workspace")
         .order_by("workspace__name", "target_login", "hostname")
         .first()
     )
@@ -687,14 +664,19 @@ def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
     next_url = _default_next_url(request)
     installation_id = request.GET.get("installation_id", "").strip()
-    installation = _get_update_callback_installation(request, installation_id)
-    if installation:
-        messages.success(
-            request,
-            gettext("Connected GitHub account updated."),
-        )
-        return redirect(_get_update_callback_next_url(request, installation))
-    if request.GET.get("setup_action") == "update":
+
+    # Handle GitHub's stateless ``setup_on_update`` callback before the stricter
+    # install permission gate: it is not started by Weblate and carries no
+    # signed ``state``. Signed callbacks fall through to the normal setup flow
+    # below.
+    if request.GET.get("setup_action") == "update" and not request.GET.get("state"):
+        installation = _get_update_callback_installation(request, installation_id)
+        if installation:
+            messages.success(
+                request,
+                gettext("Connected GitHub account updated."),
+            )
+            return redirect(_get_update_callback_next_url(request, installation))
         messages.error(
             request,
             gettext(
@@ -705,16 +687,6 @@ def github_app_setup(request):
         return redirect(next_url)
 
     _require_github_app_access(request)
-
-    next_url = _default_next_url(request)
-    installation_id = request.GET.get("installation_id", "").strip()
-    installation = _get_update_callback_installation(request, installation_id)
-    if installation:
-        messages.success(
-            request,
-            gettext("Connected GitHub account updated."),
-        )
-        return redirect(_get_update_callback_next_url(request, installation))
 
     hostname = ""
     workspace = None

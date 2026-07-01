@@ -1026,14 +1026,23 @@ class GitRepository(Repository):
 
     def remove_stale_branches(self) -> None:
         """Remove stale branches and tags from the repository."""
-        auth_environment = self.get_auth_environment()
-        # Prune remote branches, this can fail if repository is unreachable
-        with suppress(RepositoryCommandError):
-            self.execute(
-                [*self.get_auth_args(), "remote", "prune", "origin"],
-                remote_op="pull",
-                environment=auth_environment,
-            )
+        # Resolving the authentication environment can fail for GitHub App
+        # repositories when an installation token cannot be minted. That is
+        # non-fatal for this optional prune, so skip it instead of aborting
+        # maintenance. The remote URL is still validated inside execute(), so
+        # unreachable or private remotes keep being rejected as before.
+        try:
+            auth_environment = self.get_auth_environment()
+        except RepositoryError:
+            auth_environment = None
+        if auth_environment is not None:
+            # Prune remote branches, this can fail if repository is unreachable
+            with suppress(RepositoryCommandError):
+                self.execute(
+                    [*self.get_auth_args(), "remote", "prune", "origin"],
+                    remote_op="pull",
+                    environment=auth_environment,
+                )
         # Remove possible stale branches
         local_branch = self.get_local_branch_name()
         for branch in self.list_branches():
