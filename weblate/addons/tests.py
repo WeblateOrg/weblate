@@ -1164,6 +1164,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
         self.assertEqual(form.cleaned_data["keyword"], "")
+        self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_xgettext_form_accepts_blank_language(self) -> None:
         form = XgettextAddon.get_add_form(None, component=self.component)
@@ -1224,6 +1225,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode", "bullet-unicode"],
                 "keyword": "tr",
+                "location_mode": "keep",
             },
         )
         self.assertTrue(form.is_valid(), form.errors)
@@ -1233,6 +1235,7 @@ class GettextAddonTest(ViewTestCase):
             form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
         )
         self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -1403,6 +1406,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode", "quote-unicode"],
                 "keyword": "tr",
+                "location_mode": "omit",
             },
         )
 
@@ -1416,6 +1420,7 @@ class GettextAddonTest(ViewTestCase):
             form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
         )
         self.assertEqual(form.serialize_form()["keyword"], "tr")
+        self.assertEqual(form.serialize_form()["location_mode"], "omit")
 
     def test_django_form(self) -> None:
         self.component.new_base = "locale/django.pot"
@@ -1429,6 +1434,7 @@ class GettextAddonTest(ViewTestCase):
             },
         )
         self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_django_form_po_template(self) -> None:
         self.component.filemask = "locale/*/LC_MESSAGES/django.po"
@@ -1524,6 +1530,7 @@ class GettextAddonTest(ViewTestCase):
             },
         )
         self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_sphinx_form_valid_root_component(self) -> None:
         self.component.new_base = "locales/docs.pot"
@@ -2024,6 +2031,64 @@ class GettextAddonTest(ViewTestCase):
         command = mocked.call_args.args[1]
         self.assertIn("--no-location", command)
         self.assertIn("--no-wrap", command)
+
+    def test_xgettext_can_keep_pot_locations_with_po_no_location(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "location_mode": "keep",
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertNotIn("--no-location", command)
+
+    def test_xgettext_can_omit_pot_locations(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "location_mode": "omit",
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--no-location", command)
 
     def test_xgettext_uses_parametrized_arguments(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"
@@ -3275,6 +3340,72 @@ msgstr ""
         self.assertIn("--no-location", command)
         self.assertIn("--no-wrap", command)
 
+    def test_django_can_keep_pot_locations_with_po_no_location(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "keep",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertNotIn("--no-location", command)
+
+    def test_django_can_omit_pot_locations(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "omit",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--no-location", command)
+
     def test_sphinx_scopes_to_repo_root_locales(self) -> None:
         self.component.new_base = "locales/docs.pot"
         addon = SphinxAddon.create(
@@ -3490,6 +3621,74 @@ msgstr ""
             os.path.join(self.component.full_path, "docs/locales/docs.pot"),
             addon.extra_files,
         )
+
+    def test_sphinx_can_keep_pot_locations_with_po_no_location(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "keep",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                f'#: {source_dir / "index.rst"}:1\nmsgid "Hello"\nmsgstr ""\n',
+                encoding="utf-8",
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process),
+        ):
+            addon.execute_update(self.component, "", [])
+
+        template = Path(self.component.full_path) / self.component.new_base
+        self.assertIn("#: index.rst:1", template.read_text(encoding="utf-8"))
+
+    def test_sphinx_can_omit_pot_locations(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "omit",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                f'#: {source_dir / "index.rst"}:1\nmsgid "Hello"\nmsgstr ""\n',
+                encoding="utf-8",
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process),
+        ):
+            addon.execute_update(self.component, "", [])
+
+        template = Path(self.component.full_path) / self.component.new_base
+        self.assertNotIn("#: index.rst:1", template.read_text(encoding="utf-8"))
 
     def test_sphinx_refuses_out_of_tree_symlink(self) -> None:
         if not hasattr(os, "symlink"):
