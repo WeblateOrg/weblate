@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-06-30 14:03+0200\n"
-"PO-Revision-Date: 2026-07-01 12:12+0000\n"
+"PO-Revision-Date: 2026-07-01 13:47+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -3370,24 +3370,26 @@ msgid ""
 "from :file:`weblate-docker_postgres-data`. Check your setup before removing "
 "any volume."
 msgstr ""
+"O nome do volume depende do nome do projeto Compose e pode variar do "
+":file:`weblate-docker_postgres-data`. Verifique a sua configuração antes de "
+"remover qualquer volume."
 
 #: admin/backup.rst:268
-#, fuzzy
-#| msgid "Start the database container:"
 msgid "Start the database service:"
-msgstr "Inicie o contentor da base de dados:"
+msgstr "Iniciar o serviço de base de dados:"
 
 #: admin/backup.rst:274
-#, fuzzy
-#| msgid "Restore the database from the backup:"
 msgid "Restore the database dump:"
-msgstr "Restaure a base de dados a partir do backup:"
+msgstr "Restaurar o despejo da base de dados:"
 
 #: admin/backup.rst:280
 msgid ""
 "Check that the database name matches :envvar:`POSTGRES_DB` and the user "
 "matches :envvar:`POSTGRES_USER` in your Compose configuration."
 msgstr ""
+"Verifique que o nome da base de dados corresponde a :envvar:`POSTGRES_DB` e "
+"o utilizador corresponde a :envvar:`POSTGRES_USER` na sua configuração do "
+"Compose."
 
 #: admin/backup.rst:283
 msgid ""
@@ -3395,10 +3397,13 @@ msgid ""
 "as :file:`/app/data`, see :ref:`docker-volume`. Files in this volume have to "
 "be owned by UID 1000, see :ref:`file-permissions`."
 msgstr ""
+"Restaura o diretório de dados Weblate para o volume de dados Docker montado "
+"como :file:`/app/data`, veja :ref:`docker-volume`. Ficheiros neste volume "
+"têm que ser propriedadedo UID 1000, veja :ref:`file-permissions`."
 
 #: admin/backup.rst:287
 msgid "Start the remaining services and follow the logs:"
-msgstr ""
+msgstr "Inicie os serviços restantes e siga os registos:"
 
 #: admin/backup.rst:294
 msgid ""
@@ -7702,18 +7707,16 @@ msgstr ""
 "que contêm muitas alterações. A predefinçao é 25."
 
 #: admin/config.rst:2288
-#, fuzzy
-#| msgid ""
-#| "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework "
-#| "to require authentication for all API endpoints."
 msgid ""
 "This "
 "enables :class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` "
 "and configures REST framework to require authentication for all API "
 "endpoints."
 msgstr ""
-"Irá ativar :setting:`LOGIN_REQUIRED_URLS` e configurar o framework REST para "
-"exigir autenticação para todos os pontos finais da API."
+"Isto ativa "
+":class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` e "
+"configura o framework REST para exigir autenticação para todos os pontos "
+"finais da API."
 
 #: admin/config.rst:2293
 #, fuzzy
@@ -9527,16 +9530,12 @@ msgstr ""
 "possa importar o módulo."
 
 #: admin/customize.rst:65
-#, fuzzy
-#| msgid ""
-#| "This package can now be installed using :command:`pip install -e`. More "
-#| "info to be found in :ref:`pip:editable-installs`."
 msgid ""
 "This package can now be installed using :command:`uv pip install -e`. More "
 "info to be found in `Editable packages documentation`_."
 msgstr ""
-"Este pacote agora pode ser instalado a usar :command:`pip install -e`. Mais "
-"informações a serem encontradas em :ref:`pip:editable-installs`."
+"Este pacote agora pode ser instalado a usar :command:`uv pip install -e`. "
+"Mais informações a serem encontradas em `Documentação de pacotes editáveis`_."
 
 #: admin/customize.rst:66
 msgid ""
@@ -16532,6 +16531,14 @@ msgid ""
 "contents. Matching glossary entries are passed with their explanations and "
 "selected flags, so duplicate glossary terms can be disambiguated."
 msgstr ""
+"Serviços de sugestões automáticas baseadas em LLM recebem contexto adicional "
+"sobre cada cadeia de carateres traduzida, quando disponível. Isto inclui o "
+"contexto da cadeia de carateres ou chave monolingue, explicação adicional, "
+"tradução de idioma secundário configurada, informação de plural, "
+"verificações de qualidade a falhar, e conteúdos de marcador de lugar. "
+"Entradas de glossário correspondentes são passadas com as suas explicações e "
+"marcadores selecionados, para que termos de glossário duplicados possam ser "
+"desambiguados."
 
 #: admin/machine.rst:76
 msgid ""
@@ -17717,6 +17724,12 @@ msgid ""
 "memory, delete uploaded entries, and download uploaded, shared, or all "
 "entries as JSON or TMX."
 msgstr ""
+"Utilizadores administrativos têm controlos de gestão de memória de tradução. "
+"Em :guilabel:`Administração` > :guilabel:`Memória de tradução`, a página "
+"lista entradas de envios partilhados, entradas partilhadas, e o total de "
+"entradas para a instância Weblate. Dependendo de permissões, pode importar "
+"memória de envios partilhada, eliminar entradas enviadas, e descarregar "
+"envios, partilhar, ou todas as entradas enquanto JSON ou TMX."
 
 #: admin/memory.rst:211
 #, fuzzy
@@ -35044,16 +35057,12 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:413
-#, fuzzy
-#| msgid ""
-#| "Added :http:post:`/api/units/(int:id)/comments/` to create a new comment "
-#| "for the given translation unit."
 msgid ""
 "Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments "
 "for the given translation unit."
 msgstr ""
-"Adicionado :http:post:`/api/units/(int:id)/comments/` para criar um novo "
-"comentário para a unidade de tradução fornecida."
+"Adicionado :http:get:`/api/units/(int:id)/comments/` para obter uma nova "
+"lista de comentários para a unidade de tradução fornecida."
 
 #: changes/v5.rst:414
 msgid "Memory contents imported from TMX files include string context."
@@ -35883,19 +35892,14 @@ msgid "Removed support for no longer working :ref:`mt-ibm`."
 msgstr "Removido o apoio para o :ref:`mt-ibm`, pos não funciona mais."
 
 #: changes/v5.rst:696
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notably, "
 "``django_otp.middleware.OTPMiddleware`` was removed from ``MIDDLEWARE``; "
 "please adjust your settings accordingly."
 msgstr ""
-"Há várias mudanças em :file:`settings_example.py`, notadamente mudanças de "
-"middleware (:setting:`django:MIDDLEWARE`). Ajuste as suas configurações de "
-"acordo."
+"Há várias mudanças em :file:`settings_example.py`, notavelmente, "
+"``django_otp.middleware.OTPMiddleware`` foi removido de ``MIDDLEWARE``. Por "
+"favor ajuste as suas configurações de acordo."
 
 #: changes/v5.rst:702
 #, fuzzy
@@ -38580,16 +38584,12 @@ msgstr ""
 "restricted`."
 
 #: changes/v5.rst:1808
-#, fuzzy
-#| msgid ""
-#| "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not "
-#| "block :ref:`manage-appearance`."
 msgid ""
 "Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not "
 "block :ref:`manage-appearance`."
 msgstr ""
-"Padrão ajustado :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` para não "
-"bloquear :ref:`manage-appearance`."
+"Padrão ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` ajustado para não bloquear "
+":ref:`manage-appearance`."
 
 #: changes/v5.rst:1809
 msgid "Avoid crash on pushing changes to diverged repository."
@@ -39776,6 +39776,13 @@ msgid ""
 "``self.configuration`` or ``self.get_configuration()`` so it sees normalized "
 "defaults instead of raw persisted JSON."
 msgstr ""
+"Utilize duas classes ``TypedDict`` quando o JSON armazenado pode ser "
+"diferente da forma em tempo de execução: uma configuração, normalmente "
+"``total=False``, permissiva para legado ou valores em falta, e uma "
+"configuração em tempo de execução total devolvida por "
+"``normalize_configuration()``. Código de extras em tempo de execução deve "
+"ler ``self.configuration`` ou ``self.get_configuration()`` para que veja "
+"predefinições normalizadas em vez de JSON bruto persistente."
 
 #: contributing/addons.rst:36
 msgid ""
@@ -44188,10 +44195,8 @@ msgid ":doc:`starting` for choosing the right internationalization framework"
 msgstr "Escolher a estrutura de internacionalização"
 
 #: devel/migration.rst:14
-#, fuzzy
-#| msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgid ":doc:`integration` for detailed integration options"
-msgstr ":doc:`integration`, :ref:`continuous-translation`"
+msgstr ":doc:`integration` para opções de integração detalhadas"
 
 #: devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
@@ -44447,6 +44452,13 @@ msgid ""
 "including workflows, permissions, and language aliases, still need to be "
 "configured manually in Weblate."
 msgstr ""
+"Se o seu repositório contém uma :file:`.tx/config` Transifex, o Weblate "
+"analisa-o usando o localizador de traduções e oferece configurações "
+"correspondentes de componente durante a descoberta. Isto apenas cobre "
+"configurações relacionadas a ficheiros, tais como máscaras de ficheiros e "
+"ficheiros fonte. Outras definições de projeto da plataforma prévia, "
+"incluindo fluxos de trabalho, permissões e aliases de idiomas, ainda "
+"precisam de ser configurado manualmente no Weblate."
 
 #: devel/migration.rst:126
 msgid ""
@@ -45851,6 +45863,13 @@ msgid ""
 "additional context in Weblate, such as :ref:`screenshots` "
 "or :ref:`additional-explanation`."
 msgstr ""
+"Todos os desenvolvedores devem perceber isto e identificar cadeias de "
+"carateres de forma única em diferentes escopos. Por exemplo, ``None`` que "
+"significa \"nenhum utilizador\" pode ser traduzido de forma diferente de "
+"``None`` que significa \"nenhum item\". Utilize diferentes chave ou "
+"contextos para distinguir estes termos para tradutores. Pode fornecer "
+"contexto adicional no Weblate, como por exemplo :ref:`screenshots` ou "
+":ref:`additional-explanation`."
 
 #: devel/starting.rst:110
 msgid ""
@@ -50419,6 +50438,13 @@ msgid ""
 "application versions, and other pinned tool versions. It also configures "
 "selected package grouping, schedules, and automerge behavior."
 msgstr ""
+"Os repositórios Weblate estendem a predefinição partilhada Renovate de "
+"`WeblateOrg/meta`_. Essa predefinição ativa o painel de dependências, "
+"alertas de vulnerabilidade OSV, alertas de vulnerabilidade de plataforma, "
+"commits de dependência semântica, e gestores personalizados Renovate para o "
+"GitHub Actions, Dockerfiles, gráficos de versões de aplicação Help, e outras "
+"versões de ferramentas afixadas. Também configura o agrupamento de pacote "
+"selecionado, horários, e comportamento de auto-mesclagem."
 
 #: security/dependencies.rst:44
 msgid ""
@@ -58087,6 +58113,13 @@ msgid ""
 "example :file:`po/example.pot`, and keep :file:`POTFILES` "
 "or :file:`POTFILES.in` next to that :file:`meson.build` file."
 msgstr ""
+"Configure este extra a partir da configuração Meson gettext existente. Na "
+"maior parte dos projetos Meson, o diretório gettext é :file:`po/`, o modelo "
+"deve o seu nome ao domínio gettext, e :file:`po/meson.build` chama o "
+"ajudante do Meson gettext. Utilize o mesmo caminho de modelo em "
+":ref:`component-new_base`, por exemplo :file:`po/example.pot`, e mantenha "
+":file:`POTFILES` ou :file:`POTFILES.in` ao lado daquele ficheiro "
+":file:`meson.build`."
 
 #: snippets/addons-autogenerated.rst:1183
 msgid ""
@@ -61012,16 +61045,12 @@ msgid "Named template string"
 msgstr "Cadeia de modelo nomeado"
 
 #: snippets/checks-autogenerated.rst:1121
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
-#| "Kernel.html#method-i-sprintf>`_"
 msgid ""
 "`Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-"
 "sprintf>`_"
 msgstr ""
-":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
-"Kernel.html#method-i-sprintf>`_"
+"`Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-"
+"sprintf>`_"
 
 #: snippets/checks-autogenerated.rst:1129
 msgid "Scheme format"
@@ -61040,16 +61069,12 @@ msgid "`Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_"
 msgstr ""
 
 #: snippets/checks-autogenerated.rst:1148
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/"
 "html_node/Formatted-Output.html>`_"
 msgstr ""
-":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-"software/gettext/manual/html_node/javascript_002dformat.html>`_"
+"`Resultado formatado Guile Scheme <https://www.gnu.org/software/guile/manual/"
+"html_node/Formatted-Output.html>`_"
 
 #: snippets/checks-autogenerated.rst:1156
 msgid "Vue I18n formatting"
@@ -61078,18 +61103,12 @@ msgid ""
 msgstr ""
 
 #: snippets/checks-autogenerated.rst:1176
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Vue I18n Formatting <https://kazupon.github.io/vue-"
-#| "i18n/guide/formatting.html>`_, `Vue I18n Linked locale messages <https://"
-#| "kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
 msgid ""
 "`Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/"
 "messages.html#linked-locale-messages>`_"
 msgstr ""
-":ref:`check-formats`, `Formatação Vue I18n <https://kazupon.github.io/vue-"
-"i18n/guide/formatting.html>`_, `Mensagens de localidade Vue I18n <https://"
-"kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
+"`Mensagens de localidade Ligadas Vue I18n <https://kazupon.github.io/vue-"
+"i18n/guide/messages.html#linked-locale-messages>`_"
 
 #: snippets/checks-autogenerated.rst:1184
 msgid "Has been translated"
@@ -64813,6 +64832,12 @@ msgid ""
 "context directly to the model. Use LTEngine when you specifically want its "
 "local translation engine or future LTEngine translation improvements."
 msgstr ""
+"LTEngine fornece uma API local LibreTranslate-compatible apoiada por modelos "
+"de idioma de grande dimensão. Para várias instalações Weblate, serviços LLM "
+"nativos como :ref:`mt-ollama` podem ser mais adequados porque o Weblate pode "
+"enviar contexto de tradução diretamente para o modelo. Utilize LTEngine "
+"quando quer especificamente o motor de tradução local ou futuros "
+"melhoramentos de tradução LTEngine."
 
 #: snippets/machines-autogenerated.rst:620
 msgid "Application base URL"
@@ -64962,21 +64987,14 @@ msgstr ""
 "authentication#authenticating-with-a-multi-service-resource>`_"
 
 #: snippets/machines-autogenerated.rst:683
-#, fuzzy
-#| msgid ""
-#| "Region endpoint URL domain for access token as defined in the "
-#| "`\"Authenticating with an access token\" section <https://"
-#| "docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/"
-#| "v3-0-reference#authenticating-with-an-access-token>`_."
 msgid ""
 "`\"Authenticating with an access token\" section <https://"
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-an-access-token>`_"
 msgstr ""
-"Domínio de URL de extremidade da região para token de acesso definido na "
-"`secção \"Autenticando com um token de acesso\" <https://docs.microsoft.com/"
-"pt-br/azure/cognitive-services/translator/reference/v3-0-"
-"reference#authenticating-with-an-access-token>`_."
+"`Secção \"Autenticando com um token de acesso\" <https://learn.microsoft.com/"
+"en-us/azure/ai-services/translator/text-translation/reference/"
+"authentication#authenticating-with-an-access-token>`_"
 
 #: snippets/machines-autogenerated.rst:709
 msgid "Mistral API base URL"
@@ -66482,15 +66500,11 @@ msgstr ""
 "de formato de ficheiro, pode encontrar uma visão geral em :ref:`fmt_capabs`."
 
 #: user/files.rst:52
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/"
-#| "(string:language)/file/`"
 msgid ""
 ":http:get:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/file/`"
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/"
+":http:get:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/file/`"
 
 #: user/files.rst:58
@@ -67987,18 +68001,13 @@ msgstr ""
 "A cadeia fonte foi alterada na data, tem apoio a :ref:`search-operators`."
 
 #: user/search.rst:90
-#, fuzzy
-#| msgid ""
-#| "String was changed on date, supports :ref:`search-operators`, unlike "
-#| "``changed`` this includes event which don't change content and you can "
-#| "apply custom action filtering using ``change_action``."
 msgid ""
 "Unlike ``changed`` this includes event which don't change content and you "
 "can apply custom action filtering using ``change_action``."
 msgstr ""
-"A cadeia foi alterada na data, suporta :ref:`search-operators`; ao contrário "
-"de ``changed``, isso inclui eventos que não alteram o conteúdo e pode "
-"aplicar uma filtragem de ação personalizada a utilizar ``change_action``."
+"Ao contrário de ``changed``, isso inclui eventos que não alteram o conteúdo "
+"e pode aplicar uma filtragem de ação personalizada a utilizar "
+"``change_action``."
 
 #: user/search.rst:93
 msgid ""
