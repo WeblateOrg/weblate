@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any, TypedDict
 from uuid import UUID
 
 from django.db import transaction
-from django.db.models import Exists, F, OuterRef, Q, Value
+from django.db.models import Count, Min, Q, Value
 from django.db.models.functions import MD5
 from django.utils import timezone
 
@@ -354,45 +354,14 @@ def has_duplicate_memory_groups() -> bool:
 def get_duplicate_memory_candidate_group_queryset(
     memory_objects, *, last_memory_id: int = 0
 ):
-    # Find the first row for each duplicate candidate instead of grouping the
-    # whole memory table every batch. Exact identity splitting, including
-    # context/status/file ownership, happens after loading these candidates.
-    queryset = memory_objects.order_by().annotate(
-        origin_md5=MD5("origin"),
-        source_md5=MD5("source"),
-        target_md5=MD5("target"),
-    )
-    if last_memory_id:
-        queryset = queryset.filter(id__gt=last_memory_id)
-
-    candidate_memory = memory_objects.order_by().annotate(
-        origin_md5=MD5("origin"),
-        source_md5=MD5("source"),
-        target_md5=MD5("target"),
-    )
-    matching_candidate_query = {
-        "source_language_id": OuterRef("source_language_id"),
-        "target_language_id": OuterRef("target_language_id"),
-        "origin_md5": OuterRef("origin_md5"),
-        "source_md5": OuterRef("source_md5"),
-        "target_md5": OuterRef("target_md5"),
-    }
-    previous_candidate = candidate_memory.filter(
-        **matching_candidate_query,
-        id__lt=OuterRef("id"),
-    )
-    next_candidate = candidate_memory.filter(
-        **matching_candidate_query,
-        id__gt=OuterRef("id"),
-    )
-    return (
-        queryset.alias(
-            has_previous_candidate=Exists(previous_candidate),
-            has_next_candidate=Exists(next_candidate),
-        )
-        .filter(
-            has_previous_candidate=False,
-            has_next_candidate=True,
+    # Group on the expressions covered by memory_md5_index. Exact identity
+    # splitting, including context/status/file ownership, happens after loading
+    # these candidates.
+    queryset = (
+        memory_objects.annotate(
+            origin_md5=MD5("origin"),
+            source_md5=MD5("source"),
+            target_md5=MD5("target"),
         )
         .values(
             "source_language_id",
@@ -400,9 +369,13 @@ def get_duplicate_memory_candidate_group_queryset(
             "origin_md5",
             "source_md5",
             "target_md5",
-            first_id=F("id"),
         )
+        .annotate(first_id=Min("id"), count=Count("id"))
+        .filter(count__gt=1)
     )
+    if last_memory_id:
+        queryset = queryset.filter(first_id__gt=last_memory_id)
+    return queryset
 
 
 def get_duplicate_memory_candidate_groups(
