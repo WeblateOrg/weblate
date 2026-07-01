@@ -44,6 +44,7 @@ from weblate.trans.component_copy import (
     should_copy_component_field,
 )
 from weblate.trans.defines import BRANCH_LENGTH, LANGUAGE_NAME_LENGTH, REPO_LENGTH
+from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     apply_create_inheritance_defaults,
@@ -58,6 +59,7 @@ from weblate.trans.models import (
     ComponentList,
     Label,
     Project,
+    Suggestion,
     Translation,
     Unit,
 )
@@ -2243,14 +2245,79 @@ class UserStatisticsSerializer(ReadOnlySerializer):
 
 
 class PluralField(serializers.ListField):
-    def __init__(self, child_allow_blank=False, **kwargs) -> None:
-        kwargs["child"] = serializers.CharField(
-            trim_whitespace=False, allow_blank=child_allow_blank
-        )
+    def __init__(
+        self,
+        child_allow_blank: bool = False,
+        child_error_messages: dict | None = None,
+        **kwargs,
+    ) -> None:
+        child_kwargs: dict[str, Any] = {
+            "trim_whitespace": False,
+            "allow_blank": child_allow_blank,
+        }
+        if child_error_messages:
+            child_kwargs["error_messages"] = child_error_messages
+
+        kwargs["child"] = serializers.CharField(**child_kwargs)
         super().__init__(**kwargs)
 
     def get_attribute(self, instance):
         return getattr(instance, f"get_{self.field_name}_plurals")()
+
+
+class SuggestionSerializer(serializers.Serializer[Suggestion]):
+    id = serializers.IntegerField(read_only=True)
+    unit = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:unit-detail"
+    )
+    target = PluralField(
+        allow_empty=False,
+        child_error_messages={
+            "blank": gettext_lazy("Please provide a suggestion"),
+        },
+    )
+
+    user = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name="api:user-detail",
+        lookup_field="username",
+        allow_null=True,
+    )
+    timestamp = serializers.DateTimeField(read_only=True)
+    votes = serializers.IntegerField(source="get_num_votes", read_only=True)
+
+    class Meta:
+        model = Suggestion
+        fields = ("id", "unit", "target", "user", "timestamp", "votes")
+
+    def create(self, validated_data):
+        request = self.context["request"]
+        unit = self.context["unit"]
+        target = validated_data["target"]
+        try:
+            result = Suggestion.objects.add(
+                unit,
+                target,
+                request,
+                request.user.has_perm("suggestion.vote", unit),
+                raise_exception=True,
+            )
+        except SuggestionSimilarToTranslationError as error:
+            msg = gettext_lazy("Your suggestion is similar to the current translation!")
+            raise serializers.ValidationError({"target": msg}) from error
+        if not result:
+            msg = gettext_lazy("Your suggestion already exists!")
+            raise serializers.ValidationError({"target": msg})
+        return result
+
+
+class SuggestionDeleteRequestSerializer(ReadOnlySerializer):
+    rejection_reason = serializers.CharField(required=False, allow_blank=True)
+    is_spam = serializers.BooleanField(required=False, default=False)
+
+
+class SuggestionAcceptRequestSerializer(ReadOnlySerializer):
+    approve = serializers.BooleanField(required=False, default=False)
 
 
 class MemorySerializer(serializers.ModelSerializer[Memory]):

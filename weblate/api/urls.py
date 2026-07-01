@@ -19,6 +19,7 @@ from weblate.api.views import (
     RoleViewSet,
     ScreenshotViewSet,
     Search,
+    SuggestionViewSet,
     TasksViewSet,
     TranslationViewSet,
     UnitViewSet,
@@ -38,6 +39,7 @@ router.register("languages", LanguageViewSet)
 router.register("component-lists", ComponentListViewSet)
 router.register("changes", ChangeViewSet)
 router.register("units", UnitViewSet)
+router.register("suggestions", SuggestionViewSet)
 router.register("screenshots", ScreenshotViewSet)
 router.register("tasks", TasksViewSet, "task")
 router.register("addons", AddonViewSet)

@@ -10,7 +10,8 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
 from django.db import models, transaction
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Value
+from django.db.models.functions import Coalesce
 from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
@@ -115,6 +116,13 @@ class SuggestionQuerySet(models.QuerySet["Suggestion", "Suggestion"]):
             )
         return result
 
+    def load_votes(self):
+        return self.annotate(
+            num_votes=Coalesce(
+                Sum("vote__value"), Value(0), output_field=models.IntegerField()
+            )
+        )
+
 
 class Suggestion(models.Model, UserDisplayMixin):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
@@ -212,6 +220,8 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def get_num_votes(self):
         """Return number of votes."""
+        if hasattr(self, "num_votes"):  # annotation added via `load_votes``
+            return self.num_votes
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
     def add_vote(self, request: AuthenticatedHttpRequest | None, value: int) -> None:
@@ -256,6 +266,9 @@ class Suggestion(models.Model, UserDisplayMixin):
         Used for populating the translation widgets in the frontend.
         """
         return split_plural(self.target)
+
+    def get_target_plurals(self) -> list[str]:
+        return self.target_list
 
 
 class Vote(models.Model):

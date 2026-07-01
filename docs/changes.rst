@@ -1,3 +1,12 @@
+Weblate 2026.8
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* Added API endpoints for listing, adding, accepting, and rejecting translation suggestions.
+
 Weblate 2026.7
 --------------
 
