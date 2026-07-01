@@ -10,7 +10,7 @@ import os
 import time
 import warnings
 from contextlib import contextmanager, suppress
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Literal, cast, overload
@@ -380,14 +380,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         scope = Metric.SCOPE_GLOBAL
         relation = 0
         cache.delete(GlobalStats().cache_key)
-        Metric.objects.filter_metric(scope, relation).filter(date=today).delete()
+        Metric.objects.filter_metric(scope, relation).delete()
 
         wrapper = MetricsWrapper(None, scope, relation)
         cache_keys = []
+        activity_months = []
         last_month_date = today.replace(day=1) - timedelta(days=1)
         month = last_month_date.month
         year = last_month_date.year
         for _unused in range(12):
+            activity_months.append((year, month))
             cache_keys.extend(
                 (
                     wrapper.get_month_cache_key(year, month),
@@ -400,13 +402,28 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 year -= 1
         cache.delete_many(cache_keys)
 
-        for day in range(366):
-            Metric.objects.calculate_changes(
-                today - timedelta(days=day),
-                None,
-                scope,
-                relation,
-            )
+        Metric.objects.bulk_create(
+            [
+                Metric(
+                    scope=scope,
+                    relation=relation,
+                    secondary=0,
+                    date=date(year, month, 15),
+                    changes=18 + position * 6,
+                )
+                for position, (year, month) in enumerate(reversed(activity_months))
+            ]
+            + [
+                Metric(
+                    scope=scope,
+                    relation=relation,
+                    secondary=0,
+                    date=date(year - 1, month, 15),
+                    changes=8 + position * 3,
+                )
+                for position, (year, month) in enumerate(reversed(activity_months))
+            ]
+        )
         Metric.objects.collect_global()
 
     def count_elements(self, css_selector: str) -> int:
@@ -1388,20 +1405,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
                 change.timestamp -= timedelta(days=day)
                 change.save()
-        self.populate_global_activity_metrics()
 
         # Screenshot search
         self.click("Search")
         self.screenshot("search.png")
 
         # Render activity
-        self.click("Insights")
-        with self.wait_for_page_load():
-            self.click("Statistics")
-        self.stabilize_global_stats_timestamp()
-        with self.wait_for_page_load():
-            self.driver.refresh()
-        self.screenshot("activity.png")
+        with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
+            self.populate_global_activity_metrics()
+            self.click("Insights")
+            with self.wait_for_page_load():
+                self.click("Statistics")
+            self.stabilize_global_stats_timestamp()
+            with self.wait_for_page_load():
+                self.driver.refresh()
+            self.screenshot("activity.png")
 
     @override_settings(PRIVATE_COMMIT_NAME_TEMPLATE="{site_title} user")
     @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
