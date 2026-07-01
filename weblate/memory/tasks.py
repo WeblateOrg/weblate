@@ -388,14 +388,6 @@ def get_duplicate_memory_candidate_groups(
     )
 
 
-def get_duplicate_memory_candidate_group_count() -> int:
-    # TODO(2028.1): Remove this migration status helper once Weblate no longer
-    # supports direct upgrades from 2026 releases.
-    return get_duplicate_memory_candidate_group_queryset(
-        Memory.objects.using("default")
-    ).count()
-
-
 def get_duplicate_memory_candidate_memories(
     memory_objects, group: dict[str, Any]
 ) -> list[Memory]:

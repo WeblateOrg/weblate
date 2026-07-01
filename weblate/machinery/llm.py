@@ -1385,6 +1385,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
         while True:
             index = cls._skip_json_whitespace(content, index)
             if index >= len(content):
+                if item_count:
+                    repaired.append("]")
+                    return "".join(repaired), index
                 return None, index
 
             if content[index] == "]":
@@ -1421,6 +1424,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
         while True:
             index = cls._skip_json_whitespace(content, index)
             if index >= len(content):
+                if item_count:
+                    repaired.append("}")
+                    return "".join(repaired), index
                 return None, index
 
             if content[index] == "}":
