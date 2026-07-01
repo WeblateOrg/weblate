@@ -2247,18 +2247,18 @@ onReady(() => {
 
   /* Workflow customization form */
   document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
-    enableInput.addEventListener("click", () => {
-      if (enableInput.checked) {
-        document.getElementById("workflow-enable-target").style.visibility =
-          "visible";
-        document.getElementById("workflow-enable-target").style.opacity = 1;
-      } else {
-        document.getElementById("workflow-enable-target").style.visibility =
-          "hidden";
-        document.getElementById("workflow-enable-target").style.opacity = 0;
+    const updateWorkflowVisibility = () => {
+      const target = document.getElementById("workflow-enable-target");
+      const hint = document.getElementById("workflow-enable-hint");
+      if (target !== null) {
+        target.style.display = enableInput.checked ? "" : "none";
       }
-    });
-    enableInput.dispatchEvent(new Event("click"));
+      if (hint !== null) {
+        hint.style.display = enableInput.checked ? "none" : "";
+      }
+    };
+    enableInput.addEventListener("change", updateWorkflowVisibility);
+    updateWorkflowVisibility();
   });
 
   /* Move current translation into the view */

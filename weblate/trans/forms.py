@@ -4548,7 +4548,13 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("enable"),
+            Field("enable", template="bootstrap5/layout/switch.html"),
+            HTML(
+                format_html(
+                    '<p id="workflow-enable-hint" class="text-muted">{}</p>',
+                    gettext("Turn on customization above to change these settings."),
+                )
+            ),
             Div(
                 Field("translation_review"),
                 Field("enable_suggestions"),
