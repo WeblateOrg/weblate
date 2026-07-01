@@ -4745,6 +4745,22 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_translate_repairs_truncated_structured_json_container(self) -> None:
+        self.mock_response(
+            '[{"parts":[{"type":"text","text":"Genel Müdür"}]},'
+            '{"parts":[{"type":"text","text":"CEO\'dan beri"}]}'
+        )
+
+        translation = self.get_machine().download_multiple_translations(
+            "en",
+            "tr",
+            [("CEO", None), ("CEO Since", None)],
+        )
+
+        self.assertEqual(translation["CEO"][0]["text"], "Genel Müdür")
+        self.assertEqual(translation["CEO Since"][0]["text"], "CEO'dan beri")
+
+    @responses.activate
     def test_translate_uses_llm_placeholder_syntax(self) -> None:
         machine = self.get_machine()
 
@@ -6502,7 +6518,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_translate_still_rejects_unrepairable_json(self) -> None:
-        self.mock_response('["Ahoj světe"')
+        self.mock_response('["Ahoj světe')
 
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 1)
