@@ -3658,6 +3658,38 @@ msgstr ""
         template = Path(self.component.full_path) / self.component.new_base
         self.assertIn("#: index.rst:1", template.read_text(encoding="utf-8"))
 
+    def test_sphinx_uses_file_format_no_location_by_default(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                f'#: {source_dir / "index.rst"}:1\nmsgid "Hello"\nmsgstr ""\n',
+                encoding="utf-8",
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process),
+        ):
+            addon.execute_update(self.component, "", [])
+
+        template = Path(self.component.full_path) / self.component.new_base
+        self.assertNotIn("#: index.rst:1", template.read_text(encoding="utf-8"))
+
     def test_sphinx_can_omit_pot_locations(self) -> None:
         self.component.new_base = "docs/locales/docs.pot"
         source_dir = Path(self.component.full_path) / "docs"
@@ -3929,6 +3961,43 @@ msgstr ""
         self.assertIn("Welcome to the admin docs.", content)
         self.assertNotIn('\nmsgid "Django"\n', content)
         self.assertNotIn('\nmsgid "foo_bar"\n', content)
+
+    def test_sphinx_weblate_docs_filter_runs_before_omitting_locations(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        build_dir = Path(self.component.full_path) / "build"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        build_dir.mkdir(parents=True, exist_ok=True)
+        template = Path(self.component.full_path) / self.component.new_base
+        template.parent.mkdir(parents=True, exist_ok=True)
+        template.write_text(
+            f"#: {source_dir / 'admin' / 'management.rst'}:1\n"
+            'msgid "foo_bar"\n'
+            'msgstr ""\n\n'
+            f"#: {source_dir / 'admin' / 'access.rst'}:1\n"
+            'msgid "Welcome"\n'
+            'msgstr ""\n',
+            encoding="utf-8",
+        )
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "filter_mode": "weblate_docs",
+                "location_mode": "omit",
+            },
+        )
+
+        addon.postprocess_sphinx_template(
+            self.component, template, source_dir, build_dir
+        )
+
+        content = template.read_text(encoding="utf-8")
+        self.assertNotIn('msgid "foo_bar"', content)
+        self.assertIn('msgid "Welcome"', content)
+        self.assertNotIn("#:", content)
 
     def test_django_refuses_out_of_tree_symlinked_source_file(self) -> None:
         if not hasattr(os, "symlink"):

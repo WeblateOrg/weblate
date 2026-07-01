@@ -1048,6 +1048,19 @@ Update gettext template (Django)
                 +----------------------+----------------------+----------------------------------------------------------------------------------+
                 | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                   |
                 +----------------------+----------------------+----------------------------------------------------------------------------------+
+                | ``location_mode``   | Source locations     | Choose how extraction writes source locations to the POT file. Use this to keep locations in the |
+                |                      |                      | template while omitting them from translated PO files.                                           |
+                |                      |                      |                                                                                                  |
+                |                      |                      | .. list-table:: Available choices:                                                               |
+                |                      |                      |    :width: 100%                                                                                  |
+                |                      |                      |                                                                                                  |
+                |                      |                      |    * - ``file``                                                                                  |
+                |                      |                      |      - Use file format settings                                                                  |
+                |                      |                      |    * - ``keep``                                                                                  |
+                |                      |                      |      - Extract locations to the POT file                                                         |
+                |                      |                      |    * - ``omit``                                                                                  |
+                |                      |                      |      - Do not extract locations                                                                  |
+                +----------------------+----------------------+--------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-repository-post-update`
 
@@ -1141,6 +1154,18 @@ Update POT file (Meson)
                 +----------------------+----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``keyword``          | Additional keyword   | Optional extra keyword passed to xgettext using --keyword.                                                                                                     |
                 +----------------------+----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``location_mode``   | Source locations     | Choose how extraction writes source locations to the POT file. Use this to keep locations in the template while omitting them from translated PO files.         |
+                |                      |                      |                                                                                                                                                                 |
+                |                      |                      | .. list-table:: Available choices:                                                                                                                              |
+                |                      |                      |    :width: 100%                                                                                                                                                 |
+                |                      |                      |                                                                                                                                                                 |
+                |                      |                      |    * - ``file``                                                                                                                                                 |
+                |                      |                      |      - Use file format settings                                                                                                                                 |
+                |                      |                      |    * - ``keep``                                                                                                                                                 |
+                |                      |                      |      - Extract locations to the POT file                                                                                                                        |
+                |                      |                      |    * - ``omit``                                                                                                                                                 |
+                |                      |                      |      - Do not extract locations                                                                                                                                 |
+                +----------------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``preset``           | Meson preset         | Built-in xgettext argument preset matching Meson gettext integration. The GLib preset adds the keyword and format-flag options used by Meson's gettext helper. |
                 |                      |                      |                                                                                                                                                                |
                 |                      |                      | .. list-table:: Available choices:                                                                                                                             |
@@ -1283,6 +1308,19 @@ Update POT file (Sphinx)
                 +----------------------+----------------------+-------------------------------------------------------------------------------------+
                 | ``normalize_header`` | Normalize POT header | Updates gettext headers and replaces placeholder POT comments.                      |
                 +----------------------+----------------------+-------------------------------------------------------------------------------------+
+                | ``location_mode``   | Source locations     | Choose how extraction writes source locations to the POT file. Use this to keep locations in the    |
+                |                      |                      | template while omitting them from translated PO files.                                              |
+                |                      |                      |                                                                                                     |
+                |                      |                      | .. list-table:: Available choices:                                                                  |
+                |                      |                      |    :width: 100%                                                                                     |
+                |                      |                      |                                                                                                     |
+                |                      |                      |    * - ``file``                                                                                     |
+                |                      |                      |      - Use file format settings                                                                     |
+                |                      |                      |    * - ``keep``                                                                                     |
+                |                      |                      |      - Extract locations to the POT file                                                            |
+                |                      |                      |    * - ``omit``                                                                                     |
+                |                      |                      |      - Do not extract locations                                                                     |
+                +----------------------+----------------------+-----------------------------------------------------------------------------------------------------+
                 | ``filter_mode``      | Filtering            | Optionally remove strings that are not useful to translate after Sphinx extraction. |
                 |                      |                      |                                                                                     |
                 |                      |                      | .. list-table:: Available choices:                                                  |
@@ -1372,6 +1410,18 @@ Update POT file (xgettext)
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``keyword``          | Additional keyword   | Optional extra keyword passed to xgettext using --keyword.                                                                                                                                       |
                 +----------------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``location_mode``   | Source locations     | Choose how extraction writes source locations to the POT file. Use this to keep locations in the template while omitting them from translated PO files.          |
+                |                      |                      |                                                                                                                                                                  |
+                |                      |                      | .. list-table:: Available choices:                                                                                                                               |
+                |                      |                      |    :width: 100%                                                                                                                                                  |
+                |                      |                      |                                                                                                                                                                  |
+                |                      |                      |    * - ``file``                                                                                                                                                  |
+                |                      |                      |      - Use file format settings                                                                                                                                  |
+                |                      |                      |    * - ``keep``                                                                                                                                                  |
+                |                      |                      |      - Extract locations to the POT file                                                                                                                         |
+                |                      |                      |    * - ``omit``                                                                                                                                                  |
+                |                      |                      |      - Do not extract locations                                                                                                                                  |
+                +----------------------+----------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``input_mode``       | Input source         | Choose whether xgettext should read source files from glob patterns or from a POTFILES/POTFILES.in manifest.                                                                                     |
                 |                      |                      |                                                                                                                                                                                                  |
                 |                      |                      | .. list-table:: Available choices:                                                                                                                                                               |

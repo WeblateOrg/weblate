@@ -1920,23 +1920,19 @@ class SphinxAddon(ExtractPotBaseAddon):
         file_format_params = dict(component.file_format_params)
         location_mode = self.get_location_mode()
         if location_mode == "keep":
-            file_format_params["po_no_location"] = False
+            effective_no_location = False
         elif location_mode == "omit":
-            file_format_params["po_no_location"] = True
+            effective_no_location = True
+        else:
+            effective_no_location = bool(file_format_params.get("po_no_location"))
+        file_format_params["po_no_location"] = effective_no_location
         store = file_format_cls(
             template,
             file_format_params=file_format_params,
             repo_temp_dir=component.repository.get_repo_temp_dir(),
         )
-        changed = location_mode == "omit"
+        changed = False
         for unit in store.content_units:
-            if location_mode == "omit":
-                unit.mainunit.sourcecomments = [
-                    comment
-                    for comment in unit.mainunit.sourcecomments
-                    if not comment.startswith("#:")
-                ]
-                continue
             locations = unit.mainunit.getlocations()
             normalized_locations = [
                 SphinxAddon.normalize_sphinx_location(location, source_root, build_root)
@@ -1962,6 +1958,15 @@ class SphinxAddon(ExtractPotBaseAddon):
             if len(filtered_units) != len(store.store.units):
                 store.store.units = filtered_units
                 changed = True
+
+        if effective_no_location:
+            for unit in store.content_units:
+                unit.mainunit.sourcecomments = [
+                    comment
+                    for comment in unit.mainunit.sourcecomments
+                    if not comment.startswith("#:")
+                ]
+            changed = True
 
         if changed:
             store.save()
