@@ -2316,6 +2316,10 @@ class SuggestionDeleteRequestSerializer(ReadOnlySerializer):
     is_spam = serializers.BooleanField(required=False, default=False)
 
 
+class SuggestionAcceptRequestSerializer(ReadOnlySerializer):
+    approve = serializers.BooleanField(required=False, default=False)
+
+
 class MemorySerializer(serializers.ModelSerializer[Memory]):
     visible_project_ids_loaded = False
     visible_project_ids: set[int] | None = None

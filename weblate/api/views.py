@@ -111,6 +111,7 @@ from weblate.api.serializers import (
     SelfUserSerializer,
     SingleServiceConfigSerializer,
     StatisticsSerializer,
+    SuggestionAcceptRequestSerializer,
     SuggestionDeleteRequestSerializer,
     SuggestionSerializer,
     TaskSerializer,
@@ -3585,7 +3586,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
 
-        qs = unit.suggestion_set.order()
+        qs = unit.suggestion_set.load_votes().order()
         page = self.paginate_queryset(qs)
         serializer = SuggestionSerializer(page, context={"request": request}, many=True)
         return self.get_paginated_response(serializer.data)
@@ -3607,6 +3608,7 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             Suggestion.objects.filter_access(self.request.user)
             .select_related("unit", "user", "unit__translation__component__project")
             .order_by("-timestamp")
+            .load_votes()
         )
 
     @extend_schema(
@@ -3637,10 +3639,7 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     @extend_schema(
         description="Accept a suggestion.",
         methods=["post"],
-        request=inline_serializer(
-            "SuggestionAcceptRequestSerializer",
-            {"approve": serializers.BooleanField(required=False, default=False)},
-        ),
+        request=SuggestionAcceptRequestSerializer,
         responses={
             200: inline_serializer(
                 "SuggestionActionResultSerializer", {"result": serializers.CharField()}
@@ -3653,7 +3652,9 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         unit = suggestion.unit
         user = request.user
 
-        approve = request.data.get("approve", False)
+        serializer = SuggestionAcceptRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        approve = serializer.validated_data["approve"]
 
         if not user.has_perm("suggestion.accept", unit):
             self.permission_denied(request)
