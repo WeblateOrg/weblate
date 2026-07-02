@@ -12,7 +12,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="remove-github-account-{{ installation.pk }}-label">
-            {% translate "Remove connected GitHub account?" %}
+            {% translate "Remove connected account?" %}
           </h4>
           <button type="button"
                   class="btn-close"
@@ -23,7 +23,7 @@
           <p>
             <strong>
               {% blocktranslate trimmed with login=installation.target_login %}
-                This removes the connected GitHub account <code>{{ login }}</code> from Weblate.
+                This removes the connected account <code>{{ login }}</code> from Weblate.
               {% endblocktranslate %}
             </strong>
           </p>

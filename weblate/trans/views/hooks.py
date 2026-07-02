@@ -881,7 +881,7 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     if request:
         event = request.headers.get("x-github-event", "")
         if data.get("installation"):
-            msg = "GitHub App webhooks must use the per-integration hook URL"
+            msg = "GitHub App webhooks must use the per-App hook URL"
             raise PermissionDenied(msg)
         if event != "push":
             return None
@@ -895,10 +895,9 @@ def github_integration_hook_helper(
     data: dict, request: Request | None, *, integration_token: str
 ) -> HandlerResponse | None:
     """
-    Parse a signed webhook delivered to a single GitHub App integration.
+    Parse a signed webhook delivered to a single registered Weblate GitHub App.
 
-    The integration is identified by the ``integration_token`` embedded in the
-    hook URL.
+    The App is identified by the webhook token embedded in the hook URL.
     """
     if request is None:
         msg = "GitHub App webhooks require a request"
@@ -908,10 +907,10 @@ def github_integration_hook_helper(
         config = GitHubAppCredentials.objects.get(webhook_token=integration_token)
     except GitHubAppCredentials.DoesNotExist:
         LOGGER.warning(
-            "Rejected GitHub App webhook for unknown integration token %s",
+            "Rejected GitHub App webhook for unknown webhook token %s",
             integration_token,
         )
-        msg = "Unknown GitHub App integration"
+        msg = "Unknown GitHub App webhook token"
         raise PermissionDenied(msg) from None
 
     signature = request.headers.get("x-hub-signature-256", "")
@@ -1330,10 +1329,10 @@ class ServiceHookView(BaseHookView):
 
 @extend_schema(exclude=True)
 class IntegrationHookView(BaseHookView):
-    """Authenticated webhook endpoint for a single registered integration."""
+    """Authenticated webhook endpoint for a single registered Weblate GitHub App."""
 
     def post(self, request: Request, integration_token: uuid.UUID) -> Response:
-        """Process a signed webhook addressed to one integration token."""
+        """Process a signed webhook addressed to one GitHub App webhook token."""
         hook_helper = partial(
             github_integration_hook_helper,
             integration_token=str(integration_token),

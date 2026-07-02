@@ -6,7 +6,7 @@
   <li class="breadcrumb-item">
     <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
   </li>
-  <li class="breadcrumb-item">{% translate "From connected GitHub account" %}</li>
+  <li class="breadcrumb-item">{% translate "From connected account" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -14,7 +14,7 @@
   <div class="card">
     <div class="card-header">
       <h4 class="card-title">
-        {% translate "Import from connected GitHub account" %}
+        {% translate "Import from connected account" %}
         {% if github_app_install_url %}
           <a href="{{ github_app_install_url }}" class="btn btn-primary btn-sm float-end">{% translate "Connect GitHub account" %}</a>
         {% endif %}
@@ -109,12 +109,12 @@
         </table>
       {% else %}
         <p class="text-body-secondary">
-          {% translate "No repositories available from connected GitHub accounts." %}
+          {% translate "No repositories available from connected accounts." %}
           {% if not installations %}
             {% if github_app_install_url %}
-              {% translate "Install the Weblate GitHub app to connect a GitHub organization or user account." %}
+              {% translate "Install the Weblate GitHub app to connect an organization or user account." %}
             {% elif github_app_configured %}
-              {% translate "Select a project with a workspace before connecting a GitHub account. GitHub accounts are connected to workspaces." %}
+              {% translate "Select a project with a workspace before connecting an account. Code hosting accounts are connected to workspaces." %}
             {% else %}
               {% translate "Weblate GitHub app is not registered on this Weblate instance." %}
             {% endif %}
