@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.signing import BadSignature, SignatureExpired
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -93,9 +93,19 @@ def _user_can_install_github_app(user) -> bool:
     return _installation_workspaces(user).exists()
 
 
-def _require_github_app_access(request) -> None:
-    if not _user_can_install_github_app(request.user):
-        raise PermissionDenied
+def _handle_missing_github_app_access(request, next_url: str) -> HttpResponse | None:
+    if _user_can_install_github_app(request.user):
+        return None
+    if request.user.has_perm("management.use") and not Workspace.objects.exists():
+        messages.error(
+            request,
+            gettext(
+                "Create a workspace before connecting a GitHub account. "
+                "GitHub App connections are linked to workspaces."
+            ),
+        )
+        return redirect(next_url)
+    raise PermissionDenied
 
 
 def _default_next_url(request, workspace: Workspace | None = None) -> str:
@@ -536,9 +546,10 @@ def refresh_repositories(request, pk):
 @login_required
 def github_app_install(request):
     """Start the Weblate GitHub app installation flow."""
-    _require_github_app_access(request)
-
     next_url = _get_next_url(request)
+    if response := _handle_missing_github_app_access(request, next_url):
+        return response
+
     configs = get_github_app_configurations()
     if not configs:
         messages.error(
@@ -686,7 +697,8 @@ def github_app_setup(request):
         )
         return redirect(next_url)
 
-    _require_github_app_access(request)
+    if response := _handle_missing_github_app_access(request, next_url):
+        return response
 
     hostname = ""
     workspace = None
