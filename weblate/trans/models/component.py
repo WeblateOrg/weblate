@@ -2295,7 +2295,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 )()
         if self.linked_component is not None:
             return self.linked_component.get_repoweb_link(
-                filename, line, template, user=self.acting_user
+                filename, line, template, user=user or self.acting_user
             )
         if not template:
             if filename.startswith("https://"):

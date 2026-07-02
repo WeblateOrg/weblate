@@ -3398,6 +3398,33 @@ class ComponentRepoWebTestCase(FixtureTestCase):
             "https://github.com/marcus/project-x/blob/main/test.py#L42", self.get_url()
         )
 
+    def create_github_repo_link(self) -> Component:
+        self.component.repo = "https://github.com/marcus/project-x.git"
+        Component.objects.filter(pk=self.component.pk).update(repo=self.component.repo)
+        return self.create_link_existing(
+            name="Linked repository browser",
+            slug="linked-repository-browser",
+        )
+
+    def test_repo_link_generation_linked_github_with_user(self) -> None:
+        """Test generated repository browser links for linked repositories."""
+        component = self.create_github_repo_link()
+
+        self.assertEqual(
+            "https://github.com/marcus/project-x/blob/main/test.py#L42",
+            component.get_repoweb_link("test.py", "42", user=self.user),
+        )
+
+    def test_repo_link_generation_linked_github_with_acting_user(self) -> None:
+        """Test generated repository browser links delegate acting user."""
+        component = self.create_github_repo_link()
+        component.acting_user = self.user
+
+        self.assertEqual(
+            "https://github.com/marcus/project-x/blob/main/test.py#L42",
+            component.get_repoweb_link("test.py", "42"),
+        )
+
     def test_repo_link_generation_pagure(self) -> None:
         """Test changing repo attribute to check repo generation links."""
         self.component.repo = "https://pagure.io/f/ATEST"
