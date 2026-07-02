@@ -780,7 +780,7 @@ def github_app_setup(request):
         messages.warning(
             request,
             gettext(
-                "GitHub is still syncing the connected account. "
+                "GitHub is still syncing the connected GitHub account. "
                 "The connection is pending and repositories might not appear yet. "
                 "Try connecting the account again later if they do not show up."
             ),
@@ -1012,7 +1012,7 @@ def _build_manifest_for_request(
     base_url = get_site_url()
     redirect_url = get_site_url(reverse("github-app-register-callback"))
     setup_url = get_site_url(reverse("github-app-setup"))
-    # The per-integration hook URL embeds an opaque token so deliveries are
+    # The per-App hook URL embeds an opaque token so deliveries are
     # authenticated against exactly one App secret without guessing the host.
     webhook_url = get_site_url(
         reverse("integration-webhook", kwargs={"integration_token": webhook_token})

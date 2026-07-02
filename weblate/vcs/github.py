@@ -331,7 +331,7 @@ def get_installation_token(
     access_token = data["token"]
     cache.set(cache_key, access_token, TOKEN_CACHE_TTL)
     logger.info(
-        "Obtained Weblate GitHub app token for connected account %s/%s",
+        "Obtained Weblate GitHub app token for connected GitHub account %s/%s",
         hostname,
         installation_id,
     )
@@ -786,7 +786,7 @@ class GitHubInstallation(Installation):
     it was installed on, and a cached repository list. App-level credentials
     (App ID, private key, webhook secret) live in
     :class:`GitHubAppCredentials` and are looked up by hostname so a single
-    registered App can serve every connected account on that host.
+    registered App can serve every connected GitHub account on that host.
     """
 
     objects = GitHubInstallationManager()
