@@ -410,7 +410,7 @@ linkcheck_ignore = [
     "https://cgit.git.savannah.gnu.org/cgit/gettext.git/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
     "https://wiki.gnupg.org/",
-    "https://www.bis.doc.gov/",
+    "https://www.bis.gov/",
     "https://www.libravatar.org/",
     "https://glosbe.com/",
     # These seems to block bots/GitHub
