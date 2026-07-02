@@ -399,6 +399,13 @@ the database, and can be reverted.
 Optionally, translations can also be reverted
 in the underlying version control system.
 
+When translating a string, translators can optionally provide a message
+explaining the reason for the change. This is supported for single
+translations, bulk edits, search and replace, and the REST API. The message is
+stored with the change event and shown in the change history and detail view,
+notification e-mails, the change history CSV export, and as a ``message`` field
+in the REST API.
+
 Translated string length
 ++++++++++++++++++++++++
 

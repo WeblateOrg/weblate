@@ -2674,6 +2674,12 @@ paths:
           * `102` - Remote repository update failed
         explode: true
         style: form
+      - in: query
+        name: message
+        schema:
+          type: string
+        description: Return only changes whose user-provided message contains this
+          text (case-insensitive).
       - name: page
         required: false
         in: query
@@ -29399,11 +29405,17 @@ components:
           type: string
           format: uri
           readOnly: true
+        message:
+          type: string
+          readOnly: true
+          description: Optional free-text note provided by the user when making this
+            change. Empty string when no note was supplied.
       required:
       - action_name
       - author
       - component
       - id
+      - message
       - timestamp
       - translation
       - unit
@@ -33138,7 +33150,13 @@ components:
           additionalProperties: {}
     PatchedUnitWrite:
       type: object
-      description: Serializer for updating source unit.
+      description: |-
+        Serializer for updating a translation unit.
+
+        The optional write-only ``message`` field lets clients attach a free-text
+        note explaining why a change was made. It is stored on the resulting
+        :class:`~weblate.trans.models.Change` record; read it back via
+        ``GET /api/changes/``.
       properties:
         target:
           type: array
@@ -33160,6 +33178,13 @@ components:
           type: array
           items:
             type: integer
+        message:
+          type: string
+          writeOnly: true
+          default: ''
+          description: Optional note explaining why the translation was changed, stored
+            on the resulting change record.
+          maxLength: 500
     PendingUnits:
       type: object
       description: Detailed breakdown of pending translation units.
@@ -34647,7 +34672,13 @@ components:
       - web_url
     UnitWrite:
       type: object
-      description: Serializer for updating source unit.
+      description: |-
+        Serializer for updating a translation unit.
+
+        The optional write-only ``message`` field lets clients attach a free-text
+        note explaining why a change was made. It is stored on the resulting
+        :class:`~weblate.trans.models.Change` record; read it back via
+        ``GET /api/changes/``.
       properties:
         target:
           type: array
@@ -34669,6 +34700,13 @@ components:
           type: array
           items:
             type: integer
+        message:
+          type: string
+          writeOnly: true
+          default: ''
+          description: Optional note explaining why the translation was changed, stored
+            on the resulting change record.
+          maxLength: 500
       required:
       - labels
       - target

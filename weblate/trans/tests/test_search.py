@@ -660,6 +660,49 @@ class ReplaceTest(ViewTestCase):
             ],
         )
 
+    def test_replace_with_message(self) -> None:
+        """Test search and replace with a custom message."""
+        url = reverse("replace", kwargs=self.kw_translation)
+        custom_message = "Reason for search and replace action."
+
+        # Post first replace form, which displays confirm view
+        response = self.client.post(
+            url,
+            {
+                "q": "",
+                "search": "Nazdar",
+                "replacement": "Ahoj",
+                "message": custom_message,
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response, "Please review and confirm the search and replace results."
+        )
+
+        # Post confirm form
+        payload = {
+            "q": "",
+            "search": "Nazdar",
+            "replacement": "Ahoj",
+            "confirm": "1",
+            "units": self.unit.pk,
+            "message": custom_message,
+        }
+        response = self.client.post(url, payload, follow=True)
+        self.assertContains(
+            response, "Search and replace completed, 1 string was updated."
+        )
+
+        # Assert change message
+        latest_change = (
+            Change.objects.filter(action=ActionEvents.REPLACE)
+            .order_by("-timestamp")
+            .first()
+        )
+        self.assertIsNotNone(latest_change)
+        self.assertEqual(latest_change.message, custom_message)
+
 
 class BulkEditTest(ViewTestCase):
     """Test for build edit functionality."""
@@ -994,3 +1037,31 @@ class BulkEditTest(ViewTestCase):
             initial_change_count + 1,
         )
         self.assertTrue(PendingUnitChange.objects.filter(unit=self.unit).exists())
+
+    def test_bulk_edit_with_message(self) -> None:
+        """Test bulk edit with user-provided message."""
+        custom_message = "Refining bulk translations for fuzzy strings."
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": "state:needs-editing",
+                "state": STATE_TRANSLATED,
+                "message": custom_message,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.assertTrue(Change.objects.filter(details__message=custom_message).exists())
+
+        # A too-long message is rejected by form validation
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "q": "state:needs-editing",
+                "state": STATE_TRANSLATED,
+                "message": "y" * 501,
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Ensure this value has at most 500 characters")

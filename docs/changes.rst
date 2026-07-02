@@ -28,6 +28,7 @@ Weblate 2026.7
 
 .. rubric:: New features
 
+* Translators can now attach an optional message explaining the reason for a change when saving translation edits, bulk edits, or search and replace actions. See :ref:`translating`.
 * Added :ref:`check-safe-mdx`, :ref:`check-source-max-length`, and :ref:`check-accelerator` quality checks for :ref:`mdx` JSX expressions, source length limits, and accelerator key consistency.
 * Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions.
 * Added :ref:`code-hosting-github-app-register` for connecting GitHub repositories through a Weblate GitHub App.

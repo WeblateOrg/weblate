@@ -59,6 +59,7 @@ from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import ProjectBackup
+from weblate.trans.change_messages import ChangeMessageField
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -621,6 +622,7 @@ class TranslationForm(UnitForm):
         max_length=1000,
         required=False,
     )
+    message = ChangeMessageField()
 
     def __init__(self, user: User, unit: Unit, *args, **kwargs) -> None:
         translation = unit.translation
@@ -683,6 +685,18 @@ class TranslationForm(UnitForm):
         self.helper.form_method = "post"
         self.helper.form_tag = False
         self.helper.disable_csrf = True
+        has_message = False
+        if self.is_bound:
+            has_message = bool(self.data.get("message") or self.errors.get("message"))
+        else:
+            has_message = bool(self.initial.get("message"))
+
+        collapse_class = "collapse show" if has_message else "collapse"
+        aria_expanded = "true" if has_message else "false"
+        toggle_class = "btn btn-sm btn-link change-message-toggle px-0"
+        if not has_message:
+            toggle_class += " collapsed"
+
         self.helper.layout = Layout(
             Field("target"),
             Field("fuzzy"),
@@ -691,6 +705,17 @@ class TranslationForm(UnitForm):
             Field("translationsum"),
             InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
+            Div(
+                HTML(
+                    f'<p class="mb-2"><a class="{toggle_class}" data-bs-toggle="collapse" href="#collapse-msg-{unit.checksum}" role="button" aria-expanded="{aria_expanded}" aria-controls="collapse-msg-{unit.checksum}">{gettext("Add a note (optional)")}</a></p>'
+                ),
+                Div(
+                    Field("message"),
+                    css_class=collapse_class,
+                    id=f"collapse-msg-{unit.checksum}",
+                ),
+                css_class="change-message-container",
+            ),
         )
         if user_can_review or not user_can_edit:
             self.fields["fuzzy"].widget = forms.HiddenInput()
@@ -3771,6 +3796,7 @@ class ReplaceForm(forms.Form):
         required=True,
         strip=False,
     )
+    message = ChangeMessageField()
 
     def __init__(self, obj: URLMixin, data: dict | None = None) -> None:
         path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
@@ -3782,6 +3808,7 @@ class ReplaceForm(forms.Form):
             Field("path"),
             Field("search"),
             Field("replacement"),
+            Field("message"),
             Div(template="snippets/replace-help.html"),
         )
 
@@ -4072,6 +4099,7 @@ class BulkEditForm(forms.Form):
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
+    message = ChangeMessageField()
 
     def __init__(
         self,
@@ -4137,6 +4165,7 @@ class BulkEditForm(forms.Form):
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
+        self.helper.layout.append(Field("message"))
 
 
 class ContributorAgreementForm(forms.Form):

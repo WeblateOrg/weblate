@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% if message %}
+  <div class="change-user-message mt-2">
+    <span class="text-muted me-1">{% translate "Note:" %}</span>
+    <span>{{ message }}</span>
+  </div>
+{% endif %}

@@ -368,6 +368,21 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Check mail - TranslatedStringNotificaton
         self.validate_notifications(1, "[Weblate] New translation in Test/Test — Czech")
 
+    def test_notify_new_translation_with_message(self) -> None:
+        unit = self.get_unit()
+        self.create_with_callbacks(
+            unit.change_set,
+            user=self.anotheruser,
+            old="",
+            action=ActionEvents.CHANGE,
+            message="Aligning with the updated glossary",
+        )
+
+        # The user-provided note should be included in the notification email
+        self.assertEqual(len(mail.outbox), 1)
+        content = mail.outbox[0].alternatives[0][0]
+        self.assertIn("Aligning with the updated glossary", content)
+
     def test_notify_approved_translation(self) -> None:
         unit = self.get_unit()
         self.create_with_callbacks(

@@ -2647,6 +2647,7 @@ and XLIFF.
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :<json array labels: labels, available on source units
+    :<json string message: optional note explaining why the translation was changed, stored in the change record
 
 .. http:put:: /api/units/(int:id)/
 
@@ -2661,6 +2662,7 @@ and XLIFF.
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :<json array labels: labels, available on source units
+    :<json string message: optional note explaining why the translation was changed, stored in the change record
 
 .. http:delete:: /api/units/(int:id)/
 
@@ -2744,6 +2746,7 @@ Changes
     :>json string target: event changed text
     :>json string old: previous text
     :>json object details: additional details about the change
+    :>json string message: optional note explaining why the change was made
     :>json int id: change identifier
 
 Screenshots

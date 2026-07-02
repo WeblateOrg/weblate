@@ -16,6 +16,12 @@
     {% format_unit_target unit value=target diff=old %}
   {% endif %}
 
+  {% if change.message %}
+    <h2>{% translate "Note:" %}</h2>
+
+    <p>{{ change.message }}</p>
+  {% endif %}
+
   <div class="line buttons">
     <a class="button" href="{{ unit.get_absolute_url }}">{% translate "Edit this string" %}</a>
   </div>
