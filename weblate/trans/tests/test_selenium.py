@@ -136,6 +136,10 @@ TEST_BACKENDS = (
 
 SCREENSHOT_SITE_DOMAIN = "weblate.example.com"
 SCREENSHOT_DATE = datetime(2026, 1, 15, 12, 0, tzinfo=UTC)
+SCREENSHOT_GIT_REVISION = "0123456789abcdef0123456789abcdef01234567"
+SCREENSHOT_GIT_LINK = (
+    f"https://github.com/WeblateOrg/weblate/commits/{SCREENSHOT_GIT_REVISION}"
+)
 SELENIUM_GPG_KEY_ID = "B17C8337FA04DF8D4D3569AF882B2A22730AAF03"
 SELENIUM_SSH_KEY_FIXTURES = (
     ("id_rsa.pub", "selenium-keys/id_rsa.pub"),
@@ -493,6 +497,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with override_settings(SITE_DOMAIN=SCREENSHOT_SITE_DOMAIN, ENABLE_HTTPS=False):
             component.git_export = get_export_url(component)
             component.save(update_fields=("git_export",))
+
+    @contextmanager
+    def stable_git_revision(self) -> Iterator[None]:
+        """Use deterministic Git revision text in management screenshots."""
+        with (
+            patch("weblate.wladmin.views.GIT_LINK", SCREENSHOT_GIT_LINK),
+            patch("weblate.wladmin.views.GIT_REVISION", SCREENSHOT_GIT_REVISION),
+        ):
+            yield
 
     def wait_for_screenshot_ready(self, timeout: int = 10) -> None:
         """Wait for browser-side rendering that can affect screenshots."""
@@ -2280,10 +2293,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             # The login session was created with the patched clock and expires
             # once the real clock is restored.
             SupportStatus.objects.create(secret="123", name="community")
-            with self.wait_for_page_load():
-                self.click("Weblate status")
-            self.assert_text_contains("h4.card-title", "Weblate support status")
-            self.screenshot("support-discovery.png")
+            with self.stable_git_revision():
+                with self.wait_for_page_load():
+                    self.click("Weblate status")
+                self.assert_text_contains("h4.card-title", "Weblate support status")
+                self.screenshot("support-discovery.png")
 
     def test_manage(self) -> None:
         with (
