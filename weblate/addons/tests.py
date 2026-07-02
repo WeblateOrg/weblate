@@ -11,7 +11,6 @@ import json
 import os
 import re
 import shutil
-import ssl
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
@@ -44,6 +43,7 @@ from django.utils import timezone
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from fedora_messaging import exceptions as fedora_messaging_exceptions
 from fedora_messaging.exceptions import ConfigurationException
+from OpenSSL import SSL
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from weblate_schemas.messages import WeblateV1Message
 
@@ -104,6 +104,7 @@ from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
 from .fedora_messaging import (
     SERVICE_STOP_TIMEOUT,
+    BrokerTLSProbeProtocol,
     FedoraMessagingAddon,
     FedoraMessagingPublishError,
 )
@@ -8905,6 +8906,24 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "client_cert": cert,
         }
 
+    @staticmethod
+    def get_broker_tls_connection() -> MagicMock:
+        tls_connection = MagicMock()
+        tls_connection.bio_read.side_effect = SSL.WantReadError()
+        return tls_connection
+
+    @staticmethod
+    def get_broker_tls_context_factory(
+        tls_connection: MagicMock | None = None,
+    ) -> SimpleNamespace:
+        return SimpleNamespace(
+            clientConnectionForTLS=MagicMock(
+                return_value=tls_connection
+                if tls_connection is not None
+                else FedoraMessagingAddonTestCase.get_broker_tls_connection()
+            )
+        )
+
     def test_topic(self):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
@@ -9212,16 +9231,14 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         broker_connection.getpeername.return_value = ("93.184.216.34", 12345)
         connection_context = MagicMock()
         connection_context.__enter__.return_value = broker_connection
-        tls_connection_context = MagicMock()
-        ssl_context = SimpleNamespace(
-            wrap_socket=MagicMock(return_value=tls_connection_context)
-        )
+        tls_connection = self.get_broker_tls_connection()
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
 
         def configure_tls_parameters(parameters) -> None:
             self.assertEqual(parameters.host, "rabbitmq.example.com")
             self.assertEqual(parameters.port, 12345)
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=ssl_context, server_hostname=parameters.host
+                context=SimpleNamespace(), server_hostname=parameters.host
             )
 
         with (
@@ -9229,6 +9246,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
             ) as configure_tls_parameters_mock,
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=tls_context_factory,
+            ) as ssl_context_factory,
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",
                 return_value=connection_context,
@@ -9240,35 +9261,93 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             )
 
         configure_tls_parameters_mock.assert_called_once()
+        ssl_context_factory.assert_called_once()
         create_connection.assert_called_once_with(
             ("rabbitmq.example.com", 12345), timeout=7
         )
-        broker_connection.settimeout.assert_called_once_with(7)
+        broker_connection.settimeout.assert_any_call(7)
         broker_connection.getpeername.assert_called_once_with()
-        ssl_context.wrap_socket.assert_called_once_with(
-            broker_connection, server_hostname="rabbitmq.example.com"
+        tls_context_factory.clientConnectionForTLS.assert_called_once()
+        tls_connection.set_connect_state.assert_called_once_with()
+        tls_connection.do_handshake.assert_called_once_with()
+        tls_connection.bio_read.assert_called_once_with(2**15)
+
+    def test_broker_tls_probe_protocol_matches_twisted_factory_shape(self) -> None:
+        from twisted.internet import ssl as twisted_ssl  # noqa: PLC0415
+
+        tls_context_factory = twisted_ssl.optionsForClientTLS("rabbitmq.example.com")
+
+        tls_connection = tls_context_factory.clientConnectionForTLS(
+            BrokerTLSProbeProtocol()
         )
+
+        self.assertIsInstance(tls_connection, SSL.Connection)
+
+    def test_broker_tls_handshake_pumps_twisted_memory_bio(self) -> None:
+        broker_connection = MagicMock()
+        broker_connection.recv.return_value = b"server hello"
+        tls_connection = self.get_broker_tls_connection()
+        tls_connection.do_handshake.side_effect = [SSL.WantReadError(), None]
+        tls_connection.bio_read.side_effect = [
+            b"client hello",
+            SSL.WantReadError(),
+            SSL.WantReadError(),
+        ]
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
+
+        FedoraMessagingAddon._perform_broker_tls_handshake(  # noqa: SLF001
+            broker_connection, tls_context_factory, timeout=7
+        )
+
+        tls_connection.set_connect_state.assert_called_once_with()
+        self.assertEqual(tls_connection.do_handshake.call_count, 2)
+        broker_connection.sendall.assert_called_once_with(b"client hello")
+        broker_connection.recv.assert_called_once_with(2**15)
+        tls_connection.bio_write.assert_called_once_with(b"server hello")
+
+    def test_broker_tls_handshake_enforces_deadline(self) -> None:
+        broker_connection = MagicMock()
+        broker_connection.recv.return_value = b"server hello"
+        tls_connection = self.get_broker_tls_connection()
+        tls_connection.do_handshake.side_effect = [SSL.WantReadError()]
+        tls_connection.bio_read.side_effect = SSL.WantReadError()
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
+
+        with (
+            patch(
+                "weblate.addons.fedora_messaging.time.monotonic",
+                side_effect=[0, 0, 8],
+            ),
+            self.assertRaisesMessage(TimeoutError, "TLS handshake timed out"),
+        ):
+            FedoraMessagingAddon._perform_broker_tls_handshake(  # noqa: SLF001
+                broker_connection, tls_context_factory, timeout=7
+            )
+
+        broker_connection.recv.assert_not_called()
 
     def test_broker_tls_validation_reports_certificate_error(self) -> None:
         broker_connection = MagicMock()
         broker_connection.getpeername.return_value = ("93.184.216.34", 5671)
         connection_context = MagicMock()
         connection_context.__enter__.return_value = broker_connection
-        ssl_context = SimpleNamespace(
-            wrap_socket=MagicMock(
-                side_effect=ssl.SSLCertVerificationError("certificate verify failed")
-            )
-        )
+        tls_connection = self.get_broker_tls_connection()
+        tls_connection.do_handshake.side_effect = SSL.Error("certificate verify failed")
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
 
         def configure_tls_parameters(parameters) -> None:
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=ssl_context, server_hostname=parameters.host
+                context=SimpleNamespace(), server_hostname=parameters.host
             )
 
         with (
             patch(
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
+            ),
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=tls_context_factory,
             ),
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",
@@ -9286,17 +9365,21 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         broker_connection.getpeername.return_value = ("127.0.0.1", 5671)
         connection_context = MagicMock()
         connection_context.__enter__.return_value = broker_connection
-        ssl_context = SimpleNamespace(wrap_socket=MagicMock())
+        tls_context_factory = self.get_broker_tls_context_factory()
 
         def configure_tls_parameters(parameters) -> None:
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=ssl_context, server_hostname=parameters.host
+                context=SimpleNamespace(), server_hostname=parameters.host
             )
 
         with (
             patch(
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
+            ),
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=tls_context_factory,
             ),
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",
@@ -9309,12 +9392,12 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         ):
             FedoraMessagingAddon.validate_broker_tls("amqps://rabbitmq.example.com")
 
-        ssl_context.wrap_socket.assert_not_called()
+        tls_context_factory.clientConnectionForTLS.assert_not_called()
 
     def test_broker_tls_validation_reports_connection_error(self) -> None:
         def configure_tls_parameters(parameters) -> None:
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=SimpleNamespace(wrap_socket=MagicMock()),
+                context=SimpleNamespace(),
                 server_hostname=parameters.host,
             )
 
@@ -9322,6 +9405,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             patch(
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
+            ),
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=self.get_broker_tls_context_factory(),
             ),
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",
