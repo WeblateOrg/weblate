@@ -198,6 +198,26 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(response.status_code, 302)
         return response["Location"]
 
+    def _remove_workspaces(self) -> None:
+        self.project.workspace = None
+        self.project.save(update_fields=["workspace"])
+        self.workspace.delete()
+        self.user.clear_permissions_cache()
+
+    def assert_missing_workspace_message(self, response) -> None:
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(
+            response_messages,
+            [
+                (
+                    "Create a workspace before connecting a GitHub account. "
+                    "GitHub App connections are linked to workspaces."
+                )
+            ],
+        )
+
     def assert_installation_remove_modal(
         self, response, installation: GitHubInstallation
     ) -> None:
@@ -228,6 +248,32 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(parsed.netloc, "github.com")
         self.assertEqual(parsed.path, "/apps/weblate-app/installations/select_target")
         self.assertIn("state", parse_qs(parsed.query))
+
+    def test_install_without_workspace_redirects_with_message(self):
+        self._remove_workspaces()
+
+        response = self.client.get(reverse("github-app-install"))
+
+        self.assertRedirects(response, reverse("manage-github-accounts"))
+        self.assert_missing_workspace_message(response)
+
+    def test_setup_without_workspace_redirects_with_message(self):
+        self._remove_workspaces()
+
+        response = self.client.get(
+            reverse("github-app-setup"),
+            {
+                "installation_id": "12345",
+                "setup_action": "install",
+                "code": "oauth-code",
+            },
+        )
+
+        self.assertRedirects(response, reverse("manage-github-accounts"))
+        self.assertFalse(
+            GitHubInstallation.objects.filter(installation_id="12345").exists()
+        )
+        self.assert_missing_workspace_message(response)
 
     def test_management_overview_uses_single_workspace_for_install_link(self):
         response = self.client.get(reverse("manage-github-accounts"))
