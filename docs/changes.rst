@@ -9,6 +9,9 @@ Weblate 2026.7.1
 
 .. rubric:: Bug fixes
 
+* The :guilabel:`Things to check` panel no longer uses error highlighting for suggestions and other non-error translation states.
+* Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
