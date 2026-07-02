@@ -8,6 +8,7 @@ Weblate 2026.7.1
 .. rubric:: Improvements
 
 * Restricted components now show a status icon in component listings.
+* Code hosting account pages now consistently use :guilabel:`Code hosting connections` and provider-neutral connected account wording.
 
 .. rubric:: Bug fixes
 

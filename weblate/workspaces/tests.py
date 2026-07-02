@@ -496,7 +496,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertNotContains(response, access_url, status_code=200)
         self.assertNotContains(response, 'data-bs-target="#access"', status_code=200)
         self.assertNotContains(response, "Access control", status_code=200)
-        self.assertNotContains(response, "VCS integrations", status_code=200)
+        self.assertNotContains(response, "Code hosting connections", status_code=200)
 
         response = self.client.get(access_url)
 

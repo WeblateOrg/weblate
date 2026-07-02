@@ -186,7 +186,7 @@
       {% if github_app_available %}
         <div class="tab-pane" id="github">
           <p>
-            {% translate "Pick a repository from a connected GitHub account. The component creation form will be pre-filled with the clone URL, default branch, and GitHub VCS driver." %}
+            {% translate "Pick a repository from a connected account. The component creation form will be pre-filled with the clone URL, default branch, and matching VCS driver." %}
             {% if github_app_install_url %}
               <a href="{{ github_app_install_url }}"
                  class="btn btn-outline-primary btn-sm float-end">{% translate "Add or configure account" %}</a>
@@ -237,11 +237,11 @@
           {% else %}
             <p class="text-body-secondary">
               {% if github_app_install_url %}
-                {% translate "No repositories available yet. Install the Weblate GitHub app on a GitHub organization or user account to make repositories available here." %}
+                {% translate "No repositories available yet. Connect a code hosting account to make repositories available here." %}
               {% elif selected_project %}
-                {% translate "No repositories are available from connected GitHub accounts for this project workspace." %}
+                {% translate "No repositories are available from connected accounts for this project workspace." %}
               {% else %}
-                {% translate "Select a project with a workspace to connect a GitHub account or import repositories from an existing connection." %}
+                {% translate "Select a project with a workspace to connect an account or import repositories from an existing connection." %}
               {% endif %}
             </p>
           {% endif %}

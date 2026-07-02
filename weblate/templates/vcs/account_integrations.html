@@ -11,14 +11,14 @@
       <a href="{{ selected_workspace.get_absolute_url }}">{{ selected_workspace }}</a>
     </li>
   {% endif %}
-  <li class="breadcrumb-item">{% translate "VCS integrations" %}</li>
+  <li class="breadcrumb-item">{% translate "Code hosting connections" %}</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
 
   <div class="card mb-3">
     <div class="card-header">
-      <h4 class="card-title">{% translate "VCS integrations" %}</h4>
+      <h4 class="card-title">{% translate "Code hosting connections" %}</h4>
     </div>
     <div class="card-body">
       {% if not managed_workspaces %}
@@ -27,7 +27,7 @@
         </p>
       {% elif not apps %}
         <p class="text-body-secondary">
-          {% translate "No VCS integrations are available. A site administrator needs to register a Weblate GitHub App first." %}
+          {% translate "No code hosting connections are available. A site administrator needs to register a code hosting app first." %}
         </p>
       {% else %}
         <p class="text-body-secondary">
@@ -53,7 +53,7 @@
           {% elif app.app_slug %}
             {{ app.app_slug }}
           {% else %}
-            {% translate "GitHub App" %}
+            {% translate "Code hosting app" %}
           {% endif %}
           <small class="text-body-secondary">({{ app.hostname }})</small>
           {% if not app.configured %}
@@ -65,9 +65,9 @@
         {% if not app.configured %}
           <div class="alert alert-warning">
             {% blocktranslate trimmed with hostname=app.hostname %}
-              Weblate GitHub App credentials are not registered for {{ hostname }}.
+              Code hosting app credentials are not registered for {{ hostname }}.
               Existing connected accounts can be removed, but new accounts cannot
-              be connected until a site administrator registers the App again.
+              be connected until a site administrator registers the app again.
             {% endblocktranslate %}
           </div>
         {% endif %}
@@ -101,7 +101,7 @@
               <tr>
                 <th>{% translate "Account" %}</th>
                 <th>{% translate "Workspace" %}</th>
-                <th>{% translate "GitHub installation ID" %}</th>
+                <th>{% translate "Provider ID" %}</th>
                 <th>{% translate "Repositories" %}</th>
                 <th>{% translate "Status" %}</th>
                 <th>{% translate "Actions" %}</th>
@@ -147,7 +147,7 @@
             </tbody>
           </table>
         {% else %}
-          <p class="text-body-secondary">{% translate "No connected GitHub accounts yet." %}</p>
+          <p class="text-body-secondary">{% translate "No connected accounts yet." %}</p>
         {% endif %}
       </div>
     </div>
