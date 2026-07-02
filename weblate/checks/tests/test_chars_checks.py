@@ -554,6 +554,56 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             "fr",
         )
 
+    def test_markdown_image(self) -> None:
+        self.do_test(
+            False,
+            (
+                (
+                    "Or buy a 👕 T-shirt 👕 from <br>\n"
+                    "[![HELLOTUX]({% asset hellotux_banner.jpg %})](https://www.hellotux.com/f-droid)<br>\n"
+                    "(F-Droid will receive 3€ per shirt sold.)\n"
+                ),
+                (
+                    "Ou achetez un 👕 T-shirt 👕 depuis <br>\n"
+                    "[![HELLOTUX]({% asset hellotux_banner.jpg %})](https://www.hellotux.com/f-droid)<br>\n"
+                    "(F-Droid recevra 3€ par T-shirt vendu.)\n"
+                ),
+                "md-text",
+            ),
+            "fr",
+        )
+        self.do_test(
+            True,
+            (
+                "[Read it!](https://example.com)",
+                "[Lisez-le!](https://example.com)",
+                "md-text",
+            ),
+            "fr",
+        )
+        self.do_test(
+            False,
+            (
+                "[Search](https://example.com/search?)",
+                "[Rechercher](https://example.com/search?)",
+                "md-text",
+            ),
+            "fr",
+        )
+
+    def test_description(self) -> None:
+        unit = make_unit(source="string", target="Oups!", code="fr")
+        description = str(self.check.get_description(make_check(unit, self.check)))
+        self.assertIn("punctuation mark", description)
+        self.assertIn("<code>!</code>", description)
+
+        unit = make_unit(source="string", target="Oups! Encore: vraiment?", code="fr")
+        description = str(self.check.get_description(make_check(unit, self.check)))
+        self.assertIn("punctuation marks", description)
+        self.assertIn("<code>!</code>", description)
+        self.assertIn("<code>:</code>", description)
+        self.assertIn("<code>?</code>", description)
+
     def test_restructured_text(self) -> None:
         self.do_test(
             True,

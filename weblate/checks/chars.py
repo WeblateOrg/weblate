@@ -10,12 +10,14 @@ import unicodedata
 from typing import TYPE_CHECKING, ClassVar
 
 import regex
-from django.utils.translation import gettext_lazy
+from django.utils.html import format_html
+from django.utils.translation import gettext_lazy, ngettext
 
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 from weblate.checks.utils import highlight_string
+from weblate.utils.html import MD_LINK, format_html_join_comma
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -38,6 +40,7 @@ FRENCH_PUNCTUATION_MISSING_RE_NBSP = f"([^\xa0])([{''.join(FRENCH_PUNCTUATION_NB
 FRENCH_PUNCTUATION_MISSING_RE_NNBSP = (
     f"([^\u202f])([{''.join(FRENCH_PUNCTUATION_NNBSP)}])"
 )
+MARKDOWN_IMAGE_MARKER = re.compile(r"!\[")
 MY_QUESTION_MARK = "\u1038\u104b"
 INTERROBANGS = ("?!", "!?", "؟!", "!؟", "？！", "！？", "⁈", "⁉")
 
@@ -49,6 +52,22 @@ def validate_accelerator_marker(marker: str) -> None:
 
 
 parse_accelerator_marker = single_value_flag(str, validate_accelerator_marker)
+
+
+def markdown_link_syntax_ranges(target: str) -> Iterable[tuple[int, int]]:
+    for match in MD_LINK.finditer(target):
+        if target[match.start()] == "!":
+            yield match.start(), match.start() + 1
+        link_text_start = match.start(1)
+        if link_text_start != -1:
+            yield from (
+                (link_text_start + marker.start(), link_text_start + marker.start() + 1)
+                for marker in MARKDOWN_IMAGE_MARKER.finditer(match.group(1))
+            )
+        for group_index in (3, 4, 5, 6):
+            start = match.start(group_index)
+            if start != -1:
+                yield start, match.end(group_index)
 
 
 class AcceleratorKeyCheck(TargetCheckParametrized):
@@ -593,7 +612,7 @@ class PunctuationSpacingCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+    def check_single(self, source: str, target: str, unit: Unit):
         # Remove XML/HTML entities first (indices must match the string we iterate over)
         target = strip_entities(target)
         # Skip punctuation inside placeables (e.g XLIFF equiv-text, RST).
@@ -605,29 +624,32 @@ class PunctuationSpacingCheck(TargetCheck):
                 target, unit, highlight_syntax="rst-text" in unit.all_flags
             )
         ]
+        if "md-text" in unit.all_flags:
+            highlighted_ranges.extend(markdown_link_syntax_ranges(target))
         highlighted_ranges.sort()
         whitespace = {" ", "\u00a0", "\u202f", "\u2009"}
         total = len(target)
+        punctuation = []
         range_index = 0
-        current_start, current_end = (
-            highlighted_ranges[0] if highlighted_ranges else (None, None)
-        )
+        current_range = highlighted_ranges[0] if highlighted_ranges else None
         for i, char in enumerate(target):
             # Advance to the next highlighted range if we've passed the current one.
-            while current_start is not None and i >= current_end:
+            while current_range is not None and i >= current_range[1]:
                 range_index += 1
                 if range_index < len(highlighted_ranges):
-                    current_start, current_end = highlighted_ranges[range_index]
+                    current_range = highlighted_ranges[range_index]
                 else:
-                    current_start = current_end = None
+                    current_range = None
                     break
             # Skip characters that fall inside a highlighted range.
-            if current_start is not None and current_start <= i < current_end:
+            if current_range is not None and current_range[0] <= i < current_range[1]:
                 continue
             if char in FRENCH_PUNCTUATION:
                 if i == 0:
-                    # Trigger if punctionation at beginning of the string
-                    return True
+                    # Trigger if punctuation at beginning of the string
+                    if char not in punctuation:
+                        punctuation.append(char)
+                    continue
                 if (
                     i + 1 < total
                     and unicodedata.category(target[i + 1])
@@ -636,9 +658,33 @@ class PunctuationSpacingCheck(TargetCheck):
                     # Ignore when not followed by space or open/close bracket
                     continue
                 prev_char = target[i - 1]
-                if prev_char not in whitespace and prev_char not in FRENCH_PUNCTUATION:
-                    return True
-        return False
+                if (
+                    prev_char not in whitespace
+                    and prev_char not in FRENCH_PUNCTUATION
+                    and char not in punctuation
+                ):
+                    punctuation.append(char)
+        return punctuation
+
+    def get_description(self, check_obj):
+        punctuation = []
+        unit = check_obj.unit
+        for target in unit.get_target_plurals():
+            for char in self.check_single("", target, unit):
+                if char not in punctuation:
+                    punctuation.append(char)
+        if not punctuation:
+            return super().get_description(check_obj)
+        return format_html(
+            ngettext(
+                "Missing non breakable space before punctuation mark {}.",
+                "Missing non breakable space before punctuation marks {}.",
+                len(punctuation),
+            ),
+            format_html_join_comma(
+                "<code>{}</code>", ((char,) for char in punctuation)
+            ),
+        )
 
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         # If there are placeables in target, skip Fix button and rely on save-time
