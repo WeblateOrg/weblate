@@ -96,7 +96,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         group = Group.objects.create(name=f"GitHub management {user.pk}")
         group.roles.add(role)
         user.groups.add(group)
-        user.clear_cache()
+        user.clear_permissions_cache()
 
     def _mock_oauth(
         self,
@@ -1508,7 +1508,7 @@ class GitHubAppManifestViewTest(TestCase):
         group, _created = Group.objects.get_or_create(name="Test GitHub App team")
         group.roles.add(role)
         user.groups.add(group)
-        user.clear_cache()
+        user.clear_permissions_cache()
 
     def _post_register(self, **fields):
         data = {"host": "github.com", "name": "Test Weblate", "public": "1"}

@@ -1298,7 +1298,7 @@ class GroupAPITest(APIBaseTest):
         other_component = self.create_acl()
         group.roles.add(Role.objects.get(name="Administration"))
         admin.groups.add(group)
-        admin.clear_cache()
+        admin.clear_permissions_cache()
         self.assertNotIn(other_component.project, admin.allowed_projects)
         self.assertFalse(admin.has_perm("project.permissions", other_component.project))
         self.do_request(
@@ -1403,7 +1403,7 @@ class GroupAPITest(APIBaseTest):
         )
 
         workspace.add_owner(admin)
-        admin.clear_cache()
+        admin.clear_permissions_cache()
         self.do_request(
             "api:group-list",
             method="post",
@@ -1541,7 +1541,7 @@ class GroupAPITest(APIBaseTest):
         team = Group.objects.create(name="Global component group editors")
         team.roles.add(role)
         global_admin.groups.add(team)
-        global_admin.clear_cache()
+        global_admin.clear_permissions_cache()
         self.assertNotIn(private_component.project, global_admin.allowed_projects)
 
         self.client.credentials(
@@ -1629,7 +1629,7 @@ class GroupAPITest(APIBaseTest):
         team = Group.objects.create(name="Global group editors")
         team.roles.add(role)
         global_admin.groups.add(team)
-        global_admin.clear_cache()
+        global_admin.clear_permissions_cache()
         self.assertNotIn(private_project, global_admin.allowed_projects)
 
         self.client.credentials(
@@ -1913,7 +1913,7 @@ class GroupAPITest(APIBaseTest):
         team = Group.objects.create(name="Global component list group editors")
         team.roles.add(role)
         global_admin.groups.add(team)
-        global_admin.clear_cache()
+        global_admin.clear_permissions_cache()
         self.assertNotIn(private_component.project, global_admin.allowed_projects)
 
         self.client.credentials(
@@ -2997,7 +2997,7 @@ class ProjectAPITest(APIBaseTest):
         secret = "SECRET-RESTRICTED-STRING-XYZZY"
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         Change.objects.create(
             action=ActionEvents.NEW,
@@ -3944,7 +3944,7 @@ class ProjectAPITest(APIBaseTest):
         current_workspace.add_owner(self.user)
         target_workspace.add_owner(self.user)
         self.grant_perm_to_user("project.edit", project=self.project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.do_request(
             "api:project-detail",
@@ -3969,7 +3969,7 @@ class ProjectAPITest(APIBaseTest):
         current_workspace.add_owner(self.user)
         billing = create_test_billing(self.user)
         self.grant_perm_to_user("project.edit", project=self.project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.do_request(
             "api:project-detail",
@@ -3993,7 +3993,7 @@ class ProjectAPITest(APIBaseTest):
         self.grant_perm_to_user("project.edit", project=self.project)
 
         target_workspace.add_owner(self.user)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.do_request(
             "api:project-detail",
             self.project_kwargs,
@@ -4006,7 +4006,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(self.project.workspace_id, current_workspace.pk)
 
         current_workspace.add_owner(self.user)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.do_request(
             "api:project-detail",
             self.project_kwargs,
@@ -4018,7 +4018,7 @@ class ProjectAPITest(APIBaseTest):
 
         Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
         unauthorized_workspace = Workspace.objects.create(name="Unauthorized")
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.do_request(
             "api:project-detail",
             self.project_kwargs,
@@ -4045,7 +4045,7 @@ class ProjectAPITest(APIBaseTest):
         )
         group.roles.add(role)
         self.user.add_team(None, group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.do_request(
             "api:project-detail",
@@ -4062,7 +4062,7 @@ class ProjectAPITest(APIBaseTest):
         target_workspace = Workspace.objects.create(name="Target workspace")
         target_workspace.add_owner(self.user)
         self.grant_perm_to_user("project.edit", project=self.project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.do_request(
             "api:project-detail",
@@ -4094,7 +4094,7 @@ class ProjectAPITest(APIBaseTest):
         role.permissions.add(permission)
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.do_request(
             "api:project-detail",
             self.project_kwargs,
@@ -4115,7 +4115,7 @@ class ProjectAPITest(APIBaseTest):
         billing = create_test_billing(self.user)
         other_project = Project.objects.create(name="Other", slug="other")
         billing.add_project(other_project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.do_request(
             "api:project-detail",
@@ -4676,7 +4676,7 @@ class ProjectAPITest(APIBaseTest):
     def test_download_project_translations_prohibited(self) -> None:
         self.authenticate()
         self.user.groups.clear()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.do_request(
             "api:project-file",
             self.project_kwargs,
@@ -4788,7 +4788,7 @@ class ProjectAPITest(APIBaseTest):
     def test_download_project_translations_language_path_prohibited(self) -> None:
         self.authenticate()
         self.user.groups.clear()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.do_request(
             "api:project-language-file",
             {**self.project_kwargs, "language_code": "cs"},
@@ -9108,7 +9108,7 @@ class TranslationAPITest(APIBaseTest):
         self.authenticate()
         # Remove all permissions
         self.user.groups.clear()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         # Public project should fail with 403
         with open(TEST_PO, "rb") as handle:
@@ -11694,7 +11694,7 @@ class ComponentListAPITest(APIBaseTest):
         )
 
         self.grant_perm_to_user("componentlist.edit")
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.authenticate(False)
 
         response = self.client.get(reverse("api:componentlist-list"))
@@ -12961,7 +12961,7 @@ class AnnouncementAPITest(APIBaseTest):
         group.languages.add(czech_language)
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.do_request(
             "api:project-language-announcements",
@@ -13039,7 +13039,7 @@ class AnnouncementAPITest(APIBaseTest):
         group.languages.add(czech_language)
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.do_request(
             "api:project-language-delete-announcement",
@@ -13666,7 +13666,7 @@ class AnnouncementAPITest(APIBaseTest):
         group.languages.add(czech_language)
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.assertTrue(self.user.has_perm("announcement.delete", czech_translation))
         self.assertTrue(

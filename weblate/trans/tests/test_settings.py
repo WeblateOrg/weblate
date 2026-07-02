@@ -1046,7 +1046,7 @@ class SettingsTest(ViewTestCase):
         self.project.refresh_from_db()
         current_workspace.add_owner(self.user)
         target_workspace.add_owner(self.user)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "Move project")
@@ -1074,7 +1074,7 @@ class SettingsTest(ViewTestCase):
         self.project.refresh_from_db()
         current_workspace.add_owner(self.user)
         billing = create_test_billing(self.user)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.post(
             reverse("move", kwargs={"path": self.project.get_url_path()}),
@@ -1104,7 +1104,7 @@ class SettingsTest(ViewTestCase):
         )
         group.roles.add(role)
         self.user.add_team(None, group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.get(self.project.get_absolute_url())
         self.assertNotContains(response, "Move project")
@@ -1128,7 +1128,7 @@ class SettingsTest(ViewTestCase):
         current_workspace.add_owner(self.user)
         first_workspace.add_owner(self.user)
         second_workspace.add_owner(self.user)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         with patch("weblate.trans.forms.PROJECT_MOVE_WORKSPACE_SELECT_LIMIT", 1):
             response = self.client.get(self.project.get_absolute_url())

@@ -367,7 +367,7 @@ class WorkspaceCreateTest(ViewTestCase):
         workspace = Workspace.objects.get(name="Created workspace")
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["Location"], workspace.get_absolute_url())
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("workspace.edit", workspace))
         self.assertTrue(self.user.has_perm("workspace.add_project", workspace))
 
@@ -399,7 +399,7 @@ class ManagementAccessControlTest(ViewTestCase):
         group.save(update_fields=["enforced_2fa"])
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
     def assert_forbidden(self, url_name: str, method: str = "get", **kwargs) -> None:
         response = getattr(self.client, method)(reverse(url_name), **kwargs)

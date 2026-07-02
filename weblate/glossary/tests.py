@@ -941,7 +941,7 @@ class GlossaryTest(ViewTestCase):
         self.assertNotIn(removal_url, alert.render(self.user))
 
         self.make_manager()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("translation.delete", glossary))
         self.assertIn(removal_url, alert.render(self.user))
 

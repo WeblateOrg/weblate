@@ -21,8 +21,8 @@ class AgreementTest(FixtureComponentTestCase):
     def test_perms(self) -> None:
         self.assertTrue(self.user.has_perm("unit.edit", self.component))
         self.component.agreement = "CLA"
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
         ContributorAgreement.objects.create(self.user, self.component)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("unit.edit", self.component))

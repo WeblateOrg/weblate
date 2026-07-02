@@ -10,7 +10,15 @@ from django.contrib.auth.models import Group as DjangoGroup
 
 from weblate.auth import permissions as auth_permissions
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group, Permission, Role, TeamMembership, User, UserBlock
+from weblate.auth.models import (
+    Group,
+    Permission,
+    Role,
+    TeamMembership,
+    User,
+    UserBlock,
+    get_anonymous,
+)
 from weblate.auth.utils import format_membership_limit_language_codes
 from weblate.lang.models import Language
 from weblate.trans.models import Category, ComponentLink, ComponentList, Project
@@ -48,9 +56,34 @@ class ModelTest(FixtureComponentTestCase):
             language_selection=SELECTION_ALL,
         )
         anonymous.groups.add(group)
-        anonymous.clear_cache()
+        anonymous.clear_permissions_cache()
 
         self.assertIn(-SELECTION_ALL, anonymous.project_permissions)
+
+    def test_anonymous_user_is_not_shared(self) -> None:
+        anonymous = get_anonymous()
+        self.assertIsNotNone(anonymous.cached_memberships.query)
+        self.assertEqual(anonymous.profile.second_factors, [])
+
+        fresh_anonymous = get_anonymous()
+
+        self.assertIsNot(anonymous, fresh_anonymous)
+        self.assertIsNot(anonymous.profile, fresh_anonymous.profile)
+        self.assertIs(anonymous.profile.user, anonymous)
+        self.assertIs(fresh_anonymous.profile.user, fresh_anonymous)
+        self.assertNotIn("cached_memberships", fresh_anonymous.__dict__)
+        self.assertNotIn("second_factors", fresh_anonymous.profile.__dict__)
+
+    def test_anonymous_user_cache_clear_refreshes_prototype(self) -> None:
+        self.addCleanup(get_anonymous.cache_clear)
+        anonymous = get_anonymous()
+        User.objects.filter(pk=anonymous.pk).update(full_name="Updated anonymous")
+
+        self.assertEqual(get_anonymous().full_name, anonymous.full_name)
+
+        get_anonymous.cache_clear()
+
+        self.assertEqual(get_anonymous().full_name, "Updated anonymous")
 
     def test_format_membership_limit_language_codes_order(self) -> None:
         membership = TeamMembership.objects.create(user=self.user, group=self.group)
@@ -95,7 +128,7 @@ class ModelTest(FixtureComponentTestCase):
         project_group.languages.add(cs, de)
 
         self.user.groups.add(component_group, componentlist_group, project_group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         with self.assertNumQueries(10):
             self.assertEqual(len(self.user.component_permissions), 2)
@@ -109,13 +142,13 @@ class ModelTest(FixtureComponentTestCase):
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Access permission on adding to group
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.user.groups.add(self.group)
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Translate permission on adding role to group
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.group.roles.add(Role.objects.get(name="Power user"))
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
@@ -132,7 +165,7 @@ class ModelTest(FixtureComponentTestCase):
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Permissions should exist after adding to a component list
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.group.components.add(self.component)
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
@@ -147,12 +180,12 @@ class ModelTest(FixtureComponentTestCase):
         self.group.componentlists.add(clist)
 
         # No permissions as component list is empty
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertFalse(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Permissions should exist after adding to a component list
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         clist.components.add(self.component)
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
@@ -166,12 +199,12 @@ class ModelTest(FixtureComponentTestCase):
         self.group.languages.set(Language.objects.filter(code="de"), clear=True)
 
         # Permissions should deny access
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Adding Czech language should unlock it
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.group.languages.add(Language.objects.get(code="cs"))
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
@@ -182,13 +215,13 @@ class ModelTest(FixtureComponentTestCase):
         membership = TeamMembership.objects.get(user=self.user, group=self.group)
         membership.limit_languages.set(Language.objects.filter(code="de"))
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         membership.limit_languages.add(Language.objects.get(code="cs"))
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
     def test_membership_limit_excludes_global_permissions(self) -> None:
@@ -202,13 +235,13 @@ class ModelTest(FixtureComponentTestCase):
         group.roles.add(role)
         user.groups.add(group)
 
-        user.clear_cache()
+        user.clear_permissions_cache()
         self.assertTrue(user.has_perm("user.edit"))
 
         membership = TeamMembership.objects.get(user=user, group=group)
         membership.limit_languages.set(Language.objects.filter(code="cs"))
 
-        user.clear_cache()
+        user.clear_permissions_cache()
         self.assertFalse(user.has_perm("user.edit"))
 
     def test_membership_limit_intersects_team_languages(self) -> None:
@@ -220,14 +253,14 @@ class ModelTest(FixtureComponentTestCase):
         membership = TeamMembership.objects.get(user=self.user, group=self.group)
         membership.limit_languages.set(Language.objects.filter(code="cs"))
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertFalse(self.user.can_access_project(self.project))
         self.assertEqual(self.user.get_project_permissions(self.project), [])
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         self.group.languages.add(Language.objects.get(code="cs"))
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
@@ -238,7 +271,7 @@ class ModelTest(FixtureComponentTestCase):
         self.group.roles.add(Role.objects.get(name="Administration"))
         self.group.languages.set(Language.objects.filter(code="cs"), clear=True)
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("project.edit", self.project))
         self.assertTrue(self.user.has_perm("translation.add", self.component))
         self.assertEqual(
@@ -266,7 +299,7 @@ class ModelTest(FixtureComponentTestCase):
             user=self.user, group=review_group
         ).limit_languages.set(Language.objects.filter(code="de"))
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
         self.assertFalse(self.user.has_perm("unit.review", self.translation))
 
@@ -274,7 +307,7 @@ class ModelTest(FixtureComponentTestCase):
             user=self.user, group=review_group
         ).limit_languages.add(Language.objects.get(code="cs"))
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         result = self.user.has_perm("unit.review", self.translation)
         self.assertTrue(result, getattr(result, "reason", result))
 
@@ -299,7 +332,7 @@ class ModelTest(FixtureComponentTestCase):
         self.component.category = category
         self.component.save(update_fields=["category"])
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertFalse(self.user.has_perm("translation.auto", self.project))
         self.assertFalse(self.user.has_perm("translation.auto", category))
         self.assertFalse(self.user.has_perm("translation.auto", self.component))
@@ -383,7 +416,7 @@ class ModelTest(FixtureComponentTestCase):
             category=shared_category,
         )
         self.group.projects.add(shared_project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         shared_project_language = ProjectLanguage(shared_project, german)
         shared_category_language = CategoryLanguage(shared_category, german)
         self.assertTrue(shared_project_language.translation_set)
@@ -399,7 +432,7 @@ class ModelTest(FixtureComponentTestCase):
 
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertFalse(
             self.user.has_perm(
                 "translation.delete", ProjectLanguage(self.project, german)
@@ -410,7 +443,7 @@ class ModelTest(FixtureComponentTestCase):
         )
 
         self.group.components.add(self.component)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(
             self.user.has_perm(
                 "translation.delete", ProjectLanguage(self.project, german)
@@ -422,7 +455,7 @@ class ModelTest(FixtureComponentTestCase):
 
         source = self.component.source_language
         membership.limit_languages.add(source)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertFalse(
             self.user.has_perm(
                 "translation.delete", ProjectLanguage(self.project, source)
@@ -433,7 +466,7 @@ class ModelTest(FixtureComponentTestCase):
         )
 
         self.group.roles.add(Role.objects.get(name="Administration"))
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertFalse(self.user.has_perm("project.edit", self.project))
         self.assertFalse(self.user.managed_projects.filter(pk=self.project.pk).exists())
         self.assertFalse(
@@ -573,7 +606,7 @@ class ModelTest(FixtureComponentTestCase):
         protected_project = Project.objects.create(
             slug="protected", name="Protected", access_control=Project.ACCESS_PROTECTED
         )
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertEqual(
             set(self.user.allowed_projects.values_list("slug", flat=True)),
             {public_project.slug, protected_project.slug},
@@ -582,7 +615,7 @@ class ModelTest(FixtureComponentTestCase):
             name="All projects", project_selection=SELECTION_ALL
         )
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertEqual(
             set(self.user.allowed_projects.values_list("slug", flat=True)),
             {public_project.slug, protected_project.slug, self.project.slug},
@@ -594,7 +627,7 @@ class ModelTest(FixtureComponentTestCase):
         )
         UserBlock.objects.create(user=self.user, project=public_project)
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.assertNotIn(public_project, self.user.allowed_projects)
 
@@ -603,14 +636,14 @@ class ModelTest(FixtureComponentTestCase):
             slug="public", name="Public", access_control=Project.ACCESS_PUBLIC
         )
 
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.needs_project_filter)
 
         group = Group.objects.create(
             name="All projects", project_selection=SELECTION_ALL
         )
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.assertFalse(self.user.needs_project_filter)
 
@@ -619,7 +652,7 @@ class ModelTest(FixtureComponentTestCase):
             name="All projects", project_selection=SELECTION_ALL
         )
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.assertIn(-SELECTION_ALL, self.user.project_permissions)
         with self.assertNumQueries(0):
@@ -631,7 +664,7 @@ class ModelTest(FixtureComponentTestCase):
         )
         self.user.groups.add(group)
         UserBlock.objects.create(user=self.user, project=self.project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.assertIn(-SELECTION_ALL, self.user.project_permissions)
         self.assertEqual(self.user.project_permissions[self.project.pk], [(None, None)])

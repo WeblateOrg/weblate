@@ -537,7 +537,7 @@ class EditAccessTest(ViewTestCase):
         private_translation = private_component.translation_set.get(language_code="cs")
         unit = self.get_unit("Hello, world!\n", translation=private_translation)
         UserBlock.objects.create(user=self.user, project=private_project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.assert_unit_action_urls_not_found(unit)
 

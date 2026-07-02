@@ -150,7 +150,7 @@ class SearchViewTest(ViewTestCase):
         self.project.save(update_fields=["workspace"])
         self.user.is_superuser = True
         self.user.save(update_fields=["is_superuser"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.post(
             reverse("bulk-edit", kwargs={"path": workspace.get_url_path()}),
@@ -172,7 +172,7 @@ class SearchViewTest(ViewTestCase):
         self.project.save(update_fields=["workspace"])
         self.user.is_superuser = True
         self.user.save(update_fields=["is_superuser"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         with patch(
             "weblate.trans.views.search.bulk_perform", return_value=0
@@ -749,7 +749,7 @@ class BulkEditTest(ViewTestCase):
         group.roles.add(Role.objects.get(name="Translate"))
         group.components.add(self.component)
         limited_user.groups.add(group)
-        limited_user.clear_cache()
+        limited_user.clear_permissions_cache()
 
         self.assertTrue(limited_user.has_perm("unit.edit", self.unit))
         self.assertFalse(limited_user.has_perm("unit.bulk_edit", self.unit))
@@ -785,7 +785,7 @@ class BulkEditTest(ViewTestCase):
         )
         group.components.add(self.component)
         limited_user.groups.add(group)
-        limited_user.clear_cache()
+        limited_user.clear_permissions_cache()
 
         self.assertTrue(limited_user.has_perm("unit.edit", self.unit))
         self.assertTrue(limited_user.has_perm("unit.bulk_edit", self.unit))

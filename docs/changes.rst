@@ -11,6 +11,7 @@ Weblate 2026.7.1
 
 * The :guilabel:`Things to check` panel no longer uses error highlighting for suggestions and other non-error translation states.
 * Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
+* Anonymous user permission caches are now isolated between requests.
 
 .. rubric:: Compatibility
 

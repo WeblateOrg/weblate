@@ -7,6 +7,7 @@ import re
 import uuid
 from collections import defaultdict
 from contextvars import ContextVar
+from copy import copy
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import cache as functools_cache
@@ -591,11 +592,27 @@ class UserQuerySet(models.QuerySet["User", "User"]):
 
 
 @functools_cache
-def get_anonymous() -> User:
-    """Return an anonymous user."""
+def _get_anonymous() -> User:
+    """Return cached anonymous user prototype."""
     return User.objects.select_related("profile").get(
         username=settings.ANONYMOUS_USER_NAME
     )
+
+
+def get_anonymous() -> User:
+    """Return an anonymous user instance."""
+    user = copy(_get_anonymous())
+    fields_cache = user._state.fields_cache  # noqa: SLF001
+    if profile := fields_cache.get("profile"):
+        # Keep cached Profile properties local to this anonymous user copy.
+        profile = copy(profile)
+        profile.user = user
+        fields_cache["profile"] = profile
+    user.clear_permissions_cache()
+    return user
+
+
+get_anonymous.cache_clear = _get_anonymous.cache_clear  # type: ignore[attr-defined]
 
 
 def convert_groups(objs):
@@ -769,7 +786,7 @@ class User(AbstractBaseUser):
         if not self.is_active:
             self.date_expires = None
         super().save(*args, **kwargs)
-        self.clear_cache()
+        self.clear_permissions_cache()
         if (
             original
             and original.is_active != self.is_active
@@ -797,7 +814,8 @@ class User(AbstractBaseUser):
                 self.extra_data[name] = kwargs.pop(name)
         super().__init__(*args, **kwargs)
 
-    def clear_cache(self) -> None:
+    def clear_permissions_cache(self) -> None:
+        """Clear cached permission and access-scope data on this user instance."""
         self.cla_cache = {}
         perm_caches = (
             "_permissions",

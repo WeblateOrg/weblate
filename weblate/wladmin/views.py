@@ -907,7 +907,7 @@ class WorkspaceCreateView(CreateView):
         self.object.acting_user = self.request.user
         self.object.save()
         self.object.add_owner(self.request.user, self.request)
-        self.request.user.clear_cache()
+        self.request.user.clear_permissions_cache()
         Change.objects.create(
             action=ActionEvents.CREATE_WORKSPACE,
             workspace=self.object,

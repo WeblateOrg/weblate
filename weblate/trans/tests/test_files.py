@@ -86,7 +86,7 @@ class UploadFormPermissionTest(ViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.project.add_user(self.user, "Administration")
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
     def test_upload_form_hides_approved_conflicts_without_review(self) -> None:
         form = get_upload_form(self.user, self.translation)
@@ -98,7 +98,7 @@ class UploadFormPermissionTest(ViewTestCase):
     def test_upload_form_keeps_approved_conflicts_with_review(self) -> None:
         self.project.translation_review = True
         self.project.save()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         form = get_upload_form(self.user, self.translation)
 

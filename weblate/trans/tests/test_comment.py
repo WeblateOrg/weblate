@@ -163,7 +163,7 @@ class CommentViewTest(FixtureTestCase):
     def test_comment_views_hide_private_unit_and_comment(self) -> None:
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save(update_fields=["access_control"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         unit = self.get_unit()
         comment = Comment.objects.create(
@@ -192,7 +192,7 @@ class CommentViewTest(FixtureTestCase):
         )
         self.user.groups.add(group)
         UserBlock.objects.create(user=self.user, project=self.project)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         unit = self.get_unit()
         comment = Comment.objects.create(
