@@ -6,8 +6,9 @@ from __future__ import annotations
 
 import socket
 import ssl
+import time
 from copy import deepcopy
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, cast
 from urllib.parse import SplitResult, parse_qsl, urlencode, urlsplit, urlunsplit
 
 from cryptography import x509
@@ -16,6 +17,7 @@ from cryptography.hazmat.primitives import serialization
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
+from OpenSSL import SSL
 from siphashc import siphash
 
 from weblate.addons.base import ChangeBaseAddon
@@ -53,15 +55,34 @@ TLS_PROBE_TIMEOUT = 5
 SERVICE_STOP_TIMEOUT = 5
 
 
-class BrokerSSLOptions(Protocol):
-    context: ssl.SSLContext
-    server_hostname: str | None
-
-
 class BrokerParameters(Protocol):
     host: str
     port: int
-    ssl_options: BrokerSSLOptions | None
+    ssl_options: object | None
+
+
+class BrokerTLSContextFactory(Protocol):
+    def clientConnectionForTLS(  # noqa: N802
+        self, tls_protocol: object
+    ) -> SSL.Connection: ...
+
+
+class BrokerTLSProbeFactory:
+    wrappedFactory = object()  # noqa: N815
+
+
+class BrokerTLSProbeProtocol:
+    factory = BrokerTLSProbeFactory()
+
+    def __init__(self) -> None:
+        self.verification_failure: object | None = None
+        self.aborted = False
+
+    def failVerification(self, failure: object) -> None:  # noqa: N802
+        self.verification_failure = failure
+
+    def abortConnection(self) -> None:  # noqa: N802
+        self.aborted = True
 
 
 class FedoraMessagingPublishError(RuntimeError):
@@ -485,7 +506,10 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         )
 
     @staticmethod
-    def validate_broker_tls(amqp_url: str, timeout: float = TLS_PROBE_TIMEOUT) -> None:
+    def validate_broker_tls(
+        amqp_url: str,
+        timeout: float = TLS_PROBE_TIMEOUT,
+    ) -> None:
         """Validate TLS trust against the configured Fedora Messaging broker."""
         # ruff: ignore[import-outside-top-level]
         import pika  # type: ignore[import-untyped]
@@ -505,14 +529,19 @@ class FedoraMessagingAddon(ChangeBaseAddon):
             return
 
         try:
-            ssl_options = FedoraMessagingAddon._configure_broker_tls_options(parameters)
-            if ssl_options is None:
+            tls_context_factory = FedoraMessagingAddon._configure_broker_tls_options(
+                parameters
+            )
+            if tls_context_factory is None:
                 return
-            FedoraMessagingAddon._probe_broker_tls(parameters, ssl_options, timeout)
+            FedoraMessagingAddon._probe_broker_tls(
+                parameters, tls_context_factory, timeout
+            )
         except (
             ConfigurationException,
             ValidationError,
             OSError,
+            SSL.Error,
             TimeoutError,
             ssl.SSLError,
         ) as error:
@@ -526,7 +555,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     @staticmethod
     def _configure_broker_tls_options(
         parameters: BrokerParameters,
-    ) -> BrokerSSLOptions | None:
+    ) -> BrokerTLSContextFactory | None:
         # ruff: ignore[import-outside-top-level]
         from fedora_messaging.twisted import service as fedora_messaging_service
 
@@ -534,11 +563,22 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         # semantics stay aligned with the publisher implementation.
         # ruff: ignore[private-member-access]
         fedora_messaging_service._configure_tls_parameters(parameters)
-        return parameters.ssl_options
+        if parameters.ssl_options is None:
+            return None
+        # Use the same Twisted/pyOpenSSL context factory that Fedora Messaging
+        # uses for the actual AMQP transport instead of duplicating certificate
+        # verification policy with a stdlib SSLContext.
+        # ruff: ignore[private-member-access]
+        return cast(
+            "BrokerTLSContextFactory",
+            fedora_messaging_service._ssl_context_factory(parameters),
+        )
 
     @staticmethod
     def _probe_broker_tls(
-        parameters: BrokerParameters, ssl_options: BrokerSSLOptions, timeout: float
+        parameters: BrokerParameters,
+        tls_context_factory: BrokerTLSContextFactory,
+        timeout: float,
     ) -> None:
         with socket.create_connection(
             (parameters.host, parameters.port), timeout=timeout
@@ -550,10 +590,68 @@ class FedoraMessagingAddon(ChangeBaseAddon):
                 allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
                 allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
             )
-            with ssl_options.context.wrap_socket(
-                connection, server_hostname=ssl_options.server_hostname
-            ):
-                pass
+            FedoraMessagingAddon._perform_broker_tls_handshake(
+                connection, tls_context_factory, timeout
+            )
+
+    @staticmethod
+    def _perform_broker_tls_handshake(
+        connection: socket.socket,
+        tls_context_factory: BrokerTLSContextFactory,
+        timeout: float,
+    ) -> None:
+        protocol = BrokerTLSProbeProtocol()
+        tls_connection = tls_context_factory.clientConnectionForTLS(protocol)
+        tls_connection.set_connect_state()
+        deadline = time.monotonic() + timeout
+
+        while True:
+            FedoraMessagingAddon._set_broker_tls_timeout(connection, deadline)
+            try:
+                tls_connection.do_handshake()
+            except SSL.WantReadError as error:
+                FedoraMessagingAddon._flush_broker_tls_data(
+                    tls_connection, connection, deadline
+                )
+                FedoraMessagingAddon._set_broker_tls_timeout(connection, deadline)
+                data = connection.recv(2**15)
+                if not data:
+                    msg = "TLS connection closed during handshake"
+                    raise OSError(msg) from error
+                tls_connection.bio_write(data)
+            except SSL.WantWriteError:
+                FedoraMessagingAddon._flush_broker_tls_data(
+                    tls_connection, connection, deadline
+                )
+            else:
+                if protocol.verification_failure is not None:
+                    raise SSL.Error(str(protocol.verification_failure))
+                FedoraMessagingAddon._flush_broker_tls_data(
+                    tls_connection, connection, deadline
+                )
+                return
+
+    @staticmethod
+    def _flush_broker_tls_data(
+        tls_connection: SSL.Connection, connection: socket.socket, deadline: float
+    ) -> None:
+        while True:
+            try:
+                data = tls_connection.bio_read(2**15)
+            except SSL.WantReadError:
+                return
+            if not data:
+                return
+            FedoraMessagingAddon._set_broker_tls_timeout(connection, deadline)
+            connection.sendall(data)
+
+    @staticmethod
+    def _set_broker_tls_timeout(connection: socket.socket, deadline: float) -> None:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            msg = "TLS handshake timed out"
+            raise TimeoutError(msg)
+        connection.settimeout(remaining)
 
     @staticmethod
     def _get_socket_peer_ip(connection: socket.socket) -> str | None:

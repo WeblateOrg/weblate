@@ -14,6 +14,7 @@ Weblate 2026.7.1
 
 * Component priority icons are no longer shown on translation listings.
 * :ref:`check-punctuation-spacing` no longer flags Markdown image markers as French punctuation and now shows which punctuation marks triggered the check.
+* :ref:`addon-weblate.fedora_messaging.publish` broker TLS validation now matches the Fedora Messaging transport when accepting non-strict CA certificate chains.
 * The :guilabel:`Things to check` panel no longer uses error highlighting for suggestions and other non-error translation states.
 * Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
 * Anonymous user permission caches are now isolated between requests.
