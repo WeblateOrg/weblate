@@ -100,6 +100,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.opengraph",
     "sphinx_reredirects",
+    "sphinx_llm.txt",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -149,6 +150,8 @@ html_theme = "furo"
 
 # Define the canonical URL if you are using a custom domain on Read the Docs
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+markdown_http_base = html_baseurl.rstrip("/")
+llms_txt_suffix_mode = "replace"
 
 # Tell Jinja2 templates the build is running on Read the Docs
 if os.environ.get("READTHEDOCS", "") == "True":

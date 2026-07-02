@@ -4862,6 +4862,33 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/3c/03/15c1d632e6671ae07a8689ce84c6c72d7849cca13ec32bc68c2e3d6f6f08/sphinx_jsonschema-1.19.2.tar.gz", hash = "sha256:1a48954217c2b3c6759c89b9ddd2c8e5b668b8730564e0283b009f23932be150", size = 30550, upload-time = "2025-12-01T08:54:33.726Z" }
 
 [[package]]
+name = "sphinx-llm"
+version = "0.4.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sphinx" },
+    { name = "sphinx-markdown-builder" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/59/23/fe184bf9c6761c2cd04dc5b5456b717f626143663a3004f628636a2f7b0e/sphinx_llm-0.4.1.tar.gz", hash = "sha256:0789185dcbbecc00b5e25aa3db6342b98dad6a9def96088a9e50fa0203fda090", size = 280250, upload-time = "2026-04-02T09:09:18.881Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/31/2b/a54c49b42b25a6eb6039daf882f06488812c28e32734e944b2f7b6f82554/sphinx_llm-0.4.1-py3-none-any.whl", hash = "sha256:d7c8ee2a6335636b628ea2b26cd1e1dee1f0cf9c40fe51b20f201af1c05b95f5", size = 28453, upload-time = "2026-04-02T09:09:17.632Z" },
+]
+
+[[package]]
+name = "sphinx-markdown-builder"
+version = "0.6.10"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "docutils" },
+    { name = "sphinx" },
+    { name = "tabulate" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a0/58/0b7b9a7d071140b3705885d51932e8b62f520388c2772e4952189971727b/sphinx_markdown_builder-0.6.10.tar.gz", hash = "sha256:cd5acf88d52ea0146a712fd557404f10326dff3428a78ba928e59b1727fd4a86", size = 22688, upload-time = "2026-03-11T10:56:57.639Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c2/8f/9fecf3d081d5cd49eff83a17b9fef50ed741e6223ab3bb906de4ab0068f9/sphinx_markdown_builder-0.6.10-py3-none-any.whl", hash = "sha256:16d86738b9ac69fcbc86e373c31c6402c30af1fa8d98d0f62cc5f38bfe5fc26e", size = 16700, upload-time = "2026-03-11T10:56:56.135Z" },
+]
+
+[[package]]
 name = "sphinx-reredirects"
 version = "1.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4973,6 +5000,15 @@ dependencies = [
     { name = "types-python-dateutil" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/c4/7d/04fc3aa177403472d3ddae90953d8f878dc5fd21ba29c02fc9e97e10703f/standardwebhooks-1.0.1.tar.gz", hash = "sha256:b557bb2e4b16ada179a517ec0fe6cbec5acf976c5619922bf29c457f89a451bd", size = 5103, upload-time = "2026-02-18T19:13:06.793Z" }
+
+[[package]]
+name = "tabulate"
+version = "0.10.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/46/58/8c37dea7bbf769b20d58e7ace7e5edfe65b849442b00ffcdd56be88697c6/tabulate-0.10.0.tar.gz", hash = "sha256:e2cfde8f79420f6deeffdeda9aaec3b6bc5abce947655d17ac662b126e48a60d", size = 91754, upload-time = "2026-03-04T18:55:34.402Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/99/55/db07de81b5c630da5cbf5c7df646580ca26dfaefa593667fc6f2fe016d2e/tabulate-0.10.0-py3-none-any.whl", hash = "sha256:f0b0622e567335c8fabaaa659f1b33bcb6ddfe2e496071b743aa113f8774f2d3", size = 39814, upload-time = "2026-03-04T18:55:31.284Z" },
+]
 
 [[package]]
 name = "tesserocr"
@@ -5745,6 +5781,7 @@ dev = [
     { name = "sphinx" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-jsonschema" },
+    { name = "sphinx-llm" },
     { name = "sphinx-reredirects" },
     { name = "sphinxcontrib-httpdomain" },
     { name = "sphinxext-opengraph" },
@@ -5770,6 +5807,7 @@ docs = [
     { name = "sphinx" },
     { name = "sphinx-copybutton" },
     { name = "sphinx-jsonschema" },
+    { name = "sphinx-llm" },
     { name = "sphinx-reredirects" },
     { name = "sphinxcontrib-httpdomain" },
     { name = "sphinxext-opengraph" },
@@ -5986,6 +6024,7 @@ dev = [
     { name = "sphinx", specifier = "==8.2.3" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
     { name = "sphinx-jsonschema", specifier = "==1.19.2" },
+    { name = "sphinx-llm", specifier = "==0.4.1" },
     { name = "sphinx-reredirects", specifier = "==1.1.0" },
     { name = "sphinxcontrib-httpdomain", specifier = "==2.0.0" },
     { name = "sphinxext-opengraph", specifier = "==0.13.0" },
@@ -6011,6 +6050,7 @@ docs = [
     { name = "sphinx", specifier = "==8.2.3" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
     { name = "sphinx-jsonschema", specifier = "==1.19.2" },
+    { name = "sphinx-llm", specifier = "==0.4.1" },
     { name = "sphinx-reredirects", specifier = "==1.1.0" },
     { name = "sphinxcontrib-httpdomain", specifier = "==2.0.0" },
     { name = "sphinxext-opengraph", specifier = "==0.13.0" },
