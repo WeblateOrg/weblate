@@ -7,8 +7,11 @@ Weblate 2026.7.1
 
 .. rubric:: Improvements
 
+* Restricted components now show a status icon in component listings.
+
 .. rubric:: Bug fixes
 
+* Component priority icons are no longer shown on translation listings.
 * The :guilabel:`Things to check` panel no longer uses error highlighting for suggestions and other non-error translation states.
 * Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
 * Anonymous user permission caches are now isolated between requests.
