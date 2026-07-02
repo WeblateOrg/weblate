@@ -919,7 +919,7 @@ class BasicViewTest(ViewTestCase):
         self.user.groups.add(group)
         membership = TeamMembership.objects.get(user=self.user, group=group)
         membership.limit_languages.set([self.translation.language])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         for url, tab in (
             (self.project.get_absolute_url(), "#languages"),
@@ -938,7 +938,7 @@ class BasicViewTest(ViewTestCase):
         )
         group.projects.add(self.project)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         with patch(
             "weblate.auth.permissions._get_upload_child_translations"
@@ -967,7 +967,7 @@ class BasicViewTest(ViewTestCase):
         group.projects.add(project)
         group.roles.add(Role.objects.get(name="Power user"))
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         for url in (project.get_absolute_url(), category.get_absolute_url()):
             with self.subTest(url=url):
@@ -995,7 +995,7 @@ class BasicViewTest(ViewTestCase):
         group.components.add(component)
         group.roles.add(Role.objects.get(name="Power user"))
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         for url, tab in (
             (project.get_absolute_url(), "#languages"),
@@ -1049,7 +1049,7 @@ class BasicViewTest(ViewTestCase):
         upload_group.components.add(shared_component)
         upload_group.roles.add(Role.objects.get(name="Power user"))
         self.user.groups.add(access_group, upload_group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.get(linked_category.get_absolute_url())
         self.assert_upload_placeholder(response, "#languages")
@@ -1142,7 +1142,7 @@ class BasicViewTest(ViewTestCase):
         group.projects.add(self.project)
         group.roles.add(Role.objects.get(name="Manage glossary"))
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         for url, tab in (
             (self.project.get_absolute_url(), "#languages"),
@@ -1337,7 +1337,7 @@ class BasicViewTest(ViewTestCase):
         role.permissions.add(Permission.objects.get(codename="componentlist.edit"))
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.client.login(username="testuser", password="testpassword")
 
         response = self.client.get(reverse("component-list", kwargs={"name": "testcl"}))
@@ -1358,7 +1358,7 @@ class BasicViewTest(ViewTestCase):
         role.permissions.add(Permission.objects.get(codename="componentlist.edit"))
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.client.login(username="testuser", password="testpassword")
 
         response = self.client.get(
@@ -1421,7 +1421,7 @@ class BasicViewTest(ViewTestCase):
         group.projects.add(self.project)
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         category_language = CategoryLanguage(category, self.translation.language)
 
         response = self.client.get(category_language.get_absolute_url())
@@ -1430,7 +1430,7 @@ class BasicViewTest(ViewTestCase):
 
         self.component.enable_suggestions = False
         self.component.save(update_fields=["enable_suggestions"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         category_language = CategoryLanguage(category, self.translation.language)
 
         response = self.client.get(category_language.get_absolute_url())
@@ -1444,7 +1444,7 @@ class BasicViewTest(ViewTestCase):
             language=self.translation.language,
             enable_suggestions=False,
         )
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         category_language = CategoryLanguage(category, self.translation.language)
 
         response = self.client.get(category_language.get_absolute_url())

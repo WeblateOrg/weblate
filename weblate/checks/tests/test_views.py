@@ -116,7 +116,7 @@ class ChecksViewTest(FixtureTestCase):
         self.project.save(update_fields=["workspace"])
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.assertTrue(Check.objects.filter(name="same").exists())
 
@@ -145,7 +145,7 @@ class ChecksViewTest(FixtureTestCase):
     def test_restricted_component_hidden_in_existing_scopes(self) -> None:
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         language = self.translation.language
         project_language_path = [*self.project.get_url_path(), "-", language.code]
 

@@ -89,7 +89,6 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
     def test_anonymous_translate_view_permission_memberships(self) -> None:
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.save()
-        get_anonymous().clear_cache()
 
         with CaptureQueriesContext(connection) as queries:
             response = self.client.get(self.translate_url)

@@ -8068,7 +8068,7 @@ class SiteWideAddonsTest(ViewTestCase):
         group, _created = Group.objects.get_or_create(name="Test management team")
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
     def test_history_filters_sitewide_changes(self) -> None:
         self.user.is_superuser = True

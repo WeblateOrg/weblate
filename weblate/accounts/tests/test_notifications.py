@@ -713,7 +713,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertFalse(self.user.can_access_component(self.component))
 
@@ -739,7 +739,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         component_group.roles.add(Role.objects.get(name="Power user"))
         component_group.components.add(self.component)
         self.user.groups.add(component_group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertTrue(self.user.can_access_component(self.component))
 
         unit = self.get_unit()

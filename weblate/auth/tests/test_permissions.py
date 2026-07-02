@@ -102,7 +102,7 @@ class PermissionsTest(FixtureComponentTestCase):
         group.roles.add(role)
 
         target.groups.add(group)
-        target.clear_cache()
+        target.clear_permissions_cache()
 
     def test_global_perms_granted(self) -> None:
         self.grant_global_management_permission()
@@ -138,7 +138,7 @@ class PermissionsTest(FixtureComponentTestCase):
         workspace = Workspace.objects.create(name="Project workspace")
         self.project.workspace = workspace
         self.project.save(update_fields=["workspace"])
-        self.admin.clear_cache()
+        self.admin.clear_permissions_cache()
 
         self.assertFalse(self.admin.has_perm("workspace.edit", workspace))
 
@@ -225,13 +225,13 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertTrue(self.user.has_perm("unit.edit", self.component))
 
         # Block user
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.user.userblock_set.create(project=self.project)
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
         self.user.userblock_set.all().delete()
 
         # Block user with past expiry
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.user.userblock_set.create(
             project=self.project, expiry=timezone.now() - timedelta(days=1)
         )
@@ -239,7 +239,7 @@ class PermissionsTest(FixtureComponentTestCase):
         self.user.userblock_set.all().delete()
 
         # Block user with future expiry
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.user.userblock_set.create(
             project=self.project, expiry=timezone.now() + timedelta(days=1)
         )
@@ -367,7 +367,7 @@ class PermissionsTest(FixtureComponentTestCase):
         # Public projects with membership
         group.project_selection = SELECTION_ALL_PUBLIC
         group.save()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertEqual(
             list(
                 self.user.projects_with_perm("project.edit").values_list(
@@ -388,7 +388,7 @@ class PermissionsTest(FixtureComponentTestCase):
         # Protected projects without membership
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertEqual(
             list(
                 self.user.projects_with_perm("project.edit").values_list(
@@ -409,7 +409,7 @@ class PermissionsTest(FixtureComponentTestCase):
         # Protected projects with membership
         group.project_selection = SELECTION_ALL_PROTECTED
         group.save()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
         self.assertEqual(
             list(
                 self.user.projects_with_perm("project.edit").values_list(

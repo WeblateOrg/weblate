@@ -513,7 +513,7 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         group.project_selection = SELECTION_ALL
         group.components.clear()
         group.save()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.post(
             reverse("announcement-delete", kwargs={"pk": second_announcement.pk})
@@ -551,14 +551,14 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         group.roles.add(Role.objects.get(name="Translation coordinator"))
         group.projects.add(self.project)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.client.post(reverse("announcement-delete", kwargs={"pk": announcement.pk}))
         self.assertEqual(Announcement.objects.count(), 1)
 
         self.user.is_superuser = True
         self.user.save()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         self.client.post(reverse("announcement-delete", kwargs={"pk": announcement.pk}))
         self.assertEqual(Announcement.objects.count(), 0)
@@ -582,7 +582,7 @@ class AnnouncementPermissionTestCase(ViewTestCase):
 
         self.user.is_superuser = True
         self.user.save()
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.post(
             reverse("announcement-delete", kwargs={"pk": announcement.pk})

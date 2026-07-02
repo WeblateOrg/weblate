@@ -44,7 +44,7 @@ class JSViewsTest(FixtureTestCase):
     def test_get_unit_translations_hides_private_unit(self) -> None:
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save(update_fields=["access_control"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         unit = self.get_unit()
         response = self.client.get(
