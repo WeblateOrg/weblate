@@ -8,6 +8,7 @@ Weblate 2026.7.1
 .. rubric:: Improvements
 
 * Restricted components now show a status icon in component listings.
+* Permission checks now reuse materialized team membership data from lightweight relation lookups.
 
 .. rubric:: Bug fixes
 

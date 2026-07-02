@@ -36,17 +36,60 @@ class ModelTest(FixtureComponentTestCase):
         self.group.projects.add(self.project)
 
     def test_num_queries(self) -> None:
-        with self.assertNumQueries(9):
+        with self.assertNumQueries(4):
             self.assertEqual(len(self.user.component_permissions), 0)
             self.assertEqual(len(self.user.project_permissions), 2)
 
-    def test_cached_memberships_query_avoids_scoped_name_joins(self) -> None:
-        sql = str(self.user.cached_memberships.query)
+    def test_cached_memberships_are_materialized(self) -> None:
+        self.group.projects.remove(self.project)
+        power_user = Role.objects.get(name="Power user")
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        other_component = self.create_link_existing(
+            slug="test-cached", name="Test cached"
+        )
 
-        self.assertIn('"weblate_auth_group"."name"', sql)
-        self.assertIn('"weblate_auth_user_groups"."group_id"', sql)
-        self.assertNotIn("trans_project", sql)
-        self.assertNotIn("workspaces_workspace", sql)
+        component_group = Group.objects.create(
+            name="Cached components", language_selection=SELECTION_MANUAL
+        )
+        component_group.roles.add(power_user)
+        component_group.components.add(self.component)
+        component_group.languages.add(czech)
+
+        componentlist = ComponentList.objects.create(
+            name="Cached memberships", slug="cached-memberships"
+        )
+        componentlist.components.add(other_component)
+        componentlist_group = Group.objects.create(
+            name="Cached component lists", language_selection=SELECTION_MANUAL
+        )
+        componentlist_group.roles.add(power_user)
+        componentlist_group.componentlists.add(componentlist)
+        componentlist_group.languages.add(czech)
+
+        project_group = Group.objects.create(
+            name="Cached projects", language_selection=SELECTION_MANUAL
+        )
+        project_group.roles.add(power_user)
+        project_group.projects.add(self.project)
+        project_group.languages.add(czech, german)
+
+        self.user.groups.add(component_group, componentlist_group, project_group)
+        TeamMembership.objects.get(
+            user=self.user, group=project_group
+        ).limit_languages.add(czech)
+        self.user.clear_permissions_cache()
+
+        memberships = self.user.cached_memberships
+
+        self.assertIsInstance(memberships, list)
+        self.assertNotIsInstance(memberships[0], TeamMembership)
+        with self.assertNumQueries(1) as context:
+            self.assertIn(self.component.pk, self.user.component_permissions)
+            self.assertIn(other_component.pk, self.user.component_permissions)
+            self.assertIn(self.project.pk, self.user.project_permissions)
+            self.assertFalse(self.user.group_enforces_2fa())
+        self.assertIn("weblate_auth_userblock", context.captured_queries[0]["sql"])
 
     def test_anonymous_project_permissions(self) -> None:
         anonymous = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
@@ -62,7 +105,7 @@ class ModelTest(FixtureComponentTestCase):
 
     def test_anonymous_user_is_not_shared(self) -> None:
         anonymous = get_anonymous()
-        self.assertIsNotNone(anonymous.cached_memberships.query)
+        self.assertIsInstance(anonymous.cached_memberships, list)
         self.assertEqual(anonymous.profile.second_factors, [])
 
         fresh_anonymous = get_anonymous()
@@ -130,7 +173,7 @@ class ModelTest(FixtureComponentTestCase):
         self.user.groups.add(component_group, componentlist_group, project_group)
         self.user.clear_permissions_cache()
 
-        with self.assertNumQueries(10):
+        with self.assertNumQueries(9):
             self.assertEqual(len(self.user.component_permissions), 2)
             self.assertIn(self.component.pk, self.user.component_permissions)
             self.assertIn(other_component.pk, self.user.component_permissions)
