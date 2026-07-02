@@ -935,6 +935,14 @@ class Unit(models.Model, LoggerMixin):
     def has_suggestion(self) -> bool:
         return bool(self.suggestions)
 
+    def is_reviewed_by(self, user: User) -> bool:
+        if not user.is_authenticated:
+            return False
+        return self.reviews.filter(user=user).exists()
+
+    def get_reviews(self):
+        return self.reviews.all().select_related("user")
+
     def source_unit_save(self) -> None:
         # Run checks, update state and priority if flags changed
         # or running bulk edit
@@ -2246,7 +2254,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     @transaction.atomic
-    def translate(
+    def translate(  # noqa: C901
         self,
         user: User | None,
         new_target: str | list[str],
@@ -2325,6 +2333,18 @@ class Unit(models.Model, LoggerMixin):
             request=request,
             change_details=change_details,
         )
+
+        if saved:
+            # Clear reviews if the target translation actually changed
+            if self.target != self.old_unit["target"]:
+                self.reviews.all().delete()
+
+            # Manage per-translator review status
+            if user is not None and user.is_authenticated:
+                if self.state == STATE_APPROVED:
+                    self.reviews.get_or_create(user=user)
+                else:
+                    self.reviews.filter(user=user).delete()
 
         # Enforced checks can revert the state to needs editing (fuzzy)
         if (
