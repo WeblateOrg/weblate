@@ -23,6 +23,13 @@ from .types import SourceLanguageChoices
 LLM_LANGUAGE_INSTRUCTION_LENGTH = 1000
 
 
+class EmptyMappingJSONField(forms.JSONField):
+    def prepare_value(self, value):
+        if value is None or value == {}:
+            return ""
+        return super().prepare_value(value)
+
+
 class BaseMachineryForm(forms.Form):
     network_host_fields = frozenset({"base_url", "endpoint_url"})
 
@@ -457,7 +464,7 @@ class LLMBasicMachineryForm(BaseMachineryForm):
         ),
         required=False,
     )
-    language_instructions = forms.JSONField(
+    language_instructions = EmptyMappingJSONField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
             "Language-specific instructions",
