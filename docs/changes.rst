@@ -11,6 +11,7 @@ Weblate 2026.7.1
 * Permission checks now reuse materialized team membership data from lightweight relation lookups.
 * Documented that intermediate language files are hidden from language listings and can make target strings read-only.
 * Component diagnostics now warn when regular :ref:`gettext` PO files are configured as monolingual PO files.
+* Translation memory fuzzy lookups are now faster on large translation memories.
 
 .. rubric:: Bug fixes
 
@@ -32,6 +33,8 @@ Weblate 2026.7.1
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires the PostgreSQL ``btree_gist`` extension for translation memory lookups. The migration installs it automatically when the database user has sufficient privileges. Installations using a non-superuser database user should pre-create it before upgrading; see :ref:`dbsetup-postgres`.
 
 .. rubric:: Contributors
 

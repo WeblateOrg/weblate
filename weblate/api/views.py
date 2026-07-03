@@ -16,7 +16,6 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.messages import get_messages
-from django.contrib.postgres.search import TrigramSimilarity
 from django.core.cache import cache
 from django.core.exceptions import (
     PermissionDenied,
@@ -130,7 +129,7 @@ from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
-from weblate.memory.models import MEMORY_LOOKUP_LIMIT, Memory, MemoryScope
+from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
@@ -169,7 +168,6 @@ from weblate.utils.celery import (
     get_task_progress,
     store_task_metadata,
 )
-from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -2822,31 +2820,11 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             source_language=source_language,
             target_language=target_language,
         )
-        if threshold >= 100:
-            return base.filter(source=text).order_by("-status", "id").first()
-
-        similarity_threshold = Memory.objects.threshold_to_similarity(text, threshold)
-        minimum_similarity = Memory.objects.minimum_similarity(text, threshold)
-        seen_candidates: set[int] = set()
-
-        while similarity_threshold >= minimum_similarity:
-            adjust_similarity_threshold(similarity_threshold, alias=base.db)
-            candidates = (
-                base.filter(source__trgm_search=text)
-                .annotate(match_similarity=TrigramSimilarity("source", text))
-                .order_by("-match_similarity", "-status", "pk")[:MEMORY_LOOKUP_LIMIT]
-            )
-            for candidate in candidates:
-                if candidate.pk in seen_candidates:
-                    continue
-                seen_candidates.add(candidate.pk)
-                if self.comparer.similarity(text, candidate.source) >= threshold:
-                    return candidate
-            similarity_threshold = round(similarity_threshold - 0.05, 3)
-            if similarity_threshold < minimum_similarity < similarity_threshold + 0.05:
-                similarity_threshold = minimum_similarity
-
-        return None
+        return base.get_best_fuzzy_match(
+            text,
+            lambda candidate: self.comparer.similarity(text, candidate.source),
+            threshold=threshold,
+        )
 
     def serialize_lookup_result(
         self, query: str, match: Memory | None

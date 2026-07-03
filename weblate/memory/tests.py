@@ -30,6 +30,8 @@ from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import (
+    MEMORY_LOOKUP_LIMIT,
+    MEMORY_LOOKUP_PREFIX_LENGTH,
     Memory,
     MemoryImportError,
     MemoryQuerySet,
@@ -3376,13 +3378,160 @@ class LookupPolicyTest(SimpleTestCase):
         self.assertEqual(queryset.db, "memory_db")
         using_mock.assert_called_once_with("memory_db")
 
-    @patch("weblate.memory.models.adjust_similarity_threshold")
-    def test_lookup_short_strings_stop_backing_off_early(
-        self, adjust_threshold
+    def test_get_fuzzy_candidates_orders_by_prefix_distance(self) -> None:
+        text = "x" * MEMORY_LOOKUP_PREFIX_LENGTH + "suffix"
+        queryset = Memory.objects.all().get_fuzzy_candidates(text)
+
+        self.assertEqual(queryset.query.order_by, ("match_distance", "-status", "pk"))
+        annotation = queryset.query.annotations["match_distance"]
+        self.assertEqual(
+            annotation.get_source_expressions()[1].value,
+            text[:MEMORY_LOOKUP_PREFIX_LENGTH],
+        )
+        self.assertEqual(queryset.query.high_mark, MEMORY_LOOKUP_LIMIT)
+
+    def test_get_full_source_fuzzy_candidates_caps_backoff_results(self) -> None:
+        text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
+        first_candidate = MagicMock()
+        first_candidate.pk = 1
+        second_candidate = MagicMock()
+        second_candidate.pk = 2
+
+        def build_search(candidates):
+            filtered = MagicMock()
+            annotated = filtered.annotate.return_value
+            ordered = annotated.order_by.return_value
+            ordered.__getitem__.return_value = candidates
+            return filtered, ordered
+
+        queryset = MagicMock()
+        queryset.db = "default"
+        queryset.threshold_to_similarity.return_value = 0.96
+        queryset.minimum_similarity.return_value = 0.9
+        first_filtered, first_ordered = build_search([first_candidate])
+        queryset.filter.return_value = first_filtered
+
+        excluded_queryset = MagicMock()
+        second_filtered, second_ordered = build_search([second_candidate])
+        excluded_queryset.filter.return_value = second_filtered
+        queryset.exclude.return_value = excluded_queryset
+
+        with patch("weblate.memory.models.adjust_similarity_threshold") as adjust:
+            results = list(
+                MemoryQuerySet.get_full_source_fuzzy_candidates(
+                    queryset, text, threshold=75, limit=2
+                )
+            )
+
+        self.assertEqual(results, [first_candidate, second_candidate])
+        self.assertEqual(adjust.call_count, 2)
+        first_ordered.__getitem__.assert_called_once_with(slice(None, 2))
+        second_ordered.__getitem__.assert_called_once_with(slice(None, 1))
+        queryset.exclude.assert_called_once_with(pk__in=[first_candidate.pk])
+
+    def test_get_scored_fuzzy_candidates_falls_back_for_saturated_long_candidates(
+        self,
     ) -> None:
+        text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
+        prefix_candidates = []
+        for index in range(MEMORY_LOOKUP_LIMIT):
+            candidate = MagicMock()
+            candidate.pk = index
+            candidate.source = f"{text[:MEMORY_LOOKUP_PREFIX_LENGTH]} low {index}"
+            prefix_candidates.append(candidate)
+        accepted = MagicMock()
+        accepted.pk = MEMORY_LOOKUP_LIMIT + 1
+        accepted.source = f"{text[:MEMORY_LOOKUP_PREFIX_LENGTH]} accepted"
+
+        queryset = MagicMock()
+        queryset.get_fuzzy_candidates.return_value = prefix_candidates
+        queryset.get_full_source_fuzzy_candidates.return_value = [accepted]
+
+        def scorer(candidate):
+            if candidate is accepted:
+                return 95
+            return 80
+
+        results = MemoryQuerySet.get_scored_fuzzy_candidates(
+            queryset, text, scorer, threshold=75
+        )
+
+        self.assertEqual(results[0], (95, accepted))
+        self.assertEqual(len(results), MEMORY_LOOKUP_LIMIT)
+        self.assertNotIn(
+            id(prefix_candidates[-1]),
+            {id(candidate) for _quality, candidate in results},
+        )
+        queryset.get_full_source_fuzzy_candidates.assert_called_once_with(
+            text,
+            threshold=75,
+            exclude_ids=[candidate.pk for candidate in prefix_candidates],
+            limit=MEMORY_LOOKUP_LIMIT,
+        )
+
+    def test_get_scored_fuzzy_candidates_skips_fallback_for_exact_quality(self) -> None:
+        text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
+        prefix_candidates = []
+        for index in range(MEMORY_LOOKUP_LIMIT):
+            candidate = MagicMock()
+            candidate.pk = index
+            candidate.source = f"{text[:MEMORY_LOOKUP_PREFIX_LENGTH]} low {index}"
+            prefix_candidates.append(candidate)
+
+        queryset = MagicMock()
+        queryset.get_fuzzy_candidates.return_value = prefix_candidates
+
+        def scorer(candidate):
+            if candidate is prefix_candidates[0]:
+                return 100
+            return 80
+
+        results = MemoryQuerySet.get_scored_fuzzy_candidates(
+            queryset, text, scorer, threshold=75
+        )
+
+        self.assertEqual(results[0], (100, prefix_candidates[0]))
+        queryset.get_full_source_fuzzy_candidates.assert_not_called()
+
+    def test_get_scored_fuzzy_candidates_skips_unsaturated_fallback(self) -> None:
+        text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
+        candidate = MagicMock()
+        candidate.pk = 1
+        candidate.source = f"{text[:MEMORY_LOOKUP_PREFIX_LENGTH]} low"
+
+        queryset = MagicMock()
+        queryset.get_fuzzy_candidates.return_value = [candidate]
+
+        results = MemoryQuerySet.get_scored_fuzzy_candidates(
+            queryset, text, lambda _result: 60, threshold=75
+        )
+
+        self.assertEqual(results, [])
+        queryset.get_full_source_fuzzy_candidates.assert_not_called()
+
+    def test_get_best_fuzzy_match_exact_threshold_uses_exact_query(self) -> None:
+        match = MagicMock()
+        queryset = MagicMock()
+        filtered_queryset = MagicMock()
+        ordered_queryset = MagicMock()
+        queryset.filter.return_value = filtered_queryset
+        filtered_queryset.order_by.return_value = ordered_queryset
+        ordered_queryset.first.return_value = match
+
+        result = MemoryQuerySet.get_best_fuzzy_match(
+            queryset, "Username", lambda _candidate: 0, threshold=100
+        )
+
+        self.assertEqual(result, match)
+        queryset.filter.assert_called_once_with(source="Username")
+        filtered_queryset.order_by.assert_called_once_with("-status", "id")
+
+    def test_lookup_uses_shared_fuzzy_candidates(self) -> None:
         base = MagicMock()
+        typed_base = MagicMock()
         base.prefetch_scopes.return_value = base
-        base.filter.return_value = []
+        base.filter.return_value = typed_base
+        typed_base.get_fuzzy_candidates.return_value = []
 
         with patch.object(
             MemoryQuerySet, "filter_type", return_value=base
@@ -3398,42 +3547,134 @@ class LookupPolicyTest(SimpleTestCase):
             use_workspace=True,
         )
         base.prefetch_scopes.assert_called_once_with()
-        self.assertEqual(adjust_threshold.call_args_list, [call(0.97), call(0.92)])
+        base.filter.assert_called_once_with(
+            source_language="en",
+            target_language="cs",
+        )
+        typed_base.get_fuzzy_candidates.assert_called_once_with("Username")
 
-    @patch("weblate.memory.models.adjust_similarity_threshold")
-    def test_lookup_long_strings_stop_backing_off_for_machinery(
-        self, adjust_threshold
-    ) -> None:
+    def test_lookup_full_source_uses_scoped_full_source_candidates(self) -> None:
         base = MagicMock()
+        typed_base = MagicMock()
         base.prefetch_scopes.return_value = base
-        base.filter.return_value = []
-        text = "x" * 50
-        initial = Memory.objects.threshold_to_similarity(text, 80)
-        minimum = Memory.objects.minimum_similarity(text, 80)
+        base.filter.return_value = typed_base
+        typed_base.get_full_source_fuzzy_candidates.return_value = []
 
-        with patch.object(MemoryQuerySet, "filter_type", return_value=base):
-            results = Memory.objects.lookup("en", "cs", text, None, None, False, 80)
+        with patch.object(
+            MemoryQuerySet, "filter_type", return_value=base
+        ) as filter_type:
+            results = Memory.objects.lookup_full_source(
+                "en",
+                "cs",
+                "Username",
+                None,
+                None,
+                False,
+                threshold=80,
+                exclude_ids=[1, 2],
+            )
 
         self.assertEqual(list(results), [])
+        filter_type.assert_called_once_with(
+            user=None,
+            project=None,
+            use_shared=False,
+            from_file=True,
+            use_workspace=True,
+        )
         base.prefetch_scopes.assert_called_once_with()
-        self.assertEqual(
-            adjust_threshold.call_args_list,
-            [
-                call(initial),
-                call(round(initial - 0.05, 3)),
-                call(round(initial - 0.1, 3)),
-                call(round(initial - 0.15, 3)),
-                call(minimum),
-            ],
+        base.filter.assert_called_once_with(
+            source_language="en",
+            target_language="cs",
+        )
+        typed_base.get_full_source_fuzzy_candidates.assert_called_once_with(
+            "Username", threshold=80, exclude_ids=[1, 2]
         )
 
-    @patch("weblate.memory.models.adjust_similarity_threshold")
-    def test_lookup_exact_threshold_uses_single_exact_probe(
-        self, adjust_threshold
-    ) -> None:
+    def test_weblate_memory_uses_scored_model_candidates(self) -> None:
+        text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
+        accepted = MagicMock()
+        accepted.pk = MEMORY_LOOKUP_LIMIT + 1
+        accepted.id = accepted.pk
+        accepted.source = f"{text[:MEMORY_LOOKUP_PREFIX_LENGTH]} accepted"
+        accepted.target = "Prijata dlouha shoda"
+        accepted.status = Memory.STATUS_ACTIVE
+        accepted.context = ""
+        accepted.get_origin_display.return_value = "Project: test"
+
+        project = MagicMock()
+        project.use_shared_tm = False
+        unit = MagicMock()
+        unit.context = ""
+        unit.translation.component.project = project
+
+        queryset = MagicMock()
+        queryset.get_scored_fuzzy_candidates.return_value = [(95, accepted)]
+
+        service = WeblateMemory({})
+        with patch.object(
+            Memory.objects, "get_lookup_queryset", return_value=queryset
+        ) as get_lookup_queryset:
+            results = list(
+                service.download_translations(
+                    "en", "cs", text, unit, None, threshold=75
+                )
+            )
+
+        self.assertEqual(results[0]["text"], accepted.target)
+        get_lookup_queryset.assert_called_once_with(
+            "en",
+            "cs",
+            None,
+            project,
+            False,
+        )
+        queryset.get_scored_fuzzy_candidates.assert_called_once()
+        call_args = queryset.get_scored_fuzzy_candidates.call_args
+        self.assertEqual(call_args.args[0], text)
+        self.assertEqual(call_args.kwargs, {"threshold": 75})
+
+    def test_weblate_memory_exact_threshold_uses_exact_lookup(self) -> None:
+        text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
+        candidate = MagicMock()
+        candidate.pk = 1
+        candidate.id = candidate.pk
+        candidate.source = text
+        candidate.target = "Prijata shoda"
+        candidate.status = Memory.STATUS_ACTIVE
+        candidate.context = ""
+        candidate.get_origin_display.return_value = "Project: test"
+
+        project = MagicMock()
+        project.use_shared_tm = False
+        unit = MagicMock()
+        unit.context = ""
+        unit.translation.component.project = project
+
+        queryset = MagicMock()
+        queryset.filter.return_value = [candidate]
+
+        service = WeblateMemory({})
+        with (
+            patch.object(Memory.objects, "get_lookup_queryset", return_value=queryset),
+            patch.object(service.comparer, "similarity", return_value=100),
+        ):
+            results = list(
+                service.download_translations(
+                    "en", "cs", text, unit, None, threshold=100
+                )
+            )
+
+        self.assertEqual(results[0]["text"], candidate.target)
+        queryset.filter.assert_called_once_with(source=text)
+        queryset.get_scored_fuzzy_candidates.assert_not_called()
+
+    def test_lookup_exact_threshold_uses_single_exact_probe(self) -> None:
         base = MagicMock()
+        typed_base = MagicMock()
         base.prefetch_scopes.return_value = base
-        base.filter.return_value = []
+        base.filter.return_value = typed_base
+        typed_base.filter.return_value = []
 
         with patch.object(
             MemoryQuerySet, "filter_type", return_value=base
@@ -3451,9 +3692,8 @@ class LookupPolicyTest(SimpleTestCase):
             use_workspace=True,
         )
         base.prefetch_scopes.assert_called_once_with()
-        adjust_threshold.assert_not_called()
         base.filter.assert_called_once_with(
-            source="Username",
             source_language="en",
             target_language="cs",
         )
+        typed_base.filter.assert_called_once_with(source="Username")
