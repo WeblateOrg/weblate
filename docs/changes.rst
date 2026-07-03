@@ -21,6 +21,7 @@ Weblate 2026.7.1
 * Anonymous user permission caches are now isolated between requests.
 * GitHub App setup now explains that a workspace is required instead of showing a permission error when no workspace exists.
 * LLM automatic suggestion settings no longer show ``null`` for empty language-specific instructions.
+* Accepting a project invitation now automatically adds the project to the user's watched projects.
 
 .. rubric:: Compatibility
 

@@ -226,6 +226,9 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Accept invitation
         invitation = Invitation.objects.get()
         invitation.accept(None, self.second_user)
+        self.assertTrue(
+            self.second_user.profile.watched.filter(pk=self.project.pk).exists()
+        )
 
         # Ensure user is now listed
         response = self.client.get(self.access_url)
@@ -691,6 +694,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertContains(response, "example-username")
 
         user = User.objects.get(username="example-username")
+        self.assertTrue(user.profile.watched.filter(pk=self.project.pk).exists())
 
         # Inspect audit log
         audit: AuditLog | None = None
