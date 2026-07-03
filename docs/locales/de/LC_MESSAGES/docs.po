@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-06-30 17:16+0000\n"
+"PO-Revision-Date: 2026-07-03 10:01+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:262
@@ -4546,19 +4546,21 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"Der App-gestützte Arbeitsablauf nutzt GitHub-Zugangstoken zum Klonen, zum "
+"Pushen von Übersetzungs-Branches, zum Erstellen von Pull Requests und zum "
+"Empfangen eingehender Benachrichtigungen. Sie müssen weder den Hosted-"
+"Weblate-GitHub-Benutzer :guilabel:`weblate` einladen noch einen separaten "
+"Repository-Webhook für auf diese Weise importierte Komponenten konfigurieren."
 
 #: admin/code-hosting.rst:213
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate, add the hosted :guilabel:`weblate` user where it is "
-#| "available, see :ref:`hosted-push`."
 msgid ""
 "Use the Hosted Weblate :guilabel:`weblate` GitHub user only when you "
 "intentionally configure direct SSH pushes outside the GitHub App workflow, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Für Hosted Weblate den gehosteten :guilabel:`weblate`-Benutzer hinzufügen, "
-"wenn er verfügbar ist, siehe :ref:`hosted-push`."
+"Verwenden Sie den Hosted-Weblate-GitHub-Benutzer :guilabel:`weblate` nur, "
+"wenn Sie bewusst direkte SSH-Pushes außerhalb des GitHub-App-Ablaufs "
+"konfigurieren (siehe :ref:`hosted-push`)."
 
 #: admin/code-hosting.rst:218
 msgid "HTTPS with personal access token"
@@ -4615,6 +4617,9 @@ msgid ""
 "outside the recommended `Hosted Weblate app <https://github.com/apps/hosted-"
 "weblate>`_ workflow."
 msgstr ""
+"Verwenden Sie diesen SSH-Benutzer-Ablauf bei Hosted Weblate nur für direkte "
+"SSH-Pushes außerhalb des empfohlenen Ablaufs der `Hosted-Weblate-App "
+"<https://github.com/apps/hosted-weblate>`_."
 
 #: admin/code-hosting.rst:247
 msgid ""
@@ -4681,10 +4686,8 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:281
-#, fuzzy
-#| msgid "Getting support for Weblate"
 msgid "Registering the GitHub App from Weblate"
-msgstr "Support für Weblate erhalten"
+msgstr "GitHub-App über Weblate registrieren"
 
 #: admin/code-hosting.rst:283
 msgid ""
@@ -4747,10 +4750,8 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:315
-#, fuzzy
-#| msgid "Add projects to workspace"
 msgid "Connecting a workspace"
-msgstr "Projekte zum Arbeitsbereich hinzufügen"
+msgstr "Einen Arbeitsbereich verbinden"
 
 #: admin/code-hosting.rst:317
 msgid ""
@@ -4778,10 +4779,8 @@ msgid ""
 msgstr ""
 
 #: admin/code-hosting.rst:334
-#, fuzzy
-#| msgid "Webhook URL"
 msgid "App webhook URL"
-msgstr "Webhook-URL"
+msgstr "App-Webhook-URL"
 
 #: admin/code-hosting.rst:336
 msgid ""
@@ -9035,10 +9034,8 @@ msgstr ""
 "importieren."
 
 #: admin/continuous.rst:256
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Remove duplicates`"
-msgstr ":guilabel:`Eine Zeichenkette entfernen`"
+msgstr ":guilabel:`Duplikate entfernen`"
 
 #: admin/continuous.rst:257
 #, fuzzy
@@ -9054,10 +9051,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:260
-#, fuzzy
-#| msgid ":guilabel:`Cleanup`"
 msgid ":guilabel:`Cleanup unused`"
-msgstr ":guilabel:`Bereinigung`"
+msgstr ":guilabel:`Nicht verwendete bereinigen`"
 
 #: admin/continuous.rst:261
 msgid ""
@@ -9071,10 +9066,8 @@ msgid "Run a one-time cleanup without installing the add-on."
 msgstr ""
 
 #: admin/continuous.rst:264
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Remove obsolete`"
-msgstr ":guilabel:`Eine Zeichenkette entfernen`"
+msgstr ":guilabel:`Veraltete entfernen`"
 
 #: admin/continuous.rst:265
 #, fuzzy
@@ -18754,10 +18747,8 @@ msgid "Creating new project"
 msgstr "Neues Projekt erstellen"
 
 #: admin/optionals.rst:395
-#, fuzzy
-#| msgid "`Creating a GitHub personal access token`_"
 msgid "Connecting a GitHub account"
-msgstr "`Erstellen eines persönlichen GitHub-Zugangstokens`_"
+msgstr "Ein GitHub-Konto verbinden"
 
 #: admin/optionals.rst:398
 msgid ""
@@ -19173,8 +19164,8 @@ msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together "
 "with :ref:`project-use_shared_tm`."
 msgstr ""
-"Diese Option ist auf Hosted Weblate nicht verfügbar, sie wird zusammen "
-"mit :ref:`project-use_shared_tm` umgeschaltet."
+"Diese Option ist bei Hosted Weblate nicht verfügbar, sie wird zusammen mit "
+":ref:`project-use_shared_tm` umgeschaltet."
 
 #: admin/projects.rst:221 admin/workspaces.rst:64
 #, fuzzy
@@ -19203,16 +19194,12 @@ msgid ""
 msgstr ""
 
 #: admin/projects.rst:238
-#, fuzzy
-#| msgid ""
-#| "This option is unavailable on Hosted Weblate, it is toggled together "
-#| "with :ref:`project-use_shared_tm`."
 msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together "
 "with :ref:`project-use-workspace-tm`."
 msgstr ""
-"Diese Option ist auf Hosted Weblate nicht verfügbar, sie wird zusammen "
-"mit :ref:`project-use_shared_tm` umgeschaltet."
+"Diese Option ist bei Hosted Weblate nicht verfügbar, sie wird zusammen mit "
+":ref:`project-use-workspace-tm` umgeschaltet."
 
 #: admin/projects.rst:247
 msgid ""
@@ -22998,10 +22985,8 @@ msgid "Weblate 2026.7"
 msgstr "Weblate 2026.7"
 
 #: changes.rst:4
-#, fuzzy
-#| msgid "*Released on July 1st 2022.*"
 msgid "*Released on July 1st 2026.*"
-msgstr "*Veröffentlicht am 1. Juli 2022.*"
+msgstr "*Veröffentlicht am 1. Juli 2026.*"
 
 #: changes.rst:7 changes.rst:120 changes.rst:174 changes/v5.rst:10
 #: changes/v5.rst:88 changes/v5.rst:204 changes/v5.rst:238 changes/v5.rst:277
@@ -50013,10 +49998,8 @@ msgstr ""
 "entstehen können."
 
 #: formats/markdown.rst:72
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translating front matter values"
-msgstr "Übersetzungsspeicherstatus"
+msgstr "Front-Matter-Werte übersetzen"
 
 #: formats/markdown.rst:74
 msgid ""
@@ -50416,10 +50399,8 @@ msgstr ""
 "werden als schreibgeschützt markiert (:ref:`glossary-untranslatable`).,"
 
 #: formats/tbx.rst:40
-#, fuzzy
-#| msgid "Managing glossaries"
 msgid "Importing glossary files"
-msgstr "Glossare verwalten"
+msgstr "Glossardateien importieren"
 
 #: formats/tbx.rst:42
 msgid ""
@@ -51119,19 +51100,15 @@ msgstr ":class:`Weblate`"
 
 #: python.rst:34
 msgid "The :class:`Weblate` class is the main API entry point."
-msgstr ""
+msgstr "Die Klasse :class:`Weblate` ist der zentrale Einstiegspunkt der API."
 
 #: python.rst:41
-#, fuzzy
-#| msgid "Explanations"
 msgid "Exceptions"
-msgstr "Erklärungen"
+msgstr "Ausnahmen"
 
 #: python.rst:53
-#, fuzzy
-#| msgid "Projects"
 msgid "API objects"
-msgstr "Projekte"
+msgstr "API-Objekte"
 
 #: python.rst:55
 msgid ""
@@ -53985,10 +53962,8 @@ msgid "Kubernetes Helm chart"
 msgstr ""
 
 #: security/release-artifacts.rst:53
-#, fuzzy
-#| msgid "`Manage repository`"
 msgid "`Weblate Helm repository`_"
-msgstr "`Repository verwalten`"
+msgstr "`Weblate-Helm-Repository`_"
 
 #: security/release-artifacts.rst:54
 msgid "`Weblate Helm repository endpoint`_ and `Artifact Hub`_"
@@ -54561,12 +54536,12 @@ msgid "Webhooks"
 msgstr "Webhooks"
 
 #: security/threat-model.rst:61
-#, fuzzy
-#| msgid ":ref:`hooks`, project :ref:`project-enable_hooks`"
 msgid ""
 ":ref:`hooks`, project :ref:`project-enable_hooks`, :ref:`code-hosting-github-"
 "app-webhook`"
-msgstr ":ref:`hooks`, Projekt-:ref:`project-enable_hooks`"
+msgstr ""
+":ref:`hooks`, Projekt-:ref:`project-enable_hooks`, :ref:`code-hosting-github-"
+"app-webhook`"
 
 #: security/threat-model.rst:63
 msgid "Background task scheduling and VCS repository updates"
@@ -54623,12 +54598,12 @@ msgid "Project backup import/export"
 msgstr "Projektsicherung Import/Export"
 
 #: security/threat-model.rst:78
-#, fuzzy
-#| msgid ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
 msgid ""
 ":ref:`projectbackup`, :doc:`/api` project backup "
 "endpoints, :wladmin:`import_projectbackup`"
-msgstr ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
+msgstr ""
+":ref:`projectbackup`, :doc:`/api`-Projektsicherungsendpunkte, "
+":wladmin:`import_projectbackup`"
 
 #: security/threat-model.rst:80
 #, fuzzy
@@ -68767,17 +68742,15 @@ msgid "Boolean operators"
 msgstr "Boolesche Operatoren"
 
 #: user/search.rst:16
-#, fuzzy
-#| msgid ""
-#| "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
-#| "form complex queries."
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries. Boolean operators are case-insensitive, so ``and``, "
 "``And`` and ``AND`` are equivalent."
 msgstr ""
 "Sie können Suchanfragen mit ``AND``, ``OR``, ``NOT`` und Klammern "
-"kombinieren, um komplexe Abfragen zu bilden."
+"kombinieren, um komplexe Abfragen zu bilden. Bei booleschen Operatoren wird "
+"die Groß-/Kleinschreibung nicht berücksichtigt, daher sind ``and``, ``And`` "
+"und ``AND`` gleichbedeutend."
 
 #: user/search.rst:20
 msgid ""
