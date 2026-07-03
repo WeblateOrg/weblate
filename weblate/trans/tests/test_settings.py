@@ -42,6 +42,8 @@ from weblate.utils.render import (
 )
 from weblate.utils.views import get_form_data
 from weblate.vcs.base import RepositoryLock
+from weblate.vcs.github import GitHubInstallation
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 
@@ -247,6 +249,27 @@ class SettingsTest(ViewTestCase):
 
         self.assertContains(response, 'name="license"')
         self.assertNotContains(response, 'data-inherited-setting="license"')
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_project_settings_mirror_workspace_tm_contribution(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+        self.assertTrue(form.fields["contribute_shared_tm"].widget.is_hidden)
+        self.assertTrue(form.fields["contribute_workspace_tm"].widget.is_hidden)
+
+        data = get_form_data(form.initial)
+        data["use_shared_tm"] = False
+        data["contribute_shared_tm"] = True
+        data["use_workspace_tm"] = True
+        data["contribute_workspace_tm"] = False
+        form = ProjectSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.project,
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertFalse(form.cleaned_data["contribute_shared_tm"])
+        self.assertTrue(form.cleaned_data["contribute_workspace_tm"])
 
     def test_checked_inherited_setting_preserves_override(self) -> None:
         self.project.license = "MIT"
@@ -984,6 +1007,8 @@ class SettingsTest(ViewTestCase):
         self.project.enable_hooks = False
         self.project.use_shared_tm = False
         self.project.contribute_shared_tm = False
+        self.project.use_workspace_tm = True
+        self.project.contribute_workspace_tm = True
         self.project.check_flags = "strict-same"
         self.project.save()
 
@@ -1021,7 +1046,7 @@ class SettingsTest(ViewTestCase):
         self.project.refresh_from_db()
         current_workspace.add_owner(self.user)
         target_workspace.add_owner(self.user)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.get(self.project.get_absolute_url())
         self.assertContains(response, "Move project")
@@ -1041,6 +1066,28 @@ class SettingsTest(ViewTestCase):
             'Project moved from "Current workspace" to "Target workspace".',
         )
 
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_project_move_to_billing_workspace_updates_name(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        current_workspace = Workspace.objects.create(name="Current workspace")
+        Project.objects.filter(pk=self.project.pk).update(workspace=current_workspace)
+        self.project.refresh_from_db()
+        current_workspace.add_owner(self.user)
+        billing = create_test_billing(self.user)
+        self.user.clear_permissions_cache()
+
+        response = self.client.post(
+            reverse("move", kwargs={"path": self.project.get_url_path()}),
+            {"workspace": str(billing.workspace_id)},
+            follow=True,
+        )
+
+        self.assertContains(response, "Project moved.")
+        self.project.refresh_from_db()
+        billing.workspace.refresh_from_db()
+        self.assertEqual(self.project.workspace_id, billing.workspace_id)
+        self.assertEqual(billing.workspace.name, self.project.name)
+
     def test_project_move_requires_target_add_project(self) -> None:
         self.project.add_user(self.user, "Administration")
         current_workspace = Workspace.objects.create(name="Current workspace")
@@ -1057,7 +1104,7 @@ class SettingsTest(ViewTestCase):
         )
         group.roles.add(role)
         self.user.add_team(None, group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.get(self.project.get_absolute_url())
         self.assertNotContains(response, "Move project")
@@ -1081,7 +1128,7 @@ class SettingsTest(ViewTestCase):
         current_workspace.add_owner(self.user)
         first_workspace.add_owner(self.user)
         second_workspace.add_owner(self.user)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         with patch("weblate.trans.forms.PROJECT_MOVE_WORKSPACE_SELECT_LIMIT", 1):
             response = self.client.get(self.project.get_absolute_url())
@@ -1464,6 +1511,70 @@ class SettingsTest(ViewTestCase):
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)
+
+    def test_github_app_component_settings_lock_push_settings(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        workspace = Workspace.objects.create(name="GitHub App settings")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+            repositories=[{"full_name": "test-org/repo"}],
+        )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo.git"
+        self.component.push = "https://example.com/other/repo.git"
+        self.component.push_branch = "translations"
+        self.component.save(update_fields=["vcs", "repo", "push", "push_branch"])
+
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        self.assertContains(response, "Settings")
+        form = response.context["form"]
+
+        for field in ("vcs", "repo", "push", "push_branch"):
+            self.assertTrue(form.fields[field].disabled)
+        self.assertEqual(form.initial["push"], "")
+        self.assertEqual(form.initial["push_branch"], "")
+
+        data = get_form_data(form.initial)
+        data["push"] = "https://example.com/other/repo.git"
+        data["push_branch"] = "translations"
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.component,
+        )
+        with patch.object(Component, "validate_repository_access", return_value=None):
+            self.assertTrue(form.is_valid(), form.errors)
+            form.save()
+
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.push, "")
+        self.assertEqual(self.component.push_branch, "")
+
+    def test_component_settings_reject_manual_github_app_vcs(self) -> None:
+        self.project.add_user(self.user, "Administration")
+
+        VCS_REGISTRY.clear_cache()
+        form = ComponentSettingsForm(self.get_request(), instance=self.component)
+
+        self.assertNotIn("github-app", dict(form.fields["vcs"].choices))
+
+        data = get_form_data(form.initial)
+        data["vcs"] = "github-app"
+        data["repo"] = "https://github.com/test-org/repo.git"
+        form = ComponentSettingsForm(
+            self.get_request(),
+            data,
+            instance=self.component,
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("vcs", form.errors)
 
     def test_component_settings_drop_repository_setting_overrides_on_link(self) -> None:
         self.project.add_user(self.user, "Administration")

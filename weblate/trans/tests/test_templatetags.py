@@ -9,10 +9,12 @@ from __future__ import annotations
 from datetime import timedelta
 from unittest.mock import patch
 
+from django.contrib.auth.models import AnonymousUser
 from django.template import Context
 from django.template.loader import render_to_string
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
+from django.utils.html import format_html
 
 from weblate.auth.models import User
 from weblate.checks.flags import Flags
@@ -78,24 +80,18 @@ class NaturalTimeTest(SimpleTestCase):
 class IndicateAlertsPriorityTest(SimpleTestCase):
     def test_priority_icons(self) -> None:
         project = Project(slug="p", name="p")
-        context = Context({})
+        context = Context({"user": AnonymousUser()})
 
         cases = [
             (priority, svg, css, f'title="{title}"')
             for priority, (svg, css, title) in PRIORITY_ICONS.items()
         ]
 
-        def fake_load_icon(path: str, *, auto_prefix: bool = True) -> bytes:
-            return f'<svg data-icon="{path}"></svg>'.encode()
+        def fake_icon(path: str) -> str:
+            return format_html('<svg data-icon="{}"></svg>', path)
 
-        with (
-            patch(
-                "weblate.trans.templatetags.translations.get_alerts", return_value=[]
-            ),
-            patch(
-                "weblate.trans.templatetags.translations.load_icon",
-                side_effect=fake_load_icon,
-            ),
+        with patch(
+            "weblate.trans.templatetags.translations.icon", side_effect=fake_icon
         ):
             for priority, svg, css_class, title in cases:
                 component = Component(
@@ -105,6 +101,7 @@ class IndicateAlertsPriorityTest(SimpleTestCase):
                     priority=priority,
                     source_language=Language(),
                 )
+                component.__dict__["all_problem_alerts"] = []
                 html = str(indicate_alerts(context, component))
                 self.assertIn(f'data-icon="priorities/{svg}.svg"', html)
                 self.assertIn(f'class="state-icon {css_class}"', html)
@@ -118,8 +115,79 @@ class IndicateAlertsPriorityTest(SimpleTestCase):
                 priority=100,
                 source_language=Language(),
             )
+            default_component.__dict__["all_problem_alerts"] = []
             html = str(indicate_alerts(context, default_component))
             self.assertNotIn('data-icon="priorities/', html)
+
+    def test_priority_icon_skipped_for_translation(self) -> None:
+        project = Project(slug="p", name="p")
+        context = Context({"user": AnonymousUser()})
+        component = Component(
+            project=project,
+            slug="c",
+            name="c",
+            priority=60,
+            source_language=Language(),
+        )
+        component.__dict__["all_problem_alerts"] = []
+        translation = Translation(component=component, language=Language())
+
+        def fake_icon(path: str) -> str:
+            return format_html('<svg data-icon="{}"></svg>', path)
+
+        with patch(
+            "weblate.trans.templatetags.translations.icon", side_effect=fake_icon
+        ):
+            html = str(indicate_alerts(context, translation))
+
+        self.assertNotIn('data-icon="priorities/', html)
+
+
+class IndicateAlertsRestrictedTest(SimpleTestCase):
+    def test_restricted_component_icon(self) -> None:
+        context = Context({"user": AnonymousUser()})
+        component = Component(
+            project=Project(slug="p", name="p"),
+            slug="c",
+            name="c",
+            restricted=True,
+            source_language=Language(pk=1),
+        )
+        component.__dict__["all_problem_alerts"] = []
+
+        def fake_icon(path: str) -> str:
+            return format_html('<svg data-icon="{}"></svg>', path)
+
+        with patch(
+            "weblate.trans.templatetags.translations.icon", side_effect=fake_icon
+        ):
+            html = str(indicate_alerts(context, component))
+
+        self.assertIn('data-icon="state/shield.svg"', html)
+        self.assertIn('title="Restricted component"', html)
+
+    def test_restricted_component_icon_skipped_for_translation(self) -> None:
+        context = Context({"user": AnonymousUser()})
+        component = Component(
+            project=Project(slug="p", name="p"),
+            slug="c",
+            name="c",
+            restricted=True,
+            source_language=Language(pk=1),
+        )
+        component.__dict__["all_problem_alerts"] = []
+        translation = Translation(component=component, language=Language(pk=2))
+
+        def fake_icon(path: str) -> str:
+            return format_html('<svg data-icon="{}"></svg>', path)
+
+        with patch(
+            "weblate.trans.templatetags.translations.icon", side_effect=fake_icon
+        ):
+            html = str(indicate_alerts(context, translation))
+
+        self.assertNotIn('data-icon="state/shield.svg"', html)
+        self.assertNotIn('title="Restricted component"', html)
 
 
 class LocationLinksTest(TestCase):

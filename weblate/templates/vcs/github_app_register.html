@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-github-accounts' %}">{% translate "VCS Installations" %}</a>
+  </li>
+  <li class="breadcrumb-item">{% translate "Register Weblate GitHub App" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card mb-3">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Register Weblate GitHub App" %}</h4>
+    </div>
+    <div class="card-body">
+      <p>
+        {% blocktranslate trimmed %}
+          Submit the form below to create a GitHub App with all the permissions
+          and events Weblate needs already filled in. After you confirm the
+          App's name on GitHub, you will be redirected back here and the
+          credentials will be stored automatically.
+        {% endblocktranslate %}
+      </p>
+
+      {% if existing_hosts %}
+        <div class="alert {% if host_already_registered %}alert-warning{% else %}alert-info{% endif %}">
+          {% if host_already_registered %}
+            {% blocktranslate trimmed with host=hostname %}
+              The <code>{{ host }}</code> host already has stored GitHub App
+              credentials. You can edit the form, but submitting this host
+              again will be rejected.
+            {% endblocktranslate %}
+          {% else %}
+            {% translate "GitHub hosts that already have a Weblate GitHub App registered:" %}
+            {% for host in existing_hosts %}
+              <code>{{ host }}</code>
+              {% if not forloop.last %},{% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'github-app-register-submit' %}">
+        {% csrf_token %}
+        {% crispy register_form %}
+        <div class="mb-3 row">
+          <label class="col-sm-3 col-form-label">{% translate "Webhook URL" %}</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" value="{{ webhook_url }}" disabled>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label class="col-sm-3 col-form-label">{% translate "Permissions" %}</label>
+          <div class="col-sm-9">
+            <ul class="list-unstyled mb-0">
+              {% for permission, level in permissions.items %}
+                <li>
+                  <code>{{ permission }}</code> — {{ level }}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label class="col-sm-3 col-form-label">{% translate "Subscribed events" %}</label>
+          <div class="col-sm-9">
+            <ul class="list-unstyled mb-0">
+              {% for event in events %}
+                <li>
+                  <code>{{ event }}</code>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">{% translate "Continue to GitHub" %}</button>
+          <a href="{% url 'manage-github-accounts' %}" class="btn btn-outline-secondary">{% translate "Cancel" %}</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Manifest preview" %}</h4>
+    </div>
+    <div class="card-body">
+      <p class="text-body-secondary small">
+        {% translate "The JSON document below is the manifest that GitHub will use to pre-fill the new App's settings." %}
+      </p>
+      <pre class="mb-0"><code>{{ manifest_json }}</code></pre>
+    </div>
+  </div>
+
+{% endblock content %}

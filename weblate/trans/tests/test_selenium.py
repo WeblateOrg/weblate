@@ -10,7 +10,7 @@ import os
 import time
 import warnings
 from contextlib import contextmanager, suppress
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Literal, cast, overload
@@ -76,6 +76,8 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
+from weblate.utils.data import data_dir
+from weblate.utils.files import remove_tree
 from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -134,6 +136,10 @@ TEST_BACKENDS = (
 
 SCREENSHOT_SITE_DOMAIN = "weblate.example.com"
 SCREENSHOT_DATE = datetime(2026, 1, 15, 12, 0, tzinfo=UTC)
+SCREENSHOT_GIT_REVISION = "0123456789abcdef0123456789abcdef01234567"
+SCREENSHOT_GIT_LINK = (
+    f"https://github.com/WeblateOrg/weblate/commits/{SCREENSHOT_GIT_REVISION}"
+)
 SELENIUM_GPG_KEY_ID = "B17C8337FA04DF8D4D3569AF882B2A22730AAF03"
 SELENIUM_SSH_KEY_FIXTURES = (
     ("id_rsa.pub", "selenium-keys/id_rsa.pub"),
@@ -191,7 +197,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @staticmethod
     def is_page_loaded(driver: WebDriver) -> bool:
         try:
-            return driver.execute_script("return document.readyState") == "complete"
+            return bool(
+                driver.execute_script(
+                    """
+                    if (document.readyState !== "complete") {
+                        return false;
+                    }
+                    if (!document.querySelector('meta[name="argon2id-worker-url"]')) {
+                        return true;
+                    }
+                    const status = {
+                        slugify: typeof window.slugify !== "undefined",
+                        DateRangePicker: typeof window.DateRangePicker !== "undefined",
+                        getNumber: typeof window.getNumber === "function",
+                        quoteSearch: typeof window.quoteSearch === "function",
+                        compareCells: typeof window.compareCells === "function",
+                    };
+                    return Object.values(status).every(Boolean);
+                    """
+                )
+            )
         except WebDriverException:
             return False
 
@@ -294,8 +319,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def setUp(self) -> None:
         super().setUp()
         self.driver.execute_cdp_cmd("Network.clearBrowserCache", {})
-        self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.driver.set_window_size(1200, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.site_domain = settings.SITE_DOMAIN
         settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"
 
@@ -348,20 +374,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         ]
         cache.delete_many({stat.cache_key for stat in stats})
 
+    def clear_weblateorg_fixture_path(self) -> None:
+        """Drop VCS state left by earlier flushed Selenium tests."""
+        remove_tree(os.path.join(data_dir("vcs"), "weblateorg"), ignore_errors=True)
+
     def populate_global_activity_metrics(self) -> None:
         """Create deterministic metric rows for the generated activity history."""
         today = timezone.now().date()
         scope = Metric.SCOPE_GLOBAL
         relation = 0
         cache.delete(GlobalStats().cache_key)
-        Metric.objects.filter_metric(scope, relation).filter(date=today).delete()
+        Metric.objects.filter_metric(scope, relation).delete()
 
         wrapper = MetricsWrapper(None, scope, relation)
         cache_keys = []
+        activity_months = []
         last_month_date = today.replace(day=1) - timedelta(days=1)
         month = last_month_date.month
         year = last_month_date.year
         for _unused in range(12):
+            activity_months.append((year, month))
             cache_keys.extend(
                 (
                     wrapper.get_month_cache_key(year, month),
@@ -374,13 +406,28 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 year -= 1
         cache.delete_many(cache_keys)
 
-        for day in range(366):
-            Metric.objects.calculate_changes(
-                today - timedelta(days=day),
-                None,
-                scope,
-                relation,
-            )
+        Metric.objects.bulk_create(
+            [
+                Metric(
+                    scope=scope,
+                    relation=relation,
+                    secondary=0,
+                    date=date(year, month, 15),
+                    changes=18 + position * 6,
+                )
+                for position, (year, month) in enumerate(reversed(activity_months))
+            ]
+            + [
+                Metric(
+                    scope=scope,
+                    relation=relation,
+                    secondary=0,
+                    date=date(year - 1, month, 15),
+                    changes=8 + position * 3,
+                )
+                for position, (year, month) in enumerate(reversed(activity_months))
+            ]
+        )
         Metric.objects.collect_global()
 
     def count_elements(self, css_selector: str) -> int:
@@ -450,6 +497,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with override_settings(SITE_DOMAIN=SCREENSHOT_SITE_DOMAIN, ENABLE_HTTPS=False):
             component.git_export = get_export_url(component)
             component.save(update_fields=("git_export",))
+
+    @contextmanager
+    def stable_git_revision(self) -> Iterator[None]:
+        """Use deterministic Git revision text in management screenshots."""
+        with (
+            patch("weblate.wladmin.views.GIT_LINK", SCREENSHOT_GIT_LINK),
+            patch("weblate.wladmin.views.GIT_REVISION", SCREENSHOT_GIT_REVISION),
+        ):
+            yield
 
     def wait_for_screenshot_ready(self, timeout: int = 10) -> None:
         """Wait for browser-side rendering that can affect screenshots."""
@@ -684,6 +740,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     "weblate.wladmin.views.measure_cache_latency",
                     measure_cache_latency,
                 ),
+                patch(
+                    "weblate.wladmin.views.get_database_size",
+                    return_value=123456789,
+                ),
+                patch(
+                    "weblate.wladmin.views.get_database_disk_usage",
+                    return_value=None,
+                ),
             ):
                 yield
         finally:
@@ -828,12 +892,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("type"), "submit")
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
-    def test_js_assets_are_loaded(self) -> None:
-        """Check that the main JS bundle is active and globals are available."""
-        self.assertTrue(
-            self.driver.execute_script(
-                "return typeof window.slugify !== 'undefined' && typeof window.DateRangePicker !== 'undefined';"
-            )
+    def test_slug_autofill(self) -> None:
+        """Check that base JavaScript initializes slug autogeneration."""
+        self.do_login(superuser=True)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('create-project')}")
+
+        name_input = self.driver.find_element(By.ID, "id_name")
+        slug_input = self.driver.find_element(By.ID, "id_slug")
+        name_input.send_keys("Example.Project Name")
+
+        WebDriverWait(self.driver, 5).until(
+            lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
     def test_js_unit_tests(self) -> None:
@@ -1247,6 +1318,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("ssh-keys.png")
 
     def create_component(self) -> Project:
+        self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         Component.objects.create(
             name="Language names",
@@ -1346,20 +1418,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 change = Change.objects.create(action=ActionEvents.CREATE_PROJECT)
                 change.timestamp -= timedelta(days=day)
                 change.save()
-        self.populate_global_activity_metrics()
 
         # Screenshot search
         self.click("Search")
         self.screenshot("search.png")
 
         # Render activity
-        self.click("Insights")
-        with self.wait_for_page_load():
-            self.click("Statistics")
-        self.stabilize_global_stats_timestamp()
-        with self.wait_for_page_load():
-            self.driver.refresh()
-        self.screenshot("activity.png")
+        with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
+            self.populate_global_activity_metrics()
+            self.click("Insights")
+            with self.wait_for_page_load():
+                self.click("Statistics")
+            self.stabilize_global_stats_timestamp()
+            with self.wait_for_page_load():
+                self.driver.refresh()
+            self.screenshot("activity.png")
 
     @override_settings(PRIVATE_COMMIT_NAME_TEMPLATE="{site_title} user")
     @social_core_override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
@@ -1988,6 +2061,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_add_component(self) -> None:
         """Test user adding project and component."""
+        self.clear_weblateorg_fixture_path()
         user = self.do_login()
         with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
             billing = create_test_billing(user, invoice=False)
@@ -2062,6 +2136,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("user-add-component.png")
 
     def test_alerts(self) -> None:
+        self.clear_weblateorg_fixture_path()
         project = Project.objects.create(name="WeblateOrg", slug="weblateorg")
         duplicates = Component.objects.create(
             name="Duplicates",
@@ -2215,10 +2290,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
             )
             self.screenshot("backups.png")
-        SupportStatus.objects.create(secret="123", name="community")
-        with self.wait_for_page_load():
-            self.click("Weblate status")
-        self.screenshot("support-discovery.png")
+            # The login session was created with the patched clock and expires
+            # once the real clock is restored.
+            SupportStatus.objects.create(secret="123", name="community")
+            with self.stable_git_revision():
+                with self.wait_for_page_load():
+                    self.click("Weblate status")
+                self.assert_text_contains("h4.card-title", "Weblate support status")
+                self.screenshot("support-discovery.png")
 
     def test_manage(self) -> None:
         with (

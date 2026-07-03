@@ -38,6 +38,9 @@ class Dimensions(NamedTuple):
     height: int
 
 
+MAX_RENDERED_TEXT_OVERFLOW = 1000
+
+
 FONTCONFIG_CONFIG = """<?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
 <fontconfig>
@@ -187,8 +190,10 @@ def _render_size(
         # Set the actual text
         layout.set_text(text)
 
-        # Set width and line wrapping
-        layout.set_width(width * Pango.SCALE)
+        # For one-line checks, omit the layout width so Pango measures the
+        # unwrapped text. Keep WORD wrapping instead of Pango.WrapMode.NONE;
+        # NONE requires Pango 1.56, which is newer than supported LTS systems.
+        layout.set_width(-1 if lines == 1 else width * Pango.SCALE)
         layout.set_wrap(Pango.WrapMode.WORD)
 
         # Calculate dimensions
@@ -199,7 +204,12 @@ def _render_size(
             break
 
         required_height = max(surface_height, pixel_size.height)
-        required_width = max(width, surface_width, pixel_size.width)
+        required_width = max(
+            width,
+            surface_width,
+            # Keep the measured width intact, but cap the generated preview.
+            min(pixel_size.width, width + MAX_RENDERED_TEXT_OVERFLOW),
+        )
         if required_height == surface_height and required_width == surface_width:
             break
 

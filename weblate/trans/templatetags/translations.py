@@ -47,7 +47,6 @@ from weblate.utils.diff import Differ
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
-from weblate.utils.icons import load_icon
 from weblate.utils.markdown import render_markdown
 from weblate.utils.messages import get_message_kind as get_message_kind_impl
 from weblate.utils.random import get_random_identifier
@@ -290,10 +289,12 @@ class Formatter:
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
         cleaned_value = list(self.value)
-        for start, end, content in highlights:
-            self.tags[start].append(format_html(HLCHECK, content))
-            self.tags[end].insert(0, "</span>")
-            cleaned_value[start:end] = [" "] * (end - start)
+        for highlight in highlights:
+            self.tags[highlight.start].append(format_html(HLCHECK, highlight.text))
+            self.tags[highlight.end].insert(0, "</span>")
+            cleaned_value[highlight.start : highlight.end] = [" "] * (
+                highlight.end - highlight.start
+            )
 
         # Prepare cleaned up value for glossary terms (we do not want to extract those
         # from format strings)
@@ -1138,26 +1139,38 @@ def get_filter_name(name: str) -> str:
     return names[name]
 
 
+def get_alert_css_class(icon_name: str, css_class: str = "") -> str:
+    if css_class:
+        return css_class
+    if icon_name == "state/ghost.svg":
+        return "grey"
+    if icon_name == "state/alert.svg":
+        return "red"
+    return ""
+
+
 def translation_alerts(
     translation: Translation | ProjectLanguage | GhostTranslation,
-) -> Iterable[tuple[str, StrOrPromise, str | None]]:
+) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
     if translation.is_source:
         yield (
             "state/source.svg",
             gettext("This language is used for source strings."),
             None,
+            "",
         )
 
 
 def component_alerts(
     component: Component,
-) -> Iterable[tuple[str, StrOrPromise, str | None]]:
+) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
     if component.is_repo_link:
         yield (
             "state/link.svg",
             gettext("This component is linked to the %(target)s repository.")
             % {"target": component.linked_component},
             None,
+            "",
         )
 
     if component.all_problem_alerts:
@@ -1165,29 +1178,34 @@ def component_alerts(
             "state/alert.svg",
             gettext("Fix this component to clear its diagnostics."),
             f"{component.get_absolute_url()}#alerts",
+            "",
         )
 
     if component.locked:
-        yield ("state/lock.svg", gettext("This translation is locked."), None)
+        yield ("state/lock.svg", gettext("This translation is locked."), None, "")
 
     if component.in_progress():
         yield (
             "state/update.svg",
             gettext("Updating translation component…"),
             f"{reverse('show_progress', kwargs={'path': component.get_url_path()})}?info=1",
+            "",
         )
 
 
-def project_alerts(project: Project) -> Iterable[tuple[str, StrOrPromise, str | None]]:
+def project_alerts(
+    project: Project,
+) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
     if project.has_alerts:
         yield (
             "state/alert.svg",
             gettext("Some of the components within this project have diagnostics."),
             None,
+            "",
         )
 
     if project.locked:
-        yield ("state/lock.svg", gettext("This translation is locked."), None)
+        yield ("state/lock.svg", gettext("This translation is locked."), None, "")
 
 
 def get_alerts(
@@ -1203,18 +1221,25 @@ def get_alerts(
     component: Component | None,
     project: Project | None,
     project_language: ProjectLanguage | None,
-) -> Iterable[tuple[str, StrOrPromise, str | None]]:
+) -> Iterable[tuple[str, StrOrPromise, str | None, str]]:
     global_base = context.get("global_base")
+
+    if isinstance(obj, Component) and (priority := obj.priority) in PRIORITY_ICONS:
+        selected_svg, css_class, title_text = PRIORITY_ICONS[priority]
+        yield f"priorities/{selected_svg}.svg", title_text, None, css_class
 
     if project_language is not None:
         # For source language
         yield from translation_alerts(project_language)
 
     if project is not None and context["user"].has_perm("project.edit", project):
-        yield ("state/admin.svg", gettext("You administrate this project."), None)
+        yield ("state/admin.svg", gettext("You administrate this project."), None, "")
 
     if translation is not None:
         yield from translation_alerts(translation)
+
+    if isinstance(obj, Component) and obj.restricted:
+        yield ("state/shield.svg", gettext("Restricted component"), None, "")
 
     if component is not None:
         yield from (component_alerts(component))
@@ -1223,7 +1248,12 @@ def get_alerts(
 
     if getattr(obj, "is_ghost", False):
         yield (
-            ("state/ghost.svg", gettext("This translation does not yet exist."), None)
+            (
+                "state/ghost.svg",
+                gettext("This translation does not yet exist."),
+                None,
+                "",
+            )
         )
     elif global_base:
         if isinstance(global_base, str):
@@ -1242,6 +1272,7 @@ def get_alerts(
                     )
                     % {"count": intcomma(count)},
                     None,
+                    "",
                 )
             )
 
@@ -1251,6 +1282,7 @@ def get_alerts(
                 "state/share.svg",
                 gettext("Shared from the %s project.") % is_shared,
                 None,
+                "",
             )
         )
 
@@ -1286,37 +1318,19 @@ def indicate_alerts(
     # GhostProjectLanguageStats and GhostCategoryLanguageStats as these would
     # be confusing (showing alert or admin icon on ghost containers).
 
-    priority_html = ""
-    if component and (priority := component.priority) in PRIORITY_ICONS:
-        selected_svg, css_class, title_text = PRIORITY_ICONS[priority]
-
-        priority_html = format_html(
-            '<span class="state-icon {}" data-bs-toggle="tooltip" title="{}" alt="{}" style="margin: 0">{}</span>',
-            css_class,
-            title_text,
-            title_text,
-            mark_safe(  # noqa: S308
-                load_icon(f"priorities/{selected_svg}.svg", auto_prefix=False).decode()
-            ),
-        )
-
     icons = format_html_join(
         "\n",
         '{}<span class="state-icon {}" title="{}" alt="{}">{}</span>{}',
         (
             (
                 format_html('<a href="{}">', url) if url else "",
-                "grey"
-                if icon_name == "state/ghost.svg"
-                else "red"
-                if icon_name == "state/alert.svg"
-                else "",
+                get_alert_css_class(icon_name, css_class),
                 text,
                 text,
                 icon(icon_name),
                 mark_safe("</a>") if url else "",
             )
-            for icon_name, text, url in get_alerts(
+            for icon_name, text, url, css_class in get_alerts(
                 context=context,
                 translation=translation,
                 component=component,
@@ -1339,7 +1353,7 @@ def indicate_alerts(
             component.effective_license,
         )
 
-    return format_html("{}{}{}", priority_html, icons, license_badge)
+    return format_html("{}{}", icons, license_badge)
 
 
 @register.filter(is_safe=True)
@@ -1541,6 +1555,15 @@ def path_object_breadcrumbs(path_object, flags: bool = True):
     return format_html_join(
         "\n",
         '<li class="breadcrumb-item"><a href="{}">{}</a></li>',
+        get_breadcrumbs(path_object, flags=flags),
+    )
+
+
+@register.simple_tag
+def path_object_links(path_object, flags: bool = True):
+    return format_html_join(
+        "/",
+        '<a href="{}">{}</a>',
         get_breadcrumbs(path_object, flags=flags),
     )
 

@@ -187,6 +187,11 @@ Availability of individual actions depends on permissions, the configured
 version control system, whether pushing is configured, and whether the selected
 object can be locked.
 
+The :guilabel:`File management` actions are available only from
+:guilabel:`Repository maintenance` for an individual translation. These actions
+rewrite that translation file and commit the result; they are not project-wide
+or component-wide operations.
+
 Operations that read repository content, such as updating, resetting, or
 rescanning, also reconcile translation files in Weblate. Added or removed
 translation files are reflected after this processing finishes. Glossary
@@ -247,6 +252,18 @@ language synchronization and cleanup are described in
    * - :guilabel:`Rescan`
      - Re-reads translation files from the local repository into Weblate and removes translations whose files no longer match the component configuration.
      - Import file changes after manual repository work or file creation.
+
+   * - :guilabel:`Remove duplicates`
+     - Removes repeated strings with the same identifier from one translation file.
+     - Repair duplicate strings reported by Weblate when the file contains repeated units.
+
+   * - :guilabel:`Cleanup unused`
+     - Removes strings no longer present in the base file from one translation file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this automatically.
+     - Run a one-time cleanup without installing the add-on.
+
+   * - :guilabel:`Remove obsolete`
+     - Removes obsolete strings from one PO translation file.
+     - Run a one-time PO cleanup without enabling automatic obsolete string removal.
 
 .. _manage-vcs-reset-reapply:
 

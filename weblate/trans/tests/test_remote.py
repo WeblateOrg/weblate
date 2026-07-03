@@ -6,15 +6,25 @@
 
 import os
 import pathlib
+import sys
 from unittest.mock import patch
 
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
+from weblate.trans.models import (
+    Change,
+    CommitPolicyChoices,
+    Component,
+    PendingUnitChange,
+    Unit,
+)
+from weblate.trans.tasks import component_after_save, perform_update
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.utils.files import remove_tree
@@ -24,6 +34,7 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_TRANSLATED,
 )
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 EXTRA_PO = """
@@ -226,6 +237,253 @@ class MultiRepoTest(ViewTestCase):
         self.component2.merge_style = "rebase"
         self.component2.save()
         self.test_update()
+        change = self.component2.change_set.filter(action=ActionEvents.REBASE).latest(
+            "timestamp"
+        )
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+
+    def test_hook_rebase_update_uses_hook_author(self) -> None:
+        """Test hook-triggered rebase attribution."""
+        self.component2.merge_style = "rebase"
+        self.component2.save()
+        self.push_first(False)
+        hook_user = User.objects.get_or_create_bot(
+            scope="webhook", name="github", verbose="GitHub webhook"
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            perform_update("Component", self.component2.pk, user_id=hook_user.id)
+
+        change = self.component2.change_set.filter(action=ActionEvents.REBASE).latest(
+            "timestamp"
+        )
+        self.assertEqual(change.user, hook_user)
+        self.assertEqual(change.author, hook_user)
+
+    def test_remote_update_history_event(self) -> None:
+        """Test remote update history records remote revision changes."""
+        self.component2.repository.last_output = ""
+        self.component2.repository.__dict__["last_remote_revision"] = "new-remote"
+
+        with patch.object(
+            self.component2,
+            "update_remote_repository",
+            return_value=("old-remote", None),
+        ):
+            self.assertTrue(self.component2.update_remote_branch(user=self.user))
+
+        change = self.component2.change_set.get(action=ActionEvents.REMOTE_UPDATE)
+        self.assertIn(change.action, Change.ACTIONS_REPOSITORY)
+        self.assertNotIn(change.action, Change.ACTIONS_REPOSITORY_STATUS)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+        self.assertEqual(change.details["previous_remote_revision"], "old-remote")
+        self.assertEqual(change.details["remote_revision"], "new-remote")
+        self.assertIn("old-remote", change.get_details_display())
+        self.assertIn("new-remote", change.get_details_display())
+
+    def test_remote_update_history_skips_unchanged_revision(self) -> None:
+        """Test remote update history skips unchanged remote revisions."""
+        self.component2.repository.last_output = ""
+        self.component2.repository.__dict__["last_remote_revision"] = "same-remote"
+
+        with patch.object(
+            self.component2,
+            "update_remote_repository",
+            return_value=("same-remote", None),
+        ):
+            self.assertTrue(self.component2.update_remote_branch(user=self.user))
+
+        self.assertFalse(
+            self.component2.change_set.filter(
+                action=ActionEvents.REMOTE_UPDATE
+            ).exists()
+        )
+
+    def test_failed_remote_update_history_event(self) -> None:
+        """Test remote update failures are recorded in history."""
+        self.component2.repository.__dict__["last_remote_revision"] = "old-remote"
+
+        with patch.object(
+            self.component2,
+            "update_remote_repository",
+            return_value=("old-remote", RepositoryError(1, "fetch failed")),
+        ):
+            self.assertFalse(self.component2.update_remote_branch(user=self.user))
+
+        change = self.component2.change_set.get(
+            action=ActionEvents.FAILED_REMOTE_UPDATE
+        )
+        self.assertIn(change.action, Change.ACTIONS_REPOSITORY)
+        self.assertNotIn(change.action, Change.ACTIONS_REPOSITORY_STATUS)
+        self.assertFalse(change.is_merge_failure())
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+        self.assertEqual(change.target, "fetch failed (1)")
+        self.assertEqual(change.details["error"], "fetch failed (1)")
+        self.assertEqual(change.details["previous_remote_revision"], "old-remote")
+        self.assertIn("fetch failed", change.get_details_display())
+
+    def test_remote_update_history_failure_skips_validation(self) -> None:
+        """Test repository validation does not record failed update history."""
+        with (
+            patch.object(
+                self.component2,
+                "update_remote_repository",
+                return_value=("old-remote", RepositoryError(1, "fetch failed")),
+            ),
+            self.assertRaises(ValidationError),
+        ):
+            self.component2.update_remote_branch(validate=True, user=self.user)
+
+        self.assertFalse(
+            self.component2.change_set.filter(
+                action=ActionEvents.FAILED_REMOTE_UPDATE
+            ).exists()
+        )
+
+    def test_remote_update_history_success_skips_validation(self) -> None:
+        """Test repository validation does not record remote update history."""
+        self.component2.add_alert("UpdateFailure", error="previous fetch failed")
+        self.component2.repository.last_output = ""
+        self.component2.repository.__dict__["last_remote_revision"] = "new-remote"
+
+        with patch.object(
+            self.component2,
+            "update_remote_repository",
+            return_value=("old-remote", None),
+        ):
+            self.assertTrue(
+                self.component2.update_remote_branch(validate=True, user=self.user)
+            )
+
+        self.assertFalse(
+            self.component2.change_set.filter(
+                action=ActionEvents.REMOTE_UPDATE
+            ).exists()
+        )
+        self.assertTrue(self.component2.alert_set.filter(name="UpdateFailure").exists())
+
+    def test_update_remote_repository_samples_revision_under_lock(self) -> None:
+        """Test remote revision sampling uses the fetch lock."""
+        repository = self.component2.repository
+        sampled_locks = []
+
+        def get_last_remote_revision(repository):
+            sampled_locks.append(repository.lock.lock_object.is_locked)
+            return "old-remote"
+
+        with (
+            patch.object(
+                type(repository),
+                "last_remote_revision",
+                property(get_last_remote_revision),
+            ),
+            patch.object(repository, "update_remote"),
+        ):
+            previous_revision, error = self.component2.update_remote_repository()
+
+        self.assertEqual(previous_revision, "old-remote")
+        self.assertIsNone(error)
+        self.assertEqual(sampled_locks, [True])
+
+    def test_update_remote_repository_reports_fetch_error_context(self) -> None:
+        """Test fetch errors are reported with active exception context."""
+        repository = self.component2.repository
+        fetch_error = RepositoryError(1, "fetch failed")
+        reported_errors = []
+
+        def collect_reported_error(*args, **kwargs):
+            reported_errors.append(sys.exc_info()[1])
+
+        def get_last_remote_revision(repository):
+            return "old-remote"
+
+        with (
+            patch.object(
+                type(repository),
+                "last_remote_revision",
+                property(get_last_remote_revision),
+            ),
+            patch.object(repository, "update_remote", side_effect=fetch_error),
+            patch(
+                "weblate.trans.models.component.report_error",
+                side_effect=collect_reported_error,
+            ) as report_error,
+        ):
+            previous_revision, error = self.component2.update_remote_repository()
+
+        self.assertEqual(previous_revision, "old-remote")
+        self.assertIs(error, fetch_error)
+        self.assertEqual(reported_errors, [fetch_error])
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args, ("Could not update the repository",)
+        )
+        self.assertEqual(report_error.call_args.kwargs["project"], self.project)
+
+    @override_settings(AUTO_UPDATE="remote")
+    def test_remote_only_background_update_uses_bot_user(self) -> None:
+        """Test remote-only background updates use the update bot."""
+        with patch.object(
+            self.component2, "update_remote_branch", return_value=True
+        ) as update_remote_branch:
+            perform_update("Component", -1, auto=True, obj=self.component2)
+
+        user = update_remote_branch.call_args.kwargs["user"]
+        self.assertIsNotNone(user)
+        self.assertEqual(user.username, "weblate:update")
+        self.assertTrue(user.is_bot)
+        self.assertEqual(user.full_name, "Background update")
+
+    def test_component_after_save_preserves_acting_user(self) -> None:
+        """Test after-save repository sync keeps the acting user."""
+        with patch.object(Component, "after_save", autospec=True) as after_save:
+            component_after_save(
+                self.component2.pk,
+                changed_git=True,
+                changed_setup=False,
+                changed_template=False,
+                changed_variant=False,
+                changed_enforced_checks=False,
+                skip_push=False,
+                create=False,
+                acting_user_id=self.user.pk,
+            )
+
+        component = after_save.call_args.args[0]
+        self.assertEqual(component.acting_user, self.user)
+
+    def test_failed_rebase_history_when_status_fails(self) -> None:
+        """Test rebase failures are recorded even if status collection fails."""
+        self.component2.merge_style = "rebase"
+        self.component2.save()
+
+        with (
+            patch.object(
+                self.component2.repository,
+                "rebase",
+                side_effect=[RepositoryError(1, "rebase failed"), None],
+            ),
+            patch.object(
+                self.component2.repository,
+                "status",
+                side_effect=RepositoryError(1, "status failed"),
+            ),
+        ):
+            self.assertIsNone(
+                self.component2.update_branch(user=self.user, raise_update_errors=False)
+            )
+
+        change = self.component2.change_set.get(action=ActionEvents.FAILED_REBASE)
+        self.assertEqual(change.user, self.user)
+        self.assertEqual(change.author, self.user)
+        self.assertEqual(change.target, "rebase failed (1)")
+        self.assertEqual(change.details["error"], "rebase failed (1)")
+        self.assertEqual(change.details["status"], "")
+        self.assertEqual(change.details["status_error"], "status failed (1)")
+        self.assertIn("previous_head", change.details)
 
     def test_conflict(self) -> None:
         """Test conflict handling."""

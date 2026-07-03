@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-github-accounts' %}">{% translate "VCS Installations" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card mb-3">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% translate "Weblate GitHub Apps" %}
+        {% if github_app_register_url %}
+          <a href="{{ github_app_register_url }}" class="btn btn-primary btn-sm float-end">{% translate "Register Weblate GitHub App" %}</a>
+        {% endif %}
+      </h4>
+    </div>
+    <div class="card-body">
+      {% if not apps %}
+        <p class="text-body-secondary">
+          {% blocktranslate trimmed %}
+            No Weblate GitHub App is registered yet. Use the button above to
+            create one with the right permissions and webhook URL already
+            filled in — Weblate will store the credentials automatically
+            once GitHub redirects back.
+          {% endblocktranslate %}
+        </p>
+      {% else %}
+        <p class="text-body-secondary">
+          {% blocktranslate trimmed %}
+            The GitHub Apps below provide credentials Weblate uses to talk to
+            GitHub. Connect a GitHub account to each App to import
+            repositories from that account.
+          {% endblocktranslate %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% for app in apps %}
+    <div class="card mb-3">
+      <div class="card-header">
+        <h4 class="card-title">
+          {% if app.html_url %}
+            <a href="{{ app.html_url }}" rel="noopener" target="_blank">{{ app.app_slug }}</a>
+          {% else %}
+            {{ app.app_slug }}
+          {% endif %}
+          <small class="text-body-secondary">({{ app.hostname }})</small>
+          {% if app.install_url %}
+            <a href="{{ app.install_url }}" class="btn btn-primary btn-sm float-end ms-2">{% translate "Connect GitHub account" %}</a>
+          {% endif %}
+          {% if app.can_remove %}
+            <button type="button"
+                    class="btn btn-outline-danger btn-sm float-end"
+                    data-bs-toggle="modal"
+                    data-bs-target="#remove-app-{{ app.credentials_pk }}">{% translate "Remove app" %}</button>
+          {% else %}
+            <button type="button"
+                    class="btn btn-outline-danger btn-sm float-end"
+                    disabled
+                    title="{% translate "Remove connected GitHub accounts first." %}">{% translate "Remove app" %}</button>
+          {% endif %}
+        </h4>
+      </div>
+      <div class="card-body">
+        <dl class="row mb-3">
+          <dt class="col-sm-3">{% translate "App ID" %}</dt>
+          <dd class="col-sm-9">
+            <code>{{ app.app_id }}</code>
+          </dd>
+          <dt class="col-sm-3">{% translate "Slug" %}</dt>
+          <dd class="col-sm-9">
+            <code>{{ app.app_slug }}</code>
+          </dd>
+          <dt class="col-sm-3">{% translate "GitHub host" %}</dt>
+          <dd class="col-sm-9">
+            <code>{{ app.hostname }}</code>
+          </dd>
+        </dl>
+
+        {% if app.can_remove %}
+          <form method="post" action="{% url 'manage-github-app-remove' app.credentials_pk %}">
+            {% csrf_token %}
+            <div class="modal fade"
+                 tabindex="-1"
+                 role="dialog"
+                 id="remove-app-{{ app.credentials_pk }}"
+                 aria-labelledby="remove-app-{{ app.credentials_pk }}-label">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="remove-app-{{ app.credentials_pk }}-label">
+                      {% translate "Remove Weblate GitHub App?" %}
+                    </h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate "Close" %}"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>
+                      <strong>
+                        {% blocktranslate trimmed with slug=app.app_slug host=app.hostname %}
+                          This deletes the stored credentials for the
+                          <code>{{ slug }}</code> App on <code>{{ host }}</code>.
+                        {% endblocktranslate %}
+                      </strong>
+                    </p>
+                    <p class="text-body-secondary">
+                      {% blocktranslate trimmed %}
+                        The App itself stays installed on GitHub. Delete it
+                        from GitHub separately if you no longer need it.
+                      {% endblocktranslate %}
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn btn-danger">{% translate "Remove app" %}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        {% endif %}
+
+        <h5>{% translate "Connected accounts" %}</h5>
+        {% if app.installations %}
+          {% include "vcs/github_install_help.html" %}
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>{% translate "Account" %}</th>
+                <th>{% translate "Workspace" %}</th>
+                <th>{% translate "GitHub installation ID" %}</th>
+                <th>{% translate "Repositories" %}</th>
+                <th>{% translate "Status" %}</th>
+                <th>{% translate "Actions" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for installation in app.installations %}
+                <tr>
+                  <td>
+                    <strong>{{ installation.target_login }}</strong>
+                    <small class="text-body-secondary">({{ installation.target_type }})</small>
+                  </td>
+                  <td><a href="{{ installation.workspace.get_absolute_url }}">{{ installation.workspace }}</a></td>
+                  <td>{{ installation.installation_id }}</td>
+                  <td>{{ installation.repositories|length }}</td>
+                  <td>
+                    {% if installation.enabled %}
+                      <span class="badge text-bg-success">{% translate "Active" %}</span>
+                    {% else %}
+                      <span class="badge text-bg-warning">{% translate "Disabled" %}</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <a href="{% url 'manage-github-account-detail' installation.pk %}"
+                       class="btn btn-outline-primary btn-sm">{% translate "Details" %}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="text-body-secondary">
+            {% translate "No connected GitHub accounts yet. Use the button above to connect a GitHub organization or user account." %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+
+{% endblock content %}

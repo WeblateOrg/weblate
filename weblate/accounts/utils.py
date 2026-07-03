@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Literal
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_static.models import StaticDevice
@@ -22,6 +23,7 @@ from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
+from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.token import get_token
 
@@ -110,7 +112,13 @@ def remove_user(
     user.administered_group_set.clear()
 
     # Remove user translation memory
-    user.memory_set.all().delete()
+    scope_query = Q(
+        scope__in=(MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE), user=user
+    )
+    Memory.objects.filter(
+        id__in=MemoryScope.objects.filter(scope_query).values("memory_id")
+    ).delete_scope(scope_query, delete_legacy=False)
+    Memory.objects.filter(legacy_user=user, scopes__isnull=True).delete()
 
     # Clear subscriptions
     user.subscription_set.all().delete()

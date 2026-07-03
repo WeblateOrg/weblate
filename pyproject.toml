@@ -2,7 +2,7 @@
 build-backend = "setuptools.build_meta"
 requires = [
   "setuptools==82.0.1",
-  "translate-toolkit==3.19.12"
+  "translate-toolkit==3.19.13"
 ]
 
 [dependency-groups]
@@ -18,15 +18,17 @@ docs = [
   "furo==2025.12.19",
   "jinja2==3.1.6",
   "matplotlib==3.11.0",
-  "Pillow==12.2.0",
+  "Pillow==12.3.0",
   "Pygments==2.20.0",
   "sphinx-copybutton==0.5.2",
   "sphinx-jsonschema==1.19.2",
+  "sphinx-llm==0.4.1",
   "sphinx-reredirects==1.1.0",
   "Sphinx==8.2.3",
   "sphinxcontrib-httpdomain==2.0.0",
   "sphinxext-opengraph==0.13.0",
-  "weblate-fonts==2026.1"
+  "weblate-fonts==2026.1",
+  "wlc==2.1.0"
 ]
 fuzzing = [
   "atheris==3.1.0"
@@ -37,7 +39,7 @@ lint = [
 ]
 package-build = [
   "setuptools==82.0.1",
-  "translate-toolkit==3.19.12"
+  "translate-toolkit==3.19.13"
 ]
 package-lint = [
   "check-manifest==0.51",
@@ -47,7 +49,7 @@ package-lint = [
   "twine==6.2.0"
 ]
 pre-commit = [
-  "prek==0.4.5"
+  "prek==0.4.6"
 ]
 pylint = [
   "pylint==4.0.6"
@@ -66,7 +68,7 @@ scripts = [
   "tinyunicodeblock==1.3"
 ]
 test = [
-  "coverage==7.14.3",
+  "coverage==7.15.0",
   "pytest-cov==7.1.0",
   "pytest-django==4.12.0",
   "pytest-github-actions-annotate-failures==0.4.2",
@@ -78,7 +80,7 @@ test = [
   "standardwebhooks==1.0.1"
 ]
 types = [
-  "boto3-stubs==1.43.34",
+  "boto3-stubs==1.43.40",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.6",
   "django-stubs[compatible-mypy]==6.0.6",
@@ -91,7 +93,7 @@ types = [
   "types-lxml==2026.2.16",
   "types-openpyxl==3.1.5.20260518",
   "types-python-dateutil==2.9.0.20260518",
-  "types-regex==2026.5.9.20260518",
+  "types-regex==2026.6.28.20260630",
   "types-setuptools==82.0.0.20260518"
 ]
 
@@ -138,14 +140,14 @@ dependencies = [
   "cyrtranslit==1.2.0",
   "dateparser==1.4.1",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.205",
+  "disposable-email-domains==0.0.213",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-compressor==4.6.0",
   "django-cors-headers==4.9.0",
   "django-crispy-forms==2.6",
   "django-filter==25.2",
-  "django-otp-webauthn==0.9.0",
+  "django-otp-webauthn==0.10.0",
   "django-otp==1.7.0",
   "django-redis==7.0.0",
   "Django[argon2]==6.0.6",
@@ -155,7 +157,7 @@ dependencies = [
   "drf-spectacular[sidecar]==0.29.0",
   "drf-standardized-errors[openapi]==0.16.0",
   "fedora-messaging==3.9.1",
-  "filelock==3.29.4",
+  "filelock==3.29.5",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
   "GitPython==3.1.50",
@@ -168,17 +170,17 @@ dependencies = [
   "mistletoe==1.5.1",
   "nh3==0.3.6",
   "openpyxl==3.1.5",
-  "opentelemetry-exporter-otlp-proto-http==1.42.1",
-  "opentelemetry-instrumentation-celery==0.63b1",
-  "opentelemetry-instrumentation-django==0.63b1",
-  "opentelemetry-instrumentation-psycopg==0.63b1",
-  "opentelemetry-instrumentation-redis==0.63b1",
-  "opentelemetry-instrumentation-requests==0.63b1",
-  "opentelemetry-sdk==1.42.1",
+  "opentelemetry-exporter-otlp-proto-http==1.43.0",
+  "opentelemetry-instrumentation-celery==0.64b0",
+  "opentelemetry-instrumentation-django==0.64b0",
+  "opentelemetry-instrumentation-psycopg==0.64b0",
+  "opentelemetry-instrumentation-redis==0.64b0",
+  "opentelemetry-instrumentation-requests==0.64b0",
+  "opentelemetry-sdk==1.43.0",
   "packaging==26.2",
   # Pin for translate-toolkit extra
   "phply==1.2.6",
-  "Pillow==12.2.0",
+  "Pillow==12.3.0",
   "pyaskalono==0.2.0",
   "pyasn1==0.6.3",
   "pycairo==1.29.0",
@@ -192,18 +194,18 @@ dependencies = [
   "qrcode==8.2",
   "rapidfuzz==3.14.5",
   "redis==6.4.0",
-  "regex==2026.5.9",
+  "regex==2026.6.28",
   "requests==2.34.2",
   "ruamel.yaml==0.19.1",
-  "sentry-sdk==2.63.0",
+  "sentry-sdk==2.64.0",
   "siphashc==2.7",
   "social-auth-app-django==6.0.0",
-  "social-auth-core==5.0.1",
+  "social-auth-core==5.0.2",
   "tesserocr==2.10.0",
   # Pin for translate-toolkit extra
   "tomlkit==0.15.0",
-  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.12",
-  "translation-finder==3.1",
+  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.13",
+  "translation-finder==3.2.0",
   "twisted==26.4.0",
   # Pin for translate-toolkit extra
   "unicode-segmentation-rs==0.2.4",
@@ -227,14 +229,14 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
 requires-python = ">=3.12"
-version = "2026.7.dev0"
+version = "2026.7.1.dev0"
 
 [project.optional-dependencies]
 all = [
   "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.34"
+  "boto3==1.43.40"
 ]
 gelf = [
   "logging-gelf==0.0.32"
@@ -253,7 +255,7 @@ ldap = [
   "django-auth-ldap==5.3.0"
 ]
 mercurial = [
-  "mercurial==7.2.2"
+  "mercurial==7.2.3"
 ]
 postgres = [
   "psycopg[binary]==3.3.4"
@@ -275,7 +277,7 @@ wllegal = [
   "wllegal==2026.4"
 ]
 wsgi = [
-  "granian==2.7.7"
+  "granian==2.7.8"
 ]
 zxcvbn = [
   "django-zxcvbn-password-validator==1.7.0"

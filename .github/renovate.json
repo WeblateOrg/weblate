@@ -27,6 +27,26 @@
         "*"
       ],
       "enabled": false
+    },
+    {
+      "description": "Group OpenTelemetry dependency updates",
+      "matchPackageNames": [
+        "opentelemetry-*"
+      ],
+      "groupName": "OpenTelemetry dependencies",
+      "groupSlug": "opentelemetry"
+    },
+    {
+      "description": "Allow OpenTelemetry instrumentation beta releases",
+      "matchPackageNames": [
+        "opentelemetry-instrumentation-celery",
+        "opentelemetry-instrumentation-django",
+        "opentelemetry-instrumentation-psycopg",
+        "opentelemetry-instrumentation-redis",
+        "opentelemetry-instrumentation-requests"
+      ],
+      "ignoreUnstable": false,
+      "respectLatest": false
     }
   ],
   "customManagers": [

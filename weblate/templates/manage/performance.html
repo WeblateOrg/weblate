@@ -123,6 +123,84 @@
         </table>
       </div>
 
+      {# TODO(2028.1): Remove this migration status card once Weblate no longer supports direct upgrades from 2026 releases. #}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/memory' 'memory-scopes' right=True %}
+            {% translate "Translation memory migration" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>{% translate "Scope backfill" %}</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar {% if memory_migration_status.backfill_completed %}progress-bar-success{% else %}progress-bar-warning{% endif %}"
+                       role="progressbar"
+                       aria-valuenow="{{ memory_migration_status.backfill_percent }}"
+                       aria-valuemin="0"
+                       aria-valuemax="100"
+                       aria-label="{% translate "Translation memory scope backfill" %}"
+                       style="width: {{ memory_migration_status.backfill_percent }}%">
+                    {{ memory_migration_status.backfill_percent }}%
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Entries processed" %}</td>
+              <td class="number">{{ memory_migration_status.processed|intcomma }} / {{ memory_migration_status.total|intcomma }}</td>
+            </tr>
+            <tr>
+              <td>{% translate "Duplicate candidate scan" %}</td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar {% if memory_migration_status.compaction_completed %}progress-bar-success{% elif memory_migration_status.compaction_active %}progress-bar-warning{% endif %}"
+                       role="progressbar"
+                       aria-valuenow="{{ memory_migration_status.compaction_percent }}"
+                       aria-valuemin="0"
+                       aria-valuemax="100"
+                       aria-label="{% translate "Translation memory duplicate candidate scan" %}"
+                       style="width: {{ memory_migration_status.compaction_percent }}%">
+                    {{ memory_migration_status.compaction_percent }}%
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Candidate scan cursor" %}</td>
+              <td class="number">{{ memory_migration_status.compaction_last_memory_id|intcomma }} / {{ memory_migration_status.compaction_max_memory_id|intcomma }}</td>
+            </tr>
+            <tr>
+              <td>{% translate "Last update" %}</td>
+              <td>
+                {% if memory_migration_status.updated %}
+                  {{ memory_migration_status.updated }}
+                {% elif memory_migration_status.completed %}
+                  {% translate "Not needed" %}
+                {% else %}
+                  {% translate "Not yet started" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Status" %}</td>
+              <td>
+                {% if memory_migration_status.completed %}
+                  {% translate "Completed" %}
+                {% elif memory_migration_status.compaction_active %}
+                  {% translate "Scanning duplicate candidates" %}
+                {% else %}
+                  {% translate "Backfilling scopes" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       {% if disk_usage %}
         <div class="card">
           <div class="card-header">
@@ -136,7 +214,7 @@
 
             <tbody>
               <tr>
-                <td colspan="3">
+                <td colspan="4">
                   <div class="progress">
                     <div class="progress-bar {% if disk_usage_percent < 90 %}progress-bar-success{% elif disk_usage_percent < 95 %}progress-bar-warning{% else %}progress-bar-danger{% endif %}"
                          role="progressbar"
@@ -149,15 +227,33 @@
                 </td>
               </tr>
               <tr>
+                <th>{% translate "Storage" %}</th>
                 <th>{% translate "Disk size" %}</th>
                 <th>{% translate "Disk used" %}</th>
                 <th>{% translate "Disk free" %}</th>
               </tr>
               <tr>
+                <th scope="row">{% translate "Server" %}</th>
                 <td>{{ disk_usage.total|filesizeformat }}</td>
                 <td>{{ disk_usage.used|filesizeformat }}</td>
                 <td>{{ disk_usage.free|filesizeformat }}</td>
               </tr>
+              {% if database_size is not None %}
+                <tr>
+                  <th scope="row">{% translate "PostgreSQL database" %}</th>
+                  {% if database_disk_usage %}
+                    <td>{{ database_disk_usage.total|filesizeformat }}</td>
+                  {% else %}
+                    <td>{% translate "Not available" %}</td>
+                  {% endif %}
+                  <td>{{ database_size|filesizeformat }}</td>
+                  {% if database_disk_usage %}
+                    <td>{{ database_disk_usage.free|filesizeformat }}</td>
+                  {% else %}
+                    <td>{% translate "Not available" %}</td>
+                  {% endif %}
+                </tr>
+              {% endif %}
             </tbody>
           </table>
         </div>

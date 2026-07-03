@@ -11,7 +11,6 @@ import json
 import os
 import re
 import shutil
-import ssl
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
@@ -44,6 +43,7 @@ from django.utils import timezone
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 from fedora_messaging import exceptions as fedora_messaging_exceptions
 from fedora_messaging.exceptions import ConfigurationException
+from OpenSSL import SSL
 from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from weblate_schemas.messages import WeblateV1Message
 
@@ -104,6 +104,7 @@ from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
 from .fedora_messaging import (
     SERVICE_STOP_TIMEOUT,
+    BrokerTLSProbeProtocol,
     FedoraMessagingAddon,
     FedoraMessagingPublishError,
 )
@@ -1164,6 +1165,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
         self.assertEqual(form.cleaned_data["keyword"], "")
+        self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_xgettext_form_accepts_blank_language(self) -> None:
         form = XgettextAddon.get_add_form(None, component=self.component)
@@ -1224,6 +1226,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode", "bullet-unicode"],
                 "keyword": "tr",
+                "location_mode": "keep",
             },
         )
         self.assertTrue(form.is_valid(), form.errors)
@@ -1233,6 +1236,7 @@ class GettextAddonTest(ViewTestCase):
             form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
         )
         self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -1403,6 +1407,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode", "quote-unicode"],
                 "keyword": "tr",
+                "location_mode": "omit",
             },
         )
 
@@ -1416,6 +1421,7 @@ class GettextAddonTest(ViewTestCase):
             form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
         )
         self.assertEqual(form.serialize_form()["keyword"], "tr")
+        self.assertEqual(form.serialize_form()["location_mode"], "omit")
 
     def test_django_form(self) -> None:
         self.component.new_base = "locale/django.pot"
@@ -1429,6 +1435,7 @@ class GettextAddonTest(ViewTestCase):
             },
         )
         self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_django_form_po_template(self) -> None:
         self.component.filemask = "locale/*/LC_MESSAGES/django.po"
@@ -1524,6 +1531,7 @@ class GettextAddonTest(ViewTestCase):
             },
         )
         self.assertTrue(form.is_valid())
+        self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_sphinx_form_valid_root_component(self) -> None:
         self.component.new_base = "locales/docs.pot"
@@ -2024,6 +2032,64 @@ class GettextAddonTest(ViewTestCase):
         command = mocked.call_args.args[1]
         self.assertIn("--no-location", command)
         self.assertIn("--no-wrap", command)
+
+    def test_xgettext_can_keep_pot_locations_with_po_no_location(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "location_mode": "keep",
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertNotIn("--no-location", command)
+
+    def test_xgettext_can_omit_pot_locations(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "location_mode": "omit",
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--no-location", command)
 
     def test_xgettext_uses_parametrized_arguments(self) -> None:
         source = Path(self.component.full_path) / "src" / "messages.py"
@@ -3275,6 +3341,72 @@ msgstr ""
         self.assertIn("--no-location", command)
         self.assertIn("--no-wrap", command)
 
+    def test_django_can_keep_pot_locations_with_po_no_location(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "keep",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertNotIn("--no-location", command)
+
+    def test_django_can_omit_pot_locations(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "omit",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(
+                DjangoAddon, "validate_django_repository_tree", return_value=True
+            ),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--no-location", command)
+
     def test_sphinx_scopes_to_repo_root_locales(self) -> None:
         self.component.new_base = "locales/docs.pot"
         addon = SphinxAddon.create(
@@ -3490,6 +3622,106 @@ msgstr ""
             os.path.join(self.component.full_path, "docs/locales/docs.pot"),
             addon.extra_files,
         )
+
+    def test_sphinx_can_keep_pot_locations_with_po_no_location(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "keep",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                f'#: {source_dir / "index.rst"}:1\nmsgid "Hello"\nmsgstr ""\n',
+                encoding="utf-8",
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process),
+        ):
+            addon.execute_update(self.component, "", [])
+
+        template = Path(self.component.full_path) / self.component.new_base
+        self.assertIn("#: index.rst:1", template.read_text(encoding="utf-8"))
+
+    def test_sphinx_uses_file_format_no_location_by_default(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                f'#: {source_dir / "index.rst"}:1\nmsgid "Hello"\nmsgstr ""\n',
+                encoding="utf-8",
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process),
+        ):
+            addon.execute_update(self.component, "", [])
+
+        template = Path(self.component.full_path) / self.component.new_base
+        self.assertNotIn("#: index.rst:1", template.read_text(encoding="utf-8"))
+
+    def test_sphinx_can_omit_pot_locations(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "location_mode": "omit",
+            },
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                f'#: {source_dir / "index.rst"}:1\nmsgid "Hello"\nmsgstr ""\n',
+                encoding="utf-8",
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process),
+        ):
+            addon.execute_update(self.component, "", [])
+
+        template = Path(self.component.full_path) / self.component.new_base
+        self.assertNotIn("#: index.rst:1", template.read_text(encoding="utf-8"))
 
     def test_sphinx_refuses_out_of_tree_symlink(self) -> None:
         if not hasattr(os, "symlink"):
@@ -3730,6 +3962,43 @@ msgstr ""
         self.assertIn("Welcome to the admin docs.", content)
         self.assertNotIn('\nmsgid "Django"\n', content)
         self.assertNotIn('\nmsgid "foo_bar"\n', content)
+
+    def test_sphinx_weblate_docs_filter_runs_before_omitting_locations(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        build_dir = Path(self.component.full_path) / "build"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        build_dir.mkdir(parents=True, exist_ok=True)
+        template = Path(self.component.full_path) / self.component.new_base
+        template.parent.mkdir(parents=True, exist_ok=True)
+        template.write_text(
+            f"#: {source_dir / 'admin' / 'management.rst'}:1\n"
+            'msgid "foo_bar"\n'
+            'msgstr ""\n\n'
+            f"#: {source_dir / 'admin' / 'access.rst'}:1\n"
+            'msgid "Welcome"\n'
+            'msgstr ""\n',
+            encoding="utf-8",
+        )
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "filter_mode": "weblate_docs",
+                "location_mode": "omit",
+            },
+        )
+
+        addon.postprocess_sphinx_template(
+            self.component, template, source_dir, build_dir
+        )
+
+        content = template.read_text(encoding="utf-8")
+        self.assertNotIn('msgid "foo_bar"', content)
+        self.assertIn('msgid "Welcome"', content)
+        self.assertNotIn("#:", content)
 
     def test_django_refuses_out_of_tree_symlinked_source_file(self) -> None:
         if not hasattr(os, "symlink"):
@@ -6276,6 +6545,53 @@ class GitSquashAddonTest(ViewTestCase):
     def test_squash_sitewide(self) -> None:
         self.test_squash(sitewide=True)
 
+    def test_squash_skips_interrupted_repository_operation(self) -> None:
+        addon = self.create("all")
+        repository = self.component.repository
+
+        with (
+            patch.object(
+                repository,
+                "ensure_no_interrupted_operation",
+                side_effect=RepositoryError(
+                    1, "Repository has an interrupted Git rebase operation."
+                ),
+            ),
+            self.assertRaises(RepositoryError),
+        ):
+            addon.post_commit(self.component, True)
+
+        alert = self.component.alert_set.get(name="RepositoryOperationFailure")
+        self.assertIn("interrupted Git rebase operation", alert.details["error"])
+
+    def test_author_squash_stops_on_interrupted_repository_operation(self) -> None:
+        addon = self.create("author")
+        repository = self.component.repository
+        error = RepositoryError(
+            1, "Repository has an interrupted Git cherry-pick operation."
+        )
+
+        with (
+            patch.object(
+                repository, "get_remote_branch_name", return_value="origin/main"
+            ),
+            patch.object(repository, "execute", return_value="") as execute,
+            patch.object(repository, "get_gpg_sign_args", return_value=[]),
+            patch.object(repository, "delete_branch"),
+            patch.object(
+                repository, "get_interrupted_operation", return_value="cherry-pick"
+            ),
+            patch.object(addon, "squash_author_commits", side_effect=error),
+            self.assertRaises(RepositoryError) as context,
+        ):
+            addon.squash_author(self.component, repository)
+
+        self.assertIs(context.exception, error)
+        execute.assert_called_once_with(
+            ["log", "--no-merges", "--format=%H %aE", "origin/main..HEAD"],
+            remote_op="none",
+        )
+
     def test_languages(self) -> None:
         self.test_squash("language", 2)
 
@@ -7753,7 +8069,7 @@ class SiteWideAddonsTest(ViewTestCase):
         group, _created = Group.objects.get_or_create(name="Test management team")
         group.roles.add(role)
         self.user.groups.add(group)
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
     def test_history_filters_sitewide_changes(self) -> None:
         self.user.is_superuser = True
@@ -8503,6 +8819,52 @@ class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
         self.do_translation_added_test(response_code=410, body=b"channel_is_archived")
 
 
+class FedoraMessagingPEMBlockTest(SimpleTestCase):
+    @staticmethod
+    def get_certificate() -> str:
+        return Path("weblate/trans/tests/data/saml.crt").read_text(encoding="utf-8")
+
+    @staticmethod
+    def get_private_key() -> str:
+        return Path("weblate/trans/tests/data/saml.key").read_text(encoding="utf-8")
+
+    def test_pem_block_labels_accept_multiple_blocks(self) -> None:
+        cert = self.get_certificate()
+
+        labels = FedoraMessagingAddon._get_pem_block_labels(  # noqa: SLF001
+            f"{cert}\n{cert}"
+        )
+
+        self.assertEqual(labels, ["CERTIFICATE", "CERTIFICATE"])
+
+    def test_pem_block_labels_reject_malformed_delimiter_input(self) -> None:
+        value = "-----BEGIN CERTIFICATE-----\n" + "\n".join(
+            "-----END PRIVATE KEY-----" for _ in range(100)
+        )
+
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # noqa: SLF001
+
+        self.assertEqual(labels, [])
+
+    def test_pem_block_labels_include_blocks_after_trailing_whitespace_end(
+        self,
+    ) -> None:
+        cert = self.get_certificate()
+        key = self.get_private_key()
+        value = (
+            cert.replace("-----END CERTIFICATE-----", "-----END CERTIFICATE-----   ", 1)
+            + f"\n{key}\n{cert}"
+        )
+
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # noqa: SLF001
+
+        self.assertEqual(labels, ["CERTIFICATE", "PRIVATE KEY", "CERTIFICATE"])
+        with self.assertRaisesMessage(ConfigurationException, "invalid certificate"):
+            FedoraMessagingAddon._validate_pem_certificates(  # noqa: SLF001
+                value, "invalid certificate"
+            )
+
+
 class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = FedoraMessagingAddon
     # Not really used
@@ -8543,6 +8905,24 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "client_key": key,
             "client_cert": cert,
         }
+
+    @staticmethod
+    def get_broker_tls_connection() -> MagicMock:
+        tls_connection = MagicMock()
+        tls_connection.bio_read.side_effect = SSL.WantReadError()
+        return tls_connection
+
+    @staticmethod
+    def get_broker_tls_context_factory(
+        tls_connection: MagicMock | None = None,
+    ) -> SimpleNamespace:
+        return SimpleNamespace(
+            clientConnectionForTLS=MagicMock(
+                return_value=tls_connection
+                if tls_connection is not None
+                else FedoraMessagingAddonTestCase.get_broker_tls_connection()
+            )
+        )
 
     def test_topic(self):
         for change in Change.objects.all():
@@ -8851,16 +9231,14 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         broker_connection.getpeername.return_value = ("93.184.216.34", 12345)
         connection_context = MagicMock()
         connection_context.__enter__.return_value = broker_connection
-        tls_connection_context = MagicMock()
-        ssl_context = SimpleNamespace(
-            wrap_socket=MagicMock(return_value=tls_connection_context)
-        )
+        tls_connection = self.get_broker_tls_connection()
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
 
         def configure_tls_parameters(parameters) -> None:
             self.assertEqual(parameters.host, "rabbitmq.example.com")
             self.assertEqual(parameters.port, 12345)
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=ssl_context, server_hostname=parameters.host
+                context=SimpleNamespace(), server_hostname=parameters.host
             )
 
         with (
@@ -8868,6 +9246,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
             ) as configure_tls_parameters_mock,
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=tls_context_factory,
+            ) as ssl_context_factory,
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",
                 return_value=connection_context,
@@ -8879,35 +9261,93 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             )
 
         configure_tls_parameters_mock.assert_called_once()
+        ssl_context_factory.assert_called_once()
         create_connection.assert_called_once_with(
             ("rabbitmq.example.com", 12345), timeout=7
         )
-        broker_connection.settimeout.assert_called_once_with(7)
+        broker_connection.settimeout.assert_any_call(7)
         broker_connection.getpeername.assert_called_once_with()
-        ssl_context.wrap_socket.assert_called_once_with(
-            broker_connection, server_hostname="rabbitmq.example.com"
+        tls_context_factory.clientConnectionForTLS.assert_called_once()
+        tls_connection.set_connect_state.assert_called_once_with()
+        tls_connection.do_handshake.assert_called_once_with()
+        tls_connection.bio_read.assert_called_once_with(2**15)
+
+    def test_broker_tls_probe_protocol_matches_twisted_factory_shape(self) -> None:
+        from twisted.internet import ssl as twisted_ssl  # noqa: PLC0415
+
+        tls_context_factory = twisted_ssl.optionsForClientTLS("rabbitmq.example.com")
+
+        tls_connection = tls_context_factory.clientConnectionForTLS(
+            BrokerTLSProbeProtocol()
         )
+
+        self.assertIsInstance(tls_connection, SSL.Connection)
+
+    def test_broker_tls_handshake_pumps_twisted_memory_bio(self) -> None:
+        broker_connection = MagicMock()
+        broker_connection.recv.return_value = b"server hello"
+        tls_connection = self.get_broker_tls_connection()
+        tls_connection.do_handshake.side_effect = [SSL.WantReadError(), None]
+        tls_connection.bio_read.side_effect = [
+            b"client hello",
+            SSL.WantReadError(),
+            SSL.WantReadError(),
+        ]
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
+
+        FedoraMessagingAddon._perform_broker_tls_handshake(  # noqa: SLF001
+            broker_connection, tls_context_factory, timeout=7
+        )
+
+        tls_connection.set_connect_state.assert_called_once_with()
+        self.assertEqual(tls_connection.do_handshake.call_count, 2)
+        broker_connection.sendall.assert_called_once_with(b"client hello")
+        broker_connection.recv.assert_called_once_with(2**15)
+        tls_connection.bio_write.assert_called_once_with(b"server hello")
+
+    def test_broker_tls_handshake_enforces_deadline(self) -> None:
+        broker_connection = MagicMock()
+        broker_connection.recv.return_value = b"server hello"
+        tls_connection = self.get_broker_tls_connection()
+        tls_connection.do_handshake.side_effect = [SSL.WantReadError()]
+        tls_connection.bio_read.side_effect = SSL.WantReadError()
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
+
+        with (
+            patch(
+                "weblate.addons.fedora_messaging.time.monotonic",
+                side_effect=[0, 0, 8],
+            ),
+            self.assertRaisesMessage(TimeoutError, "TLS handshake timed out"),
+        ):
+            FedoraMessagingAddon._perform_broker_tls_handshake(  # noqa: SLF001
+                broker_connection, tls_context_factory, timeout=7
+            )
+
+        broker_connection.recv.assert_not_called()
 
     def test_broker_tls_validation_reports_certificate_error(self) -> None:
         broker_connection = MagicMock()
         broker_connection.getpeername.return_value = ("93.184.216.34", 5671)
         connection_context = MagicMock()
         connection_context.__enter__.return_value = broker_connection
-        ssl_context = SimpleNamespace(
-            wrap_socket=MagicMock(
-                side_effect=ssl.SSLCertVerificationError("certificate verify failed")
-            )
-        )
+        tls_connection = self.get_broker_tls_connection()
+        tls_connection.do_handshake.side_effect = SSL.Error("certificate verify failed")
+        tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
 
         def configure_tls_parameters(parameters) -> None:
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=ssl_context, server_hostname=parameters.host
+                context=SimpleNamespace(), server_hostname=parameters.host
             )
 
         with (
             patch(
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
+            ),
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=tls_context_factory,
             ),
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",
@@ -8925,17 +9365,21 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         broker_connection.getpeername.return_value = ("127.0.0.1", 5671)
         connection_context = MagicMock()
         connection_context.__enter__.return_value = broker_connection
-        ssl_context = SimpleNamespace(wrap_socket=MagicMock())
+        tls_context_factory = self.get_broker_tls_context_factory()
 
         def configure_tls_parameters(parameters) -> None:
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=ssl_context, server_hostname=parameters.host
+                context=SimpleNamespace(), server_hostname=parameters.host
             )
 
         with (
             patch(
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
+            ),
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=tls_context_factory,
             ),
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",
@@ -8948,12 +9392,12 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         ):
             FedoraMessagingAddon.validate_broker_tls("amqps://rabbitmq.example.com")
 
-        ssl_context.wrap_socket.assert_not_called()
+        tls_context_factory.clientConnectionForTLS.assert_not_called()
 
     def test_broker_tls_validation_reports_connection_error(self) -> None:
         def configure_tls_parameters(parameters) -> None:
             parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
-                context=SimpleNamespace(wrap_socket=MagicMock()),
+                context=SimpleNamespace(),
                 server_hostname=parameters.host,
             )
 
@@ -8961,6 +9405,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             patch(
                 "fedora_messaging.twisted.service._configure_tls_parameters",
                 side_effect=configure_tls_parameters,
+            ),
+            patch(
+                "fedora_messaging.twisted.service._ssl_context_factory",
+                return_value=self.get_broker_tls_context_factory(),
             ),
             patch(
                 "weblate.addons.fedora_messaging.socket.create_connection",

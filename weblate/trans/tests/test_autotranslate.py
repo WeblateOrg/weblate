@@ -313,11 +313,11 @@ class AutoTranslationTest(ViewTestCase):
         group.projects.add(self.project)
         group.roles.add(Role.objects.get(name="Automatic translation"))
         limited_user.groups.add(group)
-        limited_user.clear_cache()
+        limited_user.clear_permissions_cache()
         translation = self.component2.translation_set.get(language_code="cs")
         unit = self.get_unit("Hello, world!\n", translation=translation)
         group.projects.add(translation.component.project)
-        limited_user.clear_cache()
+        limited_user.clear_permissions_cache()
 
         self.assertTrue(limited_user.has_perm("translation.auto", translation))
         self.assertFalse(limited_user.has_perm("unit.review", unit))
@@ -411,7 +411,7 @@ class AutoTranslationTest(ViewTestCase):
         )
         self.user.is_superuser = False
         self.user.save(update_fields=["is_superuser"])
-        self.user.clear_cache()
+        self.user.clear_permissions_cache()
 
         response = self.client.get(
             reverse("show", kwargs={"path": project_language.get_url_path()})

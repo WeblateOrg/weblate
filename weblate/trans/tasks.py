@@ -50,7 +50,7 @@ from weblate.trans.removal import RemovalBatch, removal_batch_context
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import remove_tree
+from weblate.utils.files import VCS_METADATA_DIRS, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage, prefetch_stats
@@ -132,7 +132,7 @@ def perform_update(
         if settings.AUTO_UPDATE in {"full", True} or not auto:
             obj.do_update(request)
         else:
-            obj.update_remote_branch()
+            obj.update_remote_branch(user=obj.get_update_user(request))
 
 
 @app.task(
@@ -150,6 +150,7 @@ def perform_load(
     changed_template: bool = False,
     from_link: bool = False,
     change: int | None = None,
+    preserve_pending_units: bool = False,
     user_id: int | None = None,
 ) -> None:
     request: AuthenticatedHttpRequest | None = None
@@ -170,6 +171,7 @@ def perform_load(
         changed_template=changed_template,
         from_link=from_link,
         change=change,
+        preserve_pending_units=preserve_pending_units,
         request=request,
         user=user,
     )
@@ -537,9 +539,6 @@ def cleanup_repos() -> None:
             report_error("Repository maintenance failed", project=component.project)
 
 
-VCS_METADATA_DIRS = {".git", ".hg"}
-
-
 def _is_project_or_category_path(parts: tuple[str, ...]) -> bool:
     if len(parts) == 1:
         return Project.objects.filter(slug__iexact=parts[0]).exists()
@@ -690,8 +689,11 @@ def component_after_save(
     seed_source_component_id: int | None = None,
     copy_seed_addons: bool = False,
     seed_author: str | None = None,
+    acting_user_id: int | None = None,
 ) -> dict[Literal["component"], int]:
     component = Component.objects.get(pk=pk)
+    if acting_user_id is not None:
+        component.acting_user = User.objects.get(pk=acting_user_id)
     component.after_save(
         changed_git=changed_git,
         changed_setup=changed_setup,

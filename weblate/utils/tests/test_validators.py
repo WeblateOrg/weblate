@@ -153,6 +153,10 @@ class FilenameTest(SimpleTestCase):
     def test_good(self) -> None:
         validate_filename("path/file")
 
+    def test_common_excluded_locations_allowed(self) -> None:
+        validate_filename("dist/appstream/messages.pot")
+        validate_filename("node_modules/package/messages.json")
+
     def test_simplification(self) -> None:
         with self.assertRaises(ValidationError):
             validate_filename("path/./file")

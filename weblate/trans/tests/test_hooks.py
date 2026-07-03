@@ -1704,6 +1704,64 @@ class HooksViewTest(ViewTestCase):
             response, "No matching repositories found!", status_code=202
         )
 
+    @override_settings(ENABLE_HOOKS=True)
+    def test_unauthenticated_hooks_skip_github_app_components(self) -> None:
+        hook_cases = [
+            ("azure", AZURE_PAYLOAD_NEW, {}),
+            ("bitbucket", BITBUCKET_PAYLOAD_GIT, {"x-event-key": "repo:push"}),
+            ("forgejo", FORGEJO_PAYLOAD, {}),
+            ("gitea", GITEA_PAYLOAD, {}),
+            ("gitee", GITEE_PAYLOAD, {}),
+            ("github", GITHUB_NEW_PAYLOAD, {"x-github-event": "push"}),
+            ("gitlab", GITLAB_PAYLOAD, {}),
+            ("pagure", PAGURE_PAYLOAD, {}),
+        ]
+
+        for service, payload, headers in hook_cases:
+            with self.subTest(service=service):
+                service_data = HOOK_HANDLERS[service](json.loads(payload), None)
+                self.assertIsNotNone(service_data)
+                if service_data is None:
+                    continue
+                repo = service_data["repos"][0]
+                branch = service_data["branch"] or "main"
+
+                integrated = self.create_po(
+                    name=f"Integrated {service}", project=self.project
+                )
+                regular = self.create_po(
+                    name=f"Regular {service}", project=self.project
+                )
+                for component, vcs in ((integrated, "github-app"), (regular, "git")):
+                    type(component).objects.filter(pk=component.pk).update(
+                        repo=repo, vcs=vcs, branch=branch
+                    )
+                    component.refresh_from_db()
+
+                url = reverse("webhook", kwargs={"service": service})
+                if service == "gitlab":
+                    response = self.client.post(
+                        url,
+                        payload,
+                        content_type="application/json",
+                        headers=headers,
+                    )
+                else:
+                    response = self.client.post(
+                        url, {"payload": payload}, headers=headers
+                    )
+
+                self.assertEqual(response.status_code, 200)
+                message = response.json()["message"]
+                self.assertIn(regular.full_slug, message)
+                self.assertNotIn(integrated.full_slug, message)
+                self.assertTrue(
+                    regular.change_set.filter(action=ActionEvents.HOOK).exists()
+                )
+                self.assertFalse(
+                    integrated.change_set.filter(action=ActionEvents.HOOK).exists()
+                )
+
     @override_settings(ENABLE_HOOKS=False)
     def test_disabled(self) -> None:
         """Test for hooks disabling."""
@@ -1850,6 +1908,7 @@ class GitHubBackendTest(HookBackendTestCase):
                     "https://github.com/defunkt/git.hub.git",
                 ],
                 "service_long_name": "GitHub",
+                "exclude_component_vcs": ["github-app"],
             },
         )
 

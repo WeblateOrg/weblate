@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-06-17 21:40-0500\n"
+"POT-Creation-Date: 2026-07-01 22:13-0500\n"
 "PO-Revision-Date: 2026-03-31 03:10+0000\n"
 "Last-Translator: پرویز قادر <mpqadir@gmail.com>\n"
 "Language-Team: Saraiki <https://hosted.weblate.org/projects/weblate/"
@@ -108,52 +108,79 @@ msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr ""
 "کجھ تبدیلیاں محفوظ کائنی تھیاں، بھلا تہاکوں پک ہے جو تساں چھوڑݨ چاہندے ہو؟"
 
-#: weblate/static/js/bulk-accept-suggestions.js:31
+#: weblate/static/js/bulk-accept-suggestions.js:29
 msgid "Security token missing. Please reload the page."
 msgstr "سیکیورٹی ٹوکن غائب ہے۔ مہربانی کر کے ورقہ دوبارہ لوڈ کرو۔"
 
-#: weblate/static/js/bulk-accept-suggestions.js:45
+#: weblate/static/js/bulk-accept-suggestions.js:37
 #, javascript-format
-msgid "Processing bulk accept for %s"
+msgid "Loading suggestion count for %s"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:55
+msgid "Bulk accept cancelled."
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:60
+#, fuzzy, javascript-format
+#| msgid "Processing bulk accept for %s"
+msgid "Scheduling bulk accept for %s"
 msgstr "%s کیتے پروسیسنگ بلک قبول کرو"
 
 #: weblate/static/js/bulk-accept-suggestions.js:75
+msgid "Unknown error"
+msgstr "نامعلوم خرابی"
+
+#: weblate/static/js/bulk-accept-suggestions.js:80
+msgid "Network error"
+msgstr "نیٹ ورک خرابی"
+
+#: weblate/static/js/bulk-accept-suggestions.js:108
+#: weblate/static/js/bulk-accept-suggestions.js:126
+msgid "Invalid server response"
+msgstr "غلط سرور جواب"
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
 #, javascript-format
 msgid "Server error (%s)"
 msgstr "سرور خرابی (%s)"
 
-#: weblate/static/js/bulk-accept-suggestions.js:86
-msgid "Invalid server response"
-msgstr "غلط سرور جواب"
-
-#: weblate/static/js/bulk-accept-suggestions.js:99
+#: weblate/static/js/bulk-accept-suggestions.js:140
 #, javascript-format
-msgid "%s accepted"
-msgid_plural "%s accepted"
-msgstr[0] "%s قبول تھیا"
-msgstr[1] "%s قبول تھئے"
+msgid "There are no pending suggestions from %s in this translation."
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:117
-msgid "Done"
-msgstr "تھی ڳیا"
-
-#: weblate/static/js/bulk-accept-suggestions.js:124
+#: weblate/static/js/bulk-accept-suggestions.js:149
 #, javascript-format
-msgid "Processed %s suggestion. Page will reload in 2 seconds."
-msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
-msgstr[0] "%s تجویز تے کارروائی کیتی ڳئی۔ ورقہ 2 سیکنڈ وچ ولدا لوڈ تھی ویسی۔"
-msgstr[1] "%s تجویزاں تے کارروائی کیتی ڳئی۔ ورقہ 2 سیکنڈ وچ ولدا لوڈ تھی ویسی۔"
+msgid "This will accept %s suggestion from %s in this translation."
+msgid_plural "This will accept %s suggestions from %s in this translation."
+msgstr[0] ""
+msgstr[1] ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:134
-msgid "Unknown error"
-msgstr "نامعلوم خرابی"
+#: weblate/static/js/bulk-accept-suggestions.js:212
+msgid "Accept all suggestions?"
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:139
-msgid "Network error"
-msgstr "نیٹ ورک خرابی"
+#: weblate/static/js/bulk-accept-suggestions.js:218
+#: weblate/static/loader-bootstrap.js:107
+msgid "Close"
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:147
-#: weblate/static/js/bulk-accept-suggestions.js:153
+#: weblate/static/js/bulk-accept-suggestions.js:230
+msgid "Cancel"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:235
+msgid "Accept suggestions"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:240
+#, fuzzy
+#| msgid "Accept and approve"
+msgid "Accept and approve suggestions"
+msgstr "قبول کرو تے منظور کرو"
+
+#: weblate/static/js/bulk-accept-suggestions.js:258
 #, javascript-format
 msgid "Error: %s"
 msgstr "خرابی: %s"
@@ -338,62 +365,124 @@ msgstr "کائی شئے خٰراب تھی ڳئی!"
 msgid "No image found in clipboard"
 msgstr "کلپ بورڈ وچ کوئی تصویر کائنی لبھی"
 
-#: weblate/static/loader-bootstrap.js:78
-msgid "Close"
+#: weblate/static/js/vcs-push-help.js:38 weblate/static/js/vcs-push-help.js:48
+msgid ""
+"A pull or merge request will be created from a branch in the repository."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:313
+#: weblate/static/js/vcs-push-help.js:41
+msgid ""
+"A push URL is set but no push branch is given. Set a push branch that "
+"differs from the translated branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:51
+msgid ""
+"The push branch must differ from the translated branch when creating a pull "
+"or merge request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:58
+msgid "A pull or merge request will be created from a fork of the repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:65
+#, javascript-format
+msgid ""
+"A pull or merge request will be created from the “%s” branch in the "
+"repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:77
+#, javascript-format
+msgid ""
+"Changes will be sent as a Gerrit review request targeting the “%s” branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:84
+msgid "Changes will be sent as a Gerrit review request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:92
+msgid ""
+"Changes will not be pushed automatically. You can still push them manually "
+"from the repository maintenance."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:100
+#: weblate/static/js/vcs-push-help.js:110
+#, javascript-format
+msgid ""
+"Changes will be pushed directly to the “%s” branch in the push repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:118
+msgid ""
+"Changes will be pushed directly to the default branch of the push repository."
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:323
 msgid "Some source strings could not be assigned."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:353
+#: weblate/static/loader-bootstrap.js:363
 msgid "Error loading search results!"
 msgstr "ڳولݨ نتیجے لوڈ کرݨ وچ خرابی!"
 
-#: weblate/static/loader-bootstrap.js:357
+#: weblate/static/loader-bootstrap.js:367
 msgid "No new matching source strings found."
 msgstr "کوئی نویاں رلدیاں ملدیاں ماخذ تنداں کائنی لبھیاں۔"
 
-#: weblate/static/loader-bootstrap.js:445
+#: weblate/static/loader-bootstrap.js:451
 msgid "Sort this column"
 msgstr "ایں کالم دی چھانٹی کرو"
 
-#: weblate/static/loader-bootstrap.js:777
+#: weblate/static/loader-bootstrap.js:799
 msgid "Error while loading page:"
 msgstr "ورقہ لوڈ کرݨ دے دوران خرابی:"
 
-#: weblate/static/loader-bootstrap.js:1103
+#: weblate/static/loader-bootstrap.js:1215
 msgid "Text copied to clipboard."
 msgstr "عبارت کلپ بورڈ تے نقل تھی ڳئی۔"
 
-#: weblate/static/loader-bootstrap.js:1107
+#: weblate/static/loader-bootstrap.js:1219
 msgid "Please press Ctrl+C to copy."
 msgstr "۔سوہݨا، نقل کرݨ کیتے کنٹرول+ سی دباؤ۔"
 
-#: weblate/static/loader-bootstrap.js:1111
+#: weblate/static/loader-bootstrap.js:1223
 msgid "Error copying to clipboard."
 msgstr "کلپ بورڈ تے کاپی کرݨ وچ خرابی تھی ڳئی۔"
 
-#: weblate/static/loader-bootstrap.js:1138
-#: weblate/static/loader-bootstrap.js:1153
+#: weblate/static/loader-bootstrap.js:1267
+#: weblate/static/loader-bootstrap.js:1312
 msgid "Search…"
 msgstr "ڳولو۔۔۔"
 
-#: weblate/static/loader-bootstrap.js:1615
+#: weblate/static/loader-bootstrap.js:1436
+msgid "Loading…"
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:1462
+#, fuzzy
+#| msgid "Error while loading page:"
+msgid "Error while loading form:"
+msgstr "ورقہ لوڈ کرݨ دے دوران خرابی:"
+
+#: weblate/static/loader-bootstrap.js:1945
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate ہݨ ریپوزیٹری کوں سکین کریندی پئی ہے، سوہݨا صبر کرو۔"
 
-#: weblate/static/loader-bootstrap.js:1795
+#: weblate/static/loader-bootstrap.js:2132
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "نوٹیفیکیشن ترتیباں ہٹ ڳیاں، سوہݨا، تبدیلیاں محفوظ کرݨ نہ بھلو۔"
 
-#: weblate/static/loader-bootstrap.js:2033
+#: weblate/static/loader-bootstrap.js:2400
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "رکو!"
 
-#: weblate/static/loader-bootstrap.js:2039
+#: weblate/static/loader-bootstrap.js:2406
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -403,44 +492,61 @@ msgstr ""
 "پیسٹ کیتے آکھیا ہے تاں او تہاݙے Weblate کھاتے نال سمجھوتہ کرݨ دی کوشش وچ "
 "ہوسی۔"
 
-#: weblate/static/loader-bootstrap.js:2045
+#: weblate/static/loader-bootstrap.js:2412
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr "ٻئی ڄاݨکاری کیتے https://en.wikipedia.org/wiki/Self-XSS ݙیکھو۔"
 
-#: weblate/static/loader-bootstrap.js:2117
+#: weblate/static/loader-bootstrap.js:2495
 msgid "just now"
 msgstr "ہݨیں ہݨیں"
 
-#: weblate/static/loader-bootstrap.js:2122
+#: weblate/static/loader-bootstrap.js:2500
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s سیکنڈ پہلے"
 msgstr[1] "%s سیکنڈ پہلے"
 
-#: weblate/static/loader-bootstrap.js:2128
+#: weblate/static/loader-bootstrap.js:2506
 msgid "a minute ago"
 msgstr "ہک منٹ پہلے"
 
-#: weblate/static/loader-bootstrap.js:2131
+#: weblate/static/loader-bootstrap.js:2509
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s منٹ پہلے"
 msgstr[1] "%s منٹ پہلے"
 
-#: weblate/static/loader-bootstrap.js:2138
+#: weblate/static/loader-bootstrap.js:2516
 #, fuzzy
 #| msgid "a hour ago"
 msgid "an hour ago"
 msgstr "ہک گھنٹہ پہلے"
 
-#: weblate/static/loader-bootstrap.js:2140
+#: weblate/static/loader-bootstrap.js:2518
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s گھنٹہ پہلے"
 msgstr[1] "%s گھنٹے پہلے"
+
+#, javascript-format
+#~ msgid "%s accepted"
+#~ msgid_plural "%s accepted"
+#~ msgstr[0] "%s قبول تھیا"
+#~ msgstr[1] "%s قبول تھئے"
+
+#~ msgid "Done"
+#~ msgstr "تھی ڳیا"
+
+#, javascript-format
+#~ msgid "Processed %s suggestion. Page will reload in 2 seconds."
+#~ msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
+#~ msgstr[0] ""
+#~ "%s تجویز تے کارروائی کیتی ڳئی۔ ورقہ 2 سیکنڈ وچ ولدا لوڈ تھی ویسی۔"
+#~ msgstr[1] ""
+#~ "%s تجویزاں تے کارروائی کیتی ڳئی۔ ورقہ 2 سیکنڈ وچ ولدا لوڈ تھی ویسی۔"
 
 #~ msgid "Available:"
 #~ msgstr "دستیاب:"

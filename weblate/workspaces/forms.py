@@ -19,6 +19,8 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
         model = Workspace
         fields = (
             "name",
+            "use_workspace_tm",
+            "contribute_workspace_tm",
             "license",
             "agreement",
             "new_lang",
@@ -52,6 +54,11 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             "name",
+            Fieldset(
+                gettext("Translation memory"),
+                "use_workspace_tm",
+                "contribute_workspace_tm",
+            ),
             Fieldset(
                 gettext("Inherited component defaults"),
                 "license",

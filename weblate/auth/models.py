@@ -7,10 +7,10 @@ import re
 import uuid
 from collections import defaultdict
 from contextvars import ContextVar
+from copy import copy
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import cache as functools_cache
-from itertools import chain
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
 from appconf import AppConf
@@ -21,7 +21,7 @@ from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.db.models import Prefetch, Q, UniqueConstraint
+from django.db.models import Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -55,10 +55,9 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
-from weblate.lang.models import Language
 from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
-from weblate.trans.models import Component, ComponentList, Project
+from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
@@ -76,6 +75,7 @@ if TYPE_CHECKING:
     from weblate.accounts.models import Subscription
     from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.results import PermissionResult
+    from weblate.lang.models import Language
     from weblate.wladmin.models import SupportStatusDict
 
     SimplePermissionList = list[tuple[set[str], PermissionLanguageScope | None]]
@@ -94,6 +94,21 @@ if TYPE_CHECKING:
         projects: PermissionCacheType
         components: SimplePermissionCacheType
         workspaces: dict[uuid.UUID, set[str]]
+
+
+@dataclass(slots=True)
+class CachedPermissionMembership:
+    defining_workspace_id: uuid.UUID | None
+    project_selection: int
+    language_selection: int
+    enforced_2fa: bool
+    limit_language_ids: set[int]
+    language_ids: set[int]
+    permission_codenames: set[str]
+    componentlist_component_values: set[tuple[int, int]]
+    has_componentlists: bool
+    component_values: set[tuple[int, int]]
+    project_ids: set[int]
 
 
 class Permission(models.Model):
@@ -165,6 +180,54 @@ class Role(models.Model):
 
     def __str__(self) -> str:
         return pgettext("Access-control role", self.name)
+
+
+def _fetch_relation_ids(
+    through: type[models.Model],
+    source_field: str,
+    target_field: str,
+    source_ids: Iterable[int],
+) -> defaultdict[int, set[int]]:
+    source_ids = set(source_ids)
+    result: defaultdict[int, set[int]] = defaultdict(set)
+    if not source_ids:
+        return result
+
+    for source_id, target_id in through.objects.filter(
+        **{f"{source_field}__in": source_ids}
+    ).values_list(source_field, target_field):
+        result[source_id].add(target_id)
+    return result
+
+
+def _fetch_role_permissions(role_ids: Iterable[int]) -> defaultdict[int, set[str]]:
+    role_ids = set(role_ids)
+    result: defaultdict[int, set[str]] = defaultdict(set)
+    if not role_ids:
+        return result
+
+    for role_id, codename in Role.permissions.through.objects.filter(
+        role_id__in=role_ids
+    ).values_list("role_id", "permission__codename"):
+        result[role_id].add(codename)
+    return result
+
+
+def _fetch_component_values(
+    through: type[models.Model],
+    source_field: str,
+    source_ids: Iterable[int],
+) -> defaultdict[int, set[tuple[int, int]]]:
+    source_ids = set(source_ids)
+    result: defaultdict[int, set[tuple[int, int]]] = defaultdict(set)
+    if not source_ids:
+        return result
+
+    for source_id, component_id, project_id in through.objects.filter(
+        **{f"{source_field}__in": source_ids}
+    ).values_list(source_field, "component_id", "component__project_id"):
+        result[source_id].add((component_id, project_id))
+    return result
 
 
 class GroupQuerySet(models.QuerySet["Group", "Group"]):
@@ -290,6 +353,10 @@ class Group(models.Model):
 
     def save(self, *args, **kwargs) -> None:
         self.clean()
+        if self.defining_workspace_id:
+            self.language_selection = SELECTION_ALL
+            if update_fields := kwargs.get("update_fields"):
+                kwargs["update_fields"] = {*update_fields, "language_selection"}
         super().save(*args, **kwargs)
         if self.defining_workspace_id:
             self.projects.clear()
@@ -587,11 +654,27 @@ class UserQuerySet(models.QuerySet["User", "User"]):
 
 
 @functools_cache
-def get_anonymous() -> User:
-    """Return an anonymous user."""
+def _get_anonymous() -> User:
+    """Return cached anonymous user prototype."""
     return User.objects.select_related("profile").get(
         username=settings.ANONYMOUS_USER_NAME
     )
+
+
+def get_anonymous() -> User:
+    """Return an anonymous user instance."""
+    user = copy(_get_anonymous())
+    fields_cache = user._state.fields_cache  # noqa: SLF001
+    if profile := fields_cache.get("profile"):
+        # Keep cached Profile properties local to this anonymous user copy.
+        profile = copy(profile)
+        profile.user = user
+        fields_cache["profile"] = profile
+    user.clear_permissions_cache()
+    return user
+
+
+get_anonymous.cache_clear = _get_anonymous.cache_clear  # type: ignore[attr-defined]
 
 
 def convert_groups(objs):
@@ -765,7 +848,7 @@ class User(AbstractBaseUser):
         if not self.is_active:
             self.date_expires = None
         super().save(*args, **kwargs)
-        self.clear_cache()
+        self.clear_permissions_cache()
         if (
             original
             and original.is_active != self.is_active
@@ -793,7 +876,8 @@ class User(AbstractBaseUser):
                 self.extra_data[name] = kwargs.pop(name)
         super().__init__(*args, **kwargs)
 
-    def clear_cache(self) -> None:
+    def clear_permissions_cache(self) -> None:
+        """Clear cached permission and access-scope data on this user instance."""
         self.cla_cache = {}
         perm_caches = (
             "_permissions",
@@ -804,7 +888,6 @@ class User(AbstractBaseUser):
             "owned_projects",
             "managed_projects",
             "global_permissions",
-            "cached_groups",
             "cached_memberships",
         )
         for name in perm_caches:
@@ -1021,56 +1104,156 @@ class User(AbstractBaseUser):
         return set(self.administered_group_set.values_list("id", flat=True))
 
     @cached_property
-    def cached_groups(self) -> list[Group]:
-        """Materialized group list built from cached memberships."""
-        return [membership.group for membership in self.cached_memberships]
+    def cached_memberships(self) -> list[CachedPermissionMembership]:
+        limit_languages = TeamMembership.limit_languages.through
+        group_componentlists = Group.componentlists.through
+        group_components = Group.components.through
+        group_projects = Group.projects.through
 
-    @cached_property
-    def cached_memberships(self) -> Iterable[TeamMembership]:
-        return (
-            self.team_memberships.select_related("group")
-            .prefetch_related(
-                Prefetch("limit_languages", queryset=Language.objects.only("id")),
-                "group__roles__permissions",
-                Prefetch(
-                    "group__componentlists__components",
-                    queryset=Component.objects.only("id", "project_id"),
+        membership_rows = list(
+            self.team_memberships.annotate(
+                has_limit_languages=models.Exists(
+                    limit_languages.objects.filter(
+                        teammembership_id=models.OuterRef("pk")
+                    )
                 ),
-                # The name and slug are used when rendering the groups
-                Prefetch(
-                    "group__components",
-                    queryset=Component.objects.all().only(
-                        "id", "project_id", "name", "slug"
-                    ),
+                has_componentlists=models.Exists(
+                    group_componentlists.objects.filter(
+                        group_id=models.OuterRef("group_id")
+                    )
                 ),
-                # The name and slug are used when rendering the groups
-                Prefetch(
-                    "group__projects",
-                    queryset=Project.objects.only("id", "name", "slug"),
+                has_components=models.Exists(
+                    group_components.objects.filter(
+                        group_id=models.OuterRef("group_id")
+                    )
                 ),
-                # The name and code are used when rendering the groups
-                Prefetch(
-                    "group__languages",
-                    queryset=Language.objects.only("id", "name", "code"),
+                has_projects=models.Exists(
+                    group_projects.objects.filter(group_id=models.OuterRef("group_id"))
                 ),
             )
-            .order_by("group__name", "group_id")
+            .values(
+                "id",
+                "group_id",
+                "group__defining_workspace_id",
+                "group__project_selection",
+                "group__language_selection",
+                "group__enforced_2fa",
+                "has_limit_languages",
+                "has_componentlists",
+                "has_components",
+                "has_projects",
+            )
+            .order_by("group_id")
+        )
+        if not membership_rows:
+            return []
+
+        group_ids = [row["group_id"] for row in membership_rows]
+        limited_membership_ids = [
+            row["id"] for row in membership_rows if row["has_limit_languages"]
+        ]
+        componentlist_group_ids = [
+            row["group_id"] for row in membership_rows if row["has_componentlists"]
+        ]
+        component_group_ids = [
+            row["group_id"] for row in membership_rows if row["has_components"]
+        ]
+        project_group_ids = [
+            row["group_id"] for row in membership_rows if row["has_projects"]
+        ]
+        manual_language_group_ids = [
+            row["group_id"]
+            for row in membership_rows
+            if row["group__language_selection"] != SELECTION_ALL
+        ]
+
+        limit_language_ids = _fetch_relation_ids(
+            TeamMembership.limit_languages.through,
+            "teammembership_id",
+            "language_id",
+            limited_membership_ids,
+        )
+        group_language_ids = _fetch_relation_ids(
+            Group.languages.through,
+            "group_id",
+            "language_id",
+            manual_language_group_ids,
+        )
+        group_role_ids = _fetch_relation_ids(
+            Group.roles.through, "group_id", "role_id", group_ids
+        )
+        role_permissions = _fetch_role_permissions(
+            role_id for role_ids in group_role_ids.values() for role_id in role_ids
+        )
+        group_permission_codenames: defaultdict[int, set[str]] = defaultdict(set)
+        for group_id, role_ids in group_role_ids.items():
+            for role_id in role_ids:
+                group_permission_codenames[group_id].update(role_permissions[role_id])
+
+        group_componentlist_ids = _fetch_relation_ids(
+            Group.componentlists.through,
+            "group_id",
+            "componentlist_id",
+            componentlist_group_ids,
+        )
+        componentlist_component_values = _fetch_component_values(
+            ComponentList.components.through,
+            "componentlist_id",
+            (
+                componentlist_id
+                for componentlist_ids in group_componentlist_ids.values()
+                for componentlist_id in componentlist_ids
+            ),
+        )
+        group_component_values = _fetch_component_values(
+            Group.components.through, "group_id", component_group_ids
         )
 
+        group_componentlist_component_values: defaultdict[int, set[tuple[int, int]]] = (
+            defaultdict(set)
+        )
+        for group_id, componentlist_ids in group_componentlist_ids.items():
+            for componentlist_id in componentlist_ids:
+                group_componentlist_component_values[group_id].update(
+                    componentlist_component_values[componentlist_id]
+                )
+
+        group_project_ids = _fetch_relation_ids(
+            Group.projects.through, "group_id", "project_id", project_group_ids
+        )
+
+        return [
+            CachedPermissionMembership(
+                defining_workspace_id=row["group__defining_workspace_id"],
+                project_selection=row["group__project_selection"],
+                language_selection=row["group__language_selection"],
+                enforced_2fa=row["group__enforced_2fa"],
+                limit_language_ids=limit_language_ids[row["id"]],
+                language_ids=group_language_ids[row["group_id"]],
+                permission_codenames=group_permission_codenames[row["group_id"]],
+                componentlist_component_values=group_componentlist_component_values[
+                    row["group_id"]
+                ],
+                has_componentlists=bool(group_componentlist_ids[row["group_id"]]),
+                component_values=group_component_values[row["group_id"]],
+                project_ids=group_project_ids[row["group_id"]],
+            )
+            for row in membership_rows
+        ]
+
     def group_enforces_2fa(self) -> bool:
-        return any(group.enforced_2fa for group in self.cached_groups)
+        return any(membership.enforced_2fa for membership in self.cached_memberships)
 
     @staticmethod
     def get_membership_languages(
-        membership: TeamMembership,
+        membership: CachedPermissionMembership,
     ) -> PermissionLanguageScope | None:
-        group = membership.group
-        if group.language_selection == SELECTION_ALL:
+        if membership.language_selection == SELECTION_ALL:
             group_languages = None
         else:
-            group_languages = {language.id for language in group.languages.all()}
+            group_languages = membership.language_ids
 
-        limit_languages = membership.get_limit_language_ids()
+        limit_languages = membership.limit_language_ids
         if not limit_languages:
             if group_languages is None:
                 return None
@@ -1090,9 +1273,8 @@ class User(AbstractBaseUser):
 
         with start_span(op="auth.permissions", name=self.username):
             for membership in self.cached_memberships:
-                group = membership.group
                 # Skip permissions for not verified users
-                if group.enforced_2fa and not self.profile.has_2fa:
+                if membership.enforced_2fa and not self.profile.has_2fa:
                     continue
                 languages = self.get_membership_languages(membership)
                 if (
@@ -1101,15 +1283,10 @@ class User(AbstractBaseUser):
                     and not languages.language_ids
                 ):
                     continue
-                permissions = {
-                    permission.codename
-                    for permission in chain.from_iterable(
-                        role.permissions.all() for role in group.roles.all()
-                    )
-                }
-                if group.defining_workspace_id:
+                permissions = membership.permission_codenames
+                if membership.defining_workspace_id:
                     if languages is None or not languages.membership_limited:
-                        workspaces[group.defining_workspace_id].update(
+                        workspaces[membership.defining_workspace_id].update(
                             permission
                             for permission in permissions
                             if permission.startswith("workspace.")
@@ -1117,44 +1294,36 @@ class User(AbstractBaseUser):
                     continue
 
                 # Component list specific permissions
-                componentlist_values = {
-                    (component.id, component.project_id)
-                    for component in chain.from_iterable(
-                        clist.components.all() for clist in group.componentlists.all()
-                    )
-                }
                 # Even if componentlist_values is empty, having a componentlist assignment
                 # means we need to stop processing here.
-                if group.componentlists.exists():
-                    for component, project in componentlist_values:
+                if membership.has_componentlists:
+                    for component, project in membership.componentlist_component_values:
                         components[component].append((permissions, languages))
                         # Grant access to the project
                         projects[project].append((set(), languages))
                     continue
 
                 # Component specific permissions
-                component_values = {
-                    (component.id, component.project_id)
-                    for component in group.components.all()
-                }
-                if component_values:
-                    for component, project in component_values:
+                if membership.component_values:
+                    for component, project in membership.component_values:
                         components[component].append((permissions, languages))
                         # Grant access to the project
                         projects[project].append((set(), languages))
                     continue
 
                 # Handle project selection
-                if group.project_selection in {
+                if membership.project_selection in {
                     SELECTION_ALL_PUBLIC,
                     SELECTION_ALL_PROTECTED,
                     SELECTION_ALL,
                 }:
-                    projects[-group.project_selection].append((permissions, languages))
+                    projects[-membership.project_selection].append(
+                        (permissions, languages)
+                    )
                 else:
                     # Project specific permissions
-                    for project_obj in group.projects.all():
-                        projects[project_obj.id].append((permissions, languages))
+                    for project_id in membership.project_ids:
+                        projects[project_id].append((permissions, languages))
         # Apply blocking
         now = timezone.now()
         for block in self.userblock_set.all():

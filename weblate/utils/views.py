@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import time
 from contextlib import suppress
+from pathlib import Path
 
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
@@ -36,6 +37,11 @@ from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.files import (
+    is_path_within_resolved_directory,
+    is_unsafe_path,
+    is_vcs_metadata_path,
+)
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, prefetch_stats
 from weblate.vcs.git import LocalRepository
 from weblate.workspaces.models import Workspace
@@ -544,13 +550,83 @@ def import_message(
         messages.success(request, message)
 
 
-def iter_files(filenames: list[str]) -> Generator[str]:
+def _get_allowed_roots(
+    root: str, allowed_roots: list[str] | None
+) -> list[tuple[Path, Path]]:
+    roots = [root] if allowed_roots is None else allowed_roots
+    result = []
+    for allowed_root in roots:
+        absolute_root = Path(os.path.abspath(allowed_root))
+        try:
+            resolved_root = absolute_root.resolve(strict=False)
+        except OSError:
+            continue
+        result.append((absolute_root, resolved_root))
+    result.sort(key=lambda paths: len(paths[0].parts), reverse=True)
+    return result
+
+
+def _get_containing_root(
+    filename: str, allowed_roots: list[tuple[Path, Path]]
+) -> tuple[Path, Path] | None:
+    absolute_filename = Path(os.path.abspath(filename))
+    for absolute_root, resolved_root in allowed_roots:
+        if absolute_filename.is_relative_to(absolute_root):
+            return absolute_root, resolved_root
+    return None
+
+
+def _is_download_path(
+    filename: str, root: str, allowed_roots: list[tuple[Path, Path]]
+) -> bool:
+    relative_filename = os.path.relpath(filename, root)
+    if is_unsafe_path(relative_filename) or is_vcs_metadata_path(relative_filename):
+        return False
+
+    containing_root = _get_containing_root(filename, allowed_roots)
+    if containing_root is None:
+        return False
+    _absolute_root, resolved_root = containing_root
+
+    try:
+        resolved_filename = Path(filename).resolve(strict=False)
+    except OSError:
+        return False
+    resolved_relative_filename = os.path.relpath(resolved_filename, resolved_root)
+
+    return (
+        is_path_within_resolved_directory(filename, resolved_root)
+        and not is_unsafe_path(resolved_relative_filename)
+        and not is_vcs_metadata_path(resolved_relative_filename)
+    )
+
+
+def iter_files(
+    filenames: list[str], root: str, allowed_roots: list[str] | None = None
+) -> Generator[str]:
+    prepared_allowed_roots = _get_allowed_roots(root, allowed_roots)
+    if not prepared_allowed_roots:
+        return
+
     for filename in filenames:
+        if not _is_download_path(filename, root, prepared_allowed_roots):
+            continue
         if os.path.isdir(filename):
-            for root, _unused, files in os.walk(filename):
-                if "/.git/" in root or "/.hg/" in root:
+            for current_root, dirs, files in os.walk(filename):
+                dirs[:] = [
+                    name
+                    for name in dirs
+                    if _is_download_path(
+                        os.path.join(current_root, name), root, prepared_allowed_roots
+                    )
+                ]
+                if not _is_download_path(current_root, root, prepared_allowed_roots):
                     continue
-                yield from (os.path.join(root, name) for name in files)
+                for name in files:
+                    fullname = os.path.join(current_root, name)
+                    if not _is_download_path(fullname, root, prepared_allowed_roots):
+                        continue
+                    yield fullname
         else:
             yield filename
 
@@ -560,10 +636,11 @@ def zip_download(
     filenames: list[str],
     name: str = "translations",
     extra: dict[str, bytes | str] | None = None,
+    allowed_roots: list[str] | None = None,
 ) -> HttpResponse:
     response = HttpResponse(content_type="application/zip")
     with ZipFile(cast("BinaryIO", response), "w", strict_timestamps=False) as zipfile:
-        for filename in iter_files(filenames):
+        for filename in iter_files(filenames, root, allowed_roots):
             try:
                 zipfile.write(filename, arcname=os.path.relpath(filename, root))
             except FileNotFoundError:

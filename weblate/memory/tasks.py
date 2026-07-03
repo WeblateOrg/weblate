@@ -4,15 +4,18 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from datetime import timedelta
 from operator import itemgetter
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict
+from uuid import UUID
 
 from django.db import transaction
-from django.db.models import Q, Value
+from django.db.models import Count, Min, Q, Value
 from django.db.models.functions import MD5
+from django.utils import timezone
 
 from weblate.machinery.base import get_machinery_language
-from weblate.memory.models import Memory
+from weblate.memory.models import Memory, MemoryScope, MemoryScopeMigrationState
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.utils.celery import app
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
@@ -24,6 +27,11 @@ if TYPE_CHECKING:
 
 MEMORY_UPDATE_BATCH_SIZE = 1000
 MEMORY_UPDATE_LOOKUP_CHUNK_SIZE = 50
+MEMORY_SCOPE_BACKFILL_STALE_SECONDS = 15 * 60
+MEMORY_SCOPE_COMPACTION_STALE_SECONDS = 4 * MEMORY_SCOPE_BACKFILL_STALE_SECONDS
+MEMORY_SCOPE_COMPACTION_BATCH_SIZE = 50000
+MEMORY_SCOPE_BACKFILL_STATE = "memory-scope-backfill"
+MEMORY_SCOPE_COMPACTION_STATE = "memory-scope-compaction"
 
 
 class MemoryUpdatePayload(TypedDict):
@@ -34,17 +42,32 @@ class MemoryUpdatePayload(TypedDict):
     target: str
     origin: str
     add_shared: bool
+    add_workspace: bool
     add_project: bool
     add_user: bool
     user_id: int | None
+    workspace_id: UUID | None
     project_id: int
     unit_state: int
 
 
 type MemoryKey = tuple[str, int, int, str, str]
 type MemoryGroupKey = tuple[str, int, int]
-type MemoryCategory = tuple[str, int | None]
+type MemoryCategory = tuple[str, int | None] | tuple[str, UUID | None, int | None]
 type MemoryGroupEntry = tuple[int, MemoryKey, MemoryUpdatePayload, int]
+type MemoryScopeKey = tuple[int, int | None, UUID | None, int | None, int | None]
+type MemoryDuplicateIdentity = tuple[int, int, str, str, str, str, int, bool]
+AUTOMATIC_SCOPE_TYPES = (
+    MemoryScope.SCOPE_PROJECT,
+    MemoryScope.SCOPE_SHARED,
+    MemoryScope.SCOPE_USER,
+    MemoryScope.SCOPE_WORKSPACE,
+)
+FILE_SCOPE_TYPES = (
+    MemoryScope.SCOPE_GLOBAL_FILE,
+    MemoryScope.SCOPE_PROJECT_FILE,
+    MemoryScope.SCOPE_USER_FILE,
+)
 
 
 @app.task(trail=False)
@@ -52,7 +75,7 @@ def import_memory(project_id: int, component_id: int | None = None) -> None:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.models import Project, Unit
 
-    project = Project.objects.get(pk=project_id)
+    project = Project.objects.select_related("workspace").get(pk=project_id)
 
     components = project.component_set.prefetch()
     if component_id:
@@ -120,7 +143,9 @@ def get_unit_memory_update(
         "target": target,
         "origin": origin,
         "add_shared": project.contribute_shared_tm,
+        "add_workspace": project.effective_contribute_workspace_tm,
         "user_id": user_id,
+        "workspace_id": project.workspace_id,
         "project_id": project.id,
         "add_project": component.contribute_project_tm,
         "add_user": add_user,
@@ -153,8 +178,282 @@ get_memory_key = itemgetter(
 )
 
 
+def infer_scope_source_project_ids(memories: list[Memory]) -> dict[int, int]:
+    # TODO(2028.1): Remove this legacy source-project inference once Weblate no
+    # longer supports direct upgrades from 2026 releases. Runtime visibility is
+    # scope-only; this exists for the temporary migration/backfill window.
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Change, Project
+
+    project_slugs = {
+        memory.origin.split("/", 1)[0] for memory in memories if "/" in memory.origin
+    }
+    projects = Project.objects.in_bulk(project_slugs, field_name="slug")
+    renamed_projects = {
+        slug: project
+        for slug in project_slugs - projects.keys()
+        if (project := Change.objects.lookup_project_rename(slug)) is not None
+    }
+
+    result = {}
+    for memory in memories:
+        if memory.legacy_project_id is not None:
+            result[memory.id] = memory.legacy_project_id
+            continue
+        slug = memory.origin.split("/", 1)[0] if "/" in memory.origin else ""
+        project = projects.get(slug) or renamed_projects.get(slug)
+        if project is not None:
+            result[memory.id] = project.id
+    return result
+
+
+def set_scope_source_project_ids(memories: list[Memory]) -> None:
+    source_project_ids = infer_scope_source_project_ids(memories)
+    for memory in memories:
+        memory.scope_source_project_id = source_project_ids.get(memory.id)
+
+
 @app.task(trail=False)
-def update_memory(
+def backfill_memory_scopes(batch_size: int = 5000) -> None:
+    # TODO(2028.1): Remove this background TM scope backfill once Weblate no
+    # longer supports direct upgrades from 2026 releases.
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
+    migration_state_objects = MemoryScopeMigrationState.objects.db_manager("default")
+
+    with transaction.atomic(using="default"):
+        state, _created = migration_state_objects.select_for_update().get_or_create(
+            name=MEMORY_SCOPE_BACKFILL_STATE
+        )
+        if state.completed:
+            return
+
+        memories = list(
+            memory_objects.filter(id__gt=state.last_memory_id)
+            .order_by("id")
+            .select_related(
+                "legacy_project",
+                "legacy_user",
+            )[:batch_size]
+        )
+        if not memories:
+            state.completed = True
+            state.updated = timezone.now()
+            state.save(using="default", update_fields=["completed", "updated"])
+            run_compact = True
+            run_next = False
+        else:
+            set_scope_source_project_ids(memories)
+            memory_scope_objects.bulk_create_for_memories(memories)
+            state.last_memory_id = memories[-1].id
+            state.updated = timezone.now()
+
+            if len(memories) == batch_size:
+                state.save(using="default", update_fields=["last_memory_id", "updated"])
+                run_next = True
+                run_compact = False
+            else:
+                state.completed = True
+                state.save(
+                    using="default",
+                    update_fields=["last_memory_id", "completed", "updated"],
+                )
+                run_next = False
+                run_compact = True
+
+    if run_next:
+        backfill_memory_scopes.delay(batch_size=batch_size)
+    elif run_compact:
+        schedule_memory_scope_compaction()
+
+
+def set_memory_scope_compaction_completed(
+    completed: bool, *, last_memory_id: int | None = None
+) -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    defaults: dict[str, Any] = {"completed": completed, "updated": timezone.now()}
+    if last_memory_id is not None:
+        defaults["last_memory_id"] = last_memory_id
+    MemoryScopeMigrationState.objects.using("default").update_or_create(
+        name=MEMORY_SCOPE_COMPACTION_STATE,
+        defaults=defaults,
+    )
+
+
+def set_memory_scope_backfill_completed() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    MemoryScopeMigrationState.objects.using("default").update_or_create(
+        name=MEMORY_SCOPE_BACKFILL_STATE,
+        defaults={"completed": True, "updated": timezone.now()},
+    )
+
+
+def get_memory_scope_compaction_state() -> MemoryScopeMigrationState | None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    return (
+        MemoryScopeMigrationState.objects.using("default")
+        .filter(name=MEMORY_SCOPE_COMPACTION_STATE)
+        .first()
+    )
+
+
+def resume_memory_scope_compaction() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    state = get_memory_scope_compaction_state()
+    if state is not None:
+        if state.completed:
+            return
+        stale_before = timezone.now() - timedelta(
+            seconds=MEMORY_SCOPE_COMPACTION_STALE_SECONDS
+        )
+        if state.updated > stale_before:
+            return
+
+    if has_duplicate_memory_groups():
+        schedule_memory_scope_compaction()
+    else:
+        set_memory_scope_compaction_completed(True)
+
+
+def schedule_memory_scope_compaction() -> None:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    state = get_memory_scope_compaction_state()
+    reset_cursor = state is None or state.completed
+    set_memory_scope_compaction_completed(
+        False, last_memory_id=0 if reset_cursor else None
+    )
+    compact_memory_scopes.delay()
+
+
+def has_duplicate_memory_groups() -> bool:
+    # TODO(2028.1): Remove this helper once Weblate no longer supports direct
+    # upgrades from 2026 releases.
+    last_memory_id = 0
+    memory_objects = Memory.objects.using("default")
+
+    while True:
+        duplicate_groups = get_duplicate_memory_candidate_groups(
+            memory_objects,
+            last_memory_id=last_memory_id,
+            batch_size=MEMORY_SCOPE_COMPACTION_BATCH_SIZE,
+        )
+        if not duplicate_groups:
+            return False
+        for group in duplicate_groups:
+            memories = get_duplicate_memory_candidate_memories(memory_objects, group)
+            if get_exact_duplicate_memory_groups(memories):
+                return True
+        last_memory_id = duplicate_groups[-1]["first_id"]
+
+
+def get_duplicate_memory_candidate_group_queryset(
+    memory_objects, *, last_memory_id: int = 0
+):
+    # Group on the expressions covered by memory_md5_index. Exact identity
+    # splitting, including context/status/file ownership, happens after loading
+    # these candidates.
+    queryset = (
+        memory_objects.annotate(
+            origin_md5=MD5("origin"),
+            source_md5=MD5("source"),
+            target_md5=MD5("target"),
+        )
+        .values(
+            "source_language_id",
+            "target_language_id",
+            "origin_md5",
+            "source_md5",
+            "target_md5",
+        )
+        .annotate(first_id=Min("id"), count=Count("id"))
+        .filter(count__gt=1)
+    )
+    if last_memory_id:
+        queryset = queryset.filter(first_id__gt=last_memory_id)
+    return queryset
+
+
+def get_duplicate_memory_candidate_groups(
+    memory_objects, *, last_memory_id: int, batch_size: int
+) -> list[dict[str, Any]]:
+    return list(
+        get_duplicate_memory_candidate_group_queryset(
+            memory_objects, last_memory_id=last_memory_id
+        ).order_by("first_id")[:batch_size]
+    )
+
+
+def get_duplicate_memory_candidate_memories(
+    memory_objects, group: dict[str, Any]
+) -> list[Memory]:
+    return list(
+        memory_objects.filter(
+            source_language_id=group["source_language_id"],
+            target_language_id=group["target_language_id"],
+            origin__md5=group["origin_md5"],
+            source__md5=group["source_md5"],
+            target__md5=group["target_md5"],
+        )
+        .order_by("id")
+        .select_related(
+            "legacy_project",
+            "legacy_user",
+        )
+    )
+
+
+@app.task(trail=False)
+def resume_memory_scope_backfill() -> None:
+    # TODO(2028.1): Remove this background TM scope backfill once Weblate no
+    # longer supports direct upgrades from 2026 releases.
+    state = (
+        MemoryScopeMigrationState.objects.using("default")
+        .filter(
+            name=MEMORY_SCOPE_BACKFILL_STATE,
+        )
+        .first()
+    )
+    if state is None:
+        memory_objects = Memory.objects.using("default")
+        needs_backfill = (
+            memory_objects.alias(memory_has_scope=memory_objects.get_has_scope_exists())
+            .filter(memory_has_scope=False)
+            .exists()
+        )
+        if needs_backfill:
+            backfill_memory_scopes.delay()
+        else:
+            set_memory_scope_backfill_completed()
+            resume_memory_scope_compaction()
+        return
+
+    if state.completed:
+        resume_memory_scope_compaction()
+        return
+
+    stale_before = timezone.now() - timedelta(
+        seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS
+    )
+    if state.updated <= stale_before:
+        backfill_memory_scopes.delay()
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs) -> None:
+    sender.add_periodic_task(
+        MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
+        resume_memory_scope_backfill.s(),
+        name="resume-memory-scope-backfill",
+    )
+
+
+@app.task(trail=False)
+def update_memory(  # noqa: PLR0913
     *,
     source_language_id: int,
     target_language_id: int,
@@ -163,134 +462,395 @@ def update_memory(
     target: str,
     origin: str,
     add_shared: bool,
+    add_workspace: bool,
     add_project: bool,
     add_user: bool,
     user_id: int | None,
+    workspace_id: UUID | None,
     project_id: int,
     unit_state: int,
 ) -> None:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.models import Project
 
-    project = Project.objects.get(pk=project_id)
+    project = Project.objects.select_related("workspace").get(pk=project_id)
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
     check_matching = True
     memory_status = get_memory_status(project, unit_state)
     if memory_status == Memory.STATUS_ACTIVE:
         if project.autoclean_tm:
             # delete old entries, including those with different targets
-            Memory.objects.filter(
-                from_file=False,
+            matching_memory = memory_objects.filter(
                 source=source,
                 origin=origin,
                 context=context,
                 source_language_id=source_language_id,
                 target_language_id=target_language_id,
-            ).delete()
+            )
+            matching_memory.alias(
+                memory_has_scope=matching_memory.get_has_scope_exists()
+            ).filter(memory_has_scope=False, legacy_from_file=False).delete()
+            matching_memory.delete_scope(
+                Q(scope__in=AUTOMATIC_SCOPE_TYPES), delete_legacy=False
+            )
             check_matching = False
     else:
         memory_status = Memory.STATUS_PENDING
     to_create = []
-    to_update = []
+    to_update: list[Memory] = []
 
     if check_matching:
         # Check matching entries in memory
-        for matching in Memory.objects.filter(
-            from_file=False,
+        for matching in (
+            memory_objects.filter(
+                source=source,
+                target=target,
+                origin=origin,
+                source_language_id=source_language_id,
+                target_language_id=target_language_id,
+            )
+            .filter_scope(Q(scope__in=AUTOMATIC_SCOPE_TYPES))
+            .prefetch_related("scopes")
+        ):
+            matching = collect_status_update(matching, memory_status, to_update)
+
+            categories = get_memory_categories(matching)
+            if ("project", project_id) in categories:
+                add_project = False
+            if add_shared and ("shared", project_id) in categories:
+                add_shared = False
+            if add_user and ("user", user_id) in categories:
+                add_user = False
+            if add_workspace and ("workspace", workspace_id, project_id) in categories:
+                add_workspace = False
+
+    if add_project:
+        memory = Memory(
             source=source,
+            context=context,
             target=target,
             origin=origin,
             source_language_id=source_language_id,
             target_language_id=target_language_id,
-        ):
-            if matching.target == target and matching.status != memory_status:
-                matching.status = memory_status
-                to_update.append(matching)
-
-            if (
-                matching.user_id is None
-                and matching.project_id == project_id
-                and not matching.shared
-            ):
-                add_project = False
-            elif (
-                add_shared
-                and matching.user_id is None
-                and matching.project_id is None
-                and matching.shared
-            ):
-                add_shared = False
-            elif (
-                add_user
-                and matching.user_id == user_id
-                and matching.project_id is None
-                and not matching.shared
-            ):
-                add_user = False
-
-    if add_project:
-        to_create.append(
-            Memory(
-                user=None,
-                project_id=project_id,
-                from_file=False,
-                shared=False,
-                source=source,
-                context=context,
-                target=target,
-                origin=origin,
-                source_language_id=source_language_id,
-                target_language_id=target_language_id,
-                status=memory_status,
-            )
+            status=memory_status,
         )
+        memory.pending_scopes = [
+            MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project_id=project_id)
+        ]
+        to_create.append(memory)
     if add_shared:
-        to_create.append(
-            Memory(
-                user=None,
-                project=None,
-                from_file=False,
-                shared=True,
-                source=source,
-                context=context,
-                target=target,
-                origin=origin,
-                source_language_id=source_language_id,
-                target_language_id=target_language_id,
-                status=memory_status,
-            )
+        memory = Memory(
+            source=source,
+            context=context,
+            target=target,
+            origin=origin,
+            source_language_id=source_language_id,
+            target_language_id=target_language_id,
+            status=memory_status,
         )
+        memory.pending_scopes = [
+            MemoryScope(scope=MemoryScope.SCOPE_SHARED, source_project_id=project_id)
+        ]
+        to_create.append(memory)
     if add_user:
-        to_create.append(
-            Memory(
-                user_id=user_id,
-                project=None,
-                from_file=False,
-                shared=False,
-                source=source,
-                context=context,
-                target=target,
-                origin=origin,
-                source_language_id=source_language_id,
-                target_language_id=target_language_id,
-                status=memory_status,
-            )
+        memory = Memory(
+            source=source,
+            context=context,
+            target=target,
+            origin=origin,
+            source_language_id=source_language_id,
+            target_language_id=target_language_id,
+            status=memory_status,
         )
+        memory.pending_scopes = [
+            MemoryScope(scope=MemoryScope.SCOPE_USER, user_id=user_id)
+        ]
+        to_create.append(memory)
+    if add_workspace and workspace_id is not None:
+        memory = Memory(
+            source=source,
+            context=context,
+            target=target,
+            origin=origin,
+            source_language_id=source_language_id,
+            target_language_id=target_language_id,
+            status=memory_status,
+        )
+        memory.pending_scopes = [
+            MemoryScope(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace_id=workspace_id,
+                source_project_id=project_id,
+            )
+        ]
+        to_create.append(memory)
 
     if to_create:
-        Memory.objects.bulk_create(to_create)
+        with transaction.atomic(using="default"):
+            memory_objects.bulk_create(to_create)
+            memory_scope_objects.bulk_create_for_memories(to_create)
 
     if to_update:
-        Memory.objects.bulk_update(to_update, fields=["status"])
+        memory_objects.bulk_update(to_update, fields=["status"])
 
 
-def get_memory_category(memory: Memory) -> MemoryCategory | None:
-    if memory.user_id is None and memory.project_id is not None and not memory.shared:
-        return ("project", memory.project_id)
-    if memory.user_id is None and memory.project_id is None and memory.shared:
-        return ("shared", None)
-    if memory.user_id is not None and memory.project_id is None and not memory.shared:
-        return ("user", memory.user_id)
-    return None
+@app.task(trail=False)
+def compact_memory_scopes(**kwargs) -> None:
+    # TODO(2028.1): Remove this background TM scope compaction once Weblate no
+    # longer supports direct upgrades from 2026 releases.
+    # Accept and ignore legacy Celery kwargs, especially batch_size from queued
+    # tasks created before the default was raised.
+    _ = kwargs
+    batch_size = MEMORY_SCOPE_COMPACTION_BATCH_SIZE
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
+    migration_state_objects = MemoryScopeMigrationState.objects.using("default")
+
+    state = migration_state_objects.filter(name=MEMORY_SCOPE_BACKFILL_STATE).first()
+    if state is not None and not state.completed:
+        backfill_memory_scopes.delay()
+        return
+
+    compaction_state, _created = migration_state_objects.get_or_create(
+        name=MEMORY_SCOPE_COMPACTION_STATE,
+        defaults={"completed": False, "updated": timezone.now()},
+    )
+    if compaction_state.completed:
+        return
+
+    compaction_state.updated = timezone.now()
+    compaction_state.save(using="default", update_fields=["updated"])
+
+    duplicate_groups = get_duplicate_memory_candidate_groups(
+        memory_objects,
+        last_memory_id=compaction_state.last_memory_id,
+        batch_size=batch_size,
+    )
+    if not duplicate_groups:
+        if compaction_state.last_memory_id and has_duplicate_memory_groups():
+            set_memory_scope_compaction_completed(False, last_memory_id=0)
+            compact_memory_scopes.delay()
+            return
+        set_memory_scope_compaction_completed(True)
+        return
+
+    for group in duplicate_groups:
+        memories = get_duplicate_memory_candidate_memories(memory_objects, group)
+        for exact_group in get_exact_duplicate_memory_groups(memories):
+            compact_exact_memory_group(
+                exact_group, memory_objects, memory_scope_objects
+            )
+
+    last_memory_id = duplicate_groups[-1]["first_id"]
+    set_memory_scope_compaction_completed(False, last_memory_id=last_memory_id)
+
+    if len(duplicate_groups) == batch_size:
+        compact_memory_scopes.delay()
+    elif has_duplicate_memory_groups():
+        set_memory_scope_compaction_completed(False, last_memory_id=0)
+        compact_memory_scopes.delay()
+    else:
+        set_memory_scope_compaction_completed(True)
+
+
+def get_memory_duplicate_identity(memory: Memory) -> MemoryDuplicateIdentity:
+    return (
+        memory.source_language_id,
+        memory.target_language_id,
+        memory.source,
+        memory.target,
+        memory.origin,
+        memory.context,
+        memory.status,
+        memory.legacy_from_file,
+    )
+
+
+def get_exact_duplicate_memory_groups(memories: list[Memory]) -> list[list[Memory]]:
+    exact_groups: defaultdict[MemoryDuplicateIdentity, list[Memory]] = defaultdict(list)
+    for memory in memories:
+        exact_groups[get_memory_duplicate_identity(memory)].append(memory)
+    return [group for group in exact_groups.values() if len(group) > 1]
+
+
+def compact_exact_memory_group(
+    memories: list[Memory], memory_objects, memory_scope_objects
+) -> None:
+    if len(memories) < 2:
+        return
+
+    set_scope_source_project_ids(memories)
+    memory_scope_objects.bulk_create_for_memories(memories)
+    memories = list(
+        memory_objects.filter(id__in=[memory.id for memory in memories]).order_by("id")
+    )
+    if len(memories) < 2:
+        return
+
+    scopes_by_memory = defaultdict(list)
+    for scope in memory_scope_objects.filter(
+        memory_id__in=[memory.id for memory in memories]
+    ):
+        scopes_by_memory[scope.memory_id].append(scope)
+    survivor = memories[0]
+    duplicate_ids = [memory.id for memory in memories[1:]]
+    scope_keys = {
+        get_memory_scope_key(scope)
+        for memory in memories
+        for scope in scopes_by_memory[memory.id]
+    }
+    scopes = []
+    for memory in memories[1:]:
+        scopes.extend(
+            [
+                MemoryScope(
+                    memory=survivor,
+                    scope=scope.scope,
+                    project_id=scope.project_id,
+                    workspace_id=scope.workspace_id,
+                    source_project_id=scope.source_project_id,
+                    user_id=scope.user_id,
+                )
+                for scope in scopes_by_memory[memory.id]
+            ]
+        )
+    if scopes:
+        memory_scope_objects.bulk_create(scopes, ignore_conflicts=True)
+    if len(scope_keys) >= 2:
+        normalize_compacted_memory_owner(survivor)
+    memory_objects.filter(id__in=duplicate_ids).delete()
+
+
+@app.task(trail=False)
+def cleanup_orphaned_memory(
+    origin_prefix: str | None = None, batch_size: int = 1000
+) -> None:
+    memories = Memory.objects.filter(
+        scopes__isnull=True,
+        legacy_project__isnull=True,
+        legacy_user__isnull=True,
+        legacy_shared=False,
+        legacy_from_file=False,
+    )
+    if origin_prefix is not None:
+        memories = memories.filter(origin__startswith=origin_prefix)
+
+    memory_ids = list(memories.order_by("id").values_list("id", flat=True)[:batch_size])
+    if not memory_ids:
+        return
+
+    Memory.objects.filter(id__in=memory_ids).delete()
+    if len(memory_ids) == batch_size:
+        cleanup_orphaned_memory.delay(
+            origin_prefix=origin_prefix,
+            batch_size=batch_size,
+        )
+
+
+def get_memory_scope_key(scope: MemoryScope) -> MemoryScopeKey:
+    return (
+        scope.scope,
+        scope.project_id,
+        scope.workspace_id,
+        scope.source_project_id,
+        scope.user_id,
+    )
+
+
+def split_automatic_scopes_from_file_memory(memory: Memory, status: int) -> Memory:
+    scopes = list(memory.scopes.all())
+    if not any(scope.scope in FILE_SCOPE_TYPES for scope in scopes) or not any(
+        scope.scope in AUTOMATIC_SCOPE_TYPES for scope in scopes
+    ):
+        return memory
+
+    automatic_scope_ids = [
+        scope.id for scope in scopes if scope.scope in AUTOMATIC_SCOPE_TYPES
+    ]
+    if not automatic_scope_ids:
+        return memory
+
+    with transaction.atomic():
+        automatic_memory = (
+            Memory.objects.filter(
+                source_language_id=memory.source_language_id,
+                target_language_id=memory.target_language_id,
+                source=memory.source,
+                target=memory.target,
+                origin=memory.origin,
+                context=memory.context,
+                status=status,
+            )
+            .exclude(pk=memory.pk)
+            .filter_scope(Q(scope__in=AUTOMATIC_SCOPE_TYPES))
+            .order_by("id")
+            .first()
+        )
+        if automatic_memory is None:
+            automatic_memory = Memory.objects.create(
+                source_language_id=memory.source_language_id,
+                target_language_id=memory.target_language_id,
+                source=memory.source,
+                target=memory.target,
+                origin=memory.origin,
+                context=memory.context,
+                status=status,
+            )
+        else:
+            automatic_memory.normalize_legacy_owner()
+        copied_scopes = [
+            MemoryScope(
+                memory=automatic_memory,
+                scope=scope.scope,
+                project_id=scope.project_id,
+                workspace_id=scope.workspace_id,
+                source_project_id=scope.source_project_id,
+                user_id=scope.user_id,
+            )
+            for scope in scopes
+            if scope.scope in AUTOMATIC_SCOPE_TYPES
+        ]
+        MemoryScope.objects.bulk_create(copied_scopes, ignore_conflicts=True)
+        MemoryScope.objects.filter(id__in=automatic_scope_ids).delete()
+        memory.normalize_legacy_owner()
+
+    automatic_memory.scope_list = None
+    return automatic_memory
+
+
+def collect_status_update(
+    memory: Memory, status: int, to_update: list[Memory]
+) -> Memory:
+    if memory.status == status:
+        return memory
+    memory = split_automatic_scopes_from_file_memory(memory, status)
+    if memory.status != status:
+        memory.status = status
+        to_update.append(memory)
+    return memory
+
+
+def normalize_compacted_memory_owner(memory: Memory) -> None:
+    # Scope rows now own visibility. Keeping legacy project/user owners on a
+    # multi-scope survivor would let those cascading FKs delete unrelated scopes.
+    # The legacy file flag is ownership too: without project/user owners, a later
+    # save would recreate the row as global file memory.
+    memory.normalize_legacy_owner()
+
+
+def get_memory_categories(memory: Memory) -> set[MemoryCategory]:
+    categories: set[MemoryCategory] = set()
+    for scope in memory.scopes.all():
+        if scope.scope == MemoryScope.SCOPE_PROJECT:
+            categories.add(("project", scope.project_id))
+        elif scope.scope == MemoryScope.SCOPE_SHARED:
+            categories.add(("shared", scope.source_project_id))
+        elif scope.scope == MemoryScope.SCOPE_USER:
+            categories.add(("user", scope.user_id))
+        elif scope.scope == MemoryScope.SCOPE_WORKSPACE:
+            categories.add(("workspace", scope.workspace_id, scope.source_project_id))
+    return categories
 
 
 def get_group_matching_memory(
@@ -302,7 +862,8 @@ def get_group_matching_memory(
     expected_keys = sorted({key for _, key, _, _ in group_entries})
     expected_key_set = set(expected_keys)
     existing = defaultdict(set)
-    to_update = []
+    to_update: list[Memory] = []
+    memory_objects = Memory.objects.using("default")
 
     for offset in range(0, len(expected_keys), MEMORY_UPDATE_LOOKUP_CHUNK_SIZE):
         matching_pairs = Q()
@@ -314,13 +875,17 @@ def get_group_matching_memory(
                 target__md5=MD5(Value(target)),
             )
 
-        for matching in Memory.objects.filter(
+        matches = memory_objects.filter(
             matching_pairs,
-            from_file=False,
             origin__md5=MD5(Value(origin)),
             source_language_id=source_language_id,
             target_language_id=target_language_id,
-        ):
+        )
+        if hasattr(matches, "filter_scope"):
+            matches = matches.filter_scope(Q(scope__in=AUTOMATIC_SCOPE_TYPES))
+        if hasattr(matches, "prefetch_related"):
+            matches = matches.prefetch_related("scopes")
+        for matching in matches:
             key = (
                 matching.origin,
                 matching.source_language_id,
@@ -330,12 +895,8 @@ def get_group_matching_memory(
             )
             if key not in expected_key_set:
                 continue
-            if matching.status != statuses[key]:
-                matching.status = statuses[key]
-                to_update.append(matching)
-            category = get_memory_category(matching)
-            if category is not None:
-                existing[key].add(category)
+            matching = collect_status_update(matching, statuses[key], to_update)
+            existing[key].update(get_memory_categories(matching))
 
     return existing, to_update
 
@@ -344,11 +905,7 @@ def create_memory_entry(
     entry: MemoryUpdatePayload, *, status: int, category: str
 ) -> Memory:
     if category == "project":
-        return Memory(
-            user=None,
-            project_id=entry["project_id"],
-            from_file=False,
-            shared=False,
+        memory = Memory(
             source=entry["source"],
             context=entry["context"],
             target=entry["target"],
@@ -357,12 +914,12 @@ def create_memory_entry(
             target_language_id=entry["target_language_id"],
             status=status,
         )
+        memory.pending_scopes = [
+            MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project_id=entry["project_id"])
+        ]
+        return memory
     if category == "shared":
-        return Memory(
-            user=None,
-            project=None,
-            from_file=False,
-            shared=True,
+        memory = Memory(
             source=entry["source"],
             context=entry["context"],
             target=entry["target"],
@@ -371,11 +928,34 @@ def create_memory_entry(
             target_language_id=entry["target_language_id"],
             status=status,
         )
-    return Memory(
-        user_id=entry["user_id"],
-        project=None,
-        from_file=False,
-        shared=False,
+        memory.pending_scopes = [
+            MemoryScope(
+                scope=MemoryScope.SCOPE_SHARED,
+                source_project_id=entry["project_id"],
+            )
+        ]
+        return memory
+    if category == "workspace":
+        memory = Memory(
+            source=entry["source"],
+            context=entry["context"],
+            target=entry["target"],
+            origin=entry["origin"],
+            source_language_id=entry["source_language_id"],
+            target_language_id=entry["target_language_id"],
+            status=status,
+        )
+        workspace_id = entry["workspace_id"]
+        if workspace_id is not None:
+            memory.pending_scopes = [
+                MemoryScope(
+                    scope=MemoryScope.SCOPE_WORKSPACE,
+                    workspace_id=workspace_id,
+                    source_project_id=entry["project_id"],
+                )
+            ]
+        return memory
+    memory = Memory(
         source=entry["source"],
         context=entry["context"],
         target=entry["target"],
@@ -384,6 +964,10 @@ def create_memory_entry(
         target_language_id=entry["target_language_id"],
         status=status,
     )
+    memory.pending_scopes = [
+        MemoryScope(scope=MemoryScope.SCOPE_USER, user_id=entry["user_id"])
+    ]
+    return memory
 
 
 def create_missing_memory_entries(
@@ -396,9 +980,19 @@ def create_missing_memory_entries(
         if entry["add_project"] and ("project", entry["project_id"]) not in categories:
             result.append(create_memory_entry(entry, status=status, category="project"))
             categories.add(("project", entry["project_id"]))
-        if entry["add_shared"] and ("shared", None) not in categories:
+        if entry["add_shared"] and ("shared", entry["project_id"]) not in categories:
             result.append(create_memory_entry(entry, status=status, category="shared"))
-            categories.add(("shared", None))
+            categories.add(("shared", entry["project_id"]))
+        workspace_id = entry["workspace_id"]
+        if (
+            entry["add_workspace"]
+            and workspace_id is not None
+            and ("workspace", workspace_id, entry["project_id"]) not in categories
+        ):
+            result.append(
+                create_memory_entry(entry, status=status, category="workspace")
+            )
+            categories.add(("workspace", workspace_id, entry["project_id"]))
         user_id = entry["user_id"]
         if entry["add_user"] and ("user", user_id) not in categories:
             result.append(create_memory_entry(entry, status=status, category="user"))
@@ -414,10 +1008,14 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
     if not entries:
         return
 
-    projects = Project.objects.in_bulk({entry["project_id"] for entry in entries})
+    projects = Project.objects.select_related("workspace").in_bulk(
+        {entry["project_id"] for entry in entries}
+    )
     fallback = []
     grouped_entries = defaultdict(list)
     statuses = {}
+    memory_objects = Memory.objects.using("default")
+    memory_scope_objects = MemoryScope.objects.db_manager("default")
 
     for position, entry in enumerate(entries):
         project = projects[entry["project_id"]]
@@ -444,7 +1042,9 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
         to_create.extend(create_missing_memory_entries(group_entries, existing))
 
     if to_create:
-        Memory.objects.bulk_create(to_create, batch_size=MEMORY_UPDATE_BATCH_SIZE)
+        with transaction.atomic(using="default"):
+            memory_objects.bulk_create(to_create, batch_size=MEMORY_UPDATE_BATCH_SIZE)
+            memory_scope_objects.bulk_create_for_memories(to_create)
 
     if to_update:
-        Memory.objects.bulk_update(to_update, fields=["status"])
+        memory_objects.bulk_update(to_update, fields=["status"])

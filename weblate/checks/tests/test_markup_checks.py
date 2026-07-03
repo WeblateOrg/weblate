@@ -725,7 +725,13 @@ class RSTReferencesCheckTest(CheckTestCase):
             self.addCleanup(extract_rst_references.cache_clear)
             _references, _counter, highlights = extract_rst_references(text)
 
-        self.assertEqual(highlights, ((15, 20, "|foo|"),))
+        self.assertEqual(
+            tuple(
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ),
+            ((15, 20, "|foo|"),),
+        )
 
     def test_repeated_explicit_link_targets_keep_offset(self) -> None:
         text = (
@@ -760,7 +766,13 @@ class RSTReferencesCheckTest(CheckTestCase):
             offset = start + len(target)
 
         self.assertEqual(counter["`... <...>`_"], len(expected_targets))
-        self.assertEqual(highlights, tuple(expected_highlights))
+        self.assertEqual(
+            tuple(
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ),
+            tuple(expected_highlights),
+        )
 
     def test_option_space(self) -> None:
         self.do_test(

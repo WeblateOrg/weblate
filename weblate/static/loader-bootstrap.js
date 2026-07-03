@@ -451,7 +451,10 @@ function loadTableSorting() {
           th.setAttribute("title", gettext("Sort this column"));
           th.classList.add("sort-cell");
           if (th.classList.contains("number")) {
-            th.innerHTML = `<span·class="sort-icon">·</span>${th.textContent}`;
+            const icon = document.createElement("span");
+            icon.classList.add("sort-icon");
+            icon.textContent = " ";
+            th.prepend(icon);
           } else {
             th.insertAdjacentHTML(
               "beforeend",
@@ -469,10 +472,10 @@ function loadTableSorting() {
               const parentA = a.dataset.parent;
               const parentB = b.dataset.parent;
               if (parentA) {
-                rowA = tbody.querySelector(`#${parentA}`) || rowA;
+                rowA = tbody.querySelector(`#${CSS.escape(parentA)}`) || rowA;
               }
               if (parentB) {
-                rowB = tbody.querySelector(`#${parentB}`) || rowB;
+                rowB = tbody.querySelector(`#${CSS.escape(parentB)}`) || rowB;
               }
               return (
                 inverse *
@@ -1060,10 +1063,25 @@ onReady(() => {
     }
   });
   /* Screenshot management */
-  for (const button of document.querySelectorAll(
-    "#screenshots-search, #screenshots-auto",
-  )) {
-    button.addEventListener("click", async function (event) {
+  async function screenshotLoadResults(url, form) {
+    screenshotStart();
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+      });
+      if (!response.ok) {
+        screenshotFailure();
+        return;
+      }
+      screenshotLoaded(await response.json());
+    } catch (_error) {
+      screenshotFailure();
+    }
+  }
+  for (const button of document.querySelectorAll("#screenshots-auto")) {
+    button.addEventListener("click", function (event) {
       event.preventDefault();
       const url = this.getAttribute("data-href");
       const form = this.closest("form");
@@ -1071,24 +1089,20 @@ onReady(() => {
         screenshotFailure();
         return;
       }
-
-      screenshotStart();
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          body: new FormData(form),
-          headers: { "X-Requested-With": "XMLHttpRequest" },
-        });
-        if (!response.ok) {
-          screenshotFailure();
-          return;
-        }
-        screenshotLoaded(await response.json());
-      } catch (_error) {
-        screenshotFailure();
-      }
+      void screenshotLoadResults(url, form);
     });
   }
+  document
+    .getElementById("screenshots-search-form")
+    ?.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const url = this.getAttribute("data-href");
+      if (url === null) {
+        screenshotFailure();
+        return;
+      }
+      void screenshotLoadResults(url, this);
+    });
   document.addEventListener("change", (event) => {
     if (
       event.target instanceof Element &&
@@ -1729,7 +1743,7 @@ onReady(() => {
       event.preventDefault();
       const form = this.closest("form");
       positionInputs.forEach(hide);
-      form.querySelectorAll("input[name=offset]").forEach((input) => {
+      form?.querySelectorAll("input[name=offset]").forEach((input) => {
         input.disabled = false;
       });
       positionInputEditables.forEach(show);
@@ -2235,18 +2249,18 @@ onReady(() => {
 
   /* Workflow customization form */
   document.querySelectorAll("#id_workflow-enable").forEach((enableInput) => {
-    enableInput.addEventListener("click", () => {
-      if (enableInput.checked) {
-        document.getElementById("workflow-enable-target").style.visibility =
-          "visible";
-        document.getElementById("workflow-enable-target").style.opacity = 1;
-      } else {
-        document.getElementById("workflow-enable-target").style.visibility =
-          "hidden";
-        document.getElementById("workflow-enable-target").style.opacity = 0;
+    const updateWorkflowVisibility = () => {
+      const target = document.getElementById("workflow-enable-target");
+      const hint = document.getElementById("workflow-enable-hint");
+      if (target !== null) {
+        target.style.display = enableInput.checked ? "" : "none";
       }
-    });
-    enableInput.dispatchEvent(new Event("click"));
+      if (hint !== null) {
+        hint.style.display = enableInput.checked ? "none" : "";
+      }
+    };
+    enableInput.addEventListener("change", updateWorkflowVisibility);
+    updateWorkflowVisibility();
   });
 
   /* Move current translation into the view */

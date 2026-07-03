@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "2026.7"
+release = "2026.7.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -100,6 +100,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.opengraph",
     "sphinx_reredirects",
+    "sphinx_llm.txt",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -149,6 +150,8 @@ html_theme = "furo"
 
 # Define the canonical URL if you are using a custom domain on Read the Docs
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
+markdown_http_base = html_baseurl.rstrip("/")
+llms_txt_suffix_mode = "replace"
 
 # Tell Jinja2 templates the build is running on Read the Docs
 if os.environ.get("READTHEDOCS", "") == "True":
@@ -364,6 +367,12 @@ nitpick_ignore = [
     ("http:obj", "string"),
     ("http:obj", "timestamp"),
     ("http:obj", "file"),
+    # Autodoc renders these standard-library type annotations from wlc
+    # signatures, but intersphinx references for them are disabled here.
+    ("py:class", "Path"),
+    ("py:class", "builtins.list"),
+    ("py:class", "collections.abc.Iterator"),
+    ("py:class", "collections.abc.Mapping"),
 ]
 
 # Number of retries and timeout for linkcheck
@@ -404,7 +413,7 @@ linkcheck_ignore = [
     "https://cgit.git.savannah.gnu.org/cgit/gettext.git/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
     "https://wiki.gnupg.org/",
-    "https://www.bis.doc.gov/",
+    "https://www.bis.gov/",
     "https://www.libravatar.org/",
     "https://glosbe.com/",
     # These seems to block bots/GitHub

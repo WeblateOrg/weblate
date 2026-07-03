@@ -132,7 +132,10 @@ def strip_problematic_autodoc_types(
     signature: str | None,
     return_annotation: str | None,
 ) -> tuple[str | None, str | None]:
-    del app, what, name, obj, options
+    del app, what, obj, options
+
+    if name == "wlc" or name.startswith("wlc."):
+        return signature, return_annotation
 
     if signature and signature.startswith("(") and signature.endswith(")"):
         parameters = split_top_level(signature[1:-1], ",")

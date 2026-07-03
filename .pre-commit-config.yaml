@@ -17,7 +17,7 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.30.0
+  rev: 1.31.1
   hooks:
   - id: django-upgrade
 - repo: https://github.com/adamchainz/djade-pre-commit
@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.18
+  rev: v0.15.20
   hooks:
   - id: ruff-check
     args:
@@ -44,7 +44,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.15.19
+    - ruff==0.15.20
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -73,18 +73,18 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.0
+  rev: v2.5.1
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.5.0'
+    - '@biomejs/biome@2.5.1'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
-  rev: v1.39.2
+  rev: v1.39.4
   hooks:
   - id: djlint-reformat-django
     types_or: [html, text]
@@ -94,6 +94,12 @@ repos:
     files: ^weblate/.*templates/.*\.(txt|html|tmx)$
 - repo: local
   hooks:
+  - id: html-inline-event-handler
+    name: inline JavaScript event handler in template
+    description: Prevent inline HTML event handlers blocked by Content-Security-Policy
+    files: ^weblate/.*templates/.*\.html$
+    entry: (?i)(^|\s)on(?!ly\s*=)[a-z]+\s*=
+    language: pygrep
   - id: rst-double-space
     name: rst text with double space
     description: Detect mistake of rst containing double space
@@ -105,7 +111,7 @@ repos:
     name: http link in rst text
     description: Detect mistake of using http links
     types: [rst]
-    entry: http://(?!example\.|[a-z]*\.example\.|weblate:|localhost|anubis|127\.0\.0\.1|user:password@proxy|libretranslate:)
+    entry: http://(?!example\.|[a-z]*\.example\.|weblate:|localhost|anubis|127\.0\.0\.1|user:password@proxy|libretranslate:)[^`]
     language: pygrep
   - id: rst-bullet-stop
     name: Changes end with a stop
@@ -176,7 +182,7 @@ repos:
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.25.2
+  rev: v1.26.1
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint
@@ -185,12 +191,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.103.0
+  rev: v1.104.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.20
+  rev: v0.2.24
   hooks:
   - id: rumdl
   - id: rumdl-fmt

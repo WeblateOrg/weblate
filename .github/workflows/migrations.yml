@@ -59,7 +59,7 @@ jobs:
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.11.23
+        version: 0.11.25
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
@@ -88,6 +88,10 @@ jobs:
       run: ./ci/run-migrate 5.17
     - name: Migrate from 2026.5
       run: ./ci/run-migrate 2026.5
+    - name: Migrate from 2026.6
+      run: ./ci/run-migrate 2026.6
+    - name: Migrate from 2026.7
+      run: ./ci/run-migrate 2026.7
     - name: Coverage
       run: |
         uv run coverage combine

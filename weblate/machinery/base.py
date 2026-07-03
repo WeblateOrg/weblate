@@ -53,6 +53,7 @@ if TYPE_CHECKING:
     from requests.auth import AuthBase
 
     from weblate.auth.models import User
+    from weblate.checks.base import Highlight
     from weblate.trans.models import Translation, Unit
     from weblate.trans.models.unit import UnitQuerySet
 
@@ -463,18 +464,18 @@ class BatchMachineTranslation(DocVersionsMixin):
         return f"{re.escape(text[:-1])} *{re.escape(text[-1:])}"
 
     def format_replacement(
-        self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
+        self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
     ) -> str:
         """Generate a single replacement."""
         return f"{self.replacement_start}{h_start}{self.replacement_end}"
 
     def get_highlights(
         self, text: str, unit
-    ) -> Iterable[tuple[int, int, str, Unit | None]]:
-        for h_start, h_end, h_text in highlight_string(
+    ) -> Iterable[tuple[int, int, str, Highlight | Unit | None]]:
+        for highlight in highlight_string(
             text, unit, highlight_syntax=self.highlight_syntax
         ):
-            yield h_start, h_end, h_text, None
+            yield highlight.start, highlight.end, highlight.text, highlight
 
     def cleanup_text(self, text: str, unit: Unit) -> tuple[str, dict[str, str]]:
         """Remove placeholder to avoid confusing the machine translation."""
@@ -1297,7 +1298,7 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
         return escape(text)
 
     def format_replacement(
-        self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
+        self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
     ) -> str:
         """Generate a single replacement."""
         raise NotImplementedError

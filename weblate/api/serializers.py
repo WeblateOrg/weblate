@@ -32,12 +32,12 @@ from rest_framework.exceptions import PermissionDenied
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
-from weblate.auth.data import SELECTION_MANUAL
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural, validate_language_code
-from weblate.memory.models import Memory
+from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
@@ -706,12 +706,28 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         validators = ()
 
     def validate(self, attrs):
+        defining_workspace = attrs.get(
+            "defining_workspace",
+            self.instance.defining_workspace if self.instance is not None else None,
+        )
+        if defining_workspace is not None:
+            attrs["language_selection"] = SELECTION_ALL
         if self.instance is not None and self.instance.internal:
-            errors = {
-                field: gettext_lazy("Cannot change this on a built-in team.")
-                for field in self.internal_fields
-                if field in attrs and attrs[field] != getattr(self.instance, field)
-            }
+            errors = {}
+            for field in self.internal_fields:
+                if field not in attrs:
+                    continue
+                value = attrs[field]
+                instance_value = getattr(self.instance, field)
+                if (
+                    field == "language_selection"
+                    and self.instance.defining_workspace_id
+                ):
+                    instance_value = SELECTION_ALL
+                if value != instance_value:
+                    errors[field] = gettext_lazy(
+                        "Cannot change this on a built-in team."
+                    )
             if errors:
                 raise serializers.ValidationError(errors)
         if (
@@ -746,10 +762,6 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
                     )
                 }
             )
-        defining_workspace = attrs.get(
-            "defining_workspace",
-            self.instance.defining_workspace if self.instance is not None else None,
-        )
         name = attrs.get(
             "name", self.instance.name if self.instance is not None else None
         )
@@ -792,6 +804,8 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         defining_workspace = validated_data.get("defining_workspace")
         if defining_project is not None or defining_workspace is not None:
             validated_data["project_selection"] = SELECTION_MANUAL
+        if defining_workspace is not None:
+            validated_data["language_selection"] = SELECTION_ALL
 
         group = super().create(validated_data)
         if defining_project is not None:
@@ -1331,6 +1345,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["filemask"] = None
             result["screenshot_filemask"] = None
             result["push"] = None
+            result["git_export"] = None
+            result["push_branch"] = None
+            result["repoweb"] = None
         return result
 
     def to_internal_value(self, data):
@@ -2237,6 +2254,13 @@ class PluralField(serializers.ListField):
 
 
 class MemorySerializer(serializers.ModelSerializer[Memory]):
+    visible_project_ids_loaded = False
+    visible_project_ids: set[int] | None = None
+
+    project = serializers.SerializerMethodField()
+    from_file = serializers.SerializerMethodField()
+    shared = serializers.SerializerMethodField()
+
     class Meta:
         model = Memory
         fields = (
@@ -2250,6 +2274,84 @@ class MemorySerializer(serializers.ModelSerializer[Memory]):
             "from_file",
             "shared",
         )
+
+    def get_project(self, obj: Memory) -> int | None:
+        project_scopes = [
+            scope
+            for scope in self.get_scopes(obj)
+            if scope.scope
+            in {
+                MemoryScope.SCOPE_PROJECT,
+                MemoryScope.SCOPE_PROJECT_FILE,
+            }
+            and scope.project_id is not None
+        ]
+        request = self.context.get("request")
+        if request is not None:
+            project_slug = request.query_params.get("project")
+            visible_project_ids = self.get_visible_project_ids()
+            if project_slug:
+                for scope in project_scopes:
+                    if (
+                        scope.project is not None
+                        and scope.project.slug == project_slug
+                        and (
+                            visible_project_ids is None
+                            or scope.project_id in visible_project_ids
+                        )
+                    ):
+                        return scope.project_id
+                return None
+            if visible_project_ids is not None:
+                project_scopes = [
+                    scope
+                    for scope in project_scopes
+                    if scope.project_id in visible_project_ids
+                ]
+
+        project_ids = {scope.project_id for scope in project_scopes}
+        if len(project_ids) == 1:
+            return project_scopes[0].project_id
+        return None
+
+    def get_visible_project_ids(self) -> set[int] | None:
+        if not self.visible_project_ids_loaded:
+            request = self.context.get("request")
+            user = getattr(request, "user", None)
+            if (
+                user is None
+                or not user.is_authenticated
+                or user.is_superuser
+                or user.has_perm("memory.manage")
+            ):
+                self.visible_project_ids = None
+            else:
+                self.visible_project_ids = set(
+                    user.allowed_projects.values_list("id", flat=True)
+                )
+            self.visible_project_ids_loaded = True
+        return self.visible_project_ids
+
+    def get_from_file(self, obj: Memory) -> bool:
+        return bool(
+            any(
+                scope.scope
+                in {
+                    MemoryScope.SCOPE_GLOBAL_FILE,
+                    MemoryScope.SCOPE_PROJECT_FILE,
+                    MemoryScope.SCOPE_USER_FILE,
+                }
+                for scope in self.get_scopes(obj)
+            )
+        )
+
+    def get_shared(self, obj: Memory) -> bool:
+        return any(
+            scope.scope == MemoryScope.SCOPE_SHARED for scope in self.get_scopes(obj)
+        )
+
+    def get_scopes(self, obj: Memory) -> list[MemoryScope]:
+        return obj.get_scope_list()
 
 
 class MemoryLookupRequestSerializer(serializers.Serializer):

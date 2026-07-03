@@ -19,6 +19,7 @@ from weblate.utils.apps import (
     CACHE_EXEC_CHECK_PREFIX,
     check_class_loader,
     check_data_writable,
+    check_database_size,
     check_errors,
     check_settings,
 )
@@ -148,6 +149,46 @@ class DataWritableCheckTestCase(SimpleTestCase):
 
         self.assertTrue(any(error.id == "weblate.C044" for error in errors))
         self.assertEqual(self.get_cache_probes(), [])
+
+
+class DatabaseSizeCheckTestCase(SimpleTestCase):
+    @patch("weblate.utils.apps.get_database_size", return_value=123456)
+    @patch("weblate.utils.apps.connections")
+    def test_database_size_available(
+        self,
+        connections_mock,
+        database_size_mock,
+    ) -> None:
+        connections_mock.__getitem__.return_value.vendor = "postgresql"
+
+        errors = list(check_database_size(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.C045" for error in errors))
+        database_size_mock.assert_called_once_with()
+
+    @patch("weblate.utils.apps.get_database_size", return_value=None)
+    @patch("weblate.utils.apps.connections")
+    def test_database_size_unavailable(
+        self, connections_mock, database_size_mock
+    ) -> None:
+        connections_mock.__getitem__.return_value.vendor = "postgresql"
+
+        errors = list(check_database_size(app_configs=None, databases=None))
+
+        self.assertTrue(any(error.id == "weblate.C045" for error in errors))
+        database_size_mock.assert_called_once_with()
+
+    @patch("weblate.utils.apps.get_database_size")
+    @patch("weblate.utils.apps.connections")
+    def test_database_size_non_postgresql(
+        self, connections_mock, database_size_mock
+    ) -> None:
+        connections_mock.__getitem__.return_value.vendor = "sqlite"
+
+        errors = list(check_database_size(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.C045" for error in errors))
+        database_size_mock.assert_not_called()
 
 
 class SettingsCheckTestCase(SimpleTestCase):

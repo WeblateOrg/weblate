@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">{% translate "Install Weblate GitHub app" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Choose GitHub host" %}</h4>
+    </div>
+    <div class="card-body">
+      <p class="text-body-secondary">
+        {% translate "Select the GitHub or GitHub Enterprise instance where you want to install the Weblate GitHub app." %}
+      </p>
+      <div class="d-grid gap-2">
+        {% for choice in install_choices %}
+          <a href="{{ choice.install_url }}" class="btn btn-outline-primary">
+            {% blocktranslate with hostname=choice.hostname %}Install on {{ hostname }}{% endblocktranslate %}
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

@@ -50,6 +50,13 @@ class ListTestCase(SimpleTestCase):
             value,
         )
 
+    def test_list_checks_includes_dual_scope(self) -> None:
+        output = StringIO()
+        call_command("list_checks", "--sections", "checks", stdout=output)
+        value = output.getvalue()
+        self.assertIn(".. _check-max-size:", value)
+        self.assertIn(":Scope: source and translated strings", value)
+
     def test_list_checks_requires_sections_with_output(self) -> None:
         with self.assertRaisesRegex(CommandError, "requires exactly one"):
             call_command("list_checks", "-o", "checks.rst")

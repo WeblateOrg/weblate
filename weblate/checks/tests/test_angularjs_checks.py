@@ -84,7 +84,10 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
         )
         self.assertEqual(
             [(0, 8, "{{name}}"), (9, 41, "{{ something.value | currency }}")],
-            highlights,
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
         )
 
     def test_check_highlight_ignored(self) -> None:

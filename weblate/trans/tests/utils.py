@@ -56,7 +56,7 @@ def fixup_languages_seq() -> None:
 
 
 def clear_users_cache() -> None:
-    # Clear anonymous user cache
+    # Clear anonymous user prototype
     get_anonymous.cache_clear()
     # Clear bot cache
     bot_cache.get({}).clear()

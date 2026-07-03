@@ -11,9 +11,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
-"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
-"\n"
-"POT-Creation-Date: 2026-06-17 21:40-0500\n"
+"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
+"javascript/\n"
+"POT-Creation-Date: 2026-07-01 22:13-0500\n"
 "PO-Revision-Date: 2026-06-20 16:01+0000\n"
 "Last-Translator: justcontributor <kty5663@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -110,50 +110,78 @@ msgstr[0] "일치하는 문자열 %s개"
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "저장되지 않은 변경 사항이 있습니다. 정말 나가시겠습니까?"
 
-#: weblate/static/js/bulk-accept-suggestions.js:31
+#: weblate/static/js/bulk-accept-suggestions.js:29
 msgid "Security token missing. Please reload the page."
 msgstr "보안 토큰이 누락되었습니다. 페이지를 새로고침하세요."
 
-#: weblate/static/js/bulk-accept-suggestions.js:45
+#: weblate/static/js/bulk-accept-suggestions.js:37
 #, javascript-format
-msgid "Processing bulk accept for %s"
+msgid "Loading suggestion count for %s"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:55
+msgid "Bulk accept cancelled."
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:60
+#, fuzzy, javascript-format
+#| msgid "Processing bulk accept for %s"
+msgid "Scheduling bulk accept for %s"
 msgstr "%s의 대량 수락 처리 중"
 
 #: weblate/static/js/bulk-accept-suggestions.js:75
+msgid "Unknown error"
+msgstr "알 수 없는 오류"
+
+#: weblate/static/js/bulk-accept-suggestions.js:80
+msgid "Network error"
+msgstr "네트워크 오류"
+
+#: weblate/static/js/bulk-accept-suggestions.js:108
+#: weblate/static/js/bulk-accept-suggestions.js:126
+msgid "Invalid server response"
+msgstr "잘못된 서버 응답"
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
 #, javascript-format
 msgid "Server error (%s)"
 msgstr "서버 오류 (%s)"
 
-#: weblate/static/js/bulk-accept-suggestions.js:86
-msgid "Invalid server response"
-msgstr "잘못된 서버 응답"
-
-#: weblate/static/js/bulk-accept-suggestions.js:99
+#: weblate/static/js/bulk-accept-suggestions.js:140
 #, javascript-format
-msgid "%s accepted"
-msgid_plural "%s accepted"
-msgstr[0] "%s개 수락됨"
+msgid "There are no pending suggestions from %s in this translation."
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:117
-msgid "Done"
-msgstr "완료"
-
-#: weblate/static/js/bulk-accept-suggestions.js:124
+#: weblate/static/js/bulk-accept-suggestions.js:149
 #, javascript-format
-msgid "Processed %s suggestion. Page will reload in 2 seconds."
-msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
-msgstr[0] "제안 %s개를 처리했습니다. 2초 후 페이지가 새로고침됩니다."
+msgid "This will accept %s suggestion from %s in this translation."
+msgid_plural "This will accept %s suggestions from %s in this translation."
+msgstr[0] ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:134
-msgid "Unknown error"
-msgstr "알 수 없는 오류"
+#: weblate/static/js/bulk-accept-suggestions.js:212
+msgid "Accept all suggestions?"
+msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:139
-msgid "Network error"
-msgstr "네트워크 오류"
+#: weblate/static/js/bulk-accept-suggestions.js:218
+#: weblate/static/loader-bootstrap.js:107
+msgid "Close"
+msgstr "닫기"
 
-#: weblate/static/js/bulk-accept-suggestions.js:147
-#: weblate/static/js/bulk-accept-suggestions.js:153
+#: weblate/static/js/bulk-accept-suggestions.js:230
+msgid "Cancel"
+msgstr "취소"
+
+#: weblate/static/js/bulk-accept-suggestions.js:235
+msgid "Accept suggestions"
+msgstr ""
+
+#: weblate/static/js/bulk-accept-suggestions.js:240
+#, fuzzy
+#| msgid "Accept and approve"
+msgid "Accept and approve suggestions"
+msgstr "수락 및 승인"
+
+#: weblate/static/js/bulk-accept-suggestions.js:258
 #, javascript-format
 msgid "Error: %s"
 msgstr "오류: %s"
@@ -334,62 +362,124 @@ msgstr "문제가 발생했습니다!"
 msgid "No image found in clipboard"
 msgstr "클립보드에서 이미지를 찾을 수 없습니다"
 
-#: weblate/static/loader-bootstrap.js:78
-msgid "Close"
-msgstr "닫기"
+#: weblate/static/js/vcs-push-help.js:38 weblate/static/js/vcs-push-help.js:48
+msgid ""
+"A pull or merge request will be created from a branch in the repository."
+msgstr ""
 
-#: weblate/static/loader-bootstrap.js:313
+#: weblate/static/js/vcs-push-help.js:41
+msgid ""
+"A push URL is set but no push branch is given. Set a push branch that "
+"differs from the translated branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:51
+msgid ""
+"The push branch must differ from the translated branch when creating a pull "
+"or merge request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:58
+msgid "A pull or merge request will be created from a fork of the repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:65
+#, javascript-format
+msgid ""
+"A pull or merge request will be created from the “%s” branch in the "
+"repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:77
+#, javascript-format
+msgid ""
+"Changes will be sent as a Gerrit review request targeting the “%s” branch."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:84
+msgid "Changes will be sent as a Gerrit review request."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:92
+msgid ""
+"Changes will not be pushed automatically. You can still push them manually "
+"from the repository maintenance."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:100
+#: weblate/static/js/vcs-push-help.js:110
+#, javascript-format
+msgid ""
+"Changes will be pushed directly to the “%s” branch in the push repository."
+msgstr ""
+
+#: weblate/static/js/vcs-push-help.js:118
+msgid ""
+"Changes will be pushed directly to the default branch of the push repository."
+msgstr ""
+
+#: weblate/static/loader-bootstrap.js:323
 msgid "Some source strings could not be assigned."
 msgstr "일부 원문 문자열을 할당할 수 없습니다."
 
-#: weblate/static/loader-bootstrap.js:353
+#: weblate/static/loader-bootstrap.js:363
 msgid "Error loading search results!"
 msgstr "검색 결과를 불러오는 중 오류가 발생했습니다!"
 
-#: weblate/static/loader-bootstrap.js:357
+#: weblate/static/loader-bootstrap.js:367
 msgid "No new matching source strings found."
 msgstr "일치하는 새 원문 문자열을 찾을 수 없습니다."
 
-#: weblate/static/loader-bootstrap.js:445
+#: weblate/static/loader-bootstrap.js:451
 msgid "Sort this column"
 msgstr "이 열 정렬"
 
-#: weblate/static/loader-bootstrap.js:777
+#: weblate/static/loader-bootstrap.js:799
 msgid "Error while loading page:"
 msgstr "페이지를 불러오는 중 오류 발생:"
 
-#: weblate/static/loader-bootstrap.js:1103
+#: weblate/static/loader-bootstrap.js:1215
 msgid "Text copied to clipboard."
 msgstr "텍스트가 클립보드에 복사되었습니다."
 
-#: weblate/static/loader-bootstrap.js:1107
+#: weblate/static/loader-bootstrap.js:1219
 msgid "Please press Ctrl+C to copy."
 msgstr "복사하려면 Ctrl+C를 누르세요."
 
-#: weblate/static/loader-bootstrap.js:1111
+#: weblate/static/loader-bootstrap.js:1223
 msgid "Error copying to clipboard."
 msgstr "클립보드에 복사하는 중 오류가 발생했습니다."
 
-#: weblate/static/loader-bootstrap.js:1138
-#: weblate/static/loader-bootstrap.js:1153
+#: weblate/static/loader-bootstrap.js:1267
+#: weblate/static/loader-bootstrap.js:1312
 msgid "Search…"
 msgstr "검색…"
 
-#: weblate/static/loader-bootstrap.js:1615
+#: weblate/static/loader-bootstrap.js:1436
+msgid "Loading…"
+msgstr "읽어들이는중…"
+
+#: weblate/static/loader-bootstrap.js:1462
+#, fuzzy
+#| msgid "Error while loading page:"
+msgid "Error while loading form:"
+msgstr "페이지를 불러오는 중 오류 발생:"
+
+#: weblate/static/loader-bootstrap.js:1945
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate가 저장소를 스캔하는 중입니다. 잠시만 기다려 주세요."
 
-#: weblate/static/loader-bootstrap.js:1795
+#: weblate/static/loader-bootstrap.js:2132
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "알림 설정이 제거되었습니다. 변경 사항 저장을 잊지 마세요."
 
-#: weblate/static/loader-bootstrap.js:2033
+#: weblate/static/loader-bootstrap.js:2400
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "정지!"
 
-#: weblate/static/loader-bootstrap.js:2039
+#: weblate/static/loader-bootstrap.js:2406
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -398,39 +488,52 @@ msgstr ""
 "이 기능은 개발자를 위한 브라우저 기능입니다. 누군가 여기에 무언가를 복사하여 "
 "붙여넣으라고 했다면, Weblate 계정을 탈취하려는 시도일 수 있습니다."
 
-#: weblate/static/loader-bootstrap.js:2045
+#: weblate/static/loader-bootstrap.js:2412
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr "자세한 정보는 https://en.wikipedia.org/wiki/Self-XSS 를 참조하세요."
 
-#: weblate/static/loader-bootstrap.js:2117
+#: weblate/static/loader-bootstrap.js:2495
 msgid "just now"
 msgstr "방금"
 
-#: weblate/static/loader-bootstrap.js:2122
+#: weblate/static/loader-bootstrap.js:2500
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s초 전"
 
-#: weblate/static/loader-bootstrap.js:2128
+#: weblate/static/loader-bootstrap.js:2506
 msgid "a minute ago"
 msgstr "1분 전"
 
-#: weblate/static/loader-bootstrap.js:2131
+#: weblate/static/loader-bootstrap.js:2509
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s분 전"
 
-#: weblate/static/loader-bootstrap.js:2138
+#: weblate/static/loader-bootstrap.js:2516
 msgid "an hour ago"
 msgstr "1시간 전"
 
-#: weblate/static/loader-bootstrap.js:2140
+#: weblate/static/loader-bootstrap.js:2518
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s시간 전"
+
+#, javascript-format
+#~ msgid "%s accepted"
+#~ msgid_plural "%s accepted"
+#~ msgstr[0] "%s개 수락됨"
+
+#~ msgid "Done"
+#~ msgstr "완료"
+
+#, javascript-format
+#~ msgid "Processed %s suggestion. Page will reload in 2 seconds."
+#~ msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
+#~ msgstr[0] "제안 %s개를 처리했습니다. 2초 후 페이지가 새로고침됩니다."
 
 #~ msgid "Available:"
 #~ msgstr "사용 가능:"
@@ -584,9 +687,6 @@ msgstr[0] "%s시간 전"
 #~ msgid "Now"
 #~ msgstr "11월"
 
-#~ msgid "Cancel"
-#~ msgstr "취소"
-
 #~ msgid "Strings with any failing checks"
 #~ msgstr "실패 검사에 걸린 문자열"
 
@@ -601,9 +701,6 @@ msgstr[0] "%s시간 전"
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "이 내용을 읽어들이기 위한 AJAX 요청이 실패했습니다!"
-
-#~ msgid "Loading…"
-#~ msgstr "읽어들이는중…"
 
 #~ msgid "Confirm resetting repository"
 #~ msgstr "저장소 초기화 확인"

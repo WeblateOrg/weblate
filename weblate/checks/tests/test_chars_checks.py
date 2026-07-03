@@ -7,6 +7,7 @@
 from django.test import SimpleTestCase
 
 from weblate.checks.chars import (
+    AcceleratorKeyCheck,
     BeginNewlineCheck,
     BeginSpaceCheck,
     DoubleSpaceCheck,
@@ -30,6 +31,60 @@ from weblate.checks.chars import (
 )
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
+
+
+class AcceleratorKeyCheckTest(CheckTestCase):
+    check = AcceleratorKeyCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_good_matching = ("&File", "&File", "accelerator:&")
+        self.test_good_none = ("File", "File", "accelerator:&")
+        self.test_good_flag = ("&File", "File", "")
+        self.test_failure_1 = ("&File", "File", "accelerator:&")
+        self.test_failure_2 = ("File", "&File", "accelerator:&")
+        self.test_failure_3 = ("&File", "&File &Edit", "accelerator:&")
+
+    def test_underscore_accelerator(self) -> None:
+        self.do_test(False, ("_File", "_File", "accelerator:_"))
+        self.do_test(True, ("_File", "File", "accelerator:_"))
+        self.do_test(True, ("File", "_File", "accelerator:_"))
+
+    def test_literal_ampersand(self) -> None:
+        # A literal ampersand present in both source and translation should not trigger this check.
+        self.do_test(False, ("Walter & Sons", "Walter & Sons", "accelerator:&"))
+        # Escaped/literal ampersands (Qt/Windows "&&") should not count as accelerators.
+        self.do_test(False, ("Save && Exit", "Save && Exit", "accelerator:&"))
+        # Doubled markers before entity-like text are still literal markers.
+        self.do_test(
+            False,
+            ("Use &&lt; and &&gt;", "Use &&lt; and &&gt;", "accelerator:&"),
+        )
+
+    def test_escaped_underscore(self) -> None:
+        # Escaped/literal underscores (GTK "__") should not count as accelerators.
+        self.do_test(False, ("__File", "__File", "accelerator:_"))
+        # "___" is commonly used for a literal underscore plus an accelerator marker.
+        self.do_test(False, ("___File", "___File", "accelerator:_"))
+
+    def test_configured_marker_only(self) -> None:
+        self.do_test(False, ("_File", "File", "accelerator:&"))
+        self.do_test(False, ("&File", "File", "accelerator:_"))
+
+    def test_custom_accelerator(self) -> None:
+        self.do_test(False, ("~File", "~File", "accelerator:~"))
+        self.do_test(True, ("~File", "File", "accelerator:~"))
+        self.do_test(True, ("File", "~File", "accelerator:~"))
+        self.do_test(False, ("~~File", "~~File", "accelerator:~"))
+
+    def test_plain_flag_does_not_enable_runtime(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["&File"],
+                ["File"],
+                make_unit(None, "accelerator", self.default_lang, source="&File"),
+            )
+        )
 
 
 class BeginNewlineCheckTest(CheckTestCase):
@@ -498,6 +553,56 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             ),
             "fr",
         )
+
+    def test_markdown_image(self) -> None:
+        self.do_test(
+            False,
+            (
+                (
+                    "Or buy a 👕 T-shirt 👕 from <br>\n"
+                    "[![HELLOTUX]({% asset hellotux_banner.jpg %})](https://www.hellotux.com/f-droid)<br>\n"
+                    "(F-Droid will receive 3€ per shirt sold.)\n"
+                ),
+                (
+                    "Ou achetez un 👕 T-shirt 👕 depuis <br>\n"
+                    "[![HELLOTUX]({% asset hellotux_banner.jpg %})](https://www.hellotux.com/f-droid)<br>\n"
+                    "(F-Droid recevra 3€ par T-shirt vendu.)\n"
+                ),
+                "md-text",
+            ),
+            "fr",
+        )
+        self.do_test(
+            True,
+            (
+                "[Read it!](https://example.com)",
+                "[Lisez-le!](https://example.com)",
+                "md-text",
+            ),
+            "fr",
+        )
+        self.do_test(
+            False,
+            (
+                "[Search](https://example.com/search?)",
+                "[Rechercher](https://example.com/search?)",
+                "md-text",
+            ),
+            "fr",
+        )
+
+    def test_description(self) -> None:
+        unit = make_unit(source="string", target="Oups!", code="fr")
+        description = str(self.check.get_description(make_check(unit, self.check)))
+        self.assertIn("punctuation mark", description)
+        self.assertIn("<code>!</code>", description)
+
+        unit = make_unit(source="string", target="Oups! Encore: vraiment?", code="fr")
+        description = str(self.check.get_description(make_check(unit, self.check)))
+        self.assertIn("punctuation marks", description)
+        self.assertIn("<code>!</code>", description)
+        self.assertIn("<code>:</code>", description)
+        self.assertIn("<code>?</code>", description)
 
     def test_restructured_text(self) -> None:
         self.do_test(

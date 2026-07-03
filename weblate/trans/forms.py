@@ -154,6 +154,31 @@ if TYPE_CHECKING:
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 
+def clean_integration_component_data(
+    form: forms.BaseForm, data: dict[str, Any], *, vcs: str | None = None
+) -> bool:
+    """Normalize settings owned by integration-backed VCS backends."""
+    vcs_backend = VCS_REGISTRY.get(vcs or data.get("vcs", ""))
+    if vcs_backend is None:
+        return True
+
+    for field in vcs_backend.component_clear_fields:
+        if field in data:
+            data[field] = ""
+
+    if (
+        vcs_backend.component_requires_branch
+        and not data.get("branch")
+        and not is_repo_link(data.get("repo") or "")
+    ):
+        form.add_error(
+            "branch",
+            gettext("Repository branch is required for this integration."),
+        )
+        return False
+    return True
+
+
 class SiteDefaultField(Protocol):
     site_default: bool
     widget: forms.Widget
@@ -428,7 +453,9 @@ class PluralTextarea(forms.Textarea):
         plural = translation.plural
         placeables_set: set[str] = set()
         for text in plurals:
-            placeables_set.update(hl[2] for hl in highlight_string(text, unit))
+            placeables_set.update(
+                highlight.text for highlight in highlight_string(text, unit)
+            )
         placeables = list(placeables_set)
         show_plural_labels = len(values) > 1 and not translation.component.is_multivalue
 
@@ -1844,6 +1871,17 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
         self.helper.form_tag = False
 
 
+InheritedSettingsScope = Literal["workspace", "project", "category"]
+
+
+def get_inherited_settings_label(parent_scope: InheritedSettingsScope) -> str:
+    if parent_scope == "workspace":
+        return gettext("Inherit from workspace")
+    if parent_scope == "project":
+        return gettext("Inherit from project")
+    return gettext("Inherit from category")
+
+
 class InheritedSettingsFormMixin(forms.ModelForm):
     _inherited_setting_fields: set[str]
     _inherited_setting_restore_values: dict[str, Any]
@@ -1882,16 +1920,18 @@ class InheritedSettingsFormMixin(forms.ModelForm):
             "" if override_value is None else override_value
         )
 
-    def setup_inherited_settings(self, parent_name: str, *, has_parent: bool) -> None:
+    def setup_inherited_settings(
+        self, parent_scope: InheritedSettingsScope, *, has_parent: bool
+    ) -> None:
         setup_message_setting_site_defaults(self.fields)
         self._inherited_setting_fields = set()
         for field_name in INHERITABLE_COMPONENT_SETTINGS:
             inherit_field = get_inherit_field_name(field_name)
             if inherit_field not in self.fields:
                 continue
-            self.fields[inherit_field].label = gettext("Inherit from %(scope)s") % {
-                "scope": parent_name
-            }
+            self.fields[inherit_field].label = get_inherited_settings_label(
+                parent_scope
+            )
             if not has_parent:
                 self.fields[inherit_field].initial = False
                 self.fields[inherit_field].widget = forms.HiddenInput()
@@ -2203,10 +2243,10 @@ class ComponentSettingsForm(
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        parent_name = (
-            gettext("category") if self.instance.category_id else gettext("project")
+        parent_scope: InheritedSettingsScope = (
+            "category" if self.instance.category_id else "project"
         )
-        self.setup_inherited_settings(parent_name, has_parent=True)
+        self.setup_inherited_settings(parent_scope, has_parent=True)
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
         self.helper.layout = Layout(
@@ -2334,12 +2374,28 @@ class ComponentSettingsForm(
                 template="layout/pills.html",
             )
         )
-        vcses: set[str] = VCS_REGISTRY.git_based
-        if self.instance.vcs not in vcses:
-            vcses = (self.instance.vcs,)
+        vcses: set[str] = {
+            identifier
+            for identifier in VCS_REGISTRY.git_based
+            if VCS_REGISTRY[identifier].manual_component_creation
+            or identifier == self.instance.vcs
+        }
+        if self.instance.vcs not in VCS_REGISTRY.git_based:
+            vcses = {self.instance.vcs}
         self.fields["vcs"].choices = [
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
+        vcs_backend = VCS_REGISTRY.get(self.instance.vcs)
+        if vcs_backend is not None and vcs_backend.component_lock_fields:
+            # Integration-backed repository settings are managed by the
+            # provider import flow; editing them would break authentication.
+            for locked_field in vcs_backend.component_lock_fields:
+                if locked_field in self.fields:
+                    self.fields[locked_field].disabled = True
+            for cleared_field in vcs_backend.component_clear_fields:
+                if cleared_field in self.fields:
+                    self.initial[cleared_field] = ""
+                    self.fields[cleared_field].initial = ""
         self.patch_unlinking_linked_repository_settings()
         self.patch_linked_repository_settings()
 
@@ -2402,6 +2458,7 @@ class ComponentSettingsForm(
         data = self.cleaned_data
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
+        clean_integration_component_data(self, data, vcs=self.instance.vcs)
 
         repo = data.get("repo") or ""
         if is_repo_link(repo):
@@ -2574,15 +2631,16 @@ class ComponentCreateForm(
 
     def setup_create_inherited_settings(self) -> None:
         parent = self.get_selected_parent()
+        parent_scope: InheritedSettingsScope
         if isinstance(parent, Category):
             self.instance.category = parent
             self.instance.project = parent.project
-            parent_name = gettext("category")
+            parent_scope = "category"
         elif isinstance(parent, Project):
             self.instance.project = parent
-            parent_name = gettext("project")
+            parent_scope = "project"
         else:
-            parent_name = gettext("project")
+            parent_scope = "project"
 
         for field_name in self.CREATE_INHERITABLE_SETTINGS:
             if field_name in self.initial:
@@ -2612,7 +2670,7 @@ class ComponentCreateForm(
             self.initial["inherit_license"] = False
             self.instance.inherit_license = False
 
-        self.setup_inherited_settings(parent_name, has_parent=parent is not None)
+        self.setup_inherited_settings(parent_scope, has_parent=parent is not None)
 
     def disables_inheritance_for_explicit_setting(self, field: str) -> bool:
         inherit_field = get_inherit_field_name(field)
@@ -2631,6 +2689,7 @@ class ComponentCreateForm(
     def clean(self) -> None:
         super().clean()
         data = self.cleaned_data
+        clean_integration_component_data(self, data)
 
         if "file_format_params" in data:
             data["file_format_params"] = strip_unused_file_format_params(
@@ -2856,6 +2915,16 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     )
     instance: Component  # type: ignore[assignment]
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        # Integration-backed backends are selected by provider import flows,
+        # not manually from the generic VCS chooser.
+        self.fields["vcs"].choices = [
+            choice
+            for choice in self.fields["vcs"].choices
+            if VCS_REGISTRY[choice[0]].manual_component_creation
+        ]
+
     def clean_instance(self, data) -> None:
         params = copy.copy(data)
         for field in ("detected_license", "discovery", "source_component"):
@@ -2885,6 +2954,8 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
             self.clean_instance(data)
 
     def clean(self) -> None:
+        if not clean_integration_component_data(self, self.cleaned_data):
+            return
         self.clean_instance(self.cleaned_data)
 
 
@@ -3155,10 +3226,10 @@ class CategorySettingsForm(
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
-        parent_name = (
-            gettext("category") if self.instance.category_id else gettext("project")
+        parent_scope: InheritedSettingsScope = (
+            "category" if self.instance.category_id else "project"
         )
-        self.setup_inherited_settings(parent_name, has_parent=True)
+        self.setup_inherited_settings(parent_scope, has_parent=True)
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -3221,6 +3292,8 @@ class ProjectSettingsForm(
             "instructions",
             "use_shared_tm",
             "contribute_shared_tm",
+            "use_workspace_tm",
+            "contribute_workspace_tm",
             "autoclean_tm",
             "enable_hooks",
             "language_aliases",
@@ -3306,6 +3379,7 @@ class ProjectSettingsForm(
         data = self.cleaned_data
         if settings.OFFER_HOSTING:
             data["contribute_shared_tm"] = data["use_shared_tm"]
+            data["contribute_workspace_tm"] = data["use_workspace_tm"]
 
         # ACCESS_PUBLIC = 0, so the condition can not be simplified to not data["access_control"]
         if (
@@ -3387,8 +3461,9 @@ class ProjectSettingsForm(
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
+        parent_scope: InheritedSettingsScope = "workspace"
         self.setup_inherited_settings(
-            gettext("workspace"), has_parent=self.instance.workspace_id is not None
+            parent_scope, has_parent=self.instance.workspace_id is not None
         )
         self.user = request.user
         self.user_can_change_access = request.user.has_perm(
@@ -3439,6 +3514,8 @@ class ProjectSettingsForm(
                     gettext("Workflow"),
                     "use_shared_tm",
                     "contribute_shared_tm",
+                    "use_workspace_tm",
+                    "contribute_workspace_tm",
                     "autoclean_tm",
                     "check_flags",
                     "enable_hooks",
@@ -3490,6 +3567,11 @@ class ProjectSettingsForm(
             self.fields["use_shared_tm"].help_text = gettext(
                 "Uses and contributes to the pool of shared translations "
                 "between projects."
+            )
+            self.fields["contribute_workspace_tm"].widget = forms.HiddenInput()
+            self.fields["use_workspace_tm"].help_text = gettext(
+                "Uses and contributes to the pool of shared translations "
+                "between projects in the workspace."
             )
             self.fields["access_control"].choices = [
                 choice
@@ -3705,10 +3787,19 @@ class ReplaceForm(forms.Form):
 
 
 class ReplaceConfirmForm(forms.Form):
+    q = forms.CharField(required=False, widget=forms.HiddenInput)
+    path = forms.CharField(required=False, widget=forms.HiddenInput)
+    search = forms.CharField(
+        min_length=1, required=True, strip=False, widget=forms.HiddenInput
+    )
+    replacement = forms.CharField(
+        min_length=1, required=True, strip=False, widget=forms.HiddenInput
+    )
     units = forms.ModelMultipleChoiceField(queryset=Unit.objects.none(), required=False)
     confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)
 
     def __init__(self, units, *args, **kwargs) -> None:
+        kwargs.setdefault("auto_id", False)
         super().__init__(*args, **kwargs)
         self.fields["units"].queryset = units
 
@@ -4457,7 +4548,13 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("enable"),
+            Field("enable", template="bootstrap5/layout/switch.html"),
+            HTML(
+                format_html(
+                    '<p id="workflow-enable-hint" class="text-muted">{}</p>',
+                    gettext("Turn on customization above to change these settings."),
+                )
+            ),
             Div(
                 Field("translation_review"),
                 Field("enable_suggestions"),

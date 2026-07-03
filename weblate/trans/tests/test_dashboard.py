@@ -169,6 +169,20 @@ class DashboardTest(FixtureTestCase):
         self.assertContains(response, "MIT License")
         self.assertContains(response, 'class="license badge">MIT</span>')
 
+    def test_watched_translations_include_category(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        self.user.profile.watched.add(self.project)
+
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(
+            response,
+            f'<a href="{category.get_absolute_url()}">{category.name}</a>/'
+            f'<a href="{self.component.get_absolute_url()}">{self.component.name}</a>',
+        )
+
     def test_watched_translations_are_sorted_by_language(self) -> None:
         self.user.profile.languages.add(Language.objects.get(code="de"))
         self.user.profile.watched.add(self.project)

@@ -12,6 +12,8 @@ from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.utils.safestring import SafeString
 
+from weblate.trans.forms import get_inherited_settings_label
+
 
 class FormRenderingTest(SimpleTestCase):
     def test_icon_help_text_escapes_title_attribute(self) -> None:
@@ -35,3 +37,16 @@ class FormRenderingTest(SimpleTestCase):
         )
         self.assertNotIn('title="Quote "Needs editing"', rendered)
         self.assertNotIn("<strong>HTML help text</strong>", rendered)
+
+
+class InheritedSettingsLabelTest(SimpleTestCase):
+    def test_inherited_settings_labels_are_complete_translatable_strings(self) -> None:
+        self.assertEqual(
+            get_inherited_settings_label("workspace"), "Inherit from workspace"
+        )
+        self.assertEqual(
+            get_inherited_settings_label("project"), "Inherit from project"
+        )
+        self.assertEqual(
+            get_inherited_settings_label("category"), "Inherit from category"
+        )

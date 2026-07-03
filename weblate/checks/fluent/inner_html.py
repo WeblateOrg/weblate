@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.checks.base import SourceCheck, TargetCheck
+from weblate.checks.base import Highlight, SourceCheck, TargetCheck
 from weblate.checks.fluent.utils import (
     FluentPatterns,
     FluentUnitConverter,
@@ -19,6 +19,7 @@ from weblate.checks.fluent.utils import (
     translation_from_check,
     variant_name,
 )
+from weblate.checks.utils import pair_markup_highlights
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
@@ -1296,7 +1297,10 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
 
         # We simply highlight all HTML tags that are valid tags according to our
         # parser, regardless of whether it matches a tag found in the source.
-        return [
-            (match.start(), match.end(), match.group())
-            for match in self.ALL_TAGS_REGEX.finditer(source)
-        ]
+        return pair_markup_highlights(
+            [
+                Highlight(match.start(), match.end(), match.group(), kind="markup")
+                for match in self.ALL_TAGS_REGEX.finditer(source)
+            ],
+            group_prefix="fluent-html",
+        )
