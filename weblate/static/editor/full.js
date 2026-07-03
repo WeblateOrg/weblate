@@ -279,6 +279,15 @@
       }
       this.initMachinery();
     });
+
+    /* The active tab is restored before the listener above is registered, load it now in that case. */
+    const machineryTab = document.querySelector('[data-load="machinery"]');
+    if (machineryTab?.classList.contains("active")) {
+      if (this.isMachineryLoaded) {
+        return;
+      }
+      this.initMachinery();
+    }
   };
 
   FullEditor.prototype.initMachinery = function () {
