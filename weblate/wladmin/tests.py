@@ -1263,6 +1263,38 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "User invitation e-mail was sent")
         self.assertEqual(len(mail.outbox), 1)
 
+    def test_manage_users_workspace_teams_avoid_workspace_fetches(self) -> None:
+        workspace = Workspace.objects.create(name="User management workspace")
+        groups = [
+            Group.objects.create(
+                name=f"User management workspace team {index}",
+                defining_workspace=workspace,
+            )
+            for index in range(3)
+        ]
+        for index, group in enumerate(groups):
+            Invitation.objects.create(
+                author=self.user,
+                group=group,
+                email=f"workspace-invite-{index}@example.com",
+            )
+
+        # ruff: ignore[private-member-access]
+        workspace_table = Workspace._meta.db_table
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("manage-users"))
+
+        self.assertContains(response, "User management workspace team 0")
+        workspace_fetches = [
+            query["sql"]
+            for query in queries
+            if (
+                f'FROM "{workspace_table}"' in query["sql"]
+                and f'WHERE "{workspace_table}"."id"' in query["sql"]
+            )
+        ]
+        self.assertEqual(workspace_fetches, [])
+
     def test_bulk_invite_user(self) -> None:
         response = self.client.post(
             reverse("manage-users"),

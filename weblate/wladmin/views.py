@@ -675,7 +675,12 @@ class AdminUserList(UserList):
         result["invite_form"] = invite_form
         result["bulk_invite_form"] = bulk_invite_form
         result["search_form"] = self.form
-        result["invitations"] = Invitation.objects.all().select_related("user")
+        result["invitations"] = Invitation.objects.select_related(
+            "user",
+            "group",
+            "group__defining_project",
+            "group__defining_workspace",
+        )
         return result
 
 
