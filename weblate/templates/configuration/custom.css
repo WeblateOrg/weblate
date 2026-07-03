@@ -120,6 +120,29 @@ body {
 }
 {% endif %}
 {% if enforce_hamburger %}
-{% comment %} TODO {% endcomment %}
+@media (min-width: 992px) {
+  .navbar-expand-lg {
+    flex-wrap: wrap !important;
+  }
+  .navbar-expand-lg .navbar-toggler {
+    display: inline-block !important;
+  }
+  .navbar-expand-lg .navbar-collapse {
+    flex-basis: 100% !important;
+  }
+  .navbar-expand-lg .navbar-collapse:not(.show):not(.collapsing) {
+    display: none !important;
+  }
+  .navbar-expand-lg .navbar-collapse.show,
+  .navbar-expand-lg .navbar-collapse.collapsing {
+    display: block !important;
+  }
+  .navbar-expand-lg .navbar-nav {
+    flex-direction: column !important;
+  }
+  .navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: static !important;
+  }
+}
 {% endif %}
 {% endautoescape %}
