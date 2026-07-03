@@ -5,32 +5,50 @@
     {% if header_color_light %}--wl-header-bg: {{ header_color_light }};
     --bs-dark: {{ header_color_light }};
     --bs-dark-rgb: {{ header_color_light|hex_to_rgb }};{% endif %}
-    {% if header_text_color_light %}--wl-header-text: {{ header_text_color_light }};
-    --bs-navbar-color: {{ header_text_color_light }};
-    --bs-navbar-brand-color: {{ header_text_color_light }};{% endif %}
+    {% if header_text_color_light %}--wl-header-text: {{ header_text_color_light }};{% endif %}
     {% if navi_color_light %}--wl-navi-color: {{ navi_color_light }};{% endif %}
     {% if navi_text_color_light %}--wl-navi-text-color: {{ navi_text_color_light }};{% endif %}
-    {% if focus_color_light %}--wl-focus-color: {{ focus_color_light }};
-    --bs-navbar-brand-hover-color: {{ focus_color_light }};{% endif %}
-    {% if hover_color_light %}--wl-hover-color: {{ hover_color_light }};
-    --bs-navbar-hover-color: {{ hover_color_light }};{% endif %}
+    {% if focus_color_light %}--wl-focus-color: {{ focus_color_light }};{% endif %}
+    {% if hover_color_light %}--wl-hover-color: {{ hover_color_light }};{% endif %}
   }
+{% if header_text_color_light or focus_color_light or hover_color_light %}
+  .navbar {
+    {% if header_text_color_light %}--bs-navbar-color: {{ header_text_color_light }};
+    --bs-navbar-brand-color: {{ header_text_color_light }};{% endif %}
+    {% if focus_color_light %}--bs-navbar-brand-hover-color: {{ focus_color_light }};{% endif %}
+    {% if hover_color_light %}--bs-navbar-hover-color: {{ hover_color_light }};{% endif %}
+  }
+{% endif %}
+{% if focus_color_light %}
+  .nav-pills {
+    --bs-nav-pills-link-active-bg: {{ focus_color_light }};
+  }
+{% endif %}
 }
 
 :root[data-bs-theme="light"] {
   {% if header_color_light %}--wl-header-bg: {{ header_color_light }} !important;
   --bs-dark: {{ header_color_light }} !important;
   --bs-dark-rgb: {{ header_color_light|hex_to_rgb }} !important;{% endif %}
-  {% if header_text_color_light %}--wl-header-text: {{ header_text_color_light }} !important;
-  --bs-navbar-color: {{ header_text_color_light }} !important;
-  --bs-navbar-brand-color: {{ header_text_color_light }} !important;{% endif %}
+  {% if header_text_color_light %}--wl-header-text: {{ header_text_color_light }} !important;{% endif %}
   {% if navi_color_light %}--wl-navi-color: {{ navi_color_light }} !important;{% endif %}
   {% if navi_text_color_light %}--wl-navi-text-color: {{ navi_text_color_light }} !important;{% endif %}
-  {% if focus_color_light %}--wl-focus-color: {{ focus_color_light }} !important;
-  --bs-navbar-brand-hover-color: {{ focus_color_light }} !important;{% endif %}
-  {% if hover_color_light %}--wl-hover-color: {{ hover_color_light }} !important;
-  --bs-navbar-hover-color: {{ hover_color_light }} !important;{% endif %}
+  {% if focus_color_light %}--wl-focus-color: {{ focus_color_light }} !important;{% endif %}
+  {% if hover_color_light %}--wl-hover-color: {{ hover_color_light }} !important;{% endif %}
 }
+{% if header_text_color_light or focus_color_light or hover_color_light %}
+[data-bs-theme="light"] .navbar {
+  {% if header_text_color_light %}--bs-navbar-color: {{ header_text_color_light }} !important;
+  --bs-navbar-brand-color: {{ header_text_color_light }} !important;{% endif %}
+  {% if focus_color_light %}--bs-navbar-brand-hover-color: {{ focus_color_light }} !important;{% endif %}
+  {% if hover_color_light %}--bs-navbar-hover-color: {{ hover_color_light }} !important;{% endif %}
+}
+{% endif %}
+{% if focus_color_light %}
+[data-bs-theme="light"] .nav-pills {
+  --bs-nav-pills-link-active-bg: {{ focus_color_light }} !important;
+}
+{% endif %}
 {% endif %}
 {% if header_color_dark or header_text_color_dark or navi_color_dark or navi_text_color_dark or focus_color_dark or hover_color_dark %}
 @media (prefers-color-scheme: dark) {
@@ -38,32 +56,50 @@
     {% if header_color_dark %}--wl-header-bg: {{ header_color_dark }};
     --bs-dark: {{ header_color_dark }};
     --bs-dark-rgb: {{ header_color_dark|hex_to_rgb }};{% endif %}
-    {% if header_text_color_dark %}--wl-header-text: {{ header_text_color_dark }};
-    --bs-navbar-color: {{ header_text_color_dark }};
-    --bs-navbar-brand-color: {{ header_text_color_dark }};{% endif %}
+    {% if header_text_color_dark %}--wl-header-text: {{ header_text_color_dark }};{% endif %}
     {% if navi_color_dark %}--wl-navi-color: {{ navi_color_dark }};{% endif %}
     {% if navi_text_color_dark %}--wl-navi-text-color: {{ navi_text_color_dark }};{% endif %}
-    {% if focus_color_dark %}--wl-focus-color: {{ focus_color_dark }};
-    --bs-navbar-brand-hover-color: {{ focus_color_dark }};{% endif %}
-    {% if hover_color_dark %}--wl-hover-color: {{ hover_color_dark }};
-    --bs-navbar-hover-color: {{ hover_color_dark }};{% endif %}
+    {% if focus_color_dark %}--wl-focus-color: {{ focus_color_dark }};{% endif %}
+    {% if hover_color_dark %}--wl-hover-color: {{ hover_color_dark }};{% endif %}
   }
+{% if header_text_color_dark or focus_color_dark or hover_color_dark %}
+  .navbar {
+    {% if header_text_color_dark %}--bs-navbar-color: {{ header_text_color_dark }};
+    --bs-navbar-brand-color: {{ header_text_color_dark }};{% endif %}
+    {% if focus_color_dark %}--bs-navbar-brand-hover-color: {{ focus_color_dark }};{% endif %}
+    {% if hover_color_dark %}--bs-navbar-hover-color: {{ hover_color_dark }};{% endif %}
+  }
+{% endif %}
+{% if focus_color_dark %}
+  .nav-pills {
+    --bs-nav-pills-link-active-bg: {{ focus_color_dark }};
+  }
+{% endif %}
 }
 
 :root[data-bs-theme="dark"] {
   {% if header_color_dark %}--wl-header-bg: {{ header_color_dark }} !important;
   --bs-dark: {{ header_color_dark }} !important;
   --bs-dark-rgb: {{ header_color_dark|hex_to_rgb }} !important;{% endif %}
-  {% if header_text_color_dark %}--wl-header-text: {{ header_text_color_dark }} !important;
-  --bs-navbar-color: {{ header_text_color_dark }} !important;
-  --bs-navbar-brand-color: {{ header_text_color_dark }} !important;{% endif %}
+  {% if header_text_color_dark %}--wl-header-text: {{ header_text_color_dark }} !important;{% endif %}
   {% if navi_color_dark %}--wl-navi-color: {{ navi_color_dark }} !important;{% endif %}
   {% if navi_text_color_dark %}--wl-navi-text-color: {{ navi_text_color_dark }} !important;{% endif %}
-  {% if focus_color_dark %}--wl-focus-color: {{ focus_color_dark }} !important;
-  --bs-navbar-brand-hover-color: {{ focus_color_dark }} !important;{% endif %}
-  {% if hover_color_dark %}--wl-hover-color: {{ hover_color_dark }} !important;
-  --bs-navbar-hover-color: {{ hover_color_dark }} !important;{% endif %}
+  {% if focus_color_dark %}--wl-focus-color: {{ focus_color_dark }} !important;{% endif %}
+  {% if hover_color_dark %}--wl-hover-color: {{ hover_color_dark }} !important;{% endif %}
 }
+{% if header_text_color_dark or focus_color_dark or hover_color_dark %}
+[data-bs-theme="dark"] .navbar {
+  {% if header_text_color_dark %}--bs-navbar-color: {{ header_text_color_dark }} !important;
+  --bs-navbar-brand-color: {{ header_text_color_dark }} !important;{% endif %}
+  {% if focus_color_dark %}--bs-navbar-brand-hover-color: {{ focus_color_dark }} !important;{% endif %}
+  {% if hover_color_dark %}--bs-navbar-hover-color: {{ hover_color_dark }} !important;{% endif %}
+}
+{% endif %}
+{% if focus_color_dark %}
+[data-bs-theme="dark"] .nav-pills {
+  --bs-nav-pills-link-active-bg: {{ focus_color_dark }} !important;
+}
+{% endif %}
 {% endif %}
 {% if hide_footer %}
 footer {
