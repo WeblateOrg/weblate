@@ -19,6 +19,7 @@ Weblate 2026.7.1
 * Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
 * Anonymous user permission caches are now isolated between requests.
 * GitHub App setup now explains that a workspace is required instead of showing a permission error when no workspace exists.
+* LLM automatic suggestion settings no longer show ``null`` for empty language-specific instructions.
 
 .. rubric:: Compatibility
 

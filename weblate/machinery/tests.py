@@ -3391,6 +3391,30 @@ class LLMBasicMachineryFormTest(TestCase):
             {"language_instructions": language_instructions},
         )
 
+    def test_language_instructions_empty_initial_renders_blank(self) -> None:
+        for initial in (
+            {},
+            {"language_instructions": None},
+            {"language_instructions": {}},
+        ):
+            with self.subTest(initial=initial):
+                form = LLMBasicMachineryForm(
+                    self.DummyLLMTranslation,
+                    initial=initial,
+                )
+
+                self.assertEqual(form["language_instructions"].value(), "")
+
+    def test_language_instructions_initial_renders_json(self) -> None:
+        form = LLMBasicMachineryForm(
+            self.DummyLLMTranslation,
+            initial={"language_instructions": {"fr": "Use formal language."}},
+        )
+
+        self.assertEqual(
+            form["language_instructions"].value(), '{"fr": "Use formal language."}'
+        )
+
     def test_language_instructions_trim_instruction_text(self) -> None:
         form = self.get_form(
             {
