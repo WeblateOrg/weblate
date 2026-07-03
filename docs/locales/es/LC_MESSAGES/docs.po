@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-02 09:16+0000\n"
+"PO-Revision-Date: 2026-07-03 10:01+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:262
@@ -270,7 +270,7 @@ msgstr "`Traducir`"
 
 #: admin/access.rst:118
 msgid "Translate the project and upload translations made offline."
-msgstr "Traduce el proyecto y carga las traducciones realizadas sin conexión."
+msgstr "Traduce el proyecto y sube las traducciones realizadas sin conexión."
 
 #: admin/access.rst:120
 msgid "`Sources`"
@@ -298,7 +298,7 @@ msgstr "`Glosario`"
 
 #: admin/access.rst:128
 msgid "Manage glossary (add, remove, and upload entries)."
-msgstr "Administrar glosario (agregar, eliminar y cargar entradas)."
+msgstr "Administrar glosario (agregar, eliminar y subir apuntes)."
 
 #: admin/access.rst:130
 msgid "`Memory`"
@@ -3712,8 +3712,8 @@ msgstr "Almacenado en :setting:`DATA_DIR` ``/media``."
 #: admin/backup.rst:438
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
-"Debe crear copias de respaldo de todos los archivos que cargan los usuarios "
-"(p. ej., :ref:`screenshots`)."
+"Debe crear copias de respaldo de todos los archivos que suban los usuarios "
+"(p.ej., :ref:`screenshots`)."
 
 #: admin/backup.rst:441
 msgid "Celery tasks"
@@ -4046,9 +4046,8 @@ msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
-"Las fuentes cargadas en Weblate se usan únicamente a efectos de "
-"comprobación :ref:`check-max-size`, no tienen efecto en la interfaz de "
-"usuario de Weblate."
+"Las fuentes subidas en Weblate se usan únicamente a efectos de comprobación "
+":ref:`check-max-size`, no tienen efecto en la interfaz de usuario de Weblate."
 
 #: admin/checks.rst:143
 msgid ""
@@ -4070,7 +4069,7 @@ msgid ""
 msgstr ""
 "La herramienta de gestión de fuentes de Weblate en :guilabel:`Fonts` bajo el "
 "menú :guilabel:`Operations` de tu proyecto de traducción proporciona una "
-"interfaz para cargar y gestionar las fuentes. Se pueden cargar fuentes "
+"interfaz para subir y gestionar las fuentes. Se pueden subir fuentes "
 "TrueType u OpenType, configurar grupos de fuentes y utilizarlas en la "
 "comprobación."
 
@@ -4099,7 +4098,7 @@ msgstr ""
 
 #: admin/checks.rst:166
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr "Puedes tener varias fuentes cargadas en Weblate:"
+msgstr "Puedes tener varias fuentes subidas en Weblate:"
 
 #: admin/checks.rst:170
 msgid ""
@@ -4242,21 +4241,21 @@ msgid ""
 "GitHub account` flow. The App gives Hosted Weblate repository access without "
 "inviting the hosted :guilabel:`weblate` user."
 msgstr ""
+"Para repositorios GitHub en Hosted Weblate, utilice el `Hosted Weblate app "
+"<https://github.com/apps/hosted-weblate>`_ desde el flujo Weblate "
+":guilabel:`Conexión de cuenta GitHub`. El App proporciona acceso al "
+"repositorio Hosted Weblate sin invitar el usuario hospedado "
+":guilabel:`weblate`.."
 
 #: admin/code-hosting.rst:24
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For other Hosted Weblate repositories, and for direct SSH pushes outside the "
 "GitHub App workflow, add the hosted :guilabel:`weblate` user where it is "
 "available, see :ref:`hosted-push`."
 msgstr ""
-"Para los repositorios de Hosted Weblate en Codeberg, añada el "
-"usuario :guilabel:`weblate` donde se necesita acceso de escritura, "
-"consulte :ref:`hosted-push`."
+"Para otros repositorios de Hosted Weblate, y para subida externa directa en "
+"SSH el flujo de trabajo GitHub App, y el usuarios hospedado de "
+":guilabel:`weblate` está disponible, consulte :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:27
 msgid ""
@@ -4607,15 +4606,6 @@ msgid "Weblate comes with native support for GitHub."
 msgstr "Weblate admite GitHub nativamente."
 
 #: admin/code-hosting.rst:259
-#, fuzzy
-#| msgid ""
-#| "If you are using Hosted Weblate, the recommended approach is to install "
-#| "the `Weblate app <https://github.com/apps/weblate>`_. The app delivers "
-#| "GitHub notifications to Hosted Weblate, so you do not need to configure a "
-#| "separate :guilabel:`Webhook` in GitHub. However, it does not by itself "
-#| "grant Hosted Weblate write access to the repository. To push changes "
-#| "back, you still need to add the Hosted Weblate :guilabel:`weblate` GitHub "
-#| "user as a collaborator with write access, see :ref:`hosted-push`."
 msgid ""
 "If you are using Hosted Weblate, use the `Hosted Weblate app <https://"
 "github.com/apps/hosted-weblate>`_ from Weblate's :guilabel:`Connect GitHub "
@@ -4626,13 +4616,12 @@ msgid ""
 "user."
 msgstr ""
 "Si utilizas Hosted Weblate, lo recomendado es instalar la aplicación "
-"`Weblate <https://github.com/apps/weblate>`_. Esta aplicación envía "
-"notificaciones de GitHub a Hosted Weblate, por lo que no necesitas "
-"configurar un :guilabel:`Webhook` aparte en GitHub. Sin embargo, no otorga "
-"automáticamente a Hosted Weblate acceso de escritura al repositorio. Para "
-"enviar los cambios, aún necesitas agregar al usuario de "
-"GitHub :guilabel:`weblate` de Hosted Weblate como colaborador con acceso de "
-"escritura; consulta :ref:`hosted-push`."
+"`Weblate hospedado <https://github.com/apps/hosted-weblate>`_ desde el flujo "
+"de la :guilabel:`Conexión a cuenta GitHub`. Esto utiliza los ganchos web de "
+"GitHub, tales que no necesite configurar un :guilabel:`Webhook` separado en "
+"GitHub. Los componentes importados desde la cuenta GitHub conectada además "
+"utilizan la App para acceder al repositorio y subir solicitudes, sin invitar "
+"al usuario de GitHub que el Weblate Hospede :guilabel:`weblate`."
 
 #: admin/code-hosting.rst:267
 msgid ""
@@ -4640,6 +4629,9 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
+"La `app heredada Weblate Hospedada`_ es mantenida solo para instalaciones de "
+"ganchos web existentes. Utilícela solo cuando necesite que la app heredada "
+"entregue notificaciones en GitHub al Weblate Hospedado."
 
 #: admin/code-hosting.rst:273
 msgid ""
@@ -4648,6 +4640,11 @@ msgid ""
 "GitHub returns the credentials, and they are stored in the database - there "
 "is no settings-based configuration."
 msgstr ""
+"Para Weblate autoalojado, registre la aplicación de GitHub utilizando el "
+"proceso de registro integrado que se describe a continuación. Weblate genera "
+"el manifiesto de la aplicación, GitHub devuelve las credenciales y estas se "
+"almacenan en la base de datos; no existe ninguna configuración basada en "
+"ajustes."
 
 #: admin/code-hosting.rst:281
 msgid "Registering the GitHub App from Weblate"
@@ -4659,15 +4656,20 @@ msgid ""
 "App manifest with the correct permissions, events, and webhook URL pre-"
 "filled:"
 msgstr ""
+"La forma más rápida de agregar la aplicación de GitHub es dejar que Weblate "
+"genere un manifiesto de la aplicación de GitHub con los permisos, eventos y "
+"URL de webhook correctos precargados:"
 
 #: admin/code-hosting.rst:286
 msgid "Sign in to Weblate with an account that has management access."
-msgstr ""
+msgstr "Inicie a Weblate con una cuenta que ha gestionado acceso."
 
 #: admin/code-hosting.rst:287
 msgid ""
 "Open :guilabel:`Manage → VCS Installations → Register Weblate GitHub App`."
 msgstr ""
+"Abra: :guilabel:`Gestión → Instalación VCS → Registrar App GitHub en "
+"Weblate`."
 
 #: admin/code-hosting.rst:289
 msgid ""
@@ -4676,6 +4678,11 @@ msgid ""
 "Leave :guilabel:`Organization` blank to register the App under your personal "
 "account, or enter an organization slug to register it under that org."
 msgstr ""
+"Rellene en el formulario. El :guilabel:`host GitHub` por defecto para "
+"``github.com``; cámbielo al nombre de host GitHub Enterprise si es "
+"necesario. Deje la :guilabel:`Organization` en blanco para registrar la App "
+"bajo su cuenta personal, o introduzca una indicación de organización para "
+"registrarlo bajo esta org."
 
 #: admin/code-hosting.rst:293
 msgid ""
@@ -4683,6 +4690,8 @@ msgid ""
 "GitHub's :guilabel:`Create GitHub App` page (you can still rename the App "
 "there)."
 msgstr ""
+"Pulse :guilabel:`Continuar a GitHub` y confirme en la página "
+":guilabel:`Crear App de GitHub` de GitHub (puede renombrar aún la App allí)."
 
 #: admin/code-hosting.rst:295
 msgid ""
@@ -4691,6 +4700,10 @@ msgid ""
 "database. The :guilabel:`Connect GitHub account` button is available "
 "immediately afterwards."
 msgstr ""
+"GitHub redirige a Weblate, que intercambia el código temporal por el ID de "
+"la aplicación, la clave privada, el secreto del webhook y el slug, y los "
+"almacena en la base de datos. El botón :guilabel:`Conectar cuenta de GitHub` "
+"está disponible inmediatamente después."
 
 #: admin/code-hosting.rst:300
 msgid ""
@@ -6262,7 +6275,7 @@ msgstr ":file:`tipografías`:"
 
 #: admin/config.rst:608
 msgid "User-uploaded fonts, see :ref:`fonts`."
-msgstr "Fuentes cargadas por el usuario, véase :ref:`fonts`."
+msgstr "Fuentes tipográficas subidas por el usuario, consulte :ref:`fonts`."
 
 #: admin/config.rst:610
 msgid "Various caches. Can be placed elsewhere using :setting:`CACHE_DIR`."
@@ -8238,8 +8251,8 @@ msgid ""
 "This rate-limits API calls from Weblate to these services to avoid "
 "overloading them."
 msgstr ""
-"Esta proporción-limite de API invoca desde Weblate a estos servicios para "
-"evitar sobrecargarlos."
+"Esta límites‐proporción de invocadores del API desde Weblate a estos "
+"servicios para evitar sobrecargarlos."
 
 #: admin/config.rst:2720
 msgid ""
@@ -9015,7 +9028,7 @@ msgstr ""
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
-msgstr ""
+msgstr "Ejecuta una vez el purgado sin instalar el complemento."
 
 #: admin/continuous.rst:264
 #, fuzzy
@@ -9037,6 +9050,8 @@ msgstr ""
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
 msgstr ""
+"Ejecute una vez el purgado de PO sin habilitar retirada de cadena obsoleta "
+"automática."
 
 #: admin/continuous.rst:271
 msgid "Reset and reapply recovery behavior"
@@ -9620,8 +9635,8 @@ msgid ""
 "loaded by Weblate, for example from a :ref:`settings override file <docker-"
 "settings-override>`."
 msgstr ""
-"Al usar :ref:`using Docker <docker-deploy>`, puede colocar módulos de Python "
-"en :file:`/app/data/python/` (consulte :ref:`docker-volume`) para que "
+"Al usar :ref:`usando Docker <docker-deploy>`, puede colocar módulos de "
+"Python en :file:`/app/data/python/` (consulte :ref:`docker-volume`) para que "
 "Weblate pueda cargarlos, por ejemplo, desde un archivo de anulación de "
 "configuración :ref:`settings override file <docker-settings-override>`."
 
@@ -13744,6 +13759,10 @@ msgid ""
 "the database, so there are no GitHub App environment variables to configure. "
 "See :ref:`code-hosting-github-notifications`."
 msgstr ""
+"Las Apps de GitHub están registradas a través del flujo de manifiesto en app "
+"y almacenado en la base de datos, tal que no hay variables de entornos de "
+"GitHub App para configurar. Consulte :ref:`code-hosting-github-"
+"notifications`."
 
 #: admin/install/docker.rst:1441
 msgid ""
@@ -18637,10 +18656,8 @@ msgid "Creating new project"
 msgstr "Crear un proyecto nuevo"
 
 #: admin/optionals.rst:395
-#, fuzzy
-#| msgid "`Creating a GitHub personal access token`_"
 msgid "Connecting a GitHub account"
-msgstr "`Crear un vale de acceso personal a GitHub`_"
+msgstr "Conectando una cuenta GitHub"
 
 #: admin/optionals.rst:398
 msgid ""
@@ -19047,10 +19064,8 @@ msgstr ""
 "con :ref:`project-use_shared_tm`."
 
 #: admin/projects.rst:221 admin/workspaces.rst:64
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Use workspace translation memory"
-msgstr "Utilizar memoria de traducción compartida"
+msgstr "Utilice memoria de traducción del espacio de trabajo"
 
 #: admin/projects.rst:223
 msgid ""
@@ -19073,18 +19088,17 @@ msgid ""
 "projects in the same workspace. The workspace has to allow contribution as "
 "well."
 msgstr ""
+"Se debe decidir si se deben aportar traducciones a la memoria de traducción "
+"compartida por los proyectos en el mismo espacio de trabajo. El espacio de "
+"trabajo también debe permitir la contribución."
 
 #: admin/projects.rst:238
-#, fuzzy
-#| msgid ""
-#| "This option is unavailable on Hosted Weblate, it is toggled together "
-#| "with :ref:`project-use_shared_tm`."
 msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together "
 "with :ref:`project-use-workspace-tm`."
 msgstr ""
-"Esta opción no está disponible en Hosted Weblate, se alterna entre sí "
-"con :ref:`project-use_shared_tm`."
+"Esta opción no está disponible en Hosted Weblate, se alterna entre sí con "
+":ref:`project-use-workspace-tm`."
 
 #: admin/projects.rst:247
 msgid ""
@@ -19569,7 +19583,6 @@ msgid "This setting is ignored for Mercurial and Subversion."
 msgstr "Estos ajustes se ignoran para Mercurial y Subversion."
 
 #: admin/projects.rst:602
-#, fuzzy
 msgid ""
 "For Gerrit, this selects the target branch for the review request. Leave it "
 "empty to review against :ref:`component-branch`. Use the short branch name, "
@@ -19580,9 +19593,9 @@ msgid ""
 msgstr ""
 "Para Gerrit, esto selecciona la rama de destino para la solicitud de "
 "revisión. Déjalo vacío para revisar contra :ref:`component-branch`. Usa el "
-"nombre breve de la rama, no ``refs/heads/<branch>``, ``refs/for/<branch>``. "
+"nombre breve de la rama, no ``refs/heads/<branch>`` o ``refs/for/<branch>``. "
 "Gerrit sube opciones puede ser adjuntada tras ``%`` en ajustes, por ejemplo "
-"``main%topic=i10n``; Gerrit los interpreta como la cuenta configurda de "
+"``main%topic=i10n``; Gerrit los interpreta como la cuenta configurada de "
 "Weblate Gerrit."
 
 #: admin/projects.rst:616 devel/gettext.rst:233 formats/android.rst:78
@@ -21901,6 +21914,11 @@ msgid ""
 "upgrade and monitor progress in :guilabel:`Administration` "
 "> :guilabel:`Performance report`. See :ref:`memory-scopes` for details."
 msgstr ""
+"Algunas migraciones realizan la repoblación y la consolidación del ámbito de "
+"la memoria de traducción en segundo plano mediante tareas periódicas de "
+"Celery. Mantén Celery en ejecución tras la migración y supervisa el progreso "
+"en :guilabel:`Administración` > :guilabel:`Informe de rendimiento`. Consulte "
+":ref:`memory-scopes` para obtener más detalles."
 
 #: admin/upgrade.rst:125
 msgid "Version-specific instructions"
@@ -22186,6 +22204,10 @@ msgid ""
 "the workspace. Individual projects also have to enable workspace translation "
 "memory."
 msgstr ""
+"Si los proyectos en este espacio de trabajo pueden usar la memoria de "
+"traducción compartida dentro del espacio de trabajo. Los proyectos "
+"individuales también tienen que habilitar la memoria de traducción del "
+"espacio de trabajo."
 
 #: admin/workspaces.rst:74
 msgid ""
@@ -22193,6 +22215,9 @@ msgid ""
 "workspace translation memory. Individual projects also have to enable "
 "contribution."
 msgstr ""
+"Si los proyectos en este espacio de trabajo pueden contribuir traducciones a "
+"la memoria de traducción del espacio de trabajo. Los proyectos individuales "
+"también tienen que habilitar la contribución."
 
 #: admin/workspaces.rst:82
 msgid ""
@@ -22843,6 +22868,9 @@ msgid ""
 "accelerator` quality checks for :ref:`mdx` JSX expressions, source length "
 "limits, and accelerator key consistency."
 msgstr ""
+"Añadidas comprobaciones de calidad: :ref:`check-safe-mdx`, :ref:`check-"
+"source-max-length`, y :ref:`check-accelerator` para expresiones :ref:`mdx` "
+"JSK, límites de longitud de fuente, y consistencia de tecla acelerador."
 
 #: changes.rst:9
 msgid ""
@@ -22857,6 +22885,8 @@ msgid ""
 "Added :ref:`code-hosting-github-app-register` for connecting GitHub "
 "repositories through a Weblate GitHub App."
 msgstr ""
+"Añadido :ref:`code-hosting-github-app-register` para conectar repositorios "
+"GitHub a través de una App GitHub de Weblate."
 
 #: changes.rst:11
 msgid ""
@@ -22879,12 +22909,15 @@ msgstr ""
 #: changes.rst:13
 msgid "Added an option to capitalize the text in status badge widgets."
 msgstr ""
+"Añadida una opción para capitalizar el texto en widget de insignia de estado."
 
 #: changes.rst:14
 msgid ""
 "Added :ref:`workspace translation memory <memory-scopes>` with asynchronous "
 "scope backfill for existing translation memory entries."
 msgstr ""
+"Añadida :ref:`workspace translation memory <memory-scopes>` con relleno de "
+"ámbito asíncrono para apuntes de memoria de la traducción existente."
 
 #: changes.rst:15
 msgid ""
@@ -22917,6 +22950,8 @@ msgid ""
 "RTL editing and translation display now handle bidirectional text better, "
 "including Unicode isolate controls in the :ref:`visual-keyboard`."
 msgstr ""
+"RTL editando y traduciendo pantalla ahora manipula texto bidireccional "
+"mejor, incluyendo controles aislados Unicode en el :ref:`visual-keyboard`."
 
 #: changes.rst:20
 msgid ""
@@ -22927,19 +22962,16 @@ msgstr ""
 "permisos dedicados a nivel de sitio."
 
 #: changes.rst:21
-#, fuzzy
-#| msgid ""
-#| "Default commit and merge request message templates now use Conventional "
-#| "Commits, and settings forms can restore installation defaults for "
-#| "individual message templates."
 msgid ""
 "Default commit and merge request message templates now use Conventional "
 "Commits, settings forms can restore installation defaults, and pull request "
 "messages use a compact language progress matrix."
 msgstr ""
-"Por defecto las plantillas de mensajes solicitados de consigna y fusión "
-"ahora utilizan Consignas Convencionales, y formularios de ajustes pueden "
-"restaurar instalación por defecto para plantillas de mensaje individual."
+"Las plantillas predeterminadas de mensajes de confirmación y de solicitudes "
+"de fusión ahora utilizan «Conventional Commits», los formularios de ajustes "
+"permiten restablecer los valores predeterminados de la instalación y los "
+"mensajes de solicitudes de extracción utilizan una matriz compacta de "
+"progreso del lenguaje."
 
 #: changes.rst:22
 msgid ""
@@ -22950,19 +22982,17 @@ msgstr ""
 "páginas legales o deshabilitar la numeración de documentos."
 
 #: changes.rst:23
-#, fuzzy
-#| msgid ""
-#| "Clarified security metadata, vulnerability reporting, hosted-service "
-#| "incident response, and self-hosted operator responsibilities."
 msgid ""
 "Expanded :doc:`security documentation </security/index>` for data residency, "
 "EU cloud sovereignty, release artifacts, supported versions, release "
 "verification, SBOMs, dependency handling, vulnerability reporting, hosted-"
 "service incident response, and self-hosted operator responsibilities."
 msgstr ""
-"Clarificados metadatos de seguridad, informes de vulnerabilidad, respuesta "
-"de incidencia del servicio hospedado, y responsabilidades de operador de "
-"hospedaje autónomo."
+"Expandió :doc:`security documentation </security/index>` para datos "
+"redidentes, soberanía de nube UE, liberación de artefactos, versiones "
+"admitidas, verificación de lanzamiento, SBOM, dependencia manipulada, "
+"informes de vulnerabilidad, respuesta de incidencia del servicio hospedado, "
+"y responsabilidades de operador de hospedaje autónomo."
 
 #: changes.rst:24
 msgid ""
@@ -22982,22 +23012,16 @@ msgstr ""
 "archivo fuente."
 
 #: changes.rst:26
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-#| "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, "
-#| "and :ref:`addon-weblate.gettext.sphinx` to update POT files with "
-#| "configurable update cadence."
 msgid ""
 ":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
 "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-"
 "weblate.gettext.sphinx` can now keep source locations in generated POT files "
 "even when translated PO files omit locations."
 msgstr ""
-"Fue añadido :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-"weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, y :ref:`addon-"
-"weblate.gettext.sphinx` para actualizar archivos POT con cadencia de "
-"actualización configurable."
+":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, "
+":ref:`addon-weblate.gettext.django`, y :ref:`addon-weblate.gettext.sphinx` "
+"ahora pueden mantener localizaciones de la fuente en archivos POT generados "
+"incluso cuando omita los lugares de archivos PO traducidos."
 
 #: changes.rst:27
 msgid ""
@@ -23058,30 +23082,25 @@ msgstr ""
 "traducción."
 
 #: changes.rst:34
-#, fuzzy
-#| msgid ""
-#| ":ref:`gettext` files can now be configured to remove obsolete strings on "
-#| "save."
 msgid ""
 ":ref:`gettext` files can now be configured to remove obsolete strings on "
 "save, including during repository maintenance."
 msgstr ""
 "Los archivos de :ref:`gettext` ahora pueden ser configurados para eliminar "
-"cadenas obsoletas al guardar."
+"cadenas obsoletas al guardar, incluyendo durante el mantenimiento del "
+"repositorio."
 
 #: changes.rst:35
-#, fuzzy
 msgid ""
 ":ref:`Bulk accepting suggestions <suggestions>` now confirms the number of "
 "affected suggestions, can approve them for reviewers, and processes the "
 "acceptance in the background."
 msgstr ""
-":ref:`Aceptación masiva de sugerencias <sugerencias>` ahora confirma el "
+":ref:`Aceptación masiva de sugerencias <suggestions>` ahora confirma el "
 "número de sugerencias afectadas, puede aprobarlas para los revisores y "
 "procesa la aceptación en segundo plano."
 
 #: changes.rst:36
-#, fuzzy
 msgid ""
 "Committing large numbers of pending translations now queues browser requests "
 "in the background and avoids duplicate repository commit tasks."
@@ -23108,20 +23127,22 @@ msgstr ""
 "seguras y expone ajustes de temporización de entrega expuesta."
 
 #: changes.rst:39
-#, fuzzy
 msgid ""
 "Component diagnostics now sort entries by severity, color-code severity "
 "badges, and show the error count on the :guilabel:`Diagnostics` tab."
 msgstr ""
-"Ahora, el diagnóstico de componentes ordena las entradas por gravedad, "
-"asigna un código de color a los indicadores de gravedad y muestra el número "
-"de errores en la pestaña :guilabel:`Diagnóstico`."
+"Los diagnósticos del componente ahora ordena los apuntes por gravedad, "
+"insignias de severidad codificadas por color, y muestra el número de errores "
+"en la pestaña :guilabel:`Diagnóstico`."
 
 #: changes.rst:40
 msgid ""
 ":ref:`manage-performance` now shows PostgreSQL database disk usage next to "
 "server disk usage and warns when the database usage cannot be collected."
 msgstr ""
+":ref:`manage-performance` ahora muestra disco con base de datos PostgreSQL "
+"utilizando tras el uso del disco del servidor y advierte cuando el uso de la "
+"base de datos no puede ser coleccionado."
 
 #: changes.rst:41
 msgid ""
@@ -23130,6 +23151,10 @@ msgid ""
 "there is not enough free space in the backup destination to store a database "
 "dump."
 msgstr ""
+":ref:`manage-performance` ahora muestra el uso de disco en la base de datos "
+"PostgreSQL siguiente al uso del disco del servidor y avisa cuando el uso de "
+"la base de datos no pueda ser recogido o no hay suficiente espacio libre en "
+"el destino de respaldo para almacenar un volcado de base de datos."
 
 #: changes.rst:42
 msgid ""
@@ -23166,52 +23191,47 @@ msgid ""
 "expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-"
 "q949`)."
 msgstr ""
+":ref:`check-regex` y :ref:`check-placeholders` ahora refuerza expresión "
+"regular vencidas cuando evalúen indicadores de cadena origen (:ghsa:`r52j-"
+"4vjp-q949`)."
 
 #: changes.rst:47
-#, fuzzy
-#| msgid ""
-#| "Empty component lists are no longer exposed to users without component "
-#| "list management permission."
 msgid ""
 "Restricted component changes are no longer exposed through nested project, "
 "component, or translation API change endpoints (:ghsa:`92m8-wv36-prmx`)."
 msgstr ""
-"Listados del componente vacío no son expuestos por más tiempo a los usuarios "
-"sin permiso de gestión del listado del componente."
+"Cambios de componente restringido no son expuestos más por medio de proyecto "
+"anidado, componente, o cambio de API de traducción en puntos finales "
+"(:ghsa:`92m8-wv36-prmx`)."
 
 #: changes.rst:48
-#, fuzzy
 msgid ""
 "ZIP downloads, including :ref:`appstore` translation bundles, no longer "
 "follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-"
 "r2rj`)."
 msgstr ""
-"Las descargas de archivos ZIP ya no siguen los enlaces simbólicos del "
-"repositorio que se encuentran fuera del árbol de descargas."
+"Las descargas de archivos ZIP, incluyendo manojos :ref:`appstore`, no siguen "
+"más enlace simbólicos heredados fuera del árbol descargado (:ghsa:`xwj4-fp82-"
+"r2rj`)."
 
 #: changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "Teams enforcing two-factor authentication now also withhold site-wide "
-#| "permissions from human members without 2FA configured."
 msgid ""
 "Teams enforcing two-factor authentication now also withhold site-wide "
 "permissions from human members without 2FA configured (:ghsa:`x86c-ff69-"
 "cr2m`)."
 msgstr ""
 "Equipos reforzados con autenticación de factor-dos ahora además sin permisos "
-"por todo el sitio desde miembros humanos sin 2FA configurado."
+"por todo el sitio desde miembros humanos sin 2FA configurado (:ghsa:`x86c-"
+"ff69-cr2m`)."
 
 #: changes.rst:50
-#, fuzzy
-#| msgid ""
-#| "Hardened HTML and AJAX object lookups against private project enumeration."
 msgid ""
 "Globally scoped HTML and AJAX object lookups no longer disclose object "
 "existence in private projects (:cve:`2026-55227`, :ghsa:`2p9g-x3cv-5hh4`)."
 msgstr ""
-"Búsquedas de objeto HTML y AJAX reforzados frente a enumeración de proyecto "
-"privado."
+"Búsquedas de objeto HTML y AJAX globalmente delimitada de búsqueda ya no se "
+"divulgará la existencia de objetos en proyectos privados (:cve:`2026-55227`, "
+":ghsa:`2p9g-x3cv-5hh4`)."
 
 #: changes.rst:51
 msgid ""
@@ -23223,8 +23243,8 @@ msgstr ""
 #: changes.rst:52
 msgid "Malformed ``replacements`` flags no longer abort source length checks."
 msgstr ""
-"Indicador malformado ``replazaments`` no aborta más las comprobaciones de "
-"longitud de fuente."
+"Indicador ``replazaments`` malformado no aborta más las comprobaciones de "
+"longitud del origen."
 
 #: changes.rst:53
 msgid ""
@@ -23235,20 +23255,21 @@ msgstr ""
 "sin permiso de gestión del listado del componente."
 
 #: changes.rst:54
+#, fuzzy
 msgid ""
 "Glossary handling no longer duplicates TBX terms or shows source-language "
 "terms in both translation columns."
 msgstr ""
+"El manejo del glosario ya no duplica los términos TBX ni muestra los "
+"términos del idioma de origen en ambas columnas de traducción."
 
 #: changes.rst:55
-#, fuzzy
-#| msgid "Added add-on to remove blank strings from translation files."
 msgid ""
 "Duplicate string alerts now offer a cleanup action to remove repeated "
 "strings from translation files."
 msgstr ""
-"Se sumó complemento para quitar las cadenas en blanco desde archivos de "
-"traducción."
+"Las alertas de cadena duplicada ahora ofrecen una acción de purga para "
+"retirar cadenas repetidas desde archivos de traducción."
 
 #: changes.rst:56
 #, fuzzy
@@ -23420,6 +23441,8 @@ msgid ""
 "Unsupported upload levels now show an upload placeholder pointing to "
 "individual translations."
 msgstr ""
+"Los niveles de subida no compatibles ahora muestran un marcador de posición "
+"de subida que apunta a traducciones individuales."
 
 #: changes.rst:75
 msgid ""
