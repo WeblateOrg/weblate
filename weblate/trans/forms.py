@@ -199,6 +199,7 @@ GROUP_TEMPLATE = """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar float-end editor-toolbar">{0}</div>
 """
+MIN_COST_ESTIMATE_TM_THRESHOLD = 75
 
 
 class FieldDocsMixin(forms.Form):
@@ -1793,7 +1794,7 @@ class CostEstimateReportsForm(forms.Form):
     tm_threshold = forms.IntegerField(
         label=gettext_lazy("Translation memory threshold"),
         initial=MACHINERY_DEFAULT_THRESHOLD,
-        min_value=1,
+        min_value=MIN_COST_ESTIMATE_TM_THRESHOLD,
         max_value=100,
     )
     rate_new = forms.DecimalField(

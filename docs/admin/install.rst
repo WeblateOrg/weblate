@@ -493,6 +493,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
         CREATE EXTENSION IF NOT EXISTS pg_trgm;
         CREATE EXTENSION IF NOT EXISTS btree_gin;
+        CREATE EXTENSION IF NOT EXISTS btree_gist;
 
 .. _config-postgresql:
 
