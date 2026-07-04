@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-04 14:15+0000\n"
+"PO-Revision-Date: 2026-07-04 15:11+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -5653,11 +5653,13 @@ msgid ""
 "It expects a list of host/domain names. You can use fully qualified names or "
 "prepend with a period as a wildcard to match all subdomains."
 msgstr ""
+"Espera uma lista de anfitriões/nomes de domínio. Pode usar nomes "
+"qualificados completos ou anteceder com um ponto enquanto caratere curinga "
+"para corresponder todos os subdomínios."
 
 #: admin/config.rst:100
-#, fuzzy
 msgid "Defaults to ``[]``."
-msgstr "A predefinição é \"True\"."
+msgstr "A predefinição é ``[]``."
 
 #: admin/config.rst:102
 msgid ""
@@ -5681,16 +5683,12 @@ msgstr ""
 "mesmas verificações de DNS local nem de IP de pares."
 
 #: admin/config.rst:117
-#, fuzzy
-#| msgid ""
-#| "Configures how long activity logs for add-ons are kept. Defaults to 180 "
-#| "days."
 msgid ""
 "Configures size limit in bytes for fetching or uploading assets into "
 "Weblate. Defaults to 10 MB."
 msgstr ""
-"Configura por quanto tempo os logs de atividade dos complementos são "
-"mantidos. O padrão é de 180 dias."
+"Configura o limite de tamanho em bytes para buscar ou carregar recursos para "
+"o Weblate. A predefinição é 10MB."
 
 #: admin/config.rst:132
 msgid ""
@@ -5699,12 +5697,19 @@ msgid ""
 "follow Django host matching semantics, so values such as "
 "``assets.internal.example`` or ``.internal.example`` can be used."
 msgstr ""
+"Define os nomes de anfitriões ou domínios isentos de "
+":setting:`ASSET_RESTRICT_PRIVATE` para o descarregar de recursos remotos que "
+"aplicam verificações de alvo privado. Entradas seguem semânticas de "
+"correspondência de anfitriões Django, e por isso valores com o "
+"``assets.internal.example`` ou ``.internal.example`` podem ser usados."
 
 #: admin/config.rst:137
 msgid ""
 "This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must "
 "still match the asset domain allowlist."
 msgstr ""
+"Isto não substitui :setting:`ALLOWED_ASSET_DOMAINS`; recursos remotos ainda "
+"têm que corresponder a lista de permissões de domínios de recursos."
 
 #: admin/config.rst:140 admin/config.rst:1926 admin/config.rst:1960
 #: admin/config.rst:2037
@@ -5717,6 +5722,9 @@ msgid ""
 "the target host is included in :setting:`ASSET_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"Rejeita URLs de recursos remotos que apontam para endereços internos ou não "
+"públicos a não ser que o anfitrião alvo está incluído na "
+":setting:`ASSET_PRIVATE_ALLOWLIST`. Ativo por predefinição."
 
 #: admin/config.rst:162
 msgid ""
@@ -5726,25 +5734,33 @@ msgid ""
 "URL uploads and remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` "
 "add-on."
 msgstr ""
+"Quando ativo, nomes de anfitrião que não podem ser resolvidos durante a "
+"validação são rejeitados, a não ser que sejam explicitamente incluídos em "
+":setting:`ASSET_PRIVATE_ALLOWLIST`. Isto atualmente aplica-se a URL de "
+"envios de capturas de ecrã e descarregamentos HTML remotos para o extra "
+":ref:`addon-weblate.cdn.cdnjs`."
 
 #: admin/config.rst:181
 msgid ""
 "Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``."
 msgstr ""
+"Custo de tempo do Argon2id para o desafio de prova de trabalho ALTCHA. A "
+"predefinição é ``3``."
 
 #: admin/config.rst:183
 msgid ""
 "Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget "
 "v2."
 msgstr ""
+"Susbtitui ``ALTCHA_MAX_NUMBER``, que é aplicado ao widget removido ALTCHA v2."
 
 #: admin/config.rst:192
 msgid "Argon2id memory cost in KiB. Defaults to ``65536``."
-msgstr ""
+msgstr "Custo de memória do Argon2id em KiB. A predefinição é ``65536``."
 
 #: admin/config.rst:201
 msgid "Argon2id parallelism factor. Defaults to ``1``."
-msgstr ""
+msgstr "O fator de paralelismo do Argon2id. A predefinição é ``1``."
 
 #: admin/config.rst:205
 msgid ""
@@ -6017,6 +6033,10 @@ msgid ""
 "so :setting:`CACHE_DIR` has to be writable and mounted on a filesystem that "
 "allows execution. Avoid using ``noexec`` mount options for this directory."
 msgstr ""
+"O Weblate armazena ficheiros auxiliares gerados aqui e executa alguns deles, "
+"por isso tem que ser possível escrever em :setting:`CACHE_DIR` e montado em "
+"um sistema de ficheiros que permite execução. Evite usar as opções de "
+"montagem ``noexec`` para este diretório."
 
 #: admin/config.rst:441 admin/config.rst:612
 msgid ""
@@ -6032,7 +6052,7 @@ msgstr "Os subdiretórios seguintes geralmente existem:"
 
 #: admin/config.rst:446
 msgid "Generated helper files used for VCS access."
-msgstr ""
+msgstr "Ficheiros auxiliares gerados usado para acesso VCS."
 
 #: admin/config.rst:448
 msgid ":program:`font-config` cache for :ref:`fonts`."
@@ -6063,11 +6083,6 @@ msgstr ""
 "CSP_FORM_SRC"
 
 #: admin/config.rst:466
-#, fuzzy
-#| msgid ""
-#| "Customize :http:header:`Content-Security-Policy` header for Weblate. The "
-#| "header is automatically generated based on enabled integrations with "
-#| "third-party services (Matomo, Google Analytics, Sentry, …)."
 msgid ""
 "Customize the :http:header:`Content-Security-Policy` header for Weblate. The "
 "header is automatically generated based on enabled integrations with third-"
@@ -6078,8 +6093,6 @@ msgstr ""
 "ativadas com serviços de terceiros (Matomo, Google Analytics, Sentry, ...)."
 
 #: admin/config.rst:470
-#, fuzzy
-#| msgid "All these default to empty list."
 msgid "All these default to an empty list."
 msgstr "Todos esses tem uma lista vazia como predefinição."
 
@@ -6147,22 +6160,20 @@ msgstr ""
 "tarefa de segundo plano."
 
 #: admin/config.rst:552
-#, fuzzy
-#| msgid ""
-#| "Configures how long activity logs for add-ons are kept. Defaults to 180 "
-#| "days."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded component ZIP files. "
 "Defaults to 50 MB."
 msgstr ""
-"Configura por quanto tempo os logs de atividade dos complementos são "
-"mantidos. O padrão é de 180 dias."
+"Configura o tamanho máximo, em bytes, para ficheiros ZIP de componentes "
+"enviados. A predefinição é 50MB."
 
 #: admin/config.rst:555
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE`` environment variable."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_COMPONENT_ZIP_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:569
 msgid ""
@@ -6173,10 +6184,6 @@ msgstr ""
 "configuração que corresponda à configuração do seu servidor de e-mail."
 
 #: admin/config.rst:573
-#, fuzzy
-#| msgid ""
-#| "The sender is used in as :mailheader:`Reply-To`, this is the default "
-#| "behaviour."
 msgid ""
 "The sender is used as :mailheader:`Reply-To`, this is the default behaviour."
 msgstr ""
@@ -6184,10 +6191,6 @@ msgstr ""
 "padrão."
 
 #: admin/config.rst:575
-#, fuzzy
-#| msgid ""
-#| "The sender is used in as :mailheader:`From`. Your mail server needs to "
-#| "allow sending such e-mails."
 msgid ""
 "The sender is used as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
@@ -6197,7 +6200,7 @@ msgstr ""
 
 #: admin/config.rst:578
 msgid "Disables the contact form entirely."
-msgstr ""
+msgstr "Desativa o formulário de contacto na íntegra."
 
 #: admin/config.rst:592
 msgid ""
@@ -16198,6 +16201,10 @@ msgid ""
 "forms the language has, and the formula returns the zero-based index of the "
 "plural form to use for a count ``n``."
 msgstr ""
+"A fórmula usa a mesma sintaxe de expressão que a parte ``plural=`` do "
+"cabeçalho do Gettext ``Plural-Forms``. O valor ``nplurals`` define quantas "
+"formas de plural o idioma tem, e a fórmula devolve o índice com base zero da "
+"forma de plural a usar para o número ``n``."
 
 #: admin/languages.rst:185
 msgid ""
@@ -51578,6 +51585,12 @@ msgid ""
 "may operate from various jurisdictions. This model identifies and classifies "
 "threats associated with external translation contributors."
 msgstr ""
+"Externalização ou crowdsourcing de tarefas de tradução para terceiros "
+"introduz riscos de segurança e privacidade adicionais. Ao contrário de "
+"equipas de desenvolvimento internas, tradutores podem ter relações de "
+"confiança limitados com a organização e podem operar a partir de várias "
+"jurisdições. Este modelo identifica e classifica ameaças associadas com "
+"colaboradores de traduções externos."
 
 #: security/localization-threat.rst:7
 msgid "Key Assumptions"
@@ -54780,6 +54793,12 @@ msgid ""
 "Weblate does not claim a fixed universal resource ceiling independent of "
 "deployment capacity. *(maintainer)*"
 msgstr ""
+"Limites de recursos neste modelo são as predefinições de configuração "
+"documentadas onde as mesmas existem, especialmente limites de importação de "
+"cópias de segurança e limites de taxas. Para tamanho de repositório, número "
+"de projetos, número de componentes, e volume de tradução, o Weblate não "
+"afirma um teto universal fixo independente de capacidade da implementação. *"
+"(responsável pela manutenção)*"
 
 #: security/threat-model.rst:604
 msgid "Security properties Weblate does not provide"
@@ -67662,6 +67681,7 @@ msgstr ""
 "esses dados onde quer que o seu perfil de utilizador apareça."
 
 #: user/profile.rst:230
+#, fuzzy
 msgid ""
 "Public profile URLs, such as :guilabel:`Website URL`, :guilabel:`Contact "
 "URL`, :guilabel:`Fediverse URL`, and :guilabel:`Code site URL`, should point "
@@ -67669,6 +67689,12 @@ msgid ""
 "can be rejected, and public profile links show a warning before leaving "
 "Weblate where possible."
 msgstr ""
+"URLs de perfis públicos, como :guilabel:`URL do website`, :guilabel:`URL de "
+"contacto`, :guilabel:`URL do Fediverse `, e :guilabel:`URL do site de "
+"código`, devem apontar para um website, contacto, ou página de perfil. Links "
+"de descarregamento de ficheiros diretos óbvios podem ser rejeitados, e links "
+"de perfis públicos mostram um aviso antes de sair do Weblate sempre que "
+"possível."
 
 #: user/profile.rst:236
 msgid ""
@@ -68919,6 +68945,10 @@ msgid ""
 "target language and project. If the source string uses an ambiguous plural, "
 "report it with a source string comment or review."
 msgstr ""
+"Traduza cada campo de plural que o Weblate mostra. Não combine formas em uma "
+"única construção como ``ficheiro(s)`` a não ser que isso seja correto para o "
+"idioma alvo e o projeto. Se a cadeia de carateres fonte usa um plural "
+"ambíguo, reporte-o com um comentário ou análise de cadeia de carateres fonte."
 
 #: user/translating.rst:190
 msgid ""
