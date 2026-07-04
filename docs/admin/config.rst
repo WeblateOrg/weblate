@@ -2851,7 +2851,7 @@ WEBLATE_EXPORTERS
 
 .. versionadded:: 4.2
 
-List of a available exporters offering downloading translations
+List of available exporters offering translation downloads
 or glossaries in various file formats.
 
 .. seealso::

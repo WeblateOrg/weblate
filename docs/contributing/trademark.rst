@@ -46,7 +46,7 @@ General Guidelines
 Social Media Guidelines
 +++++++++++++++++++++++
 
-In addition to the General Guidelines above, the name and handle of your social media account and all pages cannot begin with an Weblate trademark. In addition, Weblate logos cannot be used in a way that might suggest affiliation with Weblate, including, but not limited to, the account, profile, or header images. The only exception to these requirements is if you've received prior permission from Weblate.
+In addition to the General Guidelines above, the name and handle of your social media account and all pages cannot begin with a Weblate trademark. In addition, Weblate logos cannot be used in a way that might suggest affiliation with Weblate, including, but not limited to, the account, profile, or header images. The only exception to these requirements is if you've received prior permission from Weblate.
 
 For example, you cannot name your account, page, or community "Weblate Representatives" or "Weblate Software". However, it would be acceptable to name your account, page, or community "Fans of Weblate" or "Information about Weblate Software" if you do not use the Weblate trademarks or Weblate logos or otherwise suggest any affiliation with Weblate.
 

@@ -39,9 +39,9 @@ the ``Authorization`` header:
     parameters here apply to all endpoints as well.
 
     :query format: Response format (overrides :http:header:`Accept`).
-                   Possible values depends on REST framework setup,
+                   Possible values depend on REST framework setup,
                    by default ``json``, ``csv`` and ``api`` are supported. The
-                   latter provides web browser interface for API.
+                   latter provides a web browser interface for the API.
     :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
     :query page_size: Return the given number of items per request.
                       The default is 50 and the maximum is 1000.

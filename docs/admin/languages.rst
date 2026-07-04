@@ -160,7 +160,7 @@ file-format specifications, CLDR, and other sources.
 
    Changing plural number or formula will affect only displaying of the
    strings, but not parsing and storing strings to the files. Should you think
-   Weblate behaves incorrectly, please file a issue in our issue tracker.
+   Weblate behaves incorrectly, please file an issue in our issue tracker.
 
 
 .. _plural-number:
