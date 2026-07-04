@@ -160,12 +160,12 @@ jobs:
     name: Argos CI upload
     needs:
     - test
-    if: github.repository_owner == 'WeblateOrg'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository_owner == 'WeblateOrg'
     permissions:
       contents: read
       id-token: write
       pull-requests: read
-    steps:
+    steps: &argos-upload-steps
     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         persist-credentials: false
@@ -183,3 +183,14 @@ jobs:
     - name: Argos CI upload
       working-directory: ./client
       run: yarn argos upload ../test-images/
+
+  argos-pull-request:
+    runs-on: ubuntu-24.04
+    name: Argos CI pull request upload
+    needs:
+    - test
+    if: github.event_name == 'pull_request' && github.repository_owner == 'WeblateOrg'
+    permissions:
+      contents: read
+      pull-requests: read
+    steps: *argos-upload-steps
