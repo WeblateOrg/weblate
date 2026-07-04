@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-04 02:56+0000\n"
+"PO-Revision-Date: 2026-07-04 14:15+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -5292,10 +5292,8 @@ msgid "Pagure"
 msgstr "Pagure"
 
 #: admin/code-hosting.rst:706
-#, fuzzy
-#| msgid "GitHub repositories"
 msgid "Pagure repository access"
-msgstr "Repositórios do GitHub"
+msgstr "Acesso de repositório Pagure"
 
 #: admin/code-hosting.rst:721
 #, fuzzy
@@ -5304,12 +5302,6 @@ msgid "Pagure notifications"
 msgstr "Notificações alargadas de componente"
 
 #: admin/code-hosting.rst:723
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Pagure hooks, add a webhook with destination to "
-#| "``/hooks/pagure/`` URL on your Weblate installation (for example "
-#| "``https://hosted.weblate.org/hooks/pagure/``). This can be done "
-#| "in :guilabel:`Activate Web-hooks` under :guilabel:`Project options`:"
 msgid ""
 "Weblate has support for Pagure hooks. Add a webhook with destination to ``/"
 "hooks/pagure/`` URL on your Weblate installation, for example ``https://"
@@ -5317,8 +5309,8 @@ msgid ""
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
 "O Weblate tem suporte para ganchos Pagure. Adicione um webhook com destino a "
-"URL ``/hooks/pagure/`` na instalação do Weblate (por exemplo, ``https://"
-"hosted.weblate.org/hooks/pagure/``). Isso pode ser feito em :guilabel:`Web-"
+"URL ``/hooks/pagure/`` na instalação do Weblate por exemplo, ``https://"
+"hosted.weblate.org/hooks/pagure/``. Isso pode ser feito em :guilabel:`Web-"
 "hooks` em :guilabel:`Project options`:"
 
 #: admin/code-hosting.rst:732
@@ -5330,28 +5322,16 @@ msgid "Pagure merge requests"
 msgstr "Merge requests do Pagure"
 
 #: admin/code-hosting.rst:742
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to allow "
 "pushing translation changes as merge requests instead of pushing directly to "
 "the repository."
 msgstr ""
-"Isto apenas adiciona uma camada fina sobre o :ref:`vcs-git` a usar a `API do "
+"Isto adiciona uma camada fina sobre o :ref:`vcs-git` a usar a `API do "
 "Pagure`_ para permitir fazer push de alterações de tradução como merge "
 "requests, ao invés de fazer push diretamente para o repositório."
 
 #: admin/code-hosting.rst:746
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, "
-#| "ordinary :ref:`vcs-git` works the same, the only difference is how "
-#| "pushing to a repository is handled. With :ref:`vcs-git` changes are "
-#| "pushed directly to the repository, while :ref:`vcs-pagure` creates merge "
-#| "request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -5361,41 +5341,30 @@ msgstr ""
 "Não há necessidade de usar isto para aceder a repositórios Git, o :ref:`vcs-"
 "git` comum funciona da mesma forma, sendo a única diferença o modo como o "
 "envio para um repositório é manipulado. Com :ref:`vcs-git`, o envio das "
-"alterações é feito diretamente para o repositório, enquanto :ref:`vcs-"
-"pagure` cria pedidos de fusão."
+"alterações é feito diretamente para o repositório, enquanto que o backend "
+":guilabel:`Pagure` cria pedido um merge request."
 
 #: admin/code-hosting.rst:751
 msgid ""
 "To create merge requests, select :guilabel:`Pagure` as :ref:`component-vcs` "
 "and configure :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
+"Para criar merge requests, selecione :guilabel:`Pagure` enquanto "
+":ref:`component-vcs` e configure :setting:`PAGURE_CREDENTIALS`."
 
 #: admin/code-hosting.rst:757
-#, fuzzy
-#| msgid "Other notes"
 msgid "Other workflows"
-msgstr "Outras notas"
+msgstr "Outros fluxos de trabalho"
 
 #: admin/code-hosting.rst:762
-#, fuzzy
-#| msgid "GitHub repositories"
 msgid "Gitee repository access"
-msgstr "Repositórios do GitHub"
+msgstr "Acesso de repositório Gitee"
 
 #: admin/code-hosting.rst:777
-#, fuzzy
-#| msgid "Notifications"
 msgid "Gitee notifications"
-msgstr "Notificações"
+msgstr "Notificações Gitee"
 
 #: admin/code-hosting.rst:779
-#, fuzzy
-#| msgid ""
-#| "Weblate has support for Gitee webhooks, add a :guilabel:`WebHook` "
-#| "for :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on "
-#| "your Weblate installation (for example ``https://hosted.weblate.org/hooks/"
-#| "gitee/``). This can be done in :guilabel:`WebHooks` under "
-#| "repository :guilabel:`Management`."
 msgid ""
 "Weblate has support for Gitee webhooks. Add a :guilabel:`WebHook` "
 "for :guilabel:`Push` event with destination to ``/hooks/gitee/`` URL on your "
@@ -5403,46 +5372,34 @@ msgid ""
 "``. This can be done in :guilabel:`WebHooks` under "
 "repository :guilabel:`Management`."
 msgstr ""
-"O Weblate tem suporte para webhooks Gitee, adicione um :guilabel:`WebHook` "
+"O Weblate tem suporte para webhooks Gitee. Adicione um :guilabel:`WebHook` "
 "para o evento :guilabel:`Push` com destino para URL ``/hooks/gitee/`` na "
-"instalação do Weblate (por exemplo, ``https://hosted.weblate.org/hooks/gitee/"
-"``). Isso pode ser feito em :guilabel:`WebHooks` sob :guilabel:`Management` "
+"instalação do Weblate por exemplo, ``https://hosted.weblate.org/hooks/gitee/"
+"``. Isso pode ser feito em :guilabel:`WebHooks` sob :guilabel:`Management` "
 "do repositório."
 
 #: admin/code-hosting.rst:787
-#, fuzzy
-#| msgid ""
-#| "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/"
-#| ">`_, :http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgid "`Webhooks in Gitee manual <https://help.gitee.com/webhook>`_"
-msgstr ""
-"`Webhooks no manual do Gitea <https://docs.gitea.io/en-us/webhooks/"
-">`_, :http:post:`/hooks/gitea/`, :ref:`hosted-push`"
+msgstr "`Manual de webhooks no Gitee <https://help.gitee.com/webhook>`_"
 
 #: admin/code-hosting.rst:788
 msgid ":http:post:`/hooks/gitee/`"
 msgstr ":http:post:`/hooks/gitee/`"
 
 #: admin/code-hosting.rst:794
-#, fuzzy
-#| msgid "GitLab merge requests"
 msgid "Gerrit review requests"
-msgstr "Merge requests do GitLab"
+msgstr "Pedidos de revisão Gerrit"
 
 #: admin/code-hosting.rst:796
-#, fuzzy
-#| msgid ""
-#| "Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to "
-#| "allow pushing translation changes as Gerrit review requests, instead of "
-#| "pushing them directly to the repository."
 msgid ""
 "Gerrit support adds a thin layer atop :ref:`vcs-git` using the :pypi:`git-"
 "review` tool to allow pushing translation changes as Gerrit review requests, "
 "instead of pushing them directly to the repository."
 msgstr ""
-"Adiciona uma camada fina sobre o :ref:`vcs-git` a usar a ferramenta `git-"
-"review`_ para permitir fazer push de alterações de tradução como review "
-"requests do Gerrit, ao invés de fazer push diretamente para o repositório."
+"Suporte do Gerrit adiciona uma camada fina sobre o :ref:`vcs-git` a usar a "
+"ferramenta :pypi:`git-review` para permitir fazer push de alterações de "
+"tradução como review requests do Gerrit, ao invés de fazer push diretamente "
+"para o repositório."
 
 #: admin/code-hosting.rst:800
 msgid ""
@@ -5464,35 +5421,27 @@ msgstr ""
 "permissões."
 
 #: admin/code-hosting.rst:808
-#, fuzzy
-#| msgid ""
-#| "The Gerrit documentation has the details on the configuration necessary "
-#| "to set up such repositories."
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories. There is no separate code hosting credential "
 "setting for this backend."
 msgstr ""
 "A documentação Gerrit tem os detalhes sobre a configuração necessária para "
-"configurar tais repositórios."
+"configurar tais repositórios. Não há definição de credenciais de hospedagem "
+"de código separada para este backend."
 
 #: admin/code-hosting.rst:813
-#, fuzzy
-#| msgid "Subversion credentials"
 msgid "Docker credentials"
-msgstr "Credenciais de Subversion"
+msgstr "Credenciais do Docker"
 
 #: admin/code-hosting.rst:815
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the credentials can be configured using "
-#| "environment variables, see :ref:`docker-vcs-config`."
 msgid ""
 "For Docker installations, code hosting API credentials can also be provided "
 "through environment variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"No contentor do Docker, as credenciais podem ser configuradas usando "
-"variáveis de ambiente, consulte :ref:`docker-vcs-config`."
+"Para instalações Docker, credenciais de API de hospedagem de código também "
+"podem ser fornecidas através de variáveis de ambiente, consulte :ref:`docker-"
+"vcs-config`."
 
 #: admin/componentlists.rst:4
 msgid "Component Lists"
@@ -5521,6 +5470,11 @@ msgid ""
 "administrators can also use the low-level :ref:`admin-interface` when direct "
 "database-object management is necessary."
 msgstr ""
+"Cada lista de componentes tem um nome exibido para o utilizador e uma "
+"abreviação usada no URL. Listas de componentes podem ser geridas usando a "
+":ref:`api`. Administradores de instância também podem usar a :ref:`admin-"
+"interface` de baixo nível quando gestão direta de objetos de bases de dados "
+"é necessária."
 
 #: admin/componentlists.rst:22
 msgid ""
@@ -5562,18 +5516,12 @@ msgstr ""
 "instalação Weblate."
 
 #: admin/componentlists.rst:38
-#, fuzzy
-#| msgid ""
-#| "1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` "
-#| "as regular expression in both the project and the component fields, as "
-#| "shown on this image:"
 msgid ""
 "Define :guilabel:`Automatic component list assignment` with ``^.*$`` as "
 "regular expression in both the project and the component fields."
 msgstr ""
-"1. Define :guilabel:`Automatic component list assignment` com ``^.*$`` como "
-"expressão regular tanto no projeto quanto nos campos de componente, conforme "
-"nesta imagem:"
+"Define :guilabel:`Automatic component list assignment` com ``^.*$`` como "
+"expressão regular tanto no projeto quanto nos campos de componente."
 
 #: admin/config.rst:4 admin/install/kubernetes.rst:26
 #: admin/install/openshift.rst:102 faq.rst:5
@@ -5627,7 +5575,7 @@ msgstr "Configure isto como uma lista de endereços de correio eletrónico:"
 
 #: admin/config.rst:48
 msgid "Configures which domains are allowed for fetching assets in Weblate."
-msgstr ""
+msgstr "Configura quais domínios são permitidos para obter recursos no Weblate."
 
 #: admin/config.rst:50
 msgid ""
@@ -5635,6 +5583,10 @@ msgid ""
 "Assets are downloaded once by the Weblate server and stored locally, rather "
 "than being served directly from external domains to users."
 msgstr ""
+"Isto melhora a segurança ao prevenir carregar recursos de fontes não "
+"confiadas. Recursos são descarregados uma vez pelo servidor Weblate e "
+"armazenados localmente, em vez de serem servidos diretamente de domínios "
+"externos para utilizadores."
 
 #: admin/config.rst:54
 msgid ""
@@ -5642,6 +5594,9 @@ msgid ""
 "target before Weblate follows it. Redirects to hosts outside of this "
 "allowlist are rejected."
 msgstr ""
+"A lista de permissões é aplicada ao URL inicial e a cada alvo de "
+"redirecionamento HTTP antes que o Weblate o siga. Redirecionamentos para "
+"anfitriões fora desta lista de permissões são rejeitados."
 
 #: admin/config.rst:58
 msgid ""
@@ -5650,11 +5605,15 @@ msgid ""
 "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
 "``static.example.com``)."
 msgstr ""
+"Espera uma lista de anfitriões/nomes de domínio. Pode usar nomes "
+"qualificados completos (p.ex. ``www.example.com``) ou antecedido com um "
+"ponto enquanto caratere curinga para corresponder todos os subdomínios (p.ex "
+"``.example.com`` irá corresponder ``cdn.example.com`` ou "
+"``static.example.com``)."
 
 #: admin/config.rst:62
-#, fuzzy
 msgid "Defaults to ``[\"*\"]``, which allows all domains."
-msgstr "O padrão é `` * `` que permite todos os nomes de host."
+msgstr "O padrão é ``[\"*\"]`` que permite todos os domínios."
 
 #: admin/config.rst:64
 msgid "**Example**"
@@ -5669,22 +5628,25 @@ msgid "Screenshot uploads, see :ref:`screenshots`"
 msgstr "Carregamento de capturas de ecrã, ver :ref:`screenshots`"
 
 #: admin/config.rst:78
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid "Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on"
-msgstr "Configuração para :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Descarregamentos HTML remotos para o extra :ref:`addon-weblate.cdn.cdnjs`"
 
 #: admin/config.rst:91
 msgid ""
 "Configures which custom machinery domains are explicitly allowed in project-"
 "level machine translation configuration."
 msgstr ""
+"Configura quais domínios de maquinaria personalizados são explicitamente "
+"permitidos na configuração de tradução máquina ao nível do projeto."
 
 #: admin/config.rst:94
 msgid ""
 "This setting applies only to machinery services and does not "
 "affect :setting:`ALLOWED_ASSET_DOMAINS`."
 msgstr ""
+"Esta configuração aplica-se apenas a serviços de maquinaria e não afeta "
+":setting:`ALLOWED_ASSET_DOMAINS`."
 
 #: admin/config.rst:97
 msgid ""
