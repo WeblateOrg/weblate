@@ -1628,6 +1628,7 @@ class EditComplexTest(ViewTestCase):
 
         response = self.client.get(self.translate_url, {"q": "state:<translated"})
         self.assertEqual(response.context["unit"].pk, first.pk)
+        initial_count = response.context["filter_count"]
 
         params = {
             "checksum": first.checksum,
@@ -1652,6 +1653,8 @@ class EditComplexTest(ViewTestCase):
             self.translate_url, {"q": "state:<translated", "offset": 2}
         )
         self.assertEqual(response.context["unit"].pk, expected_unit_id)
+        self.assertEqual(response.context["filter_pos"], 2)
+        self.assertEqual(response.context["filter_count"], initial_count)
 
     def test_translate_post_offset_uses_limited_search_lookup(self) -> None:
         response = self.client.get(self.translate_url, {"offset": 1})

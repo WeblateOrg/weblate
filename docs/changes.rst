@@ -12,6 +12,7 @@ Weblate 2026.7.1
 
 .. rubric:: Bug fixes
 
+* Filtered translation navigation now keeps the result list, displayed position, and count stable after translated strings leave the filter.
 * Component priority icons are no longer shown on translation listings.
 * :ref:`check-punctuation-spacing` no longer flags Markdown image markers as French punctuation and now shows which punctuation marks triggered the check.
 * :ref:`addon-weblate.fedora_messaging.publish` broker TLS validation now matches the Fedora Messaging transport when accepting non-strict CA certificate chains.

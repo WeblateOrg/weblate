@@ -343,6 +343,14 @@ def get_search_partial_offset(session_data: SearchResult, default: int) -> int:
     return partial_offset
 
 
+def get_search_session_total(session_data: SearchResult) -> int | None:
+    """Return a valid total from search session data."""
+    total = session_data.get("total")
+    if not isinstance(total, int) or total < 0:
+        return None
+    return total
+
+
 def has_partial_next_id(
     unit_ids: list[int], partial_offset: int, current_offset: int
 ) -> bool:
@@ -480,7 +488,7 @@ def get_search_session_snapshot(
     return SearchSnapshot(
         ids=page_ids,
         offset=offset,
-        total=None,
+        total=get_search_session_total(session_data),
         last_section=len(page_ids) <= page_size,
     )
 
@@ -662,6 +670,11 @@ def save_partial_search_session(
 ) -> int:
     """Store a compact partial search result window in the session."""
     ttl = get_search_session_ttl()
+    total = get_search_session_total(session_data)
+    full_ids = get_search_session_id_list(session_data, "ids")
+    if total is None and full_ids is not None:
+        total = len(full_ids)
+
     session_data.pop("ids", None)
     session_data.update(
         {
@@ -675,6 +688,8 @@ def save_partial_search_session(
             "ttl": ttl,
         }
     )
+    if total is not None:
+        session_data["total"] = total
     session[session_key] = session_data
     return ttl
 
@@ -747,6 +762,9 @@ def search_post_unit(
     else:
         partial_offset = offset
         partial_window_ids = append_unique_ids([], unit_ids)
+
+    if get_search_session_total(session_data) is None:
+        session_data["total"] = get_ordered_units().count()
 
     ttl = save_partial_search_session(
         request.session,
