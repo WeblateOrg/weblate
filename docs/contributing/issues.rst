@@ -48,7 +48,7 @@ says. AI-based tools frequently generate inaccurate or fabricated results.
 It is *rarely* a good idea to just copy and paste an AI-generated report to the
 project. Those generated reports typically are too wordy and rarely to the
 point (in addition to the common fabricated details). If you actually discover
-a issue with an AI and you have verified it yourself to be true, write the
+an issue with an AI and you have verified it yourself to be true, write the
 report yourself and explain the issue as you have learned it. This makes sure
 the AI-generated inaccuracies and invented issues are filtered out early before
 they waste more people's time.

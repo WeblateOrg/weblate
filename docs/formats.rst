@@ -8,8 +8,8 @@ different and provides a different set of capabilities.
 
 .. hint::
 
-    When choosing a file format for your application, it's better to stick some
-    well established format in the toolkit/platform you use. This way your
+    When choosing a file format for your application, it's better to stick to some
+    well-established format in the toolkit/platform you use. This way your
     translators can additionally use whatever tools they are used to, and will more
     likely contribute to your project.
 

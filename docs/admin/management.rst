@@ -787,7 +787,7 @@ install_machinery
 
 .. weblate-admin:: install_machinery --service SERVICE
 
-Installs an site-wide automatic suggestion service.
+Installs a site-wide automatic suggestion service.
 
 .. weblate-admin-option:: --service SERVICE
 
