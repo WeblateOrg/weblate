@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-04 15:17+0000\n"
+"PO-Revision-Date: 2026-07-05 16:01+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1639,7 +1639,7 @@ msgstr "Sicherungen, siehe :doc:`backup`."
 
 #: admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`."
-msgstr "Geteilter Übersetzungsspeicher, siehe :doc:`memory`."
+msgstr "Gemeinsamer Übersetzungsspeicher, siehe :doc:`memory`."
 
 #: admin/admin.rst:17
 msgid ""
@@ -4755,6 +4755,15 @@ msgid ""
 "App configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"Das Manifest fordert die Berechtigungen und Ereignis-Abonnements an, die "
+"Weblate benötigt (Lese-/Schreibzugriff auf ``Contents`` und ``Pull "
+"requests``, Lesezugriff auf ``Metadata`` und ``Organization "
+"administration``, Lese-/Schreibzugriff auf ``Workflows`` sowie die "
+"Ereignisse ``Installation``, ``Meta`` und ``Push``) und legt die URLs für "
+"Callback, Setup und die Webhooks pro Integration automatisch fest, sodass "
+"keine manuelle Konfiguration der GitHub-App erforderlich ist. GitHub "
+"übermittelt standardmäßig die Ereignisse ``Installation`` und ``Installation "
+"repositories`` an alle GitHub-Apps."
 
 #: admin/code-hosting.rst:308
 msgid ""
@@ -4765,6 +4774,13 @@ msgid ""
 "other accounts; private apps can only be installed on the account that owns "
 "the app."
 msgstr ""
+"GitHub bietet nur Konten an, auf denen der angemeldete GitHub-Benutzer die "
+"App installieren oder anfordern kann. Wenn eine Organisation während des "
+"Installationsvorgangs nicht angezeigt wird, überprüfen Sie bitte die "
+"Organisationsrolle des Benutzers und die Installationsbeschränkungen der "
+"GitHub-App für die Organisation. Auf GitHub.com können öffentliche Apps auf "
+"anderen Konten installiert werden; private Apps können nur auf dem Konto "
+"installiert werden, dem die App gehört."
 
 #: admin/code-hosting.rst:315
 msgid "Connecting a workspace"
@@ -4780,12 +4796,22 @@ msgid ""
 "installations, Weblate verifies that the install-time GitHub user can "
 "administer the organization installation."
 msgstr ""
+"Verbundene GitHub-Konten sind an einen Weblate- :ref:`-Arbeitsbereich "
+"<workspaces>` gebunden. Ein Benutzer mit Projektadministrationsrechten für "
+"ein beliebiges Projekt in einem Arbeitsbereich kann ein GitHub-Konto mit "
+"diesem Arbeitsbereich verbinden. Nach dem Verbinden kann jedes Projekt im "
+"Arbeitsbereich Komponenten aus Repositorys importieren, auf welche die App-"
+"Installation Zugriff hat. Bei Organisationsinstallationen überprüft Weblate, "
+"ob der GitHub-Benutzer, der die Installation durchführt, die "
+"Organisationsinstallation verwalten darf."
 
 #: admin/code-hosting.rst:324
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub App "
 "installation."
 msgstr ""
+"Projekte, die sich nicht in einem Arbeitsbereich befinden, können sich nicht "
+"mit einer GitHub-App-Installation verbinden."
 
 #: admin/code-hosting.rst:326
 msgid ""
@@ -4794,6 +4820,11 @@ msgid ""
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
 msgstr ""
+"Komponenten, die über den GitHub-App-Ablauf importiert werden, nutzen das "
+"spezielle VCS-Backend :guilabel:`GitHub (über die Weblate-GitHub-App)`. In "
+"der Bedienoberfläche für die Komponenteneinstellungen ist die Repository-URL "
+"schreibgeschützt, um zu verhindern, dass die von der App ausgegebenen "
+"Zugangsdaten auf ein nicht zugehöriges Repository weitergeleitet werden."
 
 #: admin/code-hosting.rst:334
 msgid "App webhook URL"
@@ -4804,6 +4835,9 @@ msgid ""
 "Each registered GitHub App integration has its own webhook URL containing an "
 "opaque token that uniquely identifies a single integration:"
 msgstr ""
+"Jede registrierte GitHub-App-Integration verfügt über eine eigene Webhook-"
+"URL mit einem undurchsichtigen Token, das eine einzelne Integration "
+"eindeutig identifiziert:"
 
 #: admin/code-hosting.rst:343
 msgid ""
@@ -8804,6 +8838,11 @@ msgid ""
 "actions rewrite that translation file and commit the result; they are not "
 "project-wide or component-wide operations."
 msgstr ""
+"Die Aktionen :guilabel:`Dateiverwaltung` sind nur unter "
+":guilabel:`Repository-Wartung` für eine einzelne Übersetzung verfügbar. "
+"Diese Aktionen schreiben die betreffende Übersetzungsdatei neu und speichern "
+"das Ergebnis; es handelt sich dabei nicht um projekt- oder komponentenweite "
+"Vorgänge."
 
 #: admin/continuous.rst:195
 msgid ""
@@ -9050,17 +9089,19 @@ msgid ":guilabel:`Remove duplicates`"
 msgstr ":guilabel:`Duplikate entfernen`"
 
 #: admin/continuous.rst:257
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid ""
 "Removes repeated strings with the same identifier from one translation file."
-msgstr "Entfernt Zeichenketten ohne Übersetzung aus den Übersetzungsdateien."
+msgstr ""
+"Entfernt doppelte Zeichenketten mit derselben Kennung aus einer "
+"Übersetzungsdatei."
 
 #: admin/continuous.rst:258
 msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
 msgstr ""
+"Die von Weblate gemeldeten doppelten Zeichenketten korrigieren, wenn die "
+"Datei wiederholte Einheiten enthält."
 
 #: admin/continuous.rst:260
 msgid ":guilabel:`Cleanup unused`"
@@ -9072,29 +9113,30 @@ msgid ""
 "file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this "
 "automatically."
 msgstr ""
+"Entfernt Zeichenketten aus einer Übersetzungsdatei, die in der Basisdatei "
+"nicht mehr vorhanden sind. Die Erweiterung :ref:`addon-"
+"weblate.cleanup.generic` kann dies automatisch durchführen."
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
 msgstr ""
+"Einen einmaligen Bereinigungsvorgang durchführen, ohne die Erweiterung zu "
+"installieren."
 
 #: admin/continuous.rst:264
 msgid ":guilabel:`Remove obsolete`"
 msgstr ":guilabel:`Veraltete entfernen`"
 
 #: admin/continuous.rst:265
-#, fuzzy
-#| msgid ""
-#| "Removes all obsolete entries with pending status from the translation "
-#| "memory."
 msgid "Removes obsolete strings from one PO translation file."
-msgstr ""
-"Entfernt alle veralteten Einträge mit Status „ausstehend“ aus dem "
-"Übersetzungsspeicher."
+msgstr "Entfernt veraltete Zeichenketten aus einer PO-Übersetzungsdatei."
 
 #: admin/continuous.rst:266
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
 msgstr ""
+"Einen einmaligen PO-Bereinigungsvorgang durchführen, ohne das automatische "
+"Entfernen veralteter Zeichenketten zu aktivieren."
 
 #: admin/continuous.rst:271
 msgid "Reset and reapply recovery behavior"
@@ -13823,6 +13865,9 @@ msgid ""
 "the database, so there are no GitHub App environment variables to configure. "
 "See :ref:`code-hosting-github-notifications`."
 msgstr ""
+"GitHub-Apps werden über den In-App-Manifest-Ablauf registriert und in der "
+"Datenbank gespeichert, sodass keine GitHub-App-Umgebungsvariablen "
+"konfiguriert werden müssen. Siehe :ref:`code-hosting-github-notifications`."
 
 #: admin/install/docker.rst:1441
 msgid ""
@@ -17648,6 +17693,16 @@ msgid ""
 "administrators can monitor the backfill and duplicate-entry consolidation "
 "in :guilabel:`Administration` > :guilabel:`Performance report`."
 msgstr ""
+"Beim Upgrade von älteren Weblate-Versionen werden vorhandene Einträge aus "
+"dem Übersetzungsspeicher durch eine periodisch ausgeführte Celery-"
+"Hintergrundaufgabe in Bereiche konvertiert. Bis zum Abschluss dieser "
+"Nachverarbeitungsphase sind bereits vorhandene Einträge in den Ansichten für "
+"Vorschläge und die Speicherverwaltung möglicherweise vorübergehend nicht "
+"verfügbar. Lassen Sie Celery nach dem Upgrade weiterlaufen, damit die "
+"periodische Aufgabe die Migration starten oder fortsetzen kann. Website-"
+"Administratoren können die Nachverarbeitungsphase und die Konsolidierung "
+"doppelter Einträge unter :guilabel:`Verwaltung` > "
+":guilabel:`Leistungsbericht` überwachen."
 
 #: admin/memory.rst:42
 msgid "Imported translation memory"
@@ -17700,10 +17755,8 @@ msgstr ""
 "verfügbar ist."
 
 #: admin/memory.rst:63
-#, fuzzy
-#| msgid "Imported translation memory"
 msgid "Workspace translation memory"
-msgstr "Importierter Übersetzungsspeicher"
+msgstr "Arbeitsbereich-Übersetzungsspeicher"
 
 #: admin/memory.rst:65
 msgid ""
@@ -17712,25 +17765,29 @@ msgid ""
 "enabled both in the workspace settings and in the individual project "
 "workflow settings."
 msgstr ""
+"Projekte im selben Arbeitsbereich können einen gemeinsamen "
+"Übersetzungsspeicher nutzen, ohne dass der globale gemeinsame "
+"Übersetzungsspeicher aktiviert werden muss. Der Übersetzungsspeicher des "
+"Arbeitsbereichs muss sowohl in den Arbeitsbereicheinstellungen als auch in "
+"den einzelnen Projektablaufeinstellungen aktiviert werden."
 
 #: admin/memory.rst:80
 msgid "Shared translation memory"
-msgstr "Geteilter Übersetzungsspeicher"
+msgstr "Gemeinsamer Übersetzungsspeicher"
 
 #: admin/memory.rst:82
-#, fuzzy
-#| msgid ""
-#| "All translations within projects with shared translation memory turned on "
-#| "are stored in a shared translation memory available to all projects."
 msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects. Turning "
 "off contribution to shared translation memory stops previously contributed "
 "automatic entries from being used as shared suggestions."
 msgstr ""
-"Alle Übersetzungen in Projekten mit eingeschaltetem geteilten "
-"Übersetzungsspeicher werden in einem gemeinsamen und allen diesen Projekten "
-"zur Verfügung stehendem Übersetzungsspeicher gespeichert."
+"Alle Übersetzungen innerhalb von Projekten, bei denen der gemeinsame "
+"Übersetzungsspeicher aktiviert ist, werden in einem gemeinsamen "
+"Übersetzungsspeicher gespeichert, auf den alle Projekte Zugriff haben. Durch "
+"das Deaktivieren der Beiträge zum gemeinsamen Übersetzungsspeicher wird "
+"verhindert, dass zuvor beigesteuerte automatische Einträge als gemeinsame "
+"Übersetzungsvorschläge verwendet werden."
 
 #: admin/memory.rst:87
 msgid ""
@@ -19153,7 +19210,7 @@ msgstr ""
 
 #: admin/projects.rst:206
 msgid "Contribute to shared translation memory"
-msgstr "Zu einem gemeinsamen Übersetzungsspeicher beitragen"
+msgstr "Zum gemeinsamen Übersetzungsspeicher beitragen"
 
 #: admin/projects.rst:208
 msgid ""
@@ -19180,10 +19237,8 @@ msgstr ""
 ":ref:`project-use_shared_tm` umgeschaltet."
 
 #: admin/projects.rst:221 admin/workspaces.rst:64
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Use workspace translation memory"
-msgstr "Gemeinsamen Übersetzungsspeicher verwenden"
+msgstr "Arbeitsbereich-Übersetzungsspeicher verwenden"
 
 #: admin/projects.rst:223
 msgid ""
@@ -19191,12 +19246,14 @@ msgid ""
 "see :ref:`memory-scopes` for more details. The workspace has to allow "
 "workspace translation memory as well."
 msgstr ""
+"Ob ein Übersetzungsspeicher verwendet werden soll, der von Projekten im "
+"selben Arbeitsbereich gemeinsam genutzt wird, siehe :ref:`memory-scopes` für "
+"weitere Details. Der Arbeitsbereich muss zudem die Verwendung eines "
+"Arbeitsbereich-Übersetzungsspeichers zulassen."
 
 #: admin/projects.rst:230 admin/workspaces.rst:72
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to workspace translation memory"
-msgstr "Zu einem gemeinsamen Übersetzungsspeicher beitragen"
+msgstr "Zum Arbeitsbereich-Übersetzungsspeicher beitragen"
 
 #: admin/projects.rst:232
 msgid ""
@@ -19204,6 +19261,9 @@ msgid ""
 "projects in the same workspace. The workspace has to allow contribution as "
 "well."
 msgstr ""
+"Ob Übersetzungen zum gemeinsamen Übersetzungsspeicher, der von Projekten im "
+"selben Arbeitsbereich genutzt wird, beigetragen werden sollen. Der "
+"Arbeitsbereich muss dies ebenfalls zulassen."
 
 #: admin/projects.rst:238
 msgid ""
@@ -22069,6 +22129,12 @@ msgid ""
 "upgrade and monitor progress in :guilabel:`Administration` "
 "> :guilabel:`Performance report`. See :ref:`memory-scopes` for details."
 msgstr ""
+"Bei einigen Upgrades werden im Hintergrund mithilfe regelmäßiger Celery-"
+"Aufgaben die Nachverarbeitung und Konsolidierung der "
+"Übersetzungsspeicherbereiche durchgeführt. Lassen Sie Celery nach dem "
+"Upgrade weiterlaufen und überwachen Sie den Fortschritt unter "
+":guilabel:`Verwaltung` > :guilabel:`Leistungsbericht`. Weitere Informationen "
+"finden Sie unter :ref:`memory-scopes`."
 
 #: admin/upgrade.rst:125
 msgid "Version-specific instructions"
@@ -22360,6 +22426,9 @@ msgid ""
 "the workspace. Individual projects also have to enable workspace translation "
 "memory."
 msgstr ""
+"Ob Projekte in diesem Arbeitsbereich den gemeinsamen Übersetzungsspeicher "
+"innerhalb des Arbeitsbereichs nutzen können. Einzelne Projekte müssen zudem "
+"den Arbeitsbereich-Übersetzungsspeicher aktivieren."
 
 #: admin/workspaces.rst:74
 msgid ""
@@ -22367,6 +22436,9 @@ msgid ""
 "workspace translation memory. Individual projects also have to enable "
 "contribution."
 msgstr ""
+"Ob Projekte in diesem Arbeitsbereich Übersetzungen zum Arbeitsbereich-"
+"Übersetzungsspeicher beitragen können. Einzelne Projekte müssen dies "
+"ebenfalls zulassen."
 
 #: admin/workspaces.rst:82
 msgid ""
@@ -24164,6 +24236,8 @@ msgstr ""
 msgid ""
 "Weblate now uses calendar versioning for releases, see :ref:`release-cycle`."
 msgstr ""
+"Weblate verwendet nun eine kalenderbasierte Versionierung für "
+"Veröffentlichungen, siehe :ref:`release-cycle`."
 
 #: changes.rst:223
 msgid ""
@@ -24309,6 +24383,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
 "Kunc, felixfon"
 msgstr ""
+"Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
+"Kunc, felixfon"
 
 #: changes/contributors/2026.6.rst:10
 msgid ""
@@ -24322,6 +24398,15 @@ msgid ""
 "libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
 "Public, Andi Chandler, Burak SDN, ojppe"
 msgstr ""
+"Michal Čihař, VfBFan, 大王叫我来巡山, Emin Tufan Çetin, Basheer Radman, 為什"
+"麼不加空格, Peter Vančo, Christian Wia, Любомир Василев, Matthaiks, Andrei "
+"Stepanov, Libre, Besnik Bleta, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Balázs Meskó, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, Dick Groskamp, Arif Budiman, Mickaël "
+"Binos, Ryo Nakano, hoanghuy309, Pierfrancesco Passerini, Alefsander Ribeiro "
+"Nascimento, Massimo Pissarello, justcontributor, 이정희, Cabdi Waaxid "
+"Siciid, Yaron Shahrabani, User2068, Kyotaro Iijima, pan93412, jernejp21, "
+"libermax, Phileas Fogg, Fjuro, Jim Kats, Fulup Jakez, Priit Jõerüüt, Ldm "
+"Public, Andi Chandler, Burak SDN, ojppe"
 
 #: changes/contributors/2026.6.rst:15
 msgid "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
@@ -24349,6 +24434,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, michael-smt, Samuel Gomes, Dinis "
 "Sales, Gersona, Harsha C, Kartik Ohri, Besnik Bleta, fahadhewad"
 msgstr ""
+"Michal Čihař, Karen Konou, Weblate CI, michael-smt, Samuel Gomes, Dinis "
+"Sales, Gersona, Harsha C, Kartik Ohri, Besnik Bleta, fahadhewad"
 
 #: changes/contributors/2026.7.rst:10
 msgid ""
@@ -24369,14 +24456,30 @@ msgid ""
 "work, Kristoffer Grundström, ssantos, Andi Chandler, Ldm Public, Alc4Traz45, "
 "Szafranek13, hms5232, Victor K, 大学没毕业"
 msgstr ""
+"Dick Groskamp, Michal Čihař, 為什麼不加空格, VfBFan, Любомир Василев, "
+"이정희, Aindriú Mac Giolla Eoin, Yaron Shahrabani, jiahaisheng, Horus68, "
+"Andrei Stepanov, Martin Srebotnjak, Peter Vančo, Hotripak, 大王叫我来巡山, "
+"Milo Ivir, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Mickaël Binos, Besnik Bleta, Frank Paul "
+"Silye, Matthaiks, abd sak, Hoseok Seo, Fulup Jakez, Gaël TISSERAND "
+"(Gtisseran), Azamat Аituganov, Mahirə Həsənova, Pierfrancesco Passerini, "
+"Libre, Mohamed Aymane Farhi, Júlia Rosell Saldaña, پرویز قادر, Jim Kats, "
+"Miguel A. Bouzada, Manuela Silva, reducedradius, Hanssium, Uh idk, Arif "
+"Budiman, Feike Donia, Zahid Rizky Fakhri, Emin Tufan Çetin, ojppe, தமிழ்நேரம், "
+"António Oliveira, Rumuz AGO, justcontributor, Flynn, Ștefan Zaharia, Nozomu "
+"Matsui, H-Media, Ecron, Weblate CI, Balázs Meskó, Fjuro, goeran, Adam "
+"Havránek, Priit Jõerüüt, Astrid Høie Silden, Alan S. Muhammed (Alan Kurdish)"
+", hoanghuy309, Yamin Siahmargooei, MeahNunh, Kartik Ohri, Valeria Sofia "
+"Azañero, Tuomas Hietala, Rafael Fontenelle, Yuri Chornoivan, AWwue-work, "
+"Kristoffer Grundström, ssantos, Andi Chandler, Ldm Public, Alc4Traz45, "
+"Szafranek13, hms5232, Victor K, 大学没毕业"
 
 #: changes/contributors/2026.7.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
 msgid ""
 "Michal Čihař, michael-smt, Karen Konou, Gersona, Weblate CI, Kartik Ohri, "
 "Besnik Bleta, fahadhewad, Harsha C"
-msgstr "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
+msgstr ""
+"Michal Čihař, michael-smt, Karen Konou, Gersona, Weblate CI, Kartik Ohri, "
+"Besnik Bleta, fahadhewad, Harsha C"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -67915,10 +68018,8 @@ msgid "Purpose"
 msgstr ""
 
 #: user/glossary.rst:87
-#, fuzzy
-#| msgid "Glossary terms"
 msgid "Regular glossary term"
-msgstr "Glossarbegriffe"
+msgstr "Regulärer Glossarbegriff"
 
 #: user/glossary.rst:88
 msgid ""
@@ -67948,10 +68049,8 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:108
-#, fuzzy
-#| msgid "Glossary terms"
 msgid "Choosing glossary terms"
-msgstr "Glossarbegriffe"
+msgstr "Glossarbegriffe auswählen"
 
 #: user/glossary.rst:110
 msgid ""
@@ -69883,13 +69982,13 @@ msgid ""
 "placeholders. Follow the target language's typography when it differs from "
 "the source, and use comments when a source punctuation choice looks wrong."
 msgstr ""
-"Behalten Sie Satzzeichen und Leerzeichen bei, die sich auf die "
+"Behalten Sie Interpunktionszeichen und Leerzeichen bei, die sich auf die "
 "Bedienoberfläche auswirken, wie z. B. Doppelpunkte am Ende, "
-"Auslassungspunkte, führende oder nachgestellte Leerzeichen sowie Satzzeichen "
-"neben Platzhaltern. Halten Sie sich an die typografischen Konventionen der "
-"Zielsprache, wenn diese von denen der Ausgangssprache abweichen, und fügen "
-"Sie Kommentare hinzu, wenn die Wahl der Satzzeichen in der Ausgangssprache "
-"nicht korrekt zu sein scheint."
+"Auslassungspunkte, führende oder nachgestellte Leerzeichen sowie "
+"Interpunktionszeichen neben Platzhaltern. Halten Sie sich an die "
+"typografischen Konventionen der Zielsprache, wenn diese von denen der "
+"Ausgangssprache abweichen, und fügen Sie Kommentare hinzu, wenn die Wahl der "
+"Interpunktionszeichen in der Ausgangssprache nicht korrekt zu sein scheint."
 
 #: user/translating.rst:179
 msgid "Accelerators"
@@ -69934,10 +70033,10 @@ msgid ""
 "and :ref:`user-comments` when the source text needs clarification."
 msgstr ""
 "Die Qualitätsprüfungen von Weblate erkennen viele technische Fehler in "
-"Platzhaltern, Auszeichnung, Zeichensetzung, Leerzeichen und Pluralformen. "
-"Sie ersetzen jedoch nicht das Urteilsvermögen des Übersetzers. Nutzen Sie "
-"daher :ref:`source-context`, :doc:`/user/glossary` und :ref:`user-comments`, "
-"wenn der Quelltext einer Klärung bedarf."
+"Platzhaltern, Auszeichnung, Interpunktion, Leerzeichen und Pluralformen. Sie "
+"ersetzen jedoch nicht das Urteilsvermögen des Übersetzers. Nutzen Sie daher "
+":ref:`source-context`, :doc:`/user/glossary` und :ref:`user-comments`, wenn "
+"der Quelltext einer Klärung bedarf."
 
 #: user/translating.rst:205
 msgid "Plurals"
