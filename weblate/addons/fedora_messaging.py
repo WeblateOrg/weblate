@@ -53,6 +53,7 @@ PEM_LABEL_CHARACTERS = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ")
 TLS_CREDENTIAL_FIELDS = frozenset({"ca_cert", "client_key", "client_cert"})
 TLS_PROBE_TIMEOUT = 5
 SERVICE_STOP_TIMEOUT = 5
+TOPIC_PREFIX_MAX_LENGTH = 50
 
 
 class BrokerParameters(Protocol):
@@ -162,7 +163,9 @@ class FedoraMessagingAddon(ChangeBaseAddon):
 
         # Build message payload
         message = WeblateV1Message(
-            topic=self.get_change_topic(change),
+            topic=self.get_prefixed_topic(
+                self.get_change_topic(change), config.get("topic_prefix")
+            ),
             headers=self.get_change_headers(change),
             body=self.get_change_body(change),
         )
@@ -311,6 +314,19 @@ class FedoraMessagingAddon(ChangeBaseAddon):
                 parts.extend(path_object.get_url_path())
                 break
         return ".".join(parts)
+
+    @staticmethod
+    def normalize_topic_prefix(prefix: str | None) -> str:
+        """Normalize a configured topic prefix."""
+        return (prefix or "").strip().strip(".")
+
+    @classmethod
+    def get_prefixed_topic(cls, topic: str, prefix: str | None) -> str:
+        """Apply configured prefix to generated topic."""
+        prefix = cls.normalize_topic_prefix(prefix)
+        if not prefix:
+            return topic
+        return f"{prefix}.{topic}"
 
     @staticmethod
     def get_change_body(change: Change) -> dict[str, str | int | list[str]]:
