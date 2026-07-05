@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-05 16:01+0000\n"
+"PO-Revision-Date: 2026-07-05 19:54+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -7751,28 +7751,39 @@ msgid ""
 "the current Weblate version or Git revision. Explicit values in the "
 "dictionary override these defaults."
 msgstr ""
+"O Weblate fornece ``serviço`` na forma de ``weblate`` e ``versão`` enquanto "
+"a versão atual do Weblate ou revisão Git. Valores explícitos no dicionário "
+"sobrescrevem estes valores."
 
 #: admin/config.rst:2320
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
 msgstr ""
+"Ativa o rastreio de backend usando OpenTelemetry. Desativado por "
+"predefinição."
 
 #: admin/config.rst:2322
 msgid ""
 "Traces are exported only when this is enabled "
 "and :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured."
 msgstr ""
+"Rastreios são exportados apenas quando isto é ativo e "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` está configurado."
 
 #: admin/config.rst:2330
 msgid ""
 "OTLP HTTP traces endpoint for OpenTelemetry, for example ``https://"
 "collector.example.com/v1/traces``."
 msgstr ""
+"Rastreios de endpoint OTLP HTTP para OpenTelemetry, por exemplo ``https://"
+"collector.example.com/v1/traces``."
 
 #: admin/config.rst:2338
 msgid ""
 "Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an "
 "empty dictionary."
 msgstr ""
+"Cabeçalhos HTTP adicionais para o exportador OTLP OpenTelemetry. A "
+"predefinição é um dicionário vazio."
 
 #: admin/config.rst:2346
 msgid ""
@@ -7873,17 +7884,12 @@ msgid "SESSION_COOKIE_AGE_2FA"
 msgstr "SESSION_COOKIE_AGE_2FA"
 
 #: admin/config.rst:2430
-#, fuzzy
-#| msgid ""
-#| "Set session expiry for authenticated users. This "
-#| "complements :setting:`django:SESSION_COOKIE_AGE` which is used for "
-#| "unauthenticated users."
 msgid ""
 "Set session expiry while in :ref:`2fa`. This "
 "complements :setting:`django:SESSION_COOKIE_AGE` which is used for "
 "unauthenticated users."
 msgstr ""
-"Configura a expiração da sessão para utilizador autenticados. Isso "
+"Configura a expiração da sessão enquanto estiver em :ref:`2fa`. Isso "
 "complementa :setting:`django:SESSION_COOKIE_AGE` que é utilizado por "
 "utilizadores não autenticados."
 
@@ -7920,14 +7926,18 @@ msgid ""
 "of projects that are using them, it can cause confusion or distract "
 "translators from the actual components that are meant to be translated."
 msgstr ""
+"Componentes de glossário são tipicamente partilhados em outros projetos para "
+"fazê-los disponíveis para trabalho da tradução. Quando estes são visíveis na "
+"lista de componentes dos projetos que os estão a usar, pode causar confusão "
+"ou distrair tradutores dos componentes reais que se destinam a ser "
+"traduzidos."
 
 #: admin/config.rst:2471
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
 msgstr ""
-"Isto está desativado por padrão agora, costumava estar ativado por padrão."
+"Isto está desativado por padrão, que torna componentes de glossário "
+"partilhados visíveis."
 
 #: admin/config.rst:2478
 msgid ""
@@ -8045,22 +8055,20 @@ msgstr ""
 "e impulsionando o progresso do Weblate, em vez de desativá-lo."
 
 #: admin/config.rst:2602
-#, fuzzy
-#| msgid ""
-#| "Configures how long activity logs for add-ons are kept. Defaults to 180 "
-#| "days."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded translation files. "
 "Defaults to 50 MB."
 msgstr ""
-"Configura por quanto tempo os logs de atividade dos complementos são "
-"mantidos. O padrão é de 180 dias."
+"Configura o tamanho máximo, em bytes, para os ficheiros de tradução "
+"enviados. A predefinição é 50 MB."
 
 #: admin/config.rst:2605
 msgid ""
 "In Docker, configure this using the ``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE`` "
 "environment variable."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_TRANSLATION_UPLOAD_MAX_SIZE``."
 
 #: admin/config.rst:2615
 msgid ""
@@ -8128,18 +8136,24 @@ msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set, "
 "which does no filtering at all."
 msgstr ""
+"Um conjunto de anfitriões a permitir durante a configuração do URL VCS. A "
+"predefinição é um conjunto vazio, que não faz qualquer filtragem."
 
 #: admin/config.rst:2678
 msgid ""
 "When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also "
 "exempt from the private-target restriction."
 msgstr ""
+"Quando :setting:`VCS_RESTRICT_PRIVATE` está ativo, os anfitriões "
+"correspondentes também estão isentos de qualquer restrição de alvo privado."
 
 #: admin/config.rst:2688
 msgid ""
 "A set of URL schemes to allow when configuring VCS URL. Only ``https`` and "
 "``ssh`` are allowed by default."
 msgstr ""
+"Um conjunto de esquemas URL a permitir ao configurar o URL VCS. Apenas "
+"``https`` e ``ssh`` são permitidos por predefinição."
 
 #: admin/config.rst:2698
 msgid ""
@@ -8147,28 +8161,30 @@ msgid ""
 "unless the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by "
 "default."
 msgstr ""
+"Rejeita URLs de repositório VCS que apontam para endereços interno ou não "
+"públicos a não ser que o anfitrião alvo esteja incluído em "
+":setting:`VCS_ALLOW_HOSTS`. Ativo por predefinição."
 
 #: admin/config.rst:2701
 msgid ""
 "When enabled, hostnames that cannot be resolved during validation are "
 "rejected unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Quando ativo, nomes de anfitrião que não podem ser resolvidos durante a "
+"validação são rejeitados a não ser que sejam explicitamente incluídos em "
+":setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/config.rst:2711
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls "
-#| "in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures minimal delay in seconds between third-party API calls "
 "in :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-merge-"
 "requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
 "pagure-merge-requests`, and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
-"Configura atraso mínimo em segundos entre chamadas de API de terceiros "
-"em :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-"pagure`, :ref:`vcs-azure-devops`."
+"Configura o atraso mínimo em segundos, entre chamadas de API de terceiros em "
+":ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-merge-"
+"requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
+"pagure-merge-requests`, e :ref:`code-hosting-azure-devops-pull-requests`."
 
 #: admin/config.rst:2718
 msgid ""
@@ -8191,11 +8207,6 @@ msgid "The default value is 10."
 msgstr "O valor predefinido é 10."
 
 #: admin/config.rst:2731
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls "
-#| "in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures timeout in seconds for third-party API calls such as forking or "
 "creating merge requests in :ref:`code-hosting-github-pull-"
@@ -8203,9 +8214,11 @@ msgid ""
 "gitea-pull-requests`, :ref:`code-hosting-pagure-merge-requests`, "
 "and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
-"Configura atraso mínimo em segundos entre chamadas de API de terceiros "
-"em :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-"pagure`, :ref:`vcs-azure-devops`."
+"Configura o tempo limite em segundos para chamadas API de terceiros como "
+"bifurcar ou criar merge requests em :ref:`code-hosting-github-pull-"
+"requests`, :ref:`code-hosting-gitlab-merge-requests`, :ref:`code-hosting-"
+"gitea-pull-requests`, :ref:`code-hosting-pagure-merge-requests`, e "
+":ref:`code-hosting-azure-devops-pull-requests`."
 
 #: admin/config.rst:2745
 msgid "Configuration of available VCS backends."
@@ -8330,24 +8343,32 @@ msgid ""
 "Defines whether Weblate should check project website availability and show "
 "alerts for unreachable project websites."
 msgstr ""
+"Define se o Weblate deve verificar a disponibilidade de projeto do website e "
+"mostrar alertas para websites de projetos inalcançáveis."
 
 #: admin/config.rst:2931
 msgid ""
 "When set to ``False``, Weblate will skip website availability checks and "
 "will not generate project website alerts. This is useful when:"
 msgstr ""
+"Quando definido para ``False``, o Weblate ignorará verificações de "
+"disponibilidade do website e não gerará alertas do website do projeto. Isto "
+"é útil quando:"
 
 #: admin/config.rst:2934
 msgid "Your websites are behind firewalls that block Weblate's requests"
 msgstr ""
+"Os seus websites estão atrás de firewalls que bloqueiam os pedidos do Weblate"
 
 #: admin/config.rst:2935
 msgid "You want to avoid 403/503-type errors from bot protection"
-msgstr ""
+msgstr "Quer evitar erros do tipo 403/503 de proteção de robôs"
 
 #: admin/config.rst:2936
 msgid "Project website availability is not a concern for your installation"
 msgstr ""
+"A disponibilidade do website do projeto não é uma preocupação para a sua "
+"instalação"
 
 #: admin/config.rst:2945
 msgid "Configuring version control credentials"
@@ -8410,17 +8431,14 @@ msgstr ""
 "textos pouco antes do lançamento."
 
 #: admin/continuous.rst:12
-#, fuzzy
-#| msgid ""
-#| ":doc:`/devel/integration` describes basic ways to integrate your "
-#| "development with Weblate."
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate. :doc:`/admin/code-hosting` lists provider-specific setup steps "
 "for common code hosting sites."
 msgstr ""
 ":doc:`/devel/integration` descreve maneiras básicas de integrar o seu "
-"desenvolvimento com o Weblate."
+"desenvolvimento com o Weblate. :doc:`/admin/code-hosting` lista passos de "
+"configuração específico do fornecedor para sites de hospedagem de código."
 
 #: admin/continuous.rst:17
 msgid "This is the process:"
@@ -8462,16 +8480,12 @@ msgstr ""
 "repositório local (consulte :ref:`lazy-commit`)."
 
 #: admin/continuous.rst:24
-#, fuzzy
-#| msgid ""
-#| "Changes are pushed back to the upstream repository (see :ref:`push-"
-#| "changes`)."
 msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`code-hosting-"
 "push-options`)."
 msgstr ""
-"As alterações são enviadas de volta para o repositório principal "
-"(consulte :ref:`push-changes`)."
+"As alterações são enviadas de volta para o repositório principal (consulte "
+":ref:`code-hosting-push-options`)."
 
 #: admin/continuous.rst:76
 msgid ""
@@ -8499,6 +8513,9 @@ msgid ""
 "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
 "enable_hooks` for this to work."
 msgstr ""
+"Utilize :ref:`hooks` para integrar com a maioria dos serviços de hospedagem "
+"de código comuns, veja :doc:`/admin/code-hosting`. Também tem :ref:`project-"
+"enable_hooks` para isto funcionar."
 
 #: admin/continuous.rst:91
 msgid ""
@@ -8642,6 +8659,10 @@ msgid ""
 "project, component, or translation and lets privileged users run maintenance "
 "operations from the user interface."
 msgstr ""
+"A vista de :guilabel:`Repositório de manutenção` mostra o estado do "
+"repositório para um projeto, componente, ou tradução e permite utilizadores "
+"privilegiados de executar operações de manutenção a partir da interface de "
+"utilizador."
 
 #: admin/continuous.rst:183
 msgid ""
