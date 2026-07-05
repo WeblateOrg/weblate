@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-04 15:11+0000\n"
+"PO-Revision-Date: 2026-07-05 16:01+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -5296,10 +5296,8 @@ msgid "Pagure repository access"
 msgstr "Acesso de repositório Pagure"
 
 #: admin/code-hosting.rst:721
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Pagure notifications"
-msgstr "Notificações alargadas de componente"
+msgstr "Notificações do Pagure"
 
 #: admin/code-hosting.rst:723
 msgid ""
@@ -6330,6 +6328,12 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"As predefinições embutidas seguem o Conventional Commits e incluem links do "
+"Weblate sempre que disponível. Mudas estas definições afeta predefinições "
+"recentemente criadas; modelos de mensagem existentes podem ser reiniciadas "
+"nos formulários de definições com :guilabel:`Restaurar predefinições do "
+"site`. Para valores herdados, restaurar as predefinições do site também "
+"desativa a herança para tal mensagem."
 
 #: admin/config.rst:731
 msgid "Default add-ons to install for every created component."
@@ -6387,38 +6391,24 @@ msgstr ""
 "contribute_shared_tm`."
 
 #: admin/config.rst:829 admin/install/docker.rst:1005
-#, fuzzy
-#| msgid ""
-#| "Configures the default value of :ref:`project-use_shared_tm` "
-#| "and :ref:`project-contribute_shared_tm`."
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
 msgstr ""
-"Configura o valor padrão de :ref:`project-use_shared_tm` e :ref:`project-"
-"contribute_shared_tm`."
+"Configura o valor predefinido para :ref:`project-translation_review`, "
+"desativado por predefinição."
 
 #: admin/config.rst:838 admin/install/docker.rst:1011
-#, fuzzy
-#| msgid ""
-#| "Configures the default value of :ref:`project-use_shared_tm` "
-#| "and :ref:`project-contribute_shared_tm`."
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
 msgstr ""
-"Configura o valor padrão de :ref:`project-use_shared_tm` e :ref:`project-"
-"contribute_shared_tm`."
+"Configura o valor predefinido para :ref:`project-source_review`, desativado "
+"por predefinição."
 
 #: admin/config.rst:847
-#, fuzzy
-#| msgid ""
-#| "Configures the default value of :ref:`project-use_shared_tm` "
-#| "and :ref:`project-contribute_shared_tm`."
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
-msgstr ""
-"Configura o valor padrão de :ref:`project-use_shared_tm` e :ref:`project-"
-"contribute_shared_tm`."
+msgstr "Configura o valor predefinido para :ref:`project-autoclean_tm`."
 
 #: admin/config.rst:854
 msgid "Default setting for translation propagation, defaults to ``True``."
@@ -6435,6 +6425,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"A predefinição embutida segue Conventional Commits e inclui links do Weblate "
+"e estado de tradução."
 
 #: admin/config.rst:878
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6508,16 +6500,12 @@ msgstr ""
 "funcionará para sites sem HTTPS."
 
 #: admin/config.rst:941
-#, fuzzy
-#| msgid ""
-#| "Turn on/off the :guilabel:`Share` menu so users can share translation "
-#| "progress on social networks."
 msgid ""
 "Turn on/off the :guilabel:`Community` menu so users can share translation "
 "progress on social networks."
 msgstr ""
-"Ativa/desativa o menu :guilabel:`Compartilhar` para que os utilizadores "
-"possam compartilhar o progresso da tradução nas redes sociais."
+"Ativa/desativa o menu :guilabel:`Comunidade` para que os utilizadores possam "
+"compartilhar o progresso da tradução nas redes sociais."
 
 #: admin/config.rst:954
 msgid ""
@@ -6556,6 +6544,8 @@ msgid ""
 "The personal access token needs the :guilabel:`api` scope to be able to use "
 "the API."
 msgstr ""
+"O token de acesso pessoal precisa do escopo :guilabel:`api` para conseguir "
+"utilizar a API."
 
 #: admin/config.rst:1028
 msgid ""
@@ -6599,10 +6589,8 @@ msgstr ""
 "repositório se pretende usar fork e o repositório original não for público."
 
 #: admin/config.rst:1063
-#, fuzzy
-#| msgid "Use ``api.github.com`` as a API host for https://github.com/."
 msgid "Use ``api.github.com`` as an API host for https://github.com/."
-msgstr "Use ``api.github.com`` como host da API para https://github.com/."
+msgstr "Use ``api.github.com`` como um host da API para https://github.com/."
 
 #: admin/config.rst:1070
 msgid "`Creating a GitHub personal access token`_"
@@ -6647,10 +6635,8 @@ msgid "The user workspace slug."
 msgstr "O slug do espaço de trabalho do utilizador."
 
 #: admin/config.rst:1129
-#, fuzzy
-#| msgid "The App password with `pullrequest:write` permission."
 msgid "The API token with `pullrequest:write` permission."
-msgstr "A palavra-passe da app com permissão `pullrequest:write`."
+msgstr "O token API com permissão `pullrequest:write`."
 
 #: admin/config.rst:1131 admin/config.rst:1174
 msgid ""
@@ -6661,20 +6647,20 @@ msgstr ""
 "credentials`."
 
 #: admin/config.rst:1136
-#, fuzzy
-#| msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 msgid ""
 "`Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-api-token/>`_"
-msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
+msgstr ""
+"`Crie um token API <https://support.atlassian.com/bitbucket-cloud/docs/"
+"create-an-api-token/>`_"
 
 #: admin/config.rst:1137
-#, fuzzy
-#| msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 msgid ""
 "`API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
 "api-token-permissions/>`_"
-msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
+msgstr ""
+"`Permissões do token API <https://support.atlassian.com/bitbucket-cloud/docs/"
+"api-token-permissions/>`_"
 
 #: admin/config.rst:1146
 msgid "List for credentials for Azure DevOps servers."
@@ -6752,69 +6738,60 @@ msgstr "Ativado por padrão."
 
 #: admin/config.rst:1217
 msgid "Controls how prominently Weblate exposes its own version."
-msgstr ""
+msgstr "Controla o quão proeminente o Weblate expõe a sua própria versão."
 
 #: admin/config.rst:1219 admin/install/docker.rst:820
 #: admin/install/docker.rst:914
-#, fuzzy
-#| msgid "Supported features"
 msgid "Supported values are:"
-msgstr "Recursos suportados"
+msgstr "Os valores suportados são:"
 
 #: admin/config.rst:1222
 msgid ""
 "Show the version in shared UI such as the footer and expose it "
 "in :http:get:`/api/metrics/`."
 msgstr ""
+"Mostra a versão no UI partilhado como um rodapé e expõe-o em :http:get:`/api/"
+"metrics/`."
 
 #: admin/config.rst:1226
 msgid ""
 "Hide the version from prominent shared UI, while keeping it discoverable on "
 "the :guilabel:`About` page and in :http:get:`/api/metrics/`."
 msgstr ""
+"Esconde a versão do UI proeminente partilhado, enquanto que mantém-o "
+"descobrível na página :guilabel:`Sobre` e em :http:get:`/api/metrics/`."
 
 #: admin/config.rst:1230
-#, fuzzy
-#| msgid ""
-#| "Hides version info from unauthenticated users. This also makes all "
-#| "documentation links point to the latest version instead of the "
-#| "documentation matching the currently installed version."
 msgid ""
 "Hide the version from shared UI and :http:get:`/api/metrics/`. This also "
 "makes anonymous documentation links point to the latest documentation "
 "instead of the version matching the installed release."
 msgstr ""
-"Oculta a informação da versão dos utilizadores não autenticados. Isto também "
-"faz com que todas as hiperligações da documentação apontem para a última "
-"versão, em vez da versão da correspondente documentação na versão atualmente "
-"instalada."
+"Oculta a versão do UI partilhado e :http:get:`/api/metrics/`. Isto também "
+"faz com que links de documentação anónimos apontem para a documentação mais "
+"recente em vez da versão que corresponde à versão de instalação."
 
 #: admin/config.rst:1234
-#, fuzzy
-#| msgid ""
-#| "Hiding the version is a recommended security practice in some "
-#| "corporations, does not prevent an attacker from figuring out version by "
-#| "probing behavior."
 msgid ""
 "Hiding the version is a recommended security practice in some corporations, "
 "but it does not prevent an attacker from inferring the version by probing "
 "behavior."
 msgstr ""
 "Ocultar a versão é uma prática de segurança recomendada em algumas empresas, "
-"mas não impede um atacante de descobrir a versão por meio de comportamentos "
-"de sondagem."
+"mas isso não impede um atacante de inferir a versão por meio de sondagem de "
+"comportamentos."
 
 #: admin/config.rst:1240
-#, fuzzy
-#| msgid "The default value is 10."
 msgid "The default is ``show``."
-msgstr "O valor predefinido é 10."
+msgstr "O valor predefinido é ``show``."
 
 #: admin/config.rst:1250
 msgid ""
 "Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to "
 "get the same behavior as ``VERSION_DISPLAY = \"hide\"``."
 msgstr ""
+"Atalho de compatibilidade para :setting:`VERSION_DISPLAY`. Defina isto para "
+"``True`` para obter o mesmo comportamento que ``VERSION_DISPLAY=\"hide\"``."
 
 #: admin/config.rst:1258
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -6896,6 +6873,7 @@ msgstr "O padrão é -1."
 #: admin/config.rst:1336
 msgid "CSS class added to the wrappers around legal document templates."
 msgstr ""
+"Classe CSS adiciona aos invólucros à volta de modelos de documentos legais."
 
 #: admin/config.rst:1338
 msgid ""
@@ -6903,16 +6881,23 @@ msgid ""
 "and spacing rules. Set this to an empty string to render legal documents "
 "without the built-in numbering."
 msgstr ""
+"A predefinição é ``\"tos\"``, que ativa as regras de numeração e espaçamento "
+"do documento legal embutido. Defina isto para uma cadeia de carateres vazia "
+"para renderizar documentos legais sem a numeração embutida."
 
 #: admin/config.rst:1357
 msgid "List of legal document page identifiers to hide from the legal module."
 msgstr ""
+"Lista de identificadores de página de documento legal a esconder do módulo "
+"legal."
 
 #: admin/config.rst:1359
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"A página ``index`` está sempre visível. Identificadores de documento "
+"suportados são ``terms``, ``cookies``, ``privacy``, e ``contracts``."
 
 #: admin/config.rst:1362
 msgid ""
@@ -6920,6 +6905,9 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"Páginas escondidas são removidas do menu legal e devolvem uma resposta 404 "
+"quando especificamente requisitadas. Esconder ``termos`` ou ``privacidade`` "
+"não é recomendado quando a confirmação de termos de serviços está ativado."
 
 #: admin/config.rst:1366
 msgid ""
@@ -6928,6 +6916,11 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"Quando ``termos`` ou ``privacidade`` está escondido, links expostos através "
+"das variáveis de modelos ``terms_url`` e ``privacy_url`` usam "
+":setting:`LEGAL_URL` e :setting:`PRIVACY_URL` como alternativas quando "
+"configuradas. Se nenhuma alternativa de URL está configurada, o link "
+"relacionado é omitido."
 
 #: admin/config.rst:1371
 msgid ""
@@ -6936,6 +6929,10 @@ msgid ""
 "external terms document instead of embedding :file:`legal/documents/"
 "tos.html`."
 msgstr ""
+"Com a confirmação de termos de serviço ativos, esconder ``termos`` e definir "
+":setting:`LEGAL_URL` faz com que a página de confirmação faça link para os "
+"documentos de termos externos em vez de embutir :file:`legal/documents/"
+"tos.html`."
 
 #: admin/config.rst:1375
 msgid ""
@@ -6943,6 +6940,9 @@ msgid ""
 "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the "
 "API schema terms link uses the same fallback."
 msgstr ""
+"Em implementações não Docker, defina :setting:`LEGAL_HIDDEN_DOCUMENTS` e "
+":setting:`LEGAL_URL` antes que ``SPECTACULAR_SETTINGS`` seja criada para que "
+"o link do esquema dos termos da API utilizem a mesma alternativa."
 
 #: admin/config.rst:1396
 msgid "You need :ref:`legal` installed to make this work."
@@ -6962,33 +6962,26 @@ msgid "URL where your Weblate instance shows its legal documents."
 msgstr "URL onde a sua instância de Weblate mostra os documentos legais dela."
 
 #: admin/config.rst:1416
-#, fuzzy
-#| msgid ""
-#| "Useful if you host your legal documents outside Weblate for embedding "
-#| "them inside Weblate. Please check :ref:`legal` for details."
 msgid ""
 "Useful if you host your legal documents outside Weblate instead of using "
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
-"Útil se hospedar os seus documentos legais fora do Weblate para incorporá-"
-"los ao Weblate. Consulte :ref:`legal` para obter pormenores."
+"Útil se hospedar os seus documentos legais fora do Weblate em vez de usar o "
+"módulo :ref:`legal`. Quando o módulo legal é ativo, o Weblate dá link das "
+"páginas internas legais por predefinição."
 
 #: admin/config.rst:1435
 msgid "Additional licenses to include in the license choices."
 msgstr "Licenças adicionais para incluir nas opções de licença."
 
 #: admin/config.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Each license definition should be tuple of its short name, a long name "
-#| "and an URL."
 msgid ""
 "Each license definition should be a tuple of its short name, a long name, a "
 "URL and a boolean, indicating whether it is a libre license."
 msgstr ""
 "Cada definição de licença deve ser uma tupla do seu nome curto, um nome "
-"longo e uma URL."
+"longo, um URL e um boolean, indicando se é uma licença livre."
 
 #: admin/config.rst:1441 admin/config.rst:1470 admin/config.rst:1565
 #: admin/projects.rst:649 formats/xliff.rst:79
@@ -7137,12 +7130,17 @@ msgid ""
 "URL for password reset when authentication is handled by an external "
 "identity provider, such as LDAP, SAML, or OAuth."
 msgstr ""
+"O URL para reiniciar a palavra-passe quando a autenticação é tratada por um "
+"fornecedor de identidade externo, tal como LDAP, SAML, ou OAuth."
 
 #: admin/config.rst:1645
 msgid ""
 "When set, :guilabel:`Forgot your password?` on the sign-in page links to "
 "this URL instead of Weblate's built-in password reset page."
 msgstr ""
+"Quando definido, :guilabel:`Esqueceu-se da sua palavra-passe` na página de "
+"início de sessão dá link para este URL em vez da página de reinicio de "
+"palavra-passe embutida do Weblate."
 
 #: admin/config.rst:1655
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -7155,6 +7153,9 @@ msgid ""
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"Útil se quer hospedar a sua política de privacidade fora do Weblate em vez "
+"de usar o módulo :ref:`legal`. Quando o módulo legal está ativo, o Weblate "
+"dá link para as páginas legais internas por predefinição."
 
 #: admin/config.rst:1680
 msgid ""
@@ -7173,15 +7174,11 @@ msgstr ""
 "explicitamente um e-mail commit."
 
 #: admin/config.rst:1698
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"Modelo para gerar e-mail de commit privado para um utilizador. O padrão é "
+"Modelo para gerar um e-mail de commit privado para um utilizador. O padrão é "
 "``\"{username}@users.noreply.{site_domain}\"``."
 
 #: admin/config.rst:1700 admin/config.rst:1737
@@ -7189,76 +7186,56 @@ msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"Pode conter ``{user_id}``, ``{username}``, ``{site_title}``, e ``"
+"{site_domain}``."
 
 #: admin/config.rst:1702 admin/config.rst:1739
 msgid "Set to blank string to disable."
 msgstr "Defina para cadeia vazia para desativar."
 
 #: admin/config.rst:1706
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
 "e-mail in the :ref:`profile`."
 msgstr ""
-"O uso de e-mail de commit diferente é opcional para os utilizadores, a menos "
-"que configurado por :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Os utilizadores "
-"podem configurar o e-mail de commit no :ref:`profile`."
+"O uso de um e-mail de commit diferente é opcional para os utilizadores, a "
+"menos que configurado por :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Os "
+"utilizadores podem configurar o seu e-mail de commit no :ref:`profile`."
 
 #: admin/config.rst:1717
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
 msgstr ""
-"Configura se o ''e-mail'' de submissão privado foi optado ou não (por "
-"predefinição é optado)."
+"Configura se o nome de submissão privado foi optado ou não (por predefinição "
+"é optado)."
 
 #: admin/config.rst:1721
-#, fuzzy
-#| msgid ""
-#| "This setting only applies to users which have not explicitly chosen a "
-#| "commit e-mail."
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
 msgstr ""
 "Esta configuração só se aplica a utilizadores que não escolheram "
-"explicitamente um e-mail commit."
+"explicitamente um nome de commit."
 
 #: admin/config.rst:1735
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
 msgstr ""
-"Modelo para gerar e-mail de commit privado para um utilizador. O padrão é "
-"``\"{username}@users.noreply.{site_domain}\"``."
+"Modelo para gerar um nome de commit privado para um utilizador. O padrão é "
+"``\"{site_title} user {user_id}\"``.."
 
 #: admin/config.rst:1743
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit name is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit "
 "name in the :ref:`profile`."
 msgstr ""
-"O uso de e-mail de commit diferente é opcional para os utilizadores, a menos "
-"que configurado por :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Os utilizadores "
-"podem configurar o e-mail de commit no :ref:`profile`."
+"O uso de um nome de commit diferente é opcional para os utilizadores, a "
+"menos que configurado por :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Os "
+"utilizadores podem configurar o seu nome de commit no :ref:`profile`."
 
 #: admin/config.rst:1754
 msgid ""
@@ -7275,16 +7252,12 @@ msgstr ""
 "tempo padrão é de 30 dias."
 
 #: admin/config.rst:1780
-#, fuzzy
-#| msgid ""
-#| "Configures how long activity logs for add-ons are kept. Defaults to 180 "
-#| "days."
 msgid ""
 "Configures the maximum size, in bytes, for uploaded project backup ZIP "
 "files. Defaults to 536870912 bytes (512 MiB)."
 msgstr ""
-"Configura por quanto tempo os logs de atividade dos complementos são "
-"mantidos. O padrão é de 180 dias."
+"Configura o tamanho máximo, em bytes, para enviar os ficheiros de cópia de "
+"segurança do projeto. A predefinição é 536870912 bytes (512 MiB)."
 
 #: admin/config.rst:1783
 msgid ""
@@ -7294,42 +7267,52 @@ msgid ""
 "deployments can be constrained by their reverse proxy request body-size "
 "limit."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE``. As configurações de Docker "
+"também podem ser limitadas por :envvar:`CLIENT_MAX_BODY_SIZE`; outras "
+"implementações podem ser limitadas pelo limite do tamanho do corpo do pedido "
+"do proxy reverso."
 
 #: admin/config.rst:1799
 msgid ""
 "Defines the maximum number of ZIP entries allowed when importing a project "
 "backup."
 msgstr ""
+"Define o número máximo de entradas ZIP permitidas ao importar uma cópia de "
+"segurança do projeto."
 
 #: admin/config.rst:1802
 msgid ""
 "This is a safeguard against malformed or intentionally fragmented archives. "
 "Defaults to 100000 entries."
 msgstr ""
+"Isto é uma salvaguarda contra arquivos mal formados ou intencionalmente "
+"fragmentados. A predefinição é de 100000 entradas."
 
 #: admin/config.rst:1805
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS`` environment variable."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS``."
 
 #: admin/config.rst:1819
-#, fuzzy
-#| msgid ""
-#| "Configures how long activity logs for add-ons are kept. Defaults to 180 "
-#| "days."
 msgid ""
 "Defines the maximum total uncompressed size, in bytes, for ZIP entries in an "
 "imported project backup. Defaults to 536870912 bytes (512 MiB)."
 msgstr ""
-"Configura por quanto tempo os logs de atividade dos complementos são "
-"mantidos. O padrão é de 180 dias."
+"Defines o tamanho máximo total não compresso, em bytes, para entradas ZIP em "
+"uma cópia de segurança de projeto importada. A predefinição é 536870912 "
+"bytes (512 MiB)."
 
 #: admin/config.rst:1822
 msgid ""
 "This limits archives that are small when uploaded but expand to much more "
 "data during validation or restore."
 msgstr ""
+"Isto limita arquivos que são pequenos quando enviados mas expandem para "
+"muitos mais dados durante a validação ou restauro."
 
 #: admin/config.rst:1825
 msgid ""
@@ -7337,12 +7320,16 @@ msgid ""
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`` environment "
 "variable."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE``."
 
 #: admin/config.rst:1840
 msgid ""
 "Defines the maximum uncompressed size, in bytes, for a single highly "
 "compressed ZIP entry in an imported project backup."
 msgstr ""
+"Define o tamanho não comprimido máximo, em bytes, para uma única entrada ZIP "
+"altamente compressa em uma cópia de segurança de projeto importada."
 
 #: admin/config.rst:1843
 msgid ""
@@ -7351,6 +7338,11 @@ msgid ""
 "allowed here and are expected to be constrained by the HTTP upload limit. "
 "Defaults to 262144000 bytes (250 MiB)."
 msgstr ""
+"Este limite aplica-se apenas a entradas que são grandes o suficiente e "
+"comprimidas o suficiente para parecerem suspeitas. Ficheiros grandes de "
+"baixa compressão são intencionalmente permitidos aqui e espera-se que sejam "
+"limitados pelo limite de envio HTTP. A predefinição é 262144000 bytes (250 "
+"MiB)."
 
 #: admin/config.rst:1848
 msgid ""
@@ -7358,12 +7350,17 @@ msgid ""
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`` environment "
 "variable."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE``."
 
 #: admin/config.rst:1863
 msgid ""
 "Defines the minimum uncompressed size, in bytes, at which Weblate starts "
 "considering the ZIP compression ratio during project backup import."
 msgstr ""
+"Define o tamanho não compresso mínimo, em bytes, ao qual o Weblate começa a "
+"considerar o rácio de compressão ZIP durante o importe da cópia de segurança "
+"de projeto."
 
 #: admin/config.rst:1866
 msgid ""
@@ -7371,18 +7368,26 @@ msgid ""
 "avoid rejecting reasonably sized files that compress well. Defaults to "
 "1048576 bytes (1 MiB)."
 msgstr ""
+"Ficheiros mais pequenos são ignorados para a validação baseada em rácio de "
+"compressão para evitar rejeitar ficheiros de tamanho razoável que comprimem "
+"bem. A predefinição é 1048576 bytes (1 MiB)."
 
 #: admin/config.rst:1870
 msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE``."
 
 #: admin/config.rst:1884
 msgid ""
 "Defines the maximum allowed ratio between the uncompressed and compressed "
 "size for a large ZIP entry during project backup import."
 msgstr ""
+"Define o rácio máximo permitido entre o tamanho compresso e não compresso "
+"para uma entrada ZIP grande durante a importação da cópia de segurança do "
+"projeto."
 
 #: admin/config.rst:1887
 msgid ""
@@ -7392,6 +7397,12 @@ msgid ""
 "compressed entries while still allowing large repository pack files and "
 "other low-compression content. Defaults to 250."
 msgstr ""
+"Isto é usado em conjunto com "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE` e "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` para detetar entradas "
+"comprimidas suspeitas enquanto ainda permite ficheiros de pacote de "
+"repositório grande e outro conteúdo de baixa compressão. A predefinição é "
+"250."
 
 #: admin/config.rst:1893
 msgid ""
@@ -7399,6 +7410,8 @@ msgid ""
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`` environment "
 "variable."
 msgstr ""
+"No Docker, configure isto usando a variável de ambiente "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO``."
 
 #: admin/config.rst:1908
 msgid ""
@@ -7428,6 +7441,12 @@ msgid ""
 "and :setting:`PROJECT_WEB_RESTRICT_RE` when validating the project website. "
 "Project slugs are matched case-insensitively."
 msgstr ""
+"Define um conjunto de abreviações isentas de "
+":setting:`PROJECT_WEB_RESTRICT_HOST`, "
+":setting:`PROJECT_WEB_RESTRICT_NUMERIC`, "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` e :setting:`PROJECT_WEB_RESTRICT_RE` "
+"ao validar o website do projeto. Abreviações do projeto correspondidas sem "
+"distinção entre maiúsculas e minúsculas."
 
 #: admin/config.rst:1955
 msgid ""
@@ -7436,6 +7455,11 @@ msgid ""
 "by :setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use it only for trusted, "
 "administrator-managed projects where bypassing these checks is intentional."
 msgstr ""
+"Esta isenção enfraquece proteções de saída URL para projetos "
+"correspondentes, incluindo a restrição de alvo privado aplicado pela "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`. Use-a apenas para projetos "
+"confiados, geridos por administrador onde saltar estas verificações é "
+"intencional."
 
 #: admin/config.rst:1982
 msgid "Reject using numeric IP address in project website. On by default."
@@ -7447,6 +7471,8 @@ msgid ""
 "Reject using project website and repository browser URLs pointing to "
 "internal or non-public addresses. On by default."
 msgstr ""
+"Rejeita usar o website do projeto e os URLs do navegador do repositório que "
+"apontam para endereços internos ou não públicos. Ativo por predefinição."
 
 #: admin/config.rst:2016
 msgid ""
@@ -7463,6 +7489,11 @@ msgid ""
 "semantics, so values such as ``hooks.internal.example`` or "
 "``.internal.example`` can be used."
 msgstr ""
+"Define nomes de anfitriões ou domínios isentes de "
+":setting:`WEBHOOK_RESTRICT_PRIVATE` para entrega de webhooks de saída. "
+"Entradas seguem semânticas de correspondência de anfitrião Django, e por "
+"isso valores como ``hooks.internal.example`` ou ``.internal.example`` podem "
+"ser usados."
 
 #: admin/config.rst:2054
 msgid ""
@@ -7470,6 +7501,9 @@ msgid ""
 "target host is included in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"Rejeita URLs de webooks que apontam para endereços internos ou não públicos "
+"a não ser que o anfitrião alvo esteja incluído em "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`. Ativo por predefinição."
 
 #: admin/config.rst:2057
 msgid ""
@@ -7477,14 +7511,19 @@ msgid ""
 "rejected unless they are explicitly included "
 "in :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 msgstr ""
+"Quando ativo, nomes de anfitrião que não podem ser resolvidos durante a "
+"validação são rejeitados a não ser que sejam explicitamente incluídos em "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/config.rst:2072
 msgid "Allows public engage page even with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Permite uma página de participação do público mesmo com "
+":setting:`REQUIRE_LOGIN`."
 
 #: admin/config.rst:2085
 msgid "Limits how many notifications for a single user will be sent out."
-msgstr ""
+msgstr "Limita quantas notificações para um único utilizador serão enviadas."
 
 #: admin/config.rst:2087
 msgid "The default setting is:"
@@ -7555,10 +7594,6 @@ msgstr ""
 "Se o registo de novas contas está protegido por CAPTCHA. O padrão é ativado."
 
 #: admin/config.rst:2185
-#, fuzzy
-#| msgid ""
-#| "If turned on, a CAPTCHA is added to all pages where a users enters their "
-#| "e-mail address:"
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a user enters their e-"
 "mail address:"
@@ -7591,17 +7626,14 @@ msgid "Mathematical captcha to be solved by the user."
 msgstr "Captcha matemático a ser resolvido pelo utilizador."
 
 #: admin/config.rst:2195
-#, fuzzy
-#| msgid ""
-#| "Proof of work challenge calculated by the browser. The difficulty can be "
-#| "adjusted using :setting:`ALTCHA_MAX_NUMBER`."
 msgid ""
 "Proof of work challenge calculated by the browser. The difficulty can be "
 "adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`."
 msgstr ""
 "Desafio de prova de trabalho calculado pelo navegador. A dificuldade pode "
-"ser ajustada usando :setting:`ALTCHA_MAX_NUMBER`."
+"ser ajustada usando :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, e "
+":setting:`ALTCHA_PARALLELISM`."
 
 #: admin/config.rst:2202
 msgid "Allows you to filter which e-mail addresses can register."
@@ -7622,6 +7654,8 @@ msgid ""
 "Allow registration with disposable e-mail domains. When enabled, the "
 "disposable domain blocklist is bypassed. Default is ``False``."
 msgstr ""
+"Permitir registo com domínios de e-mail descartáveis. Quando ativo, a lista "
+"de bloqueios de domínios descartável é ignorada. A predefinição é ``False``."
 
 #: admin/config.rst:2232
 msgid ""
@@ -7689,10 +7723,8 @@ msgstr ""
 "finais da API."
 
 #: admin/config.rst:2293
-#, fuzzy
-#| msgid "Weblate now requires Django 3.2."
 msgid "Weblate now relies on Django built-in middleware."
-msgstr "Weblate agora necessita de Django 3.2."
+msgstr "Weblate agora recorre ao middleware integrado do Django."
 
 #: admin/config.rst:2297
 msgid ""
@@ -7708,6 +7740,10 @@ msgid ""
 "Reporting. Set to ``None`` to disable the integration, or set to a "
 "dictionary of keyword arguments for the Google Cloud Error Reporting client."
 msgstr ""
+"Configuração para :ref:`collecting-errors` usando Google Cloud Error "
+"Reporting. Defina para ``None`` para desativar a integração, ou defina um "
+"dicionário de argumentos de palavra chave para o cliente Google Cloud Error "
+"Reporting."
 
 #: admin/config.rst:2309
 msgid ""
@@ -34380,6 +34416,13 @@ msgid ""
 "project scope should override ``daily(component, project)`` directly to "
 "implement project-level logic."
 msgstr ""
+"O método de assinatura ``daily()`` em extras mudou. Extras que previamente "
+"sobrescreviam ``daily(component)`` para executar trabalho por componente "
+"deve agora em vez sobrescrever ``daily_component(component)``. O método base "
+"``daily()`` itera automaticamente componentes e chamadas ``daily_component()"
+"`` para cada. Extras que podem ser otimizados para operar ao nível do "
+"projeto devem sobrescrever ``daily(component, project)`` diretamente para "
+"implementar a lógica a nível do projeto."
 
 #: changes/v5.rst:179
 #, fuzzy
@@ -41833,6 +41876,12 @@ msgid ""
 "difficult to annotate precisely. CI therefore enforces :program:`mypy` only "
 "for selected modules and reports other findings separately."
 msgstr ""
+"Código novo e mudado não deve introduzir novas falhas :program:`mypy` onde o "
+"suporte de digitação Django atual torna isto prático. A base de código ainda "
+"não é completamente coberta por anotação de tipos, e algumas estruturas "
+"Django são difíceis de anotar de forma precisa. Então, o CI aplica "
+":program:`mypy` apenas para módulos selecionados e comunica outras "
+"conclusões separadamente."
 
 #: contributing/snippets/code-guide.rst:84
 msgid "Coding standard and linting the code"
@@ -43825,6 +43874,13 @@ msgid ""
 "bilingual components publish only target-language files. See :ref:`cdn-"
 "server-security` for secure server setup."
 msgstr ""
+"Ficheiros de tradução individuais são nomeados usando o código de idioma e a "
+"extensão do ficheiro original, por exemplo ``cs.json`` ou ``de.po``. "
+"Ficheiros de tradução múltiplos são servidos abaixo do código de idioma "
+"usando caminhos relativos ao diretório de tradução. Componentes monolingues "
+"incluem o ficheiro de idioma fonte, enquanto que componentes bilingues "
+"publicam apenas ficheiros do idioma alvo. Veja :ref:`cdn-server-security` "
+"para uma configuração de servidor segura."
 
 #: devel/integration.rst:2
 msgid "Integrating with Weblate"
@@ -50020,10 +50076,8 @@ msgid "The :class:`Weblate` class is the main API entry point."
 msgstr ""
 
 #: python.rst:41
-#, fuzzy
-#| msgid "Explanations"
 msgid "Exceptions"
-msgstr "Explicações"
+msgstr "Exceções"
 
 #: python.rst:53
 #, fuzzy
@@ -55001,6 +55055,12 @@ msgid ""
 "Configure providers according to the data policy for the project. "
 "*(maintainer)*"
 msgstr ""
+"Enviar cadeias de carateres fonte ou conteúdo privado de consumidor para a "
+"fornecedores de tradução de máquina sem considerar o fornecedor enquanto "
+"recipiente de dados. Isto é inseguro porque o Weblate tem que transmitir "
+"conteúdo para o serviço configurado, e o conteúdo submetido varia entre "
+"fornecedores e funcionalidades ativas. Configure os fornecedores de acordo "
+"com a política de dados para o projeto. *(responsável pela manutenção)*"
 
 #: security/threat-model.rst:708
 msgid ""
@@ -56872,11 +56932,6 @@ msgstr ""
 "alterações de ficheiros no sistema de controlo de versão."
 
 #: snippets/addons-autogenerated.rst:264
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language. All named groups in the "
-#| "regular expression can be used as variables in the template fields."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. The regular "
@@ -56884,10 +56939,11 @@ msgid ""
 "match component and language. All named groups in the regular expression can "
 "be used as variables in the template fields."
 msgstr ""
-"A expressão regular para corresponder aos ficheiros de tradução deve conter "
-"dois grupos nomeados para corresponder ao componente e ao idioma. Todos os "
-"grupos nomeados na expressão regular podem ser usados como variáveis nos "
-"campos do modelo."
+"A correspondência é feita usando expressões regulares ao ativar configuração "
+"complexa, mas algum conhecimento é necessário para tal. A expressão regular "
+"para corresponder aos ficheiros de tradução deve conter dois grupos nomeados "
+"para corresponder ao componente e ao idioma. Todos os grupos nomeados na "
+"expressão regular podem ser usados como variáveis nos campos do modelo."
 
 #: snippets/addons-autogenerated.rst:271
 #, fuzzy
@@ -62248,12 +62304,6 @@ msgstr ""
 "DOM Fluent."
 
 #: snippets/checks-autogenerated.rst:2333
-#, fuzzy
-#| msgid ""
-#| "The aim of this check is to predict how the value will be parsed as inner "
-#| "HTML, assuming a HTML5 conforming parser, to catch cases where there "
-#| "would be some \"unintended\" loss of the string, without being too strict "
-#| "about technical parsing errors that do *not* lead to a loss of the string."
 msgid ""
 "The aim of this check is to predict how the value will be parsed as inner "
 "HTML, assuming an HTML5 conforming parser, to catch cases where there would "
@@ -62720,7 +62770,6 @@ msgid "UTF-8"
 msgstr "UTF-8"
 
 #: snippets/file-format-parameters.rst:17
-#, fuzzy
 msgid "csv_escape_formulas"
 msgstr "csv_escape_formulas"
 
@@ -66923,7 +66972,7 @@ msgstr "Termos de glossário"
 
 #: user/glossary.rst:84
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: user/glossary.rst:85
 msgid "Purpose"
@@ -67171,6 +67220,12 @@ msgid ""
 "terms. If the stale glossary language still contains terms, Weblate keeps it "
 "and reports it as an unused glossary language."
 msgstr ""
+"O Weblate pode limpar traduções desatualizadas de glossário apenas para "
+"glossários geridos pelo Weblate, só quando nenhum componente regular no "
+"projeto utiliza esse idioma, e apenas quando o glossário de tradução "
+"desatualizado não tem termos traduzidos. Se o glossário de idioma "
+"desatualizado ainda contém termos, o Weblate mantém-o e comunica-o enquanto "
+"um glossário de idioma inutilizado."
 
 #: user/glossary.rst:259
 #, fuzzy
@@ -70690,11 +70745,6 @@ msgstr ""
 "por exemplo, ``https://hosted.weblate.org/api/``."
 
 #: wlc.rst:174
-#, fuzzy
-#| msgid ""
-#| "Specify the API user key to use. Overrides any value found in the "
-#| "configuration file, see :ref:`wlc-config`. You can find your key in your "
-#| "profile on Weblate."
 msgid ""
 "Specify the API user key to use. Overrides any value found in the "
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
@@ -70704,7 +70754,10 @@ msgid ""
 msgstr ""
 "Especifica a chave do utilizador de API a ser usada. Substitui qualquer "
 "valor encontrado no ficheiro de configuração, consulte :ref:`wlc-config`. "
-"Pode encontrar a sua chave no seu perfil no Weblate."
+"Pode encontrar a sua chave no seu perfil no Weblate. Quando o URL da API é "
+"carregado através da configuração de projeto automaticamente descoberta, a "
+"opção :option:`--key` tem que ser utilizada com a :option:`--url`. Chaves de "
+"API são rejeitadas em relação a URLs ``htp://`` não locais por predefinição."
 
 #: wlc.rst:182
 msgid ""
@@ -71149,6 +71202,13 @@ msgid ""
 "discovered project configuration cannot enable it; set it in user "
 "configuration or pass an explicit :option:`--config` file instead."
 msgstr ""
+"A opção de utilização do HTTP não seguro só pode ser ativada em vez de ser "
+"uma definição de precedente. É ativa quando :option:`--allow-insecure-http` "
+"é passado, quando :envvar:`WLC_ALLOW_INSECURE_HTTP` tem um valor de "
+"verdadeiro, ou quando ``allow_insecure_http`` está ativo na configuração "
+"confiada. Configuração de projeto automaticamente descoberta não a podem "
+"ativar; defina-a em configuração de utilizador ou em vez disso passe um "
+"ficheiro :option:`--config` explícito."
 
 #: wlc.rst:476
 msgid "Examples"
