@@ -843,6 +843,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
         form.cleaned_data["state"],
         request=request,
         add_alternative=add_alternative,
+        message=form.cleaned_data.get("message", ""),
     )
     # Make sure explanation is saved
     if change_explanation:

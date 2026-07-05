@@ -2855,6 +2855,18 @@ table.table-simple tbody#glossary-terms .alert-info {
   max-height: min(60vh, 480px);
 }
 
+/* Keep the "Add a note (optional)" toggle green on click/focus */
+a.btn-link.change-message-toggle,
+a.btn-link.change-message-toggle:hover,
+a.btn-link.change-message-toggle:focus,
+a.btn-link.change-message-toggle:focus-visible,
+a.btn-link.change-message-toggle:active {
+  color: var(--bs-link-color);
+  text-decoration: none;
+  box-shadow: none;
+  outline: none;
+}
+
 .ts-dropdown .create {
   color: var(--bs-secondary-color);
 }

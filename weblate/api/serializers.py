@@ -39,6 +39,10 @@ from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
+from weblate.trans.change_messages import (
+    CHANGE_MESSAGE_MAX_LENGTH,
+    validate_change_message,
+)
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
     should_copy_component_field,
@@ -2502,10 +2506,29 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
 
 
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
-    """Serializer for updating source unit."""
+    """
+    Serializer for updating a translation unit.
+
+    The optional write-only ``message`` field lets clients attach a free-text
+    note explaining why a change was made. It is stored on the resulting
+    :class:`~weblate.trans.models.Change` record; read it back via
+    ``GET /api/changes/``.
+    """
 
     target = PluralField()
     labels = UnitFlatLabelsSerializer(many=True)
+    message = serializers.CharField(
+        label=gettext_lazy("Message"),
+        help_text=gettext_lazy(
+            "Optional note explaining why the translation was changed, "
+            "stored on the resulting change record."
+        ),
+        max_length=CHANGE_MESSAGE_MAX_LENGTH,
+        required=False,
+        allow_blank=True,
+        default="",
+        write_only=True,
+    )
 
     class Meta:
         model = Unit
@@ -2515,7 +2538,11 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
             "explanation",
             "extra_flags",
             "labels",
+            "message",
         )
+
+    def validate_message(self, value: str) -> str:
+        return validate_change_message(value)
 
     def to_internal_value(self, data):
         # Allow blank target for untranslated strings
@@ -2811,6 +2838,13 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
 
 class ChangeSerializer(RemovableSerializer[Change]):
     action_name = serializers.CharField(source="get_action_display", read_only=True)
+    message = serializers.CharField(
+        read_only=True,
+        help_text=gettext_lazy(
+            "Optional free-text note provided by the user when making this "
+            "change. Empty string when no note was supplied."
+        ),
+    )
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("component__project__slug", "component__slug"),
@@ -2851,6 +2885,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "id",
             "action_name",
             "url",
+            "message",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:change-detail"}

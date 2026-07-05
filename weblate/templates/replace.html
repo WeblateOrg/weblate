@@ -25,6 +25,7 @@
 
   <form method="post">
     {% csrf_token %}
+
     {% for field in confirm.hidden_fields %}{{ field }}{% endfor %}
 
     <table class="table replace-preview">

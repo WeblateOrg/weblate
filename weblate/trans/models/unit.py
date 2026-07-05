@@ -1637,6 +1637,7 @@ class Unit(models.Model, LoggerMixin):
         run_checks: bool = True,
         request=None,
         change_details: dict[str, Any] | None = None,
+        message: str = "",
     ) -> bool:
         """
         Store unit to backend.
@@ -1713,6 +1714,7 @@ class Unit(models.Model, LoggerMixin):
             change_action,
             save=not self.is_batch_update,
             change_details=change_details,
+            message=message,
         )
         if self.is_batch_update:
             self.translation.update_changes.append(change)
@@ -1732,6 +1734,7 @@ class Unit(models.Model, LoggerMixin):
         save: bool = True,
         check_new: bool = True,
         change_details: dict[str, Any] | None = None,
+        message: str = "",
     ) -> Change:
         # Generate Change object for this change
         change = self.generate_change(
@@ -1741,6 +1744,7 @@ class Unit(models.Model, LoggerMixin):
             save=save,
             check_new=check_new,
             change_details=change_details,
+            message=message,
         )
 
         if change.action not in {
@@ -1908,6 +1912,7 @@ class Unit(models.Model, LoggerMixin):
         old: str | None = None,
         target: str | None = None,
         change_details: dict[str, Any] | None = None,
+        message: str = "",
     ) -> Change:
         """Create Change entry for saving unit."""
         # Notify about new contributor
@@ -1949,6 +1954,8 @@ class Unit(models.Model, LoggerMixin):
         }
         if change_details:
             details.update(change_details)
+        if message:
+            details["message"] = message
 
         change = Change(
             unit=self,
@@ -2259,6 +2266,7 @@ class Unit(models.Model, LoggerMixin):
         add_alternative: bool = False,
         select_for_update: bool = True,
         change_details: dict[str, Any] | None = None,
+        message: str = "",
     ) -> bool:
         """
         Store new translation of a unit.
@@ -2324,6 +2332,7 @@ class Unit(models.Model, LoggerMixin):
             author=author,
             request=request,
             change_details=change_details,
+            message=message,
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)
@@ -2657,7 +2666,11 @@ class Unit(models.Model, LoggerMixin):
         return True
 
     def update_extra_flags(
-        self, extra_flags: str, user: User, save: bool = True
+        self,
+        extra_flags: str,
+        user: User,
+        save: bool = True,
+        message: str = "",
     ) -> None:
         """Update unit extra flags."""
         verify_in_transaction()
@@ -2682,6 +2695,7 @@ class Unit(models.Model, LoggerMixin):
                 save=True,
                 old=old,
                 target=self.extra_flags,
+                message=message,
             )
 
     @cached_property

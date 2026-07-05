@@ -30,6 +30,9 @@ from weblate.trans.actions import (
     ACTIONS_SHOW_CONTENT,
     ActionEvents,
 )
+from weblate.trans.change_messages import (
+    normalize_change_message,
+)
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
@@ -287,6 +290,10 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         objs = list(objs)
         for change in objs:
             change.fixup_references()
+            if change.details and "message" in change.details:
+                change.details["message"] = normalize_change_message(
+                    change.details["message"]
+                )
 
         changes: list[Change] = super().bulk_create(  # type: ignore[assignment]
             objs,  # type: ignore[arg-type]
@@ -720,6 +727,10 @@ class Change(models.Model, UserDisplayMixin):
     def save(self, *args, **kwargs) -> None:
         self.fixup_references()
 
+        # Ensure stored messages are always normalized regardless of the code
+        # path that created the change (forms, API, add-ons, or internal calls).
+        self.message = normalize_change_message(self.message)
+
         super().save(*args, **kwargs)
 
         if self.is_last_content_change_storable():
@@ -775,6 +786,21 @@ class Change(models.Model, UserDisplayMixin):
                 self.project.log_info("%s", message)
             else:
                 LOGGER.info("%s", message)
+
+    @property
+    def message(self) -> str:
+        if not self.details:
+            return ""
+        return self.details.get("message", "")
+
+    @message.setter
+    def message(self, value: str) -> None:
+        if self.details is None:
+            self.details = {}
+        if value:
+            self.details["message"] = value
+        else:
+            self.details.pop("message", None)
 
     @property
     def path_object(

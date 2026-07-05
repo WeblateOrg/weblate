@@ -48,6 +48,9 @@
               </label>
               {{ history_field.content }}
             {% endfor %}
+            {% if item.message %}
+              {% include "snippets/change-message.html" with message=item.message only %}
+            {% endif %}
             <span class="float-end text-muted">{{ item.change.timestamp|naturaltime }}</span>
             <div class="clearfix" {% if in_email %}style="clear:both"{% endif %}></div>
           </div>

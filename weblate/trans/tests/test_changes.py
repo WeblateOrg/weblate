@@ -4,8 +4,10 @@
 
 """Tests for changes browsing."""
 
+import csv
 from datetime import timedelta
 from html import escape
+from io import StringIO
 
 from django.urls import reverse
 from django.utils import timezone
@@ -350,3 +352,60 @@ class ChangesTest(ViewTestCase):
         )  # one is from search options, second from history-data
         # check the string context is also displayed
         self.assertContains(response, "Orangutan unit context")
+
+    def test_change_message_display(self) -> None:
+        """Test that user-provided message is displayed in change detail and history."""
+        # 1. Test change detail view displays the message
+        unit = self.get_unit("Hello, world!\n")
+        custom_message = "Correcting spelling mistakes in translation."
+        change = Change.objects.create(
+            unit=unit,
+            action=ActionEvents.CHANGE,
+            user=self.user,
+            author=self.user,
+            target="Nazdar světe!\n",
+            old="Nazdar svete!\n",
+            message=custom_message,
+        )
+
+        response = self.client.get(reverse("show_change", kwargs={"pk": change.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, custom_message)
+
+        # 2. Test change list / last changes displays the message (change-message.html snippet)
+        response = self.client.get(reverse("changes"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="change-user-message')
+        self.assertContains(response, custom_message)
+
+    def test_changes_csv_export_contains_message(self) -> None:
+        """Test that the CSV export includes the 'message' column and values."""
+        # Clean changes first for easy testing
+        Change.objects.all().delete()
+        self.change_unit("Nazdar svete!\n", user=self.user)
+
+        message_text = "Reason for CSV export check."
+        # Set message on the change manually
+        latest_change = Change.objects.order_by("-timestamp").first()
+        latest_change.message = message_text
+        latest_change.save()
+
+        # Authorize as superuser to download CSV
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.get(reverse("changes-csv"))
+        self.assertEqual(response.status_code, 200)
+
+        content = response.content.decode("utf-8")
+        reader = csv.reader(StringIO(content))
+        rows = list(reader)
+
+        # Assert headers have message
+        headers = rows[0]
+        self.assertIn("message", headers)
+        message_index = headers.index("message")
+
+        # Assert row value
+        row = rows[1]
+        self.assertEqual(row[message_index], message_text)

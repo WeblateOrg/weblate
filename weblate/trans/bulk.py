@@ -48,6 +48,7 @@ def bulk_perform(
     remove_labels: QuerySet[Label],
     project: Project | None,
     components: QuerySet[Component] | list[Component] | None = None,
+    message: str = "",
 ) -> int:
     matching = unit_set.search(query, project=project)
     if components is None:
@@ -115,6 +116,7 @@ def bulk_perform(
                                 ActionEvents.BULK_EDIT,
                                 check_new=False,
                                 save=False,
+                                message=message,
                             )
                         )
                         updated += 1
@@ -169,7 +171,9 @@ def bulk_perform(
                         new_flags = flags.format()
                         if source_unit.extra_flags != new_flags:
                             source_unit.is_batch_update = True
-                            source_unit.update_extra_flags(new_flags, user)
+                            source_unit.update_extra_flags(
+                                new_flags, user, message=message
+                            )
                             changed = True
 
                     if add_labels or remove_labels:
@@ -187,6 +191,7 @@ def bulk_perform(
                                         user=user,
                                         author=user,
                                         details={"label": label.name},
+                                        message=message,
                                     )
                             changed = True
 
@@ -200,6 +205,7 @@ def bulk_perform(
                                         user=user,
                                         author=user,
                                         details={"label": label.name},
+                                        message=message,
                                     )
                             changed = True
 
