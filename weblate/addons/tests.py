@@ -104,6 +104,7 @@ from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
 from .fedora_messaging import (
     SERVICE_STOP_TIMEOUT,
+    TOPIC_PREFIX_MAX_LENGTH,
     BrokerTLSProbeProtocol,
     FedoraMessagingAddon,
     FedoraMessagingPublishError,
@@ -8975,6 +8976,34 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "weblate.translation_changed.test.parent.child.test.cs",
         )
 
+    def test_prefixed_topic(self) -> None:
+        self.assertEqual(
+            FedoraMessagingAddon.get_prefixed_topic("weblate.test", ""),
+            "weblate.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_prefixed_topic("weblate.test", None),
+            "weblate.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_prefixed_topic(
+                "weblate.test", "org.fedoraproject"
+            ),
+            "org.fedoraproject.weblate.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_prefixed_topic(
+                "weblate.test", "org.fedoraproject."
+            ),
+            "org.fedoraproject.weblate.test",
+        )
+        self.assertEqual(
+            FedoraMessagingAddon.get_prefixed_topic(
+                "weblate.test", ".org.fedoraproject."
+            ),
+            "org.fedoraproject.weblate.test",
+        )
+
     def test_body(self):
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
@@ -8995,6 +9024,27 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 retry_delay=2,
             ),
             "amqps://rabbitmq.example.com/%2F?heartbeat=30&connection_attempts=1&retry_delay=2",
+        )
+
+    def test_change_event_applies_topic_prefix(self) -> None:
+        self.WEBHOOK_CLS.create(
+            configuration={
+                **self.addon_configuration,
+                "topic_prefix": ".org.fedoraproject.",
+            }
+        )
+
+        with (
+            patch.object(FedoraMessagingAddon, "publish_message") as publish_message,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+        publish_message.assert_called_once()
+        message = publish_message.call_args.args[0]
+        self.assertEqual(
+            message.topic,
+            "org.fedoraproject.weblate.translation_added.test.test.cs",
         )
 
     def test_publish_message_success(self) -> None:
@@ -9500,6 +9550,65 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             form.errors.as_text(),
         )
 
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_form_rejects_too_long_topic_prefix(self) -> None:
+        form = FedoraMessagingAddonForm(
+            self.user,
+            FedoraMessagingAddon(
+                FedoraMessagingAddon.create_object(acting_user=self.user)
+            ),
+            data={
+                **self.addon_configuration,
+                "amqp_url": "amqp://localhost",
+                "topic_prefix": "." + ("x" * (TOPIC_PREFIX_MAX_LENGTH + 1)) + ".",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Topic prefix must not exceed",
+            form.errors["topic_prefix"].as_text(),
+        )
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_form_rejects_non_ascii_topic_prefix(self) -> None:
+        form = FedoraMessagingAddonForm(
+            self.user,
+            FedoraMessagingAddon(
+                FedoraMessagingAddon.create_object(acting_user=self.user)
+            ),
+            data={
+                **self.addon_configuration,
+                "amqp_url": "amqp://localhost",
+                "topic_prefix": "org.f\u00e9doraproject",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Topic prefix can contain only ASCII characters",
+            form.errors["topic_prefix"].as_text(),
+        )
+
+    @override_settings(WEBHOOK_RESTRICT_PRIVATE=False)
+    def test_form_allows_max_length_topic_prefix(self) -> None:
+        form = FedoraMessagingAddonForm(
+            self.user,
+            FedoraMessagingAddon(
+                FedoraMessagingAddon.create_object(acting_user=self.user)
+            ),
+            data={
+                **self.addon_configuration,
+                "amqp_url": "amqp://localhost",
+                "topic_prefix": "." + ("x" * TOPIC_PREFIX_MAX_LENGTH) + ".",
+            },
+        )
+
+        self.assertTrue(form.is_valid(), form.errors.as_text())
+        self.assertEqual(
+            form.cleaned_data["topic_prefix"], "x" * TOPIC_PREFIX_MAX_LENGTH
+        )
+
     def test_tls_credentials_are_masked_in_settings_fields(self) -> None:
         addon = FedoraMessagingAddon(
             FedoraMessagingAddon.create_object(
@@ -9556,9 +9665,11 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+        addon = Addon.objects.get(name=self.WEBHOOK_CLS.name)
+        self.assertEqual(addon.configuration["topic_prefix"], "")
 
         # delete addon
-        addon_id = Addon.objects.get(name=self.WEBHOOK_CLS.name).id
+        addon_id = addon.id
         response = self.client.post(
             reverse("addon-detail", kwargs={"pk": addon_id}),
             {"delete": "weblate.webhook.webhook"},
@@ -9595,6 +9706,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
         # Install with SSL
         params.update(self.get_tls_configuration())
+        params["topic_prefix"] = ".org.fedoraproject."
         with patch.object(FedoraMessagingAddon, "validate_broker_tls") as validate_tls:
             response = self.client.post(
                 reverse("manage-addons"),
@@ -9609,6 +9721,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertEqual(
             addon.configuration["amqp_url"], "amqps://rabbitmq.example.com"
         )
+        self.assertEqual(addon.configuration["topic_prefix"], "org.fedoraproject")
         self.assertEqual(
             addon.configuration["publish_timeout"],
             DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,

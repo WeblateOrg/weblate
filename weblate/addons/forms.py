@@ -1651,6 +1651,13 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
         help_text=gettext_lazy("The AMQP broker URL to connect to."),
         validators=[validate_fedora_messaging_url],
     )
+    topic_prefix = forms.CharField(
+        label=gettext_lazy("Topic prefix"),
+        help_text=gettext_lazy(
+            "Optional prefix to prepend to generated message topics."
+        ),
+        required=False,
+    )
     ca_cert = forms.CharField(
         widget=forms.Textarea(),
         label=gettext_lazy("CA certificate bundle (PEM)"),
@@ -1705,6 +1712,7 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
 
     field_order = [  # ruff: ignore[mutable-class-default]
         "amqp_url",
+        "topic_prefix",
         "publish_timeout",
         "connection_attempts",
         "retry_delay",
@@ -1724,12 +1732,35 @@ class FedoraMessagingAddonForm(ChangeBaseAddonForm):
             result["amqp_url"] = FedoraMessagingAddon.get_broker_amqp_url(
                 result["amqp_url"]
             )
+        result["topic_prefix"] = FedoraMessagingAddon.normalize_topic_prefix(
+            result.get("topic_prefix")
+        )
         if result.get("publish_timeout") is None:
             result["publish_timeout"] = DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT
         if result.get("connection_attempts") is None:
             result["connection_attempts"] = DEFAULT_FEDORA_MESSAGING_CONNECTION_ATTEMPTS
         if result.get("retry_delay") is None:
             result["retry_delay"] = DEFAULT_FEDORA_MESSAGING_RETRY_DELAY
+        return result
+
+    def clean_topic_prefix(self) -> str:
+        # ruff: ignore[import-outside-top-level]
+        from .fedora_messaging import TOPIC_PREFIX_MAX_LENGTH, FedoraMessagingAddon
+
+        result = FedoraMessagingAddon.normalize_topic_prefix(
+            self.cleaned_data["topic_prefix"]
+        )
+        if not result.isascii():
+            raise forms.ValidationError(
+                gettext("Topic prefix can contain only ASCII characters."),
+                code="invalid",
+            )
+        if len(result) > TOPIC_PREFIX_MAX_LENGTH:
+            raise forms.ValidationError(
+                gettext("Topic prefix must not exceed %(limit)d characters."),
+                code="max_length",
+                params={"limit": TOPIC_PREFIX_MAX_LENGTH},
+            )
         return result
 
     def clean(self) -> None:
