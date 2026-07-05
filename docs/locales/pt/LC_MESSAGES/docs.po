@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-05 19:54+0000\n"
+"PO-Revision-Date: 2026-07-05 22:18+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -7790,24 +7790,20 @@ msgid ""
 "Additional OpenTelemetry resource attributes. Defaults to an empty "
 "dictionary."
 msgstr ""
+"Atributos de recurso OpenTelemetry adicionais. A predefinição é um "
+"dicionário vazio."
 
 #: admin/config.rst:2353
-#, fuzzy
-#| msgid "Committer name, defaulting to ``Weblate``."
 msgid "OpenTelemetry service name. Defaults to ``weblate``."
-msgstr "Nome do committer, padrão para ``Weblate``."
+msgstr "Nome de serviço OpenTelemetry. A predefinição é ``weblate``."
 
 #: admin/config.rst:2360
-#, fuzzy
-#| msgid ""
-#| "Configure sampling rate for profiling monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for OpenTelemetry traces. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
-"Configure a taxa de amostragem para monitoramento de perfil. Defina como 1 "
-"para rastrear todos os eventos, 0 (o padrão) desativa o rastreamento."
+"Configure a taxa de amostragem para rastreios do OpenTelemetry. Defina como "
+"1 para rastrear todos os eventos, 0 (o padrão) desativa o rastreamento."
 
 #: admin/config.rst:2368
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
@@ -7826,24 +7822,20 @@ msgid "Configures environment for Sentry. Defaults to ``devel``."
 msgstr "Configura o ambiente para o Sentry. O padrão é ``devel``."
 
 #: admin/config.rst:2388
-#, fuzzy
-#| msgid "Configures environment for Sentry. Defaults to ``devel``."
 msgid ""
 "Configure whether to monitor Celery Beat tasks with Sentry. Defaults to "
 "``True``."
-msgstr "Configura o ambiente para o Sentry. O padrão é ``devel``."
+msgstr ""
+"Configura se se monitoriza ou não tarefas Celery Beat com Sentry. A "
+"predefinição é ``True``."
 
 #: admin/config.rst:2395
-#, fuzzy
-#| msgid ""
-#| "Configure sampling rate for performance monitoring. Set to 1 to trace all "
-#| "events, 0 (the default) disables tracing."
 msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to profile all "
 "traced events (the default), 0 disables profiling."
 msgstr ""
-"Configure a taxa de amostragem para monitoramento de desempenho. Defina como "
-"1 para rastrear todos os eventos, 0 (o padrão) desativa o rastreamento."
+"Configure a taxa de amostragem para monitorizar de desempenho. Defina como 1 "
+"analizar todos os eventos rastreados (o padrão), 0 desativa o rastreamento."
 
 #: admin/config.rst:2399 admin/install.rst:1737
 msgid ""
@@ -8669,6 +8661,8 @@ msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
 msgstr ""
+"As mesmas ações também podem ser ativadas usando :ref:`api` ou, para o "
+"subconjunto suportado, :ref:`wlc`."
 
 #: admin/continuous.rst:186
 msgid ""
@@ -8676,6 +8670,9 @@ msgid ""
 "version control system, whether pushing is configured, and whether the "
 "selected object can be locked."
 msgstr ""
+"Disponibilidade de ações individuais depende de permissões, da versão de "
+"sistema de controlo, se dar push está configurado, e se o objeto selecionado "
+"pode ser bloqueado."
 
 #: admin/continuous.rst:190
 msgid ""
@@ -8684,6 +8681,10 @@ msgid ""
 "actions rewrite that translation file and commit the result; they are not "
 "project-wide or component-wide operations."
 msgstr ""
+"As ações :guilabel:`Gestão de ficheiro` estão disponíveis apenas a partir de "
+":guilabel:`Manutenção de repositório` para uma tradução individual. Estas "
+"ações rescrevem esse ficheiro de tradução e fazem commit do resultado; elas "
+"não são operações ao nível do projeto ou do componente."
 
 #: admin/continuous.rst:195
 msgid ""
@@ -8693,6 +8694,11 @@ msgid ""
 "language synchronization and cleanup are described in :ref:`glossary-"
 "language-sync`."
 msgstr ""
+"Operações que leem conteúdo do repositório, tal como atualizar, reiniciar, "
+"ou reanalisar, também reconciliam ficheiros de tradução no Weblate. "
+"Ficheiros de traduções adicionados ou removidos são refletidos após este "
+"procedimento terminar. Sincronização de glossário de idioma e limpeza são "
+"descritos em :ref:`glossary-language-sync`."
 
 #: admin/continuous.rst:204
 msgid "Action"
@@ -8700,45 +8706,42 @@ msgstr "Ação"
 
 #: admin/continuous.rst:205
 msgid "What it does"
-msgstr ""
+msgstr "O que faz"
 
 #: admin/continuous.rst:206
 msgid "Typical use"
-msgstr ""
+msgstr "Uso típico"
 
 #: admin/continuous.rst:208
 msgid ":guilabel:`Commit`"
 msgstr ":guilabel:`Submeter`"
 
 #: admin/continuous.rst:209
-#, fuzzy
-#| msgid ""
-#| "Commit any pending changes and merge them into the upstream repository."
 msgid "Commits pending changes stored in Weblate to the local repository."
 msgstr ""
-"Fazer commit de todas as alterações pendentes e mesclá-las no repositório "
-"upstream."
+"Envia mudanças pendentes armazenadas no Weblate para o repositório local."
 
 #: admin/continuous.rst:210
 msgid "Flush pending Weblate changes before doing repository work elsewhere."
 msgstr ""
+"Limpa as mudanças Weblate pendentes antes de fazer trabalho do repositório "
+"em outro sítio."
 
 #: admin/continuous.rst:212
 msgid ":guilabel:`Push`"
 msgstr ":guilabel:`Enviar`"
 
 #: admin/continuous.rst:213
-#, fuzzy
-#| msgid "Pushes committed changes to the upstream VCS repository."
 msgid "Pushes committed local repository changes to the configured upstream."
-msgstr ""
-"Faz um push das alterações com commit feito para o repositório VCS upstream."
+msgstr "Envia mudanças do repositório local para a fonte configurada."
 
 #: admin/continuous.rst:214
 msgid ""
 "Send committed translations upstream when automatic push is disabled or "
 "delayed."
 msgstr ""
+"Envia traduções para a fonte quando o envio automático está desativado ou "
+"atrasado."
 
 #: admin/continuous.rst:216
 msgid ":guilabel:`Update`"
@@ -8749,17 +8752,19 @@ msgid ""
 "Fetches upstream changes, integrates them using the component's "
 "configured :ref:`component-merge_style`, and reconciles translation files."
 msgstr ""
+"Busca mudanças da fonte, integra-as usando o :ref:`component-merge_style` do "
+"componente configurado, e reconcilia ficheiros de tradução."
 
 #: admin/continuous.rst:218
 msgid ""
 "Bring Weblate in sync with upstream using the default integration strategy."
 msgstr ""
+"Mantém o Weblate sincronizado com a fonte usando a estratégia predefinida de "
+"integração."
 
 #: admin/continuous.rst:220
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with merge`"
-msgstr ":guilabel:`Atualizar o repositório interno`"
+msgstr ":guilabel:`Atualizar merge`"
 
 #: admin/continuous.rst:221
 msgid "Fetches upstream changes and integrates them with an explicit merge."
@@ -8937,31 +8942,32 @@ msgid "Run a one-time cleanup without installing the add-on."
 msgstr ""
 
 #: admin/continuous.rst:264
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Remove obsolete`"
-msgstr ":guilabel:`Remover uma cadeia`"
+msgstr ":guilabel:`Remover obsoleto`"
 
 #: admin/continuous.rst:265
-#, fuzzy
-#| msgid "Removes control characters if the source does not contain any."
 msgid "Removes obsolete strings from one PO translation file."
-msgstr "Remove caracteres de controle se a fonte não contiver nenhum."
+msgstr "Remove cadeias de carateres obsoletas de um ficheiro de tradução PO."
 
 #: admin/continuous.rst:266
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
 msgstr ""
+"Executa uma limpeza pontual PO sem ativar a remoção automática de cadeias de "
+"carateres obsoletas."
 
 #: admin/continuous.rst:271
 msgid "Reset and reapply recovery behavior"
-msgstr ""
+msgstr "Reiniciar e reaplicar comportamento de recuperação"
 
 #: admin/continuous.rst:273
 msgid ""
 "The :guilabel:`Reset and reapply` operation keeps pending translations from "
 "Weblate while resetting the local repository state to match upstream."
 msgstr ""
+"A operação :guilabel:`Reiniciar e reaplicar` mantém traduções pendentes do "
+"Weblate enquanto reinicia o estado do repositório local para corresponder à "
+"fonte."
 
 #: admin/continuous.rst:276
 msgid ""
@@ -8969,6 +8975,9 @@ msgid ""
 "files still exist after the reset or when Weblate can create them for the "
 "component, for example using a valid :ref:`component-new_base`."
 msgstr ""
+"A operação pode restaurar traduções pendentes apenas quando os ficheiros de "
+"idioma alvo ainda existem após o reiniciar ou quando o Weblate pode criá-los "
+"para o componente, por exemplo usado um :ref:`component-new_base` válido."
 
 #: admin/continuous.rst:280
 msgid ""
@@ -8976,6 +8985,9 @@ msgid ""
 "its database and reports a recovery error instead of failing later with a "
 "generic parse error."
 msgstr ""
+"Se nenhuma destas condições forem cumpridas, o Weblate mantém as mudanças "
+"pendentes na sua base de dados e comunica um erro de recuperação em vez de "
+"falhar mais tarde com um erro genérico de análise."
 
 #: admin/continuous.rst:287
 msgid "Avoiding merge conflicts by focusing on Git operations"
@@ -9062,19 +9074,14 @@ msgid "Here are few options how to avoid that:"
 msgstr "Aqui estão algumas opções de como evitar isso:"
 
 #: admin/continuous.rst:321
-#, fuzzy
-#| msgid ""
-#| "Do not use neither :ref:`addon-weblate.git.squash` nor squashing at merge "
-#| "time. This is the root cause why git doesn't recognize changes after "
-#| "merging."
 msgid ""
 "Do not use :ref:`addon-weblate.git.squash` or squash merging for Weblate "
 "changes. Squashing is why Git might no longer recognize the changes after "
 "merging."
 msgstr ""
-"Não use :ref:`addon-weblate.git.squash` nem squash no momento da mesclagem. "
-"Esta é a causa raiz do fato de o git não reconhecer as alterações após a "
-"mesclagem."
+"Não use :ref:`addon-weblate.git.squash` ou squash merging para mudanças "
+"Weblate. Squashing é o motivo pelo qual o Git pode não reconhecer as "
+"mudanças após dar merge."
 
 #: admin/continuous.rst:324
 msgid ""
@@ -9082,6 +9089,9 @@ msgid ""
 "regular merge commit and push that result upstream. Do not squash merge the "
 "conflict-resolution pull request."
 msgstr ""
+"Ao resolver conflitos fora do Weblate, dê merge dos commits Weblate com um "
+"merge commit normal e envie esse resultado para a fonte. Não dê squash merge "
+"do pull request da resolução de conflitos."
 
 #: admin/continuous.rst:327
 msgid ""
@@ -9110,10 +9120,8 @@ msgstr ""
 "GitHub estiver a ser revisado."
 
 #: admin/continuous.rst:336
-#, fuzzy
-#| msgid "Added digest notifications."
 msgid "Code hosting notifications"
-msgstr "Adicionadas notificações de resumo."
+msgstr "Notificações de hospedagem de código"
 
 #: admin/continuous.rst:338
 msgid ""
@@ -9121,6 +9129,9 @@ msgid ""
 "Bitbucket, Pagure, Azure Repos, Gitea, Forgejo, and Gitee are covered "
 "in :doc:`/admin/code-hosting`."
 msgstr ""
+"A aplicação específica de fornecedor e instruções do webhook para o GitHub, "
+"GitLab, Bitbucket, Pagure, Azure Repos, Gitea, Forgejo, e Gitee são cobertos "
+"em :doc:`/admin/code-hosting`."
 
 #: admin/continuous.rst:352
 #, fuzzy
