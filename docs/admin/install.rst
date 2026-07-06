@@ -441,7 +441,7 @@ The actual limit for the number of database connections needs to be higher to
 account for the following situations:
 
 * :ref:`manage` need their connection as well.
-* If case process is killed (for example by OOM killer), it might block the existing connection until timeout.
+* If a process is killed (for example by OOM killer), it might block the existing connection until timeout.
 
 .. seealso::
    :ref:`celery`,
