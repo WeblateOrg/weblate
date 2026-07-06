@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-05 22:18+0000\n"
+"PO-Revision-Date: 2026-07-06 18:20+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -8768,53 +8768,53 @@ msgstr ":guilabel:`Atualizar merge`"
 
 #: admin/continuous.rst:221
 msgid "Fetches upstream changes and integrates them with an explicit merge."
-msgstr ""
+msgstr "Busca as mudanças na fonte e integra as mesmas com um merge explícito."
 
 #: admin/continuous.rst:222
 msgid "Override the default merge style for a single update."
-msgstr ""
+msgstr "Sobrescreve o estilo predefinido d emerge para uma única atualização."
 
 #: admin/continuous.rst:224
-#, fuzzy
-#| msgid ":guilabel:`Update the internal repository`"
 msgid ":guilabel:`Update with rebase`"
-msgstr ":guilabel:`Atualizar o repositório interno`"
+msgstr ":guilabel:`Atualizar com rebase`"
 
 #: admin/continuous.rst:225
 msgid ""
 "Fetches upstream changes and rebases local Weblate commits on top of "
 "upstream."
 msgstr ""
+"Busca as mudanças na fonte e dá rebase dos commits do Weblate local por cima "
+"da fonte."
 
 #: admin/continuous.rst:226
 msgid "Keep history linear when that matches your workflow."
 msgstr ""
+"Mantém o histórico linear quando isso corresponde ao seu fluxo de trabalho."
 
 #: admin/continuous.rst:228
-#, fuzzy
-#| msgid "Merge without fast-forward"
 msgid ":guilabel:`Update with merge without fast-forward`"
-msgstr "Mesclar sem fast-forward"
+msgstr ":guilabel:`Atualizar com merge sem fast-forward`"
 
 #: admin/continuous.rst:229
 msgid ""
 "Fetches upstream changes and creates an explicit merge commit even when a "
 "fast-forward would be possible."
 msgstr ""
+"Busca mudanças na fonte e cria um merge commit explícito mesmo quando um "
+"fast-forward fosse possível."
 
 #: admin/continuous.rst:230
 msgid "Preserve merge commits for auditing or branch-management reasons."
 msgstr ""
+"Preserva merge commits para fins de auditoria ou razões de gestão de ramo."
 
 #: admin/continuous.rst:232
-#, fuzzy
-#| msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
 msgid ":guilabel:`Lock` / :guilabel:`Unlock`"
-msgstr ":guilabel:`Redefinir` de :guilabel:`Manutenção`"
+msgstr ":guilabel:`Bloquear` / :guilabel:`Desbloquear`"
 
 #: admin/continuous.rst:233
 msgid "Prevents or allows translators to make further changes in Weblate."
-msgstr ""
+msgstr "Previne ou permite que tradutores façam mudanças adicionais no Weblate."
 
 #: admin/continuous.rst:234
 msgid ""
@@ -8825,37 +8825,41 @@ msgstr ""
 "Weblate."
 
 #: admin/continuous.rst:236
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and discard`"
-msgstr ":guilabel:`Remover uma cadeia`"
+msgstr ":guilabel:`Reiniciar e descartar`"
 
 #: admin/continuous.rst:237
 msgid ""
 "Resets Weblate's local repository to upstream, discards pending Weblate "
 "changes, and reconciles translation files."
 msgstr ""
+"Reinicia o repositório Weblate local para a fonte, descarta mudanças Weblate "
+"pendentes, e reconcilia ficheiros de tradução."
 
 #: admin/continuous.rst:238
 msgid "Use when upstream should overwrite the local Weblate repository state."
 msgstr ""
+"Utilize quando a fonte deve sobrescrevem o estado do repositório Weblate "
+"local."
 
 #: admin/continuous.rst:240
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Reset and reapply`"
-msgstr ":guilabel:`Remover uma cadeia`"
+msgstr ":guilabel:`Reiniciar e reaplicar`"
 
 #: admin/continuous.rst:241
 msgid ""
 "Resets Weblate's local repository to upstream, reconciles translation files, "
 "and reapplies pending translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
+"Reinicia o repositório Weblate local para a fonte, reconcilia os ficheiros "
+"de tradução, e reaplica traduções pendentes. Veja :ref:`manage-vcs-reset-"
+"reapply`."
 
 #: admin/continuous.rst:242
 msgid ""
 "Recover from diverged history while keeping pending Weblate translations."
 msgstr ""
+"Recuperar de histórico divergido, mantendo as traduções pendentes do Weblate."
 
 #: admin/continuous.rst:244
 msgid ":guilabel:`Cleanup`"
@@ -8866,11 +8870,15 @@ msgid ""
 "Removes untracked files and stale branches from the local repository "
 "checkout."
 msgstr ""
+"Remove ficheiros não registado e ramos desatualizados do checkout do "
+"repositório local."
 
 #: admin/continuous.rst:246
 msgid ""
 "Clean up leftover files or stale repository state in Weblate's checkout."
 msgstr ""
+"Limpa ficheiros residuais ou o estado desatualizado do repositório no "
+"checkout do Weblate."
 
 #: admin/continuous.rst:248
 msgid ":guilabel:`Synchronize`"
@@ -8880,55 +8888,58 @@ msgstr ":guilabel:`Sincronizar`"
 msgid ""
 "Forces Weblate to write all known translations back to the repository files."
 msgstr ""
+"Força o Weblate a escrever todas as traduções conhecidas de volta para os "
+"ficheiros do repositório."
 
 #: admin/continuous.rst:250
 msgid ""
 "Repair cases where repository files became out of sync with the database "
 "state."
 msgstr ""
+"Repara casos onde os ficheiros de repositório ficam fora de sincroniza com o "
+"estado da base de dados."
 
 #: admin/continuous.rst:252
 msgid ":guilabel:`Rescan`"
 msgstr ":guilabel:`Re-analisar`"
 
 #: admin/continuous.rst:253
-#, fuzzy
-#| msgid "You pull changes from a remote repository to Weblate like this:"
 msgid ""
 "Re-reads translation files from the local repository into Weblate and "
 "removes translations whose files no longer match the component configuration."
 msgstr ""
-"Pode trazer as alterações de um repositório remoto para o Weblate desta "
-"forma:"
+"Lê ficheiros de tradução novamente a partir do repositório local para o "
+"Weblate e remove traduções cujos ficheiros já não correspondem à configuram "
+"de componente."
 
 #: admin/continuous.rst:254
 msgid "Import file changes after manual repository work or file creation."
 msgstr ""
+"Importa mudanças de ficheiro após trabalho manual do repositório ou criação "
+"de ficheiro."
 
 #: admin/continuous.rst:256
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Remove duplicates`"
-msgstr ":guilabel:`Remover uma cadeia`"
+msgstr ":guilabel:`Remover duplicados`"
 
 #: admin/continuous.rst:257
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid ""
 "Removes repeated strings with the same identifier from one translation file."
-msgstr "Remove cadeias não traduzidas dos ficheiros de tradução."
+msgstr ""
+"Remove cadeias de carateres duplicadas com o mesmo identificado de um "
+"ficheiro de tradução."
 
 #: admin/continuous.rst:258
 msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
 msgstr ""
+"Repara cadeias de carateres duplicadas relatadas pelo Weblate quando o "
+"ficheiro contém unidades repetidas."
 
 #: admin/continuous.rst:260
-#, fuzzy
-#| msgid ":guilabel:`Cleanup`"
 msgid ":guilabel:`Cleanup unused`"
-msgstr ":guilabel:`Limpar`"
+msgstr ":guilabel:`Limpar inutilizados`"
 
 #: admin/continuous.rst:261
 msgid ""
@@ -8936,10 +8947,13 @@ msgid ""
 "file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this "
 "automatically."
 msgstr ""
+"Remove cadeias de carateres que já não estão presentes no ficheiro base de "
+"um ficheiro de tradução. O extra :ref:`addon-weblate.cleanup.generic` pode "
+"fazer isto automaticamente."
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
-msgstr ""
+msgstr "Executar uma limpeza pontual sem instalar o extra."
 
 #: admin/continuous.rst:264
 msgid ":guilabel:`Remove obsolete`"
@@ -9134,49 +9148,51 @@ msgstr ""
 "em :doc:`/admin/code-hosting`."
 
 #: admin/continuous.rst:352
-#, fuzzy
-#| msgid "Version-specific instructions"
 msgid "Provider-specific notifications"
-msgstr "Instruções específicas da versão"
+msgstr "Notificações específicas ao fornecedor"
 
 #: admin/continuous.rst:354
 msgid ""
 "These legacy anchors are kept for compatibility. Current provider-specific "
 "app and webhook setup is documented in :doc:`/admin/code-hosting`."
 msgstr ""
+"Estas âncoras de legado são mantidas para compatibilidade. A aplicação atual "
+"específica ao fornecedor e a configuração de webhook são documentadas em "
+":doc:`/admin/code-hosting`."
 
 #: admin/continuous.rst:359
 msgid ":ref:`GitHub notifications <code-hosting-github-notifications>`"
-msgstr ""
+msgstr ":ref:`Notificações GitHub <code-hosting-github-notifications>`"
 
 #: admin/continuous.rst:360
 msgid ":ref:`GitLab notifications <code-hosting-gitlab-notifications>`"
-msgstr ""
+msgstr ":ref:`Notificações GitLab <code-hosting-gitlab-notifications>`"
 
 #: admin/continuous.rst:361
 msgid ":ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`"
-msgstr ""
+msgstr ":ref:`Notificações Bitbucket <code-hosting-bitbucket-notifications>`"
 
 #: admin/continuous.rst:362
 msgid ":ref:`Pagure notifications <code-hosting-pagure-notifications>`"
-msgstr ""
+msgstr ":ref:`Notificações Pagure <code-hosting-pagure-notifications>`"
 
 #: admin/continuous.rst:363
 msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`"
 msgstr ""
+":ref:`Notificações Azure Repos <code-hosting-azure-repos-notifications>`"
 
 #: admin/continuous.rst:364
 msgid ":ref:`Gitea notifications <code-hosting-gitea-notifications>`"
-msgstr ""
+msgstr ":ref:`Notificações Gitea <code-hosting-gitea-notifications>`"
 
 #: admin/continuous.rst:365
 msgid ":ref:`Forgejo notifications <code-hosting-forgejo-notifications>`"
-msgstr ""
+msgstr ":ref:`Notificações Forgejo <code-hosting-forgejo-notifications>`"
 
 #: admin/continuous.rst:366
 msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
-msgstr ""
+msgstr ":ref:`Notificações Gitee <code-hosting-gitee-notifications>`"
 
 #: admin/continuous.rst:369
 msgid "Automatically updating repositories nightly"
@@ -9193,36 +9209,26 @@ msgstr ""
 "isso em fazer mesclagens noturnas também, ativando :setting:`AUTO_UPDATE`."
 
 #: admin/continuous.rst:380
-#, fuzzy
-#| msgid ""
-#| "Each translation component can have a push URL set up "
-#| "(see :ref:`component-push`), and in that case Weblate will be able to "
-#| "push change to the remote repository. Weblate can be also be configured "
-#| "to automatically push changes on every commit (this is default, "
-#| "see :ref:`component-push_on_commit`). If you do not want changes to be "
-#| "pushed automatically, you can do that manually "
-#| "under :guilabel:`Repository maintenance` or using the API "
-#| "via :option:`wlc push`."
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
 "push`), and in that case Weblate will be able to push changes to the remote "
 "repository. Weblate can also be configured to automatically push changes on "
 "every commit, see :ref:`component-push_on_commit`."
 msgstr ""
-"Cada componente de tradução pode ter uma URL de push configurada "
-"(veja :ref:`component-push`) e, nesse caso, o Weblate será capaz de fazer "
-"push da alteração ao repositório remoto. O Weblate também pode ser "
-"configurado para fazer push automaticamente das alterações em cada commit "
-"(isso é a predefinição, veja :ref:`component-push_on_commit`). Se não quiser "
-"que seja feito push automático das alterações, pode fazer-lo manualmente "
-"em :guilabel:`Manutenção do repositório` ou a usar API via :option:`wlc "
-"push`."
+"Cada componente de tradução pode ter uma URL de push configurada (veja "
+":ref:`component-push`) e, nesse caso, o Weblate será capaz de fazer push da "
+"alteração ao repositório remoto. O Weblate também pode ser configurado para "
+"fazer push automaticamente das alterações em cada commit, veja "
+":ref:`component-push_on_commit`."
 
 #: admin/continuous.rst:385
 msgid ""
 "For the push options table and provider-specific pull, merge, and review "
 "request workflows, see :ref:`code-hosting-push-options`."
 msgstr ""
+"Para a tabela de opções de push e pull específico de fornecedor, merge, e "
+"fluxos de trabalho de pedido de revisão, veja :ref:`code-hosting-push-"
+"options`."
 
 #: admin/continuous.rst:390
 msgid ""
@@ -9526,18 +9532,17 @@ msgstr ""
 "interpretador."
 
 #: admin/customize.rst:40
-#, fuzzy
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules "
 "in :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be "
 "loaded by Weblate, for example from a :ref:`settings override file <docker-"
 "settings-override>`."
 msgstr ""
-"Quando se está :ref:`usando Docker <docker-deploy>` pode pôr os módulos "
-"Python em :file:`/app/data/python/` (veja :ref:`docker-volume`), de forma "
-"que eles podem ser carregados pelo Weblate. Por exemplo, a partir de "
-"um :ref:`ficheiro de substituição de configurações <docker-settings-"
-"override>`."
+"Quando se está :ref:`a usar o Docker <docker-deploy>` pode colocar os "
+"módulos Python em :file:`/app/data/python/` (veja :ref:`docker-volume`), de "
+"forma que eles possam ser carregados pelo Weblate, por exemplo, a partir de "
+"um :ref:`ficheiro de substituição de configurações <docker-settings-override>"
+"`."
 
 #: admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -9549,12 +9554,10 @@ msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr "Crie uma pasta para o seu pacote (usaremos `weblate_customization`)."
 
 #: admin/customize.rst:48
-#, fuzzy
-#| msgid "Within it, create a :file:`setup.py` file to describe the package:"
 msgid ""
 "Within it, create a :file:`pyproject.toml` file to describe the package:"
 msgstr ""
-"Dentro dele, crie um ficheiro :file:`setup.py` para descrever o pacote:"
+"Dentro dele, crie um ficheiro :file:`pyproject.toml` para descrever o pacote:"
 
 #: admin/customize.rst:63
 msgid ""
@@ -9651,35 +9654,26 @@ msgstr ""
 "estáticos servidos aos clientes."
 
 #: admin/customize.rst:129
-#, fuzzy
-#| msgid "Custom quality checks, add-ons and auto-fixes"
 msgid "Custom quality checks, add-ons, automatic suggestions and auto-fixes"
 msgstr ""
-"Verificações de qualidade personalizadas, extensões e correções automáticas"
+"Verificações de qualidade personalizadas, sugestões automáticas, extensões e "
+"correções automáticas"
 
 #: admin/customize.rst:131
-#, fuzzy
-#| msgid ""
-#| "To install your code for :ref:`custom-autofix`, :ref:`own-checks` "
-#| "or :ref:`own-addon` in Weblate:"
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-"
 "checks`, :ref:`custom-machinery` or :ref:`own-addon` in Weblate:"
 msgstr ""
-"Para instalar o seu código para :ref:`custom-autofix`, :ref:`own-checks` "
-"ou :ref:`own-addon` no Weblate:"
+"Para instalar o seu código para :ref:`custom-autofix`, :ref:`own-checks`, "
+":ref:`custom-machinery` ou :ref:`own-addon` no Weblate:"
 
 #: admin/customize.rst:134
-#, fuzzy
-#| msgid ""
-#| "Place the files into your Python module containing the Weblate "
-#| "customization (see :ref:`custom-module`)."
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module` or :ref:`docker-python-override`)."
 msgstr ""
 "Ponha os ficheiros no seu módulo Python a conter a personalização ao Weblate "
-"(veja :ref:`custom-module`)."
+"(veja :ref:`custom-module` ou :ref:`docker-python-override`)."
 
 #: admin/customize.rst:136
 msgid ""
@@ -9860,12 +9854,12 @@ msgid "Datastore"
 msgstr "Armazenamento de dados"
 
 #: admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
-msgstr "Servidor Redis para cache e fila de tarefas, consulte :ref:`celery`."
+msgstr ""
+"O armazenamento de dados chave/valor tal como Valkey ou servidor Redis para "
+"cache e fila de tarefas, consulte :ref:`celery`."
 
 #: admin/install.rst:150
 msgid "File system"
@@ -9896,15 +9890,11 @@ msgstr ""
 "fornecido externamente."
 
 #: admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-":doc:`/admin/install/docker` inclui o PostgreSQL e o Redis, facilitando a "
+":doc:`/admin/install/docker` inclui o PostgreSQL e o Valkey, facilitando a "
 "instalação."
 
 #: admin/install.rst:164
@@ -9944,18 +9934,13 @@ msgid "Python dependencies"
 msgstr "Dependências Python"
 
 #: admin/install.rst:184
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.11 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.12 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
 "O Weblate está escrito em `Python <https://www.python.org/>`_ e suporta o "
-"Python 3.11 ou mais recente. Pode instalar as dependências utilizando "
+"Python 3.12 ou mais recente. Pode instalar as dependências utilizando "
 "\"pip\" ou a partir dos pacotes da sua distribuição. A lista completa está "
 "disponível em :file:`requirements.txt`."
 
@@ -10068,26 +10053,16 @@ msgid "Troubleshooting pip install"
 msgstr "Solução de problemas via instalação pip"
 
 #: admin/install.rst:297
-#, fuzzy
-#| msgid ""
-#| "The installed ``PyGobject`` package cannot find a matching GObject "
-#| "Introspection library. Before the 3.52 release, it required ``gobject-"
-#| "introspection-1.0`` and since then, it requires ``gobject-"
-#| "introspection-2.0``."
 msgid ""
 "The installed ``PyGobject`` package cannot find a matching GObject "
 "Introspection library - ``gobject-introspection-2.0``."
 msgstr ""
 "O pacote ``PyGobject`` instalado não consegue encontrar uma biblioteca "
-"GObject Introspection correspondente. Antes da versão 3.52, ele exigia "
-"``gobject-introspection-1.0`` e, desde então, exige ``gobject-"
-"introspection-2.0``."
+"GObject Introspection correspondente -``gobject-introspection-2.0``."
 
 #: admin/install.rst:300
-#, fuzzy
-#| msgid "Permissions are not managed in Weblate."
 msgid "Older versions are no longer supported by Weblate."
-msgstr "As permissões não são geridas no Weblate."
+msgstr "Versões antigas já não são suportadas pelo Weblate."
 
 #: admin/install.rst:303
 msgid ""
