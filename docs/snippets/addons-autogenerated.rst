@@ -440,6 +440,8 @@ Fedora Messaging
 :Configuration: +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
                 | ``amqp_url``            | AMQP broker URL             | The AMQP broker URL to connect to.                                                                                                   |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
+                | ``topic_prefix``        | Topic prefix                | Optional prefix to prepend to generated message topics.                                                                              |
+                +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
                 | ``publish_timeout``     | Publish timeout             | How many seconds to wait for the broker delivery acknowledgement.                                                                    |
                 +-------------------------+-----------------------------+--------------------------------------------------------------------------------------------------------------------------------------+
                 | ``connection_attempts`` | Connection attempts         | How many times to try connecting to the broker.                                                                                      |
@@ -472,6 +474,8 @@ Message topic
 
 All messages have topic
 ``weblate.<action>.<project>.<category...>.<component>.<translation>``.
+When configured, ``topic_prefix`` is prepended to this topic using a single dot
+separator, for example ``org.fedoraproject.weblate.project_backed_up.website``.
 The action is lowercase textual representation of action with underscores
 instead of space, for example ``resource_updated``; see :ref:`change-actions`
 for all action identifiers. The remaining parts match Weblate object path

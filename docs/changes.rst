@@ -12,6 +12,7 @@ Weblate 2026.7.1
 
 .. rubric:: Bug fixes
 
+* Filtered translation and zen navigation now reuse a stable session result list, keeping positions and counts stable after translated strings leave the filter.
 * Component priority icons are no longer shown on translation listings.
 * :ref:`check-punctuation-spacing` no longer flags Markdown image markers as French punctuation and now shows which punctuation marks triggered the check.
 * :ref:`addon-weblate.fedora_messaging.publish` broker TLS validation now matches the Fedora Messaging transport when accepting non-strict CA certificate chains.
@@ -19,6 +20,8 @@ Weblate 2026.7.1
 * Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
 * Anonymous user permission caches are now isolated between requests.
 * GitHub App setup now explains that a workspace is required instead of showing a permission error when no workspace exists.
+* LLM automatic suggestion settings no longer show ``null`` for empty language-specific instructions.
+* Accepting a project invitation now automatically adds the project to the user's watched projects.
 
 .. rubric:: Compatibility
 
@@ -69,7 +72,7 @@ Weblate 2026.7
 * :ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background.
 * Committing large numbers of pending translations now queues browser requests in the background and avoids duplicate repository commit tasks.
 * Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events.
-* :ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing settings.
+* :ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing and topic prefix settings.
 * Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab.
 * :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected.
 * :ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected or there is not enough free space in the backup destination to store a database dump.

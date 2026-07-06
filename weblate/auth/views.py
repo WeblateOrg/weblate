@@ -328,10 +328,6 @@ def accept_invitation(
     except InvitationUserMismatchError as error:
         raise Http404 from error
 
-    # Let him watch the project
-    if invitation.group.defining_project:
-        user.profile.watched.add(invitation.group.defining_project)
-
     messages.success(
         request, gettext("Accepted invitation to the %s team.") % invitation.group
     )

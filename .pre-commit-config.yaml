@@ -73,18 +73,18 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.1
+  rev: v2.5.2
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.5.1'
+    - '@biomejs/biome@2.5.2'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
-  rev: v1.39.4
+  rev: v1.40.3
   hooks:
   - id: djlint-reformat-django
     types_or: [html, text]
@@ -171,7 +171,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.47.2
+  rev: v1.48.0
   hooks:
   - id: typos
     args: []
@@ -191,12 +191,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.104.0
+  rev: v1.105.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.24
+  rev: v0.2.28
   hooks:
   - id: rumdl
   - id: rumdl-fmt

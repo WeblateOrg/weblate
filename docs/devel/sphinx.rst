@@ -11,16 +11,16 @@ I will not focus on writing documentation itself, if you need guidance with
 that, just follow instructions on the `Sphinx`_ website. Once you have
 documentation ready, translating it is quite easy as Sphinx comes with support
 for this and it is quite nicely covered in their :ref:`sphinx:intl`. It's
-matter of few configuration directives and invoking of the ``sphinx-intl``
+matter of a few configuration directives and invoking the ``sphinx-intl``
 tool.
 
 If you are using Read the Docs service, you can start building translated
-documentation on the Read the Docs. Their :doc:`rtd:localization` covers pretty
-much everything you need - creating another project, set its language and link
-it from main project as a translation.
+documentation on Read the Docs. Their :doc:`rtd:localization` covers pretty
+much everything you need - creating another project, setting its language, and linking
+it from the main project as a translation.
 
 Now all you need is translating the documentation content. Sphinx generates PO
-file for each directory or top level file, what can lead to quite a lot of
+file for each directory or top-level file, which can lead to quite a lot of
 files to translate (depending on :confval:`sphinx:gettext_compact` settings).
 You can import the :file:`index.po` into Weblate as an initial component and
 then configure :ref:`addon-weblate.discovery.discovery` add-on to automatically

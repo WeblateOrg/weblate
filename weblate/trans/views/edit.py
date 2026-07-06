@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import contextlib
 import json
 import time
 from math import ceil
@@ -79,7 +80,7 @@ from weblate.utils.views import parse_path, parse_path_units, show_form_errors
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterator
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.models import (
@@ -103,14 +104,10 @@ class SearchResult(TypedDict, total=False):
     key: str
     name: str
     ids: list[int]
-    partial_ids: list[int]
-    partial_offset: int
     total: int | None
     ttl: int
     last_viewed_unit_id: int | None
     last_section: bool
-    partial: bool
-    _cleaned_data: dict[str, Any]
 
 
 class _SearchBase(Protocol):
@@ -132,6 +129,13 @@ class SearchSnapshot(NamedTuple):
     offset: int
     total: int | None
     last_section: bool
+
+
+class CachedSearchSnapshot(NamedTuple):
+    key: str
+    session_data: SearchResult
+    unit_ids: list[int]
+    ttl: int
 
 
 def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None:
@@ -285,72 +289,6 @@ def get_other_units(unit):
         return result
 
 
-def get_search_session_key(base: _SearchBase, search_url: str) -> str:
-    """Return the session key for cached search state."""
-    return f"search_{base.cache_key}_{search_url}"
-
-
-def get_search_session_ttl() -> int:
-    """Return expiration timestamp for cached search state."""
-    return int(time.time()) + SESSION_SEARCH_CACHE_TTL
-
-
-def get_search_session_data(session, session_key: str) -> SearchResult | None:
-    """Return typed search session data if the stored value is usable."""
-    session_data = session.get(session_key)
-    if not isinstance(session_data, dict):
-        return None
-    return cast("SearchResult", session_data)
-
-
-def refresh_search_session(
-    session, session_key: str, session_data: SearchResult
-) -> int:
-    """Refresh a search session entry TTL."""
-    ttl = get_search_session_ttl()
-    session_data["ttl"] = ttl
-    session[session_key] = session_data
-    return ttl
-
-
-def append_unique_ids(unit_ids: list[int], extra_ids: Iterable[int]) -> list[int]:
-    """Append IDs while preserving order and avoiding duplicates."""
-    seen = set(unit_ids)
-    for pk in extra_ids:
-        if pk not in seen:
-            unit_ids.append(pk)
-            seen.add(pk)
-    return unit_ids
-
-
-def get_search_session_id_list(
-    session_data: SearchResult, key: str
-) -> list[int] | None:
-    """Return a valid list of unit IDs from search session data."""
-    unit_ids = session_data.get(key)
-    if not isinstance(unit_ids, list) or not all(
-        isinstance(pk, int) for pk in unit_ids
-    ):
-        return None
-    return unit_ids
-
-
-def get_search_partial_offset(session_data: SearchResult, default: int) -> int:
-    """Return a valid partial window offset from search session data."""
-    partial_offset = session_data.get("partial_offset", default)
-    if not isinstance(partial_offset, int) or partial_offset < 1:
-        return default
-    return partial_offset
-
-
-def has_partial_next_id(
-    unit_ids: list[int], partial_offset: int, current_offset: int
-) -> bool:
-    """Return whether a partial window includes a next ID after current offset."""
-    page_offset = current_offset - partial_offset
-    return page_offset >= 0 and len(unit_ids) > page_offset + 1
-
-
 def cleanup_session(session, delete_all: bool = False) -> None:
     """Delete old search results from session storage."""
     now = int(time.time())
@@ -364,95 +302,52 @@ def cleanup_session(session, delete_all: bool = False) -> None:
             del session[key]
 
 
-def search(
-    base: _SearchBase,
-    project: Project,
-    unit_set: UnitQuerySet,
-    request: AuthenticatedHttpRequest,
-    blank: bool = False,
-    use_cache: bool = True,
-) -> HttpResponse | SearchResult:
-    """Perform search or returns cached search results."""
-    # Possible new search
-    form = PositionSearchForm(
-        request=request, data=request.GET, show_builder=False, obj=base
-    )
+class SearchNavigation:
+    """Resolve stable translation navigation from a session search snapshot."""
 
-    # Process form
-    form_valid = form.is_valid()
-    if form_valid:
-        cleaned_data = form.cleaned_data
-        search_url = form.urlencode()
-        search_query = form.cleaned_data["q"]
-        name = form.get_name()
-        search_items = form.items()
-    else:
-        cleaned_data = {}
-        show_form_errors(request, form)
-        search_url = ""
-        search_query = ""
-        name = ""
-        search_items = ()
+    MUTABLE_SORTS = frozenset({"last_updated", "num_failing_checks", "target"})
 
-    with start_span(op="unit.search", name=search_url):
-        search_result = {
-            "form": form,
-            "offset": cleaned_data.get("offset", 1),
-        }
-        session_key = get_search_session_key(base, search_url)
+    @staticmethod
+    def get_ttl() -> int:
+        """Return expiration timestamp for cached search state."""
+        return int(time.time()) + SESSION_SEARCH_CACHE_TTL
 
-        # Remove old search results
-        cleanup_session(request.session)
+    @staticmethod
+    def get_session_key(base: _SearchBase, search_url: str) -> str:
+        """Return the session key for cached search state."""
+        return f"search_{base.cache_key}_{search_url}"
 
-        session_data = get_search_session_data(request.session, session_key)
-        if (
-            use_cache
-            and session_data
-            and "offset" in request.GET
-            and "ids" in session_data
-        ):
-            refresh_search_session(request.session, session_key, session_data)
-            search_result.update(session_data)
-            return search_result
-
-        query_string = cleaned_data.get("q", "")
-        allunits = unit_set.search(query_string, project=project)
-
-        # Grab unit IDs
-        unit_ids = list(
-            allunits.order_by_request(cleaned_data, base).values_list("id", flat=True)
-        )
-
-        # Check empty search results
-        if not unit_ids and not blank:
-            messages.warning(request, gettext("No strings found!"))
-            return redirect(f"{base.get_absolute_url()}?q={query_string}#search")
-
-        store_result = {
-            "query": search_query,
-            "url": search_url,
-            "items": search_items,
-            "key": session_key,
-            "name": str(name),
-            "ids": unit_ids,
-            "ttl": get_search_session_ttl(),
-            "last_viewed_unit_id": None,
-        }
-        if use_cache:
-            request.session[session_key] = store_result
-
-        search_result.update(store_result)
-        return search_result
-
-
-def get_search_session_snapshot(
-    session_data: SearchResult, offset: int, page_size: int
-) -> SearchSnapshot | None:
-    """Return unit IDs from a stored full or partial search snapshot."""
-    if "ids" in session_data:
-        unit_ids = get_search_session_id_list(session_data, "ids")
-        if unit_ids is None:
+    @staticmethod
+    def get_session_data(session, session_key: str) -> SearchResult | None:
+        """Return typed search session data if the stored value is usable."""
+        session_data = session.get(session_key)
+        if not isinstance(session_data, dict):
             return None
+        return cast("SearchResult", session_data)
+
+    @classmethod
+    def refresh_session(cls, session, session_key: str, session_data: SearchResult):
+        """Refresh a search session entry TTL."""
+        ttl = cls.get_ttl()
+        session_data["ttl"] = ttl
+        session[session_key] = session_data
+        return ttl
+
+    @staticmethod
+    def _get_unit_ids(session_data: SearchResult) -> list[int] | None:
+        """Return a valid list of unit IDs from search session data."""
+        unit_ids = session_data.get("ids")
+        if not isinstance(unit_ids, list) or not all(
+            isinstance(pk, int) for pk in unit_ids
+        ):
+            return None
+        return unit_ids
+
+    @staticmethod
+    def _get_ids_snapshot(
+        unit_ids: list[int], offset: int, page_size: int
+    ) -> SearchSnapshot | None:
+        """Return a stable page from a full ordered unit ID list."""
         if offset < 1:
             offset = max(len(unit_ids) - page_size + 1, 1)
         page_offset = offset - 1
@@ -466,171 +361,405 @@ def get_search_session_snapshot(
             last_section=len(page_ids) <= page_size,
         )
 
-    partial_ids = get_search_session_id_list(session_data, "partial_ids")
-    if partial_ids is None:
+    @staticmethod
+    def get_order_insensitive_items(
+        items: object,
+    ) -> tuple[tuple[str, str], ...] | None:
+        """Return search parameters without the current ordering."""
+        if not isinstance(items, (list, tuple)):
+            return None
+        result = []
+        for item in items:
+            if not isinstance(item, (list, tuple)) or len(item) != 2:
+                return None
+            name, value = item
+            if not isinstance(name, str) or not isinstance(value, str):
+                return None
+            if name != "sort_by":
+                result.append((name, value))
+        return tuple(result)
+
+    @staticmethod
+    def get_last_viewed_unit_id(session_data: SearchResult | None) -> int | None:
+        """Return a valid last viewed unit ID from search session data."""
+        if session_data is None:
+            return None
+        last_viewed_unit_id = session_data.get("last_viewed_unit_id")
+        if isinstance(last_viewed_unit_id, int):
+            return last_viewed_unit_id
         return None
 
-    partial_offset = get_search_partial_offset(session_data, 1)
-    page_offset = offset - partial_offset
-    if page_offset < 0:
-        return None
-    page_ids = partial_ids[page_offset : page_offset + page_size + 1]
-    if not page_ids:
-        return None
-    return SearchSnapshot(
-        ids=page_ids,
-        offset=offset,
-        total=None,
-        last_section=len(page_ids) <= page_size,
-    )
+    def __init__(
+        self,
+        base: _SearchBase,
+        project: Project,
+        unit_set: UnitQuerySet,
+        request: AuthenticatedHttpRequest,
+        *,
+        blank: bool = False,
+        use_cache: bool = True,
+    ) -> None:
+        self.base = base
+        self.project = project
+        self.unit_set = unit_set
+        self.request = request
+        self.blank = blank
+        self.use_cache = use_cache
 
+        self.form = PositionSearchForm(
+            request=request, data=request.GET, show_builder=False, obj=base
+        )
+        self.form_valid = self.form.is_valid()
+        if self.form_valid:
+            self.cleaned_data = self.form.cleaned_data
+            self.search_url = self.form.urlencode()
+            self.search_query = self.form.cleaned_data["q"]
+            self.search_name = str(self.form.get_name())
+            self.search_items = self.form.items()
+        else:
+            self.cleaned_data = {}
+            show_form_errors(request, self.form)
+            self.search_url = ""
+            self.search_query = ""
+            self.search_name = ""
+            self.search_items = ()
+        self.order_insensitive_search_items = self.get_order_insensitive_items(
+            self.search_items
+        )
+        self.offset = self.cleaned_data.get("offset", 1)
+        self.session_key = self.get_session_key(base, self.search_url)
 
-def search_page(
-    base: _SearchBase,
-    project: Project,
-    unit_set: UnitQuerySet,
-    request: AuthenticatedHttpRequest,
-    *,
-    blank: bool = False,
-    include_count: bool = False,
-    page_size: int = ZEN_PAGE_SIZE,
-) -> HttpResponse | SearchResult:
-    """Perform search and return only one page of unit IDs."""
-    # Possible new search
-    form = PositionSearchForm(
-        request=request, data=request.GET, show_builder=False, obj=base
-    )
+    @property
+    def query_string(self) -> str:
+        return self.cleaned_data.get("q", "")
 
-    # Process form
-    form_valid = form.is_valid()
-    if form_valid:
-        cleaned_data = form.cleaned_data
-        search_url = form.urlencode()
-        search_query = form.cleaned_data["q"]
-        name = form.get_name()
-        search_items = form.items()
-    else:
-        cleaned_data = {}
-        show_form_errors(request, form)
-        search_url = ""
-        search_query = ""
-        name = ""
-        search_items = ()
+    @property
+    def can_use_session_snapshot(self) -> bool:
+        return self.use_cache and "offset" in self.request.GET
 
-    with start_span(op="unit.search", name=search_url):
-        search_result = {
-            "form": form,
-            "offset": cleaned_data.get("offset", 1),
-        }
-        session_key = get_search_session_key(base, search_url)
+    @property
+    def can_use_bounded_page_lookup(self) -> bool:
+        return not self.query_string and not self.has_mutable_sort
 
-        # Reuse stored full or partial snapshots to keep navigation stable after
-        # edits which remove units from filtered searches.
-        cleanup_session(request.session)
-
-        session_data = get_search_session_data(request.session, session_key)
-        if session_data and "offset" in request.GET:
-            snapshot = get_search_session_snapshot(
-                session_data, search_result["offset"], page_size
-            )
-            if snapshot is not None:
-                total = snapshot.total if include_count else None
-                if include_count and total is None:
-                    total = unit_set.search(
-                        cleaned_data.get("q", ""), project=project
-                    ).count()
-                    total = max(
-                        total,
-                        snapshot.offset + len(snapshot.ids[:page_size]) - 1,
-                    )
-                ttl = refresh_search_session(request.session, session_key, session_data)
-                search_result.update(
-                    {
-                        "query": session_data.get("query", search_query),
-                        "url": session_data.get("url", search_url),
-                        "items": session_data.get("items", search_items),
-                        "key": session_key,
-                        "name": session_data.get("name", str(name)),
-                        "ids": snapshot.ids[:page_size],
-                        "offset": snapshot.offset,
-                        "total": total,
-                        "ttl": ttl,
-                        "last_viewed_unit_id": session_data.get("last_viewed_unit_id"),
-                        "last_section": snapshot.last_section
-                        and (
-                            total is None
-                            or snapshot.offset + len(snapshot.ids) - 1 >= total
-                        ),
-                    }
-                )
-                return search_result
-
-        query_string = cleaned_data.get("q", "")
-        ordered_units = unit_set.search(query_string, project=project).order_by_request(
-            cleaned_data, base
+    @property
+    def has_mutable_sort(self) -> bool:
+        sort_by = self.cleaned_data.get("sort_by", "")
+        return any(
+            choice.lstrip("-") in self.MUTABLE_SORTS
+            for choice in sort_by.split(",")
+            if choice
         )
 
-        total = None
-        if include_count or search_result["offset"] < 1:
-            total = ordered_units.count()
-            if not total and not blank:
-                messages.warning(request, gettext("No strings found!"))
-                return redirect(f"{base.get_absolute_url()}?q={query_string}#search")
-            if search_result["offset"] < 1:
-                search_result["offset"] = max(total - page_size + 1, 1)
+    def get_ordered_units(self):
+        """Perform the ordered search."""
+        return self.unit_set.search(
+            self.query_string, project=self.project
+        ).order_by_request(self.cleaned_data, self.base)
 
-        offset = search_result["offset"] - 1
+    def get_ordered_unit_ids(self) -> list[int]:
+        """Perform the ordered search and return the full unit ID snapshot."""
+        return list(self.get_ordered_units().values_list("id", flat=True))
+
+    def get_matching_full_snapshots(self) -> Iterator[CachedSearchSnapshot]:
+        """Yield cached full snapshots for the same search ignoring ordering."""
+        if not self.can_use_session_snapshot:
+            return
+
+        prefix = f"search_{self.base.cache_key}_"
+        session_keys = list(self.request.session.keys())
+        for key in session_keys:
+            if not key.startswith(prefix):
+                continue
+            session_data = self.get_session_data(self.request.session, key)
+            if session_data is None or session_data.get("query") != self.search_query:
+                continue
+            if (
+                self.get_order_insensitive_items(session_data.get("items"))
+                != self.order_insensitive_search_items
+            ):
+                continue
+            unit_ids = self._get_unit_ids(session_data)
+            ttl = session_data.get("ttl")
+            if unit_ids is not None and isinstance(ttl, int):
+                yield CachedSearchSnapshot(key, session_data, unit_ids, ttl)
+
+    def get_cached_snapshot_sort_key(
+        self, snapshot: CachedSearchSnapshot
+    ) -> tuple[int, bool]:
+        """Sort cached snapshots by freshness, preferring current key on ties."""
+        return snapshot.ttl, snapshot.key == self.session_key
+
+    def get_latest_cached_full_snapshot(self) -> CachedSearchSnapshot | None:
+        """Return the newest full snapshot for the same search."""
+        return max(
+            self.get_matching_full_snapshots(),
+            key=self.get_cached_snapshot_sort_key,
+            default=None,
+        )
+
+    def get_reordered_cached_session_data(
+        self, source: CachedSearchSnapshot, *, reset_offset_to_last_viewed: bool
+    ) -> SearchResult | None:
+        """Reuse a cached ID list when only ordering changed."""
+        unit_ids = list(
+            self.unit_set.filter(pk__in=source.unit_ids)
+            .order_by_request(self.cleaned_data, self.base)
+            .values_list("id", flat=True)
+        )
+        if not unit_ids:
+            return None
+
+        last_viewed_unit_id = self.get_last_viewed_unit_id(source.session_data)
+        if reset_offset_to_last_viewed and last_viewed_unit_id is not None:
+            with contextlib.suppress(ValueError):
+                self.offset = unit_ids.index(last_viewed_unit_id) + 1
+
+        session_data = self.make_session_data(
+            unit_ids,
+            self.get_ttl(),
+            last_viewed_unit_id,
+        )
+        if self.use_cache:
+            self.request.session[self.session_key] = session_data
+        return session_data
+
+    def make_session_metadata(
+        self, ttl: int, last_viewed_unit_id: int | None = None
+    ) -> SearchResult:
+        """Build shared search session metadata."""
+        return {
+            "query": self.search_query,
+            "url": self.search_url,
+            "items": self.search_items,
+            "key": self.session_key,
+            "name": self.search_name,
+            "ttl": ttl,
+            "last_viewed_unit_id": last_viewed_unit_id,
+        }
+
+    def make_lightweight_session_data(
+        self,
+        session_data: SearchResult | None,
+        ttl: int,
+    ) -> SearchResult:
+        """Store search metadata without materializing all unit IDs."""
+        return self.make_session_metadata(
+            ttl, self.get_last_viewed_unit_id(session_data)
+        )
+
+    def make_session_data(
+        self, unit_ids: list[int], ttl: int, last_viewed_unit_id: int | None = None
+    ) -> SearchResult:
+        session_data = self.make_session_metadata(ttl, last_viewed_unit_id)
+        session_data["ids"] = unit_ids
+        return session_data
+
+    def load_data(
+        self, *, reset_offset_to_last_viewed: bool = False
+    ) -> HttpResponse | SearchResult:
+        """Load a cached full snapshot or perform and store a new search."""
+        cleanup_session(self.request.session)
+
+        cached = self.get_latest_cached_full_snapshot()
+        if cached is not None:
+            if cached.key == self.session_key:
+                self.refresh_session(
+                    self.request.session, self.session_key, cached.session_data
+                )
+                return cached.session_data
+            session_data = self.get_reordered_cached_session_data(
+                cached,
+                reset_offset_to_last_viewed=reset_offset_to_last_viewed,
+            )
+            if session_data is not None:
+                return session_data
+
+        unit_ids = self.get_ordered_unit_ids()
+        if not unit_ids and not self.blank:
+            messages.warning(self.request, gettext("No strings found!"))
+            return redirect(
+                f"{self.base.get_absolute_url()}?q={self.query_string}#search"
+            )
+
+        ttl = self.get_ttl()
+        session_data = self.make_session_data(unit_ids, ttl)
+        if self.use_cache:
+            self.request.session[self.session_key] = session_data
+        return session_data
+
+    def limited_page(
+        self, *, include_count: bool, page_size: int
+    ) -> HttpResponse | SearchResult:
+        """Return one page without materializing the full result ID list."""
+        cleanup_session(self.request.session)
+        session_data = self.get_session_data(self.request.session, self.session_key)
+        ordered_units = self.get_ordered_units()
+
+        total = None
+        if include_count or self.offset < 1:
+            total = ordered_units.count()
+            if not total and not self.blank:
+                messages.warning(self.request, gettext("No strings found!"))
+                return redirect(
+                    f"{self.base.get_absolute_url()}?q={self.query_string}#search"
+                )
+            if self.offset < 1:
+                self.offset = max(total - page_size + 1, 1)
+
+        offset = self.offset - 1
         unit_ids = list(
             ordered_units.values_list("id", flat=True)[offset : offset + page_size + 1]
         )
-        if not unit_ids and search_result["offset"] <= 1 and not blank:
-            messages.warning(request, gettext("No strings found!"))
-            return redirect(f"{base.get_absolute_url()}?q={query_string}#search")
+        if not unit_ids and self.offset <= 1 and not self.blank:
+            messages.warning(self.request, gettext("No strings found!"))
+            return redirect(
+                f"{self.base.get_absolute_url()}?q={self.query_string}#search"
+            )
 
-        search_result.update(
-            {
-                "query": search_query,
-                "url": search_url,
-                "items": search_items,
-                "key": session_key,
-                "name": str(name),
-                "ids": unit_ids[:page_size],
-                "total": total,
-                "ttl": get_search_session_ttl(),
-                "last_viewed_unit_id": None,
-                "last_section": len(unit_ids) <= page_size,
-            }
+        ttl = self.get_ttl()
+        session_data = self.make_lightweight_session_data(session_data, ttl)
+        if self.use_cache:
+            self.request.session[self.session_key] = session_data
+        return self.make_result(
+            session_data,
+            ids=unit_ids[:page_size],
+            include_total=include_count,
+            total=total,
+            last_section=len(unit_ids) <= page_size,
         )
-        return search_result
 
+    def make_result(
+        self,
+        session_data: SearchResult,
+        *,
+        ids: list[int] | None = None,
+        offset: int | None = None,
+        total: int | None = None,
+        include_total: bool = False,
+        last_section: bool | None = None,
+    ) -> SearchResult:
+        """Build the search result context shared by translate and zen views."""
+        result: SearchResult = {
+            "form": self.form,
+            "offset": self.offset if offset is None else offset,
+            "query": session_data.get("query", self.search_query),
+            "url": session_data.get("url", self.search_url),
+            "items": session_data.get("items", self.search_items),
+            "key": self.session_key,
+            "name": session_data.get("name", self.search_name),
+            "ids": (self._get_unit_ids(session_data) or []) if ids is None else ids,
+            "ttl": session_data["ttl"],
+            "last_viewed_unit_id": session_data.get("last_viewed_unit_id"),
+        }
+        if include_total:
+            result["total"] = total
+        if last_section is not None:
+            result["last_section"] = last_section
+        return result
 
-def search_unit(
-    base: _SearchBase,
-    project: Project,
-    unit_set: UnitQuerySet,
-    request: AuthenticatedHttpRequest,
-) -> HttpResponse | SearchResult:
-    """Perform search and return only the current unit ID."""
-    search_result = search_page(
-        base,
-        project,
-        unit_set,
-        request,
-        include_count=True,
-        page_size=1,
-    )
-    if isinstance(search_result, HttpResponse):
-        return search_result
+    def search(self) -> HttpResponse | SearchResult:
+        """Perform search or return cached full search results."""
+        with start_span(op="unit.search", name=self.search_url):
+            data = self.load_data()
+            if isinstance(data, HttpResponse):
+                return data
+            return self.make_result(data)
 
-    session_key = get_search_session_key(base, search_result["url"])
-    search_result["key"] = session_key
-    session_result = get_search_session_data(request.session, session_key)
-    search_result["last_viewed_unit_id"] = (
-        session_result.get("last_viewed_unit_id")
-        if session_result is not None
-        else None
-    )
-    return search_result
+    def page(
+        self, *, include_count: bool = False, page_size: int = ZEN_PAGE_SIZE
+    ) -> HttpResponse | SearchResult:
+        """Return one stable page of unit IDs from the cached full snapshot."""
+        with start_span(op="unit.search", name=self.search_url):
+            if page_size == 1 and self.can_use_bounded_page_lookup:
+                return self.limited_page(
+                    include_count=include_count, page_size=page_size
+                )
+            data = self.load_data(reset_offset_to_last_viewed=page_size == 1)
+            if isinstance(data, HttpResponse):
+                return data
+            unit_ids = self._get_unit_ids(data)
+            if unit_ids is None:
+                return self.make_result(
+                    data,
+                    ids=[],
+                    include_total=include_count,
+                    total=0 if include_count else None,
+                    last_section=True,
+                )
+            snapshot = self._get_ids_snapshot(unit_ids, self.offset, page_size)
+            if snapshot is None:
+                return self.make_result(
+                    data,
+                    ids=[],
+                    include_total=include_count,
+                    total=len(unit_ids) if include_count else None,
+                    last_section=True,
+                )
+            return self.make_result(
+                data,
+                ids=snapshot.ids[:page_size],
+                offset=snapshot.offset,
+                include_total=include_count,
+                total=snapshot.total if include_count else None,
+                last_section=snapshot.last_section,
+            )
+
+    def post_unit(self, unit: Unit) -> tuple[SearchResult, int] | None:
+        """Resolve POST search context using the submitted offset."""
+        if not self.form_valid or self.offset < 1:
+            return None
+        with start_span(op="unit.search", name=self.search_url):
+            if self.can_use_bounded_page_lookup:
+                return self.limited_post_unit(unit)
+            data = self.load_data()
+            if isinstance(data, HttpResponse):
+                return None
+            unit_ids = self._get_unit_ids(data)
+            if unit_ids is None:
+                return None
+            snapshot = self._get_ids_snapshot(unit_ids, self.offset, 1)
+            if snapshot is None or snapshot.ids[0] != unit.id:
+                return None
+            return (
+                self.make_result(
+                    data,
+                    ids=snapshot.ids[:1],
+                    offset=snapshot.offset,
+                    include_total=True,
+                    total=snapshot.total,
+                    last_section=snapshot.last_section,
+                ),
+                snapshot.total or 0,
+            )
+
+    def limited_post_unit(self, unit: Unit) -> tuple[SearchResult, int] | None:
+        """Resolve POST context without materializing all result IDs."""
+        cleanup_session(self.request.session)
+        session_data = self.get_session_data(self.request.session, self.session_key)
+        ordered_units = self.get_ordered_units()
+        unit_ids = list(
+            ordered_units.values_list("id", flat=True)[
+                self.offset - 1 : self.offset + 1
+            ]
+        )
+        if not unit_ids or unit_ids[0] != unit.id:
+            return None
+
+        total = ordered_units.count()
+        ttl = self.get_ttl()
+        session_data = self.make_lightweight_session_data(session_data, ttl)
+        if self.use_cache:
+            self.request.session[self.session_key] = session_data
+        return (
+            self.make_result(
+                session_data,
+                ids=unit_ids[:1],
+                include_total=True,
+                total=total,
+                last_section=len(unit_ids) <= 1,
+            ),
+            total,
+        )
 
 
 def get_checksum_unit_set(unit_set: UnitQuerySet) -> UnitQuerySet:
@@ -649,146 +778,6 @@ def get_checksum_unit_set(unit_set: UnitQuerySet) -> UnitQuerySet:
         "source_unit__translation__component",
         "source_unit__translation__component__project",
         "source_unit__translation__component__source_language",
-    )
-
-
-def save_partial_search_session(
-    session,
-    session_key: str,
-    session_data: SearchResult,
-    form: PositionSearchForm,
-    unit_ids: list[int],
-    partial_offset: int,
-) -> int:
-    """Store a compact partial search result window in the session."""
-    ttl = get_search_session_ttl()
-    session_data.pop("ids", None)
-    session_data.update(
-        {
-            "query": form.cleaned_data["q"],
-            "url": form.urlencode(),
-            "items": form.items(),
-            "key": session_key,
-            "name": str(form.get_name()),
-            "partial_ids": unit_ids,
-            "partial_offset": partial_offset,
-            "ttl": ttl,
-        }
-    )
-    session[session_key] = session_data
-    return ttl
-
-
-def search_post_unit(
-    base: _SearchBase,
-    project: Project,
-    unit_set: UnitQuerySet,
-    request: AuthenticatedHttpRequest,
-    unit: Unit,
-) -> tuple[SearchResult, int] | None:
-    """Resolve POST search context using the submitted offset."""
-    form = PositionSearchForm(
-        request=request, data=request.GET, show_builder=False, obj=base
-    )
-    if not form.is_valid():
-        return None
-
-    cleaned_data = form.cleaned_data
-    offset = cleaned_data.get("offset", 1)
-    if offset < 1:
-        return None
-
-    search_url = form.urlencode()
-    session_key = get_search_session_key(base, search_url)
-    cleanup_session(request.session)
-    session_data = get_search_session_data(request.session, session_key)
-    if session_data is None:
-        session_data = cast("SearchResult", {})
-    query_string = cleaned_data.get("q", "")
-
-    ordered_units = None
-
-    def get_ordered_units():
-        nonlocal ordered_units
-        if ordered_units is None:
-            ordered_units = unit_set.search(
-                query_string, project=project
-            ).order_by_request(cleaned_data, base)
-        return ordered_units
-
-    partial_offset = get_search_partial_offset(session_data, offset)
-    stored_partial_ids = get_search_session_id_list(session_data, "partial_ids")
-    partial_ids = list(stored_partial_ids or [])
-    snapshot = get_search_session_snapshot(session_data, offset, 1)
-    used_session_snapshot = snapshot is not None and snapshot.ids[0] == unit.id
-    if used_session_snapshot:
-        unit_ids = snapshot.ids
-    else:
-        unit_ids = list(
-            get_ordered_units().values_list("id", flat=True)[offset - 1 : offset + 1]
-        )
-        if not unit_ids or unit_ids[0] != unit.id:
-            return None
-
-    current_ids = unit_ids[:1]
-    if (
-        stored_partial_ids is not None
-        and "ids" not in session_data
-        and used_session_snapshot
-    ):
-        next_ids = list(
-            get_ordered_units().values_list("id", flat=True)[
-                partial_offset : partial_offset + 1
-            ]
-        )
-        append_unique_ids(partial_ids, unit_ids)
-        append_unique_ids(partial_ids, next_ids)
-        partial_window_ids = partial_ids
-    else:
-        partial_offset = offset
-        partial_window_ids = append_unique_ids([], unit_ids)
-
-    ttl = save_partial_search_session(
-        request.session,
-        session_key,
-        session_data,
-        form,
-        partial_window_ids,
-        partial_offset,
-    )
-
-    search_result = {
-        "form": form,
-        "offset": offset,
-        "query": cleaned_data["q"],
-        "url": search_url,
-        "items": form.items(),
-        "key": session_key,
-        "name": str(form.get_name()),
-        "ids": current_ids,
-        "ttl": ttl,
-        "last_viewed_unit_id": session_data.get("last_viewed_unit_id"),
-        "partial": True,
-        "_cleaned_data": cleaned_data,
-    }
-    num_results = offset + int(
-        has_partial_next_id(partial_window_ids, partial_offset, offset)
-    )
-    return search_result, num_results
-
-
-def count_search_result(
-    base: _SearchBase,
-    project: Project,
-    unit_set: UnitQuerySet,
-    search_result: SearchResult,
-) -> int:
-    """Count search results for a partially resolved search."""
-    cleaned_data = search_result["_cleaned_data"]
-    return (
-        unit_set.search(cleaned_data.get("q", ""), project=project)
-        .order_by_request(cleaned_data, base)
-        .count()
     )
 
 
@@ -1113,11 +1102,11 @@ def handle_component_shift_notice(
     session_key = search_result.get("key")
     if not session_key:
         return
-    session_result = get_search_session_data(request.session, session_key)
+    session_result = SearchNavigation.get_session_data(request.session, session_key)
     if session_result is None:
         session_result = cast("SearchResult", {})
     session_result["last_viewed_unit_id"] = unit.id
-    refresh_search_session(request.session, session_key, session_result)
+    SearchNavigation.refresh_session(request.session, session_key, session_result)
 
 
 def get_addable_glossaries(unit, user):
@@ -1176,7 +1165,9 @@ def get_translate_unit(
         checksum_form = ChecksumForm(get_checksum_unit_set(unit_set), request.POST)
         if checksum_form.is_valid():
             unit = checksum_form.cleaned_data["unit"]
-            search_data = search_post_unit(obj, project, unit_set, request, unit)
+            search_data = SearchNavigation(obj, project, unit_set, request).post_unit(
+                unit
+            )
             if search_data is not None:
                 search_result, num_results = search_data
                 return TranslateUnitResult(
@@ -1189,9 +1180,11 @@ def get_translate_unit(
         and "revert" not in request.GET
     )
     if use_fast_search:
-        search_result = search_unit(obj, project, unit_set, request)
+        search_result = SearchNavigation(obj, project, unit_set, request).page(
+            include_count=True, page_size=1
+        )
     else:
-        search_result = search(obj, project, unit_set, request)
+        search_result = SearchNavigation(obj, project, unit_set, request).search()
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -1295,8 +1288,6 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     # Pass possible redirect further
     if response is not None:
         return response
-    if search_result.get("partial"):
-        num_results = count_search_result(obj, project, unit_set, search_result)
 
     # Show secondary languages for signed in users
     secondary = unit.get_secondary_units(user) if user.is_authenticated else None
@@ -1578,26 +1569,15 @@ def get_zen_unitdata(
 ):
     """Load unit data for zen mode."""
     # Search results
-    search_result = search(obj, project, unit_set, request)
+    search_result = SearchNavigation(obj, project, unit_set, request).page(
+        include_count=include_count, page_size=ZEN_PAGE_SIZE
+    )
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
         return search_result, None
 
-    snapshot = get_search_session_snapshot(
-        search_result, search_result["offset"], ZEN_PAGE_SIZE
-    )
-    if snapshot is None:
-        page_ids = []
-        search_result["last_section"] = True
-    else:
-        page_ids = snapshot.ids[:ZEN_PAGE_SIZE]
-        search_result["offset"] = snapshot.offset
-        search_result["last_section"] = snapshot.last_section
-    if include_count:
-        search_result["total"] = snapshot.total if snapshot is not None else 0
-
-    units = unit_set.prefetch_full().get_ordered(page_ids)
+    units = unit_set.prefetch_full().get_ordered(search_result["ids"])
     fill_in_source_translation(units)
     prepare_glossary_terms(units, project)
 
@@ -1822,7 +1802,9 @@ def browse(request: AuthenticatedHttpRequest, path):
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
     project = context["project"]
-    search_result = search(obj, project, unit_set, request, blank=True, use_cache=False)
+    search_result = SearchNavigation(
+        obj, project, unit_set, request, blank=True, use_cache=False
+    ).search()
     offset = search_result["offset"]
     page = 20
     units = unit_set.prefetch_full().get_ordered(

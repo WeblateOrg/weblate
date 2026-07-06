@@ -5,7 +5,7 @@ Following these recommendations supports the creation of a full, multilingual po
 
 Many times translators will find problems with the source strings. Make sure it is easy for them to report such problems.
 To gather this feedback, you can set up the :ref:`component-repoweb` field on your Weblate component, for translators to
-propose their changes to the upstream repository. You can also receive translator comments if you setup :ref:`component-report_source_bugs`.
+propose their changes to the upstream repository. You can also receive translator comments if you set up :ref:`component-report_source_bugs`.
 
 Component diagnostics
 ---------------------

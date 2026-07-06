@@ -1988,6 +1988,9 @@ class Invitation(models.Model):
             audit=had_membership,
         )
 
+        if self.group.defining_project:
+            user.profile.watched.add(self.group.defining_project)
+
         self.delete()
 
 

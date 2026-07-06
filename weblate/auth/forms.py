@@ -231,11 +231,15 @@ class BaseInviteForm:
     def setup_group_field(self, project) -> None:
         self.project = project
         if project:
-            self.fields["group"].queryset = project.group_set.order()
-        else:
-            self.fields["group"].queryset = Group.objects.filter(
-                defining_project=None
+            self.fields["group"].queryset = project.group_set.select_related(
+                "defining_project", "defining_workspace"
             ).order()
+        else:
+            self.fields["group"].queryset = (
+                Group.objects.filter(defining_project=None)
+                .select_related("defining_project", "defining_workspace")
+                .order()
+            )
         if project and self.support_limit_languages:
             languages = project.languages
             self.fields["limit_languages"] = LimitLanguagesField(
