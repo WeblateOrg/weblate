@@ -878,7 +878,7 @@ of errors, which is not desired in a production setup.
 Properly configure admins
 +++++++++++++++++++++++++
 
-Set the correct admin addresses to the :setting:`ADMINS` setting to defining who will receive
+Set the correct admin addresses to the :setting:`ADMINS` setting to define who will receive
 e-mails in case something goes wrong on the server, for example:
 
 .. code-block:: python
