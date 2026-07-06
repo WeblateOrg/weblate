@@ -222,12 +222,14 @@ class InvitationView(DetailView):
         self, request: AuthenticatedHttpRequest
     ) -> HttpResponse | None:
         if self.object.is_expired():
+            request.session.pop("invitation_link", None)
             messages.error(request, gettext("This invitation has expired."))
             if request.user.is_authenticated:
                 return redirect_param("profile", "#account")
             return redirect("register")
 
         if request.user.is_authenticated:
+            request.session.pop("invitation_link", None)
             if not self.object.matches_user(request.user):
                 messages.error(
                     request,
@@ -238,11 +240,14 @@ class InvitationView(DetailView):
                 )
                 return redirect_param("profile", "#account")
             return None
-        if not self.object.user:
-            # When inviting new user go through registration
-            request.session["invitation_link"] = str(self.object.pk)
-            return redirect("register")
-        return None
+
+        if self.object.user:
+            request.session.pop("invitation_link", None)
+            return None
+
+        # When inviting new user go through registration.
+        request.session["invitation_link"] = str(self.object.pk)
+        return redirect("register")
 
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
         self.object = self.get_object()
