@@ -730,6 +730,35 @@ function initHighlight(root) {
       if (placeables) {
         extension.placeable = new RegExp(placeables);
       }
+      const nestedTokens = {
+        newline: { pattern: newlineRegex },
+        nbsp: { pattern: nonBreakingSpaceRegex },
+      };
+      if (placeables) {
+        nestedTokens.placeable = {
+          pattern: new RegExp(placeables),
+          greedy: true,
+        };
+      }
+      const injectNestedTokens = (grammar, visited) => {
+        if (visited.has(grammar)) {
+          return;
+        }
+        visited.add(grammar);
+        for (const key in grammar) {
+          // biome-ignore lint/suspicious/noPrototypeBuiltins: Firefox < 92 compatibility, Object.hasOwn(grammar, key) should be used instead
+          if (grammar.hasOwnProperty(key)) {
+            const value = grammar[key];
+            const patterns = Array.isArray(value) ? value : [value];
+            patterns.forEach((pattern) => {
+              if (pattern?.inside) {
+                injectNestedTokens(pattern.inside, visited);
+                Object.assign(pattern.inside, nestedTokens);
+              }
+            });
+          }
+        }
+      };
       /*
        * We can not use Prism.extend here as we want whitespace highlighting
        * to apply first. The code is borrowed from Prism.util.clone.
@@ -740,6 +769,7 @@ function initHighlight(root) {
           extension[key] = Prism.util.clone(languageMode[key]);
         }
       }
+      injectNestedTokens(extension, new Set());
       languageMode = extension;
     }
     const syncContent = () => {
