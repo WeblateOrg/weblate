@@ -1328,7 +1328,7 @@ use that for the following paths:
     Serves static files for Weblate and the admin interface
     (from defined by :setting:`django:STATIC_ROOT`).
 :file:`/favicon.ico`
-    Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`.
+    Should be rewritten to serve :file:`/static/favicon.ico`.
 
 .. seealso::
 
