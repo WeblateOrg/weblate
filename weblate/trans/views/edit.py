@@ -906,7 +906,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
         # Stay on same entry
         return False
 
-    return True and not add_alternative
+    return not add_alternative
 
 
 @session_ratelimit_post("translate", logout_user=False)
