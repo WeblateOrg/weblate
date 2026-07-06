@@ -1365,7 +1365,7 @@ configuration, but this might need customization for your environment.
 Sample configuration for NGINX and Granian
 +++++++++++++++++++++++++++++++++++++++++++
 
-The following configuration runs Weblate using Granian the NGINX webserver:
+The following configuration runs Weblate using Granian with the NGINX webserver:
 
 .. literalinclude:: ../../weblate/examples/weblate.nginx.granian.conf
     :language: nginx
