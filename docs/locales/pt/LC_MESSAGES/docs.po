@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-06 18:20+0000\n"
+"PO-Revision-Date: 2026-07-07 00:09+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -10178,16 +10178,17 @@ msgstr ""
 "com ficheiros de desenvolvimento e dados de introspecção GObject."
 
 #: admin/install.rst:369 security/release-artifacts.rst:121
-#, fuzzy
-#| msgid "Verifying release signatures"
 msgid "Verifying release artifacts"
-msgstr "Verificar assinaturas de lançamento"
+msgstr "Verificar artefactos de lançamento"
 
 #: admin/install.rst:371
 msgid ""
 "Release archives can be verified using the signatures, attestations, and "
 "SBOMs published with GitHub release assets. See :ref:`verify`."
 msgstr ""
+"Arquivos de lançamento podem ser verificados usando as assinaturas, "
+"certificados, e SBOMs publicados nos recursos de lançamento GitHub. Veja "
+":ref:`verify`."
 
 #: admin/install.rst:377
 msgid "Filesystem permissions"
@@ -10230,6 +10231,9 @@ msgid ""
 "process and has to allow executing generated helper files. Do not "
 "mount :setting:`CACHE_DIR` with the ``noexec`` option."
 msgstr ""
+"A :setting:`CACHE_DIR` configurada também tem que ter permissões de escrita "
+"pelo processo Weblate e tem que permitir a execução de ficheiros auxiliares "
+"gerados. Não monte :setting:`CACHE_DIR` com a opção ``noexec``."
 
 #: admin/install.rst:394
 msgid ""
@@ -10451,14 +10455,8 @@ msgstr ""
 "nesse caso."
 
 #: admin/install.rst:571
-#, fuzzy
-#| msgid ""
-#| ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
-#| "<docker-mail>`"
 msgid ":ref:`Configuring outgoing e-mail in Docker container <docker-mail>`"
-msgstr ""
-":ref:`debug-mails`, :ref:`Configurando e-mail de saída em contentor Docker "
-"<docker-mail>`"
+msgstr ":ref:`Configurando e-mail de saída em contentor Docker <docker-mail>`"
 
 #: admin/install.rst:576
 msgid "Running behind reverse proxy"
@@ -10479,20 +10477,16 @@ msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"Para depurar esta configuração, pode dar uma vista de olhos do "
+":guilabel:`Ambiente HTTP` em :ref:`manage-performance`."
 
 #: admin/install.rst:585
 msgid "Client IP address"
 msgstr "Endereço IP do cliente"
 
 #: admin/install.rst:586
-#, fuzzy
-#| msgid ""
-#| "This is needed for :ref:`rate-limit`, :ref:`spam-protection` "
-#| "or :ref:`audit-log`."
 msgid "This is needed for :ref:`rate-limit` or :ref:`audit-log`."
-msgstr ""
-"Isto é necessário para :ref:`rate-limit`, :ref:`spam-protection` "
-"ou :ref:`audit-log`."
+msgstr "Isto é necessário para :ref:`rate-limit` ou :ref:`audit-log`."
 
 #: admin/install.rst:588
 msgid ""
@@ -12531,11 +12525,6 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:263
-#, fuzzy
-#| msgid ""
-#| "You might also want to update the ``docker-compose`` repository, though "
-#| "it's not needed in most case. See :ref:`docker-postgres-upgrade` for "
-#| "upgrading the PostgreSQL server."
 msgid ""
 "If you use the example Compose files without local changes, you can also "
 "review updates in the ``docker-compose`` repository, though this is not "
@@ -12543,9 +12532,11 @@ msgid ""
 "maintained as part of your deployment. See :ref:`docker-postgres-upgrade` "
 "for upgrading the PostgreSQL server."
 msgstr ""
-"Também pode atualizar o repositório ``docker-compose``, embora não seja "
-"necessário na maioria dos casos. Veja :ref:`docker-postgres-upgrade` para "
-"atualizar o servidor PostgreSQL."
+"Se quer usar o exemplo de ficheiros Compose sem mudanças também pode "
+"analisar atualizações no repositório ``docker-compose``, ainda que isto não "
+"seja necessário para a maioria das atualizações Weblate. Ficheiros Compose "
+"personalizados precisam de ser mantidos enquanto parte da sua implementação. "
+"Veja :ref:`docker-postgres-upgrade` para atualizar o servidor PostgreSQL."
 
 #: admin/install/docker.rst:272
 msgid "Upgrading PostgreSQL container"
@@ -18215,6 +18206,12 @@ msgid ""
 "data, internal URLs, API examples, repository paths, translator comments, or "
 "file-format metadata that should not be exposed."
 msgstr ""
+"Tratar todos os ficheiros CDN publicados como públicos. O UUID específico do "
+"extra no URL não é um mecanismo de controlo de acesso. Não ative extras de "
+"CDN para componentes que contenham cadeias de carateres privadas, texto de "
+"produtos não lançados, dados do cliente, URLs internos, exemplos de API, "
+"caminhos de repositório, comentários de tradutor, ou metadados do formato de "
+"ficheiro que não devem ser expostos."
 
 #: admin/optionals.rst:276
 msgid ""
@@ -34087,6 +34084,15 @@ msgid ""
 "as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, "
 "and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 msgstr ""
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE` adicionado e rejeitar URLs do "
+"website de projeto e navegador do repositório que têm como alvo endereços "
+"internos ou não públicos, :setting:`WEBHOOK_RESTRICT_PRIVATE` para rejeitar "
+"URLs de webhooks que têm como alvo endereços internos ou não públicos, e "
+":setting:`VCS_RESTRICT_PRIVATE` para rejeitar URLs de repositórios e de push "
+"que têm como alvo endereços internos ou não públicos. Estes são expostos no "
+"Docker enquanto :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, "
+":envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, e "
+":envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 
 #: changes/v5.rst:118
 #, fuzzy
@@ -50575,6 +50581,12 @@ msgid ""
 "data. The inspected workflows also store Trivy SARIF artifacts, and the "
 "Weblate Client workflow stores Anchore SARIF artifacts."
 msgstr ""
+"Os fluxos de trabalho Weblate Docker e Weblate Client inspecionados analisam "
+"contentores de imagens compiladas com Anchore_ e Trivy_. Resultados são "
+"enviados para a análise de código GitHub na forma de dados :abbr:`SARIF "
+"(Static Analysis Results Interchange Format)`. Os fluxos de trabalho "
+"inspecionados também armazenam artefactos SARIF Trivy, e o fluxos de "
+"trabalho do Weblate Client armazenam artefactos SARIF Anchore."
 
 #: security/dependencies.rst:100
 msgid "Known external policy details"
@@ -52851,6 +52863,11 @@ msgid ""
 "SBOMs are generated with Syft, and image provenance and SBOM attestations "
 "are pushed to the registries."
 msgstr ""
+"O fluxo de trabalho compila imagens de multi arquitetura, testa a imagem de "
+"cliente da linha de comandos, analisa com o Anchore e Trivy, e publica-as "
+"para o Docker Hub e GitHub Packages. Resumos de imagens publicados são "
+"assinados com o Cosign, imagens SBOM CycloneDX são gerados com Syft, e "
+"proveniência de imagem e certificados SBOM são enviados para os registos."
 
 #: security/release-artifacts.rst:88
 msgid ""
@@ -58248,6 +58265,11 @@ msgid ""
 "When the POT file is updated in the repository, this add-on automatically "
 "merges those changes into all language PO files, ensuring that:"
 msgstr ""
+"Este extra é essencial ao trabalhar com ficheiros gettext PO onde o ficheiro "
+"POT (modelo) é enviado com novas cadeias de carateres ou mudanças para "
+"cadeias de carateres existentes. Quando o ficheiro POT é atualizado no "
+"repositório, este extra une automaticamente essas mudanças em todos os "
+"ficheiros de idioma PO, assegurando que:"
 
 #: snippets/addons-autogenerated.rst:1268
 #, fuzzy
@@ -69875,6 +69897,13 @@ msgid ""
 "pull requests without inviting the Hosted Weblate :guilabel:`weblate` user. "
 "See :ref:`code-hosting-github-repositories` for the full setup."
 msgstr ""
+"Para repositórios GitHub no Hosted Weblate, utilize a `aplicação Hosted "
+"Weblate <https://github.com/apps/hosted-weblate>`_ do fluxo do Weblate "
+":guilabel:`Conectar conta GitHub` quando possível. A Aplicação garante "
+"acesso de repositório, recebe notificações, submeter para os ramos de "
+"traduções, e cria pull requests sem convidar o utilizador Hosted Weblate "
+":guilabel:`weblate`. Veja :ref:`code-hosting-github-repositories` para a "
+"configuração completa."
 
 #: vcs.rst:48
 #, fuzzy
@@ -71666,6 +71695,12 @@ msgid ""
 "turn :guilabel:`Enable reviews` off for languages that should not require "
 "review."
 msgstr ""
+"Para requisitar uma revisão apenas para os idiomas selecionados, primeiro "
+"ative :ref:`project-translation_review` para o projeto inteiro. Depois abra "
+"cada página de idioma do projeto que deve usar o comportamento diferente, "
+"ative :guilabel:`Personalizar o fluxo de trabalho de tradução para este "
+"idioma neste projeto`, e desative :guilabel:`Ativar revisões` ppara idiomas "
+"que não devem precisar de revisão."
 
 #: workflows.rst:223
 msgid ""
