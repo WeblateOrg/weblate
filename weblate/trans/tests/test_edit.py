@@ -2248,7 +2248,8 @@ class EditComplexTest(ViewTestCase):
             response = self.client.post(
                 reverse("js-ignore-check", kwargs={"check_id": check_id})
             )
-        self.assertContains(response, "ok")
+        self.assertEqual(response.headers["Content-Type"], "application/json")
+        self.assertJSONEqual(response.content.decode("utf-8"), {})
 
         # Should have one less failing check
         unit = self.get_unit()
