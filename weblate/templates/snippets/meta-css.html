@@ -18,12 +18,13 @@
   <link rel="stylesheet" href="{% static 'styles/main.css' %}{{ cache_param }}" />
   <link rel="stylesheet"
         href="{% static 'styles/date-range-picker.css' %}{{ cache_param }}" />
-  {% if theme == "auto" %}
+  {% if theme == "dark" %}
+    <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" />
+  {% elif theme != "light" %}
+    {# auto, unset, or any other non-explicit value: gate on system preference #}
     <link rel="stylesheet"
           href="{% static 'style-dark.css' %}{{ cache_param }}"
           media="(prefers-color-scheme: dark)" />
-  {% elif theme == "dark" %}
-    <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" />
   {% endif %}
 {% endcompress %}
 {% if custom_css_hash %}
