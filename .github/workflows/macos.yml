@@ -34,14 +34,23 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       CI_SKIP_SAML: 1
       HOMEBREW_NO_AUTO_UPDATE: '1'
+      # renovate-homebrew-brew
+      HOMEBREW_BREW_REF: 3dd092c77e7a19316aae454b4116f01fda61693e
       # renovate-homebrew-core
       HOMEBREW_CORE_REF: 55cdf140129160c1d6b5c300bb99e8e8c329fe84
     steps:
     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         persist-credentials: false
-    - name: Pin Homebrew core
+    - name: Pin Homebrew snapshot
       run: |
+        brew_repo="$(brew --repo)"
+        git -C "${brew_repo}" reset --hard
+        git -C "${brew_repo}" clean -fd
+        git -C "${brew_repo}" fetch --no-tags --depth=1 origin "${HOMEBREW_BREW_REF}"
+        git -C "${brew_repo}" checkout --force -B stable FETCH_HEAD
+        brew --version
+
         brew tap --force homebrew/core
         core_repo="$(brew --repo homebrew/core)"
         git -C "${core_repo}" reset --hard

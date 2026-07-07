@@ -39,6 +39,7 @@
     {
       "description": "Update pinned macOS Homebrew snapshot monthly",
       "matchPackageNames": [
+        "https://github.com/Homebrew/brew",
         "https://github.com/Homebrew/homebrew-core"
       ],
       "groupName": "macOS Homebrew snapshot",
@@ -76,6 +77,21 @@
       "datasourceTemplate": "custom.github-release-asset-digest",
       "versioningTemplate": "loose",
       "autoReplaceStringTemplate": "{{{indentation}}}# renovate-cyclonedx-cli\n{{{indentation}}}CYCLONEDX_CLI_VERSION: {{{newValue}}}\n{{{indentation}}}CYCLONEDX_CLI_DIGEST: {{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned Homebrew Git revision for macOS CI",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/macos\\.yml$/"
+      ],
+      "matchStrings": [
+        "(?<indentation>[ \\t]*)# renovate-homebrew-brew\\r?\\n[ \\t]*HOMEBREW_BREW_REF: (?<currentDigest>[a-f0-9]{40})"
+      ],
+      "currentValueTemplate": "master",
+      "depNameTemplate": "Homebrew/brew",
+      "packageNameTemplate": "https://github.com/Homebrew/brew",
+      "datasourceTemplate": "git-refs",
+      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-brew\n{{{indentation}}}HOMEBREW_BREW_REF: {{{newDigest}}}"
     },
     {
       "customType": "regex",
