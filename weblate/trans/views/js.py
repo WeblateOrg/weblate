@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import translation
 from django.utils.http import urlencode
@@ -68,7 +68,7 @@ def ignore_check(request: AuthenticatedHttpRequest, check_id):
     # Mark check for ignoring
     obj.set_dismiss(state="revert" not in request.GET)
     # response for AJAX
-    return HttpResponse("ok")
+    return JsonResponse({})
 
 
 @require_POST

@@ -22,6 +22,7 @@ Weblate 2026.7.1
 * GitHub App setup now explains that a workspace is required instead of showing a permission error when no workspace exists.
 * LLM automatic suggestion settings no longer show ``null`` for empty language-specific instructions.
 * Accepting a project invitation now automatically adds the project to the user's watched projects.
+* Dismissing a failing check no longer shows a JSON parsing error in the translation editor.
 
 .. rubric:: Compatibility
 
