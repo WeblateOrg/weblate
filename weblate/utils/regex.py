@@ -11,7 +11,7 @@ import regex
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-REGEX_TIMEOUT = 0.2
+REGEX_TIMEOUT = 0.3
 
 
 def compile_regex(pattern: str) -> regex.Pattern:
