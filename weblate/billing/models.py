@@ -1192,6 +1192,7 @@ class BillingEvent(models.IntegerChoices):
     ADMIN_REMOVED = 15, "Admin removed"
     INACTIVE_RECURRING_SCHEDULED = 16, "Scheduled recurring payment disablement"
     INACTIVE_RECURRING_CLEARED = 17, "Cleared recurring payment disablement"
+    PLAN_CHANGED = 18, "Billing plan changed"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog", "BillingLog"]):
@@ -1220,6 +1221,21 @@ class BillingLog(models.Model):
 
     def __str__(self) -> str:
         return f"{self.timestamp.isoformat()}: {self.billing}: {self.get_event_display()} {self.summary}"
+
+    def get_plan_detail_name(self, key: str) -> str:
+        plan = self.details.get(key)
+        if isinstance(plan, dict):
+            plan = plan.get("name")
+        return str(plan) if plan else ""
+
+    def get_details_display(self) -> StrOrPromise:
+        old_plan = self.get_plan_detail_name("old_plan")
+        new_plan = self.get_plan_detail_name("new_plan")
+        if old_plan and new_plan:
+            return format_html(
+                gettext('Changed from "{}" to "{}".'), old_plan, new_plan
+            )
+        return self.summary
 
 
 @receiver(pre_save, sender=Project)

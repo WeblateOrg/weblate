@@ -23,7 +23,7 @@
         </div>
         <div class="card-body">
           <ul>
-            <li>{% translate "Your trial will last 14 days." %}</li>
+            <li>{% blocktranslate count days=trial_days %}Your trial will last {{ days }} day.{% plural %}Your trial will last {{ days }} days.{% endblocktranslate %}</li>
             <li>{% translate "Your trial will run the 640k plan, but you can choose any plan later." %}</li>
             <li>{% translate "No credit card is needed, but you can set the payment method anytime." %}</li>
             <li>{% translate "All configuration will stay once you start paying." %}</li>
