@@ -35,7 +35,7 @@ jobs:
       with:
         persist-credentials: false
         path: source/second
-    - uses: astral-sh/setup-uv@d31148d669074a8d0a63714ba94f3201e7020bc3 # v8.3.0
+    - uses: astral-sh/setup-uv@f98e06938123ccabd21905ea5d0069192241f9f1 # v8.3.1
       with:
         enable-cache: false
         version: 0.11.26
@@ -166,7 +166,7 @@ jobs:
     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@d31148d669074a8d0a63714ba94f3201e7020bc3 # v8.3.0
+    - uses: astral-sh/setup-uv@f98e06938123ccabd21905ea5d0069192241f9f1 # v8.3.1
       with:
         enable-cache: false
         version: 0.11.26
@@ -266,7 +266,7 @@ jobs:
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@d31148d669074a8d0a63714ba94f3201e7020bc3 # v8.3.0
+    - uses: astral-sh/setup-uv@f98e06938123ccabd21905ea5d0069192241f9f1 # v8.3.1
       with:
         enable-cache: false
         version: 0.11.26
@@ -316,7 +316,7 @@ jobs:
     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@d31148d669074a8d0a63714ba94f3201e7020bc3 # v8.3.0
+    - uses: astral-sh/setup-uv@f98e06938123ccabd21905ea5d0069192241f9f1 # v8.3.1
       with:
         enable-cache: false
         version: 0.11.26
@@ -369,7 +369,7 @@ jobs:
     - name: Cleanup dist
       # Remove files not supported on PyPI (eg. Sigstore signatures)
       run: find dist -mindepth 1 -not -name '*.tar.gz' -not -name '*.whl' -delete
-    - uses: astral-sh/setup-uv@d31148d669074a8d0a63714ba94f3201e7020bc3 # v8.3.0
+    - uses: astral-sh/setup-uv@f98e06938123ccabd21905ea5d0069192241f9f1 # v8.3.1
       with:
         enable-cache: false
         version: 0.11.26
