@@ -17,6 +17,7 @@ def raise_broken_error() -> None:
     raise ValueError(msg)
 
 
+@override_settings(TEST_RAISE_REPORT_ERROR=False)
 class TracingTest(SimpleTestCase):
     def setUp(self) -> None:
         super().setUp()

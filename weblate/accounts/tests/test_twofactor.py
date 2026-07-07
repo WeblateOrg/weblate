@@ -332,5 +332,22 @@ class TwoFactorTestCase(FixtureTestCase):
 
         # Configure second factor
         self.test_login_totp()
-        response = self.client.get(url)
+        with (
+            mock.patch(
+                "weblate.trans.models.component.Component.count_repo_missing",
+                new_callable=mock.PropertyMock,
+                return_value=0,
+            ),
+            mock.patch(
+                "weblate.trans.models.component.Component.count_repo_outgoing",
+                new_callable=mock.PropertyMock,
+                return_value=0,
+            ),
+            mock.patch(
+                "weblate.trans.models.component.Component.count_push_branch_outgoing",
+                new_callable=mock.PropertyMock,
+                return_value=0,
+            ),
+        ):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)

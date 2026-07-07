@@ -105,7 +105,14 @@ class ErrorCollectionSettingsTest(SimpleTestCase):
         get_google_cloud_error_reporting.assert_not_called()
         get_rollbar.assert_not_called()
 
+    def test_report_error_fails_testsuite_by_default(self) -> None:
+        with self.assertRaisesMessage(
+            AssertionError, "Unexpected report_error call: Handled error"
+        ):
+            errors.report_error("Handled error", level="error", message=True)
 
+
+@override_settings(TEST_RAISE_REPORT_ERROR=False)
 class GoogleCloudErrorReportingTest(SimpleTestCase):
     def tearDown(self) -> None:
         # ruff: ignore[private-member-access]

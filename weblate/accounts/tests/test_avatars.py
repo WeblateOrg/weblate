@@ -5,6 +5,7 @@
 """Tests for user handling."""
 
 from io import BytesIO
+from unittest.mock import patch
 
 import responses
 from django.urls import reverse
@@ -55,10 +56,12 @@ class AvatarTest(FixtureTestCase):
         # Choose different username to avoid using cache
         self.user.username = "test2"
         self.user.save()
-        response = self.client.get(
-            reverse("user_avatar", kwargs={"user": self.user.username, "size": 32})
-        )
+        with patch("weblate.accounts.avatar.report_error") as report_error:
+            response = self.client.get(
+                reverse("user_avatar", kwargs={"user": self.user.username, "size": 32})
+            )
         self.assert_png(response)
+        report_error.assert_called_once_with("Could not fetch avatar for test2")
 
     @responses.activate
     def test_avatar_rejects_unsupported_size_before_fetch(self) -> None:

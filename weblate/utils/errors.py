@@ -79,6 +79,10 @@ def report_error(
     """
     # pylint: disable-next=unused-variable
     __traceback_hide__ = True  # ruff: ignore[unused-variable]
+    if settings.TEST_RAISE_REPORT_ERROR:
+        msg = f"Unexpected report_error call: {cause}"
+        raise AssertionError(msg)
+
     error = sys.exc_info()[1]
     locale = get_language()
     report_as_message = message or error is None

@@ -468,8 +468,16 @@ class BaseMachineTranslationTest(TestCase):
     @responses.activate
     def test_error(self) -> None:
         self.mock_error()
-        with self.assertRaises(MachineTranslationError):
+        with (
+            patch("weblate.machinery.base.report_error") as report_error,
+            self.assertRaises(MachineTranslationError),
+        ):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args,
+            (f"machinery[{self.MACHINE_CLS.name}]: Could not fetch translations",),
+        )
 
     @responses.activate
     def test_clean(self) -> None:

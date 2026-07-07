@@ -130,6 +130,9 @@ AUTHENTICATION_BACKENDS = (
 # Disable random admin checks trigger
 BACKGROUND_ADMIN_CHECKS = False
 
+# Unexpected report_error() calls should fail tests instead of being hidden in logs.
+TEST_RAISE_REPORT_ERROR = True
+
 
 # Use weak password hasher for testing
 PASSWORD_HASHERS = [

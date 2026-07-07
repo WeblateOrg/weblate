@@ -291,9 +291,9 @@ class GitExportTest(ViewTestCase):
         )
 
     def test_reject_push_without_explicit_push_url(self) -> None:
-        self.component.repo = "https://private.example/repo.git"
-        self.component.push = ""
-        self.component.save(update_fields=["repo", "push"])
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://private.example/repo.git", push=""
+        )
         response = self.client.get(self.get_git_url(), {"service": "git-receive-pack"})
         self.assertContains(
             response,
@@ -450,7 +450,13 @@ class GitExportTest(ViewTestCase):
     def test_missing_revision_precheck_response(self) -> None:
         self.mark_component_shallow()
         self.component.repo = "https://user:secret@example.com/upstream.git"
-        self.component.save(update_fields=["repo"])
+        with patch("weblate.trans.models.component.report_error") as report_error:
+            self.component.save(update_fields=["repo"])
+        report_error.assert_called_once_with(
+            "Could not update the repository",
+            project=self.project,
+            skip_error_reporting=True,
+        )
         body = (
             pkt_line(
                 b"want deadbeefdeadbeefdeadbeefdeadbeefdeadbeef multi_ack_detailed\n"

@@ -941,11 +941,18 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
             addon.post_update(self.component, "head", False, [])
 
         # The crash should be handled here and addon uninstalled
-        self.component.trigger_post_update(
-            previous_head=self.component.repository.last_revision,
-            skip_push=False,
-            user=None,
+        with patch("weblate.addons.models.report_error") as report_error:
+            self.component.trigger_post_update(
+                previous_head=self.component.repository.last_revision,
+                skip_push=False,
+                user=None,
+            )
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args,
+            (f"add-on {CrashAddon.name} failed",),
         )
+        self.assertEqual(report_error.call_args.kwargs["project"], self.project)
 
         self.assertEqual([], self.component.addons_cache.names)
         self.assertFalse(Addon.objects.filter(name=CrashAddon.name).exists())
@@ -8241,6 +8248,13 @@ class BaseWebhookTests:
     def reset_calls(self) -> None:
         responses.calls.reset()
 
+    @staticmethod
+    def mock_webhook_peer():
+        return patch(
+            "weblate.utils.requests._get_response_peer_ip",
+            return_value="93.184.216.34",
+        )
+
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
     ) -> None:
@@ -8250,12 +8264,18 @@ class BaseWebhookTests:
             responses_kwargs |= {"status": response_code}
         responses.add(responses.POST, self.WEBHOOK_URL, **responses_kwargs)
 
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Hello, world!\n", "Nazdar svete!\n"
             )  # triggers ActionEvents.NEW event
         unit_to_delete = self.get_unit("Orangutan has %d banana")
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.translation.delete_unit(
                 None, unit_to_delete
             )  # triggers ActionEvents.STRING_REMOVE event
@@ -8278,7 +8298,10 @@ class BaseWebhookTests:
         responses.add(responses.POST, self.WEBHOOK_URL, status=200)
 
         # create translation for unit and similar units across project
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
         self.assertEqual(self.count_requests(), 2)
 
@@ -8288,7 +8311,10 @@ class BaseWebhookTests:
         self.addon_configuration["events"].append(ActionEvents.CHANGE)
         self.do_translation_added_test(response_code=200)
         self.reset_calls()
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
         self.assertEqual(self.count_requests(), 1)
 
@@ -8315,15 +8341,22 @@ class BaseWebhookTests:
         self.WEBHOOK_CLS.create(
             configuration=self.addon_configuration, project=self.project
         )
+        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
 
         self.reset_calls()
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             Announcement.objects.create(user=self.user, message="Site-wide")
         # Only site-wide add-on should receive this
         self.assertEqual(self.count_requests(), 1)
 
         self.reset_calls()
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             Announcement.objects.create(
                 user=self.user, message="Project-wide", project=self.project
             )
@@ -8353,11 +8386,17 @@ class BaseWebhookTests:
         translation1.unit_set.filter(source="Thank you for using Weblate.").delete()
         translation2.unit_set.filter(source="Hello, world!\n").delete()
 
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Hello, world!\n", "Nazdar svete!\n", translation=translation1
             )
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Thank you for using Weblate.",
                 "Díky za používání Weblate.",
@@ -8399,17 +8438,26 @@ class BaseWebhookTests:
         translation_a1.unit_set.filter(source="Thank you for using Weblate.").delete()
         translation_a2.unit_set.filter(source="Hello, world!\n").delete()
 
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Hello, world!\n", "Nazdar svete!\n", translation=translation_a1
             )
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Thank you for using Weblate.",
                 "Díky za používání Weblate.",
                 translation=translation_a2,
             )
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Hello, world!\n", "Nazdar svete!\n", translation=translation_b1
             )
@@ -8430,11 +8478,17 @@ class BaseWebhookTests:
 
         translation_a1 = self.get_translation()
         translation_b1 = component_b1.translation_set.get(language__code="cs")
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Hello, world!\n", "Nazdar svete!\n", translation=translation_a1
             )
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit(
                 "Hello, world!\n", "Nazdar svete!\n", translation=translation_b1
             )
@@ -8444,7 +8498,14 @@ class BaseWebhookTests:
     @responses.activate
     def test_connection_error(self) -> None:
         """Test connection error when during message delivery."""
-        self.do_translation_added_test(body=requests.ConnectionError())
+        with patch("weblate.addons.models.report_error") as report_error:
+            self.do_translation_added_test(body=requests.ConnectionError())
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args,
+            (f"add-on {self.WEBHOOK_CLS.name} failed",),
+        )
+        self.assertEqual(report_error.call_args.kwargs["project"], self.project)
 
 
 class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
@@ -8731,11 +8792,20 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
     @responses.activate
     def test_jsonschema_error(self) -> None:
         """Test payload schema validation error."""
-        with patch(
-            "weblate.addons.webhooks.validate_schema",
-            side_effect=jsonschema.exceptions.ValidationError("message"),
+        with (
+            patch(
+                "weblate.addons.webhooks.validate_schema",
+                side_effect=jsonschema.exceptions.ValidationError("message"),
+            ),
+            patch("weblate.addons.models.report_error") as report_error,
         ):
             self.do_translation_added_test(expected_calls=0)
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args,
+            (f"add-on {self.WEBHOOK_CLS.name} failed",),
+        )
+        self.assertEqual(report_error.call_args.kwargs["project"], self.project)
 
     @responses.activate
     def test_category_in_payload(self) -> None:
@@ -8764,7 +8834,10 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.component.save()
 
         responses.add(responses.POST, "https://example.com/webhooks", status=200)
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            self.mock_webhook_peer(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.client.post(
                 reverse("rename", kwargs={"path": self.component.get_url_path()}),
                 {
@@ -8788,12 +8861,21 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
     def test_private_webhook_target_is_blocked(self, mocked_getaddrinfo) -> None:
         self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
 
-        with self.captureOnCommitCallbacks(execute=True):
+        with (
+            patch("weblate.addons.models.report_error") as report_error,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
             self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
         mocked_getaddrinfo.assert_called_once()
         self.assertEqual(mocked_getaddrinfo.call_args.args[0], "example.com")
         self.assertEqual(self.count_requests(), 0)
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args,
+            (f"add-on {self.WEBHOOK_CLS.name} failed",),
+        )
+        self.assertEqual(report_error.call_args.kwargs["project"], self.project)
 
         activity_log = AddonActivityLog.objects.filter(
             addon__name=self.WEBHOOK_CLS.name

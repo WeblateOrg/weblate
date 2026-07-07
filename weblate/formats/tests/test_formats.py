@@ -927,15 +927,23 @@ class PoFormatTest(BaseFormatTest):
         self.assertEqual(Path(test_file).stat().st_size, 340)
 
         # Backup flag is not compatible with others
-        with self.assertRaises(UpdateError):
+        with (
+            patch("weblate.formats.ttkit.report_error") as report_error,
+            self.assertRaises(UpdateError),
+        ):
             self.format_class.update_bilingual(
                 test_file, TEST_POT, args=["--backup=none"]
             )
+        report_error.assert_called_once_with("Failed msgmerge")
         self.assertEqual(Path(test_file).stat().st_size, 340)
 
         # Test warning in output (used Unicode POT file without charset specified)
-        with self.assertRaises(UpdateError):
+        with (
+            patch("weblate.formats.ttkit.report_error") as report_error,
+            self.assertRaises(UpdateError),
+        ):
             self.format_class.update_bilingual(test_file, TEST_POT_UNICODE)
+        report_error.assert_called_once_with("Failed msgmerge")
         self.assertEqual(Path(test_file).stat().st_size, 340)
 
     def test_obsolete(self) -> None:
