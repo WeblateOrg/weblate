@@ -897,6 +897,11 @@ class MonolingualAlertTest(ViewTestCase):
         self.assertFalse(
             self.component.alert_set.filter(name="MonolingualTranslation").exists()
         )
+        self.assertFalse(
+            self.component.alert_set.filter(
+                name="BilingualPOConfiguredAsMonolingual"
+            ).exists()
+        )
 
     def test_false_bilingual(self) -> None:
         with self.captureOnCommitCallbacks(execute=True):
@@ -907,9 +912,58 @@ class MonolingualAlertTest(ViewTestCase):
         self.assertTrue(
             component.alert_set.filter(name="MonolingualTranslation").exists()
         )
+        self.assertFalse(
+            component.alert_set.filter(
+                name="BilingualPOConfiguredAsMonolingual"
+            ).exists()
+        )
+
+    def test_bilingual_po_configured_as_monolingual(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self._create_component(
+                "po-mono",
+                "po/*.po",
+                "po/hello.pot",
+                project=self.project,
+                name="bilingual-po-as-mono",
+            )
+        update_alerts(component)
+        self.assertTrue(
+            component.alert_set.filter(
+                name="BilingualPOConfiguredAsMonolingual"
+            ).exists()
+        )
+
+    def test_bilingual_po_configured_as_monolingual_ignores_glossary(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self._create_component(
+                "po-mono",
+                "po/*.po",
+                "po/hello.pot",
+                project=self.project,
+                name="glossary-po-as-mono",
+            )
+        component.is_glossary = True
+        update_alerts(component, {"BilingualPOConfiguredAsMonolingual"})
+        self.assertFalse(
+            component.alert_set.filter(
+                name="BilingualPOConfiguredAsMonolingual"
+            ).exists()
+        )
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_bilingual_po_configured_as_monolingual_guidance(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/bilingualpoconfiguredasmonolingual.html",
+        )
+
+        self.assertIn(
+            "regular gettext PO files, but it is configured as monolingual",
+            rendered,
+        )
+        self.assertIn("change the file format to gettext PO file", rendered)
+
     def test_no_mask_matches_explains_empty_repository_state(self) -> None:
         rendered = render_to_string(
             "trans/alert/nomaskmatches.html",

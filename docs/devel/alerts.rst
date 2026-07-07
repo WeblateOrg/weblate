@@ -16,7 +16,7 @@ Currently the following is covered:
 * Repository containing too many outgoing or missing commits
 * Missing licenses
 * Errors when running add-on (see :doc:`/admin/addons`)
-* Misconfigured monolingual translation.
+* Misconfigured monolingual or bilingual translation.
 * Broken :ref:`component`
 * Broken URLs
 * Unused screenshots
