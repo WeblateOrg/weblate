@@ -154,6 +154,7 @@ from weblate.auth.utils import (
     prefetch_membership_limit_languages,
     validate_team_assignable_user,
 )
+from weblate.billing.defines import TRIAL_DAYS
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
@@ -690,6 +691,7 @@ def hosting(request: AuthenticatedHttpRequest):
         {
             "title": gettext("Hosting"),
             "billings": billings,
+            "trial_days": TRIAL_DAYS,
         },
     )
 
@@ -724,7 +726,7 @@ def trial(request: AuthenticatedHttpRequest):
         billing = Billing.objects.create(
             plan=Plan.objects.get(slug=plan),
             state=Billing.STATE_TRIAL,
-            expiry=timezone.now() + timedelta(days=14),
+            expiry=timezone.now() + timedelta(days=TRIAL_DAYS),
         )
         billing.billinglog_set.create(event=BillingEvent.CREATED, user=request.user)
         billing.workspace.add_owner(request.user, request)
@@ -737,7 +739,14 @@ def trial(request: AuthenticatedHttpRequest):
         )
         return redirect(f"{reverse('create-project')}?workspace={billing.workspace_id}")
 
-    return render(request, "accounts/trial.html", {"title": gettext("Gratis trial")})
+    return render(
+        request,
+        "accounts/trial.html",
+        {
+            "title": gettext("Gratis trial"),
+            "trial_days": TRIAL_DAYS,
+        },
+    )
 
 
 class UserPage(UpdateView):
