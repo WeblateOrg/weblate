@@ -8,11 +8,6 @@
     <div class="card">
       <div class="card-header {% if not billing.paid or not billing.in_limits %}text-bg-danger{% endif %}">
         <h4 class="card-title">
-          {% if user.is_superuser %}
-            <a class="float-end doc-link ms-2"
-               href="{% url "admin:billing_billing_change" billing.pk %}"
-               title="{% translate "Django admin" %}">{% icon "cog.svg" %}<span class="visually-hidden">{% translate "Django admin" %}</span></a>
-          {% endif %}
           <a class="float-end doc-link" href="https://weblate.org/hosting/">{% icon "info.svg" %}</a>
           {% translate "Billing plan" %}
           {% if billing.payment.recurring %}
@@ -43,6 +38,10 @@
               <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">
                 {% translate "Terminate recurring payment" %}
               </button>
+            {% endif %}
+            {% if user.is_superuser %}
+              <a href="{% url "admin:billing_billing_change" billing.pk %}"
+                 class="btn btn-secondary">{% translate "Open in Django admin" %}</a>
             {% endif %}
             <button type="submit"
                     name="terminate"

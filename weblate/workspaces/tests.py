@@ -208,8 +208,9 @@ class WorkspaceViewTest(BaseTestCase):
             response, f"{reverse('create-project')}?workspace={billing.workspace_id}"
         )
         self.assertContains(response, "Add new translation project")
-        self.assertContains(response, 'data-bs-target="#billing"')
-        self.assertContains(response, "Billing plan")
+        self.assertContains(response, billing.get_absolute_url())
+        self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
+        self.assertNotContains(response, "Billing plan", status_code=200)
 
     def test_empty_billing_workspace_project_url_checks_current_billing(self) -> None:
         user = create_test_user()
@@ -427,7 +428,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertEqual(response["Content-Type"], "application/rss+xml; charset=utf-8")
         self.assertContains(response, "Recent changes in RSS workspace")
 
-    def test_billing_tab_is_shown_to_workspace_owner(self) -> None:
+    def test_billing_link_is_shown_to_workspace_owner(self) -> None:
         user = create_test_user()
         billing = create_test_billing(user, invoice=False)
         project = Project.objects.create(
@@ -441,10 +442,11 @@ class WorkspaceViewTest(BaseTestCase):
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(billing.workspace.get_absolute_url())
 
-        self.assertContains(response, 'data-bs-target="#billing"')
-        self.assertContains(response, "Billing plan")
+        self.assertContains(response, billing.get_absolute_url())
+        self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
+        self.assertNotContains(response, "Billing plan", status_code=200)
 
-    def test_billing_tab_is_hidden_without_billing_access(self) -> None:
+    def test_billing_link_is_hidden_without_billing_access(self) -> None:
         owner = create_test_user()
         user = create_another_user()
         billing = create_test_billing(owner, invoice=False)
@@ -462,6 +464,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, project.name)
         self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
         self.assertNotContains(response, "Billing plan", status_code=200)
+        self.assertNotContains(response, billing.get_absolute_url(), status_code=200)
 
     def test_access_tab_is_shown_to_workspace_owner(self) -> None:
         user = create_test_user()

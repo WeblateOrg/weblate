@@ -233,6 +233,44 @@ class BillingTest(BaseTestCase):
         self.assertContains(response, "Customer")
         self.assertContains(response, "Acme Billing LLC")
 
+    def test_detail_breadcrumbs_include_workspace(self) -> None:
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        self.assertContains(response, self.billing.workspace.get_absolute_url())
+        self.assertContains(response, self.billing.workspace.name)
+        self.assertNotContains(
+            response,
+            f'<a href="{reverse("profile")}">Your profile</a>',
+            html=True,
+            status_code=200,
+        )
+        self.assertNotContains(
+            response,
+            f'<a href="{reverse("billing")}">Billing</a>',
+            html=True,
+            status_code=200,
+        )
+
+    def test_detail_admin_link_is_button(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username=self.user.username, password="testpassword")
+        admin_url = reverse("admin:billing_billing_change", args=(self.billing.pk,))
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        self.assertContains(response, admin_url)
+        self.assertContains(response, "Open in Django admin")
+        self.assertContains(response, "btn btn-secondary")
+        self.assertNotContains(response, 'title="Django admin"', status_code=200)
+        self.assertNotContains(response, "cog.svg", status_code=200)
+
     @override_settings(OFFER_HOSTING=True)
     def test_billing_overview_shows_component_alerts(self) -> None:
         self.plan.price = 0
