@@ -708,16 +708,7 @@ class ScreenshotQueryParserTest(SearchTestCase):
     parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "screenshot"
 
     def test_simple(self) -> None:
-        self.assert_query(
-            "login",
-            Q(name__icontains="login")
-            | Q(repository_filename__icontains="login")
-            | Q(translation__language__code__icontains="login")
-            | Q(translation__language__name__icontains="login")
-            | Q(units__source__icontains="login")
-            | Q(units__context__icontains="login")
-            | Q(units__location__icontains="login"),
-        )
+        self.assert_query("login", Q(name__icontains="login"))
 
     def test_fields(self) -> None:
         self.assert_query("id:100", Q(id=100))

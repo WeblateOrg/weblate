@@ -217,6 +217,7 @@ class ScreenshotListSearchForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": gettext_lazy("Search screenshots"),
+                "aria-describedby": "screenshots-list-search-help",
             }
         ),
     )

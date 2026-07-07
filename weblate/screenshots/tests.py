@@ -46,6 +46,12 @@ class ViewTest(FixtureTestCase):
         self.assertContains(
             response, get_doc_url("admin/translating", "screenshots", user=self.user)
         )
+        self.assertContains(response, 'aria-describedby="screenshots-list-search-help"')
+        self.assertContains(response, 'id="screenshots-list-search-help"')
+        self.assertContains(response, "Search screenshot names.")
+        self.assertContains(
+            response, get_doc_url("user/search", "search-screenshots", user=self.user)
+        )
 
     def do_upload(self, **kwargs):
         with open(TEST_SCREENSHOT, "rb") as handle:
@@ -562,6 +568,18 @@ class ViewTest(FixtureTestCase):
 
         url = reverse("screenshots", kwargs=self.kw_component)
 
+        response = self.client.get(url, {"q": "login"})
+        self.assertContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
+        response = self.client.get(url, {"q": "hello"})
+        self.assertNotContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
+        response = self.client.get(url, {"q": "fastlane"})
+        self.assertNotContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
         response = self.client.get(url, {"q": "has:string"})
         self.assertContains(response, "Assigned login")
         self.assertNotContains(response, "Unassigned help")
@@ -571,6 +589,10 @@ class ViewTest(FixtureTestCase):
         self.assertNotContains(response, "Assigned login")
 
         response = self.client.get(url, {"q": "path:fastlane"})
+        self.assertContains(response, "Assigned login")
+        self.assertNotContains(response, "Unassigned help")
+
+        response = self.client.get(url, {"q": "repository:fastlane"})
         self.assertContains(response, "Assigned login")
         self.assertNotContains(response, "Unassigned help")
 
