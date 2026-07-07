@@ -37,6 +37,18 @@
       "groupSlug": "opentelemetry"
     },
     {
+      "description": "Update pinned macOS Homebrew snapshot monthly",
+      "matchPackageNames": [
+        "https://github.com/Homebrew/homebrew-core"
+      ],
+      "groupName": "macOS Homebrew snapshot",
+      "groupSlug": "macos-homebrew",
+      "schedule": [
+        "* * 1 * *"
+      ],
+      "automerge": false
+    },
+    {
       "description": "Allow OpenTelemetry instrumentation beta releases",
       "matchPackageNames": [
         "opentelemetry-instrumentation-celery",
@@ -64,6 +76,21 @@
       "datasourceTemplate": "custom.github-release-asset-digest",
       "versioningTemplate": "loose",
       "autoReplaceStringTemplate": "{{{indentation}}}# renovate-cyclonedx-cli\n{{{indentation}}}CYCLONEDX_CLI_VERSION: {{{newValue}}}\n{{{indentation}}}CYCLONEDX_CLI_DIGEST: {{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned Homebrew core Git revision for macOS CI",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/macos\\.yml$/"
+      ],
+      "matchStrings": [
+        "(?<indentation>[ \\t]*)# renovate-homebrew-core\\r?\\n[ \\t]*HOMEBREW_CORE_REF: (?<currentDigest>[a-f0-9]{40})"
+      ],
+      "currentValueTemplate": "master",
+      "depNameTemplate": "Homebrew/homebrew-core",
+      "packageNameTemplate": "https://github.com/Homebrew/homebrew-core",
+      "datasourceTemplate": "git-refs",
+      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-core\n{{{indentation}}}HOMEBREW_CORE_REF: {{{newDigest}}}"
     }
   ],
   "customDatasources": {
