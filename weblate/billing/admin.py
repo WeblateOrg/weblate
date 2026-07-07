@@ -23,6 +23,7 @@ class PlanAdmin(WeblateModelAdmin):
     list_display = (
         "name",
         "price",
+        "yearly_price",
         "limit_hosted_strings",
         "limit_strings",
         "limit_languages",
