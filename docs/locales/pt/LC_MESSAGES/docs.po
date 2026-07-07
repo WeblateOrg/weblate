@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-07 00:09+0000\n"
+"PO-Revision-Date: 2026-07-07 15:02+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -10545,6 +10545,9 @@ msgid ""
 "CSRF verification failed errors are often caused by a mismatch between "
 "the :http:header:`Host` header and configured :setting:`SITE_DOMAIN`."
 msgstr ""
+"Códigos de falha de verificação CSRF são frequentemente causados por uma "
+"falta de correspondência entre o cabeçalho :http:header:`Host` e o "
+":setting:`SITE_DOMAIN` configurado."
 
 #: admin/install.rst:615
 msgid "Client protocol"
@@ -10567,6 +10570,9 @@ msgid ""
 "in :setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) "
 "or :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment)."
 msgstr ""
+"Este cabeçalho depois precisa de ser configurado em "
+":setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) ou "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (ambiente Docker)."
 
 #: admin/install.rst:626
 msgid ""
@@ -10575,6 +10581,10 @@ msgid ""
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` are not "
 "interchangeable."
 msgstr ""
+"O valor de cabeçalho é sensível a maiúsculas e minúsculas na configuração, "
+"por isso ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` e "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` não são "
+"intercambiáveis."
 
 #: admin/install.rst:633
 msgid ""
@@ -10582,6 +10592,9 @@ msgid ""
 "most likely caused by mismatch between the actual protocol (HTTPS) and what "
 "is observed by Weblate."
 msgstr ""
+"Se está a obter um erro \"Demasiados redirecionamentos\" a partir do "
+"navegador, isto é provavelmente causado pelo desfasamento entre o protocolo "
+"real (HTTPS) e o que é observado pelo Weblate."
 
 #: admin/install.rst:639
 msgid ""
@@ -10589,6 +10602,9 @@ msgid ""
 "in the default configuration, but other WSGI servers have more secure "
 "configuration and require explicit setting of this."
 msgstr ""
+"Os cabeçalhos de protocolo do proxy são automaticamente tratados por "
+":program:`gunicorn` na configuração padrão, mas outros servidores WSGI têm "
+"uma configuração mais segura e requerem uma definição explícita disto."
 
 #: admin/install.rst:643
 msgid ""
@@ -10596,6 +10612,9 @@ msgid ""
 "now requires the explicit configuration "
 "of :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 msgstr ""
+"Desde o Weblate 5.13 que o contentor Docker está a usar :program:`granian` e "
+"agora requer a configuração explícita de "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 
 #: admin/install.rst:665
 msgid "HTTP proxy"
@@ -10673,16 +10692,12 @@ msgstr ""
 "clearsessions` para remover dados de sessão obsoletos da base de dados."
 
 #: admin/install.rst:743
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Se estiver a utilizar Redis como ''cache'' (consulte :ref:`production-"
-"cache`) é recomendado também utilizá-lo para as sessões:"
+"Se estiver a utilizar Valkey ou Redis como ''cache'' (consulte "
+":ref:`production-cache`) é recomendado também utilizá-lo para as sessões:"
 
 #: admin/install.rst:759
 msgid ""
@@ -10937,28 +10952,20 @@ msgid "Configure cache"
 msgstr "Configurar cache"
 
 #: admin/install.rst:982
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Se for possível, use Redis do Django e ajuste a variável de configuração "
-"``CACHES``, por exemplo:"
+"Se for possível, use Valkey ou Redis do Django e ajuste a variável de "
+"configuração ``CACHES``, por exemplo:"
 
 #: admin/install.rst:1003
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"Caso altere as configurações do Redis para o cache, pode ser necessário "
-"ajustá-las também para o Celery, consulte :ref:`celery`."
+"Caso altere as configurações para o cache, pode ser necessário ajustá-las "
+"também para o Celery, consulte :ref:`celery`."
 
 #: admin/install.rst:1014
 msgid "Avatar caching"
@@ -11395,7 +11402,7 @@ msgstr "Servir ficheiros estáticos"
 
 #: admin/install.rst:1316
 msgid ":file:`/media/` is no longer used for serving screenshots."
-msgstr ""
+msgstr ":file:`/media/` já não é usado para fornecer capturas de ecrã."
 
 #: admin/install.rst:1319
 msgid ""
@@ -11455,10 +11462,8 @@ msgstr ""
 "personalização para o seu ambiente."
 
 #: admin/install.rst:1366
-#, fuzzy
-#| msgid "Sample configuration for NGINX and Gunicorn"
 msgid "Sample configuration for NGINX and Granian"
-msgstr "Configuração de amostra para NGINX e Gunicorn"
+msgstr "Configuração de amostra para NGINX e Granian"
 
 #: admin/install.rst:1368
 msgid ""
@@ -11476,26 +11481,19 @@ msgid "Sample configuration for NGINX and Gunicorn"
 msgstr "Configuração de amostra para NGINX e Gunicorn"
 
 #: admin/install.rst:1385
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate using Gunicorn under the NGINX "
-#| "webserver (also available as :file:`weblate/examples/"
-#| "weblate.nginx.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate using Gunicorn under the NGINX "
 "webserver (:file:`weblate/examples/weblate.nginx.gunicorn.conf` in the "
 "source tree):"
 msgstr ""
 "A configuração a seguir executa o Weblate usando Gunicorn sob o servidor web "
-"NGINX (também disponível como :file:`weblate/examples/"
-"apache.nginx.gunicorn.conf`):"
+"NGINX ( :file:`weblate/examples/apache.nginx.gunicorn.conf` na árvore fonte):"
 
 #: admin/install.rst:1400
 msgid "Sample configuration for NGINX and uWSGI"
 msgstr "Configuração de amostra para NGINX e uWSGI"
 
 #: admin/install.rst:1403
-#, fuzzy
 msgid ""
 "To run production webserver, use the WSGI wrapper installed with Weblate "
 "(when using a Python environment it is installed as :file:`~/weblate-env/lib/"
@@ -11507,7 +11505,7 @@ msgstr ""
 "Weblate (no caso de ambiente virtual é instalado como :file:`~/weblate-env/"
 "lib/python3.9/site-packages/weblate/wsgi.py`). Não se esqueça de definir o "
 "caminho de pesquisa Python para o seu virtualenv também (por exemplo, usando "
-"`virtualenv = /home/user/weblate-env`` no uWSGI)."
+"``virtualenv = /home/user/weblate-env`` no uWSGI)."
 
 #: admin/install.rst:1409
 msgid ""
@@ -11517,28 +11515,20 @@ msgstr ""
 "NGINX."
 
 #: admin/install.rst:1411
-#, fuzzy
-#| msgid ""
-#| "Configuration for NGINX (also available as :file:`weblate/examples/"
-#| "weblate.nginx.conf`):"
 msgid ""
 "Configuration for NGINX (:file:`weblate/examples/weblate.nginx.conf` in the "
 "source tree):"
 msgstr ""
-"A configuração para NGINX (também disponível como :file:`weblate/examples/"
-"weblate.nginx.conf`):"
+"A configuração para NGINX (:file:`weblate/examples/weblate.nginx.conf` na "
+"árvore fonte):"
 
 #: admin/install.rst:1416
-#, fuzzy
-#| msgid ""
-#| "Configuration for uWSGI (also available as :file:`weblate/examples/"
-#| "weblate.uwsgi.ini`):"
 msgid ""
 "Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the "
 "source tree):"
 msgstr ""
-"Configuração para uWSGI (também disponível como :file:`weblate/examples/"
-"weblate.uwsgi.ini`):"
+"Configuração para uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` na "
+"árvore fonte):"
 
 #: admin/install.rst:1428
 msgid "Sample configuration for Apache"
@@ -11549,16 +11539,12 @@ msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr "Recomenda-se o uso de prefork de MPM ao usar WSGI com Weblate."
 
 #: admin/install.rst:1432
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as WSGI, you need to have "
-#| "enabled ``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (:file:`weblate/examples/apache.conf` in the source tree):"
 msgstr ""
 "A configuração a seguir executa o Weblate como WSGI. Precisa ter ativado "
-"``mod_wsgi`` (disponível como :file:`weblate/examples/apache.conf`):"
+"``mod_wsgi`` (:file:`weblate/examples/apache.conf` na árvore fonte):"
 
 #: admin/install.rst:1440
 msgid ""
@@ -11579,36 +11565,25 @@ msgid "Sample configuration for Apache and Gunicorn"
 msgstr "Configuração de amostra para Apache and Gunicorn"
 
 #: admin/install.rst:1456
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
-#| "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(:file:`weblate/examples/apache.gunicorn.conf` in the source tree):"
 msgstr ""
 "A configuração seguinte executa o Weblate em Gunicorn and Apache 2.4 "
-"(disponível como :file:`weblate/examples/apache.gunicorn.conf`):"
+"(:file:`weblate/examples/apache.gunicorn.conf` na árvore fonte):"
 
 #: admin/install.rst:1471
-#, fuzzy
-#| msgid "Sample configuration to start Gunicorn"
 msgid "Sample configuration to start Granian"
-msgstr "Configuração de amostra para iniciar Gunicorn"
+msgstr "Configuração de amostra para iniciar Granian"
 
 #: admin/install.rst:1473
-#, fuzzy
-#| msgid ""
-#| "Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will "
-#| "install everything you need to run Gunicorn. When installing Weblate you "
-#| "can specify it as:"
 msgid ""
 "Weblate has `wsgi` optional dependency (see :ref:`python-deps`) that will "
 "install everything you need to run Granian. When installing Weblate you can "
 "specify it as:"
 msgstr ""
 "O Weblate tem a dependência opcional `wsgi` (consulte :ref:`python-deps`) "
-"que instalará tudo o que precisa para executar o Gunicorn. Ao instalar o "
+"que instalará tudo o que precisa para executar o Granian. Ao instalar o "
 "Weblate, pode especificá-lo como:"
 
 #: admin/install.rst:1480
@@ -11626,7 +11601,7 @@ msgstr "Configuração de amostra para iniciar Gunicorn"
 
 #: admin/install.rst:1497
 msgid "Gunicorn has to be installed separately:"
-msgstr ""
+msgstr "Gunicorn tem que ser instalado separadamente:"
 
 #: admin/install.rst:1503
 msgid ""
@@ -11642,19 +11617,14 @@ msgid "Running Weblate under path"
 msgstr "A executar o Weblate sob o caminho"
 
 #: admin/install.rst:1525
-#, fuzzy
-#| msgid ""
-#| "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
-#| "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-"
-#| "path.conf`):"
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (:file:`weblate/examples/apache-path.conf` in the source "
 "tree):"
 msgstr ""
 "Uma configuração do Apache de amostra para servir o Weblate sob ``/"
-"weblate``. Novamente, a usar ``mod_wsgi`` (também disponível "
-"como :file:`weblate/examples/apache-path.conf`):"
+"weblate``. Novamente, a usar ``mod_wsgi`` (:file:`weblate/examples/apache-"
+"path.conf` na árvore fonte):"
 
 #: admin/install.rst:1531
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -11704,10 +11674,10 @@ msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Fazer commits de alterações pendentes (veja :ref:`lazy-commit`)."
 
 #: admin/install.rst:1554
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
-msgstr "Uma configuração típica a usar redis como backend se parece com isso:"
+msgstr ""
+"Uma configuração típica a usar Valkey ou Redis como backend se parece com "
+"isso:"
 
 #: admin/install.rst:1564
 msgid ""
@@ -11718,19 +11688,14 @@ msgstr ""
 "configuration>`"
 
 #: admin/install.rst:1566
-#, fuzzy
-#| msgid ""
-#| "You should also start the Celery worker to process the tasks and start "
-#| "scheduled tasks, this can be done directly on the command-line (which is "
-#| "mostly useful when debugging or developing):"
 msgid ""
 "You should also start the Celery worker to process the tasks and start "
 "scheduled tasks. For debugging or development, this can be done directly on "
 "the command-line:"
 msgstr ""
 "Também deve iniciar o worker do Celery para processar as tarefas e iniciar "
-"tarefas programadas, isso pode ser feito diretamente na linha de comando (o "
-"que é mais útil ao depurar ou desenvolver):"
+"tarefas programadas. Para depuração ou desenvolvimento, isto pode ser feito "
+"diretamente na linha de comandos:"
 
 #: admin/install.rst:1576
 msgid ""
