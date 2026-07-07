@@ -354,14 +354,17 @@ def has_duplicate_memory_groups() -> bool:
 def get_duplicate_memory_candidate_group_queryset(
     memory_objects, *, last_memory_id: int = 0
 ):
-    # Group on the expressions covered by memory_md5_index. Exact identity
-    # splitting, including context/status/file ownership, happens after loading
-    # these candidates.
+    # Group on duplicate identity before loading candidates. Exact text
+    # comparisons still happen after loading to protect against hash
+    # collisions, but including all identity fields here avoids materializing
+    # large buckets of unrelated memories that only share source, target, and
+    # origin.
     queryset = (
         memory_objects.annotate(
             origin_md5=MD5("origin"),
             source_md5=MD5("source"),
             target_md5=MD5("target"),
+            context_md5=MD5("context"),
         )
         .values(
             "source_language_id",
@@ -369,6 +372,9 @@ def get_duplicate_memory_candidate_group_queryset(
             "origin_md5",
             "source_md5",
             "target_md5",
+            "context_md5",
+            "status",
+            "legacy_from_file",
         )
         .annotate(first_id=Min("id"), count=Count("id"))
         .filter(count__gt=1)
@@ -398,6 +404,9 @@ def get_duplicate_memory_candidate_memories(
             origin__md5=group["origin_md5"],
             source__md5=group["source_md5"],
             target__md5=group["target_md5"],
+            context__md5=group["context_md5"],
+            status=group["status"],
+            legacy_from_file=group["legacy_from_file"],
         )
         .order_by("id")
         .select_related(

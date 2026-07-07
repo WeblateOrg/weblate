@@ -49,6 +49,7 @@ from weblate.memory.tasks import (
     cleanup_orphaned_memory,
     compact_memory_scopes,
     get_duplicate_memory_candidate_groups,
+    get_duplicate_memory_candidate_memories,
     get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
@@ -2109,6 +2110,62 @@ msgstr "Nazdar svete!\n"
             name=MEMORY_SCOPE_COMPACTION_STATE
         )
         self.assertTrue(state.completed)
+
+    def test_duplicate_candidate_groups_keep_exact_identity_in_database(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        origin = "duplicate-candidate-exact-identity"
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": "Exact identity candidate source",
+            "target": "Kandidatni cil s presnou identitou",
+            "origin": origin,
+        }
+        duplicate = Memory.objects.create(
+            context="button",
+            status=Memory.STATUS_ACTIVE,
+            legacy_project=self.project,
+            **values,
+        )
+        matching_duplicate = Memory.objects.create(
+            context="button",
+            status=Memory.STATUS_ACTIVE,
+            legacy_shared=True,
+            **values,
+        )
+        Memory.objects.create(
+            context="menu",
+            status=Memory.STATUS_ACTIVE,
+            legacy_user=self.user,
+            **values,
+        )
+        Memory.objects.create(
+            context="button",
+            status=Memory.STATUS_PENDING,
+            legacy_user=self.user,
+            **values,
+        )
+        Memory.objects.create(
+            context="button",
+            status=Memory.STATUS_ACTIVE,
+            legacy_from_file=True,
+            **values,
+        )
+
+        groups = get_duplicate_memory_candidate_groups(
+            Memory.objects.using("default").filter(origin=origin),
+            last_memory_id=0,
+            batch_size=10,
+        )
+        memories = get_duplicate_memory_candidate_memories(
+            Memory.objects.using("default"), groups[0]
+        )
+
+        self.assertEqual([group["first_id"] for group in groups], [duplicate.id])
+        self.assertEqual(
+            [memory.id for memory in memories], [duplicate.id, matching_duplicate.id]
+        )
 
     def test_duplicate_candidate_cursor_skips_processed_bucket(self) -> None:
         source_language = Language.objects.get(code="en")
