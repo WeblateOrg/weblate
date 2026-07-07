@@ -263,9 +263,9 @@ Searching for screenshots
 The screenshot listing in a component accepts advanced queries using boolean
 operations, parentheses, or field specific lookup.
 
-When no field is defined, the lookup happens on the screenshot name, repository
-path, screenshot language, assigned source string, assigned context, and
-assigned location.
+When no field is defined, the lookup happens on the screenshot name. Use
+field-specific lookups to search repository paths, screenshot languages, or
+assigned source strings.
 
 Screenshot fields
 -----------------
@@ -305,7 +305,7 @@ Screenshot search examples
 --------------------------
 
 ``login``
-   Search for screenshots matching ``login`` in any default screenshot field.
+   Search for screenshots matching ``login`` in the screenshot name.
 ``name:login``
    Search for screenshots with ``login`` in the screenshot name.
 ``language:cs``

@@ -1075,15 +1075,7 @@ class ScreenshotTermExpr(BaseTermExpr):
         super().fixup()
 
     def convert_non_field(self) -> Q:
-        return (
-            Q(name__icontains=self.match)
-            | Q(repository_filename__icontains=self.match)
-            | Q(translation__language__code__icontains=self.match)
-            | Q(translation__language__name__icontains=self.match)
-            | Q(units__source__icontains=self.match)
-            | Q(units__context__icontains=self.match)
-            | Q(units__location__icontains=self.match)
-        )
+        return Q(name__icontains=self.match)
 
     def language_field(self, text: str | RegexExpr, context: dict) -> Q:
         if isinstance(text, RegexExpr):

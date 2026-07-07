@@ -114,6 +114,16 @@
               {{ search_form.q }}
             </div>
             {% if search_form.q.errors %}<div class="invalid-feedback d-block">{{ search_form.q.errors }}</div>{% endif %}
+            <div id="screenshots-list-search-help" class="form-text">
+              {% blocktranslate trimmed %}
+                Search screenshot names. Use field-specific queries for repository paths, languages, and assigned strings.
+              {% endblocktranslate %}
+              <a class="doc-link"
+                 href="{% documentation 'user/search' 'search-screenshots' %}"
+                 title="{% translate "Documentation" %}"
+                 target="_blank"
+                 rel="noopener">{% icon "info.svg" %}<span class="visually-hidden">{% translate "Screenshot search documentation" %}</span></a>
+            </div>
           </div>
           <div class="col-12 col-sm-auto">
             <div class="btn-group search-group sort-field" role="group">
