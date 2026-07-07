@@ -20,8 +20,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-02 05:13+0200\n"
-"PO-Revision-Date: 2026-07-07 19:24+0000\n"
-"Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-07-07 20:36+0000\n"
+"Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
 "Language: pt\n"
@@ -11915,6 +11915,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Para desativar este comportamento, remova ``mail_admins`` do "
+":setting:`django:LOGGING` nas definições do Weblate, ou desative "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` no ambiente do Docker."
 
 #: admin/install.rst:1722
 msgid "Sentry"
@@ -11942,7 +11945,7 @@ msgstr ""
 
 #: admin/install.rst:1741
 msgid "Google Cloud Error Reporting"
-msgstr ""
+msgstr "Google Cloud Error Reporting"
 
 #: admin/install.rst:1743
 msgid ""
@@ -11950,6 +11953,9 @@ msgid ""
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
+"O Weblate pode comunicar erros de servidor tratados para `Google Cloud Error "
+"Reporting`_. Instale o Weblate com o extra ``google-errors`` e configure "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING` em :file:`settings.py`:"
 
 #: admin/install.rst:1753
 msgid ""
@@ -11958,6 +11964,10 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
+"O Weblate comunica erros automaticamente sob o serviço ``weblate`` e usa a "
+"versão Weblate atual ou revisão Git enquanto versão reportada. Estes valores "
+"podem ser sobrescritos pela definição ``serviço`` ou ``versão`` em "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 
 #: admin/install.rst:1761
 msgid "OpenTelemetry"
@@ -11969,6 +11979,9 @@ msgid ""
 "opentelemetry.io/>`_. It uses OTLP over HTTP and can send traces to an "
 "OpenTelemetry Collector or a compatible vendor endpoint."
 msgstr ""
+"O Weblate pode exportar rastreios de backend usando `OpenTelemetry <https://"
+"opentelemetry.io/>`_. Utiliza OTLP com HTTP e pode enviar rastreios para um "
+"OpenTelemetry Collector ou um endpoint de um fornecedor compatível."
 
 #: admin/install.rst:1773
 msgid ""
@@ -11977,6 +11990,11 @@ msgid ""
 "using :setting:`OPENTELEMETRY_ENABLED`, :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, "
 "and :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 msgstr ""
+"A integração rastreia pedidos Django, tarefas Celery, Redis, pedidos HTTP de "
+"saída, chamadas de base de dados, e intervalos específicos ao Weblate. "
+"Configure-o usando :setting:`OPENTELEMETRY_ENABLED`, "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, e "
+":setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install.rst:1782
 msgid "Rollbar"
@@ -12055,23 +12073,14 @@ msgid "Migrating database"
 msgstr "Migrar bases de dados"
 
 #: admin/install.rst:1836
-#, fuzzy
-#| msgid ""
-#| "Depending on your database backend, you might have several options to "
-#| "migrate the database. The most straightforward approach is to use "
-#| "database native tools, as they are usually the most effective "
-#| "(e.g. :command:`mysqldump` or :command:`pg_dump`). Alternatively you can "
-#| "use replication in case your database supports it."
 msgid ""
 "The most straightforward approach is to use database native tools, as they "
 "are usually the most effective (e.g. :command:`pg_dump`). Alternatively you "
 "can use replication if your database supports it."
 msgstr ""
-"Dependendo do back-end da sua base de dados, pode ter várias opções para "
-"migrar o banco de dados. A abordagem mais direta é usar ferramentas nativas "
-"de bases de dados, pois são geralmente as mais eficazes (por "
-"exemplo, :command:`mysqldump` ou :command:`pg_dump`). Como alternativa, pode "
-"usar a replicação caso a sua base de dados o suporte."
+"A abordagem mais direta é usar ferramentas nativas de bases de dados, pois "
+"são geralmente as mais eficazes (p.ex. :command:`pg_dump`). Como "
+"alternativa, pode usar a replicação caso a sua base de dados o suporte."
 
 #: admin/install.rst:1842
 msgid "Migrating between databases described in :ref:`database-migration`."
@@ -12096,28 +12105,18 @@ msgid "Other notes"
 msgstr "Outras notas"
 
 #: admin/install.rst:1854
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
-"Não se esqueça de mover outros serviços que o Weblate pode ter usado como "
-"Redis, tarefas do cron ou backends de autenticação personalizada."
+"Não se esqueça de mover outros serviços que o Weblate pode ter usado como o "
+"Valkey, Redis, tarefas do cron ou backends de autenticação personalizada."
 
 #: admin/install/docker.rst:2
 msgid "Installing using Docker"
 msgstr "Instalar utilizando Docker"
 
 #: admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database and Redis "
-#| "as a caching backend."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
@@ -12127,7 +12126,7 @@ msgstr ""
 "Com a implantação do Weblate dockerizada, pode fazer a sua instância Weblate "
 "pessoal em funcionamento em segundos. Todas as dependências do Weblate já "
 "estão incluídas. PostgreSQL é configurado como a base de dados padrão e o "
-"Redis como backend de cache."
+"Valkey como backend de cache."
 
 #: admin/install/docker.rst:13 admin/install/kubernetes.rst:18
 #: admin/install/openshift.rst:12
@@ -12170,6 +12169,12 @@ msgid ""
 "changes. Weblate application updates are delivered through Docker image "
 "tags; there is no release-bound update path for customized Compose files."
 msgstr ""
+"Os ficheiros do Docker Compose são um exemplo de configurações de "
+"implementação. Operadores tipicamente personalizam-nos para a sua própria "
+"implementação e mantêm essas mudanças locais. Atualizações de aplicação "
+"Weblate são fornecidas através das etiquetas de imagem Docker; não existe um "
+"caminho de atualização associado a uma versão para ficheiros Compose "
+"personalizados."
 
 #: admin/install/docker.rst:40
 msgid ""
@@ -12272,20 +12277,13 @@ msgid "Weblate stable release"
 msgstr "Versão estável do Weblate"
 
 #: admin/install/docker.rst:89
-#, fuzzy
-#| msgid "Rolling updates within a major version in a production environment"
 msgid "Rolling updates within a calendar year in a production environment"
-msgstr ""
-"Atualizações contínuas dentro de uma versão principal num ambiente de "
-"produção"
+msgstr "Atualizações contínuas dentro ano civil num ambiente de produção"
 
 #: admin/install/docker.rst:91
-#, fuzzy
-#| msgid "Rolling updates within a major version in a production environment"
 msgid "Rolling updates within a monthly release in a production environment"
 msgstr ""
-"Atualizações contínuas dentro de uma versão principal num ambiente de "
-"produção"
+"Atualizações contínuas dentro de lançamento mensal num ambiente de produção"
 
 #: admin/install/docker.rst:93
 msgid "Well defined deploy in a production environment"
@@ -12312,8 +12310,6 @@ msgid "Development version Weblate from Git"
 msgstr "Versão de desenvolvimento do Weblate do Git"
 
 #: admin/install/docker.rst:99
-#, fuzzy
-#| msgid "Rollling updates to test upcoming Weblate features"
 msgid "Rolling updates to test upcoming Weblate features"
 msgstr ""
 "Atualizações contínuas para testar as próximas funcionalidades do Weblate"
@@ -12348,7 +12344,7 @@ msgstr ""
 
 #: admin/install/docker.rst:122
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "Proxy de terminação SSL"
 
 #: admin/install/docker.rst:124
 msgid ""
@@ -12357,14 +12353,19 @@ msgid ""
 "aware of its actual environment. In more detail, these headers are described "
 "in :ref:`reverse-proxy`."
 msgstr ""
+"SSL pode ser terminado fora do contentor Weblate. Para fazer com que isto "
+"funcione bem em conjunto, vários cabeçalhos precisam de ser passados para o "
+"contentor para que esteja ciente do seu ambiente real. Estes cabeçalhos são "
+"descritos em mais detalhe em :ref:`reverse-proxy`."
 
 #: admin/install/docker.rst:129
 msgid "Example nginx reverse proxy configuration for a Docker container."
 msgstr ""
+"Exemplo de uma configuração de proxy reverso nginx para um contentor Docker."
 
 #: admin/install/docker.rst:142
 msgid "Docker container environment for external SSL termination."
-msgstr ""
+msgstr "O ambiente de contentor Docker para terminação SSL externa."
 
 #: admin/install/docker.rst:149
 msgid "Using own SSL certificates"
@@ -12494,6 +12495,10 @@ msgid ""
 "calendar year. If you need to upgrade from an older release, upgrade first "
 "to an intermediate version listed in :ref:`version-specific-instructions`."
 msgstr ""
+"Atualizações diretas são apenas suportadas para lançamentos do ano civil "
+"atual ou anterior. Se precisa de atualizar a partir de um lançamento mais "
+"antigo, atualize primeiro para uma versão intermédia listada em "
+":ref:`version-specific-instructions`."
 
 #: admin/install/docker.rst:263
 msgid ""
@@ -12519,6 +12524,10 @@ msgid ""
 "common older setup mounted the database volume at ``/var/lib/postgresql/"
 "data``, while PostgreSQL 18 now uses ``/var/lib/postgresql`` by default."
 msgstr ""
+"O PostgreSQL 18 mudou o diretório de dados predefinido dentro do contentor. "
+"Uma configuração antiga mais comum montou o volume de base de dados em ``/"
+"var/lib/postgresql/data``, enquanto que PostgreSQL 18 agora usa ``/var/lib/"
+"postgresql`` por predefinição."
 
 #: admin/install/docker.rst:281
 msgid ""
@@ -41737,6 +41746,12 @@ msgid ""
 "files should follow the existing copyright and :abbr:`SPDX (Software Package "
 "Data Exchange)` license header style."
 msgstr ""
+"Ao contribuir código do projeto, concorda em colocar as suas mudanças e "
+"código novo sob o a licença do repositório, :abbr:`GPL-3.0-ou-posterior (GNU "
+"Licença Geral Pública v3.0 ou posterior)`, salvo indicação contrária e "
+"concordada previamente. Novos ficheiros fonte devem seguir os direitos de "
+"autor existentes e o estilo de cabeçalho de licença :abbr:`SPDX (Software "
+"Package Data Exchange)`."
 
 #: contributing/snippets/code-guide.rst:11
 msgid ""
@@ -50302,6 +50317,12 @@ msgid ""
 "translations, and related context, so their use should be reviewed against "
 "the customer's sovereignty and data-transfer requirements."
 msgstr ""
+"**Tradução de máquina e IA configurável:** Sugestões automáticas que podem "
+"usar tradução de máquina de terceiros ou fornecedores LLM apenas quando "
+"configuradas por um administrador ou dono do projeto. Estes serviços podem "
+"receber cadeias de carateres fonte, traduções, e contexto relacionado, e por "
+"isso a sua utilização deve ser revista contra os requisitos da soberania do "
+"cliente e da transferência de dados."
 
 #: security/data-residency.rst:115
 msgid ""
@@ -53070,6 +53091,12 @@ msgid ""
 "when the Weblate version omits a ``0`` patch component. These updates may "
 "include security updates."
 msgstr ""
+"O contentor Docker incluir um componente de versão adicional para rastrear "
+"mudanças no contentor em si, como por exemplo dependências. Etiquetas de "
+"imagem do Docker fixas incluem os componentes do patch em conjunto com o seu "
+"componente de compilação, mesmo quando a versão do Weblate omite um "
+"componente de patch ``0``. Estas atualizações podem incluir atualizações de "
+"segurança."
 
 #: security/releases.rst:34
 msgid "Security updates"
