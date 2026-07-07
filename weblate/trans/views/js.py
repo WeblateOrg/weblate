@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from contextlib import nullcontext
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -207,9 +208,13 @@ def flag_choices(request: AuthenticatedHttpRequest):
     """Return the catalog of known translation flags as JSON."""
     requested = request.GET.get("lang")
     valid_languages = {code for code, _ in settings.LANGUAGES}
+
     if requested and requested in valid_languages:
-        with translation.override(requested):
-            choices = list(get_flag_choices())
+        context = translation.override(requested)
     else:
+        context = nullcontext()
+
+    with context:
         choices = list(get_flag_choices())
+
     return JsonResponse({"choices": choices})
