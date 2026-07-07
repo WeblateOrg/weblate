@@ -45,6 +45,8 @@ repos:
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
     - ruff==0.15.20
+    # Workaround for https://github.com/jawah/charset_normalizer/issues/771
+    - charset-normalizer!=3.4.8
 - repo: meta
   hooks:
   - id: check-hooks-apply
