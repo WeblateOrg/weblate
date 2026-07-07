@@ -9,6 +9,7 @@ Weblate 2026.7.1
 
 * Restricted components now show a status icon in component listings.
 * Permission checks now reuse materialized team membership data from lightweight relation lookups.
+* Documented that intermediate language files are hidden from language listings and can make target strings read-only.
 
 .. rubric:: Bug fixes
 
