@@ -6,7 +6,9 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+from django.conf import settings
 from django.contrib.admin.sites import AdminSite
+from django.core.exceptions import PermissionDenied
 from django.test import RequestFactory, TestCase
 
 from weblate.auth.admin import WeblateUserAdmin
@@ -25,6 +27,52 @@ class WeblateUserAdminTest(TestCase):
         self.users_group = Group.objects.get(name="Users")
         self.viewers_group = Group.objects.get(name="Viewers")
         self.target.groups.set([self.users_group])
+
+    def test_protected_user_permissions(self) -> None:
+        request = self.factory.post("/")
+        request.user = self.actor
+        anonymous = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
+        protected_bot = User.objects.create(
+            username="addon:test",
+            full_name="Addon Bot",
+            email="addon-test@example.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        for protected_user in (anonymous, protected_bot):
+            with self.subTest(username=protected_user.username):
+                self.assertEqual(self.user_admin.action_checkbox(protected_user), "")
+                self.assertFalse(
+                    self.user_admin.has_change_permission(request, protected_user)
+                )
+                self.assertFalse(
+                    self.user_admin.has_delete_permission(request, protected_user)
+                )
+                with self.assertRaises(PermissionDenied):
+                    self.user_admin.save_model(
+                        request,
+                        protected_user,
+                        SimpleNamespace(instance=protected_user),
+                        change=True,
+                    )
+                with self.assertRaises(PermissionDenied):
+                    self.user_admin.delete_model(request, protected_user)
+
+    def test_project_token_permissions(self) -> None:
+        request = self.factory.post("/")
+        request.user = self.actor
+        project_token = User.objects.create(
+            username="bot-test-token",
+            full_name="Project Token",
+            email="bot-test-token@example.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        self.assertNotEqual(self.user_admin.action_checkbox(project_token), "")
+        self.assertTrue(self.user_admin.has_change_permission(request, project_token))
+        self.assertTrue(self.user_admin.has_delete_permission(request, project_token))
 
     def test_save_related_audits_security_changes(self) -> None:
         request = self.factory.post("/")

@@ -26,6 +26,7 @@ from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import (
     ImproperlyConfigured,
     ObjectDoesNotExist,
+    PermissionDenied,
     ValidationError,
 )
 from django.core.mail.message import EmailMessage
@@ -786,6 +787,8 @@ class UserPage(UpdateView):
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         check_management_access(request, "user.edit")
         user = self.object = self.get_object()
+        if user.is_internal:
+            raise PermissionDenied(gettext("This user can not be edited."))
         if "add_group" in request.POST:
             response = self.handle_add_group(request, user)
             if response is not None:
@@ -894,6 +897,7 @@ class UserPage(UpdateView):
         )
 
         context["page_profile"] = user.profile
+        context["can_edit_page_user"] = not user.is_internal
         # Last user activity
         context["last_changes"] = all_changes.recent()
         context["last_changes_url"] = urlencode({"user": user.username})

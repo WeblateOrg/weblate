@@ -197,9 +197,11 @@
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" data-bs-target="#groups" href="#">{% translate "Teams" %}</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" href="#">{% translate "Edit" %}</a>
-      </li>
+      {% if can_edit_page_user %}
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" href="#">{% translate "Edit" %}</a>
+        </li>
+      {% endif %}
     {% endif %}
   </ul>
 
@@ -350,11 +352,13 @@
                 </th>
                 <td class="number">{{ group.user__count }}</td>
                 <td>
-                  <a href=""
-                     class="btn btn-link btn-xs red link-post"
-                     data-href="{{ page_user.get_absolute_url }}"
-                     data-params='{"remove_group": {{ group.pk }} }'
-                     title="{% translate "Remove user from this team" %}">{% icon 'delete.svg' %}</a>
+                  {% if can_edit_page_user %}
+                    <a href=""
+                       class="btn btn-link btn-xs red link-post"
+                       data-href="{{ page_user.get_absolute_url }}"
+                       data-params='{"remove_group": {{ group.pk }} }'
+                       title="{% translate "Remove user from this team" %}">{% icon 'delete.svg' %}</a>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
@@ -376,163 +380,169 @@
                   <td></td>
                 {% endif %}
                 <td>
-                  <a href=""
-                     class="btn btn-link btn-xs link-post"
-                     data-href="{% url 'unblock-user' project=userblock.project.slug %}"
-                     data-params='{"user": "{{ userblock.user.username|escapejs }}"}'
-                     title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</a>
+                  {% if can_edit_page_user %}
+                    <a href=""
+                       class="btn btn-link btn-xs link-post"
+                       data-href="{% url 'unblock-user' project=userblock.project.slug %}"
+                       data-params='{"user": "{{ userblock.user.username|escapejs }}"}'
+                       title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</a>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title">{% translate "Add user to a team" %}</h4>
+        {% if can_edit_page_user %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Add user to a team" %}</h4>
+            </div>
+            <div class="card-body">{% crispy group_form %}</div>
           </div>
-          <div class="card-body">{% crispy group_form %}</div>
-        </div>
+        {% endif %}
       </div>
 
-      <div class="tab-pane" id="edit">
-        <form method="post">
-          {% csrf_token %}
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">{% translate "Edit user" %}</h4>
+      {% if can_edit_page_user %}
+        <div class="tab-pane" id="edit">
+          <form method="post">
+            {% csrf_token %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Edit user" %}</h4>
+              </div>
+              <div class="card-body">{{ form|crispy }}</div>
+              <div class="card-footer">
+                <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+              </div>
             </div>
-            <div class="card-body">{{ form|crispy }}</div>
-            <div class="card-footer">
-              <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
-            </div>
-          </div>
-        </form>
-        <form method="post">
-          {% csrf_token %}
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">
-                {% documentation_icon 'admin/auth' '2fa' right=True %}
-                {% translate "Two-factor authentication" %}
-              </h4>
-            </div>
-            <div class="card-body">
+          </form>
+          <form method="post">
+            {% csrf_token %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon 'admin/auth' '2fa' right=True %}
+                  {% translate "Two-factor authentication" %}
+                </h4>
+              </div>
+              <div class="card-body">
+                {% if page_user.profile.has_2fa %}
+                  {% translate "The user has two-factor authentication." %}
+                {% else %}
+                  {% translate "The user doesn't have two-factor authentication." %}
+                {% endif %}
+              </div>
               {% if page_user.profile.has_2fa %}
-                {% translate "The user has two-factor authentication." %}
-              {% else %}
-                {% translate "The user doesn't have two-factor authentication." %}
+                <div class="card-footer">
+                  <input type="submit"
+                         name="remove_2fa"
+                         value="{% translate "Turn off two-factor authentication" %}"
+                         class="btn-danger red">
+                </div>
               {% endif %}
             </div>
-            {% if page_user.profile.has_2fa %}
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Password reset" %}</h4>
+              </div>
+              <div class="card-body">{% translate "Disables password authentication for the user." %}</div>
               <div class="card-footer">
                 <input type="submit"
-                       name="remove_2fa"
-                       value="{% translate "Turn off two-factor authentication" %}"
-                       class="btn-danger red">
+                       name="disable_password"
+                       value="{% translate "Disable password" %}"
+                       class="btn btn-danger red">
               </div>
-            {% endif %}
-          </div>
-          <div class="card">
-            <div class="card-header text-bg-danger">
-              <h4 class="card-title">{% translate "Password reset" %}</h4>
             </div>
-            <div class="card-body">{% translate "Disables password authentication for the user." %}</div>
-            <div class="card-footer">
-              <input type="submit"
-                     name="disable_password"
-                     value="{% translate "Disable password" %}"
-                     class="btn btn-danger red">
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">
+                  {% documentation_icon 'admin/access' 'cleanup-user-contributions' right=True %}
+                  {% translate "Contribution cleanup" %}
+                </h4>
+              </div>
+              <div class="card-body">
+                {% blocktranslate with user=page_user.username %}Clean up translations, suggestions, and comments from {{ user }} across all projects.{% endblocktranslate %}
+              </div>
+              <div class="card-footer">
+                <input type="button"
+                       name="cleanup_user_contributions"
+                       value="{% translate "Choose cleanup actions" %}"
+                       class="btn btn-primary"
+                       data-bs-toggle="modal"
+                       data-bs-target="#revert_user_edits_{{ page_user.id }}">
+              </div>
             </div>
-          </div>
-          <div class="card">
-            <div class="card-header text-bg-danger">
-              <h4 class="card-title">
-                {% documentation_icon 'admin/access' 'cleanup-user-contributions' right=True %}
-                {% translate "Contribution cleanup" %}
-              </h4>
-            </div>
-            <div class="card-body">
-              {% blocktranslate with user=page_user.username %}Clean up translations, suggestions, and comments from {{ user }} across all projects.{% endblocktranslate %}
-            </div>
-            <div class="card-footer">
-              <input type="button"
-                     name="cleanup_user_contributions"
-                     value="{% translate "Choose cleanup actions" %}"
-                     class="btn btn-primary"
-                     data-bs-toggle="modal"
-                     data-bs-target="#revert_user_edits_{{ page_user.id }}">
-            </div>
-          </div>
-          <div class="modal fade"
-               tabindex="-1"
-               role="dialog"
-               id="revert_user_edits_{{ page_user.id }}">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">{% translate "Choose cleanup actions" %}</h4>
-                  <button type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="{% translate "Close" %}"></button>
-                </div>
-                <div class="modal-body">
-                  {% blocktranslate with user=page_user.username %}Choose which contributions by <b>{{ user }}</b> to clean up across all projects.{% endblocktranslate %}
-                  {% include "snippets/user-contribution-cleanup.html" with cleanup_user=page_user cleanup_id="admin" show_revert_edits=True cleanup_sitewide=True only %}
-                </div>
-                <div class="modal-footer">
-                  <input type="submit"
-                         name="cleanup_user_contributions"
-                         value="{% translate "Clean up selected contributions" %}"
-                         class="btn btn-danger" />
+            <div class="modal fade"
+                 tabindex="-1"
+                 role="dialog"
+                 id="revert_user_edits_{{ page_user.id }}">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">{% translate "Choose cleanup actions" %}</h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate "Close" %}"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% blocktranslate with user=page_user.username %}Choose which contributions by <b>{{ user }}</b> to clean up across all projects.{% endblocktranslate %}
+                    {% include "snippets/user-contribution-cleanup.html" with cleanup_user=page_user cleanup_id="admin" show_revert_edits=True cleanup_sitewide=True only %}
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit"
+                           name="cleanup_user_contributions"
+                           value="{% translate "Clean up selected contributions" %}"
+                           class="btn btn-danger" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="card">
-            <div class="card-header text-bg-danger">
-              <h4 class="card-title">{% translate "Removal" %}</h4>
-            </div>
-            <div class="card-body">{% translate "Account removal deletes all user private data." %}</div>
-            <div class="card-footer">
-              <input type="button"
-                     name="remove_user"
-                     value="{% translate "Delete" %}"
-                     class="btn btn-danger red"
-                     data-bs-toggle="modal"
-                     data-bs-target="#delete_user_{{ page_user.id }}">
-            </div>
-          </div>
-          <div class="modal fade"
-               tabindex="-1"
-               role="dialog"
-               id="delete_user_{{ page_user.id }}">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
-                  <button type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="{% translate "Close" %}"></button>
-                </div>
-                <div class="modal-body">
-                  {% blocktranslate with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktranslate %}
-                </div>
-                <div class="modal-footer">
-                  <input type="submit"
-                         name="remove_user"
-                         value="{% translate "Delete" %}"
-                         class="btn btn-danger" />
-                </div>
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Removal" %}</h4>
               </div>
-              <!-- /.modal-content -->
+              <div class="card-body">{% translate "Account removal deletes all user private data." %}</div>
+              <div class="card-footer">
+                <input type="button"
+                       name="remove_user"
+                       value="{% translate "Delete" %}"
+                       class="btn btn-danger red"
+                       data-bs-toggle="modal"
+                       data-bs-target="#delete_user_{{ page_user.id }}">
+              </div>
             </div>
-            <!-- /.modal-dialog -->
-          </div>
-          <!-- /.modal -->
-        </form>
-      </div>
+            <div class="modal fade"
+                 tabindex="-1"
+                 role="dialog"
+                 id="delete_user_{{ page_user.id }}">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate "Close" %}"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% blocktranslate with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktranslate %}
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit"
+                           name="remove_user"
+                           value="{% translate "Delete" %}"
+                           class="btn btn-danger" />
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+          </form>
+        </div>
+      {% endif %}
 
     {% endif %}
 

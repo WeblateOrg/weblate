@@ -10,7 +10,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
@@ -198,17 +198,24 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
         return ",".join(obj.groups.values_list("name", flat=True))
 
     def action_checkbox(self, obj):
-        if obj.is_anonymous:
+        if obj.is_internal:
             return ""
         return super().action_checkbox(obj)
 
+    def has_change_permission(self, request: AuthenticatedHttpRequest, obj=None):
+        if obj and obj.is_internal:
+            return False
+        return super().has_change_permission(request, obj)
+
     def has_delete_permission(self, request: AuthenticatedHttpRequest, obj=None):
-        if obj and obj.is_anonymous:
+        if obj and obj.is_internal:
             return False
         return super().has_delete_permission(request, obj)
 
     def delete_model(self, request: AuthenticatedHttpRequest, obj) -> None:
         """Given a model instance delete it from the database."""
+        if obj.is_internal:
+            raise PermissionDenied
         remove_user(obj, request)
 
     def delete_queryset(self, request: AuthenticatedHttpRequest, queryset) -> None:
@@ -217,6 +224,8 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             self.delete_model(request, obj)
 
     def save_model(self, request: AuthenticatedHttpRequest, obj, form, change) -> None:
+        if change and obj.is_internal:
+            raise PermissionDenied
         if change:
             original = User.objects.get(pk=obj.pk)
             form.instance.store_audit_state(

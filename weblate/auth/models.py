@@ -902,6 +902,10 @@ class User(AbstractBaseUser):
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
 
+    @cached_property
+    def is_internal(self):
+        return self.is_anonymous or (self.is_bot and ":" in self.username)
+
     def is_verified(self) -> bool:
         # django_otp overrides this method in OTPMiddleware
         return False

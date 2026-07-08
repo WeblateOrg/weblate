@@ -748,8 +748,15 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def perm_check(
-        self, request: Request, obj: User | None = None, *, allow_self: bool = False
+        self,
+        request: Request,
+        obj: User | None = None,
+        *,
+        allow_self: bool = False,
+        protect_internal: bool = False,
     ) -> None:
+        if protect_internal and obj is not None and obj.is_internal:
+            self.permission_denied(request, gettext("This user can not be edited."))
         if allow_self and obj is not None and obj == request.user:
             return
         if not request.user.has_perm("user.edit"):
@@ -758,7 +765,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def update(self, request: Request, *args, **kwargs):
         """Change the user parameters."""
         instance = self.get_object()
-        self.perm_check(request, instance, allow_self=True)
+        self.perm_check(request, instance, allow_self=True, protect_internal=True)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
@@ -776,7 +783,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def destroy(self, request: Request, *args, **kwargs):
         """Delete all user information and mark the user inactive."""
         instance = self.get_object()
-        self.perm_check(request, instance)
+        self.perm_check(request, instance, protect_internal=True)
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
 
