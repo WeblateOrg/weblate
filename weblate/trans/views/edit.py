@@ -880,8 +880,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             )
             % {"language": language},
         )
-    if profile.auto_watch and not profile.watched.filter(pk=project.pk).exists():
-        profile.watched.add(project)
+    if profile.watch_on_contribution(project):
         messages.info(
             request,
             gettext(

@@ -90,8 +90,8 @@ class SuggestionManager(models.Manager["Suggestion"]):
             suggestion.add_vote(request, Vote.POSITIVE)
 
         # Update suggestion stats
-        if user is not None:
-            user.profile.increase_count("suggested")
+        user.profile.watch_on_contribution(unit.translation.component.project)
+        user.profile.increase_count("suggested")
 
         unit.invalidate_related_cache()
 
