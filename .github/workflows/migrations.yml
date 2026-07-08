@@ -53,7 +53,7 @@ jobs:
         persist-credentials: false
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@f98e06938123ccabd21905ea5d0069192241f9f1 # v8.3.1
+    - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
