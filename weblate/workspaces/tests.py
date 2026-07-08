@@ -35,6 +35,8 @@ class WorkspaceViewTest(BaseTestCase):
         name: str,
         slug: str,
         access_control: int = Project.ACCESS_PUBLIC,
+        source_review: bool = False,
+        translation_review: bool = False,
     ) -> Project:
         return Project.objects.create(
             name=name,
@@ -42,6 +44,8 @@ class WorkspaceViewTest(BaseTestCase):
             web="https://example.com/",
             workspace=workspace,
             access_control=access_control,
+            source_review=source_review,
+            translation_review=translation_review,
         )
 
     def test_workspace_lists_accessible_projects(self) -> None:
@@ -77,6 +81,53 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertEqual(
             response.context["search_form"].sort_query, "component,-priority"
         )
+
+    def test_workspace_project_listing_shows_review_columns(self) -> None:
+        workspace = Workspace.objects.create(name="Review workspace")
+        self.create_project(
+            workspace,
+            name="Review project",
+            slug="review-project",
+            translation_review=True,
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Approved")
+        self.assertContains(response, "Unreviewed")
+
+    def test_workspace_project_listing_hides_review_columns(self) -> None:
+        workspace = Workspace.objects.create(name="No review workspace")
+        self.create_project(
+            workspace,
+            name="No review project",
+            slug="no-review-project",
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertNotContains(response, "Unreviewed", status_code=200)
+
+    def test_workspace_project_listing_ignores_hidden_review_projects(self) -> None:
+        workspace = Workspace.objects.create(name="Hidden review workspace")
+        self.create_project(
+            workspace,
+            name="Visible no review project",
+            slug="visible-no-review-project",
+        )
+        self.create_project(
+            workspace,
+            name="Hidden review project",
+            slug="hidden-review-project",
+            access_control=Project.ACCESS_PRIVATE,
+            translation_review=True,
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Visible no review project")
+        self.assertNotContains(response, "Hidden review project", status_code=200)
+        self.assertNotContains(response, "Unreviewed", status_code=200)
 
     def test_workspace_without_accessible_projects_is_not_visible(self) -> None:
         workspace = Workspace.objects.create(name="Private workspace")
