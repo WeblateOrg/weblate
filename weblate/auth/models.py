@@ -19,6 +19,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
+from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Q, UniqueConstraint
@@ -55,14 +56,18 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
-from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
+from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.search import parse_query
 from weblate.utils.tracing import start_span
-from weblate.utils.validators import CRUD_RE, validate_fullname, validate_username
+from weblate.utils.validators import (
+    CRUD_RE,
+    validate_fullname,
+    validate_username,
+)
 
 from . import defaults as auth_defaults
 
@@ -507,6 +512,48 @@ class TeamMembership(models.Model):
 
 
 bot_cache = ContextVar("bot_cache", default=dict)
+validate_internal_bot_email = DjangoEmailValidator()
+
+
+def format_internal_bot_email(scope: str, name: str) -> str:
+    """Generate and validate internal bot e-mail address."""
+    username = f"{scope}:{name}"
+    email = settings.INTERNAL_BOT_EMAIL_TEMPLATE.format(
+        scope=scope,
+        name=name,
+        username=username,
+        site_domain=settings.SITE_DOMAIN.rsplit(":", 1)[0],
+        site_title=settings.SITE_TITLE,
+    )
+    if len(email) > EMAIL_LENGTH:
+        raise ValidationError(
+            gettext("Internal bot e-mail address is too long: %s") % email
+        )
+    validate_internal_bot_email(email)
+    return email
+
+
+def sync_internal_bot_emails(sender, **kwargs) -> None:
+    """Update internal bot e-mails to match configured template."""
+    using = kwargs.get("using")
+    queryset = User.objects.filter(is_bot=True, username__contains=":").order_by("pk")
+    if using is not None:
+        queryset = queryset.using(using)
+
+    updated = False
+    for user in queryset.iterator():
+        if user.username.count(":") != 1:
+            continue
+        scope, name = user.username.split(":")
+        email = format_internal_bot_email(scope, name)
+        if user.email == email:
+            continue
+        user.email = email
+        user.save(using=using, update_fields=["email"])
+        updated = True
+
+    if updated:
+        bot_cache.get({}).clear()
 
 
 class UserManager(BaseUserManager["User"]):
@@ -546,7 +593,7 @@ class UserManager(BaseUserManager["User"]):
                 defaults={
                     "is_bot": True,
                     "full_name": verbose,
-                    "email": f"noreply-{scope}-{name}@weblate.org",
+                    "email": format_internal_bot_email(scope, name),
                     "is_active": False,
                     "password": make_password(None),
                 },
@@ -2003,6 +2050,8 @@ class WeblateAuthConf(AppConf):
 
     # Anonymous user name
     ANONYMOUS_USER_NAME = auth_defaults.DEFAULT_ANONYMOUS_USER_NAME
+
+    INTERNAL_BOT_EMAIL_TEMPLATE = auth_defaults.DEFAULT_INTERNAL_BOT_EMAIL_TEMPLATE
 
     SESSION_COOKIE_AGE_AUTHENTICATED = (
         auth_defaults.DEFAULT_SESSION_COOKIE_AGE_AUTHENTICATED

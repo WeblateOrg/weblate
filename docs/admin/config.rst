@@ -1250,6 +1250,25 @@ HIDE_VERSION
 Compatibility alias for :setting:`VERSION_DISPLAY`. Set this to ``True`` to
 get the same behavior as ``VERSION_DISPLAY = "hide"``.
 
+.. setting:: INTERNAL_BOT_EMAIL_TEMPLATE
+
+INTERNAL_BOT_EMAIL_TEMPLATE
+---------------------------
+
+.. versionadded:: 2026.7.1
+
+Template used to generate e-mail addresses for internal Weblate bot accounts.
+Defaults to ``"noreply-{scope}-{name}@weblate.org"``.
+
+It can contain ``{scope}``, ``{name}``, ``{username}``, ``{site_title}``, and
+``{site_domain}``.
+
+Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The
+``{username}`` value contains the internal ``scope:name`` username.
+
+Existing internal bot accounts are updated when :wladmin:`migrate` is run.
+Project API token accounts are not affected.
+
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
 IP_BEHIND_REVERSE_PROXY
