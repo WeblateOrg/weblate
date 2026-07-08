@@ -201,6 +201,18 @@ def check_enforced_2fa(user: User, project: Project) -> bool:
     return user.is_bot or not project.enforced_2fa or user.profile.has_2fa
 
 
+def get_glossary_permission_denial(permission: str) -> str:
+    if permission == "glossary.edit":
+        return gettext("You do not have permission to edit glossary entries.")
+    if permission == "glossary.add":
+        return gettext("You do not have permission to add glossary entries.")
+    if permission == "glossary.delete":
+        return gettext("You do not have permission to delete glossary entries.")
+    if permission == "glossary.upload":
+        return gettext("You do not have permission to upload glossary entries.")
+    return ""
+
+
 def check_permission(
     user: User,
     permission: str,
@@ -416,6 +428,8 @@ def check_can_edit(
             return Denied(
                 gettext("You do not have permission to approve translations.")
             )
+        if glossary_denial := get_glossary_permission_denial(permission):
+            return Denied(glossary_denial)
         return Denied(
             gettext("You do not have permission to save translations in this project.")
         )
