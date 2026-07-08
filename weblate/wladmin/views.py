@@ -4,11 +4,12 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from shutil import disk_usage
 
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, Any, Literal, cast, get_args
-from urllib.parse import quote, urlencode
+from urllib.parse import quote, urlencode, urljoin
 
 from django.conf import settings
 from django.core.cache import cache
@@ -64,8 +65,11 @@ from weblate.utils.db import (
 )
 from weblate.utils.encoding import get_encoding_list
 from weblate.utils.errors import report_error
+from weblate.utils.requests import fetch_url
+from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
+from weblate.utils.token import get_token
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
@@ -119,6 +123,38 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
+
+DISCOVERY_REGISTRATION_SESSION = "discovery_registration"
+DISCOVERY_REGISTRATION_STATE_AGE = timedelta(minutes=10)
+
+
+def get_discovery_registration_url() -> str:
+    return urljoin(settings.SUPPORT_API_URL, "../../subscription/discovery/register/")
+
+
+def get_discovery_activation_url() -> str:
+    return urljoin(settings.SUPPORT_API_URL, "activation/")
+
+
+def store_discovery_registration_state(request: AuthenticatedHttpRequest) -> str:
+    state = get_token("discovery")
+    request.session[DISCOVERY_REGISTRATION_SESSION] = {
+        "state": state,
+        "expires": (timezone.now() + DISCOVERY_REGISTRATION_STATE_AGE).timestamp(),
+    }
+    return state
+
+
+def validate_discovery_registration_state(
+    request: AuthenticatedHttpRequest, state: str
+) -> bool:
+    stored = request.session.pop(DISCOVERY_REGISTRATION_SESSION, None)
+    if not stored:
+        return False
+    return (
+        stored.get("state") == state
+        and stored.get("expires", 0) >= timezone.now().timestamp()
+    )
 
 
 @management_access
@@ -268,6 +304,75 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
         support.save(update_fields=["discoverable"])
         support_status_update.delay()
 
+    return redirect("manage")
+
+
+@management_permission_required("management.configure")
+@require_POST
+def discovery_register(request: AuthenticatedHttpRequest) -> HttpResponse:
+    state = store_discovery_registration_state(request)
+    query = urlencode(
+        {
+            "site_url": get_site_url(),
+            "callback_url": get_site_url(reverse("manage-discovery-callback")),
+            "state": state,
+        }
+    )
+    return redirect(f"{get_discovery_registration_url()}?{query}")
+
+
+@management_permission_required("management.configure")
+def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
+    state = request.GET.get("state", "")
+    code = request.GET.get("code", "")
+    if not validate_discovery_registration_state(request, state):
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Invalid activation state."),
+        )
+        return redirect("manage")
+    if not code:
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Missing activation code."),
+        )
+        return redirect("manage")
+
+    try:
+        response = fetch_url(
+            "post",
+            get_discovery_activation_url(),
+            data={"code": code},
+            timeout=60,
+        )
+        payload = response.json()
+        support = SupportStatus(secret=payload["secret"])
+        support.refresh()
+    except Timeout:
+        report_error("Activation timeout")
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Please try again later."),
+        )
+    except (HTTPError, KeyError, ValueError):
+        report_error("Activation error")
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Please try again later."),
+        )
+    except Exception as error:
+        report_error("Activation error")
+        messages.error(
+            request,
+            gettext("Could not activate your installation: %s") % error,
+        )
+    else:
+        with transaction.atomic():
+            SupportStatus.objects.select_for_update().filter(enabled=True).update(
+                enabled=False
+            )
+            support.save()
+        messages.success(request, gettext("Activation completed."))
     return redirect("manage")
 
 

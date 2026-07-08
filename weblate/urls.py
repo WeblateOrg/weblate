@@ -923,6 +923,16 @@ real_patterns = [
     ),
     path("manage/activate/", weblate.wladmin.views.activate, name="manage-activate"),
     path("manage/discovery/", weblate.wladmin.views.discovery, name="manage-discovery"),
+    path(
+        "manage/discovery/register/",
+        weblate.wladmin.views.discovery_register,
+        name="manage-discovery-register",
+    ),
+    path(
+        "manage/discovery/callback/",
+        weblate.wladmin.views.discovery_callback,
+        name="manage-discovery-callback",
+    ),
     path("manage/alerts/", weblate.wladmin.views.alerts, name="manage-alerts"),
     path("manage/repos/", weblate.wladmin.views.repos, name="manage-repos"),
     path("manage/ssh/", weblate.wladmin.views.ssh, name="manage-ssh"),
