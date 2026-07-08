@@ -13,6 +13,8 @@ Weblate 2026.7.1
 * Component diagnostics now warn when regular :ref:`gettext` PO files are configured as monolingual PO files.
 * Translation memory fuzzy lookups are now faster on large translation memories.
 * Permission denied messages when saving translations or voting on suggestions now show more specific reasons.
+* Comment notifications for strings you translated now also include strings you previously commented on or suggested translations for.
+* Comments and suggestions now auto-watch the project when :guilabel:`Automatically watch projects on contribution` is enabled.
 
 .. rubric:: Bug fixes
 

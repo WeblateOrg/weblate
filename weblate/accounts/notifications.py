@@ -34,6 +34,8 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Alert,
     Change,
+    Comment,
+    Suggestion,
     Translation,
 )
 from weblate.utils.errors import report_error
@@ -55,7 +57,6 @@ if TYPE_CHECKING:
     from weblate.accounts.tasks import OutgoingEmail
     from weblate.trans.models import (
         Announcement,
-        Comment,
         Component,
         Project,
         Unit,
@@ -1014,14 +1015,65 @@ class MentionCommentNotificaton(Notification):
 @register_notification
 class LastAuthorCommentNotificaton(Notification):
     actions = (ActionEvents.COMMENT,)
-    verbose = pgettext_lazy("Notification name", "Your translation received a comment")
+    verbose = pgettext_lazy(
+        "Notification name",
+        "String you contributed to received a comment",
+    )
     verbose_plural = pgettext_lazy(
-        "Notification name", "Your translation received comments"
+        "Notification name",
+        "Strings you contributed to received comments",
     )
     template_name = "new_comment"
-    ignore_watched = True
     required_attr = "comment"
-    skip_when_notify: ClassVar[set[type[Notification]]] = {MentionCommentNotificaton}
+    skip_when_notify: ClassVar[set[type[Notification]]] = {
+        MentionCommentNotificaton,
+        NewCommentNotificaton,
+    }
+
+    def get_change_users(self, change: Change) -> list[int]:
+        change_users: list[int] = []
+        seen: set[int] = set()
+
+        def add_user_id(user_id: int | None) -> None:
+            if user_id is not None and user_id not in seen:
+                seen.add(user_id)
+                change_users.append(user_id)
+
+        unit = cast("Unit", change.unit)
+        last_author = unit.get_last_content_change()[0]
+        if not last_author.is_anonymous:
+            add_user_id(last_author.pk)
+
+        comment = cast("Comment", change.comment)
+        unit_ids: list[int | None] = [unit.pk]
+        if not unit.is_source:
+            unit_ids.append(unit.source_unit_id)
+
+        comment_unit_ids = {unit_id for unit_id in unit_ids if unit_id is not None}
+        previous_comments = Q(timestamp__lt=comment.timestamp)
+        if comment.pk is not None:
+            previous_comments |= Q(timestamp=comment.timestamp, pk__lt=comment.pk)
+        commenter_ids = (
+            Comment.objects.filter(unit_id__in=comment_unit_ids)
+            .filter(previous_comments)
+            .exclude(user__isnull=True)
+            .values_list("user_id", flat=True)
+            .distinct()
+        )
+        for user_id in commenter_ids:
+            add_user_id(user_id)
+
+        if not unit.is_source:
+            suggestion_user_ids = (
+                Suggestion.objects.filter(unit=unit, timestamp__lt=comment.timestamp)
+                .exclude(user__isnull=True)
+                .values_list("user_id", flat=True)
+                .distinct()
+            )
+            for user_id in suggestion_user_ids:
+                add_user_id(user_id)
+
+        return change_users
 
     def get_users(
         self,
@@ -1032,13 +1084,15 @@ class LastAuthorCommentNotificaton(Notification):
         translation: Translation | None = None,
         users: list[int] | None = None,
     ) -> Iterable[User]:
-        change_users: list[int] = []
-        if change is not None:
-            last_author = cast("Unit", change.unit).get_last_content_change()[0]
-            if not last_author.is_anonymous:
-                change_users.append(last_author.pk)
+        if change is None or self.missing_required_attrs(change):
+            return []
         return super().get_users(
-            frequency, change, project, component, translation, change_users
+            frequency,
+            change,
+            project,
+            component,
+            translation,
+            self.get_change_users(change),
         )
 
 
