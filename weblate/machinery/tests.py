@@ -3508,7 +3508,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "persona": "",
         "style": "",
     }
-    TRACE_MODEL: ClassVar[str] = "gpt-5-nano"
+    TRACE_MODEL: ClassVar[str] = "gpt-5.4-nano"
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
@@ -3543,7 +3543,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "gpt-5-nano",
+                "model": self.TRACE_MODEL,
                 "system_fingerprint": "fp_44709d6fcb",
                 "choices": [
                     {
@@ -6792,7 +6792,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "gpt-5-nano",
+                "model": self.TRACE_MODEL,
                 "system_fingerprint": "fp_44709d6fcb",
                 "choices": [
                     {
