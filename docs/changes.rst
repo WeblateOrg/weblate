@@ -5,6 +5,8 @@ Weblate 2026.7.1
 
 .. rubric:: New features
 
+* Added :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` to customize internal bot e-mail addresses.
+
 .. rubric:: Improvements
 
 * Restricted components now show a status icon in component listings.

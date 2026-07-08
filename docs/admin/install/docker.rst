@@ -1200,6 +1200,12 @@ Generic settings
 
    Configures :setting:`EXTRA_HTML_HEAD`.
 
+.. envvar:: WEBLATE_INTERNAL_BOT_EMAIL_TEMPLATE
+
+   .. versionadded:: 2026.7.1
+
+   Configures :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`.
+
 .. envvar:: WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE
 
    .. versionadded:: 4.15

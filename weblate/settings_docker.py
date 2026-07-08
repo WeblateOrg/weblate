@@ -821,6 +821,11 @@ PRIVATE_COMMIT_NAME_OPT_IN = get_env_bool(
     accounts_defaults.DEFAULT_PRIVATE_COMMIT_NAME_OPT_IN,
 )
 
+INTERNAL_BOT_EMAIL_TEMPLATE = get_env_str(
+    "WEBLATE_INTERNAL_BOT_EMAIL_TEMPLATE",
+    auth_defaults.DEFAULT_INTERNAL_BOT_EMAIL_TEMPLATE,
+)
+
 # Shortcut for login required setting
 REQUIRE_LOGIN = get_env_bool(
     "WEBLATE_REQUIRE_LOGIN", trans_defaults.DEFAULT_REQUIRE_LOGIN
