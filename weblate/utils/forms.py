@@ -30,6 +30,8 @@ from .validators import (
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.auth.models import User
+
 
 class QueryField(forms.CharField):
     def __init__(
@@ -277,10 +279,10 @@ class SearchField(Field):
     ):
         if extra_context is not None:
             raise TypeError
-        extra_context = {"custom_filter_list": self.get_search_query_choices()}
+        extra_context = {"custom_filter_list": self.get_search_query_choices(form)}
         return super().render(form, context, template_pack, extra_context, **kwargs)
 
-    def get_search_query_choices(self):
+    def get_search_query_choices(self, form):
         """Return all filtering choices for query field."""
         filter_keys = [
             "nottranslated",
@@ -294,14 +296,32 @@ class SearchField(Field):
             "context",
             "nosuggestions",
             "comments",
+            "source_comments",
             "allchecks",
             "approved",
             "unapproved",
         ]
-        return [
+        result = [
             (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
             for key in filter_keys
         ]
+        user: User | None = getattr(form, "user", None)
+        if user is not None and user.is_authenticated:
+            result.extend(
+                (
+                    (
+                        "comments_by_me",
+                        gettext_lazy("Strings with comments by me"),
+                        f'comment_author:="{user.username}"',
+                    ),
+                    (
+                        "source_comments_by_me",
+                        gettext_lazy("Strings with source comments by me"),
+                        f'source_comment_author:="{user.username}"',
+                    ),
+                )
+            )
+        return result
 
 
 class CachedQueryIterator(ModelChoiceIterator):

@@ -155,7 +155,7 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, ``label``, ``location``.
+   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``source-comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``, ``label``, ``location``.
 ``is:TEXT``
    Filters string on a condition:
 
@@ -208,11 +208,21 @@ Fields
 ``dismissed_check:TEXT``
    String has dismissed check, see :doc:`/user/checks` for check identifiers.
 ``comment:TEXT``
-   Search in user comments.
+   Search in unresolved user comments on the string.
 ``resolved_comment:TEXT``
    Search in resolved comments.
 ``comment_author:TEXT``
    Filter by comment author.
+``source_comment:TEXT``
+   Search in unresolved source string comments.
+``resolved_source_comment:TEXT``
+   Search in resolved source string comments.
+``source_comment_author:TEXT``
+   Filter by source string comment author.
+
+   Source string comment filters match comments attached to the source string.
+   When searching across languages, matching target strings sharing that source
+   string can be included in the results.
 ``suggestion:TEXT``
    Search in suggestions.
 ``suggestion_author:TEXT``

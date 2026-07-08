@@ -669,6 +669,8 @@ class UnitTermExpr(BaseTermExpr):
         "suggestion": "suggestion__target",
         "comment": "comment__comment",
         "resolved_comment": "comment__comment",
+        "source_comment": "source_unit__comment__comment",
+        "resolved_source_comment": "source_unit__comment__comment",
         "key": "context",
         "explanation": "source_unit__explanation",
     }
@@ -677,6 +679,7 @@ class UnitTermExpr(BaseTermExpr):
         "project": "translation__component__project__slug",
         "suggestion_author": "suggestion__user__username",
         "comment_author": "comment__user__username",
+        "source_comment_author": "source_unit__comment__user__username",
     }
 
     def change_field_name(self, field: str, suffix: str | None = None) -> str:
@@ -754,6 +757,10 @@ class UnitTermExpr(BaseTermExpr):
             return Q(comment__resolved=False)
         if text in {"resolved-comment", "resolved_comment"}:
             return Q(comment__resolved=True)
+        if text in {"source-comment", "source_comment"}:
+            return Q(source_unit__comment__resolved=False)
+        if text in {"resolved-source-comment", "resolved_source_comment"}:
+            return Q(source_unit__comment__resolved=True)
         if text in {"check", "failing-check", "failing_check"}:
             return Q(check__dismissed=False)
         if text in {
@@ -953,6 +960,10 @@ class UnitTermExpr(BaseTermExpr):
             return query & Q(comment__resolved=False)
         if field == "resolved_comment":
             return query & Q(comment__resolved=True)
+        if field == "source_comment":
+            return query & Q(source_unit__comment__resolved=False)
+        if field == "resolved_source_comment":
+            return query & Q(source_unit__comment__resolved=True)
 
         return super().field_extra(field, query, match)
 
