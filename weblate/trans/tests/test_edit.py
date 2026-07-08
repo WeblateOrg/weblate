@@ -19,7 +19,7 @@ from django.urls import reverse
 
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, UserBlock, setup_project_groups
+from weblate.auth.models import Group, Permission, Role, UserBlock, setup_project_groups
 from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
@@ -659,6 +659,19 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(4, "en")
+
+    def test_edit_without_source_string_permission(self) -> None:
+        Role.objects.get(name="Power user").permissions.remove(
+            Permission.objects.get(codename="unit.template")
+        )
+        self.user.clear_permissions_cache()
+        response = self.edit_unit(
+            "Hello, world!\n", "Nazdar svete!\n", "en", follow=True
+        )
+
+        self.assertContains(
+            response, "You do not have permission to edit source strings."
+        )
 
     def test_edit_does_not_rebuild_component_language_stats(self) -> None:
         self.assertGreater(self.get_translation().stats.all, 0)
@@ -1378,9 +1391,7 @@ class ZenViewTest(ViewTestCase):
             reverse("save_zen", kwargs=self.kw_translation),
             params,
         )
-        self.assertContains(
-            response, "Insufficient privileges for saving translations."
-        )
+        self.assertContains(response, "This translation is currently locked.")
 
     def test_browse(self) -> None:
         response = self.client.get(reverse("browse", kwargs=self.kw_translation))
