@@ -1,0 +1,57 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: cjk regexp update
+
+on:
+  push:
+    branches:
+    - renovate/**
+    - dependabot/**
+    - main
+    paths:
+    - .github/workflows/cjk-regexp.yml
+    - scripts/generate-cjk-regexp.py
+    - weblate/trans/util.py
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - .github/workflows/cjk-regexp.yml
+    - scripts/generate-cjk-regexp.py
+    - weblate/trans/util.py
+
+permissions:
+  contents: read
+
+jobs:
+  cjk-regexp-update:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0   # v7.0.0
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@f98e06938123ccabd21905ea5d0069192241f9f1 # v8.3.1
+      with:
+        enable-cache: false
+        version: 0.11.26
+    - name: Set up Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      with:
+        python-version: '3.14'
+    - name: Install Python dependencies
+      run: uv sync --only-group pre-commit
+    - run: ./scripts/generate-cjk-regexp.py --update
+
+    - name: Prepare maintenance patch
+      uses: ./.github/actions/auto-commit
+
+    # Keep this outside the composite action; pre-commit.ci lite detects the
+    # top-level post step, and composites expose nested post hooks.
+    # The condition mirrors pre-commit-ci/lite-action's main.mjs user-PR check.
+    - name: Commit changes (external PR, pre-commit-ci-lite)
+      if: github.event_name == 'pull_request' && github.event.sender.type == 'User'
+      uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      with:
+        msg: 'chore: update CJK regexp data'

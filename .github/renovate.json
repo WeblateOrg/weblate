@@ -60,9 +60,30 @@
       ],
       "ignoreUnstable": false,
       "respectLatest": false
+    },
+    {
+      "description": "Extract Unicode release versions from the public directory listing",
+      "matchDatasources": [
+        "custom.unicode-public"
+      ],
+      "extractVersion": "^(?<version>\\d+\\.\\d+\\.\\d+)/?$"
     }
   ],
   "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update pinned Unicode data version for CJK regexp generation",
+      "managerFilePatterns": [
+        "/^scripts\\/generate-cjk-regexp\\.py$/"
+      ],
+      "matchStrings": [
+        "# renovate-unicode-version\\r?\\nUNICODE_VERSION = \"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "Unicode UCD",
+      "packageNameTemplate": "unicode",
+      "datasourceTemplate": "custom.unicode-public",
+      "versioningTemplate": "semver"
+    },
     {
       "customType": "regex",
       "description": "Update CycloneDX CLI binary version and GitHub release asset digest",
@@ -110,6 +131,10 @@
     }
   ],
   "customDatasources": {
+    "unicode-public": {
+      "defaultRegistryUrlTemplate": "https://www.unicode.org/Public/",
+      "format": "html"
+    },
     "github-release-asset-digest": {
       "defaultRegistryUrlTemplate": "https://api.github.com/repos/{{{packageName}}}/releases?per_page=100",
       "format": "json",
