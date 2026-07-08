@@ -227,6 +227,43 @@ class SuggestionsTest(ViewTestCase):
 
         self.assert_vote()
 
+    def test_vote_without_autoaccept_keeps_direct_translation(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 0
+        self.component.save()
+
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+        unit = self.get_unit()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assert_backend(1)
+
+    def test_vote_autoaccept_direct_translation_denied(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save()
+
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n", follow=True)
+
+        self.assertContains(
+            response,
+            "This translation is configured for suggestion voting. Add a suggestion instead of saving a direct translation.",
+        )
+        self.assertFalse(self.get_unit().translated)
+        self.assert_backend(0)
+
+    def test_vote_when_voting_disabled(self) -> None:
+        self.add_suggestion_1()
+        suggestion_id = self.get_unit().suggestions[0].pk
+
+        response = self.edit_unit(
+            "Hello, world!\n", "", upvote=suggestion_id, follow=True
+        )
+
+        self.assertContains(response, "Suggestion voting is disabled.")
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+        self.assertEqual(suggestion.get_num_votes(), 0)
+
     def assert_vote(self) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         self.add_suggestion_1()

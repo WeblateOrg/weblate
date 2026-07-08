@@ -12,6 +12,7 @@ Weblate 2026.7.1
 * Documented that intermediate language files are hidden from language listings and can make target strings read-only.
 * Component diagnostics now warn when regular :ref:`gettext` PO files are configured as monolingual PO files.
 * Translation memory fuzzy lookups are now faster on large translation memories.
+* Permission denied messages when saving translations or voting on suggestions now show more specific reasons.
 
 .. rubric:: Bug fixes
 

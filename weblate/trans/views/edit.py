@@ -28,6 +28,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from django.views.decorators.http import require_POST
 
+from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
@@ -150,6 +151,16 @@ def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None
             ),
             format_html_join_comma("{}", list_to_tuples(fixups)),
         ),
+    )
+
+
+def show_unit_edit_denied(
+    request: AuthenticatedHttpRequest, permission: bool | PermissionResult
+) -> None:
+    reason = permission.reason if isinstance(permission, PermissionResult) else ""
+    messages.error(
+        request,
+        reason or gettext("You do not have permission to save translations."),
     )
 
 
@@ -923,13 +934,11 @@ def handle_translate(
 
     if "suggest" in request.POST:
         go_next = perform_suggestion(unit, form, request)
-    elif not request.user.has_perm("unit.edit", unit):
+    elif not (edit_permission := request.user.has_perm("unit.edit", unit)):
         if request.user.has_perm("meta:unit.flag", unit):
             unit.update_explanation(form.cleaned_data["explanation"], request.user)
         else:
-            messages.error(
-                request, gettext("Insufficient privileges for saving translations.")
-            )
+            show_unit_edit_denied(request, edit_permission)
     else:
         go_next = perform_translation(unit, form, request)
 
@@ -948,10 +957,9 @@ def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
 
     merged = mergeform.cleaned_data["merge_unit"]
 
-    if not request.user.has_perm("unit.edit", unit):
-        messages.error(
-            request, gettext("Insufficient privileges for saving translations.")
-        )
+    edit_permission = request.user.has_perm("unit.edit", unit)
+    if not edit_permission:
+        show_unit_edit_denied(request, edit_permission)
         return None
 
     # Store unit
@@ -968,10 +976,9 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
 
     change = revertform.cleaned_data["revert_change"]
 
-    if not request.user.has_perm("unit.edit", unit):
-        messages.error(
-            request, gettext("Insufficient privileges for saving translations.")
-        )
+    edit_permission = request.user.has_perm("unit.edit", unit)
+    if not edit_permission:
+        show_unit_edit_denied(request, edit_permission)
         return None
 
     if not change.revert(
@@ -1002,9 +1009,17 @@ def check_suggest_permissions(
                 request, gettext("You do not have privilege to delete suggestions!")
             )
             return False
-    elif mode in {"upvote", "downvote"} and not user.has_perm("suggestion.vote", unit):
+    elif mode in {"upvote", "downvote"} and not (
+        vote_permission := user.has_perm("suggestion.vote", unit)
+    ):
+        reason = (
+            vote_permission.reason
+            if isinstance(vote_permission, PermissionResult)
+            else ""
+        )
         messages.error(
-            request, gettext("You do not have privilege to vote for suggestions!")
+            request,
+            reason or gettext("You do not have permission to vote for suggestions."),
         )
         return False
     return True
@@ -1702,13 +1717,11 @@ def save_zen(request: AuthenticatedHttpRequest, path):
     form = TranslationForm(request.user, unit, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-    elif not request.user.has_perm("unit.edit", unit):
+    elif not (edit_permission := request.user.has_perm("unit.edit", unit)):
         if request.user.has_perm("meta:unit.flag", unit):
             unit.update_explanation(form.cleaned_data["explanation"], request.user)
         else:
-            messages.error(
-                request, gettext("Insufficient privileges for saving translations.")
-            )
+            show_unit_edit_denied(request, edit_permission)
     else:
         perform_translation(unit, form, request)
 
