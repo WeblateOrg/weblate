@@ -5,6 +5,7 @@ Weblate 2026.7.1
 
 .. rubric:: New features
 
+* Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
 * Added :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` to customize internal bot e-mail addresses.
 
 .. rubric:: Improvements

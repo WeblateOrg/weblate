@@ -1239,6 +1239,46 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["keyword"], "tr")
         self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
+    def test_xgettext_form_keyword_exclusive(self) -> None:
+        # keyword_exclusive=True with a keyword set is valid.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": "tr",
+                "keyword_exclusive": True,
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertTrue(form.cleaned_data["keyword_exclusive"])
+
+        # keyword_exclusive=True without a keyword is invalid.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": "",
+                "keyword_exclusive": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("keyword_exclusive", form.errors)
+
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
             None,
@@ -2125,6 +2165,38 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--check=ellipsis-unicode", command)
         self.assertIn("--check=bullet-unicode", command)
         self.assertIn("--keyword=tr", command)
+
+    def test_xgettext_uses_exclusive_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "Main.java"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello");\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Java",
+                "source_patterns": ["src/*.java"],
+                "keyword": "tr",
+                "keyword_exclusive": True,
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # Bare --keyword must appear to disable default keywords.
+        self.assertIn("--keyword", command)
+        bare_idx = command.index("--keyword")
+        named_idx = command.index("--keyword=tr")
+        self.assertLess(bare_idx, named_idx)
+        # Only the custom keyword should be present; no default keywords.
+        self.assertNotIn("--keyword=gettext", command)
 
     def test_meson_uses_glib_preset_and_potfiles(self) -> None:
         source = Path(self.component.full_path) / "src" / "main.c"
