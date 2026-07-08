@@ -17,9 +17,3 @@ This keeps personal, project, or API access tokens out of repository URLs.
 Provider API credentials are still needed when using a provider-specific VCS
 backend to create pull or merge requests; those credentials are configured
 separately from the Git repository URL.
-
-On Hosted Weblate, use provider integrations where available. For GitHub, the
-recommended setup is the `Hosted Weblate app
-<https://github.com/apps/hosted-weblate>`_. For direct SSH access on supported
-code hosting sites, use the hosted :guilabel:`weblate` user, see
-:ref:`hosted-push`.
