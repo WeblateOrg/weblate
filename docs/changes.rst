@@ -16,6 +16,7 @@ Weblate 2026.7.1
 * Comment notifications for strings you translated now also include strings you previously commented on or suggested translations for.
 * Comments and suggestions now auto-watch the project when :guilabel:`Automatically watch projects on contribution` is enabled.
 * Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`.
+* :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
 
 .. rubric:: Bug fixes
 
