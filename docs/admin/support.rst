@@ -95,22 +95,32 @@ https://weblate.org/discover/.
 Getting listed
 ++++++++++++++
 
+.. versionchanged:: 2026.7.1
+
+   Discover Weblate registration can be started directly from the management
+   interface without manually copying the activation token.
+
 .. note::
 
    Make sure you are OK with publishing your instance name, URL, tally of projects, components, and users,
    together with names of public projects and components for use on *Discover*.
 
 
-List your server directly from the management panel if you have an active
-support subscription (:ref:`activate-support`):
+List your server directly from the management panel by clicking
+:guilabel:`Register on weblate.org`:
 
 .. image:: /screenshots/support-discovery.webp
 
-All steps for listing a server without a support contract:
+This opens the registration form on weblate.org and returns to your Weblate
+management interface to complete activation.
+
+All steps for listing a server manually, for example from older Weblate
+versions:
 
 1. Register yourself at https://weblate.org/user/
 2. Register your Weblate site at https://weblate.org/subscription/discovery/
-3. Confirm you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
+3. Copy the activation token into your Weblate management interface.
+4. Confirm you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page:
 
 .. image:: /screenshots/support-discovery.webp
 
