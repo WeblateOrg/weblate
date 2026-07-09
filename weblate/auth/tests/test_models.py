@@ -32,6 +32,13 @@ from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 
+class SkipWeblateAuthMigrationsRouter:
+    def allow_migrate(self, db, app_label, model_name=None, **hints) -> bool | None:
+        if app_label == "weblate_auth":
+            return False
+        return None
+
+
 class InternalBotEmailTest(TestCase):
     def setUp(self) -> None:
         bot_cache.get({}).clear()
@@ -130,6 +137,17 @@ class InternalBotEmailTest(TestCase):
     def test_format_internal_bot_email_validates_email(self) -> None:
         with self.assertRaises(ValidationError):
             format_internal_bot_email("mt", "addon")
+
+    @override_settings(
+        DATABASE_ROUTERS=[
+            "weblate.auth.tests.test_models.SkipWeblateAuthMigrationsRouter"
+        ]
+    )
+    def test_sync_internal_bot_emails_skips_unmigrated_database(self) -> None:
+        with patch.object(User.objects, "filter") as filter_mock:
+            sync_internal_bot_emails(None, using="default")
+
+        filter_mock.assert_not_called()
 
 
 class ModelTest(FixtureComponentTestCase):
