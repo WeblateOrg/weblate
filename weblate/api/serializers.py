@@ -2320,6 +2320,15 @@ class SuggestionAcceptRequestSerializer(ReadOnlySerializer):
     approve = serializers.BooleanField(required=False, default=False)
 
 
+class SuggestionVoteRequestSerializer(ReadOnlySerializer):
+    value = serializers.ChoiceField(choices=[(1, "Positive"), (-1, "Negative")])
+
+
+class SuggestionVoteResultSerializer(ReadOnlySerializer):
+    result = serializers.ChoiceField(choices=["voted", "accepted"])
+    suggestion = SuggestionSerializer(allow_null=True)
+
+
 class MemorySerializer(serializers.ModelSerializer[Memory]):
     visible_project_ids_loaded = False
     visible_project_ids: set[int] | None = None

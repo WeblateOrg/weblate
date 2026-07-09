@@ -11288,6 +11288,147 @@ class SuggestionAPITest(APIBaseTest):
         self.assertEqual(unit.state, STATE_APPROVED)
         self.assertEqual(unit.target, "Navrh\n")
 
+    def test_vote_suggestion(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.save(update_fields=["suggestion_voting"])
+
+        unit = self._get_unit()
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=self.user
+        )
+
+        response = self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=200,
+        )
+        self.assertEqual(response.data["result"], "voted")
+        self.assertEqual(response.data["suggestion"]["votes"], 1)
+
+        response = self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": -1},
+            code=200,
+        )
+        self.assertEqual(response.data["result"], "voted")
+        self.assertEqual(response.data["suggestion"]["votes"], -1)
+
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 5},
+            code=400,
+        )
+
+    def test_vote_suggestion_denied(self) -> None:
+        unit = self._get_unit()
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=self.user
+        )
+
+        # Voting disabled on translation.
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=403,
+        )
+
+        self.component.suggestion_voting = True
+        self.component.save(update_fields=["suggestion_voting"])
+
+        self.client.credentials()
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=401,
+            authenticated=False,
+        )
+
+        self._setup_guest_user(authenticate=True)
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=403,
+            authenticated=False,
+        )
+
+    def test_vote_autoaccept(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save(
+            update_fields=["suggestion_voting", "suggestion_autoaccept"]
+        )
+
+        unit = self._get_unit()
+        other_user = User.objects.create_user(
+            "vote_other_user", "vote-other@example.org", "x"
+        )
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=other_user
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.do_request(
+                "api:suggestion-vote",
+                kwargs={"pk": suggestion.pk},
+                method="post",
+                request={"value": 1},
+                code=200,
+            )
+        self.assertEqual(response.data["result"], "accepted")
+        self.assertIsNone(response.data["suggestion"])
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion.pk).exists())
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Navrh\n")
+
+    def test_vote_autoaccept_on_vote_change(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save(
+            update_fields=["suggestion_voting", "suggestion_autoaccept"]
+        )
+
+        unit = self._get_unit()
+        other_user = User.objects.create_user(
+            "vote_change_user", "vote-change@example.org", "x"
+        )
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=other_user
+        )
+
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": -1},
+            code=200,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.do_request(
+                "api:suggestion-vote",
+                kwargs={"pk": suggestion.pk},
+                method="post",
+                request={"value": 1},
+                code=200,
+            )
+        self.assertEqual(response.data["result"], "accepted")
+        self.assertIsNone(response.data["suggestion"])
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion.pk).exists())
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Navrh\n")
+
 
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self) -> None:

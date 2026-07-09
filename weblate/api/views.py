@@ -113,6 +113,8 @@ from weblate.api.serializers import (
     SuggestionAcceptRequestSerializer,
     SuggestionDeleteRequestSerializer,
     SuggestionSerializer,
+    SuggestionVoteRequestSerializer,
+    SuggestionVoteResultSerializer,
     TaskSerializer,
     TranslationCreateSerializer,
     TranslationSerializer,
@@ -3652,6 +3654,46 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             state=STATE_APPROVED if approve else STATE_TRANSLATED,
         )
         return Response(data={"result": "accepted"}, status=HTTP_200_OK)
+
+    @extend_schema(
+        description="Vote on a suggestion.",
+        methods=["post"],
+        request=SuggestionVoteRequestSerializer,
+        responses={200: SuggestionVoteResultSerializer},
+    )
+    @action(detail=True, methods=["post"])
+    def vote(self, request: Request, **kwargs):
+        suggestion = self.get_object()
+        unit = suggestion.unit
+        user = request.user
+
+        if not user.has_perm("suggestion.vote", unit):
+            self.permission_denied(request)
+
+        serializer = SuggestionVoteRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        value = serializer.validated_data["value"]
+
+        suggestion_pk = suggestion.pk
+        suggestion.add_vote(request, value)
+
+        suggestion = Suggestion.objects.filter(pk=suggestion_pk).load_votes().first()
+        if suggestion is None:
+            # suggestion was auto-accepted
+            return Response(
+                {"result": "accepted", "suggestion": None},
+                status=HTTP_200_OK,
+            )
+
+        return Response(
+            {
+                "result": "voted",
+                "suggestion": SuggestionSerializer(
+                    suggestion, context={"request": request}
+                ).data,
+            },
+            status=HTTP_200_OK,
+        )
 
 
 @extend_schema_view(
