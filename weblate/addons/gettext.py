@@ -1497,11 +1497,17 @@ class MesonAddon(XgettextAddon):
         }
 
     def get_extra_xgettext_args(self, component: Component) -> list[str]:
+        parametrized = self.get_parametrized_xgettext_args()
+        preset_args = self.PRESETS.get(self.get_preset(), self.PRESET_GLIB)
+        if self.get_keyword_exclusive():
+            # When using keywords exclusively the bare --keyword (emitted by
+            # get_parametrized_xgettext_args) disables xgettext's built-in
+            # default keywords, but NOT custom --keyword=… args that were
+            # already added.  Strip the preset's keyword entries here so that
+            # only the user-defined keyword is recognised.
+            preset_args = [a for a in preset_args if not a.startswith("--keyword=")]
         result: list[str] = []
-        for arg in [
-            *self.PRESETS.get(self.get_preset(), self.PRESET_GLIB),
-            *self.get_parametrized_xgettext_args(),
-        ]:
+        for arg in [*preset_args, *parametrized]:
             if arg not in result:
                 result.append(arg)
         return result
