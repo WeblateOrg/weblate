@@ -54,8 +54,12 @@ function increaseLoading(sel) {
 }
 
 function decreaseLoading(sel) {
+  if (!(sel in loading)) {
+    return;
+  }
   loading[sel] -= 1;
-  if (loading[sel] === 0) {
+  if (loading[sel] <= 0) {
+    loading[sel] = 0;
     hide(document.getElementById(`loading-${sel}`));
   }
 }
