@@ -324,6 +324,16 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
 @management_permission_required("management.configure")
 @require_POST
 def discovery_register(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if SupportStatus.objects.get_current().secret:
+        messages.error(
+            request,
+            gettext(
+                "This installation is already linked to weblate.org. "
+                "Use discovery settings to manage its listing."
+            ),
+        )
+        return redirect("manage")
+
     state = store_discovery_registration_state(request)
     callback_path = reverse("manage-discovery-callback")
     query = urlencode(
@@ -367,7 +377,9 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
         )
         payload = response.json()
         support = SupportStatus(secret=payload["secret"])
-        support.refresh()
+        support.refresh(
+            site_url=get_discovery_site_url(reverse("manage-discovery-callback"))
+        )
     except Timeout:
         report_error("Activation timeout")
         messages.error(
@@ -382,11 +394,25 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
         )
     else:
         with transaction.atomic():
-            SupportStatus.objects.select_for_update().filter(enabled=True).update(
-                enabled=False
+            active_subscription = (
+                SupportStatus.objects.select_for_update()
+                .filter(enabled=True, has_subscription=True)
+                .exists()
             )
-            support.save()
-        messages.success(request, gettext("Activation completed."))
+            if active_subscription and not support.has_subscription:
+                messages.error(
+                    request,
+                    gettext(
+                        "Could not activate discovery because a support package "
+                        "is already linked."
+                    ),
+                )
+            else:
+                SupportStatus.objects.select_for_update().filter(enabled=True).update(
+                    enabled=False
+                )
+                support.save()
+                messages.success(request, gettext("Activation completed."))
     return redirect("manage")
 
 

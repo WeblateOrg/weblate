@@ -48,11 +48,20 @@ from weblate.wladmin.models import (
 from weblate.wladmin.tasks import backup_service
 from weblate.wladmin.views import (
     DISCOVERY_REGISTRATION_SESSION,
+    DISCOVERY_REGISTRATION_STATE_AGE,
     get_discovery_site_url,
 )
 from weblate.workspaces.models import Workspace
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
+
+
+def get_response_call_body(index: int) -> str:
+    request_body = responses.calls[index].request.body
+    if isinstance(request_body, bytes):
+        return request_body.decode()
+    assert isinstance(request_body, str)
+    return request_body
 
 
 @contextmanager
@@ -691,6 +700,23 @@ class AdminTest(ViewTestCase):
     def test_manage_index(self) -> None:
         response = self.client.get(reverse("manage"))
         self.assertContains(response, "SSH")
+        self.assertContains(response, "Register on weblate.org")
+        self.assertContains(response, reverse("manage-discovery-register"))
+
+    def test_manage_index_hides_discovery_registration_for_support(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="paid-secret",
+            expiry=timezone.now(),
+            has_subscription=True,
+            enabled=True,
+        )
+        response = self.client.get(reverse("manage"))
+        self.assertNotContains(response, "Register on weblate.org")
+
+    def test_backup_page_hides_discovery_registration(self) -> None:
+        response = self.client.get(reverse("manage-backups"))
+        self.assertNotContains(response, "Register on weblate.org")
 
     def test_workspaces(self) -> None:
         workspace = Workspace.objects.create(name="Test workspace")
@@ -1437,6 +1463,24 @@ class AdminTest(ViewTestCase):
             query["state"][0],
         )
 
+    @override_settings(
+        ENABLE_HTTPS=True,
+        SITE_DOMAIN="instance.example",
+        SUPPORT_API_URL="https://weblate.example/",
+    )
+    def test_discovery_registration_rejects_existing_link(self) -> None:
+        SupportStatus.objects.create(
+            name="community",
+            secret="discovery-secret",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+
+        response = self.client.post(reverse("manage-discovery-register"), follow=True)
+
+        self.assertContains(response, "already linked to weblate.org")
+        self.assertNotIn(DISCOVERY_REGISTRATION_SESSION, self.client.session)
+
     @override_settings(ENABLE_HTTPS=True, SITE_DOMAIN="instance.example")
     def test_discovery_site_url_uses_callback_prefix(self) -> None:
         self.assertEqual(
@@ -1566,19 +1610,24 @@ class AdminTest(ViewTestCase):
             ),
         )
 
-        response = self.client.get(
-            reverse("manage-discovery-callback"),
-            {"code": "code-123", "state": state},
-            follow=True,
-        )
+        with patch(
+            "weblate.wladmin.views.get_discovery_site_url",
+            return_value="https://instance.example/translations",
+        ):
+            response = self.client.get(
+                reverse("manage-discovery-callback"),
+                {"code": "code-123", "state": state},
+                follow=True,
+            )
         self.assertContains(response, "Activation completed.")
         status = SupportStatus.objects.get()
         self.assertEqual(status.secret, "secret-123")
         self.assertEqual(status.name, "community")
-        request_body = responses.calls[0].request.body
-        if isinstance(request_body, bytes):
-            request_body = request_body.decode()
-        self.assertEqual(request_body, "code=code-123")
+        self.assertEqual(get_response_call_body(0), "code=code-123")
+        refresh_body = parse_qs(get_response_call_body(1))
+        self.assertEqual(
+            refresh_body["site_url"], ["https://instance.example/translations"]
+        )
 
     @override_settings(
         ENABLE_HTTPS=True,
@@ -1632,8 +1681,12 @@ class AdminTest(ViewTestCase):
             expiry=timezone.now(),
             enabled=True,
         )
-        response = self.client.post(reverse("manage-discovery-register"))
-        state = parse_qs(urlparse(response["Location"]).query)["state"][0]
+        session = self.client.session
+        session[DISCOVERY_REGISTRATION_SESSION] = {
+            "state": "state-123",
+            "expires": (timezone.now() + DISCOVERY_REGISTRATION_STATE_AGE).timestamp(),
+        }
+        session.save()
         responses.add(
             responses.POST,
             "https://weblate.example/api/support/activation/",
@@ -1642,13 +1695,69 @@ class AdminTest(ViewTestCase):
 
         response = self.client.get(
             reverse("manage-discovery-callback"),
-            {"code": "code-123", "state": state},
+            {"code": "code-123", "state": "state-123"},
             follow=True,
         )
         self.assertContains(response, "Please try again later.")
         old_status.refresh_from_db()
         self.assertTrue(old_status.enabled)
         self.assertEqual(SupportStatus.objects.get_current(), old_status)
+
+    @responses.activate
+    @override_settings(
+        ENABLE_HTTPS=True,
+        SITE_DOMAIN="instance.example",
+        SITE_TITLE="Test Weblate",
+        SUPPORT_API_URL="https://weblate.example/",
+    )
+    def test_discovery_callback_preserves_subscription(self) -> None:
+        old_status = SupportStatus.objects.create(
+            name="hosted",
+            secret="paid-secret",
+            expiry=timezone.now(),
+            has_subscription=True,
+            enabled=True,
+        )
+        session = self.client.session
+        session[DISCOVERY_REGISTRATION_SESSION] = {
+            "state": "state-123",
+            "expires": (timezone.now() + DISCOVERY_REGISTRATION_STATE_AGE).timestamp(),
+        }
+        session.save()
+        responses.add(
+            responses.POST,
+            "https://weblate.example/api/support/activation/",
+            json={"secret": "discovery-secret"},
+        )
+        responses.add(
+            responses.POST,
+            get_support_url(),
+            body=json.dumps(
+                {
+                    "name": "community",
+                    "backup_repository": "",
+                    "expiry": timezone.now(),
+                    "in_limits": True,
+                    "has_subscription": False,
+                    "limits": {},
+                },
+                cls=DjangoJSONEncoder,
+            ),
+        )
+
+        response = self.client.get(
+            reverse("manage-discovery-callback"),
+            {"code": "code-123", "state": "state-123"},
+            follow=True,
+        )
+
+        self.assertContains(response, "a support package is already linked")
+        old_status.refresh_from_db()
+        self.assertTrue(old_status.enabled)
+        self.assertEqual(SupportStatus.objects.get_current(), old_status)
+        self.assertFalse(
+            SupportStatus.objects.filter(secret="discovery-secret").exists()
+        )
 
     @responses.activate
     @override_settings(SITE_TITLE="Test Weblate")

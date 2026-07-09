@@ -190,11 +190,11 @@ class SupportStatus(models.Model):
             return gettext("Unpaid subscription")
         return SUPPORT_NAMES.get(self.name, self.name)
 
-    def refresh(self) -> None:
+    def refresh(self, *, site_url: str | None = None) -> None:
         stats = GlobalStats()
         data = {
             "secret": self.secret,
-            "site_url": get_site_url(),
+            "site_url": site_url or get_site_url(),
             "site_title": settings.SITE_TITLE,
             "users": User.objects.count(),
             "projects": Project.objects.count(),
