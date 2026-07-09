@@ -154,13 +154,16 @@ def store_discovery_registration_state(request: AuthenticatedHttpRequest) -> str
 def validate_discovery_registration_state(
     request: AuthenticatedHttpRequest, state: str
 ) -> bool:
-    stored = request.session.pop(DISCOVERY_REGISTRATION_SESSION, None)
+    stored = request.session.get(DISCOVERY_REGISTRATION_SESSION)
     if not stored:
         return False
-    return (
-        stored.get("state") == state
-        and stored.get("expires", 0) >= timezone.now().timestamp()
-    )
+    if stored.get("expires", 0) < timezone.now().timestamp():
+        request.session.pop(DISCOVERY_REGISTRATION_SESSION, None)
+        return False
+    if stored.get("state") != state:
+        return False
+    request.session.pop(DISCOVERY_REGISTRATION_SESSION, None)
+    return True
 
 
 @management_access
