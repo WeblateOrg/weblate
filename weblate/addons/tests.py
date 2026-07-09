@@ -11,7 +11,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # ruff: ignore[suspicious-subprocess-import]
+import subprocess
 import sys
 import tempfile
 from datetime import timedelta
@@ -205,11 +205,8 @@ class CrashAddon(UpdateBaseAddon):
     def can_install(
         cls,
         *,
-        # ruff: ignore[unused-class-method-argument]
         component: Component | None = None,
-        # ruff: ignore[unused-class-method-argument]
         category: Category | None = None,
-        # ruff: ignore[unused-class-method-argument]
         project: Project | None = None,
     ) -> bool:
         return False
@@ -2271,10 +2268,10 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--add-comments", command)
         self.assertIn("--add-comments=TRANSLATORS", command)
         self.assertIn("--check=ellipsis-unicode", command)
-        self.assertIn(\"--keyword=custom_tr\", command)
+        self.assertIn("--keyword=custom_tr", command)
 
     def test_meson_uses_exclusive_keyword(self) -> None:
-        """Preset --keyword=… entries must be dropped when keyword_exclusive=True."""
+        """Preset --keyword=... entries must be dropped when keyword_exclusive=True."""
         source = Path(self.component.full_path) / "src" / "main.c"
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text('custom_tr("Hello");\n', encoding="utf-8")
