@@ -1,12 +1,12 @@
 .. _code-hosting:
 
-Code hosting integrations
+Code-hosting integrations
 =========================
 
-Weblate integrates with code hosting sites in several separate places:
+Weblate integrates with code-hosting sites in several separate places:
 repository access, incoming notifications, and pushing translations back. The
 exact setup depends on whether you use Hosted Weblate or run your own Weblate
-instance, and on whether Weblate should push directly or create pull requests.
+instance, and on whether Weblate should push directly or create pull or merge requests.
 
 Use this page as a provider-oriented checklist. The individual setting pages
 remain the canonical reference for setting syntax.
