@@ -284,7 +284,7 @@ The fastest way to add the GitHub App is to let Weblate generate a GitHub App
 manifest with the correct permissions, events, and webhook URL pre-filled:
 
 1. Sign in to Weblate with an account that has management access.
-2. Open :guilabel:`Manage → Code hosting connections → Register Weblate
+2. Open :guilabel:`Manage → Code-hosting connections → Register Weblate
    GitHub App`.
 3. Fill in the form. The :guilabel:`GitHub host` defaults to ``github.com``;
    change it to your GitHub Enterprise hostname if needed. Leave
