@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import os
-from contextlib import nullcontext
+from contextlib import ExitStack, contextmanager
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -62,6 +62,8 @@ from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -292,7 +294,31 @@ def remove(request: AuthenticatedHttpRequest, path):
     return redirect(parent)
 
 
-@transaction.atomic
+@contextmanager
+def _locked_for_rename(
+    obj: Component | Project | Category,
+) -> Iterator[Component | Project | Category]:
+    if isinstance(obj, Component):
+        with obj.locked_for_update() as locked_obj:
+            yield locked_obj
+        return
+
+    repo_components: dict[int, Component] = {}
+    for component in obj.all_repo_components:
+        repo_component = component.effective_repo_component
+        if repo_component.pk is not None:
+            repo_components[repo_component.pk] = repo_component
+
+    with ExitStack() as stack:
+        for component in sorted(
+            repo_components.values(), key=lambda item: item.pk or 0
+        ):
+            stack.enter_context(component.repository.lock)
+        with transaction.atomic():
+            type(obj).objects.select_for_update().get(pk=obj.pk)
+            yield obj
+
+
 def perform_rename(
     form_cls,
     request: AuthenticatedHttpRequest,
@@ -304,10 +330,7 @@ def perform_rename(
 
     if isinstance(obj, Component):
         obj.acting_user = request.user
-    lock_context = (
-        obj.locked_for_update() if isinstance(obj, Component) else nullcontext(obj)
-    )
-    with lock_context as locked_obj:
+    with _locked_for_rename(obj) as locked_obj:
         # Make sure any non-rename related issues are resolved first
         try:
             locked_obj.full_clean()

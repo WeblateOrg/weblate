@@ -12,7 +12,7 @@ from typing import ClassVar
 from unittest.mock import patch
 
 from django.core import mail
-from django.db import connection
+from django.db import connection, transaction
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
@@ -235,6 +235,189 @@ class RenameTest(ViewTestCase):
         self.assertTrue(config.is_file())
         self.assertNotIn("[stale]", config.read_text(encoding="utf-8"))
 
+    def test_rename_project_locks_repositories_before_path_move(self) -> None:
+        self.make_manager()
+        other_component = self.create_json(project=self.project, name="JSON")
+        expected_locks = {self.component.pk, other_component.pk}
+        events: list[tuple[str, int]] = []
+        original_lock_enter = RepositoryLock.__enter__
+        original_lock_exit = RepositoryLock.__exit__
+        original_atomic_exit = transaction.Atomic.__exit__
+        original_rename = os.rename
+
+        def record_lock_enter(lock):
+            component = lock.repository.component
+            if component is not None and component.pk in expected_locks:
+                events.append(("repo_lock", component.pk))
+            return original_lock_enter(lock)
+
+        def record_lock_exit(lock, exc_type, exc_value, traceback):
+            component = lock.repository.component
+            if component is not None and component.pk in expected_locks:
+                events.append(("repo_unlock", component.pk))
+            return original_lock_exit(lock, exc_type, exc_value, traceback)
+
+        def record_atomic_exit(atomic, exc_type, exc_value, traceback):
+            events.append(("atomic_exit", 0))
+            return original_atomic_exit(atomic, exc_type, exc_value, traceback)
+
+        def record_rename(old_path, new_path):
+            events.append(("rename", 0))
+            return original_rename(old_path, new_path)
+
+        with (
+            patch.object(
+                RepositoryLock,
+                "__enter__",
+                autospec=True,
+                side_effect=record_lock_enter,
+            ),
+            patch.object(
+                RepositoryLock,
+                "__exit__",
+                autospec=True,
+                side_effect=record_lock_exit,
+            ),
+            patch.object(
+                transaction.Atomic,
+                "__exit__",
+                autospec=True,
+                side_effect=record_atomic_exit,
+            ),
+            patch("weblate.trans.mixins.os.rename", side_effect=record_rename),
+        ):
+            response = self.client.post(
+                reverse("rename", kwargs={"path": self.project.get_url_path()}),
+                {"slug": "locked-project", "name": self.project.name},
+            )
+
+        self.assertRedirects(response, "/projects/locked-project/")
+        rename_index = events.index(("rename", 0))
+        self.assertEqual(
+            {
+                component_pk
+                for event, component_pk in events[:rename_index]
+                if event == "repo_lock"
+            },
+            expected_locks,
+        )
+        atomic_exit_index = next(
+            index
+            for index, event in enumerate(events)
+            if index > rename_index and event == ("atomic_exit", 0)
+        )
+        for event in expected_locks:
+            unlock_index = events.index(("repo_unlock", event))
+            self.assertLess(atomic_exit_index, unlock_index)
+
+    def test_rename_category_locks_linked_repository_before_path_move(self) -> None:
+        self.make_manager()
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        self.create_link_existing(category=category)
+        events: list[tuple[str, int]] = []
+        original_lock_enter = RepositoryLock.__enter__
+        original_rename = os.rename
+
+        def record_lock_enter(lock):
+            component = lock.repository.component
+            if component is not None:
+                events.append(("repo_lock", component.pk))
+            return original_lock_enter(lock)
+
+        def record_rename(old_path, new_path):
+            events.append(("rename", 0))
+            return original_rename(old_path, new_path)
+
+        with (
+            patch.object(
+                RepositoryLock,
+                "__enter__",
+                autospec=True,
+                side_effect=record_lock_enter,
+            ),
+            patch("weblate.trans.mixins.os.rename", side_effect=record_rename),
+        ):
+            response = self.client.post(
+                reverse("rename", kwargs={"path": category.get_url_path()}),
+                {
+                    "project": self.project.pk,
+                    "category": "",
+                    "slug": "renamed-category",
+                    "name": category.name,
+                },
+            )
+
+        self.assertRedirects(response, "/projects/test/renamed-category/")
+        rename_index = events.index(("rename", 0))
+        self.assertIn(("repo_lock", self.component.pk), events[:rename_index])
+        self.assertEqual(
+            self.project.change_set.get(
+                action=ActionEvents.RENAME_CATEGORY,
+                old="testcat",
+                target="renamed-category",
+            ).user,
+            self.user,
+        )
+
+    def test_rename_project_missing_source_path(self) -> None:
+        self.make_manager()
+        old_path = self.project.full_path
+        original_rename = os.rename
+
+        def move_source(old_path, new_path):
+            original_rename(old_path, new_path)
+            raise FileNotFoundError(2, "No such file or directory", old_path, new_path)
+
+        with patch("weblate.trans.mixins.os.rename", side_effect=move_source):
+            response = self.client.post(
+                reverse("rename", kwargs={"path": self.project.get_url_path()}),
+                {"slug": "missing-source", "name": self.project.name},
+            )
+
+        self.assertRedirects(response, "/projects/missing-source/")
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertEqual(project.slug, "missing-source")
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.isdir(project.full_path))
+
+    def test_rename_project_requires_destination_on_missing_source(self) -> None:
+        self.make_manager()
+
+        def remove_source(old_path, new_path):
+            remove_tree(old_path, ignore_errors=True)
+            raise FileNotFoundError(2, "No such file or directory", old_path, new_path)
+
+        with (
+            patch("weblate.trans.mixins.os.rename", side_effect=remove_source),
+            self.assertRaises(FileNotFoundError),
+        ):
+            self.client.post(
+                reverse("rename", kwargs={"path": self.project.get_url_path()}),
+                {"slug": "missing-source", "name": self.project.name},
+            )
+
+        self.assertFalse(Project.objects.filter(slug="missing-source").exists())
+
+    def test_rename_project_keeps_destination_file_not_found(self) -> None:
+        self.make_manager()
+        old_path = self.project.full_path
+
+        with (
+            patch(
+                "weblate.trans.mixins.os.rename",
+                side_effect=FileNotFoundError(2, "No such file or directory", old_path),
+            ),
+            self.assertRaises(FileNotFoundError),
+        ):
+            self.client.post(
+                reverse("rename", kwargs={"path": self.project.get_url_path()}),
+                {"slug": "missing-destination", "name": self.project.name},
+            )
+
+        self.assertTrue(os.path.exists(old_path))
+
     def test_rename_component_locks_component_before_binding_form(self) -> None:
         self.make_manager()
         events: list[tuple[str, int]] = []
@@ -343,6 +526,9 @@ class RenameTest(ViewTestCase):
         self.assertRedirects(response, "/projects/xxxx/")
         project = Project.objects.get(pk=self.project.pk)
         self.assertEqual(project.slug, "xxxx")
+        self.assertEqual(
+            project.change_set.get(action=ActionEvents.RENAME_PROJECT).user, self.user
+        )
         for component in project.component_set.iterator():
             self.assertIsNotNone(component.repository.last_remote_revision)
             response = self.client.get(component.get_absolute_url())
