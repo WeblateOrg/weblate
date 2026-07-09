@@ -24,6 +24,7 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.forms import get_new_unit_form
 from weblate.trans.models import (
     Change,
     Comment,
@@ -376,7 +377,7 @@ class EditTest(ViewTestCase):
         if not self.component.file_format_cls.can_add_unit:
             self.assertEqual(response.status_code, 403)
             return
-        if not self.component.file_format_cls.supports_plural:
+        if not self.component.file_format_cls.supports_adding_plural_units():
             self.assertContains(
                 response, "Plurals are not supported by the file format"
             )
@@ -510,6 +511,30 @@ class EditValidationTest(ViewTestCase):
         params.update(kwargs)
         return self.client.post(
             unit.translation.get_translate_url(), params, follow=True
+        )
+
+    def test_new_plural_unit_rejected_for_conditional_plural_format(self) -> None:
+        self.component.file_format = "csv"
+        self.component.save(update_fields=["file_format"])
+        self.component.drop_file_format_cache()
+
+        self.assertTrue(self.component.file_format_cls.supports_plural)
+        self.assertFalse(self.component.file_format_cls.supports_adding_plural_units())
+
+        form = get_new_unit_form(
+            self.component.source_translation,
+            self.user,
+            data={
+                "context": "test-plural",
+                "source_0": "%(count)s test",
+                "source_1": "%(count)s tests",
+            },
+        )
+
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Plurals are not supported by the file format.",
+            form.errors["__all__"],
         )
 
     def test_edit_invalid(self) -> None:

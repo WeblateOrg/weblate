@@ -2453,7 +2453,10 @@ class Translation(
             raise ValueError(msg)
         component = self.component
         add_terminology = False
-        if is_plural(source) and not component.file_format_cls.supports_plural:
+        if (
+            is_plural(source)
+            and not component.file_format_cls.supports_adding_plural_units()
+        ):
             msg = "Plurals not supported by format!"
             raise ValueError(msg)
 
@@ -2825,7 +2828,10 @@ class Translation(
         component = self.component
         if isinstance(source, str):
             source = [source]
-        if len(source) > 1 and not component.file_format_cls.supports_plural:
+        if (
+            len(source) > 1
+            and not component.file_format_cls.supports_adding_plural_units()
+        ):
             raise ValidationError(
                 gettext("Plurals are not supported by the file format.")
             )

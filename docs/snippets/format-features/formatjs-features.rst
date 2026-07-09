@@ -11,7 +11,7 @@
    * - Supports plural :ref:`ⓘ <format-plurals>`
      - ``No``
    * - Supports descriptions :ref:`ⓘ <format-description>`
-     - ``No``
+     - ``Yes``
    * - Supports explanation :ref:`ⓘ <format-explanation>`
      - ``No``
    * - Supports context :ref:`ⓘ <format-context>`
@@ -23,6 +23,8 @@
    * - API identifier
      - ``formatjs``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
+     - ``No``
+   * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
      - ``No``
    * - Check flags added by this format :ref:`ⓘ <custom-checks>`
      - :ref:`check-icu-message-format`

@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.json``
+     - ``.arb``
    * - Linguality :ref:`ⓘ <bimono>`
      - Both monolingual and bilingual
    * - Supports plural :ref:`ⓘ <format-plurals>`
@@ -23,6 +23,8 @@
    * - API identifier
      - ``arb``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
+     - ``No``
+   * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
      - ``No``
    * - Check flags added by this format :ref:`ⓘ <custom-checks>`
      - :ref:`check-icu-message-format`

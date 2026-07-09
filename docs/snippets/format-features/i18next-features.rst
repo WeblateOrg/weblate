@@ -24,6 +24,8 @@
      - ``i18next``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``No``
+   * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
+     - ``No``
    * - Check flags added by this format :ref:`ⓘ <custom-checks>`
      - :ref:`check-i18next-interpolation`
 

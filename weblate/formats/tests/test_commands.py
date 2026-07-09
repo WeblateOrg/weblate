@@ -29,3 +29,24 @@ class CommandsTest(SimpleTestCase):
             call_command("list_format_features", "-o", tmp_dir)
             php_features_path = Path(tmp_dir) / "php-features.rst"
             self.assertTrue(php_features_path.exists())
+            xliff2_features = (Path(tmp_dir) / "xliff2-features.rst").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("``.xlf``, ``.xliff``", xliff2_features)
+
+            snippets_dir = Path("docs/snippets/format-features")
+            generated_files = sorted(Path(tmp_dir).glob("*-features.rst"))
+            checked_in_files = sorted(snippets_dir.glob("*-features.rst"))
+
+            self.assertEqual(
+                [path.name for path in generated_files],
+                [path.name for path in checked_in_files],
+            )
+            for generated_file, checked_in_file in zip(
+                generated_files, checked_in_files, strict=True
+            ):
+                with self.subTest(snippet=generated_file.name):
+                    self.assertEqual(
+                        generated_file.read_text(encoding="utf-8"),
+                        checked_in_file.read_text(encoding="utf-8"),
+                    )
