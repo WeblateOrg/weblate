@@ -301,7 +301,7 @@ The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
 ``Organization administration`` read-only, ``Workflows`` read/write, and the
 ``Installation``, ``Meta`` and ``Push`` events), and sets the callback, setup
-and per-App webhook URLs automatically, so no manual GitHub App
+and per-app webhook URLs automatically, so no manual GitHub App
 configuration is required. GitHub delivers the ``Installation`` and
 ``Installation repositories`` events to all GitHub Apps by default.
 
