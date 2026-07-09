@@ -16,11 +16,17 @@ from functools import partial
 from pathlib import Path, PurePosixPath
 from typing import TYPE_CHECKING, ClassVar, cast
 
-from django.core.exceptions import ValidationError # type: ignore[reportMissingModuleSource]
-from django.core.management.utils import is_ignored_path # type: ignore[reportMissingModuleSource]
-from django.db import models # type: ignore[reportMissingModuleSource]
-from django.utils import timezone # type: ignore[reportMissingModuleSource]
-from django.utils.translation import gettext_lazy  # type: ignore[reportMissingModuleSource]
+from django.core.exceptions import (
+    ValidationError,  # type: ignore[reportMissingModuleSource]
+)
+from django.core.management.utils import (
+    is_ignored_path,  # type: ignore[reportMissingModuleSource]
+)
+from django.db import models  # type: ignore[reportMissingModuleSource]
+from django.utils import timezone  # type: ignore[reportMissingModuleSource]
+from django.utils.translation import (
+    gettext_lazy,  # type: ignore[reportMissingModuleSource]
+)
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
