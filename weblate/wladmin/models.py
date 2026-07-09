@@ -214,7 +214,10 @@ class SupportStatus(models.Model):
                         "web": project.web,
                     }
                     for project in Project.objects.filter(
-                        access_control=Project.ACCESS_PUBLIC
+                        access_control__in={
+                            Project.ACCESS_PUBLIC,
+                            Project.ACCESS_PROTECTED,
+                        }
                     ).iterator()
                 ]
             )
