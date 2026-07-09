@@ -858,7 +858,7 @@ onReady(() => {
     const separator = location.hash.indexOf("__");
     if (separator !== -1) {
       activeTab = document.querySelector(
-        `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substr(0, separator)}"]`,
+        `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substring(0, separator)}"]`,
       );
       if (activeTab !== null) {
         bootstrap.Tab.getOrCreateInstance(activeTab).show();
@@ -873,7 +873,7 @@ onReady(() => {
       activeTab.closest(".dropdown-menu")?.classList.remove("show");
       window.scrollTo(0, 0);
     } else {
-      const anchor = document.getElementById(location.hash.substr(1));
+      const anchor = document.getElementById(location.hash.slice(1));
       if (anchor !== null) {
         anchor.scrollIntoView();
       }
