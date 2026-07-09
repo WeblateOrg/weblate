@@ -205,9 +205,9 @@ class CrashAddon(UpdateBaseAddon):
     def can_install(
         cls,
         *,
-        component: Component | None = None,
-        category: Category | None = None,
-        project: Project | None = None,
+        component: Component | None = None,  # noqa: ARG002
+        category: Category | None = None,  # noqa: ARG002
+        project: Project | None = None,  # noqa: ARG002
     ) -> bool:
         return False
 
