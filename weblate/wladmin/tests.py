@@ -1410,7 +1410,7 @@ class AdminTest(ViewTestCase):
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
-        SUPPORT_API_URL="https://weblate.example/api/support/",
+        SUPPORT_API_URL="https://weblate.example/api/support",
     )
     def test_discovery_registration_redirect(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1460,7 +1460,7 @@ class AdminTest(ViewTestCase):
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
         SITE_TITLE="Test Weblate",
-        SUPPORT_API_URL="https://weblate.example/api/support/",
+        SUPPORT_API_URL="https://weblate.example/api/support",
     )
     def test_discovery_callback_exchanges_code(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))

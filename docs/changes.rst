@@ -19,6 +19,7 @@ Weblate 2026.7.1
 * Comments and suggestions now auto-watch the project when :guilabel:`Automatically watch projects on contribution` is enabled.
 * Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`.
 * :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
+* Discover Weblate registration can now be started from the management interface without manually copying the activation token.
 
 .. rubric:: Bug fixes
 

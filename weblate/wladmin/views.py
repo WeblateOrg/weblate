@@ -128,12 +128,16 @@ DISCOVERY_REGISTRATION_SESSION = "discovery_registration"
 DISCOVERY_REGISTRATION_STATE_AGE = timedelta(minutes=10)
 
 
+def get_support_api_url() -> str:
+    return f"{settings.SUPPORT_API_URL.rstrip('/')}/"
+
+
 def get_discovery_registration_url() -> str:
-    return urljoin(settings.SUPPORT_API_URL, "../../subscription/discovery/register/")
+    return urljoin(get_support_api_url(), "../../subscription/discovery/register/")
 
 
 def get_discovery_activation_url() -> str:
-    return urljoin(settings.SUPPORT_API_URL, "activation/")
+    return urljoin(get_support_api_url(), "activation/")
 
 
 def store_discovery_registration_state(request: AuthenticatedHttpRequest) -> str:
