@@ -1428,7 +1428,7 @@ class AdminTest(ViewTestCase):
         self.assertEqual(query["site_url"], ["https://instance.example"])
         self.assertNotIn("callback_url", query)
         self.assertEqual(
-            self.client.session["discovery_registration"]["state"],
+            self.client.session[DISCOVERY_REGISTRATION_SESSION]["state"],
             query["state"][0],
         )
 

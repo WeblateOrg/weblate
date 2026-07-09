@@ -369,12 +369,6 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
             request,
             gettext("Could not activate your installation. Please try again later."),
         )
-    except (HTTPError, KeyError, ValueError):
-        report_error("Activation error")
-        messages.error(
-            request,
-            gettext("Could not activate your installation. Please try again later."),
-        )
     except Exception:
         report_error("Activation error")
         messages.error(
