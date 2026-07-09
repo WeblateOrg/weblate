@@ -106,13 +106,20 @@ Getting listed
    together with names of public projects and components for use on *Discover*.
 
 
-List your server directly from the management panel by clicking
-:guilabel:`Register on weblate.org`:
+If you have an activated support package, list your server directly from the
+support status section in the management panel by clicking
+:guilabel:`Enable discovery`.
+
+If the instance is not connected to weblate.org yet, start the registration
+from the management panel by clicking :guilabel:`Register on weblate.org`:
 
 .. image:: /screenshots/support-discovery.webp
 
 This opens the registration form on weblate.org and returns to your Weblate
-management interface to complete activation.
+management interface to complete activation. The registration flow can be used
+from an account that has a support subscription, but it registers the Discover
+Weblate listing; activating a purchased support package is handled by
+:ref:`activate-support`.
 
 All steps for listing a server manually, for example from older Weblate
 versions:
