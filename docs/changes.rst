@@ -37,6 +37,7 @@ Weblate 2026.7.1
 * Dismissing a failing check no longer shows a JSON parsing error in the translation editor.
 * Screenshot searches without an explicit field now match screenshot names only, and the search box links to the full screenshot search documentation.
 * Anonymous and internal bot accounts can no longer be edited through generic user management.
+* LLM machine translation suggestions now recover from more malformed structured JSON replies.
 
 .. rubric:: Compatibility
 
