@@ -321,7 +321,6 @@ def discovery_register(request: AuthenticatedHttpRequest) -> HttpResponse:
     query = urlencode(
         {
             "site_url": get_discovery_site_url(callback_path),
-            "callback_url": get_site_url(callback_path),
             "state": state,
         }
     )

@@ -1423,10 +1423,7 @@ class AdminTest(ViewTestCase):
         )
         query = parse_qs(location.query)
         self.assertEqual(query["site_url"], ["https://instance.example"])
-        self.assertEqual(
-            query["callback_url"],
-            ["https://instance.example/manage/discovery/callback/"],
-        )
+        self.assertNotIn("callback_url", query)
         self.assertEqual(
             self.client.session["discovery_registration"]["state"],
             query["state"][0],
