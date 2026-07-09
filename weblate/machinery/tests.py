@@ -1173,6 +1173,32 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(machine.map_language_code("fr_CA"), "fr-ca")
         self.assertEqual(machine.map_language_code("iu_Latn"), "iu-Latn")
 
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    @override_settings(OFFER_HOSTING=False)
+    def test_project_validation_blocks_private_base_url_resolution_before_request(
+        self, mocked_getaddrinfo
+    ) -> None:
+        form = self.MACHINE_CLS.settings_form(
+            self.MACHINE_CLS,
+            data=self.CONFIGURATION,
+            allow_private_targets=False,
+        )
+
+        with (
+            patch.object(self.MACHINE_CLS, "get_headers", return_value={}),
+            patch("requests.sessions.Session.request") as mocked_request,
+        ):
+            self.assertFalse(form.is_valid())
+
+        mocked_getaddrinfo.assert_called_once_with(
+            "api.cognitive.microsofttranslator.com", None, type=1
+        )
+        mocked_request.assert_not_called()
+        self.assertIn("internal or non-public address", str(form.non_field_errors()))
+
 
 class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
@@ -1209,6 +1235,30 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             "translate?api-version=3.0&from=en&to=de&category=&textType=html",
             json=MICROSOFT_RESPONSE,
         )
+
+    @responses.activate
+    def test_validate_settings_uses_regional_token_host(self) -> None:
+        self.mock_response()
+        self.get_machine().validate_settings()
+
+        token_call = responses.calls[0]
+        self.assertEqual(
+            token_call.request.url,
+            "https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken",
+        )
+
+    def test_region_rejects_url_delimiters_before_request(self) -> None:
+        form = self.MACHINE_CLS.settings_form(
+            self.MACHINE_CLS,
+            data={**self.CONFIGURATION, "region": "127.0.0.1:11434/"},
+            allow_private_targets=False,
+        )
+
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_request.assert_not_called()
+        self.assertIn("valid Azure region name", str(form.errors["region"]))
 
     @responses.activate
     def test_regional_host_string_payload_raises_error(self) -> None:
@@ -8165,6 +8215,46 @@ class MachineryValidationTest(TestCase):
         self.assertNotIn("site administrator", str(form.errors["__all__"]))
         self.assertNotIn("site-wide", str(form.errors["__all__"]))
         self.assertNotIn("allowlisted", str(form.errors["__all__"]))
+
+    @override_settings(OFFER_HOSTING=False)
+    def test_project_ollama_rejects_private_url_before_request(self) -> None:
+        form = OllamaTranslation.settings_form(
+            OllamaTranslation,
+            data={
+                "base_url": "http://127.0.0.1:11434",
+                "model": "llama3.2:3b",
+                "persona": "",
+                "style": "",
+            },
+            allow_private_targets=False,
+        )
+
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_request.assert_not_called()
+        self.assertIn("internal or non-public address", str(form.errors["__all__"]))
+
+    @override_settings(OFFER_HOSTING=False)
+    def test_project_anthropic_rejects_private_url_before_request(self) -> None:
+        form = AnthropicTranslation.settings_form(
+            AnthropicTranslation,
+            data={
+                "key": "test-api-key",
+                "base_url": "http://127.0.0.1:11434",
+                "model": "claude-sonnet-4-5",
+                "max_tokens": 4096,
+                "persona": "",
+                "style": "",
+            },
+            allow_private_targets=False,
+        )
+
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_request.assert_not_called()
+        self.assertIn("internal or non-public address", str(form.errors["__all__"]))
 
     def test_check_failure_hides_response_body(self) -> None:
         response = Mock()
