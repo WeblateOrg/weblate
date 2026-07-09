@@ -855,6 +855,9 @@ def show_translation(
             "project": project,
             "component": obj.component,
             "supports_plural": component.file_format_cls.supports_plural,
+            "can_add_plural_units": (
+                component.file_format_cls.supports_adding_plural_units()
+            ),
             "form": form,
             "download_form": DownloadForm(obj, auto_id="id_dl_%s"),
             "autoform": optional_form(

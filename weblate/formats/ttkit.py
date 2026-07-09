@@ -1840,6 +1840,7 @@ class TSFormat(TTKitFormat):
     supports_plural: bool = True
     plural_preference = (Plural.SOURCE_QT,)
     supports_descriptions = True
+    supports_context = True
     supports_location = True
     supports_flags = True
     additional_states = (STATE_FUZZY,)
@@ -2015,7 +2016,6 @@ class JoomlaFormat(PropertiesBaseFormat):
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.ini",)
     supports_descriptions: bool = True
-    supports_location: bool = True
 
 
 class GWTFormat(PropertiesBaseFormat):
@@ -2309,7 +2309,6 @@ class GoTextFormat(JSONFormat):
     unit_class = PlaceholdersJSONUnit
     supports_plural: bool = True
     supports_descriptions = True
-    supports_location = True
 
 
 class FormatJSFormat(JSONFormat):
@@ -2319,6 +2318,7 @@ class FormatJSFormat(JSONFormat):
     loader = FormatJSJsonFile
     autoload: tuple[str, ...] = ()
     check_flags = ("icu-message-format",)
+    supports_descriptions = True
 
 
 class NextcloudJSONFormat(JSONFormat):
@@ -2380,6 +2380,8 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
     loader = WeblateCSVFile
     unit_class = CSVUnit
     autoload: tuple[str, ...] = ("*.csv",)
+    supports_plural: bool = True
+    can_add_plural_units = False
     supports_descriptions: bool = True
     supports_context: bool = True
     supports_location: bool = True
@@ -3020,6 +3022,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     can_delete_unit: bool = False
     set_context_bilingual: bool = True
     supports_plural: bool = True
+    supports_descriptions: bool = True
 
     # Ensure that untranslated units are saved too as missing properties and
     # comments are preserved as in the original source file.
@@ -3078,6 +3081,7 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
     name = "XWiki Full Page"
     format_id = "xwiki-fullpage"
     loader = ("properties", "XWikiFullPage")
+    supports_descriptions = False
 
 
 class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
@@ -3237,7 +3241,8 @@ class CatkeysFormat[S: CatkeysFile, U: CatkeysUnit, T: TTKitUnit](TTKitFormat[S,
     autoload: tuple[str, ...] = ("*.catkeys",)
     unit_class = TTKitUnit  # type: ignore[assignment]
     monolingual = False
-    supports_explanation = True
+    supports_descriptions = True
+    supports_context = True
 
     @classmethod
     def mimetype(cls) -> str:

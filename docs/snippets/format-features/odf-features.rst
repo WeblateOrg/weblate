@@ -5,7 +5,7 @@
    :stub-columns: 1
 
    * - File extensions
-     - ``.odt``
+     - ``.odc``, ``.odf``, ``.odg``, ``.odi``, ``.odm``, ``.odp``, ``.ods``, ``.odt``, ``.otc``, ``.otf``, ``.otg``, ``.oth``, ``.oti``, ``.otp``, ``.ots``, ``.ott``, ``.sxw``
    * - Linguality :ref:`ⓘ <bimono>`
      - Monolingual
    * - Supports plural :ref:`ⓘ <format-plurals>`
@@ -23,6 +23,8 @@
    * - API identifier
      - ``odf``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
+     - ``No``
+   * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
      - ``No``
    * - Check flags added by this format :ref:`ⓘ <custom-checks>`
      - ``strict-same``

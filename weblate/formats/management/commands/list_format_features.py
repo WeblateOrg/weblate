@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from itertools import chain
+from os.path import splitext
 from typing import TYPE_CHECKING
 
 from django.core.management.base import CommandError
@@ -23,7 +24,7 @@ FORMAT_DOC_SNIPPETS_MERGES = {
     "xliff2": [
         "xliff2-placeables",
     ],
-    "subtitles": [
+    "srt": [
         "ass",
         "ssa",
         "sub",
@@ -38,15 +39,18 @@ FORMAT_DOC_SNIPPETS_MERGES = {
     "json": [
         "json-nested",
     ],
-    "javaprop": [
-        "xwiki-fullpage",
-        "xwiki-java-properties",
-        "xwiki-page-properties",
-    ],
     "txt": [
         "mediawiki",
         "dokuwiki",
     ],
+}
+
+FORMAT_DOC_EXTENSION_OVERRIDES = {
+    "arb": ("arb",),
+    "po-mono": ("po", "pot"),
+    "xliff2": ("xlf", "xliff"),
+    "xlsx": ("xlsx",),
+    "yaml": ("pyml", "yaml", "yml"),
 }
 
 
@@ -156,6 +160,12 @@ class Command(DocGeneratorCommand):
                 file_format.supports_read_only,
                 "read-only-strings",
             )
+            self.new_list_table_row(
+                output,
+                "Supports removing obsolete strings",
+                file_format.supports_remove_obsolete_units,
+                "obsolete-strings",
+            )
 
             if file_format.check_flags:
                 check_doc_ids: str = ", ".join(
@@ -219,12 +229,19 @@ class Command(DocGeneratorCommand):
         )
 
     def get_extensions(self, file_format) -> set[str]:
-        try:
-            common_extensions = list(file_format.get_class().Extensions)
-        except AttributeError:
-            # non TTKitFormat formats
-            common_extensions = []
-        common_extensions.append(file_format.extension())
+        if file_format.format_id in FORMAT_DOC_EXTENSION_OVERRIDES:
+            common_extensions = list(
+                FORMAT_DOC_EXTENSION_OVERRIDES[file_format.format_id]
+            )
+        elif "autoload" in file_format.__dict__ and file_format.autoload:
+            common_extensions = [
+                extension
+                for pattern in file_format.autoload
+                if (extension := splitext(pattern)[1].removeprefix("."))
+            ]
+            common_extensions.append(file_format.extension())
+        else:
+            common_extensions = [file_format.extension()]
 
         if file_format.format_id in FORMAT_DOC_SNIPPETS_MERGES:
             for similar_format in FORMAT_DOC_SNIPPETS_MERGES[file_format.format_id]:

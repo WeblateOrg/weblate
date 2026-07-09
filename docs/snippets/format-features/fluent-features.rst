@@ -24,6 +24,8 @@
      - ``fluent``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``No``
+   * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
+     - ``No``
    * - Check flags added by this format :ref:`ⓘ <custom-checks>`
      - :ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-syntax`, :ref:`check-fluent-parts`, :ref:`check-fluent-references`, :ref:`check-fluent-source-inner-html`, :ref:`check-fluent-target-inner-html`, ``ignore-xml-tags``, ``ignore-xml-invalid``
 
