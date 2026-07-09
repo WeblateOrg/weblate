@@ -41,6 +41,7 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service
+from weblate.wladmin.views import get_discovery_site_url
 from weblate.workspaces.models import Workspace
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
@@ -1410,7 +1411,7 @@ class AdminTest(ViewTestCase):
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
-        SUPPORT_API_URL="https://weblate.example/api/support",
+        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
     )
     def test_discovery_registration_redirect(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1429,6 +1430,13 @@ class AdminTest(ViewTestCase):
         self.assertEqual(
             self.client.session["discovery_registration"]["state"],
             query["state"][0],
+        )
+
+    @override_settings(ENABLE_HTTPS=True, SITE_DOMAIN="instance.example")
+    def test_discovery_site_url_uses_callback_prefix(self) -> None:
+        self.assertEqual(
+            get_discovery_site_url("/translations/manage/discovery/callback/"),
+            "https://instance.example/translations",
         )
 
     def test_discovery_callback_rejects_invalid_state(self) -> None:
@@ -1460,7 +1468,7 @@ class AdminTest(ViewTestCase):
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
         SITE_TITLE="Test Weblate",
-        SUPPORT_API_URL="https://weblate.example/api/support",
+        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
     )
     def test_discovery_callback_exchanges_code(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1499,6 +1507,45 @@ class AdminTest(ViewTestCase):
         if isinstance(request_body, bytes):
             request_body = request_body.decode()
         self.assertEqual(request_body, "code=code-123")
+
+    @override_settings(
+        ENABLE_HTTPS=True,
+        SITE_DOMAIN="instance.example",
+        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
+    )
+    def test_discovery_callback_rejects_long_code(self) -> None:
+        response = self.client.post(reverse("manage-discovery-register"))
+        state = parse_qs(urlparse(response["Location"]).query)["state"][0]
+
+        response = self.client.get(
+            reverse("manage-discovery-callback"),
+            {"code": "x" * 101, "state": state},
+            follow=True,
+        )
+        self.assertContains(response, "Invalid activation code.")
+        self.assertFalse(SupportStatus.objects.exists())
+
+    @override_settings(
+        ENABLE_HTTPS=True,
+        SITE_DOMAIN="instance.example",
+        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
+    )
+    def test_discovery_callback_hides_exchange_error(self) -> None:
+        response = self.client.post(reverse("manage-discovery-register"))
+        state = parse_qs(urlparse(response["Location"]).query)["state"][0]
+
+        with patch(
+            "weblate.wladmin.views.fetch_url",
+            side_effect=RuntimeError("internal detail"),
+        ):
+            response = self.client.get(
+                reverse("manage-discovery-callback"),
+                {"code": "code-123", "state": state},
+                follow=True,
+            )
+        self.assertContains(response, "Please try again later.")
+        self.assertNotContains(response, "internal detail")
+        self.assertFalse(SupportStatus.objects.exists())
 
     @responses.activate
     @override_settings(

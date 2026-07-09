@@ -126,18 +126,20 @@ if "weblate.billing" in settings.INSTALLED_APPS:
 
 DISCOVERY_REGISTRATION_SESSION = "discovery_registration"
 DISCOVERY_REGISTRATION_STATE_AGE = timedelta(minutes=10)
-
-
-def get_support_api_url() -> str:
-    return f"{settings.SUPPORT_API_URL.rstrip('/')}/"
+DISCOVERY_ACTIVATION_CODE_MAX_LENGTH = 100
+DISCOVERY_CALLBACK_PATH = "/manage/discovery/callback/"
 
 
 def get_discovery_registration_url() -> str:
-    return urljoin(get_support_api_url(), "../../subscription/discovery/register/")
+    return urljoin(settings.SUPPORT_API_URL, "/subscription/discovery/register/")
 
 
 def get_discovery_activation_url() -> str:
-    return urljoin(get_support_api_url(), "activation/")
+    return urljoin(settings.SUPPORT_API_URL, "/api/support/activation/")
+
+
+def get_discovery_site_url(callback_path: str) -> str:
+    return get_site_url(callback_path.removesuffix(DISCOVERY_CALLBACK_PATH)).rstrip("/")
 
 
 def store_discovery_registration_state(request: AuthenticatedHttpRequest) -> str:
@@ -315,10 +317,11 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
 @require_POST
 def discovery_register(request: AuthenticatedHttpRequest) -> HttpResponse:
     state = store_discovery_registration_state(request)
+    callback_path = reverse("manage-discovery-callback")
     query = urlencode(
         {
-            "site_url": get_site_url(),
-            "callback_url": get_site_url(reverse("manage-discovery-callback")),
+            "site_url": get_discovery_site_url(callback_path),
+            "callback_url": get_site_url(callback_path),
             "state": state,
         }
     )
@@ -339,6 +342,12 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
         messages.error(
             request,
             gettext("Could not activate your installation. Missing activation code."),
+        )
+        return redirect("manage")
+    if len(code) > DISCOVERY_ACTIVATION_CODE_MAX_LENGTH:
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Invalid activation code."),
         )
         return redirect("manage")
 
@@ -364,11 +373,11 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
             request,
             gettext("Could not activate your installation. Please try again later."),
         )
-    except Exception as error:
+    except Exception:
         report_error("Activation error")
         messages.error(
             request,
-            gettext("Could not activate your installation: %s") % error,
+            gettext("Could not activate your installation. Please try again later."),
         )
     else:
         with transaction.atomic():
