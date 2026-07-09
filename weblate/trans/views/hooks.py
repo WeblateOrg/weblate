@@ -1318,7 +1318,7 @@ class ServiceHookView(BaseHookView):
     default_exclude_component_vcs = ("github-app",)
 
     def post(self, request: Request, service: str) -> Response:
-        """Process incoming webhook from a code hosting site."""
+        """Process incoming webhook from a code-hosting site."""
         try:
             hook_helper = HOOK_HANDLERS[service]
         except KeyError as exc:

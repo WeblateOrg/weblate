@@ -673,7 +673,7 @@ def validate_profile_url(value: str | None) -> None:
 
 
 def validate_code_site_url(value: str | None) -> None:
-    """Reject URLs not matching common code hosting profile shapes."""
+    """Reject URLs not matching common code-hosting profile shapes."""
     _validate_profile_like_url(
         value,
         credentials_message=gettext(
@@ -709,7 +709,7 @@ def validate_code_site_url(value: str | None) -> None:
     raise ValidationError(
         gettext(
             "Code site URL should link to a user profile or repository page on a "
-            "code hosting site."
+            "code-hosting site."
         )
     )
 

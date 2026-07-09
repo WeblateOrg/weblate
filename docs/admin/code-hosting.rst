@@ -24,7 +24,7 @@ Setup overview
    * For other Hosted Weblate repositories, and for direct SSH pushes outside
      the GitHub App workflow, add the hosted :guilabel:`weblate` user where it
      is available, see :ref:`hosted-push`.
-   * For self-hosted Weblate, create a dedicated code hosting user and grant
+   * For self-hosted Weblate, create a dedicated code-hosting user and grant
      access using Weblate's SSH key or an HTTPS token, see
      :ref:`vcs-repos-code-hosting`.
 
@@ -813,11 +813,11 @@ these options as the configured Weblate Gerrit account and applies its own
 permissions.
 
 The Gerrit documentation has the details on the configuration necessary to set
-up such repositories. There is no separate code hosting credential setting for
+up such repositories. There is no separate code-hosting credential setting for
 this backend.
 
 Docker credentials
 ~~~~~~~~~~~~~~~~~~
 
-For Docker installations, code hosting API credentials can also be provided
+For Docker installations, code-hosting API credentials can also be provided
 through environment variables, see :ref:`docker-vcs-config`.

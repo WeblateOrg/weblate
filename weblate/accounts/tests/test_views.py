@@ -796,7 +796,7 @@ class ProfileTest(FixtureTestCase):
             (
                 "codesite",
                 "https://codeberg.org/explore/repos",
-                "profile or repository page on a code hosting site",
+                "profile or repository page on a code-hosting site",
             ),
             (
                 "fediverse",

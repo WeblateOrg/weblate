@@ -233,7 +233,7 @@ website, contact, or profile page. Obvious direct file download links can be
 rejected, and public profile links show a warning before leaving Weblate where
 possible.
 
-The :guilabel:`Code site URL` should use common code hosting profile paths,
+The :guilabel:`Code site URL` should use common code-hosting profile paths,
 such as ``/username`` or ``/~username``; existing repository-style links such
 as ``/username/project`` or ``/group/subgroup/project`` are also accepted. The
 :guilabel:`Fediverse URL`
