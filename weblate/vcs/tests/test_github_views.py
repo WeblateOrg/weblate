@@ -299,7 +299,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         response = self.client.get(reverse("profile"))
 
         self.assertContains(response, reverse("account-vcs"))
-        self.assertContains(response, "Manage code hosting connections")
+        self.assertContains(response, "Manage code-hosting connections")
 
     def test_account_vcs_integrations_uses_workspace_scope(self):
         user = self.anotheruser
