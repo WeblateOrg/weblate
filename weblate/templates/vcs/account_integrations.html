@@ -18,7 +18,7 @@
 
   <div class="card mb-3">
     <div class="card-header">
-      <h4 class="card-title">{% translate "Code hosting connections" %}</h4>
+      <h4 class="card-title">{% translate "Code-hosting connections" %}</h4>
     </div>
     <div class="card-body">
       {% if not managed_workspaces %}
@@ -27,13 +27,13 @@
         </p>
       {% elif not apps %}
         <p class="text-body-secondary">
-          {% translate "No code hosting connections are available. A site administrator needs to register a code hosting app first." %}
+          {% translate "No code-hosting connections are available. A site administrator needs to register a code-hosting app first." %}
         </p>
       {% else %}
         <p class="text-body-secondary">
           {% if selected_workspace %}
             {% blocktranslate trimmed with workspace=selected_workspace %}
-              Connect code hosting accounts to {{ workspace }}. These accounts
+              Connect code-hosting accounts to {{ workspace }}. These accounts
               can then be used when creating components from version control.
             {% endblocktranslate %}
           {% else %}
@@ -53,7 +53,7 @@
           {% elif app.app_slug %}
             {{ app.app_slug }}
           {% else %}
-            {% translate "Code hosting app" %}
+            {% translate "Code-hosting app" %}
           {% endif %}
           <small class="text-body-secondary">({{ app.hostname }})</small>
           {% if not app.configured %}
@@ -65,7 +65,7 @@
         {% if not app.configured %}
           <div class="alert alert-warning">
             {% blocktranslate trimmed with hostname=app.hostname %}
-              Code hosting app credentials are not registered for {{ hostname }}.
+              Code-hosting app credentials are not registered for {{ hostname }}.
               Existing connected accounts can be removed, but new accounts cannot
               be connected until a site administrator registers the app again.
             {% endblocktranslate %}
