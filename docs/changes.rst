@@ -20,6 +20,7 @@ Weblate 2026.7.1
 * Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`.
 * :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
 * Code-hosting account pages now consistently use :guilabel:`Code-hosting connections` and provider-neutral connected account wording.
+* Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
 
 .. rubric:: Bug fixes
 
@@ -35,6 +36,8 @@ Weblate 2026.7.1
 * Accepting a project invitation now automatically adds the project to the user's watched projects.
 * Dismissing a failing check no longer shows a JSON parsing error in the translation editor.
 * Screenshot searches without an explicit field now match screenshot names only, and the search box links to the full screenshot search documentation.
+* Anonymous and internal bot accounts can no longer be edited through generic user management.
+* LLM machine translation suggestions now recover from more malformed structured JSON replies.
 
 .. rubric:: Compatibility
 

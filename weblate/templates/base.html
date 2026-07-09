@@ -484,8 +484,7 @@
 
     </header>
 
-    <div class="main-content {% block content_class %}{% endblock %}
-       ">
+    <div class="main-content {% block content_class %}{% endblock %} ">
 
       {% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
         {% translate 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}

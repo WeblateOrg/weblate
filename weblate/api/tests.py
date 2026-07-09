@@ -1011,7 +1011,7 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": settings.ANONYMOUS_USER_NAME},
             method="put",
             superuser=True,
-            code=200,
+            code=403,
             request={
                 "full_name": "Name",
                 "username": "apitest2",
@@ -1019,10 +1019,10 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertFalse(
+        self.assertTrue(
             User.objects.filter(username=settings.ANONYMOUS_USER_NAME).exists()
         )
-        self.assertEqual(User.objects.get(username="apitest2").full_name, "Name")
+        self.assertFalse(User.objects.filter(username="apitest2").exists())
 
     def test_put_self_without_user_view_keeps_email(self) -> None:
         self.do_request(
@@ -1072,12 +1072,81 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": settings.ANONYMOUS_USER_NAME},
             method="patch",
             superuser=True,
-            code=200,
+            code=403,
             request={"full_name": "Other"},
         )
         self.assertEqual(
-            User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name, "Other"
+            User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name,
+            "Anonymous",
         )
+
+    def test_protected_bot_mutation(self) -> None:
+        protected_bot = User.objects.create(
+            username="addon:test",
+            full_name="Addon Bot",
+            email="addon-test@example.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="patch",
+            superuser=True,
+            code=403,
+            request={"full_name": "Renamed Bot"},
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="put",
+            superuser=True,
+            code=403,
+            request={
+                "full_name": "Renamed Bot",
+                "username": protected_bot.username,
+                "email": protected_bot.email,
+                "is_active": False,
+                "is_bot": True,
+            },
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="delete",
+            superuser=True,
+            code=403,
+        )
+        protected_bot.refresh_from_db()
+        self.assertEqual(protected_bot.full_name, "Addon Bot")
+
+    def test_project_token_mutation(self) -> None:
+        project_token = User.objects.create(
+            username="bot-test-token",
+            full_name="Project Token",
+            email="bot-test-token@example.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": project_token.username},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"full_name": "Renamed Token"},
+        )
+        project_token.refresh_from_db()
+        self.assertEqual(project_token.full_name, "Renamed Token")
 
     def test_patch_logs_superuser_grant(self) -> None:
         target = User.objects.create_user("target", "target@example.org", "x")

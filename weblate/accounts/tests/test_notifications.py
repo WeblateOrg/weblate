@@ -535,6 +535,23 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             self.user.username,
         )
 
+    def test_notify_new_comment_skips_restricted_component_without_access(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.can_access_component(self.component))
+
+        unit = self.get_unit()
+        self.create_comment_change(unit, self.user, "Question")
+        mail.outbox.clear()
+
+        self.create_comment_change(unit, self.thirduser, "Answer")
+
+        self.validate_notifications(0)
+
     def test_notify_new_comment_source_commenter(self) -> None:
         Subscription.objects.all().delete()
         self.subscribe_participation_comment(self.user)

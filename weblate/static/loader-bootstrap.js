@@ -649,9 +649,9 @@ function initHighlight(root) {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.target === input) {
-          // match the height and width of the output area to the input area
-          highlight.style.height = `${input.offsetHeight}px`;
-          highlight.style.width = `${input.offsetWidth}px`;
+          const rect = input.getBoundingClientRect();
+          highlight.style.height = `${rect.height}px`;
+          highlight.style.width = `${rect.width}px`;
         }
       }
     });
@@ -758,9 +758,9 @@ function initHighlight(root) {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.target === editor) {
-          // match the height and width of the output area to the input area
-          highlight.style.height = `${editor.offsetHeight}px`;
-          highlight.style.width = `${editor.offsetWidth}px`;
+          const rect = editor.getBoundingClientRect();
+          highlight.style.height = `${rect.height}px`;
+          highlight.style.width = `${rect.width}px`;
         }
       }
     });

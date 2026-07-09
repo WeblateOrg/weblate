@@ -34,7 +34,7 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
     services:
       database:
-        image: postgres:18.4-alpine@sha256:ecafd34249b5c248f3cb6ebe339584ee6448b36fad3f0a827ae5e8efbae6afda
+        image: postgres:18.4-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -65,7 +65,7 @@ jobs:
     - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990   # v8.3.2
       with:
         enable-cache: false
-        version: 0.11.26
+        version: 0.11.28
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
@@ -120,7 +120,7 @@ jobs:
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       with:
         enable-cache: false
-        version: 0.11.26
+        version: 0.11.28
     - name: Set up Python
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
@@ -156,7 +156,7 @@ jobs:
     - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
       with:
         enable-cache: false
-        version: 0.11.26
+        version: 0.11.28
     - name: Set up Python
       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:

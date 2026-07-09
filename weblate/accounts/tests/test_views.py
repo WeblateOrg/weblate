@@ -306,6 +306,71 @@ class ViewTest(RepoTestCase):
         self.assertEqual(response.context["page_user_billings"], [billing])
         self.assertContains(response, 'data-bs-target="#billing"')
 
+    def test_protected_bot_user_page_is_read_only(self) -> None:
+        """Test protected bot user pages do not expose mutation controls."""
+        admin = self.get_user()
+        admin.is_superuser = True
+        admin.save(update_fields=["is_superuser"])
+        protected_bot = User.objects.create(
+            username="addon:test",
+            full_name="Addon Bot",
+            email="addon-test@example.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        self.client.login(username=admin.username, password="testpassword")
+        response = self.client.get(protected_bot.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["can_edit_page_user"])
+        self.assertContains(response, 'data-bs-target="#audit"')
+        self.assertNotContains(response, 'data-bs-target="#edit"')
+        self.assertNotContains(response, 'name="disable_password"')
+        self.assertNotContains(response, "Add user to a team")
+
+        response = self.client.post(
+            protected_bot.get_absolute_url(),
+            {
+                "username": protected_bot.username,
+                "full_name": "Renamed Bot",
+                "email": protected_bot.email,
+                "is_active": "on",
+            },
+        )
+
+        self.assertEqual(response.status_code, 403)
+        protected_bot.refresh_from_db()
+        self.assertEqual(protected_bot.full_name, "Addon Bot")
+
+    def test_anonymous_user_page_is_read_only(self) -> None:
+        """Test anonymous user page does not allow direct mutations."""
+        admin = self.get_user()
+        admin.is_superuser = True
+        admin.save(update_fields=["is_superuser"])
+        anonymous = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
+
+        self.client.login(username=admin.username, password="testpassword")
+        response = self.client.get(anonymous.get_absolute_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["can_edit_page_user"])
+        self.assertNotContains(response, 'data-bs-target="#edit"')
+
+        response = self.client.post(
+            anonymous.get_absolute_url(),
+            {
+                "username": anonymous.username,
+                "full_name": "Renamed Anonymous",
+                "email": anonymous.email,
+                "is_active": "on",
+            },
+        )
+
+        self.assertEqual(response.status_code, 403)
+        anonymous.refresh_from_db()
+        self.assertEqual(anonymous.full_name, "Anonymous")
+
     def test_suggestions(self) -> None:
         """Test user pages."""
         # Setup user
