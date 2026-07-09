@@ -20,6 +20,7 @@ Weblate 2026.7.1
 * Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`.
 * :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
 * Discover Weblate registration can now be started from the management interface without manually copying the activation token.
+* Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
 
 .. rubric:: Bug fixes
 
@@ -36,6 +37,7 @@ Weblate 2026.7.1
 * Dismissing a failing check no longer shows a JSON parsing error in the translation editor.
 * Screenshot searches without an explicit field now match screenshot names only, and the search box links to the full screenshot search documentation.
 * Anonymous and internal bot accounts can no longer be edited through generic user management.
+* LLM machine translation suggestions now recover from more malformed structured JSON replies.
 
 .. rubric:: Compatibility
 
