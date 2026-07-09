@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-08 04:56+0000\n"
+"PO-Revision-Date: 2026-07-09 04:25+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -12622,18 +12622,25 @@ msgid ""
 "in your Docker configuration to the new path, or keep the old mount target "
 "and set ``PGDATA`` accordingly."
 msgstr ""
+"Se está a atualizar a partir de uma versão mais antiga, ou atualiza o alvo "
+"de montagem na sua configuração Docker para o caminho novo, ou mantém o alvo "
+"de montagem e define ``PGDATA`` consequentemente."
 
 #: admin/install/docker.rst:285
 msgid ""
 "Leaving the old mount target unchanged without setting ``PGDATA`` can cause "
 "PostgreSQL to write its data outside the persisted volume."
 msgstr ""
+"Deixar o alvo de montagem antigo inalterado sem definir ``PGDATA`` pode "
+"causar com que o PostgreSQL escreva os seus dados fora do volume persistido."
 
 #: admin/install/docker.rst:288
 msgid ""
 "See `PGDATA documentation <https://hub.docker.com/_/postgres#pgdata>`_ for "
 "more information."
 msgstr ""
+"Veja a `documentação PGDATA <https://hub.docker.com/_/postgres#pgdata>`_ "
+"para mais informação."
 
 #: admin/install/docker.rst:291
 msgid ""
@@ -12806,13 +12813,12 @@ msgid "Docker environment variables"
 msgstr "Variáveis de ambiente do Docker"
 
 #: admin/install/docker.rst:451
-#, fuzzy
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
-"Muitas das :ref:`Configurações <config>` do Weblate podem ser definidas no "
-"contentor Docker usando as variáveis de ambiente descritas abaixo."
+"Muitas das :ref:`config` do Weblate podem ser definidas no contentor Docker "
+"usando as variáveis de ambiente descritas abaixo."
 
 #: admin/install/docker.rst:454
 msgid ""
@@ -12956,9 +12962,6 @@ msgstr ""
 "para recuperação de palavra-passe."
 
 #: admin/install/docker.rst:605
-#, fuzzy
-#| msgid ""
-#| "Whether to sent e-mail to admins upon server error. Turned on by default."
 msgid ""
 "Whether to send e-mail to admins upon server error. Turned on by default."
 msgstr ""
@@ -13039,54 +13042,42 @@ msgstr "Configura :setting:`PROJECT_WEB_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:723 admin/install/docker.rst:739
 #: admin/install/docker.rst:761
-#, fuzzy
-#| msgid "Defaults to 5."
 msgid "Defaults to enabled."
-msgstr "A predefinição é 5."
+msgstr "A predefinição é ativado."
 
 #: admin/install/docker.rst:729
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
 
 #: admin/install/docker.rst:731
 msgid "Expects a comma-separated list of trusted project slugs."
 msgstr ""
+"Espera uma lista separadas por vírgulas de abreviações de projetos confiados."
 
 #: admin/install/docker.rst:737
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`WEBHOOK_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:745
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_HOOKS`."
 msgid "Configures :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
-msgstr "Configura :setting:`ENABLE_HOOKS`."
+msgstr "Configura :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:747 admin/install/docker.rst:769
 msgid "Expects a comma-separated list of trusted hostnames or domains."
 msgstr ""
+"Espera uma lista separada por vírgulas de nomes de anfitriões ou domínios."
 
 #: admin/install/docker.rst:753
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_HOOKS`."
 msgid "Configures :setting:`ALLOWED_ASSET_SIZE`."
-msgstr "Configura :setting:`ENABLE_HOOKS`."
+msgstr "Configura :setting:`ALLOWED_ASSET_SIZE`."
 
 #: admin/install/docker.rst:759
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`ASSET_RESTRICT_PRIVATE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`ASSET_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:767
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_HOOKS`."
 msgid "Configures :setting:`ASSET_PRIVATE_ALLOWLIST`."
-msgstr "Configura :setting:`ENABLE_HOOKS`."
+msgstr "Configura :setting:`ASSET_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:773
 msgid ""
@@ -13129,21 +13120,23 @@ msgstr ""
 
 #: admin/install/docker.rst:818
 msgid "Controls whether the bundled NGINX listens on IPv6 addresses."
-msgstr ""
+msgstr "Controla se o NGINX incluído escuta em endereços IPv6."
 
 #: admin/install/docker.rst:822
 msgid ""
 "``auto`` to enable IPv6 listeners only when IPv6 is available in the "
 "container runtime. This is the default."
 msgstr ""
+"``auto`` para ativar ouvintes IPv6 apenas quando o IPv6 está ativo na "
+"execução do contentor. Isto é ativo por predefinição."
 
 #: admin/install/docker.rst:824
 msgid "``on`` to always enable IPv6 listeners."
-msgstr ""
+msgstr "``on`` para ativar ouvintes IPv6 sempre."
 
 #: admin/install/docker.rst:825
 msgid "``off`` to disable IPv6 listeners."
-msgstr ""
+msgstr "``off`` para ativar ouvintes IPv6."
 
 #: admin/install/docker.rst:836
 msgid ""
@@ -13207,12 +13200,6 @@ msgid "This is a boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr "Esta é uma configuração Booleana (use ``\"true\"`` ou ``\"false\"``)."
 
 #: admin/install/docker.rst:882
-#, fuzzy
-#| msgid ""
-#| "A tuple representing a HTTP header/value combination that signifies a "
-#| "request is secure. This is needed when Weblate is running behind a "
-#| "reverse proxy doing SSL termination which does not pass standard HTTPS "
-#| "headers."
 msgid ""
 "A tuple representing an HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
@@ -13234,12 +13221,17 @@ msgid ""
 "Enables the :ref:`legal` module in Docker deployments. By default, the "
 "integration is disabled; leave this variable unset or empty to disable it."
 msgstr ""
+"Ativa o módulo :ref:`legal` em implementações Docker. Por predefinição, a "
+"integração está desativada; deixe esta variável não definida ou vazia para a "
+"desativar."
 
 #: admin/install/docker.rst:916
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce terms of service "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
+"``tos-confirm`` para ativar o módulo legal e aplicar a confirmação de termos "
+"de serviço durante a autenticação social e para utilizadores autenticados."
 
 #: admin/install/docker.rst:918
 msgid ""
@@ -13247,6 +13239,9 @@ msgid ""
 "legal document templates from ``wllegal``. These templates are used by "
 "services operated by Weblate s.r.o. and are not intended for general use."
 msgstr ""
+"``wlegal`` para ativar a mesma integração e carregar adicionalmente o modelo "
+"de documento legal hospedado a do ``wlegal``. Estes modelos são usados por "
+"serviços operados pelo Weblate s.r.o e não se destinam a uso geral."
 
 #: admin/install/docker.rst:923
 msgid ""
@@ -13254,6 +13249,9 @@ msgid ""
 "in :file:`/app/data/python/customize/templates/legal/documents`, "
 "see :ref:`docker-static-override`."
 msgstr ""
+"Para fornecer os seus próprios documentos legais no Docker, sobrescreva os "
+"modelos em :file:`/app/data/python/customize/templates/legal/documents`, "
+"veja :ref:`docker-static-override`."
 
 #: admin/install/docker.rst:927
 msgid ""
@@ -13261,27 +13259,38 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Recriar o contentor Docker após mudar esta variável de ambiente, por exemplo "
+"usando :program:`docker compose up -d`. Reiniciar um contentor existente não "
+"aplica variáveis de ambientes mudadas."
 
 #: admin/install/docker.rst:945
 msgid ""
 "Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Configura :setting:`LEGAL_DOCUMENT_CSS_CLASS` em implementações de Docker "
+"com :envvar:`WEBLATE_LEGAL_INTEGRATION` ativo."
 
 #: admin/install/docker.rst:948
 msgid ""
 "Set this to an empty string to disable the built-in legal document numbering."
 msgstr ""
+"Defina isto para uma cadeia de carateres vazia para desativar a numeração do "
+"documento legal embutido."
 
 #: admin/install/docker.rst:960
 msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Configura :setting:`LEGAL_HIDDEN_DOCUMENTS` em implementações Docker com "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` ativo."
 
 #: admin/install/docker.rst:963
 msgid "Provide a comma-separated list of legal document page identifiers."
 msgstr ""
+"Fornece uma lista separada por vírgulas de identificadores de página de "
+"documentos legais."
 
 #: admin/install/docker.rst:974
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -13316,6 +13325,8 @@ msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"Esconde componentes de glossário quando partilhado para outros projetos, "
+"veja :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 
 #: admin/install/docker.rst:999
 msgid ""
@@ -13359,16 +13370,12 @@ msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
 msgstr "Configura :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: admin/install/docker.rst:1039
-#, fuzzy
-#| msgid ""
-#| "Configures the default value for :ref:`component-restricted` for new "
-#| "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgid ""
 "Configures the default value for :ref:`component-commit_pending_age` for new "
 "components, see :setting:`COMMIT_PENDING_HOURS`."
 msgstr ""
-"Configura o valor padrão para :ref:`component-restricted` para novos "
-"componentes, veja :setting:`DEFAULT_RESTRICTED_COMPONENT`."
+"Configura o valor padrão para :ref:`component-commit_pending_age` para novos "
+"componentes, veja :setting:`COMMIT_PENDING_HOURS`."
 
 #: admin/install/docker.rst:1043
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
@@ -13383,14 +13390,11 @@ msgstr ""
 "veja :setting:`URL_PREFIX`."
 
 #: admin/install/docker.rst:1055
-#, fuzzy
-#| msgid ""
-#| "Configures URL prefix for static files server from :setting:`CACHE_DIR`."
 msgid ""
 "Configures URL prefix for static files served from :setting:`CACHE_DIR`."
 msgstr ""
-"Configura o prefixo do URL para o servidor de ficheiros estáticos a partir "
-"de :setting:`CACHE_DIR`."
+"Configura o prefixo do URL para ficheiros estáticos servidos a partir de "
+":setting:`CACHE_DIR`."
 
 #: admin/install/docker.rst:1059
 msgid ""
@@ -13418,10 +13422,8 @@ msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgstr "Configura :setting:`WEBSITE_REQUIRED`."
 
 #: admin/install/docker.rst:1095
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Configures :setting:`VERSION_DISPLAY`."
-msgstr "Configura :setting:`UNUSED_ALERT_DAYS`."
+msgstr "Configura :setting:`VERSION_DISPLAY`."
 
 #: admin/install/docker.rst:1099
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -13534,10 +13536,8 @@ msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
 msgstr "Configura :setting:`VCS_ALLOW_SCHEMES`."
 
 #: admin/install/docker.rst:1261
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`VCS_RESTRICT_PRIVATE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`VCS_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:1267
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
@@ -13577,78 +13577,56 @@ msgstr ""
 "partilhada com um contentor de terceiros usado no :ref:`docker-https-portal`."
 
 #: admin/install/docker.rst:1324
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
-msgstr "Configura :setting:`UNUSED_ALERT_DAYS`."
+msgstr "Configura :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1326 admin/install/docker.rst:1332
 #: admin/install/docker.rst:1353 admin/install/docker.rst:1361
 #: admin/install/docker.rst:1369
-#, fuzzy
-#| msgid "The attribute value is not quoted."
 msgid "The value is in bytes."
-msgstr "O valor do atributo não está entre aspas."
+msgstr "O valor é em bytes."
 
 #: admin/install/docker.rst:1330
-#, fuzzy
-#| msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgid "Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
-msgstr "Configura :setting:`IP_PROXY_OFFSET`."
+msgstr "Configura :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1336
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1338
 msgid ""
 "The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also "
 "large enough for uploaded backup files."
 msgstr ""
+"O valor é em bytes. Certifique-se que :envvar:`CLIENT_MAX_BODY_SIZE` também "
+"é grande o suficiente para ficheiros de cópias de seguranças enviadas."
 
 #: admin/install/docker.rst:1345
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
 
 #: admin/install/docker.rst:1351
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
 
 #: admin/install/docker.rst:1359
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
 
 #: admin/install/docker.rst:1367
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
 
 #: admin/install/docker.rst:1375
-#, fuzzy
-#| msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
-msgstr "Configura :setting:`WEBSITE_REQUIRED`."
+msgstr "Configura :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/install/docker.rst:1381
 msgid "Code hosting sites credentials"
 msgstr "Credenciais de sites de hospedagem de código"
 
 #: admin/install/docker.rst:1383
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the code hosting credentials can be configured "
-#| "either in separate variables or using a Python dictionary to set them at "
-#| "once. The following examples are for :ref:`vcs-github`, but applies to "
-#| "all :ref:`vcs` with appropriately changed variable names."
 msgid ""
 "In the Docker container, the code hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -13658,9 +13636,9 @@ msgid ""
 msgstr ""
 "No contentor do Docker, as credenciais de hospedagem de código podem ser "
 "configuradas em variáveis separadas ou usando um dicionário Python para as "
-"definir de uma só vez. Os exemplos a seguir são para :ref:`vcs-github`, mas "
-"aplicam-se a todos os :ref:`vcs` com nomes de variáveis devidamente "
-"alterados."
+"definir de uma só vez. Os exemplos a seguir são para :ref:`code-hosting-"
+"github-pull-requests`, mas aplicam-se a todos os :ref:`vcs` com nomes de "
+"variáveis devidamente alterados."
 
 #: admin/install/docker.rst:1390
 msgid ""
@@ -13669,12 +13647,16 @@ msgid ""
 "not ``GITHUB_USERNAME``. This applies whether you're configuring for pull "
 "requests or any other VCS integration."
 msgstr ""
+"Todos os nomes de variável de ambiente devem incluir o prefixo ``WEBLATE_``. "
+"Por exemplo, para configurar credenciais do GitHub, use "
+"``WEBLATE_GITHUB_USERNAME``, não ``GITHUB_USERNAME``. Isto aplica-se quando "
+"está a configurar para pull requests ou qualquer outra integração VCS."
 
 #: admin/install/docker.rst:1394
-#, fuzzy
-#| msgid "An example configuration for GitHub might look like:"
 msgid "An example configuration for GitHub pull requests might look like:"
-msgstr "Um exemplo de configuração para o GitHub pode parecer-se com:"
+msgstr ""
+"Um exemplo de configuração para o pull requests do GitHub pode parecer-se "
+"com:"
 
 #: admin/install/docker.rst:1402
 msgid "Will be used as:"
@@ -13690,18 +13672,16 @@ msgid "Or the path to a file containing the Python dictionary:"
 msgstr "Ou o caminho para um ficheiro que contém o dicionário Python:"
 
 #: admin/install/docker.rst:1431
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-github` by changing :setting:`GITHUB_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-github-pull-requests` by "
 "changing :setting:`GITHUB_CREDENTIALS`."
-msgstr "Configura :ref:`vcs-github` alterando :setting:`GITHUB_CREDENTIALS`."
+msgstr ""
+"Configura :ref:`code-hosting-github-pull-requests` alterando "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: admin/install/docker.rst:1436 admin/install/docker.rst:1452
 #: admin/install/docker.rst:1464 admin/install/docker.rst:1476
 #: admin/install/docker.rst:1497 admin/install/docker.rst:1510
-#, fuzzy
 msgid ""
 ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
@@ -13714,69 +13694,58 @@ msgid ""
 "the database, so there are no GitHub App environment variables to configure. "
 "See :ref:`code-hosting-github-notifications`."
 msgstr ""
+"Aplicações GitHub são registadas através do fluxo do manifesto dentro da "
+"aplicação e é armazenado na base de dados, e por isso não há variáveis de "
+"ambiente na Aplicação GitHub a configurar. Veja :ref:`code-hosting-github-"
+"notifications`."
 
 #: admin/install/docker.rst:1447
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-gitlab` by changing :setting:`GITLAB_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-gitlab-merge-requests` by "
 "changing :setting:`GITLAB_CREDENTIALS`."
-msgstr "Configura :ref:`vcs-gitlab` alterando :setting:`GITLAB_CREDENTIALS`."
+msgstr ""
+"Configura :ref:`code-hosting-gitlab-merge-requests` alterando "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: admin/install/docker.rst:1459
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-gitea` by changing :setting:`GITEA_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-gitea-pull-requests` by "
 "changing :setting:`GITEA_CREDENTIALS`."
-msgstr "Configura :ref:`vcs-gitea` alterando :setting:`GITEA_CREDENTIALS`."
+msgstr ""
+"Configura :ref:`code-hosting-gitea-pull-requests` alterando "
+":setting:`GITEA_CREDENTIALS`."
 
 #: admin/install/docker.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-pagure-merge-requests` by "
 "changing :setting:`PAGURE_CREDENTIALS`."
-msgstr "Configura o :ref:`vcs-pagure` alterando :setting:`PAGURE_CREDENTIALS`."
+msgstr ""
+"Configura o :ref:`code-hosting-pagure-merge-requests` alterando "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: admin/install/docker.rst:1483
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-data-center` by "
-#| "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-bitbucket-data-center-pull-requests` by "
 "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Configura :ref:`vcs-bitbucket-data-center` "
-"alterando :setting:`BITBUCKETSERVER_CREDENTIALS`."
+"Configura :ref:`code-hosting-bitbucket-data-center-pull-requests` alterando "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: admin/install/docker.rst:1492
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-bitbucket-cloud` by "
-#| "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-bitbucket-cloud-pull-requests` by "
 "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"Configura :ref:`vcs-bitbucket-cloud` "
-"alterando :setting:`BITBUCKETCLOUD_CREDENTIALS`."
+"Configura :ref:`code-hosting-bitbucket-cloud-pull-requests` alterando "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/install/docker.rst:1505
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`vcs-azure-devops` by "
-#| "changing :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgid ""
 "Configures :ref:`code-hosting-azure-devops-pull-requests` by "
 "changing :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-"Configura o :ref:`vcs-azure-devops` "
-"alterando :setting:`AZURE_DEVOPS_CREDENTIALS`."
+"Configura o :ref:`code-hosting-azure-devops-pull-requests` alterando "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: admin/install/docker.rst:1515
 msgid "Automatic suggestion settings"
@@ -13807,6 +13776,8 @@ msgid ""
 "The e-mail based authentication is turned on unless disabled "
 "by :envvar:`WEBLATE_NO_EMAIL_AUTH`."
 msgstr ""
+"A autenticação baseada em email é ativada a não ser que seja desativada por "
+":envvar:`WEBLATE_NO_EMAIL_AUTH`."
 
 #: admin/install/docker.rst:1535
 msgid "LDAP"
@@ -13877,28 +13848,20 @@ msgid "Enables Gitea authentication."
 msgstr "Ativa autenticação por Gitea."
 
 #: admin/install/docker.rst:1678
-#, fuzzy
-#| msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgid "Enables Microsoft Entra ID authentication, see :ref:`entra-auth`."
-msgstr "Ativa a autenticação Slack, veja :ref:`slack-auth`."
+msgstr "Ativa a autenticação Microsoft Entra ID, veja :ref:`entra-auth`."
 
 #: admin/install/docker.rst:1681
-#, fuzzy
-#| msgid "Azure Active Directory with Tenant support"
 msgid "Microsoft Entra ID with Tenant support"
-msgstr "Active Directory do Azure com suporte a Tenant"
+msgstr "Microsoft Entra ID com apoio Tenant"
 
 #: admin/install/docker.rst:1687
-#, fuzzy
-#| msgid ""
-#| "Enables Azure Active Directory authentication with Tenant support, "
-#| "see :ref:`azure-auth`."
 msgid ""
 "Enables Microsoft Entra ID authentication with Tenant support, "
 "see :ref:`entra-auth`."
 msgstr ""
-"Ativa autenticação por Active Directory do Azure com suporte a Tenant, "
-"veja :ref:`azure-auth`."
+"Ativa autenticação por Microsoft Entra ID com suporte a Tenant, veja "
+":ref:`entra-auth`."
 
 #: admin/install/docker.rst:1691
 msgid "Keycloak"
@@ -13913,16 +13876,21 @@ msgid ""
 "Configures which claim is used as the unique user identifier from Keycloak. "
 "Defaults to ``email``."
 msgstr ""
+"Configura que afirmação é usada enquanto identificador único de utilizador "
+"do Keycloak. A predefinição é ``email``."
 
 #: admin/install/docker.rst:1713
 msgid ""
 "When Keycloak is configured to abstract third-party IDP, you will need to "
 "configure :envvar:`WEBLATE_CSP_FORM_SRC` for the third-party IDP domain."
 msgstr ""
+"Quando o Keycloak é configurado para abstrair IDP de terceiros, precisará de "
+"configurar :envvar:`WEBLATE_CSP_FORM_SRC` para o domínio de terceiros IDP."
 
 #: admin/install/docker.rst:1716
 msgid "Example when Keycloak is passing authentication to Microsoft."
 msgstr ""
+"Exemplo de quando o Keycloak está a passar autenticação para a Microsoft."
 
 #: admin/install/docker.rst:1725
 msgid "Linux vendors"
@@ -13949,16 +13917,12 @@ msgid "Configures generic OpenID Connect integration."
 msgstr "Configura a integração genérica do OpenID Connect."
 
 #: admin/install/docker.rst:1763
-#, fuzzy
-#| msgid "OpenID Connect"
 msgid "Fedora OpenID Connect"
-msgstr "OpenID Connect"
+msgstr "Fedora OpenID Connect"
 
 #: admin/install/docker.rst:1770
-#, fuzzy
-#| msgid "Configures generic OpenID Connect integration."
 msgid "Configures Fedora OpenID Connect integration."
-msgstr "Configura a integração genérica do OpenID Connect."
+msgstr "Configura integração Fedora OpenID Connect."
 
 #: admin/install/docker.rst:1779
 msgid "SAML"
@@ -13987,14 +13951,18 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"A configuração de segurança SAML enquanto um objeto JSON, passado para "
+"``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. Por exemplo, para desativar o "
+"``requestedAuthnContext`` (preciso para alguns fornecedores de identidade "
+"tais como Microsoft Entra ID com autenticação multi fator):"
 
 #: admin/install/docker.rst:1809
-#, fuzzy
-#| msgid "`python3-saml <https://pypi.org/project/python3-saml>`_"
 msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
 "saml#settings>`_"
-msgstr "`python3-saml <https://pypi.org/project/python3-saml>`_"
+msgstr ""
+"`definições de segurança python3-saml <https://github.com/SAML-Toolkits/"
+"python3-saml#settings>`_"
 
 #: admin/install/docker.rst:1820
 msgid "SAML attributes mapping."
@@ -14119,11 +14087,6 @@ msgstr ""
 "DISABLE_SERVER_SIDE_CURSORS>`"
 
 #: admin/install/docker.rst:1938
-#, fuzzy
-#| msgid ""
-#| "Set to false to disables environment based configuration of the database "
-#| "connection. Use :ref:`docker-settings-override` to configure the database "
-#| "connection manually."
 msgid ""
 "Set to false to disable environment based configuration of the database "
 "connection. Use :ref:`docker-settings-override` to configure the database "
@@ -14146,69 +14109,53 @@ msgstr ""
 "usar :setting:`DATABASE_BACKUP`. O padrão é ``plain``."
 
 #: admin/install/docker.rst:1954
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "Configuração do servidor de e-mail"
+msgstr "Configuração de armazenamento de dados do servidor"
 
 #: admin/install/docker.rst:1956
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"O uso do Redis é altamente recomendado pelo Weblate e deve fornecer uma "
-"instância do Redis ao executar o Weblate no Docker."
+"O uso do Valkey ou Redis é exigido pelo contentor Weblate e deve fornecer "
+"parâmetros de conexão ao executar o Weblate no Docker."
 
 #: admin/install/docker.rst:1965
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
-msgstr "O nome de host ou endereço IP do servidor Redis. O padrão é ``cache``."
+msgstr ""
+"O nome de host ou endereço IP do servidor de armazenamento de dados. O "
+"padrão é ``cache``."
 
 #: admin/install/docker.rst:1969
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "A porta do servidor Redis. O padrão é ``6379``."
+msgstr "A porta do servidor de armazenamento de dados. O padrão é ``6379``."
 
 #: admin/install/docker.rst:1973
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "O número da base de dados Redis, o padrão é ``1``."
+msgstr "O número da base de dados de armazenamento de dados, o padrão é ``1``."
 
 #: admin/install/docker.rst:1979
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore database user, not used by default."
-msgstr "A palavra-passe do servidor Redis, não usada por padrão."
+msgstr ""
+"O utilizador da base de dados de armazenamento de dados, não usada por "
+"padrão."
 
 #: admin/install/docker.rst:1983
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
-msgstr "A palavra-passe do servidor Redis, não usada por padrão."
+msgstr ""
+"A palavra-passe do servidor de armazenamento de dados, não usada por padrão."
 
 #: admin/install/docker.rst:1991
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Ativa o uso de SSL para conexão Redis."
+msgstr "Ativa o uso de SSL para conexão de armazenamento de dados."
 
 #: admin/install/docker.rst:1995
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
 "Pode ser usado para desativar a verificação de certificado SSL para conexão "
-"Redis."
+"do armazenamento de dados."
 
 #: admin/install/docker.rst:2000
 msgid "Email server setup"
@@ -14311,10 +14258,8 @@ msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "Configura :setting:`PRIVACY_URL`."
 
 #: admin/install/docker.rst:2143
-#, fuzzy
-#| msgid "Configures :setting:`STATUS_URL`."
 msgid "Configures :setting:`PASSWORD_RESET_URL`."
-msgstr "Configura :setting:`STATUS_URL`."
+msgstr "Configura :setting:`PASSWORD_RESET_URL`."
 
 #: admin/install/docker.rst:2148
 msgid ""
@@ -14355,6 +14300,8 @@ msgstr ""
 #: admin/install/docker.rst:2173
 msgid "Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``."
 msgstr ""
+"Se se deve monitorizar as tarefas do Celery Beat com o Sentry, a "
+"predefinição é ``True``."
 
 #: admin/install/docker.rst:2177
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
@@ -14369,87 +14316,78 @@ msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgstr "Configura :setting:`SENTRY_SEND_PII`."
 
 #: admin/install/docker.rst:2201
-#, fuzzy
-#| msgid "To enable support for Rollbar, set the following:"
 msgid "To enable support for Google Cloud Error Reporting, set following:"
-msgstr "Para ativar o suporte para Rollbar, defina o seguinte:"
+msgstr ""
+"Para ativar o suporte para o Google Cloud Error Reporting, defina o seguinte:"
 
 #: admin/install/docker.rst:2205
 msgid "Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``."
 msgstr ""
+"Ativa :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, a predefinição é ``False``."
 
 #: admin/install/docker.rst:2209
 msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
+"O projeto Google Cloud ao qual reportar erros. Se omitido, o cliente Google "
+"usa predefinições de credenciais de aplicação para detetar o projeto."
 
 #: admin/install/docker.rst:2214
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
 msgstr ""
+"Nome do serviço a utilizar no Google Cloud Error Reporting, a predefinição é "
+"``weblate``."
 
 #: admin/install/docker.rst:2216
-#, fuzzy
-#| msgid "To enable support for Sentry, set following:"
 msgid "To enable support for OpenTelemetry tracing, set following:"
-msgstr "Para ativar o suporte para Sentry, defina o seguinte:"
+msgstr ""
+"Para ativar o suporte para rastreamento do OpenTelemetry, defina o seguinte:"
 
 #: admin/install/docker.rst:2220
 msgid "Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``."
-msgstr ""
+msgstr "Ativa :setting:`OPENTELEMETRY_ENABLED`, a predefinição é ``False``."
 
 #: admin/install/docker.rst:2224
-#, fuzzy
-#| msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgid "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
-msgstr "Configura :setting:`SENTRY_SEND_PII`."
+msgstr "Configura :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
 
 #: admin/install/docker.rst:2237
-#, fuzzy
-#| msgid ""
-#| "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
-"Configura :setting:`BORG_EXTRA_ARGS` como uma lista de argumentos separados "
-"por vírgula."
+"Configura :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` como um mapa "
+"``name:value`` separado por vírgulas."
 
 #: admin/install/docker.rst:2242
-#, fuzzy
-#| msgid ""
-#| "Configures :setting:`BORG_EXTRA_ARGS` as a comma separated list of args."
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
-"Configura :setting:`BORG_EXTRA_ARGS` como uma lista de argumentos separados "
-"por vírgula."
+"Configura :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` como um mapa "
+"``name:value`` separado por vírgulas."
 
 #: admin/install/docker.rst:2247
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_SHARING`."
 msgid "Configures :setting:`OPENTELEMETRY_SERVICE_NAME`."
-msgstr "Configura :setting:`ENABLE_SHARING`."
+msgstr "Configura :setting:`OPENTELEMETRY_SERVICE_NAME`."
 
 #: admin/install/docker.rst:2251
-#, fuzzy
-#| msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 msgid "Configures :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
-msgstr "Configura :setting:`SENTRY_TRACES_SAMPLE_RATE`."
+msgstr "Configura :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install/docker.rst:2254 admin/optionals.rst:263
 msgid "Localization CDN"
 msgstr "CDN de localização"
 
 #: admin/install/docker.rst:2261
-#, fuzzy
-#| msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgid ""
 "Configuration for CDN add-ons, including :ref:`addon-weblate.cdn.cdnjs` "
 "and :ref:`addon-weblate.cdn.files`."
-msgstr "Configuração para :ref:`addon-weblate.cdn.cdnjs`."
+msgstr ""
+"Configuração para extras CDN, incluindo :ref:`addon-weblate.cdn.cdnjs` e "
+":ref:`addon-weblate.cdn.files`."
 
 #: admin/install/docker.rst:2264
 msgid ""
@@ -14466,39 +14404,30 @@ msgstr ""
 "Weblate:"
 
 #: admin/install/docker.rst:2277
-#, fuzzy
-#| msgid ""
-#| "You are responsible for setting up serving of the files generated by "
-#| "Weblate, it only does stores the files in configured location."
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only stores the files in configured location. See :ref:`cdn-"
 "server-security` for secure serving guidance."
 msgstr ""
 "É responsável por configurar o serviço dos ficheiros gerados pelo Weblate, "
-"ele só armazena os ficheiros no local configurado."
+"ele só armazena os ficheiros no local configurado. Veja :ref:`cdn-server-"
+"security` para orientação orientações sobre a prestação segura de serviços."
 
 #: admin/install/docker.rst:2289
-#, fuzzy
-#| msgid ""
-#| "Changing enabled apps, checks, add-ons, machine translation or autofixes"
 msgid ""
 "Changing enabled apps, checks, formats, add-ons, machinery, or autofixes"
 msgstr ""
-"Alterar apps, verificações, extensões, tradução automática, ou correções "
+"Alterar apps, verificações, formatos, extensões, maquinaria, ou correções "
 "automáticas ativados"
 
 #: admin/install/docker.rst:2291
-#, fuzzy
-#| msgid ""
-#| "The built-in configuration of enabled checks, add-ons or autofixes can be "
-#| "adjusted by the following variables:"
 msgid ""
 "The built-in configuration of enabled checks, file formats, add-ons, "
 "machinery, or autofixes can be adjusted by the following variables:"
 msgstr ""
-"A configuração embutida de verificações, extensões ou correções automática "
-"ativados pode ser ajustada pelas seguintes variáveis:"
+"A configuração embutida de verificações, formatos de ficheiros, extras, "
+"maquinaria, ou correções automática ativados pode ser ajustada pelas "
+"seguintes variáveis:"
 
 #: admin/install/docker.rst:2331
 msgid "Container settings"
@@ -14560,23 +14489,19 @@ msgid "Configure how many WSGI workers should be executed."
 msgstr "Configura quantos workers WSGI devem ser executados."
 
 #: admin/install/docker.rst:2391
-#, fuzzy
-#| msgid "It defaults to :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2."
-msgstr "O padrão é :envvar:`WEBLATE_WORKERS`."
+msgstr ""
+"O padrão é metade de :envvar:`WEBLATE_WORKERS`, mas deve ser sempre pelo "
+"menos 2."
 
 #: admin/install/docker.rst:2402
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` now configures number of threads instead of "
-#| "processes."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will used "
 "by :program:`granian`."
 msgstr ""
-":envvar:`WEB_WORKERS` agora configura a quantidade de threads em vez de "
-"processos."
+":envvar:`WEB_WORKERS` configura a quantos processos trabalhadores serão "
+"usados por :program:`granian`."
 
 #: admin/install/docker.rst:2406
 msgid ""
@@ -14632,6 +14557,10 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"URL do servidor `Anubis`_ para lidar com autenticação de sub-pedidos. Isto "
+"pode ser útil para filtrar pedidos HTTP recebidos usando prova-de-trabalho "
+"para rastreadores IA. Precisa de configurar `Anubis for Subrequest "
+"Authentication`_ para fazê-lo funcionar."
 
 #: admin/install/docker.rst:2443
 msgid "`Anubis`_"
@@ -14646,12 +14575,16 @@ msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container."
 msgstr ""
+"Existem dois volumes (:file:`data` e :file:`cache`) exportados pelo "
+"contentor Weblate."
 
 #: admin/install/docker.rst:2458
 msgid ""
 "The other service containers (such as PostgreSQL or Valkey) have their data "
 "volumes as well and are required to maintain Weblate persistence."
 msgstr ""
+"Os outros contentores de serviço (tais como PostgreSQL ou Valkey) também têm "
+"os seus volumes de dados e são exigidos para manter a persistência Weblate."
 
 #: admin/install/docker.rst:2461
 msgid ""
@@ -14660,12 +14593,18 @@ msgid ""
 "does not save the data by default and needs additional configuration to "
 "enable persistence."
 msgstr ""
+"O contentor PostgreSQL armazena a base de dados no volume :file:`/var/lib/"
+"postgresql` e o Valkey no volume :file:`/data`. O contentor Valkey não "
+"guarda os dados por predefinição e precisa de configuração adicional para "
+"ativar persistência."
 
 #: admin/install/docker.rst:2466
 msgid ""
 "Base your configuration on Weblate-provided examples or consult their "
 "documentation for more information."
 msgstr ""
+"Baseie a sua configuração em exemplos fornecidos pelo Weblate ou consulte a "
+"sua documentação para mais informação."
 
 #: admin/install/docker.rst:2469
 msgid ""
@@ -14685,6 +14624,9 @@ msgid ""
 "as :ref:`docker-settings-override`, :ref:`docker-static-override` "
 "or :ref:`docker-python-override`."
 msgstr ""
+"O volume :file:`data` também é um sítio para armazenar personalização do "
+"Weblate como por exemplo :ref:`docker-settings-override`, :ref:`docker-"
+"static-override`, ou :ref:`docker-python-override`."
 
 #: admin/install/docker.rst:2477
 msgid ""
@@ -14717,10 +14659,12 @@ msgid ""
 "When mounting :file:`/app/cache` explicitly as ``tmpfs`` in Docker Compose, "
 "enable execution:"
 msgstr ""
+"Ao montar :file:`/app/cache` explicitamente como ``tmpfs`` no Docker "
+"Compose, ative execução:"
 
 #: admin/install/docker.rst:2496
 msgid "When also setting ownership options, keep the ``exec`` option:"
-msgstr ""
+msgstr "Ao ativar definições de propriedade também, mantenha a opção ``exec``:"
 
 #: admin/install/docker.rst:2503
 msgid ""
@@ -14766,7 +14710,6 @@ msgid "Configuration beyond environment variables"
 msgstr "Configuração além das variáveis de ambiente"
 
 #: admin/install/docker.rst:2531
-#, fuzzy
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
@@ -14777,7 +14720,6 @@ msgstr ""
 "para as instalações do Weblate."
 
 #: admin/install/docker.rst:2535
-#, fuzzy
 msgid ""
 "If you find a setting that is not exposed as an environment variable, and "
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
@@ -14788,7 +14730,6 @@ msgstr ""
 "que ela seja exposta numa versão futura do Weblate <report-issue>`."
 
 #: admin/install/docker.rst:2539
-#, fuzzy
 msgid ""
 "If you need to modify a setting that is not exposed as a Docker environment "
 "variable, you can still do so, either :ref:`from the data volume <docker-"
@@ -14805,7 +14746,6 @@ msgid "Overriding settings from the data volume"
 msgstr "Substituindo as configurações do volume de dados"
 
 #: admin/install/docker.rst:2553
-#, fuzzy
 msgid ""
 "You can create a file at :file:`/app/data/settings-override.py`, i.e. at the "
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
@@ -14813,7 +14753,7 @@ msgid ""
 msgstr ""
 "Pode criar um ficheiro em :file:`/app/data/settings-override.py` ou seja, na "
 "raiz do :ref:`volume de dados <docker-volume>`, para estender ou substituir "
-"as configurações definidas por meio de variáveis de ambiente ."
+"as configurações definidas através de variáveis de ambiente."
 
 #: admin/install/docker.rst:2561
 msgid "Overriding settings by extending the Docker image"
@@ -14828,7 +14768,6 @@ msgstr ""
 "volume de dados:"
 
 #: admin/install/docker.rst:2565
-#, fuzzy
 msgid ":ref:`Create a custom Python package <custom-module>`."
 msgstr ":ref:`Crie um pacote Python personalizado <custom-module>`."
 
@@ -14993,6 +14932,9 @@ msgid ""
 "meant to be stable. Please review your custom code interacting with Weblate "
 "internals on each upgrade."
 msgstr ""
+"A API interna do Weblate pode variar significativamente entre lançamentos e "
+"não se destina a ser estável. Por favor reveja o seu código de interação "
+"personalizado com partes internas do Weblate em cada atualização."
 
 #: admin/install/docker.rst:2671
 msgid ""
@@ -15001,18 +14943,23 @@ msgid ""
 "inside Weblate (this is used for customizing templates and static files as "
 "described above)."
 msgstr ""
+"Pode colocar código Python adicional em :file:`/app/data/python/customize` "
+"(veja :ref:`docker-volume`). Já está instalado enquanto aplicação Django "
+"dentro do Weblate (isto é usado para personalizar modelos e ficheiros "
+"estáticos conforme descrito acima)."
 
 #: admin/install/docker.rst:2676
 msgid ""
 "This can be used to place any code (for example :ref:`own-checks`) or to add "
 "custom maintenance tasks to the Celery task scheduler."
 msgstr ""
+"Isto pode ser usado para colocar qualquer código (por exemplo :ref:`own-"
+"checks`) ou adicionar tarefas de manutenção personalizadas para o "
+"planificador de tarefas Celery."
 
 #: admin/install/docker.rst:2684
-#, fuzzy
-#| msgid "Interacting with others"
 msgid "Integrating third-party containers"
-msgstr "Interagir com os outros"
+msgstr "Interagir com contentores de terceiros"
 
 #: admin/install/docker.rst:2686
 msgid ""
@@ -15021,35 +14968,42 @@ msgid ""
 "or other tools that enhance the translation workflow. These services can be "
 "integrated into your Docker Compose configuration and work alongside Weblate."
 msgstr ""
+"A configuração do Weblate Docker pode ser estendida com contentores "
+"adicionais para fornecer serviços complementares tais como tradução "
+"automática, verificação ortográfica, ou outras ferramentas que melhorem o "
+"fluxo de trabalho de tradução. Estes serviços podem ser integrado na sua "
+"configuração Docker Compose e trabalham em conjunto com o Weblate."
 
 #: admin/install/docker.rst:2691
-#, fuzzy
-#| msgid "The command to launch the container uses the following syntax:"
 msgid "When adding third-party containers, consider the following:"
-msgstr "O comando para iniciar o contentor usa a seguinte sintaxe:"
+msgstr "Ao adicionar contentores de terceiros, considere o seguinte:"
 
 #: admin/install/docker.rst:2693
 msgid ""
 "**Network connectivity**: Ensure containers can communicate with each other "
 "by placing them on the same Docker network"
 msgstr ""
+"**Conexão de rede**: Assegure-se que contentores podem comunicar um com o "
+"outro ao colocá-los na mesma rede Docker"
 
 #: admin/install/docker.rst:2694
 msgid ""
 "**Data persistence**: Use volumes for services that need to persist data"
 msgstr ""
+"**Persistência de dados**: Use volumes para serviços que precisam de dados "
+"persistentes"
 
 #: admin/install/docker.rst:2695
 msgid ""
 "**Security**: Configure appropriate access controls and avoid exposing "
 "unnecessary ports"
 msgstr ""
+"**Segurança**: Configure os controlos de acesso apropriados e evita expor "
+"portas desnecessárias"
 
 #: admin/install/docker.rst:2700
-#, fuzzy
-#| msgid "Version control integration"
 msgid "LibreTranslate Docker container integration"
-msgstr "Integração de controlo de versões"
+msgstr "Contentor de integração LibreTranslate Docker"
 
 #: admin/install/docker.rst:2702
 msgid ""
@@ -15058,6 +15012,10 @@ msgid ""
 "Weblate provides offline machine translation capabilities without relying on "
 "external services."
 msgstr ""
+"`LibreTranslate <https://libretranslate.com/>`_ é um serviço de tradução "
+"automática grátis e de código aberto que pode ser auto alojado. Integrá-lo "
+"com o Weblate fornece capacidades de tradução automática offline sem "
+"dependem de serviços externos."
 
 #: admin/install/docker.rst:2706
 msgid ""
@@ -15066,38 +15024,42 @@ msgid ""
 "within the Docker network, it's only accessible to Weblate and not exposed "
 "to the public internet."
 msgstr ""
+"Pode incorporar o serviço LibreTranslate com a implementação do seu serviço "
+"Weblate ao incluí-lo em um ficheiro :file:`docker-compose.override.yml`. Uma "
+"vez que é executado dentro da rede Docker, é apenas acessível ao Weblate e "
+"não é exposto à internet pública."
 
 #: admin/install/docker.rst:2708
 msgid "Basic setup using :file:`docker-compose.override.yml`:"
-msgstr ""
+msgstr "Configuração básica usando :file:`docker-compose.override.yml`:"
 
 #: admin/install/docker.rst:2731
 msgid "For GPU-accelerated translation (if you have NVIDIA GPU available):"
-msgstr ""
+msgstr "Para tradução aceledara com GPU (se tem uma GPU NVIDIA disponível):"
 
 #: admin/install/docker.rst:2762
 msgid ""
 "After starting the services with ``docker compose down && docker compose up "
 "-d``, configure LibreTranslate in Weblate:"
 msgstr ""
+"Após iniciar os serviços com ``docker compose down && docker compose up -"
+"d``, configure LibreTranslate no Weblate:"
 
 #: admin/install/docker.rst:2765
-#, fuzzy
-#| msgid "The Django admin interface"
 msgid "Access the Weblate admin interface"
-msgstr "A interface administrativa do Django"
+msgstr "Acesse a interface administrativa do Weblate"
 
 #: admin/install/docker.rst:2766
-#, fuzzy
-#| msgid ":guilabel:`Administration`, :guilabel:`Automatic translation`"
 msgid ""
 "Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic "
 "suggestions`"
-msgstr ":guilabel:`Administração`, :guilabel:`Tradução automática`"
+msgstr ""
+"Navegue para :guilabel:`Tradução automática` → :guilabel:`Sugestões "
+"automáticas`"
 
 #: admin/install/docker.rst:2767
 msgid "Add a new LibreTranslate service with:"
-msgstr ""
+msgstr "Adicionar um novo serviço LibreTranslate com:"
 
 #: admin/install/docker.rst:0
 msgid "Service"
@@ -15143,36 +15105,44 @@ msgid "Leave empty"
 msgstr "Deixar vazio"
 
 #: admin/install/docker.rst:2773
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid ""
 "LibreTranslate is now configured and available for machine translation in "
 "Weblate."
-msgstr "A tradução está agora aberta para actualizações."
+msgstr ""
+"O LibreTranslate agora é configurado e disponível para tradução automática "
+"no Weblate."
 
 #: admin/install/docker.rst:2777
 msgid ""
 "The LibreTranslate service runs without the web UI (``--disable-web-ui``) "
 "and is only accessible via the API within the Docker network."
 msgstr ""
+"O serviço LibreTranslate é executado sem o UI web (``--disable-web-ui``) e é "
+"apenas acessível através da API dentro da rede Docker."
 
 #: admin/install/docker.rst:2778
 msgid ""
 "Models are automatically updated when the container starts. "
 "(``LT_UPDATE_MODELS: true``)"
 msgstr ""
+"Modelos são automaticamente atualizados quando ao iniciar o contentor. "
+"(``LT_UPDATE_MODELS: true``)"
 
 #: admin/install/docker.rst:2779
 msgid ""
 "Data is persisted using Docker volumes for optimal performance and data "
 "safety."
 msgstr ""
+"Dados persistem usando volumes Docker para desempenho ótimo e segurança de "
+"dados."
 
 #: admin/install/docker.rst:2780
 msgid ""
 "Health checks ensure that the Docker engine properly observes the state of "
 "the service."
 msgstr ""
+"Verificações de saúde certificam-se que o motor Docker observa corretamente "
+"o estado do serviço."
 
 #: admin/install/docker.rst:2781
 msgid ""
@@ -15180,22 +15150,22 @@ msgid ""
 "NVIDIA Docker support. This container runs as a privileged user to be able "
 "to use the GPU."
 msgstr ""
+"Para aceleração GPU, utilize a variante de imagem CUDA e certifique-se que o "
+"seu sistema suporta NVIDIA Docker. Este contentor executa um utilizador "
+"privilegiado para usar o GPU."
 
 #: admin/install/docker.rst:2782
 msgid "No external ports are exposed, making the setup secure by default."
 msgstr ""
+"Nenhuma porta externa é exposta, tornado a configuração segura por padrão."
 
 #: admin/install/docker.rst:2787
-#, fuzzy
-#| msgid "Translating the documentation"
 msgid "`LibreTranslate Docker documentation`_"
-msgstr "Traduzir a documentação"
+msgstr "`Documentação do LibreTranslate Docker`_"
 
 #: admin/install/docker.rst:2795
-#, fuzzy
-#| msgid "Docker container security"
 msgid "Anubis Docker container integration"
-msgstr "Segurança de contentor Docker"
+msgstr "Integração do contentor Anubis Docker"
 
 #: admin/install/docker.rst:2797
 msgid ""
@@ -15203,28 +15173,40 @@ msgid ""
 "disruptive traffic on the server. It is typically needed for publicly open "
 "Weblate installations to avoid excessive load caused by scraping."
 msgstr ""
+"`Anubis`_ é uma firewall web de IA para bloquear programas de recolhas de "
+"dados baseados em IA e outro tráfego disruptivo no servidor. Isto é "
+"tipicamente necessário para instalações publicamente abertas para evitar "
+"carga excessiva causada por recolhas de dados."
 
 #: admin/install/docker.rst:2801
 msgid "Anubis can be deployed using Docker Compose:"
-msgstr ""
+msgstr "O Anubis pode ser implementado usando Docker Compose:"
 
 #: admin/install/docker.rst:2835
 msgid ""
 "The ``anubis-data`` volume in the above configuration is expected to "
 "contain :file:`botPolicies.yaml` with a bot policy configured to your needs."
 msgstr ""
+"O volume ``anubis-data`` na configuração acima é esperado que contenha "
+":file:`botPolicies.yaml` com uma política de robôs configurada para as suas "
+"necessidades."
 
 #: admin/install/docker.rst:2838
 msgid ""
 "At minimum, you need to adjust status codes as described in https://"
 "anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 msgstr ""
+"No mínimo, precisará de ajustar códigos de estado conforme descrito em "
+"https://anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 
 #: admin/install/docker.rst:2841
 msgid ""
 "It is also recommended to configure persistent storage backend as described "
 "in https://anubis.techaro.lol/docs/admin/policies/#storage-backends."
 msgstr ""
+"Também é recomendado que configure configuração de dados persistente do "
+"backend conforme descrito em https://anubis.techaro.lol/docs/admin/policies/"
+"#storage-backends."
 
 #: admin/install/docker.rst:2845
 msgid "You can then turn on the Anubis usage in Weblate using:"
@@ -15503,16 +15485,17 @@ msgstr ""
 "assinadas criptograficamente, consulte :ref:`verify`."
 
 #: admin/install/source.rst:21
-#, fuzzy
-#| msgid "Install current Weblate code into the virtualenv:"
 msgid "Install current Weblate code into the Python environment:"
-msgstr "Instale o código atual do Weblate no virtualenv:"
+msgstr "Instalar o código Weblate atual par ao ambiente Python:"
 
 #: admin/install/source.rst:28
 msgid ""
 "If you intend to run the testsuite from the source checkout, install the "
 "development dependencies as described in :ref:`local-tests`."
 msgstr ""
+"Se pretende executar o conjunto de testes a partir do checkout fonte, "
+"instale as dependências de desenvolvimento conforme descrito em :ref:`local-"
+"tests`."
 
 #: admin/install/source.rst:31
 msgid ""
@@ -15539,7 +15522,7 @@ msgstr "Esta etapa deve ser repetida sempre que atualizar o repositório."
 
 #: admin/install/source.rst:54
 msgid "Packaging Weblate for distributions"
-msgstr ""
+msgstr "Empacotamento Weblate para distribuições"
 
 #: admin/install/source.rst:56
 msgid ""
@@ -15549,6 +15532,11 @@ msgid ""
 "cannot validate every dependency-version combination covered by wider "
 "version ranges."
 msgstr ""
+"As versões de dependências em :file:`pyproject.toml` descrevem o ambiente de "
+"execução testado pelo projeto Weblate. Eles são intencionalmente estritos "
+"para instalações a partir do PyPI e para o processo de lançamento Weblate, "
+"porque o Weblate não pode validar cada combinação de versão de dependência "
+"coberto por intervalos de versão mais largos."
 
 #: admin/install/source.rst:61
 msgid ""
@@ -34803,6 +34791,13 @@ msgid ""
 "or :setting:`VCS_RESTRICT_PRIVATE`, and the related allowlists such "
 "as :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Links para projetos externos, URLs de webhook, e URLs de repositório ou "
+"envio que apontam para endereços internos ou não-públicos agora são "
+"rejeitados por predefinição. Se a sua configuração utiliza intencionalmente "
+"endereços, ajusta a definição de restrição correspondentes tais como "
+":setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
+":setting:`WEBHOOK_RESTRICT_PRIVATE`, ou :setting:`VCS_RESTRICT_PRIVATE`, e "
+"as listas de permitidas tais como :setting:`VCS_ALLOW_HOSTS`."
 
 #: changes/v5.rst:196
 #, fuzzy
@@ -59881,6 +59876,11 @@ msgid ""
 "where angle-bracket syntax may not be HTML. Enables the :ref:`check-safe-"
 "html` quality check."
 msgstr ""
+"Tratar o texto enquanto HTML condicional, ativado :ref:`check-safe-html` "
+"apenas para texto simples ou cadeias de carateres fonte que contêm markup "
+"HTML padrão ou elementos personalizados válidos. Isto é útil para variantes "
+"de Markdown tais como MDX, onde sintaxe de colchete pode não ser HTML. Ativa "
+"a verificação de qualidade :ref:`check-safe-html`."
 
 #: snippets/check-flags-autogenerated.rst:143
 #, fuzzy
@@ -71671,6 +71671,10 @@ msgid ""
 "as ``0`` or ``false``, are treated as unset and do not disable "
 "``allow_insecure_http`` from configuration."
 msgstr ""
+"Definido para ``1``, ``true``, ``yes``, ou ``on`` para chaves API através de "
+"URLs ``http://`` não locais. Prefere HTTPS ou em vez disso HTTP em loopback. "
+"Outros valores, tais como ``0`` ou ``false``, são tratados enquanto não "
+"definido e não desativam ``allow_secure_http`` da configuração."
 
 #: wlc.rst:456
 msgid ""
@@ -71678,12 +71682,14 @@ msgid ""
 "accepted with automatically discovered project configuration only "
 "when :option:`--url` is provided."
 msgstr ""
+"A mesma proteção aplica-se a argumentos da linha de comandos: :option:`--"
+"key` é aceite com configuração automática de projeto descoberta apenas "
+"quando :option:`--url` é fornecido."
 
 #: wlc.rst:460
-#, fuzzy
-#| msgid "Notable configuration or dependencies changes:"
 msgid "The API URL and key configuration precedence (highest to lowest) is:"
-msgstr "Mudanças notáveis de configuração ou dependências:"
+msgstr ""
+"Precedência de API URL e configuração de chave (mais alto para mais baixo) é:"
 
 #: wlc.rst:462
 msgid "Command-line arguments (:option:`--url`, :option:`--key`)."
