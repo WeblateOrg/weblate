@@ -31,7 +31,7 @@ Info sent to the Weblate
 
 Additionally, if you turn on :ref:`discover-weblate`:
 
-* List of public projects (name, URL, and website).
+* List of public and protected projects (name, URL, and website).
 
 .. hint::
    Check what *Discover* shows publicly in the :ref:`discover-weblate` description.
@@ -103,23 +103,24 @@ Getting listed
 .. note::
 
    Make sure you are OK with publishing your instance name, URL, tally of projects, components, and users,
-   together with names of public projects and components for use on *Discover*.
+   together with names of public and protected projects for use on *Discover*.
 
 
-If you have an activated support package, list your server directly from the
-support status section in the management panel by clicking
+Use the :guilabel:`Discover Weblate` panel in the management interface to
+manage the listing.
+If you have an activated support package, list your server by clicking
 :guilabel:`Enable discovery`.
-
-If the instance is not connected to weblate.org yet, start the registration
-from the management panel by clicking :guilabel:`Register on weblate.org`:
+If the instance is not connected to weblate.org yet, start the registration by
+clicking :guilabel:`Enable Discover Weblate`:
 
 .. image:: /screenshots/support-discovery.webp
 
 This opens the registration form on weblate.org and returns to your Weblate
-management interface to complete activation. The registration flow can be used
-from an account that has a support subscription, but it registers the Discover
-Weblate listing; activating a purchased support package is handled by
-:ref:`activate-support`.
+management interface to complete activation with discovery already enabled.
+The registration flow can be used from an account that has a support
+subscription, but it registers the Discover Weblate listing; activating a
+purchased support package is handled by :ref:`activate-support`.
+Unlinking the support package disables the Discover Weblate listing.
 
 All steps for listing a server manually, for example from older Weblate
 versions:
@@ -127,7 +128,8 @@ versions:
 1. Register yourself at https://weblate.org/user/
 2. Register your Weblate site at https://weblate.org/subscription/discovery/
 3. Copy the activation token into your Weblate management interface.
-4. Confirm you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page:
+4. Confirm you want your Weblate listed by clicking
+   :guilabel:`Enable discovery` from the :guilabel:`Discover Weblate` panel:
 
 .. image:: /screenshots/support-discovery.webp
 

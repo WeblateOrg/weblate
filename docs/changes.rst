@@ -21,6 +21,7 @@ Weblate 2026.7.1
 * :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
 * Code-hosting account pages now consistently use :guilabel:`Code-hosting connections` and provider-neutral connected account wording.
 * :ref:`discover-weblate` registration can now be started from the management interface without manually copying the activation token.
+* :ref:`discover-weblate` can now be managed from a dedicated management panel, registration starts with discovery enabled, and protected projects are included in the listing.
 * Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
 
 .. rubric:: Bug fixes

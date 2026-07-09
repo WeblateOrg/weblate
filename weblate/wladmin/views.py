@@ -58,6 +58,7 @@ from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.db import (
     get_database_disk_usage,
     get_database_size,
@@ -171,6 +172,22 @@ def validate_discovery_registration_state(
     return True
 
 
+def get_discovery_unavailable_reason() -> str:
+    if settings.SITE_TITLE == "Weblate":
+        return gettext(
+            "Please change SITE_TITLE in settings to make your Weblate easy "
+            "to recognize in Discover Weblate."
+        )
+    return ""
+
+
+def unlink_support_status() -> None:
+    SupportStatus.objects.select_for_update().filter(enabled=True).update(
+        discoverable=False, enabled=False
+    )
+    cache.delete(SUPPORT_STATUS_CACHE_KEY)
+
+
 @management_access
 def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
     support = SupportStatus.objects.get_current()
@@ -197,6 +214,7 @@ def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
             "support_form": form,
             "git_revision_link": GIT_LINK,
             "git_revision": GIT_REVISION,
+            "discovery_unavailable_reason": get_discovery_unavailable_reason(),
         },
     )
 
@@ -305,14 +323,10 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
     support = SupportStatus.objects.get_current(for_update=True)
+    discovery_unavailable_reason = get_discovery_unavailable_reason()
 
-    if not support.discoverable and settings.SITE_TITLE == "Weblate":
-        messages.error(
-            request,
-            gettext(
-                "Please change SITE_TITLE in settings to make your Weblate easy to recognize in discover."
-            ),
-        )
+    if not support.discoverable and discovery_unavailable_reason:
+        messages.error(request, discovery_unavailable_reason)
     elif support.secret and support.enabled:
         support.discoverable = not support.discoverable
         support.save(update_fields=["discoverable"])
@@ -324,7 +338,8 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
 @management_permission_required("management.configure")
 @require_POST
 def discovery_register(request: AuthenticatedHttpRequest) -> HttpResponse:
-    if SupportStatus.objects.get_current().secret:
+    support = SupportStatus.objects.get_current()
+    if support.secret:
         messages.error(
             request,
             gettext(
@@ -332,6 +347,11 @@ def discovery_register(request: AuthenticatedHttpRequest) -> HttpResponse:
                 "Use discovery settings to manage its listing."
             ),
         )
+        return redirect("manage")
+
+    discovery_unavailable_reason = get_discovery_unavailable_reason()
+    if discovery_unavailable_reason:
+        messages.error(request, discovery_unavailable_reason)
         return redirect("manage")
 
     state = store_discovery_registration_state(request)
@@ -408,10 +428,12 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
                     ),
                 )
             else:
+                support.discoverable = True
                 SupportStatus.objects.select_for_update().filter(enabled=True).update(
                     enabled=False
                 )
                 support.save()
+                transaction.on_commit(support_status_update.delay)
                 messages.success(request, gettext("Activation completed."))
     return redirect("manage")
 
@@ -421,12 +443,17 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
     support: SupportStatus | None = None
+    unlink = False
     if "refresh" in request.POST:
         support = SupportStatus.objects.get_current(for_update=True)
     elif "unlink" in request.POST:
-        SupportStatus.objects.select_for_update().filter(enabled=True).update(
-            enabled=False
-        )
+        unlink = True
+        support = SupportStatus.objects.get_current(for_update=True)
+        if support.secret and support.discoverable:
+            support.discoverable = False
+        else:
+            support = None
+            unlink_support_status()
     else:
         form = ActivateForm(request.POST)
         if form.is_valid():
@@ -435,45 +462,52 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
             show_form_errors(request, form)
 
     if support is not None:
+        activation_error = ""
         try:
             support.refresh()
         except Timeout:
             report_error("Activation timeout")
-            messages.error(
-                request,
-                gettext(
-                    "Could not activate your installation. Please try again later."
-                ),
+            activation_error = gettext(
+                "Could not activate your installation. Please try again later."
             )
         except HTTPError as error:
             report_error("Activation error")
             if error.response is not None and error.response.status_code == 404:
-                messages.error(
-                    request,
-                    gettext(
-                        "Could not activate your installation. "
-                        "Please ensure your activation token is correct."
-                    ),
+                activation_error = gettext(
+                    "Could not activate your installation. "
+                    "Please ensure your activation token is correct."
                 )
             else:
-                messages.error(
-                    request,
-                    gettext(
-                        "Could not activate your installation. Please try again later."
-                    ),
+                activation_error = gettext(
+                    "Could not activate your installation. Please try again later."
                 )
         except Exception as error:
             report_error("Activation error")
-            messages.error(
-                request,
-                gettext("Could not activate your installation: %s") % error,
+            activation_error = (
+                gettext("Could not activate your installation: %s") % error
             )
-        else:
-            if not support.pk:
-                SupportStatus.objects.select_for_update().filter(enabled=True).update(
-                    enabled=False
+        if activation_error:
+            if unlink:
+                unlink_support_status()
+                messages.error(
+                    request,
+                    gettext(
+                        "The support package was unlinked locally, but Discover "
+                        "Weblate could not be disabled on weblate.org. The site "
+                        "may remain listed."
+                    ),
                 )
-            support.save()
+            else:
+                messages.error(request, activation_error)
+        else:
+            if unlink:
+                support.save()
+                unlink_support_status()
+            elif not support.pk:
+                unlink_support_status()
+                support.save()
+            else:
+                support.save()
             messages.success(request, gettext("Activation completed."))
     return redirect("manage")
 
