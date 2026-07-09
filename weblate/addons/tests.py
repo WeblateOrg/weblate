@@ -2271,7 +2271,51 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--add-comments", command)
         self.assertIn("--add-comments=TRANSLATORS", command)
         self.assertIn("--check=ellipsis-unicode", command)
+        self.assertIn(\"--keyword=custom_tr\", command)
+
+    def test_meson_uses_exclusive_keyword(self) -> None:
+        """Preset --keyword=… entries must be dropped when keyword_exclusive=True."""
+        source = Path(self.component.full_path) / "src" / "main.c"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('custom_tr("Hello");\n', encoding="utf-8")
+        gettext_dir = Path(self.component.full_path) / "po"
+        gettext_dir.mkdir(parents=True, exist_ok=True)
+        self.component.new_base = "po/messages.pot"
+        self.component.save(update_fields=["new_base"])
+        (Path(self.component.full_path) / "meson.build").write_text(
+            "project('test', 'c')\n", encoding="utf-8"
+        )
+        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
+        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
+        addon = MesonAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "preset": "glib",
+                "keyword": "custom_tr",
+                "keyword_exclusive": True,
+            },
+        )
+
+        with patch.object(MesonAddon, "run_process", return_value="") as mocked:
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # The user-defined keyword must be present.
         self.assertIn("--keyword=custom_tr", command)
+        # A bare --keyword must precede the named keyword to disable defaults.
+        self.assertIn("--keyword", command)
+        bare_idx = command.index("--keyword")
+        named_idx = command.index("--keyword=custom_tr")
+        self.assertLess(bare_idx, named_idx)
+        # No GLib preset keyword args should remain; exclusive mode strips them.
+        self.assertNotIn("--keyword=_", command)
+        self.assertNotIn("--keyword=N_", command)
+        self.assertNotIn("--keyword=C_:1c,2", command)
+        # Non-keyword preset args (flags) must still be present.
+        self.assertIn("--flag=g_snprintf:3:c-format", command)
 
     def test_meson_uses_exclusive_keyword(self) -> None:
         """Preset --keyword=... entries must be dropped when keyword_exclusive=True."""
