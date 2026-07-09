@@ -307,7 +307,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             comment_tag = ""
         cleaned_data["comment_tag"] = comment_tag
         cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
-        keyword_exclusive = bool(cleaned_data.get("keyword_exclusive", False))
+        keyword_exclusive = bool(cleaned_data.get("keyword_exclusive"))
         if keyword_exclusive and not cleaned_data["keyword"]:
             self.add_error(
                 "keyword_exclusive",

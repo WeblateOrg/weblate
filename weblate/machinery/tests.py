@@ -4790,6 +4790,44 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_translate_repairs_invalid_structured_json_string_quote_at_end(
+        self,
+    ) -> None:
+        source = "Synthetic source string for terminal quote recovery."
+        self.mock_response(
+            '[{"parts":[{"type":"text","text":"Synthetic terminal quote""}]}]'
+        )
+
+        translation = self.assert_translate(
+            "cs",
+            source,
+            1,
+        )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            'Synthetic terminal quote"',
+        )
+
+    @responses.activate
+    def test_translate_repairs_structured_json_code_fence(self) -> None:
+        source = "Synthetic source string for fenced JSON recovery."
+        self.mock_response(
+            '```json\n[{"parts":[{"type":"text","text":"Synthetic fenced translation"}]}]\n```'
+        )
+
+        translation = self.assert_translate(
+            "hr",
+            source,
+            1,
+        )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Synthetic fenced translation",
+        )
+
+    @responses.activate
     def test_translate_repairs_truncated_structured_json_container(self) -> None:
         self.mock_response(
             '[{"parts":[{"type":"text","text":"Genel Müdür"}]},'
@@ -4804,6 +4842,22 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         self.assertEqual(translation["CEO"][0]["text"], "Genel Müdür")
         self.assertEqual(translation["CEO Since"][0]["text"], "CEO'dan beri")
+
+    @responses.activate
+    def test_translate_repairs_missing_structured_part_object_close(self) -> None:
+        source = "Synthetic source string for missing object close recovery."
+        response = (
+            '[{"parts": [{"type": "text", "text": '
+            '"Synthetic missing object close translation."]}]'
+        )
+        self.mock_response(response)
+
+        translation = self.assert_translate("cs", source, 1)
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Synthetic missing object close translation.",
+        )
 
     @responses.activate
     def test_translate_uses_llm_placeholder_syntax(self) -> None:
