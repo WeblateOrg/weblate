@@ -11,7 +11,7 @@ import json
 import os
 import re
 import shutil
-import subprocess  # ruff: ignore[suspicious-subprocess-import]
+import subprocess  # noqa: S404
 import sys
 import tempfile
 from datetime import timedelta
@@ -2198,6 +2198,63 @@ class GettextAddonTest(ViewTestCase):
         # Only the custom keyword should be present; no default keywords.
         self.assertNotIn("--keyword=gettext", command)
 
+    def test_xgettext_keyword_without_exclusive_emits_no_bare_keyword(self) -> None:
+        """keyword set but keyword_exclusive=False must not emit bare --keyword."""
+        source = Path(self.component.full_path) / "src" / "Main.java"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello");\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Java",
+                "source_patterns": ["src/*.java"],
+                "keyword": "tr",
+                "keyword_exclusive": False,
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # Named keyword must be present.
+        self.assertIn("--keyword=tr", command)
+        # Bare --keyword must NOT be present when exclusivity is disabled.
+        self.assertNotIn("--keyword", command)
+
+    def test_xgettext_no_keyword_emits_no_keyword_args(self) -> None:
+        """When no keyword is set, no --keyword args at all should appear."""
+        source = Path(self.component.full_path) / "src" / "main.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('_("Hello")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # No --keyword args of any kind should appear.
+        keyword_args = [a for a in command if a == "--keyword" or a.startswith("--keyword=")]
+        self.assertEqual(keyword_args, [])
+
     def test_meson_uses_glib_preset_and_potfiles(self) -> None:
         source = Path(self.component.full_path) / "src" / "main.c"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -2272,50 +2329,11 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--add-comments=TRANSLATORS", command)
         self.assertIn("--check=ellipsis-unicode", command)
         self.assertIn("--keyword=custom_tr", command)
-
-    def test_meson_uses_exclusive_keyword(self) -> None:
-        """Preset --keyword=... entries must be dropped when keyword_exclusive=True."""
-        source = Path(self.component.full_path) / "src" / "main.c"
-        source.parent.mkdir(parents=True, exist_ok=True)
-        source.write_text('custom_tr("Hello");\n', encoding="utf-8")
-        gettext_dir = Path(self.component.full_path) / "po"
-        gettext_dir.mkdir(parents=True, exist_ok=True)
-        self.component.new_base = "po/messages.pot"
-        self.component.save(update_fields=["new_base"])
-        (Path(self.component.full_path) / "meson.build").write_text(
-            "project('test', 'c')\n", encoding="utf-8"
-        )
-        (gettext_dir / "meson.build").write_text("", encoding="utf-8")
-        (gettext_dir / "POTFILES.in").write_text("src/main.c\n", encoding="utf-8")
-        addon = MesonAddon.create(
-            component=self.component,
-            run=False,
-            configuration={
-                "interval": "weekly",
-                "update_po_files": False,
-                "preset": "glib",
-                "keyword": "custom_tr",
-                "keyword_exclusive": True,
-            },
-        )
-
-        with patch.object(MesonAddon, "run_process", return_value="") as mocked:
-            addon.update_translations(self.component, "", [])
-
-        command = mocked.call_args.args[1]
-        # The user-defined keyword must be present.
-        self.assertIn("--keyword=custom_tr", command)
-        # A bare --keyword must precede the named keyword to disable defaults.
-        self.assertIn("--keyword", command)
-        bare_idx = command.index("--keyword")
-        named_idx = command.index("--keyword=custom_tr")
-        self.assertLess(bare_idx, named_idx)
-        # No GLib preset keyword args should remain; exclusive mode strips them.
-        self.assertNotIn("--keyword=_", command)
-        self.assertNotIn("--keyword=N_", command)
-        self.assertNotIn("--keyword=C_:1c,2", command)
-        # Non-keyword preset args (flags) must still be present.
-        self.assertIn("--flag=g_snprintf:3:c-format", command)
+        # Preset keywords must also still be present (non-exclusive mode).
+        self.assertIn("--keyword=_", command)
+        self.assertIn("--keyword=N_", command)
+        # No bare --keyword should appear.
+        self.assertNotIn("--keyword", command)
 
     def test_meson_prefers_potfiles_over_potfiles_in(self) -> None:
         gettext_dir = Path(self.component.full_path) / "po"

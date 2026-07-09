@@ -1502,7 +1502,7 @@ class MesonAddon(XgettextAddon):
         if self.get_keyword_exclusive():
             # When using keywords exclusively the bare --keyword (emitted by
             # get_parametrized_xgettext_args) disables xgettext's built-in
-            # default keywords, but NOT custom --keyword=… args that were
+            # default keywords, but NOT custom --keyword=... args that were
             # already added.  Strip the preset's keyword entries here so that
             # only the user-defined keyword is recognised.
             preset_args = [a for a in preset_args if not a.startswith("--keyword=")]
