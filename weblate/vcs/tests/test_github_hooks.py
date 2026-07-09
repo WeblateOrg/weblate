@@ -254,8 +254,8 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertFalse(PendingInstallation.objects.filter(pk=old.pk).exists())
         self.assertTrue(PendingInstallation.objects.filter(pk=current.pk).exists())
 
-    def test_unknown_integration_token_is_rejected(self):
-        """A delivery to an unknown integration token cannot be authenticated."""
+    def test_unknown_webhook_token_is_rejected(self):
+        """A delivery to an unknown webhook token cannot be authenticated."""
         data = {
             "action": "created",
             "installation": {
@@ -501,7 +501,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertIn(response.status_code, (200, 202))
 
     def test_app_delivery_rejected_on_generic_endpoint(self):
-        """GitHub App deliveries must use the per-integration endpoint."""
+        """GitHub App deliveries must use the per-App endpoint."""
         data = {
             "ref": "refs/heads/main",
             "installation": {"id": 12345, "app_id": 99999},

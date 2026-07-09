@@ -19,6 +19,7 @@ Weblate 2026.7.1
 * Comments and suggestions now auto-watch the project when :guilabel:`Automatically watch projects on contribution` is enabled.
 * Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`.
 * :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
+* Code-hosting account pages now consistently use :guilabel:`Code-hosting connections` and provider-neutral connected account wording.
 * :ref:`discover-weblate` registration can now be started from the management interface without manually copying the activation token.
 * Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
 
@@ -247,7 +248,7 @@ Weblate 2026.5
 * The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
 * The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
 * Project access management now paginates users and better explains site-wide automatic team assignments.
-* Added provider-oriented code hosting documentation and Gettext-style :ref:`plural-formula` guidance.
+* Added provider-oriented code-hosting documentation and Gettext-style :ref:`plural-formula` guidance.
 * The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size.
 * The engage page now highlights actionable translation task buckets for newcomers.
 * :ref:`RSS feeds <rss>` can now use the same filters as the changes browsing page.

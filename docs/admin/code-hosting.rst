@@ -1,12 +1,12 @@
 .. _code-hosting:
 
-Code hosting integrations
+Code-hosting integrations
 =========================
 
-Weblate integrates with code hosting sites in several separate places:
+Weblate integrates with code-hosting sites in several separate places:
 repository access, incoming notifications, and pushing translations back. The
 exact setup depends on whether you use Hosted Weblate or run your own Weblate
-instance, and on whether Weblate should push directly or create pull requests.
+instance, and on whether Weblate should push directly or create pull or merge requests.
 
 Use this page as a provider-oriented checklist. The individual setting pages
 remain the canonical reference for setting syntax.
@@ -24,7 +24,7 @@ Setup overview
    * For other Hosted Weblate repositories, and for direct SSH pushes outside
      the GitHub App workflow, add the hosted :guilabel:`weblate` user where it
      is available, see :ref:`hosted-push`.
-   * For self-hosted Weblate, create a dedicated code hosting user and grant
+   * For self-hosted Weblate, create a dedicated code-hosting user and grant
      access using Weblate's SSH key or an HTTPS token, see
      :ref:`vcs-repos-code-hosting`.
 
@@ -284,8 +284,8 @@ The fastest way to add the GitHub App is to let Weblate generate a GitHub App
 manifest with the correct permissions, events, and webhook URL pre-filled:
 
 1. Sign in to Weblate with an account that has management access.
-2. Open :guilabel:`Manage → VCS Installations → Register Weblate GitHub
-   App`.
+2. Open :guilabel:`Manage → Code-hosting connections → Register Weblate
+   GitHub App`.
 3. Fill in the form. The :guilabel:`GitHub host` defaults to ``github.com``;
    change it to your GitHub Enterprise hostname if needed. Leave
    :guilabel:`Organization` blank to register the App under your personal
@@ -301,7 +301,7 @@ The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
 ``Organization administration`` read-only, ``Workflows`` read/write, and the
 ``Installation``, ``Meta`` and ``Push`` events), and sets the callback, setup
-and per-integration webhook URLs automatically, so no manual GitHub App
+and per-app webhook URLs automatically, so no manual GitHub App
 configuration is required. GitHub delivers the ``Installation`` and
 ``Installation repositories`` events to all GitHub Apps by default.
 
@@ -317,11 +317,12 @@ Connecting a workspace
 Connected GitHub accounts are bound to a Weblate :ref:`workspace <workspaces>`.
 A user with project administration rights for any project in a workspace can
 connect a GitHub account on that workspace. After connecting, every project in
-the workspace can import components from repositories the app installation has
-access to. For organization installations, Weblate verifies that the install-time
-GitHub user can administer the organization installation.
+the workspace can import components from repositories the GitHub App
+installation has access to. For organization accounts, Weblate verifies that
+the install-time GitHub user can administer the organization installation.
 
-Projects that are not in a workspace cannot connect a GitHub App installation.
+Projects that are not in a workspace cannot connect a GitHub account through
+the GitHub App.
 
 Components imported through the GitHub App flow use the dedicated
 :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. The component
@@ -333,8 +334,8 @@ credentials from being redirected to an unrelated repository.
 App webhook URL
 ^^^^^^^^^^^^^^^
 
-Each registered GitHub App integration has its own webhook URL containing an
-opaque token that uniquely identifies a single integration:
+Each registered Weblate GitHub App has its own webhook URL containing an
+opaque token that uniquely identifies a single registered App:
 
 .. code-block:: text
 
@@ -812,11 +813,11 @@ these options as the configured Weblate Gerrit account and applies its own
 permissions.
 
 The Gerrit documentation has the details on the configuration necessary to set
-up such repositories. There is no separate code hosting credential setting for
+up such repositories. There is no separate code-hosting credential setting for
 this backend.
 
 Docker credentials
 ~~~~~~~~~~~~~~~~~~
 
-For Docker installations, code hosting API credentials can also be provided
+For Docker installations, code-hosting API credentials can also be provided
 through environment variables, see :ref:`docker-vcs-config`.
