@@ -21,6 +21,7 @@ from weblate.utils.validators import validate_machinery_hostname, validate_machi
 from .types import SourceLanguageChoices
 
 LLM_LANGUAGE_INSTRUCTION_LENGTH = 1000
+MICROSOFT_REGION_RE = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?")
 
 
 class EmptyMappingJSONField(forms.JSONField):
@@ -95,6 +96,8 @@ class BaseMachineryForm(forms.Form):
         machinery.validate_settings()
 
     def clean(self) -> None:
+        if self.errors:
+            return
         try:
             self.validate_configuration()
         except ValidationError as error:
@@ -264,6 +267,12 @@ class MicrosoftMachineryForm(KeyMachineryForm):
         initial="general",
         required=False,
     )
+
+    def clean_region(self) -> str:
+        region = self.cleaned_data["region"]
+        if region and MICROSOFT_REGION_RE.fullmatch(region) is None:
+            raise ValidationError(gettext("Enter a valid Azure region name."))
+        return region
 
 
 class GoogleV3MachineryForm(BaseMachineryForm):

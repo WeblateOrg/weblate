@@ -7521,6 +7521,37 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertIn(AddonEvent.EVENT_POST_UPDATE, CDNJSAddon.events)
         self.assertNotIn(AddonEvent.EVENT_COMPONENT_UPDATE, CDNJSAddon.events)
 
+    @override_settings(
+        ALLOWED_ASSET_DOMAINS=["*"],
+        ASSET_RESTRICT_PRIVATE=True,
+        ASSET_PRIVATE_ALLOWLIST=[],
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    def test_form_rejects_private_remote_file_before_request(
+        self, mocked_getaddrinfo
+    ) -> None:
+        form = CDNJSAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "threshold": 0,
+                "files": "https://private.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+        )
+
+        self.assertIsNotNone(form)
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
+        mocked_request.assert_not_called()
+        self.assertIn("internal or non-public address", str(form.errors["files"]))
+
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn(self) -> None:
