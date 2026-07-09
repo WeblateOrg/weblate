@@ -41,10 +41,10 @@ class SkipWeblateAuthMigrationsRouter:
 
 class InternalBotEmailTest(TestCase):
     def setUp(self) -> None:
-        bot_cache.get({}).clear()
+        bot_cache.set({})
 
     def tearDown(self) -> None:
-        bot_cache.get({}).clear()
+        bot_cache.set({})
 
     def test_get_or_create_bot_default_email(self) -> None:
         user = User.objects.get_or_create_bot(
