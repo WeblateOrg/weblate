@@ -9,7 +9,7 @@
             data-bs-dismiss="alert"
             title="{% translate "Delete announcement" %}">{% icon "delete.svg" %}</button>
   {% elif can_delete %}
-    <button type="button" class=" btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <button type="button" class=" btn-close" data-bs-dismiss="alert" aria-label="{% translate "Close" %}"></button>
   {% endif %}
   <div class="task-message">
     {% block message %}{{ message }}{% endblock %}
