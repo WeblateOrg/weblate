@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const loading = [];
+const loading = {};
 
 // DOM helpers replacing former jQuery usage.
 function show(element) {
