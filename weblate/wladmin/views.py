@@ -9,7 +9,7 @@ from shutil import disk_usage
 
 # pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, Any, Literal, cast, get_args
-from urllib.parse import quote, urlencode, urljoin
+from urllib.parse import quote, urlencode
 
 from django.conf import settings
 from django.core.cache import cache
@@ -93,7 +93,12 @@ from weblate.wladmin.forms import (
     WorkspaceCreateForm,
     WorkspaceSearchForm,
 )
-from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
+from weblate.wladmin.models import (
+    BackupService,
+    ConfigurationError,
+    SupportStatus,
+    get_support_url,
+)
 from weblate.wladmin.tasks import backup_service, support_status_update
 from weblate.workspaces.models import Workspace
 
@@ -131,11 +136,11 @@ DISCOVERY_CALLBACK_PATH = "/manage/discovery/callback/"
 
 
 def get_discovery_registration_url() -> str:
-    return urljoin(settings.SUPPORT_API_URL, "/subscription/discovery/register/")
+    return get_support_url("subscription/discovery/register/")
 
 
 def get_discovery_activation_url() -> str:
-    return urljoin(settings.SUPPORT_API_URL, "/api/support/activation/")
+    return get_support_url("api/support/activation/")
 
 
 def get_discovery_site_url(callback_path: str) -> str:

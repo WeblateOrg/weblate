@@ -39,7 +39,12 @@ from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
-from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
+from weblate.wladmin.models import (
+    BackupService,
+    ConfigurationError,
+    SupportStatus,
+    get_support_url,
+)
 from weblate.wladmin.tasks import backup_service
 from weblate.wladmin.views import (
     DISCOVERY_REGISTRATION_SESSION,
@@ -1357,7 +1362,7 @@ class AdminTest(ViewTestCase):
     def test_activation_wrong(self) -> None:
         responses.add(
             responses.POST,
-            settings.SUPPORT_API_URL,
+            get_support_url(),
             status=404,
         )
         response = self.client.post(
@@ -1372,7 +1377,7 @@ class AdminTest(ViewTestCase):
     def test_activation_error(self) -> None:
         responses.add(
             responses.POST,
-            settings.SUPPORT_API_URL,
+            get_support_url(),
             status=500,
         )
         response = self.client.post(
@@ -1387,7 +1392,7 @@ class AdminTest(ViewTestCase):
     def test_activation_community(self) -> None:
         responses.add(
             responses.POST,
-            settings.SUPPORT_API_URL,
+            get_support_url(),
             body=json.dumps(
                 {
                     "name": "community",
@@ -1414,7 +1419,7 @@ class AdminTest(ViewTestCase):
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
-        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
+        SUPPORT_API_URL="https://weblate.example/",
     )
     def test_discovery_registration_redirect(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1439,6 +1444,22 @@ class AdminTest(ViewTestCase):
             "https://instance.example/translations",
         )
 
+    @override_settings(SUPPORT_API_URL="https://weblate.example/")
+    def test_support_url_from_base(self) -> None:
+        self.assertEqual(get_support_url(), "https://weblate.example/api/support/")
+        self.assertEqual(
+            get_support_url("subscription/discovery/register/"),
+            "https://weblate.example/subscription/discovery/register/",
+        )
+
+    @override_settings(SUPPORT_API_URL="https://weblate.example/base/")
+    def test_support_url_from_base_path(self) -> None:
+        self.assertEqual(get_support_url(), "https://weblate.example/base/api/support/")
+        self.assertEqual(
+            get_support_url("subscription/discovery/register/"),
+            "https://weblate.example/base/subscription/discovery/register/",
+        )
+
     def test_discovery_callback_rejects_invalid_state(self) -> None:
         response = self.client.get(
             reverse("manage-discovery-callback"),
@@ -1453,7 +1474,7 @@ class AdminTest(ViewTestCase):
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
         SITE_TITLE="Test Weblate",
-        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
+        SUPPORT_API_URL="https://weblate.example/",
     )
     def test_discovery_callback_keeps_state_on_mismatch(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1477,7 +1498,7 @@ class AdminTest(ViewTestCase):
         )
         responses.add(
             responses.POST,
-            settings.SUPPORT_API_URL,
+            get_support_url(),
             body=json.dumps(
                 {
                     "name": "community",
@@ -1502,7 +1523,7 @@ class AdminTest(ViewTestCase):
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
-        SUPPORT_API_URL="https://weblate.example/api/support/",
+        SUPPORT_API_URL="https://weblate.example/",
     )
     def test_discovery_callback_rejects_missing_code(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1519,7 +1540,7 @@ class AdminTest(ViewTestCase):
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
         SITE_TITLE="Test Weblate",
-        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
+        SUPPORT_API_URL="https://weblate.example/",
     )
     def test_discovery_callback_exchanges_code(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1531,7 +1552,7 @@ class AdminTest(ViewTestCase):
         )
         responses.add(
             responses.POST,
-            settings.SUPPORT_API_URL,
+            get_support_url(),
             body=json.dumps(
                 {
                     "name": "community",
@@ -1562,7 +1583,7 @@ class AdminTest(ViewTestCase):
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
-        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
+        SUPPORT_API_URL="https://weblate.example/",
     )
     def test_discovery_callback_rejects_long_code(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1579,7 +1600,7 @@ class AdminTest(ViewTestCase):
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
-        SUPPORT_API_URL="https://weblate.example/custom/support-endpoint",
+        SUPPORT_API_URL="https://weblate.example/",
     )
     def test_discovery_callback_hides_exchange_error(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
@@ -1602,7 +1623,7 @@ class AdminTest(ViewTestCase):
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
-        SUPPORT_API_URL="https://weblate.example/api/support/",
+        SUPPORT_API_URL="https://weblate.example/",
     )
     def test_discovery_callback_exchange_error_keeps_existing_status(self) -> None:
         old_status = SupportStatus.objects.create(
@@ -1635,7 +1656,7 @@ class AdminTest(ViewTestCase):
         with TemporaryDirectory() as tempdir:
             responses.add(
                 responses.POST,
-                settings.SUPPORT_API_URL,
+                get_support_url(),
                 body=json.dumps(
                     {
                         "name": "hosted",
@@ -1663,10 +1684,10 @@ class AdminTest(ViewTestCase):
             self.assertTrue(status.discoverable)
 
             # Use different payload for second registration
-            responses.delete(responses.POST, settings.SUPPORT_API_URL)
+            responses.delete(responses.POST, get_support_url())
             responses.add(
                 responses.POST,
-                settings.SUPPORT_API_URL,
+                get_support_url(),
                 body=json.dumps(
                     {
                         "name": "hosted",
