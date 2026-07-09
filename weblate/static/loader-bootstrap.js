@@ -2228,7 +2228,9 @@ onReady(() => {
       keys: ["name"],
       src: async (query) => {
         try {
-          const source = await fetch(`/api/search/?q=${query}`);
+          const source = await fetch(
+            `/api/search/?q=${encodeURIComponent(query)}`,
+          );
           const data = await source.json();
           return data;
         } catch (error) {
