@@ -2199,7 +2199,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertNotIn("--keyword=gettext", command)
 
     def test_xgettext_keyword_without_exclusive_emits_no_bare_keyword(self) -> None:
-        """keyword set but keyword_exclusive=False must not emit bare --keyword."""
+        """Keyword set but keyword_exclusive=False must not emit bare --keyword."""
         source = Path(self.component.full_path) / "src" / "Main.java"
         source.parent.mkdir(parents=True, exist_ok=True)
         source.write_text('tr("Hello");\n', encoding="utf-8")
@@ -2252,7 +2252,9 @@ class GettextAddonTest(ViewTestCase):
 
         command = mocked.call_args.args[1]
         # No --keyword args of any kind should appear.
-        keyword_args = [a for a in command if a == "--keyword" or a.startswith("--keyword=")]
+        keyword_args = [
+            a for a in command if a == "--keyword" or a.startswith("--keyword=")
+        ]
         self.assertEqual(keyword_args, [])
 
     def test_meson_uses_glib_preset_and_potfiles(self) -> None:
