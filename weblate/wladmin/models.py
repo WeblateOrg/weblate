@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 from typing import TYPE_CHECKING, ClassVar, TypedDict
+from urllib.parse import urljoin
 
 import dateutil.parser
 from appconf import AppConf
@@ -48,6 +49,10 @@ class WeblateConf(AppConf):
 
     class Meta:
         prefix = ""
+
+
+def get_support_url(path: str = "api/support/") -> str:
+    return urljoin(f"{settings.SUPPORT_API_URL.rstrip('/')}/", path.lstrip("/"))
 
 
 class WeblateModelAdmin(ModelAdmin):
@@ -185,11 +190,11 @@ class SupportStatus(models.Model):
             return gettext("Unpaid subscription")
         return SUPPORT_NAMES.get(self.name, self.name)
 
-    def refresh(self) -> None:
+    def refresh(self, *, site_url: str | None = None) -> None:
         stats = GlobalStats()
         data = {
             "secret": self.secret,
-            "site_url": get_site_url(),
+            "site_url": site_url or get_site_url(),
             "site_title": settings.SITE_TITLE,
             "users": User.objects.count(),
             "projects": Project.objects.count(),
@@ -216,7 +221,7 @@ class SupportStatus(models.Model):
         ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
-        response = fetch_url("post", settings.SUPPORT_API_URL, data=data, timeout=360)
+        response = fetch_url("post", get_support_url(), data=data, timeout=360)
         payload = response.json()
         self.name = payload["name"]
         self.expiry = dateutil.parser.parse(payload["expiry"])
