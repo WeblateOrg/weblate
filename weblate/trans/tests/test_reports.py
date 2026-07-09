@@ -11,7 +11,7 @@ from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.memory.models import Memory
-from weblate.trans.forms import CountsReportsForm
+from weblate.trans.forms import MIN_COST_ESTIMATE_TM_THRESHOLD, CountsReportsForm
 from weblate.trans.models import Category, Change, PendingUnitChange, Suggestion, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
@@ -349,7 +349,7 @@ class ReportsTest(BaseReportsTest):
     def test_cost_estimate_fuzzy_memory(self) -> None:
         self.add_memory("Thank you for using Weblate!")
 
-        data = self.generate_cost_data(threshold=1)
+        data = self.generate_cost_data(threshold=MIN_COST_ESTIMATE_TM_THRESHOLD)
         buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
 
         self.assertEqual(buckets["tm_fuzzy"]["count"], 1)
@@ -588,6 +588,12 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertContains(
             response,
             "Error in parameter tm_threshold: Ensure this value is less than or equal to 100.",
+        )
+
+        response = self.get_costs("json", tm_threshold="1", follow=True)
+        self.assertContains(
+            response,
+            "Error in parameter tm_threshold: Ensure this value is greater than or equal to 75.",
         )
 
     def test_counts_view_30days(self) -> None:

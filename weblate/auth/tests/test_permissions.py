@@ -15,7 +15,7 @@ from weblate.auth.data import (
     SELECTION_ALL_PUBLIC,
 )
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.trans.models import Comment, Project
+from weblate.trans.models import Comment, Component, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.workspaces.models import Workspace
@@ -177,6 +177,62 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertTrue(self.superuser.has_perm("unit.edit", self.component))
         self.assertFalse(self.admin.has_perm("unit.edit", self.component))
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
+
+    def assert_denied_reason(self, result, reason: str) -> None:
+        self.assertFalse(result)
+        self.assertEqual(getattr(result, "reason", ""), reason)
+
+    def test_glossary_permission_denial_reasons(self) -> None:
+        self.component.create_glossary()
+        glossary = Component.objects.get(project=self.project, is_glossary=True)
+        glossary.manage_units = True
+        glossary.save(update_fields=["manage_units"])
+        Role.objects.get(name="Power user").permissions.remove(
+            *Permission.objects.filter(
+                codename__in={
+                    "glossary.add",
+                    "glossary.delete",
+                    "glossary.edit",
+                    "glossary.upload",
+                }
+            )
+        )
+        self.user.clear_permissions_cache()
+
+        source_translation = glossary.source_translation
+        unit = source_translation.add_unit(
+            None, "", source="glossary-term", author=self.admin
+        )
+        if unit is None:
+            msg = "Expected glossary unit to be created"
+            raise AssertionError(msg)
+        upload_translation = glossary.translation_set.exclude(
+            language=glossary.source_language
+        ).first()
+        if upload_translation is None:
+            msg = "Expected glossary translation to be created"
+            raise AssertionError(msg)
+
+        self.assert_denied_reason(
+            self.user.has_perm("unit.edit", upload_translation),
+            "You do not have permission to edit glossary entries.",
+        )
+        self.assert_denied_reason(
+            self.user.has_perm("meta:unit.flag", upload_translation),
+            "You do not have permission to edit glossary entries.",
+        )
+        self.assert_denied_reason(
+            self.user.has_perm("unit.add", source_translation),
+            "You do not have permission to add glossary entries.",
+        )
+        self.assert_denied_reason(
+            self.user.has_perm("unit.delete", unit),
+            "You do not have permission to delete glossary entries.",
+        )
+        self.assert_denied_reason(
+            self.user.has_perm("upload.perform", upload_translation),
+            "You do not have permission to upload glossary entries.",
+        )
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_permission_billing(self) -> None:

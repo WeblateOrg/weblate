@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="{% url 'billing' %}">{% translate "Billing" %}</a>
+    <a href="{{ billing.workspace.get_absolute_url }}">{{ billing.workspace }}</a>
   </li>
   <li class="breadcrumb-item">
     <a href="{{ billing.get_absolute_url }}">{{ billing }}</a>

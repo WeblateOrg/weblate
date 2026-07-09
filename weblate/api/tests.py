@@ -12,7 +12,7 @@ from datetime import UTC, date, datetime, timedelta
 from io import BytesIO
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import MagicMock, patch
 
 import responses
 import yaml
@@ -1011,7 +1011,7 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": settings.ANONYMOUS_USER_NAME},
             method="put",
             superuser=True,
-            code=200,
+            code=403,
             request={
                 "full_name": "Name",
                 "username": "apitest2",
@@ -1019,10 +1019,10 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertFalse(
+        self.assertTrue(
             User.objects.filter(username=settings.ANONYMOUS_USER_NAME).exists()
         )
-        self.assertEqual(User.objects.get(username="apitest2").full_name, "Name")
+        self.assertFalse(User.objects.filter(username="apitest2").exists())
 
     def test_put_self_without_user_view_keeps_email(self) -> None:
         self.do_request(
@@ -1072,12 +1072,81 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": settings.ANONYMOUS_USER_NAME},
             method="patch",
             superuser=True,
-            code=200,
+            code=403,
             request={"full_name": "Other"},
         )
         self.assertEqual(
-            User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name, "Other"
+            User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name,
+            "Anonymous",
         )
+
+    def test_protected_bot_mutation(self) -> None:
+        protected_bot = User.objects.create(
+            username="addon:test",
+            full_name="Addon Bot",
+            email="addon-test@example.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="patch",
+            superuser=True,
+            code=403,
+            request={"full_name": "Renamed Bot"},
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="put",
+            superuser=True,
+            code=403,
+            request={
+                "full_name": "Renamed Bot",
+                "username": protected_bot.username,
+                "email": protected_bot.email,
+                "is_active": False,
+                "is_bot": True,
+            },
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": protected_bot.username},
+            method="delete",
+            superuser=True,
+            code=403,
+        )
+        protected_bot.refresh_from_db()
+        self.assertEqual(protected_bot.full_name, "Addon Bot")
+
+    def test_project_token_mutation(self) -> None:
+        project_token = User.objects.create(
+            username="bot-test-token",
+            full_name="Project Token",
+            email="bot-test-token@example.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": project_token.username},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"full_name": "Renamed Token"},
+        )
+        project_token.refresh_from_db()
+        self.assertEqual(project_token.full_name, "Renamed Token")
 
     def test_patch_logs_superuser_grant(self) -> None:
         target = User.objects.create_user("target", "target@example.org", "x")
@@ -8797,7 +8866,7 @@ class MemoryAPITest(APIBaseTest):
         ordered_queryset.distinct.assert_called_once_with("source")
         self.assertEqual(matches, {first.source: first, second.source: second})
 
-    def test_lookup_uses_read_alias_for_similarity_threshold(self) -> None:
+    def test_lookup_delegates_fuzzy_matching_to_queryset(self) -> None:
         source_language = Language.objects.get(code="en")
         target_language = Language.objects.get(code="cs")
         candidate = self.create_memory(
@@ -8806,143 +8875,38 @@ class MemoryAPITest(APIBaseTest):
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        filtered_queryset = self.mock_queryset(db="memory_db")
-        annotated_queryset = self.mock_queryset(db="memory_db")
-        ordered_queryset = self.mock_queryset(db="memory_db")
-        ordered_queryset.__getitem__.return_value = [candidate]
-        annotated_queryset.order_by.return_value = ordered_queryset
-        filtered_queryset.annotate.return_value = annotated_queryset
 
         base_queryset = self.mock_queryset(db="memory_db")
-        base_queryset.filter.return_value = filtered_queryset
+        base_queryset.get_best_fuzzy_match.return_value = candidate
 
         queryset = self.mock_queryset()
         queryset.filter.return_value = base_queryset
 
         view = MemoryViewSet()
-        with (
-            patch("weblate.api.views.adjust_similarity_threshold") as adjust_threshold,
-            patch.object(Memory.objects, "threshold_to_similarity", return_value=0.8),
-            patch.object(Memory.objects, "minimum_similarity", return_value=0.8),
-            patch.object(view.comparer, "similarity", return_value=95),
-        ):
+        with patch.object(view.comparer, "similarity", return_value=95) as similarity:
             match = view.get_fuzzy_match(
                 queryset,
                 source_language,
                 target_language,
                 "Memory routed fuzzy entri",
+                threshold=75,
             )
+            call_args = base_queryset.get_best_fuzzy_match.call_args
+            scorer = call_args.args[1]
+            scored_quality = scorer(candidate)
 
         self.assertEqual(match, candidate)
-        adjust_threshold.assert_called_once_with(0.8, alias="memory_db")
-
-    def test_lookup_retries_lower_similarity_threshold(self) -> None:
-        source_language = Language.objects.get(code="en")
-        target_language = Language.objects.get(code="cs")
-        low_quality_candidate = self.create_memory(
-            source="Retry fuzzy source",
-            target="Nizka fuzzy shoda",
-            project=self.component.project,
-            origin=self.component.full_slug,
+        queryset.filter.assert_called_once_with(
+            source_language=source_language,
+            target_language=target_language,
         )
-        candidate = self.create_memory(
-            source="Retry fuzzy sourca",  # codespell:ignore sourca
-            target="Opakovana fuzzy shoda",
-            project=self.component.project,
-            origin=self.component.full_slug,
+        base_queryset.get_best_fuzzy_match.assert_called_once()
+        self.assertEqual(call_args.args[0], "Memory routed fuzzy entri")
+        self.assertEqual(call_args.kwargs, {"threshold": 75})
+        self.assertEqual(scored_quality, 95)
+        similarity.assert_called_once_with(
+            "Memory routed fuzzy entri", "Memory routed fuzzy entry"
         )
-        first_filtered_queryset = self.mock_queryset(db="memory_db")
-        first_annotated_queryset = self.mock_queryset(db="memory_db")
-        first_ordered_queryset = self.mock_queryset(db="memory_db")
-        first_ordered_queryset.__getitem__.return_value = [low_quality_candidate]
-        first_annotated_queryset.order_by.return_value = first_ordered_queryset
-        first_filtered_queryset.annotate.return_value = first_annotated_queryset
-
-        second_filtered_queryset = self.mock_queryset(db="memory_db")
-        second_annotated_queryset = self.mock_queryset(db="memory_db")
-        second_ordered_queryset = self.mock_queryset(db="memory_db")
-        second_ordered_queryset.__getitem__.return_value = [
-            low_quality_candidate,
-            candidate,
-        ]
-        second_annotated_queryset.order_by.return_value = second_ordered_queryset
-        second_filtered_queryset.annotate.return_value = second_annotated_queryset
-
-        base_queryset = self.mock_queryset(db="memory_db")
-        base_queryset.filter.side_effect = [
-            first_filtered_queryset,
-            second_filtered_queryset,
-        ]
-
-        queryset = self.mock_queryset()
-        queryset.filter.return_value = base_queryset
-
-        view = MemoryViewSet()
-        with (
-            patch("weblate.api.views.adjust_similarity_threshold") as adjust_threshold,
-            patch.object(Memory.objects, "threshold_to_similarity", return_value=0.95),
-            patch.object(Memory.objects, "minimum_similarity", return_value=0.9),
-            patch.object(view.comparer, "similarity", side_effect=[60, 95]),
-        ):
-            match = view.get_fuzzy_match(
-                queryset,
-                source_language,
-                target_language,
-                "Retry fuzzy sourc",  # codespell:ignore sourc
-            )
-
-        self.assertIsNotNone(match)
-        self.assertEqual(
-            adjust_threshold.call_args_list,
-            [call(0.95, alias="memory_db"), call(0.9, alias="memory_db")],
-        )
-
-    def test_lookup_uses_later_fuzzy_candidate_meeting_quality_threshold(self) -> None:
-        source_language = Language.objects.get(code="en")
-        target_language = Language.objects.get(code="cs")
-        low_quality_candidate = self.create_memory(
-            source="Short source typo",
-            target="Nizka kvalita",
-            project=self.component.project,
-            origin=self.component.full_slug,
-        )
-        accepted_candidate = self.create_memory(
-            source="Short source typa",
-            target="Prijata kvalita",
-            project=self.component.project,
-            origin=self.component.full_slug,
-        )
-        filtered_queryset = self.mock_queryset(db="memory_db")
-        annotated_queryset = self.mock_queryset(db="memory_db")
-        ordered_queryset = self.mock_queryset(db="memory_db")
-        ordered_queryset.__getitem__.return_value = [
-            low_quality_candidate,
-            accepted_candidate,
-        ]
-        annotated_queryset.order_by.return_value = ordered_queryset
-        filtered_queryset.annotate.return_value = annotated_queryset
-
-        base_queryset = self.mock_queryset(db="memory_db")
-        base_queryset.filter.return_value = filtered_queryset
-
-        queryset = self.mock_queryset()
-        queryset.filter.return_value = base_queryset
-
-        view = MemoryViewSet()
-        with (
-            patch("weblate.api.views.adjust_similarity_threshold"),
-            patch.object(Memory.objects, "threshold_to_similarity", return_value=0.85),
-            patch.object(Memory.objects, "minimum_similarity", return_value=0.85),
-            patch.object(view.comparer, "similarity", side_effect=[60, 95]),
-        ):
-            match = view.get_fuzzy_match(
-                queryset,
-                source_language,
-                target_language,
-                "Short source typi",
-            )
-
-        self.assertEqual(match, accepted_candidate)
 
     def test_get_scoped_queryset_uses_project_subquery_on_memory_db(self) -> None:
         user = self.mock_user_with_allowed_projects([1, 2, 3])

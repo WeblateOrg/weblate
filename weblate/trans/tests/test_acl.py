@@ -106,7 +106,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
         self.assertContains(
-            response, "Insufficient privileges for saving translations."
+            response, "You do not have permission to save translations in this project."
         )
 
     def test_acl(self) -> None:

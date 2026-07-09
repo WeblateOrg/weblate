@@ -19,6 +19,7 @@ from weblate.accounts.data import DEFAULT_NOTIFICATIONS
 from weblate.accounts.models import AuditLog, Profile, Subscription
 from weblate.accounts.notifications import (
     RECIPIENT_USERNAME_HEADER,
+    LastAuthorCommentNotificaton,
     MergeFailureNotification,
     NotificationFrequency,
     NotificationScope,
@@ -436,6 +437,29 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=ActionEvents.COMMENT,
         )
 
+    def create_comment_change(self, unit, user: User, comment="Foo") -> Comment:
+        comment_obj = Comment.objects.create(unit=unit, comment=comment, user=user)
+        self.create_with_callbacks(
+            unit.change_set,
+            comment=comment_obj,
+            user=user,
+            author=user,
+            action=ActionEvents.COMMENT,
+        )
+        return comment_obj
+
+    def subscribe_participation_comment(
+        self, user: User, *, watched: bool = True
+    ) -> None:
+        if watched:
+            user.profile.watched.add(self.project)
+        Subscription.objects.create(
+            user=user,
+            scope=NotificationScope.SCOPE_WATCHED,
+            notification="LastAuthorCommentNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
     def test_notify_new_comment(self, expected=1, comment="Foo") -> None:
         self.add_comment(comment=comment)
 
@@ -474,6 +498,184 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Notification for other user edit via  TranslatedStringNotificaton
         self.assertEqual(len(mail.outbox), 1)
         mail.outbox.clear()
+
+    def test_notify_new_comment_previous_commenter(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        unit = self.get_unit()
+        self.create_comment_change(unit, self.user, "Question")
+        mail.outbox.clear()
+
+        self.create_comment_change(unit, self.thirduser, "Answer")
+
+        self.validate_notifications(1, "[Weblate] New comment in Test/Test")
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
+
+    def test_notify_new_comment_auto_watched_commenter(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user, watched=False)
+        self.user.profile.watched.clear()
+        unit = self.get_unit()
+
+        Comment.objects.add(
+            self.get_request(self.user), unit, "Question", "translation"
+        )
+        mail.outbox.clear()
+
+        self.assertTrue(self.user.profile.watched.filter(pk=self.project.pk).exists())
+
+        self.create_comment_change(unit, self.thirduser, "Answer")
+
+        self.validate_notifications(1, "[Weblate] New comment in Test/Test")
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
+
+    def test_notify_new_comment_skips_restricted_component_without_access(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.can_access_component(self.component))
+
+        unit = self.get_unit()
+        self.create_comment_change(unit, self.user, "Question")
+        mail.outbox.clear()
+
+        self.create_comment_change(unit, self.thirduser, "Answer")
+
+        self.validate_notifications(0)
+
+    def test_notify_new_comment_source_commenter(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        unit = self.get_unit()
+        self.create_comment_change(unit.source_unit, self.user, "Question")
+        mail.outbox.clear()
+
+        self.create_comment_change(unit, self.thirduser, "Answer")
+
+        self.validate_notifications(1, "[Weblate] New comment in Test/Test")
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
+
+    def test_notify_new_comment_own_commenter(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        unit = self.get_unit()
+        self.create_comment_change(unit, self.user, "Question")
+        mail.outbox.clear()
+
+        self.create_comment_change(unit, self.user, "Follow-up")
+
+        self.validate_notifications(0)
+
+    def test_notify_new_comment_mentioned_commenter_once(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        Subscription.objects.create(
+            user=self.user,
+            scope=NotificationScope.SCOPE_ALL,
+            notification="MentionCommentNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        unit = self.get_unit()
+        self.create_comment_change(unit, self.user, "Question")
+        mail.outbox.clear()
+
+        self.create_comment_change(
+            unit, self.thirduser, f"Answer @{self.user.username}"
+        )
+
+        self.validate_notifications(1, "[Weblate] New comment in Test/Test")
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
+
+    def test_notify_new_comment_other_translation_commenter(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        unit = self.get_unit(language="cs")
+        other_unit = self.get_unit(language="de")
+        self.create_comment_change(unit, self.user, "Question")
+        mail.outbox.clear()
+
+        self.create_comment_change(other_unit, self.thirduser, "Answer")
+        self.create_comment_change(unit.source_unit, self.thirduser, "Source answer")
+
+        self.validate_notifications(0)
+
+    def test_notify_new_comment_stale_comment_change(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        unit = self.get_unit()
+
+        self.create_with_callbacks(
+            unit.change_set,
+            user=self.thirduser,
+            author=self.thirduser,
+            action=ActionEvents.COMMENT,
+        )
+
+        self.validate_notifications(0)
+
+    def test_notify_new_comment_delayed_change_skips_later_commenter(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user)
+        self.subscribe_participation_comment(self.anotheruser)
+        unit = self.get_unit()
+        Comment.objects.create(unit=unit, comment="Question", user=self.user)
+        comment = Comment.objects.create(
+            unit=unit, comment="Answer", user=self.thirduser
+        )
+        change = self.create_with_callbacks(
+            unit.change_set,
+            comment=comment,
+            user=self.thirduser,
+            author=self.thirduser,
+            action=ActionEvents.COMMENT,
+        )
+        mail.outbox.clear()
+        Comment.objects.create(unit=unit, comment="Later", user=self.anotheruser)
+
+        users = list(
+            LastAuthorCommentNotificaton([]).get_users(
+                NotificationFrequency.FREQ_INSTANT, change
+            )
+        )
+
+        self.assertIn(self.user, users)
+        self.assertNotIn(self.anotheruser, users)
+
+    def test_notify_new_comment_suggestion_author(self) -> None:
+        Subscription.objects.all().delete()
+        self.subscribe_participation_comment(self.user, watched=False)
+        self.user.profile.watched.clear()
+        unit = self.get_unit()
+
+        Suggestion.objects.add(
+            unit, ["Suggestion"], self.get_request(self.user), user=self.user
+        )
+        mail.outbox.clear()
+
+        self.assertTrue(self.user.profile.watched.filter(pk=self.project.pk).exists())
+
+        self.create_comment_change(unit, self.thirduser, "Answer")
+
+        self.validate_notifications(1, "[Weblate] New comment in Test/Test")
+        self.assertEqual(
+            mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
+            self.user.username,
+        )
 
     def test_notify_new_component(self) -> None:
         self.create_with_callbacks(

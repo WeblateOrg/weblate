@@ -24,12 +24,7 @@
         </li>
       </ul>
     </li>
-    {% if billing %}
-      <li class="nav-item">
-        <a class="nav-link" data-bs-target="#billing" data-bs-toggle="tab" href="#">{% translate "Billing" %}</a>
-      </li>
-    {% endif %}
-    {% if bulk_state_form or autoform or can_edit_workspace or can_manage_access %}
+    {% if bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
         <ul class="dropdown-menu shadow">
@@ -43,10 +38,15 @@
               <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
             </li>
           {% endif %}
-          {% if can_edit_workspace or can_manage_access %}
+          {% if billing or can_edit_workspace or can_manage_access %}
             {% if bulk_state_form or autoform %}
               <li>
                 <hr class="dropdown-divider">
+              </li>
+            {% endif %}
+            {% if billing %}
+              <li>
+                <a class="dropdown-item" href="{{ billing.get_absolute_url }}">{% translate "Billing" %}</a>
               </li>
             {% endif %}
             {% if can_edit_workspace %}
@@ -127,10 +127,6 @@
           </div>
         </form>
       </div>
-    {% endif %}
-
-    {% if billing %}
-      <div class="tab-pane" id="billing">{% include "billing/detail-content.html" %}</div>
     {% endif %}
 
   </div>

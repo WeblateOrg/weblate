@@ -87,7 +87,7 @@ if TYPE_CHECKING:
 
     from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
-    from weblate.trans.models import Unit
+    from weblate.trans.models import Project, Unit
 
 LOGGER = logging.getLogger("weblate.audit")
 
@@ -838,7 +838,7 @@ class Profile(models.Model):
         verbose_name=gettext_lazy("Automatically watch projects on contribution"),
         default=settings.DEFAULT_AUTO_WATCH,
         help_text=gettext_lazy(
-            "Whenever you translate a string in a project, you will start watching it."
+            "Projects are added to your watched projects when you contribute to them."
         ),
     )
     contribute_personal_tm = models.BooleanField(
@@ -1024,6 +1024,17 @@ class Profile(models.Model):
         if not parsed.hostname:
             return None
         return parsed._replace(path="/share", query="text=", fragment="").geturl()
+
+    def watch_on_contribution(self, project: Project) -> bool:
+        """Watch project when auto-watch on contribution is enabled."""
+        if (
+            self.user.is_anonymous
+            or not self.auto_watch
+            or self.watched.filter(pk=project.pk).exists()
+        ):
+            return False
+        self.watched.add(project)
+        return True
 
     def increase_count(self, item: str, increase: int = 1) -> None:
         """Update user actions counter."""

@@ -179,7 +179,7 @@ can be further tweaked (or muted) per project and component. Visit the component
 overview page and select appropriate choice from the :guilabel:`Watching` menu.
 
 In case :guilabel:`Automatically watch projects on contribution` is enabled you
-will automatically start watching projects upon translating a string. The
+will automatically start watching projects upon contributing to them. The
 default value depends on :setting:`DEFAULT_AUTO_WATCH`.
 
 .. note::

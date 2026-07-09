@@ -7,6 +7,9 @@ from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.auth.models import Group as DjangoGroup
+from django.core.exceptions import ValidationError
+from django.test import TestCase
+from django.test.utils import override_settings
 
 from weblate.auth import permissions as auth_permissions
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
@@ -17,13 +20,134 @@ from weblate.auth.models import (
     TeamMembership,
     User,
     UserBlock,
+    bot_cache,
+    format_internal_bot_email,
     get_anonymous,
+    sync_internal_bot_emails,
 )
 from weblate.auth.utils import format_membership_limit_language_codes
 from weblate.lang.models import Language
 from weblate.trans.models import Category, ComponentLink, ComponentList, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+
+
+class SkipWeblateAuthMigrationsRouter:
+    def allow_migrate(self, db, app_label, model_name=None, **hints) -> bool | None:
+        if app_label == "weblate_auth":
+            return False
+        return None
+
+
+class InternalBotEmailTest(TestCase):
+    def setUp(self) -> None:
+        bot_cache.get({}).clear()
+
+    def tearDown(self) -> None:
+        bot_cache.get({}).clear()
+
+    def test_get_or_create_bot_default_email(self) -> None:
+        user = User.objects.get_or_create_bot(
+            scope="mt", name="addon", verbose="Machine translation"
+        )
+
+        self.assertTrue(user.is_bot)
+        self.assertFalse(user.is_active)
+        self.assertEqual(user.username, "mt:addon")
+        self.assertEqual(user.email, "noreply-mt-addon@weblate.org")
+
+    @override_settings(INTERNAL_BOT_EMAIL_TEMPLATE="weblate-{scope}-{name}@example.com")
+    def test_get_or_create_bot_custom_email_template(self) -> None:
+        user = User.objects.get_or_create_bot(
+            scope="mt", name="addon", verbose="Machine translation"
+        )
+
+        self.assertEqual(user.email, "weblate-mt-addon@example.com")
+
+    @override_settings(REGISTRATION_EMAIL_MATCH=r"^.*@example\.com$")
+    def test_get_or_create_bot_ignores_registration_email_filter(self) -> None:
+        user = User.objects.get_or_create_bot(
+            scope="mt", name="addon", verbose="Machine translation"
+        )
+
+        self.assertEqual(user.email, "noreply-mt-addon@weblate.org")
+
+    @override_settings(INTERNAL_BOT_EMAIL_TEMPLATE="weblate-{scope}-{name}@example.com")
+    def test_sync_internal_bot_emails(self) -> None:
+        user = User.objects.create(
+            username="mt:addon",
+            full_name="Machine translation",
+            email="noreply-mt-addon@weblate.org",
+            is_bot=True,
+            is_active=False,
+        )
+
+        sync_internal_bot_emails(None)
+
+        user.refresh_from_db()
+        self.assertEqual(user.email, "weblate-mt-addon@example.com")
+
+    @override_settings(REGISTRATION_EMAIL_MATCH=r"^.*@example\.com$")
+    def test_sync_internal_bot_emails_ignores_registration_email_filter(self) -> None:
+        user = User.objects.create(
+            username="mt:addon",
+            full_name="Machine translation",
+            email="old@example.com",
+            is_bot=True,
+            is_active=False,
+        )
+
+        sync_internal_bot_emails(None)
+
+        user.refresh_from_db()
+        self.assertEqual(user.email, "noreply-mt-addon@weblate.org")
+
+    @override_settings(INTERNAL_BOT_EMAIL_TEMPLATE="weblate-{scope}-{name}@example.com")
+    def test_sync_internal_bot_emails_skips_non_internal_bots(self) -> None:
+        non_bot = User.objects.create_user(
+            username="user:name", email="person@example.com", full_name="Person"
+        )
+        project_bot = User.objects.create(
+            username="bot-project-token",
+            full_name="Project token",
+            email="bot-project-token@bots.noreply.weblate.org",
+            is_bot=True,
+            is_active=False,
+        )
+        malformed_bot = User.objects.create(
+            username="too:many:parts",
+            full_name="Malformed bot",
+            email="malformed@example.com",
+            is_bot=True,
+            is_active=False,
+        )
+
+        sync_internal_bot_emails(None)
+
+        non_bot.refresh_from_db()
+        project_bot.refresh_from_db()
+        malformed_bot.refresh_from_db()
+        self.assertEqual(non_bot.email, "person@example.com")
+        self.assertEqual(
+            project_bot.email, "bot-project-token@bots.noreply.weblate.org"
+        )
+        self.assertEqual(malformed_bot.email, "malformed@example.com")
+
+    @override_settings(INTERNAL_BOT_EMAIL_TEMPLATE="{username}@example.com")
+    def test_format_internal_bot_email_validates_email(self) -> None:
+        with self.assertRaises(ValidationError):
+            format_internal_bot_email("mt", "addon")
+
+    @override_settings(
+        DATABASE_ROUTERS=[
+            "weblate.auth.tests.test_models.SkipWeblateAuthMigrationsRouter"
+        ]
+    )
+    def test_sync_internal_bot_emails_skips_unmigrated_database(self) -> None:
+        with patch.object(User.objects, "filter") as filter_mock:
+            sync_internal_bot_emails(None, using="default")
+
+        filter_mock.assert_not_called()
 
 
 class ModelTest(FixtureComponentTestCase):

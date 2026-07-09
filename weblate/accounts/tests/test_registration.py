@@ -397,6 +397,46 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())
 
     @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_email_invitation_link_overrides_stale_session_invitation(self) -> None:
+        _, stale_invitation = self.create_registration_invitation(
+            email="stale@example.com"
+        )
+        invited_group = Group.objects.create(name="Current invitation")
+        invitation = Invitation.objects.create(
+            author=stale_invitation.author,
+            email=REGISTRATION_DATA["email"],
+            username=REGISTRATION_DATA["username"],
+            full_name=REGISTRATION_DATA["fullname"],
+            group=invited_group,
+        )
+        self.use_invitation(stale_invitation)
+
+        response = self.client.get(invitation.get_absolute_url())
+
+        self.assertRedirects(response, reverse("register"))
+        self.assertEqual(self.client.session["invitation_link"], str(invitation.pk))
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_user_invitation_link_clears_stale_session_invitation(self) -> None:
+        _, stale_invitation = self.create_registration_invitation(
+            email="stale@example.com"
+        )
+        author = User.objects.create_user("inviter", "inviter@example.com", "x")
+        invited_user = User.objects.create_user("invited", "invited@example.com", "x")
+        invited_group = Group.objects.create(name="Invited user")
+        invitation = Invitation.objects.create(
+            author=author,
+            user=invited_user,
+            group=invited_group,
+        )
+        self.use_invitation(stale_invitation)
+
+        response = self.client.get(invitation.get_absolute_url())
+
+        self.assertContains(response, "Please sign-in to view this invitation.")
+        self.assertNotIn("invitation_link", self.client.session)
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
     def test_expired_invitation_does_not_open_registration(self) -> None:
         _, invitation = self.create_registration_invitation()
         self.expire_invitation(invitation)

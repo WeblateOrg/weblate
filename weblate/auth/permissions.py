@@ -201,6 +201,18 @@ def check_enforced_2fa(user: User, project: Project) -> bool:
     return user.is_bot or not project.enforced_2fa or user.profile.has_2fa
 
 
+def get_glossary_permission_denial(permission: str) -> str:
+    if permission == "glossary.edit":
+        return gettext("You do not have permission to edit glossary entries.")
+    if permission == "glossary.add":
+        return gettext("You do not have permission to add glossary entries.")
+    if permission == "glossary.delete":
+        return gettext("You do not have permission to delete glossary entries.")
+    if permission == "glossary.upload":
+        return gettext("You do not have permission to upload glossary entries.")
+    return ""
+
+
 def check_permission(
     user: User,
     permission: str,
@@ -404,19 +416,23 @@ def check_can_edit(
             if permission == "unit.review":
                 return Denied(
                     gettext(
-                        "Insufficient privileges for approving translations in a restricted component."
+                        "You do not have permission to approve translations in this restricted component."
                     )
                 )
             return Denied(
                 gettext(
-                    "Insufficient privileges for saving translations in a restricted component."
+                    "You do not have permission to save translations in this restricted component."
                 )
             )
         if permission == "unit.review":
             return Denied(
-                gettext("Insufficient privileges for approving translations.")
+                gettext("You do not have permission to approve translations.")
             )
-        return Denied(gettext("Insufficient privileges for saving translations."))
+        if glossary_denial := get_glossary_permission_denial(permission):
+            return Denied(glossary_denial)
+        return Denied(
+            gettext("You do not have permission to save translations in this project.")
+        )
 
     # Special check for source strings (templates)
     if (
@@ -424,7 +440,7 @@ def check_can_edit(
         and translation.is_template
         and not check_permission(user, "unit.template", obj)
     ):
-        return Denied(gettext("Insufficient privileges for editing source strings."))
+        return Denied(gettext("You do not have permission to edit source strings."))
 
     # Special checks for voting
     if is_vote and translation and not translation.suggestion_voting:
@@ -438,7 +454,7 @@ def check_can_edit(
     ):
         return Denied(
             gettext(
-                "This translation only accepts suggestions, in turn approved by voting."
+                "This translation is configured for suggestion voting. Add a suggestion instead of saving a direct translation."
             )
         )
 
@@ -903,9 +919,7 @@ def check_upload(
     if isinstance(obj, Translation):
         # Source upload
         if obj.is_source and not user.has_perm("source.edit", obj):
-            return Denied(
-                gettext("Insufficient privileges for editing source strings.")
-            )
+            return Denied(gettext("You do not have permission to edit source strings."))
         # Bilingual source translations
         if (
             obj.is_source

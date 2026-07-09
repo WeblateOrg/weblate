@@ -4,7 +4,7 @@
 
 <html lang="{{ LANGUAGE_CODE }}"
       dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
-      {% if theme == "dark" %}data-bs-theme="dark"{% endif %}>
+      {% if theme %}data-bs-theme="{{ theme }}"{% endif %}>
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="referrer" content="origin" />
@@ -110,8 +110,7 @@
 
   </head>
 
-  <body {% if theme %}data-theme="{{ theme }}"{% endif %}
-        {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+  <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
     <div id="popup-toasts" class="toast-container"></div>
     <header>
       <nav class="navbar navbar-expand-lg bg-dark" role="navigation">
@@ -485,8 +484,7 @@
 
     </header>
 
-    <div class="main-content {% block content_class %}{% endblock %}
-       ">
+    <div class="main-content {% block content_class %}{% endblock %} ">
 
       {% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
         {% translate 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}

@@ -23,9 +23,11 @@ from weblate.utils import messages
 from weblate.utils.data import data_path
 from weblate.utils.views import show_form_errors
 
+from .defines import REMOVAL_EXTENSION_DAYS, TRIAL_DAYS
 from .forms import (
     BillingMergeConfirmForm,
     BillingMergeForm,
+    BillingPlanChangeForm,
     HostingForm,
 )
 from .models import Billing, BillingEvent, Invoice, Plan
@@ -136,16 +138,42 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
         if billing.is_trial:
             billing.state = Billing.STATE_TRIAL
             if billing.expiry and billing.expiry > now:
-                billing.expiry += timedelta(days=14)
+                billing.expiry += timedelta(days=TRIAL_DAYS)
             else:
-                billing.expiry = now + timedelta(days=14)
+                billing.expiry = now + timedelta(days=TRIAL_DAYS)
             billing.removal = None
             billing.save(update_fields=["expiry", "removal", "state"])
         elif billing.removal:
-            billing.removal = now + timedelta(days=14)
+            billing.removal = now + timedelta(days=REMOVAL_EXTENSION_DAYS)
             billing.save(update_fields=["removal"])
         billing.billinglog_set.create(
             event=BillingEvent.EXTENDED_TRIAL, user=request.user
+        )
+    elif "change_plan" in request.POST:
+        if not request.user.has_perm("billing.manage"):
+            raise PermissionDenied
+        old_plan = billing.plan
+        form = BillingPlanChangeForm(request.POST)
+        if not form.is_valid():
+            show_form_errors(request, form)
+            return
+        new_plan = form.cleaned_data["plan"]
+        billing.plan = new_plan
+        update_fields = ["plan"]
+        if form.cleaned_data["trial"]:
+            billing.state = Billing.STATE_TRIAL
+            billing.expiry = timezone.now() + timedelta(days=TRIAL_DAYS)
+            billing.removal = None
+            update_fields.extend(("state", "expiry", "removal"))
+        billing.save(update_fields=update_fields)
+        billing.billinglog_set.create(
+            event=BillingEvent.PLAN_CHANGED,
+            summary=f"Changed to {new_plan}",
+            details={
+                "old_plan": {"id": old_plan.pk, "name": old_plan.name},
+                "new_plan": {"id": new_plan.pk, "name": new_plan.name},
+            },
+            user=request.user,
         )
     elif "recurring" in request.POST:
         if "recurring" in billing.payment:
@@ -300,5 +328,6 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "billing": billing,
             "hosting_form": HostingForm(),
             "merge_form": BillingMergeForm(),
+            "plan_change_form": BillingPlanChangeForm(initial={"plan": billing.plan}),
         },
     )

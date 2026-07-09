@@ -710,6 +710,15 @@ are based on :ref:`component-template`. In case the string is not translated
 into the source language, translating to other languages is prohibited. This
 provides :ref:`source-quality-gateway`.
 
+The intermediate file can match an existing language file. While it is configured
+as intermediate, Weblate does not list it as a regular language in the component
+language list. Clearing this setting makes the file appear as a regular language
+again on the next component scan.
+
+Target strings can become read-only while the intermediate file is configured.
+This happens for strings where the matching source string in the
+:ref:`component-template` is not translated yet.
+
 .. seealso::
 
    * :ref:`source-quality-gateway`

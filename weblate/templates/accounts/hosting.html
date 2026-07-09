@@ -34,7 +34,7 @@
             {% include "snippets/libre-basic.html" %}
             <h4>{% translate "Your trial" %}</h4>
             <ul>
-              <li>{% translate "You will have 14 days to set up your project." %}</li>
+              <li>{% blocktranslate count days=trial_days %}You will have {{ days }} day to set up your project.{% plural %}You will have {{ days }} days to set up your project.{% endblocktranslate %}</li>
               <li>{% translate "Please request project approval once you finish the setup." %}</li>
               <li>{% translate "Unapproved projects will be removed." %}</li>
               <li>{% translate "We reserve our right to reject inappropriate content (erotic, gambling, etc.)." %}</li>
