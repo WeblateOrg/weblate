@@ -2166,7 +2166,9 @@ onReady(() => {
           src: async (query) => {
             try {
               // Fetch Data from external Source
-              const source = await fetch(`/api/users/?username=${query}`);
+              const source = await fetch(
+                `/api/users/?username=${encodeURIComponent(query)}`,
+              );
               // Data should be an array of `Objects` or `Strings`
               const data = await source.json();
               return data.results.map((user) => {
