@@ -38,6 +38,9 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
+from weblate.checks import flags as check_flags
+from weblate.checks import models as check_models
+from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -5916,6 +5919,67 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self,
     ) -> None:
         machine = self.get_machine()
+        unit = make_unit(
+            code="fr",
+            source="From $1 to $2",
+            flags=r'placeholders:r"\$\d+"',
+        )
+
+        def get_debug_context(
+            content: str, previous_content: str, previous_response: str
+        ) -> str:
+            def load_json(value: str) -> object:
+                try:
+                    return json.loads(value)
+                except ValueError:  # pragma: no cover - diagnostic path
+                    return value
+
+            placeholder_check = check_models.CHECKS.get("placeholders")
+            try:
+                cleanup = machine.cleanup_text(unit.source, unit)
+            except Exception as error:  # pragma: no cover - diagnostic path
+                cleanup = f"{error.__class__.__name__}: {error}"
+            try:
+                highlights = highlight_string(unit.source, unit)
+            except Exception as error:  # pragma: no cover - diagnostic path
+                highlights = f"{error.__class__.__name__}: {error}"
+            try:
+                machine_highlights = list(machine.get_highlights(unit.source, unit))
+            except Exception as error:  # pragma: no cover - diagnostic path
+                machine_highlights = f"{error.__class__.__name__}: {error}"
+            try:
+                placeholder_values = unit.all_flags.get_value_raw("placeholders")
+            except Exception as error:  # pragma: no cover - diagnostic path
+                placeholder_values = f"{error.__class__.__name__}: {error}"
+
+            return json.dumps(
+                {
+                    "content": load_json(content),
+                    "previous_content": load_json(previous_content),
+                    "previous_response": previous_response,
+                    "unit_flags": unit.flags,
+                    "unit_all_flags": unit.all_flags.format(),
+                    "unit_all_flags_items": repr(unit.all_flags.items()),
+                    "unit_placeholder_values": repr(placeholder_values),
+                    "unit_plural_map": getattr(unit, "plural_map", None),
+                    "parsed_unit_flags": repr(check_flags.parse_flags_text(unit.flags)),
+                    "checks_has_placeholders": "placeholders" in check_models.CHECKS,
+                    "placeholder_check_type": (
+                        type(placeholder_check).__name__
+                        if placeholder_check is not None
+                        else None
+                    ),
+                    "typed_flags_args_has_placeholders": (
+                        "placeholders" in check_flags.TYPED_FLAGS_ARGS
+                    ),
+                    "highlight_string": repr(highlights),
+                    "machine_highlights": repr(machine_highlights),
+                    "cleanup_text": repr(cleanup),
+                },
+                default=repr,
+                indent=2,
+                sort_keys=True,
+            )
 
         def request_callback(
             _prompt: str,
@@ -5926,7 +5990,9 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             parts = json.loads(content)["strings"][0]["parts"]
             placeholders = [part for part in parts if part["type"] == "placeholder"]
             self.assertEqual(
-                [part["kind"] for part in placeholders], ["grammar", "grammar"]
+                [part["kind"] for part in placeholders],
+                ["grammar", "grammar"],
+                get_debug_context(content, _previous_content, _previous_response),
             )
             return json.dumps(
                 [
@@ -5944,13 +6010,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         with patch.object(
             machine, "fetch_llm_translations", side_effect=request_callback
         ):
-            translation = self.assert_translate(
-                "fr",
-                "From $1 to $2",
-                1,
-                machine=machine,
-                unit_args={"flags": r'placeholders:r"\$\d+"'},
-            )
+            translation = machine.translate(unit)
 
         self.assertEqual(
             translation[0][0]["text"],
