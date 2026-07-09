@@ -185,7 +185,8 @@ LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES = (
 )
 LLM_JSON_ARRAY_STRING_TERMINATORS = frozenset({",", "]"})
 LLM_JSON_OBJECT_KEY_STRING_TERMINATORS = frozenset({":"})
-LLM_JSON_OBJECT_VALUE_STRING_TERMINATORS = frozenset({",", "}"})
+# Accept "]" to repair object values missing a closing "}" before a parent array.
+LLM_JSON_OBJECT_VALUE_STRING_TERMINATORS = frozenset({",", "}", "]"})
 
 
 class LLMGlossaryEntry(TypedDict, total=False):
@@ -1321,6 +1322,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
             if char == '"':
                 next_index = cls._skip_json_whitespace(content, index + 1)
                 if next_index < len(content) and content[next_index] == '"':
+                    after_quote = cls._skip_json_whitespace(content, next_index + 1)
+                    if after_quote < len(content) and (
+                        content[after_quote] in terminators
+                        and cls._has_valid_json_container_end(content, after_quote)
+                    ):
+                        repaired.append('\\"')
+                        index += 1
+                        continue
                     return None, index
                 if next_index < len(content) and (
                     content[next_index] not in terminators
@@ -1434,6 +1443,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 index += 1
                 break
 
+            if item_count and content[index] == "]":
+                repaired.append("}")
+                break
+
             if item_count:
                 if content[index] != ",":
                     return None, index
@@ -1464,7 +1477,27 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return "".join(repaired), index
 
     @classmethod
+    def _unwrap_json_code_fence(cls, content: str) -> str:
+        index = cls._skip_json_whitespace(content, 0)
+        end = len(content.rstrip())
+        if not content.startswith("```", index) or not content.startswith(
+            "```", end - 3
+        ):
+            return content
+
+        header_end = content.find("\n", index + 3, end)
+        if header_end == -1:
+            return content
+
+        fence_info = content[index + 3 : header_end].strip().lower()
+        if fence_info and fence_info != "json":
+            return content
+
+        return content[header_end + 1 : end - 3]
+
+    @classmethod
     def _repair_json_string_array(cls, content: str) -> str | None:
+        content = cls._unwrap_json_code_fence(content)
         index = cls._skip_json_whitespace(content, 0)
         if index >= len(content) or content[index] != "[":
             return None
