@@ -21,7 +21,7 @@ from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
-from django.db import models
+from django.db import models, router
 from django.db.models import Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_delete, post_save
@@ -536,6 +536,9 @@ def format_internal_bot_email(scope: str, name: str) -> str:
 def sync_internal_bot_emails(sender, **kwargs) -> None:
     """Update internal bot e-mails to match configured template."""
     using = kwargs.get("using")
+    if using is not None and not router.allow_migrate_model(using, User):
+        return
+
     queryset = User.objects.filter(is_bot=True, username__contains=":").order_by("pk")
     if using is not None:
         queryset = queryset.using(using)
