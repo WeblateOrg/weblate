@@ -11086,7 +11086,20 @@ class SuggestionAPITest(APIBaseTest):
         unit = Unit.objects.get(
             translation__language_code="cs", source__startswith="Orangutan has "
         )
-        target = ["Orangutan má %d banán.\n", "Orangutan má %d banány.\n"]
+        target = [
+            "Orangutan má %d banán.\n",
+            "Orangutan má %d banány.\n",
+        ]
+        response = self._add_suggestion(unit, target, code=400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Number of plurals does not match",
+        )
+        target = [
+            "Orangutan má %d banán.\n",
+            "Orangutan má %d banány.\n",
+            "Orangutan má %d banánů.\n",
+        ]
         response = self._add_suggestion(unit, target)
         self.assertEqual(response.data["target"], target)
 

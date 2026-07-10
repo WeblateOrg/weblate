@@ -2293,6 +2293,16 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
         model = Suggestion
         fields = ("id", "unit", "target", "user", "timestamp", "votes")
 
+    def validate_target(self, value: list[str]) -> list[str]:
+        unit = self.context.get("unit")
+        if unit is None:
+            return value
+        target_copy = value.copy()
+        if target_copy != unit.adjust_plurals(value.copy()):
+            msg = gettext_lazy("Number of plurals does not match")
+            raise serializers.ValidationError(msg)
+        return value
+
     def create(self, validated_data):
         request = self.context["request"]
         unit = self.context["unit"]
