@@ -13836,6 +13836,75 @@ class OpenAPITest(APIBaseTest):
         self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
         self.assertNotIn("* `info`", severity_description)
 
+    def test_change_action_schema_matches_runtime_choices(self) -> None:
+        schema = self.get_schema()
+        action_schema = schema["components"]["schemas"]["ActionEnum"]
+        action_parameter = next(
+            parameter
+            for parameter in schema["paths"]["/api/changes/"]["get"]["parameters"]
+            if parameter["name"] == "action"
+        )
+
+        self.assertEqual(
+            action_parameter["schema"],
+            {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/ActionEnum"},
+            },
+        )
+        self.assertTrue(action_parameter["explode"])
+        self.assertEqual(action_parameter["style"], "form")
+        self.assertEqual(action_schema["enum"], [event.value for event in ActionEvents])
+        self.assertIn(
+            "* `6` - **Automatically translated:** A translation was added or changed",
+            action_schema["description"],
+        )
+        self.assertIn(
+            "Automatic translation, uploads, and bulk edits do not emit this event.",
+            action_schema["description"],
+        )
+
+    def test_path_and_response_descriptions_match_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+
+        for path in (
+            "/api/addons/{id}/",
+            "/api/categories/{id}/",
+            "/api/changes/{id}/",
+            "/api/groups/{id}/",
+            "/api/memory/{id}/",
+            "/api/roles/{id}/",
+            "/api/screenshots/{id}/",
+            "/api/units/{id}/",
+        ):
+            with self.subTest(path=path):
+                parameter = next(
+                    item
+                    for item in schema["paths"][path]["get"]["parameters"]
+                    if item["name"] == "id"
+                )
+                self.assertEqual(parameter["schema"]["type"], "integer")
+
+        nested_parameter = next(
+            item
+            for item in schema["paths"]["/api/groups/{id}/components/{component_id}/"][
+                "delete"
+            ]["parameters"]
+            if item["name"] == "component_id"
+        )
+        self.assertEqual(nested_parameter["schema"]["type"], "integer")
+
+        task = schema["paths"]["/api/tasks/{id}/"]
+        task_parameter = next(
+            item for item in task["get"]["parameters"] if item["name"] == "id"
+        )
+        self.assertEqual(task_parameter["schema"]["type"], "string")
+        self.assertEqual(task["delete"]["description"], "Cancel a running task.")
+        self.assertEqual(
+            schema["paths"]["/api/changes/"]["get"]["responses"]["400"]["description"],
+            "The request was invalid or could not be parsed.",
+        )
+
     def test_static_vcs_enum_schema_includes_all_configured_choices(self) -> None:
         with patch.dict(os.environ, {DOCS_OPENAPI_ALL_VCS_CHOICES_ENV: "1"}):
             schema = self.get_schema()

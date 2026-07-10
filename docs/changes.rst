@@ -7,6 +7,8 @@ Weblate 2026.8
 
 .. rubric:: Improvements
 
+* Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

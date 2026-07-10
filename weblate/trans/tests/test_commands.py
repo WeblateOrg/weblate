@@ -758,6 +758,16 @@ class ImportCommandTest(RepoTestCase):
 
 
 class DocumentationCommandTest(TestCase):
+    def test_change_event_metadata(self) -> None:
+        self.assertEqual(ActionEvents.UPDATE.value, 0)
+        self.assertEqual(ActionEvents.UPDATE.label, "Resource updated")
+        self.assertEqual(
+            ActionEvents.UPDATE.description,
+            "A translation file was synchronized with its repository.",
+        )
+        self.assertEqual(ActionEvents.choices[0], (0, "Resource updated"))
+        self.assertTrue(all(str(event.description) for event in ActionEvents))
+
     def test_list_file_format_params(self) -> None:
         class TestJSONFileFormatParam(BaseFileFormatParam):
             name = "json-test"
@@ -782,3 +792,7 @@ class DocumentationCommandTest(TestCase):
         self.assertIn("``83``", result)
         self.assertIn("``forced_synchronization_of_translations``", result)
         self.assertIn("Forced synchronization of translations", result)
+        self.assertIn("Description", result)
+        self.assertIn(
+            "Translation files were forcibly synchronized with the repository.", result
+        )

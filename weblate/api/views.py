@@ -4099,6 +4099,7 @@ class TasksViewSet(ViewSet):
         )
         return Response(serializer.data)
 
+    @extend_schema(description="Cancel a running task.", methods=["delete"])
     def destroy(self, request: Request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")
         if not task.ready() and component is not None:
