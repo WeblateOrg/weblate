@@ -30901,12 +30901,15 @@ components:
             leading directory by using {{filename|parentdir}}.
           maxLength: 200
         report_source_bugs:
-          type: string
           title: Source string bug reporting address
           description: E-mail address for reports on errors in source strings. Leave
             empty for no e-mails.
-          format: email
-          maxLength: 190
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 190
+          - type: string
+            maxLength: 0
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
@@ -31060,10 +31063,14 @@ components:
           description: Regular expression used to determine variants of a string.
           maxLength: 190
         zipfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         docfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         from_component:
           oneOf:
@@ -33493,12 +33500,15 @@ components:
             leading directory by using {{filename|parentdir}}.
           maxLength: 200
         report_source_bugs:
-          type: string
           title: Source string bug reporting address
           description: E-mail address for reports on errors in source strings. Leave
             empty for no e-mails.
-          format: email
-          maxLength: 190
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 190
+          - type: string
+            maxLength: 0
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
@@ -33652,10 +33662,14 @@ components:
           description: Regular expression used to determine variants of a string.
           maxLength: 190
         zipfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         docfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         from_component:
           oneOf:
@@ -34837,12 +34851,15 @@ components:
             leading directory by using {{filename|parentdir}}.
           maxLength: 200
         report_source_bugs:
-          type: string
           title: Source string bug reporting address
           description: E-mail address for reports on errors in source strings. Leave
             empty for no e-mails.
-          format: email
-          maxLength: 190
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 190
+          - type: string
+            maxLength: 0
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
@@ -34996,10 +35013,14 @@ components:
           description: Regular expression used to determine variants of a string.
           maxLength: 190
         zipfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         docfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         from_component:
           oneOf:
@@ -35966,22 +35987,36 @@ components:
         * `-1` - Negative
     VcsEnum:
       enum:
+      - azure_devops
       - bitbucketcloud
+      - bitbucketserver
       - gerrit
       - git
       - git-force-push
+      - gitea
+      - github
       - github-app
+      - gitlab
       - local
       - mercurial
+      - pagure
+      - subversion
       type: string
       description: |-
+        * `azure_devops` - Azure DevOps pull request
         * `bitbucketcloud` - Bitbucket Cloud merge request
+        * `bitbucketserver` - Bitbucket Data Center pull request
         * `gerrit` - Gerrit
         * `git` - Git
         * `git-force-push` - Git with force push
+        * `gitea` - Gitea pull request
+        * `github` - GitHub pull request
         * `github-app` - GitHub (via Weblate GitHub app)
+        * `gitlab` - GitLab merge request
         * `local` - No remote repository
         * `mercurial` - Mercurial
+        * `pagure` - Pagure merge request
+        * `subversion` - Subversion
     UserGroupDeleteRequest:
       type: object
       properties:
@@ -36014,7 +36049,7 @@ components:
         project tokens whose access to the API is limited to operations to their associated
         project. These tokens have the `wlp_` prefix.\n        "
 servers:
-- url: http://localhost:8000
+- url: 'http:'
   description: Weblate
 tags:
 - name: root
