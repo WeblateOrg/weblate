@@ -156,6 +156,7 @@ from weblate.trans.models import (
     PendingUnitChange,
     Project,
     Suggestion,
+    SuggestionAddResult,
     Unit,
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
@@ -3343,6 +3344,25 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+def suggestion_vote_response(request: Request, suggestion_pk: int) -> Response:
+    suggestion = Suggestion.objects.filter(pk=suggestion_pk).load_votes().first()
+    if suggestion is None:
+        return Response(
+            {"result": "accepted", "suggestion": None},
+            status=HTTP_200_OK,
+        )
+
+    return Response(
+        {
+            "result": "voted",
+            "suggestion": SuggestionSerializer(
+                suggestion, context={"request": request}
+            ).data,
+        },
+        status=HTTP_200_OK,
+    )
+
+
 @extend_schema_view(
     list=extend_schema(description="Return a list of translation units."),
     retrieve=extend_schema(description="Return information about translation unit."),
@@ -3546,6 +3566,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         description="Add a suggestion to the unit.",
         methods=["post"],
         request=SuggestionSerializer,
+        responses={
+            201: SuggestionSerializer,
+            200: SuggestionVoteResultSerializer,
+        },
     )
     @extend_schema(
         description="Return a list of suggestions on the unit.",
@@ -3570,7 +3594,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 },
             )
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            suggestion = serializer.save()
+            if serializer.add_result == SuggestionAddResult.VOTED:
+                return suggestion_vote_response(request, suggestion.pk)
             return Response(serializer.data, status=HTTP_201_CREATED)
 
         qs = unit.suggestion_set.load_votes().order()
@@ -3677,23 +3703,7 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         suggestion_pk = suggestion.pk
         suggestion.add_vote(request, value)
 
-        suggestion = Suggestion.objects.filter(pk=suggestion_pk).load_votes().first()
-        if suggestion is None:
-            # suggestion was auto-accepted
-            return Response(
-                {"result": "accepted", "suggestion": None},
-                status=HTTP_200_OK,
-            )
-
-        return Response(
-            {
-                "result": "voted",
-                "suggestion": SuggestionSerializer(
-                    suggestion, context={"request": request}
-                ).data,
-            },
-            status=HTTP_200_OK,
-        )
+        return suggestion_vote_response(request, suggestion_pk)
 
 
 @extend_schema_view(

@@ -60,6 +60,7 @@ from weblate.trans.models import (
     Label,
     Project,
     Suggestion,
+    SuggestionAddResult,
     Translation,
     Unit,
 )
@@ -2266,6 +2267,8 @@ class PluralField(serializers.ListField):
 
 
 class SuggestionSerializer(serializers.Serializer[Suggestion]):
+    add_result: SuggestionAddResult | None = None
+
     id = serializers.IntegerField(read_only=True)
     unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
@@ -2295,7 +2298,7 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
         unit = self.context["unit"]
         target = validated_data["target"]
         try:
-            result = Suggestion.objects.add(
+            suggestion, result = Suggestion.objects.add(
                 unit,
                 target,
                 request,
@@ -2305,10 +2308,11 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
         except SuggestionSimilarToTranslationError as error:
             msg = gettext_lazy("Your suggestion is similar to the current translation!")
             raise serializers.ValidationError({"target": msg}) from error
-        if not result:
+        self.add_result = result
+        if result == SuggestionAddResult.DUPLICATE:
             msg = gettext_lazy("Your suggestion already exists!")
             raise serializers.ValidationError({"target": msg})
-        return result
+        return suggestion
 
 
 class SuggestionDeleteRequestSerializer(ReadOnlySerializer):

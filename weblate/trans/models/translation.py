@@ -47,7 +47,7 @@ from weblate.trans.file_format_params import (
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
-from weblate.trans.models.suggestion import Suggestion
+from weblate.trans.models.suggestion import Suggestion, SuggestionAddResult
 from weblate.trans.models.unit import Unit
 from weblate.trans.signals import (
     component_post_update,
@@ -1791,13 +1791,14 @@ class Translation(
             if isinstance(new_target, str):
                 new_target = [new_target]
             if current_target != new_target and not dbunit.readonly:
-                if Suggestion.objects.add(
+                _, result = Suggestion.objects.add(
                     dbunit,
                     new_target,
                     request,
                     raise_exception=False,
                     user=author,
-                ):
+                )
+                if result == SuggestionAddResult.CREATED:
                     accepted += 1
                 else:
                     skipped += 1
