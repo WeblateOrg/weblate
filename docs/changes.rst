@@ -1,7 +1,7 @@
 Weblate 2026.7.1
 ----------------
 
-*Not yet released.*
+*Released on July 10th 2026.*
 
 .. rubric:: New features
 
@@ -42,8 +42,6 @@ Weblate 2026.7.1
 * Anonymous and internal bot accounts can no longer be edited through generic user management.
 * LLM machine translation suggestions now recover from more malformed structured JSON replies.
 * Azure AI Translator settings now reject malformed region names before validating service connectivity.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
