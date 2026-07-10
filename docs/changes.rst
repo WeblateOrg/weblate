@@ -22,7 +22,7 @@ Weblate 2026.7.1
 * Code-hosting account pages now consistently use :guilabel:`Code-hosting connections` and provider-neutral connected account wording.
 * :ref:`discover-weblate` registration can now be started from the management interface without manually copying the activation token.
 * :ref:`discover-weblate` can now be managed from a dedicated management panel, registration starts with discovery enabled, and protected projects are included in the listing.
-* Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
+* Updated the :ref:`mt-openai`, :ref:`mt-mistral`, and :ref:`mt-anthropic` model lists for currently supported models.
 
 .. rubric:: Bug fixes
 
