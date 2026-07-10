@@ -29792,12 +29792,15 @@ components:
             leading directory by using {{filename|parentdir}}.
           maxLength: 200
         report_source_bugs:
-          type: string
           title: Source string bug reporting address
           description: E-mail address for reports on errors in source strings. Leave
             empty for no e-mails.
-          format: email
-          maxLength: 190
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 190
+          - type: string
+            maxLength: 0
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
@@ -29951,10 +29954,14 @@ components:
           description: Regular expression used to determine variants of a string.
           maxLength: 190
         zipfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         docfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         from_component:
           oneOf:
@@ -31417,7 +31424,7 @@ components:
         * `ComponentTranslatedNotificaton` - Component was translated
         * `NewCommentNotificaton` - Comment was added
         * `MentionCommentNotificaton` - You were mentioned in a comment
-        * `LastAuthorCommentNotificaton` - Your translation received a comment
+        * `LastAuthorCommentNotificaton` - String you contributed to received a comment
         * `TranslatedStringNotificaton` - String was edited by user
         * `ApprovedStringNotificaton` - String was approved
         * `ChangedStringNotificaton` - String was changed
@@ -32363,12 +32370,15 @@ components:
             leading directory by using {{filename|parentdir}}.
           maxLength: 200
         report_source_bugs:
-          type: string
           title: Source string bug reporting address
           description: E-mail address for reports on errors in source strings. Leave
             empty for no e-mails.
-          format: email
-          maxLength: 190
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 190
+          - type: string
+            maxLength: 0
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
@@ -32522,10 +32532,14 @@ components:
           description: Regular expression used to determine variants of a string.
           maxLength: 190
         zipfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         docfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         from_component:
           oneOf:
@@ -33707,12 +33721,15 @@ components:
             leading directory by using {{filename|parentdir}}.
           maxLength: 200
         report_source_bugs:
-          type: string
           title: Source string bug reporting address
           description: E-mail address for reports on errors in source strings. Leave
             empty for no e-mails.
-          format: email
-          maxLength: 190
+          oneOf:
+          - type: string
+            format: email
+            maxLength: 190
+          - type: string
+            maxLength: 0
         merge_style:
           allOf:
           - $ref: '#/components/schemas/MergeStyleEnum'
@@ -33866,10 +33883,14 @@ components:
           description: Regular expression used to determine variants of a string.
           maxLength: 190
         zipfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         docfile:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uri
         from_component:
           oneOf:

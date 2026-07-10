@@ -39,6 +39,10 @@
                 {% translate "Terminate recurring payment" %}
               </button>
             {% endif %}
+            {% if user.is_superuser %}
+              <a href="{% url "admin:billing_billing_change" billing.pk %}"
+                 class="btn btn-secondary">{% translate "Open in Django admin" %}</a>
+            {% endif %}
             <button type="submit"
                     name="terminate"
                     value="{{ billing.pk }}"
@@ -55,11 +59,26 @@
       <form method="get" action="{% url "billing-merge" pk=billing.pk %}">
         <div class="card">
           <div class="card-header text-bg-warning">
-            <h4 class="card-title">{% translate "Manage billing" %}</h4>
+            <h4 class="card-title">{% translate "Merge billing" %}</h4>
           </div>
           <div class="card-body">{% crispy merge_form %}</div>
           <div class="card-footer">
             <input type="submit" class="btn btn-primary" value="{% translate "Review merge" %}">
+          </div>
+        </div>
+      </form>
+      <form method="post" action="{{ billing.get_absolute_url }}">
+        {% csrf_token %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Change billing plan" %}</h4>
+          </div>
+          <div class="card-body">{% crispy plan_change_form %}</div>
+          <div class="card-footer">
+            <button type="submit"
+                    name="change_plan"
+                    value="{{ billing.pk }}"
+                    class="btn btn-primary">{% translate "Change plan" %}</button>
           </div>
         </div>
       </form>
@@ -131,7 +150,7 @@
               <tr>
                 <td>{{ log.timestamp|naturaltime }}</td>
                 <td>{{ log.get_event_display }}</td>
-                <td>{{ log.summary }}</td>
+                <td>{{ log.get_details_display }}</td>
                 <td>{{ log.user }}</td>
                 <td>
                   {% if user.is_superuser and log.details.backup_filename %}

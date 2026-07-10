@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from shutil import disk_usage
 
 # pylint: disable-next=unused-import
@@ -64,8 +65,11 @@ from weblate.utils.db import (
 )
 from weblate.utils.encoding import get_encoding_list
 from weblate.utils.errors import report_error
+from weblate.utils.requests import fetch_url
+from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
+from weblate.utils.token import get_token
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
@@ -89,7 +93,12 @@ from weblate.wladmin.forms import (
     WorkspaceCreateForm,
     WorkspaceSearchForm,
 )
-from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
+from weblate.wladmin.models import (
+    BackupService,
+    ConfigurationError,
+    SupportStatus,
+    get_support_url,
+)
 from weblate.wladmin.tasks import backup_service, support_status_update
 from weblate.workspaces.models import Workspace
 
@@ -119,6 +128,47 @@ MENU: tuple[tuple[str, str, StrOrPromise], ...] = (
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
     MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
+
+DISCOVERY_REGISTRATION_SESSION = "discovery_registration"
+DISCOVERY_REGISTRATION_STATE_AGE = timedelta(minutes=10)
+DISCOVERY_ACTIVATION_CODE_MAX_LENGTH = 100
+DISCOVERY_CALLBACK_PATH = "/manage/discovery/callback/"
+
+
+def get_discovery_registration_url() -> str:
+    return get_support_url("subscription/discovery/register/")
+
+
+def get_discovery_activation_url() -> str:
+    return get_support_url("api/support/activation/")
+
+
+def get_discovery_site_url(callback_path: str) -> str:
+    return get_site_url(callback_path.removesuffix(DISCOVERY_CALLBACK_PATH)).rstrip("/")
+
+
+def store_discovery_registration_state(request: AuthenticatedHttpRequest) -> str:
+    state = get_token("discovery")
+    request.session[DISCOVERY_REGISTRATION_SESSION] = {
+        "state": state,
+        "expires": (timezone.now() + DISCOVERY_REGISTRATION_STATE_AGE).timestamp(),
+    }
+    return state
+
+
+def validate_discovery_registration_state(
+    request: AuthenticatedHttpRequest, state: str
+) -> bool:
+    stored = request.session.get(DISCOVERY_REGISTRATION_SESSION)
+    if not stored:
+        return False
+    if stored.get("expires", 0) < timezone.now().timestamp():
+        request.session.pop(DISCOVERY_REGISTRATION_SESSION, None)
+        return False
+    if stored.get("state") != state:
+        return False
+    request.session.pop(DISCOVERY_REGISTRATION_SESSION, None)
+    return True
 
 
 @management_access
@@ -268,6 +318,101 @@ def discovery(request: AuthenticatedHttpRequest) -> HttpResponse:
         support.save(update_fields=["discoverable"])
         support_status_update.delay()
 
+    return redirect("manage")
+
+
+@management_permission_required("management.configure")
+@require_POST
+def discovery_register(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if SupportStatus.objects.get_current().secret:
+        messages.error(
+            request,
+            gettext(
+                "This installation is already linked to weblate.org. "
+                "Use discovery settings to manage its listing."
+            ),
+        )
+        return redirect("manage")
+
+    state = store_discovery_registration_state(request)
+    callback_path = reverse("manage-discovery-callback")
+    query = urlencode(
+        {
+            "site_url": get_discovery_site_url(callback_path),
+            "state": state,
+        }
+    )
+    return redirect(f"{get_discovery_registration_url()}?{query}")
+
+
+@management_permission_required("management.configure")
+def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
+    state = request.GET.get("state", "")
+    code = request.GET.get("code", "")
+    if not validate_discovery_registration_state(request, state):
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Invalid activation state."),
+        )
+        return redirect("manage")
+    if not code:
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Missing activation code."),
+        )
+        return redirect("manage")
+    if len(code) > DISCOVERY_ACTIVATION_CODE_MAX_LENGTH:
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Invalid activation code."),
+        )
+        return redirect("manage")
+
+    try:
+        response = fetch_url(
+            "post",
+            get_discovery_activation_url(),
+            data={"code": code},
+            timeout=60,
+        )
+        payload = response.json()
+        support = SupportStatus(secret=payload["secret"])
+        support.refresh(
+            site_url=get_discovery_site_url(reverse("manage-discovery-callback"))
+        )
+    except Timeout:
+        report_error("Activation timeout")
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Please try again later."),
+        )
+    except Exception:
+        report_error("Activation error")
+        messages.error(
+            request,
+            gettext("Could not activate your installation. Please try again later."),
+        )
+    else:
+        with transaction.atomic():
+            active_subscription = (
+                SupportStatus.objects.select_for_update()
+                .filter(enabled=True, has_subscription=True)
+                .exists()
+            )
+            if active_subscription and not support.has_subscription:
+                messages.error(
+                    request,
+                    gettext(
+                        "Could not activate discovery because a support package "
+                        "is already linked."
+                    ),
+                )
+            else:
+                SupportStatus.objects.select_for_update().filter(enabled=True).update(
+                    enabled=False
+                )
+                support.save()
+                messages.success(request, gettext("Activation completed."))
     return redirect("manage")
 
 

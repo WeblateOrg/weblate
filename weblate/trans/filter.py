@@ -37,6 +37,11 @@ class FilterRegistry:
                 "state:<translated AND NOT has:suggestion",
             ),
             ("comments", gettext_lazy("Strings with comments"), "has:comment"),
+            (
+                "source_comments",
+                gettext_lazy("Strings with source comments"),
+                "has:source-comment",
+            ),
             ("allchecks", gettext_lazy("Strings with any failing checks"), "has:check"),
             (
                 "translated_checks",
@@ -126,6 +131,7 @@ def get_filter_choice(project=None):
         ("suggestions", gettext("Strings with suggestions")),
         ("nosuggestions", gettext("Unfinished strings without suggestions")),
         ("comments", gettext("Strings with comments")),
+        ("source_comments", gettext("Strings with source comments")),
         ("allchecks", gettext("Strings with any failing checks")),
         ("approved", gettext("Approved strings")),
         ("approved_suggestions", gettext("Approved strings with suggestions")),

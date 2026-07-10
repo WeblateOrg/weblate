@@ -65,6 +65,7 @@ class CommentManager(models.Manager):
         )
 
         component = unit_scope.translation.component
+        user.profile.watch_on_contribution(component.project)
 
         # Add review label/flag
         if scope == "report":

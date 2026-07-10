@@ -38,6 +38,9 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
+from weblate.checks import flags as check_flags
+from weblate.checks import models as check_models
+from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -361,8 +364,11 @@ class BaseMachineTranslationTest(TestCase):
     EXPECTED_LEN = 2
     CONFIGURATION: ClassVar[SettingsDict] = {}
 
+    def get_configuration(self) -> SettingsDict:
+        return self.CONFIGURATION.copy()
+
     def get_machine(self, *, use_cache: bool = False):
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         machine.cache_translations = use_cache
         return machine
@@ -992,7 +998,7 @@ class GlosbeTranslationTest(BaseMachineTranslationTest):
         # This raises an exception
         self.test_error()
         # The second call should not perform due to rate limiting being cached
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, 0, machine=machine
         )
@@ -1000,7 +1006,7 @@ class GlosbeTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_ratelimit_set(self) -> None:
         """Test manual setting of rate limit."""
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         machine.set_rate_limit()
         self.assert_translate(
@@ -1096,7 +1102,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_translations_cache(self) -> None:
         self.mock_response()
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
@@ -1104,7 +1110,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(len(responses.calls), 2)
         responses.reset()
         # New instance should use cached languages and translations
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
@@ -1297,7 +1303,7 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_ratelimit_set(self) -> None:
         """Test manual setting of rate limit."""
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         machine.set_rate_limit()
         self.assert_translate(
@@ -1395,16 +1401,22 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
     def test_glossary(self) -> None:
         self.mock_languages()
         self.mock_glossary_responses()
-        self.CONFIGURATION["bucket_name"] = "test-bucket"
+        machine = self.get_machine()
+        machine.settings["bucket_name"] = "test-bucket"
+        machine.delete_cache()
 
-        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     @patch("weblate.machinery.googlev3.GoogleV3Translation.glossary_count_limit", new=1)
     def test_glossary_with_exception(self) -> None:
         self.mock_languages()
         self.mock_glossary_responses()
-        self.CONFIGURATION["bucket_name"] = "test-bucket"
+        machine = self.get_machine()
+        machine.settings["bucket_name"] = "test-bucket"
+        machine.delete_cache()
 
         mock_blob = self.mock_blob(fail_delete=True)
         mock_bucket = self.mock_bucket(mock_blob)
@@ -1431,7 +1443,10 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
             ),
         ):
             self.assert_translate(
-                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+                self.SUPPORTED,
+                self.SOURCE_TRANSLATED,
+                self.EXPECTED_LEN,
+                machine=machine,
             )
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
@@ -1439,13 +1454,18 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
     def test_glossary_with_calls_check(self) -> None:
         self.mock_languages()
         self.mock_glossary_responses()
-        self.CONFIGURATION["bucket_name"] = "test-bucket"
+        machine = self.get_machine()
+        machine.settings["bucket_name"] = "test-bucket"
+        machine.delete_cache()
 
         with patch(
             "weblate.machinery.googlev3.GoogleV3Translation.delete_glossary"
         ) as delete_glossary_method:
             self.assert_translate(
-                self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+                self.SUPPORTED,
+                self.SOURCE_TRANSLATED,
+                self.EXPECTED_LEN,
+                machine=machine,
             )
             delete_glossary_method.assert_has_calls(
                 [
@@ -2086,7 +2106,7 @@ class ModernMTTest(BaseMachineTranslationTest):
             self.assertIn("glossaries", request.params)
             return (200, {}, json.dumps(MODERNMT_RESPONSE))
 
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
 
         responses.add_callback(
@@ -2233,8 +2253,12 @@ class ModernMTTest(BaseMachineTranslationTest):
         )
         self.mock_response()
 
-        self.CONFIGURATION["context_vector"] = "1234:0.123"
-        self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN)
+        machine = self.get_machine()
+        machine.settings["context_vector"] = "1234:0.123"
+        machine.delete_cache()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
 
     @responses.activate
     def test_clean_custom(self) -> None:
@@ -2326,7 +2350,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             self.assertEqual(payload["formality"], expected_formality)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_languages()
         responses.add_callback(
@@ -2357,7 +2381,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             response["translations"][0]["text"] = "Hallo&amp;welt"
             return (200, {}, json.dumps(response))
 
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_languages()
         responses.add_callback(
@@ -2398,7 +2422,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             )
             return (200, {}, "{}")
 
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_languages()
         responses.add_callback(
@@ -2438,7 +2462,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_glossary_languages_ignores_legacy_cache(self) -> None:
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         old_cache_key = machine.get_cache_key("glossary_languages")
         new_cache_key = machine.get_glossary_languages_cache_key()
@@ -2491,7 +2515,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             )
             return (200, {}, "{}")
 
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_languages()
         responses.add_callback(
@@ -2650,7 +2674,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
                 ),
             )
 
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_languages()
         responses.add_callback(
@@ -2670,7 +2694,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_cache(self) -> None:
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_response()
         # Fetch from service
@@ -2688,7 +2712,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         responses.reset()
         # Fetch from cache
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
@@ -2796,7 +2820,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_languages_map(self) -> None:
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         self.mock_languages()
         lang_pt = Language.objects.get(code="pt")
         lang_pt_br = Language.objects.get(code="pt_BR")
@@ -2847,7 +2871,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_chinese(self) -> None:
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_response()
         self.assert_translate(
@@ -2859,7 +2883,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_translate_result_content(self) -> None:
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_response()
         translation = self.assert_translate(
@@ -2881,7 +2905,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_cache(self) -> None:
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_response()
         # Fetch from service
@@ -2891,7 +2915,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(len(responses.calls), 2)
         responses.reset()
         # Fetch from cache
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
@@ -2940,7 +2964,7 @@ class LTEngineTranslationTest(BaseMachineTranslationTest):
 
     @responses.activate
     def test_translate_result_content(self) -> None:
-        machine = self.MACHINE_CLS(self.CONFIGURATION)
+        machine = self.MACHINE_CLS(self.get_configuration())
         machine.delete_cache()
         self.mock_response()
         translation = self.assert_translate(
@@ -3487,7 +3511,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "persona": "",
         "style": "",
     }
-    TRACE_MODEL: ClassVar[str] = "gpt-5-nano"
+    TRACE_MODEL: ClassVar[str] = "gpt-5.4-nano"
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
@@ -3522,7 +3546,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "gpt-5-nano",
+                "model": self.TRACE_MODEL,
                 "system_fingerprint": "fp_44709d6fcb",
                 "choices": [
                     {
@@ -4769,6 +4793,44 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_translate_repairs_invalid_structured_json_string_quote_at_end(
+        self,
+    ) -> None:
+        source = "Synthetic source string for terminal quote recovery."
+        self.mock_response(
+            '[{"parts":[{"type":"text","text":"Synthetic terminal quote""}]}]'
+        )
+
+        translation = self.assert_translate(
+            "cs",
+            source,
+            1,
+        )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            'Synthetic terminal quote"',
+        )
+
+    @responses.activate
+    def test_translate_repairs_structured_json_code_fence(self) -> None:
+        source = "Synthetic source string for fenced JSON recovery."
+        self.mock_response(
+            '```json\n[{"parts":[{"type":"text","text":"Synthetic fenced translation"}]}]\n```'
+        )
+
+        translation = self.assert_translate(
+            "hr",
+            source,
+            1,
+        )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Synthetic fenced translation",
+        )
+
+    @responses.activate
     def test_translate_repairs_truncated_structured_json_container(self) -> None:
         self.mock_response(
             '[{"parts":[{"type":"text","text":"Genel Müdür"}]},'
@@ -4783,6 +4845,22 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         self.assertEqual(translation["CEO"][0]["text"], "Genel Müdür")
         self.assertEqual(translation["CEO Since"][0]["text"], "CEO'dan beri")
+
+    @responses.activate
+    def test_translate_repairs_missing_structured_part_object_close(self) -> None:
+        source = "Synthetic source string for missing object close recovery."
+        response = (
+            '[{"parts": [{"type": "text", "text": '
+            '"Synthetic missing object close translation."]}]'
+        )
+        self.mock_response(response)
+
+        translation = self.assert_translate("cs", source, 1)
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Synthetic missing object close translation.",
+        )
 
     @responses.activate
     def test_translate_uses_llm_placeholder_syntax(self) -> None:
@@ -5841,6 +5919,67 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self,
     ) -> None:
         machine = self.get_machine()
+        unit = make_unit(
+            code="fr",
+            source="From $1 to $2",
+            flags=r'placeholders:r"\$\d+"',
+        )
+
+        def get_debug_context(
+            content: str, previous_content: str, previous_response: str
+        ) -> str:
+            def load_json(value: str) -> object:
+                try:
+                    return json.loads(value)
+                except ValueError:  # pragma: no cover - diagnostic path
+                    return value
+
+            placeholder_check = check_models.CHECKS.get("placeholders")
+            try:
+                cleanup = machine.cleanup_text(unit.source, unit)
+            except Exception as error:  # pragma: no cover - diagnostic path
+                cleanup = f"{error.__class__.__name__}: {error}"
+            try:
+                highlights = highlight_string(unit.source, unit)
+            except Exception as error:  # pragma: no cover - diagnostic path
+                highlights = f"{error.__class__.__name__}: {error}"
+            try:
+                machine_highlights = list(machine.get_highlights(unit.source, unit))
+            except Exception as error:  # pragma: no cover - diagnostic path
+                machine_highlights = f"{error.__class__.__name__}: {error}"
+            try:
+                placeholder_values = unit.all_flags.get_value_raw("placeholders")
+            except Exception as error:  # pragma: no cover - diagnostic path
+                placeholder_values = f"{error.__class__.__name__}: {error}"
+
+            return json.dumps(
+                {
+                    "content": load_json(content),
+                    "previous_content": load_json(previous_content),
+                    "previous_response": previous_response,
+                    "unit_flags": unit.flags,
+                    "unit_all_flags": unit.all_flags.format(),
+                    "unit_all_flags_items": repr(unit.all_flags.items()),
+                    "unit_placeholder_values": repr(placeholder_values),
+                    "unit_plural_map": getattr(unit, "plural_map", None),
+                    "parsed_unit_flags": repr(check_flags.parse_flags_text(unit.flags)),
+                    "checks_has_placeholders": "placeholders" in check_models.CHECKS,
+                    "placeholder_check_type": (
+                        type(placeholder_check).__name__
+                        if placeholder_check is not None
+                        else None
+                    ),
+                    "typed_flags_args_has_placeholders": (
+                        "placeholders" in check_flags.TYPED_FLAGS_ARGS
+                    ),
+                    "highlight_string": repr(highlights),
+                    "machine_highlights": repr(machine_highlights),
+                    "cleanup_text": repr(cleanup),
+                },
+                default=repr,
+                indent=2,
+                sort_keys=True,
+            )
 
         def request_callback(
             _prompt: str,
@@ -5851,7 +5990,9 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             parts = json.loads(content)["strings"][0]["parts"]
             placeholders = [part for part in parts if part["type"] == "placeholder"]
             self.assertEqual(
-                [part["kind"] for part in placeholders], ["grammar", "grammar"]
+                [part["kind"] for part in placeholders],
+                ["grammar", "grammar"],
+                get_debug_context(content, _previous_content, _previous_response),
             )
             return json.dumps(
                 [
@@ -5869,13 +6010,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         with patch.object(
             machine, "fetch_llm_translations", side_effect=request_callback
         ):
-            translation = self.assert_translate(
-                "fr",
-                "From $1 to $2",
-                1,
-                machine=machine,
-                unit_args={"flags": r'placeholders:r"\$\d+"'},
-            )
+            translation = machine.translate(unit)
 
         self.assertEqual(
             translation[0][0]["text"],
@@ -6771,7 +6906,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "gpt-5-nano",
+                "model": self.TRACE_MODEL,
                 "system_fingerprint": "fp_44709d6fcb",
                 "choices": [
                     {

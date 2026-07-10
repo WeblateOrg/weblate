@@ -10,6 +10,8 @@ from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db.models import Value
+from django.db.models.functions import MD5
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
@@ -18,6 +20,7 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.alerts.base import AlertSeverity, BaseAlert, MultiAlert
 from weblate.trans.alerts.registry import register
+from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.requests import (
     format_validation_error,
     get_uri_error,
@@ -37,6 +40,20 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models.component import Component
     from weblate.trans.models.translation import Translation
+
+
+LIKELY_BILINGUAL_PO_SAMPLE_SIZE = 20
+MIN_LIKELY_BILINGUAL_PO_UNITS = 4
+EMPTY_SOURCE_VALUES = ("", *(PLURAL_SEPARATOR * count for count in range(1, 10)))
+
+
+def _looks_like_source_text(value: str) -> bool:
+    text = value.strip()
+    if not text or not any(char.isalpha() for char in text):
+        return False
+    if any(char.isspace() for char in text):
+        return True
+    return text.endswith((".", "?", "!")) or any(char in text for char in ",;:")
 
 
 def _get_validated_uri_error(
@@ -132,6 +149,47 @@ class MonolingualTranslation(BaseAlert):
         )
         return (
             allunits.count() > 3 and not source_space.exists() and target_space.exists()
+        )
+
+
+@register
+class BilingualPOConfiguredAsMonolingual(BaseAlert):
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Bilingual gettext PO file configured as monolingual.")
+    doc_page = "formats"
+    doc_anchor = "bimono"
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        if (
+            component.is_glossary
+            or component.file_format != "po-mono"
+            or not component.template
+            or component.source_language_id is None
+            or not component.source_language.uses_whitespace()
+        ):
+            return False
+
+        units = list(
+            component.source_translation.unit_set.filter(
+                source__lower__md5__in=[
+                    MD5(Value(source)) for source in EMPTY_SOURCE_VALUES
+                ]
+            )
+            .exclude(context__lower__md5=MD5(Value("")))
+            .values_list("source", "context")[:LIKELY_BILINGUAL_PO_SAMPLE_SIZE]
+        )
+        contexts = [
+            context
+            for source, context in units
+            if not source.replace(PLURAL_SEPARATOR, "")
+        ]
+        if len(contexts) < MIN_LIKELY_BILINGUAL_PO_UNITS:
+            return False
+
+        return (
+            sum(1 for context in contexts if _looks_like_source_text(context))
+            >= MIN_LIKELY_BILINGUAL_PO_UNITS
         )
 
 

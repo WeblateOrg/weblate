@@ -441,7 +441,7 @@ The actual limit for the number of database connections needs to be higher to
 account for the following situations:
 
 * :ref:`manage` need their connection as well.
-* If case process is killed (for example by OOM killer), it might block the existing connection until timeout.
+* If a process is killed (for example by OOM killer), it might block the existing connection until timeout.
 
 .. seealso::
    :ref:`celery`,
@@ -493,6 +493,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
         CREATE EXTENSION IF NOT EXISTS pg_trgm;
         CREATE EXTENSION IF NOT EXISTS btree_gin;
+        CREATE EXTENSION IF NOT EXISTS btree_gist;
 
 .. _config-postgresql:
 
@@ -878,7 +879,7 @@ of errors, which is not desired in a production setup.
 Properly configure admins
 +++++++++++++++++++++++++
 
-Set the correct admin addresses to the :setting:`ADMINS` setting to defining who will receive
+Set the correct admin addresses to the :setting:`ADMINS` setting to define who will receive
 e-mails in case something goes wrong on the server, for example:
 
 .. code-block:: python
@@ -1328,7 +1329,7 @@ use that for the following paths:
     Serves static files for Weblate and the admin interface
     (from defined by :setting:`django:STATIC_ROOT`).
 :file:`/favicon.ico`
-    Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`.
+    Should be rewritten to serve :file:`/static/favicon.ico`.
 
 .. seealso::
 
@@ -1365,7 +1366,7 @@ configuration, but this might need customization for your environment.
 Sample configuration for NGINX and Granian
 +++++++++++++++++++++++++++++++++++++++++++
 
-The following configuration runs Weblate using Granian the NGINX webserver:
+The following configuration runs Weblate using Granian with the NGINX webserver:
 
 .. literalinclude:: ../../weblate/examples/weblate.nginx.granian.conf
     :language: nginx

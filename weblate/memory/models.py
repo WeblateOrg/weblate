@@ -12,9 +12,10 @@ from typing import TYPE_CHECKING, BinaryIO, NotRequired, Self, TypedDict, cast
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
+from django.contrib.postgres.search import TrigramDistance, TrigramSimilarity
 from django.db import models, router, transaction
 from django.db.models import Exists, F, OuterRef, Prefetch, Q, Value
-from django.db.models.functions import MD5
+from django.db.models.functions import MD5, Left
 from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.translation import gettext, gettext_lazy, pgettext, pgettext_lazy
@@ -35,6 +36,8 @@ from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Iterable, Iterator
+
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Project
 
@@ -51,6 +54,7 @@ SUPPORTED_FORMATS = (
 MIN_SIMILARITY_THRESHOLD = 0.3
 MAX_MACHINERY_SIMILARITY_BACKOFF = 0.2
 MEMORY_LOOKUP_LIMIT = 50
+MEMORY_LOOKUP_PREFIX_LENGTH = 2048
 
 
 class MemoryDict(TypedDict):
@@ -328,6 +332,135 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             return minimum
         return MIN_SIMILARITY_THRESHOLD
 
+    def get_fuzzy_candidates(self, text: str, limit: int = MEMORY_LOOKUP_LIMIT) -> Self:
+        lookup_prefix = text[:MEMORY_LOOKUP_PREFIX_LENGTH]
+        return self.alias(
+            match_distance=TrigramDistance(
+                Left("source", MEMORY_LOOKUP_PREFIX_LENGTH), lookup_prefix
+            )
+        ).order_by("match_distance", "-status", "pk")[:limit]
+
+    def get_full_source_fuzzy_candidates(
+        self,
+        text: str,
+        *,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        exclude_ids: Iterable[int] = (),
+        limit: int = MEMORY_LOOKUP_LIMIT,
+    ) -> Iterator[Memory]:
+        if limit <= 0:
+            return
+
+        seen_ids = set(exclude_ids)
+        yielded = 0
+
+        similarity_threshold = self.threshold_to_similarity(text, threshold)
+        minimum_similarity = self.minimum_similarity(text, threshold)
+
+        while similarity_threshold >= minimum_similarity and yielded < limit:
+            remaining = limit - yielded
+            queryset = self.exclude(pk__in=sorted(seen_ids)) if seen_ids else self
+            adjust_similarity_threshold(similarity_threshold, alias=self.db)
+            candidates = (
+                queryset.filter(source__trgm_search=text)
+                .annotate(match_similarity=TrigramSimilarity("source", text))
+                .order_by("-match_similarity", "-status", "pk")[:remaining]
+            )
+            for candidate in candidates:
+                if candidate.pk in seen_ids:
+                    continue
+                seen_ids.add(candidate.pk)
+                yielded += 1
+                yield candidate
+                if yielded >= limit:
+                    return
+
+            similarity_threshold = round(similarity_threshold - 0.05, 3)
+            if similarity_threshold < minimum_similarity < similarity_threshold + 0.05:
+                similarity_threshold = minimum_similarity
+
+    def get_scored_fuzzy_candidates(
+        self,
+        text: str,
+        scorer: Callable[[Memory], int],
+        *,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        limit: int = MEMORY_LOOKUP_LIMIT,
+    ) -> list[tuple[int, Memory]]:
+        candidates: list[Memory] = list(self.get_fuzzy_candidates(text, limit=limit))
+        accepted: list[tuple[int, int, Memory]] = []
+        best_quality = threshold - 1
+
+        for candidate in candidates:
+            quality = scorer(candidate)
+            if quality < threshold:
+                continue
+            best_quality = max(best_quality, quality)
+            accepted.append((quality, len(accepted), candidate))
+
+        if (
+            best_quality < 100
+            and len(text) > MEMORY_LOOKUP_PREFIX_LENGTH
+            and len(candidates) >= limit
+        ):
+            checked_ids = [candidate.pk for candidate in candidates]
+            for candidate in self.get_full_source_fuzzy_candidates(
+                text,
+                threshold=threshold,
+                exclude_ids=checked_ids,
+                limit=limit,
+            ):
+                quality = scorer(candidate)
+                if quality < threshold:
+                    continue
+                best_quality = max(best_quality, quality)
+                accepted.append((quality, len(accepted), candidate))
+
+        return [
+            (quality, candidate)
+            for quality, _sequence, candidate in sorted(
+                accepted, key=lambda item: (-item[0], item[1])
+            )[:limit]
+        ]
+
+    def get_best_fuzzy_match(
+        self,
+        text: str,
+        scorer: Callable[[Memory], int],
+        *,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> Memory | None:
+        if threshold >= 100:
+            return self.filter(source=text).order_by("-status", "id").first()
+
+        candidates = self.get_scored_fuzzy_candidates(text, scorer, threshold=threshold)
+        if candidates:
+            return candidates[0][1]
+        return None
+
+    def get_lookup_queryset(
+        self,
+        source_language,
+        target_language,
+        user,
+        project,
+        use_shared,
+    ) -> Self:
+        return (
+            self.filter_type(
+                user=user,
+                project=project,
+                use_shared=use_shared,
+                from_file=True,
+                use_workspace=True,
+            )
+            .prefetch_scopes()
+            .filter(
+                source_language=source_language,
+                target_language=target_language,
+            )
+        )
+
     def lookup(
         self,
         source_language,
@@ -338,52 +471,31 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         use_shared,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
-        base = self.filter_type(
-            user=user,
-            project=project,
-            use_shared=use_shared,
-            from_file=True,
-            use_workspace=True,
-        ).prefetch_scopes()
-
+        queryset = self.get_lookup_queryset(
+            source_language, target_language, user, project, use_shared
+        )
         if threshold >= 100:
-            return base.filter(
-                source=text,
-                source_language=source_language,
-                target_language=target_language,
-            )[:MEMORY_LOOKUP_LIMIT]
+            return queryset.filter(source=text)[:MEMORY_LOOKUP_LIMIT]
 
-        # Adjust similarity based on string length to get more relevant matches
-        # for long strings
-        similarity_threshold = self.threshold_to_similarity(text, threshold)
-        minimum_similarity = self.minimum_similarity(text, threshold)
+        return queryset.get_fuzzy_candidates(text)
 
-        results = self.none()
-
-        while len(results) == 0 and similarity_threshold >= minimum_similarity:
-            # Change PostgreSQL similarity threshold configuration
-            adjust_similarity_threshold(similarity_threshold)
-
-            # Actual database query
-            results = base.filter(
-                # Full-text search on source
-                source__trgm_search=text,
-                # Language filtering
-                source_language=source_language,
-                target_language=target_language,
-            )
-            results = results[:MEMORY_LOOKUP_LIMIT]
-            # Decrease threshold in case no matches were found
-            similarity_threshold = round(similarity_threshold - 0.05, 3)
-            if (
-                len(results) == 0
-                and similarity_threshold
-                < minimum_similarity
-                < similarity_threshold + 0.05
-            ):
-                similarity_threshold = minimum_similarity
-
-        return results
+    def lookup_full_source(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        user,
+        project,
+        use_shared,
+        *,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        exclude_ids: Iterable[int] = (),
+    ) -> Iterator[Memory]:
+        return self.get_lookup_queryset(
+            source_language, target_language, user, project, use_shared
+        ).get_full_source_fuzzy_candidates(
+            text, threshold=threshold, exclude_ids=exclude_ids
+        )
 
     def prefetch_lang(self) -> Self:
         return self.prefetch_related("source_language", "target_language")
@@ -838,6 +950,14 @@ class Memory(models.Model):
                 models.F("target_language"),
                 models.F("source_language"),
                 name="memory_source_trgm",
+            ),
+            postgres_indexes.GistIndex(
+                models.F("source_language"),
+                models.F("target_language"),
+                postgres_indexes.OpClass(
+                    Left("source", MEMORY_LOOKUP_PREFIX_LENGTH), name="gist_trgm_ops"
+                ),
+                name="memory_source_gist_prefix",
             ),
         ]
 

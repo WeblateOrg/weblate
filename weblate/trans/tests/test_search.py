@@ -18,7 +18,7 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
-from weblate.trans.models import Change, Component, PendingUnitChange, Unit
+from weblate.trans.models import Change, Comment, Component, PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
@@ -92,6 +92,14 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(url, {"q": "changed:>=2010-01-10"})
         self.assertContains(response, "2010-01-10")
+
+    def get_search_result_count(self, query: str) -> int:
+        response = self.client.get(
+            reverse("search", kwargs={"path": self.translation.get_url_path()}),
+            {"q": query},
+        )
+        self.assertEqual(response.status_code, 200)
+        return response.context["total_strings"]
 
     @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
     def test_all_search(self) -> None:
@@ -252,6 +260,42 @@ class SearchViewTest(ViewTestCase):
         self.do_search({"q": "source:hello"}, "source:hello")
         # Short exact
         self.do_search({"q": "x", "search": "exact"}, None)
+
+    def test_comment_search_keeps_source_comments_separate(self) -> None:
+        unit = self.get_unit()
+        Comment.objects.all().delete()
+
+        Comment.objects.create(
+            unit=unit.source_unit,
+            comment="Source comment by me",
+            user=self.user,
+        )
+
+        self.assertEqual(self.get_search_result_count('comment_author:="testuser"'), 0)
+        self.assertEqual(self.get_search_result_count("has:comment"), 0)
+        self.assertEqual(
+            self.get_search_result_count('source_comment_author:="testuser"'), 1
+        )
+        self.assertEqual(self.get_search_result_count("has:source-comment"), 1)
+
+        Comment.objects.create(
+            unit=unit,
+            comment="Translation comment by me",
+            user=self.user,
+        )
+
+        self.assertEqual(self.get_search_result_count('comment_author:="testuser"'), 1)
+        self.assertEqual(self.get_search_result_count("has:comment"), 1)
+
+    def test_search_filter_dropdown_includes_comments_by_me(self) -> None:
+        response = self.client.get(
+            reverse("search", kwargs={"path": self.translation.get_url_path()})
+        )
+
+        self.assertContains(response, "Strings with comments by me")
+        self.assertContains(response, "comment_author:=&quot;testuser&quot;")
+        self.assertContains(response, "Strings with source comments by me")
+        self.assertContains(response, "source_comment_author:=&quot;testuser&quot;")
 
     def test_review(self) -> None:
         # Review

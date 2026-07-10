@@ -155,6 +155,20 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "comment_author:nijel", Q(comment__user__username__iexact="nijel")
         )
+        self.assert_query(
+            "source_comment:TEXT",
+            Q(source_unit__comment__comment__substring="TEXT")
+            & Q(source_unit__comment__resolved=False),
+        )
+        self.assert_query(
+            "resolved_source_comment:TEXT",
+            Q(source_unit__comment__comment__substring="TEXT")
+            & Q(source_unit__comment__resolved=True),
+        )
+        self.assert_query(
+            "source_comment_author:nijel",
+            Q(source_unit__comment__user__username__iexact="nijel"),
+        )
 
     def test_field(self) -> None:
         self.assert_query(
@@ -428,6 +442,11 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("has:note", ~Q(note=""))
         self.assert_query("has:location", ~Q(location=""))
         self.assert_query("has:resolved-comment", Q(comment__resolved=True))
+        self.assert_query("has:source-comment", Q(source_unit__comment__resolved=False))
+        self.assert_query("has:source_comment", Q(source_unit__comment__resolved=False))
+        self.assert_query(
+            "has:resolved-source-comment", Q(source_unit__comment__resolved=True)
+        )
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query(
@@ -708,16 +727,7 @@ class ScreenshotQueryParserTest(SearchTestCase):
     parser: ClassVar[Literal["unit", "user", "superuser", "screenshot"]] = "screenshot"
 
     def test_simple(self) -> None:
-        self.assert_query(
-            "login",
-            Q(name__icontains="login")
-            | Q(repository_filename__icontains="login")
-            | Q(translation__language__code__icontains="login")
-            | Q(translation__language__name__icontains="login")
-            | Q(units__source__icontains="login")
-            | Q(units__context__icontains="login")
-            | Q(units__location__icontains="login"),
-        )
+        self.assert_query("login", Q(name__icontains="login"))
 
     def test_fields(self) -> None:
         self.assert_query("id:100", Q(id=100))

@@ -35,6 +35,8 @@ class WorkspaceViewTest(BaseTestCase):
         name: str,
         slug: str,
         access_control: int = Project.ACCESS_PUBLIC,
+        source_review: bool = False,
+        translation_review: bool = False,
     ) -> Project:
         return Project.objects.create(
             name=name,
@@ -42,6 +44,8 @@ class WorkspaceViewTest(BaseTestCase):
             web="https://example.com/",
             workspace=workspace,
             access_control=access_control,
+            source_review=source_review,
+            translation_review=translation_review,
         )
 
     def test_workspace_lists_accessible_projects(self) -> None:
@@ -77,6 +81,53 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertEqual(
             response.context["search_form"].sort_query, "component,-priority"
         )
+
+    def test_workspace_project_listing_shows_review_columns(self) -> None:
+        workspace = Workspace.objects.create(name="Review workspace")
+        self.create_project(
+            workspace,
+            name="Review project",
+            slug="review-project",
+            translation_review=True,
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Approved")
+        self.assertContains(response, "Unreviewed")
+
+    def test_workspace_project_listing_hides_review_columns(self) -> None:
+        workspace = Workspace.objects.create(name="No review workspace")
+        self.create_project(
+            workspace,
+            name="No review project",
+            slug="no-review-project",
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertNotContains(response, "Unreviewed", status_code=200)
+
+    def test_workspace_project_listing_ignores_hidden_review_projects(self) -> None:
+        workspace = Workspace.objects.create(name="Hidden review workspace")
+        self.create_project(
+            workspace,
+            name="Visible no review project",
+            slug="visible-no-review-project",
+        )
+        self.create_project(
+            workspace,
+            name="Hidden review project",
+            slug="hidden-review-project",
+            access_control=Project.ACCESS_PRIVATE,
+            translation_review=True,
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Visible no review project")
+        self.assertNotContains(response, "Hidden review project", status_code=200)
+        self.assertNotContains(response, "Unreviewed", status_code=200)
 
     def test_workspace_without_accessible_projects_is_not_visible(self) -> None:
         workspace = Workspace.objects.create(name="Private workspace")
@@ -208,8 +259,9 @@ class WorkspaceViewTest(BaseTestCase):
             response, f"{reverse('create-project')}?workspace={billing.workspace_id}"
         )
         self.assertContains(response, "Add new translation project")
-        self.assertContains(response, 'data-bs-target="#billing"')
-        self.assertContains(response, "Billing plan")
+        self.assertContains(response, billing.get_absolute_url())
+        self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
+        self.assertNotContains(response, "Billing plan", status_code=200)
 
     def test_empty_billing_workspace_project_url_checks_current_billing(self) -> None:
         user = create_test_user()
@@ -427,7 +479,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertEqual(response["Content-Type"], "application/rss+xml; charset=utf-8")
         self.assertContains(response, "Recent changes in RSS workspace")
 
-    def test_billing_tab_is_shown_to_workspace_owner(self) -> None:
+    def test_billing_link_is_shown_to_workspace_owner(self) -> None:
         user = create_test_user()
         billing = create_test_billing(user, invoice=False)
         project = Project.objects.create(
@@ -441,10 +493,11 @@ class WorkspaceViewTest(BaseTestCase):
         self.client.login(username=user.username, password="testpassword")
         response = self.client.get(billing.workspace.get_absolute_url())
 
-        self.assertContains(response, 'data-bs-target="#billing"')
-        self.assertContains(response, "Billing plan")
+        self.assertContains(response, billing.get_absolute_url())
+        self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
+        self.assertNotContains(response, "Billing plan", status_code=200)
 
-    def test_billing_tab_is_hidden_without_billing_access(self) -> None:
+    def test_billing_link_is_hidden_without_billing_access(self) -> None:
         owner = create_test_user()
         user = create_another_user()
         billing = create_test_billing(owner, invoice=False)
@@ -462,6 +515,7 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, project.name)
         self.assertNotContains(response, 'data-bs-target="#billing"', status_code=200)
         self.assertNotContains(response, "Billing plan", status_code=200)
+        self.assertNotContains(response, billing.get_absolute_url(), status_code=200)
 
     def test_access_tab_is_shown_to_workspace_owner(self) -> None:
         user = create_test_user()

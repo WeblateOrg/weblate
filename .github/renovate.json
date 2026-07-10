@@ -37,6 +37,19 @@
       "groupSlug": "opentelemetry"
     },
     {
+      "description": "Update pinned macOS Homebrew snapshot monthly",
+      "matchPackageNames": [
+        "https://github.com/Homebrew/brew",
+        "https://github.com/Homebrew/homebrew-core"
+      ],
+      "groupName": "macOS Homebrew snapshot",
+      "groupSlug": "macos-homebrew",
+      "schedule": [
+        "* * 1 * *"
+      ],
+      "automerge": false
+    },
+    {
       "description": "Allow OpenTelemetry instrumentation beta releases",
       "matchPackageNames": [
         "opentelemetry-instrumentation-celery",
@@ -47,9 +60,30 @@
       ],
       "ignoreUnstable": false,
       "respectLatest": false
+    },
+    {
+      "description": "Extract Unicode release versions from the public directory listing",
+      "matchDatasources": [
+        "custom.unicode-public"
+      ],
+      "extractVersion": "^(?<version>\\d+\\.\\d+\\.\\d+)/?$"
     }
   ],
   "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update pinned Unicode data version for CJK regexp generation",
+      "managerFilePatterns": [
+        "/^scripts\\/generate-cjk-regexp\\.py$/"
+      ],
+      "matchStrings": [
+        "# renovate-unicode-version\\r?\\nUNICODE_VERSION = \"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "Unicode UCD",
+      "packageNameTemplate": "unicode",
+      "datasourceTemplate": "custom.unicode-public",
+      "versioningTemplate": "semver"
+    },
     {
       "customType": "regex",
       "description": "Update CycloneDX CLI binary version and GitHub release asset digest",
@@ -64,9 +98,43 @@
       "datasourceTemplate": "custom.github-release-asset-digest",
       "versioningTemplate": "loose",
       "autoReplaceStringTemplate": "{{{indentation}}}# renovate-cyclonedx-cli\n{{{indentation}}}CYCLONEDX_CLI_VERSION: {{{newValue}}}\n{{{indentation}}}CYCLONEDX_CLI_DIGEST: {{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned Homebrew Git revision for macOS CI",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/macos\\.yml$/"
+      ],
+      "matchStrings": [
+        "(?<indentation>[ \\t]*)# renovate-homebrew-brew\\r?\\n[ \\t]*HOMEBREW_BREW_REF: (?<currentDigest>[a-f0-9]{40})"
+      ],
+      "currentValueTemplate": "main",
+      "depNameTemplate": "Homebrew/brew",
+      "packageNameTemplate": "https://github.com/Homebrew/brew",
+      "datasourceTemplate": "git-refs",
+      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-brew\n{{{indentation}}}HOMEBREW_BREW_REF: {{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned Homebrew core Git revision for macOS CI",
+      "managerFilePatterns": [
+        "/^\\.github\\/workflows\\/macos\\.yml$/"
+      ],
+      "matchStrings": [
+        "(?<indentation>[ \\t]*)# renovate-homebrew-core\\r?\\n[ \\t]*HOMEBREW_CORE_REF: (?<currentDigest>[a-f0-9]{40})"
+      ],
+      "currentValueTemplate": "main",
+      "depNameTemplate": "Homebrew/homebrew-core",
+      "packageNameTemplate": "https://github.com/Homebrew/homebrew-core",
+      "datasourceTemplate": "git-refs",
+      "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-core\n{{{indentation}}}HOMEBREW_CORE_REF: {{{newDigest}}}"
     }
   ],
   "customDatasources": {
+    "unicode-public": {
+      "defaultRegistryUrlTemplate": "https://www.unicode.org/Public/",
+      "format": "html"
+    },
     "github-release-asset-digest": {
       "defaultRegistryUrlTemplate": "https://api.github.com/repos/{{{packageName}}}/releases?per_page=100",
       "format": "json",

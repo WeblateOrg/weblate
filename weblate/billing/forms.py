@@ -6,7 +6,7 @@ from crispy_forms.helper import FormHelper
 from django import forms
 from django.utils.translation import gettext_lazy
 
-from .models import Billing
+from .models import Billing, Plan
 
 
 class HostingForm(forms.Form):
@@ -39,3 +39,22 @@ class BillingMergeForm(forms.Form):
 
 class BillingMergeConfirmForm(BillingMergeForm):
     confirm = forms.BooleanField(required=True, label="Confirm merge")
+
+
+class BillingPlanChangeForm(forms.Form):
+    plan = forms.ModelChoiceField(
+        queryset=Plan.objects.order_by("price", "yearly_price", "name"),
+        label=gettext_lazy("Billing plan"),
+    )
+    trial = forms.BooleanField(
+        label=gettext_lazy("Reset trial period"),
+        required=False,
+        help_text=gettext_lazy(
+            "Set this billing to the regular trial period and clear scheduled removal."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False

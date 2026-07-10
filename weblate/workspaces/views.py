@@ -44,17 +44,7 @@ def get_billing_context(
     if billing is None or not request.user.has_perm("meta:billing.view", billing):
         return {}
 
-    # ruff: ignore[import-outside-top-level]
-    from weblate.billing.forms import (
-        BillingMergeForm,
-        HostingForm,
-    )
-
-    return {
-        "billing": billing,
-        "hosting_form": HostingForm(),
-        "merge_form": BillingMergeForm(),
-    }
+    return {"billing": billing}
 
 
 def billing_allows_project_creation(billing: Billing) -> bool:

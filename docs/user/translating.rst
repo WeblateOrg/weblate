@@ -85,7 +85,17 @@ the original string, for example that it should be rephrased, or to ask
 questions about it.
 
 Markdown syntax can be used in all comments, as well as mentioning other
-users by using ``@username``.
+users by using ``@username``. Mention a maintainer or another translator when
+you need them to see a follow-up question; they can reply in the same
+:guilabel:`Comments` tab.
+
+To find comments again, open your :ref:`user-profile`; the comment count links
+to your comment activity. To find strings with comments by a specific user, use
+:doc:`/user/search`. For example, ``comment_author:USERNAME`` finds strings
+with comments by that user, and ``source_comment_author:USERNAME`` finds
+strings with source string comments by that user. When you are signed in, the
+search filter menu also includes shortcuts for comments by you and source
+comments by you.
 
 .. seealso::
 

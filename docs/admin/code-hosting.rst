@@ -420,6 +420,10 @@ SSH with a dedicated user
 For GitLab, create a dedicated user and use GitLab SSH URLs, for example
 ``git@gitlab.com:group/project.git``.
 
+For Hosted Weblate repositories on GitLab, add the hosted
+:guilabel:`weblate` user with the required repository permissions, see
+:ref:`hosted-push`.
+
 .. _code-hosting-gitlab-notifications:
 
 GitLab notifications
@@ -486,7 +490,8 @@ SSH with a dedicated user
 .. include:: /snippets/code-hosting-ssh-repository-access.rst
 
 For Hosted Weblate repositories on Codeberg, add the hosted
-:guilabel:`weblate` user where write access is needed, see :ref:`hosted-push`.
+:guilabel:`weblate` user with the required repository permissions, see
+:ref:`hosted-push`.
 
 .. _code-hosting-gitea-notifications:
 
@@ -562,8 +567,9 @@ SSH with a dedicated user
 
 .. include:: /snippets/code-hosting-ssh-repository-access.rst
 
-Hosted Weblate has a dedicated :guilabel:`weblate` user for Bitbucket access,
-see :ref:`hosted-push`.
+For Hosted Weblate repositories on Bitbucket, add the hosted
+:guilabel:`weblate` user with the required repository permissions, see
+:ref:`hosted-push`.
 
 To push directly, use :ref:`vcs-git` or :ref:`vcs-mercurial` with
 :ref:`component-push`.

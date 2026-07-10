@@ -5,29 +5,47 @@ Weblate 2026.7.1
 
 .. rubric:: New features
 
+* Added :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` to customize internal bot e-mail addresses.
+
 .. rubric:: Improvements
 
 * Restricted components now show a status icon in component listings.
 * Permission checks now reuse materialized team membership data from lightweight relation lookups.
+* Documented that intermediate language files are hidden from language listings and can make target strings read-only.
+* Component diagnostics now warn when regular :ref:`gettext` PO files are configured as monolingual PO files.
+* Translation memory fuzzy lookups are now faster on large translation memories.
+* Permission denied messages when saving translations, editing glossaries, or voting on suggestions now show more specific reasons.
+* Comment notifications for strings you translated now also include strings you previously commented on or suggested translations for.
+* Comments and suggestions now auto-watch the project when :guilabel:`Automatically watch projects on contribution` is enabled.
+* Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`.
+* :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
+* :ref:`discover-weblate` registration can now be started from the management interface without manually copying the activation token.
+* Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
 
 .. rubric:: Bug fixes
 
 * Filtered translation and zen navigation now reuse a stable session result list, keeping positions and counts stable after translated strings leave the filter.
 * Component priority icons are no longer shown on translation listings.
 * :ref:`check-punctuation-spacing` no longer flags Markdown image markers as French punctuation and now shows which punctuation marks triggered the check.
-* :ref:`addon-weblate.fedora_messaging.publish` broker TLS validation now matches the Fedora Messaging transport when accepting non-strict CA certificate chains.
+* :ref:`addon-weblate.fedora_messaging.publish` received several reliability fixes.
 * The :guilabel:`Things to check` panel no longer uses error highlighting for suggestions and other non-error translation states.
 * Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
 * Anonymous user permission caches are now isolated between requests.
 * GitHub App setup now explains that a workspace is required instead of showing a permission error when no workspace exists.
 * LLM automatic suggestion settings no longer show ``null`` for empty language-specific instructions.
 * Accepting a project invitation now automatically adds the project to the user's watched projects.
+* Dismissing a failing check no longer shows a JSON parsing error in the translation editor.
+* Screenshot searches without an explicit field now match screenshot names only, and the search box links to the full screenshot search documentation.
+* Anonymous and internal bot accounts can no longer be edited through generic user management.
+* LLM machine translation suggestions now recover from more malformed structured JSON replies.
 
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Weblate now requires the PostgreSQL ``btree_gist`` extension for translation memory lookups. The migration installs it automatically when the database user has sufficient privileges. Installations using a non-superuser database user should pre-create it before upgrading; see :ref:`dbsetup-postgres`.
 
 .. rubric:: Contributors
 

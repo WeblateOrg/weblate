@@ -98,6 +98,14 @@
            data-params='{"unlink":1}'>{% translate "Unlink support package" %}</a>
       {% endif %}
       {% if support.name == 'community' %}
+        {% if not support.secret %}
+          <form method="post" action="{% url 'manage-discovery-register' %}" class="d-inline">
+            {% csrf_token %}
+            <input type="submit"
+                   class="btn btn-secondary"
+                   value="{% translate "Register on weblate.org" %}" />
+          </form>
+        {% endif %}
         <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>
         <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Give to Weblate" %}</a>
       {% endif %}

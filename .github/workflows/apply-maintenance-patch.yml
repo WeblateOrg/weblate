@@ -12,6 +12,7 @@ on: # zizmor: ignore[dangerous-triggers]
     - yarn update
     - jsonschema update
     - unicodechars update
+    - cjk regexp update
     - Documentation
     - licenses update
     branches:
@@ -111,6 +112,11 @@ jobs:
             message="chore: update unicode characters data"
             pr_branch="create-pull-request/unicodechars-update"
             allowed_pattern='^weblate/utils/unicodechars\.py$'
+            ;;
+          "cjk regexp update")
+            message="chore: update CJK regexp data"
+            pr_branch="create-pull-request/cjk-regexp-update"
+            allowed_pattern='^weblate/trans/util\.py$'
             ;;
           "Documentation")
             message="docs: Documentation snippets update"

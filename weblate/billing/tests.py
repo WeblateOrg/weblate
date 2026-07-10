@@ -21,6 +21,7 @@ from django.utils import timezone, translation
 from lxml import html
 
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.billing.defines import TRIAL_DAYS
 from weblate.billing.models import (
     Billing,
     BillingEvent,
@@ -231,6 +232,44 @@ class BillingTest(BaseTestCase):
         response = self.client.get(reverse("billing"))
         self.assertContains(response, "Customer")
         self.assertContains(response, "Acme Billing LLC")
+
+    def test_detail_breadcrumbs_include_workspace(self) -> None:
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        self.assertContains(response, self.billing.workspace.get_absolute_url())
+        self.assertContains(response, self.billing.workspace.name)
+        self.assertNotContains(
+            response,
+            f'<a href="{reverse("profile")}">Your profile</a>',
+            html=True,
+            status_code=200,
+        )
+        self.assertNotContains(
+            response,
+            f'<a href="{reverse("billing")}">Billing</a>',
+            html=True,
+            status_code=200,
+        )
+
+    def test_detail_admin_link_is_button(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username=self.user.username, password="testpassword")
+        admin_url = reverse("admin:billing_billing_change", args=(self.billing.pk,))
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        self.assertContains(response, admin_url)
+        self.assertContains(response, "Open in Django admin")
+        self.assertContains(response, "btn btn-secondary")
+        self.assertNotContains(response, 'title="Django admin"', status_code=200)
+        self.assertNotContains(response, "cog.svg", status_code=200)
 
     @override_settings(OFFER_HOSTING=True)
     def test_billing_overview_shows_component_alerts(self) -> None:
@@ -1361,6 +1400,14 @@ class BillingTest(BaseTestCase):
             reverse("billing-detail", kwargs={"pk": self.billing.pk})
         )
         self.assertContains(response, "Merge with billing")
+        self.assertContains(response, "Merge billing")
+        self.assertContains(response, "Change billing plan")
+        self.assertContains(response, "Reset trial period")
+        self.assertNotContains(response, "Manage billing")
+        self.assertContains(
+            response,
+            reverse("admin:billing_billing_change", args=(self.billing.pk,)),
+        )
 
         response = self.client.get(
             reverse("billing-merge", kwargs={"pk": self.billing.pk}),
@@ -1442,6 +1489,143 @@ class BillingTest(BaseTestCase):
         self.assertEqual(project.workspace_id, other.workspace_id)
         self.assertEqual(other.workspace.name, project.name)
 
+    def test_plan_change_requires_billing_manage(self) -> None:
+        plan = Plan.objects.create(
+            name="Managed plan", slug="managed-plan", price=29, yearly_price=299
+        )
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        self.assertContains(response, "Billing plan")
+        self.assertNotContains(response, "Change billing plan")
+
+        response = self.client.post(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk}),
+            {"change_plan": self.billing.pk, "plan": plan.pk},
+        )
+
+        self.assertEqual(response.status_code, 403)
+        self.refresh_from_db()
+        self.assertEqual(self.billing.plan, self.plan)
+        self.assertFalse(
+            self.billing.billinglog_set.filter(event=BillingEvent.PLAN_CHANGED).exists()
+        )
+
+    def test_plan_change(self) -> None:
+        plan = Plan.objects.create(
+            name="Managed plan", slug="managed-plan", price=29, yearly_price=299
+        )
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.post(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk}),
+            {"change_plan": self.billing.pk, "plan": plan.pk},
+        )
+
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+        self.refresh_from_db()
+        self.assertEqual(self.billing.plan, plan)
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        log = self.billing.billinglog_set.get(event=BillingEvent.PLAN_CHANGED)
+        self.assertEqual(log.summary, f"Changed to {plan}")
+        self.assertEqual(
+            log.details,
+            {
+                "old_plan": {"id": self.plan.pk, "name": self.plan.name},
+                "new_plan": {"id": plan.pk, "name": plan.name},
+            },
+        )
+        self.assertEqual(
+            log.get_details_display(),
+            f'Changed from "{self.plan}" to "{plan}".',
+        )
+        self.assertEqual(log.user, self.user)
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        self.assertContains(response, f'Changed from "{self.plan}" to "{plan}".')
+
+    def test_plan_change_with_long_plan_names(self) -> None:
+        old_plan = Plan.objects.create(
+            name="o" * 100, slug="old-long-plan", price=19, yearly_price=199
+        )
+        plan = Plan.objects.create(
+            name="n" * 100, slug="new-long-plan", price=29, yearly_price=299
+        )
+        self.billing.plan = old_plan
+        self.billing.save(update_fields=["plan"])
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.post(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk}),
+            {"change_plan": self.billing.pk, "plan": plan.pk},
+        )
+
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+        self.refresh_from_db()
+        self.assertEqual(self.billing.plan, plan)
+        log = self.billing.billinglog_set.get(event=BillingEvent.PLAN_CHANGED)
+        self.assertEqual(log.summary, f"Changed to {plan}")
+        self.assertEqual(
+            log.details,
+            {
+                "old_plan": {"id": old_plan.pk, "name": old_plan.name},
+                "new_plan": {"id": plan.pk, "name": plan.name},
+            },
+        )
+        self.assertIn(str(old_plan), log.get_details_display())
+        self.assertIn(str(plan), log.get_details_display())
+        self.assertLessEqual(len(log.summary), 200)
+
+    def test_plan_change_resets_trial(self) -> None:
+        plan = Plan.objects.create(
+            name="Trial reset plan",
+            slug="trial-reset-plan",
+            price=29,
+            yearly_price=299,
+        )
+        self.billing.state = Billing.STATE_ACTIVE
+        self.billing.expiry = None
+        self.billing.removal = timezone.now() + timedelta(days=3)
+        self.billing.save(skip_limits=True)
+        before = timezone.now()
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.post(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk}),
+            {"change_plan": self.billing.pk, "plan": plan.pk, "trial": "on"},
+        )
+
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+        self.refresh_from_db()
+        self.assertEqual(self.billing.plan, plan)
+        self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
+        self.assertIsNone(self.billing.removal)
+        self.assertGreaterEqual(
+            self.billing.expiry, before + timedelta(days=TRIAL_DAYS)
+        )
+        self.assertLessEqual(
+            self.billing.expiry,
+            timezone.now() + timedelta(days=TRIAL_DAYS),
+        )
+
     def test_workspace_access_controls_billing_view(self) -> None:
         second_user = create_another_user()
         project_creator = create_another_user(suffix="-creator")
@@ -1486,6 +1670,11 @@ class BillingTest(BaseTestCase):
         response = self.client.get(billing_url)
         self.assertContains(response, "Billing plan")
         self.assertNotContains(response, "Billing admins", status_code=200)
+        self.assertNotContains(
+            response,
+            reverse("admin:billing_billing_change", args=(self.billing.pk,)),
+            status_code=200,
+        )
 
 
 class HostingTest(RepoTestCase):
