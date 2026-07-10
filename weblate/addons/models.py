@@ -81,6 +81,49 @@ class AddonCache:
 
 
 class AddonQuerySet(models.QuerySet["Addon", "Addon"]):
+    def filter_access(self, user: User):
+        """Return add-ons the user is allowed to manage."""
+        if user.is_superuser:
+            return self.all()
+
+        accessible_projects = user.allowed_projects
+        managed_projects = user.managed_projects.filter(pk__in=accessible_projects)
+        component_managed_projects = user.projects_with_perm("component.edit").filter(
+            pk__in=accessible_projects
+        )
+        explicitly_managed_component_ids = [
+            component_id
+            for component_id, scoped_permissions in user.component_permissions.items()
+            if any(
+                "component.edit" in permissions
+                and (languages is None or not languages.membership_limited)
+                for permissions, languages in scoped_permissions
+            )
+        ]
+        managed_components = Component.objects.filter(
+            project__in=accessible_projects
+        ).filter(
+            Q(project__in=component_managed_projects, restricted=False)
+            | Q(pk__in=explicitly_managed_component_ids)
+        )
+
+        if not user.is_bot and not user.profile.has_2fa:
+            managed_projects = managed_projects.filter(enforced_2fa=False)
+            managed_components = managed_components.filter(project__enforced_2fa=False)
+
+        query = (
+            Q(project__in=managed_projects)
+            | Q(category__project__in=managed_projects)
+            | Q(component__in=managed_components)
+        )
+        if user.has_perm("management.addons"):
+            query |= Q(
+                component__isnull=True,
+                category__isnull=True,
+                project__isnull=True,
+            )
+        return self.filter(query)
+
     def filter_component(self, component):
         return self.prefetch_related("event_set").filter(component=component)
 

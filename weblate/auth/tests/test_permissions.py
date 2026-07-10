@@ -14,7 +14,7 @@ from weblate.auth.data import (
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
 )
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.trans.models import Comment, Component, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
@@ -177,6 +177,102 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertTrue(self.superuser.has_perm("unit.edit", self.component))
         self.assertFalse(self.admin.has_perm("unit.edit", self.component))
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_billing_component_permissions(self) -> None:
+        self.assertTrue(
+            self.superuser.has_perm("billing:component.permissions", Component())
+        )
+        self.assertTrue(self.admin.has_perm("component.edit", self.component))
+        self.assertNotIn(self.component.pk, self.admin.component_permissions)
+        self.assert_denied_reason(
+            self.admin.has_perm("billing:component.permissions", self.component),
+            "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out.",
+        )
+        self.assertNotIn(self.component.pk, self.admin.component_permissions)
+        self.component.restricted = True
+        self.assertFalse(self.admin.can_access_component(self.component))
+        self.component.restricted = False
+
+        role = Role.objects.create(name="Restricted component editor")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Restricted component editors")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.admin.groups.add(group)
+        self.admin.clear_permissions_cache()
+
+        self.assertTrue(
+            self.admin.has_perm("billing:component.permissions", self.component)
+        )
+        self.assert_denied_reason(
+            self.admin.has_perm("billing:component.permissions", Component()),
+            "Create the component and grant yourself explicit access before enabling restricted access.",
+        )
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_billing_component_permissions_on_hosted(self) -> None:
+        role = Role.objects.create(name="Hosted restricted component editor")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Hosted restricted component editors")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.admin.groups.add(group)
+        self.admin.clear_permissions_cache()
+
+        self.assert_denied_reason(
+            self.admin.has_perm("billing:component.permissions", self.component),
+            "The billing plan does not allow private access control.",
+        )
+
+        project = Project.objects.get(pk=self.project.pk)
+        billing = create_test_billing(self.admin)
+        billing.add_project(project)
+        component = Component.objects.select_related("project").get(
+            pk=self.component.pk
+        )
+        self.assertTrue(self.admin.has_perm("billing:component.permissions", component))
+
+        billing.plan.change_access_control = False
+        billing.plan.save(update_fields=["change_access_control"])
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        component = Component.objects.select_related("project").get(
+            pk=self.component.pk
+        )
+        self.assert_denied_reason(
+            self.admin.has_perm("billing:component.permissions", component),
+            "The billing plan does not allow private access control.",
+        )
+
+        component.restricted = True
+        component.save(update_fields=["restricted"])
+        self.assertTrue(self.admin.has_perm("billing:component.permissions", component))
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_billing_component_permissions_reject_language_limited_access(
+        self,
+    ) -> None:
+        role = Role.objects.create(name="Language limited component editor")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Language limited component editors")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.admin.groups.add(group)
+        membership = TeamMembership.objects.get(user=self.admin, group=group)
+        membership.limit_languages.add(self.component.source_language)
+        self.admin.clear_permissions_cache()
+
+        self.assertTrue(self.admin.has_perm("component.edit", self.component))
+        self.assert_denied_reason(
+            self.admin.has_perm("billing:component.permissions", self.component),
+            "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out.",
+        )
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.assertFalse(self.admin.has_perm("component.edit", self.component))
 
     def assert_denied_reason(self, result, reason: str) -> None:
         self.assertFalse(result)
