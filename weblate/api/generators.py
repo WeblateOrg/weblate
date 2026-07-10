@@ -29,6 +29,27 @@ class WeblateSchemaGenerator(SchemaGenerator):
 
 
 class WeblateAutoSchema(AutoSchema):
+    path_regex: str
+
+    def _resolve_path_parameters(self, variables):
+        """Resolve Weblate's generic and numeric router path expressions."""
+        original_path_regex = self.path_regex
+        try:
+            # Weblate allows dots in generic lookups. Treat that expression as
+            # untyped so drf-spectacular can infer the model field instead.
+            if getattr(self.view, "queryset", None) is not None:
+                self.path_regex = self.path_regex.replace("[^/]+", "[^/.]+")
+            parameters = super()._resolve_path_parameters(variables)
+        finally:
+            self.path_regex = original_path_regex
+
+        for parameter in parameters:
+            schema = parameter.get("schema", {})
+            if schema.get("pattern") == "^[0-9]+$":
+                parameter["schema"] = {"type": "integer"}
+
+        return parameters
+
     def get_tags(self) -> list[str]:
         """Override this for custom behaviour."""
         tokenized_path = self._tokenize_path()

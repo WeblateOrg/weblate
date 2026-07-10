@@ -7,6 +7,8 @@ Weblate 2026.8
 
 .. rubric:: Improvements
 
+* Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
+
 .. rubric:: Bug fixes
 
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.

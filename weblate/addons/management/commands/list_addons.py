@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.addons.models import ADDONS, Addon
 from weblate.machinery.models import MACHINERY
-from weblate.trans.actions import get_change_action_identifier
+from weblate.trans.actions import ActionEvents, get_change_action_identifier
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import DocGeneratorCommand
 from weblate.utils.rst import format_rst_string, format_table
@@ -257,10 +257,12 @@ class Command(DocGeneratorCommand):
             "   * - ID",
             "     - Identifier",
             "     - Name",
+            "     - Description",
         ]
         for value, description in choices:
             if not value and not description:
                 continue
+            event = next(event for event in ActionEvents if event.value == int(value))
             result.extend(
                 (
                     f"   * - ``{value}``".replace("\\", "\\\\"),
@@ -268,6 +270,9 @@ class Command(DocGeneratorCommand):
                         "\\", "\\\\"
                     ),
                     f"     - {format_rst_string(description)}".replace("\\", "\\\\"),
+                    f"     - {format_rst_string(event.description)}".replace(
+                        "\\", "\\\\"
+                    ),
                 )
             )
         return result

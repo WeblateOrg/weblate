@@ -21,6 +21,7 @@ class Command(BaseCommand):
    * - ID
      - Identifier
      - Name
+     - Description
 """
         )
         for event in ActionEvents:
@@ -28,4 +29,5 @@ class Command(BaseCommand):
                 f"   * - ``{event.value}``\n"
                 f"     - ``{get_change_action_identifier(event.label)}``\n"
                 f"     - {event.label}\n"
+                f"     - {event.description}\n"
             )
