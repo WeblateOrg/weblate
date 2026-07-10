@@ -62,10 +62,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.models.translation import NewUnitParams
-from weblate.trans.util import (
-    check_upload_method_permissions,
-    cleanup_repo_url,
-)
+from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.workspace_move import (
     get_project_move_billing_error,
     get_project_workspace_move_permission_error,
@@ -1348,6 +1345,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["git_export"] = None
             result["push_branch"] = None
             result["repoweb"] = None
+            result["linked_component"] = None
         return result
 
     def to_internal_value(self, data):
@@ -1404,11 +1402,17 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         return result
 
-    def get_linked_repository_component(self, instance: Component) -> Component | None:
+    @staticmethod
+    def get_linked_component_or_none(repo: str | None) -> Component | None:
+        if repo is None:
+            return None
         try:
-            return Component.objects.get_linked(instance.repo)
+            return Component.objects.get_linked(repo)
         except Component.DoesNotExist:
             return None
+
+    def get_linked_repository_component(self, instance: Component) -> Component | None:
+        return self.get_linked_component_or_none(instance.repo)
 
     def validate_linked_repository_setting_overrides(
         self, attrs, instance: Component
@@ -1416,6 +1420,35 @@ class ComponentSerializer(RemovableSerializer[Component]):
         linked_component = self.get_linked_repository_component(instance)
         if linked_component is None:
             return
+
+        changed_linked_settings = {
+            field
+            for field in self.linked_repository_setting_fields
+            if field in self.initial_data
+            and attrs.get(field, getattr(instance, field))
+            != getattr(linked_component, field)
+        }
+        requires_link_access = (
+            self.instance is None
+            or instance.repo != self.instance.repo
+            or bool(changed_linked_settings)
+        )
+        if not requires_link_access:
+            for field in self.linked_repository_setting_fields:
+                if field in self.initial_data:
+                    attrs.pop(field, None)
+            return
+
+        if not self.context["request"].user.has_perm(
+            "component.edit", linked_component
+        ):
+            raise serializers.ValidationError(
+                {
+                    "repo": gettext_lazy(
+                        "You do not have permission to access this component."
+                    )
+                }
+            )
 
         if self.instance is None or not self.instance.is_repo_link:
             for field in self.linked_repository_setting_fields:
@@ -1427,8 +1460,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         for field in self.linked_repository_setting_fields:
             if field not in self.initial_data:
                 continue
-            value = attrs.get(field, getattr(instance, field))
-            if value != getattr(linked_component, field):
+            if field in changed_linked_settings:
                 errors[field] = self.linked_repository_setting_error
             else:
                 attrs.pop(field, None)
@@ -1537,6 +1569,36 @@ class ComponentSerializer(RemovableSerializer[Component]):
             preserve_existing=preserve_existing,
         )
 
+    def check_restricted_permission(self, attrs) -> None:
+        if self.instance:
+            if (
+                "restricted" not in attrs
+                or attrs["restricted"] == self.instance.restricted
+            ):
+                return
+            component = self.instance
+        else:
+            restricted = attrs.get("restricted", False) or (
+                "restricted" not in self.initial_data
+                and settings.DEFAULT_RESTRICTED_COMPONENT
+            )
+            if not restricted:
+                return
+            attrs["restricted"] = True
+            component = Component(**attrs)
+        permission = self.context["request"].user.has_perm(
+            "billing:component.permissions", component
+        )
+        if not permission:
+            reason = (
+                permission.reason
+                if isinstance(permission, PermissionResult)
+                else gettext_lazy(
+                    "You do not have permission to change restricted access."
+                )
+            )
+            raise serializers.ValidationError({"restricted": reason})
+
     def validate(self, attrs):
         # Handle non-component args
         disable_autoshare = attrs.pop("disable_autoshare", False)
@@ -1596,6 +1658,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         self.set_create_inheritance_defaults(
             attrs, preserve_existing=source_component is not None
         )
+        self.check_restricted_permission(attrs)
 
         # Build new or patched Component instance with changed attributes
         if self.instance:
@@ -1634,7 +1697,10 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         if not self.instance and not disable_autoshare and source_component is None:
             repo = instance.suggest_repo_link()
-            if repo:
+            linked_component = self.get_linked_component_or_none(repo)
+            if linked_component is not None and self.context["request"].user.has_perm(
+                "component.edit", linked_component
+            ):
                 attrs["repo"] = instance.repo = repo
                 attrs["branch"] = instance.branch = ""
         if source_component is not None:
@@ -1995,12 +2061,19 @@ class ComponentLinkRequestSerializer(ReadOnlySerializer):
 
         project_slug = attrs["project_slug"]
         try:
-            project = request.user.allowed_projects.exclude(
-                pk=component.project_id
-            ).get(slug=project_slug)
+            project = (
+                request.user.managed_projects.filter(
+                    pk__in=request.user.allowed_projects
+                )
+                .exclude(pk=component.project_id)
+                .get(slug=project_slug)
+            )
         except Project.DoesNotExist as error:
             msg = f"No project slug {project_slug!r} found!"
             raise serializers.ValidationError({"project_slug": msg}) from error
+        if not request.user.has_perm("project.edit", project):
+            msg = f"No project slug {project_slug!r} found!"
+            raise serializers.ValidationError({"project_slug": msg})
         attrs["project"] = project
 
         category_id = attrs.get("category_id")

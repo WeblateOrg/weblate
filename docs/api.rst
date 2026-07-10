@@ -1613,6 +1613,9 @@ Components
     :>json string credits_url: URL to list contributor credits; see :http:get:`/api/components/(string:project)/(string:component)/credits/`
     :>json string announcements_url: URL to announcements; see :http:get:`/api/components/(string:project)/(string:component)/announcements/`
 
+    Repository fields, including ``linked_component``, are returned only with
+    the :guilabel:`View upstream repository location` permission.
+
     **Example JSON data:**
 
     .. code-block:: json
@@ -1674,6 +1677,11 @@ Components
     :<json string name: name of component
     :<json string slug: slug of component
     :<json string repo: VCS repository URL
+
+    Linking to another Weblate component using an :ref:`internal URL
+    <internal-urls>` requires permission to edit the referenced component.
+    Changing :ref:`component-restricted` follows the same direct
+    component-access restrictions as the web interface.
 
     **CURL example:**
 
@@ -1887,6 +1895,9 @@ Components
 
     The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
+    For a linked repository, permission is checked on the source component that
+    owns the repository.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -1903,6 +1914,9 @@ Components
     Performs the given operation on a VCS repository.
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
+
+    For a linked repository, permission is checked on the source component that
+    owns the repository.
 
     :param project: Project URL slug
     :type project: string
@@ -2078,6 +2092,9 @@ Components
 
     Returns projects linked with a component.
 
+    Component managers see every linked project. Other callers see only linked
+    projects they can access.
+
     .. versionadded:: 4.5
 
     :param project: Project URL slug
@@ -2089,6 +2106,8 @@ Components
 .. http:post:: /api/components/(string:project)/(string:component)/links/
 
     Associate project with a component.
+
+    This requires permission to edit the component and the target project.
 
     .. versionadded:: 4.5
     .. versionchanged:: 5.17
@@ -2358,6 +2377,8 @@ Translations
     :<json int state: String state; see :http:get:`/api/units/(int:id)/`
     :>json object unit: newly created unit; see :http:get:`/api/units/(int:id)/`
 
+    Creating a unit in the approved state requires permission to review strings.
+
     .. seealso::
 
        * :ref:`component-manage_units`
@@ -2441,6 +2462,10 @@ Translations
 
     The response is same as for :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
+    For a linked repository, permission is checked on the source component that
+    owns the repository. For an unlinked repository, permission can be limited
+    to the requested language.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -2453,6 +2478,11 @@ Translations
     Performs given operation on the VCS repository.
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
+
+    Repository operations affect the entire component and therefore require
+    component-wide permission on the component that owns the repository. A
+    permission limited to the requested language is sufficient for viewing
+    unlinked repository status, but not for performing an operation.
 
     :param project: Project URL slug
     :type project: string
@@ -2870,7 +2900,9 @@ Add-ons
 
 .. http:get:: /api/addons/
 
-    Returns a list of add-ons.
+    Returns a list of add-ons the caller can manage. Site-wide add-on managers
+    can access site-wide add-ons without gaining access to project or component
+    add-on configuration.
 
     .. seealso::
 
