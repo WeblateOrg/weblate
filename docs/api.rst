@@ -2731,6 +2731,11 @@ and XLIFF.
     Users who also have the :guilabel:`Vote on suggestion` permission
     automatically upvote their suggestion when it is created.
 
+    When the same suggestion already exists from another user and the caller has
+    the :guilabel:`Vote on suggestion` permission, the existing suggestion is
+    upvoted instead and the response uses the same format as
+    :http:post:`/api/suggestions/(int:id)/vote/` (HTTP status 200 instead of 201).
+
 .. http:get:: /api/units/(int:id)/suggestions/
 
     .. versionadded:: 2026.8
@@ -2802,6 +2807,21 @@ Suggestions
     :type id: int
     :<json boolean approve: whether to mark the translation as approved after accepting; requires the :guilabel:`Review strings` permission and review workflow enabled (see :ref:`reviews`)
     :>json string result: ``accepted`` when the suggestion was accepted
+
+.. http:post:: /api/suggestions/(int:id)/vote/
+
+    .. versionadded:: 2026.8
+
+    Vote for or against a suggestion.
+
+    Requires the :guilabel:`Vote on suggestion` permission and voting enabled
+    on the related translation (see :ref:`voting`).
+
+    :param id: Suggestion ID
+    :type id: int
+    :<json int value: ``1`` to vote for the suggestion or ``-1`` to vote against it
+    :>json string result: ``voted`` when the suggestion remains open; ``accepted`` when auto-accept applied it
+    :>json object suggestion: updated suggestion object when ``result`` is ``voted``; ``null`` when ``result`` is ``accepted``
 
 Changes
 +++++++
