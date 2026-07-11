@@ -1365,6 +1365,11 @@ def markdown(text: str) -> str:
 
 
 @register.filter
+def can_dismiss_alert(alert: Alert, user: User) -> bool:
+    return alert.can_user_dismiss(user)
+
+
+@register.filter
 def format_commit_author(commit) -> str:
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
@@ -1788,7 +1793,9 @@ def format_last_changes_content(
                     "can_block_user": can_block_user,
                 },
                 "ip_address": change.get_ip_address() if user.is_superuser else None,
-                "history_data": get_change_history_context(change),
+                "history_data": get_change_history_context(
+                    change, include_private_details=bool(user.is_authenticated)
+                ),
             }
         )
     return {

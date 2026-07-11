@@ -13,6 +13,13 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 
+ANNOUNCEMENT_SEVERITY_CHOICES = (
+    ("info", gettext_lazy("Info (light blue)")),
+    ("warning", gettext_lazy("Warning (yellow)")),
+    ("danger", gettext_lazy("Danger (red)")),
+    ("success", gettext_lazy("Success (green)")),
+)
+
 
 class AnnouncementManager(models.Manager["Announcement"]):
     @staticmethod
@@ -196,12 +203,7 @@ class Announcement(models.Model):
         max_length=25,
         verbose_name=gettext_lazy("Severity"),
         help_text=gettext_lazy("Severity defines color used for the message."),
-        choices=(
-            ("info", gettext_lazy("Info (light blue)")),
-            ("warning", gettext_lazy("Warning (yellow)")),
-            ("danger", gettext_lazy("Danger (red)")),
-            ("success", gettext_lazy("Success (green)")),
-        ),
+        choices=ANNOUNCEMENT_SEVERITY_CHOICES,
         default="info",
     )
     expiry = models.DateField(

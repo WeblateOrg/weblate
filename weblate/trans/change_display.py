@@ -345,14 +345,26 @@ class RenderLanguage(BaseDetailsRenderStrategy):
 class RenderAlert(BaseDetailsRenderStrategy):
     """Strategy for displaying details of an alert event."""
 
-    actions: ClassVar[set[ActionEvents]] = {ActionEvents.ALERT}
+    actions: ClassVar[set[ActionEvents]] = {
+        ActionEvents.ALERT,
+        ActionEvents.ALERT_DISMISSED,
+        ActionEvents.ALERT_REOPENED,
+    }
     details_required = True
 
-    def render_details(self, change: Change) -> StrOrPromise:
+    @staticmethod
+    def render_alert(change: Change) -> StrOrPromise:
         try:
             return get_alert_class(change.details["alert"]).verbose
         except KeyError:
             return change.details["alert"]
+
+    def render_details(self, change: Change) -> StrOrPromise:
+        alert = self.render_alert(change)
+        reason = change.details.get("reason")
+        if reason:
+            return format_html("{} — {}", alert, reason)
+        return alert
 
 
 @register_details_display_strategy
@@ -441,14 +453,20 @@ class RenderCreateComponent(BaseDetailsRenderStrategy):
             return f"{ActionEvents.CREATE_COMPONENT.label} ({origin})"
 
 
-def get_change_history_context(change: Change) -> dict[str, Any]:
+def get_change_history_context(
+    change: Change, *, include_private_details: bool = True
+) -> dict[str, Any]:
     """
     Get context for rendering change history.
 
     This function returns a dictionary containing the main content and fields
     for displaying the change history.
     """
-    if details := change.get_details_display():
+    if not include_private_details and change.action == ActionEvents.ALERT_DISMISSED:
+        details = RenderAlert.render_alert(change)
+    else:
+        details = change.get_details_display()
+    if details:
         return {"description": details, "change_details_fields": []}
     if change.action in {
         ActionEvents.PROJECT_BACKUP,

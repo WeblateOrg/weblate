@@ -68,7 +68,7 @@ def get_suggestions(
     if not filtered:
         problem_alerts = Alert.objects.filter(
             component_id=OuterRef("component_id"),
-            dismissed=False,
+            dismissed_at__isnull=True,
             severity__gte=AlertSeverity.ERROR,
         )
         non_alerts = base.annotate(has_problem_alert=Exists(problem_alerts)).filter(

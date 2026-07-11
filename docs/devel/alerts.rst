@@ -44,6 +44,21 @@ localization. These can be dismissed and make the
 :guilabel:`Diagnostics` tab visible, but they do not indicate a
 component problem in listings.
 
+Dismissed diagnostics record who dismissed them, when they were dismissed, and
+an optional reason. A dismissal is automatically reopened when the diagnostic
+details or the configuration relevant to that diagnostic changes. Dismissal
+and reopening are both recorded in the component change history.
+
+Warning and error notifications are sent only to subscribed project
+maintainers who have permission to act on the diagnostic. Informational
+recommendations do not send unsolicited notifications.
+
+Custom alerts can override
+``BaseAlert.get_dismissal_context(component, details)`` to include stable,
+JSON-serializable configuration or diagnostic inputs. Changing the returned
+context reopens a dismissed alert. Incidental values such as evaluation time
+should not be included.
+
 A component with both duplicated strings and languages looks like this:
 
 .. image:: /screenshots/alerts.webp

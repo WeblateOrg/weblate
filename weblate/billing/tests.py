@@ -287,7 +287,7 @@ class BillingTest(BaseTestCase):
         component.add_alert("MissingTranslationInstructions")
         component.add_alert("RecommendedXgettextAddon")
         component.alert_set.filter(name="MissingTranslationInstructions").update(
-            dismissed=True
+            dismissed_at=timezone.now()
         )
 
         self.assertEqual(
@@ -882,6 +882,21 @@ class BillingTest(BaseTestCase):
         self.assertIsNotNone(self.billing.inactive_recurring_repository_changes)
         self.assertIsNotNone(self.billing.inactive_recurring_disable)
         self.assertIn("repository changes waiting", mail.outbox[0].body)
+
+    def test_reopened_repository_changes_resets_alert_age(self) -> None:
+        project = self.add_project()
+        component = self.add_component(project, "new-upstream")
+        old_timestamp = timezone.now() - timedelta(days=200)
+        self.set_alert_timestamp(component, "RepositoryChanges", old_timestamp)
+        alert = component.alert_set.get(name="RepositoryChanges")
+        self.assertTrue(alert.dismiss(self.user))
+
+        component.local_revision = "new-local-revision"
+        component.add_alert("RepositoryChanges")
+
+        reopened_timestamp = self.billing.get_oldest_active_alert("RepositoryChanges")
+        assert reopened_timestamp is not None
+        self.assertGreater(reopened_timestamp, old_timestamp)
 
     @override_settings(EMAIL_SUBJECT_PREFIX="")
     def test_inactive_recurring_uses_push_failure_alert(self) -> None:

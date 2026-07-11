@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from copy import copy
+from datetime import timedelta
 from email.utils import formataddr
 from typing import TYPE_CHECKING, Any, ClassVar, cast
 from urllib.parse import urlencode
@@ -31,6 +32,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.models import (
     Alert,
     Change,
@@ -1207,13 +1209,43 @@ class NewAnnouncementNotificaton(Notification):
 
 @register_notification
 class NewAlertNotificaton(Notification):
-    actions = (ActionEvents.ALERT,)
+    actions = (ActionEvents.ALERT, ActionEvents.ALERT_REOPENED)
     verbose = pgettext_lazy("Notification name", "New alert emerged in a component")
     verbose_plural = pgettext_lazy(
         "Notification name", "New alerts emerged in a component"
     )
     template_name = "new_alert"
     required_attr = "alert"
+    wide_alert_deduplication_window = timedelta(minutes=5)
+
+    def has_canonical_event(self, change: Change, component: Component) -> bool:
+        return Change.objects.filter(
+            action=change.action,
+            alert__name=change.alert.name,
+            component=component,
+            details__fingerprint=change.details.get("fingerprint"),
+            timestamp__gte=change.timestamp - self.wide_alert_deduplication_window,
+            timestamp__lte=change.timestamp,
+        ).exists()
+
+    def get_subscriptions(
+        self, change, project, component, translation, users
+    ) -> Iterable[Subscription]:
+        for subscription in super().get_subscriptions(
+            change, project, component, translation, users
+        ):
+            if change is None:
+                continue
+            try:
+                alert = cast("Alert", change.alert)
+            except Alert.DoesNotExist:
+                continue
+            target = cast("Component", change.component)
+            user = subscription.user
+            if alert.severity >= AlertSeverity.WARNING and alert.obj.can_user_act(
+                user, target
+            ):
+                yield subscription
 
     def should_skip(self, user: User, change: Change) -> bool:
         try:
@@ -1222,9 +1254,15 @@ class NewAlertNotificaton(Notification):
             # Alert was removed meanwhile
             return False
         component = cast("Component", change.component)
+        if alert.severity < AlertSeverity.WARNING or not alert.obj.can_user_act(
+            user, component
+        ):
+            return True
         if alert.obj.link_wide:
             # Notify for main component
             if not component.linked_component:
+                return False
+            if not self.has_canonical_event(change, component.linked_component):
                 return False
             # Notify only for others only when user will not get main.
             # This handles component level subscriptions.
@@ -1242,7 +1280,9 @@ class NewAlertNotificaton(Notification):
             first_component = component.project.component_set.order_by("id")[0]
             # Notify for the first component
             if component.id == first_component.id:
-                return True
+                return False
+            if not self.has_canonical_event(change, first_component):
+                return False
             # Notify only for others only when user will not get first.
             # This handles component level subscriptions.
             fake = copy(change)
@@ -1273,7 +1313,12 @@ class MergeFailureNotification(Notification):
     def _convert_change_skip(self, change: Change) -> Change:
         fake = copy(change)
         fake.action = ActionEvents.ALERT
-        fake.alert = Alert(name="MergeFailure", details={"error": ""})
+        alert_name = (
+            "PushFailure"
+            if change.action == ActionEvents.FAILED_PUSH
+            else "MergeFailure"
+        )
+        fake.alert = Alert(name=alert_name, details={"error": ""})
         return fake
 
 

@@ -229,7 +229,7 @@
               {% documentation_icon alert right=True %}
               {{ alert }}
               <span class="badge {{ alert.severity_class }}">{{ alert.get_severity_display }}</span>
-              {% if alert.dismissed %}
+              {% if alert.is_dismissed %}
                 <span class="badge  text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
             </div>
@@ -245,9 +245,26 @@
                     {% blocktranslate with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktranslate %}
                   {% endif %}
                 {% endwith %}
-                {% if user_can_edit_component and alert.obj.dismissible %}
+                {% if alert.is_dismissed %}
+                  {% if alert.dismissed_by %}
+                    {% blocktranslate with user=alert.dismissed_by timestamp=alert.dismissed_at|naturaltime %}Dismissed by {{ user }} {{ timestamp }}{% endblocktranslate %}
+                  {% else %}
+                    {% blocktranslate with timestamp=alert.dismissed_at|naturaltime %}Dismissed {{ timestamp }}{% endblocktranslate %}
+                  {% endif %}
+                  {% if alert.dismissal_reason %}
+                    — {% blocktranslate with reason=alert.dismissal_reason %}Reason: {{ reason }}{% endblocktranslate %}
+                  {% endif %}
+                {% elif alert|can_dismiss_alert:user %}
                   {% csrf_token %}
                   <input type="hidden" value="{{ alert.name }}" name="dismiss" />
+                  <label class="visually-hidden" for="dismiss-reason-{{ alert.pk }}">{% translate "Dismissal reason" %}</label>
+                  <input type="text"
+                         id="dismiss-reason-{{ alert.pk }}"
+                         name="reason"
+                         maxlength="500"
+                         placeholder="{% translate "Optional dismissal reason" %}"
+                         class="form-control form-control-sm float-end ms-2"
+                         style="max-width: 24rem" />
                   <input type="submit"
                          value="{% translate "Dismiss" %}"
                          class="float-end btn {% if alert.is_problem %}btn-danger{% else %}btn-info{% endif %}" />

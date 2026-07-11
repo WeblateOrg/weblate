@@ -28831,6 +28831,8 @@ components:
       - 100
       - 101
       - 102
+      - 103
+      - 104
       type: integer
       description: |-
         * `0` - **Resource updated:** A translation file was synchronized with its repository.
@@ -28930,6 +28932,8 @@ components:
         * `100` - **Project moved:** A project was moved into or out of a workspace.
         * `101` - **Remote repository updated:** A remote repository update was completed.
         * `102` - **Remote repository update failed:** Updating a remote repository failed.
+        * `103` - **Alert dismissed:** A component alert was dismissed.
+        * `104` - **Alert reopened:** A component alert was reopened after its context changed.
     Addon:
       type: object
       properties:
@@ -28973,6 +28977,65 @@ components:
       - detail
       - logs_url
       - url
+    Alert:
+      type: object
+      properties:
+        name:
+          type: string
+          readOnly: true
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+        severity:
+          allOf:
+          - $ref: '#/components/schemas/AlertSeverityEnum'
+          readOnly: true
+        details:
+          readOnly: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/CategoryEnum'
+          readOnly: true
+        dismissed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        dismissed_by:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
+        dismissal_reason:
+          type: string
+          readOnly: true
+      required:
+      - category
+      - details
+      - dismissal_reason
+      - dismissed_at
+      - dismissed_by
+      - name
+      - severity
+      - timestamp
+      - updated
+    AlertSeverityEnum:
+      enum:
+      - 10
+      - 50
+      - 100
+      type: integer
+      description: |-
+        * `10` - Information
+        * `50` - Warning
+        * `100` - Error
     Announcement:
       type: object
       properties:
@@ -29287,6 +29350,20 @@ components:
       - slug
       - statistics_url
       - url
+    CategoryEnum:
+      enum:
+      - addons
+      - community
+      - configuration
+      - files
+      - vcs
+      type: string
+      description: |-
+        * `addons` - addons
+        * `community` - community
+        * `configuration` - configuration
+        * `files` - files
+        * `vcs` - vcs
     Change:
       type: object
       properties:
@@ -29309,6 +29386,11 @@ components:
         author:
           type: string
           format: uri
+          readOnly: true
+        alert:
+          oneOf:
+          - $ref: '#/components/schemas/Alert'
+          - type: 'null'
           readOnly: true
         timestamp:
           type: string
@@ -29336,6 +29418,7 @@ components:
           readOnly: true
       required:
       - action_name
+      - alert
       - author
       - component
       - id

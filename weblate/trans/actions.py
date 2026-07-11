@@ -636,6 +636,18 @@ class ActionEvents(IntegerChoices):
         gettext_lazy("Updating a remote repository failed."),
         gettext_lazy("Remote repository update failed"),
     )
+    # Translators: Name and description of event in the history
+    ALERT_DISMISSED = (
+        103,
+        gettext_lazy("A component alert was dismissed."),
+        gettext_lazy("Alert dismissed"),
+    )
+    # Translators: Name and description of event in the history
+    ALERT_REOPENED = (
+        104,
+        gettext_lazy("A component alert was reopened after its context changed."),
+        gettext_lazy("Alert reopened"),
+    )
 
 
 # Actions which are logged
@@ -665,6 +677,8 @@ ACTIONS_LOG = {
     ActionEvents.CREATE_WORKSPACE,
     ActionEvents.WORKSPACE_SETTING_CHANGE,
     ActionEvents.MOVE_PROJECT,
+    ActionEvents.ALERT_DISMISSED,
+    ActionEvents.ALERT_REOPENED,
 }
 
 

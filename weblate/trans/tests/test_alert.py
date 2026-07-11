@@ -4,6 +4,7 @@
 
 """Test for alerts."""
 
+import importlib
 import os
 import tempfile
 from datetime import timedelta
@@ -20,6 +21,7 @@ from django.utils import timezone
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
+from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
@@ -212,10 +214,330 @@ class AlertTest(ViewTestCase):
         self.user.save()
         response = self.client.post(
             reverse("dismiss-alert", kwargs=self.kw_component),
-            {"dismiss": "BrokenBrowserURL"},
+            {"dismiss": "BrokenBrowserURL", "reason": "Expected authentication"},
         )
         self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
-        self.assertTrue(self.component.alert_set.get(name="BrokenBrowserURL").dismissed)
+        alert = self.component.alert_set.get(name="BrokenBrowserURL")
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertEqual(alert.dismissed_by, self.user)
+        self.assertEqual(alert.dismissal_reason, "Expected authentication")
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_DISMISSED, alert=alert, user=self.user
+            ).exists()
+        )
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, "Expected authentication")
+
+        self.client.logout()
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertNotContains(response, "Expected authentication")
+
+    def test_project_maintainer_can_dismiss_project_wide_alert(self) -> None:
+        role = Role.objects.create(name="Project alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="project.edit"))
+        group = Group.objects.create(name="Project alert maintainers")
+        group.roles.add(role)
+        group.projects.add(self.component.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.component.project))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        response = self.client.get(f"{self.component.get_absolute_url()}?alerts=1")
+        self.assertContains(response, "Optional dismissal reason")
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "BrokenProjectURL", "reason": "Expected failure"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        self.assertEqual(alert.dismissed_by, self.user)
+        self.assertEqual(alert.dismissal_reason, "Expected failure")
+
+    def test_user_without_action_permission_cannot_dismiss_alert(self) -> None:
+        self.component.add_alert(
+            "BrokenBrowserURL", link="https://example.com", error="failure"
+        )
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "BrokenBrowserURL"},
+        )
+
+        self.assertEqual(response.status_code, 404)
+        self.assertIsNone(
+            self.component.alert_set.get(name="BrokenBrowserURL").dismissed_at
+        )
+
+    def test_repository_maintainer_can_dismiss_repository_alert(self) -> None:
+        role = Role.objects.create(name="Repository alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.push"))
+        group = Group.objects.create(name="Repository alert maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.component))
+        self.component.add_alert("RepositoryChanges")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "RepositoryChanges"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="RepositoryChanges").dismissed_by,
+            self.user,
+        )
+
+    def test_commit_permission_cannot_act_on_outdated_repository(self) -> None:
+        role = Role.objects.create(name="Repository commit maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.commit"))
+        group = Group.objects.create(name="Repository commit maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.component.add_alert("RepositoryOutdated")
+
+        alert = self.component.alert_set.get(name="RepositoryOutdated")
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.component))
+        self.assertFalse(alert.obj.can_user_act(self.user, self.component))
+
+    def test_screenshot_maintainer_can_dismiss_unused_screenshot(self) -> None:
+        role = Role.objects.create(name="Unused screenshot alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="screenshot.delete"))
+        group = Group.objects.create(name="Unused screenshot alert maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("screenshot.delete", self.component))
+        self.component.add_alert("UnusedScreenshot")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "UnusedScreenshot"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="UnusedScreenshot").dismissed_by,
+            self.user,
+        )
+
+    def test_language_manager_can_dismiss_ambiguous_language(self) -> None:
+        role = Role.objects.create(name="Ambiguous language alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="language.edit"))
+        group = Group.objects.create(name="Ambiguous language alert maintainers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("language.edit"))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.component.add_alert("AmbiguousLanguage")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "AmbiguousLanguage"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="AmbiguousLanguage").dismissed_by,
+            self.user,
+        )
+
+    def test_source_editor_can_dismiss_safe_html_alert(self) -> None:
+        role = Role.objects.create(name="Safe HTML alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="source.edit"))
+        group = Group.objects.create(name="Safe HTML alert maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("source.edit", self.component))
+        self.component.add_alert("MissingSafeHTMLFlag")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "MissingSafeHTMLFlag"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="MissingSafeHTMLFlag").dismissed_by,
+            self.user,
+        )
+
+    def test_reopen_dismissed_alert_on_details_change(self) -> None:
+        self.component.add_alert("BrokenProjectURL", error="first failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        old_timestamp = timezone.now() - timedelta(days=30)
+        self.component.alert_set.filter(pk=alert.pk).update(timestamp=old_timestamp)
+        alert.refresh_from_db()
+        self.assertTrue(alert.dismiss(self.user, "Known issue"))
+
+        self.component.add_alert("BrokenProjectURL", error="different failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertIsNone(alert.dismissed_by)
+        self.assertEqual(alert.dismissal_reason, "")
+        self.assertEqual(alert.dismissal_fingerprint, "")
+        self.assertGreater(alert.timestamp, old_timestamp)
+        self.assertEqual(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).count(),
+            1,
+        )
+
+        self.component.add_alert("BrokenProjectURL", error="different failure")
+        self.assertEqual(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).count(),
+            1,
+        )
+
+    def test_legacy_dismissal_reopens_on_first_refresh(self) -> None:
+        self.component.add_alert("BrokenProjectURL", error="failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
+
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_migrated_dismissal_stays_dismissed_on_unchanged_refresh(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0094_alert_lifecycle"
+        )
+        self.component.project.web = "https://example.com/first"
+        self.component.project.save(update_fields=["web"])
+        self.component.add_alert("BrokenProjectURL", error="failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+
+        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertNotEqual(alert.dismissal_fingerprint, "")
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+        self.component.project.web = "https://example.com/second"
+        self.component.project.save(update_fields=["web"])
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_migrated_addon_dismissal_ignores_new_addon_id(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0094_alert_lifecycle"
+        )
+        occurrence = {
+            "addon": "weblate.gettext.msgmerge",
+            "error": "failure",
+        }
+        self.component.add_alert("MsgmergeAddonError", occurrences=[occurrence])
+        alert = self.component.alert_set.get(name="MsgmergeAddonError")
+
+        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        self.component.add_alert(
+            "MsgmergeAddonError",
+            occurrences=[{**occurrence, "addon_id": "123"}],
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertNotEqual(alert.dismissal_fingerprint, "")
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+        self.component.add_alert(
+            "MsgmergeAddonError",
+            occurrences=[
+                {**occurrence, "addon_id": "123", "error": "different failure"}
+            ],
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_legacy_dismissal_reopens_on_details_change(self) -> None:
+        self.component.add_alert("BrokenProjectURL", error="original failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
+
+        self.component.add_alert("BrokenProjectURL", error="different failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_inexact_hook_match_reopens_on_repository_change(self) -> None:
+        details = {
+            "service_long_name": "Gitea",
+            "repo_url": "https://example.com/owner/repo",
+            "branch": "main",
+            "full_name": "owner/repo",
+        }
+        self.component.repo = "https://example.com/first/repo.git"
+        self.component.save(update_fields=["repo"])
+        self.component.add_alert("InexactHookMatch", **details)
+        alert = self.component.alert_set.get(name="InexactHookMatch")
+        self.assertTrue(alert.dismiss(self.user))
+
+        self.component.repo = "https://example.com/different/repo.git"
+        self.component.save(update_fields=["repo"])
+        self.component.add_alert("InexactHookMatch", **details)
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
 
     def test_existing_alert_updates_last_seen(self) -> None:
         self.component.add_alert("MissingLicense")
@@ -886,6 +1208,36 @@ class ExtractPotAlertTest(ViewTestCase):
 
         self.assertTrue(
             self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
+        )
+
+    def test_unrelated_addon_does_not_reopen_missing_msgmerge_alert(self) -> None:
+        XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        update_alerts(self.component, {"ExtractPotMissingMsgmerge"})
+        alert = self.component.alert_set.get(name="ExtractPotMissingMsgmerge")
+        self.assertTrue(alert.dismiss(self.user))
+
+        Addon.objects.create(
+            component=self.component,
+            name="weblate.cleanup.generic",
+        )
+        update_alerts(self.component, {"ExtractPotMissingMsgmerge"})
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED,
+                alert=alert,
+            ).exists()
         )
 
 

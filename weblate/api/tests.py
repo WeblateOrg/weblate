@@ -3107,7 +3107,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_changes(self) -> None:
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 30)
+        self.assertEqual(request.data["count"], 35)
 
     def test_changes_skip_restricted_component_changes(self) -> None:
         secret = "SECRET-RESTRICTED-STRING-XYZZY"
@@ -6080,7 +6080,7 @@ class ComponentAPITest(APIBaseTest):
 
     def test_changes(self) -> None:
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 22)
+        self.assertEqual(request.data["count"], 24)
 
     def test_screenshots(self) -> None:
         request = self.do_request("api:component-screenshots", self.component_kwargs)
@@ -12075,7 +12075,7 @@ class ScreenshotAPITest(APIBaseTest):
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self) -> None:
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 30)
+        self.assertEqual(response.data["count"], 35)
 
     def test_filter_changes_after(self) -> None:
         """Filter changes since timestamp."""
@@ -12083,7 +12083,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 30)
+        self.assertEqual(response.data["count"], 35)
 
     def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""
@@ -12103,6 +12103,53 @@ class ChangeAPITest(APIBaseTest):
             reverse("api:change-detail", kwargs={"pk": Change.objects.all()[0].pk})
         )
         self.assertIn("translation", response.data)
+
+    def test_alert_metadata(self) -> None:
+        self.component.add_alert("InexactHookMatch", repo_url="first")
+        alert = self.component.alert_set.get(name="InexactHookMatch")
+        alert.dismiss(self.user, "Handled elsewhere")
+        change = self.component.change_set.get(
+            action=ActionEvents.ALERT_DISMISSED, alert=alert
+        )
+
+        other_user = User.objects.create_user("other_user", "other@example.com")
+        self.component.add_alert("InexactHookMatch", repo_url="second")
+        alert.refresh_from_db()
+        alert.dismiss(other_user, "New dismissal")
+        self.component.delete_alert("InexactHookMatch")
+
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+        self.assertEqual(response.data["alert"]["details"], {})
+        self.assertEqual(response.data["alert"]["dismissal_reason"], "")
+        self.assertNotIn("reason", response.data["details"])
+        self.assertEqual(
+            response.data["details"]["alert_snapshot"]["details"],
+            {},
+        )
+
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+
+        self.assertEqual(response.data["alert"]["category"], "vcs")
+        self.assertEqual(response.data["alert"]["severity"], 50)
+        self.assertEqual(response.data["alert"]["details"]["repo_url"], "first")
+        self.assertEqual(
+            response.data["details"]["alert_snapshot"]["details"]["repo_url"],
+            "first",
+        )
+        self.assertEqual(
+            datetime.fromisoformat(response.data["alert"]["dismissed_at"]),
+            change.timestamp,
+        )
+        self.assertIn(self.user.username, response.data["alert"]["dismissed_by"])
+        self.assertEqual(
+            response.data["alert"]["dismissal_reason"], "Handled elsewhere"
+        )
+        self.assertEqual(response.data["details"]["reason"], "Handled elsewhere")
 
 
 class MetricsAPITest(APIBaseTest):
@@ -14669,6 +14716,7 @@ class OpenAPITest(APIBaseTest):
             "Severity defines color used for the message.",
         )
         self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
+        self.assertEqual(schemas["AlertSeverityEnum"]["enum"], [10, 50, 100])
         self.assertNotIn("* `info`", severity_description)
 
     def test_change_action_schema_matches_runtime_choices(self) -> None:

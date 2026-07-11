@@ -105,6 +105,8 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         # Flatten enum definitions
         "ENUM_NAME_OVERRIDES": {
             "ActionEnum": "weblate.trans.actions.ActionEvents.choices",
+            "AlertSeverityEnum": "weblate.trans.alerts.base.AlertSeverity.choices",
+            "SeverityEnum": "weblate.trans.models.announcement.ANNOUNCEMENT_SEVERITY_CHOICES",
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
             "StringStateEnum": "weblate.utils.state.StringState.choices",
             "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
