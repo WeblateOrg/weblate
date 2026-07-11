@@ -1297,6 +1297,11 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/c1/40/6a02495c5658beb1f31eb09952d8aa12ef3c2a66342331ce3a35f7132439/django_filter-25.2-py3-none-any.whl", hash = "sha256:9c0f8609057309bba611062fe1b720b4a873652541192d232dd28970383633e3", size = 94145, upload-time = "2025-10-05T09:51:29.728Z" },
 ]
 
+[package.optional-dependencies]
+drf = [
+    { name = "djangorestframework" },
+]
+
 [[package]]
 name = "django-otp"
 version = "1.7.0"
@@ -5616,7 +5621,7 @@ dependencies = [
     { name = "django-compressor" },
     { name = "django-cors-headers" },
     { name = "django-crispy-forms" },
-    { name = "django-filter" },
+    { name = "django-filter", extra = ["drf"] },
     { name = "django-otp" },
     { name = "django-otp-webauthn" },
     { name = "django-redis" },
@@ -5903,7 +5908,7 @@ requires-dist = [
     { name = "django-compressor", specifier = "==4.6.0" },
     { name = "django-cors-headers", specifier = "==4.9.0" },
     { name = "django-crispy-forms", specifier = "==2.6" },
-    { name = "django-filter", specifier = "==25.2" },
+    { name = "django-filter", extras = ["drf"], specifier = "==25.2" },
     { name = "django-otp", specifier = "==1.7.0" },
     { name = "django-otp-webauthn", specifier = "==0.10.0" },
     { name = "django-redis", specifier = "==7.0.0" },
