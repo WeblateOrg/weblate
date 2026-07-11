@@ -6,6 +6,7 @@ Weblate 2026.8
 .. rubric:: New features
 
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
+
 .. rubric:: Improvements
 
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
