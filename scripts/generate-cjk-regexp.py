@@ -85,7 +85,7 @@ def parse_blocks(data: str) -> list[tuple[int, int, str]]:
 
 def fetch_blocks(version: str) -> str:
     url = UNICODE_BLOCKS_URL.format(version=version)
-    with urllib.request.urlopen(url, timeout=30) as response:  # noqa: S310
+    with urllib.request.urlopen(url, timeout=30) as response:  # ruff: ignore[suspicious-url-open-usage]
         return response.read().decode("utf-8")
 
 

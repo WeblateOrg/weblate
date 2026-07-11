@@ -88,24 +88,24 @@ def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
 
 class MemoryReadReplicaRouter:
     def db_for_read(self, model: type[models.Model], **_hints: object) -> str | None:
-        if model._meta.app_label == "memory":  # noqa: SLF001
+        if model._meta.app_label == "memory":  # ruff: ignore[private-member-access]
             return "memory_db"
         return None
 
     def db_for_write(self, model: type[models.Model], **_hints: object) -> str | None:
-        if model._meta.app_label == "memory":  # noqa: SLF001
+        if model._meta.app_label == "memory":  # ruff: ignore[private-member-access]
             return "default"
         return None
 
 
 class MemoryReplicaWriteRouter:
     def db_for_read(self, model: type[models.Model], **_hints: object) -> str | None:
-        if model._meta.app_label == "memory":  # noqa: SLF001
+        if model._meta.app_label == "memory":  # ruff: ignore[private-member-access]
             return "memory_db"
         return None
 
     def db_for_write(self, model: type[models.Model], **_hints: object) -> str | None:
-        if model._meta.app_label == "memory":  # noqa: SLF001
+        if model._meta.app_label == "memory":  # ruff: ignore[private-member-access]
             return "memory_db"
         return None
 
@@ -305,7 +305,7 @@ class MemoryModelTest(FixtureTestCase):
     def test_legacy_memory_owner_fields_are_not_public(self) -> None:
         for field in ("project", "user", "shared", "from_file"):
             with self.assertRaises(FieldDoesNotExist):
-                Memory._meta.get_field(field)  # noqa: SLF001
+                Memory._meta.get_field(field)  # ruff: ignore[private-member-access]
 
         for lookup in (
             {"project": self.project},

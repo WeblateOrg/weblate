@@ -453,7 +453,7 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
 
 
 @app.task(trail=False)
-def update_memory(  # noqa: PLR0913
+def update_memory(  # ruff: ignore[too-many-arguments]
     *,
     source_language_id: int,
     target_language_id: int,
