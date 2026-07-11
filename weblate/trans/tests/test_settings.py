@@ -75,7 +75,7 @@ class SettingsTest(ViewTestCase):
             (defaults.DEFAULT_DELETE_MESSAGE, validate_render_commit),
             (defaults.DEFAULT_MERGE_MESSAGE, validate_render_component),
             (defaults.DEFAULT_ADDON_MESSAGE, validate_render_addon),
-            (defaults.DEFAULT_PULL_MESSAGE, validate_render_addon),
+            (defaults.DEFAULT_PULL_MESSAGE, validate_render_component),
         )
         for template, validator in validators:
             with self.subTest(template=template):
