@@ -41,7 +41,7 @@ def _regex_allowed(prev: str) -> bool:
     return not prev or prev in _REGEX_PRECEDERS
 
 
-def _scan_expression(text: str, start: int) -> int | None:  # noqa: C901
+def _scan_expression(text: str, start: int) -> int | None:  # ruff: ignore[complex-structure]
     """
     Find the closing brace of the JSX expression opening at ``start``.
 
@@ -317,7 +317,7 @@ class SafeMDXCheck(TargetCheck):
             )
         )
 
-    def get_jsx_expression_signatures(  # noqa: C901
+    def get_jsx_expression_signatures(  # ruff: ignore[complex-structure]
         self, text: str
     ) -> Iterator[tuple[str, str, tuple[str, ...], str]]:
         """Extract JSX expressions together with their syntactic context."""

@@ -14,6 +14,9 @@ For application-developer workflows and broader product integration guidance, us
 
 - Follow existing Django patterns and project conventions.
 - Prefer the repository's configured Ruff-based formatting and linting rules.
+- Use human-readable Ruff rule names in overrides, such as
+  `# ruff: ignore[assert]`; do not use or rewrite them to cryptic codes such as
+  `# noqa: S102`, `# ruff: N801`, or `# ruff: noqa: F841`.
 - Prefer type hints and use `from __future__ import annotations` in Python
   modules.
 - Use `TYPE_CHECKING` imports for type-only dependencies when that avoids

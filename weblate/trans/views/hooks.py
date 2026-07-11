@@ -694,7 +694,7 @@ def _handle_github_installation_target_event(
     )
 
 
-def _handle_github_installation_event(  # noqa: C901
+def _handle_github_installation_event(  # ruff: ignore[complex-structure]
     data: dict, installation, hostname: str | None
 ) -> None:
     """Handle ``installation`` and ``installation_repositories`` events."""
@@ -955,7 +955,10 @@ def github_integration_hook_helper(
             .distinct()
         )
         if workspace_ids:
-            from weblate.trans.models import Project  # noqa: PLC0415
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.models import (
+                Project,
+            )
 
             project_ids = list(
                 Project.objects.filter(workspace_id__in=workspace_ids)

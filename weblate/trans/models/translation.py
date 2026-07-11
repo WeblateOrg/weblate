@@ -867,7 +867,10 @@ class Translation(
         operation: Callable[[TranslationFormat], list[str] | None],
         no_changes_message: str,
     ) -> bool:
-        from weblate.auth.models import get_anonymous  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.auth.models import (
+            get_anonymous,
+        )
 
         if not self.filename:
             messages.info(request, no_changes_message)
@@ -917,7 +920,10 @@ class Translation(
         self, alert_names: set[str] | None = None
     ) -> None:
         """Refresh import alerts after a single translation file was parsed."""
-        from weblate.trans.alerts.registry import get_import_alerts  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.alerts.registry import (
+            get_import_alerts,
+        )
 
         if alert_names is None:
             alert_names = SINGLE_FILE_IMPORT_ALERTS

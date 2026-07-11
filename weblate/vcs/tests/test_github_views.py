@@ -105,7 +105,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         accessible_ids: tuple[str, ...] = ("12345",),
         managed_installation_ids: tuple[str, ...] | None = None,
         installations: list[dict] | None = None,
-        token: str = "ghu_user",  # noqa: S107
+        token: str = "ghu_user",  # ruff: ignore[hardcoded-password-default]
     ) -> None:
         """Mock the install-time user-authorization (OAuth) verification."""
         oauth_base = (
