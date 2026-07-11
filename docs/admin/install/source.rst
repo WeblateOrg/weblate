@@ -67,7 +67,7 @@ Keep Weblate's tightly coupled companion packages in sync with the Weblate
 release:
 
 * :pypi:`weblate-fonts`
-* :pypi:`weblate-schemas`
+* :pypi:`weblate_schemas`
 * :pypi:`weblate-language-data`
 * :pypi:`translation-finder`
 * :pypi:`translate-toolkit`
