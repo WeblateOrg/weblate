@@ -60,8 +60,11 @@ from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.forms import (
     LLM_LANGUAGE_INSTRUCTION_LENGTH,
+    AnthropicMachineryForm,
     BaseMachineryForm,
     LLMBasicMachineryForm,
+    MistralMachineryForm,
+    OpenAIMachineryForm,
 )
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
@@ -3549,6 +3552,94 @@ class LLMBasicMachineryFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
 
+class ProviderModelChoicesTest(SimpleTestCase):
+    def test_openai_model_choices(self) -> None:
+        self.assertEqual(
+            tuple(model for model, _name in OpenAIMachineryForm.MODEL_CHOICES),
+            (
+                "auto",
+                "gpt-5-nano",
+                "gpt-5.4-nano",
+                "gpt-5-mini",
+                "gpt-5.4-mini",
+                "gpt-5.6-luna",
+                "gpt-5",
+                "gpt-5.4",
+                "gpt-5.6-terra",
+                "gpt-5.5",
+                "gpt-5.6",
+                "custom",
+            ),
+        )
+
+    def test_openai_automatic_selection_prefers_cheapest_model(self) -> None:
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+        models = {
+            model
+            for model, _name in OpenAIMachineryForm.MODEL_CHOICES
+            if model not in {"auto", "custom"}
+        }
+
+        with patch.object(machine, "_models", models):
+            self.assertEqual(machine.get_model(), "gpt-5-nano")
+
+    def test_openai_automatic_selection_prefers_gpt_5_6_luna(self) -> None:
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+
+        with patch.object(
+            machine, "_models", {"gpt-5.6", "gpt-5.6-terra", "gpt-5.6-luna"}
+        ):
+            self.assertEqual(machine.get_model(), "gpt-5.6-luna")
+
+    def test_mistral_model_choices(self) -> None:
+        self.assertEqual(
+            tuple(model for model, _name in MistralMachineryForm.MODEL_CHOICES),
+            (
+                "auto",
+                "ministral-3b-latest",
+                "ministral-8b-latest",
+                "mistral-small-latest",
+                "ministral-14b-latest",
+                "mistral-large-latest",
+                "mistral-medium-latest",
+                "custom",
+            ),
+        )
+
+    def test_mistral_automatic_selection_prefers_cheapest_model(self) -> None:
+        machine = MistralTranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+        models = {
+            model
+            for model, _name in MistralMachineryForm.MODEL_CHOICES
+            if model not in {"auto", "custom"}
+        }
+
+        with patch.object(machine, "_models", models):
+            self.assertEqual(machine.get_model(), "ministral-3b-latest")
+
+    def test_anthropic_model_choices(self) -> None:
+        self.assertEqual(
+            tuple(model for model, _name in AnthropicMachineryForm.MODEL_CHOICES),
+            (
+                "claude-haiku-4-5",
+                "claude-sonnet-5",
+                "claude-opus-4-8",
+                "claude-fable-5",
+                "custom",
+            ),
+        )
+        self.assertEqual(
+            AnthropicMachineryForm.base_fields["model"].initial,
+            "claude-haiku-4-5",
+        )
+
+
 class OpenAITranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS: type[BatchMachineTranslation] = OpenAITranslation
     EXPECTED_LEN = 1
@@ -3561,7 +3652,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "persona": "",
         "style": "",
     }
-    TRACE_MODEL: ClassVar[str] = "gpt-5.4-nano"
+    TRACE_MODEL: ClassVar[str] = "gpt-5-nano"
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
@@ -7066,7 +7157,7 @@ class MistralTranslationTest(OpenAITranslationTest):
         "persona": "",
         "style": "",
     }
-    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+    TRACE_MODEL: ClassVar[str] = "ministral-3b-latest"
 
     @staticmethod
     def mock_models() -> None:
@@ -7077,7 +7168,7 @@ class MistralTranslationTest(OpenAITranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "mistral-small-latest",
+                        "id": "ministral-3b-latest",
                         "object": "model",
                         "created": 1686935002,
                         "owned_by": "mistral",
@@ -7095,7 +7186,7 @@ class MistralTranslationTest(OpenAITranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "mistral-small-latest",
+                "model": "ministral-3b-latest",
                 "choices": [
                     {
                         "index": 0,
@@ -7124,7 +7215,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
         "style": "",
         "base_url": "https://custom.example.com/",
     }
-    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+    TRACE_MODEL: ClassVar[str] = "ministral-3b-latest"
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
         responses.add(
@@ -7134,7 +7225,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "mistral-small-latest",
+                        "id": "ministral-3b-latest",
                         "object": "model",
                         "created": 1686935002,
                         "owned_by": "mistral",
@@ -7149,7 +7240,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "mistral-small-latest",
+                "model": "ministral-3b-latest",
                 "choices": [
                     {
                         "index": 0,
@@ -7328,7 +7419,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "test-api-key",
         "base_url": "https://api.anthropic.com",
-        "model": "claude-sonnet-4-5",
+        "model": "claude-haiku-4-5",
         "max_tokens": 4096,
         "persona": "",
         "style": "",
@@ -7366,7 +7457,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": '["Hallo Welt"]',
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7392,7 +7483,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": '["Hallo Welt"]',
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7426,7 +7517,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": "Hallo Welt",
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7454,7 +7545,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": '{"translation": "Hallo Welt"}',
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7465,6 +7556,28 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+    @responses.activate
+    def test_response_skips_thinking_blocks(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "content": [
+                    {"type": "thinking", "thinking": ""},
+                    {"type": "text", "text": '["Hallo Welt"]'},
+                ],
+                "model": "claude-fable-5",
+                "stop_reason": "end_turn",
+            },
+        )
+        machine = self.MACHINE_CLS({**self.CONFIGURATION, "model": "claude-fable-5"})
+
+        self.assertEqual(
+            machine.fetch_llm_translations("prompt", "content", "previous", "reply"),
+            '["Hallo Welt"]',
+        )
 
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
@@ -7495,7 +7608,7 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
         form = machine.settings_form(machine, settings)
         self.assertTrue(form.is_valid())
 
-        settings["model"] = "claude-sonnet-4-5"
+        settings["model"] = "claude-haiku-4-5"
         form = machine.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
 
@@ -8302,7 +8415,7 @@ class MachineryValidationTest(TestCase):
             data={
                 "key": "test-api-key",
                 "base_url": "http://127.0.0.1:11434",
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "max_tokens": 4096,
                 "persona": "",
                 "style": "",

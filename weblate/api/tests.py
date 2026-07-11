@@ -25,6 +25,7 @@ from django.db import DatabaseError
 from django.db.models import Q
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
@@ -47,7 +48,14 @@ from weblate.api.serializers import (
 )
 from weblate.api.views import MemoryFilter, MemoryViewSet
 from weblate.auth.data import ROLES, SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.auth.models import (
+    Group,
+    Permission,
+    Role,
+    TeamMembership,
+    User,
+    UserBlock,
+)
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
@@ -188,14 +196,17 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         perm: str,
         group_name: str = "Permission group",
         project: Project | None = None,
+        component: Component | None = None,
     ) -> None:
         permission = Permission.objects.get(codename=perm)
         group = Group.objects.get_or_create(
             name=group_name, language_selection=SELECTION_ALL
         )[0]
-        if project:
+        if project is not None:
             group.projects.add(project)
-        role = Role.objects.create(name="Permission role")
+        if component is not None:
+            group.components.add(component)
+        role = Role.objects.get_or_create(name=f"{group_name} role")[0]
         role.permissions.add(permission)
         group.roles.add(role)
         self.user.groups.add(group)
@@ -682,17 +693,17 @@ class UserAPITest(APIBaseTest):
         inactive.is_active = False
         inactive.save()
         users = [
-            User.objects.get(username=settings.ANONYMOUS_USER_NAME),
-            inactive,
+            (User.objects.get(username=settings.ANONYMOUS_USER_NAME), 403),
+            (inactive, 400),
         ]
 
-        for target in users:
+        for target, code in users:
             self.do_request(
                 "api:user-groups",
                 kwargs={"username": target.username},
                 method="post",
                 superuser=True,
-                code=400,
+                code=code,
                 request={"group_id": group.id},
             )
             self.assertFalse(target.groups.filter(pk=group.pk).exists())
@@ -1129,6 +1140,41 @@ class UserAPITest(APIBaseTest):
         )
         protected_bot.refresh_from_db()
         self.assertEqual(protected_bot.full_name, "Addon Bot")
+
+    def test_protected_bot_related_mutation(self) -> None:
+        protected_bot = User.objects.create(
+            username="addon:related",
+            full_name="Related Addon Bot",
+            email="addon-related@example.org",
+            is_bot=True,
+            is_active=True,
+        )
+        group = Group.objects.create(name="Protected related mutation")
+        subscription_count = protected_bot.subscription_set.count()
+
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": protected_bot.username},
+            method="post",
+            superuser=True,
+            code=403,
+            request={"group_id": group.pk},
+        )
+        self.assertFalse(protected_bot.groups.filter(pk=group.pk).exists())
+
+        self.do_request(
+            "api:user-notifications",
+            kwargs={"username": protected_bot.username},
+            method="post",
+            superuser=True,
+            code=403,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": NotificationScope.SCOPE_ALL,
+                "frequency": NotificationFrequency.FREQ_INSTANT,
+            },
+        )
+        self.assertEqual(protected_bot.subscription_set.count(), subscription_count)
 
     def test_project_token_mutation(self) -> None:
         project_token = User.objects.create(
@@ -3750,6 +3796,141 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="c-3")
         self.assertEqual(component.repo, repo)
 
+    def test_create_component_does_not_autoshare_inaccessible_component(self) -> None:
+        repo = self.component.repo
+        branch = self.component.branch
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            request={
+                "name": "Independent repository",
+                "slug": "independent-repository",
+                "repo": repo,
+                "branch": branch,
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+
+        component = Component.objects.get(slug="independent-repository")
+        self.assertEqual(component.repo, repo)
+        self.assertIsNone(component.linked_component_id)
+
+    def test_create_component_ignores_missing_autoshare_target(self) -> None:
+        repo = self.component.repo
+        link_repo = self.component.get_repo_link_url()
+        original_get_linked = Component.objects.get_linked
+
+        def get_linked(candidate):
+            if candidate == link_repo:
+                msg = "Component disappeared."
+                raise Component.DoesNotExist(msg)
+            return original_get_linked(candidate)
+
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        with patch.object(
+            Component.objects,
+            "get_linked",
+            side_effect=get_linked,
+        ):
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                request={
+                    "name": "Missing autoshare target",
+                    "slug": "missing-autoshare-target",
+                    "repo": repo,
+                    "branch": self.component.branch,
+                    "filemask": "po/*.po",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+            )
+
+        component = Component.objects.get(slug="missing-autoshare-target")
+        self.assertEqual(component.repo, repo)
+        self.assertIsNone(component.linked_component_id)
+
+    def test_create_restricted_component_requires_privileged_access(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            request={
+                "name": "Restricted component",
+                "slug": "restricted-component",
+                "repo": self.component.repo,
+                "branch": self.component.branch,
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+                "restricted": True,
+            },
+        )
+        self.assertFalse(Component.objects.filter(slug="restricted-component").exists())
+
+    @override_settings(DEFAULT_RESTRICTED_COMPONENT=True)
+    def test_create_component_can_override_restricted_default(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        request = {
+            "name": "Unrestricted component",
+            "slug": "unrestricted-component",
+            "repo": self.component.repo,
+            "branch": self.component.branch,
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "new_lang": "none",
+            "restricted": False,
+        }
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            request=request,
+        )
+        self.assertFalse(
+            Component.objects.get(slug="unrestricted-component").restricted
+        )
+
+        request.update(name="Default restricted component", slug="default-restricted")
+        request.pop("restricted")
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            request=request,
+        )
+        self.assertFalse(Component.objects.filter(slug="default-restricted").exists())
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request=request,
+        )
+        self.assertTrue(Component.objects.get(slug="default-restricted").restricted)
+
     def test_create_component_blank_request(self) -> None:
         self.do_request(
             "api:project-components",
@@ -5472,10 +5653,13 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_get_component_hides_vcs_view_fields_without_permission(self) -> None:
+        private_component = self.create_acl()
         Component.objects.filter(pk=self.component.pk).update(
             git_export="https://example.com/export.git",
             push_branch="translations",
             repoweb="https://example.com/src/{{filename}}#L{{line}}",
+            repo=private_component.get_repo_link_url(),
+            linked_component=private_component,
         )
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save(update_fields=["access_control"])
@@ -5487,6 +5671,7 @@ class ComponentAPITest(APIBaseTest):
         self.assertIsNone(response.data["git_export"])
         self.assertIsNone(response.data["push_branch"])
         self.assertIsNone(response.data["repoweb"])
+        self.assertIsNone(response.data["linked_component"])
 
     def test_get_component_uses_effective_linked_repository_settings(self) -> None:
         self.component.push_on_commit = True
@@ -5553,6 +5738,91 @@ class ComponentAPITest(APIBaseTest):
 
     def test_repo_status_denied(self) -> None:
         self.do_request("api:component-repository", self.component_kwargs, code=403)
+
+    def test_repo_status_with_component_permission(self) -> None:
+        self.grant_perm_to_user(
+            "vcs.update",
+            group_name="Component repository access",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            code=200,
+        )
+        with patch.object(Component, "do_update", return_value=True) as do_update:
+            response = self.do_request(
+                "api:component-repository",
+                self.component_kwargs,
+                method="post",
+                code=200,
+                request={"operation": "pull"},
+            )
+        self.assertTrue(response.data["result"])
+        do_update.assert_called_once()
+
+    def test_linked_repo_operation_requires_source_permission(self) -> None:
+        linked_component = self.create_link_existing(
+            name="Linked repository operation",
+            slug="linked-repository-operation",
+            filemask="po/*.po",
+        )
+        linked_kwargs = {
+            "project__slug": linked_component.project.slug,
+            "slug": linked_component.slug,
+        }
+        child_group_name = "Linked child repository access"
+        self.grant_perm_to_user(
+            "vcs.update",
+            group_name=child_group_name,
+            component=linked_component,
+        )
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.has_perm("vcs.update", linked_component))
+        self.assertFalse(self.user.has_perm("vcs.update", self.component))
+        self.do_request(
+            "api:component-repository",
+            linked_kwargs,
+            code=403,
+        )
+        with patch.object(Component, "do_update", return_value=True) as do_update:
+            self.do_request(
+                "api:component-repository",
+                linked_kwargs,
+                method="post",
+                code=403,
+                request={"operation": "pull"},
+            )
+        do_update.assert_not_called()
+
+        self.user.groups.remove(Group.objects.get(name=child_group_name))
+        self.grant_perm_to_user(
+            "vcs.update",
+            group_name="Linked source repository access",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("vcs.update", linked_component))
+        self.assertTrue(self.user.has_perm("vcs.update", self.component))
+        self.do_request(
+            "api:component-repository",
+            linked_kwargs,
+            code=200,
+        )
+
+        with patch.object(Component, "do_update", return_value=True) as do_update:
+            response = self.do_request(
+                "api:component-repository",
+                linked_kwargs,
+                method="post",
+                code=200,
+                request={"operation": "pull"},
+            )
+        self.assertTrue(response.data["result"])
+        do_update.assert_called_once()
 
     def test_repo_status(self) -> None:
         """Test basic component repository status endpoint."""
@@ -5832,6 +6102,204 @@ class ComponentAPITest(APIBaseTest):
             request={"name": "New Name"},
         )
         self.assertEqual(response.data["name"], "New Name")
+
+    def test_patch_rejects_inaccessible_repository_link(self) -> None:
+        private_component = self.create_acl()
+        original_repo = self.component.repo
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Source component managers",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "repo": private_component.get_repo_link_url(),
+                "branch": "",
+                "push": "",
+                "push_branch": "",
+            },
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repo, original_repo)
+        self.assertIsNone(self.component.linked_component_id)
+
+    def test_patch_linked_component_allows_unrelated_edit_without_source_access(
+        self,
+    ) -> None:
+        linked_component = self.create_link_existing(
+            name="Linked child without source access",
+            slug="linked-child-without-source-access",
+            filemask="po/*.po",
+        )
+        linked_kwargs = {
+            "project__slug": linked_component.project.slug,
+            "slug": linked_component.slug,
+        }
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Linked child component managers",
+            component=linked_component,
+        )
+        self.grant_perm_to_user(
+            "vcs.view",
+            group_name="Linked child component managers",
+            component=linked_component,
+        )
+        linked_component.push_on_commit = not self.component.push_on_commit
+        linked_component.commit_pending_age = self.component.commit_pending_age + 1
+        linked_component.auto_lock_error = not self.component.auto_lock_error
+        linked_component.save(
+            update_fields=[
+                "push_on_commit",
+                "commit_pending_age",
+                "auto_lock_error",
+            ]
+        )
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"name": "Renamed linked child"},
+        )
+        linked_component.refresh_from_db()
+        self.assertEqual(linked_component.name, "Renamed linked child")
+
+        component_data = self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            code=200,
+        ).data
+        self.assertEqual(component_data["repo"], self.component.repo)
+        for field in ("repo", "branch", "push", "push_branch"):
+            component_data[field] = getattr(linked_component, field)
+        for field in Component.LINKED_REPOSITORY_SETTINGS:
+            self.assertEqual(component_data[field], getattr(self.component, field))
+        component_data["name"] = "PUT renamed linked child"
+        self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            method="put",
+            code=200,
+            format="json",
+            request=component_data,
+        )
+        linked_component.refresh_from_db()
+        self.assertEqual(linked_component.name, "PUT renamed linked child")
+        self.assertEqual(linked_component.linked_component_id, self.component.pk)
+        self.assertNotEqual(
+            linked_component.push_on_commit, self.component.push_on_commit
+        )
+        self.assertNotEqual(
+            linked_component.commit_pending_age, self.component.commit_pending_age
+        )
+        self.assertNotEqual(
+            linked_component.auto_lock_error, self.component.auto_lock_error
+        )
+
+        response = self.do_request(
+            "api:component-detail",
+            linked_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"push_on_commit": not self.component.push_on_commit},
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You do not have permission to access this component.",
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_patch_restricted_requires_component_scoped_permission(self) -> None:
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Project component managers",
+            project=self.project,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"restricted": True},
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "restricted")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out.",
+        )
+        self.component.refresh_from_db()
+        self.assertFalse(self.component.restricted)
+
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Explicit component managers",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"restricted": True},
+        )
+        self.component.refresh_from_db()
+        self.assertTrue(self.component.restricted)
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(OFFER_HOSTING=True)
+    def test_patch_restricted_obeys_billing(self) -> None:
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Hosted component managers",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"restricted": True},
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "restricted")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "The billing plan does not allow private access control.",
+        )
+
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"restricted": True},
+        )
+        self.component.refresh_from_db()
+        self.assertTrue(self.component.restricted)
 
     def test_patch_keeps_category_when_omitted(self) -> None:
         category = self.project.category_set.create(
@@ -7449,6 +7917,128 @@ class ComponentAPITest(APIBaseTest):
             code=204,
             superuser=True,
         )
+
+    def test_links_require_target_project_management(self) -> None:
+        target_project = Project.objects.create(name="Target", slug="target")
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Component sharing managers",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"project_slug": target_project.slug},
+        )
+        self.assertFalse(
+            ComponentLink.objects.filter(
+                component=self.component, project=target_project
+            ).exists()
+        )
+
+        self.grant_perm_to_user(
+            "project.edit",
+            group_name="Target project managers",
+            project=target_project,
+        )
+        self.user.clear_permissions_cache()
+        block = UserBlock.objects.create(user=self.user, project=target_project)
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"project_slug": target_project.slug},
+        )
+        self.assertFalse(
+            ComponentLink.objects.filter(
+                component=self.component, project=target_project
+            ).exists()
+        )
+
+        block.delete()
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"project_slug": target_project.slug},
+        )
+
+    def test_links_require_target_project_two_factor_authentication(self) -> None:
+        target_project = Project.objects.create(
+            name="2FA target", slug="two-factor-target", enforced_2fa=True
+        )
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="2FA component sharing managers",
+            component=self.component,
+        )
+        self.grant_perm_to_user(
+            "project.edit",
+            group_name="2FA target project managers",
+            project=target_project,
+        )
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"project_slug": target_project.slug},
+        )
+        self.assertFalse(
+            ComponentLink.objects.filter(
+                component=self.component, project=target_project
+            ).exists()
+        )
+
+        TOTPDevice.objects.create(user=self.user)
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"project_slug": target_project.slug},
+        )
+        self.assertTrue(
+            ComponentLink.objects.filter(
+                component=self.component, project=target_project
+            ).exists()
+        )
+
+    def test_links_hide_inaccessible_projects_from_component_readers(self) -> None:
+        private_component = self.create_acl()
+        ComponentLink.objects.create(
+            component=self.component, project=private_component.project
+        )
+
+        response = self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 0)
+
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Component link managers",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+        response = self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
 
     def test_links_with_category(self) -> None:
         self.create_acl()
@@ -9575,6 +10165,38 @@ class TranslationAPITest(APIBaseTest):
     def test_repo_status_denied(self) -> None:
         self.do_request("api:translation-repository", self.translation_kwargs, code=403)
 
+    def test_repo_operations_require_component_wide_permission(self) -> None:
+        group_name = "Language-limited repository access"
+        permissions = ("vcs.commit", "vcs.push", "vcs.reset", "vcs.update")
+        for permission in permissions:
+            self.grant_perm_to_user(
+                permission,
+                group_name=group_name,
+                component=self.component,
+            )
+        membership = TeamMembership.objects.get(user=self.user, group__name=group_name)
+        membership.limit_languages.add(Language.objects.get(code="cs"))
+        self.user.clear_permissions_cache()
+
+        translation = self.component.translation_set.get(language_code="cs")
+        for permission in permissions:
+            self.assertTrue(self.user.has_perm(permission, translation))
+            self.assertFalse(self.user.has_perm(permission, self.component))
+
+        self.do_request(
+            "api:translation-repository",
+            self.translation_kwargs,
+            code=200,
+        )
+        for operation in RepoOperations.values:
+            self.do_request(
+                "api:translation-repository",
+                self.translation_kwargs,
+                method="post",
+                code=403,
+                request={"operation": operation},
+            )
+
     def test_repo_status(self) -> None:
         response = self.do_request(
             "api:translation-repository",
@@ -9915,6 +10537,7 @@ class TranslationAPITest(APIBaseTest):
             request={"source": "Source", "target": "Target"},
             code=200,
         )
+
         self.do_request(
             "api:translation-units",
             {
@@ -10024,6 +10647,53 @@ class TranslationAPITest(APIBaseTest):
             },
             code=200,
         )
+
+    def test_add_approved_unit_requires_review_permission(self) -> None:
+        self.component.manage_units = True
+        self.component.save(update_fields=["manage_units"])
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.grant_perm_to_user(
+            "unit.add",
+            group_name="Add units only",
+            project=self.project,
+        )
+        self.user.clear_permissions_cache()
+        request = {
+            "source": ["Approval source"],
+            "target": ["Approval target"],
+            "state": STATE_APPROVED,
+        }
+
+        self.do_request(
+            "api:translation-units",
+            self.translation_kwargs,
+            method="post",
+            request=request,
+            format="json",
+            code=400,
+        )
+        self.assertFalse(
+            self.component.translation_set.get(language_code="cs")
+            .unit_set.filter(source="Approval source")
+            .exists()
+        )
+
+        self.grant_perm_to_user(
+            "unit.review",
+            group_name="Review added units",
+            project=self.project,
+        )
+        self.user.clear_permissions_cache()
+        response = self.do_request(
+            "api:translation-units",
+            self.translation_kwargs,
+            method="post",
+            request=request,
+            format="json",
+            code=200,
+        )
+        self.assertEqual(response.data["state"], STATE_APPROVED)
 
     def test_add_bilingual_source(self) -> None:
         self.component.manage_units = True
@@ -11937,6 +12607,35 @@ class SearchAPITest(APIBaseTest):
             [{"category": "Language", "name": "Czech", "url": "/languages/cs/"}],
         )
 
+    def test_restricted_component_visibility(self) -> None:
+        restricted = self.create_po(
+            name="Restricted search result",
+            project=self.project,
+            restricted=True,
+        )
+
+        response = self.client.get(
+            reverse("api:search"), {"q": "Restricted search result"}
+        )
+        self.assertFalse(
+            any(result["category"] == "Component" for result in response.data)
+        )
+
+        access_group = Group.objects.create(
+            name="Restricted component viewers",
+            language_selection=SELECTION_ALL,
+        )
+        access_group.components.add(restricted)
+        self.user.groups.add(access_group)
+        self.user.clear_permissions_cache()
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:search"), {"q": "Restricted search result"}
+        )
+        self.assertTrue(
+            any(result["category"] == "Component" for result in response.data)
+        )
+
 
 class ComponentListAPITest(APIBaseTest):
     def setUp(self) -> None:
@@ -12328,6 +13027,141 @@ class AddonAPITest(APIBaseTest):
             authenticated=True,
             superuser=False,
             add_user="Administration",
+        )
+
+    def test_sitewide_manager_access_is_scope_limited(self) -> None:
+        private_component = self.create_acl()
+        component_addon = private_component.addon_set.create(
+            name="weblate.gettext.linguas",
+            configuration={"secret": "component"},
+        )
+        project_addon = private_component.project.addon_set.create(
+            name="weblate.gettext.linguas",
+            configuration={"secret": "project"},
+        )
+        sitewide_addon = Addon.objects.create(
+            name="weblate.gettext.linguas",
+            configuration={"scope": "sitewide"},
+        )
+        self.grant_perm_to_user("management.addons")
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:addon-list", code=200)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], sitewide_addon.pk)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": sitewide_addon.pk},
+            code=200,
+        )
+        for addon in (component_addon, project_addon):
+            self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                code=404,
+            )
+
+    def test_component_manager_can_access_component_addon(self) -> None:
+        component_addon = self.component.addon_set.create(
+            name="weblate.gettext.linguas"
+        )
+        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Component add-on managers",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:addon-list", code=200)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], component_addon.pk)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": component_addon.pk},
+            code=200,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": project_addon.pk},
+            code=404,
+        )
+
+    def test_project_scoped_component_manager_can_access_component_addon(self) -> None:
+        component_addon = self.component.addon_set.create(
+            name="weblate.gettext.linguas"
+        )
+        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Project component add-on managers",
+            project=self.project,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:addon-list", code=200)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], component_addon.pk)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": project_addon.pk},
+            code=404,
+        )
+
+    def test_blocked_component_manager_cannot_access_component_addon(self) -> None:
+        component_addon = self.component.addon_set.create(
+            name="weblate.gettext.linguas",
+            configuration={"secret": "blocked"},
+        )
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Blocked component add-on managers",
+            project=self.project,
+        )
+        UserBlock.objects.create(user=self.user, project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        response = self.do_request("api:addon-list", code=200)
+        self.assertEqual(response.data["count"], 0)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": component_addon.pk},
+            code=404,
+        )
+
+    def test_project_manager_cannot_access_restricted_component_addon(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        component_addon = self.component.addon_set.create(
+            name="weblate.gettext.linguas"
+        )
+        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:addon-list", code=200)
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["id"], project_addon.pk)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": component_addon.pk},
+            code=404,
+        )
+
+    def test_project_addons_enforce_two_factor_requirement(self) -> None:
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        project_addon = self.project.addon_set.create(name="weblate.gettext.linguas")
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:addon-list", code=200)
+        self.assertEqual(response.data["count"], 0)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": project_addon.pk},
+            code=404,
         )
 
     def test_configuration(self) -> None:
@@ -14224,6 +15058,75 @@ class OpenAPITest(APIBaseTest):
         )
         self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
         self.assertNotIn("* `info`", severity_description)
+
+    def test_change_action_schema_matches_runtime_choices(self) -> None:
+        schema = self.get_schema()
+        action_schema = schema["components"]["schemas"]["ActionEnum"]
+        action_parameter = next(
+            parameter
+            for parameter in schema["paths"]["/api/changes/"]["get"]["parameters"]
+            if parameter["name"] == "action"
+        )
+
+        self.assertEqual(
+            action_parameter["schema"],
+            {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/ActionEnum"},
+            },
+        )
+        self.assertTrue(action_parameter["explode"])
+        self.assertEqual(action_parameter["style"], "form")
+        self.assertEqual(action_schema["enum"], [event.value for event in ActionEvents])
+        self.assertIn(
+            "* `6` - **Automatically translated:** A translation was added or changed",
+            action_schema["description"],
+        )
+        self.assertIn(
+            "Automatic translation, uploads, and bulk edits do not emit this event.",
+            action_schema["description"],
+        )
+
+    def test_path_and_response_descriptions_match_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+
+        for path in (
+            "/api/addons/{id}/",
+            "/api/categories/{id}/",
+            "/api/changes/{id}/",
+            "/api/groups/{id}/",
+            "/api/memory/{id}/",
+            "/api/roles/{id}/",
+            "/api/screenshots/{id}/",
+            "/api/units/{id}/",
+        ):
+            with self.subTest(path=path):
+                parameter = next(
+                    item
+                    for item in schema["paths"][path]["get"]["parameters"]
+                    if item["name"] == "id"
+                )
+                self.assertEqual(parameter["schema"]["type"], "integer")
+
+        nested_parameter = next(
+            item
+            for item in schema["paths"]["/api/groups/{id}/components/{component_id}/"][
+                "delete"
+            ]["parameters"]
+            if item["name"] == "component_id"
+        )
+        self.assertEqual(nested_parameter["schema"]["type"], "integer")
+
+        task = schema["paths"]["/api/tasks/{id}/"]
+        task_parameter = next(
+            item for item in task["get"]["parameters"] if item["name"] == "id"
+        )
+        self.assertEqual(task_parameter["schema"]["type"], "string")
+        self.assertEqual(task["delete"]["description"], "Cancel a running task.")
+        self.assertEqual(
+            schema["paths"]["/api/changes/"]["get"]["responses"]["400"]["description"],
+            "The request was invalid or could not be parsed.",
+        )
 
     def test_static_vcs_enum_schema_includes_all_configured_choices(self) -> None:
         with patch.dict(os.environ, {DOCS_OPENAPI_ALL_VCS_CHOICES_ENV: "1"}):

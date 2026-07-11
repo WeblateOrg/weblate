@@ -245,297 +245,395 @@ The following change actions can appear in notification payloads. Fedora Messagi
    * - ID
      - Identifier
      - Name
+     - Description
    * - ``0``
      - ``resource_updated``
      - Resource updated
+     - A translation file was synchronized with its repository.
    * - ``1``
      - ``translation_completed``
      - Translation completed
+     - A language translation became fully translated after an individual edit. Automatic translation, uploads, and bulk edits do not emit this event.
    * - ``2``
      - ``translation_changed``
      - Translation changed
+     - An existing translation was edited by a user.
    * - ``3``
      - ``comment_added``
      - Comment added
+     - A comment was added to a string.
    * - ``4``
      - ``suggestion_added``
      - Suggestion added
+     - A translation suggestion was added.
    * - ``5``
      - ``translation_added``
      - Translation added
+     - A previously untranslated string was translated by a user.
    * - ``6``
      - ``automatically_translated``
      - Automatically translated
+     - A translation was added or changed by automatic translation. This is emitted instead of Translation added or Translation changed.
    * - ``7``
      - ``suggestion_accepted``
      - Suggestion accepted
+     - A translation suggestion was accepted as the translation.
    * - ``8``
      - ``translation_reverted``
      - Translation reverted
+     - A translation was restored to an earlier value.
    * - ``9``
      - ``translation_uploaded``
      - Translation uploaded
+     - A translation was added or changed by a translation file upload. This is emitted instead of Translation added or Translation changed.
    * - ``13``
      - ``source_string_added``
      - Source string added
+     - A source string was added outside repository or upload updates.
    * - ``14``
      - ``component_locked``
      - Component locked
+     - A component was locked for translation.
    * - ``15``
      - ``component_unlocked``
      - Component unlocked
+     - A component was unlocked for translation.
    * - ``17``
      - ``changes_committed``
      - Changes committed
+     - Pending component changes were committed.
    * - ``18``
      - ``changes_pushed``
      - Changes pushed
+     - Repository changes were pushed upstream.
    * - ``19``
      - ``repository_reset``
      - Repository reset
+     - A repository was reset to its upstream state.
    * - ``20``
      - ``repository_merged``
      - Repository merged
+     - Upstream repository changes were merged.
    * - ``21``
      - ``repository_rebased``
      - Repository rebased
+     - Repository changes were rebased on upstream.
    * - ``22``
      - ``repository_merge_failed``
      - Repository merge failed
+     - Merging upstream repository changes failed.
    * - ``23``
      - ``repository_rebase_failed``
      - Repository rebase failed
+     - Rebasing repository changes failed.
    * - ``24``
      - ``parsing_failed``
      - Parsing failed
+     - Weblate could not parse a translation file.
    * - ``25``
      - ``translation_removed``
      - Translation removed
+     - A language translation was removed.
    * - ``26``
      - ``suggestion_removed``
      - Suggestion removed
+     - A translation suggestion was removed.
    * - ``27``
      - ``translation_replaced``
      - Translation replaced
+     - A translation was changed by a search-and-replace operation. This is emitted instead of Translation changed.
    * - ``28``
      - ``repository_push_failed``
      - Repository push failed
+     - Pushing repository changes upstream failed.
    * - ``29``
      - ``suggestion_removed_during_cleanup``
      - Suggestion removed during cleanup
+     - An obsolete translation suggestion was removed during cleanup.
    * - ``30``
      - ``source_string_changed``
      - Source string changed
+     - A source string was edited in Weblate.
    * - ``31``
      - ``string_added``
      - String added
+     - A new string was added in Weblate.
    * - ``32``
      - ``bulk_status_changed``
      - Bulk status changed
+     - The translation state of one or more strings was changed in bulk.
    * - ``33``
      - ``visibility_changed``
      - Visibility changed
+     - Project or component visibility was changed.
    * - ``34``
      - ``user_added``
      - User added
+     - A user was granted access.
    * - ``35``
      - ``user_removed``
      - User removed
+     - A user's access was removed.
    * - ``36``
      - ``translation_approved``
      - Translation approved
+     - A translation was approved during review.
    * - ``37``
      - ``marked_for_edit``
      - Marked for edit
+     - A translation was marked as needing editing.
    * - ``38``
      - ``component_removed``
      - Component removed
+     - A translation component was removed.
    * - ``39``
      - ``project_removed``
      - Project removed
+     - A translation project was removed.
    * - ``41``
      - ``project_renamed``
      - Project renamed
+     - A translation project was renamed.
    * - ``42``
      - ``component_renamed``
      - Component renamed
+     - A translation component was renamed.
    * - ``43``
      - ``moved_component``
      - Moved component
+     - A component was moved within a project.
    * - ``45``
      - ``contributor_joined``
      - Contributor joined
+     - A user made their first contribution to a translation.
    * - ``46``
      - ``announcement_posted``
      - Announcement posted
+     - An announcement was posted.
    * - ``47``
      - ``alert_triggered``
      - Alert triggered
+     - A component alert was triggered.
    * - ``48``
      - ``language_added``
      - Language added
+     - A language translation was added.
    * - ``49``
      - ``language_requested``
      - Language requested
+     - A user requested a new language.
    * - ``50``
      - ``project_created``
      - Project created
+     - A translation project was created.
    * - ``51``
      - ``component_created``
      - Component created
+     - A translation component was created.
    * - ``52``
      - ``user_invited``
      - User invited
+     - A user was invited to a project.
    * - ``53``
      - ``repository_notification_received``
      - Repository notification received
+     - Weblate received a repository notification from a code host.
    * - ``54``
      - ``translation_replaced_file_by_upload``
      - Translation replaced file by upload
+     - A translation file was replaced by an uploaded file.
    * - ``55``
      - ``license_changed``
      - License changed
+     - Project or component license information changed.
    * - ``56``
      - ``contributor_license_agreement_changed``
      - Contributor license agreement changed
+     - The contributor license agreement was changed.
    * - ``57``
      - ``screenshot_added``
      - Screenshot added
+     - A screenshot was associated with a string.
    * - ``58``
      - ``screenshot_uploaded``
      - Screenshot uploaded
+     - A screenshot image was uploaded.
    * - ``59``
      - ``string_updated_in_the_repository``
      - String updated in the repository
+     - A string was changed while synchronizing from the repository.
    * - ``60``
      - ``add-on_installed``
      - Add-on installed
+     - An add-on was installed.
    * - ``61``
      - ``add-on_configuration_changed``
      - Add-on configuration changed
+     - An add-on's configuration was changed.
    * - ``62``
      - ``add-on_uninstalled``
      - Add-on uninstalled
+     - An add-on was uninstalled.
    * - ``63``
      - ``string_removed``
      - String removed
+     - A string was removed from a translation.
    * - ``64``
      - ``comment_removed``
      - Comment removed
+     - A string comment was removed.
    * - ``65``
      - ``comment_resolved``
      - Comment resolved
+     - A string comment was marked as resolved.
    * - ``66``
      - ``explanation_updated``
      - Explanation updated
+     - The explanation for a source string was updated.
    * - ``67``
      - ``category_removed``
      - Category removed
+     - A component category was removed.
    * - ``68``
      - ``category_renamed``
      - Category renamed
+     - A component category was renamed.
    * - ``69``
      - ``category_moved``
      - Category moved
+     - A component category was moved.
    * - ``70``
      - ``saving_string_failed``
      - Saving string failed
+     - Weblate could not save a changed string.
    * - ``71``
      - ``string_added_in_the_repository``
      - String added in the repository
+     - A new string was found while synchronizing from the repository.
    * - ``72``
      - ``string_updated_in_the_upload``
      - String updated in the upload
+     - A string was changed while processing an uploaded file.
    * - ``73``
      - ``string_added_in_the_upload``
      - String added in the upload
+     - A new string was found while processing an uploaded file.
    * - ``74``
      - ``translation_updated_by_source_upload``
      - Translation updated by source upload
+     - A translation was synchronized after uploading a source file.
    * - ``75``
      - ``component_translation_completed``
      - Component translation completed
+     - All language translations in a component became fully translated after an individual edit. Automatic translation, uploads, and bulk edits do not emit this event.
    * - ``76``
      - ``applied_enforced_check``
      - Applied enforced check
+     - A translation was marked as needing editing by an enforced check.
    * - ``77``
      - ``propagated_change``
      - Propagated change
+     - A translation edit was propagated to another matching string.
    * - ``78``
      - ``file_uploaded``
      - File uploaded
+     - A file was uploaded to a translation.
    * - ``79``
      - ``extra_flags_updated``
      - Extra flags updated
+     - Additional source-string flags were updated.
    * - ``80``
      - ``font_uploaded``
      - Font uploaded
+     - A font was uploaded.
    * - ``81``
      - ``font_changed``
      - Font changed
+     - An uploaded font was changed.
    * - ``82``
      - ``font_removed``
      - Font removed
+     - An uploaded font was removed.
    * - ``83``
      - ``forced_synchronization_of_translations``
      - Forced synchronization of translations
+     - Translation files were forcibly synchronized with the repository.
    * - ``84``
      - ``forced_rescan_of_translations``
      - Forced rescan of translations
+     - Translation files were forcibly rescanned for changes.
    * - ``85``
      - ``screenshot_removed``
      - Screenshot removed
+     - A screenshot was removed.
    * - ``86``
      - ``label_added``
      - Label added
+     - A label was added to a string.
    * - ``87``
      - ``label_removed``
      - Label removed
+     - A label was removed from a string.
    * - ``88``
      - ``repository_cleanup``
      - Repository cleanup
+     - The repository working tree was cleaned up.
    * - ``89``
      - ``source_string_added_in_the_upload``
      - Source string added in the upload
+     - A source string was added while processing an uploaded file.
    * - ``90``
      - ``source_string_added_in_the_repository``
      - Source string added in the repository
+     - A source string was added while synchronizing from the repository.
    * - ``91``
      - ``project_backed_up``
      - Project backed up
+     - A project backup was created.
    * - ``92``
      - ``project_restored``
      - Project restored
+     - A project was restored from a backup.
    * - ``93``
      - ``component_restored``
      - Component restored
+     - A component was restored from a backup.
    * - ``94``
      - ``user_edit_reverted``
      - User edit reverted
+     - All selected edits by a user were reverted.
    * - ``95``
      - ``project_setting_changed``
      - Project setting changed
+     - A project setting was changed.
    * - ``96``
      - ``component_setting_changed``
      - Component setting changed
+     - A component setting was changed.
    * - ``97``
      - ``user_access_changed``
      - User access changed
+     - A user's access permissions were changed.
    * - ``98``
      - ``workspace_created``
      - Workspace created
+     - A workspace was created.
    * - ``99``
      - ``workspace_setting_changed``
      - Workspace setting changed
+     - A workspace setting was changed.
    * - ``100``
      - ``project_moved``
      - Project moved
+     - A project was moved into or out of a workspace.
    * - ``101``
      - ``remote_repository_updated``
      - Remote repository updated
+     - A remote repository update was completed.
    * - ``102``
      - ``remote_repository_update_failed``
      - Remote repository update failed
+     - Updating a remote repository failed.
 
 
 .. AUTOGENERATED END: addon-parameters

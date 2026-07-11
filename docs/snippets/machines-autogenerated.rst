@@ -63,11 +63,13 @@ Anthropic
                 +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``model``                 | Anthropic model                | Available choices:                                                                                                        |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)                                                                  |
-                |                           |                                |                                                                                                                           |
                 |                           |                                | ``claude-haiku-4-5`` -- Claude Haiku 4.5                                                                                  |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``claude-opus-4-5`` -- Claude Opus 4.5                                                                                    |
+                |                           |                                | ``claude-sonnet-5`` -- Claude Sonnet 5                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``claude-opus-4-8`` -- Claude Opus 4.8                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``claude-fable-5`` -- Claude Fable 5                                                                                      |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``custom`` -- Custom model                                                                                                |
                 +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -712,11 +714,17 @@ Mistral
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``auto`` -- Automatic selection                                                                                           |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``mistral-small-latest`` -- Mistral Small                                                                                 |
+                |                           |                                | ``ministral-3b-latest`` -- Ministral 3 3B                                                                                 |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``mistral-medium-latest`` -- Mistral Medium                                                                               |
+                |                           |                                | ``ministral-8b-latest`` -- Ministral 3 8B                                                                                 |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``mistral-large-latest`` -- Mistral Large                                                                                 |
+                |                           |                                | ``mistral-small-latest`` -- Mistral Small 4                                                                               |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``ministral-14b-latest`` -- Ministral 3 14B                                                                               |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``mistral-large-latest`` -- Mistral Large 3                                                                               |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``mistral-medium-latest`` -- Mistral Medium 3.5                                                                           |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``custom`` -- Custom model                                                                                                |
                 +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -936,19 +944,25 @@ OpenAI
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``auto`` -- Automatic selection                                                                                           |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5.4-nano`` -- GPT-5.4 nano                                                                                          |
-                |                           |                                |                                                                                                                           |
                 |                           |                                | ``gpt-5-nano`` -- GPT-5 nano                                                                                              |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5.4-mini`` -- GPT-5.4 mini                                                                                          |
+                |                           |                                | ``gpt-5.4-nano`` -- GPT-5.4 nano                                                                                          |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``gpt-5-mini`` -- GPT-5 mini                                                                                              |
                 |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5.4-mini`` -- GPT-5.4 mini                                                                                          |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5.6-luna`` -- GPT-5.6 Luna                                                                                          |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5`` -- GPT-5                                                                                                        |
+                |                           |                                |                                                                                                                           |
                 |                           |                                | ``gpt-5.4`` -- GPT-5.4                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5.6-terra`` -- GPT-5.6 Terra                                                                                        |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``gpt-5.5`` -- GPT-5.5                                                                                                    |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5`` -- GPT-5                                                                                                        |
+                |                           |                                | ``gpt-5.6`` -- GPT-5.6 Sol                                                                                                |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``custom`` -- Custom model                                                                                                |
                 +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+

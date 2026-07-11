@@ -334,6 +334,51 @@ class CreateTest(ViewTestCase):
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_create_component_does_not_autolink_inaccessible_component(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+
+        self.client_create_component(
+            True,
+            repo=self.component.repo,
+            branch=self.component.branch,
+        )
+
+        component = Component.objects.get(slug="create-component")
+        self.assertFalse(component.is_repo_link)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_create_component_ignores_missing_autolink_target(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        link_repo = self.component.get_repo_link_url()
+        original_get_linked = Component.objects.get_linked
+
+        def get_linked(repo):
+            if repo == link_repo:
+                msg = "Component disappeared."
+                raise Component.DoesNotExist(msg)
+            return original_get_linked(repo)
+
+        with patch.object(
+            Component.objects,
+            "get_linked",
+            side_effect=get_linked,
+        ):
+            self.client_create_component(
+                True,
+                repo=self.component.repo,
+                branch=self.component.branch,
+            )
+
+        component = Component.objects.get(slug="create-component")
+        self.assertEqual(component.repo, self.component.repo)
+        self.assertFalse(component.is_repo_link)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_create_git_component_keeps_repository_lock(self) -> None:
         self.user.is_superuser = True
         self.user.save()

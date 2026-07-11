@@ -6,11 +6,31 @@ Weblate 2026.8
 .. rubric:: New features
 
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
+.. rubric:: Improvements
+
+* Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
+
+.. rubric:: Bug fixes
+
+* REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
+* Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.8.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/167?closed=1>`__.
 
 Weblate 2026.7.1
 ----------------
 
-*Not yet released.*
+*Released on July 10th 2026.*
 
 .. rubric:: New features
 
@@ -31,7 +51,7 @@ Weblate 2026.7.1
 * Code-hosting account pages now consistently use :guilabel:`Code-hosting connections` and provider-neutral connected account wording.
 * :ref:`discover-weblate` registration can now be started from the management interface without manually copying the activation token.
 * :ref:`discover-weblate` can now be managed from a dedicated management panel, registration starts with discovery enabled, and protected projects are included in the listing.
-* Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
+* Updated the :ref:`mt-openai`, :ref:`mt-mistral`, and :ref:`mt-anthropic` model lists for currently supported models.
 
 .. rubric:: Bug fixes
 
@@ -51,8 +71,6 @@ Weblate 2026.7.1
 * Anonymous and internal bot accounts can no longer be edited through generic user management.
 * LLM machine translation suggestions now recover from more malformed structured JSON replies.
 * Azure AI Translator settings now reject malformed region names before validating service connectivity.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
@@ -113,8 +131,8 @@ Weblate 2026.7
 
 * :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-q949`).
 * Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints (:ghsa:`92m8-wv36-prmx`).
-* ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-r2rj`).
-* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:ghsa:`x86c-ff69-cr2m`).
+* ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`).
+* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`).
 * Globally scoped HTML and AJAX object lookups no longer disclose object existence in private projects (:cve:`2026-55227`, :ghsa:`2p9g-x3cv-5hh4`).
 * Team API access checks now prevent project managers from reading private-project team data or expanding scoped team assignments outside their allowed projects (:cve:`2026-55228`, :ghsa:`2q2q-jr9g-v9rf`).
 * Malformed ``replacements`` flags no longer abort source length checks.

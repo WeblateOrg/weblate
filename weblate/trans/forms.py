@@ -2248,8 +2248,16 @@ class ComponentSettingsForm(
             "category" if self.instance.category_id else "project"
         )
         self.setup_inherited_settings(parent_scope, has_parent=True)
-        if self.hide_restricted:
-            self.fields["restricted"].widget = forms.HiddenInput()
+        restricted_permission = request.user.has_perm(
+            "billing:component.permissions", self.instance
+        )
+        if not restricted_permission:
+            self.fields["restricted"].disabled = True
+            self.fields["restricted"].help_text = getattr(
+                restricted_permission,
+                "reason",
+                gettext("You do not have permission to change restricted access."),
+            )
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -2442,23 +2450,9 @@ class ComponentSettingsForm(
             else:
                 field.help_text = inherited_note
 
-    @property
-    def hide_restricted(self) -> bool:
-        user = self.request.user
-        if user.is_superuser:
-            return False
-        if settings.OFFER_HOSTING:
-            return True
-        return not any(
-            "component.edit" in permissions
-            for permissions, _langs in user.component_permissions[self.instance.pk]
-        )
-
     def clean(self) -> None:
         super().clean()
         data = self.cleaned_data
-        if self.hide_restricted:
-            data["restricted"] = self.instance.restricted
         clean_integration_component_data(self, data, vcs=self.instance.vcs)
 
         repo = data.get("repo") or ""
@@ -2949,7 +2943,15 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
 
         # Create linked repos automatically
         repo = instance.suggest_repo_link()
-        if repo:
+        try:
+            linked_component = (
+                Component.objects.get_linked(repo) if repo is not None else None
+            )
+        except Component.DoesNotExist:
+            linked_component = None
+        if linked_component is not None and self.request.user.has_perm(
+            "component.edit", linked_component
+        ):
             data["repo"] = repo
             data["branch"] = ""
             self.clean_instance(data)

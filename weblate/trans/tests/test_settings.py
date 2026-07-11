@@ -48,6 +48,26 @@ from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_restricted_component_permission_denial(self) -> None:
+        self.project.add_user(self.user, "Administration")
+
+        form = ComponentSettingsForm(self.get_request(), instance=self.component)
+
+        field = form.fields["restricted"]
+        self.assertTrue(field.disabled)
+        self.assertFalse(field.widget.is_hidden)
+        self.assertEqual(
+            field.help_text,
+            "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out.",
+        )
+
+        data = get_form_data(form.initial)
+        data["restricted"] = True
+        form = ComponentSettingsForm(self.get_request(), data, instance=self.component)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertFalse(form.cleaned_data["restricted"])
+
     def test_default_message_templates_render(self) -> None:
         validators = (
             (defaults.DEFAULT_COMMIT_MESSAGE, validate_render_commit),

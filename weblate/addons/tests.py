@@ -10382,6 +10382,11 @@ class TestCommand(ComponentTestCase):
         self.assertIn(".. _addon-choice-engines:", parameters_content)
         self.assertIn(".. _change-actions:", parameters_content)
         self.assertIn("Identifier", parameters_content)
+        self.assertIn("Description", parameters_content)
         self.assertIn("``resource_updated``", parameters_content)
+        self.assertIn(
+            "A translation file was synchronized with its repository.",
+            parameters_content,
+        )
         self.assertNotIn("Built-in add-ons", parameters_content)
         self.assertNotIn("Events that trigger add-ons", parameters_content)
