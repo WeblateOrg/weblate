@@ -12,9 +12,20 @@ function getArgon2idWorkerUrl() {
   return meta.content;
 }
 
-globalThis.$altcha.algorithms.set(
-  "ARGON2ID",
-  () => new Worker(getArgon2idWorkerUrl()),
-);
+function createArgon2idWorker() {
+  // Resolve to an absolute URL so it works from inside the blob worker below.
+  const url = new URL(getArgon2idWorkerUrl(), document.baseURI).href;
+  // Workers must be same-origin; pull the script in via importScripts, which is
+  // allowed to load cross-origin scripts.
+  const blob = new Blob([`importScripts(${JSON.stringify(url)});`], {
+    type: "text/javascript",
+  });
+  const blobUrl = URL.createObjectURL(blob);
+  const worker = new Worker(blobUrl);
+  URL.revokeObjectURL(blobUrl);
+  return worker;
+}
+
+globalThis.$altcha.algorithms.set("ARGON2ID", createArgon2idWorker);
 
 window.Altcha = Altcha;

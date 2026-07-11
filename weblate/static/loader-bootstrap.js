@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const loading = [];
+const loading = {};
 
 // DOM helpers replacing former jQuery usage.
 function show(element) {
@@ -54,8 +54,12 @@ function increaseLoading(sel) {
 }
 
 function decreaseLoading(sel) {
+  if (!(sel in loading)) {
+    return;
+  }
   loading[sel] -= 1;
-  if (loading[sel] === 0) {
+  if (loading[sel] <= 0) {
+    loading[sel] = 0;
     hide(document.getElementById(`loading-${sel}`));
   }
 }
@@ -730,6 +734,35 @@ function initHighlight(root) {
       if (placeables) {
         extension.placeable = new RegExp(placeables);
       }
+      const nestedTokens = {
+        newline: { pattern: newlineRegex },
+        nbsp: { pattern: nonBreakingSpaceRegex },
+      };
+      if (placeables) {
+        nestedTokens.placeable = {
+          pattern: new RegExp(placeables),
+          greedy: true,
+        };
+      }
+      const injectNestedTokens = (grammar, visited) => {
+        if (visited.has(grammar)) {
+          return;
+        }
+        visited.add(grammar);
+        for (const key in grammar) {
+          // biome-ignore lint/suspicious/noPrototypeBuiltins: Firefox < 92 compatibility, Object.hasOwn(grammar, key) should be used instead
+          if (grammar.hasOwnProperty(key)) {
+            const value = grammar[key];
+            const patterns = Array.isArray(value) ? value : [value];
+            patterns.forEach((pattern) => {
+              if (pattern?.inside) {
+                injectNestedTokens(pattern.inside, visited);
+                Object.assign(pattern.inside, nestedTokens);
+              }
+            });
+          }
+        }
+      };
       /*
        * We can not use Prism.extend here as we want whitespace highlighting
        * to apply first. The code is borrowed from Prism.util.clone.
@@ -740,6 +773,7 @@ function initHighlight(root) {
           extension[key] = Prism.util.clone(languageMode[key]);
         }
       }
+      injectNestedTokens(extension, new Set());
       languageMode = extension;
     }
     const syncContent = () => {
@@ -858,7 +892,7 @@ onReady(() => {
     const separator = location.hash.indexOf("__");
     if (separator !== -1) {
       activeTab = document.querySelector(
-        `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substr(0, separator)}"]`,
+        `.nav [data-bs-toggle=tab][data-bs-target="${location.hash.substring(0, separator)}"]`,
       );
       if (activeTab !== null) {
         bootstrap.Tab.getOrCreateInstance(activeTab).show();
@@ -873,7 +907,7 @@ onReady(() => {
       activeTab.closest(".dropdown-menu")?.classList.remove("show");
       window.scrollTo(0, 0);
     } else {
-      const anchor = document.getElementById(location.hash.substr(1));
+      const anchor = document.getElementById(location.hash.slice(1));
       if (anchor !== null) {
         anchor.scrollIntoView();
       }
@@ -2166,7 +2200,9 @@ onReady(() => {
           src: async (query) => {
             try {
               // Fetch Data from external Source
-              const source = await fetch(`/api/users/?username=${query}`);
+              const source = await fetch(
+                `/api/users/?username=${encodeURIComponent(query)}`,
+              );
               // Data should be an array of `Objects` or `Strings`
               const data = await source.json();
               return data.results.map((user) => {
@@ -2228,7 +2264,9 @@ onReady(() => {
       keys: ["name"],
       src: async (query) => {
         try {
-          const source = await fetch(`/api/search/?q=${query}`);
+          const source = await fetch(
+            `/api/search/?q=${encodeURIComponent(query)}`,
+          );
           const data = await source.json();
           return data;
         } catch (error) {

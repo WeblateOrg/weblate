@@ -1,7 +1,35 @@
+Weblate 2026.8
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
+
+.. rubric:: Bug fixes
+
+* REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
+* Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.8.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/167?closed=1>`__.
+
 Weblate 2026.7.1
 ----------------
 
-*Not yet released.*
+*Released on July 10th 2026.*
 
 .. rubric:: New features
 
@@ -20,25 +48,29 @@ Weblate 2026.7.1
 * Comments and suggestions now auto-watch the project when :guilabel:`Automatically watch projects on contribution` is enabled.
 * Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`.
 * :ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups.
-* Updated the :ref:`mt-openai` model list for currently supported OpenAI models.
+* Code-hosting account pages now consistently use :guilabel:`Code-hosting connections` and provider-neutral connected account wording.
+* :ref:`discover-weblate` registration can now be started from the management interface without manually copying the activation token.
+* :ref:`discover-weblate` can now be managed from a dedicated management panel, registration starts with discovery enabled, and protected projects are included in the listing.
+* Updated the :ref:`mt-openai`, :ref:`mt-mistral`, and :ref:`mt-anthropic` model lists for currently supported models.
 
 .. rubric:: Bug fixes
 
 * Filtered translation and zen navigation now reuse a stable session result list, keeping positions and counts stable after translated strings leave the filter.
 * Component priority icons are no longer shown on translation listings.
 * :ref:`check-punctuation-spacing` no longer flags Markdown image markers as French punctuation and now shows which punctuation marks triggered the check.
-* :ref:`addon-weblate.fedora_messaging.publish` broker TLS validation now matches the Fedora Messaging transport when accepting non-strict CA certificate chains.
+* :ref:`addon-weblate.fedora_messaging.publish` received several reliability fixes.
 * The :guilabel:`Things to check` panel no longer uses error highlighting for suggestions and other non-error translation states.
 * Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled.
 * Anonymous user permission caches are now isolated between requests.
 * GitHub App setup now explains that a workspace is required instead of showing a permission error when no workspace exists.
 * LLM automatic suggestion settings no longer show ``null`` for empty language-specific instructions.
+* File format feature tables now better match actual format support, including descriptions, context, plural metadata, obsolete string removal, specialized file extensions, and merged variants.
 * Accepting a project invitation now automatically adds the project to the user's watched projects.
 * Dismissing a failing check no longer shows a JSON parsing error in the translation editor.
 * Screenshot searches without an explicit field now match screenshot names only, and the search box links to the full screenshot search documentation.
 * Anonymous and internal bot accounts can no longer be edited through generic user management.
-
-.. rubric:: Compatibility
+* LLM machine translation suggestions now recover from more malformed structured JSON replies.
+* Azure AI Translator settings now reject malformed region names before validating service connectivity.
 
 .. rubric:: Upgrading
 
@@ -99,8 +131,8 @@ Weblate 2026.7
 
 * :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-q949`).
 * Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints (:ghsa:`92m8-wv36-prmx`).
-* ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-r2rj`).
-* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:ghsa:`x86c-ff69-cr2m`).
+* ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`).
+* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`).
 * Globally scoped HTML and AJAX object lookups no longer disclose object existence in private projects (:cve:`2026-55227`, :ghsa:`2p9g-x3cv-5hh4`).
 * Team API access checks now prevent project managers from reading private-project team data or expanding scoped team assignments outside their allowed projects (:cve:`2026-55228`, :ghsa:`2q2q-jr9g-v9rf`).
 * Malformed ``replacements`` flags no longer abort source length checks.
@@ -245,7 +277,7 @@ Weblate 2026.5
 * The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository.
 * The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently.
 * Project access management now paginates users and better explains site-wide automatic team assignments.
-* Added provider-oriented code hosting documentation and Gettext-style :ref:`plural-formula` guidance.
+* Added provider-oriented code-hosting documentation and Gettext-style :ref:`plural-formula` guidance.
 * The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size.
 * The engage page now highlights actionable translation task buckets for newcomers.
 * :ref:`RSS feeds <rss>` can now use the same filters as the changes browsing page.

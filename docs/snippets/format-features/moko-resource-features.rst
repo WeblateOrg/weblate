@@ -24,6 +24,8 @@
      - ``moko-resource``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``Yes``
+   * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
+     - ``No``
    * - Check flags added by this format :ref:`ⓘ <custom-checks>`
      - :ref:`check-java-printf-format`
 

@@ -135,7 +135,14 @@ class PathMixin(LoggerMixin, URLMixin):
                         remove_tree(new_path)
                     else:
                         os.unlink(new_path)
-                os.rename(old_path, new_path)
+                try:
+                    os.rename(old_path, new_path)
+                except FileNotFoundError:
+                    if os.path.exists(old_path) or not os.path.exists(new_path):
+                        raise
+                    self.log_info(
+                        'source path "%s" disappeared during rename', old_path
+                    )
             return True
         return False
 

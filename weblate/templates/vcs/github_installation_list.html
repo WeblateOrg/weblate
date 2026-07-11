@@ -7,7 +7,7 @@
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="{% url 'manage-github-accounts' %}">{% translate "VCS Installations" %}</a>
+    <a href="{% url 'manage-github-accounts' %}">{% translate "Code-hosting connections" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
@@ -26,7 +26,7 @@
       {% if not apps %}
         <p class="text-body-secondary">
           {% blocktranslate trimmed %}
-            No Weblate GitHub App is registered yet. Use the button above to
+            No code-hosting app is registered yet. Use the button above to
             create one with the right permissions and webhook URL already
             filled in — Weblate will store the credentials automatically
             once GitHub redirects back.
@@ -35,8 +35,8 @@
       {% else %}
         <p class="text-body-secondary">
           {% blocktranslate trimmed %}
-            The GitHub Apps below provide credentials Weblate uses to talk to
-            GitHub. Connect a GitHub account to each App to import
+            The apps below provide credentials Weblate uses to talk to code
+            hosting providers. Connect an account to each app to import
             repositories from that account.
           {% endblocktranslate %}
         </p>
@@ -66,7 +66,7 @@
             <button type="button"
                     class="btn btn-outline-danger btn-sm float-end"
                     disabled
-                    title="{% translate "Remove connected GitHub accounts first." %}">{% translate "Remove app" %}</button>
+                    title="{% translate "Remove connected accounts first." %}">{% translate "Remove app" %}</button>
           {% endif %}
         </h4>
       </div>
@@ -139,7 +139,7 @@
               <tr>
                 <th>{% translate "Account" %}</th>
                 <th>{% translate "Workspace" %}</th>
-                <th>{% translate "GitHub installation ID" %}</th>
+                <th>{% translate "Provider ID" %}</th>
                 <th>{% translate "Repositories" %}</th>
                 <th>{% translate "Status" %}</th>
                 <th>{% translate "Actions" %}</th>
@@ -172,7 +172,7 @@
           </table>
         {% else %}
           <p class="text-body-secondary">
-            {% translate "No connected GitHub accounts yet. Use the button above to connect a GitHub organization or user account." %}
+            {% translate "No connected accounts yet. Use the button above to connect an organization or user account." %}
           </p>
         {% endif %}
       </div>

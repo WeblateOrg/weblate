@@ -21,6 +21,7 @@ from weblate.utils.validators import validate_machinery_hostname, validate_machi
 from .types import SourceLanguageChoices
 
 LLM_LANGUAGE_INSTRUCTION_LENGTH = 1000
+MICROSOFT_REGION_RE = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?")
 
 
 class EmptyMappingJSONField(forms.JSONField):
@@ -95,6 +96,8 @@ class BaseMachineryForm(forms.Form):
         machinery.validate_settings()
 
     def clean(self) -> None:
+        if self.errors:
+            return
         try:
             self.validate_configuration()
         except ValidationError as error:
@@ -264,6 +267,12 @@ class MicrosoftMachineryForm(KeyMachineryForm):
         initial="general",
         required=False,
     )
+
+    def clean_region(self) -> str:
+        region = self.cleaned_data["region"]
+        if region and MICROSOFT_REGION_RE.fullmatch(region) is None:
+            raise ValidationError(gettext("Enter a valid Azure region name."))
+        return region
 
 
 class GoogleV3MachineryForm(BaseMachineryForm):
@@ -539,13 +548,16 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
-        ("gpt-5.4-nano", "GPT-5.4 nano"),
         ("gpt-5-nano", "GPT-5 nano"),
-        ("gpt-5.4-mini", "GPT-5.4 mini"),
+        ("gpt-5.4-nano", "GPT-5.4 nano"),
         ("gpt-5-mini", "GPT-5 mini"),
-        ("gpt-5.4", "GPT-5.4"),
-        ("gpt-5.5", "GPT-5.5"),
+        ("gpt-5.4-mini", "GPT-5.4 mini"),
+        ("gpt-5.6-luna", "GPT-5.6 Luna"),
         ("gpt-5", "GPT-5"),
+        ("gpt-5.4", "GPT-5.4"),
+        ("gpt-5.6-terra", "GPT-5.6 Terra"),
+        ("gpt-5.5", "GPT-5.5"),
+        ("gpt-5.6", "GPT-5.6 Sol"),
         ("custom", pgettext_lazy("OpenAI model selection", "Custom model")),
     )
     base_url = WeblateServiceURLField(
@@ -595,9 +607,12 @@ class MistralMachineryForm(BaseOpenAIMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("Mistral model selection", "Automatic selection")),
-        ("mistral-small-latest", "Mistral Small"),
-        ("mistral-medium-latest", "Mistral Medium"),
-        ("mistral-large-latest", "Mistral Large"),
+        ("ministral-3b-latest", "Ministral 3 3B"),
+        ("ministral-8b-latest", "Ministral 3 8B"),
+        ("mistral-small-latest", "Mistral Small 4"),
+        ("ministral-14b-latest", "Ministral 3 14B"),
+        ("mistral-large-latest", "Mistral Large 3"),
+        ("mistral-medium-latest", "Mistral Medium 3.5"),
         ("custom", pgettext_lazy("Mistral model selection", "Custom model")),
     )
     base_url = WeblateServiceURLField(
@@ -683,20 +698,23 @@ class OllamaMachineryForm(LLMBasicMachineryForm):
 
 
 class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
+    # Choices are ordered from cheapest to most expensive
     MODEL_CHOICES = (
-        (
-            "claude-sonnet-4-5",
-            pgettext_lazy(
-                "Anthropic model selection", "Claude Sonnet 4.5 (Recommended)"
-            ),
-        ),
         (
             "claude-haiku-4-5",
             pgettext_lazy("Anthropic model selection", "Claude Haiku 4.5"),
         ),
         (
-            "claude-opus-4-5",
-            pgettext_lazy("Anthropic model selection", "Claude Opus 4.5"),
+            "claude-sonnet-5",
+            pgettext_lazy("Anthropic model selection", "Claude Sonnet 5"),
+        ),
+        (
+            "claude-opus-4-8",
+            pgettext_lazy("Anthropic model selection", "Claude Opus 4.8"),
+        ),
+        (
+            "claude-fable-5",
+            pgettext_lazy("Anthropic model selection", "Claude Fable 5"),
         ),
         ("custom", pgettext_lazy("Anthropic model selection", "Custom model")),
     )
@@ -716,7 +734,7 @@ class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
             "Automatic suggestion service configuration",
             "Anthropic model",
         ),
-        initial="claude-sonnet-4-5",
+        initial="claude-haiku-4-5",
         choices=MODEL_CHOICES,
     )
     custom_model = forms.CharField(

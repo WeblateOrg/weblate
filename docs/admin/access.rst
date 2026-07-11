@@ -284,7 +284,9 @@ team memberships same as with users.
 Site-wide access control
 ------------------------
 
-.. include:: /snippets/not-hosted.rst
+.. note::
+
+   This feature is unavailable on Hosted Weblate.
 
 The permission system is based on roles defining a set of permissions,
 and teams linking roles to users and translations, read :ref:`auth-model`

@@ -24,6 +24,8 @@
      - ``mdx``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``No``
+   * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
+     - ``No``
    * - Check flags added by this format :ref:`ⓘ <custom-checks>`
      - ``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`
 

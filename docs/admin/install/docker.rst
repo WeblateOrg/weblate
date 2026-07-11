@@ -1377,10 +1377,10 @@ Generic settings
 
 .. _docker-vcs-config:
 
-Code hosting sites credentials
+Code-hosting sites credentials
 ++++++++++++++++++++++++++++++
 
-In the Docker container, the code hosting credentials can be configured either
+In the Docker container, the code-hosting credentials can be configured either
 in separate variables or using a Python dictionary to set them at once. The
 following examples are for :ref:`code-hosting-github-pull-requests`, but apply
 to all :ref:`vcs` with appropriately changed variable names.
@@ -1433,7 +1433,7 @@ Or the path to a file containing the Python dictionary:
 
     .. seealso::
 
-       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+       :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
 GitHub Apps are registered through the in-app manifest flow and stored in the
 database, so there are no GitHub App environment variables to configure. See
@@ -1449,7 +1449,7 @@ database, so there are no GitHub App environment variables to configure. See
 
     .. seealso::
 
-       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+       :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_GITEA_USERNAME
 .. envvar:: WEBLATE_GITEA_TOKEN
@@ -1461,7 +1461,7 @@ database, so there are no GitHub App environment variables to configure. See
 
     .. seealso::
 
-       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+       :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_PAGURE_USERNAME
 .. envvar:: WEBLATE_PAGURE_TOKEN
@@ -1473,7 +1473,7 @@ database, so there are no GitHub App environment variables to configure. See
 
     .. seealso::
 
-       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+       :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_BITBUCKETSERVER_USERNAME
 .. envvar:: WEBLATE_BITBUCKETSERVER_TOKEN
@@ -1494,7 +1494,7 @@ database, so there are no GitHub App environment variables to configure. See
 
     .. seealso::
 
-       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+       :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
 .. envvar:: WEBLATE_AZURE_DEVOPS_USERNAME
 .. envvar:: WEBLATE_AZURE_DEVOPS_ORGANIZATION
@@ -1507,7 +1507,7 @@ database, so there are no GitHub App environment variables to configure. See
 
     .. seealso::
 
-       :ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`
+       :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
 .. _docker-machine:
 

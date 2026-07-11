@@ -22,6 +22,7 @@ from unittest.mock import Mock, patch
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from lxml import etree
+from openpyxl import Workbook
 from translate.storage.base import ParseError
 from translate.storage.pypo import pofile
 
@@ -29,21 +30,28 @@ from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import BilingualUpdateMixin, TranslationFormat, UpdateError
 from weblate.formats.convert import MDXFormat
+from weblate.formats.external import XlsxFormat
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
+from weblate.formats.management.commands.list_format_features import (
+    FORMAT_DOC_SNIPPETS_MERGES,
+)
 from weblate.formats.models import FILE_FORMATS
-from weblate.formats.multi import MultiUnit
+from weblate.formats.multi import MultiCSVFormat, MultiUnit
 from weblate.formats.ttkit import (
     AndroidFormat,
     AppleXliffFormat,
     CatkeysFormat,
+    CMPFormat,
     CSVFormat,
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
     FluentFormat,
+    FormatJSFormat,
     GoI18JSONFormat,
     GoI18nTOMLFormat,
     GoI18V2JSONFormat,
+    GoTextFormat,
     GWTFormat,
     I18NextFormat,
     I18NextV4Format,
@@ -53,6 +61,7 @@ from weblate.formats.ttkit import (
     JSONFormat,
     JSONNestedFormat,
     LaravelPhpFormat,
+    MOKOFormat,
     NextcloudJSONFormat,
     PhpFormat,
     PoFormat,
@@ -85,7 +94,11 @@ from weblate.trans.file_format_params import get_encoding_param
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.files import REPO_TEMP_DIRNAME
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -279,6 +292,7 @@ TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
 TEST_STRINGS = get_test_file("cs.strings")
 TEST_FLUENT = get_test_file("cs.ftl")
+TEST_FORMATJS = get_test_file("cs-formatjs.json")
 TEST_MDX = get_test_file("cs.mdx")
 
 
@@ -414,6 +428,425 @@ class HierarchicalContextValidationTest(SimpleTestCase):
 
     def test_flat_json_keeps_dotted_keys_literal(self) -> None:
         JSONFormat.validate_context("test.key")
+
+
+class FormatFeatureDocumentationTest(SimpleTestCase):
+    DOCUMENTED_FEATURES: ClassVar[tuple[str, ...]] = (
+        "monolingual",
+        "supports_plural",
+        "supports_descriptions",
+        "supports_explanation",
+        "supports_context",
+        "supports_location",
+        "supports_flags",
+        "additional_states",
+        "supports_read_only",
+        "supports_remove_obsolete_units",
+        "check_flags",
+    )
+
+    def test_documented_support_feature_metadata_is_complete(self) -> None:
+        support_attributes = {
+            name
+            for name, value in vars(TranslationFormat).items()
+            if name.startswith("supports_") and isinstance(value, bool)
+        }
+
+        self.assertEqual(
+            {
+                feature
+                for feature in self.DOCUMENTED_FEATURES
+                if feature.startswith("supports_")
+            },
+            support_attributes,
+        )
+
+    def test_feature_snippet_merges_resolve(self) -> None:
+        self.assertLessEqual(set(FORMAT_DOC_SNIPPETS_MERGES), set(FILE_FORMATS))
+        self.assertLessEqual(
+            {
+                format_id
+                for format_ids in FORMAT_DOC_SNIPPETS_MERGES.values()
+                for format_id in format_ids
+            },
+            set(FILE_FORMATS),
+        )
+
+    def test_feature_snippet_merges_have_same_documented_features(self) -> None:
+        for base_format_id, format_ids in FORMAT_DOC_SNIPPETS_MERGES.items():
+            base_format = FILE_FORMATS[base_format_id]
+            for format_id in format_ids:
+                file_format = FILE_FORMATS[format_id]
+                with self.subTest(base_format_id=base_format_id, format_id=format_id):
+                    self.assertEqual(
+                        {
+                            feature: getattr(file_format, feature)
+                            for feature in self.DOCUMENTED_FEATURES
+                        },
+                        {
+                            feature: getattr(base_format, feature)
+                            for feature in self.DOCUMENTED_FEATURES
+                        },
+                    )
+
+    def test_documented_format_feature_snippet_coverage(self) -> None:
+        docs = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in Path("docs/formats").glob("*.rst")
+        )
+        merged_format_ids = {
+            format_id
+            for format_ids in FORMAT_DOC_SNIPPETS_MERGES.values()
+            for format_id in format_ids
+        }
+
+        self.assertEqual(
+            [
+                format_id
+                for format_id in FILE_FORMATS
+                if format_id not in merged_format_ids
+                and f"/snippets/format-features/{format_id}-features.rst" not in docs
+            ],
+            [],
+        )
+        self.assertEqual(
+            [
+                format_id
+                for format_id in merged_format_ids
+                if f"/snippets/format-features/{format_id}-features.rst" in docs
+            ],
+            [],
+        )
+
+
+class FormatFeatureBehaviorTest(SimpleTestCase):
+    CSV_PLURAL_CONTENT: ClassVar[bytes] = (
+        b'"source","target","context","source_plural_form",'
+        b'"target_plural_form","id_hash"\n'
+        b'"%(count)s file","","ctx","0","0","0x7fffffffffffff85"\n'
+        b'"%(count)s files","%(count)s soubory","ctx","1","1",'
+        b'"0x7fffffffffffff85"\n'
+        b'"%(count)s files","%(count)s souboru","ctx","1","2",'
+        b'"0x7fffffffffffff85"\n'
+    )
+
+    def assert_flags(
+        self,
+        format_class: type[TranslationFormat],
+        name: str,
+        content: bytes,
+        expected: str,
+    ) -> None:
+        storage = format_class(NamedBytesIO(name, content))
+
+        self.assertTrue(format_class.supports_flags)
+        self.assertEqual(storage.content_units[0].flags, Flags(expected))
+
+    def assert_read_only(
+        self, format_class: type[TranslationFormat], name: str, content: bytes
+    ) -> None:
+        storage = format_class(NamedBytesIO(name, content))
+
+        self.assertTrue(format_class.supports_read_only)
+        self.assertEqual(
+            [unit.is_readonly() for unit in storage.content_units], [True, False]
+        )
+
+    def assert_file_flags(
+        self, format_class: type[TranslationFormat], name: str, expected: str
+    ) -> None:
+        storage = format_class(get_test_file(name))
+
+        self.assertTrue(format_class.supports_flags)
+        self.assertEqual(storage.content_units[0].flags, Flags(expected))
+
+    def assert_csv_plural_metadata(
+        self,
+        format_class: type[TranslationFormat],
+        name: str,
+        content: bytes,
+    ) -> None:
+        storage = format_class(NamedBytesIO(name, content))
+        unit = storage.content_units[0]
+
+        self.assertTrue(format_class.supports_plural)
+        self.assertEqual(unit.source, "%(count)s file\x1e\x1e%(count)s files")
+        self.assertEqual(
+            unit.target,
+            "\x1e\x1e%(count)s soubory\x1e\x1e%(count)s souboru",
+        )
+        self.assertEqual(unit.context, "ctx")
+
+    @staticmethod
+    def get_xlsx_content(rows: tuple[tuple[str, ...], ...]) -> bytes:
+        workbook = Workbook()
+        worksheet = workbook.active
+        if worksheet is None:
+            msg = "Workbook without an active sheet"
+            raise AssertionError(msg)
+        for row_index, row in enumerate(rows, start=1):
+            for column_index, value in enumerate(row, start=1):
+                worksheet.cell(row=row_index, column=column_index).value = value
+
+        output = BytesIO()
+        workbook.save(output)
+        return output.getvalue()
+
+    def test_csv_variant_plural_metadata(self) -> None:
+        for format_class in (CSVFormat, CSVSimpleFormat, MultiCSVFormat):
+            with self.subTest(format_class=format_class.format_id):
+                self.assert_csv_plural_metadata(
+                    format_class, "test.csv", self.CSV_PLURAL_CONTENT
+                )
+
+        self.assert_csv_plural_metadata(
+            XlsxFormat,
+            "test.xlsx",
+            self.get_xlsx_content(
+                (
+                    (
+                        "source",
+                        "target",
+                        "context",
+                        "source_plural_form",
+                        "target_plural_form",
+                        "id_hash",
+                    ),
+                    ("%(count)s file", "", "ctx", "0", "0", "0x7fffffffffffff85"),
+                    (
+                        "%(count)s files",
+                        "%(count)s soubory",
+                        "ctx",
+                        "1",
+                        "1",
+                        "0x7fffffffffffff85",
+                    ),
+                    (
+                        "%(count)s files",
+                        "%(count)s souboru",
+                        "ctx",
+                        "1",
+                        "2",
+                        "0x7fffffffffffff85",
+                    ),
+                )
+            ),
+        )
+
+    def test_csv_variant_plural_unit_creation_is_not_supported(self) -> None:
+        for format_class in (CSVFormat, CSVSimpleFormat, MultiCSVFormat, XlsxFormat):
+            with self.subTest(format_class=format_class.format_id):
+                self.assertTrue(format_class.supports_plural)
+                self.assertFalse(format_class.supports_adding_plural_units())
+
+        self.assertTrue(PoFormat.supports_adding_plural_units())
+
+    def test_qt_context(self) -> None:
+        storage = TSFormat(
+            NamedBytesIO(
+                "test.ts",
+                b'<?xml version="1.0" encoding="utf-8"?>'
+                b'<!DOCTYPE TS><TS version="2.0"><context>'
+                b"<name>Menu</name><message>"
+                b'<location filename="main.cpp" line="7"/>'
+                b"<source>Open</source><translation>Otevrit</translation>"
+                b"</message></context></TS>",
+            )
+        )
+        unit = storage.content_units[0]
+
+        self.assertTrue(TSFormat.supports_context)
+        self.assertEqual(unit.context, "Menu")
+
+    def test_unsupported_location_metadata(self) -> None:
+        for format_class, name, content in (
+            (
+                JoomlaFormat,
+                "test.ini",
+                b"; main.php:7\n; Note\nHELLO=Hello\n",
+            ),
+            (
+                GoTextFormat,
+                "gotext.json",
+                (
+                    b'{"language":"cs","messages":[{'
+                    b'"id":"Hello","message":"Hello","translation":"Ahoj",'
+                    b'"translatorComment":"note","position":"main.go:7"}]}'
+                ),
+            ),
+        ):
+            with self.subTest(format_class=format_class.format_id):
+                storage = format_class(NamedBytesIO(name, content))
+                unit = storage.content_units[0]
+
+                self.assertFalse(format_class.supports_location)
+                self.assertEqual(unit.locations, "")
+                self.assertTrue(unit.notes)
+
+    def test_android_variant_read_only(self) -> None:
+        content = (
+            b'<resources><string name="locked" translatable="false">'
+            b"Locked"
+            b'</string><string name="open">Open</string></resources>'
+        )
+
+        for format_class in (AndroidFormat, MOKOFormat, CMPFormat):
+            with self.subTest(format_class=format_class.format_id):
+                self.assert_read_only(format_class, "strings.xml", content)
+
+    def test_xliff1_variant_read_only(self) -> None:
+        content = (
+            b'<?xml version="1.0" encoding="UTF-8"?>'
+            b'<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">'
+            b'<file original="app" source-language="en" target-language="cs" '
+            b'datatype="plaintext"><body>'
+            b'<trans-unit id="locked" translate="no">'
+            b"<source>Locked</source><target>Zamceno</target>"
+            b"</trans-unit>"
+            b'<trans-unit id="open">'
+            b"<source>Open</source><target>Otevrit</target>"
+            b"</trans-unit>"
+            b"</body></file></xliff>"
+        )
+
+        for format_class in (
+            XliffFormat,
+            RichXliffFormat,
+            PoXliffFormat,
+            AppleXliffFormat,
+        ):
+            with self.subTest(format_class=format_class.format_id):
+                self.assert_read_only(format_class, "test.xliff", content)
+
+    def test_xliff2_variant_read_only(self) -> None:
+        content = (
+            b'<?xml version="1.0" encoding="UTF-8"?>'
+            b'<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" '
+            b'version="2.0" srcLang="en" trgLang="cs"><file id="f">'
+            b'<unit id="locked" translate="no"><segment>'
+            b"<source>Locked</source><target>Zamceno</target>"
+            b"</segment></unit>"
+            b'<unit id="open"><segment>'
+            b"<source>Open</source><target>Otevrit</target>"
+            b"</segment></unit>"
+            b"</file></xliff>"
+        )
+
+        for format_class in (Xliff2Format, RichXliff2Format):
+            with self.subTest(format_class=format_class.format_id):
+                self.assert_read_only(format_class, "test.xliff", content)
+
+    def test_gettext_flags(self) -> None:
+        for format_class in (PoFormat, PoMonoFormat):
+            with self.subTest(format_class=format_class.format_id):
+                self.assert_file_flags(
+                    format_class, "cs.po", "c-format, max-length:100"
+                )
+
+    def test_qt_flags(self) -> None:
+        self.assert_file_flags(TSFormat, "cs.ts", "c-format, max-length:100")
+
+    def test_xliff1_variant_flags(self) -> None:
+        content = (
+            b'<?xml version="1.0" encoding="UTF-8"?>'
+            b'<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">'
+            b'<file original="Localizable.strings" source-language="en" '
+            b'target-language="cs" datatype="plaintext"><body>'
+            b'<trans-unit id="hello" weblate-flags="c-format">'
+            b"<source>Hello</source><target>Ahoj</target>"
+            b"</trans-unit></body></file></xliff>"
+        )
+
+        for format_class, expected in (
+            (XliffFormat, "c-format"),
+            (RichXliffFormat, "c-format, xml-text"),
+            (PoXliffFormat, "c-format"),
+            (AppleXliffFormat, "c-format"),
+        ):
+            with self.subTest(format_class=format_class.format_id):
+                self.assert_flags(format_class, "test.xliff", content, expected)
+
+    def test_xliff2_segment_flags(self) -> None:
+        content = (
+            b'<?xml version="1.0" encoding="UTF-8"?>\n'
+            b'<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" '
+            b'version="2.0" srcLang="en" trgLang="cs">'
+            b'<file id="f"><unit id="hello">'
+            b'<segment weblate-flags="c-format">'
+            b"<source>Hello</source><target>Ahoj</target>"
+            b"</segment></unit></file></xliff>"
+        )
+
+        self.assert_flags(Xliff2Format, "test.xliff", content, "c-format")
+        self.assert_flags(RichXliff2Format, "test.xliff", content, "c-format, xml-text")
+
+    def test_resx_flags(self) -> None:
+        self.assert_file_flags(RESXFormat, "cs.resx", "c-format, max-length:100")
+
+    def test_flat_xml_flags(self) -> None:
+        self.assert_flags(
+            FlatXMLFormat,
+            "test.xml",
+            b'<?xml version="1.0" encoding="UTF-8"?>\n'
+            b'<root><str key="hello" weblate-flags="c-format">Hello</str></root>',
+            "c-format",
+        )
+
+    def test_resource_dictionary_flags(self) -> None:
+        self.assert_flags(
+            ResourceDictionaryFormat,
+            "test.xaml",
+            b"<ResourceDictionary "
+            b'xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" '
+            b'xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" '
+            b'xmlns:system="clr-namespace:System;assembly=mscorlib">'
+            b'<system:String x:Key="hello" weblate-flags="c-format">'
+            b"Hello"
+            b"</system:String>"
+            b"</ResourceDictionary>",
+            "c-format",
+        )
+
+    def test_stringsdict_does_not_support_xml_flags(self) -> None:
+        content = (
+            Path(TEST_STRINGSDICT)
+            .read_bytes()
+            .replace(
+                b"<string>Hello, world!\n</string>",
+                b'<string weblate-flags="c-format">Hello, world!\n</string>',
+            )
+        )
+        storage = StringsdictFormat(NamedBytesIO("test.stringsdict", content))
+
+        self.assertFalse(StringsdictFormat.supports_flags)
+        self.assertEqual(storage.content_units[0].flags, Flags(""))
+
+    def test_android_variant_flags(self) -> None:
+        content = (
+            b'<?xml version="1.0" encoding="utf-8"?>\n'
+            b'<resources><string name="hello" weblate-flags="c-format">'
+            b"Hello"
+            b"</string></resources>"
+        )
+
+        for format_class in (AndroidFormat, MOKOFormat, CMPFormat):
+            with self.subTest(format_class=format_class.format_id):
+                self.assert_flags(format_class, "strings.xml", content, "c-format")
+
+    def test_tbx_flags(self) -> None:
+        self.assert_flags(
+            TBXFormat,
+            "test.tbx",
+            b'<?xml version="1.0"?>'
+            b'<martif type="TBX"><martifHeader><fileDesc><sourceDesc>'
+            b"<p>Weblate</p>"
+            b"</sourceDesc></fileDesc></martifHeader><text><body>"
+            b'<termEntry weblate-flags="terminology">'
+            b'<langSet xml:lang="en"><tig><term>hello</term></tig></langSet>'
+            b'<langSet xml:lang="cs"><tig><term>ahoj</term></tig></langSet>'
+            b"</termEntry></body></text></martif>",
+            "terminology",
+        )
 
 
 class AutoLoadTest(SimpleTestCase):
@@ -1161,6 +1594,23 @@ class CatkeysFormatTest(BaseFormatTest):
             # Fallback to normal comparison
             self.assertEqual(testdata.decode().strip(), newdata.decode().strip())
 
+    def test_comment_as_description(self) -> None:
+        storage = self.format_class(
+            NamedBytesIO(
+                "test.catkeys",
+                b"1\tenglish\tapplication\t12345678\n"
+                b"source\tcontext\tremarks\ttarget\n",
+            )
+        )
+        unit = storage.content_units[0]
+
+        self.assertTrue(self.format_class.supports_descriptions)
+        self.assertTrue(self.format_class.supports_context)
+        self.assertFalse(self.format_class.supports_explanation)
+        self.assertEqual(unit.context, "context")
+        self.assertEqual(unit.notes, "remarks")
+        self.assertEqual(unit.explanation, "")
+
 
 class GWTFormatTest(BaseFormatTest):
     format_class = GWTFormat
@@ -1311,6 +1761,26 @@ class GoI18NV2JSONFormatTest(JSONFormatTest):
     FIND_CONTEXT = "hello"
     NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
     MONOLINGUAL = True
+
+
+class FormatJSFormatTest(JSONFormatTest):
+    format_class = FormatJSFormat
+    FILE = TEST_FORMATJS
+    COUNT = 4
+    MASK = "formatjs/*.json"
+    EXPECTED_PATH = "formatjs/cs_CZ.json"
+    FIND = "Control Panel"
+    FIND_CONTEXT = "hak27d"
+    FIND_MATCH = "Control Panel"
+    NEW_UNIT_MATCH = (
+        b'\n    "key": {\n        "defaultMessage": "Source string"\n    }\n'
+    )
+    MONOLINGUAL = True
+
+    def test_description(self) -> None:
+        unit = self.parse_file(self.FILE).content_units[0]
+        self.assertTrue(self.format_class.supports_descriptions)
+        self.assertEqual(unit.notes, "title of control panel section")
 
 
 class PhpFormatTest(BaseFormatTest):
@@ -2699,6 +3169,10 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     EDIT_TARGET: ClassVar[str | list[str]] = "[{0}] تىپتىكى خىزمەتنى باشلاش"
     EDIT_OFFSET = 3
 
+    def test_descriptions(self) -> None:
+        self.assertTrue(self.format_class.supports_descriptions)
+        self.assertTrue(self.parse_file(self.FILE).content_units[0].notes)
+
     def test_new_language(self) -> None:
         self.maxDiff = None
         out = os.path.join(self.tempdir, f"test_new_language.{self.EXT}")
@@ -2864,6 +3338,12 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # This test does not make sense in this context, since we're not supposed
         # to be able to add new units.
         pass
+
+    def test_descriptions(self) -> None:
+        storage = self.parse_file(self.FILE)
+
+        self.assertFalse(self.format_class.supports_descriptions)
+        self.assertEqual([unit.notes for unit in storage.content_units], ["", ""])
 
     def _test_save(self, edit=False) -> None:
         self.maxDiff = None

@@ -1065,19 +1065,56 @@ def check_billing_view(
     )
 
 
+def billing_plan_allows_access_control(project: Project) -> bool:
+    """Return whether the billing plan allows private access control."""
+    return "weblate.billing" not in settings.INSTALLED_APPS or any(
+        billing.plan.change_access_control for billing in project.billings
+    )
+
+
+def billing_allows_access_control(project: Project) -> bool:
+    """Return whether billing allows changing project access control."""
+    return bool(project.access_control) or billing_plan_allows_access_control(project)
+
+
 @register_perm("billing:project.permissions")
-def check_billing(user: User, permission: str, obj: Project) -> bool | PermissionResult:
+def check_billing_project_permissions(
+    user: User, permission: str, obj: Project
+) -> bool | PermissionResult:
     if user.is_superuser:
         return True
-
-    if (
-        "weblate.billing" in settings.INSTALLED_APPS
-        and not any(billing.plan.change_access_control for billing in obj.billings)
-        and not obj.access_control
-    ):
+    if not billing_allows_access_control(obj):
         return False
-
     return check_permission(user, "project.permissions", obj)
+
+
+@register_perm("billing:component.permissions")
+def check_billing_component_permissions(
+    user: User, permission: str, obj: Component
+) -> PermissionResult:
+    """Return whether user can change component restricted access."""
+    if user.is_superuser:
+        return Allowed()
+    if obj.pk is None:
+        return Denied(
+            gettext(
+                "Create the component and grant yourself explicit access before enabling restricted access."
+            )
+        )
+    if not obj.restricted and not billing_plan_allows_access_control(obj.project):
+        return Denied(
+            gettext("The billing plan does not allow private access control.")
+        )
+    if not any(
+        _has_scoped_permission("component.edit", permissions, languages)
+        for permissions, languages in user.component_permissions.get(obj.pk, ())
+    ):
+        return Denied(
+            gettext(
+                "You need explicit access to this component before enabling restricted access; otherwise, you would lock yourself out."
+            )
+        )
+    return Allowed()
 
 
 @register_perm("announcement.delete")

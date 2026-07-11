@@ -12,7 +12,7 @@ instead of working through huge amount of new text just prior to release.
    :doc:`/devel/integration` describes basic ways to integrate your development
    with Weblate.
    :doc:`/admin/code-hosting` lists provider-specific setup steps for common
-   code hosting sites.
+   code-hosting sites.
 
 This is the process:
 
@@ -34,7 +34,7 @@ This is the process:
          subgraph cluster_codehosting {
             rank=same;
             graph [color=lightgrey,
-               label="Upstream code hosting",
+               label="Upstream code-hosting site",
                style=filled
             ];
 
@@ -73,7 +73,7 @@ This is the process:
 
 .. hint::
 
-   Upstream code hosting is not necessary, you can use Weblate with
+   Upstream code-hosting site is not necessary, you can use Weblate with
    :ref:`vcs-local` where there is only the repository inside Weblate.
 
 .. _update-vcs:
@@ -84,7 +84,7 @@ Updating repositories
 You should set up some way of updating backend repositories from their
 source.
 
-* Use :ref:`hooks` to integrate with the majority of common code hosting services, see
+* Use :ref:`hooks` to integrate with the majority of common code-hosting services, see
   :doc:`/admin/code-hosting`. You must also :ref:`project-enable_hooks` for
   this to work.
 
@@ -332,7 +332,7 @@ Here are few options how to avoid that:
 
    :ref:`wlc`
 
-Code hosting notifications
+Code-hosting notifications
 ++++++++++++++++++++++++++
 
 Provider-specific app and webhook instructions for GitHub, GitLab, Bitbucket,

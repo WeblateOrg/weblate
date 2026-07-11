@@ -72,7 +72,7 @@ your repository, you can configure :ref:`component-repo` and
 
 .. _vcs-repos-code-hosting:
 
-Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, Azure DevOps, ...)
+Accessing repositories on code-hosting sites (GitHub, GitLab, Bitbucket, Azure DevOps, ...)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. note::
@@ -84,7 +84,7 @@ For self-hosted Weblate, a single private repository is often easiest to set
 up using an HTTPS repository URL with an access token, see
 :doc:`/admin/code-hosting`.
 
-For multiple repositories, create a dedicated code hosting user associated
+For multiple repositories, create a dedicated code-hosting user associated
 with a Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate
 Weblate SSH key with a single user, because platforms frequently enforce
 single use of an SSH key. Grant this user access to the repositories, and use

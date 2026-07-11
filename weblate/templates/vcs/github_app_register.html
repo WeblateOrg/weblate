@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n %}
+{% load crispy_forms_tags i18n static %}
+
+{% block extra_script %}
+  <script defer
+          data-cfasync="false"
+          src="{% static 'js/github-app-manifest-preview.js' %}{{ cache_param }}"></script>
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="{% url 'manage-github-accounts' %}">{% translate "VCS Installations" %}</a>
+    <a href="{% url 'manage-github-accounts' %}">{% translate "Code-hosting connections" %}</a>
   </li>
   <li class="breadcrumb-item">{% translate "Register Weblate GitHub App" %}</li>
 {% endblock breadcrumbs %}
@@ -95,7 +101,7 @@
       <p class="text-body-secondary small">
         {% translate "The JSON document below is the manifest that GitHub will use to pre-fill the new App's settings." %}
       </p>
-      <pre class="mb-0"><code>{{ manifest_json }}</code></pre>
+      <pre class="mb-0"><code id="github-app-manifest-preview">{{ manifest_json }}</code></pre>
     </div>
   </div>
 

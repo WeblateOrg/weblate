@@ -229,7 +229,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             response,
             f'id="remove-github-account-{installation.pk}"',
         )
-        self.assertContains(response, "Remove connected GitHub account?")
+        self.assertContains(response, "Remove connected account?")
         self.assertContains(
             response,
             f'action="{reverse("manage-github-account-remove", kwargs={"pk": installation.pk})}"',
@@ -299,7 +299,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         response = self.client.get(reverse("profile"))
 
         self.assertContains(response, reverse("account-vcs"))
-        self.assertContains(response, "Manage VCS integrations")
+        self.assertContains(response, "Manage code-hosting connections")
 
     def test_account_vcs_integrations_uses_workspace_scope(self):
         user = self.anotheruser
@@ -1639,7 +1639,7 @@ class GitHubAppManifestViewTest(TestCase):
         # Body parameters GitHub uses to create the App.
         self.assertEqual(manifest["name"], "My Weblate")
         self.assertEqual(manifest["url"], get_site_url())
-        # The webhook carries an opaque per-integration token, so assert its
+        # The webhook carries an opaque per-App token, so assert its
         # shape rather than the (randomly generated) token value.
         hook = manifest["hook_attributes"]
         self.assertTrue(hook["active"])
@@ -1951,7 +1951,7 @@ class GitHubAppManifestViewTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context["apps"][0]["can_remove"])
-        self.assertContains(response, "Remove connected GitHub accounts first.")
+        self.assertContains(response, "Remove connected accounts first.")
         self.assertNotContains(
             response,
             f'data-bs-target="#remove-app-{credentials.pk}"',

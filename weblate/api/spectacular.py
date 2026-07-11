@@ -104,6 +104,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         "VERSION": None,
         # Flatten enum definitions
         "ENUM_NAME_OVERRIDES": {
+            "ActionEnum": "weblate.trans.actions.ActionEvents.choices",
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
             "StringStateEnum": "weblate.utils.state.StringState.choices",
             "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
@@ -124,11 +125,13 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         "POSTPROCESSING_HOOKS": [
             "drf_standardized_errors.openapi_hooks.postprocess_schema_enums",
             "weblate.api.docs.strip_field_choice_descriptions",
+            "weblate.api.docs.document_change_actions",
             "weblate.api.docs.document_all_static_vcs_choices",
             "weblate.api.docs.add_middleware_headers",
             "weblate.api.docs.simplify_license_schema",
             "weblate.api.docs.document_user_group_delete_body",
             "weblate.api.docs.simplify_media_types",
+            "weblate.api.docs.document_response_descriptions",
         ],
         "EXTERNAL_DOCS": {
             "url": lazy(get_doc_url_wrapper, str)("index"),

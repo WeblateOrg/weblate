@@ -38,6 +38,9 @@ from google.cloud.translate_v3 import Glossary
 from google.oauth2 import service_account
 from requests.exceptions import HTTPError, JSONDecodeError
 
+from weblate.checks import flags as check_flags
+from weblate.checks import models as check_models
+from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
@@ -57,8 +60,11 @@ from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.forms import (
     LLM_LANGUAGE_INSTRUCTION_LENGTH,
+    AnthropicMachineryForm,
     BaseMachineryForm,
     LLMBasicMachineryForm,
+    MistralMachineryForm,
+    OpenAIMachineryForm,
 )
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
@@ -1173,6 +1179,32 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(machine.map_language_code("fr_CA"), "fr-ca")
         self.assertEqual(machine.map_language_code("iu_Latn"), "iu-Latn")
 
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+    )
+    @override_settings(OFFER_HOSTING=False)
+    def test_project_validation_blocks_private_base_url_resolution_before_request(
+        self, mocked_getaddrinfo
+    ) -> None:
+        form = self.MACHINE_CLS.settings_form(
+            self.MACHINE_CLS,
+            data=self.CONFIGURATION,
+            allow_private_targets=False,
+        )
+
+        with (
+            patch.object(self.MACHINE_CLS, "get_headers", return_value={}),
+            patch("requests.sessions.Session.request") as mocked_request,
+        ):
+            self.assertFalse(form.is_valid())
+
+        mocked_getaddrinfo.assert_called_once_with(
+            "api.cognitive.microsofttranslator.com", None, type=1
+        )
+        mocked_request.assert_not_called()
+        self.assertIn("internal or non-public address", str(form.non_field_errors()))
+
 
 class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
@@ -1209,6 +1241,30 @@ class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest)
             "translate?api-version=3.0&from=en&to=de&category=&textType=html",
             json=MICROSOFT_RESPONSE,
         )
+
+    @responses.activate
+    def test_validate_settings_uses_regional_token_host(self) -> None:
+        self.mock_response()
+        self.get_machine().validate_settings()
+
+        token_call = responses.calls[0]
+        self.assertEqual(
+            token_call.request.url,
+            "https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken",
+        )
+
+    def test_region_rejects_url_delimiters_before_request(self) -> None:
+        form = self.MACHINE_CLS.settings_form(
+            self.MACHINE_CLS,
+            data={**self.CONFIGURATION, "region": "127.0.0.1:11434/"},
+            allow_private_targets=False,
+        )
+
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_request.assert_not_called()
+        self.assertIn("valid Azure region name", str(form.errors["region"]))
 
     @responses.activate
     def test_regional_host_string_payload_raises_error(self) -> None:
@@ -3496,6 +3552,94 @@ class LLMBasicMachineryFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
 
+class ProviderModelChoicesTest(SimpleTestCase):
+    def test_openai_model_choices(self) -> None:
+        self.assertEqual(
+            tuple(model for model, _name in OpenAIMachineryForm.MODEL_CHOICES),
+            (
+                "auto",
+                "gpt-5-nano",
+                "gpt-5.4-nano",
+                "gpt-5-mini",
+                "gpt-5.4-mini",
+                "gpt-5.6-luna",
+                "gpt-5",
+                "gpt-5.4",
+                "gpt-5.6-terra",
+                "gpt-5.5",
+                "gpt-5.6",
+                "custom",
+            ),
+        )
+
+    def test_openai_automatic_selection_prefers_cheapest_model(self) -> None:
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+        models = {
+            model
+            for model, _name in OpenAIMachineryForm.MODEL_CHOICES
+            if model not in {"auto", "custom"}
+        }
+
+        with patch.object(machine, "_models", models):
+            self.assertEqual(machine.get_model(), "gpt-5-nano")
+
+    def test_openai_automatic_selection_prefers_gpt_5_6_luna(self) -> None:
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+
+        with patch.object(
+            machine, "_models", {"gpt-5.6", "gpt-5.6-terra", "gpt-5.6-luna"}
+        ):
+            self.assertEqual(machine.get_model(), "gpt-5.6-luna")
+
+    def test_mistral_model_choices(self) -> None:
+        self.assertEqual(
+            tuple(model for model, _name in MistralMachineryForm.MODEL_CHOICES),
+            (
+                "auto",
+                "ministral-3b-latest",
+                "ministral-8b-latest",
+                "mistral-small-latest",
+                "ministral-14b-latest",
+                "mistral-large-latest",
+                "mistral-medium-latest",
+                "custom",
+            ),
+        )
+
+    def test_mistral_automatic_selection_prefers_cheapest_model(self) -> None:
+        machine = MistralTranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+        models = {
+            model
+            for model, _name in MistralMachineryForm.MODEL_CHOICES
+            if model not in {"auto", "custom"}
+        }
+
+        with patch.object(machine, "_models", models):
+            self.assertEqual(machine.get_model(), "ministral-3b-latest")
+
+    def test_anthropic_model_choices(self) -> None:
+        self.assertEqual(
+            tuple(model for model, _name in AnthropicMachineryForm.MODEL_CHOICES),
+            (
+                "claude-haiku-4-5",
+                "claude-sonnet-5",
+                "claude-opus-4-8",
+                "claude-fable-5",
+                "custom",
+            ),
+        )
+        self.assertEqual(
+            AnthropicMachineryForm.base_fields["model"].initial,
+            "claude-haiku-4-5",
+        )
+
+
 class OpenAITranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS: type[BatchMachineTranslation] = OpenAITranslation
     EXPECTED_LEN = 1
@@ -3508,7 +3652,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "persona": "",
         "style": "",
     }
-    TRACE_MODEL: ClassVar[str] = "gpt-5.4-nano"
+    TRACE_MODEL: ClassVar[str] = "gpt-5-nano"
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
@@ -4790,6 +4934,44 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
+    def test_translate_repairs_invalid_structured_json_string_quote_at_end(
+        self,
+    ) -> None:
+        source = "Synthetic source string for terminal quote recovery."
+        self.mock_response(
+            '[{"parts":[{"type":"text","text":"Synthetic terminal quote""}]}]'
+        )
+
+        translation = self.assert_translate(
+            "cs",
+            source,
+            1,
+        )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            'Synthetic terminal quote"',
+        )
+
+    @responses.activate
+    def test_translate_repairs_structured_json_code_fence(self) -> None:
+        source = "Synthetic source string for fenced JSON recovery."
+        self.mock_response(
+            '```json\n[{"parts":[{"type":"text","text":"Synthetic fenced translation"}]}]\n```'
+        )
+
+        translation = self.assert_translate(
+            "hr",
+            source,
+            1,
+        )
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Synthetic fenced translation",
+        )
+
+    @responses.activate
     def test_translate_repairs_truncated_structured_json_container(self) -> None:
         self.mock_response(
             '[{"parts":[{"type":"text","text":"Genel Müdür"}]},'
@@ -4804,6 +4986,22 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
         self.assertEqual(translation["CEO"][0]["text"], "Genel Müdür")
         self.assertEqual(translation["CEO Since"][0]["text"], "CEO'dan beri")
+
+    @responses.activate
+    def test_translate_repairs_missing_structured_part_object_close(self) -> None:
+        source = "Synthetic source string for missing object close recovery."
+        response = (
+            '[{"parts": [{"type": "text", "text": '
+            '"Synthetic missing object close translation."]}]'
+        )
+        self.mock_response(response)
+
+        translation = self.assert_translate("cs", source, 1)
+
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Synthetic missing object close translation.",
+        )
 
     @responses.activate
     def test_translate_uses_llm_placeholder_syntax(self) -> None:
@@ -5862,6 +6060,67 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         self,
     ) -> None:
         machine = self.get_machine()
+        unit = make_unit(
+            code="fr",
+            source="From $1 to $2",
+            flags=r'placeholders:r"\$\d+"',
+        )
+
+        def get_debug_context(
+            content: str, previous_content: str, previous_response: str
+        ) -> str:
+            def load_json(value: str) -> object:
+                try:
+                    return json.loads(value)
+                except ValueError:  # pragma: no cover - diagnostic path
+                    return value
+
+            placeholder_check = check_models.CHECKS.get("placeholders")
+            try:
+                cleanup = machine.cleanup_text(unit.source, unit)
+            except Exception as error:  # pragma: no cover - diagnostic path
+                cleanup = f"{error.__class__.__name__}: {error}"
+            try:
+                highlights = highlight_string(unit.source, unit)
+            except Exception as error:  # pragma: no cover - diagnostic path
+                highlights = f"{error.__class__.__name__}: {error}"
+            try:
+                machine_highlights = list(machine.get_highlights(unit.source, unit))
+            except Exception as error:  # pragma: no cover - diagnostic path
+                machine_highlights = f"{error.__class__.__name__}: {error}"
+            try:
+                placeholder_values = unit.all_flags.get_value_raw("placeholders")
+            except Exception as error:  # pragma: no cover - diagnostic path
+                placeholder_values = f"{error.__class__.__name__}: {error}"
+
+            return json.dumps(
+                {
+                    "content": load_json(content),
+                    "previous_content": load_json(previous_content),
+                    "previous_response": previous_response,
+                    "unit_flags": unit.flags,
+                    "unit_all_flags": unit.all_flags.format(),
+                    "unit_all_flags_items": repr(unit.all_flags.items()),
+                    "unit_placeholder_values": repr(placeholder_values),
+                    "unit_plural_map": getattr(unit, "plural_map", None),
+                    "parsed_unit_flags": repr(check_flags.parse_flags_text(unit.flags)),
+                    "checks_has_placeholders": "placeholders" in check_models.CHECKS,
+                    "placeholder_check_type": (
+                        type(placeholder_check).__name__
+                        if placeholder_check is not None
+                        else None
+                    ),
+                    "typed_flags_args_has_placeholders": (
+                        "placeholders" in check_flags.TYPED_FLAGS_ARGS
+                    ),
+                    "highlight_string": repr(highlights),
+                    "machine_highlights": repr(machine_highlights),
+                    "cleanup_text": repr(cleanup),
+                },
+                default=repr,
+                indent=2,
+                sort_keys=True,
+            )
 
         def request_callback(
             _prompt: str,
@@ -5872,7 +6131,9 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
             parts = json.loads(content)["strings"][0]["parts"]
             placeholders = [part for part in parts if part["type"] == "placeholder"]
             self.assertEqual(
-                [part["kind"] for part in placeholders], ["grammar", "grammar"]
+                [part["kind"] for part in placeholders],
+                ["grammar", "grammar"],
+                get_debug_context(content, _previous_content, _previous_response),
             )
             return json.dumps(
                 [
@@ -5890,13 +6151,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         with patch.object(
             machine, "fetch_llm_translations", side_effect=request_callback
         ):
-            translation = self.assert_translate(
-                "fr",
-                "From $1 to $2",
-                1,
-                machine=machine,
-                unit_args={"flags": r'placeholders:r"\$\d+"'},
-            )
+            translation = machine.translate(unit)
 
         self.assertEqual(
             translation[0][0]["text"],
@@ -6902,7 +7157,7 @@ class MistralTranslationTest(OpenAITranslationTest):
         "persona": "",
         "style": "",
     }
-    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+    TRACE_MODEL: ClassVar[str] = "ministral-3b-latest"
 
     @staticmethod
     def mock_models() -> None:
@@ -6913,7 +7168,7 @@ class MistralTranslationTest(OpenAITranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "mistral-small-latest",
+                        "id": "ministral-3b-latest",
                         "object": "model",
                         "created": 1686935002,
                         "owned_by": "mistral",
@@ -6931,7 +7186,7 @@ class MistralTranslationTest(OpenAITranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "mistral-small-latest",
+                "model": "ministral-3b-latest",
                 "choices": [
                     {
                         "index": 0,
@@ -6960,7 +7215,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
         "style": "",
         "base_url": "https://custom.example.com/",
     }
-    TRACE_MODEL: ClassVar[str] = "mistral-small-latest"
+    TRACE_MODEL: ClassVar[str] = "ministral-3b-latest"
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
         responses.add(
@@ -6970,7 +7225,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
                 "object": "list",
                 "data": [
                     {
-                        "id": "mistral-small-latest",
+                        "id": "ministral-3b-latest",
                         "object": "model",
                         "created": 1686935002,
                         "owned_by": "mistral",
@@ -6985,7 +7240,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
                 "id": "chatcmpl-123",
                 "object": "chat.completion",
                 "created": 1677652288,
-                "model": "mistral-small-latest",
+                "model": "ministral-3b-latest",
                 "choices": [
                     {
                         "index": 0,
@@ -7164,7 +7419,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "test-api-key",
         "base_url": "https://api.anthropic.com",
-        "model": "claude-sonnet-4-5",
+        "model": "claude-haiku-4-5",
         "max_tokens": 4096,
         "persona": "",
         "style": "",
@@ -7202,7 +7457,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": '["Hallo Welt"]',
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7228,7 +7483,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": '["Hallo Welt"]',
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7262,7 +7517,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": "Hallo Welt",
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7290,7 +7545,7 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                         "text": '{"translation": "Hallo Welt"}',
                     }
                 ],
-                "model": "claude-sonnet-4-5",
+                "model": "claude-haiku-4-5",
                 "stop_reason": "end_turn",
                 "stop_sequence": None,
                 "usage": {
@@ -7301,6 +7556,28 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+    @responses.activate
+    def test_response_skips_thinking_blocks(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "content": [
+                    {"type": "thinking", "thinking": ""},
+                    {"type": "text", "text": '["Hallo Welt"]'},
+                ],
+                "model": "claude-fable-5",
+                "stop_reason": "end_turn",
+            },
+        )
+        machine = self.MACHINE_CLS({**self.CONFIGURATION, "model": "claude-fable-5"})
+
+        self.assertEqual(
+            machine.fetch_llm_translations("prompt", "content", "previous", "reply"),
+            '["Hallo Welt"]',
+        )
 
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
@@ -7331,7 +7608,7 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
         form = machine.settings_form(machine, settings)
         self.assertTrue(form.is_valid())
 
-        settings["model"] = "claude-sonnet-4-5"
+        settings["model"] = "claude-haiku-4-5"
         form = machine.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
 
@@ -8111,6 +8388,46 @@ class MachineryValidationTest(TestCase):
         self.assertNotIn("site administrator", str(form.errors["__all__"]))
         self.assertNotIn("site-wide", str(form.errors["__all__"]))
         self.assertNotIn("allowlisted", str(form.errors["__all__"]))
+
+    @override_settings(OFFER_HOSTING=False)
+    def test_project_ollama_rejects_private_url_before_request(self) -> None:
+        form = OllamaTranslation.settings_form(
+            OllamaTranslation,
+            data={
+                "base_url": "http://127.0.0.1:11434",
+                "model": "llama3.2:3b",
+                "persona": "",
+                "style": "",
+            },
+            allow_private_targets=False,
+        )
+
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_request.assert_not_called()
+        self.assertIn("internal or non-public address", str(form.errors["__all__"]))
+
+    @override_settings(OFFER_HOSTING=False)
+    def test_project_anthropic_rejects_private_url_before_request(self) -> None:
+        form = AnthropicTranslation.settings_form(
+            AnthropicTranslation,
+            data={
+                "key": "test-api-key",
+                "base_url": "http://127.0.0.1:11434",
+                "model": "claude-haiku-4-5",
+                "max_tokens": 4096,
+                "persona": "",
+                "style": "",
+            },
+            allow_private_targets=False,
+        )
+
+        with patch("requests.sessions.Session.request") as mocked_request:
+            self.assertFalse(form.is_valid())
+
+        mocked_request.assert_not_called()
+        self.assertIn("internal or non-public address", str(form.errors["__all__"]))
 
     def test_check_failure_hides_response_body(self) -> None:
         response = Mock()

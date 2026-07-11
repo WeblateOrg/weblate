@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from django.utils.translation import gettext
+from django.utils.translation import gettext, gettext_noop
 from drf_spectacular.plumbing import (
     ResolvedComponent,
     build_basic_type,
@@ -13,6 +13,7 @@ from drf_spectacular.plumbing import (
 from drf_spectacular.settings import spectacular_settings
 from drf_spectacular.utils import OpenApiParameter
 
+from weblate.trans.actions import ActionEvents
 from weblate.utils.environment import get_env_bool
 
 from .middleware import (
@@ -27,6 +28,8 @@ ENUM_CHOICE_DESCRIPTION_PREFIX = "* `"
 ENUM_CHOICE_DESCRIPTION_SEPARATOR = f"\n\n{ENUM_CHOICE_DESCRIPTION_PREFIX}"
 SCHEMA_REF_PREFIX = "#/components/schemas/"
 VCS_ENUM_SCHEMA_NAME = "VcsEnum"
+ACTION_ENUM_SCHEMA_NAME = "ActionEnum"
+ACTION_ENUM_REF = f"{SCHEMA_REF_PREFIX}{ACTION_ENUM_SCHEMA_NAME}"
 LICENSE_SCHEMA_EXAMPLES = (
     "MIT",
     "GPL-3.0-or-later",
@@ -43,7 +46,26 @@ CSV_MEDIA_TYPE = "text/csv"
 OPENMETRICS_MEDIA_TYPE = "application/openmetrics-text"
 METRICS_PATH = "/api/metrics/"
 USER_GROUPS_PATH = "/api/users/{username}/groups/"
+CHANGES_PATH = "/api/changes/"
 UNSUPPORTED_MEDIA_TYPE_RESPONSE_CODE = "415"
+RESPONSE_DESCRIPTIONS = {
+    "200": gettext_noop("Successful response."),
+    "201": gettext_noop("The resource was created."),
+    "202": gettext_noop("The request was accepted for asynchronous processing."),
+    "204": gettext_noop("Successful response without a response body."),
+    "400": gettext_noop("The request was invalid or could not be parsed."),
+    "401": gettext_noop("Authentication credentials were missing or invalid."),
+    "403": gettext_noop(
+        "The authenticated user does not have permission for this operation."
+    ),
+    "404": gettext_noop("The requested resource was not found or is not accessible."),
+    "405": gettext_noop("The HTTP method is not allowed for this resource."),
+    "406": gettext_noop("The requested response media type is not available."),
+    "415": gettext_noop("The request media type is not supported."),
+    "423": gettext_noop("The resource is locked."),
+    "429": gettext_noop("The API request rate limit was exceeded."),
+    "500": gettext_noop("An unexpected server error occurred."),
+}
 FILE_UPLOAD_REQUEST_MEDIA_TYPES = {
     ("post", "/api/projects/{slug}/components/"): {
         JSON_MEDIA_TYPE,
@@ -108,6 +130,13 @@ def simplify_license_schema(result, generator, request, public):
 
 def _build_choice_description(choices) -> str:
     return "\n".join(f"* `{value}` - {label}" for value, label in choices)
+
+
+def _build_action_event_description() -> str:
+    return "\n".join(
+        f"* `{event.value}` - **{event.label}:** {event.description}"
+        for event in ActionEvents
+    )
 
 
 def _is_enum_ref(ref: object) -> bool:
@@ -187,6 +216,30 @@ def document_all_static_vcs_choices(result, generator, request, public):
     choices = VCS_REGISTRY.get_unfiltered_choices()
     vcs_schema["enum"] = [value for value, _label in choices]
     vcs_schema["description"] = _build_choice_description(choices)
+    return result
+
+
+def document_change_actions(result, generator, request, public):
+    """Document change actions from the metadata on ActionEvents."""
+    schemas = result.get("components", {}).get("schemas", {})
+    action_schema = schemas.get(ACTION_ENUM_SCHEMA_NAME)
+    if isinstance(action_schema, dict):
+        action_schema["enum"] = [event.value for event in ActionEvents]
+        action_schema["description"] = _build_action_event_description()
+
+    operation = result.get("paths", {}).get(CHANGES_PATH, {}).get("get", {})
+    for parameter in operation.get("parameters", []):
+        if parameter.get("in") == "query" and parameter.get("name") == "action":
+            parameter["schema"] = {
+                "type": "array",
+                "items": {"$ref": ACTION_ENUM_REF},
+            }
+            parameter["description"] = gettext(
+                "Filter by change action. Repeat this parameter to filter by multiple "
+                "actions."
+            )
+            break
+
     return result
 
 
@@ -270,6 +323,21 @@ def simplify_media_types(result, generator, request, public):
             _simplify_response_media_types(path, method, operation)
             _simplify_format_parameter(path, method, operation)
             _simplify_error_responses(operation)
+
+    return result
+
+
+def document_response_descriptions(result, generator, request, public):
+    """Fill in descriptions for standard API responses."""
+    for path_item in result.get("paths", {}).values():
+        for method, operation in path_item.items():
+            if method not in HTTP_METHODS or not isinstance(operation, dict):
+                continue
+            for status_code, response in operation.get("responses", {}).items():
+                if not isinstance(response, dict) or response.get("description"):
+                    continue
+                if description := RESPONSE_DESCRIPTIONS.get(status_code):
+                    response["description"] = gettext(description)
 
     return result
 

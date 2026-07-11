@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "2026.7.1"
+release = "2026.8"
 
 # -- General configuration ---------------------------------------------------
 

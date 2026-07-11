@@ -175,8 +175,8 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. GitHub App integration webhooks additionally
-       authenticate with a per-integration URL token and GitHub signature
+       where hooks are enabled. GitHub App webhooks additionally authenticate
+       with a per-app URL token and GitHub signature
        verification before processing. *(documented)* (source: :ref:`hooks`,
        :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
    * - Weblate to database/datastore

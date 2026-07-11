@@ -403,6 +403,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     has_multiple_strings: bool = False
     supports_explanation: bool = False
     supports_plural: bool = False
+    can_add_plural_units: ClassVar[bool | None] = None
     supports_descriptions: bool = False
     supports_context: bool = False
     supports_location: bool = False
@@ -416,6 +417,12 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     plural_preference: tuple[int, ...] | None = None
     needs_existing_units: ClassVar[bool] = False
     store: S
+
+    @classmethod
+    def supports_adding_plural_units(cls) -> bool:
+        if cls.can_add_plural_units is not None:
+            return cls.can_add_plural_units
+        return cls.supports_plural
 
     @classmethod
     def get_identifier(cls):

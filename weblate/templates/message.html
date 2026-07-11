@@ -1,14 +1,18 @@
 {% load i18n icons translations %}
 
-<div class="alert alert-{% block tags %}{% get_message_kind tags %} {{ tags }}{% endblock %}
-   " {% if can_delete and announcement %} data-action="{% url 'announcement-delete' pk=announcement.pk %}" {% endif %} {% if task_id %} data-task="{% url 'api:task-detail' pk=task_id %}" {% endif %}>
+<div class="alert alert-{% block tags %}{% get_message_kind tags %} {{ tags }}{% endblock %} "
+     {% if can_delete and announcement %} data-action="{% url 'announcement-delete' pk=announcement.pk %}" {% endif %}
+     {% if task_id %} data-task="{% url 'api:task-detail' pk=task_id %}" {% endif %}>
   {% if can_delete and announcement %}
     <button type="button"
             class="btn btn-link btn-red float-end"
             data-bs-dismiss="alert"
             title="{% translate "Delete announcement" %}">{% icon "delete.svg" %}</button>
   {% elif can_delete %}
-    <button type="button" class=" btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <button type="button"
+            class=" btn-close"
+            data-bs-dismiss="alert"
+            aria-label="{% translate "Close" %}"></button>
   {% endif %}
   <div class="task-message">
     {% block message %}{{ message }}{% endblock %}

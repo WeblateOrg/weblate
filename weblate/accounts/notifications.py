@@ -236,6 +236,16 @@ class Notification:
         except ObjectDoesNotExist:
             return False
 
+    def can_access_target(
+        self,
+        user: User,
+        project: Project | None,
+        component: Component | None,
+    ) -> bool:
+        if component is not None:
+            return user.can_access_component(component)
+        return project is None or user.can_access_project(project)
+
     def get_users(
         self,
         frequency: NotificationFrequency,
@@ -268,6 +278,8 @@ class Notification:
 
             last_user = user
             if subscription.frequency != frequency:
+                continue
+            if not self.can_access_target(user, project, component):
                 continue
             if frequency == NotificationFrequency.FREQ_INSTANT and (
                 change is None or self.should_skip(user, change)

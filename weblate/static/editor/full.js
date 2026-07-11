@@ -517,7 +517,7 @@
             }
             const allFlags = document.getElementById("unit_all_flags");
             if (allFlags) {
-              allFlags.innerHTML = all_flags;
+              allFlags.textContent = all_flags;
               allFlags.classList.add("flags-updated");
             }
           }

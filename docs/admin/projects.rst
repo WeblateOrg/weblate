@@ -1251,7 +1251,10 @@ Components with higher priority are offered first to translators.
 Restricted access
 +++++++++++++++++
 
-.. include:: /snippets/not-hosted.rst
+.. note::
+
+   On Hosted Weblate, this requires a billing plan which permits private
+   projects.
 
 By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it

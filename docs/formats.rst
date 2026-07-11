@@ -110,8 +110,8 @@ interface, see :ref:`custom-checks`).
 
 This feature is modelled on flags in :ref:`gettext`.
 
-Additionally, for all XML based format, the flags are extracted from the
-non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` is
+Additionally, XML-based formats that support flags extract them from the
+non-standard attribute ``weblate-flags``. The ``max-length:N`` flag is also
 supported through the ``maxwidth`` `attribute
 <https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as
 defined in the XLIFF standard, see :ref:`xliff-flags`.
@@ -145,6 +145,11 @@ Plurals are necessary to properly localize strings with variable count. The
 rules depend on a target language and many formats follow CLDR specification
 for that.
 
+Plural support in the supported features table means Weblate can represent
+plural strings for the format. Some formats need existing plural metadata or a
+specific variant, and cannot create new plural strings unless that is natively
+supported by the format.
+
 .. hint::
 
    Pluralizing strings need proper support from the application framework as
@@ -160,6 +165,14 @@ Read-only strings from translation files will be included, but
 can not be edited in Weblate. This feature is natively supported by few formats
 (:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a
 ``read-only`` flag, see :ref:`custom-checks`.
+
+.. _obsolete-strings:
+
+Removing obsolete strings
++++++++++++++++++++++++++
+
+Some file formats can store obsolete strings. Weblate can remove these obsolete
+strings from formats that support this operation.
 
 
 Supporting other formats

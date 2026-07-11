@@ -250,7 +250,7 @@
                 {% endif %}
                 {% csrf_token %}
                 {{ new_unit_form|crispy }}
-                {% if supports_plural and object.plural.number > 1 %}
+                {% if can_add_plural_units and object.plural.number > 1 %}
                   <label class="radio-inline">
                     <input type="radio"
                            name="new-unit-form-type"
@@ -271,7 +271,7 @@
             </div>
           </form>
         </div>
-        {% if supports_plural and object.plural.number > 1 %}
+        {% if can_add_plural_units and object.plural.number > 1 %}
           <div id="new-plural" class="hidden">
             <form action="{% url 'new-unit' path=object.get_url_path %}" method="post">
               <div class="card">

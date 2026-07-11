@@ -435,13 +435,24 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
+    @staticmethod
+    def get_repository_permission_obj(
+        obj: Project | Component | Translation, *, component_scope: bool
+    ) -> Project | Component | Translation:
+        component = obj.component if isinstance(obj, Translation) else obj
+        if (
+            isinstance(component, Component)
+            and component.linked_component_id is not None
+        ):
+            return component.linked_component
+        return component if component_scope else obj
+
     @transaction.atomic
-    def repository_operation(
-        self, request: Request, obj, project: Project, operation: str
-    ):
+    def repository_operation(self, request: Request, obj, operation: str):
         permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
 
-        if not request.user.has_perm(permission, project):
+        permission_obj = self.get_repository_permission_obj(obj, component_scope=True)
+        if not request.user.has_perm(permission, permission_obj):
             raise PermissionDenied
 
         obj.acting_user = request.user
@@ -466,20 +477,13 @@ class WeblateViewSet(DownloadViewSet):
     def repository(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        if isinstance(obj, Translation):
-            project = obj.component.project
-        elif isinstance(obj, Component):
-            project = obj.project
-        else:
-            project = obj
-
         if request.method == "POST":
             serializer = RepoRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
 
             data = {
                 "result": self.repository_operation(
-                    request, obj, project, serializer.validated_data["operation"]
+                    request, obj, serializer.validated_data["operation"]
                 )
             }
 
@@ -489,7 +493,8 @@ class WeblateViewSet(DownloadViewSet):
 
             return Response(data)
 
-        if not request.user.has_perm("meta:vcs.status", project):
+        permission_obj = self.get_repository_permission_obj(obj, component_scope=False)
+        if not request.user.has_perm("meta:vcs.status", permission_obj):
             raise PermissionDenied
 
         data = {
@@ -806,7 +811,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post", "delete"])
     def groups(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request, obj)
+        self.perm_check(request, obj, protect_internal=True)
 
         if not isinstance(request.data, Mapping):
             raise ValidationError(
@@ -861,7 +866,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def notifications(self, request: Request, username: str):
         obj = self.get_object()
         if request.method == "POST":
-            self.perm_check(request, obj, allow_self=True)
+            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             with transaction.atomic():
                 serializer = NotificationSerializer(
                     data=request.data, context={"request": request}
@@ -912,7 +917,7 @@ class UserViewSet(viewsets.ModelViewSet):
             raise not_found_http404(msg) from error
 
         if request.method == "DELETE":
-            self.perm_check(request, obj, allow_self=True)
+            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
@@ -922,7 +927,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 subscription, context={"request": request}
             )
         else:
-            self.perm_check(request, obj, allow_self=True)
+            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -2301,6 +2306,7 @@ class ComponentViewSet(
     queryset = Component.objects.none()
     serializer_class = ComponentSerializer
     lookup_fields = ("project__slug", "slug")
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         return (
@@ -2636,10 +2642,13 @@ class ComponentViewSet(
     @action(detail=True, methods=["get", "post"])
     def links(self, request: Request, **kwargs):
         instance = self.get_object()
+        user = self.request.user
         if request.method == "POST":
             return self.add_link(request, instance)
 
         queryset = instance.links.order_by("id")
+        if not user.has_perm("component.edit", instance):
+            queryset = queryset.filter(pk__in=user.allowed_projects)
         page = self.paginate_queryset(queryset)
 
         serializer = ProjectSerializer(page, many=True, context={"request": request})
@@ -3197,6 +3206,21 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 data=request.data, context={"translation": obj}
             )
             input_serializer.is_valid(raise_exception=True)
+
+            if input_serializer.validated_data.get("state") == STATE_APPROVED:
+                can_review = request.user.has_perm("unit.review", obj)
+                if not can_review:
+                    raise ValidationError(
+                        {
+                            "state": getattr(
+                                can_review,
+                                "reason",
+                                gettext(
+                                    "You do not have permission to approve strings."
+                                ),
+                            )
+                        }
+                    )
 
             try:
                 unit = obj.add_unit(request, **input_serializer.as_kwargs())
@@ -3938,6 +3962,7 @@ class Search(APIView):
     """Site-wide search endpoint."""
 
     serializer_class = SearchResultSerializer
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     @extend_schema(
         operation_id="api_search_retrieve",
@@ -3954,9 +3979,9 @@ class Search(APIView):
     # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return site-wide search results as a list."""
-        user = request.user
+        user = self.request.user
         projects = user.allowed_projects
-        components = Component.objects.filter(project__in=projects)
+        components = Component.objects.filter_access(user)
         category = Category.objects.filter(project__in=projects)
         results: list[dict[str, str]] = []
         query = request.GET.get("q")
@@ -4099,6 +4124,7 @@ class TasksViewSet(ViewSet):
         )
         return Response(serializer.data)
 
+    @extend_schema(description="Cancel a running task.", methods=["delete"])
     def destroy(self, request: Request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")
         if not task.ready() and component is not None:
@@ -4117,15 +4143,10 @@ class TasksViewSet(ViewSet):
 class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     queryset = Addon.objects.none()
     serializer_class = AddonSerializer
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
 
     def get_queryset(self):
-        if self.request.user.has_perm("management.addons"):
-            return Addon.objects.order_by("id")
-        return Addon.objects.filter(
-            Q(project__in=self.request.user.managed_projects)
-            | Q(category__project__in=self.request.user.managed_projects)
-            | Q(component__project__in=self.request.user.managed_projects)
-        ).order_by("id")
+        return Addon.objects.filter_access(self.request.user).order_by("id")
 
     def perm_check(self, request: Request, instance: Addon) -> None:
         if instance.component:
