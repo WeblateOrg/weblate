@@ -130,8 +130,8 @@ Weblate 2026.7
 
 * :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-q949`).
 * Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints (:ghsa:`92m8-wv36-prmx`).
-* ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-r2rj`).
-* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:ghsa:`x86c-ff69-cr2m`).
+* ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`).
+* Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`).
 * Globally scoped HTML and AJAX object lookups no longer disclose object existence in private projects (:cve:`2026-55227`, :ghsa:`2p9g-x3cv-5hh4`).
 * Team API access checks now prevent project managers from reading private-project team data or expanding scoped team assignments outside their allowed projects (:cve:`2026-55228`, :ghsa:`2q2q-jr9g-v9rf`).
 * Malformed ``replacements`` flags no longer abort source length checks.
