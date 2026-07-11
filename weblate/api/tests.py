@@ -11222,7 +11222,7 @@ class SuggestionAPITest(APIBaseTest):
         )
         # New users are auto-assigned to Users/Viewers via AutoGroup (^.*$).
         guest_user.groups.set([Group.objects.get(name="Guests")])
-        guest_user.clear_cache()
+        guest_user.refresh_from_db()
         if authenticate:
             self.client.credentials(
                 HTTP_AUTHORIZATION=f"Token {guest_user.auth_token.key}"
@@ -11288,7 +11288,7 @@ class SuggestionAPITest(APIBaseTest):
         response = self._add_suggestion(unit, "Navrh")
         suggestion_id = response.data["id"]
         self.grant_perm_to_user("unit.review", project=self.project)
-        self.user.clear_cache()
+        self.user.refresh_from_db()
         with self.captureOnCommitCallbacks(execute=True):
             self.do_request(
                 "api:suggestion-accept",

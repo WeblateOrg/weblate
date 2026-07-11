@@ -226,9 +226,11 @@ class Suggestion(models.Model, UserDisplayMixin):
         self.unit.invalidate_related_cache()
         return result
 
-    def get_num_votes(self):
+    def get_num_votes(self, *, override: bool = False):
         """Return number of votes."""
-        if hasattr(self, "num_votes"):  # annotation added via `load_votes``
+        if not override and hasattr(
+            self, "num_votes"
+        ):  # annotation added via `load_votes``
             return self.num_votes
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
@@ -246,7 +248,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
         # Automatic accepting
         required_votes = self.unit.translation.suggestion_autoaccept
-        if required_votes and self.get_num_votes() >= required_votes:
+        if required_votes and self.get_num_votes(override=True) >= required_votes:
             self.accept(request, "suggestion.vote")
 
     def get_checks(self):

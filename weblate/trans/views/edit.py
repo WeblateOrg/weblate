@@ -831,7 +831,7 @@ def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
         messages.error(request, gettext("Your suggestion already exists!"))
     elif result == SuggestionAddResult.CREATED and suggestion and suggestion.fixups:
         display_fixups(request, suggestion.fixups)
-    return result != SuggestionAddResult.DUPLICATE
+    return result == SuggestionAddResult.CREATED
 
 
 def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:

@@ -342,7 +342,8 @@ class ProjectTest(RepoTestCase):
     def test_add_suggestion_validation(self) -> None:
         with transaction.atomic():
             component = self.create_po(
-                suggestion_voting=True, suggestion_autoaccept=True
+                suggestion_voting=True,
+                suggestion_autoaccept=2,
             )
             user = create_test_user()
             another_user = create_another_user()
@@ -390,7 +391,7 @@ class ProjectTest(RepoTestCase):
             request = factory.get("/")
             request.user = user
             request.session = {}
-            _, result = Suggestion.objects.add(
+            suggestion, result = Suggestion.objects.add(
                 unit,
                 ["New suggestion"],
                 request,
