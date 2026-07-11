@@ -104,7 +104,7 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 .. seealso::
 
    * `Anthropic API documentation <https://docs.anthropic.com/en/api/getting-started>`_
-   * `Anthropic Console <https://console.anthropic.com/>`_
+   * `Anthropic Console <https://platform.claude.com/>`_
 
 .. _Anthropic's Claude: https://www.anthropic.com/
 
