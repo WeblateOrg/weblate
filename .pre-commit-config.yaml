@@ -159,6 +159,12 @@ repos:
     args: [--multiline]
     entry: gettext_lazy\([^\)]*\)(\s*%|.format\()
     language: pygrep
+  - id: py-ruff-code-override
+    name: Ruff override using a code instead of a human-readable name
+    description: Ruff overrides should use human-readable rule names
+    types: [python]
+    entry: '#\s*(noqa|ruff):[^\n]*\b[A-Z][A-Z0-9]*[0-9]{3}\b'
+    language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
   rev: v1.0.2
   hooks:

@@ -1241,6 +1241,46 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["keyword"], "tr")
         self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
+    def test_xgettext_form_keyword_exclusive(self) -> None:
+        # keyword_exclusive=True with a keyword set is valid.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": "tr",
+                "keyword_exclusive": True,
+            },
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertTrue(form.cleaned_data["keyword_exclusive"])
+
+        # keyword_exclusive=True without a keyword is invalid.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": "",
+                "keyword_exclusive": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("keyword_exclusive", form.errors)
+
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
             None,
@@ -2128,6 +2168,97 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--check=bullet-unicode", command)
         self.assertIn("--keyword=tr", command)
 
+    def test_xgettext_uses_exclusive_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "Main.java"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello");\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Java",
+                "source_patterns": ["src/*.java"],
+                "keyword": "tr",
+                "keyword_exclusive": True,
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # Bare --keyword must appear to disable default keywords.
+        self.assertIn("--keyword", command)
+        bare_idx = command.index("--keyword")
+        named_idx = command.index("--keyword=tr")
+        self.assertLess(bare_idx, named_idx)
+        # Only the custom keyword should be present; no default keywords.
+        self.assertNotIn("--keyword=gettext", command)
+
+    def test_xgettext_keyword_without_exclusive_emits_no_bare_keyword(self) -> None:
+        """Keyword set but keyword_exclusive=False must not emit bare --keyword."""
+        source = Path(self.component.full_path) / "src" / "Main.java"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello");\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Java",
+                "source_patterns": ["src/*.java"],
+                "keyword": "tr",
+                "keyword_exclusive": False,
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # Named keyword must be present.
+        self.assertIn("--keyword=tr", command)
+        # Bare --keyword must NOT be present when exclusivity is disabled.
+        self.assertNotIn("--keyword", command)
+
+    def test_xgettext_no_keyword_emits_no_keyword_args(self) -> None:
+        """When no keyword is set, no --keyword args at all should appear."""
+        source = Path(self.component.full_path) / "src" / "main.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('_("Hello")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # No --keyword args of any kind should appear.
+        keyword_args = [
+            a for a in command if a == "--keyword" or a.startswith("--keyword=")
+        ]
+        self.assertEqual(keyword_args, [])
+
     def test_meson_uses_glib_preset_and_potfiles(self) -> None:
         source = Path(self.component.full_path) / "src" / "main.c"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -2202,6 +2333,11 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--add-comments=TRANSLATORS", command)
         self.assertIn("--check=ellipsis-unicode", command)
         self.assertIn("--keyword=custom_tr", command)
+        # Preset keywords must also still be present (non-exclusive mode).
+        self.assertIn("--keyword=_", command)
+        self.assertIn("--keyword=N_", command)
+        # No bare --keyword should appear.
+        self.assertNotIn("--keyword", command)
 
     def test_meson_prefers_potfiles_over_potfiles_in(self) -> None:
         gettext_dir = Path(self.component.full_path) / "po"
@@ -8865,7 +9001,7 @@ class FedoraMessagingPEMBlockTest(SimpleTestCase):
     def test_pem_block_labels_accept_multiple_blocks(self) -> None:
         cert = self.get_certificate()
 
-        labels = FedoraMessagingAddon._get_pem_block_labels(  # noqa: SLF001
+        labels = FedoraMessagingAddon._get_pem_block_labels(  # ruff: ignore[private-member-access]
             f"{cert}\n{cert}"
         )
 
@@ -8876,7 +9012,7 @@ class FedoraMessagingPEMBlockTest(SimpleTestCase):
             "-----END PRIVATE KEY-----" for _ in range(100)
         )
 
-        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # noqa: SLF001
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # ruff: ignore[private-member-access]
 
         self.assertEqual(labels, [])
 
@@ -8890,11 +9026,11 @@ class FedoraMessagingPEMBlockTest(SimpleTestCase):
             + f"\n{key}\n{cert}"
         )
 
-        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # noqa: SLF001
+        labels = FedoraMessagingAddon._get_pem_block_labels(value)  # ruff: ignore[private-member-access]
 
         self.assertEqual(labels, ["CERTIFICATE", "PRIVATE KEY", "CERTIFICATE"])
         with self.assertRaisesMessage(ConfigurationException, "invalid certificate"):
-            FedoraMessagingAddon._validate_pem_certificates(  # noqa: SLF001
+            FedoraMessagingAddon._validate_pem_certificates(  # ruff: ignore[private-member-access]
                 value, "invalid certificate"
             )
 
@@ -9219,7 +9355,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def test_publish_message_success(self) -> None:
         service = object()
-        fedora_messaging.api._twisted_service = service  # noqa: SLF001
+        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
         self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
 
         with (
@@ -9243,35 +9379,35 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
         )
         report_error.assert_not_called()
-        self.assertIs(fedora_messaging.api._twisted_service, service)  # noqa: SLF001
+        self.assertIs(fedora_messaging.api._twisted_service, service)  # ruff: ignore[private-member-access]
 
     def test_reset_fedora_messaging_service_stops_existing_service(self) -> None:
         service = MagicMock()
-        fedora_messaging.api._twisted_service = service  # noqa: SLF001
+        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
         self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
 
         with patch.object(
             FedoraMessagingAddon, "_stop_fedora_messaging_service"
         ) as stop_service:
-            result = FedoraMessagingAddon._reset_fedora_messaging_service()  # noqa: SLF001
+            result = FedoraMessagingAddon._reset_fedora_messaging_service()  # ruff: ignore[private-member-access]
 
         stop_service.assert_called_once_with(service.stopService)
         self.assertTrue(result)
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # noqa: SLF001
+        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
 
     def test_reset_fedora_messaging_service_keeps_service_on_stop_failure(self) -> None:
         service = MagicMock()
-        fedora_messaging.api._twisted_service = service  # noqa: SLF001
+        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
         self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
 
         with patch.object(
             FedoraMessagingAddon, "_stop_fedora_messaging_service", return_value=False
         ) as stop_service:
-            result = FedoraMessagingAddon._reset_fedora_messaging_service()  # noqa: SLF001
+            result = FedoraMessagingAddon._reset_fedora_messaging_service()  # ruff: ignore[private-member-access]
 
         stop_service.assert_called_once_with(service.stopService)
         self.assertFalse(result)
-        self.assertIs(fedora_messaging.api._twisted_service, service)  # noqa: SLF001
+        self.assertIs(fedora_messaging.api._twisted_service, service)  # ruff: ignore[private-member-access]
 
     def test_stop_fedora_messaging_service_runs_in_reactor_and_waits(self) -> None:
         stop_service = MagicMock(return_value="stopped")
@@ -9285,7 +9421,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             return wrapper
 
         with patch("crochet.run_in_reactor", side_effect=run_in_reactor):
-            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # noqa: SLF001
+            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # ruff: ignore[private-member-access]
 
         stop_service.assert_called_once_with()
         self.assertEqual(result.value, "stopped")
@@ -9312,7 +9448,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             patch("crochet.run_in_reactor", side_effect=run_in_reactor),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
         ):
-            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # noqa: SLF001
+            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # ruff: ignore[private-member-access]
 
         stop_service.assert_called_once_with()
         self.assertEqual(result.value, "stopped")
@@ -9339,7 +9475,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             patch("crochet.run_in_reactor", side_effect=run_in_reactor),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
         ):
-            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # noqa: SLF001
+            stopped = FedoraMessagingAddon._stop_fedora_messaging_service(stop_service)  # ruff: ignore[private-member-access]
 
         stop_service.assert_called_once_with()
         result.wait.assert_called_once_with(timeout=SERVICE_STOP_TIMEOUT)
@@ -9359,7 +9495,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             jitter=0.119626565582,
         )
 
-        FedoraMessagingAddon._configure_fedora_messaging_publish_retries(  # noqa: SLF001
+        FedoraMessagingAddon._configure_fedora_messaging_publish_retries(  # ruff: ignore[private-member-access]
             SimpleNamespace(factory=factory), connection_attempts=4, retry_delay=6
         )
 
@@ -9375,7 +9511,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     ) -> None:
         factory = SimpleNamespace()
 
-        FedoraMessagingAddon._configure_fedora_messaging_publish_retries(  # noqa: SLF001
+        FedoraMessagingAddon._configure_fedora_messaging_publish_retries(  # ruff: ignore[private-member-access]
             SimpleNamespace(factory=factory), connection_attempts=1, retry_delay=0
         )
 
@@ -9397,14 +9533,14 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         )
 
         self.assertTrue(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # noqa: SLF001
+            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
         )
 
     def test_fedora_messaging_service_stale_when_stopped(self) -> None:
         service = SimpleNamespace(running=False)
 
         self.assertTrue(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # noqa: SLF001
+            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
         )
 
     def test_fedora_messaging_service_stale_when_factory_stopped(self) -> None:
@@ -9414,7 +9550,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         )
 
         self.assertTrue(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # noqa: SLF001
+            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
         )
 
     def test_fedora_messaging_service_not_stale_with_pending_retry(self) -> None:
@@ -9430,14 +9566,14 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         )
 
         self.assertFalse(
-            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # noqa: SLF001
+            FedoraMessagingAddon._is_fedora_messaging_service_stale(service)  # ruff: ignore[private-member-access]
         )
 
     def test_prepare_fedora_messaging_service_resets_stale_service(self) -> None:
         self.prepare_service_patcher.stop()
         stale_service = object()
         configured_service = SimpleNamespace(factory=SimpleNamespace())
-        fedora_messaging.api._twisted_service = stale_service  # noqa: SLF001
+        fedora_messaging.api._twisted_service = stale_service  # ruff: ignore[private-member-access]
         self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
         result = MagicMock()
 
@@ -9467,7 +9603,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 FedoraMessagingAddon, "_configure_fedora_messaging_publish_retries"
             ) as configure_retries,
         ):
-            FedoraMessagingAddon._prepare_fedora_messaging_service(  # noqa: SLF001
+            FedoraMessagingAddon._prepare_fedora_messaging_service(  # ruff: ignore[private-member-access]
                 connection_attempts=4, retry_delay=6
             )
 
@@ -9507,7 +9643,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             ),
             self.assertRaises(crochet.TimeoutError),
         ):
-            FedoraMessagingAddon._prepare_fedora_messaging_service(  # noqa: SLF001
+            FedoraMessagingAddon._prepare_fedora_messaging_service(  # ruff: ignore[private-member-access]
                 connection_attempts=4, retry_delay=6
             )
 
@@ -9518,7 +9654,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def test_first_publish_timeout_is_reported_and_resets_service(self) -> None:
         service = object()
-        fedora_messaging.api._twisted_service = service  # noqa: SLF001
+        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
         self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
         error = fedora_messaging_exceptions.PublishTimeout(
             "Publishing timed out after waiting 30 seconds."
@@ -9538,7 +9674,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 self.get_fedora_message(), self.addon_configuration["amqp_url"], None
             )
 
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # noqa: SLF001
+        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
             level="error",
@@ -9548,7 +9684,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def test_repeated_publish_timeout_is_logged_and_resets_service(self) -> None:
         service = object()
-        fedora_messaging.api._twisted_service = service  # noqa: SLF001
+        fedora_messaging.api._twisted_service = service  # ruff: ignore[private-member-access]
         self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
         error = fedora_messaging_exceptions.PublishTimeout(
             "Publishing timed out after waiting 30 seconds."
@@ -9569,7 +9705,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 self.get_fedora_message(), self.addon_configuration["amqp_url"], None
             )
 
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # noqa: SLF001
+        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
             level="error",
@@ -9585,7 +9721,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             self.assertNotIn("-----BEGIN PRIVATE KEY-----", str(value))
 
     def test_missing_publisher_is_reported_and_resets_service(self) -> None:
-        fedora_messaging.api._twisted_service = object()  # noqa: SLF001
+        fedora_messaging.api._twisted_service = object()  # ruff: ignore[private-member-access]
         self.addCleanup(setattr, fedora_messaging.api, "_twisted_service", None)
 
         with (
@@ -9605,7 +9741,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
                 self.get_fedora_message(), self.addon_configuration["amqp_url"], None
             )
 
-        self.assertIsNone(fedora_messaging.api._twisted_service)  # noqa: SLF001
+        self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
             level="error",
@@ -9794,7 +9930,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         def configure_tls_parameters(parameters) -> None:
             self.assertEqual(parameters.host, "rabbitmq.example.com")
             self.assertEqual(parameters.port, 12345)
-            parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
+            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
                 context=SimpleNamespace(), server_hostname=parameters.host
             )
 
@@ -9830,7 +9966,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         tls_connection.bio_read.assert_called_once_with(2**15)
 
     def test_broker_tls_probe_protocol_matches_twisted_factory_shape(self) -> None:
-        from twisted.internet import ssl as twisted_ssl  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from twisted.internet import (
+            ssl as twisted_ssl,
+        )
 
         tls_context_factory = twisted_ssl.optionsForClientTLS("rabbitmq.example.com")
 
@@ -9852,7 +9991,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         ]
         tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
 
-        FedoraMessagingAddon._perform_broker_tls_handshake(  # noqa: SLF001
+        FedoraMessagingAddon._perform_broker_tls_handshake(  # ruff: ignore[private-member-access]
             broker_connection, tls_context_factory, timeout=7
         )
 
@@ -9877,7 +10016,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             ),
             self.assertRaisesMessage(TimeoutError, "TLS handshake timed out"),
         ):
-            FedoraMessagingAddon._perform_broker_tls_handshake(  # noqa: SLF001
+            FedoraMessagingAddon._perform_broker_tls_handshake(  # ruff: ignore[private-member-access]
                 broker_connection, tls_context_factory, timeout=7
             )
 
@@ -9893,7 +10032,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         tls_context_factory = self.get_broker_tls_context_factory(tls_connection)
 
         def configure_tls_parameters(parameters) -> None:
-            parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
+            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
                 context=SimpleNamespace(), server_hostname=parameters.host
             )
 
@@ -9925,7 +10064,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         tls_context_factory = self.get_broker_tls_context_factory()
 
         def configure_tls_parameters(parameters) -> None:
-            parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
+            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
                 context=SimpleNamespace(), server_hostname=parameters.host
             )
 
@@ -9953,7 +10092,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def test_broker_tls_validation_reports_connection_error(self) -> None:
         def configure_tls_parameters(parameters) -> None:
-            parameters._ssl_options = SimpleNamespace(  # noqa: SLF001
+            parameters._ssl_options = SimpleNamespace(  # ruff: ignore[private-member-access]
                 context=SimpleNamespace(),
                 server_hostname=parameters.host,
             )

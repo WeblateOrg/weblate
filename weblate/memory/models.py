@@ -1116,7 +1116,7 @@ class MemoryScopeManager(models.Manager["MemoryScope"]):
     def get_write_db_for_memory(self, memory: Memory | None = None) -> str:
         if self._db is not None and self._db != "memory_db":
             return self._db
-        memory_db = None if memory is None else memory._state.db  # noqa: SLF001
+        memory_db = None if memory is None else memory._state.db  # ruff: ignore[private-member-access]
         if memory_db is not None and memory_db != "memory_db":
             return memory_db
         return router.db_for_write(self.model, instance=memory) or "default"

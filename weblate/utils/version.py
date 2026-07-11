@@ -56,7 +56,7 @@ except (RepositoryError, OSError):
         GIT_VERSION = f"{VERSION_BASE}-{GIT_REVISION[:10]}"
     else:
         # Import failed or git has troubles reading
-        # repo (for example swallow clone)
+        # repo (for example shallow clone)
         GIT_VERSION = VERSION
         GIT_REVISION = None
 

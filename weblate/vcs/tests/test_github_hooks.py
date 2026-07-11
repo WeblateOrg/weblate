@@ -68,7 +68,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.workspace = Workspace.objects.create(name="Hook Workspace")
         _make_credentials("github.com", GITHUB_COM_TOKEN, webhook_secret="s3cret")
 
-    def _post(self, event_type, data, *, secret: str | None = "s3cret", url=None):  # noqa: S107
+    def _post(self, event_type, data, *, secret: str | None = "s3cret", url=None):  # ruff: ignore[hardcoded-password-default]
         body = json.dumps(data)
         headers = {"X-GitHub-Event": event_type}
         if secret:

@@ -10,7 +10,9 @@ from datetime import timedelta
 from pathlib import Path
 from tarfile import TarFile
 from tempfile import mkdtemp
+from unittest import SkipTest
 
+import requests
 import social_core.backends.utils
 from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
 from celery.result import allow_join_result
@@ -38,6 +40,16 @@ TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 REPOWEB_URL = "https://nonexisting.weblate.org/blob/main/{{filename}}#L{{line}}"
 
 TESTPASSWORD = make_password("testpassword")
+
+
+def require_github(repository: str) -> None:
+    """Skip a test when a required GitHub repository is not reachable."""
+    try:
+        response = requests.get(repository, timeout=1)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as error:
+        msg = f"GitHub not reachable: {error}"
+        raise SkipTest(msg) from error
 
 
 def fixup_languages_seq() -> None:

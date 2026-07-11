@@ -714,7 +714,7 @@ def _get_anonymous() -> User:
 def get_anonymous() -> User:
     """Return an anonymous user instance."""
     user = copy(_get_anonymous())
-    fields_cache = user._state.fields_cache  # noqa: SLF001
+    fields_cache = user._state.fields_cache  # ruff: ignore[private-member-access]
     if profile := fields_cache.get("profile"):
         # Keep cached Profile properties local to this anonymous user copy.
         profile = copy(profile)
