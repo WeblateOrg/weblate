@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-10 10:01+0000\n"
+"PO-Revision-Date: 2026-07-11 01:35+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -17486,10 +17486,6 @@ msgid "Shared translation memory"
 msgstr "Memória de tradução partilhada"
 
 #: admin/memory.rst:82
-#, fuzzy
-#| msgid ""
-#| "All translations within projects with shared translation memory turned on "
-#| "are stored in a shared translation memory available to all projects."
 msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects. Turning "
@@ -17498,7 +17494,9 @@ msgid ""
 msgstr ""
 "Todas as traduções dentro dos projetos com memória de tradução partilhada "
 "ativada são guardadas numa memória de tradução partilhada disponível para "
-"todos os projetos."
+"todos os projetos. Desativar contribuição para memória de tradução "
+"partilhada para entradas prévias contribuídas automaticamente de serem "
+"usadas enquanto sugestões partilhadas."
 
 #: admin/memory.rst:87
 msgid ""
@@ -17531,6 +17529,10 @@ msgid ""
 "penalty applied. If :ref:`autoclean-tm` is enabled, matching pending entries "
 "are removed when a translation becomes active."
 msgstr ""
+"Entradas de memória de tradução podem ter dois estados diferentes: **ativo** "
+"e **pendente**. Entradas pendentes são incluídas em sugestões, mas com um "
+"penálti de qualidade aplicado. Se :ref:`autoclean-tm` está ativo, entradas "
+"correspondentes pendentes são removidas quando uma tradução torna-se ativa."
 
 #: admin/memory.rst:114 admin/projects.rst:243
 msgid "Autoclean translation memory"
@@ -17541,18 +17543,25 @@ msgid ""
 "When enabled for a project, Weblate replaces older automatically created "
 "translation memory entries when a translation becomes active:"
 msgstr ""
+"Quando ativado para um projeto, o Weblate substitui entradas de memória de "
+"tradução automaticamente criadas mais antigas quando uma tradução torna-se "
+"ativa:"
 
 #: admin/memory.rst:121
 msgid ""
 "With :ref:`project-translation_review` enabled, cleanup happens when the "
 "translation is approved."
 msgstr ""
+"Com :ref:`project-translation_review` ativo, a limpeza acontece quando a "
+"tradução é aprovada."
 
 #: admin/memory.rst:123
 msgid ""
 "Without review, cleanup happens as soon as the translation reaches the "
 "translated state."
 msgstr ""
+"Sem revisão, a limpeza acontece assim que a tradução chegue ao estado de "
+"traduzida."
 
 #: admin/memory.rst:126
 msgid ""
@@ -17575,20 +17584,16 @@ msgid ""
 "Entries imported from external translation memory files are not cleaned up "
 "automatically. Entries with a different context are kept."
 msgstr ""
+"Entradas importadas de ficheiros de memória de tradução externos não são "
+"limpos automaticamente, entradas com um contexto diferentes são mantidas."
 
 #: admin/memory.rst:135
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "In the Docker container this can be configured "
 "using :envvar:`WEBLATE_DEFAULT_AUTOCLEAN_TM`."
 msgstr ""
-"No contentor do Docker, isso pode ser configurado "
-"usando :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"e :envvar:`WEBLATE_API_RATELIMIT_USER`."
+"No contentor do Docker, isso pode ser configurado usando "
+":envvar:`WEBLATE_DEFAULT_AUTOCLEAN_TM`."
 
 #: admin/memory.rst:138
 msgid ""
@@ -17596,6 +17601,9 @@ msgid ""
 "not contribute to personal translation memory. This prevents reintroducing "
 "inconsistent translations that were supposed to be cleaned up."
 msgstr ""
+"Ativar limpeza automática também muda a predefinição para novos perfis de "
+"utilizador para não contribuírem para a memória de tradução pessoal. Isto "
+"previne reintroduzir traduções inconsistentes que deveriam ter sido limpas."
 
 #: admin/memory.rst:148
 msgid "Managing the Translation Memory"
@@ -17609,24 +17617,32 @@ msgstr "Interface de utilizador"
 msgid ""
 "Translation memory can be managed from several places in the Weblate UI:"
 msgstr ""
+"Memória de tradução pode ser gerida a partir de vários sítios no UI do "
+"Weblate:"
 
 #: admin/memory.rst:157
 msgid ""
 "Open the user menu and choose :guilabel:`Translation memory` to manage your "
 "personal translation memory."
 msgstr ""
+"Abra o menu de utilizador e escolha :guilabel:`Memória de tradução` paga "
+"gerir a sua memória de tradução pessoal."
 
 #: admin/memory.rst:159
 msgid ""
 "Open a project and choose :guilabel:`Translation memory` from the project "
 "menu to manage translation memory for that project."
 msgstr ""
+"Abra um projeto e escolha :guilabel:`Memória de tradução` do menu de projeto "
+"para gerir a memória de tradução para esse projeto."
 
 #: admin/memory.rst:161
 msgid ""
 "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` to "
 "manage uploaded translation memory for the whole Weblate instance."
 msgstr ""
+"Abra :guilabel:`Administração` e escolha :guilabel:`Memória de tradução` "
+"para gerir a memória de tradução enviada para a instância Weblate inteira."
 
 #: admin/memory.rst:164
 msgid ""
@@ -17650,60 +17666,63 @@ msgid ""
 "translation memory are enabled for the project, with a link to the project "
 "workflow settings when the user can edit the project."
 msgstr ""
+"A vista de projeto também mostra se a memória de tradução partilhada e a "
+"limpeza automática de memória de tradução estão ativas para o projeto, com "
+"um link para as definições de fluxo de trabalho do projeto onde o utilizador "
+"pode editar o projeto."
 
 #: admin/memory.rst:175
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are stored in the selected scope:"
 msgstr ""
+"Ficheiros de memória de tradução podem ser importadas na mesma página. "
+"Ficheiros enviados são armazenados no âmbito selecionado:"
 
 #: admin/memory.rst:178
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid "Personal uploads are available in your personal translation memory."
-msgstr "Importa um ficheiro para a memória de tradução do Weblate."
+msgstr "Envios pessoais estão disponíveis na sua memória de tradução pessoal."
 
 #: admin/memory.rst:179
-#, fuzzy
-#| msgid "Imports a file into the Weblate translation memory."
 msgid ""
 "Project uploads are available in the selected project's translation memory."
-msgstr "Importa um ficheiro para a memória de tradução do Weblate."
+msgstr ""
+"Envios de projeto estão disponíveis na memória de tradução do projeto "
+"selecionado."
 
 #: admin/memory.rst:180
 msgid ""
 "Administration uploads are available as uploaded shared entries for the "
 "whole Weblate instance."
 msgstr ""
+"Envios de administração estão disponíveis enquanto entradas enviadas "
+"partilhadas para a instância Weblate completa."
 
 #: admin/memory.rst:184
-#, fuzzy
-#| msgid ""
-#| "Translation memories in various formats can be imported into Weblate, the "
-#| "TMX format is provided for interoperability with other tools. All "
-#| "supported formats are TMX, JSON, XLIFF, PO, CSV."
 msgid ""
 "Translation memories in various formats can be imported into Weblate. The "
 "TMX format is provided for interoperability with other tools. All supported "
 "formats are TMX, JSON, XLIFF, PO, and CSV."
 msgstr ""
 "As memórias de tradução em vários formatos podem ser importadas para o "
-"Weblate, o formato TMX é fornecido para interoperabilidade com outras "
-"ferramentas. Todos formatos compatíveis são TMX, JSON, XLIFF, PO, CSV."
+"Weblate. Oformato TMX é fornecido para interoperabilidade com outras "
+"ferramentas. Todos formatos compatíveis são TMX, JSON, XLIFF, PO, e CSV."
 
 #: admin/memory.rst:188
 msgid ""
 "Source and target languages must be selected when uploading XLIFF, PO, or "
 "CSV files if the language information is not provided by the file itself."
 msgstr ""
+"Idiomas fonte e alvo devem ser selecionados ao enviar ficheiros XLIFF, PO, "
+"ou CSV se a informação de idioma não é fornecida pelo ficheiro em si."
 
 #: admin/memory.rst:197
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid ""
 "You can search translation memory while editing strings from "
 "the :ref:`machine-translation` tab."
-msgstr "Grande memória de tradução com tradução de máquina."
+msgstr ""
+"Pode procurar memória de tradução durante a edição de cadeias de carateres a "
+"partir da aba :ref:`machine-translation`."
 
 #: admin/memory.rst:201
 msgid "Admin interface"
@@ -17726,24 +17745,16 @@ msgstr ""
 "envios, partilhar, ou todas as entradas enquanto JSON ou TMX."
 
 #: admin/memory.rst:211
-#, fuzzy
-#| msgid ""
-#| "It has the same options as the user interface, but also allows rebuilding "
-#| "parts of or the entire translation memory. All old entries can be flushed "
-#| "and re-created from a component or project by selecting "
-#| "\"Administration\" from amidst the different tabs at the top of the "
-#| "screen, and then \"Translation memory\"."
 msgid ""
 "The project translation memory view also allows rebuilding parts of or the "
 "entire project translation memory. Existing entries for the selected "
 "component or project are deleted, and the memory is populated again from the "
 "current translations in the background."
 msgstr ""
-"Possui as mesmas opções da interface do utilizador, mas também permite "
-"reconstruir partes ou todo o banco de memória de tradução. Todas as entradas "
-"antigas podem ser apagadas e recriadas a partir de um componente ou projeto, "
-"selecionando \"Administração\" entre as diferentes guias no topo do ecrã e, "
-"em depois, \"Memória de tradução\"."
+"A vista de memória de tradução do projeto também permite reconstruir partes "
+"da memória de tradução completa do projeto. Entradas existentes para o "
+"componente ou projeto selecionado são eliminadas, e a memória é povoada "
+"novamente a partir das traduções atuais no plano de fundo."
 
 #: admin/memory.rst:219
 msgid ""
@@ -17809,10 +17820,6 @@ msgstr ""
 "instalação:"
 
 #: admin/optionals.rst:30
-#, fuzzy
-#| msgid ""
-#| "Git exporter is turned on in our official Docker image. To turn it of, "
-#| "use:"
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it off, use:"
 msgstr ""
@@ -17857,20 +17864,14 @@ msgstr ""
 "pode ser obtido no seu :ref:`perfil de utilizador <user-profile>`:"
 
 #: admin/optionals.rst:63
-#, fuzzy
-#| msgid ""
-#| "By default members or :guilabel:`Users` group and anonymous user have "
-#| "access to the repositories for public projects via :guilabel:`Access "
-#| "repository` and :guilabel:`Power user` roles."
 msgid ""
 "By default members of :guilabel:`Users` group and anonymous user have access "
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
-"Por predefinição, os membros ou o grupo :guilabel:`Utilizadores` e "
-"utilizador anónimo têm acesso aos repositórios para projetos públicos "
-"via :guilabel:`Acessar repositório` e funções de :guilabel:`Utilizador "
-"avançado`."
+"Por predefinição, os membros do grupo :guilabel:`Utilizadores` e utilizador "
+"anónimo têm acesso aos repositórios para projetos públicos via "
+":guilabel:`Acessar repositório` e funções de :guilabel:`Utilizador avançado`."
 
 #: admin/optionals.rst:71 admin/workspaces.rst:255
 msgid "Billing"
@@ -17949,18 +17950,13 @@ msgstr ""
 "separador :guilabel:`Faturação` no seu :ref:`user-profile` ."
 
 #: admin/optionals.rst:110
-#, fuzzy
-#| msgid ""
-#| "The billing module additionally allows project admins to create new "
-#| "projects and components without being superusers (see :ref:`adding-"
-#| "projects`). This is possible when following conditions are met:"
 msgid ""
 "The billing module additionally allows users to create new projects and "
 "components without being superusers (see :ref:`adding-projects`). This is "
 "possible when following conditions are met:"
 msgstr ""
-"O módulo de faturação também permite que os administradores do projeto criem "
-"novos projetos e componentes sem serem superutilizadores (veja :ref:`adding-"
+"O módulo de faturação também permite que os utilizadores criem novos "
+"projetos e componentes sem serem superutilizadores (veja :ref:`adding-"
 "projects`). Isto é possível quando são cumpridas as seguintes condições:"
 
 #: admin/optionals.rst:114
@@ -17977,6 +17973,8 @@ msgid ""
 "The user has :guilabel:`Add projects to workspace` permission for the "
 "workspace covered by the billing plan."
 msgstr ""
+"O utilizador tem a permissão :guilabel:`Adicionar projetos ao espaço de "
+"trabalho` para o espaço de trabalho abrangido pelo plano de faturação."
 
 #: admin/optionals.rst:119
 msgid ""
@@ -18022,10 +18020,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Visão geral breve dos termos de serviço e política de privacidade"
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Save add-on state information."
 msgid "Subcontractor information"
-msgstr "Salva informações do estado da extensão."
+msgstr "Informação de subcontratado"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -18054,32 +18050,24 @@ msgstr ""
 "concordar com os documentos atualizados."
 
 #: admin/optionals.rst:157
-#, fuzzy
-#| msgid ""
-#| "Legal documents for the Hosted Weblate service are available in this Git "
-#| "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
-#| "templates/legal/documents>."
 msgid ""
 "Legal documents for the Hosted Weblate service operated by Weblate s.r.o. "
 "are available in this Git repository: <https://github.com/WeblateOrg/wllegal/"
 "tree/main/wllegal/templates/legal/documents>."
 msgstr ""
-"Documentos legais para o serviço Hosted Weblate estão disponíveis neste "
-"repositório Git <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
-"templates/legal/documents>."
+"Documentos legais para o serviço Hosted Weblate operados pelo Weblate s.r.o "
+"estão disponíveis neste repositório Git: <https://github.com/WeblateOrg/"
+"wllegal/tree/main/wllegal/templates/legal/documents>."
 
 #: admin/optionals.rst:161
-#, fuzzy
-#| msgid ""
-#| "Most likely these will not be directly usable to you, but might come in "
-#| "handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "that service and are not intended for general use. They might still come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
-"Muito provavelmente, eles não serão úteis diretamente para si, mas podem ser "
-"úteis como um ponto de partida se ajustados para atender às suas "
+"Os termos de serviço incluídos e documentos legais relacionados são "
+"específicos aquele serviços e não se destinam a uso geral. Eles podem ser "
+"úteis enquanto ponto de começo se ajustado para satisfazerem as suas "
 "necessidades."
 
 #: admin/optionals.rst:168
@@ -18123,6 +18111,9 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Recria o contentor Docker após mudar as variáveis de ambiente, por exemplo "
+"usando :program:`docker compose up -d`. Reiniciar um contentor existente não "
+"aplica variáveis de ambiente mudadas."
 
 #: admin/optionals.rst:212
 msgid ""
@@ -18138,6 +18129,10 @@ msgid ""
 "translated only when you use Django translation tags such as ``{% translate "
 "%}`` or ``{% blocktranslate %}``; plain HTML text is shown as written."
 msgstr ""
+"Os modelos de documento legal são modelos Django regulares. Texto é "
+"traduzido apenas quando usa etiquetas de tradução Django tais como ``"
+"{%translate%}`` ou ``{%blocktranslate%}``; texto HTML bruto é mostrado tal "
+"como está escrito."
 
 #: admin/optionals.rst:218
 msgid ""
@@ -23436,10 +23431,8 @@ msgstr ""
 "milestone/69?closed=1>`__."
 
 #: changes.rst:169
-#, fuzzy
-#| msgid "Weblate 2.5"
 msgid "Weblate 2026.6"
-msgstr "Weblate 2.5"
+msgstr "Weblate 2026.6"
 
 #: changes.rst:175
 #, fuzzy
@@ -53024,10 +53017,8 @@ msgid ""
 msgstr ""
 
 #: security/release-artifacts.rst:36
-#, fuzzy
-#| msgid "Python packages"
 msgid "Python package"
-msgstr "Pacotes Python"
+msgstr "Pacote Python"
 
 #: security/release-artifacts.rst:37
 msgid ":file:`pyproject.toml`, :file:`setup.py`, and :file:`MANIFEST.in`"
@@ -53608,10 +53599,8 @@ msgid "Scope and intended use"
 msgstr ""
 
 #: security/threat-model.rst:43
-#, fuzzy
-#| msgid "Component name"
 msgid "Component family"
-msgstr "Nome do componente"
+msgstr "Família do componente"
 
 #: security/threat-model.rst:44
 msgid "Representative surface"
@@ -53710,10 +53699,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:65
-#, fuzzy
-#| msgid "Site integration"
 msgid "VCS integration"
-msgstr "Integração do site"
+msgstr "Integração VCS"
 
 #: security/threat-model.rst:66
 msgid "Repository URLs, branches, pushes, pulls, merge requests, local clones"
@@ -54857,10 +54844,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:482
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender"
-msgstr "Segredo de Webhook"
+msgstr "Remetente do webhook"
 
 #: security/threat-model.rst:483
 msgid ""
@@ -55599,7 +55584,7 @@ msgstr ""
 
 #: security/threat-model.rst:793
 msgid "`Known non-findings`_"
-msgstr ""
+msgstr "`Resultados negativos conhecidos`_"
 
 #: security/threat-model.rst:795
 msgid "Cannot be cleanly routed to any disposition above."
@@ -55874,10 +55859,8 @@ msgid "Triggered after a Change event is created."
 msgstr "Acionado depois que um evento de alteração é criado."
 
 #: snippets/addon-events-autogenerated.rst:42
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Manual trigger"
-msgstr "Alerta acionado"
+msgstr "Acionamento manual"
 
 #: snippets/addon-events-autogenerated.rst:44
 msgid ""
@@ -57291,10 +57274,8 @@ msgstr ""
 "expressão regular podem ser usados como variáveis nos campos do modelo."
 
 #: snippets/addons-autogenerated.rst:271
-#, fuzzy
-#| msgid "System requirements"
 msgid "Discovery requirements"
-msgstr "Requisitos do sistema"
+msgstr "Requisitos de descoberta"
 
 #: snippets/addons-autogenerated.rst:273
 msgid ""
@@ -58266,10 +58247,8 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1130
 #: snippets/addons-autogenerated.rst:1314
 #: snippets/addons-autogenerated.rst:1385
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Localização da cadeia fonte"
+msgstr "Localizações de fonte"
 
 #: snippets/addons-autogenerated.rst:1055
 #: snippets/addons-autogenerated.rst:1130
@@ -64324,7 +64303,7 @@ msgstr ""
 
 #: snippets/format-features/json-features.rst:24
 msgid "``json``, ``json-nested``"
-msgstr ""
+msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/markdown-features.rst:28
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
@@ -69383,10 +69362,8 @@ msgid ""
 msgstr ""
 
 #: user/translating.rst:194
-#, fuzzy
-#| msgid "Plural formula"
 msgid "Plural forms"
-msgstr "Fórmula de plural"
+msgstr "Fórmulas plurais"
 
 #: user/translating.rst:195
 msgid ""
