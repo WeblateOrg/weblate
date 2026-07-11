@@ -1271,7 +1271,7 @@ The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 .. hint::
 
    This applies to project admins as well — please ensure you will not
-   loose access to the component after toggling the status.
+   lose access to the component after toggling the status.
 
 .. _component-links:
 
